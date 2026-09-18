@@ -1,0 +1,393 @@
+<!doctype html>
+<!--
+  THROWAWAY UI PROTOTYPE — not Foundry production code.
+
+  Question: for NPC tokens, the horizontal HUD (see horizontal-hud-prototype.html)
+  needs to show the NPC's traits PASSIVELY — always visible, no click required —
+  where trait text ranges from one short sentence to five or six sentences per
+  NPC. Three structurally different layouts below, switchable with the floating
+  bar (bottom-centre) or the ?variant= URL param (a/b/c). Arrow keys also cycle.
+
+  Mock NPC ("Bloodfang Ogre") intentionally has traits spanning the whole range
+  (1 sentence up to 6) so each layout has to survive the worst case, not just
+  the average case.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NPC Traits HUD Prototype</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --ink: #0d0d0e;
+    --panel: rgb(9 9 11 / 95%);
+    --panel-2: #201c1a;
+    --panel-3: #2a2422;
+    --line: #99745688;
+    --line-solid: #997456;
+    --gold: #c9a35f;
+    --gold-bright: #f0c879;
+    --paper: #f5eee5;
+    --muted: #b3a495;
+    --red: #a5333a;
+    --red-bright: #d65b60;
+    --green: #3d7a4a;
+    --blue: #3a6a8a;
+    --purple: #6a4f8a;
+    font-family: "Signika", "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; background: radial-gradient(circle at 30% 20%, #2a2a2e, #0a0a0b 65%); color: var(--paper); font-size: 14px; }
+  .canvas-fill {
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      repeating-linear-gradient(0deg, #ffffff08 0 1px, transparent 1px 48px),
+      repeating-linear-gradient(90deg, #ffffff08 0 1px, transparent 1px 48px),
+      radial-gradient(ellipse at 40% 40%, #2e3b2c, #14171a 70%);
+  }
+  .prototype-note { position: relative; z-index: 1; max-width: 62rem; margin: 0 auto; padding: .8rem 1rem 0; color: #cdbda9; font-size: .82rem; text-align: center; }
+  .prototype-note code { color: var(--gold-bright); }
+
+  h1, h2, h3, p { margin: 0; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+
+  .name-row { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+  .name-line { display: flex; flex-direction: column; gap: .1rem; }
+  .name-row h2 { color: var(--gold-bright); font-family: Georgia, serif; font-size: 1.05rem; white-space: nowrap; }
+  .name-row small { color: var(--muted); font-size: .68rem; white-space: nowrap; }
+  .section-label { color: var(--muted); font-size: .55rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+
+  .d-outer { position: fixed; left: 1rem; bottom: 1rem; z-index: 2; display: flex; align-items: flex-end; gap: .6rem; }
+  .d-left-col { display: flex; flex-direction: column; gap: .5rem; }
+  .d-panel {
+    position: relative; display: flex; align-items: center; padding: .65rem;
+    border: 1px solid var(--line-solid); border-radius: 8px;
+    background: linear-gradient(180deg, var(--panel), var(--ink) 90%);
+    box-shadow: 0 .6rem 2rem #000d, inset 0 0 0 1px rgb(255 255 255 / 4%);
+    text-shadow: 0 .08rem .15rem #000;
+  }
+
+  :root { --avatar-size: 7.5rem; }
+  .portrait {
+    display: grid; place-items: center; flex: 0 0 auto; border: 2px solid var(--line-solid); border-radius: 6px;
+    background: radial-gradient(circle at 35% 30%, #4a3a26 0 20%, #201a12 55%, #0e0c08 100%);
+    color: var(--gold-bright); font-size: 1.6rem; box-shadow: 0 0 0 3px #000a;
+    width: var(--avatar-size); height: auto;
+  }
+  .d-charinfo { display: flex; align-items: stretch; gap: .7rem; width: 30rem; }
+
+  .hp-dial-wrap { display: flex; align-items: center; gap: 1rem; }
+  .hp-dial {
+    --pct: 100; position: relative; width: 7rem; height: 7rem; border-radius: 50%; flex: 0 0 auto;
+    background: conic-gradient(var(--red-bright) calc(var(--pct) * 1%), #2a1414 0);
+    box-shadow: inset 0 0 0 1px #00000080, 0 .2rem .6rem #0007;
+  }
+  .hp-dial::after {
+    content: ''; position: absolute; inset: 0; border-radius: 50%; pointer-events: none;
+    background: repeating-conic-gradient(#00000070 0deg 1.2deg, transparent 1.2deg 9deg);
+  }
+  .hp-dial-inner {
+    position: absolute; inset: .6rem; z-index: 1; border-radius: 50%; background: var(--ink);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .1rem;
+    box-shadow: inset 0 0 .5rem #0009;
+  }
+  .hp-dial-inner .section-label { font-size: .6rem; }
+  .hp-dial-inner input {
+    width: 3.4rem; border: 0; background: none; color: var(--gold-bright); font-family: Georgia, serif;
+    font-size: 1.7rem; text-align: center; padding: 0; line-height: 1;
+  }
+  .hp-dial-inner .hp-of { color: var(--muted); font-size: .65rem; }
+
+  .hp-side { display: flex; flex-direction: column; gap: .4rem; flex: 1; min-width: 0; }
+  .stat-card-row { display: flex; gap: .5rem; }
+  .stat-card {
+    flex: 1; display: flex; flex-direction: column; gap: .3rem; padding: .35rem .6rem;
+    border: 1px solid var(--line); border-radius: 8px; background: var(--panel-2); min-width: 0;
+  }
+  .stat-card-head { display: flex; align-items: center; gap: .35rem; color: var(--muted); font-size: .58rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
+  .stat-card-value { display: flex; align-items: baseline; gap: .15rem; }
+  .stat-card-value input { width: 2.6rem; border: 0; background: none; font-family: Georgia, serif; font-size: 1.3rem; padding: 0; color: var(--paper); }
+  .stat-card-value .of { color: var(--muted); font-size: .85rem; }
+
+  .def-grid { display: flex; gap: .35rem; }
+  .def-chip {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: .2rem;
+    padding: .4rem .3rem .35rem; border: 1px solid var(--line); border-radius: 6px; background: var(--panel-2);
+  }
+  .def-chip-value b { font-family: Georgia, serif; font-size: 1.05rem; color: var(--paper); }
+  .def-chip .label { color: var(--muted); font-size: .55rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+
+  .d-charinfo-text { display: flex; flex-direction: column; justify-content: center; gap: .55rem; flex: 1; min-width: 0; }
+
+  .tab-dial-wrap { position: relative; }
+  .tab-dial { display: flex; gap: .35rem; }
+  .tab-btn-v {
+    flex: 1; display: flex; flex-direction: row; align-items: center; justify-content: center; gap: .3rem;
+    padding: .45rem .3rem; border: 1px solid var(--line-solid); border-radius: 6px; background: var(--panel-2);
+    box-shadow: 0 .25rem .7rem #0007;
+    color: var(--muted); font-size: .62rem; font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  }
+  .tab-btn-v.active { border-color: var(--gold); background: linear-gradient(180deg, #4a3a26, #2a2016); color: var(--gold-bright); box-shadow: 0 .25rem .7rem #0007, inset 0 0 0 1px rgb(240 200 121 / 25%); }
+
+  .name-actions { display: flex; gap: .3rem; margin-left: auto; }
+  .action-btn {
+    width: 1.9rem; height: 1.9rem; display: flex; align-items: center; justify-content: center;
+    border: 1px solid var(--line-solid); border-radius: 6px;
+    background: linear-gradient(180deg, var(--panel), var(--ink) 90%); color: var(--paper);
+    box-shadow: 0 .2rem .6rem #0007, inset 0 0 0 1px rgb(255 255 255 / 4%);
+    font-size: .85rem;
+  }
+
+  .hotbar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: .65rem; margin-left: 1rem; }
+  .hotbar-slot {
+    position: relative; width: 4.6rem; height: 4.6rem; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: .2rem; padding: .3rem;
+    border: 1px solid var(--line-solid); border-radius: 8px; background: linear-gradient(180deg, var(--panel), var(--ink) 90%);
+    box-shadow: 0 .3rem 1rem #0007, inset 0 0 0 1px rgb(255 255 255 / 4%); overflow: hidden;
+  }
+  .hotbar-slot.filled { border-left: 3px solid var(--muted); }
+  .hotbar-slot.filled.at-will { border-left-color: var(--green); }
+  .hotbar-slot.filled.encounter { border-left-color: var(--red-bright); }
+  .hotbar-slot .range-icon { margin-top: -.35rem; font-size: 1.25rem; line-height: 1; }
+  .hotbar-slot .slot-name {
+    width: 100%; color: var(--paper); font-size: .6rem; font-weight: 600; line-height: 1.15; text-align: center;
+    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden;
+  }
+  .hotbar-slot.empty { border-style: dashed; color: var(--muted); font-size: 1.3rem; }
+
+  /* ======================================================================
+     VARIANT A — "Traits Rail": a third column, same height as the player
+     panel, docked to its right. Always-visible list, one card per trait,
+     name + full text, independent scroll so a 6-sentence trait doesn't
+     push the layout around.
+     ====================================================================== */
+  .rail {
+    width: 15rem; align-self: stretch; display: flex; flex-direction: column;
+    border: 1px solid var(--line-solid); border-radius: 8px;
+    background: linear-gradient(180deg, var(--panel), var(--ink) 90%);
+    box-shadow: 0 .6rem 2rem #000d, inset 0 0 0 1px rgb(255 255 255 / 4%);
+    overflow: hidden;
+  }
+  .rail-head { flex: 0 0 auto; padding: .4rem .6rem; border-bottom: 1px solid var(--line); background: var(--panel-2); color: var(--gold-bright); font-family: Georgia, serif; font-size: .8rem; }
+  .rail-body { flex: 1 1 auto; overflow-y: auto; padding: .5rem; display: flex; flex-direction: column; gap: .4rem; max-height: 14.5rem; }
+  .rail-trait { padding: .35rem .5rem; border: 1px solid var(--line); border-left: 3px solid var(--gold); border-radius: 4px; background: var(--panel-2); }
+  .rail-trait b { display: block; color: var(--gold-bright); font-size: .72rem; margin-bottom: .15rem; }
+  .rail-trait p { color: #d9cdbb; font-size: .68rem; line-height: 1.32; }
+
+  /* ======================================================================
+     VARIANT B — "Traits Ribbon": grows the existing panel DOWNWARD. A
+     scrollable band under the defense chips lists every trait inline as
+     name + text, capped at a fixed height so the panel's footprint stays
+     predictable regardless of the actor's trait count.
+     ====================================================================== */
+  .ribbon { margin-top: .4rem; border-top: 1px solid var(--line); padding-top: .4rem; }
+  .ribbon-body { max-height: 6.6rem; overflow-y: auto; display: flex; flex-direction: column; gap: .3rem; padding-right: .2rem; }
+  .ribbon-trait { font-size: .68rem; line-height: 1.3; color: #d9cdbb; }
+  .ribbon-trait b { color: var(--gold-bright); margin-right: .3rem; }
+
+  /* ======================================================================
+     VARIANT C — "Traits Deck": for NPCs the 14-slot MMO hotbar is mostly
+     wasted space (an ogre doesn't have 14 assignable powers). Replace that
+     whole column with a wide always-open traits panel instead — matches
+     the hotbar's footprint, so it reads as "the NPC's version of the
+     hotbar" rather than a bolt-on.
+     ====================================================================== */
+  .deck { width: calc(4.6rem * 7 + .65rem * 6); display: flex; flex-direction: column; gap: .5rem; }
+  .deck-card {
+    display: flex; gap: .6rem; padding: .5rem .65rem; border: 1px solid var(--line-solid); border-left: 3px solid var(--gold);
+    border-radius: 8px; background: linear-gradient(180deg, var(--panel), var(--ink) 90%);
+    box-shadow: 0 .3rem 1rem #0007, inset 0 0 0 1px rgb(255 255 255 / 4%);
+  }
+  .deck-card b { flex: 0 0 9rem; color: var(--gold-bright); font-family: Georgia, serif; font-size: .82rem; line-height: 1.3; }
+  .deck-card p { flex: 1; min-width: 0; color: #d9cdbb; font-size: .72rem; line-height: 1.35; margin: 0; }
+  .deck-scroll { max-height: 9.7rem; overflow-y: auto; display: flex; flex-direction: column; gap: .5rem; padding-right: .2rem; }
+
+  /* ---------------------------- switcher bar ---------------------------- */
+  .switcher {
+    position: fixed; left: 50%; bottom: 1.2rem; transform: translateX(-50%); z-index: 10;
+    display: flex; align-items: center; gap: .6rem; padding: .4rem .5rem;
+    border: 1px solid var(--gold); border-radius: 999px; background: #0d0d0eee;
+    box-shadow: 0 .4rem 1.2rem #000c; font-size: .78rem;
+  }
+  .switcher button.nav { width: 1.8rem; height: 1.8rem; border-radius: 50%; border: 1px solid var(--line-solid); background: var(--panel-2); color: var(--paper); }
+  .switcher button.nav:hover { border-color: var(--gold); color: var(--gold-bright); }
+  .switcher .label { min-width: 16rem; text-align: center; color: var(--gold-bright); }
+  .switcher .label small { display: block; color: var(--muted); font-weight: 400; }
+
+  @media (max-width: 1400px) { .d-outer { flex-wrap: wrap; } }
+</style>
+</head>
+<body>
+<div class="canvas-fill"></div>
+<p class="prototype-note">Throwaway design study for NPC trait display. Mock NPC "Bloodfang Ogre" has 5 traits from 1 to 6 sentences long, so each layout is stress-tested against the worst case. Switch variants with the bar below, arrow keys, or <code>?variant=a|b|c</code>.</p>
+
+<div id="app"></div>
+
+<div class="switcher">
+  <button class="nav" id="prev">&larr;</button>
+  <div class="label" id="switcherLabel"></div>
+  <button class="nav" id="next">&rarr;</button>
+</div>
+
+<script>
+const npc = {
+  name: 'Bloodfang Ogre',
+  role: 'Level 9 Brute',
+  hp: 118, hpMax: 118,
+  ac: 21, fort: 23, ref: 19, will: 18, init: 4, speed: 8,
+  traits: [
+    { name: 'Threatening Reach', text: 'The ogre can make opportunity attacks against enemies within 2 squares of it.' },
+    { name: 'Bloodfrenzy', text: 'While bloodied, the ogre gains a +2 bonus to attack rolls and deals 1d10 extra damage on melee hits.' },
+    { name: 'Vulnerable Radiant', text: 'The ogre takes extra damage from radiant sources equal to 5 plus one-half its level.' },
+    { name: 'Reckless Charge', text: "The ogre gains a +5 bonus to speed until the end of its turn when it charges. Any attack made this way takes a -2 penalty until the end of the ogre's next turn. Enemies gain combat advantage against the ogre until the start of its next turn." },
+    { name: 'Trophy Hoarder', text: "The ogre carries the remains of past kills as grisly trophies, granting it a +2 bonus to Intimidate checks. Once per encounter, as a minor action, the ogre can brandish a trophy to force one enemy within 5 squares to make a saving throw or be marked and take a -2 penalty to attack rolls against anyone but the ogre until the end of the ogre's next turn. If the target is already bloodied, this penalty increases to -4. The ogre regains the use of this power at the start of each extended rest, and gains a temporary trophy (usable once) whenever it bloodies an enemy in melee." },
+  ],
+};
+
+function charinfoMarkup() {
+  return `
+    <div class="d-charinfo">
+      <div class="portrait">🪓</div>
+      <div class="d-charinfo-text">
+        <div class="name-row">
+          <div class="name-line">
+            <h2>${npc.name}</h2>
+            <small>${npc.role}</small>
+          </div>
+          <div class="name-actions">
+            <button class="action-btn" title="Quick actions">⚔</button>
+          </div>
+        </div>
+        <div class="hp-dial-wrap">
+          <div class="hp-dial" style="--pct:${Math.round(npc.hp / npc.hpMax * 100)}">
+            <div class="hp-dial-inner">
+              <span class="section-label">HP</span>
+              <input value="${npc.hp}" readonly>
+              <span class="hp-of">of ${npc.hpMax}</span>
+            </div>
+          </div>
+          <div class="hp-side">
+            <div class="stat-card-row">
+              <div class="stat-card">
+                <div class="stat-card-head"><span class="icon">🛡</span><span>Temp HP</span></div>
+                <div class="stat-card-value"><input value="0" readonly></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="def-grid">
+          ${[['AC', npc.ac], ['Fort', npc.fort], ['Ref', npc.ref], ['Will', npc.will], ['Init', npc.init], ['Speed', npc.speed]]
+            .map(([label, value]) => `<div class="def-chip"><div class="def-chip-value"><b>${value}</b></div><span class="label">${label}</span></div>`).join('')}
+        </div>
+        ${window.__ribbonSlot ?? ''}
+      </div>
+    </div>`;
+}
+
+function tabsMarkup() {
+  return `
+    <div class="tab-dial-wrap">
+      <nav class="tab-dial">
+        <button class="tab-btn-v active"><span>📖</span><span>Features</span></button>
+        <button class="tab-btn-v"><span>🎲</span><span>Skills</span></button>
+      </nav>
+    </div>`;
+}
+
+function hotbarMarkup() {
+  return `
+    <div class="hotbar-grid">
+      ${Array.from({ length: 7 }, (_unused, index) => index === 0
+        ? '<div class="hotbar-slot filled at-will"><span class="range-icon">🗡</span><span class="slot-name">Ogre Club</span></div>'
+        : index === 1
+          ? '<div class="hotbar-slot filled encounter"><span class="range-icon">💥</span><span class="slot-name">Overhead Smash</span></div>'
+          : '<div class="hotbar-slot empty">+</div>').join('')}
+    </div>`;
+}
+
+function renderA() {
+  window.__ribbonSlot = '';
+  document.getElementById('app').innerHTML = `
+    <div class="d-outer">
+      <div class="d-left-col">
+        ${tabsMarkup()}
+        <div class="d-panel">${charinfoMarkup()}</div>
+      </div>
+      <div class="rail">
+        <div class="rail-head">Traits</div>
+        <div class="rail-body">
+          ${npc.traits.map(t => `<div class="rail-trait"><b>${t.name}</b><p>${t.text}</p></div>`).join('')}
+        </div>
+      </div>
+      <div class="hotbar-column">${hotbarMarkup()}</div>
+    </div>`;
+}
+
+function renderB() {
+  window.__ribbonSlot = `
+    <div class="ribbon">
+      <div class="section-label" style="margin-bottom:.3rem;">Traits</div>
+      <div class="ribbon-body">
+        ${npc.traits.map(t => `<div class="ribbon-trait"><b>${t.name}</b>${t.text}</div>`).join('')}
+      </div>
+    </div>`;
+  document.getElementById('app').innerHTML = `
+    <div class="d-outer">
+      <div class="d-left-col">
+        ${tabsMarkup()}
+        <div class="d-panel">${charinfoMarkup()}</div>
+      </div>
+      <div class="hotbar-column">${hotbarMarkup()}</div>
+    </div>`;
+}
+
+function renderC() {
+  window.__ribbonSlot = '';
+  document.getElementById('app').innerHTML = `
+    <div class="d-outer">
+      <div class="d-left-col">
+        ${tabsMarkup()}
+        <div class="d-panel">${charinfoMarkup()}</div>
+      </div>
+      <div class="deck">
+        <div class="deck-scroll">
+          ${npc.traits.map(t => `<div class="deck-card"><b>${t.name}</b><p>${t.text}</p></div>`).join('')}
+        </div>
+      </div>
+    </div>`;
+}
+
+const variants = [
+  { key: 'a', name: 'Traits Rail', render: renderA, blurb: 'New column, right of the panel, own scroll' },
+  { key: 'b', name: 'Traits Ribbon', render: renderB, blurb: 'Panel grows down, scrollable band under defenses' },
+  { key: 'c', name: 'Traits Deck', render: renderC, blurb: 'Replaces the hotbar footprint with trait cards' },
+];
+
+function currentIndex() {
+  const requested = new URLSearchParams(location.search).get('variant');
+  const index = variants.findIndex(v => v.key === requested);
+  return index === -1 ? 0 : index;
+}
+
+function show(index) {
+  const variant = variants[(index + variants.length) % variants.length];
+  variant.render();
+  document.getElementById('switcherLabel').innerHTML = `${variant.key.toUpperCase()} — ${variant.name}<small>${variant.blurb}</small>`;
+  const url = new URL(location);
+  url.searchParams.set('variant', variant.key);
+  history.replaceState(null, '', url);
+}
+
+let index = currentIndex();
+show(index);
+document.getElementById('prev').onclick = () => show(--index);
+document.getElementById('next').onclick = () => show(++index);
+document.addEventListener('keydown', (event) => {
+  if (['INPUT', 'TEXTAREA'].includes(event.target.tagName) || event.target.isContentEditable) return;
+  if (event.key === 'ArrowLeft') show(--index);
+  if (event.key === 'ArrowRight') show(++index);
+});
+</script>
+</body>
+</html>

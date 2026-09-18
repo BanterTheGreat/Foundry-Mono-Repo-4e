@@ -1,0 +1,67 @@
+<section class="dnd4e-info-combat-tracker__panel">
+	<header class="dnd4e-info-combat-tracker__header">
+		<div class="dnd4e-info-combat-tracker__round">
+			<span>Round</span>
+			<b>{{round}}</b>
+		</div>
+		<button type="button" class="dnd4e-info-combat-tracker__close" data-action="close" aria-label="Close combat tracker" title="Close">
+			<i class="fa-solid fa-xmark" aria-hidden="true"></i>
+		</button>
+	</header>
+	<ol class="dnd4e-info-combat-tracker__list" aria-label="Turn order">
+		{{#each combatants}}
+			<li class="dnd4e-info-combat-tracker__combatant {{#if isCurrent}}is-current{{/if}} {{#if isDefeated}}is-defeated{{/if}} {{#if isHidden}}is-hidden{{/if}}">
+				<button type="button" class="dnd4e-info-combat-tracker__portrait" data-action="setCurrent" data-combatant-id="{{id}}" title="Jump to {{name}}'s turn" {{#unless ../isGM}}disabled{{/unless}}>
+					<img src="{{img}}" alt="" draggable="false">
+					{{#if isDefeated}}<span class="dnd4e-info-combat-tracker__skull"><i class="fa-solid fa-skull" aria-hidden="true"></i></span>{{/if}}
+				</button>
+				<div class="dnd4e-info-combat-tracker__init"><b>{{initiative}}</b><span>Init</span></div>
+				<div class="dnd4e-info-combat-tracker__main">
+					<strong>{{name}}</strong>
+					{{#if hasHp}}
+						<div class="dnd4e-info-combat-tracker__hp-row">
+							<i class="fa-solid fa-heart" aria-hidden="true"></i>
+							{{#if canEditHp}}
+								<input type="number" class="dnd4e-info-combat-tracker__hp-input" data-hp-input="{{id}}" value="{{hp.value}}" min="0" max="{{hp.maximum}}">
+							{{else}}
+								<span class="dnd4e-info-combat-tracker__hp-value">{{hp.value}}</span>
+							{{/if}}
+							<span class="dnd4e-info-combat-tracker__hp-max">/ {{hp.maximum}}</span>
+						</div>
+						<div class="dnd4e-info-combat-tracker__hp-bar {{#if hp.bloodied}}is-bloodied{{/if}}"><i style="width:{{hp.percent}}%"></i></div>
+					{{/if}}
+					{{#if conditions.length}}
+						<div class="dnd4e-info-combat-tracker__conditions">
+							{{#each conditions}}
+								<img src="{{img}}" alt="" title="{{name}}">
+							{{/each}}
+						</div>
+					{{/if}}
+				</div>
+				{{#if ../isGM}}
+					<div class="dnd4e-info-combat-tracker__row-actions">
+						<button type="button" class="dnd4e-info-combat-tracker__icon-btn {{#if isHidden}}is-active{{/if}}" data-action="toggleHidden" data-combatant-id="{{id}}" title="Toggle visible to players">
+							<i class="fa-solid {{#if isHidden}}fa-eye-slash{{else}}fa-eye{{/if}}" aria-hidden="true"></i>
+						</button>
+						<button type="button" class="dnd4e-info-combat-tracker__icon-btn {{#if isDefeated}}is-active{{/if}}" data-action="toggleDefeated" data-combatant-id="{{id}}" title="Toggle defeated">
+							<i class="fa-solid fa-skull" aria-hidden="true"></i>
+						</button>
+					</div>
+				{{/if}}
+			</li>
+		{{else}}
+			<li class="dnd4e-info-combat-tracker__empty">No combatants in this encounter.</li>
+		{{/each}}
+	</ol>
+	{{#if isGM}}
+		<footer class="dnd4e-info-combat-tracker__footer">
+			<button type="button" class="dnd4e-info-combat-tracker__nav-btn" data-action="nav" data-nav="prev" title="Previous turn">
+				<i class="fa-solid fa-backward-step" aria-hidden="true"></i>
+			</button>
+			<button type="button" class="dnd4e-info-combat-tracker__end-btn" data-action="endCombat">End Encounter</button>
+			<button type="button" class="dnd4e-info-combat-tracker__nav-btn" data-action="nav" data-nav="next" title="Next turn">
+				<i class="fa-solid fa-forward-step" aria-hidden="true"></i>
+			</button>
+		</footer>
+	{{/if}}
+</section>

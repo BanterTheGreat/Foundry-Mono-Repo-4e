@@ -1,0 +1,377 @@
+#dnd4e-info-combat-tracker {
+	position: fixed;
+	z-index: 90;
+	width: 19rem;
+	margin: 0;
+	color: #f5eee5;
+	font-family: var(--font-primary, "Signika", sans-serif);
+	filter: drop-shadow(0 0.25rem 0.45rem rgb(0 0 0 / 80%));
+}
+
+.dnd4e-info-combat-tracker__panel {
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	border: 1px solid #997456;
+	border-radius: 0.65rem;
+	background: rgb(9 9 11 / 95%);
+	box-shadow: 0 1rem 2.5rem rgb(0 0 0 / 65%), inset 0 0 0 1px rgb(255 255 255 / 4%);
+	text-shadow: 0 0.08rem 0.15rem #000;
+	backdrop-filter: blur(0.4rem);
+}
+
+/* ---- header: round indicator (moved to top) + close ---- */
+.dnd4e-info-combat-tracker__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+	padding: 0.5rem 0.55rem 0.5rem 0.7rem;
+	border-bottom: 1px solid rgb(153 116 86 / 55%);
+	border-radius: 0.65rem 0.65rem 0 0;
+	background: linear-gradient(110deg, rgb(53 35 24 / 90%), rgb(8 8 9 / 92%) 58%);
+	cursor: grab;
+	touch-action: none;
+	user-select: none;
+}
+
+.dnd4e-info-combat-tracker__header:active {
+	cursor: grabbing;
+}
+
+.dnd4e-info-combat-tracker__header:hover {
+	background: linear-gradient(110deg, rgb(70 46 30 / 92%), rgb(18 16 16 / 94%) 58%);
+}
+
+.dnd4e-info-combat-tracker__round {
+	display: flex;
+	align-items: baseline;
+	gap: 0.4rem;
+}
+
+.dnd4e-info-combat-tracker__round > span {
+	color: #a98c70;
+	font-size: 0.62rem;
+	font-weight: 800;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+.dnd4e-info-combat-tracker__round > b {
+	color: #f7ddbc;
+	font-family: var(--font-h1, "Modesto Condensed", serif);
+	font-size: 1.5rem;
+	font-weight: 700;
+	line-height: 1;
+}
+
+.dnd4e-info-combat-tracker__close {
+	display: grid;
+	place-items: center;
+	width: 1.7rem;
+	height: 1.7rem;
+	flex: 0 0 auto;
+	border: 1px solid rgb(153 116 86 / 55%);
+	border-radius: 0.35rem;
+	background: rgb(255 255 255 / 4%);
+	color: #b8a78c;
+	font-size: 0.8rem;
+}
+
+.dnd4e-info-combat-tracker__close:hover {
+	border-color: #c25c4f;
+	background: #2a1512;
+	color: #f0b3a6;
+}
+
+/* ---- scrollable combatant list ---- */
+.dnd4e-info-combat-tracker__list {
+	display: flex;
+	flex-direction: column;
+	gap: 0.28rem;
+	margin: 0;
+	padding: 0.45rem 0.55rem;
+	list-style: none;
+	max-height: 24rem;
+	overflow-y: auto;
+	scrollbar-gutter: stable;
+}
+
+.dnd4e-info-combat-tracker__combatant {
+	position: relative;
+	display: grid;
+	grid-template-columns: 2.6rem 1.9rem minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.35rem 0.4rem;
+	border: 1px solid rgb(153 116 86 / 24%);
+	border-left: 3px solid rgb(153 116 86 / 45%);
+	border-radius: 0.4rem;
+	background: rgb(255 255 255 / 2%);
+}
+
+.dnd4e-info-combat-tracker__combatant:nth-child(even) {
+	background: rgb(117 91 68 / 9%);
+}
+
+.dnd4e-info-combat-tracker__combatant.is-current {
+	border-left-color: #5fa86e;
+	background: linear-gradient(90deg, rgb(46 66 42 / 55%), rgb(255 255 255 / 2%) 65%);
+	box-shadow: 0 0 0 1px rgb(95 168 110 / 55%), 0 0.2rem 0.6rem rgb(0 0 0 / 45%);
+}
+
+.dnd4e-info-combat-tracker__combatant.is-defeated {
+	border-left-color: #a5333a;
+	opacity: 0.55;
+}
+
+.dnd4e-info-combat-tracker__combatant.is-hidden {
+	border-style: dashed;
+}
+
+.dnd4e-info-combat-tracker__portrait {
+	position: relative;
+	width: 2.6rem;
+	height: 2.6rem;
+	padding: 0;
+	border: 1px solid #bb936a;
+	border-radius: 50%;
+	background: #181310;
+	box-shadow: 0 0 0 2px #181310, 0 0 0 3px #705039;
+	cursor: pointer;
+}
+
+.dnd4e-info-combat-tracker__combatant.is-current .dnd4e-info-combat-tracker__portrait {
+	border-color: #7bc98a;
+	box-shadow: 0 0 0 2px #181310, 0 0 0 3px #5fa86e, 0 0 0.5rem rgb(95 168 110 / 60%);
+}
+
+.dnd4e-info-combat-tracker__portrait:disabled {
+	cursor: default;
+}
+
+.dnd4e-info-combat-tracker__portrait img {
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.dnd4e-info-combat-tracker__skull {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-items: center;
+	border-radius: 50%;
+	background: rgb(0 0 0 / 68%);
+	color: #d65b60;
+	font-size: 1rem;
+}
+
+.dnd4e-info-combat-tracker__init {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 0.15rem 0;
+	border: 1px solid rgb(153 116 86 / 35%);
+	border-radius: 0.3rem;
+	background: rgb(0 0 0 / 25%);
+}
+
+.dnd4e-info-combat-tracker__init b {
+	color: #f0c879;
+	font-family: var(--font-h1, "Modesto Condensed", serif);
+	font-size: 1.05rem;
+	line-height: 1.1;
+}
+
+.dnd4e-info-combat-tracker__init span {
+	color: #a98c70;
+	font-size: 0.46rem;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+}
+
+.dnd4e-info-combat-tracker__main {
+	display: flex;
+	min-width: 0;
+	flex-direction: column;
+	gap: 0.18rem;
+}
+
+.dnd4e-info-combat-tracker__main > strong {
+	overflow: hidden;
+	color: #f0d6b3;
+	font-size: 0.78rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.dnd4e-info-combat-tracker__combatant.is-current .dnd4e-info-combat-tracker__main > strong {
+	color: #f0c879;
+}
+
+.dnd4e-info-combat-tracker__hp-row {
+	display: flex;
+	align-items: baseline;
+	gap: 0.25rem;
+}
+
+.dnd4e-info-combat-tracker__hp-row .fa-heart {
+	color: #d65b60;
+	font-size: 0.62rem;
+}
+
+.dnd4e-info-combat-tracker__hp-input,
+.dnd4e-info-combat-tracker__hp-value {
+	width: 2.4rem;
+	padding: 0;
+	border: 0;
+	background: none;
+	color: #f5eee5;
+	font-family: var(--font-h1, "Modesto Condensed", serif);
+	font-size: 0.85rem;
+}
+
+.dnd4e-info-combat-tracker__hp-input:focus {
+	outline: 1px solid #f0c879;
+	border-radius: 0.15rem;
+}
+
+.dnd4e-info-combat-tracker__hp-max {
+	color: #a98c70;
+	font-size: 0.64rem;
+}
+
+.dnd4e-info-combat-tracker__hp-bar {
+	position: relative;
+	overflow: hidden;
+	height: 0.3rem;
+	border: 1px solid rgb(0 0 0 / 50%);
+	border-radius: 0.15rem;
+	background: #1a1414;
+}
+
+.dnd4e-info-combat-tracker__hp-bar > i {
+	position: absolute;
+	inset: 0 auto 0 0;
+	display: block;
+	background: linear-gradient(180deg, #d65b60, #a5333a);
+}
+
+.dnd4e-info-combat-tracker__hp-bar.is-bloodied > i {
+	background: linear-gradient(180deg, #e0a04a, #a56a2a);
+}
+
+.dnd4e-info-combat-tracker__conditions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.18rem;
+}
+
+.dnd4e-info-combat-tracker__conditions img {
+	width: 1.05rem;
+	height: 1.05rem;
+	border: 1px solid #705039;
+	border-radius: 50%;
+	background: #181310;
+	object-fit: cover;
+}
+
+.dnd4e-info-combat-tracker__row-actions {
+	display: flex;
+	flex-direction: column;
+	gap: 0.18rem;
+}
+
+.dnd4e-info-combat-tracker__icon-btn {
+	display: grid;
+	place-items: center;
+	width: 1.3rem;
+	height: 1.3rem;
+	padding: 0;
+	border: 0;
+	border-radius: 0.25rem;
+	background: none;
+	color: #8d857a;
+	font-size: 0.66rem;
+}
+
+.dnd4e-info-combat-tracker__icon-btn:hover {
+	background: rgb(255 255 255 / 6%);
+	color: #f0d6b3;
+}
+
+.dnd4e-info-combat-tracker__icon-btn.is-active {
+	color: #d65b60;
+}
+
+.dnd4e-info-combat-tracker__empty {
+	margin: 0.65rem 0 0.35rem;
+	color: #a99178;
+	font-family: var(--font-serif, serif);
+	font-size: 0.78rem;
+	font-style: italic;
+	text-align: center;
+}
+
+/* ---- footer: encounter controls (moved to bottom) ---- */
+.dnd4e-info-combat-tracker__footer {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+	padding: 0.5rem 0.55rem;
+	border-top: 1px solid rgb(153 116 86 / 55%);
+	background: rgb(8 8 9 / 60%);
+}
+
+.dnd4e-info-combat-tracker__nav-btn {
+	display: grid;
+	place-items: center;
+	width: 1.9rem;
+	height: 1.9rem;
+	flex: 0 0 auto;
+	border: 1px solid #705039;
+	border-radius: 0.3rem;
+	background: rgb(255 255 255 / 3%);
+	color: #b8a78c;
+	font-size: 0.8rem;
+}
+
+.dnd4e-info-combat-tracker__nav-btn:hover {
+	border-color: #c69a5e;
+	color: #f0d6b3;
+}
+
+.dnd4e-info-combat-tracker__end-btn {
+	flex: 1;
+	padding: 0.45rem 0.5rem;
+	border: 1px solid #8f6745;
+	border-radius: 0.3rem;
+	background: linear-gradient(#492e24, #241916);
+	color: #f0d5ad;
+	font-size: 0.68rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.dnd4e-info-combat-tracker__end-btn:hover {
+	border-color: #c69a5e;
+	background: linear-gradient(#60402d, #302019);
+	color: #fff4df;
+}
+
+.dnd4e-info-combat-tracker__end-btn:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+@media (max-width: 700px) {
+	#dnd4e-info-combat-tracker {
+		width: min(19rem, calc(100vw - 1rem));
+	}
+}

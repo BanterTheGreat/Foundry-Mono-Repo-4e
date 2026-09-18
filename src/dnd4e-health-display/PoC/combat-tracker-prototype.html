@@ -1,0 +1,313 @@
+<!doctype html>
+<!--
+  THROWAWAY UI PROTOTYPE — not Foundry production code.
+  Question: what should Foundry's default Combat Tracker look like restyled
+  to match this module's existing HUD language (see persistent-hud-prototype
+  and horizontal-hud-prototype in this same folder) — dark gold-trimmed
+  panels, Georgia-serif numerals, red HP bars — instead of Foundry's stock
+  sheet styling? Reference screenshot: pf2e-hud's combat tracker (portrait +
+  name + initiative + HP + condition icons per row, current-turn highlight,
+  round/encounter controls in the header and footer).
+  Just a throwaway HTML file you can open in a browser. Click a row to make
+  it the "current turn", click the skull to toggle defeated, click HP to
+  edit it inline, use the footer buttons to step rounds.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>4e Combat Tracker Prototype</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --ink: #0d0d0e;
+    --panel: rgb(9 9 11 / 95%);
+    --panel-2: #201c1a;
+    --panel-3: #2a2422;
+    --line: #99745688;
+    --line-solid: #997456;
+    --gold: #c9a35f;
+    --gold-bright: #f0c879;
+    --paper: #f5eee5;
+    --muted: #b3a495;
+    --red: #a5333a;
+    --red-bright: #d65b60;
+    --green: #3d7a4a;
+    --green-bright: #5fa86e;
+    --blue: #3a6a8a;
+    --purple: #6a4f8a;
+    font-family: "Signika", "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; background: radial-gradient(circle at 30% 20%, #2a2a2e, #0a0a0b 65%); color: var(--paper); font-size: 14px; }
+  .canvas-fill {
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      repeating-linear-gradient(0deg, #ffffff08 0 1px, transparent 1px 48px),
+      repeating-linear-gradient(90deg, #ffffff08 0 1px, transparent 1px 48px),
+      radial-gradient(ellipse at 60% 40%, #2e3b2c, #14171a 70%);
+  }
+  .prototype-note { position: relative; z-index: 1; max-width: 62rem; margin: 0 auto; padding: .8rem 1rem 0; color: #cdbda9; font-size: .82rem; text-align: center; }
+  .prototype-note code { color: var(--gold-bright); }
+  .reasoning { position: relative; z-index: 1; max-width: 62rem; margin: .6rem auto 2rem; padding: .6rem .9rem; border: 1px solid var(--line); border-radius: 6px; background: #14131488; color: var(--muted); font-size: .74rem; line-height: 1.4; }
+  .reasoning b { color: var(--gold-bright); }
+
+  h1, h2, h3, p { margin: 0; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+
+  .section-label { color: var(--muted); font-size: .58rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+
+  /* ============================ tracker panel ============================ */
+  .ct-dock {
+    position: fixed; right: 1rem; top: 50%; transform: translateY(-50%); z-index: 2;
+    width: 19rem; max-height: calc(100vh - 4rem);
+    display: flex; flex-direction: column;
+    border: 1px solid var(--line-solid); border-radius: 8px;
+    background: linear-gradient(180deg, var(--panel), var(--ink) 90%);
+    box-shadow: 0 .6rem 2rem #000d, inset 0 0 0 1px rgb(255 255 255 / 4%);
+    overflow: hidden;
+  }
+
+  .ct-head {
+    display: flex; align-items: center; gap: .3rem;
+    padding: .45rem .5rem; border-bottom: 1px solid var(--line);
+    background: linear-gradient(120deg, #3a2c1c, var(--panel) 70%);
+  }
+  .ct-nav-btn {
+    display: grid; place-items: center; width: 1.6rem; height: 1.6rem; flex: 0 0 auto;
+    border: 1px solid var(--line-solid); border-radius: 5px; background: var(--panel-2);
+    color: var(--muted); font-size: .85rem;
+  }
+  .ct-nav-btn:hover { border-color: var(--gold); color: var(--gold-bright); }
+  .ct-end-btn {
+    flex: 1; padding: .38rem .4rem; border: 1px solid var(--gold); border-radius: 5px;
+    background: linear-gradient(180deg, #3d3226, #241d16); color: var(--gold-bright);
+    font-size: .68rem; font-weight: 700; letter-spacing: .04em; text-align: center; text-transform: uppercase;
+  }
+  .ct-end-btn:hover { border-color: var(--gold-bright); background: linear-gradient(180deg, #4a3a26, #2a2016); }
+
+  /* ---- combatant list ---- */
+  .ct-list { display: flex; flex-direction: column; gap: .3rem; padding: .5rem; overflow-y: auto; flex: 1; min-height: 0; }
+  .ct-row {
+    position: relative; display: flex; align-items: center; gap: .5rem; padding: .35rem .5rem;
+    border: 1px solid var(--line); border-left: 3px solid var(--muted); border-radius: 6px;
+    background: var(--panel-2);
+    box-shadow: 0 .15rem .5rem #0006;
+  }
+  .ct-row:hover { border-color: var(--gold); }
+  .ct-row.current {
+    border-left-color: var(--green-bright);
+    background: linear-gradient(90deg, #23331f, var(--panel-2) 55%);
+    box-shadow: 0 0 0 1px var(--green-bright), 0 .2rem .7rem #0008;
+  }
+  .ct-row.defeated { border-left-color: var(--red-bright); opacity: .55; }
+  .ct-row.hidden-combatant { border-style: dashed; }
+
+  .ct-portrait {
+    position: relative; flex: 0 0 auto; width: 2.6rem; height: 2.6rem;
+    border: 2px solid var(--line-solid); border-radius: 6px;
+    background: radial-gradient(circle at 35% 30%, #7a5a34 0 20%, #2a2016 55%, #14100a 100%);
+    display: grid; place-items: center; color: var(--gold-bright); font-size: 1.1rem;
+    box-shadow: 0 0 0 2px #000a;
+  }
+  .ct-row.current .ct-portrait { border-color: var(--green-bright); box-shadow: 0 0 0 2px #000a, 0 0 .5rem var(--green-bright); }
+  .ct-portrait .skull-badge {
+    position: absolute; inset: 0; display: grid; place-items: center; border-radius: 4px;
+    background: #000000b0; color: var(--red-bright); font-size: 1.1rem;
+  }
+
+  .ct-init {
+    flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    width: 1.9rem; padding: .1rem 0; border: 1px solid var(--line); border-radius: 5px; background: var(--panel-3);
+  }
+  .ct-init b { font-family: Georgia, serif; font-size: 1rem; color: var(--gold-bright); line-height: 1.1; }
+  .ct-init span { color: var(--muted); font-size: .48rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+
+  .ct-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: .18rem; }
+  .ct-name-line { display: flex; align-items: center; gap: .3rem; }
+  .ct-name-line b { color: var(--paper); font-size: .78rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ct-row.current .ct-name-line b { color: var(--gold-bright); }
+  .ct-hp-line { display: flex; align-items: center; gap: .3rem; }
+  .ct-hp-icon { color: var(--red-bright); font-size: .65rem; }
+  .ct-hp-line input {
+    width: 2.4rem; border: 0; background: none; color: var(--paper); font-family: Georgia, serif;
+    font-size: .8rem; padding: 0;
+  }
+  .ct-hp-line input:focus { outline: 1px solid var(--gold-bright); border-radius: 3px; }
+  .ct-hp-line .of { color: var(--muted); font-size: .65rem; }
+  .ct-hp-bar { position: relative; overflow: hidden; height: .3rem; border: 1px solid #00000080; border-radius: 2px; background: #1a1414; }
+  .ct-hp-bar > i { position: absolute; inset: 0 auto 0 0; display: block; background: linear-gradient(180deg, var(--red-bright), var(--red)); }
+  .ct-hp-bar.bloodied > i { background: linear-gradient(180deg, #e0a04a, #a56a2a); }
+
+  .ct-conditions { display: flex; flex-wrap: wrap; gap: .18rem; max-width: 3.4rem; }
+  .ct-cond {
+    display: grid; place-items: center; width: 1.15rem; height: 1.15rem; border-radius: 50%;
+    border: 1px solid var(--line-solid); background: var(--panel-3); font-size: .62rem;
+  }
+  .ct-cond.marked { border-color: var(--red-bright); color: var(--red-bright); }
+  .ct-cond.dazed { border-color: var(--blue); color: #8fb8d6; }
+  .ct-cond.prone { border-color: var(--purple); color: #b6a0d6; }
+
+  .ct-row-actions { display: flex; flex-direction: column; gap: .2rem; flex: 0 0 auto; }
+  .ct-icon-btn {
+    display: grid; place-items: center; width: 1.3rem; height: 1.3rem; border: 0; background: none;
+    color: var(--muted); font-size: .68rem; border-radius: 3px;
+  }
+  .ct-icon-btn:hover { color: var(--gold-bright); background: var(--panel-3); }
+  .ct-icon-btn.active { color: var(--red-bright); }
+
+  .ct-empty { padding: 1rem; color: var(--muted); font-size: .72rem; font-style: italic; text-align: center; }
+
+  /* ---- footer ---- */
+  .ct-foot {
+    display: flex; align-items: center; gap: .4rem; padding: .4rem .5rem;
+    border-top: 1px solid var(--line); background: var(--panel-2);
+  }
+  .ct-round {
+    display: flex; align-items: center; gap: .3rem; padding: .2rem .5rem;
+    border: 1px solid var(--line); border-radius: 5px; background: var(--panel-3);
+    color: var(--gold-bright); font-family: Georgia, serif; font-size: .78rem;
+  }
+  .ct-round span { color: var(--muted); font-family: inherit; font-size: .58rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+  .ct-foot-spacer { flex: 1; }
+  .ct-foot .ct-icon-btn { width: 1.6rem; height: 1.6rem; font-size: .8rem; border: 1px solid transparent; }
+  .ct-foot .ct-icon-btn:hover { border-color: var(--line-solid); }
+
+  @media (max-width: 480px) {
+    .ct-dock { width: calc(100vw - 2rem); right: 1rem; }
+  }
+</style>
+</head>
+<body>
+<div class="canvas-fill"></div>
+<p class="prototype-note">Throwaway design study for a <b>Combat Tracker</b> restyled to match this module's gold-trimmed dark HUD (see <code>persistent-hud-prototype.html</code> / <code>horizontal-hud-prototype.html</code>). Click a row to set the current turn, click the skull to toggle defeated, click an HP number to edit it, use the footer to step rounds.</p>
+
+<div id="app"></div>
+
+<div class="reasoning">
+  <b>Reference vs. this version.</b> Kept the reference's shape (nav header, one row per combatant with portrait + init + HP + status icons, round/settings footer) but swapped its blue/grey palette for this module's gold-on-black language: Georgia-serif initiative/HP numerals, the same red HP-bar gradient used elsewhere, and a green glow on the current-turn row instead of a plain highlight colour. Condition icons are round chips instead of the reference's small square glyphs, matching the AP pips used in the persistent HUD.
+</div>
+
+<script>
+/* ---------------------------- shared fake state ---------------------------- */
+const state = {
+  round: 1,
+  currentId: 'c2',
+  combatants: [
+    { id: 'c1', name: 'Idrani Fullhorn', init: 22, hp: 93, hpMax: 93, defeated: false, hidden: false, conditions: [] },
+    { id: 'c2', name: 'Kaelen Ashworth', init: 18, hp: 30, hpMax: 58, defeated: false, hidden: false, conditions: ['marked'] },
+    { id: 'c3', name: 'Grimshaw the Lich', init: 15, hp: 190, hpMax: 260, defeated: false, hidden: true, conditions: ['dazed'] },
+    { id: 'c4', name: 'Kobold Skirmisher', init: 12, hp: 0, hpMax: 22, defeated: true, hidden: false, conditions: [] },
+    { id: 'c5', name: 'Kobold Skirmisher', init: 9, hp: 18, hpMax: 22, defeated: false, hidden: false, conditions: ['prone'] },
+  ],
+};
+
+const COND_ICON = { marked: ['marked', '⊕'], dazed: ['dazed', '☆'], prone: ['prone', '⤵'] };
+
+/* ---------------------------- render helpers ---------------------------- */
+function pct(cur, max) { return Math.max(0, Math.min(100, (cur / max) * 100)); }
+
+function row(c) {
+  const bloodied = c.hp > 0 && c.hp <= c.hpMax / 2;
+  const classes = ['ct-row'];
+  if (c.id === state.currentId) classes.push('current');
+  if (c.defeated) classes.push('defeated');
+  if (c.hidden) classes.push('hidden-combatant');
+
+  return `<div class="${classes.join(' ')}" data-row="${c.id}">
+    <div class="ct-portrait">🛡${c.defeated ? '<div class="skull-badge">💀</div>' : ''}</div>
+    <div class="ct-init"><b>${c.init}</b><span>Init</span></div>
+    <div class="ct-main">
+      <div class="ct-name-line"><b>${c.name}</b></div>
+      <div class="ct-hp-line">
+        <span class="ct-hp-icon">♥</span>
+        <input type="number" data-hp-input="${c.id}" value="${c.hp}" min="0" max="${c.hpMax}" ${c.defeated ? 'disabled' : ''}>
+        <span class="of">/ ${c.hpMax}</span>
+      </div>
+      <div class="ct-hp-bar ${bloodied ? 'bloodied' : ''}"><i style="width:${pct(c.hp, c.hpMax)}%"></i></div>
+      ${c.conditions.length ? `<div class="ct-conditions">${c.conditions.map(k => {
+        const [cls, icon] = COND_ICON[k] || [k, '?'];
+        return `<span class="ct-cond ${cls}" title="${k}">${icon}</span>`;
+      }).join('')}</div>` : ''}
+    </div>
+    <div class="ct-row-actions">
+      <button class="ct-icon-btn ${c.hidden ? 'active' : ''}" data-toggle-hidden="${c.id}" title="Toggle visible to players">${c.hidden ? '🙈' : '👁'}</button>
+      <button class="ct-icon-btn ${c.defeated ? 'active' : ''}" data-toggle-defeated="${c.id}" title="Toggle defeated">💀</button>
+    </div>
+  </div>`;
+}
+
+function render() {
+  const list = state.combatants.length
+    ? state.combatants.map(row).join('')
+    : `<p class="ct-empty">No combatants in this encounter.</p>`;
+
+  document.getElementById('app').innerHTML = `
+    <div class="ct-dock">
+      <div class="ct-head">
+        <button class="ct-nav-btn" data-nav="first" title="Jump to first turn">⏮</button>
+        <button class="ct-nav-btn" data-nav="prev" title="Previous turn">◀</button>
+        <button class="ct-end-btn" data-end>End Encounter</button>
+        <button class="ct-nav-btn" data-nav="next" title="Next turn">▶</button>
+        <button class="ct-nav-btn" data-nav="last" title="Jump to last turn">⏭</button>
+      </div>
+      <div class="ct-list">${list}</div>
+      <div class="ct-foot">
+        <div class="ct-round"><span>Round</span>${state.round}</div>
+        <div class="ct-foot-spacer"></div>
+        <button class="ct-icon-btn" data-round="-1" title="Previous round">−</button>
+        <button class="ct-icon-btn" data-round="1" title="Next round">+</button>
+        <button class="ct-icon-btn" data-settings title="Combat settings">⚙</button>
+      </div>
+    </div>`;
+  wire();
+}
+
+function wire() {
+  document.querySelectorAll('[data-row]').forEach(el => el.addEventListener('click', (e) => {
+    if (e.target.closest('button, input')) return;
+    state.currentId = el.dataset.row;
+    render();
+  }));
+  document.querySelectorAll('[data-toggle-defeated]').forEach(b => b.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const c = state.combatants.find(x => x.id === b.dataset.toggleDefeated);
+    c.defeated = !c.defeated;
+    render();
+  }));
+  document.querySelectorAll('[data-toggle-hidden]').forEach(b => b.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const c = state.combatants.find(x => x.id === b.dataset.toggleHidden);
+    c.hidden = !c.hidden;
+    render();
+  }));
+  document.querySelectorAll('[data-hp-input]').forEach(inp => {
+    inp.addEventListener('click', e => e.stopPropagation());
+    inp.addEventListener('change', e => {
+      const c = state.combatants.find(x => x.id === inp.dataset.hpInput);
+      c.hp = Math.max(0, Math.min(c.hpMax, Number(e.target.value) || 0));
+      render();
+    });
+  });
+  document.querySelectorAll('[data-nav]').forEach(b => b.addEventListener('click', () => {
+    const ids = state.combatants.map(c => c.id);
+    const i = ids.indexOf(state.currentId);
+    const action = b.dataset.nav;
+    if (action === 'first') state.currentId = ids[0];
+    else if (action === 'last') state.currentId = ids[ids.length - 1];
+    else if (action === 'next') { if (i === ids.length - 1) state.round++; state.currentId = ids[(i + 1) % ids.length]; }
+    else if (action === 'prev') { if (i === 0) state.round = Math.max(1, state.round - 1); state.currentId = ids[(i - 1 + ids.length) % ids.length]; }
+    render();
+  }));
+  document.querySelectorAll('[data-round]').forEach(b => b.addEventListener('click', () => {
+    state.round = Math.max(1, state.round + Number(b.dataset.round));
+    render();
+  }));
+  const end = document.querySelector('[data-end]');
+  if (end) end.addEventListener('click', () => { state.round = 1; render(); });
+}
+
+render();
+</script>
+</body>
+</html>
