@@ -1,7 +1,6 @@
 import { TRIGGER_EVENT_TYPE, TRIGGER_ID } from "./constants.js";
 import { ActorTriggerConfiguration } from "./actor-trigger-configuration.js";
 import { findTriggerById, TRIGGERS } from "./trigger-registry.js";
-import { MarkOwnershipStore } from "../mark-ownership/mark-ownership-store.js";
 import { Logger } from "../../shared/logger.js";
 
 /**
@@ -250,14 +249,22 @@ export class CombatTriggerDispatcher {
   }
 
   /**
-   * Resolves a marked token's owner when that owner is currently in combat.
+   * Resolves a marked token's owner from DnD4e's actor-level marker UUID.
+   *
+   * DnD4e records the actor applying a Mark at `actor.system.marker`. Prompts
+   * are combat events, so this deliberately returns only the active
+   * combatant represented by that actor.
    *
    * @param {TokenDocument} target
    * @returns {TokenDocument|null}
    */
   #findMarkOwner(target) {
-    const owner = MarkOwnershipStore.findOwnerForTarget(target);
-    return owner && this.#findCombatantByToken(owner.parent.id, owner.id) ? owner : null;
+    const markerActorUuid = target.actor?.system?.marker;
+    if (!markerActorUuid) {
+      return null;
+    }
+    const markerCombatant = game.combat?.combatants.find(combatant => combatant.actor?.uuid === markerActorUuid);
+    return markerCombatant ? this.#findSceneToken(markerCombatant.sceneId, markerCombatant.tokenId) : null;
   }
 
   /**

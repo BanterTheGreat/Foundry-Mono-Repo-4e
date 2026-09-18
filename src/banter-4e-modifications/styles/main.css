@@ -31,6 +31,198 @@
     background: rgba(0, 100, 0, 0.08);
 }
 
+.player-defense-dialog {
+    color: var(--color-text-primary, #e9e0cf);
+}
+
+.player-defense-dialog__check {
+    position: relative;
+    display: grid;
+    gap: 0.25rem;
+    padding: 0.8rem;
+    text-align: center;
+    border: 1px solid #876936;
+    border-radius: 0.35rem;
+    background: radial-gradient(circle at 50% 0, #3e321e, #151218 72%);
+}
+
+.player-defense-dialog__eyebrow {
+    color: #e1bc76;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.player-defense-dialog__check strong {
+    color: #ffe4a6;
+    font-family: var(--font-h1, inherit);
+    font-size: 2.25rem;
+    line-height: 1;
+    text-shadow: 0 0.1rem 0.4rem #000;
+}
+
+.player-defense-dialog__check-instruction {
+    color: #cbbda6;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.player-defense-dialog__disclosure-icon {
+    position: absolute;
+    right: 0.7rem;
+    bottom: 0.7rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-right: 2px solid #e1bc76;
+    border-bottom: 2px solid #e1bc76;
+    transform: rotate(45deg);
+    transition: transform 150ms ease;
+}
+
+.player-defense-dialog__breakdown {
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+    border-radius: 0.3rem;
+}
+
+.player-defense-dialog__breakdown summary {
+    cursor: pointer;
+    list-style: none;
+}
+
+.player-defense-dialog__breakdown summary::-webkit-details-marker {
+    display: none;
+}
+
+.player-defense-dialog__breakdown[open] .player-defense-dialog__check {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.player-defense-dialog__breakdown[open] .player-defense-dialog__disclosure-icon {
+    transform: rotate(225deg);
+}
+
+.player-defense-dialog__breakdown summary:focus-visible {
+    outline: 2px solid #d9a84e;
+    outline-offset: -3px;
+}
+
+.player-defense-dialog__math-section {
+    padding: 0.35rem 0.7rem;
+    border-top: 1px solid #4e453b;
+}
+
+.player-defense-dialog__math-section > div {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.5rem;
+    padding: 0.35rem 0;
+    color: #c5b9a7;
+    font-size: 0.78rem;
+}
+
+.player-defense-dialog__math-section > div + div {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.player-defense-dialog__math-section b {
+    color: #f6e6cd;
+}
+
+.player-defense-dialog__math-section .player-defense-dialog__total {
+    color: #e2b76e;
+    font-weight: 700;
+}
+
+.player-defense-dialog__math-section .player-defense-dialog__total b {
+    color: #ffe1a0;
+}
+
+.player-defense-dialog__outcomes {
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+    border: 1px solid #5d5143;
+    border-radius: 0.3rem;
+    background: #101015;
+}
+
+.player-defense-dialog__outcomes h3 {
+    margin: 0;
+    padding: 0.65rem 0.7rem;
+    color: #ead9bd;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.player-defense-dialog__outcome {
+    padding: 0.6rem 0.7rem;
+    color: #d7ccbb;
+    font-size: 0.78rem;
+    line-height: 1.35;
+}
+
+.player-defense-dialog__outcome + .player-defense-dialog__outcome {
+    border-top: 1px solid #4e453b;
+}
+
+.player-defense-dialog__outcome strong {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.player-defense-dialog__outcome--failure {
+    border-left: 3px solid #b8564f;
+    background: linear-gradient(90deg, #481d1e, #161216);
+}
+
+.player-defense-dialog__outcome--failure strong {
+    color: #e59886;
+}
+
+.player-defense-dialog__outcome--success {
+}
+
+.player-defense-dialog__outcome--success strong {
+    color: #8fc99b;
+}
+
+.player-defense-dialog-window .dialog-button,
+.player-defense-dialog-window button[data-action="defend"] {
+    width: 100%;
+    min-height: 2.65rem;
+    border: 1px solid #bf9a59;
+    border-radius: 0.28rem;
+    background: linear-gradient(#5d4021, #352413);
+    box-shadow: inset 0 1px rgba(255, 235, 190, 0.16), 0 0.15rem 0.35rem rgba(0, 0, 0, 0.32);
+    color: #f3e5cf;
+    font-family: var(--font-h1, inherit);
+    font-size: 0.93rem;
+    font-weight: 700;
+    letter-spacing: 0.035em;
+    text-transform: uppercase;
+}
+
+.player-defense-dialog-window .dialog-button:hover,
+.player-defense-dialog-window button[data-action="defend"]:hover {
+    border-color: #e3bd73;
+    background: linear-gradient(#76542c, #493017);
+    color: #fff4df;
+    transform: translateY(-1px);
+}
+
+.player-defense-dialog-window .dialog-button:focus-visible,
+.player-defense-dialog-window button[data-action="defend"]:focus-visible {
+    outline: 2px solid #ffe1a0;
+    outline-offset: 2px;
+}
+
 .trigger-prompts-config {
     display: grid;
     gap: 0.5rem;

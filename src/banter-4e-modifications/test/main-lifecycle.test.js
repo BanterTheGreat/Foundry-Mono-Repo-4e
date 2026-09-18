@@ -23,7 +23,6 @@ test("module entry point registers settings, sockets, and enabled feature hooks"
   assert.deepEqual(settings.map(([scope, key]) => `${scope}.${key}`).sort(), [
     "banter-4e-modifications.enable-active-defense",
     "banter-4e-modifications.enable-debug-logging",
-    "banter-4e-modifications.enable-mark-ownership",
     "banter-4e-modifications.enable-opportunity-attack-chat-actions",
     "banter-4e-modifications.enable-trigger-prompts",
   ]);
@@ -32,6 +31,6 @@ test("module entry point registers settings, sockets, and enabled feature hooks"
   assert.equal(handlers.on.get("preCreateChatMessage")?.length, 2);
   assert.equal(handlers.on.get("renderChatMessageHTML")?.length, 3);
   assert.equal(handlers.on.get("renderChatMessage")?.length, 1);
-  assert.equal(handlers.on.get("createActiveEffect")?.length, 1);
-  assert.equal(handlers.on.get("deleteCombat")?.length, 1);
+  assert.equal(handlers.on.get("createActiveEffect")?.length ?? 0, 0);
+  assert.equal(handlers.on.get("deleteCombat")?.length ?? 0, 0);
 });

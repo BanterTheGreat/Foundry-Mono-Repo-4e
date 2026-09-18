@@ -51,12 +51,13 @@ export class PlayerDefense {
     /**
      * @param {Array<{token: Token, defenseMod: number}>} targets
      * @param {number} rollDC
+     * @param {number} attackModifier
      * @param {Actor} attacker
      * @param {string} defenseStat
      * @param {Item} item
      * @returns {object[]}
      */
-    static #buildDefenseTargets(targets, rollDC, attacker, defenseStat, item) {
+    static #buildDefenseTargets(targets, rollDC, attackModifier, attacker, defenseStat, item) {
     const { hit, miss } = PlayerDefense.#getPowerDamageData(item);
     return targets.map((target, index) => {
       const actor = target.token.actor;
@@ -80,6 +81,9 @@ export class PlayerDefense {
                 defenseStat,
                 defenseMod: target.defenseMod,
                 rollDC,
+                attackModifier,
+                baseDefense: PlayerDefense.BASE_DEFENSE,
+                reversedRollOffset: PlayerDefense.REVERSED_ROLL_OFFSET,
                 hitText: hit.detail ?? "",
                 missText: miss.detail ?? "",
                 assignedUserId: assignedUser?.id ?? null,
@@ -244,7 +248,7 @@ export class PlayerDefense {
     game.PlayerDefense.lastAttack = null;
     game.TriggerPrompts?.clearPendingAttackContext();
     const { attack: attackData } = PlayerDefense.#getPowerDamageData(item);
-    const defenseTargets = PlayerDefense.#buildDefenseTargets(targets, rollDC, attacker, attackData.def?.toUpperCase() ?? "?", item);
+    const defenseTargets = PlayerDefense.#buildDefenseTargets(targets, rollDC, totalModifier, attacker, attackData.def?.toUpperCase() ?? "?", item);
     Logger.info("Intercepting NPC attack", { messageId: message.id, attackerId: attacker.id, itemId: item.id, targetIds: defenseTargets.map(target => target.actorId), rollFormula, totalModifier, rollDC });
     PlayerDefense.#createDefenseMessage(attacker, item, defenseTargets, attack);
     return false;
@@ -331,6 +335,8 @@ export class PlayerDefense {
     new foundry.applications.api.DialogV2({
       window: { title: dialog.title },
       content: dialog.content,
+      classes: ["player-defense-dialog-window"],
+      position: { width: 450 },
       buttons: [{
         action: "defend",
         label: dialog.defendLabel,

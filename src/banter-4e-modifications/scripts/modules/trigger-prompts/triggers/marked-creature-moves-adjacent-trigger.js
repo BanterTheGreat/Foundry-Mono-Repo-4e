@@ -12,7 +12,7 @@ export class MarkedCreatureMovesAdjacentTrigger extends CombatTrigger {
     super({
       id: TRIGGER_ID.MARKED_CREATURE_SHIFTS_ADJACENT,
       label: "Adjacent creature marked by you shifts",
-      description: "A creature carrying a Mark owned by this actor shifts while adjacent to the actor.",
+      description: "A creature marked by this actor shifts while adjacent to the actor.",
     });
   }
 

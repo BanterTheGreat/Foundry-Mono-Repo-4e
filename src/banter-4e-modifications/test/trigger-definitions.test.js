@@ -4,15 +4,15 @@ import { TRIGGER_EVENT_TYPE, TRIGGER_ID } from "../scripts/modules/trigger-promp
 import { TRIGGERS } from "../scripts/modules/trigger-prompts/trigger-registry.js";
 
 const sceneId = "scene";
-const enemy = { id: "enemy", name: "Badger", disposition: -1, actor: { id: "enemy-actor" } };
-const target = { id: "target", name: "Rogal", disposition: 1, actor: { id: "target-actor" } };
+const enemy = { id: "enemy", name: "Badger", disposition: -1, actor: { id: "enemy-actor", system: { marker: "Actor.target-actor" } } };
+const target = { id: "target", name: "Rogal", disposition: 1, actor: { id: "target-actor", uuid: "Actor.target-actor" } };
 const ally = { id: "ally", name: "Ally", disposition: 1, actor: { id: "ally-actor" } };
 const tokens = new Map([[enemy.id, enemy], [target.id, target], [ally.id, ally]]);
 const combatants = [enemy, target, ally].map(token => ({ id: `combatant-${token.id}`, sceneId, tokenId: token.id }));
 const services = {
   combatants,
   getToken: (candidateSceneId, tokenId) => candidateSceneId === sceneId ? tokens.get(tokenId) : null,
-  markOwner: marked => marked === enemy ? target : null,
+  markOwner: marked => marked?.actor?.system?.marker === target.actor.uuid ? target : null,
   areHostile: (left, right) => left.disposition !== right.disposition,
   areAllies: (left, right) => left.disposition === right.disposition,
   distanceSquares: (left, right) => left === right ? 0 : 4,

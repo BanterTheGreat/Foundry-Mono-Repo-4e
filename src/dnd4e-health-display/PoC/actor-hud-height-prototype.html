@@ -1,0 +1,599 @@
+<!doctype html>
+<!--
+  THROWAWAY UI PROTOTYPE — not Foundry production code.
+  Question: the current Actor HUD panel (portrait/name header, big HP dial +
+  temp HP + surges row, AC/Fort/Ref/Will/Init stat row, tabs, search box,
+  section label, scrollable power list, bottom action bar, "show status only"
+  toggle) burns most of its vertical space on chrome before the scrollable
+  power list even starts. Can we shrink header + stats block + bottom bar
+  without losing any info or one-click actions?
+  Three structurally different compressions, switchable via ?variant=A|B|C
+  or the bottom control. Each panel reports its own live-measured
+  chrome-height vs list-height split so the tradeoff is visible, not just
+  asserted.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Actor HUD height-reduction prototype</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --ink: #0d0d0e;
+    --panel: #1b1a1c;
+    --panel-2: #221f1f;
+    --panel-3: #2a2626;
+    --line: #4a3f2f88;
+    --gold: #c9a35f;
+    --gold-bright: #e8c583;
+    --paper: #e9dfcf;
+    --muted: #a89b8a;
+    --red: #8f2a30;
+    --red-bright: #d65b60;
+    --green: #3f7a3a;
+    --green-bright: #6fbf5f;
+    font-family: "Signika", "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: radial-gradient(circle at 30% 20%, #2a2a2e, #0a0a0b 65%);
+    color: var(--paper);
+    font-size: 14px;
+  }
+  h1, h2, h3, p { margin: 0; }
+  button, input { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+
+  .prototype-note {
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: .8rem 1rem 0;
+    color: #cdbda9;
+    font-size: .82rem;
+    text-align: center;
+  }
+  .prototype-note code { color: var(--gold-bright); }
+
+  .stage {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    padding: 1.2rem 1rem 7rem;
+  }
+
+  .hud-frame {
+    width: 23rem;
+    height: 640px; /* fixed viewport: this is the scarce resource being fought over */
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--gold);
+    border-radius: 8px;
+    background: linear-gradient(180deg, var(--panel), var(--ink) 85%);
+    box-shadow: 0 .6rem 2rem #000d;
+    overflow: hidden;
+  }
+
+  .measure-readout {
+    width: 23rem;
+    display: flex;
+    gap: .4rem;
+    font-size: .68rem;
+  }
+  .measure-bar {
+    flex: 1;
+    display: flex;
+    height: 1.4rem;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .measure-bar .chrome { background: linear-gradient(180deg, #6a4038, #4a2a26); }
+  .measure-bar .list { background: linear-gradient(180deg, #3a5a38, #26401f); }
+  .measure-bar span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    letter-spacing: .02em;
+    color: var(--paper);
+    text-shadow: 0 1px 2px #000;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .measure-caption { color: var(--muted); font-size: .68rem; text-align: center; }
+
+  /* -------- shared bits -------- */
+  .portrait {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    border: 2px solid var(--gold);
+    border-radius: 6px;
+    background: radial-gradient(circle at 35% 30%, #7a5a34 0 20%, #2a2016 55%, #14100a 100%);
+    color: var(--gold-bright);
+    box-shadow: 0 0 0 3px #000a;
+  }
+  .name-row { display: flex; align-items: baseline; gap: .4rem; min-width: 0; }
+  .name-row h2 { color: var(--gold-bright); font-family: Georgia, serif; font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .name-row small { color: var(--muted); font-size: .68rem; white-space: nowrap; }
+
+  .hp-bar {
+    position: relative;
+    overflow: hidden;
+    height: .95rem;
+    border: 1px solid #00000080;
+    border-radius: 3px;
+    background: #1a1414;
+  }
+  .hp-bar > i { position: absolute; inset: 0 auto 0 0; display: block; background: linear-gradient(180deg, var(--red-bright), var(--red)); }
+  .hp-bar-label { position: relative; z-index: 1; display: block; padding-left: .35rem; color: #fff; font-size: .64rem; font-weight: 700; line-height: .95rem; text-shadow: 0 1px 2px #000; }
+
+  .stat-pill {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--panel-2);
+  }
+  .stat-pill span { color: var(--muted); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+  .stat-pill b { color: var(--gold-bright); font-family: Georgia, serif; }
+
+  .tab-strip { display: flex; gap: .25rem; }
+  .tab-btn { flex: 1; border: 1px solid var(--line); border-radius: 4px; background: var(--panel-2); color: var(--muted); font-weight: 700; letter-spacing: .03em; text-align: center; text-transform: uppercase; }
+  .tab-btn.active { border-color: var(--gold); background: linear-gradient(180deg, #3d3226, #241d16); color: var(--gold-bright); }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: .62rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .section-label .count { color: var(--gold-bright); }
+
+  .power-list { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: .3rem; }
+  .power-row {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .4rem .55rem;
+    border: 1px solid #ffffff1a;
+    border-radius: 5px;
+    background: linear-gradient(180deg, #2f5c2c, #234421);
+    color: #eafce6;
+  }
+  .power-row.spent { background: linear-gradient(180deg, #3a3636, #2a2727); color: var(--muted); }
+  .power-row b { display: block; font-size: .8rem; font-family: Georgia, serif; }
+  .power-row .row-icon { font-size: 1rem; }
+  .power-row .refresh { margin-left: auto; opacity: .7; }
+
+  .action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .2rem;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    background: linear-gradient(180deg, var(--panel-3), var(--panel-2));
+    color: var(--paper);
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  .action-btn:hover { border-color: var(--gold); }
+  .action-btn .icon { line-height: 1; }
+
+  /* ============================ VARIANT A: single-row compression ============================ */
+  /* Same information architecture as today, but every block becomes one
+     dense row instead of a stacked block: header row, one vitals row
+     (HP bar + temp + surges inline), one stats row, tabs+search merged,
+     bottom bar as a single icon-only row (label on hover). */
+
+  .a-header { display: flex; align-items: center; gap: .5rem; padding: .4rem .5rem; border-bottom: 1px solid var(--line); }
+  .a-header .portrait { width: 2.4rem; height: 2.4rem; font-size: 1rem; }
+  .a-vitals { display: flex; align-items: center; gap: .4rem; padding: .3rem .5rem; border-bottom: 1px solid var(--line); }
+  .a-vitals .hp-bar { flex: 1; height: 1.1rem; }
+  .a-chip { flex: 0 0 auto; padding: .15rem .4rem; border: 1px solid var(--line); border-radius: 3px; background: var(--panel-2); font-size: .62rem; font-weight: 700; white-space: nowrap; }
+  .a-chip.temp { color: #9fd0e8; }
+  .a-chip.surge { color: var(--gold-bright); }
+  .a-stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: .3rem; padding: .35rem .5rem; border-bottom: 1px solid var(--line); }
+  .a-stats .stat-pill { padding: .18rem 0; }
+  .a-stats .stat-pill span { font-size: .52rem; }
+  .a-stats .stat-pill b { font-size: .85rem; }
+  .a-toolbar { display: flex; align-items: center; gap: .3rem; padding: .3rem .5rem; border-bottom: 1px solid var(--line); }
+  .a-toolbar .tab-strip { flex: 1; }
+  .a-toolbar .tab-btn { padding: .3rem .2rem; font-size: .6rem; }
+  .a-toolbar .search-toggle { flex: 0 0 auto; width: 1.9rem; height: 1.9rem; border: 1px solid var(--line); border-radius: 4px; background: var(--panel-2); }
+  .a-section { padding: .3rem .5rem; }
+  .a-section .section-label { padding: 0; }
+  .a-list-wrap { flex: 1; min-height: 0; padding: 0 .5rem .4rem; display: flex; }
+  .a-list-wrap .power-list { padding: 0; }
+  .a-list-wrap .power-row { padding: .3rem .5rem; }
+  .a-list-wrap .power-row b { font-size: .74rem; }
+  .a-bottom { display: flex; gap: .25rem; padding: .4rem .5rem; border-top: 1px solid var(--line); background: var(--panel-2); }
+  .a-bottom .action-btn { flex: 1; height: 2.2rem; font-size: 0; }
+  .a-bottom .action-btn .icon { font-size: 1.05rem; }
+  .a-bottom .action-btn { position: relative; }
+  .a-bottom .action-btn[title]:hover::after {
+    content: attr(title);
+    position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%);
+    padding: .2rem .4rem; border: 1px solid var(--gold); border-radius: 3px;
+    background: var(--ink); color: var(--gold-bright); font-size: .6rem;
+    text-transform: none; white-space: nowrap; z-index: 5;
+  }
+  .a-status { display: flex; align-items: center; justify-content: center; gap: .3rem; padding: .2rem; color: var(--muted); font-size: .58rem; font-weight: 700; text-transform: uppercase; }
+
+  /* ============================ VARIANT B: collapsible vitals + overflow actions ============================ */
+  /* Header stays recognisable, but the HP dial collapses to a thin bar by
+     default (tap to pop the full dial open over the list), stats become one
+     abbreviated row, and only the 4 most-used actions stay docked — the rest
+     sit behind a "More" button that flies a menu open upward. */
+
+  .b-header { display: flex; align-items: center; gap: .55rem; padding: .5rem .6rem; border-bottom: 1px solid var(--line); }
+  .b-header .portrait { width: 2.8rem; height: 2.8rem; font-size: 1.1rem; }
+  .b-header-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: .25rem; }
+  .b-vitals-strip { display: flex; align-items: center; gap: .4rem; }
+  .b-vitals-strip .hp-bar { flex: 1; height: 1rem; cursor: pointer; }
+  .b-dial-pop {
+    position: absolute; z-index: 4; left: .6rem; right: .6rem; top: 3.2rem;
+    padding: .6rem; border: 1px solid var(--gold); border-radius: 6px;
+    background: var(--panel); box-shadow: 0 .5rem 1.2rem #000c;
+    display: flex; gap: .7rem; align-items: center;
+  }
+  .b-dial { width: 4.6rem; height: 4.6rem; border-radius: 50%; border: 6px solid var(--red); display: grid; place-items: center; background: var(--panel-2); flex: 0 0 auto; }
+  .b-dial b { font-size: 1.1rem; color: var(--paper); }
+  .b-dial small { display: block; color: var(--muted); font-size: .58rem; text-align: center; }
+  .b-dial-side { flex: 1; display: flex; flex-direction: column; gap: .3rem; font-size: .68rem; }
+  .b-stats-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: .3rem; padding: .3rem .6rem; border-bottom: 1px solid var(--line); }
+  .b-stats-row .stat-pill { padding: .15rem 0; }
+  .b-stats-row .stat-pill span { font-size: .5rem; }
+  .b-stats-row .stat-pill b { font-size: .8rem; }
+  .b-toolbar { display: flex; gap: .3rem; padding: .35rem .6rem; border-bottom: 1px solid var(--line); align-items: center; }
+  .b-toolbar .tab-strip { flex: 1; }
+  .b-toolbar .tab-btn { padding: .32rem .2rem; font-size: .6rem; }
+  .b-search { flex: 0 0 auto; width: 1.9rem; height: 1.9rem; border: 1px solid var(--line); border-radius: 4px; background: var(--panel-2); }
+  .b-section { padding: .3rem .6rem; }
+  .b-section .section-label { padding: 0; }
+  .b-list-wrap { flex: 1; min-height: 0; padding: 0 .6rem .4rem; display: flex; position: relative; }
+  .b-list-wrap .power-list { padding: 0; }
+  .b-bottom { position: relative; display: flex; gap: .3rem; padding: .4rem .6rem; border-top: 1px solid var(--line); background: var(--panel-2); }
+  .b-bottom .action-btn { flex: 1; height: 2.3rem; font-size: .56rem; gap: .1rem; }
+  .b-bottom .action-btn .icon { font-size: 1rem; }
+  .b-more-menu {
+    position: absolute; bottom: 100%; right: .4rem; margin-bottom: .3rem;
+    display: flex; flex-direction: column; gap: .25rem; width: 9rem;
+    padding: .4rem; border: 1px solid var(--gold); border-radius: 6px;
+    background: var(--panel); box-shadow: 0 .4rem 1rem #000c;
+  }
+  .b-more-menu button {
+    display: flex; align-items: center; gap: .4rem; padding: .3rem .4rem;
+    border: 1px solid var(--line); border-radius: 4px; background: var(--panel-2);
+    color: var(--paper); font-size: .66rem; text-align: left;
+  }
+  .b-more-menu button:hover { border-color: var(--gold); }
+  .b-status { position: absolute; top: .1rem; right: .1rem; width: 1.6rem; height: 1.6rem; border: 1px solid var(--line); border-radius: 50%; background: var(--panel-2); font-size: .7rem; }
+
+  /* ============================ VARIANT C: left rail + floating quick actions ============================ */
+  /* Rotates the layout 90°: portrait, HP, surges, and defenses move into a
+     slim always-visible left rail (vertical space is cheap there because it
+     is short and wide, not tall). Tabs+search+list take the entire right
+     column at full height. The bottom action bar is replaced by a single
+     floating "quick action" fan button so the docked bar disappears
+     entirely except for a slim 2.4rem strip. */
+
+  .c-body { flex: 1; min-height: 0; display: flex; }
+  .c-rail { width: 4.4rem; flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: .45rem; padding: .5rem .3rem; border-right: 1px solid var(--line); background: var(--panel-2); overflow-y: auto; }
+  .c-rail .portrait { width: 2.6rem; height: 2.6rem; font-size: 1rem; }
+  .c-rail .name-row { flex-direction: column; align-items: center; gap: 0; text-align: center; }
+  .c-rail .name-row h2 { font-size: .62rem; max-width: 3.8rem; }
+  .c-rail .name-row small { font-size: .5rem; }
+  .c-vbar { position: relative; width: .8rem; height: 5.5rem; border: 1px solid #00000080; border-radius: 3px; background: #1a1414; overflow: hidden; }
+  .c-vbar > i { position: absolute; left: 0; right: 0; bottom: 0; display: block; background: linear-gradient(0deg, var(--red-bright), var(--red)); }
+  .c-vbar-label { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; font-size: .55rem; font-weight: 700; color: #fff; text-shadow: 0 1px 2px #000; }
+  .c-mini-stat { width: 100%; padding: .15rem 0; border: 1px solid var(--line); border-radius: 3px; background: var(--panel-3); text-align: center; }
+  .c-mini-stat span { display: block; color: var(--muted); font-size: .48rem; font-weight: 700; text-transform: uppercase; }
+  .c-mini-stat b { display: block; color: var(--gold-bright); font-size: .72rem; font-family: Georgia, serif; }
+  .c-main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .c-toolbar { display: flex; gap: .3rem; padding: .4rem .5rem; border-bottom: 1px solid var(--line); align-items: center; }
+  .c-toolbar .tab-strip { flex: 1; }
+  .c-toolbar .tab-btn { padding: .32rem .2rem; font-size: .6rem; }
+  .c-search { flex: 0 0 auto; width: 1.9rem; height: 1.9rem; border: 1px solid var(--line); border-radius: 4px; background: var(--panel-2); }
+  .c-section { padding: .3rem .5rem; }
+  .c-section .section-label { padding: 0; }
+  .c-list-wrap { flex: 1; min-height: 0; padding: 0 .5rem .4rem; display: flex; }
+  .c-list-wrap .power-list { padding: 0; }
+  .c-fab-wrap { position: relative; flex: 0 0 auto; height: 2.4rem; border-top: 1px solid var(--line); background: var(--panel-2); display: flex; align-items: center; justify-content: flex-end; padding: 0 .6rem; }
+  .c-fab { width: 1.9rem; height: 1.9rem; border-radius: 50%; border: 1px solid var(--gold); background: linear-gradient(180deg, #3d3226, #241d16); color: var(--gold-bright); font-size: 1.05rem; }
+  .c-fab-menu {
+    position: absolute; bottom: 100%; right: .5rem; margin-bottom: .4rem;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: .3rem; width: 15rem;
+    padding: .5rem; border: 1px solid var(--gold); border-radius: 6px;
+    background: var(--panel); box-shadow: 0 .5rem 1.2rem #000c;
+  }
+  .c-fab-menu .action-btn { height: 2.6rem; font-size: .56rem; }
+  .c-status-inline { grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; gap: .3rem; padding: .2rem; color: var(--muted); font-size: .58rem; font-weight: 700; text-transform: uppercase; border-top: 1px solid var(--line); margin-top: .2rem; }
+
+  /* ============================ switcher ============================ */
+  .switcher {
+    position: fixed; z-index: 3; left: 50%; bottom: 1rem;
+    display: flex; align-items: center; gap: .6rem; padding: .42rem;
+    border: 1px solid var(--gold); border-radius: 99px; background: #171417;
+    box-shadow: 0 .35rem 1rem #000a; transform: translateX(-50%);
+  }
+  .switcher button { width: 2rem; height: 2rem; border: 1px solid #6e5741; border-radius: 50%; background: #302821; color: var(--gold-bright); font-size: 1rem; }
+  .switcher button:hover { border-color: var(--gold-bright); background: #493925; }
+  .switcher output { min-width: 17rem; color: #e6d0b3; font-size: .72rem; font-weight: 700; text-align: center; }
+
+  .reasoning { max-width: 60rem; margin: .6rem auto 6rem; padding: .6rem .9rem; border: 1px solid var(--line); border-radius: 6px; background: #14131488; color: var(--muted); font-size: .74rem; line-height: 1.4; }
+  .reasoning b { color: var(--gold-bright); }
+</style>
+</head>
+<body>
+<p class="prototype-note">Throwaway design study: same 640px-tall HUD viewport, three structurally different ways to compress <b>header + HP/stats + bottom action bar</b> so more of that 640px goes to the scrollable power list. Switch with the bottom control or <code>?variant=A|B|C</code>. Bars below each panel are a live measurement (not a guess) of chrome vs. list height.</p>
+
+<div class="stage">
+  <div>
+    <div class="hud-frame" id="app"></div>
+    <div class="measure-readout" id="measure"></div>
+    <p class="measure-caption">red = header/stats/tabs/bottom-bar chrome · green = space left for the power list</p>
+  </div>
+</div>
+
+<div class="reasoning" id="reasoning"></div>
+
+<nav class="switcher" aria-label="Prototype variant selector">
+  <button id="prev" aria-label="Previous variant">←</button>
+  <output id="label"></output>
+  <button id="next" aria-label="Next variant">→</button>
+</nav>
+
+<script>
+/* ---------------------------- shared fake state ---------------------------- */
+const state = {
+  name: 'Idrani Fullhorn',
+  klass: 'Level 10 Fighter',
+  race: 'Tiefling',
+  hp: 70, hpMax: 93,
+  temp: 0,
+  surges: 11, surgesMax: 12,
+  ac: 25, fort: 24, ref: 23, will: 20, init: 12,
+  activeTab: 'powers',
+  bDialOpen: false,
+  bMoreOpen: false,
+  cFabOpen: false,
+  statusOnly: false,
+};
+
+const powers = [
+  { name: 'Crushing Surge', icon: '⚔' },
+  { name: 'Footwork Lure', icon: '⚔' },
+  { name: 'Melee Basic Attack', icon: '⚔' },
+  { name: 'Ranged Basic Attack', icon: '➶' },
+  { name: 'Total Defense', icon: '🛡' },
+  { name: 'Come and Get It', icon: '⟳', spent: true },
+  { name: 'Probing Attack', icon: '⚔' },
+];
+
+function pct(cur, max) { return Math.max(0, Math.min(100, (cur / max) * 100)); }
+
+/* ---------------------------- shared render helpers ---------------------------- */
+function hpBar(extraLabel) {
+  return `<div class="hp-bar"><i style="width:${pct(state.hp, state.hpMax)}%"></i><span class="hp-bar-label">HP ${state.hp}/${state.hpMax}${extraLabel ? ' · ' + extraLabel : ''}</span></div>`;
+}
+function statPills(compactClass) {
+  const stats = [['AC', state.ac], ['Fort', state.fort], ['Ref', state.ref], ['Will', state.will], ['Init', '+' + state.init]];
+  return stats.map(([label, val]) => `<div class="stat-pill ${compactClass || ''}"><span>${label}</span><b>${val}</b></div>`).join('');
+}
+function tabStrip() {
+  const tabs = [['powers', 'Powers'], ['skills', 'Skills'], ['feats', 'Feats'], ['items', 'Items']];
+  return tabs.map(([k, label]) => `<button class="tab-btn ${state.activeTab === k ? 'active' : ''}" data-tab="${k}">${label}</button>`).join('');
+}
+function sectionLabel() {
+  return `<div class="section-label"><span>Standard</span><span class="count">${powers.length}</span></div>`;
+}
+function powerList() {
+  return `<div class="power-list">${powers.map(p => `
+    <div class="power-row ${p.spent ? 'spent' : ''}">
+      <span class="row-icon">${p.icon}</span><b>${p.name}</b>
+      ${p.spent ? '<span class="refresh">⟳</span>' : ''}
+    </div>`).join('')}</div>`;
+}
+function actionBtns(withLabel) {
+  const actions = [
+    ['ap', '⚡', 'Use AP'], ['save', '★', 'Saving Throw'], ['heal', '➕', 'Heal'], ['sw', '🛡', 'Second Wind'],
+    ['sr', '🕐', 'Short Rest'], ['er', '🛌', 'Ext. Rest'], ['ds', '💀', 'Death Save'], ['sheet', '📋', 'Open Sheet'],
+  ];
+  return actions.map(([id, icon, label]) => `<button class="action-btn" data-action="${id}" title="${label}"><span class="icon">${icon}</span>${withLabel ? `<span>${label}</span>` : ''}</button>`).join('');
+}
+
+/* ---------------------------- VARIANT A: single-row compression ---------------------------- */
+function renderA() {
+  return `
+    <div class="a-header">
+      <div class="portrait">🛡</div>
+      <div class="name-row" style="flex-direction:column;align-items:flex-start;gap:.05rem">
+        <h2>${state.name}</h2>
+        <small>${state.klass} · ${state.race}</small>
+      </div>
+    </div>
+    <div class="a-vitals">
+      ${hpBar()}
+      <span class="a-chip temp">Temp ${state.temp}</span>
+      <span class="a-chip surge">Surges ${state.surges}/${state.surgesMax}</span>
+    </div>
+    <div class="a-stats">${statPills()}</div>
+    <div class="a-toolbar">
+      <div class="tab-strip">${tabStrip()}</div>
+      <button class="search-toggle" title="Search">🔍</button>
+    </div>
+    <div class="a-section">${sectionLabel()}</div>
+    <div class="a-list-wrap">${powerList()}</div>
+    <div class="a-bottom">${actionBtns(false)}</div>
+    <div class="a-status"><input type="checkbox"/> Show status only</div>`;
+}
+
+/* ---------------------------- VARIANT B: collapsible vitals + overflow ---------------------------- */
+function renderB() {
+  const dialPop = state.bDialOpen ? `
+    <div class="b-dial-pop">
+      <div class="b-dial"><div><b>${state.hp}</b><small>/ ${state.hpMax} HP</small></div></div>
+      <div class="b-dial-side">
+        <div>Temp HP: <b style="color:var(--gold-bright)">${state.temp}</b></div>
+        <div>Surges: <b style="color:var(--gold-bright)">${state.surges}/${state.surgesMax}</b></div>
+        <div style="color:var(--muted)">Tap the bar again to collapse.</div>
+      </div>
+    </div>` : '';
+  const moreMenu = state.bMoreOpen ? `
+    <div class="b-more-menu">
+      <button data-action="sr">🕐 Short Rest</button>
+      <button data-action="er">🛌 Ext. Rest</button>
+      <button data-action="ds">💀 Death Save</button>
+      <button data-action="sheet">📋 Open Sheet</button>
+      <label style="display:flex;gap:.3rem;align-items:center;padding:.2rem .1rem;font-size:.62rem;color:var(--muted)"><input type="checkbox"/> Status only</label>
+    </div>` : '';
+  return `
+    <div class="b-header" style="position:relative">
+      <div class="portrait">🛡</div>
+      <div class="b-header-info">
+        <div class="name-row"><h2>${state.name}</h2><small>${state.klass}</small></div>
+        <div class="b-vitals-strip" data-toggle-dial>
+          ${hpBar('tap to expand')}
+          <span class="a-chip surge">${state.surges}/${state.surgesMax}</span>
+        </div>
+      </div>
+      ${dialPop}
+    </div>
+    <div class="b-stats-row">${statPills()}</div>
+    <div class="b-toolbar">
+      <div class="tab-strip">${tabStrip()}</div>
+      <button class="b-search" title="Search">🔍</button>
+    </div>
+    <div class="b-section">${sectionLabel()}</div>
+    <div class="b-list-wrap">${powerList()}</div>
+    <div class="b-bottom">
+      ${moreMenu}
+      <button class="action-btn" data-action="ap" title="Use AP"><span class="icon">⚡</span><span>AP</span></button>
+      <button class="action-btn" data-action="save" title="Saving Throw"><span class="icon">★</span><span>Save</span></button>
+      <button class="action-btn" data-action="heal" title="Heal"><span class="icon">➕</span><span>Heal</span></button>
+      <button class="action-btn" data-action="sw" title="Second Wind"><span class="icon">🛡</span><span>2nd Wind</span></button>
+      <button class="action-btn" data-more title="More actions"><span class="icon">⋯</span><span>More</span></button>
+    </div>`;
+}
+
+/* ---------------------------- VARIANT C: left rail + floating quick actions ---------------------------- */
+function renderC() {
+  const fabMenu = state.cFabOpen ? `
+    <div class="c-fab-menu">
+      ${actionBtns(true)}
+      <div class="c-status-inline"><input type="checkbox"/> Show status only</div>
+    </div>` : '';
+  return `
+    <div class="c-body">
+      <div class="c-rail">
+        <div class="portrait">🛡</div>
+        <div class="name-row"><h2>${state.name}</h2><small>Ftr 10</small></div>
+        <div class="c-vbar"><i style="height:${pct(state.hp, state.hpMax)}%"></i><span class="c-vbar-label">${state.hp}/${state.hpMax}</span></div>
+        <div class="c-mini-stat"><span>Surge</span><b>${state.surges}/${state.surgesMax}</b></div>
+        <div class="c-mini-stat"><span>AC</span><b>${state.ac}</b></div>
+        <div class="c-mini-stat"><span>Fort</span><b>${state.fort}</b></div>
+        <div class="c-mini-stat"><span>Ref</span><b>${state.ref}</b></div>
+        <div class="c-mini-stat"><span>Will</span><b>${state.will}</b></div>
+        <div class="c-mini-stat"><span>Init</span><b>+${state.init}</b></div>
+      </div>
+      <div class="c-main">
+        <div class="c-toolbar">
+          <div class="tab-strip">${tabStrip()}</div>
+          <button class="c-search" title="Search">🔍</button>
+        </div>
+        <div class="c-section">${sectionLabel()}</div>
+        <div class="c-list-wrap">${powerList()}</div>
+        <div class="c-fab-wrap">
+          ${fabMenu}
+          <button class="c-fab" data-fab title="Quick actions">⚡</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+/* ---------------------------- reasoning notes ---------------------------- */
+const notes = {
+  A: `<b>Variant A — flatten every block to one dense row.</b> Same top-to-bottom order as today (header → vitals → stats → tabs → list → actions), nothing moved, but the HP dial becomes a thin bar with temp/surges as inline chips, the 5 defenses become one row of tiny pills, and the 8-button action bar drops its text labels (tooltip on hover) so it's a single row instead of two. Lowest risk / smallest mental model change, but every element got smaller, so it's the most cramped-looking option and the icon-only bottom bar loses at-a-glance labels.`,
+  B: `<b>Variant B — collapse the two least-often-needed blocks, keep the rest at normal size.</b> The HP bar is the default view; tapping it pops the full dial + temp/surge detail over the list (auto-closes on next tap). Defenses stay a normal-height row since they're glanced at constantly. The bottom bar keeps only the 4 most-used actions (AP, Save, Heal, Second Wind) at full size with labels; Short/Extended Rest, Death Save, Open Sheet and the status toggle move into a "More" flyout. Best balance of density vs. readability, but two actions (rests, death save) now cost an extra tap.`,
+  C: `<b>Variant C — stop stacking vertically at all.</b> Portrait, name, HP, surges and all 5 defenses move into a slim 4.4rem-wide left rail that runs the full height of the panel — vertical space is cheap there because the rail is narrow, not because anything shrank. That frees the entire right column, top to bottom, for tabs + search + the power list. The docked bottom bar disappears except for a 2.4rem strip holding one "quick actions" button that fans the full 8-action grid upward on demand. Gives the list the most room by far, but it's the biggest structural change from the current HUD and narrower screens may find the rail cramped.`,
+};
+
+/* ---------------------------- measurement ---------------------------- */
+function measure() {
+  const frame = document.getElementById('app');
+  const total = frame.clientHeight;
+  const list = frame.querySelector('.power-list');
+  if (!list) return;
+  const listH = list.getBoundingClientRect().height;
+  const chromeH = Math.max(0, total - listH);
+  const chromePct = Math.round((chromeH / total) * 100);
+  const listPct = 100 - chromePct;
+  document.getElementById('measure').innerHTML = `
+    <div class="measure-bar">
+      <span class="chrome" style="flex:${chromePct}">Chrome ${chromePct}%</span>
+      <span class="list" style="flex:${listPct}">List ${listPct}%</span>
+    </div>`;
+}
+
+/* ---------------------------- wiring ---------------------------- */
+const variants = { A: ['Single-row compression', renderA], B: ['Collapsible dial + overflow menu', renderB], C: ['Left rail + floating quick actions', renderC] };
+let key = new URLSearchParams(location.search).get('variant')?.toUpperCase();
+if (!variants[key]) key = 'A';
+
+function render() {
+  document.getElementById('app').innerHTML = variants[key][1]();
+  document.getElementById('label').textContent = `${key} — ${variants[key][0]}`;
+  document.getElementById('reasoning').innerHTML = notes[key];
+  wire();
+  requestAnimationFrame(measure);
+}
+
+function wire() {
+  document.querySelectorAll('[data-tab]').forEach(b => b.addEventListener('click', () => { state.activeTab = b.dataset.tab; render(); }));
+  document.querySelectorAll('[data-action]').forEach(b => b.addEventListener('click', () => { state.bMoreOpen = false; render(); }));
+  const toggleDial = document.querySelector('[data-toggle-dial]');
+  if (toggleDial) toggleDial.addEventListener('click', () => { state.bDialOpen = !state.bDialOpen; render(); });
+  const moreBtn = document.querySelector('[data-more]');
+  if (moreBtn) moreBtn.addEventListener('click', () => { state.bMoreOpen = !state.bMoreOpen; render(); });
+  const fabBtn = document.querySelector('[data-fab]');
+  if (fabBtn) fabBtn.addEventListener('click', () => { state.cFabOpen = !state.cFabOpen; render(); });
+}
+
+function move(delta) {
+  const keys = Object.keys(variants);
+  key = keys[(keys.indexOf(key) + delta + keys.length) % keys.length];
+  const url = new URL(location);
+  url.searchParams.set('variant', key);
+  history.replaceState(null, '', url);
+  state.bDialOpen = false; state.bMoreOpen = false; state.cFabOpen = false;
+  render();
+}
+document.getElementById('prev').onclick = () => move(-1);
+document.getElementById('next').onclick = () => move(1);
+window.addEventListener('keydown', e => {
+  if (!/INPUT|TEXTAREA/.test(document.activeElement.tagName)) {
+    if (e.key === 'ArrowLeft') move(-1);
+    if (e.key === 'ArrowRight') move(1);
+  }
+});
+window.addEventListener('resize', measure);
+
+render();
+</script>
+</body>
+</html>

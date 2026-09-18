@@ -2,9 +2,9 @@ import { CombatTrigger } from "./combat-trigger.js";
 import { TRIGGER_EVENT_TYPE, TRIGGER_ID } from "../constants.js";
 
 /**
- * Detects a creature crossing its bloodied threshold while owned by a Mark.
+ * Detects a creature crossing its bloodied threshold while marked by an actor.
  *
- * Mark ownership is resolved through the shared ownership store and only an
+ * DnD4e's actor-level marker field identifies the marking actor; only an
  * owner currently represented in combat is eligible.
  */
 export class MarkedCreatureBloodiedTrigger extends CombatTrigger {
@@ -12,7 +12,7 @@ export class MarkedCreatureBloodiedTrigger extends CombatTrigger {
     super({
       id: TRIGGER_ID.MARKED_CREATURE_BLOODIED,
       label: "Creature marked by you becomes bloodied",
-      description: "A creature carrying a Mark owned by this actor becomes bloodied.",
+      description: "A creature marked by this actor becomes bloodied.",
     });
   }
 
