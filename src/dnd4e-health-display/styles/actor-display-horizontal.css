@@ -1,0 +1,903 @@
+#dnd4e-horizontal-actor-display {
+	position: fixed !important;
+	inset: auto auto 1rem 1rem !important;
+	top: auto !important;
+	right: auto !important;
+	z-index: 90;
+	width: auto;
+	height: auto;
+	margin: 0;
+	color: #f5eee5;
+	font-family: var(--font-primary, "Signika", sans-serif);
+	filter: drop-shadow(0 0.25rem 0.45rem rgb(0 0 0 / 80%));
+}
+
+.dnd4e-horizontal-actor-display,
+.dnd4e-horizontal-actor-display * {
+	box-sizing: border-box;
+}
+
+.dnd4e-horizontal-actor-display button,
+.dnd4e-horizontal-actor-display input {
+	font: inherit;
+	color: inherit;
+}
+
+.dnd4e-horizontal-actor-display button {
+	margin: 0;
+	cursor: pointer;
+	transition: border-color 120ms ease, background 120ms ease, color 120ms ease, box-shadow 120ms ease;
+}
+
+.dnd4e-horizontal-actor-display button:focus-visible,
+.dnd4e-horizontal-actor-display input:focus-visible {
+	position: relative;
+	z-index: 1;
+	outline: 2px solid #f0c879;
+	outline-offset: 2px;
+}
+
+.dnd4e-horizontal-actor-display h2,
+.dnd4e-horizontal-actor-display h3,
+.dnd4e-horizontal-actor-display h4,
+.dnd4e-horizontal-actor-display p {
+	margin: 0;
+}
+
+.dnd4e-horizontal-actor-display__outer {
+	display: flex;
+	align-items: flex-end;
+	gap: 0.6rem;
+}
+
+.dnd4e-horizontal-actor-display__left-col {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+/* -- player-info panel -- */
+.dnd4e-horizontal-actor-display__panel {
+	position: relative;
+	display: flex;
+	align-items: center;
+	padding: 0.65rem;
+	border: 1px solid #997456;
+	border-radius: 0.5rem;
+	background: linear-gradient(180deg, rgb(9 9 11 / 95%), #0d0d0e 90%);
+	box-shadow: 0 0.6rem 2rem rgb(0 0 0 / 85%), inset 0 0 0 1px rgb(255 255 255 / 4%);
+	text-shadow: 0 0.08rem 0.15rem #000;
+}
+
+.dnd4e-horizontal-actor-display__charinfo {
+	display: flex;
+	align-items: stretch;
+	gap: 0.7rem;
+	width: 32rem;
+}
+
+.dnd4e-horizontal-actor-display__portrait {
+	display: grid;
+	place-items: center;
+	flex: 0 0 auto;
+	width: 7.5rem;
+	height: auto;
+	padding: 0;
+	border: 2px solid #997456;
+	border-radius: 0.4rem;
+	background: radial-gradient(circle at 35% 30%, #7a5a34 0 20%, #2a2016 55%, #14100a 100%);
+	box-shadow: 0 0 0 3px #000a;
+	overflow: hidden;
+}
+
+.dnd4e-horizontal-actor-display__portrait:hover {
+	border-color: #f0c879;
+}
+
+.dnd4e-horizontal-actor-display__portrait img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.dnd4e-horizontal-actor-display__charinfo-text {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 0.55rem;
+	flex: 1;
+	min-width: 0;
+}
+
+/* -- name row + action buttons -- */
+.dnd4e-horizontal-actor-display__name-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+}
+
+.dnd4e-horizontal-actor-display__name-line {
+	display: flex;
+	flex-direction: column;
+	gap: 0.1rem;
+	min-width: 0;
+}
+
+.dnd4e-horizontal-actor-display__name-line h2 {
+	overflow: hidden;
+	color: #f7ddbc;
+	font-family: var(--font-h1, "Modesto Condensed", serif);
+	font-size: 2.05rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.dnd4e-horizontal-actor-display__name-line small {
+	color: #a98c70;
+	font-size: 0.68rem;
+	font-style: italic;
+	white-space: nowrap;
+}
+
+.dnd4e-horizontal-actor-display__name-actions {
+	display: flex;
+	gap: 0.3rem;
+	margin-left: auto;
+}
+
+.dnd4e-horizontal-actor-display__action-slot {
+	position: relative;
+	display: flex;
+}
+
+.dnd4e-horizontal-actor-display__action-btn {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 1.9rem;
+	height: 1.9rem;
+	border: 1px solid #997456;
+	border-radius: 0.35rem;
+	background: linear-gradient(180deg, rgb(9 9 11 / 95%), #0d0d0e 90%);
+	color: #f5eee5;
+	box-shadow: 0 0.2rem 0.6rem rgb(0 0 0 / 45%), inset 0 0 0 1px rgb(255 255 255 / 4%);
+	font-size: 0.85rem;
+}
+
+.dnd4e-horizontal-actor-display__action-btn:hover {
+	border-color: #c89550;
+	background: linear-gradient(180deg, #3a3330, #2a2523);
+}
+
+.dnd4e-horizontal-actor-display__action-btn.is-open {
+	border-color: #c89550;
+}
+
+.dnd4e-horizontal-actor-display__action-btn.is-disabled,
+.dnd4e-horizontal-actor-display__action-btn:disabled {
+	opacity: 0.35;
+	cursor: not-allowed;
+}
+
+.dnd4e-horizontal-actor-display__ap-badge {
+	position: absolute;
+	bottom: -0.2rem;
+	right: -0.2rem;
+	min-width: 0.85rem;
+	padding: 0 0.15rem;
+	border: 1px solid #0d0d0e;
+	border-radius: 999px;
+	background: #c89550;
+	color: #1a1a1a;
+	font-size: 0.48rem;
+	font-weight: 800;
+	line-height: 1.1;
+	text-align: center;
+}
+
+.dnd4e-horizontal-actor-display__dropdown-menu {
+	position: absolute;
+	right: 100%;
+	bottom: 0;
+	z-index: 5;
+	width: 11rem;
+	margin-right: 0.4rem;
+	display: flex;
+	flex-direction: column;
+	border: 1px solid #f0c879;
+	border-radius: 0.3rem;
+	background: rgb(9 9 11 / 98%);
+	box-shadow: 0 0.4rem 1rem rgb(0 0 0 / 80%);
+	overflow: hidden;
+}
+
+.dnd4e-horizontal-actor-display__dropdown-menu button {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.4rem;
+	padding: 0.45rem 0.6rem;
+	border: 0;
+	border-bottom: 1px solid rgb(153 116 86 / 55%);
+	background: #201c1a;
+	color: #f5eee5;
+	font-size: 0.68rem;
+	text-align: left;
+}
+
+.dnd4e-horizontal-actor-display__dropdown-menu button:last-child {
+	border-bottom: 0;
+}
+
+.dnd4e-horizontal-actor-display__dropdown-menu button:hover:not(:disabled) {
+	background: #3a3330;
+	color: #f0c879;
+}
+
+.dnd4e-horizontal-actor-display__dropdown-menu button:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+
+.dnd4e-horizontal-actor-display__dropdown-menu small {
+	color: #a98c70;
+	font-weight: 400;
+}
+
+/* -- HP dial -- */
+.dnd4e-horizontal-actor-display__hp-dial-wrap {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.dnd4e-horizontal-actor-display__hp-dial {
+	position: relative;
+	width: 6rem;
+	height: 6rem;
+	flex: 0 0 auto;
+	border-radius: 50%;
+	background: conic-gradient(#d65b60 calc(var(--pct) * 1%), #2a1414 0);
+	box-shadow: inset 0 0 0 1px rgb(0 0 0 / 50%), 0 0.2rem 0.6rem rgb(0 0 0 / 45%);
+}
+
+.dnd4e-horizontal-actor-display__hp-dial::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: 50%;
+	pointer-events: none;
+	background: repeating-conic-gradient(rgb(0 0 0 / 44%) 0deg 1.2deg, transparent 1.2deg 9deg);
+}
+
+.dnd4e-horizontal-actor-display__hp-dial-inner {
+	position: absolute;
+	inset: 0.45rem;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0.1rem;
+	border-radius: 50%;
+	background: #0d0d0e;
+	box-shadow: inset 0 0 0.5rem rgb(0 0 0 / 55%);
+}
+
+.dnd4e-horizontal-actor-display__hp-dial-inner > span:first-child {
+	color: #a98c70;
+	font-size: 0.6rem;
+	font-weight: 800;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.dnd4e-horizontal-actor-display__hp-dial-inner input {
+	width: 3rem;
+	border: 0;
+	background: none;
+	color: #f0c879;
+	font-family: var(--font-h1, serif);
+	font-size: 1.45rem;
+	text-align: center;
+	padding: 0;
+	line-height: 1;
+}
+
+.dnd4e-horizontal-actor-display__hp-of {
+	color: #a98c70;
+	font-size: 0.65rem;
+}
+
+/* -- Temp HP / Surges chips + segment bar -- */
+.dnd4e-horizontal-actor-display__hp-side {
+	display: flex;
+	flex-direction: column;
+	gap: 0.3rem;
+	flex: 1;
+	min-width: 0;
+}
+
+.dnd4e-horizontal-actor-display__stat-card-row {
+	display: flex;
+	gap: 0.35rem;
+}
+
+.dnd4e-horizontal-actor-display__stat-card {
+	flex: 0 0 auto;
+	width: 5.6rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.1rem;
+	padding: 0.16rem 0.4rem;
+	border: 1px solid rgb(153 116 86 / 55%);
+	border-radius: 0.35rem;
+	background: #201c1a;
+	min-width: 0;
+}
+
+.dnd4e-horizontal-actor-display__stat-card-head {
+	display: flex;
+	align-items: center;
+	gap: 0.3rem;
+	color: #a98c70;
+	font-size: 0.55rem;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+}
+
+.dnd4e-horizontal-actor-display__stat-card-head i {
+	font-size: 0.72rem;
+}
+
+.dnd4e-horizontal-actor-display__stat-card-value {
+	display: flex;
+	align-items: baseline;
+	gap: 0.15rem;
+}
+
+.dnd4e-horizontal-actor-display__stat-card-value input {
+	width: 2.1rem;
+	border: 0;
+	background: none;
+	font-family: var(--font-h1, serif);
+	font-size: 1.1rem;
+	padding: 0;
+	color: #f5eee5;
+}
+
+.dnd4e-horizontal-actor-display__of {
+	color: #a98c70;
+	font-size: 0.72rem;
+}
+
+.dnd4e-horizontal-actor-display__segment-bar {
+	display: flex;
+	gap: 0.16rem;
+	height: 0.55rem;
+}
+
+.dnd4e-horizontal-actor-display__segment-bar i {
+	flex: 1;
+	border-radius: 1px;
+	background: #1a1414;
+	border: 1px solid rgb(0 0 0 / 50%);
+}
+
+.dnd4e-horizontal-actor-display__segment-bar i.is-filled {
+	background: linear-gradient(180deg, #deb96f, #9b6e31 58%, #67451c);
+	border-color: rgb(0 0 0 / 38%);
+}
+
+/* -- defenses: one bordered strip with internal dividers, matching the
+   vertical display's stats row, instead of separate floating boxes -- */
+.dnd4e-horizontal-actor-display__def-grid {
+	display: flex;
+	border: 1px solid rgb(153 116 86 / 55%);
+	border-radius: 0.4rem;
+	background: #201c1a;
+	overflow: hidden;
+}
+
+.dnd4e-horizontal-actor-display__def-chip {
+	flex: 1 1 0;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0.02rem;
+	padding: 0.4rem 0.1rem;
+	border: 0;
+	border-right: 1px solid rgb(153 116 86 / 30%);
+	border-radius: 0;
+	background: transparent;
+}
+
+.dnd4e-horizontal-actor-display__def-chip:last-child {
+	border-right: 0;
+}
+
+.dnd4e-horizontal-actor-display__def-chip:not([data-action]) {
+	cursor: default;
+}
+
+.dnd4e-horizontal-actor-display__def-chip[data-action]:hover {
+	background: linear-gradient(180deg, #36302d, #242224);
+	box-shadow: inset 0 -2px #c89550;
+}
+
+.dnd4e-horizontal-actor-display__def-chip-value {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.dnd4e-horizontal-actor-display__def-chip-value b {
+	font-family: var(--font-h1, serif);
+	font-size: 1.15rem;
+	color: #f5eee5;
+	white-space: nowrap;
+}
+
+.dnd4e-horizontal-actor-display__def-label {
+	color: #a98c70;
+	font-size: 0.5rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+/* -- tab strip -- */
+.dnd4e-horizontal-actor-display__tab-wrap {
+	position: relative;
+}
+
+.dnd4e-horizontal-actor-display__tabs {
+	display: flex;
+	gap: 0.35rem;
+}
+
+.dnd4e-horizontal-actor-display__tabs button {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.3rem;
+	padding: 0.45rem 0.3rem;
+	border: 1px solid #997456;
+	border-radius: 0.35rem;
+	background: #201c1a;
+	color: #a98c70;
+	font-size: 0.62rem;
+	font-weight: 700;
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
+	box-shadow: 0 0.25rem 0.7rem rgb(0 0 0 / 45%);
+}
+
+.dnd4e-horizontal-actor-display__tabs button i {
+	font-size: 0.9rem;
+}
+
+.dnd4e-horizontal-actor-display__tabs button.is-active {
+	border-color: #c89550;
+	background: linear-gradient(180deg, #4a3a26, #2a2016);
+	color: #f0c879;
+	box-shadow: 0 0.25rem 0.7rem rgb(0 0 0 / 45%), inset 0 0 0 1px rgb(240 200 121 / 25%);
+}
+
+.dnd4e-horizontal-actor-display__tabs button:hover:not(.is-active) {
+	border-color: #a98c70;
+	color: #f5eee5;
+}
+
+/* -- drawer (tab content popup) -- */
+.dnd4e-horizontal-actor-display__drawer {
+	position: absolute;
+	left: 0;
+	bottom: calc(100% + 0.5rem);
+	width: 25rem;
+	max-height: min(30rem, 65vh);
+	display: flex;
+	flex-direction: column;
+	border: 1px solid #f0c879;
+	border-radius: 0.4rem;
+	background: rgb(9 9 11 / 97%);
+	box-shadow: 0 0.5rem 1.5rem rgb(0 0 0 / 80%);
+	overflow: hidden;
+	backdrop-filter: blur(0.4rem);
+}
+
+.dnd4e-horizontal-actor-display__drawer-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0.4rem 0.6rem;
+	border-bottom: 1px solid rgb(153 116 86 / 55%);
+	background: #201c1a;
+	flex: 0 0 auto;
+}
+
+.dnd4e-horizontal-actor-display__drawer-head h3 {
+	color: #f0c879;
+	font-family: var(--font-h1, serif);
+	font-size: 0.85rem;
+}
+
+.dnd4e-horizontal-actor-display__drawer-head-right {
+	display: flex;
+	align-items: center;
+	gap: 0.35rem;
+}
+
+.dnd4e-horizontal-actor-display__drawer-close {
+	border: 0;
+	background: none;
+	color: #a98c70;
+	font-size: 1rem;
+}
+
+.dnd4e-horizontal-actor-display__drawer-close:hover {
+	color: #f0c879;
+}
+
+.dnd4e-horizontal-actor-display__power-flavour-toggle {
+	border: 1px solid rgb(153 116 86 / 55%);
+	border-radius: 0.3rem;
+	background: #2a2422;
+	color: #a98c70;
+	font-size: 0.7rem;
+	line-height: 1;
+	padding: 0.25rem 0.4rem;
+}
+
+.dnd4e-horizontal-actor-display__power-flavour-toggle[aria-pressed="false"] {
+	border-color: #c89550;
+	color: #f0c879;
+	background: linear-gradient(180deg, #3d3226, #241d16);
+}
+
+.dnd4e-horizontal-actor-display__power-flavour-toggle:hover {
+	border-color: #c89550;
+}
+
+.dnd4e-horizontal-actor-display__power-search {
+	display: flex;
+	align-items: center;
+	gap: 0.35rem;
+	margin: 0.5rem 0.5rem 0;
+	padding: 0.3rem 0.5rem;
+	border: 1px solid rgb(153 116 86 / 40%);
+	border-radius: 0.3rem;
+	background: #211e1e;
+	color: #c89550;
+	flex: 0 0 auto;
+}
+
+.dnd4e-horizontal-actor-display__power-search input {
+	flex: 1;
+	border: 0;
+	background: none;
+	color: #f0ddc2;
+	font-size: 0.74rem;
+	outline: none;
+}
+
+.dnd4e-horizontal-actor-display__drawer-body {
+	padding: 0.5rem;
+	overflow-y: auto;
+	flex: 1 1 auto;
+	scrollbar-color: #79262d #191617;
+}
+
+.dnd4e-horizontal-actor-display__group + .dnd4e-horizontal-actor-display__group {
+	margin-top: 0.5rem;
+}
+
+.dnd4e-horizontal-actor-display__group h4 {
+	display: flex;
+	align-items: center;
+	gap: 0.45rem;
+	margin: 0 0 0.3rem;
+	padding-bottom: 0.2rem;
+	border-bottom: 1px solid rgb(153 116 86 / 35%);
+	color: #d9c5aa;
+	font-family: var(--font-h1, serif);
+	font-size: 0.72rem;
+	font-weight: 400;
+}
+
+.dnd4e-horizontal-actor-display__group h4 small {
+	color: #846f5b;
+	font-family: var(--font-primary, "Signika", sans-serif);
+}
+
+.dnd4e-horizontal-actor-display__power {
+	--power-accent: #a89a80;
+	border: 1px solid rgb(153 116 86 / 22%);
+	border-left: 4px solid var(--power-accent);
+	border-radius: 0.3rem;
+	background: linear-gradient(90deg, color-mix(in srgb, var(--power-accent) 22%, #201c1a), #1c1a19 88%);
+	color: #f0e2c8;
+	margin-bottom: 0.28rem;
+	overflow: hidden;
+	transition: border-color 120ms ease, background 120ms ease, filter 120ms ease;
+}
+
+.dnd4e-horizontal-actor-display__power.is-atwill {
+	--power-accent: #5cb35a;
+}
+
+.dnd4e-horizontal-actor-display__power.is-encounter {
+	--power-accent: #d1594a;
+}
+
+.dnd4e-horizontal-actor-display__power.is-daily {
+	--power-accent: #a768c9;
+}
+
+.dnd4e-horizontal-actor-display__power.is-recharge {
+	--power-accent: #4fa8d6;
+}
+
+.dnd4e-horizontal-actor-display__power.is-item {
+	--power-accent: #e0ab52;
+}
+
+.dnd4e-horizontal-actor-display__power.is-depleted {
+	filter: saturate(0.45) brightness(0.6);
+}
+
+.dnd4e-horizontal-actor-display__power:hover {
+	border-left-color: color-mix(in srgb, var(--power-accent) 85%, white 15%);
+	background: linear-gradient(90deg, color-mix(in srgb, var(--power-accent) 32%, #201c1a), #241f1c 88%);
+}
+
+.dnd4e-horizontal-actor-display__power-header {
+	display: flex;
+	align-items: center;
+	gap: 0.55rem;
+	min-height: 2.4rem;
+	padding: 0.35rem 0.5rem;
+	cursor: pointer;
+}
+
+.dnd4e-horizontal-actor-display__power-header > i {
+	flex: 0 0 1.4rem;
+	color: color-mix(in srgb, var(--power-accent) 75%, white 25%);
+	text-align: center;
+}
+
+.dnd4e-horizontal-actor-display__power-header > strong {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	color: #f0d9ba;
+	font-size: 0.82rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.dnd4e-horizontal-actor-display__power-header > small {
+	font-size: 0.64rem;
+}
+
+.dnd4e-horizontal-actor-display__power-header > button {
+	padding: 0.2rem;
+	border: 0;
+	background: transparent;
+	color: #f0ddc2;
+	margin-left: auto;
+}
+
+.dnd4e-horizontal-actor-display__power-details-toggle:hover {
+	color: #fff1d5;
+}
+
+.dnd4e-horizontal-actor-display__power-flavour {
+	padding: 0.24rem 0.5rem 0.3rem;
+	border-top: 1px solid rgb(0 0 0 / 26%);
+	background: rgb(0 0 0 / 16%);
+	color: #c9bba5;
+	font-family: var(--font-primary, "Signika", sans-serif);
+	font-size: 0.72rem;
+	font-style: italic;
+	line-height: 1.2;
+}
+
+.dnd4e-horizontal-actor-display__power-details {
+	border-top: 1px solid rgb(0 0 0 / 28%);
+	background: rgb(0 0 0 / 22%);
+	color: #eee6d8;
+	font-size: 0.73rem;
+	line-height: 1.3;
+}
+
+.dnd4e-horizontal-actor-display__power-details .main-block {
+	padding: 0.16rem 0.32rem 0.3rem;
+}
+
+.dnd4e-horizontal-actor-display__power-details .main-block > *,
+.dnd4e-horizontal-actor-display__power-details .attack-block > * {
+	margin: 0;
+	padding: 0.2rem 0.28rem;
+}
+
+.dnd4e-horizontal-actor-display__power-details b {
+	color: #ffe1a2;
+}
+
+.dnd4e-horizontal-actor-display__empty-note {
+	padding: 0.8rem;
+	color: #a98c70;
+	font-size: 0.72rem;
+	font-style: italic;
+	text-align: center;
+}
+
+/* -- skills grid -- */
+.dnd4e-horizontal-actor-display__skills {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 0.3rem;
+}
+
+.dnd4e-horizontal-actor-display__skills button {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0.35rem 0.5rem;
+	border: 1px solid rgb(153 116 86 / 30%);
+	border-radius: 0.25rem;
+	background: linear-gradient(90deg, #302a26, #201f20);
+	color: #e5cfb2;
+	text-align: left;
+}
+
+.dnd4e-horizontal-actor-display__skills button:hover {
+	border-color: rgb(200 149 80 / 72%);
+	background: linear-gradient(90deg, #45382d, #2b2828);
+}
+
+.dnd4e-horizontal-actor-display__skills button strong {
+	font-family: var(--font-h1, serif);
+	font-size: 0.85rem;
+	color: #e7bc72;
+}
+
+/* -- feats -- */
+.dnd4e-horizontal-actor-display__feature {
+	display: flex;
+	align-items: center;
+	gap: 0.55rem;
+	width: 100%;
+	margin-bottom: 0.28rem;
+	padding: 0.35rem 0.5rem;
+	border: 1px solid rgb(255 255 255 / 7%);
+	border-left: 3px solid #9d784e;
+	border-radius: 0.3rem;
+	background: linear-gradient(90deg, #31271f, #1c1b1c);
+	color: #f0ddc2;
+	text-align: left;
+}
+
+.dnd4e-horizontal-actor-display__feature:hover {
+	border-left-color: #f0c879;
+	background: linear-gradient(90deg, #493622, #292526);
+}
+
+.dnd4e-horizontal-actor-display__feature strong {
+	flex: 1;
+	min-width: 0;
+	font-size: 0.78rem;
+}
+
+/* -- items -- */
+.dnd4e-horizontal-actor-display__item {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-bottom: 0.28rem;
+	padding: 0.35rem 0.5rem;
+	border: 1px solid rgb(255 255 255 / 7%);
+	border-radius: 0.3rem;
+	background: #242224;
+}
+
+.dnd4e-horizontal-actor-display__item:hover {
+	border-color: rgb(200 149 80 / 68%);
+	background: #302b29;
+}
+
+.dnd4e-horizontal-actor-display__item > button:first-child {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+	gap: 0.16rem;
+	flex: 1;
+	width: 100%;
+	min-width: 0;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: #ead6ba;
+	text-align: left !important;
+}
+
+.dnd4e-horizontal-actor-display__item strong {
+	display: block;
+	width: 100%;
+	overflow: hidden;
+	font-size: 0.75rem;
+	text-align: left;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.dnd4e-horizontal-actor-display__item small {
+	display: block;
+	width: 100%;
+	overflow: hidden;
+	color: #95877a;
+	font-size: 0.54rem;
+	line-height: 1.2;
+	text-align: left;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.dnd4e-horizontal-actor-display__equip {
+	padding: 0.3rem 0.45rem;
+	border: 1px solid #665d55;
+	border-radius: 99px;
+	background: #302e30;
+	color: #9b9188;
+	font-size: 0.5rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	flex: 0 0 auto;
+}
+
+.dnd4e-horizontal-actor-display__equip.is-equipped {
+	border-color: #8b704a;
+	background: #493925;
+	color: #f0cd97;
+}
+
+.dnd4e-horizontal-actor-display__equip:hover {
+	border-color: #c89550;
+	background: #493925;
+	color: #f0cd97;
+}
+
+/* -- hotbar (empty placeholder slots for v1) -- */
+.dnd4e-horizontal-actor-display__hotbar-grid {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	gap: 0.65rem;
+	margin-left: 1rem;
+}
+
+.dnd4e-horizontal-actor-display__hotbar-slot {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 4.6rem;
+	height: 4.6rem;
+	border: 1px dashed rgb(153 116 86 / 55%);
+	border-radius: 0.5rem;
+	background: linear-gradient(180deg, rgb(9 9 11 / 80%), rgb(13 13 14 / 70%));
+	color: #a98c70;
+	font-size: 1.3rem;
+}
+
+@media (max-width: 900px) {
+	.dnd4e-horizontal-actor-display__drawer {
+		width: calc(100vw - 2rem);
+	}
+}

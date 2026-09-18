@@ -19,6 +19,7 @@ This repo holds a set of independent Foundry VTT modules for the DnD4e system, e
 - Track project TODOs as appropriately labeled GitHub Issues rather than local TODO files.
 - Changes that affect initial hooks or a module's manifest should be tested by reloading Foundry and checking the browser console. Where a module has an automated test suite (check its folder for `package.json`/`test/`), run it and resolve failures before handoff.
 - The user exclusively operates Foundry; do not launch, inspect, automate, or otherwise attempt to validate Foundry directly — ask the user to reload and report results instead.
+- Run `npm run copy-modules` after making changes to a module, so the local Foundry install stays in sync for the user's next reload (see "Deploying to Foundry" below).
 
 ## Deploying to Foundry
 

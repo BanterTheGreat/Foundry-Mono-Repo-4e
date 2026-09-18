@@ -1,0 +1,202 @@
+<div class="dnd4e-horizontal-actor-display__outer">
+	<div class="dnd4e-horizontal-actor-display__left-col">
+		<div class="dnd4e-horizontal-actor-display__tab-wrap">
+			{{#if activeTab}}
+				<div class="dnd4e-horizontal-actor-display__drawer">
+					<div class="dnd4e-horizontal-actor-display__drawer-head">
+						<h3>{{activeTabLabel}}</h3>
+						<div class="dnd4e-horizontal-actor-display__drawer-head-right">
+							{{#if isPowers}}
+								<button type="button" class="dnd4e-horizontal-actor-display__power-flavour-toggle" data-action="togglePowerFlavour" aria-pressed="{{#if isPowerFlavourHidden}}false{{else}}true{{/if}}" title="{{#if isPowerFlavourHidden}}Show power flavour text{{else}}Hide power flavour text{{/if}}">
+									<i class="fa-solid {{#if isPowerFlavourHidden}}fa-eye-slash{{else}}fa-eye{{/if}}" aria-hidden="true"></i>
+								</button>
+							{{/if}}
+							<button type="button" class="dnd4e-horizontal-actor-display__drawer-close" data-action="closeDrawer" aria-label="Close">&times;</button>
+						</div>
+					</div>
+					{{#if isPowers}}
+						<div class="dnd4e-horizontal-actor-display__power-search">
+							<i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+							<input type="search" value="{{powerSearchQuery}}" placeholder="Search powers" aria-label="Search powers" data-power-search>
+						</div>
+					{{/if}}
+					<div class="dnd4e-horizontal-actor-display__drawer-body">
+						{{#if isPowers}}
+							{{#each powerCategories}}
+								<section class="dnd4e-horizontal-actor-display__group" data-power-category>
+									<h4>{{name}} <small>{{powers.length}}</small></h4>
+									{{#each powers}}
+										<div class="dnd4e-horizontal-actor-display__power {{usageClass}}{{#if depleted}} is-depleted{{/if}}" data-power-name="{{name}}">
+											<div class="dnd4e-horizontal-actor-display__power-header" data-action="power" data-item-id="{{id}}" {{#unless inlineDetails}}data-item-tooltip data-tooltip-direction="RIGHT" data-power-usage="{{usageClass}}"{{/unless}} role="button" tabindex="0">
+												<i class="{{icon}}" aria-hidden="true"></i>
+												<strong>{{name}}</strong>
+												{{#if showUses}}<small>{{uses}}</small>{{/if}}
+												{{#if isExpandable}}<button type="button" class="dnd4e-horizontal-actor-display__power-details-toggle" data-action="togglePowerDetails" data-item-id="{{id}}" aria-expanded="{{#if isExpanded}}true{{else}}false{{/if}}" title="{{#if isExpanded}}Hide details{{else}}Show details{{/if}}"><i class="fa-solid {{#if isExpanded}}fa-chevron-up{{else}}fa-chevron-down{{/if}}" aria-hidden="true"></i></button>{{/if}}
+												{{#if depleted}}<button type="button" data-action="refreshPower" data-item-id="{{id}}" title="Refresh power"><i class="fa-solid fa-rotate-right"></i></button>{{/if}}
+											</div>
+											{{#unless isPowerFlavourHidden}}{{#if flavour}}{{#unless depleted}}<p class="dnd4e-horizontal-actor-display__power-flavour">{{flavour}}</p>{{/unless}}{{/if}}{{/unless}}
+											{{#if inlineDetails}}<div class="dnd4e-horizontal-actor-display__power-details {{inlineDetailsClass}}">{{{inlineDetails}}}</div>{{/if}}
+										</div>
+									{{/each}}
+								</section>
+							{{/each}}
+							<p class="dnd4e-horizontal-actor-display__empty-note" data-power-search-empty hidden>No matching powers.</p>
+						{{/if}}
+
+						{{#if isSkills}}
+							<div class="dnd4e-horizontal-actor-display__skills">
+								{{#each skills}}
+									<button type="button" data-action="skill" data-skill="{{key}}"><span>{{label}}</span><strong>{{modifier}}</strong></button>
+								{{/each}}
+							</div>
+						{{/if}}
+
+						{{#if isFeatures}}
+							{{#each featureCategories}}
+								<section class="dnd4e-horizontal-actor-display__group">
+									<h4>{{name}}</h4>
+									{{#each features}}
+										<button type="button" class="dnd4e-horizontal-actor-display__feature" data-action="feature" data-item-id="{{id}}" data-item-tooltip data-tooltip-direction="RIGHT">
+											<i class="fa-solid fa-book" aria-hidden="true"></i>
+											<strong>{{name}}</strong>
+										</button>
+									{{/each}}
+								</section>
+							{{/each}}
+						{{/if}}
+
+						{{#if isItems}}
+							{{#each itemCategories}}
+								<section class="dnd4e-horizontal-actor-display__group">
+									<h4>{{name}}</h4>
+									{{#each items}}
+										<div class="dnd4e-horizontal-actor-display__item" data-item-tooltip data-tooltip-direction="RIGHT" data-item-id="{{id}}">
+											<button type="button" data-action="item" data-item-id="{{id}}">
+												<strong>{{name}}</strong>
+												{{#if weaponSummary}}<small>{{weaponSummary}}</small>{{/if}}
+											</button>
+											{{#if canEquip}}<button type="button" class="dnd4e-horizontal-actor-display__equip {{#if equipped}}is-equipped{{/if}}" data-action="toggleEquip" data-item-id="{{id}}">{{#if equipped}}Equipped{{else}}Equip{{/if}}</button>{{/if}}
+										</div>
+									{{/each}}
+								</section>
+							{{/each}}
+						{{/if}}
+					</div>
+				</div>
+			{{/if}}
+			<nav class="dnd4e-horizontal-actor-display__tabs">
+				{{#each tabs}}
+					<button type="button" class="{{#if active}}is-active{{/if}}" data-action="showSection" data-display-tab="{{key}}">
+						<i class="{{icon}}" aria-hidden="true"></i>
+						<span>{{label}}</span>
+					</button>
+				{{/each}}
+			</nav>
+		</div>
+
+		<div class="dnd4e-horizontal-actor-display__panel">
+			<div class="dnd4e-horizontal-actor-display__charinfo">
+				<button type="button" class="dnd4e-horizontal-actor-display__portrait" data-action="quick" data-command="openSheet" title="Open character sheet">
+					<img src="{{portrait}}" alt="" draggable="false">
+				</button>
+				<div class="dnd4e-horizontal-actor-display__charinfo-text">
+					<div class="dnd4e-horizontal-actor-display__name-row">
+						<div class="dnd4e-horizontal-actor-display__name-line">
+							<h2>{{name}}</h2>
+							<small>{{levelAndClass}}</small>
+						</div>
+						<div class="dnd4e-horizontal-actor-display__name-actions">
+							<button type="button" class="dnd4e-horizontal-actor-display__action-btn {{#if horizontalActions.ap.disabled}}is-disabled{{/if}}" data-action="quick" data-command="actionPoint" {{#if horizontalActions.ap.disabled}}disabled{{/if}} title="Use Action Point">
+								<i class="fa-solid fa-bolt" aria-hidden="true"></i>
+								<span class="dnd4e-horizontal-actor-display__ap-badge">{{horizontalActions.ap.value}}</span>
+							</button>
+
+							<div class="dnd4e-horizontal-actor-display__action-slot">
+								<button type="button" class="dnd4e-horizontal-actor-display__action-btn {{#if isSaveOpen}}is-open{{/if}}" data-action="toggleDropdown" data-dropdown="save" title="Save">
+									<i class="fa-solid fa-star" aria-hidden="true"></i>
+								</button>
+								{{#if isSaveOpen}}
+									<div class="dnd4e-horizontal-actor-display__dropdown-menu">
+										{{#each horizontalActions.save}}
+											<button type="button" data-action="quick" data-command="{{command}}" {{#if disabled}}disabled{{/if}}>{{label}}{{#if detail}}<small>{{detail}}</small>{{/if}}</button>
+										{{/each}}
+									</div>
+								{{/if}}
+							</div>
+
+							<div class="dnd4e-horizontal-actor-display__action-slot">
+								<button type="button" class="dnd4e-horizontal-actor-display__action-btn {{#if isHealOpen}}is-open{{/if}}" data-action="toggleDropdown" data-dropdown="heal" title="Heal">
+									<i class="fa-solid fa-plus" aria-hidden="true"></i>
+								</button>
+								{{#if isHealOpen}}
+									<div class="dnd4e-horizontal-actor-display__dropdown-menu">
+										{{#each horizontalActions.heal}}
+											<button type="button" data-action="quick" data-command="{{command}}" {{#if disabled}}disabled{{/if}}>{{label}}</button>
+										{{/each}}
+									</div>
+								{{/if}}
+							</div>
+
+							<div class="dnd4e-horizontal-actor-display__action-slot">
+								<button type="button" class="dnd4e-horizontal-actor-display__action-btn {{#if isRestOpen}}is-open{{/if}}" data-action="toggleDropdown" data-dropdown="rest" title="Rest">
+									<i class="fa-solid fa-bed" aria-hidden="true"></i>
+								</button>
+								{{#if isRestOpen}}
+									<div class="dnd4e-horizontal-actor-display__dropdown-menu">
+										{{#each horizontalActions.rest}}
+											<button type="button" data-action="quick" data-command="{{command}}" {{#if disabled}}disabled{{/if}}>{{label}}</button>
+										{{/each}}
+									</div>
+								{{/if}}
+							</div>
+						</div>
+					</div>
+
+					<div class="dnd4e-horizontal-actor-display__hp-dial-wrap">
+						<div class="dnd4e-horizontal-actor-display__hp-dial" style="--pct: {{hp.percent}}">
+							<div class="dnd4e-horizontal-actor-display__hp-dial-inner">
+								<span>HP</span>
+								<input type="number" value="{{hp.value}}" min="0" max="{{hp.maximum}}" data-resource-path="system.attributes.hp.value">
+								<span class="dnd4e-horizontal-actor-display__hp-of">of {{hp.maximum}}</span>
+							</div>
+						</div>
+						<div class="dnd4e-horizontal-actor-display__hp-side">
+							<div class="dnd4e-horizontal-actor-display__stat-card-row">
+								<div class="dnd4e-horizontal-actor-display__stat-card">
+									<div class="dnd4e-horizontal-actor-display__stat-card-head"><i class="fa-solid fa-shield" aria-hidden="true"></i><span>Temp HP</span></div>
+									<div class="dnd4e-horizontal-actor-display__stat-card-value"><input type="number" value="{{tempHp}}" min="0" data-resource-path="system.attributes.temphp.value"></div>
+								</div>
+								{{#if hasSurges}}
+									<div class="dnd4e-horizontal-actor-display__stat-card">
+										<div class="dnd4e-horizontal-actor-display__stat-card-head"><i class="fa-solid fa-heart-pulse" aria-hidden="true"></i><span>Surges</span></div>
+										<div class="dnd4e-horizontal-actor-display__stat-card-value"><input type="number" value="{{surges.value}}" min="0" max="{{surges.maximum}}" data-resource-path="system.details.surges.value"><span class="dnd4e-horizontal-actor-display__of">/{{surges.maximum}}</span></div>
+									</div>
+								{{/if}}
+							</div>
+							{{#if hasSurges}}
+								<div class="dnd4e-horizontal-actor-display__segment-bar" role="img" aria-label="Healing surges: {{surges.value}} of {{surges.maximum}}">
+									{{#each surges.segments}}<i class="{{#if filled}}is-filled{{/if}}"></i>{{/each}}
+								</div>
+							{{/if}}
+						</div>
+					</div>
+
+					<div class="dnd4e-horizontal-actor-display__def-grid">
+						{{#each stats}}
+							<button type="button" class="dnd4e-horizontal-actor-display__def-chip" title="{{label}}" {{#if action}}data-action="{{action}}" data-command="{{command}}"{{/if}}>
+								<div class="dnd4e-horizontal-actor-display__def-chip-value"><b>{{value}}</b></div>
+								<span class="dnd4e-horizontal-actor-display__def-label">{{shortLabel}}</span>
+							</button>
+						{{/each}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="dnd4e-horizontal-actor-display__hotbar-grid">
+		{{#each hotbarSlots}}
+			<div class="dnd4e-horizontal-actor-display__hotbar-slot is-empty">+</div>
+		{{/each}}
+	</div>
+</div>

@@ -39,6 +39,7 @@ export async function getActorDisplayData(token, activeTab, expandedPowerIds = n
 	const surgeMaximum = Math.max(Number(surges.max) || 0, 0);
 	const hpSegmentCount = actor.type === "Player Character" ? 6 : 4;
 	const filledHpSegments = getFilledSegmentCount(hpValue, hpMaximum, hpSegmentCount);
+	const tabs = getTabs(actor, activeTab);
 
 	return {
 		name: actor.name,
@@ -48,6 +49,7 @@ export async function getActorDisplayData(token, activeTab, expandedPowerIds = n
 		hp: {
 			value: hpValue,
 			maximum: hpMaximum,
+			percent: Math.max(0, Math.min(100, (hpValue / hpMaximum) * 100)),
 			dialAngle: filledHpSegments * (360 / hpSegmentCount),
 			dialSegmentAngle: actor.type === "Player Character" ? 60 : 90,
 		},
@@ -59,8 +61,11 @@ export async function getActorDisplayData(token, activeTab, expandedPowerIds = n
 			segments: getSegments(surgeValue, surgeMaximum, surgeMaximum),
 		},
 		stats: getStats(actor),
-		tabs: getTabs(actor, activeTab),
+		tabs,
 		activeTab,
+		activeTabLabel: tabs.find((tab) => tab.key === activeTab)?.label ?? "",
+		horizontalActions: getHorizontalActions(actor),
+		hotbarSlots: Array.from({ length: 14 }),
 		isPlayerCharacter: actor.type === "Player Character",
 		isPowers: activeTab === "powers" || (isNpc && activeTab === "features"),
 		isSkills: activeTab === "skills",
@@ -152,7 +157,8 @@ function getStats(actor) {
 		{ label: "Fortitude", shortLabel: "Fort", value: actor.system?.defences?.fort?.value, icon: "fa-solid fa-dumbbell" },
 		{ label: "Reflex", shortLabel: "Ref", value: actor.system?.defences?.ref?.value, icon: "fa-solid fa-bolt" },
 		{ label: "Will", shortLabel: "Will", value: actor.system?.defences?.wil?.value, icon: "fa-solid fa-brain" },
-		{ label: "Initiative", shortLabel: "Init", value: formatModifier(actor.system?.attributes?.init?.value), icon: "fa-solid fa-person-running", action: "quick", command: "initiative" },
+		{ label: "Initiative", shortLabel: "Init", value: Number(actor.system?.attributes?.init?.value) || 0, icon: "fa-solid fa-person-running", action: "quick", command: "initiative" },
+		{ label: "Speed", shortLabel: "Speed", value: Number(actor.system?.movement?.walk?.value) || 0, icon: "fa-solid fa-shoe-prints" },
 	];
 }
 
@@ -397,6 +403,33 @@ function getQuickActions(actor) {
 		{ key: "deathSave", label: "Death Save", icon: "fa-solid fa-skull" },
 		{ key: "openSheet", label: "Open Sheet", icon: "fa-solid fa-table-list" },
 	];
+}
+
+/**
+ * Build the action point / save / heal / rest button-and-dropdown data used by the horizontal actor display.
+ *
+ * @param {Actor} actor The displayed actor.
+ * @returns {object}
+ */
+function getHorizontalActions(actor) {
+	const apValue = Number(actor.system?.actionpoints?.value) || 0;
+	const save = Number(actor.system?.details?.saves?.value) || 0;
+	const isDying = (Number(actor.system?.attributes?.hp?.value) || 0) <= 0;
+	return {
+		ap: { value: apValue, disabled: apValue <= 0 },
+		save: [
+			{ command: "savingThrow", label: "Saving Throw", detail: formatModifier(save) },
+			{ command: "deathSave", label: "Death Save", disabled: !isDying },
+		],
+		heal: [
+			{ command: "secondWind", label: "Second Wind" },
+			{ command: "healing", label: "Heal" },
+		],
+		rest: [
+			{ command: "shortRest", label: "Short Rest" },
+			{ command: "extendedRest", label: "Extended Rest" },
+		],
+	};
 }
 
 /** @param {number|string} value Modifier value to format. */
