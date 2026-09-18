@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Copies every module under src/ into the local Foundry VTT Data/modules folder.
-import { cpSync, mkdirSync, readdirSync, rmSync } from "node:fs";
+import { cpSync, mkdirSync, readdirSync } from "node:fs";
 import { basename, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -34,10 +34,10 @@ for (const name of modules) {
   const from = join(srcDir, name);
   const to = join(modulesDir, name);
 
-  rmSync(to, { recursive: true, force: true });
   mkdirSync(to, { recursive: true });
   cpSync(from, to, {
     recursive: true,
+    force: true,
     filter: (path) => !ignoredNames.has(basename(path)),
   });
 
