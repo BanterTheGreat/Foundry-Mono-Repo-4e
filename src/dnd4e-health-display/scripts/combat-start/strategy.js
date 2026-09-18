@@ -154,6 +154,7 @@ class StrategyOverlayPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 		actions: {
 			previousTurn: StrategyOverlayPanel.prototype.onPreviousTurn,
 			nextTurn: StrategyOverlayPanel.prototype.onNextTurn,
+			endCombat: StrategyOverlayPanel.prototype.onEndCombat,
 		},
 	};
 
@@ -220,6 +221,20 @@ class StrategyOverlayPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 		} catch (error) {
 			console.error(`${MODULE_ID} | Failed to advance to the next turn.`, error);
 			ui.notifications.error("Could not advance to the next turn. Check the console for details.");
+		}
+	}
+
+	/** End the encounter, prompting for confirmation like the combat tracker's own control. */
+	async onEndCombat() {
+		if (!game.user.isGM) {
+			return;
+		}
+
+		try {
+			await game.combats.get(this.combatId)?.endCombat();
+		} catch (error) {
+			console.error(`${MODULE_ID} | Failed to end combat.`, error);
+			ui.notifications.error("Could not end combat. Check the console for details.");
 		}
 	}
 }

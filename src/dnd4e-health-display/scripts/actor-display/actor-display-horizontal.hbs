@@ -27,7 +27,7 @@
 									<h4>{{name}} <small>{{powers.length}}</small></h4>
 									{{#each powers}}
 										<div class="dnd4e-horizontal-actor-display__power {{usageClass}}{{#if depleted}} is-depleted{{/if}}" data-power-name="{{name}}">
-											<div class="dnd4e-horizontal-actor-display__power-header" data-action="power" data-item-id="{{id}}" {{#unless inlineDetails}}data-item-tooltip data-tooltip-direction="RIGHT" data-power-usage="{{usageClass}}"{{/unless}} role="button" tabindex="0">
+											<div class="dnd4e-horizontal-actor-display__power-header" data-action="power" data-item-id="{{id}}" {{#unless inlineDetails}}data-item-tooltip data-tooltip-direction="RIGHT" data-power-usage="{{usageClass}}"{{/unless}} draggable="true" data-hotbar-drag-type="power" role="button" tabindex="0">
 												<i class="{{icon}}" aria-hidden="true"></i>
 												<strong>{{name}}</strong>
 												{{#if showUses}}<small>{{uses}}</small>{{/if}}
@@ -70,7 +70,7 @@
 								<section class="dnd4e-horizontal-actor-display__group">
 									<h4>{{name}}</h4>
 									{{#each items}}
-										<div class="dnd4e-horizontal-actor-display__item" data-item-tooltip data-tooltip-direction="RIGHT" data-item-id="{{id}}">
+										<div class="dnd4e-horizontal-actor-display__item" data-item-tooltip data-tooltip-direction="RIGHT" data-item-id="{{id}}" draggable="true" data-hotbar-drag-type="item">
 											<button type="button" data-action="item" data-item-id="{{id}}">
 												<strong>{{name}}</strong>
 												{{#if weaponSummary}}<small>{{weaponSummary}}</small>{{/if}}
@@ -194,9 +194,31 @@
 		</div>
 	</div>
 
-	<div class="dnd4e-horizontal-actor-display__hotbar-grid">
+	<div class="dnd4e-horizontal-actor-display__hotbar-column">
+		{{#if isInCombat}}
+			<button type="button" class="dnd4e-horizontal-actor-display__end-turn" data-action="quick" data-command="endTurn" {{#unless isCurrentTurn}}disabled{{/unless}} title="{{#if isCurrentTurn}}End your turn{{else}}Not your turn{{/if}}">
+				<i class="fa-solid fa-hourglass-end" aria-hidden="true"></i> End Turn
+			</button>
+		{{/if}}
+		<div class="dnd4e-horizontal-actor-display__hotbar-grid">
 		{{#each hotbarSlots}}
-			<div class="dnd4e-horizontal-actor-display__hotbar-slot is-empty">+</div>
+			<div class="dnd4e-horizontal-actor-display__hotbar-slot {{#if isEmpty}}is-empty{{else}}{{usageClass}}{{#if depleted}} is-depleted{{/if}}{{/if}}" data-hotbar-slot="{{@index}}">
+				{{#if isEmpty}}
+					<span class="dnd4e-horizontal-actor-display__hotbar-plus">+</span>
+				{{else}}
+					<button type="button" class="dnd4e-horizontal-actor-display__hotbar-item" data-action="hotbarSlot" data-item-id="{{id}}" data-item-tooltip data-tooltip-direction="UP" data-power-usage="{{usageClass}}" title="{{name}}">
+						{{#if icon}}
+							<i class="{{icon}}" aria-hidden="true"></i>
+						{{else}}
+							<img src="{{img}}" alt="">
+						{{/if}}
+						<span class="dnd4e-horizontal-actor-display__hotbar-name">{{name}}</span>
+					</button>
+					{{#if depleted}}<button type="button" class="dnd4e-horizontal-actor-display__hotbar-refresh" data-action="refreshHotbarPower" data-item-id="{{id}}" title="Refresh power"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i></button>{{/if}}
+					<button type="button" class="dnd4e-horizontal-actor-display__hotbar-clear" data-action="clearHotbarSlot" data-hotbar-slot="{{@index}}" title="Remove from hotbar"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+				{{/if}}
+			</div>
 		{{/each}}
+		</div>
 	</div>
 </div>

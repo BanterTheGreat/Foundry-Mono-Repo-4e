@@ -1,3 +1,13 @@
+/* Foundry's macro hotbar occupies the same bottom band as this HUD; hide it and lift the
+   players list clear of the HUD's footprint rather than letting the two overlap. */
+body.dnd4e-horizontal-hud-active #hotbar {
+	display: none !important;
+}
+
+body.dnd4e-horizontal-hud-active #players {
+	margin-bottom: calc((var(--dnd4e-horizontal-hud-height, 0px) + 1rem) / var(--ui-scale, 1)) !important;
+}
+
 #dnd4e-horizontal-actor-display {
 	position: fixed !important;
 	inset: auto auto 1rem 1rem !important;
@@ -607,7 +617,7 @@
 	border-bottom: 1px solid rgb(153 116 86 / 35%);
 	color: #d9c5aa;
 	font-family: var(--font-h1, serif);
-	font-size: 0.72rem;
+	font-size: 0.92rem;
 	font-weight: 400;
 }
 
@@ -875,15 +885,54 @@
 	color: #f0cd97;
 }
 
-/* -- hotbar (empty placeholder slots for v1) -- */
+/* -- hotbar -- */
+.dnd4e-horizontal-actor-display__hotbar-column {
+	display: grid;
+	grid-template-rows: auto auto;
+	gap: 0.55rem;
+	margin-left: 1rem;
+}
+
+.dnd4e-horizontal-actor-display__end-turn {
+	display: flex;
+	width: calc(4.6rem * 2 + 0.65rem);
+	height: 2.4rem;
+	align-items: center;
+	justify-content: center;
+	justify-self: start;
+	gap: 0.5rem;
+	padding: 0.6rem 1rem;
+	border: 1px solid #c39a59;
+	border-radius: 0.4rem;
+	background: linear-gradient(#725426, #443219);
+	box-shadow: inset 0 1px rgb(255 225 164 / 28%), 0 0.3rem 0.9rem rgb(0 0 0 / 45%);
+	color: #fff2df;
+	font-family: var(--font-h1, "Modesto Condensed", serif);
+	font-size: 1.05rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.dnd4e-horizontal-actor-display__end-turn:hover:not(:disabled) {
+	filter: brightness(1.16);
+	transform: translateY(-1px);
+}
+
+.dnd4e-horizontal-actor-display__end-turn:disabled {
+	opacity: 0.5;
+	filter: grayscale(0.85);
+	cursor: not-allowed;
+}
+
 .dnd4e-horizontal-actor-display__hotbar-grid {
 	display: grid;
 	grid-template-columns: repeat(7, 1fr);
 	gap: 0.65rem;
-	margin-left: 1rem;
 }
 
 .dnd4e-horizontal-actor-display__hotbar-slot {
+	position: relative;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -894,6 +943,119 @@
 	background: linear-gradient(180deg, rgb(9 9 11 / 80%), rgb(13 13 14 / 70%));
 	color: #a98c70;
 	font-size: 1.3rem;
+}
+
+.dnd4e-horizontal-actor-display__hotbar-slot.is-drag-over {
+	border-color: #e2bd77;
+	box-shadow: 0 0 0.5rem rgb(226 189 119 / 45%);
+}
+
+.dnd4e-horizontal-actor-display__hotbar-plus {
+	pointer-events: none;
+}
+
+.dnd4e-horizontal-actor-display__hotbar-slot:not(.is-empty) {
+	--power-accent: #a89a80;
+	border: 1px solid rgb(153 116 86 / 22%);
+	border-top: 3px solid var(--power-accent);
+	border-radius: 0.4rem;
+	background: linear-gradient(180deg, color-mix(in srgb, var(--power-accent) 26%, #201c1a), #1c1a19 88%);
+}
+
+.dnd4e-horizontal-actor-display__hotbar-slot.is-atwill { --power-accent: #5cb35a; }
+.dnd4e-horizontal-actor-display__hotbar-slot.is-encounter { --power-accent: #d1594a; }
+.dnd4e-horizontal-actor-display__hotbar-slot.is-daily { --power-accent: #a768c9; }
+.dnd4e-horizontal-actor-display__hotbar-slot.is-recharge { --power-accent: #4fa8d6; }
+.dnd4e-horizontal-actor-display__hotbar-slot.is-item { --power-accent: #e0ab52; }
+
+.dnd4e-horizontal-actor-display__hotbar-slot.is-depleted {
+	filter: saturate(0.45) brightness(0.6);
+}
+
+.dnd4e-horizontal-actor-display__hotbar-item {
+	display: flex;
+	width: 100%;
+	height: 100%;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0.3rem;
+	padding: 0.35rem 0.25rem 0.3rem;
+	border: 0;
+	background: transparent;
+	color: #f0e2c8;
+	cursor: grab;
+}
+
+.dnd4e-horizontal-actor-display__hotbar-item:hover {
+	filter: brightness(1.15);
+}
+
+.dnd4e-horizontal-actor-display__hotbar-item > i {
+	color: color-mix(in srgb, var(--power-accent) 75%, white 25%);
+	font-size: 1.15rem;
+}
+
+.dnd4e-horizontal-actor-display__hotbar-item > img {
+	width: 1.7rem;
+	height: 1.7rem;
+	border-radius: 0.2rem;
+	object-fit: cover;
+}
+
+.dnd4e-horizontal-actor-display__hotbar-name {
+	display: -webkit-box;
+	overflow: hidden;
+	width: 100%;
+	color: #f0d9ba;
+	font-size: 0.63rem;
+	line-height: 1.15;
+	text-align: center;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+}
+
+.dnd4e-horizontal-actor-display__hotbar-clear,
+.dnd4e-horizontal-actor-display__hotbar-refresh {
+	position: absolute;
+	display: none;
+	align-items: center;
+	justify-content: center;
+	width: 1.3rem;
+	height: 1.3rem;
+	padding: 0;
+	border: 1px solid #5f5545;
+	border-radius: 50%;
+	background: #1a1712;
+	color: #d69b90;
+	font-size: 0.6rem;
+}
+
+.dnd4e-horizontal-actor-display__hotbar-clear {
+	top: -0.5rem;
+	right: -0.5rem;
+}
+
+.dnd4e-horizontal-actor-display__hotbar-refresh {
+	bottom: -0.5rem;
+	left: -0.5rem;
+	color: #b8a78c;
+}
+
+.dnd4e-horizontal-actor-display__hotbar-slot:hover .dnd4e-horizontal-actor-display__hotbar-clear,
+.dnd4e-horizontal-actor-display__hotbar-slot:hover .dnd4e-horizontal-actor-display__hotbar-refresh {
+	display: flex;
+}
+
+.dnd4e-horizontal-actor-display__hotbar-clear:hover {
+	border-color: #bd6258;
+	background: #3b201e;
+	color: #f0aaa0;
+}
+
+.dnd4e-horizontal-actor-display__hotbar-refresh:hover {
+	border-color: #a9895f;
+	color: #f0d5a9;
 }
 
 @media (max-width: 900px) {

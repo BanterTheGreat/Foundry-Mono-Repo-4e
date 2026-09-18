@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// Copies every module under src/ into the local Foundry VTT Data/modules folder.
+// Copies module(s) under src/ into the local Foundry VTT Data/modules folder.
+// With no args, copies every module; pass one or more module folder names to copy only those.
 import { cpSync, mkdirSync, readdirSync } from "node:fs";
 import { basename, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -21,12 +22,22 @@ if (!dataRoot) {
 const modulesDir = join(dataRoot, "modules");
 const ignoredNames = new Set([".git", ".idea", ".vscode", "node_modules", "test", ".DS_Store"]);
 
-const modules = readdirSync(srcDir, { withFileTypes: true })
+const requestedNames = process.argv.slice(2);
+
+const allModules = readdirSync(srcDir, { withFileTypes: true })
   .filter((entry) => entry.isDirectory())
   .map((entry) => entry.name);
 
+const modules = requestedNames.length > 0 ? requestedNames : allModules;
+
 if (modules.length === 0) {
   console.error(`No module folders found under ${srcDir}`);
+  process.exit(1);
+}
+
+const missing = modules.filter((name) => !allModules.includes(name));
+if (missing.length > 0) {
+  console.error(`No such module folder(s) under ${srcDir}: ${missing.join(", ")}`);
   process.exit(1);
 }
 

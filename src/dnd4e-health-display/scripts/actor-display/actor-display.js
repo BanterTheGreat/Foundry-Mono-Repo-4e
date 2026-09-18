@@ -1,4 +1,4 @@
-import { getActorDisplayData } from "./actor-display-data.js";
+import { getActorDisplayData, HOTBAR_FLAG, HOTBAR_SLOT_COUNT } from "./actor-display-data.js";
 import { initializeActorDisplayTooltips } from "./actor-display-tooltips.js";
 
 const MODULE_ID = "dnd4e-health-display";
@@ -9,6 +9,8 @@ const COLLAPSED_SETTING = "actorDisplayCollapsed";
 const POWER_FLAVOUR_HIDDEN_SETTING = "actorDisplayPowerFlavourHidden";
 const VERTICAL_TEMPLATE_PATH = `modules/${MODULE_ID}/scripts/actor-display/actor-display.hbs`;
 const HORIZONTAL_TEMPLATE_PATH = `modules/${MODULE_ID}/scripts/actor-display/actor-display-horizontal.hbs`;
+const HORIZONTAL_HUD_BODY_CLASS = "dnd4e-horizontal-hud-active";
+const HORIZONTAL_HUD_HEIGHT_PROPERTY = "--dnd4e-horizontal-hud-height";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -100,6 +102,8 @@ export function registerActorDisplay() {
 	Hooks.on("createActiveEffect", refreshForEffect);
 	Hooks.on("updateActiveEffect", refreshForEffect);
 	Hooks.on("deleteActiveEffect", refreshForEffect);
+	Hooks.on("updateCombat", refreshAllActorDisplays);
+	Hooks.on("deleteCombat", refreshAllActorDisplays);
 	Hooks.on("canvasTearDown", closeAllActorDisplays);
 
 	renderSelectedActor();
@@ -204,6 +208,12 @@ function getTokenToDisplay() {
 
 	return canvas.tokens.placeables.find((token) => token.actor?.type === "Player Character"
 		&& token.document.testUserPermission(game.user, "OWNER")) ?? null;
+}
+
+/** Re-render both actor displays, e.g. when the combat tracker's turn changes. */
+function refreshAllActorDisplays() {
+	ui.Dnd4eActorDisplay?.render();
+	ui.Dnd4eHorizontalActorDisplay?.render();
 }
 
 /** @param {Actor} actor The updated actor. */
@@ -542,7 +552,18 @@ class ActorDisplayBase extends HandlebarsApplicationMixin(ApplicationV2) {
 			case "extendedRest": return new dnd4e.applications.apps.LongRestDialog({ document: this.actor }).render(true);
 			case "deathSave": return hooks.deathSave(this.actor, event);
 			case "openSheet": return this.actor.sheet.render(true);
+			case "endTurn": return this.onEndTurn();
 			default: return undefined;
+		}
+	}
+
+	/** Advance the combat tracker to the next turn, ending this actor's turn. */
+	async onEndTurn() {
+		try {
+			await game.combat?.nextTurn();
+		} catch (error) {
+			console.error(`${MODULE_ID} | Failed to end turn.`, error);
+			ui.notifications.error("Could not end turn. Check the console for details.");
 		}
 	}
 }
@@ -716,6 +737,9 @@ class HorizontalActorDisplay extends ActorDisplayBase {
 			item: { handler: HorizontalActorDisplay.prototype.onItem, buttons: [0, 2] },
 			toggleEquip: HorizontalActorDisplay.prototype.onToggleEquip,
 			quick: HorizontalActorDisplay.prototype.onQuickAction,
+			hotbarSlot: { handler: HorizontalActorDisplay.prototype.onHotbarSlot, buttons: [0, 2] },
+			clearHotbarSlot: HorizontalActorDisplay.prototype.onClearHotbarSlot,
+			refreshHotbarPower: HorizontalActorDisplay.prototype.onRefreshPower,
 		},
 	};
 
@@ -741,6 +765,81 @@ class HorizontalActorDisplay extends ActorDisplayBase {
 			isHealOpen: this.openDropdown === "heal",
 			isRestOpen: this.openDropdown === "rest",
 		});
+	}
+
+	/** Wire up dragging powers and items from the drawer onto the hotbar, and dropping them into slots. */
+	initializeHotbarDragAndDrop() {
+		for (const draggable of this.element.querySelectorAll("[data-hotbar-drag-type]")) {
+			draggable.addEventListener("dragstart", (event) => {
+				event.dataTransfer.effectAllowed = "copy";
+				event.dataTransfer.setData("text/plain", JSON.stringify({ itemId: draggable.dataset.itemId }));
+			});
+		}
+
+		for (const slot of this.element.querySelectorAll("[data-hotbar-slot]")) {
+			slot.addEventListener("dragover", (event) => {
+				event.preventDefault();
+				event.dataTransfer.dropEffect = "copy";
+				slot.classList.add("is-drag-over");
+			});
+			slot.addEventListener("dragleave", () => slot.classList.remove("is-drag-over"));
+			slot.addEventListener("drop", (event) => {
+				event.preventDefault();
+				slot.classList.remove("is-drag-over");
+				this.onHotbarDrop(event, slot);
+			});
+		}
+	}
+
+	/** @param {DragEvent} event The drop event. @param {HTMLElement} slot The hotbar slot dropped onto. */
+	async onHotbarDrop(event, slot) {
+		let data;
+		try {
+			data = JSON.parse(event.dataTransfer.getData("text/plain"));
+		} catch (_error) {
+			return;
+		}
+
+		const item = data?.itemId && this.actor.items.get(data.itemId);
+		if (!item || !["power", "weapon", "equipment", "consumable"].includes(item.type)) {
+			return;
+		}
+
+		await this.setHotbarSlot(Number(slot.dataset.hotbarSlot), { itemId: item.id });
+	}
+
+	/** @param {number} index The hotbar slot index. @param {{itemId: string}|null} entry The slot assignment, or null to clear it. */
+	async setHotbarSlot(index, entry) {
+		const slots = Array.from({ length: HOTBAR_SLOT_COUNT }, (_unused, slotIndex) => (
+			this.actor.getFlag(MODULE_ID, HOTBAR_FLAG)?.[slotIndex] ?? null
+		));
+		slots[index] = entry;
+		await this.actor.setFlag(MODULE_ID, HOTBAR_FLAG, slots);
+	}
+
+	/** @param {PointerEvent} event The action event. @param {HTMLElement} target The action target. */
+	onHotbarSlot(event, target) {
+		const item = this.actor.items.get(target.dataset.itemId);
+		if (!item) {
+			return undefined;
+		}
+
+		return item.type === "power" ? this.onPower(event, target) : this.onItem(event, target);
+	}
+
+	/** @param {PointerEvent} event The action event. @param {HTMLElement} target The action target. */
+	onClearHotbarSlot(event, target) {
+		event.stopPropagation();
+		return this.setHotbarSlot(Number(target.dataset.hotbarSlot), null);
+	}
+
+	/** Hide Foundry's macro hotbar, push the players list clear of the HUD's footprint, and wire up hotbar drag-and-drop. */
+	_onRender(context, options) {
+		super._onRender(context, options);
+		document.body.classList.add(HORIZONTAL_HUD_BODY_CLASS);
+		const height = this.element?.getBoundingClientRect().height ?? 0;
+		document.documentElement.style.setProperty(HORIZONTAL_HUD_HEIGHT_PROPERTY, `${height}px`);
+		this.initializeHotbarDragAndDrop();
 	}
 
 	/** Close the dropdown menu whenever a click lands outside this display. */
@@ -792,9 +891,11 @@ class HorizontalActorDisplay extends ActorDisplayBase {
 		return super.onQuickAction(event, target);
 	}
 
-	/** Stop tracking outside clicks once this display is closed. */
+	/** Stop tracking outside clicks and restore Foundry's own bottom-left UI once this display is closed. */
 	async close(options) {
 		document.removeEventListener("click", this._onDocumentClick);
+		document.body.classList.remove(HORIZONTAL_HUD_BODY_CLASS);
+		document.documentElement.style.removeProperty(HORIZONTAL_HUD_HEIGHT_PROPERTY);
 		return super.close(options);
 	}
 }

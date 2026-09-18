@@ -6,18 +6,31 @@
  */
 export function initializeActorDisplayTooltips(root, actor) {
 	for (const element of root.querySelectorAll("[data-item-tooltip]")) {
-		element.addEventListener("mouseenter", () => activateItemTooltip(element, actor), { once: true });
+		element.addEventListener("mouseenter", () => activateItemTooltip(element, actor));
+		element.addEventListener("mouseleave", () => game.tooltip.deactivate());
 	}
 }
 
 /**
- * Generate, cache, and activate the tooltip which Foundry could not see before
- * the first pointer entry.
+ * Activate an item's tooltip, generating and caching its content the first time it's hovered.
+ *
+ * Every hover re-activates (rather than a one-shot listener) so each element reliably shows its
+ * own tooltip; a pointer-still-there check after generation guards against a slow first lookup
+ * resolving after the pointer has already moved to a different element.
  *
  * @param {HTMLElement} element The tooltip anchor.
  * @param {Actor} actor The parent actor.
  */
 async function activateItemTooltip(element, actor) {
+	if (element.dataset.tooltipHtml) {
+		game.tooltip.activate(element, {
+			html: element.dataset.tooltipHtml,
+			direction: element.dataset.tooltipDirection || "RIGHT",
+			cssClass: element.dataset.tooltipClass,
+		});
+		return;
+	}
+
 	const item = actor.items.get(element.dataset.itemId);
 	if (!item) {
 		return;
@@ -43,15 +56,17 @@ async function activateItemTooltip(element, actor) {
 		}
 
 		const cssClass = usesCustomFormatting
-			? `dnd4e-info-tooltip dnd4e-info-tooltip--power ${element.dataset.powerUsage || ""}`
+			? ["dnd4e-info-tooltip", "dnd4e-info-tooltip--power", element.dataset.powerUsage].filter(Boolean).join(" ")
 			: "dnd4e-info-tooltip dnd4e-info-tooltip--system";
 		element.dataset.tooltipHtml = html;
 		element.dataset.tooltipClass = cssClass;
-		game.tooltip.activate(element, {
-			html,
-			direction: element.dataset.tooltipDirection || "RIGHT",
-			cssClass,
-		});
+		if (element.matches(":hover")) {
+			game.tooltip.activate(element, {
+				html,
+				direction: element.dataset.tooltipDirection || "RIGHT",
+				cssClass,
+			});
+		}
 	} catch (error) {
 		console.error(`Dnd4e Info Displays | Could not generate tooltip for ${item.name}.`, error);
 	}

@@ -1,5 +1,9 @@
 import { generateInlinePowerDetails } from "./actor-display-tooltips.js";
 
+const MODULE_ID = "dnd4e-health-display";
+export const HOTBAR_FLAG = "hotbar";
+export const HOTBAR_SLOT_COUNT = 14;
+
 const POWER_CATEGORY_RULES = [
 	["Standard", ["standard"]],
 	["Move", ["move"]],
@@ -65,7 +69,9 @@ export async function getActorDisplayData(token, activeTab, expandedPowerIds = n
 		activeTab,
 		activeTabLabel: tabs.find((tab) => tab.key === activeTab)?.label ?? "",
 		horizontalActions: getHorizontalActions(actor),
-		hotbarSlots: Array.from({ length: 14 }),
+		hotbarSlots: getHotbarSlots(actor),
+		isInCombat: Boolean(game.combat?.started),
+		isCurrentTurn: Boolean(game.combat?.started && game.combat.combatant?.tokenId === token.document.id),
 		isPlayerCharacter: actor.type === "Player Character",
 		isPowers: activeTab === "powers" || (isNpc && activeTab === "features"),
 		isSkills: activeTab === "skills",
@@ -227,7 +233,7 @@ async function mapPower(power, actor, expandedPowerIds) {
 		usageClass: `is-${power.system?.useType || "other"}`,
 		showUses: maximum > 1,
 		uses: `${value} / ${maximum}`,
-		depleted: maximum > 0 && value <= 0,
+		depleted: isPowerDepleted(power),
 		flavour: actor.type === "Player Character" ? getPowerFlavour(power) : "",
 		isNpcPower: actor.type === "NPC",
 		isExpandable: actor.type === "Player Character",
@@ -235,6 +241,53 @@ async function mapPower(power, actor, expandedPowerIds) {
 		canRollDamage: power.hasDamage,
 		inlineDetails: inlineDetails.html,
 		inlineDetailsClass: inlineDetails.cssClass,
+	};
+}
+
+/** @param {Item} power The power to check. @returns {boolean} Whether the power has no uses remaining. */
+function isPowerDepleted(power) {
+	const uses = power.system?.uses ?? {};
+	const maximum = Number(uses.max) || 0;
+	const value = Number(uses.value) || 0;
+	return maximum > 0 && value <= 0;
+}
+
+/**
+ * Build the hotbar's slot data from the actor's saved hotbar assignments, dropping
+ * assignments whose item no longer exists on the actor.
+ *
+ * @param {Actor} actor The displayed actor.
+ * @returns {Array<object>}
+ */
+function getHotbarSlots(actor) {
+	const saved = actor.getFlag(MODULE_ID, HOTBAR_FLAG) ?? [];
+	return Array.from({ length: HOTBAR_SLOT_COUNT }, (_unused, index) => mapHotbarSlot(actor, saved[index]));
+}
+
+/** @param {Actor} actor The displayed actor. @param {{itemId: string}|null} entry The saved slot assignment, if any. */
+function mapHotbarSlot(actor, entry) {
+	const item = entry?.itemId ? actor.items.get(entry.itemId) : null;
+	if (!item) {
+		return { isEmpty: true };
+	}
+
+	if (item.type === "power") {
+		return {
+			isEmpty: false,
+			id: item.id,
+			name: item.name,
+			icon: getPowerIcon(item),
+			usageClass: `is-${item.system?.useType || "other"}`,
+			depleted: isPowerDepleted(item),
+		};
+	}
+
+	return {
+		isEmpty: false,
+		id: item.id,
+		name: item.name,
+		img: item.img,
+		usageClass: "is-item",
 	};
 }
 

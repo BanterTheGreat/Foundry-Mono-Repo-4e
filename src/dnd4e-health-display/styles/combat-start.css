@@ -1944,3 +1944,23 @@
 .dnd4e-strategy-overlay__end-turn:hover {
 	filter: brightness(1.15);
 }
+
+.dnd4e-strategy-overlay__end-combat {
+	display: flex;
+	flex: 0 0 auto;
+	align-items: center;
+	justify-content: center;
+	padding: 0.4rem 0.55rem;
+	border: 1px solid #7a3b34;
+	border-radius: 0.25rem;
+	background: #1a1712;
+	color: #d69b90;
+	font-size: 0.68rem;
+	white-space: nowrap;
+}
+
+.dnd4e-strategy-overlay__end-combat:hover {
+	border-color: #c25c4f;
+	background: #2a1512;
+	color: #f0b3a6;
+}
