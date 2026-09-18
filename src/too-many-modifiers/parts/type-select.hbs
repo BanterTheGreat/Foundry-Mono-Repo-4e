@@ -1,0 +1,38 @@
+<div>
+  <h3>Add new tracker</h3>
+  <nav class="tmm-tabs">
+    <a type="button"
+            data-action="switchTab"
+            data-tab="conditions"
+            class="tmm-tab {{#if (eq activeTab 'conditions')}}active{{/if}}">
+      Condition
+    </a>
+    <a type="button"
+            data-action="switchTab"
+            data-tab="ongoing"
+            class="tmm-tab {{#if (eq activeTab 'ongoing')}}active{{/if}}">
+      Ongoing
+    </a>
+    <a type="button"
+            data-action="switchTab"
+            data-tab="modifiers"
+            class="tmm-tab {{#if (eq activeTab 'modifiers')}}active{{/if}}">
+      Modifier
+    </a>
+    <a type="button"
+            data-action="switchTab"
+            data-tab="resistances"
+            class="tmm-tab {{#if (eq activeTab 'resistances')}}active{{/if}}">
+      Resistances
+    </a>
+    <a type="button"
+            data-action="switchTab"
+            data-tab="manual"
+            class="tmm-tab {{#if (eq activeTab 'manual')}}active{{/if}}">
+      Manual
+    </a>
+  </nav>
+  <input type="hidden"
+         id="noteType"
+         value="{{activeTab}}">
+</div>

@@ -1,0 +1,87 @@
+<section class="tmm-tab-duration {{tab.cssClass}}"
+         data-group="primary"
+         data-tab="duration">
+
+  <h5>Duration</h5>
+  <div style="margin-bottom: 15px; display: flex; gap: 10px; align-items: center;">
+    <div style="flex: 1;">
+      <div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 8px; align-items: center;">
+        
+        <!-- Encounter -->
+        <label style="display: flex; align-items: center; cursor: pointer;">
+          <input type="radio"
+                 name="duration"
+                 value="encounter"
+                 {{#if (eq defaultDuration "encounter")}}checked{{/if}}
+                 style="margin-right: 8px; margin-top: 0; margin-bottom: 0;">
+          <span>Encounter</span>
+        </label>
+
+        <!-- Round -->
+        <label style="display: flex; align-items: center; cursor: pointer;">
+          <input type="radio"
+                 name="duration"
+                 value="round"
+                 {{#if (eq defaultDuration "round")}}checked{{/if}}
+                 style="margin-right: 8px; margin-top: 0; margin-bottom: 0;">
+          <span>Round</span>
+        </label>
+
+        <!-- Save Ends (Two Lines) -->
+        <label style="display: flex; align-items: center; cursor: pointer;">
+          <input type="radio"
+                 name="duration"
+                 value="save"
+                 {{#if (eq defaultDuration "save")}}checked{{/if}}
+                 style="margin-right: 8px; margin-top: 0; margin-bottom: 0;">
+          <span style="display: inline-flex; flex-direction: column; line-height: 1.1;">
+            <span>Save</span>
+            <span>Ends</span>
+          </span>
+        </label>
+
+        <!-- EoT Origin (Two Lines) -->
+        <label style="display: flex; align-items: center; cursor: pointer;">
+          <input type="radio"
+                 name="duration"
+                 value="eot-origin"
+                 {{#if (eq defaultDuration "eot-origin")}}checked{{/if}}
+                 style="margin-right: 8px; margin-top: 0; margin-bottom: 0;">
+          <span style="display: inline-flex; flex-direction: column; line-height: 1.1;">
+            <span>EoT</span>
+            <span>Origin</span>
+          </span>
+        </label>
+
+        <!-- EoT Target (Two Lines) -->
+        <label style="display: flex; align-items: center; cursor: pointer;">
+          <input type="radio"
+                 name="duration"
+                 value="eot-target"
+                 {{#if (eq defaultDuration "eot-target")}}checked{{/if}}
+                 style="margin-right: 8px; margin-top: 0; margin-bottom: 0;">
+          <span style="display: inline-flex; flex-direction: column; line-height: 1.1;">
+            <span>EoT</span>
+            <span>Target</span>
+          </span>
+        </label>
+
+        <!-- Custom (with textfield) -->
+        <label style="display: flex; align-items: center; cursor: pointer; gap: 8px;">
+          <input type="radio"
+                 name="duration"
+                 value="custom"
+                 id="customRadio"
+                 {{#if (eq defaultDuration "custom")}}checked{{/if}}
+                 style="margin-right: 0; margin-top: 0; margin-bottom: 0;">
+          <input type="text"
+                 id="durationOverride"
+                 name="durationOverride"
+                 style="padding: 5px; width: 120px;"
+                 placeholder="Custom">
+        </label>
+
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,228 @@
+#dnd4e-info-team-display {
+	position: fixed;
+	z-index: 90;
+	width: 18.4rem;
+	margin: 0;
+	color: #f5eee5;
+	font-family: var(--font-primary, "Signika", sans-serif);
+	filter: drop-shadow(0 0.25rem 0.45rem rgb(0 0 0 / 80%));
+}
+
+.dnd4e-info-team-display__panel {
+	overflow: visible;
+	border: 1px solid #997456;
+	border-radius: 0.65rem;
+	background: rgb(9 9 11 / 95%);
+	box-shadow: 0 1rem 2.5rem rgb(0 0 0 / 65%), inset 0 0 0 1px rgb(255 255 255 / 4%);
+	text-shadow: 0 0.08rem 0.15rem #000;
+	backdrop-filter: blur(0.4rem);
+}
+
+.dnd4e-info-team-display__header {
+	display: block;
+	padding: 0.55rem 0.7rem;
+	border-bottom: 1px solid rgb(153 116 86 / 55%);
+	border-radius: 0.65rem 0.65rem 0 0;
+	background: linear-gradient(110deg, rgb(53 35 24 / 90%), rgb(8 8 9 / 92%) 58%);
+	cursor: grab;
+	touch-action: none;
+	user-select: none;
+}
+
+.dnd4e-info-team-display__header:active {
+	cursor: grabbing;
+}
+
+.dnd4e-info-team-display__header:hover {
+	background: linear-gradient(110deg, rgb(70 46 30 / 92%), rgb(18 16 16 / 94%) 58%);
+}
+
+.dnd4e-info-team-display__header > span,
+.dnd4e-info-team-display__header small {
+	display: block;
+}
+
+.dnd4e-info-team-display__header > span {
+	color: #f7ddbc;
+	font-family: var(--font-h1, "Modesto Condensed", serif);
+	font-size: 1.15rem;
+	line-height: 1;
+}
+
+.dnd4e-info-team-display__header small {
+	margin-top: 0.12rem;
+	color: #a98c70;
+	font-family: var(--font-serif, serif);
+	font-size: 0.65rem;
+	font-style: italic;
+}
+
+.dnd4e-info-team-display__members {
+	display: grid;
+	gap: 0.1rem;
+	padding: 0.25rem 0.55rem 0.5rem;
+}
+
+.dnd4e-info-team-display__member {
+	display: grid;
+	grid-template-columns: 2.35rem minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 0.38rem;
+	min-height: 4.25rem;
+	padding: 0.52rem 0.18rem;
+	border-bottom: 1px solid rgb(153 116 86 / 24%);
+	background: rgb(255 255 255 / 2%);
+	cursor: pointer;
+	transition: background 120ms ease, box-shadow 120ms ease, transform 120ms ease;
+}
+
+.dnd4e-info-team-display__member:nth-child(even) {
+	background: rgb(117 91 68 / 9%);
+}
+
+.dnd4e-info-team-display__member:last-child {
+	border-bottom: 0;
+}
+
+.dnd4e-info-team-display__member.is-critical {
+	box-shadow: inset 3px 0 #b33d38;
+}
+
+.dnd4e-info-team-display__member:hover,
+.dnd4e-info-team-display__member:focus-visible {
+	background: rgb(177 132 81 / 16%);
+	box-shadow: inset 2px 0 #c89a62;
+	outline: 1px solid #d5ae79;
+	outline-offset: -1px;
+	transform: translateX(0.1rem);
+}
+
+.dnd4e-info-team-display__portrait {
+	position: relative;
+	width: 2.35rem;
+	height: 2.35rem;
+}
+
+.dnd4e-info-team-display__portrait > img {
+	width: 2.35rem;
+	height: 2.35rem;
+	border: 1px solid #bb936a;
+	border-radius: 50%;
+	background: #181310;
+	box-shadow: 0 0 0 2px #181310, 0 0 0 3px #705039;
+	object-fit: cover;
+}
+
+.dnd4e-info-team-display__portrait-preview {
+	position: absolute;
+	top: 50%;
+	left: calc(100% + 0.7rem);
+	z-index: 1;
+	display: block;
+	width: 11rem;
+	padding: 0.22rem;
+	border: 1px solid #bb936a;
+	border-radius: 0.35rem;
+	background: #15100e;
+	box-shadow: 0 0.6rem 1.25rem rgb(0 0 0 / 75%);
+	opacity: 0;
+	pointer-events: none;
+	transform: translateY(-50%) scale(0.96);
+	transition: opacity 120ms ease, transform 120ms ease;
+}
+
+.dnd4e-info-team-display__portrait:hover .dnd4e-info-team-display__portrait-preview {
+	opacity: 1;
+	transform: translateY(-50%) scale(1);
+}
+
+.dnd4e-info-team-display__portrait-preview img {
+	display: block;
+	width: 100%;
+	aspect-ratio: 1;
+	border-radius: 0.2rem;
+	object-fit: cover;
+}
+
+.dnd4e-info-team-display__member > strong {
+	min-width: 0;
+	overflow: hidden;
+	color: #f0d6b3;
+	font-family: var(--font-h1, "Modesto Condensed", serif);
+	font-size: 1.12rem;
+	line-height: 1;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.dnd4e-info-team-display__seals {
+	display: flex;
+	gap: 0.45rem;
+}
+
+.dnd4e-info-team-display__seal {
+	--seal-start-angle: 180deg;
+	position: relative;
+	display: grid;
+	place-items: center;
+	width: 3rem;
+	aspect-ratio: 1;
+	overflow: hidden;
+	border-radius: 50%;
+	background: conic-gradient(from var(--seal-start-angle), #bc3c47 var(--resource-angle), #342426 0);
+	box-shadow: 0 0 0 1px #765250, 0 0 0.35rem rgb(174 30 43 / 22%);
+}
+
+.dnd4e-info-team-display__seal::before {
+	position: absolute;
+	inset: 0.22rem;
+	border-radius: 50%;
+	background: #1c191b;
+	content: "";
+}
+
+.dnd4e-info-team-display__seal > * {
+	position: relative;
+	z-index: 1;
+}
+
+.dnd4e-info-team-display__seal span {
+	color: #aa927a;
+	font-size: 0.72rem;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	line-height: 1;
+}
+
+.dnd4e-info-team-display__seal small {
+	margin-top: -0.38rem;
+	color: #938376;
+	font-size: 0.44rem;
+	line-height: 1;
+}
+
+.dnd4e-info-team-display__seal--surges {
+	background: conic-gradient(from var(--seal-start-angle), #b88743 var(--resource-angle), #32291d 0);
+	box-shadow: 0 0 0 1px #745f43, 0 0 0.35rem rgb(196 148 78 / 18%);
+}
+
+.dnd4e-info-team-display__seal--hp {
+	background:
+		repeating-conic-gradient(from var(--seal-start-angle), transparent 0 calc(var(--segment-angle) - 1deg), rgb(255 226 190 / 38%) calc(var(--segment-angle) - 1deg) var(--segment-angle)),
+		conic-gradient(from var(--seal-start-angle), #bc3c47 var(--resource-angle), #342426 0);
+}
+
+.dnd4e-info-team-display__empty {
+	margin: 0.65rem 0 0.35rem;
+	color: #a99178;
+	font-family: var(--font-serif, serif);
+	font-size: 0.78rem;
+	font-style: italic;
+	text-align: center;
+}
+
+@media (max-width: 700px) {
+	#dnd4e-info-team-display {
+		width: min(18.4rem, calc(100vw - 1rem));
+	}
+}

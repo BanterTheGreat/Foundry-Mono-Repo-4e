@@ -1,0 +1,84 @@
+<section class="tab tmm-tab-ongoing {{tab.cssClass}}"
+         data-group="primary"
+         data-tab="ongoing">
+
+
+  <h5>Origin + Value</h5>
+  <div style="margin-bottom: 15px; display: flex; gap: 10px; align-items: center;">
+    <select id="ongoingOrigin"
+            name="ongoingOrigin"
+            style="padding: 5px; width: 20%; flex-shrink: 0;">
+      <option value="">Select origin...</option>
+      {{#each playerCombatants as |combatant|}}
+      <option value="{{combatant.tokenId}}"
+              {{#if
+              (eq
+              combatant.tokenId
+              ../defaultPlayerCombatant.tokenId)}}selected{{/if}}>{{combatant.name}}</option>
+      {{/each}}
+    </select>
+
+    <div style="display: flex; align-items: center; gap: 5px;">
+      <button type="button"
+              id="decreaseOngoing"
+              style="padding: 5px 10px; min-width: 30px;">-</button>
+      <input type="number"
+             id="ongoingDamage"
+             name="ongoingDamage"
+             style="padding: 5px; width: 60px; text-align: center;"
+             value="0">
+      <button type="button"
+              id="increaseOngoing"
+              style="padding: 5px 10px; min-width: 30px;">+</button>
+    </div>
+
+    <!-- Quick Ability Buttons Container -->
+    <div style="display: flex; flex-direction: column; gap: 4px; flex: 1;">
+      <div style="display: flex; gap: 2px;">
+        <button type="button"
+                class="quick-ability-ongoing"
+                data-ability="str"
+                data-sign="+"
+                style="padding: 3px 4px; font-size: 11px; flex: 1;">+STR</button>
+        <button type="button"
+                class="quick-ability-ongoing"
+                data-ability="dex"
+                data-sign="+"
+                style="padding: 3px 4px; font-size: 11px; flex: 1;">+DEX</button>
+        <button type="button"
+                class="quick-ability-ongoing"
+                data-ability="con"
+                data-sign="+"
+                style="padding: 3px 4px; font-size: 11px; flex: 1;">+CON</button>
+        <button type="button"
+                class="quick-ability-ongoing"
+                data-ability="wis"
+                data-sign="+"
+                style="padding: 3px 4px; font-size: 11px; flex: 1;">+WIS</button>
+        <button type="button"
+                class="quick-ability-ongoing"
+                data-ability="int"
+                data-sign="+"
+                style="padding: 3px 4px; font-size: 11px; flex: 1;">+INT</button>
+        <button type="button"
+                class="quick-ability-ongoing"
+                data-ability="cha"
+                data-sign="+"
+                style="padding: 3px 4px; font-size: 11px; flex: 1;">+CHA</button>
+      </div>
+    </div>
+  </div>
+
+  <h5>Damage Type</h5>
+  <div style="margin-bottom: 15px; display: flex; flex-wrap: wrap; gap: 10px;">
+    {{#each damageTypes as |opt|}}
+    <label style="display: flex; align-items: center; gap: 5px; flex: 0 0 calc(25% - 8px); cursor: pointer;">
+      <input type="radio"
+             name="ongoingType"
+             value="{{opt.value}}"
+             style="margin-right: 8px; margin-top: 0; margin-bottom: 0;" />
+      <span>{{opt.label}}</span>
+    </label>
+    {{/each}}
+  </div>
+</section>

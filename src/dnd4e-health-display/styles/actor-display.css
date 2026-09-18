@@ -1,0 +1,1227 @@
+#dnd4e-info-actor-display {
+	position: fixed;
+	right: auto;
+	bottom: auto;
+	z-index: 90;
+	height: min(51.25rem, calc(100vh - 5rem));
+	max-height: min(51.25rem, calc(100vh - 5rem));
+	margin: 0;
+	color: #f5eee5;
+	font-family: var(--font-primary, "Signika", sans-serif);
+	filter: drop-shadow(0 0.25rem 0.45rem rgb(0 0 0 / 80%));
+}
+
+.dnd4e-info-tooltip {
+	box-sizing: border-box;
+	max-width: min(30rem, calc(100vw - 2rem));
+	padding: 0;
+	border: 1px solid #997456;
+	border-radius: 0.35rem;
+	background: rgb(17 15 16 / 98%);
+	color: #f1e3d1;
+	font-size: 0.75rem;
+	line-height: 1.3;
+	text-align: left;
+	box-shadow: 0 0.5rem 1.4rem rgb(0 0 0 / 65%);
+}
+
+.dnd4e-info-tooltip > *,
+.dnd4e-info-tooltip .main-block > *,
+.dnd4e-info-tooltip .attack-block > * {
+	margin: 0;
+	padding: 0.34rem 0.55rem;
+}
+
+.dnd4e-info-tooltip--power .flavour {
+	border-bottom: 1px solid rgb(153 116 86 / 35%);
+	background: #211c1a;
+	color: #ccbca9;
+	font-family: var(--font-primary, "Signika", sans-serif);
+	font-style: italic;
+}
+
+.dnd4e-info-tooltip--power .main-block > :nth-child(odd),
+.dnd4e-info-tooltip--power .attack-block > :nth-child(odd) {
+	background: rgb(255 255 255 / 6%);
+}
+
+.dnd4e-info-tooltip--power .main-block > :nth-child(even),
+.dnd4e-info-tooltip--power .attack-block > :nth-child(even) {
+	background: rgb(117 91 68 / 12%);
+}
+
+.dnd4e-info-tooltip--power .attack-block {
+	padding: 0;
+}
+
+.dnd4e-info-tooltip--power b {
+	color: #efd0a5;
+}
+
+.dnd4e-info-tooltip--power.is-atwill {
+	border-color: #3b914b;
+}
+
+.dnd4e-info-tooltip--power.is-encounter {
+	border-color: #b33d38;
+}
+
+.dnd4e-info-tooltip--power.is-daily {
+	border-color: #77716c;
+}
+
+.dnd4e-info-tooltip--system > :nth-child(odd) {
+	background: rgb(255 255 255 / 6%);
+}
+
+.dnd4e-info-tooltip--system > :nth-child(even) {
+	background: rgb(117 91 68 / 14%);
+}
+
+.dnd4e-info-tooltip--system .flavour {
+	background: #211c1a;
+	font-style: italic;
+}
+
+.dnd4e-info-actor-display__panel {
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	box-sizing: border-box;
+	width: 23rem;
+	height: min(51.25rem, calc(100vh - 5rem));
+	max-height: min(51.25rem, calc(100vh - 5rem));
+	border: 1px solid #997456;
+	border-radius: 0.65rem;
+	background: rgb(9 9 11 / 95%);
+	box-shadow: 0 1rem 2.5rem rgb(0 0 0 / 65%), inset 0 0 0 1px rgb(255 255 255 / 4%);
+	text-shadow: 0 0.08rem 0.15rem #000;
+	backdrop-filter: blur(0.4rem);
+}
+
+.dnd4e-info-actor-display button,
+.dnd4e-info-actor-display input {
+	font: inherit;
+}
+
+.dnd4e-info-actor-display button {
+	box-sizing: border-box;
+	margin: 0;
+	cursor: pointer;
+	transition: border-color 120ms ease, background 120ms ease, color 120ms ease, box-shadow 120ms ease, filter 120ms ease, transform 120ms ease;
+}
+
+.dnd4e-info-actor-display button:focus-visible,
+.dnd4e-info-actor-display [role="button"]:focus-visible,
+.dnd4e-info-actor-display input:focus-visible {
+	position: relative;
+	z-index: 1;
+	outline: 2px solid #f0c879;
+	outline-offset: 2px;
+}
+
+.dnd4e-info-actor-display input {
+	transition: border-color 120ms ease, background 120ms ease, box-shadow 120ms ease;
+}
+
+.dnd4e-info-actor-display__identity {
+	position: relative;
+	display: flex;
+	align-items: center;
+	flex: 0 0 auto;
+	gap: 0.9rem;
+	padding: 0.68rem 0.85rem;
+	border-bottom: 1px solid rgb(153 116 86 / 55%);
+	background: linear-gradient(110deg, rgb(53 35 24 / 90%), rgb(8 8 9 / 92%) 58%);
+	cursor: grab;
+	touch-action: none;
+	user-select: none;
+}
+
+.dnd4e-info-actor-display__identity:active {
+	cursor: grabbing;
+}
+
+.dnd4e-info-actor-display__identity:hover {
+	background: linear-gradient(110deg, rgb(70 46 30 / 92%), rgb(18 16 16 / 94%) 58%);
+}
+
+.dnd4e-info-actor-display__identity > img {
+	flex: 0 0 3.6rem;
+	box-sizing: border-box;
+	width: 3.6rem;
+	height: 3.6rem;
+	border: 2px solid #bb936a;
+	border-radius: 50%;
+	background: #181310;
+	box-shadow: 0 0 0 3px #181310, 0 0 0 4px #705039, 0 0.25rem 0.75rem #000;
+	object-fit: cover;
+}
+
+.dnd4e-info-actor-display__identity > div {
+	flex: 1;
+	min-width: 0;
+	padding-right: 1.5rem;
+}
+
+.dnd4e-info-actor-display__identity h1 {
+	margin: 0;
+	overflow: hidden;
+	color: #f7ddbc;
+	font-family: var(--font-h1, "Modesto Condensed", serif);
+	font-size: 1.72rem;
+	line-height: 1;
+	letter-spacing: 0.025em;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.dnd4e-info-actor-display__identity strong,
+.dnd4e-info-actor-display__identity small {
+	display: block;
+	margin-top: 0.25rem;
+	color: #c9b9a8;
+	font-size: 0.78rem;
+	font-weight: 600;
+}
+
+.dnd4e-info-actor-display__close {
+	position: absolute;
+	top: 0.45rem;
+	right: 0.5rem;
+	display: grid;
+	place-items: center;
+	width: 1.5rem;
+	height: 1.5rem;
+	padding: 0;
+	border: 0;
+	border-radius: 0.25rem;
+	background: transparent;
+	color: #c9b9a8;
+	font-size: 1.5rem;
+	line-height: 1;
+}
+
+.dnd4e-info-actor-display__close:hover {
+	background: rgb(255 255 255 / 10%);
+	color: #f7ddbc;
+}
+
+.dnd4e-info-actor-display__identity small {
+	color: #a98c70;
+	font-family: var(--font-primary, "Signika", sans-serif);
+	font-style: italic;
+}
+
+.dnd4e-info-actor-display__vitals {
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	align-items: center;
+	flex: 0 0 auto;
+	gap: 0.55rem 0.7rem;
+	padding: 0.58rem 0.72rem 0.65rem;
+	border-bottom: 1px solid rgb(153 116 86 / 35%);
+	background: linear-gradient(110deg, rgb(49 21 24 / 82%), transparent 48%), rgb(29 27 28 / 96%);
+}
+
+.dnd4e-info-actor-display__hp-value,
+.dnd4e-info-actor-display__surge-value,
+.dnd4e-info-actor-display__temp-hp {
+	display: grid;
+	grid-template-columns: auto auto;
+	align-items: baseline;
+	column-gap: 0.25rem;
+}
+
+.dnd4e-info-actor-display__hp-value > span,
+.dnd4e-info-actor-display__surge-value > span,
+.dnd4e-info-actor-display__temp-hp > span {
+	grid-column: 1 / -1;
+	margin-bottom: 0.15rem;
+	color: #a99178;
+	font-size: 0.48rem;
+	font-weight: 800;
+	letter-spacing: 0.1em;
+	line-height: 1;
+	text-transform: uppercase;
+}
+
+.dnd4e-info-actor-display__hp-value input,
+.dnd4e-info-actor-display__surge-value input,
+.dnd4e-info-actor-display__temp-hp input {
+	width: 2.8rem;
+	height: auto;
+	padding: 0;
+	border: 0;
+	border-bottom: 1px solid #b78e69;
+	border-radius: 0;
+	background: transparent;
+	color: #f4dac0;
+	font-family: var(--font-h1, serif);
+	font-size: 1.55rem;
+	font-weight: 700;
+	line-height: 1;
+	text-align: center;
+	box-shadow: none;
+}
+
+.dnd4e-info-actor-display__hp-value:hover input,
+.dnd4e-info-actor-display__surge-value:hover input {
+	border-color: #f0c879;
+	background: rgb(240 200 121 / 8%);
+}
+
+.dnd4e-info-actor-display__temp-hp:hover {
+	border-color: #9ebdc8;
+	box-shadow: inset 0 1px rgb(255 255 255 / 12%), 0 0 0.45rem rgb(118 187 205 / 16%);
+}
+
+.dnd4e-info-actor-display__hp-value small,
+.dnd4e-info-actor-display__surge-value small {
+	color: #938376;
+	font-size: 0.62rem;
+	font-weight: 700;
+}
+
+.dnd4e-info-actor-display__temp-hp {
+	display: flex;
+	align-items: center;
+	gap: 0.35rem;
+	padding: 0.4rem 0.5rem;
+	border: 1px solid #63747c;
+	border-radius: 0.32rem;
+	background: linear-gradient(#303b40, #20272b);
+	box-shadow: inset 0 1px rgb(255 255 255 / 8%);
+}
+
+.dnd4e-info-actor-display__temp-hp > span {
+	margin: 0;
+}
+
+.dnd4e-info-actor-display__temp-hp input {
+	width: 2rem;
+	border: 0;
+	color: #d9edf2;
+	font-family: inherit;
+	font-size: 1rem;
+}
+
+.dnd4e-info-actor-display__hp-segments,
+.dnd4e-info-actor-display__surge-segments {
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	gap: 0.18rem;
+	height: 1rem;
+	padding: 0.15rem;
+	border: 1px solid #745a50;
+	clip-path: polygon(0.32rem 0, calc(100% - 0.32rem) 0, 100% 50%, calc(100% - 0.32rem) 100%, 0.32rem 100%, 0 50%);
+	background: #111113;
+}
+
+.dnd4e-info-actor-display__hp-segments i,
+.dnd4e-info-actor-display__surge-segments i {
+	background: #332b2a;
+	box-shadow: inset 0 0 0.2rem #000;
+}
+
+.dnd4e-info-actor-display__hp-segments i.is-filled {
+	background: linear-gradient(#db505a, #8e1724 58%, #5c0c14);
+	box-shadow: inset 0 1px rgb(255 255 255 / 20%), 0 0 0.3rem rgb(174 30 43 / 45%);
+}
+
+.dnd4e-info-actor-display__surge-value {
+	grid-template-columns: auto auto auto;
+}
+
+.dnd4e-info-actor-display__surge-value > span {
+	grid-column: auto;
+	margin: 0;
+}
+
+.dnd4e-info-actor-display__surge-value input {
+	width: 1.8rem;
+	font-family: inherit;
+	font-size: 0.78rem;
+}
+
+.dnd4e-info-actor-display__surge-segments {
+	grid-template-columns: repeat(var(--surge-count), 1fr);
+	grid-column: 2 / -1;
+	height: 0.82rem;
+	padding: 0.13rem;
+	border-color: #745f43;
+}
+
+.dnd4e-info-actor-display__surge-segments i.is-filled {
+	background: linear-gradient(#deb96f, #9b6e31 58%, #67451c);
+	box-shadow: inset 0 1px rgb(255 255 255 / 18%), 0 0 0.3rem rgb(196 148 78 / 45%);
+}
+
+/* Vitals Variant B: a glanceable HP dial with two editable resource counters. */
+.dnd4e-info-actor-display__vitals {
+	grid-template-columns: 6.7rem 1fr;
+	gap: 0.9rem;
+	padding: 0.75rem;
+}
+
+.dnd4e-info-actor-display__life-dial {
+	--life-dial-start-angle: 180deg;
+	position: relative;
+	display: grid;
+	place-items: center;
+	width: 6.2rem;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	background:
+		repeating-conic-gradient(from var(--life-dial-start-angle), transparent 0 calc(var(--hp-segment-angle) - 1deg), rgb(255 226 190 / 38%) calc(var(--hp-segment-angle) - 1deg) var(--hp-segment-angle)),
+		conic-gradient(from var(--life-dial-start-angle), #ce3e49 var(--hp-angle), #302426 0);
+	box-shadow: 0 0 0 1px #765250, 0 0 1rem rgb(174 30 43 / 25%);
+}
+
+.dnd4e-info-actor-display__life-dial::before {
+	position: absolute;
+	width: 4.8rem;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	background: #161517;
+	box-shadow: inset 0 0 0 1px #4e4140;
+	content: "";
+}
+
+.dnd4e-info-actor-display__life-dial label {
+	position: relative;
+	z-index: 1;
+	display: grid;
+	justify-items: center;
+	text-align: center;
+}
+
+.dnd4e-info-actor-display__life-dial span,
+.dnd4e-info-actor-display__life-dial small,
+.dnd4e-info-actor-display__vital-counter span {
+	color: #aa927a;
+	font-size: 0.54rem;
+	font-weight: 800;
+	letter-spacing: 0.1em;
+	line-height: 1;
+	text-transform: uppercase;
+}
+
+.dnd4e-info-actor-display__life-dial small {
+	margin-top: 0.14rem;
+	color: #8e8176;
+	font-size: 0.55rem;
+	font-weight: 600;
+	letter-spacing: 0;
+	text-transform: none;
+}
+
+.dnd4e-info-actor-display__life-dial input,
+.dnd4e-info-actor-display__vital-counter input {
+	width: 2.7rem;
+	height: auto;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	box-shadow: none;
+	text-align: center;
+}
+
+.dnd4e-info-actor-display__life-dial input {
+	margin-top: 0.12rem;
+	color: #f5d8ba;
+	font-family: var(--font-h1, serif);
+	font-size: 1.8rem;
+	font-weight: 700;
+	line-height: 1;
+}
+
+.dnd4e-info-actor-display__vital-counters {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 0.42rem;
+}
+
+.dnd4e-info-actor-display__vital-counter {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	align-items: center;
+	min-height: 3rem;
+	padding: 0.38rem;
+	border: 1px solid #4d4541;
+	border-radius: 0.25rem;
+	background: #242224;
+}
+
+.dnd4e-info-actor-display__vital-counter > i {
+	grid-row: span 2;
+	margin-right: 0.4rem;
+	color: #ae9573;
+	font-size: 0.9rem;
+}
+
+.dnd4e-info-actor-display__vital-counter > div {
+	display: flex;
+	align-items: baseline;
+}
+
+.dnd4e-info-actor-display__vital-counter input {
+	width: 1.25rem;
+	color: #ead5b9;
+	font-family: inherit;
+	font-size: 1rem;
+	font-weight: 700;
+	line-height: 1;
+}
+
+.dnd4e-info-actor-display__vital-counter b,
+.dnd4e-info-actor-display__vital-counter small {
+	color: #82776c;
+	font-size: 0.58rem;
+	font-weight: 700;
+}
+
+.dnd4e-info-actor-display__vital-counter--temp {
+	border-color: #516b75;
+	background: linear-gradient(135deg, #26363d, #202225);
+}
+
+.dnd4e-info-actor-display__vital-counter--temp > i,
+.dnd4e-info-actor-display__vital-counter--temp input {
+	color: #d4edf2;
+}
+
+.dnd4e-info-actor-display__surge-segments {
+	grid-column: 1 / -1;
+	display: grid;
+	grid-template-columns: repeat(var(--surge-count), 1fr);
+	gap: 0.15rem;
+	height: 0.32rem;
+	padding: 0;
+	border: 0;
+	clip-path: none;
+	background: transparent;
+}
+
+.dnd4e-info-actor-display__surge-segments i {
+	background: #33291d;
+	box-shadow: none;
+}
+
+.dnd4e-info-actor-display__stats {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	flex: 0 0 auto;
+	min-height: 3.2rem;
+	border-bottom: 1px solid rgb(153 116 86 / 28%);
+	background: #19191b;
+}
+
+.dnd4e-info-actor-display__stats button {
+	display: grid;
+	grid-template-columns: auto auto;
+	align-items: center;
+	justify-content: center;
+	gap: 0.12rem 0.35rem;
+	height: 3.2rem;
+	overflow: hidden;
+	padding: 0.4rem 0.15rem;
+	border: 0;
+	border-right: 1px solid rgb(153 116 86 / 20%);
+	background: transparent;
+	color: inherit;
+	line-height: 1;
+}
+
+.dnd4e-info-actor-display__stats button:not([data-action]) {
+	cursor: default;
+}
+
+.dnd4e-info-actor-display__stats button[data-action]:hover {
+	background: linear-gradient(#36302d, #242224);
+	color: #f6dfbd;
+	box-shadow: inset 0 -2px #c89550;
+}
+
+.dnd4e-info-actor-display__stats button[data-action]:hover i {
+	color: #f0c879;
+}
+
+.dnd4e-info-actor-display__stats i {
+	grid-row: span 2;
+	color: #c9a66f;
+	font-size: 0.85rem;
+}
+
+.dnd4e-info-actor-display__stats strong {
+	color: #f0d9ba;
+	font-size: 0.9rem;
+}
+
+.dnd4e-info-actor-display__stats small {
+	color: #81776d;
+	font-size: 0.47rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.dnd4e-info-actor-display__tabs {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(4rem, 1fr));
+	gap: 0.35rem;
+	flex: 0 0 auto;
+	padding: 0.4rem 0.55rem;
+	border-bottom: 1px solid rgb(153 116 86 / 28%);
+	background: #181719;
+}
+
+.dnd4e-info-actor-display__tabs button {
+	min-width: 0;
+	padding: 0.46rem 0.12rem;
+	border: 1px solid rgb(153 116 86 / 32%);
+	border-radius: 0.3rem;
+	background: #262527;
+	color: #9e9080;
+	font-size: 0.58rem;
+	font-weight: 750;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.dnd4e-info-actor-display__tabs i {
+	display: block;
+	margin-bottom: 0.2rem;
+	font-size: 0.82rem;
+}
+
+.dnd4e-info-actor-display__tabs button.is-active {
+	border-color: #c89550;
+	background: linear-gradient(#46372d, #302821);
+	color: #f0d6b3;
+	box-shadow: inset 0 0 0 1px rgb(200 149 80 / 20%);
+}
+
+.dnd4e-info-actor-display__tabs button:hover:not(.is-active) {
+	border-color: rgb(200 149 80 / 70%);
+	background: #353130;
+	color: #e6c69b;
+}
+
+.dnd4e-info-actor-display__tabs button.is-active:hover {
+	border-color: #f0c879;
+	filter: brightness(1.15);
+}
+
+.dnd4e-info-actor-display__display-toggle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.4rem;
+	flex: 0 0 auto;
+	min-height: 1.8rem;
+	padding: 0.35rem 0.65rem;
+	border: 0;
+	border-top: 1px solid rgb(153 116 86 / 28%);
+	background: #181719;
+	color: #aa927a;
+	font-size: 0.58rem;
+	font-weight: 750;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.dnd4e-info-actor-display__display-toggle:hover {
+	background: #302a26;
+	color: #f0d6b3;
+}
+
+.dnd4e-info-actor-display__display-toggle i {
+	color: #c89550;
+}
+
+#dnd4e-info-actor-display:has(.dnd4e-info-actor-display__panel.is-collapsed),
+#dnd4e-info-actor-display:has(.dnd4e-info-actor-display__panel.is-collapsed) .dnd4e-info-actor-display__panel {
+	height: auto;
+	max-height: none;
+}
+
+.dnd4e-info-actor-display__workspace {
+	flex: 1 1 auto;
+	min-height: 4rem;
+	overflow-y: auto;
+	padding: 0 0.7rem 0.75rem;
+	scrollbar-color: #79262d #191617;
+}
+
+.dnd4e-info-actor-display__power-search {
+	display: flex;
+	align-items: center;
+	gap: 0.45rem;
+	margin-top: 0.7rem;
+	padding: 0.3rem 0.5rem;
+	border: 1px solid rgb(153 116 86 / 40%);
+	border-radius: 0.3rem;
+	background: #211e1e;
+	color: #c89550;
+}
+
+.dnd4e-info-actor-display__power-search:focus-within {
+	border-color: #e4b96f;
+	box-shadow: inset 0 0 0 1px rgb(228 185 111 / 22%);
+}
+
+.dnd4e-info-actor-display__power-search input {
+	width: 100%;
+	min-width: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	background: transparent;
+	color: #f0ddc2;
+	font: inherit;
+	font-size: 0.74rem;
+}
+
+.dnd4e-info-actor-display__power-search input::placeholder {
+	color: #9b856f;
+	opacity: 1;
+}
+
+.dnd4e-info-actor-display__power-search-empty {
+	margin: 1rem 0;
+	color: #b9a28a;
+	font-size: 0.76rem;
+	font-style: italic;
+	text-align: center;
+}
+
+.dnd4e-info-actor-display__group h2 {
+	display: flex;
+	align-items: center;
+	gap: 0.45rem;
+	margin: 0.7rem 0 0.32rem;
+	color: #d9c5aa;
+	font-size: 0.76rem;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.dnd4e-info-actor-display__group h2::after {
+	flex: 1;
+	height: 1px;
+	background: rgb(169 137 111 / 35%);
+	content: "";
+}
+
+.dnd4e-info-actor-display__group h2 small {
+	order: 2;
+	color: #846f5b;
+}
+
+.dnd4e-info-actor-display__power,
+.dnd4e-info-actor-display__feature,
+.dnd4e-info-actor-display__item {
+	display: flex;
+	align-items: center;
+	gap: 0.55rem;
+	box-sizing: border-box;
+	width: 100%;
+	min-height: 2.4rem;
+	margin-bottom: 0.28rem;
+	padding: 0.35rem 0.5rem;
+	border: 1px solid rgb(255 255 255 / 7%);
+	border-radius: 0.3rem;
+	background: linear-gradient(90deg, rgb(28 111 45 / 95%), rgb(18 80 32 / 94%));
+	color: #f0ddc2;
+}
+
+.dnd4e-info-actor-display__power.has-inline-details {
+	display: block;
+	padding: 0;
+	overflow: hidden;
+}
+
+.dnd4e-info-actor-display__power {
+	display: block;
+	min-height: 0;
+	padding: 0;
+}
+
+.dnd4e-info-actor-display__power-header {
+	display: flex;
+	align-items: center;
+	gap: 0.55rem;
+	min-height: 2.4rem;
+	padding: 0.35rem 0.5rem;
+}
+
+.dnd4e-info-actor-display__power-header > button {
+	margin-left: auto;
+}
+
+.dnd4e-info-actor-display__power-header > .dnd4e-info-actor-display__power-details-toggle {
+	display: grid;
+	place-items: center;
+	flex: 0 0 1.25rem;
+	width: 1.25rem;
+	height: 1.25rem;
+	margin-left: auto;
+	border: 1px solid rgb(153 116 86 / 32%);
+	border-radius: 0.3rem;
+	background: #262527;
+	color: #aa927a;
+	font-size: 0.62rem;
+}
+
+.dnd4e-info-actor-display__power-header > .dnd4e-info-actor-display__power-details-toggle:hover,
+.dnd4e-info-actor-display__power-header > .dnd4e-info-actor-display__power-details-toggle:focus-visible {
+	border-color: #c89550;
+	background: #353130;
+	color: #f0d6b3;
+	transform: none;
+}
+
+.dnd4e-info-actor-display__power-header > .dnd4e-info-actor-display__power-details-toggle + button {
+	margin-left: 0;
+}
+
+.dnd4e-info-actor-display__npc-power-actions {
+	display: flex;
+	gap: 0.16rem;
+	margin-left: auto;
+}
+
+.dnd4e-info-actor-display__npc-power-actions button {
+	display: grid;
+	place-items: center;
+	width: 1.25rem;
+	height: 1.25rem;
+	margin: 0;
+	padding: 0;
+	border: 1px solid rgb(153 116 86 / 32%);
+	border-radius: 0.3rem;
+	background: #262527;
+	color: #aa927a;
+	font-size: 0.62rem;
+}
+
+.dnd4e-info-actor-display__npc-power-actions button:hover,
+.dnd4e-info-actor-display__npc-power-actions button:focus-visible {
+	border-color: #c89550;
+	background: #353130;
+	color: #f0d6b3;
+	transform: none;
+}
+
+.dnd4e-info-actor-display__power-flavour-toggle {
+	display: grid;
+	place-items: center;
+	order: 3;
+	flex: 0 0 1.25rem;
+	width: 1.25rem;
+	height: 1.25rem;
+	margin: 0;
+	padding: 0;
+	border: 1px solid rgb(153 116 86 / 32%);
+	border-radius: 0.3rem;
+	background: #262527;
+	color: #aa927a;
+	font-size: 0.62rem;
+}
+
+.dnd4e-info-actor-display__power-flavour-toggle:hover,
+.dnd4e-info-actor-display__power-flavour-toggle:focus-visible {
+	border-color: #c89550;
+	background: #353130;
+	color: #f0d6b3;
+}
+
+.dnd4e-info-actor-display__power-flavour {
+	margin: 0;
+	padding: 0.24rem 0.5rem 0.3rem;
+	border-top: 1px solid rgb(0 0 0 / 26%);
+	background: rgb(0 0 0 / 16%);
+	color: #d3ddcd;
+	font-family: var(--font-primary, "Signika", sans-serif);
+	font-size: 0.72rem;
+	font-style: italic;
+	line-height: 1.2;
+}
+
+.dnd4e-info-actor-display__power-details {
+	border-top: 1px solid rgb(0 0 0 / 28%);
+	background: rgb(7 22 11 / 88%);
+	color: #eee6d8;
+	font-size: 0.73rem;
+	line-height: 1.3;
+	text-align: left;
+}
+
+.dnd4e-info-actor-display__power-details > .main-block {
+	padding: 0.16rem 0.32rem 0.3rem;
+}
+
+.dnd4e-info-actor-display__power-details .main-block > *,
+.dnd4e-info-actor-display__power-details .attack-block > * {
+	margin: 0;
+	padding: 0.2rem 0.28rem;
+}
+
+.dnd4e-info-actor-display__power-details.is-custom .flavour {
+	margin: 0;
+	padding: 0.32rem 0.5rem 0.2rem;
+	color: #cbd7c7;
+	font-family: var(--font-primary, "Signika", sans-serif);
+	font-style: italic;
+}
+
+.dnd4e-info-actor-display__power.is-depleted .dnd4e-info-actor-display__power-details .flavour {
+	display: none;
+}
+
+.dnd4e-info-actor-display__power-details .attack-block {
+	margin: 0.12rem 0;
+	border: 1px solid rgb(139 193 126 / 28%);
+	border-radius: 0.18rem;
+	background: rgb(0 0 0 / 18%);
+}
+
+.dnd4e-info-actor-display__power-details .attack-block > * + * {
+	border-top: 1px solid rgb(139 193 126 / 18%);
+}
+
+.dnd4e-info-actor-display__power-details b {
+	color: #ffe1a2;
+}
+
+.dnd4e-info-actor-display__power.is-encounter {
+	background: linear-gradient(90deg, rgb(156 31 28 / 96%), rgb(111 20 20 / 94%));
+}
+
+.dnd4e-info-actor-display__power.is-daily {
+	background: linear-gradient(90deg, rgb(62 59 58 / 98%), rgb(28 28 30 / 96%));
+}
+
+.dnd4e-info-actor-display__power.is-item {
+	background: linear-gradient(90deg, rgb(180 130 32 / 98%), rgb(108 72 15 / 96%));
+}
+
+.dnd4e-info-actor-display__power.is-depleted {
+	filter: saturate(0.3) brightness(0.68);
+}
+
+.dnd4e-info-actor-display__power.is-item.is-depleted {
+	filter: brightness(0.68);
+}
+
+.dnd4e-info-actor-display__power:hover,
+.dnd4e-info-actor-display__power:focus-visible {
+	border-color: rgb(255 226 181 / 68%);
+	box-shadow: 0 0.18rem 0.55rem rgb(0 0 0 / 35%), inset 0 0 0 1px rgb(255 255 255 / 12%);
+	filter: brightness(1.12);
+	transform: translateX(0.12rem);
+}
+
+.dnd4e-info-actor-display__power.is-depleted:hover,
+.dnd4e-info-actor-display__power.is-depleted:focus-visible {
+	filter: saturate(0.45) brightness(0.82);
+}
+
+.dnd4e-info-actor-display__power.is-item.is-depleted:hover,
+.dnd4e-info-actor-display__power.is-item.is-depleted:focus-visible {
+	filter: brightness(0.82);
+}
+
+.dnd4e-info-actor-display__power > i,
+.dnd4e-info-actor-display__power-header > i,
+.dnd4e-info-actor-display__feature > i,
+.dnd4e-info-actor-display__item i {
+	flex: 0 0 1.4rem;
+	text-align: center;
+}
+
+.dnd4e-info-actor-display__power > strong,
+.dnd4e-info-actor-display__power-header > strong {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	font-size: 0.82rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.dnd4e-info-actor-display__power > small,
+.dnd4e-info-actor-display__power-header > small {
+	font-size: 0.64rem;
+}
+
+.dnd4e-info-actor-display__power > button,
+.dnd4e-info-actor-display__power-header > button {
+	padding: 0.2rem;
+	border: 0;
+	background: transparent;
+	color: #f0ddc2;
+}
+
+.dnd4e-info-actor-display__power > button:hover,
+.dnd4e-info-actor-display__power-header > button:hover {
+	color: #fff1d5;
+	transform: rotate(35deg);
+}
+
+.dnd4e-info-actor-display__skills {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-auto-rows: minmax(2.5rem, auto);
+	gap: 0.32rem;
+	padding-top: 0.7rem;
+}
+
+.dnd4e-info-actor-display__skills button {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	align-items: center;
+	gap: 0.08rem 0.5rem;
+	height: auto;
+	min-height: 2.5rem;
+	overflow: hidden;
+	padding: 0.48rem 0.58rem;
+	border: 1px solid rgb(153 116 86 / 30%);
+	border-radius: 0.25rem;
+	background: linear-gradient(90deg, #302a26, #201f20);
+	color: #e5cfb2;
+	line-height: 1;
+	text-align: left;
+}
+
+.dnd4e-info-actor-display__skills button:hover {
+	border-color: rgb(200 149 80 / 72%);
+	background: linear-gradient(90deg, #45382d, #2b2828);
+	box-shadow: inset 0 0 0 1px rgb(255 232 194 / 7%);
+	transform: translateY(-0.08rem);
+}
+
+.dnd4e-info-actor-display__skills button:hover strong {
+	color: #f6ce84;
+}
+
+.dnd4e-info-actor-display__skills strong {
+	grid-row: span 2;
+	color: #e7bc72;
+	font-size: 1rem;
+}
+
+.dnd4e-info-actor-display__skills small {
+	color: #776d63;
+	font-size: 0.48rem;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.dnd4e-info-actor-display__feature {
+	justify-content: flex-start;
+	margin-bottom: 0.48rem;
+	border-left: 3px solid #9d784e;
+	background: linear-gradient(90deg, #31271f, #1c1b1c);
+	text-align: left;
+}
+
+.dnd4e-info-actor-display__feature:hover {
+	border-color: #c89550;
+	border-left-color: #f0c879;
+	background: linear-gradient(90deg, #493622, #292526);
+	box-shadow: 0 0.18rem 0.55rem rgb(0 0 0 / 25%);
+	transform: translateX(0.12rem);
+}
+
+.dnd4e-info-actor-display__feature strong {
+	flex: 1;
+	min-width: 0;
+	font-size: 0.78rem;
+	text-align: left;
+}
+
+.dnd4e-info-actor-display__feature--trait {
+	display: grid;
+	grid-template-columns: 1.4rem minmax(0, 1fr);
+	align-items: start;
+	height: auto;
+	min-height: 0;
+}
+
+.dnd4e-info-actor-display__feature--trait > i {
+	margin-top: 0.1rem;
+}
+
+.dnd4e-info-actor-display__feature-copy {
+	display: block;
+	min-width: 0;
+}
+
+.dnd4e-info-actor-display__feature-copy strong,
+.dnd4e-info-actor-display__feature-copy small {
+	display: block;
+}
+
+.dnd4e-info-actor-display__feature-copy strong {
+	margin-bottom: 0.2rem;
+}
+
+.dnd4e-info-actor-display__feature-copy small {
+	color: #b9ab9e;
+	font-family: var(--font-primary, "Signika", sans-serif);
+	font-size: 0.7rem;
+	font-weight: 400;
+	line-height: 1.25;
+	text-align: left;
+	white-space: normal;
+}
+
+.dnd4e-info-actor-display__item {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	background: #242224;
+	transition: border-color 120ms ease, background 120ms ease, box-shadow 120ms ease, transform 120ms ease;
+}
+
+.dnd4e-info-actor-display__item:hover,
+.dnd4e-info-actor-display__item:focus-within {
+	border-color: rgb(200 149 80 / 68%);
+	background: #302b29;
+	box-shadow: 0 0.18rem 0.55rem rgb(0 0 0 / 25%);
+	transform: translateX(0.12rem);
+}
+
+.dnd4e-info-actor-display__item > button:first-child {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	min-width: 0;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: #ead6ba;
+	text-align: left;
+}
+
+.dnd4e-info-actor-display__item > button:first-child:hover {
+	color: #fff0d5;
+}
+
+.dnd4e-info-actor-display__item-copy {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	min-width: 0;
+	gap: 0.16rem;
+	text-align: left;
+}
+
+.dnd4e-info-actor-display__item-copy strong {
+	overflow: hidden;
+	font-size: 0.75rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.dnd4e-info-actor-display__item-copy small {
+	overflow: hidden;
+	color: #95877a;
+	font-size: 0.54rem;
+	line-height: 1.2;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.dnd4e-info-actor-display__equip {
+	padding: 0.3rem 0.45rem;
+	border: 1px solid #665d55;
+	border-radius: 99px;
+	background: #302e30;
+	color: #9b9188;
+	font-size: 0.5rem;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+.dnd4e-info-actor-display__equip.is-equipped {
+	border-color: #8b704a;
+	background: #493925;
+	color: #f0cd97;
+}
+
+.dnd4e-info-actor-display__equip:hover {
+	border-color: #c89550;
+	background: #493925;
+	color: #f0cd97;
+	box-shadow: 0 0 0.4rem rgb(200 149 80 / 18%);
+}
+
+.dnd4e-info-actor-display__equip.is-equipped:hover {
+	border-color: #f0c879;
+	background: #5b452b;
+}
+
+.dnd4e-info-actor-display__quick-actions {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	flex: 0 0 auto;
+	border-top: 1px solid rgb(153 116 86 / 32%);
+	background: #1b1a1c;
+}
+
+.dnd4e-info-actor-display__quick-actions button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	gap: 0.18rem;
+	min-width: 0;
+	min-height: 3rem;
+	padding: 0.35rem 0.2rem;
+	border: 0;
+	border-radius: 0;
+	border-right: 1px solid rgb(153 116 86 / 20%);
+	border-bottom: 1px solid rgb(153 116 86 / 20%);
+	background: #29282a;
+	color: #cdb08a;
+}
+
+.dnd4e-info-actor-display__quick-actions button:hover {
+	background: linear-gradient(#44352a, #302923);
+	color: #f3d3a1;
+	box-shadow: inset 0 2px #c89550;
+}
+
+.dnd4e-info-actor-display__quick-actions button:hover i {
+	color: #f0c879;
+	transform: translateY(-0.08rem);
+}
+
+.dnd4e-info-actor-display__quick-actions i {
+	font-size: 0.95rem;
+}
+
+.dnd4e-info-actor-display__quick-actions strong {
+	font-size: 0.52rem;
+	line-height: 1.12;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.dnd4e-info-actor-display__quick-actions small {
+	color: #f0d395;
+	font-size: 0.52rem;
+	font-weight: 800;
+}
+
+@media (max-width: 700px) {
+	#dnd4e-info-actor-display {
+		max-width: calc(100vw - 1rem);
+	}
+
+	.dnd4e-info-actor-display__panel {
+		width: min(23rem, calc(100vw - 1rem));
+	}
+}

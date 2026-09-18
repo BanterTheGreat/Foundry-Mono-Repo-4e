@@ -1,0 +1,65 @@
+<div class="dnd4e-health-display__panel{{#if role}} is-{{role.key}}{{/if}}">
+	<header class="dnd4e-health-display__heading">
+		{{#if role.icon}}
+			<span class="dnd4e-health-display__role" title="{{role.label}}" aria-label="{{role.label}}">
+				<i class="{{role.icon}}" aria-hidden="true"></i>
+			</span>
+		{{/if}}
+		<span class="dnd4e-health-display__name{{#if defeated}} is-defeated{{/if}}">{{name}}</span>
+		{{#if turnDistance}}
+			<span class="dnd4e-health-display__turn-distance" aria-label="{{turnDistance.label}}">
+				<i class="fa-solid fa-hourglass-half" aria-hidden="true"></i>
+				<span aria-hidden="true">{{turnDistance.count}}</span>
+			</span>
+		{{else if role.icon}}
+			<span class="dnd4e-health-display__role" title="{{role.label}}" aria-hidden="true">
+				<i class="{{role.icon}}" aria-hidden="true"></i>
+			</span>
+		{{/if}}
+	</header>
+
+	<div class="dnd4e-health-display__bar has-{{segmentCount}}-segments" role="img" aria-label="{{healthLabel}}">
+		{{#each segments}}
+			<span class="dnd4e-health-display__segment{{#if filled}} is-filled{{/if}}"></span>
+		{{/each}}
+		<span class="dnd4e-health-display__health-state" aria-hidden="true">{{healthState}}</span>
+	</div>
+
+	{{#if traits.length}}
+		<section class="dnd4e-health-display__traits{{#if expandTraits}} is-expanded{{/if}}" aria-label="NPC traits">
+			<h3>Traits</h3>
+			<ul>
+				{{#each traits}}
+					<li><span class="dnd4e-health-display__trait-text">{{description}}</span></li>
+				{{/each}}
+			</ul>
+		</section>
+	{{/if}}
+
+	{{#if effects.length}}
+		<ul class="dnd4e-health-display__effects" aria-label="Temporary effects and conditions">
+			{{#each effects}}
+				<li class="dnd4e-health-display__effect" title="{{name}}">
+					<img src="{{img}}" alt="">
+					<span class="dnd4e-health-display__effect-copy">
+						<span class="dnd4e-health-display__effect-name">{{name}}</span>
+						{{#if duration}}
+							<small class="dnd4e-health-display__duration">{{duration.label}}</small>
+						{{/if}}
+					</span>
+				</li>
+			{{/each}}
+		</ul>
+	{{/if}}
+
+	{{#if combatStats.length}}
+		<ul class="dnd4e-health-display__combat-stats" aria-label="Current combat modifiers and defenses">
+			{{#each combatStats}}
+				<li class="dnd4e-health-display__combat-stat {{tone}}" title="{{label}}: {{value}}" aria-label="{{label}}: {{value}}">
+					<i class="{{icon}}" aria-hidden="true"></i>
+					<span>{{value}}</span>
+				</li>
+			{{/each}}
+		</ul>
+	{{/if}}
+</div>

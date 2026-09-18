@@ -1,0 +1,29 @@
+<section class="dnd4e-info-team-display__panel">
+	<header class="dnd4e-info-team-display__header">
+		<span>Adventuring Company</span>
+		<small>Team vitality</small>
+	</header>
+	<section class="dnd4e-info-team-display__members" aria-label="Adventuring company">
+		{{#each members}}
+			<article class="dnd4e-info-team-display__member {{#if isCritical}}is-critical{{/if}}" data-actor-id="{{actorId}}" data-token-id="{{tokenId}}" role="button" tabindex="0" aria-label="Select {{name}}'s token. Right-click to open character sheet.">
+				<div class="dnd4e-info-team-display__portrait">
+					<img src="{{portrait}}" alt="" draggable="false">
+					<span class="dnd4e-info-team-display__portrait-preview" role="tooltip">
+						<img src="{{actorImage}}" alt="{{name}}">
+					</span>
+				</div>
+				<strong>{{name}}</strong>
+				<div class="dnd4e-info-team-display__seals">
+					<div class="dnd4e-info-team-display__seal dnd4e-info-team-display__seal--hp" style="--resource-angle: {{hp.angle}}deg; --segment-angle: {{hp.segmentAngle}}deg" role="img" aria-label="Hit points: {{hp.value}} of {{hp.maximum}}">
+						<span>HP</span>
+					</div>
+					<div class="dnd4e-info-team-display__seal dnd4e-info-team-display__seal--surges" style="--resource-angle: {{surges.angle}}deg" role="img" aria-label="Healing surges: {{surges.value}} of {{surges.maximum}}">
+						<span>SRG</span>
+					</div>
+				</div>
+			</article>
+		{{else}}
+			<p class="dnd4e-info-team-display__empty">No party members are available on this scene.</p>
+		{{/each}}
+	</section>
+</section>

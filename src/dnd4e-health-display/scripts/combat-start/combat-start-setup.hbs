@@ -1,0 +1,205 @@
+<form class="dnd4e-combat-start-setup__form">
+	<header class="dnd4e-combat-start-setup__heading">
+		<div>
+			<span>Encounter Presentation</span>
+			<h2>{{combatName}}</h2>
+			<p>Prepare the briefing your players will see before initiative begins.</p>
+		</div>
+		<section class="dnd4e-combat-start-setup__presets" aria-label="Saved Battle Briefing presets">
+			<label for="dnd4e-combat-start-preset">Load preset</label>
+			<div class="dnd4e-combat-start-setup__preset-row">
+				<select id="dnd4e-combat-start-preset" name="preset">
+					<option value="">Choose a preset…</option>
+					{{#each presets}}
+						<option value="{{id}}" {{#if selected}}selected{{/if}}>{{name}}</option>
+					{{/each}}
+				</select>
+				<button type="button" data-action="loadPreset" {{#unless hasPresets}}disabled{{/unless}}>Load</button>
+				<button type="button" data-action="deletePreset" class="dnd4e-combat-start-setup__delete" {{#unless hasSelectedPreset}}disabled{{/unless}} title="Delete selected preset">
+					<i class="fa-solid fa-trash" aria-hidden="true"></i>
+				</button>
+			</div>
+		</section>
+	</header>
+
+	<nav class="dnd4e-combat-start-setup__tabs" aria-label="Battle Briefing preparation sections">
+		<button type="button" data-action="showTab" data-tab="briefing" class="{{#if showBriefing}}is-active{{/if}}">
+			<i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Battle Briefing
+		</button>
+		<button type="button" data-action="showTab" data-tab="strategy" class="{{#if showStrategy}}is-active{{/if}}">
+			<i class="fa-solid fa-chess-knight" aria-hidden="true"></i> Strategy
+		</button>
+	</nav>
+
+	<div class="dnd4e-combat-start-setup__workspace">
+		{{#if showBriefing}}
+		<div class="dnd4e-combat-start-setup__editor">
+			<div class="dnd4e-combat-start-setup__fields">
+				<label class="dnd4e-combat-start-setup__wide">
+					<span>Title</span>
+					<input type="text" name="title" value="{{draft.title}}" required>
+				</label>
+				<label class="dnd4e-combat-start-setup__wide">
+					<span>Description</span>
+					<textarea name="description" rows="3">{{draft.description}}</textarea>
+				</label>
+				<label class="dnd4e-combat-start-setup__wide">
+					<span>Commander subtitle</span>
+					<input type="text" name="commanderSubtitle" value="{{draft.commanderSubtitle}}" placeholder="Optional text beneath the commander name">
+				</label>
+				<fieldset class="dnd4e-combat-start-setup__art-focus dnd4e-combat-start-setup__wide">
+					<legend>Commander artwork focus</legend>
+					{{#if commanderPreview}}
+						<figure class="dnd4e-combat-start-setup__art-preview">
+							<img src="{{commanderPreview.img}}" alt="Commander artwork alignment preview" style="object-position: {{draft.commanderPositionX}}% {{draft.commanderPositionY}}%; transform-origin: {{draft.commanderPositionX}}% {{draft.commanderPositionY}}%; transform: scale({{commanderPreviewScale}})">
+							<figcaption>{{commanderPreview.name}}</figcaption>
+						</figure>
+					{{/if}}
+					<div class="dnd4e-combat-start-setup__art-controls">
+						<label>
+							<span>Horizontal</span>
+							<input type="range" name="commanderPositionX" min="0" max="100" step="1" value="{{draft.commanderPositionX}}">
+						</label>
+						<label>
+							<span>Vertical</span>
+							<input type="range" name="commanderPositionY" min="0" max="100" step="1" value="{{draft.commanderPositionY}}">
+						</label>
+						<label>
+							<span>Zoom</span>
+							<input type="range" name="commanderZoom" min="100" max="200" step="5" value="{{draft.commanderZoom}}">
+						</label>
+					</div>
+				</fieldset>
+			</div>
+
+		</div>
+
+		<section class="dnd4e-combat-start-setup__roster" aria-label="Current encounter combatants">
+			<div class="dnd4e-combat-start-setup__section-heading">
+				<div>
+					<span>Encounter Roster</span>
+					<h3>Current Combatants</h3>
+				</div>
+				<div class="dnd4e-combat-start-setup__roster-actions">
+					<button type="button" data-action="addFriendlyTokens" {{#unless hasAvailableFriendlyTokens}}disabled{{/unless}}>
+						<i class="fa-solid fa-user-plus" aria-hidden="true"></i> Add Friendly Tokens{{#if availableFriendlyCount}} ({{availableFriendlyCount}}){{/if}}
+					</button>
+					<button type="button" data-action="addNeutralTokens" class="is-neutral" {{#unless hasAvailableNeutralTokens}}disabled{{/unless}}>
+						<i class="fa-solid fa-circle-half-stroke" aria-hidden="true"></i> Add Neutral Tokens{{#if availableNeutralCount}} ({{availableNeutralCount}}){{/if}}
+					</button>
+					<button type="button" data-action="addHostileTokens" class="is-hostile" {{#unless hasAvailableHostileTokens}}disabled{{/unless}}>
+						<i class="fa-solid fa-skull" aria-hidden="true"></i> Add Hostile Tokens{{#if availableHostileCount}} ({{availableHostileCount}}){{/if}}
+					</button>
+				</div>
+			</div>
+			<div class="dnd4e-combat-start-setup__combatants">
+				{{#each combatants}}
+					<article class="{{dispositionClass}} {{#if isCommander}}is-commander{{/if}} {{#if isHidden}}is-hidden{{/if}}">
+						<img src="{{img}}" alt="">
+						<div><strong>{{name}}</strong><small>Level {{level}} · {{role}}</small></div>
+						<button type="button" data-action="toggleCombatantHidden" data-combatant-id="{{id}}" class="dnd4e-combat-start-setup__visibility-toggle" aria-pressed="{{isHidden}}" title="{{#if isHidden}}Show{{else}}Hide{{/if}} {{name}} to players">
+							<i class="fa-solid {{#if isHidden}}fa-eye-slash{{else}}fa-eye{{/if}}" aria-hidden="true"></i>
+						</button>
+						{{#if canBeCommander}}
+							<button type="button" data-action="setCommander" data-combatant-id="{{id}}" class="dnd4e-combat-start-setup__commander-select" aria-pressed="{{isCommander}}" title="Select {{name}} as enemy commander">
+								<i class="fa-solid fa-crown" aria-hidden="true"></i>
+							</button>
+						{{/if}}
+						<button type="button" data-action="removeCombatant" data-combatant-id="{{id}}" class="dnd4e-combat-start-setup__remove-combatant" title="Remove {{name}} from this encounter">
+							<i class="fa-solid fa-trash" aria-hidden="true"></i>
+						</button>
+					</article>
+				{{else}}
+					<p>No tokens are currently in this encounter.</p>
+				{{/each}}
+			</div>
+			{{#if hasMissingCombatants}}
+				<section class="dnd4e-combat-start-setup__missing-combatants" aria-live="polite">
+					<strong>Missing from preset</strong>
+					{{#each missingCombatants}}
+						<span>{{count}} of {{name}}</span>
+					{{/each}}
+				</section>
+			{{/if}}
+		</section>
+		{{else}}
+			<section class="dnd4e-combat-start-setup__strategy" aria-label="Strategy">
+				<div class="dnd4e-combat-start-setup__strategy-column">
+					<div class="dnd4e-combat-start-setup__section-heading">
+						<div>
+							<span>Turn Pointers</span>
+							<h3>Remember This, When It's Their Turn</h3>
+						</div>
+						<button type="button" data-action="addStrategyPointer">
+							<i class="fa-solid fa-plus" aria-hidden="true"></i> Add Pointer
+						</button>
+					</div>
+					<div class="dnd4e-combat-start-setup__pointers">
+						{{#each strategyPointers}}
+							<article class="dnd4e-combat-start-setup__pointer">
+								<button type="button" data-action="removeStrategyPointer" data-pointer-id="{{id}}" class="dnd4e-combat-start-setup__delete" title="Remove this pointer">
+									<i class="fa-solid fa-trash" aria-hidden="true"></i>
+								</button>
+								<div class="dnd4e-combat-start-setup__pointer-tokens">
+									{{#each tokenOptions}}
+										<label class="{{dispositionClass}}" title="{{name}}">
+											<input type="checkbox" data-pointer-id="{{../id}}" data-token-ids="{{memberIds}}" {{#if checked}}checked{{/if}}>
+											<img src="{{img}}" alt="">
+										</label>
+									{{/each}}
+								</div>
+								<div class="dnd4e-combat-start-setup__note-list">
+									{{#each notes}}
+										<div class="dnd4e-combat-start-setup__note-row">
+											<input type="text" data-pointer-note data-pointer-id="{{../id}}" value="{{this}}" placeholder="Remember this on their turn…">
+											<button type="button" data-action="removePointerNote" data-pointer-id="{{../id}}" data-note-index="{{@index}}" title="Remove this note">
+												<i class="fa-solid fa-xmark" aria-hidden="true"></i>
+											</button>
+										</div>
+									{{/each}}
+									<button type="button" data-action="addPointerNote" data-pointer-id="{{id}}" class="dnd4e-combat-start-setup__add-note">
+										<i class="fa-solid fa-plus" aria-hidden="true"></i> Add Note
+									</button>
+								</div>
+							</article>
+						{{else}}
+							<p>No turn pointers yet. Select tokens above and add a note for when their turn comes up.</p>
+						{{/each}}
+					</div>
+				</div>
+				<div class="dnd4e-combat-start-setup__strategy-column">
+					<div class="dnd4e-combat-start-setup__section-heading">
+						<div>
+							<span>Environment</span>
+							<h3>Always On Your Screen</h3>
+						</div>
+					</div>
+					<div class="dnd4e-combat-start-setup__note-list">
+						{{#each strategyEnvironment}}
+							<div class="dnd4e-combat-start-setup__note-row">
+								<input type="text" data-env-note value="{{this}}" placeholder="Bystander peril, terrain hazards…">
+								<button type="button" data-action="removeEnvironmentNote" data-note-index="{{@index}}" title="Remove this note">
+									<i class="fa-solid fa-xmark" aria-hidden="true"></i>
+								</button>
+							</div>
+						{{/each}}
+						<button type="button" data-action="addEnvironmentNote" class="dnd4e-combat-start-setup__add-note">
+							<i class="fa-solid fa-plus" aria-hidden="true"></i> Add Note
+						</button>
+					</div>
+				</div>
+			</section>
+		{{/if}}
+	</div>
+
+	<footer class="dnd4e-combat-start-setup__actions">
+		<div class="dnd4e-combat-start-setup__save-group">
+			<label>
+				<span>Preset name</span>
+				<input type="text" name="presetName" value="{{draft.name}}" placeholder="The Ember Gate">
+			</label>
+			<button type="button" data-action="savePreset"><i class="fa-solid fa-bookmark" aria-hidden="true"></i> Save Preset</button>
+		</div>
+		<button type="button" data-action="show" class="dnd4e-combat-start-setup__show"><i class="fa-solid fa-eye" aria-hidden="true"></i> Start Briefing</button>
+	</footer>
+</form>

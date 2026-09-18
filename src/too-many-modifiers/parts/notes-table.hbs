@@ -1,0 +1,24 @@
+<div>
+  {{#if notes}}
+  <table style="width: 100%; border-collapse: collapse;">
+    <thead>
+      <tr>
+        <th class="tmm-notes-table-header" style="width: 30px;">Delete</th>
+        <th class="tmm-notes-table-header">Text</th>
+        <th class="tmm-notes-table-header">Duration</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each notes as |note|}}
+      <tr>
+        <td class="tmm-notes-table-entry" style="width: 30px; align: center">
+          <input type="checkbox" id="note-{{note.id}}" name="deleteNote" value="{{note.id}}" style="cursor: pointer;">
+        </td>
+        <td class="tmm-notes-table-entry">{{note.text}}</td>
+        <td class="tmm-notes-table-entry">{{note.duration}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}}
+</div>

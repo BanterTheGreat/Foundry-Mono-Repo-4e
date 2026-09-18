@@ -1,0 +1,169 @@
+<div class="dnd4e-info-actor-display__panel {{#if isCollapsed}}is-collapsed{{/if}}">
+	<header class="dnd4e-info-actor-display__identity">
+		<img src="{{portrait}}" alt="" draggable="false">
+		<div>
+			<h1>{{name}}</h1>
+			<strong>{{levelAndClass}}</strong>
+			{{#if subtitle}}<small>{{subtitle}}</small>{{/if}}
+		</div>
+		<button type="button" class="dnd4e-info-actor-display__close" data-action="dismiss" aria-label="Close actor display" title="Close">&times;</button>
+	</header>
+
+	<section class="dnd4e-info-actor-display__vitals">
+		<div class="dnd4e-info-actor-display__life-dial" style="--hp-angle: {{hp.dialAngle}}deg; --hp-segment-angle: {{hp.dialSegmentAngle}}deg">
+			<label>
+				<span>HP</span>
+				<input type="number" value="{{hp.value}}" data-resource-path="system.attributes.hp.value">
+				<small>of {{hp.maximum}}</small>
+			</label>
+		</div>
+		<div class="dnd4e-info-actor-display__vital-counters">
+			<label class="dnd4e-info-actor-display__vital-counter dnd4e-info-actor-display__vital-counter--temp">
+				<i class="fa-solid fa-shield" aria-hidden="true"></i>
+				<span>Temp HP</span>
+				<div><b>+</b><input type="number" value="{{tempHp}}" data-resource-path="system.attributes.temphp.value"></div>
+			</label>
+			{{#if hasSurges}}
+				<label class="dnd4e-info-actor-display__vital-counter dnd4e-info-actor-display__vital-counter--surges">
+					<i class="fa-solid fa-heart-pulse" aria-hidden="true"></i>
+					<span>Surges</span>
+					<div><input type="number" value="{{surges.value}}" data-resource-path="system.details.surges.value"><small> / {{surges.maximum}}</small></div>
+				</label>
+				<div class="dnd4e-info-actor-display__surge-segments" style="--surge-count: {{surges.maximum}}" role="img" aria-label="Healing surges: {{surges.value}} of {{surges.maximum}}">
+					{{#each surges.segments}}<i class="{{#if filled}}is-filled{{/if}}"></i>{{/each}}
+				</div>
+			{{/if}}
+		</div>
+	</section>
+
+	<section class="dnd4e-info-actor-display__stats" aria-label="Defenses and initiative">
+		{{#each stats}}
+			<button type="button" title="{{label}}" {{#if action}}data-action="{{action}}" data-command="{{command}}"{{/if}}>
+				<i class="{{icon}}" aria-hidden="true"></i>
+				<strong>{{value}}</strong>
+				<small>{{shortLabel}}</small>
+			</button>
+		{{/each}}
+	</section>
+
+	{{#if isCollapsed}}
+		<button type="button" class="dnd4e-info-actor-display__display-toggle" data-action="toggleCollapse" aria-label="Expand actor display" title="Show actions and details">
+			<i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+			<span>Show actions and details</span>
+		</button>
+	{{else}}
+		<nav class="dnd4e-info-actor-display__tabs" aria-label="Actor information">
+			{{#each tabs}}
+				<button type="button" class="{{#if active}}is-active{{/if}}" data-action="showSection" data-display-tab="{{key}}">
+					<i class="{{icon}}" aria-hidden="true"></i>
+					<span>{{label}}</span>
+				</button>
+			{{/each}}
+		</nav>
+
+		<div class="dnd4e-info-actor-display__workspace">
+		{{#if isNpcFeatures}}
+			{{#each traitCategories}}
+				<section class="dnd4e-info-actor-display__group">
+					<h2>{{name}}</h2>
+					{{#each features}}
+						<button type="button" class="dnd4e-info-actor-display__feature dnd4e-info-actor-display__feature--trait" data-action="feature" data-item-id="{{id}}" data-item-tooltip data-tooltip-direction="RIGHT">
+							<i class="fa-solid fa-book" aria-hidden="true"></i>
+							<span class="dnd4e-info-actor-display__feature-copy"><strong>{{name}}</strong>{{#if description}}<small>{{description}}</small>{{/if}}</span>
+						</button>
+					{{/each}}
+				</section>
+			{{/each}}
+		{{/if}}
+
+		{{#if isPowers}}
+			{{#if isPlayerCharacter}}
+				<div class="dnd4e-info-actor-display__power-search">
+					<i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+					<input type="search" value="{{powerSearchQuery}}" placeholder="Search powers" aria-label="Search powers" data-power-search>
+				</div>
+			{{/if}}
+			{{#each powerCategories}}
+				<section class="dnd4e-info-actor-display__group" data-power-category>
+					<h2>
+						{{name}} <small>{{powers.length}}</small>
+						{{#if @first}}{{#if @root.isPlayerCharacter}}
+							<button type="button" class="dnd4e-info-actor-display__power-flavour-toggle" data-action="togglePowerFlavour" aria-pressed="{{#if @root.isPowerFlavourHidden}}false{{else}}true{{/if}}" aria-label="{{#if @root.isPowerFlavourHidden}}Show power flavour text{{else}}Hide power flavour text{{/if}}" title="{{#if @root.isPowerFlavourHidden}}Show power flavour text{{else}}Hide power flavour text{{/if}}">
+								<i class="fa-solid {{#if @root.isPowerFlavourHidden}}fa-eye-slash{{else}}fa-eye{{/if}}" aria-hidden="true"></i>
+							</button>
+						{{/if}}{{/if}}
+					</h2>
+					{{#each powers}}
+						<div class="dnd4e-info-actor-display__power {{usageClass}} {{#if inlineDetails}}has-inline-details{{/if}}{{#if depleted}} is-depleted{{/if}}" data-action="power" data-item-id="{{id}}" data-power-name="{{name}}" {{#unless inlineDetails}}data-item-tooltip data-tooltip-direction="RIGHT" data-power-usage="{{usageClass}}"{{/unless}} role="button" tabindex="0">
+							<div class="dnd4e-info-actor-display__power-header">
+							<i class="{{icon}}" aria-hidden="true"></i>
+							<strong>{{name}}</strong>
+							{{#if showUses}}<small>{{uses}}</small>{{/if}}
+							{{#if isExpandable}}<button type="button" class="dnd4e-info-actor-display__power-details-toggle" data-action="togglePowerDetails" data-item-id="{{id}}" aria-expanded="{{#if isExpanded}}true{{else}}false{{/if}}" aria-label="{{#if isExpanded}}Hide {{name}} details{{else}}Show {{name}} details{{/if}}" title="{{#if isExpanded}}Hide details{{else}}Show details{{/if}}"><i class="fa-solid {{#if isExpanded}}fa-chevron-up{{else}}fa-chevron-down{{/if}}" aria-hidden="true"></i></button>{{/if}}
+							{{#if isNpcPower}}<span class="dnd4e-info-actor-display__npc-power-actions" role="group" aria-label="{{name}} actions"><button type="button" data-action="chatPower" data-item-id="{{id}}" aria-label="Send {{name}} to chat" title="Send to chat"><i class="fa-solid fa-comment" aria-hidden="true"></i></button>{{#if canRollDamage}}<button type="button" data-action="rollPowerDamage" data-item-id="{{id}}" aria-label="Roll {{name}} damage" title="Roll damage"><i class="fa-solid fa-burst" aria-hidden="true"></i></button>{{/if}}</span>{{/if}}
+							{{#if depleted}}<button type="button" data-action="refreshPower" data-item-id="{{id}}" title="Refresh power"><i class="fa-solid fa-rotate-right"></i></button>{{/if}}
+							</div>
+							{{#unless @root.isPowerFlavourHidden}}{{#if flavour}}{{#unless depleted}}<p class="dnd4e-info-actor-display__power-flavour">{{flavour}}</p>{{/unless}}{{/if}}{{/unless}}
+							{{#if inlineDetails}}<div class="dnd4e-info-actor-display__power-details {{inlineDetailsClass}}">{{{inlineDetails}}}</div>{{/if}}
+						</div>
+					{{/each}}
+				</section>
+			{{/each}}
+			{{#if isPlayerCharacter}}<p class="dnd4e-info-actor-display__power-search-empty" data-power-search-empty hidden>No matching powers.</p>{{/if}}
+		{{/if}}
+
+		{{#if isSkills}}
+			<div class="dnd4e-info-actor-display__skills">
+				{{#each skills}}
+					<button type="button" data-action="skill" data-skill="{{key}}"><span>{{label}}</span><strong>{{modifier}}</strong><small>Roll</small></button>
+				{{/each}}
+			</div>
+		{{/if}}
+
+		{{#if isFeatures}}
+			{{#each featureCategories}}
+				<section class="dnd4e-info-actor-display__group">
+					<h2>{{name}}</h2>
+					{{#each features}}<button type="button" class="dnd4e-info-actor-display__feature" data-action="feature" data-item-id="{{id}}" data-item-tooltip data-tooltip-direction="RIGHT"><i class="fa-solid fa-book"></i><strong>{{name}}</strong></button>{{/each}}
+				</section>
+			{{/each}}
+		{{/if}}
+
+		{{#if isItems}}
+			{{#each itemCategories}}
+				<section class="dnd4e-info-actor-display__group">
+					<h2>{{name}}</h2>
+					{{#each items}}
+						<div class="dnd4e-info-actor-display__item" data-item-id="{{id}}" data-item-tooltip data-tooltip-direction="RIGHT">
+							<button type="button" data-action="item" data-item-id="{{id}}">
+								<i class="fa-solid fa-treasure-chest"></i>
+								<span class="dnd4e-info-actor-display__item-copy">
+									<strong>{{name}}</strong>
+									{{#if weaponSummary}}<small>{{weaponSummary}}</small>{{/if}}
+								</span>
+							</button>
+							{{#if canEquip}}<button type="button" class="dnd4e-info-actor-display__equip {{#if equipped}}is-equipped{{/if}}" data-action="toggleEquip" data-item-id="{{id}}">{{#if equipped}}Equipped{{else}}Equip{{/if}}</button>{{/if}}
+						</div>
+					{{/each}}
+				</section>
+			{{/each}}
+		{{/if}}
+
+		</div>
+
+		<section class="dnd4e-info-actor-display__quick-actions" aria-label="Quick actions">
+			{{#each quickActions}}
+				<button type="button" data-action="quick" data-command="{{key}}" title="{{label}}">
+					<i class="{{icon}}" aria-hidden="true"></i>
+					<strong>{{label}}</strong>
+					{{#if detail}}<small>{{detail}}</small>{{/if}}
+				</button>
+			{{/each}}
+		</section>
+
+		<button type="button" class="dnd4e-info-actor-display__display-toggle" data-action="toggleCollapse" aria-label="Collapse actor display" title="Show status only">
+			<i class="fa-solid fa-chevron-up" aria-hidden="true"></i>
+			<span>Show status only</span>
+		</button>
+	{{/if}}
+</div>

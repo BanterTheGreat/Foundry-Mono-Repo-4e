@@ -1,0 +1,134 @@
+<section class="tab tmm-tab-modifiers {{tab.cssClass}}"
+         data-group="primary"
+         data-tab="modifiers">
+
+  <h5>Origin + Type</h5>
+  <div style="margin-bottom: 15px; display: flex; gap: 10px;">
+    <div style="width: 50%;">
+      <select id="origin"
+              name="origin"
+              style="padding: 5px; width: 100%;">
+        <option value="">Select origin...</option>
+        {{#each playerCombatants as |combatant|}}
+        <option value="{{combatant.tokenId}}"
+                {{#if
+                (eq
+                combatant.tokenId
+                ../defaultPlayerCombatant.tokenId)}}selected{{/if}}>{{combatant.name}}</option>
+        {{/each}}
+      </select>
+    </div>
+    <div style="width: 50%;">
+      <select id="modifierBonusType"
+              name="modifierBonusType"
+              style="padding: 5px; width: 100%;">
+        <option value="power">Power</option>
+        <option value="item">Item</option>
+        <option value="race">Race</option>
+        <option value="untyped">Untyped</option>
+      </select>
+    </div>
+  </div>
+  
+  <h5>Values</h5>
+  <div>
+    <!-- Main container changed to align-items: center -->
+    <div style="display: flex; gap: 10px; align-items: center;">
+      <div style="flex: 1;">
+        <select id="modifierType"
+                name="modifierType"
+                style="padding: 5px; width: 100%;">
+          <option value="">Select property...</option>
+          <option value="ac">AC</option>
+          <option value="attacks">Attacks</option>
+          <option value="damage">Damage</option>
+          <option value="defenses">Defenses</option>
+          <option value="savingThrows">Saves</option>
+          <option value="speed">Speed</option>
+        </select>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 5px;">
+        <button type="button"
+                id="decreaseModifier"
+                style="padding: 5px 10px; min-width: 30px;">-</button>
+        <input type="number"
+               id="numberValue"
+               name="numberValue"
+               style="padding: 5px; width: 60px; text-align: center;"
+               value="0">
+        <button type="button"
+                id="increaseModifier"
+                style="padding: 5px 10px; min-width: 30px;">+</button>
+      </div>
+
+      <!-- Quick Ability Buttons Container -->
+      <div style="display: flex; flex-direction: column; gap: 4px; width: 280px;">
+        <div style="display: flex; justify-content: space-between;">
+          <button type="button"
+                  class="quick-ability"
+                  data-ability="str"
+                  data-sign="+"
+                  style="padding: 3px 6px; font-size: 11px; flex: 1; margin: 0 1px;">+STR</button>
+          <button type="button"
+                  class="quick-ability"
+                  data-ability="dex"
+                  data-sign="+"
+                  style="padding: 3px 6px; font-size: 11px; flex: 1; margin: 0 1px;">+DEX</button>
+          <button type="button"
+                  class="quick-ability"
+                  data-ability="con"
+                  data-sign="+"
+                  style="padding: 3px 6px; font-size: 11px; flex: 1; margin: 0 1px;">+CON</button>
+          <button type="button"
+                  class="quick-ability"
+                  data-ability="wis"
+                  data-sign="+"
+                  style="padding: 3px 6px; font-size: 11px; flex: 1; margin: 0 1px;">+WIS</button>
+          <button type="button"
+                  class="quick-ability"
+                  data-ability="int"
+                  data-sign="+"
+                  style="padding: 3px 6px; font-size: 11px; flex: 1; margin: 0 1px;">+INT</button>
+          <button type="button"
+                  class="quick-ability"
+                  data-ability="cha"
+                  data-sign="+"
+                  style="padding: 3px 6px; font-size: 11px; flex: 1; margin: 0 1px;">+CHA</button>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <button type="button"
+                  class="quick-ability"
+                  data-ability="str"
+                  data-sign="-"
+                  style="padding: 3px 6px; font-size: 11px; flex: 1; margin: 0 1px;">-STR</button>
+          <button type="button"
+                  class="quick-ability"
+                  data-ability="dex"
+                  data-sign="-"
+                  style="padding: 3px 6px; font-size: 11px; flex: 1; margin: 0 1px;">-DEX</button>
+          <button type="button"
+                  class="quick-ability"
+                  data-ability="con"
+                  data-sign="-"
+                  style="padding: 3px 6px; font-size: 11px; flex: 1; margin: 0 1px;">-CON</button>
+          <button type="button"
+                  class="quick-ability"
+                  data-ability="wis"
+                  data-sign="-"
+                  style="padding: 3px 6px; font-size: 11px; flex: 1; margin: 0 1px;">-WIS</button>
+          <button type="button"
+                  class="quick-ability"
+                  data-ability="int"
+                  data-sign="-"
+                  style="padding: 3px 6px; font-size: 11px; flex: 1; margin: 0 1px;">-INT</button>
+          <button type="button"
+                  class="quick-ability"
+                  data-ability="cha"
+                  data-sign="-"
+                  style="padding: 3px 6px; font-size: 11px; flex: 1; margin: 0 1px;">-CHA</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

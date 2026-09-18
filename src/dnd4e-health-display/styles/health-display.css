@@ -1,0 +1,433 @@
+#dnd4e-token-hover-display {
+	position: fixed;
+	top: 3.5rem;
+	left: 50%;
+	right: auto;
+	bottom: auto;
+	z-index: 90;
+	flex: none;
+	width: min(34rem, calc(100vw - 2rem));
+	margin: 0;
+	transform: translateX(-50%);
+	pointer-events: none;
+	color: #f5eee5;
+	font-family: var(--font-primary, "Signika", sans-serif);
+	filter: drop-shadow(0 0.15rem 0.2rem rgb(0 0 0 / 80%));
+}
+
+#dnd4e-token-hover-display[hidden] {
+	display: none;
+}
+
+.dnd4e-health-display__panel {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0;
+	width: 100%;
+}
+
+.dnd4e-health-display__heading {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.45rem;
+	box-sizing: border-box;
+	max-width: calc(100% - 2rem);
+	padding: 0.4rem 1.1rem 0.55rem;
+	border: 1px solid rgb(153 116 86 / 70%);
+	border-bottom: 0;
+	border-radius: 0.45rem 0.45rem 0 0;
+	background: rgb(8 8 9 / 82%);
+	box-shadow: 0 0.15rem 0.45rem rgb(0 0 0 / 65%);
+	text-shadow: 0 0.1rem 0.15rem #000, 0 0 0.3rem #000;
+}
+
+.dnd4e-health-display__name {
+	overflow: hidden;
+	font-size: 1.55rem;
+	font-weight: 700;
+	line-height: 1.2;
+	letter-spacing: 0.025em;
+	text-align: center;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.dnd4e-health-display__name.is-defeated {
+	text-decoration: line-through;
+	text-decoration-thickness: 0.12em;
+}
+
+.dnd4e-health-display__role {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+	line-height: 1;
+	opacity: 0.85;
+}
+
+.dnd4e-health-display__role i {
+	display: block;
+	font-size: 1rem;
+	line-height: 1;
+}
+
+.dnd4e-health-display__panel.is-solo .dnd4e-health-display__heading {
+	border-color: rgb(194 48 52 / 95%);
+	background: linear-gradient(180deg, rgb(42 7 10 / 94%), rgb(8 8 9 / 92%));
+	box-shadow: 0 0.15rem 0.45rem rgb(0 0 0 / 70%), 0 0 0.8rem rgb(170 18 25 / 55%);
+}
+
+.dnd4e-health-display__panel.is-solo .dnd4e-health-display__name {
+	font-size: 1.75rem;
+	letter-spacing: 0.055em;
+	text-transform: uppercase;
+}
+
+.dnd4e-health-display__panel.is-solo .dnd4e-health-display__role {
+	color: #ff8d83;
+	opacity: 1;
+}
+
+.dnd4e-health-display__panel.is-solo .dnd4e-health-display__bar {
+	height: 1.45rem;
+	border-color: #c23034;
+	box-shadow: inset 0 0 0.25rem #000, 0 0 0 1px rgb(0 0 0 / 80%), 0 0 0.7rem rgb(170 18 25 / 50%);
+}
+
+.dnd4e-health-display__panel.is-leader .dnd4e-health-display__heading {
+	border-color: rgb(202 160 63 / 90%);
+	background: linear-gradient(180deg, rgb(47 35 11 / 92%), rgb(8 8 9 / 88%));
+}
+
+.dnd4e-health-display__panel.is-leader .dnd4e-health-display__role {
+	color: #f1ce70;
+	opacity: 1;
+}
+
+.dnd4e-health-display__panel.is-leader .dnd4e-health-display__bar {
+	border-color: #caa03f;
+}
+
+.dnd4e-health-display__panel.is-elite .dnd4e-health-display__heading {
+	border-color: rgb(151 91 201 / 90%);
+	background: linear-gradient(180deg, rgb(39 19 55 / 92%), rgb(8 8 9 / 88%));
+	box-shadow: 0 0.15rem 0.45rem rgb(0 0 0 / 68%), 0 0 0.55rem rgb(116 52 169 / 35%);
+}
+
+.dnd4e-health-display__panel.is-elite .dnd4e-health-display__role {
+	color: #c58aff;
+	opacity: 1;
+}
+
+.dnd4e-health-display__panel.is-elite .dnd4e-health-display__bar {
+	height: 1.3rem;
+	border-color: #975bc9;
+	box-shadow: inset 0 0 0.2rem #000, 0 0 0 1px rgb(0 0 0 / 75%), 0 0 0.45rem rgb(116 52 169 / 35%);
+}
+
+.dnd4e-health-display__panel.is-minion {
+	opacity: 0.78;
+}
+
+.dnd4e-health-display__panel.is-minion .dnd4e-health-display__heading {
+	padding-block: 0.28rem 0.38rem;
+	border-color: rgb(116 112 108 / 65%);
+	background: rgb(8 8 9 / 72%);
+}
+
+.dnd4e-health-display__panel.is-minion .dnd4e-health-display__name {
+	font-size: 1.25rem;
+	font-weight: 600;
+}
+
+.dnd4e-health-display__panel.is-minion .dnd4e-health-display__bar {
+	height: 0.78rem;
+	padding: 0.13rem;
+	border-color: #6f6963;
+}
+
+.dnd4e-health-display__bar {
+	position: relative;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 0.2rem;
+	box-sizing: border-box;
+	width: 100%;
+	height: 1.2rem;
+	padding: 0.18rem;
+	border: 1px solid #997456;
+	border-radius: 0.5rem;
+	background: rgb(15 11 10 / 88%);
+	box-shadow: inset 0 0 0.2rem #000, 0 0 0 1px rgb(0 0 0 / 75%);
+}
+
+.dnd4e-health-display__bar.has-6-segments {
+	grid-template-columns: repeat(6, 1fr);
+}
+
+.dnd4e-health-display__health-state {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	right: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transform: translateY(-50%);
+	color: #fff4e8;
+	font-size: 0.68rem;
+	font-weight: 800;
+	letter-spacing: 0.09em;
+	line-height: 1;
+	text-transform: uppercase;
+	text-shadow: 0 1px 2px #000, 0 0 3px #000, 0 0 5px #000;
+}
+
+.dnd4e-health-display__turn-distance {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.3rem;
+	flex: 0 0 auto;
+	margin: 0;
+	color: #e7c88e;
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.035em;
+	text-shadow: 0 0.08rem 0.15rem #000;
+}
+
+.dnd4e-health-display__turn-distance > i {
+	font-size: 0.95rem;
+}
+
+.dnd4e-health-display__segment {
+	border-radius: 0.2rem;
+	background: #302b2a;
+	box-shadow: inset 0 0 0.15rem rgb(0 0 0 / 85%);
+}
+
+.dnd4e-health-display__segment.is-filled {
+	background: linear-gradient(#d84b55, #8e1724 55%, #5e0b13);
+	box-shadow: inset 0 0.12rem 0.15rem rgb(255 255 255 / 24%), inset 0 -0.12rem 0.15rem rgb(0 0 0 / 45%);
+}
+
+.dnd4e-health-display__effects {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	justify-content: center;
+	column-gap: 0.8rem;
+	row-gap: 0.4rem;
+	box-sizing: border-box;
+	width: 100%;
+	margin: 0.4rem 0 0;
+	padding: 0.25rem 0.5rem;
+	list-style: none;
+}
+
+.dnd4e-health-display__effects > .dnd4e-health-display__effect {
+	display: flex;
+	align-items: center;
+	align-self: center;
+	flex: none;
+	gap: 0.35rem;
+	min-height: 2.25rem;
+	max-width: min(100%, 20rem);
+	margin: 0;
+	min-width: 0;
+	padding: 0;
+	position: static;
+	font-size: 0.9rem;
+	line-height: 1;
+	text-shadow: 0 0.1rem 0.15rem #000, 0 0 0.25rem #000;
+	transform: none;
+	vertical-align: middle;
+}
+
+.dnd4e-health-display__effect img {
+	box-sizing: border-box;
+	flex: 0 0 1.75rem;
+	width: 1.75rem;
+	height: 1.75rem;
+	border: 1px solid #a9896f;
+	border-radius: 50%;
+	background: #15110f;
+	object-fit: cover;
+	vertical-align: middle;
+}
+
+.dnd4e-health-display__effect-copy {
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-height: 2.25rem;
+	min-width: 0;
+	line-height: 1;
+}
+
+.dnd4e-health-display__effect-name {
+	display: -webkit-box;
+	overflow: hidden;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+	line-height: 1.15;
+	text-align: center;
+	overflow-wrap: anywhere;
+}
+
+.dnd4e-health-display__duration {
+	display: block;
+	margin-top: 0.25rem;
+	color: #d6bd91;
+	font-size: 0.62rem;
+	font-weight: 500;
+	letter-spacing: 0.035em;
+	line-height: 1;
+	text-align: center;
+	text-shadow: 0 0.08rem 0.12rem #000;
+}
+
+.dnd4e-health-display__combat-stats {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.45rem;
+	margin: 0.45rem 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.dnd4e-health-display__combat-stats > .dnd4e-health-display__combat-stat {
+	display: inline-flex;
+	align-items: center;
+	align-self: center;
+	justify-content: center;
+	flex: none;
+	gap: 0.25rem;
+	box-sizing: border-box;
+	height: 1.75rem;
+	margin: 0;
+	min-width: 2.5rem;
+	padding: 0.12rem 0.4rem;
+	position: static;
+	border: 1px solid rgb(169 137 111 / 65%);
+	border-radius: 0.3rem;
+	background: rgb(8 8 9 / 82%);
+	color: #ddd;
+	font-size: 0.86rem;
+	font-weight: 700;
+	line-height: 1;
+	text-shadow: 0 0.08rem 0.15rem #000;
+	transform: none;
+	vertical-align: middle;
+}
+
+.dnd4e-health-display__combat-stat i {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 1em;
+	height: 1em;
+	color: #e7c88e;
+	font-size: 0.8rem;
+}
+
+.dnd4e-health-display__combat-stat.is-positive span {
+	color: #8ee79a;
+}
+
+.dnd4e-health-display__combat-stat.is-negative span {
+	color: #ff8181;
+}
+
+.dnd4e-health-display__combat-stat.is-neutral span {
+	color: #aaa;
+}
+
+.dnd4e-health-display__traits {
+	box-sizing: border-box;
+	width: 100%;
+	margin-top: 0.45rem;
+	padding: 0.35rem 0.75rem 0.4rem 0.85rem;
+	border: 1px solid rgb(169 137 111 / 42%);
+	border-left: 0.2rem solid #c9a460;
+	border-radius: 0.3rem;
+	background: linear-gradient(90deg, rgb(44 32 20 / 90%), rgb(8 8 9 / 82%) 16%);
+	box-shadow: 0 0.12rem 0.3rem rgb(0 0 0 / 55%);
+	text-shadow: 0 0.08rem 0.15rem #000;
+}
+
+.dnd4e-health-display__traits h3 {
+	margin: 0 0 0.15rem;
+	color: #e7c88e;
+	font-size: 0.62rem;
+	font-weight: 800;
+	letter-spacing: 0.12em;
+	line-height: 1;
+	text-transform: uppercase;
+}
+
+.dnd4e-health-display__traits ul {
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.dnd4e-health-display__traits li {
+	position: relative;
+	margin: 0;
+	padding: 0.28rem 0 0.28rem 0.9rem;
+	border-top: 1px solid rgb(169 137 111 / 20%);
+	color: #e3d8ca;
+	font-size: 0.75rem;
+	line-height: 1.25;
+}
+
+.dnd4e-health-display__trait-text {
+	display: -webkit-box;
+	overflow: hidden;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+}
+
+.dnd4e-health-display__traits.is-expanded .dnd4e-health-display__trait-text {
+	display: block;
+	overflow: visible;
+	-webkit-line-clamp: initial;
+}
+
+.dnd4e-health-display__traits li::before {
+	position: absolute;
+	top: 0.48rem;
+	left: 0.12rem;
+	color: #c9a460;
+	font-size: 0.46rem;
+	line-height: 1;
+	content: "◆";
+}
+
+.dnd4e-health-display__traits li:first-child {
+	border-top: 0;
+}
+
+@media (max-width: 700px) {
+	#dnd4e-token-hover-display {
+		top: 3rem;
+		width: calc(100vw - 2rem);
+	}
+
+	.dnd4e-health-display__name {
+		font-size: 1.2rem;
+	}
+
+	.dnd4e-health-display__combat-stats {
+		flex-wrap: wrap;
+	}
+}

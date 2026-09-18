@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Combat Start Strategy — UI Prototype</title>
+	<!-- Three Strategy-tab variants, switchable via ?variant=A|B|C. Throwaway prototype. -->
+	<style>
+		:root {
+			color-scheme: dark;
+			--canvas: #090a0d;
+			--panel: #121419;
+			--panel-raised: #1a1c21;
+			--panel-warm: #21191a;
+			--line: #4c4439;
+			--line-bright: #95703e;
+			--parchment: #eee1ca;
+			--muted: #9e978c;
+			--gold: #e1ae56;
+			--rose: #eb6f93;
+			--red: #b3453f;
+			--blue: #72a5be;
+			--green: #82a46d;
+			--display: Georgia, "Times New Roman", serif;
+			--body: Inter, system-ui, sans-serif;
+		}
+
+		* { box-sizing: border-box; }
+		html, body { min-height: 100%; }
+		body {
+			margin: 0;
+			color: var(--parchment);
+			font-family: var(--body);
+			background:
+				radial-gradient(circle at 52% -15%, rgb(127 43 34 / 24%), transparent 38rem),
+				linear-gradient(135deg, #11141a, #08090c 70%);
+		}
+
+		button { color: inherit; font: inherit; }
+		button:focus-visible, input:focus-visible { outline: 2px solid #f0c879; outline-offset: 2px; }
+		#app { display: grid; min-height: 100vh; place-items: center; padding: 2rem 2rem 6rem; }
+		.prototype-note { position: fixed; z-index: 20; top: .7rem; right: .85rem; color: #77736c; font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; }
+		.window {
+			width: min(1120px, 100%);
+			height: min(760px, calc(100vh - 8rem));
+			min-height: 620px;
+			display: grid;
+			grid-template-rows: 2.3rem minmax(0, 1fr);
+			overflow: hidden;
+			border: 1px solid #594936;
+			border-radius: .4rem;
+			background: #0c0e12;
+			box-shadow: 0 2rem 5rem #000b, inset 0 1px rgb(255 255 255 / 4%);
+		}
+
+		.tabs { display: flex; border-bottom: 1px solid #57422e; background: #15161a; }
+		.tabs button { position: relative; min-width: 10rem; border: 0; border-right: 1px solid #342d26; background: transparent; color: #948b7f; font-size: .72rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+		.tabs button.active { color: #f0d5a6; background: linear-gradient(#28231d, #1a1816); }
+		.tabs button.active::after { position: absolute; right: .7rem; bottom: -.05rem; left: .7rem; height: 2px; background: var(--gold); content: ""; }
+		.tabs .hide { margin-left: auto; min-width: auto; padding: 0 1rem; border: 0; color: #b8877e; }
+
+		.workspace { min-height: 0; overflow: hidden; }
+		.eyebrow { color: var(--gold); font-size: .61rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+		h1, h2, h3, p { margin-top: 0; }
+		h1, h2 { font-family: var(--display); }
+		.mark { color: var(--rose); font-weight: 700; }
+		.muted { color: var(--muted); }
+		.quote { color: var(--rose); font-style: italic; }
+		.count { color: var(--rose); }
+		ul { margin: .45rem 0 0; padding-left: 1.25rem; }
+		li { padding-left: .15rem; }
+		li + li { margin-top: .34rem; }
+		li::marker { color: #687380; }
+
+		/* A — Encounter dossier: mirrors the GM's prepared note. */
+		.dossier { display: grid; grid-template-columns: 18rem minmax(0, 1fr); gap: 1rem; height: 100%; padding: 1rem; background-image: radial-gradient(#ffffff0a 1px, transparent 1px); background-size: 18px 18px; }
+		.dossier-rail { display: grid; align-content: start; gap: .7rem; min-height: 0; }
+		.note-card { padding: .8rem .85rem; border: 1px solid #505158; border-radius: .35rem; background: rgb(25 28 33 / 95%); box-shadow: inset 0 1px #ffffff08; }
+		.note-card.enemies { border-color: #878041; background: rgb(31 34 29 / 96%); }
+		.note-card h2 { margin-bottom: .55rem; font-size: 1.1rem; }
+		.note-card p, .note-card li { font-size: .74rem; line-height: 1.52; }
+		.note-card p:last-child { margin-bottom: 0; }
+		.tactics-sheet { min-width: 0; overflow-y: auto; padding: .95rem 1rem; border: 1px solid #a83e3f; border-radius: .35rem; background: rgb(39 29 33 / 96%); scrollbar-gutter: stable; }
+		.tactics-sheet h1 { margin: 0 0 .8rem; font-size: 1.15rem; }
+		.tactic { display: grid; grid-template-columns: 8rem minmax(0, 1fr); gap: .75rem; padding: .72rem 0; border-top: 1px solid #58363a; }
+		.tactic h3 { margin: .08rem 0; color: var(--gold); font-size: .76rem; }
+		.tactic ul { margin-top: 0; }
+		.tactic li { font-size: .72rem; line-height: 1.5; }
+
+		/* B — At-table playbook: organizes information by when the GM needs it. */
+		.playbook { display: grid; grid-template-columns: 14.5rem minmax(0, 1fr); height: 100%; }
+		.playbook-nav { padding: 1rem; border-right: 1px solid #4b3c2c; background: linear-gradient(#17191e, #101216); }
+		.playbook-nav h1 { margin: .2rem 0 .25rem; font-size: 1.45rem; }
+		.playbook-nav > p { margin-bottom: 1rem; color: var(--muted); font-size: .7rem; line-height: 1.45; }
+		.phase-list { display: grid; gap: .45rem; }
+		.phase-list button { display: grid; grid-template-columns: 1.65rem 1fr; align-items: center; gap: .5rem; padding: .55rem; border: 1px solid #3d3b39; border-radius: .25rem; background: #1a1c21; text-align: left; cursor: pointer; }
+		.phase-list button.active { border-color: #a2783f; background: #2a231b; box-shadow: inset 2px 0 var(--gold); }
+		.phase-list b { display: grid; width: 1.45rem; height: 1.45rem; place-items: center; border: 1px solid #65543d; border-radius: 50%; color: var(--gold); font: 700 .7rem var(--display); }
+		.phase-list span { font-size: .7rem; font-weight: 700; }
+		.playbook-main { min-width: 0; overflow-y: auto; padding: 1rem 1.15rem; background: radial-gradient(circle at 80% 0, #6e29252e, transparent 45%), #111318; }
+		.playbook-header { display: flex; justify-content: space-between; gap: 1rem; padding-bottom: .8rem; border-bottom: 1px solid #4a3c2e; }
+		.playbook-header h2 { margin: .18rem 0 0; font-size: 1.55rem; }
+		.phase-chip { align-self: center; padding: .35rem .55rem; border: 1px solid #76593b; border-radius: 999px; color: #d5ba8b; font-size: .62rem; text-transform: uppercase; white-space: nowrap; }
+		.beats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; padding-top: .8rem; }
+		.beat { min-height: 9rem; padding: .75rem; border: 1px solid #3c3d42; background: #1a1c21; }
+		.beat.critical { border-color: #8e3f40; background: linear-gradient(145deg, #281a1d, #1a1c21); }
+		.beat h3 { margin-bottom: .42rem; color: var(--gold); font-size: .76rem; }
+		.beat li, .beat p { font-size: .71rem; line-height: 1.48; }
+		.beat p:last-child { margin-bottom: 0; }
+		.read-aloud { grid-column: 1 / -1; min-height: auto; border-left: 3px solid var(--rose); }
+		.read-aloud strong { color: var(--rose); }
+
+		/* C — Trigger board: favors live scanning and actionable conditions. */
+		.trigger-board { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; height: 100%; background: #101217; }
+		.trigger-header { display: flex; align-items: end; justify-content: space-between; gap: 1rem; padding: .85rem 1rem; border-bottom: 1px solid #493b2c; background: linear-gradient(90deg, #201a17, #15171c); }
+		.trigger-header h1 { margin: .15rem 0 0; font-size: 1.35rem; }
+		.legend { display: flex; gap: .8rem; color: var(--muted); font-size: .62rem; }
+		.legend span::before { display: inline-block; width: .48rem; height: .48rem; margin-right: .3rem; border-radius: 50%; background: var(--gold); content: ""; }
+		.legend span:nth-child(2)::before { background: var(--red); }
+		.legend span:nth-child(3)::before { background: var(--blue); }
+		.trigger-scroll { min-height: 0; overflow-y: auto; padding: .8rem 1rem; }
+		.trigger-grid { display: grid; grid-template-columns: 9rem minmax(0, .9fr) minmax(0, 1fr) 2.6rem; border: 1px solid #454039; }
+		.trigger-grid > * { min-width: 0; padding: .65rem .7rem; border-right: 1px solid #343238; border-bottom: 1px solid #343238; }
+		.trigger-grid > :nth-child(4n) { border-right: 0; }
+		.grid-head { color: #8e877d; background: #191a1e; font-size: .58rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+		.actor { border-left: 3px solid var(--gold); background: #1d1d20; }
+		.actor.danger { border-left-color: var(--red); }
+		.actor.secret { border-left-color: var(--blue); }
+		.actor strong { display: block; color: var(--gold); font-size: .74rem; }
+		.actor small { color: var(--muted); font-size: .6rem; }
+		.cell { background: #16181d; font-size: .69rem; line-height: 1.4; }
+		.cell b { color: #d7c19a; }
+		.done { display: grid; place-items: center; background: #15171b; }
+		.done input { width: 1.05rem; height: 1.05rem; accent-color: #a87a3f; }
+		.trigger-footer { display: flex; gap: .6rem; align-items: center; padding: .7rem 1rem; border-top: 1px solid #493b2c; background: #17181c; }
+		.trigger-footer strong { color: var(--rose); font-size: .67rem; text-transform: uppercase; }
+		.trigger-footer span { color: #b9b1a5; font-size: .68rem; }
+		.trigger-footer button { margin-left: auto; padding: .35rem .6rem; border: 1px solid #66533a; border-radius: .2rem; background: #242019; color: #dcc391; font-size: .64rem; cursor: pointer; }
+
+		.switcher { position: fixed; z-index: 100; bottom: 1rem; left: 50%; display: grid; grid-template-columns: 2.6rem minmax(16rem, auto) 2.6rem; align-items: center; overflow: hidden; transform: translateX(-50%); border: 1px solid #aaa; border-radius: 999px; background: #eee; color: #18181b; box-shadow: 0 .6rem 2rem #000c; }
+		.switcher button { height: 2.5rem; border: 0; background: #d4d4d8; color: #18181b; cursor: pointer; font-size: 1.15rem; }
+		.switcher button:hover { background: white; }
+		.switcher-label { padding: 0 1rem; text-align: center; font-size: .72rem; font-weight: 800; }
+
+		@media (max-width: 760px) {
+			#app { padding: .5rem .5rem 5rem; place-items: start center; }
+			.window { height: auto; min-height: 46rem; }
+			.dossier, .playbook { grid-template-columns: 1fr; overflow-y: auto; }
+			.dossier { height: auto; }
+			.tactics-sheet { overflow: visible; }
+			.playbook-nav { border-right: 0; border-bottom: 1px solid #4b3c2c; }
+			.phase-list { grid-template-columns: repeat(3, 1fr); }
+			.trigger-grid { grid-template-columns: 7rem minmax(0, 1fr) 2.4rem; }
+			.trigger-grid .grid-head:nth-child(3), .trigger-grid .cell.outcome { display: none; }
+			.trigger-grid > :nth-child(4n) { border-right: 1px solid #343238; }
+			.trigger-grid > :nth-child(3n) { border-right: 0; }
+		}
+	</style>
+</head>
+<body>
+	<div class="prototype-note">Throwaway Strategy prototype</div>
+	<main id="app"></main>
+	<nav class="switcher" aria-label="Prototype variants">
+		<button type="button" id="previous" aria-label="Previous variant">←</button>
+		<div class="switcher-label" id="variant-label"></div>
+		<button type="button" id="next" aria-label="Next variant">→</button>
+	</nav>
+
+	<script>
+		const variants = [
+			{ key: "A", name: "Encounter Dossier" },
+			{ key: "B", name: "Phase Playbook" },
+			{ key: "C", name: "Trigger Board" }
+		];
+
+		const shell = content => `<section class="window">
+			<nav class="tabs" aria-label="Combat Start sections"><button type="button">▰ Battle Briefing</button><button type="button" class="active">⌖ Strategy</button><button type="button" class="hide">× Hide from Players</button></nav>
+			<div class="workspace">${content}</div>
+		</section>`;
+
+		function variantA() {
+			return shell(`<section class="dossier">
+				<aside class="dossier-rail">
+					<article class="note-card enemies"><h2>Enemies</h2><ul><li>Norm, Obscurati liaison — <em class="quote">Won't actively engage</em></li><li>Quentin Augst</li><li><b class="count">3</b> Kell-Guild veteran pistoleers</li><li><b class="count">6</b> Kell-Guild scoundrels</li></ul></article>
+					<article class="note-card"><h2>Environment</h2><p><span class="mark">Bystander peril is a constant tool:</span> missed shots, shouted threats, and Norm's spectral hand all threaten civilians.</p></article>
+					<article class="note-card"><h2>Remember</h2><p><span class="mark">Norm needs a Perception/Insight check to spot</span> — decide a threshold ahead of time, since sharp players may clock him before he acts.</p></article>
+				</aside>
+				<main class="tactics-sheet"><span class="eyebrow">GM-only encounter notes</span><h1>Tactics</h1>
+					<article class="tactic"><h3>Pistoleers</h3><ul><li>Grapple anyone who moves adjacent to Augst.</li><li>Otherwise shoot at range to keep constables back.</li><li>Missed shots strike bystanders in the club.</li></ul></article>
+					<article class="tactic"><h3>Scoundrels</h3><ul><li>Focus fire on whoever looks most vulnerable.</li><li>Shout threats at the party: <em class="quote">“Back off or someone dies!”</em></li></ul></article>
+					<article class="tactic"><h3>Quentin Augst</h3><ul><li>The crew is outmatched; keep him watching the exits from the start.</li><li>At the first good opportunity, he and his men bolt.</li></ul></article>
+					<article class="tactic"><h3>Norm</h3><ul><li>Stays out of the fight and does not enter initiative.</li><li>If Augst is about to be captured, shock him to death. The chaos hides Norm's spellcasting.</li><li>Once Augst falls, shock him again to ensure he is dead.</li></ul></article>
+					<article class="tactic"><h3>Follow-up</h3><ul><li>Captured Augst offers information for a reduced sentence: <b>10 Task Force Tokens and 2 Strikes.</b></li><li>He knows the five arcane signs used by the rusted ring gates along Stanfield Canal.</li><li>Norm's hidden wand completes the route into the Bleak Gate.</li></ul></article>
+				</main>
+			</section>`);
+		}
+
+		const phases = {
+			opening: { number: "01", label: "Opening position", title: "Establish the Pressure", chip: "Before initiative", cards: `<article class="beat"><h3>Scene pressure</h3><p><span class="mark">Bystanders are always in danger.</span> Missed shots hit the crowd; threats can force the party's hand.</p></article><article class="beat"><h3>Enemy posture</h3><ul><li>Pistoleers screen Augst.</li><li>Scoundrels identify a vulnerable PC.</li><li>Augst watches the exits.</li></ul></article><article class="beat critical"><h3>Hidden actor: Norm</h3><p>Norm hides in the crowd and does not roll initiative. Set a Perception/Insight DC before play.</p></article><article class="beat"><h3>Opening priorities</h3><ol><li>Hold the constables back.</li><li>Gang up on one PC.</li><li>Create an escape lane.</li></ol></article>` },
+			pressure: { number: "02", label: "Apply pressure", title: "Make the Fight Hurt", chip: "During the fight", cards: `<article class="beat critical"><h3>Adjacency trigger</h3><p>When anyone reaches Augst, a pistoleer grapples them. Everyone else keeps firing.</p></article><article class="beat"><h3>Exploit weakness</h3><p>Scoundrels focus fire on the most vulnerable-looking PC rather than spreading damage.</p></article><article class="beat read-aloud"><h3>Threaten the room</h3><p><strong>“Back off or someone dies!”</strong> Use civilians to turn a clean fight into a costly choice.</p></article>` },
+			escape: { number: "03", label: "Escape / fallout", title: "Resolve the Exit", chip: "When Augst is cornered", cards: `<article class="beat critical"><h3>If capture is imminent</h3><p>Norm casts spectral shocking grasp on Augst. The glowing hand alarms the crowd, but the brawl conceals the caster.</p></article><article class="beat"><h3>If there is an opening</h3><p>Augst and his crew flee. Norm reports that the lawyer needs to be silenced.</p></article><article class="beat"><h3>If Augst is captured</h3><p>He cuts a deal: 10 Task Force Tokens, 2 Strikes, and the five canal sigils.</p></article><article class="beat"><h3>If Norm is captured</h3><p>His apartment contains the wand needed to make the Bleak Gate transition permanent.</p></article>` }
+		};
+
+		function variantB() {
+			const selected = sessionStorage.getItem("strategy-phase") || "opening";
+			const phase = phases[selected];
+			return shell(`<section class="playbook"><aside class="playbook-nav"><span class="eyebrow">Sunset Bench Encounter</span><h1>Run of Show</h1><p>Organized by when the information matters at the table.</p><div class="phase-list">${Object.entries(phases).map(([key, item]) => `<button type="button" data-phase="${key}" class="${key === selected ? "active" : ""}"><b>${item.number}</b><span>${item.label}</span></button>`).join("")}</div></aside><main class="playbook-main"><header class="playbook-header"><div><span class="eyebrow">Current phase</span><h2>${phase.title}</h2></div><span class="phase-chip">${phase.chip}</span></header><div class="beats">${phase.cards}</div></main></section>`);
+		}
+
+		function variantC() {
+			return shell(`<section class="trigger-board"><header class="trigger-header"><div><span class="eyebrow">Sunset Bench Encounter</span><h1>Live Tactical Triggers</h1></div><div class="legend"><span>Routine</span><span>Critical</span><span>Secret</span></div></header><div class="trigger-scroll"><div class="trigger-grid"><div class="grid-head">Actor</div><div class="grid-head">When / condition</div><div class="grid-head">Response / consequence</div><div class="grid-head">Done</div>
+				<div class="actor"><strong>Pistoleers</strong><small>Bodyguards</small></div><div class="cell"><b>A creature moves adjacent to Augst</b></div><div class="cell outcome">Grapple them. Otherwise keep shooting constables at range; a miss threatens a bystander.</div><label class="done"><input type="checkbox" data-cue="grapple" aria-label="Mark pistoleer trigger used"></label>
+				<div class="actor"><strong>Scoundrels</strong><small>Pressure</small></div><div class="cell"><b>A PC looks isolated or bloodied</b></div><div class="cell outcome">Gang up and focus fire. Shout <em class="quote">“Back off or someone dies!”</em></div><label class="done"><input type="checkbox" data-cue="focus" aria-label="Mark scoundrel trigger used"></label>
+				<div class="actor danger"><strong>Augst</strong><small>Escape</small></div><div class="cell"><b>The crew gets a clean opening</b></div><div class="cell outcome">Augst and his men bolt. He has been watching exits since the opening round.</div><label class="done"><input type="checkbox" data-cue="escape" aria-label="Mark escape trigger used"></label>
+				<div class="actor secret"><strong>Norm</strong><small>Hidden actor</small></div><div class="cell"><b>Augst is about to be captured</b></div><div class="cell outcome">Cast spectral shocking grasp on Augst. The crowd sees the hand, not the caster.</div><label class="done"><input type="checkbox" data-cue="shock" aria-label="Mark Norm trigger used"></label>
+				<div class="actor secret"><strong>Norm</strong><small>Contingency</small></div><div class="cell"><b>Augst goes down</b></div><div class="cell outcome">Shock him again to ensure he is dead, limiting what the party can learn from his corpse.</div><label class="done"><input type="checkbox" data-cue="finish" aria-label="Mark Norm contingency used"></label>
+				<div class="actor danger"><strong>Follow-up</strong><small>Outcome</small></div><div class="cell"><b>Augst is captured alive</b></div><div class="cell outcome">Offer 10 Task Force Tokens, 2 Strikes, and five canal sigils in exchange for leniency.</div><label class="done"><input type="checkbox" data-cue="deal" aria-label="Mark follow-up resolved"></label>
+			</div></div><footer class="trigger-footer"><strong>Always on</strong><span>Bystander peril · Norm starts hidden · Augst wants an escape</span><button type="button" data-reset>Reset cues</button></footer></section>`);
+		}
+
+		function currentIndex() {
+			const key = new URLSearchParams(location.search).get("variant")?.toUpperCase() || "A";
+			const index = variants.findIndex(variant => variant.key === key);
+			return index < 0 ? 0 : index;
+		}
+
+		function render() {
+			const index = currentIndex();
+			const renderers = [variantA, variantB, variantC];
+			document.getElementById("app").innerHTML = renderers[index]();
+			document.getElementById("variant-label").textContent = `${variants[index].key} · ${variants[index].name}`;
+			document.querySelectorAll("[data-phase]").forEach(button => button.addEventListener("click", () => {
+				sessionStorage.setItem("strategy-phase", button.dataset.phase);
+				render();
+			}));
+			document.querySelectorAll("[data-cue]").forEach(input => {
+				input.checked = sessionStorage.getItem(`cue-${input.dataset.cue}`) === "true";
+				input.addEventListener("change", () => sessionStorage.setItem(`cue-${input.dataset.cue}`, input.checked));
+			});
+			document.querySelector("[data-reset]")?.addEventListener("click", () => {
+				document.querySelectorAll("[data-cue]").forEach(input => { input.checked = false; sessionStorage.removeItem(`cue-${input.dataset.cue}`); });
+			});
+		}
+
+		function go(offset) {
+			const next = (currentIndex() + offset + variants.length) % variants.length;
+			const url = new URL(location.href);
+			url.searchParams.set("variant", variants[next].key);
+			history.replaceState({}, "", url);
+			render();
+		}
+
+		document.getElementById("previous").addEventListener("click", () => go(-1));
+		document.getElementById("next").addEventListener("click", () => go(1));
+		window.addEventListener("popstate", render);
+		window.addEventListener("keydown", event => {
+			if (["INPUT", "TEXTAREA"].includes(document.activeElement?.tagName) || document.activeElement?.isContentEditable) return;
+			if (event.key === "ArrowLeft") go(-1);
+			if (event.key === "ArrowRight") go(1);
+		});
+		render();
+	</script>
+</body>
+</html>

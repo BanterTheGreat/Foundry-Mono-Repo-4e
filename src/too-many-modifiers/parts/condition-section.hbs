@@ -1,0 +1,28 @@
+<section class="tab tmm-tab-conditions {{tab.cssClass}}"
+         data-group="primary"
+         data-tab="conditions">
+  <div style="margin-bottom: 15px; display: flex; gap: 10px;">
+    <div style="width: 50%;">
+      <label>Condition:</label>
+      <select id="condition"
+              name="condition"
+              style="width: 100%; padding: 5px;">
+        <option value="">Select condition...</option>
+        {{#each conditions as |opt|}}
+        <option value="{{opt.value}}">{{opt.label}}</option>
+        {{/each}}
+      </select>
+    </div>
+    <div style="width: 50%;">
+      <label>Condition 2:</label>
+      <select id="condition2"
+              name="condition2"
+              style="width: 100%; padding: 5px;">
+        <option value="">Select condition...</option>
+        {{#each conditions as |opt|}}
+        <option value="{{opt.value}}">{{opt.label}}</option>
+        {{/each}}
+      </select>
+    </div>
+  </div>
+</section>

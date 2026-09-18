@@ -1,0 +1,73 @@
+.tmm-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #7a7971;
+}
+
+.tmm-tab {
+  flex: 1;
+  padding: 6px 10px;
+  cursor: pointer;
+  border: 1px solid #7a7971;
+  border-bottom: none;
+  background: #2a2a24;
+  color: #9e9e8e;
+  font-weight: normal;
+  border-radius: 4px 4px 0 0;
+  margin-right: -1px;
+  position: relative;
+}
+
+.tmm-tab.active {
+  background: #40403a;
+  color: #f0f0e0;
+  font-weight: bold;
+  z-index: 1;
+  border-bottom: 2px solid #40403a;
+  margin-bottom: -2px;
+}
+
+.tmm-tab-conditions,
+.tmm-tab-ongoing,
+.tmm-tab-modifiers,
+.tmm-tab-resistances,
+.tmm-tab-manual {
+  margin-top: 10px;
+}
+
+/*
+ * Foundry V13 renders radio/checkbox inputs with `appearance: none` and draws
+ * the circle/checkmark using an icon-font glyph in a ::before/::after
+ * pseudo-element. Our "Conditions", "Ongoing", "Modifiers", "Resistances" and
+ * "Manual" sections all carry the `.tab` class and start out `display: none`
+ * (only the initial tab is visible - see `.tab[data-tab]:not(.active)` in
+ * Foundry core CSS). The first time such a hidden tab becomes visible, the
+ * browser fails to paint the unchecked-state glyph for these radios, and it
+ * only appears once the input's state changes (e.g. gets checked), which is
+ * why the Damage Type radios in Ongoing/Resistances look invisible until
+ * clicked. The "Duration" section isn't part of the tab group (no `.tab`
+ * class) so it's visible from first paint and doesn't show the issue.
+ * Force native radio rendering here to avoid depending on that glyph paint.
+ */
+#too-much-too-track-dialog input[type="radio"] {
+  appearance: auto;
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+}
+
+#too-much-too-track-dialog input[type="radio"]::before,
+#too-much-too-track-dialog input[type="radio"]::after {
+  content: unset;
+}
+
+.tmm-notes-table-header {
+  padding: 5px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.tmm-notes-table-entry {
+  padding: 5px;
+  border: 1px solid #ccc;
+}
