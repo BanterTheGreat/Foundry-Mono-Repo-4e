@@ -31,6 +31,8 @@ function getCombatantRowData(combatant, combat, isGM) {
 		name: combatant.name,
 		img: combatant.img || actor?.img || "icons/svg/mystery-man.svg",
 		initiative: combatant.initiative == null ? "—" : Math.round(combatant.initiative),
+		rawInitiative: combatant.initiative == null ? "" : Math.round(combatant.initiative),
+		canEditInitiative: isGM,
 		hasHp,
 		hp: {
 			value: hpValue,
@@ -42,20 +44,7 @@ function getCombatantRowData(combatant, combat, isGM) {
 		isCurrent: combat?.combatant?.id === combatant.id,
 		isDefeated,
 		isHidden: isCombatantHidden(combatant),
-		conditions: getConditionIcons(actor),
 	};
-}
-
-/** @param {Actor|null} actor @returns {Array<{img: string, name: string}>} */
-function getConditionIcons(actor) {
-	if (!actor) {
-		return [];
-	}
-
-	return Array.from(actor.effects ?? [])
-		.filter((effect) => !effect.disabled && !effect.isSuppressed)
-		.map((effect) => ({ img: effect.img, name: effect.name }))
-		.slice(0, 6);
 }
 
 /** @param {number} value The current resource. @param {number} maximum The resource maximum. */

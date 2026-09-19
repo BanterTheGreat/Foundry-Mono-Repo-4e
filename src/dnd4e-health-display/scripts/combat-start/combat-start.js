@@ -81,7 +81,7 @@ function addCombatStartButton(app, element) {
 }
 
 /** Open the setup window, or jump straight to the live briefing if the encounter already started. */
-async function openBattleBriefing(combat) {
+export async function openBattleBriefing(combat) {
 	if (combat?.started) {
 		await openStartedCombatDisplay(combat);
 		return;

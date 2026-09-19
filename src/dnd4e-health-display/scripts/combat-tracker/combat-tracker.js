@@ -1,4 +1,5 @@
 import { getCombatTrackerData } from "./combat-tracker-data.js";
+import { openBattleBriefing } from "../combat-start/combat-start.js";
 
 const MODULE_ID = "dnd4e-health-display";
 const SHOW_SETTING = "showCombatTracker";
@@ -158,6 +159,7 @@ class CombatTrackerDisplay extends HandlebarsApplicationMixin(ApplicationV2) {
 			toggleDefeated: CombatTrackerDisplay.prototype.onToggleDefeated,
 			nav: CombatTrackerDisplay.prototype.onNav,
 			endCombat: CombatTrackerDisplay.prototype.onEndCombat,
+			openBriefing: CombatTrackerDisplay.prototype.onOpenBriefing,
 		},
 	};
 
@@ -200,6 +202,7 @@ class CombatTrackerDisplay extends HandlebarsApplicationMixin(ApplicationV2) {
 		super._onRender(context, options);
 		this.initializeDrag();
 		this.initializeHpInputs();
+		this.initializeInitiativeInputs();
 		this.restorePosition();
 	}
 
@@ -252,6 +255,33 @@ class CombatTrackerDisplay extends HandlebarsApplicationMixin(ApplicationV2) {
 				} catch (error) {
 					console.error(`${MODULE_ID} | Failed to update combatant HP.`, error);
 					ui.notifications.error("Hit points could not be updated. Check the console for details.");
+					this.render();
+				}
+			});
+		}
+	}
+
+	/** Commit inline initiative edits back to the encounter. */
+	initializeInitiativeInputs() {
+		for (const input of this.element.querySelectorAll("[data-init-input]")) {
+			input.addEventListener("click", (event) => event.stopPropagation());
+			input.addEventListener("change", async (event) => {
+				const combat = this.combat;
+				const combatant = combat?.combatants.get(input.dataset.initInput);
+				if (!combatant) {
+					return;
+				}
+
+				const value = event.target.value.trim();
+				try {
+					if (value === "") {
+						await combatant.update({ initiative: null });
+					} else {
+						await combat.setInitiative(combatant.id, Number(value));
+					}
+				} catch (error) {
+					console.error(`${MODULE_ID} | Failed to set initiative.`, error);
+					ui.notifications.error("Initiative could not be set. Check the console for details.");
 					this.render();
 				}
 			});
@@ -348,6 +378,15 @@ class CombatTrackerDisplay extends HandlebarsApplicationMixin(ApplicationV2) {
 			console.error(`${MODULE_ID} | Failed to change the turn.`, error);
 			ui.notifications.error("The turn could not be changed. Check the console for details.");
 		}
+	}
+
+	/** Open the Battle Briefing for the active encounter. */
+	async onOpenBriefing() {
+		if (!game.user.isGM || !this.combat) {
+			return;
+		}
+
+		await openBattleBriefing(this.combat);
 	}
 
 	/** End the active encounter. */
