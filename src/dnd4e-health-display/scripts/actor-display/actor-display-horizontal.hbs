@@ -46,6 +46,7 @@
 												<strong>{{name}}</strong>
 												{{#if showUses}}<small>{{uses}}</small>{{/if}}
 												{{#if isExpandable}}<button type="button" class="dnd4e-horizontal-actor-display__power-details-toggle" data-action="togglePowerDetails" data-item-id="{{id}}" aria-expanded="{{#if isExpanded}}true{{else}}false{{/if}}" title="{{#if isExpanded}}Hide details{{else}}Show details{{/if}}"><i class="fa-solid {{#if isExpanded}}fa-chevron-up{{else}}fa-chevron-down{{/if}}" aria-hidden="true"></i></button>{{/if}}
+												{{#if isNpcPower}}<span class="dnd4e-horizontal-actor-display__npc-power-actions" role="group" aria-label="{{name}} actions"><button type="button" data-action="chatPower" data-item-id="{{id}}" aria-label="Send {{name}} to chat" title="Send to chat"><i class="fa-solid fa-comment" aria-hidden="true"></i></button>{{#if canRollDamage}}<button type="button" data-action="rollPowerDamage" data-item-id="{{id}}" aria-label="Roll {{name}} damage" title="Roll damage"><i class="fa-solid fa-burst" aria-hidden="true"></i></button>{{/if}}</span>{{/if}}
 												{{#if depleted}}<button type="button" data-action="refreshPower" data-item-id="{{id}}" title="Refresh power"><i class="fa-solid fa-rotate-right"></i></button>{{/if}}
 											</div>
 											{{#unless isPowerFlavourHidden}}{{#if flavour}}{{#unless depleted}}<p class="dnd4e-horizontal-actor-display__power-flavour">{{flavour}}</p>{{/unless}}{{/if}}{{/unless}}

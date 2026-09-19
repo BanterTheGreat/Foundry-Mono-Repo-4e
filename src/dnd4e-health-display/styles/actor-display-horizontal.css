@@ -714,6 +714,33 @@ body.dnd4e-horizontal-hud-active #players {
 	color: #fff1d5;
 }
 
+.dnd4e-horizontal-actor-display__npc-power-actions {
+	display: flex;
+	gap: 0.16rem;
+	margin-left: auto;
+}
+
+.dnd4e-horizontal-actor-display__npc-power-actions button {
+	display: grid;
+	place-items: center;
+	width: 1.25rem;
+	height: 1.25rem;
+	margin: 0;
+	padding: 0;
+	border: 1px solid rgb(153 116 86 / 32%);
+	border-radius: 0.3rem;
+	background: #262527;
+	color: #aa927a;
+	font-size: 0.62rem;
+}
+
+.dnd4e-horizontal-actor-display__npc-power-actions button:hover,
+.dnd4e-horizontal-actor-display__npc-power-actions button:focus-visible {
+	border-color: #c89550;
+	background: #353130;
+	color: #f0d6b3;
+}
+
 .dnd4e-horizontal-actor-display__power-flavour {
 	padding: 0.24rem 0.5rem 0.3rem;
 	border-top: 1px solid rgb(0 0 0 / 26%);

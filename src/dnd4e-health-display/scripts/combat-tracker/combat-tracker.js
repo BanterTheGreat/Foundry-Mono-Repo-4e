@@ -140,7 +140,7 @@ function syncCombatTracker(combat = game.combats?.active) {
 function closeCombatTracker() {
 	const display = ui.Dnd4eCombatTracker;
 	ui.Dnd4eCombatTracker = null;
-	void display?.close();
+	void display?.close({ animate: false });
 }
 
 class CombatTrackerDisplay extends HandlebarsApplicationMixin(ApplicationV2) {

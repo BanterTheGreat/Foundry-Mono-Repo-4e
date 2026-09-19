@@ -1,9 +1,10 @@
 import { getDefaultStrategy, getStrategy, setStrategy } from "./strategy.js";
 
 const MODULE_ID = "dnd4e-health-display";
-const PRESETS_SETTING = "combatStartPresets";
 const ACTIVE_SETTING = "activeCombatStart";
 const PRESENTATION_FLAG = "presentation";
+const PRESET_FLAG = "preset";
+const PRESETS_FOLDER_NAME = "Battle Briefings";
 const INITIATIVE_TRACKER_PLACEMENT_SETTING = "combatStartInitiativeTrackerPlacement";
 const SETUP_TEMPLATE = `modules/${MODULE_ID}/scripts/combat-start/combat-start-setup.hbs`;
 const DISPLAY_TEMPLATE = `modules/${MODULE_ID}/scripts/combat-start/combat-start-display.hbs`;
@@ -12,14 +13,6 @@ const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 /** Register the world state used by the independent combat-start submodule. */
 export function registerCombatStartSettings() {
-	game.settings.register(MODULE_ID, PRESETS_SETTING, {
-		name: "Battle Briefing presets",
-		scope: "world",
-		config: false,
-		type: Object,
-		default: { items: [] },
-	});
-
 	game.settings.register(MODULE_ID, ACTIVE_SETTING, {
 		name: "Active Battle Briefing presentation",
 		scope: "world",
@@ -400,14 +393,28 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 		zoom.addEventListener("input", updatePreview);
 	}
 
-	/** Keep the in-progress field values before performing an action. */
+	/**
+	 * Keep the in-progress field values before performing an action.
+	 *
+	 * The preset name field and preset picker live in the dialog's shared header/footer, visible
+	 * on every tab, so they're always read here. The remaining fields only exist in the DOM while
+	 * the Battle Briefing tab is active and are skipped otherwise.
+	 */
 	readDraft() {
-		if (!this.element || this.activeTab !== "briefing") {
+		if (!this.element) {
+			return this.draft;
+		}
+
+		const name = this.element.querySelector('[name="presetName"]')?.value.trim() ?? this.draft.name;
+		this.selectedPresetId = this.element.querySelector('[name="preset"]')?.value ?? this.selectedPresetId;
+
+		if (this.activeTab !== "briefing") {
+			this.draft = { ...this.draft, name };
 			return this.draft;
 		}
 
 		this.draft = {
-			name: this.element.querySelector('[name="presetName"]')?.value.trim() ?? "",
+			name,
 			title: this.element.querySelector('[name="title"]')?.value.trim() ?? "",
 			description: this.element.querySelector('[name="description"]')?.value.trim() ?? "",
 			commanderSubtitle: this.element.querySelector('[name="commanderSubtitle"]')?.value.trim() ?? "",
@@ -415,7 +422,6 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 			commanderPositionY: Number(this.element.querySelector('[name="commanderPositionY"]')?.value ?? 50),
 			commanderZoom: Number(this.element.querySelector('[name="commanderZoom"]')?.value ?? 100),
 		};
-		this.selectedPresetId = this.element.querySelector('[name="preset"]')?.value ?? "";
 		return this.draft;
 	}
 
@@ -511,28 +517,32 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 			return;
 		}
 
-		const presets = getPresets();
-		const existing = presets.find((preset) => preset.id === this.selectedPresetId);
-		const saved = {
-			id: existing?.id ?? foundry.utils.randomID(),
-			...draft,
-			expectedCombatants: getExpectedCombatants(this.combat),
-			strategy: {
-				environment: strategy.environment,
-				pointers: strategy.pointers.map((pointer) => ({
-					id: pointer.id,
-					actorIds: getActorIdsForCombatantIds(pointer.combatantIds, this.combat),
-					notes: pointer.notes,
-				})),
-			},
-		};
-		const nextPresets = existing
-			? presets.map((preset) => preset.id === saved.id ? saved : preset)
-			: [...presets, saved];
-
-		await game.settings.set(MODULE_ID, PRESETS_SETTING, { items: nextPresets });
-		this.selectedPresetId = saved.id;
-		ui.notifications.info(`Saved Battle Briefing preset “${saved.name}”.`);
+		try {
+			const entry = await savePresetToJournal({
+				existingId: this.selectedPresetId,
+				name: draft.name,
+				title: draft.title,
+				description: draft.description,
+				commanderSubtitle: draft.commanderSubtitle,
+				commanderPositionX: draft.commanderPositionX,
+				commanderPositionY: draft.commanderPositionY,
+				commanderZoom: draft.commanderZoom,
+				expectedCombatants: getExpectedCombatants(this.combat),
+				strategy: {
+					environment: strategy.environment,
+					pointers: strategy.pointers.map((pointer) => ({
+						id: pointer.id,
+						actorIds: getActorIdsForCombatantIds(pointer.combatantIds, this.combat),
+						notes: pointer.notes,
+					})),
+				},
+			});
+			this.selectedPresetId = entry.id;
+			ui.notifications.info(`Saved Battle Briefing preset “${entry.name}”.`);
+		} catch (error) {
+			console.error(`${MODULE_ID} | Failed to save Battle Briefing preset.`, error);
+			ui.notifications.error("The Battle Briefing preset could not be saved. Check the console for details.");
+		}
 		this.render();
 	}
 
@@ -573,8 +583,13 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 			return;
 		}
 
-		const presets = getPresets().filter((preset) => preset.id !== this.selectedPresetId);
-		await game.settings.set(MODULE_ID, PRESETS_SETTING, { items: presets });
+		try {
+			await deletePresetFromJournal(this.selectedPresetId);
+		} catch (error) {
+			console.error(`${MODULE_ID} | Failed to delete Battle Briefing preset.`, error);
+			ui.notifications.error("The Battle Briefing preset could not be deleted. Check the console for details.");
+			return;
+		}
 		this.selectedPresetId = "";
 		this.draft = getDefaultPresentation();
 		this.strategyDraft = getDefaultStrategy();
@@ -1135,9 +1150,99 @@ function removePortraitPreview() {
 	document.querySelector(".dnd4e-combat-start-portrait-preview")?.remove();
 }
 
-/** @returns {Array<object>} */
+/** @returns {Folder|null} The dedicated Journal folder holding Battle Briefing presets, if it has been created yet. */
+function getPresetsFolder() {
+	return game.folders.find((folder) => folder.type === "JournalEntry" && folder.name === PRESETS_FOLDER_NAME) ?? null;
+}
+
+/** @returns {Promise<Folder>} The dedicated Journal folder holding Battle Briefing presets, creating it on first use. */
+async function ensurePresetsFolder() {
+	return getPresetsFolder() ?? Folder.create({ name: PRESETS_FOLDER_NAME, type: "JournalEntry" });
+}
+
+/**
+ * Read every Battle Briefing preset from its dedicated Journal folder.
+ *
+ * @returns {Array<object>}
+ */
 function getPresets() {
-	return game.settings.get(MODULE_ID, PRESETS_SETTING)?.items ?? [];
+	const folder = getPresetsFolder();
+	if (!folder) {
+		return [];
+	}
+
+	return game.journal
+		.filter((entry) => entry.folder?.id === folder.id)
+		.map((entry) => mapEntryToPreset(entry))
+		.filter(Boolean);
+}
+
+/** @param {JournalEntry} entry @returns {object|null} */
+function mapEntryToPreset(entry) {
+	const preset = entry.getFlag(MODULE_ID, PRESET_FLAG);
+	return preset ? { id: entry.id, name: entry.name, ...preset } : null;
+}
+
+/**
+ * Create or update the Journal Entry backing a Battle Briefing preset.
+ *
+ * The structured preset data lives entirely in a module flag; the entry's single page is a
+ * read-only summary regenerated on every save, so the entry isn't a blank document if a GM
+ * opens it directly from the sidebar.
+ *
+ * @param {object} preset
+ * @returns {Promise<JournalEntry>}
+ */
+async function savePresetToJournal(preset) {
+	const { existingId, name, ...flagData } = preset;
+	const summaryPage = buildPresetSummaryPage(name, flagData.title, flagData.description);
+
+	const existing = existingId ? game.journal.get(existingId) : null;
+	if (existing) {
+		await existing.update({ name });
+		await existing.setFlag(MODULE_ID, PRESET_FLAG, flagData);
+		const page = existing.pages.contents[0];
+		if (page) {
+			await page.update(summaryPage);
+		} else {
+			await existing.createEmbeddedDocuments("JournalEntryPage", [summaryPage]);
+		}
+		return existing;
+	}
+
+	const folder = await ensurePresetsFolder();
+	return JournalEntry.create({
+		name,
+		folder: folder.id,
+		pages: [summaryPage],
+		ownership: { default: CONST.DOCUMENT_OWNERSHIP_LEVELS.NONE },
+		flags: { [MODULE_ID]: { [PRESET_FLAG]: flagData } },
+	});
+}
+
+/** @param {string} id @returns {Promise<void>} */
+async function deletePresetFromJournal(id) {
+	await game.journal.get(id)?.delete();
+}
+
+/** @param {string} name @param {string} title @param {string} description @returns {object} */
+function buildPresetSummaryPage(name, title, description) {
+	return {
+		name: name || title || "Battle Briefing",
+		type: "text",
+		text: {
+			format: CONST.JOURNAL_ENTRY_PAGE_FORMATS.HTML,
+			content: `<h1>${escapeHtml(title)}</h1><p>${escapeHtml(description)}</p>`,
+		},
+	};
+}
+
+/** @param {string} value @returns {string} */
+function escapeHtml(value) {
+	return String(value ?? "")
+		.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;");
 }
 
 /**

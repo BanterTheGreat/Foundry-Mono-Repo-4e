@@ -106,6 +106,8 @@ export function registerActorDisplay() {
 	Hooks.on("deleteActiveEffect", refreshForEffect);
 	Hooks.on("updateCombat", refreshAllActorDisplays);
 	Hooks.on("deleteCombat", refreshAllActorDisplays);
+	Hooks.on("updateCombatant", refreshForCombatantVisibility);
+	Hooks.on("updateToken", refreshForTokenVisibility);
 	Hooks.on("combatStart", updateGmCombatMergeState);
 	Hooks.on("canvasTearDown", closeAllActorDisplays);
 
@@ -242,6 +244,31 @@ function refreshForActor(actor) {
 /** @param {Item} item The changed embedded item. */
 function refreshForItem(item) {
 	refreshForActor(item.parent);
+}
+
+/**
+ * Refresh the embedded GM combat tracker when a combatant's visibility changes, since that's not
+ * reflected by any actor, item, or effect update.
+ *
+ * @param {Combatant} combatant The updated combatant.
+ * @param {object} changes The changed fields.
+ */
+function refreshForCombatantVisibility(combatant, changes) {
+	if ("hidden" in changes && combatant.parent?.id === game.combat?.id) {
+		ui.Dnd4eHorizontalActorDisplay?.render();
+	}
+}
+
+/**
+ * Refresh the embedded GM combat tracker when a tracked combatant's token visibility changes.
+ *
+ * @param {TokenDocument} token The updated token.
+ * @param {object} changes The changed fields.
+ */
+function refreshForTokenVisibility(token, changes) {
+	if ("hidden" in changes && game.combat?.combatants.some((combatant) => combatant.token?.id === token.id)) {
+		ui.Dnd4eHorizontalActorDisplay?.render();
+	}
 }
 
 /** @param {ActiveEffect} effect The changed active effect. */
@@ -745,6 +772,8 @@ class HorizontalActorDisplay extends ActorDisplayBase {
 			closeDrawer: HorizontalActorDisplay.prototype.onCloseDrawer,
 			toggleDropdown: HorizontalActorDisplay.prototype.onToggleDropdown,
 			power: { handler: HorizontalActorDisplay.prototype.onPower, buttons: [0, 2] },
+			chatPower: HorizontalActorDisplay.prototype.onChatPower,
+			rollPowerDamage: HorizontalActorDisplay.prototype.onRollPowerDamage,
 			refreshPower: HorizontalActorDisplay.prototype.onRefreshPower,
 			togglePowerDetails: HorizontalActorDisplay.prototype.onTogglePowerDetails,
 			skill: HorizontalActorDisplay.prototype.onSkill,
@@ -772,9 +801,9 @@ class HorizontalActorDisplay extends ActorDisplayBase {
 		return ".dnd4e-horizontal-actor-display__drawer-body";
 	}
 
-	/** @param {Token} token The token about to be displayed. @returns {string|null} The GM's drawer opens straight to Features/Feats; the drawer otherwise starts closed. */
-	getInitialTab(_token) {
-		return game.user.isGM ? "features" : null;
+	/** @param {Token} token The token about to be displayed. @returns {string|null} The GM's drawer opens straight to Features for NPCs; the drawer otherwise starts closed. */
+	getInitialTab(token) {
+		return game.user.isGM && token?.actor?.type === "NPC" ? "features" : null;
 	}
 
 	/** @returns {object} */

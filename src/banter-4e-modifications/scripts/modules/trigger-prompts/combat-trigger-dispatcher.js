@@ -1,7 +1,6 @@
 import { TRIGGER_EVENT_TYPE, TRIGGER_ID } from "./constants.js";
 import { ActorTriggerConfiguration } from "./actor-trigger-configuration.js";
 import { findTriggerById, TRIGGERS } from "./trigger-registry.js";
-import { Logger } from "../../shared/logger.js";
 
 /**
  * Evaluates combat events on the primary GM and delivers eligible prompts.
@@ -53,7 +52,6 @@ export class CombatTriggerDispatcher {
    * @returns {Promise<void>}
    */
   async evaluateSavingThrow(savingThrowContext) {
-    this.#logSavingThrowDebug("GM received saving-throw result", { actor: savingThrowContext.actor, outcome: savingThrowContext.outcome, canEvaluate: this.#canEvaluate() });
     if (!this.#canEvaluate()) {
       return;
     }
@@ -167,9 +165,6 @@ export class CombatTriggerDispatcher {
       return;
     }
     const promptContexts = trigger.evaluate(event, this.#createTriggerServices());
-    if (triggerId === TRIGGER_ID.FAILS_SAVING_THROW) {
-      this.#logSavingThrowDebug("Resolved saving-throw combatants", { promptActorIds: promptContexts.map(context => context.actor.id) });
-    }
     for (const promptContext of promptContexts) {
       await this.#createPromptForContext(trigger, promptContext);
     }
@@ -198,9 +193,6 @@ export class CombatTriggerDispatcher {
    */
   async #createPromptForContext(trigger, promptContext) {
     const assignments = ActorTriggerConfiguration.eligibleAssignmentsFor(promptContext.actor, trigger, promptContext);
-    if (trigger.id === TRIGGER_ID.FAILS_SAVING_THROW) {
-      this.#logSavingThrowDebug("Resolved saving-throw power assignments", { actorId: promptContext.actor.id, assignmentCount: assignments.length });
-    }
     if (!assignments.length) {
       return;
     }
@@ -233,19 +225,6 @@ export class CombatTriggerDispatcher {
   #findCombatantForActor(actor) {
     const tokenCombatant = actor.sceneId && actor.tokenId ? this.#findCombatantByToken(actor.sceneId, actor.tokenId) : null;
     return tokenCombatant ?? game.combat?.combatants.find(combatant => combatant.actor?.id === actor.actorId);
-  }
-
-  /**
-   * Emits temporary, opt-in saving-throw diagnostics.
-   *
-   * @param {string} message
-   * @param {object} context
-   * @returns {void}
-   */
-  #logSavingThrowDebug(message, context) {
-    if (game.settings?.settings) {
-      Logger.info(`[DEBUG-save-trigger] ${message}`, context);
-    }
   }
 
   /**

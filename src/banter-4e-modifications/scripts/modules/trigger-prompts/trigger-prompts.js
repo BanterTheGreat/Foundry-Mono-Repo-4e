@@ -70,13 +70,11 @@ export class TriggerPrompts {
     const savingThrow = TriggerPrompts.#captureSavingThrowFailure(message);
     if (savingThrow) {
       await TriggerPrompts.#waitForDiceSoNiceAnimation(message.id);
-      TriggerPrompts.#logSavingThrowDebug("Sending failed saving throw to GM", { socketAvailable: Boolean(socket), actor: savingThrow.actor });
       if (!socket) {
         Logger.error("Failed to evaluate trigger saving throw", { error: "SocketLib was not ready when the saving throw was created." });
         return;
       }
       await socket.executeAsGM(TRIGGER_SOCKET_ACTION.EVALUATE_SAVING_THROW, savingThrow)
-        .then(() => TriggerPrompts.#logSavingThrowDebug("GM completed saving-throw evaluation", { actor: savingThrow.actor }))
         .catch(error => Logger.error("Failed to evaluate trigger saving throw", { error: error.message }));
     }
   }
@@ -216,19 +214,6 @@ export class TriggerPrompts {
       },
       outcome: "fail",
     };
-  }
-
-  /**
-   * Emits temporary, opt-in saving-throw diagnostics.
-   *
-   * @param {string} message
-   * @param {object} context
-   * @returns {void}
-   */
-  static #logSavingThrowDebug(message, context) {
-    if (game.settings?.settings) {
-      Logger.info(`[DEBUG-save-trigger] ${message}`, context);
-    }
   }
 
   /**

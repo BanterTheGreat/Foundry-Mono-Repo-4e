@@ -144,15 +144,6 @@ export class PlayerDefense {
     const system = item.system ?? item.data?.data ?? {};
     const hasDamage = Boolean(item.hasDamage || hit.isDamage || hit.formula?.trim());
     const hasMissDamage = Boolean(miss.halfDamage || miss.formula?.trim());
-    Logger.info("[DEBUG-pd-damage] Prepared power damage data", {
-      itemId: item.id ?? item._id,
-      hasDamage,
-      hasMissDamage,
-      hitText: hit.detail,
-      missText: miss.detail,
-      hitFormula: hit.formula,
-      missFormula: miss.formula,
-    });
     ChatMessage.create({
       flavor: `<b>${attacker.name}</b> uses <b>${item.name}</b> VS. <b>${attack.def?.toUpperCase() ?? "?"}</b>!`,
       content: PlayerDefense.#buildDefenseChatContent(targets),
