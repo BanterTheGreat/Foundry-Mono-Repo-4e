@@ -1,5 +1,6 @@
 import { getCombatTrackerData } from "./combat-tracker-data.js";
 import { openBattleBriefing } from "../combat-start/combat-start.js";
+import { GM_HUD_MERGED_CHANGE_HOOK, isGmCombatMergedIntoHorizontalHud } from "../actor-display/gm-hud-state.js";
 
 const MODULE_ID = "dnd4e-health-display";
 const SHOW_SETTING = "showCombatTracker";
@@ -56,6 +57,7 @@ export function registerCombatTracker() {
 		syncCombatTracker();
 	});
 	Hooks.on("canvasTearDown", closeCombatTracker);
+	Hooks.on(GM_HUD_MERGED_CHANGE_HOOK, () => syncCombatTracker());
 
 	syncCombatTracker();
 }
@@ -105,6 +107,13 @@ function onActorUpdate(actor) {
 /** Open, refresh, or close the display to match the active encounter's state. */
 function syncCombatTracker(combat = game.combats?.active) {
 	if (!game.settings.get(MODULE_ID, SHOW_SETTING) || !canvas?.ready) {
+		closeCombatTracker();
+		return;
+	}
+
+	// The GM's own tracker moves into the horizontal HUD once it's showing during an active
+	// encounter, rather than staying open as a separate floating window too.
+	if (game.user.isGM && isGmCombatMergedIntoHorizontalHud()) {
 		closeCombatTracker();
 		return;
 	}

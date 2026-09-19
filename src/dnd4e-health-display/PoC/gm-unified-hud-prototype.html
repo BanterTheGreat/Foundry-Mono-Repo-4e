@@ -1,0 +1,538 @@
+<!doctype html>
+<!--
+  THROWAWAY UI PROTOTYPE — not Foundry production code.
+  Question: right now the GM juggles three separate floating windows during
+  combat — the "Combat Pointers" popup (now-acting notes + prev/next), the
+  "Combat Briefing" round/initiative tracker, and the bottom Actor HUD bar
+  (portrait/HP/defenses/tabs, MMO hotbar dropped per GM request). Does
+  merging them into one panel feel better than three windows, and which
+  merge shape works best?
+
+  Three structurally different merges, switchable with the floating bar at
+  the bottom-center (or ← →). All state is a plain JS object; every action
+  re-renders. No persistence, no real Foundry integration.
+
+    A — Slim Command Bar:      everything docked in ONE bottom bar. Notes
+                                collapse into a flyout, initiative becomes
+                                inline pips, stat block stays compact.
+    B — Rail + Bar:            round/initiative tracker becomes a left rail
+                                (pointers expand inline per-row); the bottom
+                                bar keeps the full acting-creature stat block.
+    C — Unified Stack:         one right-docked panel only. The tracker list
+                                IS the actor sheet — the current-turn row
+                                expands in place into the full stat block +
+                                notes. No bottom bar at all.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GM Unified Combat HUD Prototype</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --ink: #0d0d0e;
+    --panel: rgb(9 9 11 / 95%);
+    --panel-2: #201c1a;
+    --panel-3: #2a2422;
+    --line: #99745688;
+    --line-solid: #997456;
+    --gold: #c9a35f;
+    --gold-bright: #f0c879;
+    --paper: #f5eee5;
+    --paper-2: #e9dfcf;
+    --muted: #b3a495;
+    --red: #a5333a;
+    --red-bright: #d65b60;
+    --amber: #a56a2a;
+    --amber-bright: #e0a04a;
+    --green: #3d7a4a;
+    --green-bright: #5fa86e;
+    font-family: "Signika", "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; background: radial-gradient(circle at 30% 20%, #2a2a2e, #0a0a0b 65%); color: var(--paper); font-size: 14px; }
+  .canvas-fill {
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      repeating-linear-gradient(0deg, #ffffff08 0 1px, transparent 1px 48px),
+      repeating-linear-gradient(90deg, #ffffff08 0 1px, transparent 1px 48px),
+      radial-gradient(ellipse at 60% 40%, #2e3b2c, #14171a 70%);
+  }
+  .prototype-note { position: relative; z-index: 1; max-width: 68rem; margin: 0 auto; padding: .8rem 1rem 0; color: #cdbda9; font-size: .82rem; text-align: center; }
+  .prototype-note code { color: var(--gold-bright); }
+  .reasoning { position: relative; z-index: 1; max-width: 68rem; margin: .6rem auto 1rem; padding: .6rem .9rem; border: 1px solid var(--line); border-radius: 6px; background: #14131488; color: var(--muted); font-size: .74rem; line-height: 1.4; }
+  .reasoning b { color: var(--gold-bright); }
+
+  h1, h2, h3, p { margin: 0; }
+  button { font: inherit; color: inherit; cursor: pointer; background: none; border: none; }
+  .hidden { display: none !important; }
+
+  .font-serif { font-family: "Modesto Condensed", Georgia, serif; }
+  .section-label { color: var(--muted); font-size: .58rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+
+  /* ---------------------------------------------------------------- shared bits */
+  .chip {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: .1rem; padding: .3rem .2rem; border: 1px solid var(--line);
+    border-radius: 5px; background: var(--panel-2); min-width: 2.6rem;
+  }
+  .chip .v { font-family: "Modesto Condensed", Georgia, serif; font-size: 1.05rem; color: var(--gold-bright); line-height: 1; }
+  .chip .l { font-size: .56rem; color: var(--muted); letter-spacing: .04em; text-transform: uppercase; }
+
+  .hpbar-track { position: relative; height: .55rem; border-radius: 3px; background: var(--ink); border: 1px solid #00000080; overflow: hidden; }
+  .hpbar-fill { position: absolute; inset: 0; width: var(--pct); background: linear-gradient(180deg, var(--red-bright), var(--red)); transition: width .2s; }
+  .hpbar-fill.bloodied { background: linear-gradient(180deg, var(--amber-bright), var(--amber)); }
+
+  .avatar { border-radius: 6px; border: 1px solid var(--line-solid); object-fit: cover; background: #333; display: block; }
+
+  .navbtn {
+    display: grid; place-items: center; width: 1.7rem; height: 1.7rem; flex: 0 0 auto;
+    border: 1px solid var(--line-solid); border-radius: 5px; background: var(--panel-2);
+    color: var(--muted); font-size: .85rem;
+  }
+  .navbtn:hover { color: var(--gold-bright); border-color: var(--gold); }
+
+  .pill-btn {
+    padding: .35rem .8rem; border: 1px solid var(--line-solid); border-radius: 5px;
+    background: linear-gradient(180deg, #3a2c1c, var(--panel-2)); color: var(--gold-bright);
+    font-size: .78rem; font-weight: 600; letter-spacing: .02em;
+  }
+  .pill-btn:hover { border-color: var(--gold); }
+
+  /* ================================================================== VARIANT A: Slim Command Bar */
+  #variantA .a-dock {
+    position: fixed; left: 50%; bottom: 1rem; transform: translateX(-50%); z-index: 2;
+    width: min(64rem, calc(100vw - 2rem));
+    border: 1px solid var(--line-solid); border-radius: 10px;
+    background: linear-gradient(180deg, var(--panel), var(--ink) 90%);
+    box-shadow: 0 .6rem 2rem #000d, inset 0 0 0 1px rgb(255 255 255 / 4%);
+  }
+  #variantA .a-row { display: flex; align-items: center; gap: .7rem; padding: .55rem .7rem; }
+
+  #variantA .a-round {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: .2rem .6rem; border-right: 1px solid var(--line); min-width: 3.6rem;
+  }
+  #variantA .a-round .num { font-family: "Modesto Condensed", Georgia, serif; font-size: 1.5rem; color: var(--gold-bright); line-height: 1; }
+
+  #variantA .a-pips { display: flex; align-items: center; gap: .3rem; border-right: 1px solid var(--line); padding-right: .7rem; }
+  #variantA .a-pip {
+    display: flex; flex-direction: column; align-items: center; gap: .15rem; padding: .2rem .3rem;
+    border-radius: 5px; border: 1px solid transparent; cursor: pointer;
+  }
+  #variantA .a-pip.current { border-color: var(--gold); background: #3a2c1c; }
+  #variantA .a-pip img { width: 1.7rem; height: 1.7rem; border-radius: 50%; }
+  #variantA .a-pip .init { font-size: .58rem; color: var(--muted); }
+
+  #variantA .a-actor { display: flex; align-items: center; gap: .6rem; flex: 1 1 auto; min-width: 0; }
+  #variantA .a-actor img.portrait { width: 3rem; height: 3rem; }
+  #variantA .a-actor .name-block { min-width: 8rem; }
+  #variantA .a-actor .name { font-family: "Modesto Condensed", Georgia, serif; font-size: 1.05rem; color: var(--paper); }
+  #variantA .a-actor .sub { font-size: .68rem; color: var(--muted); }
+  #variantA .a-hp { width: 8rem; }
+  #variantA .a-hp .nums { display: flex; justify-content: space-between; font-size: .68rem; color: var(--muted); margin-bottom: .15rem; }
+  #variantA .a-hp .nums b { color: var(--paper); font-weight: 600; }
+  #variantA .a-chips { display: flex; gap: .3rem; }
+
+  #variantA .a-note-toggle {
+    display: flex; align-items: center; gap: .3rem; padding: .3rem .5rem;
+    border: 1px solid var(--line-solid); border-radius: 5px; background: var(--panel-2); color: var(--gold-bright); font-size: .74rem;
+  }
+  #variantA .a-note-toggle .dot { width: .4rem; height: .4rem; border-radius: 50%; background: var(--gold-bright); }
+
+  #variantA .a-flyout {
+    position: absolute; left: 0; right: 0; bottom: 100%; margin-bottom: .5rem;
+    border: 1px solid var(--line-solid); border-radius: 8px;
+    background: linear-gradient(180deg, var(--panel), var(--ink) 90%);
+    box-shadow: 0 .6rem 2rem #000d;
+    padding: .7rem .9rem;
+  }
+  #variantA .a-flyout h3 { font-family: "Modesto Condensed", Georgia, serif; color: var(--gold-bright); font-size: 1rem; margin-bottom: .4rem; }
+  #variantA .a-flyout ul { margin: .3rem 0 0; padding-left: 1rem; color: var(--paper-2); font-size: .82rem; line-height: 1.5; }
+
+  /* ================================================================== VARIANT B: Rail + Bar */
+  #variantB .b-rail {
+    position: fixed; left: 1rem; top: 50%; transform: translateY(-50%); z-index: 2;
+    width: 18rem; max-height: calc(100vh - 8rem); overflow: auto;
+    border: 1px solid var(--line-solid); border-radius: 8px;
+    background: linear-gradient(180deg, var(--panel), var(--ink) 90%);
+    box-shadow: 0 .6rem 2rem #000d;
+  }
+  #variantB .b-head {
+    display: flex; align-items: center; gap: .4rem; padding: .5rem .6rem;
+    border-bottom: 1px solid var(--line); background: linear-gradient(120deg, #3a2c1c, var(--panel) 70%);
+  }
+  #variantB .b-head .round { font-family: "Modesto Condensed", Georgia, serif; font-size: 1.2rem; color: var(--gold-bright); }
+  #variantB .b-row { border-bottom: 1px solid var(--line); }
+  #variantB .b-row-head { display: flex; align-items: center; gap: .5rem; padding: .5rem .6rem; cursor: pointer; }
+  #variantB .b-row.current .b-row-head { background: #3a2c1c88; }
+  #variantB .b-row img { width: 2.2rem; height: 2.2rem; border-radius: 50%; }
+  #variantB .b-row .name { font-size: .85rem; font-weight: 600; color: var(--paper); }
+  #variantB .b-row .hp-line { display: flex; align-items: center; gap: .4rem; font-size: .64rem; color: var(--muted); margin-top: .15rem; }
+  #variantB .b-row .init-badge {
+    margin-left: auto; font-family: "Modesto Condensed", Georgia, serif; color: var(--gold-bright);
+    border: 1px solid var(--line-solid); border-radius: 5px; width: 1.8rem; height: 1.8rem; display: grid; place-items: center;
+  }
+  #variantB .b-notes {
+    padding: .5rem .8rem .7rem 3.1rem; font-size: .78rem; color: var(--paper-2); line-height: 1.5;
+    background: #14131488;
+  }
+  #variantB .b-notes .lbl { color: var(--gold-bright); font-size: .6rem; letter-spacing: .05em; text-transform: uppercase; display: block; margin-bottom: .2rem; }
+  #variantB .b-foot { display: flex; gap: .4rem; padding: .5rem .6rem; }
+  #variantB .b-foot .pill-btn { flex: 1; text-align: center; }
+
+  #variantB .b-bar {
+    position: fixed; left: calc(1rem + 18rem + 1rem); right: 1rem; bottom: 1rem; z-index: 2;
+    border: 1px solid var(--line-solid); border-radius: 10px;
+    background: linear-gradient(180deg, var(--panel), var(--ink) 90%);
+    box-shadow: 0 .6rem 2rem #000d;
+    display: flex; align-items: center; gap: 1rem; padding: .7rem 1rem;
+  }
+  #variantB .b-bar img.portrait { width: 4.2rem; height: 4.2rem; }
+  #variantB .b-bar .name-block .name { font-family: "Modesto Condensed", Georgia, serif; font-size: 1.3rem; color: var(--paper); }
+  #variantB .b-bar .name-block .sub { font-size: .72rem; color: var(--muted); }
+  #variantB .b-bar .hp-dial {
+    width: 3.6rem; height: 3.6rem; border-radius: 50%; display: grid; place-items: center;
+    background: conic-gradient(var(--red-bright) calc(var(--pct) * 1%), var(--panel-2) 0);
+    flex: 0 0 auto;
+  }
+  #variantB .b-bar .hp-dial span {
+    width: 3rem; height: 3rem; border-radius: 50%; background: var(--ink); display: grid; place-items: center;
+    font-family: "Modesto Condensed", Georgia, serif; font-size: 1.05rem; color: var(--paper);
+  }
+  #variantB .b-bar .b-chips { display: flex; gap: .35rem; flex: 1; justify-content: center; }
+  #variantB .b-bar .b-tabs { display: flex; gap: .3rem; }
+  #variantB .b-bar .b-tabs button {
+    padding: .35rem .6rem; border: 1px solid var(--line-solid); border-radius: 5px; background: var(--panel-2);
+    font-size: .72rem; color: var(--muted);
+  }
+  #variantB .b-bar .b-tabs button.active { color: var(--gold-bright); border-color: var(--gold); background: #3a2c1c; }
+
+  /* ================================================================== VARIANT C: Unified Stack */
+  #variantC .c-dock {
+    position: fixed; right: 1rem; top: 50%; transform: translateY(-50%); z-index: 2;
+    width: 24rem; max-height: calc(100vh - 4rem); overflow: auto;
+    border: 1px solid var(--line-solid); border-radius: 8px;
+    background: linear-gradient(180deg, var(--panel), var(--ink) 90%);
+    box-shadow: 0 .6rem 2rem #000d;
+  }
+  #variantC .c-head {
+    display: flex; align-items: center; gap: .5rem; padding: .55rem .7rem;
+    border-bottom: 1px solid var(--line); background: linear-gradient(120deg, #3a2c1c, var(--panel) 70%);
+  }
+  #variantC .c-head .round { font-family: "Modesto Condensed", Georgia, serif; font-size: 1.3rem; color: var(--gold-bright); }
+  #variantC .c-head .title { font-size: .68rem; color: var(--muted); letter-spacing: .04em; text-transform: uppercase; }
+
+  #variantC .c-row { border-bottom: 1px solid var(--line); }
+  #variantC .c-row-head { display: flex; align-items: center; gap: .5rem; padding: .5rem .7rem; cursor: pointer; }
+  #variantC .c-row.current .c-row-head { background: #3a2c1c88; }
+  #variantC .c-row img { width: 2.3rem; height: 2.3rem; border-radius: 50%; }
+  #variantC .c-row .name { font-size: .85rem; font-weight: 600; color: var(--paper); }
+  #variantC .c-row .hp-line { display: flex; align-items: center; gap: .4rem; font-size: .64rem; color: var(--muted); margin-top: .15rem; width: 8rem; }
+  #variantC .c-row .init-badge {
+    margin-left: auto; font-family: "Modesto Condensed", Georgia, serif; color: var(--gold-bright);
+    border: 1px solid var(--line-solid); border-radius: 5px; width: 1.8rem; height: 1.8rem; display: grid; place-items: center;
+  }
+
+  #variantC .c-expand { padding: .7rem .8rem .9rem; background: #14131488; }
+  #variantC .c-expand .top { display: flex; gap: .8rem; align-items: center; margin-bottom: .55rem; }
+  #variantC .c-expand img.portrait { width: 3.4rem; height: 3.4rem; }
+  #variantC .c-expand .lvl { font-size: .7rem; color: var(--muted); }
+  #variantC .c-expand .chips-row { display: flex; gap: .35rem; margin-bottom: .55rem; flex-wrap: wrap; }
+  #variantC .c-expand .notes { font-size: .8rem; color: var(--paper-2); line-height: 1.5; margin-bottom: .55rem; }
+  #variantC .c-expand .notes .lbl { color: var(--gold-bright); font-size: .6rem; letter-spacing: .05em; text-transform: uppercase; display: block; margin-bottom: .2rem; }
+  #variantC .c-expand .tabs { display: flex; gap: .3rem; }
+  #variantC .c-expand .tabs button {
+    flex: 1; padding: .35rem 0; border: 1px solid var(--line-solid); border-radius: 5px; background: var(--panel-2);
+    font-size: .72rem; color: var(--muted); text-align: center;
+  }
+  #variantC .c-expand .tabs button.active { color: var(--gold-bright); border-color: var(--gold); background: #3a2c1c; }
+
+  #variantC .c-foot { display: flex; gap: .4rem; padding: .5rem .6rem; }
+  #variantC .c-foot .pill-btn { flex: 1; text-align: center; }
+
+  /* ---------------------------------------------------------------- switcher */
+  .switcher {
+    position: fixed; left: 50%; top: 1rem; transform: translateX(-50%); z-index: 10;
+    display: flex; align-items: center; gap: .6rem;
+    background: #0d0d0ef0; border: 1px solid var(--line-solid); border-radius: 999px;
+    padding: .35rem .5rem; box-shadow: 0 .4rem 1.2rem #000c;
+  }
+  .switcher button.arrow {
+    width: 1.8rem; height: 1.8rem; border-radius: 50%; border: 1px solid var(--line-solid);
+    background: var(--panel-2); color: var(--gold-bright); display: grid; place-items: center;
+  }
+  .switcher .label { font-size: .82rem; color: var(--paper); min-width: 13rem; text-align: center; }
+  .switcher .label b { color: var(--gold-bright); }
+</style>
+</head>
+<body>
+
+<div class="canvas-fill"></div>
+
+<p class="prototype-note">
+  THROWAWAY PROTOTYPE — three variants merging <code>Combat Pointers</code> + <code>Combat Briefing</code> + the bottom <code>Actor HUD</code> (hotbar dropped). Switch with the pill at top, or <code>←</code>/<code>→</code>.
+</p>
+<div id="reasoningBox" class="reasoning"></div>
+
+<div id="variantA"><div class="a-dock" id="aDock"></div></div>
+<div id="variantB"><div class="b-rail" id="bRail"></div><div class="b-bar" id="bBar"></div></div>
+<div id="variantC"><div class="c-dock" id="cDock"></div></div>
+
+<div class="switcher">
+  <button class="arrow" id="prevBtn">&#8592;</button>
+  <span class="label" id="switchLabel"></span>
+  <button class="arrow" id="nextBtn">&#8594;</button>
+</div>
+
+<script>
+/* ---------------------------------------------------------------- state */
+const AVATAR = {
+  badger: "https://placehold.co/64x64/2a2422/c9a35f?text=B",
+  rogal:  "https://placehold.co/96x96/2a2422/c9a35f?text=R",
+};
+
+const state = {
+  variant: "A",
+  round: 8,
+  turnIndex: 0,
+  environmentNotes: ["A shallow stream cuts through the clearing — difficult terrain.", "The badger den entrance is climbable (DC 15 Athletics)."],
+  combatants: [
+    {
+      id: "badger", name: "Badger (1)", sub: "Level 1 Beast", init: 21,
+      hp: 21, maxHp: 44, ac: 16, fort: 14, ref: 15, will: 12, initMod: 5, speed: 6,
+      avatar: AVATAR.badger,
+      notes: ["Flanks with Badger (2) when possible.", "Burrows away if bloodied — treat as a skill challenge, not tactics."],
+    },
+    {
+      id: "rogal", name: "Rogal", sub: "Level 10 Swordmage", init: 17,
+      hp: 85, maxHp: 111, ac: 26, fort: 20, ref: 21, will: 20, initMod: 1, speed: 5,
+      avatar: AVATAR.rogal,
+      notes: ["Player: reminder to ask about Aegis of Assault mark.", "2 surges left — flag if they drop below 1."],
+    },
+  ],
+  expandedRow: null,   // variant B/C: which combatant's row is expanded
+  activeTab: "powers",
+  noteFlyoutOpen: false,
+};
+
+const VARIANTS = ["A", "B", "C"];
+const VARIANT_NAMES = { A: "Slim Command Bar", B: "Rail + Bar", C: "Unified Stack" };
+const REASONING = {
+  A: "<b>A — Slim Command Bar.</b> Everything lives in one bottom-docked bar: round counter, clickable initiative pips (replacing the tracker list), the acting creature's compact stat chips, and a note-toggle that flies out the notes/pointers above the bar on demand. Lowest screen footprint, but the pip row loses the tracker's full HP-bar-per-combatant view unless you click a pip.",
+  B: "<b>B — Rail + Bar.</b> Splits the difference: the round/initiative tracker becomes a left-docked rail (unchanged in spirit, HP bars per row), and clicking a row expands its Combat-Pointer notes inline underneath — no separate popup. The bottom bar keeps the full acting-creature stat block (HP dial, defenses, tabs) so nothing about the actor HUD is lost, just the hotbar.",
+  C: "<b>C — Unified Stack.</b> Most aggressive merge: ONE panel, no bottom bar at all. The tracker list rows ARE the actor sheet — the current-turn row expands in place to show portrait, defenses, notes and tabs. Maximizes screen real estate but means the acting creature's stat block moves whenever you page through turns instead of staying anchored at the bottom.",
+};
+
+function pct(hp, max) { return Math.round((hp / max) * 100); }
+function isBloodied(hp, max) { return hp <= max / 2; }
+function current() { return state.combatants[state.turnIndex]; }
+
+function chipsFor(c) {
+  return `
+    <div class="chip"><span class="v">${c.ac}</span><span class="l">AC</span></div>
+    <div class="chip"><span class="v">${c.fort}</span><span class="l">Fort</span></div>
+    <div class="chip"><span class="v">${c.ref}</span><span class="l">Ref</span></div>
+    <div class="chip"><span class="v">${c.will}</span><span class="l">Will</span></div>
+    <div class="chip"><span class="v">${c.initMod}</span><span class="l">Init</span></div>
+    <div class="chip"><span class="v">${c.speed}</span><span class="l">Speed</span></div>
+  `;
+}
+
+function tabsFor(activeId, prefix) {
+  const tabs = ["powers", "skills", "feats", "items"];
+  return tabs.map(t => `<button data-tab="${t}" data-prefix="${prefix}" class="${state.activeTab === t ? "active" : ""}">${t[0].toUpperCase() + t.slice(1)}</button>`).join("");
+}
+
+/* ---------------------------------------------------------------- VARIANT A */
+function renderA() {
+  const c = current();
+  const bloodied = isBloodied(c.hp, c.maxHp);
+  document.getElementById("aDock").innerHTML = `
+    ${state.noteFlyoutOpen ? `
+      <div class="a-flyout">
+        <h3>Now Acting — ${c.name}</h3>
+        <ul>${c.notes.map(n => `<li>${n}</li>`).join("")}</ul>
+        <h3 style="margin-top:.6rem;">Environment</h3>
+        <ul>${state.environmentNotes.map(n => `<li>${n}</li>`).join("")}</ul>
+      </div>` : ""}
+    <div class="a-row" style="position:relative;">
+      <div class="a-round"><span class="section-label">Round</span><span class="num">${state.round}</span></div>
+      <div class="a-pips">
+        ${state.combatants.map((cc, i) => `
+          <div class="a-pip ${i === state.turnIndex ? "current" : ""}" data-idx="${i}">
+            <img src="${cc.avatar}" alt="" />
+            <span class="init">${cc.init}</span>
+          </div>`).join("")}
+      </div>
+      <div class="a-actor">
+        <img class="avatar portrait" src="${c.avatar}" alt="" />
+        <div class="name-block">
+          <div class="name">${c.name}</div>
+          <div class="sub">${c.sub}</div>
+        </div>
+        <div class="a-hp">
+          <div class="nums"><span>HP</span><b>${c.hp} / ${c.maxHp}</b></div>
+          <div class="hpbar-track"><div class="hpbar-fill ${bloodied ? "bloodied" : ""}" style="--pct:${pct(c.hp, c.maxHp)}%"></div></div>
+        </div>
+        <div class="a-chips">${chipsFor(c)}</div>
+      </div>
+      <button class="a-note-toggle" id="aNoteToggle"><span class="dot"></span>Notes</button>
+      <button class="navbtn" id="aPrev">&#8676;</button>
+      <button class="pill-btn" id="aNext">Next Turn</button>
+    </div>
+  `;
+  document.getElementById("aNoteToggle").onclick = () => { state.noteFlyoutOpen = !state.noteFlyoutOpen; render(); };
+  document.getElementById("aPrev").onclick = () => stepTurn(-1);
+  document.getElementById("aNext").onclick = () => stepTurn(1);
+  document.querySelectorAll("#variantA .a-pip").forEach(el => el.onclick = () => { state.turnIndex = +el.dataset.idx; state.noteFlyoutOpen = false; render(); });
+}
+
+/* ---------------------------------------------------------------- VARIANT B */
+function renderB() {
+  const c = current();
+  document.getElementById("bRail").innerHTML = `
+    <div class="b-head"><span class="round">Round ${state.round}</span><span class="section-label" style="margin-left:auto;">Combat Briefing</span></div>
+    ${state.combatants.map((cc, i) => {
+      const expanded = state.expandedRow === cc.id;
+      const bloodied = isBloodied(cc.hp, cc.maxHp);
+      return `
+      <div class="b-row ${i === state.turnIndex ? "current" : ""}">
+        <div class="b-row-head" data-id="${cc.id}">
+          <img src="${cc.avatar}" alt="" />
+          <div style="flex:1;min-width:0;">
+            <div class="name">${cc.name}</div>
+            <div class="hp-line">
+              <span>${cc.hp}/${cc.maxHp}</span>
+              <div class="hpbar-track" style="flex:1;"><div class="hpbar-fill ${bloodied ? "bloodied" : ""}" style="--pct:${pct(cc.hp, cc.maxHp)}%"></div></div>
+            </div>
+          </div>
+          <div class="init-badge">${cc.init}</div>
+        </div>
+        ${expanded ? `
+        <div class="b-notes">
+          <span class="lbl">${i === state.turnIndex ? "Now Acting — Pointers" : "Pointers"}</span>
+          ${cc.notes.map(n => `<div>&bull; ${n}</div>`).join("")}
+        </div>` : ""}
+      </div>`;
+    }).join("")}
+    <div class="b-foot">
+      <button class="pill-btn" id="bPrev">&#8676; Prev</button>
+      <button class="pill-btn" id="bNext">Next Turn</button>
+    </div>
+  `;
+
+  const bloodied = isBloodied(c.hp, c.maxHp);
+  document.getElementById("bBar").innerHTML = `
+    <img class="avatar portrait" src="${c.avatar}" alt="" />
+    <div class="name-block">
+      <div class="name">${c.name}</div>
+      <div class="sub">${c.sub}</div>
+    </div>
+    <div class="hp-dial" style="--pct:${pct(c.hp, c.maxHp)}"><span>${c.hp}</span></div>
+    <div class="b-chips">${chipsFor(c)}</div>
+    <div class="b-tabs">${tabsFor(state.activeTab, "b")}</div>
+  `;
+
+  document.querySelectorAll("#variantB .b-row-head").forEach(el => el.onclick = () => {
+    state.expandedRow = state.expandedRow === el.dataset.id ? null : el.dataset.id;
+    render();
+  });
+  document.getElementById("bPrev").onclick = () => stepTurn(-1);
+  document.getElementById("bNext").onclick = () => stepTurn(1);
+  bindTabs("b");
+}
+
+/* ---------------------------------------------------------------- VARIANT C */
+function renderC() {
+  document.getElementById("cDock").innerHTML = `
+    <div class="c-head">
+      <div><div class="round">Round ${state.round}</div><div class="title">Combat Briefing</div></div>
+    </div>
+    ${state.combatants.map((cc, i) => {
+      const isCurrent = i === state.turnIndex;
+      const bloodied = isBloodied(cc.hp, cc.maxHp);
+      return `
+      <div class="c-row ${isCurrent ? "current" : ""}">
+        <div class="c-row-head" data-idx="${i}">
+          <img src="${cc.avatar}" alt="" />
+          <div style="flex:1;min-width:0;">
+            <div class="name">${cc.name}</div>
+            <div class="hp-line">
+              <span>${cc.hp}/${cc.maxHp}</span>
+              <div class="hpbar-track" style="flex:1;"><div class="hpbar-fill ${bloodied ? "bloodied" : ""}" style="--pct:${pct(cc.hp, cc.maxHp)}%"></div></div>
+            </div>
+          </div>
+          <div class="init-badge">${cc.init}</div>
+        </div>
+        ${isCurrent ? `
+        <div class="c-expand">
+          <div class="top">
+            <img class="avatar portrait" src="${cc.avatar}" alt="" />
+            <div><div class="name" style="font-size:1rem;">${cc.name}</div><div class="lvl">${cc.sub}</div></div>
+          </div>
+          <div class="chips-row">${chipsFor(cc)}</div>
+          <div class="notes"><span class="lbl">Now Acting — Pointers</span>${cc.notes.map(n => `&bull; ${n}<br/>`).join("")}</div>
+          <div class="tabs">${tabsFor(state.activeTab, "c")}</div>
+        </div>` : ""}
+      </div>`;
+    }).join("")}
+    <div class="c-foot">
+      <button class="pill-btn" id="cPrev">&#8676; Prev</button>
+      <button class="pill-btn" id="cNext">Next Turn</button>
+    </div>
+  `;
+  document.querySelectorAll("#variantC .c-row-head").forEach(el => el.onclick = () => {
+    state.turnIndex = +el.dataset.idx; render();
+  });
+  document.getElementById("cPrev").onclick = () => stepTurn(-1);
+  document.getElementById("cNext").onclick = () => stepTurn(1);
+  bindTabs("c");
+}
+
+function bindTabs(prefix) {
+  document.querySelectorAll(`[data-prefix="${prefix}"]`).forEach(btn => {
+    btn.onclick = () => { state.activeTab = btn.dataset.tab; render(); };
+  });
+}
+
+function stepTurn(delta) {
+  const n = state.combatants.length;
+  state.turnIndex = (state.turnIndex + delta + n) % n;
+  if (delta > 0 && state.turnIndex === 0) state.round++;
+  state.noteFlyoutOpen = false;
+  render();
+}
+
+/* ---------------------------------------------------------------- switcher + render */
+function render() {
+  document.getElementById("variantA").classList.toggle("hidden", state.variant !== "A");
+  document.getElementById("variantB").classList.toggle("hidden", state.variant !== "B");
+  document.getElementById("variantC").classList.toggle("hidden", state.variant !== "C");
+  document.getElementById("switchLabel").innerHTML = `<b>${state.variant}</b> &mdash; ${VARIANT_NAMES[state.variant]}`;
+  document.getElementById("reasoningBox").innerHTML = REASONING[state.variant];
+  if (state.variant === "A") renderA();
+  if (state.variant === "B") renderB();
+  if (state.variant === "C") renderC();
+}
+
+function cycle(delta) {
+  const i = VARIANTS.indexOf(state.variant);
+  state.variant = VARIANTS[(i + delta + VARIANTS.length) % VARIANTS.length];
+  render();
+}
+
+document.getElementById("prevBtn").onclick = () => cycle(-1);
+document.getElementById("nextBtn").onclick = () => cycle(1);
+window.addEventListener("keydown", (e) => {
+  const tag = document.activeElement?.tagName;
+  if (tag === "INPUT" || tag === "TEXTAREA" || document.activeElement?.isContentEditable) return;
+  if (e.key === "ArrowLeft") cycle(-1);
+  if (e.key === "ArrowRight") cycle(1);
+});
+
+render();
+</script>
+</body>
+</html>

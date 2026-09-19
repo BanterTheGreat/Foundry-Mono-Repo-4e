@@ -1,4 +1,4 @@
-<div class="dnd4e-horizontal-actor-display__outer">
+<div class="dnd4e-horizontal-actor-display__outer {{#if isGM}}is-gm{{/if}}">
 	<div class="dnd4e-horizontal-actor-display__left-col">
 		<div class="dnd4e-horizontal-actor-display__tab-wrap">
 			{{#if activeTab}}
@@ -21,6 +21,20 @@
 						</div>
 					{{/if}}
 					<div class="dnd4e-horizontal-actor-display__drawer-body">
+						{{#if isNpcFeatures}}
+							{{#each traitCategories}}
+								<section class="dnd4e-horizontal-actor-display__group">
+									<h4>{{name}}</h4>
+									{{#each features}}
+										<button type="button" class="dnd4e-horizontal-actor-display__feature dnd4e-horizontal-actor-display__feature--trait" data-action="feature" data-item-id="{{id}}">
+											<i class="fa-solid fa-book" aria-hidden="true"></i>
+											<span class="dnd4e-horizontal-actor-display__feature-copy"><strong>{{name}}</strong>{{#if description}}<small>{{description}}</small>{{/if}}</span>
+										</button>
+									{{/each}}
+								</section>
+							{{/each}}
+						{{/if}}
+
 						{{#if isPowers}}
 							{{#each powerCategories}}
 								<section class="dnd4e-horizontal-actor-display__group" data-power-category>
@@ -149,6 +163,10 @@
 									</div>
 								{{/if}}
 							</div>
+
+							<button type="button" class="dnd4e-horizontal-actor-display__action-btn dnd4e-horizontal-actor-display__close" data-action="dismiss" aria-label="Close horizontal display" title="Close">
+								<i class="fa-solid fa-xmark" aria-hidden="true"></i>
+							</button>
 						</div>
 					</div>
 
@@ -194,31 +212,124 @@
 		</div>
 	</div>
 
-	<div class="dnd4e-horizontal-actor-display__hotbar-column">
-		{{#if isInCombat}}
-			<button type="button" class="dnd4e-horizontal-actor-display__end-turn" data-action="quick" data-command="endTurn" {{#unless isCurrentTurn}}disabled{{/unless}} title="{{#if isCurrentTurn}}End your turn{{else}}Not your turn{{/if}}">
-				<i class="fa-solid fa-hourglass-end" aria-hidden="true"></i> End Turn
-			</button>
-		{{/if}}
-		<div class="dnd4e-horizontal-actor-display__hotbar-grid">
-		{{#each hotbarSlots}}
-			<div class="dnd4e-horizontal-actor-display__hotbar-slot {{#if isEmpty}}is-empty{{else}}{{usageClass}}{{#if depleted}} is-depleted{{/if}}{{/if}}" data-hotbar-slot="{{@index}}">
-				{{#if isEmpty}}
-					<span class="dnd4e-horizontal-actor-display__hotbar-plus">+</span>
-				{{else}}
-					<button type="button" class="dnd4e-horizontal-actor-display__hotbar-item" data-action="hotbarSlot" data-item-id="{{id}}" data-item-tooltip data-tooltip-direction="UP" data-power-usage="{{usageClass}}" title="{{name}}">
-						{{#if icon}}
-							<i class="{{icon}}" aria-hidden="true"></i>
-						{{else}}
-							<img src="{{img}}" alt="">
-						{{/if}}
-						<span class="dnd4e-horizontal-actor-display__hotbar-name">{{name}}</span>
+	{{#unless isGM}}
+		<div class="dnd4e-horizontal-actor-display__hotbar-column">
+			{{#if isInCombat}}
+				<button type="button" class="dnd4e-horizontal-actor-display__end-turn" data-action="quick" data-command="endTurn" {{#unless isCurrentTurn}}disabled{{/unless}} title="{{#if isCurrentTurn}}End your turn{{else}}Not your turn{{/if}}">
+					<i class="fa-solid fa-hourglass-end" aria-hidden="true"></i> End Turn
+				</button>
+			{{/if}}
+			<div class="dnd4e-horizontal-actor-display__hotbar-grid">
+			{{#each hotbarSlots}}
+				<div class="dnd4e-horizontal-actor-display__hotbar-slot {{#if isEmpty}}is-empty{{else}}{{usageClass}}{{#if depleted}} is-depleted{{/if}}{{/if}}" data-hotbar-slot="{{@index}}">
+					{{#if isEmpty}}
+						<span class="dnd4e-horizontal-actor-display__hotbar-plus">+</span>
+					{{else}}
+						<button type="button" class="dnd4e-horizontal-actor-display__hotbar-item" data-action="hotbarSlot" data-item-id="{{id}}" data-item-tooltip data-tooltip-direction="UP" data-power-usage="{{usageClass}}" title="{{name}}">
+							{{#if icon}}
+								<i class="{{icon}}" aria-hidden="true"></i>
+							{{else}}
+								<img src="{{img}}" alt="">
+							{{/if}}
+							<span class="dnd4e-horizontal-actor-display__hotbar-name">{{name}}</span>
+						</button>
+						{{#if depleted}}<button type="button" class="dnd4e-horizontal-actor-display__hotbar-refresh" data-action="refreshHotbarPower" data-item-id="{{id}}" title="Refresh power"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i></button>{{/if}}
+						<button type="button" class="dnd4e-horizontal-actor-display__hotbar-clear" data-action="clearHotbarSlot" data-hotbar-slot="{{@index}}" title="Remove from hotbar"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+					{{/if}}
+				</div>
+			{{/each}}
+			</div>
+		</div>
+	{{/unless}}
+
+	{{#if showGmCombatPanels}}
+		<div class="dnd4e-horizontal-actor-display__gm-combat-panels">
+			<div class="dnd4e-info-combat-tracker__panel dnd4e-horizontal-actor-display__gm-tracker">
+				<header class="dnd4e-info-combat-tracker__header dnd4e-horizontal-actor-display__gm-tracker-header">
+					<div class="dnd4e-info-combat-tracker__round">
+						<span>Round</span>
+						<b>{{gmCombatRound}}</b>
+					</div>
+					<button type="button" class="dnd4e-info-combat-tracker__briefing-btn" data-action="openBriefing" title="Open Combat Briefing">
+						<i class="fa-solid fa-swords" aria-hidden="true"></i>
 					</button>
-					{{#if depleted}}<button type="button" class="dnd4e-horizontal-actor-display__hotbar-refresh" data-action="refreshHotbarPower" data-item-id="{{id}}" title="Refresh power"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i></button>{{/if}}
-					<button type="button" class="dnd4e-horizontal-actor-display__hotbar-clear" data-action="clearHotbarSlot" data-hotbar-slot="{{@index}}" title="Remove from hotbar"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+				</header>
+				<ol class="dnd4e-info-combat-tracker__list" aria-label="Turn order">
+					{{#each gmCombatants}}
+						<li class="dnd4e-info-combat-tracker__combatant {{#if isCurrent}}is-current{{/if}} {{#if isDefeated}}is-defeated{{/if}} {{#if isHidden}}is-hidden{{/if}}">
+							<button type="button" class="dnd4e-info-combat-tracker__portrait" data-action="combatSetCurrent" data-combatant-id="{{id}}" title="Jump to {{name}}'s turn">
+								<img src="{{img}}" alt="" draggable="false">
+								{{#if isDefeated}}<span class="dnd4e-info-combat-tracker__skull"><i class="fa-solid fa-skull" aria-hidden="true"></i></span>{{/if}}
+							</button>
+							<div class="dnd4e-info-combat-tracker__main">
+								<div class="dnd4e-info-combat-tracker__name-row">
+									<strong>{{name}}</strong>
+									<div class="dnd4e-info-combat-tracker__row-actions">
+										<button type="button" class="dnd4e-info-combat-tracker__icon-btn {{#if isHidden}}is-active{{/if}}" data-action="combatToggleHidden" data-combatant-id="{{id}}" title="Toggle visible to players">
+											<i class="fa-solid {{#if isHidden}}fa-eye-slash{{else}}fa-eye{{/if}}" aria-hidden="true"></i>
+										</button>
+										<button type="button" class="dnd4e-info-combat-tracker__icon-btn {{#if isDefeated}}is-active{{/if}}" data-action="combatToggleDefeated" data-combatant-id="{{id}}" title="Toggle defeated">
+											<i class="fa-solid fa-skull" aria-hidden="true"></i>
+										</button>
+									</div>
+								</div>
+								{{#if hasHp}}
+									<div class="dnd4e-info-combat-tracker__hp-row">
+										<i class="fa-solid fa-heart" aria-hidden="true"></i>
+										{{#if canEditHp}}
+											<input type="number" class="dnd4e-info-combat-tracker__hp-input" data-gm-hp-input="{{id}}" value="{{hp.value}}" min="0" max="{{hp.maximum}}">
+										{{else}}
+											<span class="dnd4e-info-combat-tracker__hp-value">{{hp.value}}</span>
+										{{/if}}
+										<span class="dnd4e-info-combat-tracker__hp-max">/ {{hp.maximum}}</span>
+									</div>
+									<div class="dnd4e-info-combat-tracker__hp-bar {{#if hp.bloodied}}is-bloodied{{/if}}"><i style="width:{{hp.percent}}%"></i></div>
+								{{/if}}
+							</div>
+							<div class="dnd4e-info-combat-tracker__init">
+								{{#if canEditInitiative}}
+									<input type="number" class="dnd4e-info-combat-tracker__init-input" data-gm-init-input="{{id}}" value="{{rawInitiative}}" placeholder="—">
+								{{else}}
+									<b>{{initiative}}</b>
+								{{/if}}
+								<span>Init</span>
+							</div>
+						</li>
+					{{else}}
+						<li class="dnd4e-info-combat-tracker__empty">No combatants in this encounter.</li>
+					{{/each}}
+				</ol>
+				<footer class="dnd4e-info-combat-tracker__footer">
+					<button type="button" class="dnd4e-info-combat-tracker__nav-btn" data-action="combatNav" data-nav="prev" title="Previous turn">
+						<i class="fa-solid fa-backward-step" aria-hidden="true"></i>
+					</button>
+					<button type="button" class="dnd4e-info-combat-tracker__next-btn" data-action="combatNav" data-nav="next">
+						<span>Next Turn</span>
+						<i class="fa-solid fa-forward-step" aria-hidden="true"></i>
+					</button>
+					<button type="button" class="dnd4e-info-combat-tracker__end-btn" data-action="combatEndCombat" title="End Encounter">
+						<i class="fa-solid fa-flag-checkered" aria-hidden="true"></i>
+					</button>
+				</footer>
+			</div>
+
+			<div class="dnd4e-horizontal-actor-display__side-panel">
+				<span class="dnd4e-horizontal-actor-display__side-panel-lbl"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Environment</span>
+				{{#if hasEnvironmentNotes}}
+					<ul>{{#each environmentNotes}}<li>{{this}}</li>{{/each}}</ul>
+				{{else}}
+					<p class="dnd4e-horizontal-actor-display__side-panel-empty">No environment notes.</p>
 				{{/if}}
 			</div>
-		{{/each}}
+
+			<div class="dnd4e-horizontal-actor-display__side-panel">
+				<span class="dnd4e-horizontal-actor-display__side-panel-lbl"><i class="fa-solid fa-thumbtack" aria-hidden="true"></i> Now Acting &mdash; Pointers</span>
+				{{#if hasPointerNotes}}
+					<ul>{{#each pointerNotes}}<li>{{this}}</li>{{/each}}</ul>
+				{{else}}
+					<p class="dnd4e-horizontal-actor-display__side-panel-empty">No pointers for {{nowActingName}}.</p>
+				{{/if}}
+			</div>
 		</div>
-	</div>
+	{{/if}}
 </div>

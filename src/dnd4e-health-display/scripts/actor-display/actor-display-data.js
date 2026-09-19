@@ -1,4 +1,6 @@
 import { generateInlinePowerDetails } from "./actor-display-tooltips.js";
+import { getCombatTrackerData } from "../combat-tracker/combat-tracker-data.js";
+import { getStrategy } from "../combat-start/strategy.js";
 
 const MODULE_ID = "dnd4e-health-display";
 export const HOTBAR_FLAG = "hotbar";
@@ -84,6 +86,42 @@ export async function getActorDisplayData(token, activeTab, expandedPowerIds = n
 		traitCategories: getTraitCategories(actor),
 		itemCategories: getItemCategories(actor),
 		quickActions: getQuickActions(actor),
+		isGM: game.user.isGM,
+		...getGmCombatPanelsData(),
+	};
+}
+
+/**
+ * Build the GM-only Combat Tracker, Environment, and Combat Pointers panels that attach to the
+ * horizontal HUD in place of the floating windows, whenever the GM is running an active encounter.
+ *
+ * @returns {object}
+ */
+function getGmCombatPanelsData() {
+	const combat = game.combat;
+	if (!game.user.isGM || !combat?.started) {
+		return { showGmCombatPanels: false };
+	}
+
+	const tracker = getCombatTrackerData(combat, true);
+	const strategy = getStrategy(combat);
+	const environmentNotes = (strategy.environment ?? []).filter((note) => note?.trim());
+	const combatant = combat.combatant;
+	const pointerNotes = combatant
+		? strategy.pointers
+			.filter((pointer) => pointer.combatantIds?.includes(combatant.id))
+			.flatMap((pointer) => pointer.notes ?? [])
+		: [];
+
+	return {
+		showGmCombatPanels: true,
+		gmCombatRound: tracker.round,
+		gmCombatants: tracker.combatants,
+		environmentNotes,
+		hasEnvironmentNotes: environmentNotes.length > 0,
+		nowActingName: combatant?.name ?? "",
+		pointerNotes,
+		hasPointerNotes: pointerNotes.length > 0,
 	};
 }
 

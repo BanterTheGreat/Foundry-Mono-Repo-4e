@@ -38,6 +38,12 @@ The separate Turn Pointer dialog and Environment overlay are now a single overla
 
 Combat Pointers now has Previous, End Turn, and Next buttons under the Now Acting section, letting the GM step the encounter back and forward without switching to the combat tracker.
 
+The horizontal actor display now works for the GM with any selected token, not just player characters, drops its hotbar entirely for the GM since it isn't needed there, and gained a close button. Whenever the GM has it open during an active encounter, it also grows the combat tracker plus Environment and Now Acting — Pointers notes alongside the player-info panel, so the GM no longer needs the separate floating combat tracker open at the same time; it reappears on its own once the GM closes the horizontal display or ends the encounter.
+
+Removed the standalone Combat Pointers overlay now that its environment and turn-pointer notes are always shown as part of the GM's horizontal actor display during combat; the underlying notes are unchanged and still edited from the Battle Briefing's Strategy tab.
+
+Fixed the GM's horizontal actor display showing nothing on an NPC's Features tab instead of its Traits and Racial Feats, and fixed those traits showing only their name with no rules text. That tab now also opens automatically for the GM as soon as the horizontal display appears or switches to a new token, and its embedded combat tracker now runs noticeably taller than the Environment/Pointers notes beside it, giving the combatant list more room to breathe.
+
 ## 2.0
 
 Streamlined the actor display typography to Signika for interface and supporting text, reserving Modesto Condensed for character identity and headline resource values while retaining italic flavour copy.

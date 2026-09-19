@@ -20,7 +20,6 @@ import {
 	registerCombatStart,
 	registerCombatStartSettings,
 } from "./scripts/combat-start/combat-start.js";
-import { registerStrategy, registerStrategySettings } from "./scripts/combat-start/strategy.js";
 import {
 	registerCombatTracker,
 	registerCombatTrackerSettings,
@@ -32,7 +31,6 @@ Hooks.once("init", () => {
 	registerTeamDisplaySettings();
 	registerMarkDisplaySettings();
 	registerCombatStartSettings();
-	registerStrategySettings();
 	registerCombatTrackerSettings();
 });
 
@@ -42,6 +40,5 @@ Hooks.once("ready", () => {
 	registerTeamDisplay();
 	registerMarkDisplay();
 	registerCombatStart();
-	registerStrategy();
 	registerCombatTracker();
 });

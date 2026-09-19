@@ -191,6 +191,12 @@ body.dnd4e-horizontal-hud-active #players {
 	cursor: not-allowed;
 }
 
+.dnd4e-horizontal-actor-display__close:hover {
+	border-color: #c25c4f;
+	background: #2a1512;
+	color: #f0b3a6;
+}
+
 .dnd4e-horizontal-actor-display__ap-badge {
 	position: absolute;
 	bottom: -0.2rem;
@@ -806,6 +812,43 @@ body.dnd4e-horizontal-hud-active #players {
 	font-size: 0.78rem;
 }
 
+.dnd4e-horizontal-actor-display__feature--trait {
+	display: grid;
+	grid-template-columns: 1.4rem minmax(0, 1fr);
+	align-items: start;
+	height: auto;
+	min-height: 0;
+}
+
+.dnd4e-horizontal-actor-display__feature--trait > i {
+	margin-top: 0.1rem;
+}
+
+.dnd4e-horizontal-actor-display__feature-copy {
+	display: block;
+	min-width: 0;
+}
+
+.dnd4e-horizontal-actor-display__feature-copy strong,
+.dnd4e-horizontal-actor-display__feature-copy small {
+	display: block;
+}
+
+.dnd4e-horizontal-actor-display__feature-copy strong {
+	margin-bottom: 0.2rem;
+	font-size: 0.78rem;
+}
+
+.dnd4e-horizontal-actor-display__feature-copy small {
+	color: #b9ab9e;
+	font-family: var(--font-primary, "Signika", sans-serif);
+	font-size: 0.7rem;
+	font-weight: 400;
+	line-height: 1.25;
+	text-align: left;
+	white-space: normal;
+}
+
 /* -- items -- */
 .dnd4e-horizontal-actor-display__item {
 	display: flex;
@@ -1062,4 +1105,70 @@ body.dnd4e-horizontal-hud-active #players {
 	.dnd4e-horizontal-actor-display__drawer {
 		width: calc(100vw - 2rem);
 	}
+}
+
+/* -- GM combat panels: the combat tracker and Environment/Pointers notes, embedded in place of
+   the hotbar whenever the GM is running an active encounter. The tracker reuses the standalone
+   combat tracker HUD's own classes (see combat-tracker.css) so both stay visually identical. -- */
+.dnd4e-horizontal-actor-display__gm-combat-panels {
+	display: flex;
+	align-items: flex-end;
+	gap: 0.6rem;
+}
+
+.dnd4e-horizontal-actor-display__gm-tracker {
+	width: 19rem;
+	max-height: var(--dnd4e-horizontal-gm-tracker-height, 37rem);
+}
+
+.dnd4e-horizontal-actor-display__gm-tracker .dnd4e-info-combat-tracker__list {
+	flex: 1 1 auto;
+	min-height: 0;
+	max-height: none;
+}
+
+.dnd4e-horizontal-actor-display__gm-tracker-header {
+	cursor: default;
+}
+
+.dnd4e-horizontal-actor-display__side-panel {
+	display: flex;
+	flex-direction: column;
+	width: 13rem;
+	max-height: var(--dnd4e-horizontal-gm-panel-height, 24rem);
+	padding: 0.6rem 0.7rem;
+	overflow-y: auto;
+	border: 1px solid #997456;
+	border-radius: 0.5rem;
+	background: linear-gradient(180deg, rgb(9 9 11 / 95%), #0d0d0e 90%);
+	box-shadow: 0 0.6rem 2rem rgb(0 0 0 / 85%), inset 0 0 0 1px rgb(255 255 255 / 4%);
+	text-shadow: 0 0.08rem 0.15rem #000;
+}
+
+.dnd4e-horizontal-actor-display__side-panel-lbl {
+	display: block;
+	margin-bottom: 0.3rem;
+	color: #f0c879;
+	font-size: 0.58rem;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+}
+
+.dnd4e-horizontal-actor-display__side-panel ul {
+	margin: 0;
+	padding-left: 1rem;
+	color: #d9cdbb;
+	font-size: 0.74rem;
+	line-height: 1.4;
+}
+
+.dnd4e-horizontal-actor-display__side-panel li {
+	margin-bottom: 0.15rem;
+}
+
+.dnd4e-horizontal-actor-display__side-panel-empty {
+	color: #a99178;
+	font-size: 0.74rem;
+	font-style: italic;
 }
