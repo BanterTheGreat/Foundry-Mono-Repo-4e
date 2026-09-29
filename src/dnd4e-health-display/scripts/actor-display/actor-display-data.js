@@ -403,7 +403,35 @@ function getFeatureDescription(feature) {
 
 	const element = document.createElement("div");
 	element.innerHTML = html;
-	return element.textContent?.trim() ?? "";
+	element.querySelectorAll("br").forEach((lineBreak) => lineBreak.replaceWith("\n"));
+	element.querySelectorAll("hr").forEach((separator) => separator.replaceWith("\n\n"));
+	element.querySelectorAll("p, div, li").forEach((block) => block.after("\n"));
+
+	return getFeatureDescriptionHtml(element)
+		.replace(/[ \t]+\n/g, "\n")
+		.replace(/\n{3,}/g, "\n\n")
+		.trim();
+}
+
+/**
+ * Convert a feature description into safe compact HTML, preserving italic emphasis.
+ *
+ * @param {HTMLElement} element The parsed feature-description content.
+ * @returns {string}
+ */
+function getFeatureDescriptionHtml(element) {
+	return Array.from(element.childNodes).map((node) => {
+		if (node.nodeType === 3) {
+			return foundry.utils.escapeHTML(node.textContent ?? "");
+		}
+
+		if (node.nodeType !== 1) {
+			return "";
+		}
+
+		const content = getFeatureDescriptionHtml(node);
+		return ["EM", "I"].includes(node.nodeName) ? `<em>${content}</em>` : content;
+	}).join("");
 }
 
 /**

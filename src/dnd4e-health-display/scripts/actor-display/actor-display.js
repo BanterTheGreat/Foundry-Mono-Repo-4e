@@ -28,7 +28,7 @@ export function registerActorDisplaySettings() {
 		scope: "client",
 		config: true,
 		type: Boolean,
-		default: true,
+		default: false,
 		onChange: (enabled) => {
 			if (enabled) {
 				renderSelectedActor();
@@ -44,7 +44,7 @@ export function registerActorDisplaySettings() {
 		scope: "client",
 		config: true,
 		type: Boolean,
-		default: false,
+		default: true,
 		onChange: (enabled) => {
 			if (enabled) {
 				renderSelectedActor();
@@ -887,11 +887,27 @@ class HorizontalActorDisplay extends ActorDisplayBase {
 	_onRender(context, options) {
 		super._onRender(context, options);
 		document.body.classList.add(HORIZONTAL_HUD_BODY_CLASS);
+		requestAnimationFrame(() => this.fitActorName());
 		const height = this.element?.getBoundingClientRect().height ?? 0;
 		document.documentElement.style.setProperty(HORIZONTAL_HUD_HEIGHT_PROPERTY, `${height}px`);
 		this.initializeHotbarDragAndDrop();
 		this.initializeGmCombatInputs();
 		this.syncGmCombatPanelHeight();
+	}
+
+	/** Scale an overlong actor name down to the width left beside the quick-action buttons. */
+	fitActorName() {
+		const name = this.element?.querySelector(".dnd4e-horizontal-actor-display__name-line h2");
+		if (!name || name.clientWidth === 0 || name.scrollWidth <= name.clientWidth) {
+			return;
+		}
+
+		const fontSize = Number.parseFloat(getComputedStyle(name).fontSize);
+		if (!fontSize) {
+			return;
+		}
+
+		name.style.fontSize = `${fontSize * (name.clientWidth / name.scrollWidth)}px`;
 	}
 
 	/**

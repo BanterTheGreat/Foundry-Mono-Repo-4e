@@ -69,7 +69,7 @@
 					{{#each features}}
 						<button type="button" class="dnd4e-info-actor-display__feature dnd4e-info-actor-display__feature--trait" data-action="feature" data-item-id="{{id}}" data-item-tooltip data-tooltip-direction="RIGHT">
 							<i class="fa-solid fa-book" aria-hidden="true"></i>
-							<span class="dnd4e-info-actor-display__feature-copy"><strong>{{name}}</strong>{{#if description}}<small>{{description}}</small>{{/if}}</span>
+							<span class="dnd4e-info-actor-display__feature-copy"><strong>{{name}}</strong>{{#if description}}<small>{{{description}}}</small>{{/if}}</span>
 						</button>
 					{{/each}}
 				</section>

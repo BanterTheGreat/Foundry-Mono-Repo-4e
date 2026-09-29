@@ -130,6 +130,7 @@ body.dnd4e-horizontal-hud-active #players {
 .dnd4e-horizontal-actor-display__name-line {
 	display: flex;
 	flex-direction: column;
+	flex: 1 1 auto;
 	gap: 0.1rem;
 	min-width: 0;
 }
@@ -639,6 +640,7 @@ body.dnd4e-horizontal-hud-active #players {
 	border-radius: 0.3rem;
 	background: linear-gradient(90deg, color-mix(in srgb, var(--power-accent) 22%, #201c1a), #1c1a19 88%);
 	color: #f0e2c8;
+	cursor: pointer;
 	margin-bottom: 0.28rem;
 	overflow: hidden;
 	transition: border-color 120ms ease, background 120ms ease, filter 120ms ease;
@@ -770,6 +772,21 @@ body.dnd4e-horizontal-hud-active #players {
 	padding: 0.2rem 0.28rem;
 }
 
+.dnd4e-horizontal-actor-display__power-details.is-custom .flavour {
+	margin: 0;
+	padding: 0.32rem 0.6rem 0.42rem;
+	color: #c9bba5;
+	font-family: var(--font-primary, "Signika", sans-serif);
+	font-style: italic;
+	font-weight: 400;
+	line-height: 1.3;
+}
+
+.dnd4e-horizontal-actor-display__power-details.is-custom .flavour > * {
+	margin: 0;
+	font: inherit;
+}
+
 .dnd4e-horizontal-actor-display__power-details b {
 	color: #ffe1a2;
 }
@@ -873,7 +890,7 @@ body.dnd4e-horizontal-hud-active #players {
 	font-weight: 400;
 	line-height: 1.25;
 	text-align: left;
-	white-space: normal;
+	white-space: pre-line;
 }
 
 /* -- items -- */

@@ -28,7 +28,7 @@
 									{{#each features}}
 										<button type="button" class="dnd4e-horizontal-actor-display__feature dnd4e-horizontal-actor-display__feature--trait" data-action="feature" data-item-id="{{id}}">
 											<i class="fa-solid fa-book" aria-hidden="true"></i>
-											<span class="dnd4e-horizontal-actor-display__feature-copy"><strong>{{name}}</strong>{{#if description}}<small>{{description}}</small>{{/if}}</span>
+											<span class="dnd4e-horizontal-actor-display__feature-copy"><strong>{{name}}</strong>{{#if description}}<small>{{{description}}}</small>{{/if}}</span>
 										</button>
 									{{/each}}
 								</section>
@@ -40,7 +40,7 @@
 								<section class="dnd4e-horizontal-actor-display__group" data-power-category>
 									<h4>{{name}} <small>{{powers.length}}</small></h4>
 									{{#each powers}}
-										<div class="dnd4e-horizontal-actor-display__power {{usageClass}}{{#if depleted}} is-depleted{{/if}}" data-power-name="{{name}}">
+										<div class="dnd4e-horizontal-actor-display__power {{usageClass}}{{#if depleted}} is-depleted{{/if}}" data-action="power" data-item-id="{{id}}" data-power-name="{{name}}">
 											<div class="dnd4e-horizontal-actor-display__power-header" data-action="power" data-item-id="{{id}}" {{#unless inlineDetails}}data-item-tooltip data-tooltip-direction="RIGHT" data-power-usage="{{usageClass}}"{{/unless}} draggable="true" data-hotbar-drag-type="power" role="button" tabindex="0">
 												<i class="{{icon}}" aria-hidden="true"></i>
 												<strong>{{name}}</strong>
@@ -117,7 +117,7 @@
 				<div class="dnd4e-horizontal-actor-display__charinfo-text">
 					<div class="dnd4e-horizontal-actor-display__name-row">
 						<div class="dnd4e-horizontal-actor-display__name-line">
-							<h2>{{name}}</h2>
+							<h2 title="{{name}}">{{name}}</h2>
 							<small>{{levelAndClass}}</small>
 						</div>
 						<div class="dnd4e-horizontal-actor-display__name-actions">
@@ -314,14 +314,12 @@
 				</footer>
 			</div>
 
-			<div class="dnd4e-horizontal-actor-display__side-panel">
-				<span class="dnd4e-horizontal-actor-display__side-panel-lbl"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Environment</span>
-				{{#if hasEnvironmentNotes}}
+			{{#if hasEnvironmentNotes}}
+				<div class="dnd4e-horizontal-actor-display__side-panel">
+					<span class="dnd4e-horizontal-actor-display__side-panel-lbl"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Environment</span>
 					<ul>{{#each environmentNotes}}<li>{{this}}</li>{{/each}}</ul>
-				{{else}}
-					<p class="dnd4e-horizontal-actor-display__side-panel-empty">No environment notes.</p>
+				</div>
 				{{/if}}
-			</div>
 
 			<div class="dnd4e-horizontal-actor-display__side-panel">
 				<span class="dnd4e-horizontal-actor-display__side-panel-lbl"><i class="fa-solid fa-thumbtack" aria-hidden="true"></i> Now Acting &mdash; Pointers</span>

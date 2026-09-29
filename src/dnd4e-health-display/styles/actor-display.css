@@ -870,10 +870,17 @@
 
 .dnd4e-info-actor-display__power-details.is-custom .flavour {
 	margin: 0;
-	padding: 0.32rem 0.5rem 0.2rem;
+	padding: 0.32rem 0.6rem 0.42rem;
 	color: #cbd7c7;
 	font-family: var(--font-primary, "Signika", sans-serif);
 	font-style: italic;
+	font-weight: 400;
+	line-height: 1.3;
+}
+
+.dnd4e-info-actor-display__power-details.is-custom .flavour > * {
+	margin: 0;
+	font: inherit;
 }
 
 .dnd4e-info-actor-display__power.is-depleted .dnd4e-info-actor-display__power-details .flavour {
@@ -1075,7 +1082,7 @@
 	font-weight: 400;
 	line-height: 1.25;
 	text-align: left;
-	white-space: normal;
+	white-space: pre-line;
 }
 
 .dnd4e-info-actor-display__item {

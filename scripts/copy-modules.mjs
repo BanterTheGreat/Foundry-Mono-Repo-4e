@@ -2,19 +2,25 @@
 // Copies module(s) under src/ into the local Foundry VTT Data/modules folder.
 // With no args, copies every module; pass one or more module folder names to copy only those.
 import { cpSync, mkdirSync, readdirSync } from "node:fs";
+import { homedir } from "node:os";
 import { basename, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const rootDir = resolve(fileURLToPath(import.meta.url), "../..");
 const srcDir = join(rootDir, "src");
 
-const dataRoot =
-  process.env.FOUNDRY_DATA_PATH ??
-  (process.env.LOCALAPPDATA && join(process.env.LOCALAPPDATA, "FoundryVTT", "Data"));
+const defaultDataRoot =
+  process.platform === "win32"
+    ? process.env.LOCALAPPDATA && join(process.env.LOCALAPPDATA, "FoundryVTT", "Data")
+    : process.platform === "darwin"
+      ? join(homedir(), "Library", "Application Support", "FoundryVTT", "Data")
+      : undefined;
+
+const dataRoot = process.env.FOUNDRY_DATA_PATH ?? defaultDataRoot;
 
 if (!dataRoot) {
   console.error(
-    "Could not determine the Foundry data path. Set FOUNDRY_DATA_PATH or ensure %LOCALAPPDATA% is set."
+    "Could not determine the Foundry data path. Set FOUNDRY_DATA_PATH, or use Windows or macOS with Foundry's default data location."
   );
   process.exit(1);
 }
