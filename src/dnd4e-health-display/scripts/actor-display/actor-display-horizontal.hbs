@@ -197,25 +197,24 @@
 									{{#each surges.segments}}<i class="{{#if filled}}is-filled{{/if}}"></i>{{/each}}
 								</div>
 							{{/if}}
-						</div>
-					</div>
-
-					<div class="dnd4e-horizontal-actor-display__def-grid">
-						<div class="dnd4e-horizontal-actor-display__def-group is-defenses">
-							{{#each defenseStats}}
-								<button type="button" class="dnd4e-horizontal-actor-display__def-chip" title="{{label}}">
-									<div class="dnd4e-horizontal-actor-display__def-chip-value"><i class="{{icon}}" aria-hidden="true"></i><b>{{value}}</b></div>
-									<span class="dnd4e-horizontal-actor-display__def-label">{{shortLabel}}</span>
-								</button>
-							{{/each}}
-						</div>
-						<div class="dnd4e-horizontal-actor-display__def-group is-utilities">
-							{{#each utilityStats}}
-								<button type="button" class="dnd4e-horizontal-actor-display__def-chip" title="{{label}}" data-action="{{action}}" data-command="{{command}}">
-								<div class="dnd4e-horizontal-actor-display__def-chip-value"><i class="{{icon}}" aria-hidden="true"></i><b>{{value}}</b></div>
-								<span class="dnd4e-horizontal-actor-display__def-label">{{shortLabel}}</span>
-							</button>
-							{{/each}}
+							<div class="dnd4e-horizontal-actor-display__def-grid">
+								<div class="dnd4e-horizontal-actor-display__def-group is-defenses">
+									{{#each defenseStats}}
+										<button type="button" class="dnd4e-horizontal-actor-display__def-chip" title="{{label}}">
+											<div class="dnd4e-horizontal-actor-display__def-chip-value"><i class="{{icon}}" aria-hidden="true"></i><b>{{value}}</b></div>
+											<span class="dnd4e-horizontal-actor-display__def-label">{{shortLabel}}</span>
+										</button>
+									{{/each}}
+								</div>
+								<div class="dnd4e-horizontal-actor-display__def-group is-utilities">
+									{{#each utilityStats}}
+										<button type="button" class="dnd4e-horizontal-actor-display__def-chip" title="{{label}}" data-action="{{action}}" data-command="{{command}}">
+											<div class="dnd4e-horizontal-actor-display__def-chip-value"><i class="{{icon}}" aria-hidden="true"></i><b>{{value}}</b></div>
+											<span class="dnd4e-horizontal-actor-display__def-label">{{shortLabel}}</span>
+										</button>
+									{{/each}}
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
