@@ -46,10 +46,11 @@ export async function getActorDisplayData(token, activeTab, expandedPowerIds = n
 	const hpSegmentCount = actor.type === "Player Character" ? 6 : 4;
 	const filledHpSegments = getFilledSegmentCount(hpValue, hpMaximum, hpSegmentCount);
 	const tabs = getTabs(actor, activeTab);
+	const stats = getStats(actor);
 
 	return {
 		name: actor.name,
-		portrait: token.document?.texture?.src || actor.img,
+		portrait: actor.img || token.document?.texture?.src || "icons/svg/mystery-man.svg",
 		levelAndClass: getLevelAndClass(actor),
 		subtitle: getSubtitle(actor),
 		hp: {
@@ -66,7 +67,9 @@ export async function getActorDisplayData(token, activeTab, expandedPowerIds = n
 			maximum: surgeMaximum,
 			segments: getSegments(surgeValue, surgeMaximum, surgeMaximum),
 		},
-		stats: getStats(actor),
+		stats,
+		defenseStats: stats.filter((stat) => stat.isDefense),
+		utilityStats: stats.filter((stat) => !stat.isDefense),
 		tabs,
 		activeTab,
 		activeTabLabel: tabs.find((tab) => tab.key === activeTab)?.label ?? "",
@@ -197,12 +200,12 @@ function getFilledSegmentCount(value, maximum, count) {
  */
 function getStats(actor) {
 	return [
-		{ label: "Armor Class", shortLabel: "AC", value: actor.system?.defences?.ac?.value, icon: "fa-solid fa-shield" },
-		{ label: "Fortitude", shortLabel: "Fort", value: actor.system?.defences?.fort?.value, icon: "fa-solid fa-dumbbell" },
-		{ label: "Reflex", shortLabel: "Ref", value: actor.system?.defences?.ref?.value, icon: "fa-solid fa-bolt" },
-		{ label: "Will", shortLabel: "Will", value: actor.system?.defences?.wil?.value, icon: "fa-solid fa-brain" },
+		{ label: "Armor Class", shortLabel: "AC", value: actor.system?.defences?.ac?.value, icon: "fa-solid fa-shield", isDefense: true },
+		{ label: "Fortitude", shortLabel: "Fort", value: actor.system?.defences?.fort?.value, icon: "fa-solid fa-dumbbell", isDefense: true },
+		{ label: "Reflex", shortLabel: "Ref", value: actor.system?.defences?.ref?.value, icon: "fa-solid fa-bolt", isDefense: true },
+		{ label: "Will", shortLabel: "Will", value: actor.system?.defences?.wil?.value, icon: "fa-solid fa-brain", isDefense: true },
 		{ label: "Initiative", shortLabel: "Init", value: Number(actor.system?.attributes?.init?.value) || 0, icon: "fa-solid fa-person-running", action: "quick", command: "initiative" },
-		{ label: "Speed", shortLabel: "Speed", value: Number(actor.system?.movement?.walk?.value) || 0, icon: "fa-solid fa-shoe-prints" },
+		{ label: "Speed", shortLabel: "Speed", value: Number(actor.system?.movement?.walk?.value) || 0, icon: "fa-solid fa-shoe-prints", action: "quick", command: "openSheet" },
 	];
 }
 
