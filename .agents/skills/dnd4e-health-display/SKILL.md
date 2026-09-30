@@ -14,7 +14,7 @@ Foundry VTT v14 module for the DnD4e system that provides two independent inform
 - `scripts/actor-display/actor-display.js` owns the controlled-token HUD lifecycle, interactions, dragging, and document mutations.
 - `scripts/actor-display/actor-display-data.js` converts DnD4e actor and item documents into template-ready display data.
 - `scripts/actor-display/actor-display-tooltips.js` lazily renders and caches HTML rules tooltips.
-- `scripts/actor-display/actor-display.hbs` is the actor HUD's single Handlebars part.
+- `scripts/actor-display/actor-display-horizontal.hbs` is the actor HUD's single Handlebars part.
 - `scripts/mark-display/mark-display.js` owns the canvas overlay that connects DnD4e markers to their marked tokens.
 - `styles/` contains one stylesheet per display module.
 - `PoC/actor-hud-ui-prototype/` contains throwaway visual explorations. Treat these as design references, not production code.

@@ -1,7 +1,7 @@
 #dnd4e-info-combat-tracker {
 	position: fixed;
 	z-index: 90;
-	width: 19rem;
+	width: 17.1rem;
 	margin: 0;
 	color: #f5eee5;
 	font-family: var(--font-primary, "Signika", sans-serif);
@@ -352,6 +352,11 @@
 	color: #d65b60;
 }
 
+.dnd4e-info-combat-tracker__remove-btn:hover {
+	background: #2a1512;
+	color: #f0b3a6;
+}
+
 .dnd4e-info-combat-tracker__empty {
 	margin: 0.65rem 0 0.35rem;
 	color: #a99178;
@@ -444,6 +449,6 @@
 
 @media (max-width: 700px) {
 	#dnd4e-info-combat-tracker {
-		width: min(19rem, calc(100vw - 1rem));
+		width: min(17.1rem, calc(100vw - 1rem));
 	}
 }

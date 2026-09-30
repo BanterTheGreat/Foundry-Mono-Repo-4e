@@ -528,6 +528,10 @@ body.dnd4e-horizontal-hud-active #players {
 	backdrop-filter: blur(0.4rem);
 }
 
+.dnd4e-horizontal-actor-display__drawer--powers {
+	min-height: min(30rem, 65vh);
+}
+
 .dnd4e-horizontal-actor-display__drawer-head {
 	display: flex;
 	align-items: center;
@@ -592,6 +596,48 @@ body.dnd4e-horizontal-hud-active #players {
 	background: #211e1e;
 	color: #c89550;
 	flex: 0 0 auto;
+}
+
+.dnd4e-horizontal-actor-display__power-categories {
+	display: flex;
+	gap: 0.25rem;
+	padding: 0.5rem 0.5rem 0;
+	overflow-x: auto;
+	flex: 0 0 auto;
+}
+
+.dnd4e-horizontal-actor-display__power-categories button {
+	flex: 1 0 auto;
+	padding: 0.28rem 0.38rem;
+	border: 1px solid rgb(153 116 86 / 55%);
+	border-radius: 0.3rem;
+	background: #211e1e;
+	color: #a98c70;
+	font-size: 0.58rem;
+	font-weight: 700;
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
+}
+
+.dnd4e-horizontal-actor-display__power-categories button small {
+	color: #846f5b;
+	font-size: inherit;
+}
+
+.dnd4e-horizontal-actor-display__power-categories button:hover,
+.dnd4e-horizontal-actor-display__power-categories button:focus-visible {
+	border-color: #c89550;
+	color: #f0ddc2;
+}
+
+.dnd4e-horizontal-actor-display__power-categories button.is-active {
+	border-color: #c89550;
+	background: linear-gradient(180deg, #4a3a26, #2a2016);
+	color: #f0c879;
+}
+
+.dnd4e-horizontal-actor-display__power-categories button.is-active small {
+	color: inherit;
 }
 
 .dnd4e-horizontal-actor-display__power-search input {

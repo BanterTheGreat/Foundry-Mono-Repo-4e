@@ -32,9 +32,10 @@ const FEATURE_CATEGORY_RULES = [
  * @param {Token} token The displayed canvas token.
  * @param {string} activeTab The currently selected inventory tab.
  * @param {Set<string>} expandedPowerIds Player-character powers with their rules details expanded.
+ * @param {string|null} activePowerCategory Selected action-type filter for powers.
  * @returns {Promise<object>}
  */
-export async function getActorDisplayData(token, activeTab, expandedPowerIds = new Set()) {
+export async function getActorDisplayData(token, activeTab, expandedPowerIds = new Set(), activePowerCategory = null) {
 	const actor = token.actor;
 	const isNpc = actor.type === "NPC";
 	const hp = actor.system?.attributes?.hp ?? {};
@@ -46,6 +47,7 @@ export async function getActorDisplayData(token, activeTab, expandedPowerIds = n
 	const hpSegmentCount = actor.type === "Player Character" ? 6 : 4;
 	const filledHpSegments = getFilledSegmentCount(hpValue, hpMaximum, hpSegmentCount);
 	const tabs = getTabs(actor, activeTab);
+	const powerCategories = await getPowerCategories(actor, expandedPowerIds, activePowerCategory);
 
 	return {
 		name: actor.name,
@@ -76,11 +78,13 @@ export async function getActorDisplayData(token, activeTab, expandedPowerIds = n
 		isCurrentTurn: Boolean(game.combat?.started && game.combat.combatant?.tokenId === token.document.id),
 		isPlayerCharacter: actor.type === "Player Character",
 		isPowers: activeTab === "powers" || (isNpc && activeTab === "features"),
+		showPowerCategoryTabs: activeTab === "powers",
 		isSkills: activeTab === "skills",
 		isFeatures: !isNpc && activeTab === "features",
 		isNpcFeatures: isNpc && activeTab === "features",
 		isItems: activeTab === "items",
-		powerCategories: await getPowerCategories(actor, expandedPowerIds),
+		powerCategories,
+		npcPowers: isNpc ? powerCategories.flatMap((category) => category.powers) : [],
 		skills: getSkills(actor),
 		featureCategories: getFeatureCategories(actor),
 		traitCategories: getTraitCategories(actor),
@@ -233,13 +237,15 @@ function getTabs(actor, activeTab) {
  *
  * @param {Actor} actor The displayed actor.
  * @param {Set<string>} expandedPowerIds Player-character powers with their rules details expanded.
+ * @param {string|null} activePowerCategory Selected action-type filter for powers.
  * @returns {Array<object>}
  */
-async function getPowerCategories(actor, expandedPowerIds) {
+async function getPowerCategories(actor, expandedPowerIds, activePowerCategory) {
 	const powers = Array.from(actor.items ?? []).filter((item) => item.type === "power");
 	const knownActions = POWER_CATEGORY_RULES.flatMap(([_name, actions]) => actions);
 
 	const categories = POWER_CATEGORY_RULES.map(([name, actions]) => ({
+		key: actions[0] ?? "other",
 		name,
 		powers: powers
 			.filter((power) => actions.length
@@ -248,9 +254,13 @@ async function getPowerCategories(actor, expandedPowerIds) {
 			.sort((left, right) => getPowerOrder(left) - getPowerOrder(right) || left.name.localeCompare(right.name))
 			.map((power) => mapPower(power, actor, expandedPowerIds)),
 	})).filter((category) => category.powers.length);
+	const selectedCategory = categories.some((category) => category.key === activePowerCategory)
+		? activePowerCategory
+		: categories[0]?.key;
 
 	return Promise.all(categories.map(async (category) => ({
 		...category,
+		active: category.key === selectedCategory,
 		powers: await Promise.all(category.powers),
 	})));
 }

@@ -32,10 +32,13 @@
 								<button type="button" class="dnd4e-info-combat-tracker__icon-btn {{#if isDefeated}}is-active{{/if}}" data-action="toggleDefeated" data-combatant-id="{{id}}" title="Toggle defeated">
 									<i class="fa-solid fa-skull" aria-hidden="true"></i>
 								</button>
+								<button type="button" class="dnd4e-info-combat-tracker__icon-btn dnd4e-info-combat-tracker__remove-btn" data-action="removeCombatant" data-combatant-id="{{id}}" title="Remove from combat" aria-label="Remove {{name}} from combat">
+									<i class="fa-solid fa-trash" aria-hidden="true"></i>
+								</button>
 							</div>
 						{{/if}}
 					</div>
-					{{#if hasHp}}
+					{{#if canViewHp}}
 						<div class="dnd4e-info-combat-tracker__hp-row">
 							<i class="fa-solid fa-heart" aria-hidden="true"></i>
 							{{#if canEditHp}}

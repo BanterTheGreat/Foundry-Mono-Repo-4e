@@ -34,6 +34,7 @@ function getCombatantRowData(combatant, combat, isGM) {
 		rawInitiative: combatant.initiative == null ? "" : Math.round(combatant.initiative),
 		canEditInitiative: isGM,
 		hasHp,
+		canViewHp: isGM && hasHp,
 		hp: {
 			value: hpValue,
 			maximum: hpMaximum,

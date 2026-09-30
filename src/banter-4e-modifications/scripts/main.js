@@ -4,6 +4,7 @@ import { SocketHelper } from "./modules/player-defense/socket-helper.js";
 import { TriggerPrompts } from "./modules/trigger-prompts/trigger-prompts.js";
 import { PowerTriggerConfiguration } from "./modules/trigger-prompts/power-trigger-configuration.js";
 import { OpportunityAttackChatActions } from "./modules/opportunity-attack-chat/opportunity-attack-chat-actions.js";
+import { TargetingWarning } from "./modules/targeting-warning/targeting-warning.js";
 import { TRIGGER_SOCKET_ACTION } from "./modules/trigger-prompts/constants.js";
 import { MODULE_NAME, ENABLE_ACTIVE_DEFENSE, ENABLE_DEBUG_LOGGING, ENABLE_OPPORTUNITY_ATTACK_CHAT_ACTIONS, ENABLE_TRIGGER_PROMPTS } from "./shared/globals.js";
 
@@ -80,6 +81,7 @@ Hooks.on("ready", () => {
 // Should not be needed anymore with the V14 version.
 // Hooks.on("init", Dnd4eSystemCustomizations.replaceConditionList);
 Hooks.on("init", Dnd4eSystemCustomizations.replaceSkills);
+Hooks.once("ready", TargetingWarning.install);
 
 // Opportunity Attack chat actions
 

@@ -4,12 +4,8 @@ import { setGmCombatMergedIntoHorizontalHud } from "./gm-hud-state.js";
 import { openBattleBriefing } from "../combat-start/combat-start.js";
 
 const MODULE_ID = "dnd4e-health-display";
-const SHOW_VERTICAL_SETTING = "showActorDisplay";
 const SHOW_HORIZONTAL_SETTING = "showHorizontalActorDisplay";
-const POSITION_SETTING = "actorDisplayPosition";
-const COLLAPSED_SETTING = "actorDisplayCollapsed";
 const POWER_FLAVOUR_HIDDEN_SETTING = "actorDisplayPowerFlavourHidden";
-const VERTICAL_TEMPLATE_PATH = `modules/${MODULE_ID}/scripts/actor-display/actor-display.hbs`;
 const HORIZONTAL_TEMPLATE_PATH = `modules/${MODULE_ID}/scripts/actor-display/actor-display-horizontal.hbs`;
 const HORIZONTAL_HUD_BODY_CLASS = "dnd4e-horizontal-hud-active";
 const HORIZONTAL_HUD_HEIGHT_PROPERTY = "--dnd4e-horizontal-hud-height";
@@ -17,27 +13,10 @@ const HORIZONTAL_HUD_HEIGHT_PROPERTY = "--dnd4e-horizontal-hud-height";
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 let selectionRenderTimer = null;
-let isVerticalDismissed = false;
 let isHorizontalDismissed = false;
 
 /** Register client settings owned by the actor display. */
 export function registerActorDisplaySettings() {
-	game.settings.register(MODULE_ID, SHOW_VERTICAL_SETTING, {
-		name: "Show vertical actor display",
-		hint: "Show a compact, draggable action and inventory display for the currently controlled token.",
-		scope: "client",
-		config: true,
-		type: Boolean,
-		default: true,
-		onChange: (enabled) => {
-			if (enabled) {
-				renderSelectedActor();
-			} else {
-				closeVerticalDisplay();
-			}
-		},
-	});
-
 	game.settings.register(MODULE_ID, SHOW_HORIZONTAL_SETTING, {
 		name: "Show horizontal actor display",
 		hint: "Show a horizontal, bottom-left-docked action and inventory display for the currently controlled player-character token. GMs also get it for any controlled token, without the hotbar, plus the combat tracker and encounter notes while an encounter is running.",
@@ -54,25 +33,6 @@ export function registerActorDisplaySettings() {
 		},
 	});
 
-	game.settings.register(MODULE_ID, POSITION_SETTING, {
-		name: "Actor display position",
-		hint: "Saved screen position of the vertical actor display.",
-		scope: "client",
-		config: false,
-		type: Object,
-		default: { top: null, left: null },
-	});
-
-	game.settings.register(MODULE_ID, COLLAPSED_SETTING, {
-		name: "Collapse actor display",
-		hint: "Show only the actor's identity and current status until the display is expanded.",
-		scope: "client",
-		config: false,
-		type: Boolean,
-		default: false,
-		onChange: (collapsed) => ui.Dnd4eActorDisplay?.setCollapsed(collapsed),
-	});
-
 	game.settings.register(MODULE_ID, POWER_FLAVOUR_HIDDEN_SETTING, {
 		name: "Hide player-character power flavour",
 		hint: "Hide the short flavour text beneath player-character powers in the actor display.",
@@ -80,17 +40,13 @@ export function registerActorDisplaySettings() {
 		config: false,
 		type: Boolean,
 		default: false,
-		onChange: (hidden) => {
-			ui.Dnd4eActorDisplay?.setPowerFlavourHidden(hidden);
-			ui.Dnd4eHorizontalActorDisplay?.setPowerFlavourHidden(hidden);
-		},
+		onChange: (hidden) => ui.Dnd4eHorizontalActorDisplay?.setPowerFlavourHidden(hidden),
 	});
 }
 
 /** Register hooks which create and refresh the actor display. */
 export function registerActorDisplay() {
 	Hooks.on("canvasReady", () => {
-		isVerticalDismissed = false;
 		isHorizontalDismissed = false;
 		renderSelectedActor();
 	});
@@ -117,7 +73,6 @@ export function registerActorDisplay() {
 /** Render after Foundry has finished changing the controlled-token collection. */
 function scheduleSelectedActorRender(token, controlled) {
 	if (controlled) {
-		isVerticalDismissed = false;
 		isHorizontalDismissed = false;
 	}
 
@@ -125,7 +80,7 @@ function scheduleSelectedActorRender(token, controlled) {
 	selectionRenderTimer = window.setTimeout(renderSelectedActor, 0);
 }
 
-/** Select the best token for the current user and update both actor displays. */
+/** Select the best token for the current user and update the horizontal actor display. */
 function renderSelectedActor() {
 	if (!canvas?.ready) {
 		return;
@@ -133,42 +88,13 @@ function renderSelectedActor() {
 
 	const token = getTokenToDisplay();
 	const isHorizontalEnabled = game.settings.get(MODULE_ID, SHOW_HORIZONTAL_SETTING);
-	const isVerticalEnabled = game.settings.get(MODULE_ID, SHOW_VERTICAL_SETTING);
 	const isNpcToken = Boolean(token) && token.actor?.type !== "Player Character";
 
 	// The horizontal display is player-character only for regular players. GMs may run it for any
-	// selected token (it drops the hotbar and gains the combat tracker/notes panels instead), so
-	// the NPC restriction and its vertical fallback only apply to non-GM users.
-	const needsVerticalFallback = isHorizontalEnabled && isNpcToken && !isVerticalEnabled && !game.user.isGM;
-	const showVertical = isVerticalEnabled || needsVerticalFallback;
+	// selected token, where it replaces the hotbar with the combat tracker and encounter notes.
 	const showHorizontal = isHorizontalEnabled && (!isNpcToken || game.user.isGM);
 
-	updateVerticalDisplay(showVertical ? token : null);
 	updateHorizontalDisplay(showHorizontal ? token : null);
-}
-
-/** @param {Token|null} token The token the vertical display should follow, or null to hide it. */
-function updateVerticalDisplay(token) {
-	if (isVerticalDismissed) {
-		return;
-	}
-
-	if (ui.Dnd4eActorDisplay?.isDetached) {
-		return;
-	}
-
-	if (!token) {
-		closeVerticalDisplay();
-		return;
-	}
-
-	if (!ui.Dnd4eActorDisplay) {
-		ui.Dnd4eActorDisplay = new VerticalActorDisplay({}, token);
-		ui.Dnd4eActorDisplay.render(true);
-		return;
-	}
-
-	ui.Dnd4eActorDisplay.setToken(token);
 }
 
 /** @param {Token|null} token The token the horizontal display should follow, or null to hide it. */
@@ -225,19 +151,16 @@ function getTokenToDisplay() {
 		&& token.document.testUserPermission(game.user, "OWNER")) ?? null;
 }
 
-/** Re-render both actor displays, e.g. when the combat tracker's turn changes. */
+/** Re-render the actor display, e.g. when the combat tracker's turn changes. */
 function refreshAllActorDisplays() {
-	ui.Dnd4eActorDisplay?.render();
 	ui.Dnd4eHorizontalActorDisplay?.render();
 	updateGmCombatMergeState();
 }
 
 /** @param {Actor} actor The updated actor. */
 function refreshForActor(actor) {
-	for (const display of [ui.Dnd4eActorDisplay, ui.Dnd4eHorizontalActorDisplay]) {
-		if (display?.actor?.id === actor.id) {
-			display.render();
-		}
+	if (ui.Dnd4eHorizontalActorDisplay?.actor?.id === actor.id) {
+		ui.Dnd4eHorizontalActorDisplay.render();
 	}
 }
 
@@ -276,13 +199,6 @@ function refreshForEffect(effect) {
 	refreshForActor(effect.parent);
 }
 
-/** Close the vertical actor display when its canvas is removed. */
-function closeVerticalDisplay() {
-	const display = ui.Dnd4eActorDisplay;
-	ui.Dnd4eActorDisplay = null;
-	void display?.close({ animate: false });
-}
-
 /** Close the horizontal actor display when its canvas is removed. */
 function closeHorizontalDisplay() {
 	const display = ui.Dnd4eHorizontalActorDisplay;
@@ -291,18 +207,11 @@ function closeHorizontalDisplay() {
 	updateGmCombatMergeState();
 }
 
-/** Close both actor displays. */
+/** Close the actor display. */
 function closeAllActorDisplays() {
 	window.clearTimeout(selectionRenderTimer);
 	selectionRenderTimer = null;
-	closeVerticalDisplay();
 	closeHorizontalDisplay();
-}
-
-/** Dismiss the vertical actor display until the user controls a token again. */
-function dismissVerticalDisplay() {
-	isVerticalDismissed = true;
-	closeVerticalDisplay();
 }
 
 /** Dismiss the horizontal actor display until the user controls a token again. */
@@ -312,9 +221,7 @@ function dismissHorizontalDisplay() {
 }
 
 /**
- * Shared token-tracking, data-preparation, and interaction logic for both actor display layouts.
- *
- * Subclasses provide their own template, DEFAULT_OPTIONS, and any layout-specific interaction state.
+ * Shared token-tracking, data-preparation, and interaction logic for the actor display.
  */
 class ActorDisplayBase extends HandlebarsApplicationMixin(ApplicationV2) {
 	constructor(options, token) {
@@ -324,6 +231,7 @@ class ActorDisplayBase extends HandlebarsApplicationMixin(ApplicationV2) {
 		this.isPowerFlavourHidden = game.settings.get(MODULE_ID, POWER_FLAVOUR_HIDDEN_SETTING);
 		this.savedScrollTop = 0;
 		this.powerSearchQuery = "";
+		this.activePowerCategory = null;
 		this.expandedPowerIds = new Set();
 	}
 
@@ -349,6 +257,7 @@ class ActorDisplayBase extends HandlebarsApplicationMixin(ApplicationV2) {
 			this.activeTab = this.getInitialTab(token);
 			this.savedScrollTop = 0;
 			this.powerSearchQuery = "";
+			this.activePowerCategory = null;
 			this.expandedPowerIds.clear();
 		}
 		this.render();
@@ -358,7 +267,7 @@ class ActorDisplayBase extends HandlebarsApplicationMixin(ApplicationV2) {
 	async _prepareContext(options) {
 		const context = await super._prepareContext(options);
 		return foundry.utils.mergeObject(context, {
-			...await getActorDisplayData(this.token, this.activeTab, this.expandedPowerIds),
+			...await getActorDisplayData(this.token, this.activeTab, this.expandedPowerIds, this.activePowerCategory),
 			isPowerFlavourHidden: this.isPowerFlavourHidden,
 			powerSearchQuery: this.powerSearchQuery,
 		});
@@ -432,10 +341,6 @@ class ActorDisplayBase extends HandlebarsApplicationMixin(ApplicationV2) {
 				matchingPowers += Number(matches);
 			}
 
-			for (const category of this.element.querySelectorAll("[data-power-category]")) {
-				category.hidden = !category.querySelector("[data-power-name]:not([hidden])");
-			}
-
 			const emptyState = this.element.querySelector("[data-power-search-empty]");
 			if (emptyState) {
 				emptyState.hidden = matchingPowers !== 0;
@@ -444,6 +349,13 @@ class ActorDisplayBase extends HandlebarsApplicationMixin(ApplicationV2) {
 
 		input.addEventListener("input", filter);
 		filter();
+	}
+
+	/** Select the visible action-type group in the Powers drawer. */
+	onSelectPowerCategory(event, target) {
+		this.activePowerCategory = target.dataset.powerCategory;
+		this.savedScrollTop = 0;
+		this.render();
 	}
 
 	/**
@@ -610,143 +522,6 @@ class ActorDisplayBase extends HandlebarsApplicationMixin(ApplicationV2) {
 	}
 }
 
-class VerticalActorDisplay extends ActorDisplayBase {
-	constructor(options, token) {
-		super(options, token);
-		this.isCollapsed = game.settings.get(MODULE_ID, COLLAPSED_SETTING);
-		this.isDetached = false;
-	}
-
-	static DEFAULT_OPTIONS = {
-		id: "dnd4e-info-actor-display",
-		tag: "aside",
-		classes: ["dnd4e-info-actor-display"],
-		position: {
-			top: 16,
-			left: 16,
-			width: 368,
-			height: "auto",
-		},
-		dragResizable: false,
-		window: { frame: false },
-		actions: {
-			dismiss: VerticalActorDisplay.prototype.onDismiss,
-			toggleDetach: VerticalActorDisplay.prototype.onToggleDetach,
-			toggleCollapse: VerticalActorDisplay.prototype.onToggleCollapse,
-			togglePowerFlavour: VerticalActorDisplay.prototype.onTogglePowerFlavour,
-			showSection: VerticalActorDisplay.prototype.onShowSection,
-			power: { handler: VerticalActorDisplay.prototype.onPower, buttons: [0, 2] },
-			chatPower: VerticalActorDisplay.prototype.onChatPower,
-			rollPowerDamage: VerticalActorDisplay.prototype.onRollPowerDamage,
-			refreshPower: VerticalActorDisplay.prototype.onRefreshPower,
-			togglePowerDetails: VerticalActorDisplay.prototype.onTogglePowerDetails,
-			skill: VerticalActorDisplay.prototype.onSkill,
-			feature: { handler: VerticalActorDisplay.prototype.onFeature, buttons: [0, 2] },
-			item: { handler: VerticalActorDisplay.prototype.onItem, buttons: [0, 2] },
-			toggleEquip: VerticalActorDisplay.prototype.onToggleEquip,
-			quick: VerticalActorDisplay.prototype.onQuickAction,
-		},
-	};
-
-	static PARTS = {
-		main: { template: VERTICAL_TEMPLATE_PATH },
-	};
-
-	get scrollSelector() {
-		return ".dnd4e-info-actor-display__workspace";
-	}
-
-	/** @returns {object} */
-	async _prepareContext(options) {
-		const context = await super._prepareContext(options);
-		return foundry.utils.mergeObject(context, {
-			isCollapsed: this.isCollapsed,
-			isDetached: this.isDetached,
-		});
-	}
-
-	/** Initialize DOM behavior after each render. */
-	_onRender(context, options) {
-		super._onRender(context, options);
-		this.initializeDrag();
-		this.restorePosition();
-	}
-
-	/** Make the display draggable from its identity header. */
-	initializeDrag() {
-		const handle = this.element.querySelector(".dnd4e-info-actor-display__identity");
-		if (!handle) {
-			return;
-		}
-
-		handle.addEventListener("pointerdown", (event) => {
-			if (event.button !== 0 || event.target.closest("input, button, [data-action]")) {
-				return;
-			}
-
-			const startX = event.clientX;
-			const startY = event.clientY;
-			const startLeft = this.position.left;
-			const startTop = this.position.top;
-			const move = (moveEvent) => this.setPosition({
-				left: startLeft + moveEvent.clientX - startX,
-				top: startTop + moveEvent.clientY - startY,
-			});
-			const release = async () => {
-				document.removeEventListener("pointermove", move);
-				document.removeEventListener("pointerup", release);
-				await game.settings.set(MODULE_ID, POSITION_SETTING, {
-					left: this.position.left,
-					top: this.position.top,
-				});
-			};
-
-			event.preventDefault();
-			document.addEventListener("pointermove", move);
-			document.addEventListener("pointerup", release);
-		});
-	}
-
-	/** Restore the user's last saved display position. */
-	restorePosition() {
-		const position = game.settings.get(MODULE_ID, POSITION_SETTING);
-		if (position?.left != null && position?.top != null) {
-			this.setPosition(position);
-		}
-	}
-
-	/** Dismiss this actor display until the user controls a token again. */
-	onDismiss() {
-		dismissVerticalDisplay();
-	}
-
-	/** Toggle whether the display follows the controlled token. */
-	onToggleDetach() {
-		this.isDetached = !this.isDetached;
-		if (this.isDetached) {
-			this.render();
-			return;
-		}
-
-		renderSelectedActor();
-	}
-
-	/** @param {boolean} collapsed Whether to show the status-only display. */
-	setCollapsed(collapsed) {
-		if (this.isCollapsed === collapsed) {
-			return;
-		}
-
-		this.isCollapsed = collapsed;
-		this.render();
-	}
-
-	/** Toggle between the full display and the status-only display. */
-	async onToggleCollapse() {
-		await game.settings.set(MODULE_ID, COLLAPSED_SETTING, !this.isCollapsed);
-	}
-}
-
 class HorizontalActorDisplay extends ActorDisplayBase {
 	constructor(options, token) {
 		super(options, token);
@@ -765,9 +540,10 @@ class HorizontalActorDisplay extends ActorDisplayBase {
 		},
 		dragResizable: false,
 		window: { frame: false },
-		actions: {
+			actions: {
 			dismiss: HorizontalActorDisplay.prototype.onDismiss,
 			togglePowerFlavour: HorizontalActorDisplay.prototype.onTogglePowerFlavour,
+			selectPowerCategory: HorizontalActorDisplay.prototype.onSelectPowerCategory,
 			showSection: HorizontalActorDisplay.prototype.onShowSection,
 			closeDrawer: HorizontalActorDisplay.prototype.onCloseDrawer,
 			toggleDropdown: HorizontalActorDisplay.prototype.onToggleDropdown,
@@ -787,6 +563,7 @@ class HorizontalActorDisplay extends ActorDisplayBase {
 			combatSetCurrent: HorizontalActorDisplay.prototype.onCombatSetCurrent,
 			combatToggleHidden: HorizontalActorDisplay.prototype.onCombatToggleHidden,
 			combatToggleDefeated: HorizontalActorDisplay.prototype.onCombatToggleDefeated,
+			combatRemoveCombatant: HorizontalActorDisplay.prototype.onCombatRemoveCombatant,
 			combatNav: HorizontalActorDisplay.prototype.onCombatNav,
 			combatEndCombat: HorizontalActorDisplay.prototype.onCombatEndCombat,
 			openBriefing: HorizontalActorDisplay.prototype.onOpenBriefing,
@@ -1015,6 +792,27 @@ class HorizontalActorDisplay extends ActorDisplayBase {
 		} catch (error) {
 			console.error(`${MODULE_ID} | Failed to toggle defeated status.`, error);
 			ui.notifications.error("The defeated status could not be toggled. Check the console for details.");
+		}
+	}
+
+	/** Remove a combatant from the active encounter without changing its token or actor. */
+	async onCombatRemoveCombatant(event, target) {
+		if (!game.user.isGM) {
+			return;
+		}
+
+		const combatant = game.combat?.combatants.get(target.dataset.combatantId);
+		if (!combatant) {
+			return;
+		}
+
+		target.disabled = true;
+		try {
+			await combatant.delete();
+		} catch (error) {
+			console.error(`${MODULE_ID} | Failed to remove combatant from the encounter.`, error);
+			ui.notifications.error("The combatant could not be removed. Check the console for details.");
+			target.disabled = false;
 		}
 	}
 

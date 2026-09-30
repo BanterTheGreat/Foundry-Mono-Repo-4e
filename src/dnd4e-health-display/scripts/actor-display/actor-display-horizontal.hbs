@@ -2,7 +2,7 @@
 	<div class="dnd4e-horizontal-actor-display__left-col">
 		<div class="dnd4e-horizontal-actor-display__tab-wrap">
 			{{#if activeTab}}
-				<div class="dnd4e-horizontal-actor-display__drawer">
+				<div class="dnd4e-horizontal-actor-display__drawer {{#if isPowers}}dnd4e-horizontal-actor-display__drawer--powers{{/if}}">
 					<div class="dnd4e-horizontal-actor-display__drawer-head">
 						<h3>{{activeTabLabel}}</h3>
 						<div class="dnd4e-horizontal-actor-display__drawer-head-right">
@@ -14,7 +14,12 @@
 							<button type="button" class="dnd4e-horizontal-actor-display__drawer-close" data-action="closeDrawer" aria-label="Close">&times;</button>
 						</div>
 					</div>
-					{{#if isPowers}}
+					{{#if showPowerCategoryTabs}}
+						<nav class="dnd4e-horizontal-actor-display__power-categories" aria-label="Power action type">
+							{{#each powerCategories}}
+								<button type="button" class="{{#if active}}is-active{{/if}}" data-action="selectPowerCategory" data-power-category="{{key}}" aria-pressed="{{#if active}}true{{else}}false{{/if}}">{{name}} <small>{{powers.length}}</small></button>
+							{{/each}}
+						</nav>
 						<div class="dnd4e-horizontal-actor-display__power-search">
 							<i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
 							<input type="search" value="{{powerSearchQuery}}" placeholder="Search powers" aria-label="Search powers" data-power-search>
@@ -33,12 +38,26 @@
 									{{/each}}
 								</section>
 							{{/each}}
+							{{#each npcPowers}}
+								<div class="dnd4e-horizontal-actor-display__power {{usageClass}}{{#if depleted}} is-depleted{{/if}}" data-power-name="{{name}}">
+									<div class="dnd4e-horizontal-actor-display__power-header" data-action="power" data-item-id="{{id}}" {{#unless inlineDetails}}data-item-tooltip data-tooltip-direction="RIGHT" data-power-usage="{{usageClass}}"{{/unless}} draggable="true" data-hotbar-drag-type="power" role="button" tabindex="0">
+										<i class="{{icon}}" aria-hidden="true"></i>
+										<strong>{{name}}</strong>
+										{{#if showUses}}<small>{{uses}}</small>{{/if}}
+										{{#if isExpandable}}<button type="button" class="dnd4e-horizontal-actor-display__power-details-toggle" data-action="togglePowerDetails" data-item-id="{{id}}" aria-expanded="{{#if isExpanded}}true{{else}}false{{/if}}" title="{{#if isExpanded}}Hide details{{else}}Show details{{/if}}"><i class="fa-solid {{#if isExpanded}}fa-chevron-up{{else}}fa-chevron-down{{/if}}" aria-hidden="true"></i></button>{{/if}}
+										{{#if isNpcPower}}<span class="dnd4e-horizontal-actor-display__npc-power-actions" role="group" aria-label="{{name}} actions"><button type="button" data-action="chatPower" data-item-id="{{id}}" aria-label="Send {{name}} to chat" title="Send to chat"><i class="fa-solid fa-comment" aria-hidden="true"></i></button>{{#if canRollDamage}}<button type="button" data-action="rollPowerDamage" data-item-id="{{id}}" aria-label="Roll {{name}} damage" title="Roll damage"><i class="fa-solid fa-burst" aria-hidden="true"></i></button>{{/if}}</span>{{/if}}
+										{{#if depleted}}<button type="button" data-action="refreshPower" data-item-id="{{id}}" title="Refresh power"><i class="fa-solid fa-rotate-right"></i></button>{{/if}}
+									</div>
+									{{#unless isPowerFlavourHidden}}{{#if flavour}}{{#unless depleted}}<p class="dnd4e-horizontal-actor-display__power-flavour">{{flavour}}</p>{{/unless}}{{/if}}{{/unless}}
+									{{#if inlineDetails}}<div class="dnd4e-horizontal-actor-display__power-details {{inlineDetailsClass}}">{{{inlineDetails}}}</div>{{/if}}
+								</div>
+							{{/each}}
 						{{/if}}
 
-						{{#if isPowers}}
+						{{#if showPowerCategoryTabs}}
 							{{#each powerCategories}}
+								{{#if active}}
 								<section class="dnd4e-horizontal-actor-display__group" data-power-category>
-									<h4>{{name}} <small>{{powers.length}}</small></h4>
 									{{#each powers}}
 										<div class="dnd4e-horizontal-actor-display__power {{usageClass}}{{#if depleted}} is-depleted{{/if}}" data-power-name="{{name}}">
 											<div class="dnd4e-horizontal-actor-display__power-header" data-action="power" data-item-id="{{id}}" {{#unless inlineDetails}}data-item-tooltip data-tooltip-direction="RIGHT" data-power-usage="{{usageClass}}"{{/unless}} draggable="true" data-hotbar-drag-type="power" role="button" tabindex="0">
@@ -54,6 +73,7 @@
 										</div>
 									{{/each}}
 								</section>
+								{{/if}}
 							{{/each}}
 							<p class="dnd4e-horizontal-actor-display__empty-note" data-power-search-empty hidden>No matching powers.</p>
 						{{/if}}
@@ -271,6 +291,9 @@
 										</button>
 										<button type="button" class="dnd4e-info-combat-tracker__icon-btn {{#if isDefeated}}is-active{{/if}}" data-action="combatToggleDefeated" data-combatant-id="{{id}}" title="Toggle defeated">
 											<i class="fa-solid fa-skull" aria-hidden="true"></i>
+										</button>
+										<button type="button" class="dnd4e-info-combat-tracker__icon-btn dnd4e-info-combat-tracker__remove-btn" data-action="combatRemoveCombatant" data-combatant-id="{{id}}" title="Remove from combat" aria-label="Remove {{name}} from combat">
+											<i class="fa-solid fa-trash" aria-hidden="true"></i>
 										</button>
 									</div>
 								</div>

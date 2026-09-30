@@ -1,0 +1,282 @@
+<!doctype html>
+<!--
+  THROWAWAY UI PROTOTYPE — not Foundry production code.
+
+  Question: instead of the Powers drawer stacking one usage-type section
+  under another (Standard, then Minor, then Movement, ... each a full-width
+  list you scroll past to reach the next), what if every action-type
+  category sat side by side as its own column, each column being its own
+  vertical list of power rows? Real chrome (identity/HP/defenses panel,
+  tab strip, drawer) is reproduced using the actual
+  dnd4e-horizontal-actor-display__* class names and colour tokens from
+  src/dnd4e-health-display/styles/actor-display-horizontal.css so this
+  reads in context rather than in a vacuum. Sample powers are invented.
+
+  Settled on the "equal-width columns, drawer grows to fit them" variant
+  (was "Variant A" when three layouts were being compared). Each category
+  column is now 50% wider than the first pass, and scrolls independently:
+  once a category has more than ~6 powers, only that column's list scrolls
+  (max-height + overflow-y on .power-column-list) while the other columns
+  stay fully visible and un-scrolled — see Standard (12 powers, scrolls)
+  next to Minor/Move/Free/Reaction (don't scroll) below.
+
+  The MMO hotbar area is replaced by a "hotbar hidden
+  while Powers is open" placeholder, per the request that only the hotbar
+  may disappear while the rest of the horizontal HUD stays put.
+
+  Read-only: no rolls, no persistence, nothing wired to Foundry.
+  Just a throwaway HTML file — open it directly in a browser.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>4e Powers Panel — Side-by-Side Categories Prototype</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; padding-bottom: 6rem;
+    background: radial-gradient(circle at 30% 10%, #24211d, #0a0a0b 70%);
+    font-family: "Signika", "Segoe UI", sans-serif;
+    color: #f5eee5;
+  }
+  h1, h2, h3, h4, p { margin: 0; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+
+  .prototype-note {
+    max-width: 60rem; margin: 0 auto; padding: 1rem 1.2rem 0;
+    color: #cdbda9; font-size: .82rem; text-align: center; line-height: 1.4;
+  }
+  .prototype-note code { color: #f0c879; }
+
+  .stage { position: relative; min-height: 34rem; padding: 2rem 1rem 1rem; }
+
+  /* ---- real HUD chrome, copied class names + tokens from actor-display-horizontal.css ---- */
+  .dnd4e-horizontal-actor-display__outer { display: flex; align-items: flex-end; gap: .6rem; position: fixed; left: 1rem; bottom: 1rem; }
+  .dnd4e-horizontal-actor-display__panel {
+    position: relative; display: flex; align-items: center; padding: .65rem;
+    border: 1px solid #997456; border-radius: .5rem;
+    background: linear-gradient(180deg, rgb(9 9 11 / 95%), #0d0d0e 90%);
+    box-shadow: 0 .6rem 2rem rgb(0 0 0 / 85%), inset 0 0 0 1px rgb(255 255 255 / 4%);
+    text-shadow: 0 .08rem .15rem #000;
+    flex-direction: column; align-items: stretch; gap: .55rem;
+  }
+  .dnd4e-horizontal-actor-display__charinfo { display: flex; align-items: stretch; gap: .7rem; width: 26rem; }
+  .dnd4e-horizontal-actor-display__portrait {
+    display: grid; place-items: center; flex: 0 0 auto; width: 5.5rem; height: 5.5rem;
+    border: 2px solid #997456; border-radius: .4rem;
+    background: radial-gradient(circle at 35% 30%, #7a5a34 0 20%, #2a2016 55%, #14100a 100%);
+    box-shadow: 0 0 0 3px #000a; overflow: hidden; font-size: 2rem;
+  }
+  .dnd4e-horizontal-actor-display__charinfo-text { display: flex; flex-direction: column; justify-content: center; gap: .4rem; flex: 1; min-width: 0; }
+  .dnd4e-horizontal-actor-display__name-line h2 { color: #f7ddbc; font-family: Georgia, serif; font-size: 1.5rem; }
+  .dnd4e-horizontal-actor-display__name-line small { color: #a98c70; font-size: .68rem; font-style: italic; }
+  .dnd4e-horizontal-actor-display__def-grid { display: flex; border: 1px solid rgb(153 116 86 / 55%); border-radius: .4rem; background: #201c1a; overflow: hidden; }
+  .dnd4e-horizontal-actor-display__def-chip { flex: 1 1 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: .3rem .1rem; border-right: 1px solid rgb(153 116 86 / 30%); }
+  .dnd4e-horizontal-actor-display__def-chip:last-child { border-right: 0; }
+  .dnd4e-horizontal-actor-display__def-chip b { font-family: Georgia, serif; font-size: 1rem; color: #f5eee5; }
+  .dnd4e-horizontal-actor-display__def-label { color: #a98c70; font-size: .48rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+
+  .dnd4e-horizontal-actor-display__tab-wrap { position: relative; }
+  .dnd4e-horizontal-actor-display__tabs { display: flex; gap: .35rem; }
+  .dnd4e-horizontal-actor-display__tabs button {
+    flex: 1; display: flex; align-items: center; justify-content: center; gap: .3rem;
+    padding: .45rem .3rem; border: 1px solid #997456; border-radius: .35rem; background: #201c1a;
+    color: #a98c70; font-size: .62rem; font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  }
+  .dnd4e-horizontal-actor-display__tabs button.is-active {
+    border-color: #c89550; background: linear-gradient(180deg, #4a3a26, #2a2016); color: #f0c879;
+  }
+
+  .dnd4e-horizontal-actor-display__hotbar-column { display: flex; flex-direction: column; gap: .55rem; margin-left: 1rem; }
+  .dnd4e-horizontal-actor-display__hotbar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: .65rem; }
+  .dnd4e-horizontal-actor-display__hotbar-slot {
+    width: 3.4rem; height: 3.4rem; border: 1px dashed rgb(153 116 86 / 55%); border-radius: .5rem;
+    background: linear-gradient(180deg, rgb(9 9 11 / 80%), rgb(13 13 14 / 70%));
+  }
+  .hotbar-hidden-note {
+    width: calc(3.4rem * 7 + .65rem * 6); height: 3.4rem; display: flex; align-items: center; justify-content: center;
+    border: 1px dashed rgb(153 116 86 / 40%); border-radius: .5rem; color: #7d6b57; font-size: .68rem;
+    font-style: italic; text-align: center; padding: 0 1rem;
+  }
+
+  /* ---- drawer: opens above the panel, replaces the old stacked-section layout ---- */
+  .dnd4e-horizontal-actor-display__drawer {
+    position: absolute; left: 0; bottom: calc(100% + .5rem);
+    max-height: min(30rem, 65vh);
+    display: flex; flex-direction: column;
+    border: 1px solid #f0c879; border-radius: .4rem;
+    background: rgb(9 9 11 / 97%); box-shadow: 0 .5rem 1.5rem rgb(0 0 0 / 80%);
+    overflow: hidden;
+  }
+  .dnd4e-horizontal-actor-display__drawer-head {
+    display: flex; align-items: center; justify-content: space-between; padding: .4rem .6rem;
+    border-bottom: 1px solid rgb(153 116 86 / 55%); background: #201c1a; flex: 0 0 auto;
+  }
+  .dnd4e-horizontal-actor-display__drawer-head h3 { color: #f0c879; font-family: Georgia, serif; font-size: .85rem; }
+  .dnd4e-horizontal-actor-display__drawer-close { border: 0; background: none; color: #a98c70; font-size: 1rem; }
+  .dnd4e-horizontal-actor-display__power-search {
+    display: flex; align-items: center; gap: .35rem; margin: .5rem .5rem 0; padding: .3rem .5rem;
+    border: 1px solid rgb(153 116 86 / 40%); border-radius: .3rem; background: #211e1e; color: #c89550; flex: 0 0 auto;
+  }
+  .dnd4e-horizontal-actor-display__power-search input { flex: 1; border: 0; background: none; color: #f0ddc2; font-size: .74rem; outline: none; }
+
+  /* ---- the redesign: category columns instead of stacked sections ---- */
+  .power-columns-body { display: flex; flex: 1 1 auto; overflow: hidden; padding: .5rem; gap: .6rem; }
+
+  .power-column { display: flex; flex-direction: column; min-width: 0; }
+  .power-column-head {
+    display: flex; align-items: baseline; gap: .4rem; margin-bottom: .35rem; padding-bottom: .25rem;
+    border-bottom: 1px solid rgb(153 116 86 / 35%); flex: 0 0 auto;
+  }
+  .power-column-head .dot { width: .5rem; height: .5rem; border-radius: 50%; flex: 0 0 auto; }
+  .power-column-head h4 { font-family: Georgia, serif; font-size: .8rem; color: #d9c5aa; white-space: nowrap; }
+  .power-column-head small { color: #846f5b; font-size: .68rem; }
+  /* ~6 power rows visible before a category scrolls on its own: 6 rows (2rem min-height + .6rem
+     padding each) plus 5 row gaps. */
+  .power-column-list { overflow-y: auto; max-height: 17.5rem; display: flex; flex-direction: column; gap: .28rem; padding-right: .15rem; }
+  .power-column-list::-webkit-scrollbar { width: 6px; }
+  .power-column-list::-webkit-scrollbar-thumb { background: #997456; border-radius: 3px; }
+
+  .power-row {
+    --power-accent: #a89a80;
+    flex: 0 0 auto;
+    border: 1px solid rgb(153 116 86 / 22%); border-left: 4px solid var(--power-accent); border-radius: .3rem;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--power-accent) 22%, #201c1a), #1c1a19 88%);
+    color: #f0e2c8; overflow: hidden;
+  }
+  .power-row.is-atwill { --power-accent: #5cb35a; }
+  .power-row.is-encounter { --power-accent: #d1594a; }
+  .power-row.is-daily { --power-accent: #a768c9; }
+  .power-row.is-item { --power-accent: #e0ab52; }
+  .power-row-header { display: flex; align-items: center; gap: .4rem; min-height: 2rem; padding: .3rem .4rem; cursor: pointer; }
+  .power-row-header > .icon { flex: 0 0 1.1rem; text-align: center; color: color-mix(in srgb, var(--power-accent) 75%, white 25%); font-size: .8rem; }
+  .power-row-header > strong { flex: 1; min-width: 0; overflow: hidden; color: #f0d9ba; font-size: .74rem; text-overflow: ellipsis; white-space: nowrap; }
+  .power-row-header > .chev { color: #a98c70; font-size: .65rem; }
+
+  .power-column-empty { color: #7d6b57; font-size: .68rem; font-style: italic; padding: .4rem .2rem; }
+
+  /* ---- equal-width columns, drawer grows to fit them (widened 50% from the first pass) ---- */
+  .dnd4e-horizontal-actor-display__drawer { width: 69rem; }
+  .power-column { flex: 1 1 0; width: 0; }
+</style>
+</head>
+<body>
+
+  <p class="prototype-note">
+    Throwaway prototype — real drawer markup/classes are
+    <code>dnd4e-horizontal-actor-display__drawer</code> etc. (see
+    <code>scripts/actor-display/actor-display.hbs</code> and
+    <code>styles/actor-display-horizontal.css</code>). This mockup replaces the
+    stacked <code>__group</code> sections with side-by-side category columns,
+    each scrolling independently once it holds more than ~6 powers.
+  </p>
+
+  <div class="stage">
+    <div class="dnd4e-horizontal-actor-display__outer">
+
+      <div class="dnd4e-horizontal-actor-display__panel">
+
+        <!-- drawer: the actual redesign under test -->
+        <div class="dnd4e-horizontal-actor-display__drawer">
+          <div class="dnd4e-horizontal-actor-display__drawer-head">
+            <h3>Powers</h3>
+            <button type="button" class="dnd4e-horizontal-actor-display__drawer-close">&times;</button>
+          </div>
+          <div class="dnd4e-horizontal-actor-display__power-search">
+            <span>&#128269;</span>
+            <input type="search" placeholder="Search powers">
+          </div>
+
+          <div class="power-columns-body">
+
+            <div class="power-column" data-size="wide">
+              <div class="power-column-head"><span class="dot" style="background:#a89a80"></span><h4><span>Standard</span></h4><small>12</small></div>
+              <div class="power-column-list">
+                <div class="power-row is-atwill"><div class="power-row-header"><span class="icon">&#9876;</span><strong>Arcane Lance</strong><span class="chev">&#9660;</span></div></div>
+                <div class="power-row"><div class="power-row-header"><span class="icon">&#9876;</span><strong>Basic Attack (Melee)</strong><span class="chev">&#9660;</span></div></div>
+                <div class="power-row"><div class="power-row-header"><span class="icon">&#127993;</span><strong>Basic Attack (Ranged)</strong><span class="chev">&#9660;</span></div></div>
+                <div class="power-row is-atwill"><div class="power-row-header"><span class="icon">&#9876;</span><strong>Booming Blade</strong><span class="chev">&#9660;</span></div></div>
+                <div class="power-row"><div class="power-row-header"><span class="icon">&#9876;</span><strong>Bull Rush</strong><span class="chev">&#9660;</span></div></div>
+                <div class="power-row is-encounter"><div class="power-row-header"><span class="icon">&#9889;</span><strong>Shatterblade</strong><span class="chev">&#9660;</span></div></div>
+                <div class="power-row is-daily"><div class="power-row-header"><span class="icon">&#10024;</span><strong>Sword Burst</strong><span class="chev">&#9660;</span></div></div>
+                <div class="power-row"><div class="power-row-header"><span class="icon">&#9876;</span><strong>Greenflame Blade</strong><span class="chev">&#9660;</span></div></div>
+                <div class="power-row is-encounter"><div class="power-row-header"><span class="icon">&#9889;</span><strong>Dazzling Ray</strong><span class="chev">&#9660;</span></div></div>
+                <div class="power-row"><div class="power-row-header"><span class="icon">&#9876;</span><strong>Guiding Strike</strong><span class="chev">&#9660;</span></div></div>
+                <div class="power-row is-daily"><div class="power-row-header"><span class="icon">&#10024;</span><strong>Blade Cascade</strong><span class="chev">&#9660;</span></div></div>
+                <div class="power-row"><div class="power-row-header"><span class="icon">&#128737;</span><strong>Charge</strong><span class="chev">&#9660;</span></div></div>
+              </div>
+            </div>
+
+            <div class="power-column" data-size="medium">
+              <div class="power-column-head"><span class="dot" style="background:#4fa8d6"></span><h4><span>Minor</span></h4><small>3</small></div>
+              <div class="power-column-list">
+                <div class="power-row is-atwill"><div class="power-row-header"><span class="icon">&#128295;</span><strong>Arcane Familiar</strong><span class="chev">&#9660;</span></div></div>
+                <div class="power-row is-item"><div class="power-row-header"><span class="icon">&#129514;</span><strong>Potion of Vigor</strong><span class="chev">&#9660;</span></div></div>
+                <div class="power-row"><div class="power-row-header"><span class="icon">&#128737;</span><strong>Second Wind</strong><span class="chev">&#9660;</span></div></div>
+              </div>
+            </div>
+
+            <div class="power-column" data-size="narrow">
+              <div class="power-column-head"><span class="dot" style="background:#5cb35a"></span><h4><span>Move</span></h4><small>2</small></div>
+              <div class="power-column-list">
+                <div class="power-row"><div class="power-row-header"><span class="icon">&#128694;</span><strong>Shift</strong><span class="chev">&#9660;</span></div></div>
+                <div class="power-row is-daily"><div class="power-row-header"><span class="icon">&#127939;</span><strong>Fey Step</strong><span class="chev">&#9660;</span></div></div>
+              </div>
+            </div>
+
+            <div class="power-column" data-size="narrow">
+              <div class="power-column-head"><span class="dot" style="background:#e0ab52"></span><h4><span>Free</span></h4><small>1</small></div>
+              <div class="power-column-list">
+                <div class="power-row"><div class="power-row-header"><span class="icon">&#128172;</span><strong>Command Ally</strong><span class="chev">&#9660;</span></div></div>
+              </div>
+            </div>
+
+            <div class="power-column" data-size="narrow">
+              <div class="power-column-head"><span class="dot" style="background:#d1594a"></span><h4><span>Reaction</span></h4><small>1</small></div>
+              <div class="power-column-list">
+                <div class="power-row is-encounter"><div class="power-row-header"><span class="icon">&#128737;</span><strong>Shield Riposte</strong><span class="chev">&#9660;</span></div></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- identity / HP / defenses card, unchanged from the real HUD -->
+        <div class="dnd4e-horizontal-actor-display__charinfo">
+          <div class="dnd4e-horizontal-actor-display__portrait">&#9876;</div>
+          <div class="dnd4e-horizontal-actor-display__charinfo-text">
+            <div class="dnd4e-horizontal-actor-display__name-line">
+              <h2>Rogal</h2>
+              <small>Level 10 Swordmage</small>
+            </div>
+            <div class="dnd4e-horizontal-actor-display__def-grid">
+              <div class="dnd4e-horizontal-actor-display__def-chip"><b>26</b><span class="dnd4e-horizontal-actor-display__def-label">AC</span></div>
+              <div class="dnd4e-horizontal-actor-display__def-chip"><b>20</b><span class="dnd4e-horizontal-actor-display__def-label">Fort</span></div>
+              <div class="dnd4e-horizontal-actor-display__def-chip"><b>21</b><span class="dnd4e-horizontal-actor-display__def-label">Ref</span></div>
+              <div class="dnd4e-horizontal-actor-display__def-chip"><b>20</b><span class="dnd4e-horizontal-actor-display__def-label">Will</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dnd4e-horizontal-actor-display__tab-wrap">
+          <nav class="dnd4e-horizontal-actor-display__tabs">
+            <button>Skills</button>
+            <button class="is-active">Powers</button>
+            <button>Feats</button>
+            <button>Items</button>
+          </nav>
+        </div>
+      </div>
+
+      <!-- hotbar column: hidden while Powers drawer is open -->
+      <div class="dnd4e-horizontal-actor-display__hotbar-column">
+        <div class="hotbar-hidden-note">MMO hotbar hidden while Powers is open</div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

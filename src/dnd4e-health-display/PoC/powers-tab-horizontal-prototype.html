@@ -1,0 +1,352 @@
+<!doctype html>
+<!--
+  THROWAWAY UI PROTOTYPE — not Foundry production code. Iteration 1.
+
+  Question: what would the DnD4e character sheet's "Powers" tab look like
+  if, instead of one long vertical list of power rows grouped under
+  stacked headers, each usage category (At-Will / Encounter / Daily /
+  Recharge / Item / Other — matching DND4E.powerUseType /
+  system.powerGroupTypes="usage" in the real dnd4e system, see
+  FoundryVTT/Data/systems/dnd4e/templates/actors/tabs/powers.hbs) became
+  its own horizontal, card-based lane a player scrolls sideways through?
+
+  Sample data below is invented (a level-5 fighter's spread of powers)
+  purely to have enough cards per lane to judge the layout. Read-only:
+  no rolls, no persistence, nothing wired to Foundry.
+
+  Just a throwaway HTML file — open it directly in a browser.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>4e Powers Tab — Horizontal Lanes Prototype</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --ink: #0d0d0e;
+    --panel: #17140f;
+    --panel-2: #201c1a;
+    --panel-3: #2a2422;
+    --line: #99745688;
+    --line-solid: #997456;
+    --gold: #c9a35f;
+    --gold-bright: #f0c879;
+    --paper: #f5eee5;
+    --muted: #b3a495;
+    --red: #a5333a;
+    --red-bright: #d65b60;
+    --green: #3d7a4a;
+    --green-bright: #6fbd7f;
+    --blue: #3a6a8a;
+    --blue-bright: #7bb6d9;
+    --purple: #6a4f8a;
+    --purple-bright: #b39ae0;
+    --amber: #b8862f;
+    --amber-bright: #e8b04f;
+    font-family: "Signika", "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; color: var(--paper); font-size: 14px;
+    background: radial-gradient(circle at 30% 10%, #24211d, #0a0a0b 70%);
+  }
+  h1, h2, h3, p { margin: 0; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+
+  .prototype-note {
+    max-width: 68rem; margin: 0 auto; padding: .9rem 1.2rem 0;
+    color: #cdbda9; font-size: .82rem; text-align: center;
+  }
+  .prototype-note code { color: var(--gold-bright); }
+
+  /* ---- fake sheet chrome, just enough to judge the tab in context ---- */
+  .sheet {
+    max-width: 68rem; margin: 1rem auto 3rem; border: 1px solid var(--line-solid);
+    border-radius: 10px; background: linear-gradient(180deg, var(--panel), var(--ink) 85%);
+    box-shadow: 0 1rem 3rem #000a; overflow: hidden;
+  }
+  .sheet-header {
+    display: flex; align-items: center; gap: .9rem; padding: .8rem 1rem;
+    border-bottom: 1px solid var(--line); background: var(--panel-2);
+  }
+  .sheet-header img {
+    width: 48px; height: 48px; border-radius: 6px; border: 1px solid var(--line-solid);
+    object-fit: cover; background: #000;
+  }
+  .sheet-header h1 { font-family: Georgia, serif; color: var(--gold-bright); font-size: 1.2rem; }
+  .sheet-header .sub { color: var(--muted); font-size: .78rem; }
+
+  .tabs { display: flex; gap: .2rem; padding: 0 .6rem; background: var(--panel-2); border-bottom: 1px solid var(--line-solid); }
+  .tabs button {
+    padding: .55rem .9rem; background: none; border: none; color: var(--muted);
+    font-size: .82rem; text-transform: uppercase; letter-spacing: .04em; border-bottom: 2px solid transparent;
+  }
+  .tabs button.active { color: var(--gold-bright); border-bottom-color: var(--gold-bright); }
+
+  .powers-tab { padding: 1rem; display: flex; flex-direction: column; gap: 1rem; }
+
+  /* toolbar echoes the real tab's group-by / sort-by / search / import row */
+  .toolbar {
+    display: flex; flex-wrap: wrap; align-items: end; gap: 1.2rem;
+    padding: .6rem .8rem; background: var(--panel-2); border: 1px solid var(--line);
+    border-radius: 8px; font-size: .78rem; color: var(--muted);
+  }
+  .toolbar .field { display: flex; flex-direction: column; gap: .2rem; }
+  .toolbar select, .toolbar input {
+    background: var(--ink); border: 1px solid var(--line-solid); color: var(--paper);
+    border-radius: 4px; padding: .3rem .4rem; font-size: .78rem;
+  }
+  .toolbar .spacer { flex: 1; }
+  .toolbar .import-btn {
+    border: 1px solid var(--line-solid); border-radius: 4px; background: var(--panel-3);
+    color: var(--gold-bright); padding: .4rem .7rem; font-size: .78rem;
+  }
+
+  /* ---- the actual redesign: one horizontal lane per usage category ---- */
+  .lane { display: flex; flex-direction: column; gap: .4rem; }
+  .lane-header { display: flex; align-items: baseline; gap: .5rem; padding: 0 .1rem; }
+  .lane-header .dot { width: .6rem; height: .6rem; border-radius: 50%; }
+  .lane-header h2 {
+    font-family: Georgia, serif; font-size: .95rem; letter-spacing: .02em;
+    color: var(--gold-bright);
+  }
+  .lane-header .count { color: var(--muted); font-size: .75rem; }
+  .lane-header .add {
+    margin-left: auto; font-size: .72rem; color: var(--muted); border: 1px solid var(--line);
+    border-radius: 4px; padding: .15rem .5rem;
+  }
+
+  .lane-track {
+    display: flex; gap: .6rem; overflow-x: auto; padding: .3rem .1rem .6rem;
+    scrollbar-width: thin; scrollbar-color: var(--line-solid) transparent;
+  }
+  .lane-track::-webkit-scrollbar { height: 8px; }
+  .lane-track::-webkit-scrollbar-thumb { background: var(--line-solid); border-radius: 4px; }
+
+  .card {
+    flex: 0 0 168px; display: flex; flex-direction: column; gap: .35rem;
+    background: linear-gradient(180deg, var(--panel-3), var(--panel-2));
+    border: 1px solid var(--line); border-left: 3px solid var(--accent, var(--line-solid));
+    border-radius: 8px; padding: .55rem .6rem; position: relative;
+  }
+  .card.unavailable { opacity: .45; filter: grayscale(.4); }
+  .card .top-row { display: flex; align-items: center; gap: .4rem; }
+  .card img { width: 26px; height: 26px; border-radius: 4px; border: 1px solid var(--line-solid); }
+  .card .level { font-size: .68rem; color: var(--muted); }
+  .card .prep {
+    margin-left: auto; color: var(--gold-bright); font-size: .85rem;
+  }
+  .card .prep.off { color: #4a463f; }
+  .card h3 { font-size: .82rem; line-height: 1.15; color: var(--paper); font-family: Georgia, serif; }
+  .card .meta {
+    display: flex; flex-wrap: wrap; gap: .35rem; font-size: .68rem; color: var(--muted);
+  }
+  .card .meta span { display: inline-flex; align-items: center; gap: .2rem; }
+  .card .uses { font-size: .68rem; color: var(--amber-bright); }
+  .card .recharge { font-size: .68rem; color: var(--blue-bright); }
+
+  .lane[data-usage="atwill"] .lane-header .dot { background: var(--green-bright); }
+  .lane[data-usage="encounter"] .lane-header .dot { background: var(--amber-bright); }
+  .lane[data-usage="daily"] .lane-header .dot { background: var(--red-bright); }
+  .lane[data-usage="recharge"] .lane-header .dot { background: var(--blue-bright); }
+  .lane[data-usage="item"] .lane-header .dot { background: var(--purple-bright); }
+  .lane[data-usage="other"] .lane-header .dot { background: var(--muted); }
+
+  .lane[data-usage="atwill"] .card { --accent: var(--green-bright); }
+  .lane[data-usage="encounter"] .card { --accent: var(--amber-bright); }
+  .lane[data-usage="daily"] .card { --accent: var(--red-bright); }
+  .lane[data-usage="recharge"] .card { --accent: var(--blue-bright); }
+  .lane[data-usage="item"] .card { --accent: var(--purple-bright); }
+  .lane[data-usage="other"] .card { --accent: var(--muted); }
+</style>
+</head>
+<body>
+
+  <p class="prototype-note">
+    Throwaway prototype — real sheet groups powers by <code>system.powerGroupTypes</code>
+    (here: <code>usage</code>). Each lane below scrolls horizontally instead of stacking rows vertically.
+    Sample powers are invented for a level-5 fighter.
+  </p>
+
+  <div class="sheet">
+    <div class="sheet-header">
+      <img src="https://via.placeholder.com/48/2a2422/c9a35f?text=%E2%9A%94" alt="">
+      <div>
+        <h1>Aldric Bronzevale</h1>
+        <div class="sub">Level 5 Fighter &middot; Human</div>
+      </div>
+    </div>
+    <div class="tabs">
+      <button>Core</button>
+      <button>Combat</button>
+      <button class="active">Powers</button>
+      <button>Inventory</button>
+      <button>Features</button>
+      <button>Effects</button>
+      <button>Bio</button>
+    </div>
+
+    <div class="powers-tab">
+      <div class="toolbar">
+        <div class="field">
+          <label>Group By</label>
+          <select><option selected>Usage</option><option>Action</option><option>Type</option></select>
+        </div>
+        <div class="field">
+          <label>Sort By</label>
+          <select><option selected>Level</option><option>Name</option></select>
+        </div>
+        <div class="field">
+          <label>Filter</label>
+          <input type="text" placeholder="Search powers...">
+        </div>
+        <div class="spacer"></div>
+        <button class="import-btn">&#128220; Import Powers</button>
+      </div>
+
+      <!-- AT-WILL -->
+      <div class="lane" data-usage="atwill">
+        <div class="lane-header">
+          <span class="dot"></span>
+          <h2>At-Will</h2>
+          <span class="count">3</span>
+          <span class="add">+ Add</span>
+        </div>
+        <div class="lane-track">
+          <div class="card">
+            <div class="top-row"><img src="https://via.placeholder.com/26/1c1a17/f0c879?text=%E2%9A%94" alt=""><span class="level">[1]</span><span class="prep">&#9788;</span></div>
+            <h3>Tide of Iron</h3>
+            <div class="meta"><span>Melee 1</span><span>Standard</span></div>
+          </div>
+          <div class="card">
+            <div class="top-row"><img src="https://via.placeholder.com/26/1c1a17/f0c879?text=%E2%9A%94" alt=""><span class="level">[1]</span><span class="prep">&#9788;</span></div>
+            <h3>Cleave</h3>
+            <div class="meta"><span>Melee 1</span><span>Standard</span></div>
+          </div>
+          <div class="card">
+            <div class="top-row"><img src="https://via.placeholder.com/26/1c1a17/f0c879?text=%E2%9A%94" alt=""><span class="level">[1]</span><span class="prep">&#9788;</span></div>
+            <h3>Reaping Strike</h3>
+            <div class="meta"><span>Melee 1</span><span>Standard</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ENCOUNTER -->
+      <div class="lane" data-usage="encounter">
+        <div class="lane-header">
+          <span class="dot"></span>
+          <h2>Encounter</h2>
+          <span class="count">3</span>
+          <span class="add">+ Add</span>
+        </div>
+        <div class="lane-track">
+          <div class="card unavailable">
+            <div class="top-row"><img src="https://via.placeholder.com/26/1c1a17/e8b04f?text=%E2%9A%94" alt=""><span class="level">[3]</span><span class="prep off">&#9788;</span></div>
+            <h3>Brute Strike</h3>
+            <div class="meta"><span>Melee 1</span><span>Standard</span></div>
+            <div class="uses">Used</div>
+          </div>
+          <div class="card">
+            <div class="top-row"><img src="https://via.placeholder.com/26/1c1a17/e8b04f?text=%E2%9A%94" alt=""><span class="level">[1]</span><span class="prep">&#9788;</span></div>
+            <h3>Covering Attack</h3>
+            <div class="meta"><span>Melee 1</span><span>Standard</span></div>
+            <div class="uses">1 / 1</div>
+          </div>
+          <div class="card">
+            <div class="top-row"><img src="https://via.placeholder.com/26/1c1a17/e8b04f?text=%E2%9A%94" alt=""><span class="level">[5]</span><span class="prep">&#9788;</span></div>
+            <h3>Steel Serpent Strike</h3>
+            <div class="meta"><span>Melee 1</span><span>Standard</span></div>
+            <div class="uses">1 / 1</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAILY -->
+      <div class="lane" data-usage="daily">
+        <div class="lane-header">
+          <span class="dot"></span>
+          <h2>Daily</h2>
+          <span class="count">2</span>
+          <span class="add">+ Add</span>
+        </div>
+        <div class="lane-track">
+          <div class="card">
+            <div class="top-row"><img src="https://via.placeholder.com/26/1c1a17/d65b60?text=%E2%9A%94" alt=""><span class="level">[1]</span><span class="prep">&#9788;</span></div>
+            <h3>Comeback Strike</h3>
+            <div class="meta"><span>Melee 1</span><span>Standard</span></div>
+            <div class="uses">1 / 1</div>
+          </div>
+          <div class="card">
+            <div class="top-row"><img src="https://via.placeholder.com/26/1c1a17/d65b60?text=%E2%9A%94" alt=""><span class="level">[5]</span><span class="prep">&#9788;</span></div>
+            <h3>Villain's Menace</h3>
+            <div class="meta"><span>Melee 1</span><span>Standard</span></div>
+            <div class="uses">1 / 1</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECHARGE -->
+      <div class="lane" data-usage="recharge">
+        <div class="lane-header">
+          <span class="dot"></span>
+          <h2>Recharge</h2>
+          <span class="count">1</span>
+          <span class="add">+ Add</span>
+        </div>
+        <div class="lane-track">
+          <div class="card">
+            <div class="top-row"><img src="https://via.placeholder.com/26/1c1a17/7bb6d9?text=%E2%9A%94" alt=""><span class="level">[3]</span><span class="prep">&#9788;</span></div>
+            <h3>Second Wind Surge</h3>
+            <div class="meta"><span>Personal</span><span>Standard</span></div>
+            <div class="recharge">Recharge [+6]</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ITEM -->
+      <div class="lane" data-usage="item">
+        <div class="lane-header">
+          <span class="dot"></span>
+          <h2>Item</h2>
+          <span class="count">2</span>
+          <span class="add">+ Add</span>
+        </div>
+        <div class="lane-track">
+          <div class="card">
+            <div class="top-row"><img src="https://via.placeholder.com/26/1c1a17/b39ae0?text=%F0%9F%A7%AA" alt=""></div>
+            <h3>Potion of Healing</h3>
+            <div class="meta"><span>Personal</span><span>Minor</span></div>
+            <div class="uses">1 / 1</div>
+          </div>
+          <div class="card">
+            <div class="top-row"><img src="https://via.placeholder.com/26/1c1a17/b39ae0?text=%F0%9F%91%A2" alt=""></div>
+            <h3>Boots of Striding, Daily</h3>
+            <div class="meta"><span>Personal</span><span>Move</span></div>
+            <div class="uses">1 / 1</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OTHER -->
+      <div class="lane" data-usage="other">
+        <div class="lane-header">
+          <span class="dot"></span>
+          <h2>Other</h2>
+          <span class="count">1</span>
+          <span class="add">+ Add</span>
+        </div>
+        <div class="lane-track">
+          <div class="card">
+            <div class="top-row"><img src="https://via.placeholder.com/26/1c1a17/b3a495?text=%E2%9C%A6" alt=""></div>
+            <h3>Basic Melee Attack</h3>
+            <div class="meta"><span>Melee 1</span><span>Standard</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

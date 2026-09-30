@@ -1,0 +1,103 @@
+<!doctype html>
+<!--
+  THROWAWAY UI PROTOTYPE
+  Question: What low-obstruction visual language makes it clear that it is not
+  your turn, while making an enemy turn feel more urgent?
+  Three screen-overlay variants, switchable via ?variant=a|b|c. Open directly
+  in a browser; it has no Foundry dependency and is not production code.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Turn presence overlay prototype</title>
+  <style>
+    :root { color-scheme: dark; font-family: "Signika", "Palatino Linotype", Georgia, serif; }
+    * { box-sizing: border-box; }
+    body { min-width: 720px; min-height: 100vh; margin: 0; overflow: hidden; background: #17171b; color: #eee7d8; }
+    .foundry-mock { position: relative; width: 100vw; height: 100vh; overflow: hidden; background: radial-gradient(ellipse at 53% 38%, #6d6e64 0 2%, #4f554d 17%, #343d37 42%, #242823 72%); }
+    .map { position: absolute; inset: 0 18rem 0 0; opacity: .85; background-image: linear-gradient(#d9d4bf1a 1px, transparent 1px), linear-gradient(90deg, #d9d4bf1a 1px, transparent 1px); background-size: 52px 52px; }
+    .map::before { content: ""; position: absolute; inset: 15% 13%; border: 18px solid #826f4a99; border-radius: 47% 36% 42% 31%; box-shadow: inset 0 0 0 10px #211b1680; transform: rotate(-8deg); }
+    .map::after { content: ""; position: absolute; inset: 39% 28% auto; width: 35%; height: 19%; border: 8px solid #60513b; border-radius: 7px; background: #1e2620aa; transform: rotate(15deg); }
+    .token { position: absolute; z-index: 1; width: 58px; height: 58px; display: grid; place-items: center; border: 3px solid #d6c68e; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #d7d3c0, #5a654f 48%, #1d2b23 51%); box-shadow: 0 0 0 3px #1c211d, 0 .4rem .8rem #0008; color: #161817; font: 800 12px/1 system-ui; }
+    .token.enemy { border-color: #c76f55; background: radial-gradient(circle at 35% 30%, #d29474, #75402f 48%, #341d1a 51%); color: #ffe1d0; }
+    .token.active { box-shadow: 0 0 0 3px #1c211d, 0 0 0 7px #f0d78599, 0 0 26px #f0d785bb; }
+    .token.a { top: 41%; left: 41%; } .token.b { top: 50%; left: 50%; } .token.c { top: 30%; left: 57%; } .token.d { top: 61%; left: 32%; }
+    .sidebar { position: absolute; z-index: 4; top: 0; right: 0; bottom: 0; width: 18rem; padding: 1rem; border-left: 1px solid #a88d6129; background: linear-gradient(90deg, #16161ae8, #111115f5); box-shadow: -.8rem 0 2rem #0005; font-family: system-ui, sans-serif; }
+    .sidebar h1 { margin: .2rem 0 1rem; color: #e8d4a9; font: 700 .75rem/1 system-ui; letter-spacing: .13em; text-transform: uppercase; }
+    .initiative { display: grid; gap: .35rem; } .combatant { display: flex; align-items: center; gap: .55rem; padding: .55rem; border: 1px solid #ffffff12; border-radius: .25rem; background: #ffffff07; color: #bdb9b2; font-size: .78rem; } .combatant .dot { width: .55rem; height: .55rem; border-radius: 50%; background: #7b91ad; } .combatant.enemy .dot { background: #bb6954; } .combatant.current { border-color: #e5c47a88; background: #ad87471c; color: #f8edcf; } .combatant small { margin-left: auto; color: #9f988c; }
+    .toolbar { position: absolute; z-index: 4; right: 19.2rem; bottom: 1rem; display: flex; gap: .35rem; }.tool { width: 2rem; height: 2rem; display: grid; place-items: center; border: 1px solid #b9a37a55; border-radius: .25rem; background: #1a191dd9; color: #d9c89d; font: 700 .75rem system-ui; }
+    .prototype-note { position: fixed; z-index: 20; top: .9rem; left: .9rem; max-width: 24rem; margin: 0; padding: .55rem .7rem; border-left: 2px solid #dfbf73; background: #121216c9; color: #c7c1b5; font: .72rem/1.35 system-ui; } .prototype-note strong { color: #f0d787; }
+    .presence { position: absolute; z-index: 10; pointer-events: none; inset: 0; overflow: hidden; transition: color .25s ease; --accent: #c6a45a; --accent-deep: #34746d; --glow: #27766b44; --ink: #f5e8bc; --mote: #9bc5aa; }
+    .presence[data-mode="enemy"] { --accent: #c26b4b; --accent-deep: #5b345f; --glow: #8a3f3440; --ink: #ffd9bf; --mote: #c6a76a; }
+    .variant { display: none; } .variant.active { display: block; }
+    /* A: an initiative ribbon makes the atmospheric frame useful. */
+    .edge-vignette { position: absolute; inset: 0; border: 5px solid var(--accent); opacity: .68; box-shadow: inset 0 0 45px 9px var(--glow), inset 0 0 145px 28px var(--glow); }
+    .edge-runes { position: absolute; inset: .65rem; border: 1px solid var(--accent); opacity: .52; clip-path: polygon(0 0, 15% 0, 16% 1.2%, 84% 1.2%, 85% 0, 100% 0, 100% 16%, 98.8% 17%, 98.8% 83%, 100% 84%, 100% 100%, 85% 100%, 84% 98.8%, 16% 98.8%, 15% 100%, 0 100%, 0 84%, 1.2% 83%, 1.2% 17%, 0 16%); }
+    .edge-runes::before, .edge-runes::after { content: "✧  ·  ✦  ·  ✧"; position: absolute; top: -.52rem; width: 18rem; color: var(--mote); font: 700 .85rem/1 Georgia, serif; letter-spacing: .35rem; text-align: center; text-shadow: 0 0 10px var(--glow); } .edge-runes::before { left: 11%; } .edge-runes::after { right: 11%; }
+    .edge-caption { position: absolute; top: 1.35rem; left: 50%; min-width: 19rem; padding: .5rem 1.4rem; border-top: 1px solid var(--accent); border-bottom: 1px solid var(--accent); background: linear-gradient(90deg, transparent, #101115d9 15%, #101115d9 85%, transparent); color: var(--ink); text-align: center; transform: translateX(-50%); font: 700 .72rem/1.2 system-ui; letter-spacing: .15em; text-transform: uppercase; } .edge-caption::before, .edge-caption::after { content: "◆"; position: absolute; top: 50%; color: var(--accent-deep); font-size: 1rem; transform: translateY(-50%); } .edge-caption::before { left: .35rem; } .edge-caption::after { right: .35rem; } .edge-caption small { display: block; margin-top: .2rem; color: var(--mote); font-size: .61rem; letter-spacing: .09em; }
+    .initiative-ribbon { position: absolute; z-index: 2; top: .85rem; right: 18.85rem; left: 27rem; display: grid; grid-template-columns: 4.7rem 15rem 4.7rem 8rem; justify-content: center; gap: .35rem; align-items: stretch; min-height: 4.4rem; padding: .35rem .55rem .45rem; border-top: 1px solid var(--accent); border-bottom: 1px solid color-mix(in srgb, var(--accent) 65%, transparent); background: linear-gradient(90deg, transparent, #0d1013d9 11%, color-mix(in srgb, var(--accent-deep) 22%, #101115e8) 50%, #0d1013d9 89%, transparent); box-shadow: 0 .7rem 1.6rem #0005, inset 0 1px var(--mote); }
+    .initiative-ribbon::before { content: "INITIATIVE"; position: absolute; top: -.72rem; left: 50%; padding: 0 .65rem; background: #16181a; color: var(--accent); font: 700 .57rem/1 system-ui; letter-spacing: .22em; transform: translateX(-50%); }
+    .turn-card { position: relative; display: block; min-width: 0; padding: 1.05rem .28rem .25rem; border: 1px solid #e6ddc71c; background: #ffffff05; color: #b9b5ac; font-family: system-ui, sans-serif; opacity: .7; }
+    .turn-card::after { content: ""; position: absolute; right: -.23rem; width: .4rem; height: .4rem; border: 1px solid var(--accent); background: #17191b; transform: rotate(45deg); }
+    .turn-card.next::after { display: none; }
+    .initiative-ribbon .edge-caption { position: relative; top: auto; left: auto; min-width: 0; align-self: center; transform: none; box-shadow: 0 0 18px var(--glow); }.initiative-ribbon .edge-caption::before, .initiative-ribbon .edge-caption::after { color: var(--accent); }
+    .turn-card.previous { opacity: .48; }.turn-card.previous::before { content: "PREVIOUS"; position: absolute; top: .16rem; right: .3rem; color: #a59d90; font: 700 .47rem/1 system-ui; letter-spacing: .1em; }.turn-card.next::before { content: "NEXT"; position: absolute; top: .16rem; right: .3rem; color: var(--mote); font: 700 .47rem/1 system-ui; letter-spacing: .1em; }
+    .turn-card p { overflow: hidden; margin: 0; color: #c9c3b9; text-align: center; font: 700 .61rem/1.15 system-ui; letter-spacing: .015em; text-overflow: ellipsis; white-space: nowrap; }
+    .next-pc { display: flex; align-self: center; align-items: center; gap: .3rem; height: 1.4rem; min-width: 0; padding: 0 .38rem; border-left: 2px solid var(--accent); background: linear-gradient(90deg, color-mix(in srgb, var(--accent-deep) 28%, transparent), transparent); color: var(--ink); white-space: nowrap; font-family: system-ui, sans-serif; }.next-pc span { color: var(--mote); font: 700 .49rem/1 system-ui; letter-spacing: .08em; text-transform: uppercase; }.next-pc strong { font: 700 .59rem/1 system-ui; }.next-pc em { color: var(--accent); font-style: normal; }
+    /* B: an anchored initiative marker, leaving the field otherwise untouched. */
+    .beacon { position: absolute; bottom: 2.4rem; left: 1.3rem; display: grid; grid-template-columns: 2.8rem 1fr; gap: .72rem; align-items: center; min-width: 17.5rem; padding: .6rem .9rem .6rem .6rem; border: 1px solid color-mix(in srgb, var(--accent) 75%, transparent); border-radius: .3rem; background: linear-gradient(105deg, #131419ef, color-mix(in srgb, var(--accent-deep) 23%, #131419d0)); box-shadow: 0 .5rem 1.2rem #0008, inset 4px 0 var(--accent), inset 0 0 24px var(--glow); color: var(--ink); }
+    .beacon-mark { width: 2.28rem; height: 2.28rem; display: grid; place-items: center; border: 1px solid var(--accent); border-radius: 50%; box-shadow: 0 0 18px var(--glow), inset 0 0 10px var(--accent-deep); color: var(--accent); font: 700 1.2rem/1 Georgia, serif; } .beacon p { margin: 0; font: 700 .85rem/1.1 system-ui; } .beacon small { display: block; margin-top: .24rem; color: var(--mote); font: .67rem/1.2 system-ui; }
+    .beacon-line { position: absolute; bottom: 1.3rem; left: 1.3rem; width: 17rem; height: 1px; background: linear-gradient(90deg, var(--accent), var(--accent-deep), transparent); opacity: .85; } .beacon-line::after { content: "✦"; position: absolute; top: -.45rem; right: 3rem; color: var(--mote); font-size: .8rem; }
+    /* C: a soft, cinematic header wash plus a thin temporal sweep. */
+    .horizon-wash { position: absolute; top: 0; right: 18rem; left: 0; height: 12.5rem; background: linear-gradient(180deg, var(--glow), color-mix(in srgb, var(--accent-deep) 8%, transparent), transparent); border-top: 3px solid var(--accent); opacity: .95; }
+    .horizon-wash::after { content: ""; position: absolute; top: 2.25rem; right: 8%; left: 8%; height: 1px; background: linear-gradient(90deg, transparent, var(--mote), transparent); opacity: .7; }
+    .horizon-label { position: absolute; top: 1.15rem; right: 19.35rem; display: grid; gap: .15rem; color: var(--ink); text-align: right; font: 700 .78rem/1.1 system-ui; letter-spacing: .12em; text-transform: uppercase; }.horizon-label::before { content: "✧  THE INITIATIVE TURNS  ✧"; color: var(--accent); font: 700 .56rem/1 system-ui; letter-spacing: .16em; }.horizon-label small { color: var(--mote); font: .62rem/1.2 system-ui; letter-spacing: .08em; }
+    .horizon-sweep { position: absolute; top: 0; right: 18rem; left: 0; height: 3px; background: linear-gradient(90deg, transparent 8%, var(--accent-deep) 29%, var(--accent) 48%, var(--accent-deep) 67%, transparent 92%); box-shadow: 0 0 17px var(--accent); animation: drift 3s ease-in-out infinite; } @keyframes drift { 50% { transform: translateY(5px); opacity: .55; } }
+    .switcher { position: fixed; z-index: 30; bottom: .9rem; left: 50%; display: flex; align-items: center; gap: .35rem; padding: .32rem; border: 1px solid #9d8e74; border-radius: 999px; background: #f1ead9; box-shadow: 0 .4rem 1.3rem #0008; color: #28231d; font: 700 .76rem/1 system-ui; transform: translateX(-50%); } .switcher button { min-height: 1.9rem; border: 0; border-radius: 999px; background: #40382e; color: #fff7e9; cursor: pointer; font: 700 .76rem/1 system-ui; } .switcher .arrow { width: 1.9rem; font-size: 1rem; }.switcher .mode { padding: 0 .6rem; background: #68543a; }.switcher .mode.enemy { background: #984f42; } #label { min-width: 10rem; text-align: center; }
+  </style>
+</head>
+<body>
+  <main class="foundry-mock">
+    <div class="map"></div>
+    <span class="token a">MIRA</span><span class="token b active">ORC</span><span class="token c enemy">GOB</span><span class="token d">VALE</span>
+    <aside class="sidebar"><h1>Initiative</h1><div class="initiative"><div class="combatant"><i class="dot"></i>Mira Voss<small>18</small></div><div class="combatant current enemy"><i class="dot"></i>Orc Berserker<small>16</small></div><div class="combatant enemy"><i class="dot"></i>Goblin Hexer<small>13</small></div><div class="combatant"><i class="dot"></i>Vale<small>11</small></div></div></aside>
+    <div class="toolbar"><span class="tool">T</span><span class="tool">R</span><span class="tool">M</span></div>
+    <p class="prototype-note"><strong>THROWAWAY UI PROTOTYPE</strong><br>Question: Which quiet overlay creates presence for another turn, and more tension for an enemy turn, without covering play space?</p>
+    <div class="presence" id="presence" data-mode="player">
+      <section class="variant" data-variant="a"><div class="edge-vignette"></div><div class="edge-runes"></div><div class="initiative-ribbon" aria-label="Initiative order"><article class="turn-card previous player" data-slot="previous"><p>Vale</p></article><div class="edge-caption"><span data-name>Mira Voss is acting</span><small data-subtitle>Another player's turn</small></div><article class="turn-card next enemy" data-slot="next"><p>Orc Berserker</p></article><aside class="next-pc"><span>Next PC</span><strong data-next-pc>Vale in <em>3 turns</em></strong></aside></div></section>
+      <section class="variant" data-variant="b"><div class="beacon"><div class="beacon-mark" data-mark>✦</div><div><p data-name>Mira Voss is acting</p><small data-subtitle>Another player's turn</small></div></div><div class="beacon-line"></div></section>
+      <section class="variant" data-variant="c"><div class="horizon-wash"></div><div class="horizon-sweep"></div><div class="horizon-label"><span data-name>Mira Voss is acting</span><small data-subtitle>Another player's turn</small></div></section>
+    </div>
+  </main>
+  <nav class="switcher" aria-label="Prototype controls"><button class="arrow" id="previous" aria-label="Previous variant">←</button><span id="label"></span><button class="arrow" id="next" aria-label="Next variant">→</button><button class="mode" id="mode">Enemy turn</button></nav>
+  <script>
+    const variants = [{ key: "a", name: "Perimeter ward" }, { key: "b", name: "Corner beacon" }, { key: "c", name: "Horizon pulse" }];
+    let index = Math.max(0, variants.findIndex(({ key }) => key === new URLSearchParams(location.search).get("variant")));
+    let enemyTurn = new URLSearchParams(location.search).get("mode") === "enemy";
+    const render = () => {
+      const mode = enemyTurn ? "enemy" : "player";
+      document.querySelector("#presence").dataset.mode = mode;
+      document.querySelectorAll(".variant").forEach((item) => item.classList.toggle("active", item.dataset.variant === variants[index].key));
+      document.querySelectorAll("[data-name]").forEach((item) => item.textContent = enemyTurn ? "Orc Berserker is acting" : "Mira Voss is acting");
+      document.querySelectorAll("[data-subtitle]").forEach((item) => item.textContent = enemyTurn ? "Enemy turn — stay sharp" : "Another player's turn");
+      document.querySelectorAll("[data-mark]").forEach((item) => item.textContent = enemyTurn ? "⚔" : "✦");
+      const turnWindow = enemyTurn ? [
+        ["previous", "player", "MV", "Mira Voss", "Warden · 18"], ["current", "enemy", "OB", "Orc Berserker", "Brute · 16"], ["next", "enemy", "GH", "Goblin Hexer", "Artillery · 13"], ["Vale in <em>2 turns</em>"]
+      ] : [
+        ["previous", "player", "VE", "Vale", "Invoker · 11"], ["current", "player", "MV", "Mira Voss", "Warden · 18"], ["next", "enemy", "OB", "Orc Berserker", "Brute · 16"], ["Vale in <em>3 turns</em>"]
+      ];
+      turnWindow.filter(([slot]) => slot !== "current").forEach(([slot, side, initials, name]) => { const card = document.querySelector(`[data-slot="${slot}"]`); card.className = `turn-card ${slot} ${side}`; card.querySelector("p").textContent = name; });
+      document.querySelector("[data-next-pc]").innerHTML = turnWindow[3][0];
+      document.querySelector("#label").textContent = `${variants[index].key.toUpperCase()} · ${variants[index].name}`;
+      const modeButton = document.querySelector("#mode"); modeButton.textContent = enemyTurn ? "Player turn" : "Enemy turn"; modeButton.classList.toggle("enemy", enemyTurn);
+      const url = new URL(location); url.searchParams.set("variant", variants[index].key); url.searchParams.set("mode", mode); history.replaceState(null, "", url);
+    };
+    const cycle = (amount) => { index = (index + amount + variants.length) % variants.length; render(); };
+    document.querySelector("#previous").addEventListener("click", () => cycle(-1)); document.querySelector("#next").addEventListener("click", () => cycle(1));
+    document.querySelector("#mode").addEventListener("click", () => { enemyTurn = !enemyTurn; render(); });
+    document.addEventListener("keydown", (event) => { if (!/INPUT|TEXTAREA/.test(event.target.tagName) && !event.target.isContentEditable && ["ArrowLeft", "ArrowRight"].includes(event.key)) { cycle(event.key === "ArrowLeft" ? -1 : 1); } });
+    render();
+  </script>
+</body>
+</html>

@@ -106,7 +106,7 @@ function onActorUpdate(actor) {
 
 /** Open, refresh, or close the display to match the active encounter's state. */
 function syncCombatTracker(combat = game.combats?.active) {
-	if (!game.settings.get(MODULE_ID, SHOW_SETTING) || !canvas?.ready) {
+	if (!game.user.isGM || !game.settings.get(MODULE_ID, SHOW_SETTING) || !canvas?.ready) {
 		closeCombatTracker();
 		return;
 	}
@@ -156,7 +156,7 @@ class CombatTrackerDisplay extends HandlebarsApplicationMixin(ApplicationV2) {
 		position: {
 			top: 16,
 			left: 900,
-			width: 304,
+			width: 274,
 			height: "auto",
 		},
 		dragResizable: false,
@@ -166,6 +166,7 @@ class CombatTrackerDisplay extends HandlebarsApplicationMixin(ApplicationV2) {
 			setCurrent: CombatTrackerDisplay.prototype.onSetCurrent,
 			toggleHidden: CombatTrackerDisplay.prototype.onToggleHidden,
 			toggleDefeated: CombatTrackerDisplay.prototype.onToggleDefeated,
+			removeCombatant: CombatTrackerDisplay.prototype.onRemoveCombatant,
 			nav: CombatTrackerDisplay.prototype.onNav,
 			endCombat: CombatTrackerDisplay.prototype.onEndCombat,
 			openBriefing: CombatTrackerDisplay.prototype.onOpenBriefing,
@@ -368,6 +369,27 @@ class CombatTrackerDisplay extends HandlebarsApplicationMixin(ApplicationV2) {
 		} catch (error) {
 			console.error(`${MODULE_ID} | Failed to toggle defeated status.`, error);
 			ui.notifications.error("The defeated status could not be toggled. Check the console for details.");
+		}
+	}
+
+	/** Remove a combatant from the active encounter without changing its token or actor. */
+	async onRemoveCombatant(event, target) {
+		if (!game.user.isGM) {
+			return;
+		}
+
+		const combatant = this.combat?.combatants.get(target.dataset.combatantId);
+		if (!combatant) {
+			return;
+		}
+
+		target.disabled = true;
+		try {
+			await combatant.delete();
+		} catch (error) {
+			console.error(`${MODULE_ID} | Failed to remove combatant from the encounter.`, error);
+			ui.notifications.error("The combatant could not be removed. Check the console for details.");
+			target.disabled = false;
 		}
 	}
 
