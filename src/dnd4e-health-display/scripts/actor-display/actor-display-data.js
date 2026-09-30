@@ -48,10 +48,11 @@ export async function getActorDisplayData(token, activeTab, expandedPowerIds = n
 	const filledHpSegments = getFilledSegmentCount(hpValue, hpMaximum, hpSegmentCount);
 	const tabs = getTabs(actor, activeTab);
 	const powerCategories = await getPowerCategories(actor, expandedPowerIds, activePowerCategory);
+	const stats = getStats(actor);
 
 	return {
 		name: actor.name,
-		portrait: token.document?.texture?.src || actor.img,
+		portrait: actor.img || token.document?.texture?.src || "icons/svg/mystery-man.svg",
 		levelAndClass: getLevelAndClass(actor),
 		subtitle: getSubtitle(actor),
 		hp: {
@@ -68,7 +69,9 @@ export async function getActorDisplayData(token, activeTab, expandedPowerIds = n
 			maximum: surgeMaximum,
 			segments: getSegments(surgeValue, surgeMaximum, surgeMaximum),
 		},
-		stats: getStats(actor),
+		stats,
+		defenseStats: stats.filter((stat) => stat.isDefense),
+		utilityStats: stats.filter((stat) => !stat.isDefense),
 		tabs,
 		activeTab,
 		activeTabLabel: tabs.find((tab) => tab.key === activeTab)?.label ?? "",
@@ -201,12 +204,12 @@ function getFilledSegmentCount(value, maximum, count) {
  */
 function getStats(actor) {
 	return [
-		{ label: "Armor Class", shortLabel: "AC", value: actor.system?.defences?.ac?.value, icon: "fa-solid fa-shield" },
-		{ label: "Fortitude", shortLabel: "Fort", value: actor.system?.defences?.fort?.value, icon: "fa-solid fa-dumbbell" },
-		{ label: "Reflex", shortLabel: "Ref", value: actor.system?.defences?.ref?.value, icon: "fa-solid fa-bolt" },
-		{ label: "Will", shortLabel: "Will", value: actor.system?.defences?.wil?.value, icon: "fa-solid fa-brain" },
+		{ label: "Armor Class", shortLabel: "AC", value: actor.system?.defences?.ac?.value, icon: "fa-solid fa-shield", isDefense: true },
+		{ label: "Fortitude", shortLabel: "Fort", value: actor.system?.defences?.fort?.value, icon: "fa-solid fa-dumbbell", isDefense: true },
+		{ label: "Reflex", shortLabel: "Ref", value: actor.system?.defences?.ref?.value, icon: "fa-solid fa-bolt", isDefense: true },
+		{ label: "Will", shortLabel: "Will", value: actor.system?.defences?.wil?.value, icon: "fa-solid fa-brain", isDefense: true },
 		{ label: "Initiative", shortLabel: "Init", value: Number(actor.system?.attributes?.init?.value) || 0, icon: "fa-solid fa-person-running", action: "quick", command: "initiative" },
-		{ label: "Speed", shortLabel: "Speed", value: Number(actor.system?.movement?.walk?.value) || 0, icon: "fa-solid fa-shoe-prints" },
+		{ label: "Speed", shortLabel: "Speed", value: Number(actor.system?.movement?.walk?.value) || 0, icon: "fa-solid fa-shoe-prints", action: "quick", command: "openSheet" },
 	];
 }
 
@@ -413,7 +416,35 @@ function getFeatureDescription(feature) {
 
 	const element = document.createElement("div");
 	element.innerHTML = html;
-	return element.textContent?.trim() ?? "";
+	element.querySelectorAll("br").forEach((lineBreak) => lineBreak.replaceWith("\n"));
+	element.querySelectorAll("hr").forEach((separator) => separator.replaceWith("\n\n"));
+	element.querySelectorAll("p, div, li").forEach((block) => block.after("\n"));
+
+	return getFeatureDescriptionHtml(element)
+		.replace(/[ \t]+\n/g, "\n")
+		.replace(/\n{3,}/g, "\n\n")
+		.trim();
+}
+
+/**
+ * Convert a feature description into safe compact HTML, preserving italic emphasis.
+ *
+ * @param {HTMLElement} element The parsed feature-description content.
+ * @returns {string}
+ */
+function getFeatureDescriptionHtml(element) {
+	return Array.from(element.childNodes).map((node) => {
+		if (node.nodeType === 3) {
+			return foundry.utils.escapeHTML(node.textContent ?? "");
+		}
+
+		if (node.nodeType !== 1) {
+			return "";
+		}
+
+		const content = getFeatureDescriptionHtml(node);
+		return ["EM", "I"].includes(node.nodeName) ? `<em>${content}</em>` : content;
+	}).join("");
 }
 
 /**

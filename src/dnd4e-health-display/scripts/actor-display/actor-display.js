@@ -23,7 +23,7 @@ export function registerActorDisplaySettings() {
 		scope: "client",
 		config: true,
 		type: Boolean,
-		default: false,
+		default: true,
 		onChange: (enabled) => {
 			if (enabled) {
 				renderSelectedActor();
@@ -526,6 +526,10 @@ class HorizontalActorDisplay extends ActorDisplayBase {
 	constructor(options, token) {
 		super(options, token);
 		this.openDropdown = null;
+		this._nameFitFrame = null;
+		this._nameResizeObserver = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(() => {
+			this.scheduleActorNameFit();
+		});
 		this._onDocumentClick = this._onDocumentClick.bind(this);
 		document.addEventListener("click", this._onDocumentClick);
 	}
@@ -664,11 +668,60 @@ class HorizontalActorDisplay extends ActorDisplayBase {
 	_onRender(context, options) {
 		super._onRender(context, options);
 		document.body.classList.add(HORIZONTAL_HUD_BODY_CLASS);
+		this.initializeActorNameFit();
 		const height = this.element?.getBoundingClientRect().height ?? 0;
 		document.documentElement.style.setProperty(HORIZONTAL_HUD_HEIGHT_PROPERTY, `${height}px`);
 		this.initializeHotbarDragAndDrop();
 		this.initializeGmCombatInputs();
 		this.syncGmCombatPanelHeight();
+	}
+
+	/** Refit the actor name whenever its available space changes. */
+	initializeActorNameFit() {
+		const nameLine = this.element?.querySelector(".dnd4e-horizontal-actor-display__name-line");
+		this._nameResizeObserver?.disconnect();
+		if (nameLine) {
+			this._nameResizeObserver?.observe(nameLine);
+		}
+
+		this.scheduleActorNameFit();
+	}
+
+	/** Schedule a name measurement after the browser has applied the current layout. */
+	scheduleActorNameFit() {
+		window.cancelAnimationFrame(this._nameFitFrame);
+		this._nameFitFrame = window.requestAnimationFrame(() => {
+			this._nameFitFrame = null;
+			this.fitActorName();
+		});
+	}
+
+	/** Scale an overlong actor name to the precise width left beside the quick-action buttons. */
+	fitActorName() {
+		const name = this.element?.querySelector(".dnd4e-horizontal-actor-display__name-line h2");
+		if (!name) {
+			return;
+		}
+
+		// A resize or a previous measurement may have left a smaller inline size behind. Start from
+		// the design size so the ratio always compares the complete name to its actual current space.
+		name.style.removeProperty("font-size");
+		const availableWidth = name.getBoundingClientRect().width;
+		const naturalWidth = name.scrollWidth;
+		if (availableWidth === 0 || naturalWidth <= availableWidth) {
+			return;
+		}
+
+		const fontSize = Number.parseFloat(getComputedStyle(name).fontSize);
+		if (!fontSize) {
+			return;
+		}
+
+		// Leave one CSS pixel of headroom: scrollWidth rounds up while the flex layout can give
+		// this element a fractional width. Without that allowance an apparently exact ratio can still
+		// trigger the ellipsis for the final character.
+		const scale = Math.max(0, (availableWidth - 1) / naturalWidth);
+		name.style.fontSize = `${fontSize * scale}px`;
 	}
 
 	/**
@@ -911,6 +964,8 @@ class HorizontalActorDisplay extends ActorDisplayBase {
 
 	/** Stop tracking outside clicks and restore Foundry's own bottom-left UI once this display is closed. */
 	async close(options) {
+		window.cancelAnimationFrame(this._nameFitFrame);
+		this._nameResizeObserver?.disconnect();
 		document.removeEventListener("click", this._onDocumentClick);
 		document.body.classList.remove(HORIZONTAL_HUD_BODY_CLASS);
 		document.documentElement.style.removeProperty(HORIZONTAL_HUD_HEIGHT_PROPERTY);

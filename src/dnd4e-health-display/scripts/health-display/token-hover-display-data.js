@@ -19,10 +19,10 @@ export function getTokenHoverDisplayData(token, { useEffectDescriptions, expandT
 	const value = Number(hp.value);
 	const maximum = Number(hp.max);
 	const role = getSpecialRole(actor);
-	const segmentCount = getHealthSegmentCount(actor);
+	const segmentCount = getHealthSegmentCount(actor, role);
 	const filledSegments = getFilledSegments(value, maximum, segmentCount);
 	const effectPresentation = getEffectPresentation(actor, useEffectDescriptions);
-	const healthState = getHealthState(actor, value, maximum, filledSegments);
+	const healthState = getHealthState(actor, role, value, maximum, filledSegments);
 
 	return {
 		name: token.name || actor.name,
@@ -45,9 +45,14 @@ export function getTokenHoverDisplayData(token, { useEffectDescriptions, expandT
  * Choose health detail by actor type.
  *
  * @param {Actor} actor The displayed actor.
+ * @param {{key: string}|null} role The actor's special role.
  * @returns {number}
  */
-function getHealthSegmentCount(actor) {
+function getHealthSegmentCount(actor, role) {
+	if (role?.key === "minion") {
+		return 1;
+	}
+
 	return actor.type === "Player Character" ? PC_HEALTH_SEGMENTS : NPC_HEALTH_SEGMENTS;
 }
 
@@ -71,18 +76,23 @@ function getFilledSegments(value, maximum, segmentCount = NPC_HEALTH_SEGMENTS) {
  * Convert the filled health segments into an actor-appropriate state label.
  *
  * @param {Actor} actor The displayed actor.
+ * @param {{key: string}|null} role The actor's special role.
  * @param {number} value Current hit points.
  * @param {number} maximum Maximum hit points.
  * @param {number} filledSegments Number of filled health segments.
  * @returns {string}
  */
-function getHealthState(actor, value, maximum, filledSegments) {
+function getHealthState(actor, role, value, maximum, filledSegments) {
 	if (!Number.isFinite(value) || !Number.isFinite(maximum) || maximum <= 0) {
 		return "Unknown";
 	}
 
 	if (value <= 0) {
 		return "Defeated";
+	}
+
+	if (role?.key === "minion") {
+		return "Alive";
 	}
 
 	const states = actor.type === "Player Character"

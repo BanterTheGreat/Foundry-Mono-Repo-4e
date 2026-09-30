@@ -29,7 +29,7 @@ export function registerHealthDisplaySettings() {
 		scope: "client",
 		config: true,
 		type: Boolean,
-		default: true,
+		default: false,
 		onChange: refreshHoveredToken,
 	});
 }

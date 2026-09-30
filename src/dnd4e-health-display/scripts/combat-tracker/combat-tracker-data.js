@@ -29,7 +29,7 @@ function getCombatantRowData(combatant, combat, isGM) {
 	return {
 		id: combatant.id,
 		name: combatant.name,
-		img: combatant.img || actor?.img || "icons/svg/mystery-man.svg",
+		img: actor?.img || combatant.img || "icons/svg/mystery-man.svg",
 		initiative: combatant.initiative == null ? "—" : Math.round(combatant.initiative),
 		rawInitiative: combatant.initiative == null ? "" : Math.round(combatant.initiative),
 		canEditInitiative: isGM,

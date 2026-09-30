@@ -140,7 +140,7 @@ export async function generatePowerTooltip(actor, power) {
 	pushRule(blocks, "sustain", sustainLabel, system.sustain?.detail);
 
 	const flavour = system.description?.chat
-		? `<p class="flavour">${system.description.chat}</p>`
+		? `<div class="flavour">${system.description.chat}</div>`
 		: "";
 	const body = blocks.filter(Boolean).join("");
 	if (!flavour && !body) {

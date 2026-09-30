@@ -15,7 +15,7 @@ export function registerTeamDisplaySettings() {
 		scope: "client",
 		config: true,
 		type: Boolean,
-		default: true,
+		default: false,
 		onChange: (enabled) => {
 			if (enabled) {
 				renderTeamDisplay();
