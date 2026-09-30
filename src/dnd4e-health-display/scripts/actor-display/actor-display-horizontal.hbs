@@ -133,108 +133,50 @@
 			<div class="dnd4e-horizontal-actor-display__charinfo">
 				<button type="button" class="dnd4e-horizontal-actor-display__portrait" data-action="quick" data-command="openSheet" title="Open character sheet">
 					<img src="{{portrait}}" alt="" draggable="false">
+					<span class="dnd4e-horizontal-actor-display__identity-banner">
+						<strong title="{{name}}">{{name}}</strong>
+						<small>{{levelAndClass}}</small>
+					</span>
 				</button>
 				<div class="dnd4e-horizontal-actor-display__charinfo-text">
-					<div class="dnd4e-horizontal-actor-display__name-row">
-						<div class="dnd4e-horizontal-actor-display__name-line">
-							<h2 title="{{name}}">{{name}}</h2>
-							<small>{{levelAndClass}}</small>
-						</div>
-						<div class="dnd4e-horizontal-actor-display__name-actions">
-							<button type="button" class="dnd4e-horizontal-actor-display__action-btn {{#if horizontalActions.ap.disabled}}is-disabled{{/if}}" data-action="quick" data-command="actionPoint" {{#if horizontalActions.ap.disabled}}disabled{{/if}} title="Use Action Point">
-								<i class="fa-solid fa-bolt" aria-hidden="true"></i>
-								<span class="dnd4e-horizontal-actor-display__ap-badge">{{horizontalActions.ap.value}}</span>
-							</button>
-
-							<div class="dnd4e-horizontal-actor-display__action-slot">
-								<button type="button" class="dnd4e-horizontal-actor-display__action-btn {{#if isSaveOpen}}is-open{{/if}}" data-action="toggleDropdown" data-dropdown="save" title="Save">
-									<i class="fa-solid fa-star" aria-hidden="true"></i>
-								</button>
-								{{#if isSaveOpen}}
-									<div class="dnd4e-horizontal-actor-display__dropdown-menu">
-										{{#each horizontalActions.save}}
-											<button type="button" data-action="quick" data-command="{{command}}" {{#if disabled}}disabled{{/if}}>{{label}}{{#if detail}}<small>{{detail}}</small>{{/if}}</button>
-										{{/each}}
-									</div>
-								{{/if}}
-							</div>
-
-							<div class="dnd4e-horizontal-actor-display__action-slot">
-								<button type="button" class="dnd4e-horizontal-actor-display__action-btn {{#if isHealOpen}}is-open{{/if}}" data-action="toggleDropdown" data-dropdown="heal" title="Heal">
-									<i class="fa-solid fa-plus" aria-hidden="true"></i>
-								</button>
-								{{#if isHealOpen}}
-									<div class="dnd4e-horizontal-actor-display__dropdown-menu">
-										{{#each horizontalActions.heal}}
-											<button type="button" data-action="quick" data-command="{{command}}" {{#if disabled}}disabled{{/if}}>{{label}}</button>
-										{{/each}}
-									</div>
-								{{/if}}
-							</div>
-
-							<div class="dnd4e-horizontal-actor-display__action-slot">
-								<button type="button" class="dnd4e-horizontal-actor-display__action-btn {{#if isRestOpen}}is-open{{/if}}" data-action="toggleDropdown" data-dropdown="rest" title="Rest">
-									<i class="fa-solid fa-bed" aria-hidden="true"></i>
-								</button>
-								{{#if isRestOpen}}
-									<div class="dnd4e-horizontal-actor-display__dropdown-menu">
-										{{#each horizontalActions.rest}}
-											<button type="button" data-action="quick" data-command="{{command}}" {{#if disabled}}disabled{{/if}}>{{label}}</button>
-										{{/each}}
-									</div>
-								{{/if}}
-							</div>
-
-							<button type="button" class="dnd4e-horizontal-actor-display__action-btn dnd4e-horizontal-actor-display__close" data-action="dismiss" aria-label="Close horizontal display" title="Close">
-								<i class="fa-solid fa-xmark" aria-hidden="true"></i>
-							</button>
-						</div>
-					</div>
-
 					<div class="dnd4e-horizontal-actor-display__hp-dial-wrap">
-						<div class="dnd4e-horizontal-actor-display__hp-dial" style="--pct: {{hp.percent}}">
+						<div class="dnd4e-horizontal-actor-display__hp-dial" style="--pct: {{hp.percent}}; --temp-pct: {{hp.tempPercent}}; --surge-pct: {{surges.percent}}" aria-label="Hit points: {{hp.value}} of {{hp.maximum}}. Temporary hit points: {{tempHp}}.{{#if hasSurges}} Healing surges: {{surges.value}} of {{surges.maximum}}.{{/if}}">
+							<svg class="dnd4e-horizontal-actor-display__hp-dial-rings" viewBox="0 0 200 200" aria-hidden="true">
+								{{#each hp.tempSegments}}<path class="is-temp {{#if filled}}is-filled{{/if}}" d="{{path}}"></path>{{/each}}
+								{{#each hp.ringSegments}}<path class="is-hp {{#if filled}}is-filled{{/if}}" d="{{path}}"></path>{{/each}}
+								{{#each surges.ringSegments}}<path class="is-surge {{#if filled}}is-filled{{/if}}" d="{{path}}"></path>{{/each}}
+							</svg>
+							{{#if hasSurges}}<span class="dnd4e-horizontal-actor-display__hp-dial-resource is-surge"><i>Surges</i><span><input type="number" value="{{surges.value}}" min="0" max="{{surges.maximum}}" aria-label="Healing surges" data-resource-path="system.details.surges.value">/{{surges.maximum}}</span></span>{{/if}}
+							<span class="dnd4e-horizontal-actor-display__hp-dial-resource is-temp"><i>Temp HP</i><input type="number" value="{{tempHp}}" min="0" aria-label="Temporary hit points" data-resource-path="system.attributes.temphp.value"></span>
 							<div class="dnd4e-horizontal-actor-display__hp-dial-inner">
-								<span>HP</span>
 								<input type="number" value="{{hp.value}}" min="0" max="{{hp.maximum}}" data-resource-path="system.attributes.hp.value">
 								<span class="dnd4e-horizontal-actor-display__hp-of">of {{hp.maximum}}</span>
 							</div>
 						</div>
-						<div class="dnd4e-horizontal-actor-display__hp-side">
-							<div class="dnd4e-horizontal-actor-display__stat-card-row">
-								<div class="dnd4e-horizontal-actor-display__stat-card">
-									<div class="dnd4e-horizontal-actor-display__stat-card-head"><i class="fa-solid fa-shield" aria-hidden="true"></i><span>Temp HP</span></div>
-									<div class="dnd4e-horizontal-actor-display__stat-card-value"><input type="number" value="{{tempHp}}" min="0" data-resource-path="system.attributes.temphp.value"></div>
-								</div>
-								{{#if hasSurges}}
-									<div class="dnd4e-horizontal-actor-display__stat-card">
-										<div class="dnd4e-horizontal-actor-display__stat-card-head"><i class="fa-solid fa-heart-pulse" aria-hidden="true"></i><span>Surges</span></div>
-										<div class="dnd4e-horizontal-actor-display__stat-card-value"><input type="number" value="{{surges.value}}" min="0" max="{{surges.maximum}}" data-resource-path="system.details.surges.value"><span class="dnd4e-horizontal-actor-display__of">/{{surges.maximum}}</span></div>
+						<div class="dnd4e-horizontal-actor-display__combat-deck">
+							<div class="dnd4e-horizontal-actor-display__deck-actions" role="group" aria-label="Combat actions">
+								<button type="button" class="dnd4e-horizontal-actor-display__deck-action {{#if horizontalActions.ap.disabled}}is-disabled{{/if}}" data-action="quick" data-command="actionPoint" {{#if horizontalActions.ap.disabled}}disabled{{/if}} title="Spend or use an Action Point" aria-label="Spend or use an Action Point"><i class="fa-solid fa-bolt" aria-hidden="true"></i><span>AP</span></button>
+								<div class="dnd4e-horizontal-actor-display__action-slot"><button type="button" class="dnd4e-horizontal-actor-display__deck-action {{#if isHealOpen}}is-open{{/if}}" data-action="toggleDropdown" data-dropdown="heal" title="Heal and Second Wind" aria-label="Heal and Second Wind"><i class="fa-solid fa-heart" aria-hidden="true"></i><span>Heals</span></button>{{#if isHealOpen}}<div class="dnd4e-horizontal-actor-display__dropdown-menu">{{#each horizontalActions.heal}}<button type="button" data-action="quick" data-command="{{command}}">{{label}}</button>{{/each}}</div>{{/if}}</div>
+								<div class="dnd4e-horizontal-actor-display__action-slot"><button type="button" class="dnd4e-horizontal-actor-display__deck-action {{#if isSaveOpen}}is-open{{/if}}" data-action="toggleDropdown" data-dropdown="save" title="Saving Throw and Death Save" aria-label="Saving Throw and Death Save"><i class="fa-solid fa-star" aria-hidden="true"></i><span>Saves</span></button>{{#if isSaveOpen}}<div class="dnd4e-horizontal-actor-display__dropdown-menu">{{#each horizontalActions.save}}<button type="button" data-action="quick" data-command="{{command}}" {{#if disabled}}disabled{{/if}}>{{label}}{{#if detail}}<small>{{detail}}</small>{{/if}}</button>{{/each}}</div>{{/if}}</div>
+								<div class="dnd4e-horizontal-actor-display__action-slot"><button type="button" class="dnd4e-horizontal-actor-display__deck-action {{#if isRestOpen}}is-open{{/if}}" data-action="toggleDropdown" data-dropdown="rest" title="Short Rest and Extended Rest" aria-label="Short Rest and Extended Rest"><i class="fa-solid fa-moon" aria-hidden="true"></i><span>Rests</span></button>{{#if isRestOpen}}<div class="dnd4e-horizontal-actor-display__dropdown-menu">{{#each horizontalActions.rest}}<button type="button" data-action="quick" data-command="{{command}}">{{label}}</button>{{/each}}</div>{{/if}}</div>
+							</div>
+							<div class="dnd4e-horizontal-actor-display__pace-bar">
+								<button type="button" data-action="quick" data-command="initiative" title="Roll initiative"><i class="fa-solid fa-compass" aria-hidden="true"></i><span>Init</span><b>{{combatDeck.initiative}}</b></button>
+								<button type="button" data-action="quick" data-command="openSheet" title="Open character sheet"><i class="fa-solid fa-person-running" aria-hidden="true"></i><span>Speed</span><b>{{combatDeck.speed}}</b></button>
+							</div>
+							{{#if combatDeck.companions.length}}
+								<section class="dnd4e-horizontal-actor-display__companions" aria-label="Companions">
+									<h3>Companions</h3>
+									<div class="dnd4e-horizontal-actor-display__companion-list">
+										{{#each combatDeck.companions}}
+											<div class="dnd4e-horizontal-actor-display__companion">
+												<div class="dnd4e-horizontal-actor-display__companion-radial" role="img" aria-label="{{healthLabel}}">{{#each segments}}<i class="{{#if filled}}is-filled{{/if}}"></i>{{/each}}</div>
+												<strong title="{{name}}">{{name}}</strong><small title="{{className}}">{{className}}</small>
+											</div>
+										{{/each}}
 									</div>
-								{{/if}}
-							</div>
-							{{#if hasSurges}}
-								<div class="dnd4e-horizontal-actor-display__segment-bar" role="img" aria-label="Healing surges: {{surges.value}} of {{surges.maximum}}">
-									{{#each surges.segments}}<i class="{{#if filled}}is-filled{{/if}}"></i>{{/each}}
-								</div>
+								</section>
 							{{/if}}
-							<div class="dnd4e-horizontal-actor-display__def-grid">
-								<div class="dnd4e-horizontal-actor-display__def-group is-defenses">
-									{{#each defenseStats}}
-										<button type="button" class="dnd4e-horizontal-actor-display__def-chip" title="{{label}}">
-											<div class="dnd4e-horizontal-actor-display__def-chip-value"><i class="{{icon}}" aria-hidden="true"></i><b>{{value}}</b></div>
-											<span class="dnd4e-horizontal-actor-display__def-label">{{shortLabel}}</span>
-										</button>
-									{{/each}}
-								</div>
-								<div class="dnd4e-horizontal-actor-display__def-group is-utilities">
-									{{#each utilityStats}}
-										<button type="button" class="dnd4e-horizontal-actor-display__def-chip" title="{{label}}" data-action="{{action}}" data-command="{{command}}">
-											<div class="dnd4e-horizontal-actor-display__def-chip-value"><i class="{{icon}}" aria-hidden="true"></i><b>{{value}}</b></div>
-											<span class="dnd4e-horizontal-actor-display__def-label">{{shortLabel}}</span>
-										</button>
-									{{/each}}
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>

@@ -85,7 +85,7 @@ body.dnd4e-horizontal-hud-active #players {
 	position: relative;
 	display: flex;
 	align-items: center;
-	padding: 0.65rem;
+	padding: 0.8rem;
 	border: 1px solid #997456;
 	border-radius: 0.5rem;
 	background: linear-gradient(180deg, rgb(9 9 11 / 95%), #0d0d0e 90%);
@@ -94,18 +94,20 @@ body.dnd4e-horizontal-hud-active #players {
 }
 
 .dnd4e-horizontal-actor-display__charinfo {
-	display: flex;
-	align-items: stretch;
-	gap: 0.7rem;
-	width: 32rem;
+	display: grid;
+	grid-template-columns: 7rem minmax(28rem, 1fr);
+	width: 35rem;
+	min-height: 11.5rem;
+	gap: 0.65rem;
 }
 
 .dnd4e-horizontal-actor-display__portrait {
+	position: relative;
 	display: grid;
 	place-items: center;
-	flex: 0 0 auto;
-	width: 7.5rem;
-	height: auto;
+	width: 100%;
+	height: 11.5rem;
+	align-self: end;
 	padding: 0;
 	border: 2px solid #997456;
 	border-radius: 0.4rem;
@@ -124,11 +126,42 @@ body.dnd4e-horizontal-hud-active #players {
 	object-fit: cover;
 }
 
+.dnd4e-horizontal-actor-display__identity-banner {
+	position: absolute;
+	right: 0.45rem;
+	bottom: 0.45rem;
+	left: 0.45rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.18rem;
+	padding: 0.4rem 0.46rem;
+	border-top: 1px solid #d5a36b;
+	background: linear-gradient(90deg, rgb(11 11 13 / 92%), rgb(40 27 23 / 84%));
+	color: #f4d3aa;
+	text-align: left;
+	text-shadow: 0 0.12rem 0.25rem #000;
+}
+
+.dnd4e-horizontal-actor-display__identity-banner strong {
+	overflow: hidden;
+	font-family: var(--font-h1, "Modesto Condensed", serif);
+	font-size: 1.05rem;
+	line-height: 0.9;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.dnd4e-horizontal-actor-display__identity-banner small {
+	color: #c5a98b;
+	font-size: 0.5rem;
+	font-style: italic;
+	white-space: nowrap;
+}
+
 .dnd4e-horizontal-actor-display__charinfo-text {
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
-	gap: 0.55rem;
+	justify-content: stretch;
 	flex: 1;
 	min-width: 0;
 }
@@ -222,7 +255,7 @@ body.dnd4e-horizontal-hud-active #players {
 	border-radius: 999px;
 	background: #c89550;
 	color: #1a1a1a;
-	font-size: 0.48rem;
+	font-size: 0.38rem;
 	font-weight: 800;
 	line-height: 1.1;
 	text-align: center;
@@ -281,31 +314,245 @@ body.dnd4e-horizontal-hud-active #players {
 .dnd4e-horizontal-actor-display__hp-dial-wrap {
 	display: flex;
 	align-items: flex-end;
-	gap: 0.75rem;
+	gap: 0.55rem;
+	min-height: 11.5rem;
+}
+
+/* -- plinth combat deck: immediate actions, pace, and qualitative party pulse -- */
+.dnd4e-horizontal-actor-display__combat-deck {
+	display: flex;
+	align-self: stretch;
+	flex: 1 1 16rem;
+	flex-direction: column;
+	gap: 0.25rem;
+	min-width: 16rem;
+}
+
+.dnd4e-horizontal-actor-display__companions {
+	margin-top: auto;
+}
+
+.dnd4e-horizontal-actor-display__deck-actions {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 0.22rem;
+	margin-right: 0.5rem;
+}
+
+.dnd4e-horizontal-actor-display__deck-actions .dnd4e-horizontal-actor-display__action-slot {
+	display: flex;
+}
+
+.dnd4e-horizontal-actor-display__deck-actions .dnd4e-horizontal-actor-display__deck-action {
+	flex: 1;
+}
+
+.dnd4e-horizontal-actor-display__deck-action {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.25rem;
+	min-width: 0;
+	min-height: 1.82rem;
+	padding: 0.2rem 0.16rem;
+	border: 1px solid #997456;
+	border-radius: 0.35rem;
+	background: linear-gradient(180deg, rgb(30 26 24 / 96%), #121113);
+	color: #f5eee5;
+	box-shadow: 0 0.2rem 0.6rem rgb(0 0 0 / 45%), inset 0 0 0 1px rgb(255 255 255 / 4%);
+	font-size: 0.55rem !important;
+	font-weight: 700;
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
+}
+
+.dnd4e-horizontal-actor-display__deck-action > span {
+	font-size: 0.55rem !important;
+}
+
+.dnd4e-horizontal-actor-display__deck-action i {
+	color: #d6b271;
+	font-size: 0.56rem;
+}
+
+.dnd4e-horizontal-actor-display__deck-action:hover:not(:disabled),
+.dnd4e-horizontal-actor-display__deck-action.is-open {
+	border-color: #d3a35d;
+	background: linear-gradient(180deg, #41352b, #241d19);
+	filter: brightness(1.1);
+	transform: translateY(-1px);
+}
+
+.dnd4e-horizontal-actor-display__deck-action:focus-visible,
+.dnd4e-horizontal-actor-display__pace-bar button:focus-visible {
+	outline: 2px solid #f0c879;
+	outline-offset: 2px;
+}
+
+.dnd4e-horizontal-actor-display__deck-action.is-disabled,
+.dnd4e-horizontal-actor-display__deck-action:disabled {
+	opacity: 0.35;
+	cursor: not-allowed;
+}
+
+.dnd4e-horizontal-actor-display__pace-bar {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	border: 1px solid rgb(153 116 86 / 70%);
+	border-radius: 0.32rem;
+	background: linear-gradient(90deg, #1c1715, #110f10);
+	overflow: hidden;
+	margin-right: 0.5rem;
+	margin-top: 0.4rem;
+}
+
+.dnd4e-horizontal-actor-display__pace-bar button {
+	display: grid;
+	grid-template-columns: auto auto 1fr;
+	align-items: center;
+	gap: 0.28rem;
+	min-width: 0;
+	min-height: 2.45rem;
+	padding: 0.38rem 0.45rem;
+	border: 0;
+	background: transparent;
+	color: #a98c70;
+	font-size: 0.52rem;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-align: left;
+	text-transform: uppercase;
+}
+
+.dnd4e-horizontal-actor-display__pace-bar button + button {
+	border-left: 1px solid rgb(153 116 86 / 50%);
+}
+
+.dnd4e-horizontal-actor-display__pace-bar button:hover {
+	background: rgb(200 149 80 / 12%);
+}
+
+.dnd4e-horizontal-actor-display__pace-bar i {
+	color: #d6b271;
+	font-size: 0.68rem;
+}
+
+.dnd4e-horizontal-actor-display__pace-bar b {
+	justify-self: end;
+	color: #f0d39e;
+	font-family: var(--font-h1, serif);
+	font-size: 1.2rem;
+	letter-spacing: 0;
+}
+
+.dnd4e-horizontal-actor-display__companions h3 {
+	margin: 0 0 0.1rem;
+	color: #a98c70;
+	font-size: 0.5rem;
+	font-weight: 800;
+	letter-spacing: 0.09em;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.dnd4e-horizontal-actor-display__companion-list {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 0.3rem;
+}
+
+.dnd4e-horizontal-actor-display__companion {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-width: 0;
+	color: #f0dfc7;
+	text-align: center;
+}
+
+.dnd4e-horizontal-actor-display__companion-radial {
+	display: grid;
+	width: 3.65rem;
+	height: 3.65rem;
+	margin-bottom: 0.06rem;
+	border-radius: 50%;
+	background: #0d0d0e;
+	box-shadow: inset 0 0 0 1px #351b1d, 0 0.16rem 0.35rem rgb(0 0 0 / 50%);
+	overflow: hidden;
+}
+
+.dnd4e-horizontal-actor-display__companion-radial i {
+	grid-area: 1 / 1;
+	margin: 0.34rem;
+	border-radius: 50%;
+	background: conic-gradient(#472229 0deg 58deg, transparent 58deg 60deg, transparent 60deg);
+	-webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 0.48rem), #000 calc(100% - 0.45rem));
+	mask: radial-gradient(farthest-side, transparent calc(100% - 0.48rem), #000 calc(100% - 0.45rem));
+	transform: rotate(calc(var(--segment, 0) * 60deg));
+}
+
+.dnd4e-horizontal-actor-display__companion-radial i:nth-child(2) { --segment: 1; }
+.dnd4e-horizontal-actor-display__companion-radial i:nth-child(3) { --segment: 2; }
+.dnd4e-horizontal-actor-display__companion-radial i:nth-child(4) { --segment: 3; }
+.dnd4e-horizontal-actor-display__companion-radial i:nth-child(5) { --segment: 4; }
+.dnd4e-horizontal-actor-display__companion-radial i:nth-child(6) { --segment: 5; }
+.dnd4e-horizontal-actor-display__companion-radial i.is-filled { background: conic-gradient(#c65462 0deg 58deg, transparent 58deg 60deg, transparent 60deg); }
+
+.dnd4e-horizontal-actor-display__companion strong,
+.dnd4e-horizontal-actor-display__companion small {
+	display: block;
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.dnd4e-horizontal-actor-display__companion strong {
+	font-size: 0.7rem;
+}
+
+.dnd4e-horizontal-actor-display__companion small {
+	color: #a98c70;
+	font-size: 0.56rem;
 }
 
 .dnd4e-horizontal-actor-display__hp-dial {
 	position: relative;
-	width: 5.35rem;
-	height: 5.35rem;
+	width: 11.5rem;
+	height: 11.5rem;
 	flex: 0 0 auto;
 	border-radius: 50%;
-	background: conic-gradient(#d65b60 calc(var(--pct) * 1%), #2a1414 0);
+	background: #0d0b0c;
 	box-shadow: inset 0 0 0 1px rgb(0 0 0 / 50%), 0 0.2rem 0.6rem rgb(0 0 0 / 45%);
 }
 
+.dnd4e-horizontal-actor-display__hp-dial::before {
+	content: none;
+}
+
 .dnd4e-horizontal-actor-display__hp-dial::after {
-	content: "";
+	content: none;
+}
+
+.dnd4e-horizontal-actor-display__hp-dial-rings {
 	position: absolute;
 	inset: 0;
-	border-radius: 50%;
-	pointer-events: none;
-	background: repeating-conic-gradient(rgb(0 0 0 / 44%) 0deg 1.2deg, transparent 1.2deg 9deg);
+	width: 100%;
+	height: 100%;
+	filter: drop-shadow(0 0.22rem 0.35rem rgb(0 0 0 / 60%));
 }
+
+.dnd4e-horizontal-actor-display__hp-dial-rings path { stroke: #091015; stroke-width: 1.25; }
+.dnd4e-horizontal-actor-display__hp-dial-rings .is-temp { fill: #1d4553; }
+.dnd4e-horizontal-actor-display__hp-dial-rings .is-temp.is-filled { fill: #91cfe6; }
+.dnd4e-horizontal-actor-display__hp-dial-rings .is-hp { fill: #472229; }
+.dnd4e-horizontal-actor-display__hp-dial-rings .is-hp.is-filled { fill: #c65462; }
+.dnd4e-horizontal-actor-display__hp-dial-rings .is-surge { fill: #49381d; }
+.dnd4e-horizontal-actor-display__hp-dial-rings .is-surge.is-filled { fill: #d9ad52; }
 
 .dnd4e-horizontal-actor-display__hp-dial-inner {
 	position: absolute;
-	inset: 0.45rem;
+	inset: 3.15rem;
 	z-index: 1;
 	display: flex;
 	flex-direction: column;
@@ -326,12 +573,12 @@ body.dnd4e-horizontal-hud-active #players {
 }
 
 .dnd4e-horizontal-actor-display__hp-dial-inner input {
-	width: 3rem;
+	width: 4rem;
 	border: 0;
 	background: none;
-	color: #f0c879;
+	color: #d65b60;
 	font-family: var(--font-h1, serif);
-	font-size: 1.45rem;
+	font-size: 2.25rem;
 	text-align: center;
 	padding: 0;
 	line-height: 1;
@@ -339,8 +586,55 @@ body.dnd4e-horizontal-hud-active #players {
 
 .dnd4e-horizontal-actor-display__hp-of {
 	color: #a98c70;
-	font-size: 0.65rem;
+	font-size: 0.8rem;
 }
+
+.dnd4e-horizontal-actor-display__hp-dial-resource {
+	position: absolute;
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	gap: 0.02rem;
+	color: #c5a98b;
+	font-size: 0.56rem;
+	line-height: 1;
+	white-space: nowrap;
+}
+
+.dnd4e-horizontal-actor-display__hp-dial-resource i {
+	font-style: normal;
+}
+
+
+.dnd4e-horizontal-actor-display__hp-dial-resource input {
+	width: 1.35rem;
+	min-width: 0;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	font-family: var(--font-h1, serif);
+	font-size: 0.88rem;
+	font-weight: 700;
+	line-height: 1;
+}
+
+.dnd4e-horizontal-actor-display__hp-dial-resource.is-surge {
+	top: 0.35rem;
+	right: 0.45rem;
+	align-items: flex-end;
+	text-align: right;
+}
+
+.dnd4e-horizontal-actor-display__hp-dial-resource.is-surge input { color: #e3ba81; text-align: right; }
+
+.dnd4e-horizontal-actor-display__hp-dial-resource.is-temp {
+	top: 0.35rem;
+	bottom: auto;
+	left: 0.45rem;
+}
+
+.dnd4e-horizontal-actor-display__hp-dial-resource.is-temp input { color: #91cfe6; }
 
 /* -- Temp HP / Surges chips + segment bar -- */
 .dnd4e-horizontal-actor-display__hp-side {

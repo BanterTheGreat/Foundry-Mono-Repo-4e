@@ -159,7 +159,7 @@ function refreshAllActorDisplays() {
 
 /** @param {Actor} actor The updated actor. */
 function refreshForActor(actor) {
-	if (ui.Dnd4eHorizontalActorDisplay?.actor?.id === actor.id) {
+	if (ui.Dnd4eHorizontalActorDisplay?.actor?.id === actor.id || actor?.type === "Player Character") {
 		ui.Dnd4eHorizontalActorDisplay.render();
 	}
 }

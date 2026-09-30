@@ -49,6 +49,7 @@ export async function getActorDisplayData(token, activeTab, expandedPowerIds = n
 	const tabs = getTabs(actor, activeTab);
 	const powerCategories = await getPowerCategories(actor, expandedPowerIds, activePowerCategory);
 	const stats = getStats(actor);
+	const utilityStats = stats.filter((stat) => !stat.isDefense);
 
 	return {
 		name: actor.name,
@@ -59,19 +60,29 @@ export async function getActorDisplayData(token, activeTab, expandedPowerIds = n
 			value: hpValue,
 			maximum: hpMaximum,
 			percent: Math.max(0, Math.min(100, (hpValue / hpMaximum) * 100)),
+			tempPercent: Math.max(0, Math.min(100, ((Number(actor.system?.attributes?.temphp?.value) || 0) / hpMaximum) * 100)),
 			dialAngle: filledHpSegments * (360 / hpSegmentCount),
 			dialSegmentAngle: actor.type === "Player Character" ? 60 : 90,
+			tempSegments: getRadialSegments(Number(actor.system?.attributes?.temphp?.value) || 0, hpMaximum, 16, 96, 4),
+			ringSegments: getRadialSegments(hpValue, hpMaximum, 8, 75, 27),
 		},
 		tempHp: Number(actor.system?.attributes?.temphp?.value) || 0,
 		hasSurges: !isNpc,
 		surges: {
 			value: surgeValue,
 			maximum: surgeMaximum,
+			percent: surgeMaximum ? Math.max(0, Math.min(100, (surgeValue / surgeMaximum) * 100)) : 0,
 			segments: getSegments(surgeValue, surgeMaximum, surgeMaximum),
+			ringSegments: getRadialSegments(surgeValue, surgeMaximum, 12, 51, 10),
 		},
 		stats,
 		defenseStats: stats.filter((stat) => stat.isDefense),
-		utilityStats: stats.filter((stat) => !stat.isDefense),
+		utilityStats,
+		combatDeck: {
+			initiative: utilityStats.find((stat) => stat.shortLabel === "Init")?.value ?? 0,
+			speed: utilityStats.find((stat) => stat.shortLabel === "Speed")?.value ?? 0,
+			companions: getCompanions(actor),
+		},
 		tabs,
 		activeTab,
 		activeTabLabel: tabs.find((tab) => tab.key === activeTab)?.label ?? "",
@@ -197,6 +208,37 @@ function getFilledSegmentCount(value, maximum, count) {
 }
 
 /**
+ * Build SVG annular wedges for a physical-looking segmented resource ring.
+ *
+ * @param {number} value Current resource value.
+ * @param {number} maximum Maximum resource value.
+ * @param {number} count Number of equal wedges.
+ * @param {number} radius Radius of the ring's centre line in the 200px SVG viewbox.
+ * @param {number} width Ring width in the SVG viewbox.
+ * @returns {Array<{path: string, filled: boolean}>}
+ */
+function getRadialSegments(value, maximum, count, radius, width) {
+	const filled = getFilledSegmentCount(value, maximum, count);
+	const step = 360 / count;
+	const gap = count === 8 ? 2.1 : count === 12 ? 1.5 : 1.1;
+	return Array.from({ length: count }, (_unused, index) => ({
+		path: getRadialWedge(radius, width, -90 + (index * step) + gap, -90 + ((index + 1) * step) - gap),
+		filled: index < filled,
+	}));
+}
+
+/** @param {number} radius @param {number} width @param {number} start @param {number} end */
+function getRadialWedge(radius, width, start, end) {
+	const outer = radius + (width / 2);
+	const inner = radius - (width / 2);
+	const point = (distance, angle) => {
+		const radians = angle * (Math.PI / 180);
+		return `${(100 + (distance * Math.cos(radians))).toFixed(2)} ${(100 + (distance * Math.sin(radians))).toFixed(2)}`;
+	};
+	return `M ${point(outer, start)} A ${outer} ${outer} 0 0 1 ${point(outer, end)} L ${point(inner, end)} A ${inner} ${inner} 0 0 0 ${point(inner, start)} Z`;
+}
+
+/**
  * Build defense and initiative readouts.
  *
  * @param {Actor} actor The displayed actor.
@@ -211,6 +253,43 @@ function getStats(actor) {
 		{ label: "Initiative", shortLabel: "Init", value: Number(actor.system?.attributes?.init?.value) || 0, icon: "fa-solid fa-person-running", action: "quick", command: "initiative" },
 		{ label: "Speed", shortLabel: "Speed", value: Number(actor.system?.movement?.walk?.value) || 0, icon: "fa-solid fa-shoe-prints", action: "quick", command: "openSheet" },
 	];
+}
+
+/**
+ * Build the compact, qualitative companion readouts shown beside a player character.
+ * Prefer scene tokens so the HUD reflects the active party, then fall back to player
+ * characters assigned to users when a companion has no token on this scene.
+ *
+ * @param {Actor} actor The player character shown in the HUD.
+ * @returns {Array<object>}
+ */
+function getCompanions(actor) {
+	if (actor.type !== "Player Character") {
+		return [];
+	}
+
+	const sceneActors = Array.from(canvas?.tokens?.placeables ?? [])
+		.map((token) => token.actor)
+		.filter((candidate) => candidate?.type === "Player Character");
+	const assignedActors = Array.from(game.users ?? [])
+		.map((user) => user.character)
+		.filter((candidate) => candidate?.type === "Player Character");
+	const seen = new Set();
+	return [...sceneActors, ...assignedActors]
+		.filter((candidate) => candidate.id !== actor.id && !seen.has(candidate.id) && seen.add(candidate.id))
+		.slice(0, 3)
+		.map((companion) => {
+			const currentHP = Number(companion.system?.attributes?.hp?.value) || 0;
+			const maxHP = Math.max(Number(companion.system?.attributes?.hp?.max) || 0, 1);
+			const filledSegments = getFilledSegmentCount(currentHP, maxHP, 6);
+			return {
+				id: companion.id,
+				name: companion.name,
+				className: companion.system?.details?.class || "Adventurer",
+				segments: Array.from({ length: 6 }, (_unused, index) => ({ filled: index < filledSegments })),
+				healthLabel: `${companion.name} health: approximately ${filledSegments} of 6`,
+			};
+		});
 }
 
 /**
