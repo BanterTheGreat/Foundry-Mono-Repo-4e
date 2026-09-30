@@ -1,0 +1,13 @@
+/*
+ * Snapshot backup — Plinth resource-header state before the defence-cluster iteration.
+ * Restore by including this after compass-combat-stats-variants-prototype.html's CSS.
+ */
+.field:has(.resource-lines){grid-template-columns:minmax(400px,1.35fr) minmax(260px,1fr);grid-template-rows:66px 1fr;column-gap:16px}
+.field:has(.resource-lines) .resource-lines{grid-column:1;grid-row:1;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr;align-items:stretch;border-bottom:1px solid #8e654855}
+.field:has(.resource-lines) .resource-line{align-content:center;padding:.35rem .6rem;border-bottom:0;border-left:1px solid #ffffff18}
+.field:has(.resource-lines) .resource-line:first-child{border-left:0}
+.field:has(.resource-lines) .resource-line .value{font-size:1.25rem}
+.field:has(.resource-lines) .dial-core{grid-column:1;grid-row:2;grid-template-rows:1fr auto;align-items:center}
+.field:has(.resource-lines) .action-grid{grid-column:2;grid-row:1/3;min-width:0;padding-left:16px;border-left:1px solid #9b735266}
+.field:has(.resource-lines) .stat-plinth{max-width:370px;margin-bottom:3px}
+.field:has(.resource-lines) .dial{justify-self:start;margin-left:calc(50% - 89px)}
