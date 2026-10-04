@@ -441,6 +441,7 @@ class ActorDisplayBase extends HandlebarsApplicationMixin(ApplicationV2) {
 
 	/** Toggle the full rules details for one player-character power. */
 	onTogglePowerDetails(event, target) {
+		game.tooltip.deactivate();
 		const powerId = target.dataset.itemId;
 		if (this.expandedPowerIds.has(powerId)) {
 			this.expandedPowerIds.delete(powerId);
@@ -840,8 +841,14 @@ class HorizontalActorDisplay extends ActorDisplayBase {
 		}
 
 		const combatant = game.combat?.combatants.get(target.dataset.combatantId);
+		if (!combatant) {
+			return;
+		}
+
 		try {
-			await combatant?.toggleDefeated();
+			const defeated = !combatant.isDefeated;
+			await combatant.update({ defeated });
+			await combatant.actor?.toggleStatusEffect(CONFIG.specialStatusEffects.DEFEATED, { overlay: true, active: defeated });
 		} catch (error) {
 			console.error(`${MODULE_ID} | Failed to toggle defeated status.`, error);
 			ui.notifications.error("The defeated status could not be toggled. Check the console for details.");

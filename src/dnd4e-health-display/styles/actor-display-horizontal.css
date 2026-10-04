@@ -31,8 +31,8 @@ body.dnd4e-horizontal-hud-active #players {
 }
 
 .dnd4e-horizontal-actor-display__left-col,
-#dnd4e-horizontal-actor-display__gm-tracker,
-#dnd4e-horizontal-actor-display__side-panel {
+.dnd4e-horizontal-actor-display__gm-tracker,
+.dnd4e-horizontal-actor-display__side-panel {
 	pointer-events: auto;
 }
 
@@ -1162,6 +1162,85 @@ body.dnd4e-horizontal-hud-active #players {
 
 .dnd4e-horizontal-actor-display__power-details b {
 	color: #ffe1a2;
+}
+
+/* Power tooltips use Foundry's shared tooltip container, so scope every card treatment to the
+   module class rather than changing tooltips supplied by the system or another module. */
+#tooltip.dnd4e-info-tooltip {
+	width: min(31rem, calc(100vw - 2rem));
+	max-height: min(38rem, calc(100vh - 2rem));
+	padding: 0;
+	overflow: auto;
+	border: 1px solid #a97e4e;
+	border-radius: 0.45rem;
+	background: linear-gradient(145deg, #21170f, #0d0d0f 46%, #171311);
+	box-shadow: 0 0.7rem 2rem rgb(0 0 0 / 78%), inset 0 0 0 1px rgb(255 230 177 / 7%);
+	color: #eee2cf;
+	font-family: var(--font-primary, "Signika", sans-serif);
+	font-size: 0.82rem;
+	line-height: 1.4;
+	text-align: left;
+	text-shadow: 0 0.08rem 0.15rem rgb(0 0 0 / 80%);
+}
+
+#tooltip.dnd4e-info-tooltip .flavour {
+	margin: 0;
+	padding: 0.58rem 0.72rem;
+	border-bottom: 1px solid rgb(201 149 80 / 36%);
+	background: linear-gradient(90deg, rgb(112 72 34 / 42%), transparent);
+	color: #e3cda9;
+	font-family: var(--font-serif, serif);
+	font-size: 0.9rem;
+	font-style: italic;
+	line-height: 1.35;
+}
+
+#tooltip.dnd4e-info-tooltip .flavour > * {
+	margin: 0;
+	font: inherit;
+}
+
+#tooltip.dnd4e-info-tooltip .main-block,
+#tooltip.dnd4e-info-tooltip .item-card,
+#tooltip.dnd4e-info-tooltip .chat-card {
+	padding: 0.45rem 0.7rem 0.65rem;
+}
+
+#tooltip.dnd4e-info-tooltip .main-block > *,
+#tooltip.dnd4e-info-tooltip .attack-block > * {
+	margin: 0;
+	padding: 0.35rem 0.1rem;
+	border-bottom: 1px solid rgb(196 146 81 / 18%);
+}
+
+#tooltip.dnd4e-info-tooltip .main-block > :last-child,
+#tooltip.dnd4e-info-tooltip .attack-block > :last-child {
+	border-bottom: 0;
+}
+
+#tooltip.dnd4e-info-tooltip b,
+#tooltip.dnd4e-info-tooltip strong,
+#tooltip.dnd4e-info-tooltip h1,
+#tooltip.dnd4e-info-tooltip h2,
+#tooltip.dnd4e-info-tooltip h3,
+#tooltip.dnd4e-info-tooltip h4 {
+	color: #ffe0a3;
+}
+
+#tooltip.dnd4e-info-tooltip a {
+	color: #f0c879;
+}
+
+#tooltip.dnd4e-info-tooltip table {
+	width: 100%;
+	border-color: rgb(196 146 81 / 35%);
+	background: rgb(0 0 0 / 18%);
+}
+
+#tooltip.dnd4e-info-tooltip th,
+#tooltip.dnd4e-info-tooltip td {
+	padding: 0.25rem 0.35rem;
+	border-color: rgb(196 146 81 / 24%);
 }
 
 .dnd4e-horizontal-actor-display__empty-note {

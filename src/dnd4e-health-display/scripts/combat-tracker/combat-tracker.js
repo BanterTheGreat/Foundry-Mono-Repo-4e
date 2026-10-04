@@ -364,8 +364,14 @@ class CombatTrackerDisplay extends HandlebarsApplicationMixin(ApplicationV2) {
 		}
 
 		const combatant = this.combat?.combatants.get(target.dataset.combatantId);
+		if (!combatant) {
+			return;
+		}
+
 		try {
-			await combatant?.toggleDefeated();
+			const defeated = !combatant.isDefeated;
+			await combatant.update({ defeated });
+			await combatant.actor?.toggleStatusEffect(CONFIG.specialStatusEffects.DEFEATED, { overlay: true, active: defeated });
 		} catch (error) {
 			console.error(`${MODULE_ID} | Failed to toggle defeated status.`, error);
 			ui.notifications.error("The defeated status could not be toggled. Check the console for details.");
