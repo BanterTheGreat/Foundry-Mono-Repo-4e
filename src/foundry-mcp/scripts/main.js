@@ -1,6 +1,7 @@
 import { DEFAULT_PORT, MODULE_ID, PROTOCOL_VERSION, MAX_MESSAGE_BYTES } from "../shared/protocol.js";
 import { assertEnabledGM, executeRead } from "./read-api.js";
 import { createNpc } from "./create-api.js";
+import { editNpc } from "./edit-api.js";
 
 let socket;
 let retry;
@@ -11,7 +12,7 @@ let status = "disabled";
  * Expose connection status without disclosing the pairing token.
  */
 function getStatus() {
-  return { status, worldId: game.world?.id, userId: game.user?.id, readOnly: false, creation: "NPC" };
+  return { status, worldId: game.world?.id, userId: game.user?.id, readOnly: false, creation: "NPC", editing: "NPC with active GM confirmation" };
 }
 
 /**
@@ -70,7 +71,7 @@ function connect() {
       if (request.type === "paired") {
         assertEnabledGM(game);
         status = "connected";
-        console.info("Foundry MCP: bridge connected (reads and NPC creation).", getStatus());
+        console.info("Foundry MCP: bridge connected (reads, NPC creation and confirmed NPC edits).", getStatus());
         return;
       }
       if (request.type !== "request" || typeof request.id !== "string") {
@@ -87,7 +88,13 @@ function connect() {
       try {
         const result = request.operation === "create_npc_actor"
           ? await createNpc(request.args)
-          : await executeRead(request.operation, request.args);
+          : request.operation === "edit_npc_actor"
+            ? await editNpc(request.args, { assertConnection: () => {
+              if (socket !== connection || connection.readyState !== WebSocket.OPEN) {
+                throw new Error("MCP connection changed.");
+              }
+            } })
+            : await executeRead(request.operation, request.args);
         assertEnabledGM(game);
         if (game.world.id !== worldId || game.user.id !== userId) {
           throw new Error("GM session changed.");
@@ -105,7 +112,7 @@ function connect() {
     } catch (error) {
       if (request?.type === "request" && typeof request.id === "string" && socket === connection && connection.readyState === WebSocket.OPEN) {
         // Fixed errors prevent third-party document errors from disclosing sensitive data.
-        connection.send(JSON.stringify({ type: "response", id: request.id, worldId, userId, error: "Request rejected or unavailable. For NPC creation, check the folder and data; retry with the same request ID if the outcome is uncertain." }));
+        connection.send(JSON.stringify({ type: "response", id: request.id, worldId, userId, error: "Request rejected or unavailable. For NPC creation, retry identical data with the same request ID. For NPC edits, inspect source before retrying an uncertain result." }));
       }
       console.warn("Foundry MCP: a request was rejected.");
     }

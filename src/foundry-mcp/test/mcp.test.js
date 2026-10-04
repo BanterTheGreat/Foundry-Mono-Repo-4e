@@ -19,8 +19,8 @@ test("MCP handshake exposes reads and NPC creation, validates arguments, and rep
   await server.connect(serverTransport);
   await client.connect(clientTransport);
   const { tools } = await client.listTools();
-  assert.deepEqual(tools.map(tool => tool.name), ["get_session", "list_documents", "get_document", "list_compendiums", "list_compendium_documents", "create_npc_actor"]);
-  assert.ok(tools.filter(tool => tool.name !== "create_npc_actor").every(tool => tool.annotations.readOnlyHint));
+  assert.deepEqual(tools.map(tool => tool.name), ["get_session", "list_documents", "get_document", "list_compendiums", "list_compendium_documents", "edit_npc_actor", "create_npc_actor"]);
+  assert.ok(tools.filter(tool => !["create_npc_actor", "edit_npc_actor"].includes(tool.name)).every(tool => tool.annotations.readOnlyHint));
   assert.equal(tools.at(-1).annotations.readOnlyHint, false);
   assert.equal(tools.at(-1).annotations.idempotentHint, true);
   const offline = await client.callTool({ name: "get_session", arguments: {} });
@@ -47,4 +47,22 @@ test("MCP handshake exposes reads and NPC creation, validates arguments, and rep
     assert.equal((await client.callTool({ name: "create_npc_actor", arguments: invalidArgs })).isError, true);
   }
   assert.equal(calls.length, count);
+  const edit = { uuid: "Actor.npc", system: { attributes: { hp: { max: 120 } } }, items: [{ id: "claw", type: "power", hitMark: true, system: { attack: { formula: "12" } } }] };
+  assert.notEqual((await client.callTool({ name: "edit_npc_actor", arguments: edit })).isError, true);
+  assert.equal(calls.at(-1).operation, "edit_npc_actor");
+  assert.equal(calls.at(-1).args.items[0].hitMark, true);
+  const edits = calls.length;
+  for (const invalidEdit of [
+    { ...edit, uuid: "Compendium.monsters.Actor.npc" },
+    { ...edit, system: { macro: "execute()" } },
+    { ...edit, items: [{ id: "claw", type: "power", effects: [] }] },
+    { ...edit, items: [{ id: "claw", type: "feature", hitMark: true }] },
+    { ...edit, items: [{ id: "claw", type: "power", hitMark: false }] }
+  ]) {
+    assert.equal((await client.callTool({ name: "edit_npc_actor", arguments: invalidEdit })).isError, true);
+  }
+  assert.equal(calls.length, edits);
+  const editTool = tools.find(tool => tool.name === "edit_npc_actor");
+  assert.equal(editTool.annotations.readOnlyHint, false);
+  assert.equal(editTool.annotations.destructiveHint, true);
 });

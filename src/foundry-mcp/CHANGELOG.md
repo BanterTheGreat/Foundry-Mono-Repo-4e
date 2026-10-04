@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Edit existing DnD4e 0.9.3 world NPC stats, names, portraits and embedded powers/features through MCP, including attaching a native on-hit Marked effect that records the source actor and ends at the end of its next turn. Require the paired active GM to confirm a complete before/after popup before saving; cancel, close and expiry leave the NPC unchanged. Reject stale approvals, prevent duplicate mark templates on retry and report partial save failures.
+- Upgrade the bridge to protocol v3 for confirmed NPC edits. Restart the companion and reload Foundry together; allow at least 120 seconds for MCP tool calls while the GM reviews a request.
 - Clarify that the client-scoped MCP connection setting starts and stops local bridge retry attempts, so a GM can silence expected browser-console errors while the companion is off.
 
 ## 0.2.0

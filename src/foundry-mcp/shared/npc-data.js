@@ -135,3 +135,37 @@ export function validateNpcRequest(args) {
     }
   }
 }
+
+/**
+ * Validate partial NPC edits. Item IDs select existing powers/features only.
+ * Type is checked against the actual embedded document in the browser.
+ */
+export function validateNpcEdit(args) {
+  const { items = [], ...actor } = args ?? {};
+  validateShape(actor, { uuid: string, name: string, img: string, system: NPC_SYSTEM_SCHEMA });
+  if (!/^Actor\.[A-Za-z0-9_-]{1,128}$/.test(actor.uuid ?? "")) {
+    throw new Error("Choose an existing world Actor UUID.");
+  }
+  if (actor.name !== undefined && (!actor.name.trim() || actor.name.length > 200)) {
+    throw new Error("NPC name must contain 1–200 characters.");
+  }
+  if (!Array.isArray(items) || items.length > 100) {
+    throw new Error("Items must be an array of at most 100 existing powers or features.");
+  }
+  const ids = new Set();
+  for (const item of items) {
+    const schema = item?.type === "power" ? POWER_SYSTEM_SCHEMA : item?.type === "feature" ? FEATURE_SYSTEM_SCHEMA : null;
+    if (!schema) {
+      throw new Error("NPC items must be powers or features.");
+    }
+    validateShape(item, { id: string, type: string, name: string, img: string, system: schema, hitMark: boolean }, "item");
+    if (item.hitMark !== undefined && (item.type !== "power" || item.hitMark !== true)) {
+      throw new Error("hitMark must be true on an existing power; removing effects is unavailable.");
+    }
+    if (!/^[A-Za-z0-9_-]{1,128}$/.test(item.id ?? "") || ids.has(item.id)
+      || (item.name !== undefined && (!item.name.trim() || item.name.length > 200))) {
+      throw new Error("Each item requires a unique existing ID and a valid name if supplied.");
+    }
+    ids.add(item.id);
+  }
+}

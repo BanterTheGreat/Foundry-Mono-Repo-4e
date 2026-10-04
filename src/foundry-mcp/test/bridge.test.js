@@ -117,3 +117,31 @@ test("old read-only protocol clients cannot pair with the creation-capable compa
   await closed;
   assert.equal(bridge.session, null);
 });
+
+test("edit transport allows source patches, waits beyond read deadline, and reports uncertain disconnects", async t => {
+  const { bridge, token } = await fixture(t);
+  const socket = await pair(bridge, token);
+  const args = { uuid: "Actor.npc", system: { biography: "x".repeat(20000) } };
+  const incoming = once(socket, "message");
+  const pending = bridge.request("edit_npc_actor", args);
+  const request = JSON.parse((await incoming)[0]);
+  assert.deepEqual(request.args, args);
+  await new Promise(resolve => setTimeout(resolve, 150));
+  assert.equal(bridge.pending.size, 1);
+  socket.send(JSON.stringify({ type: "response", id: request.id, worldId: "world", userId: "gm", result: { status: "cancelled" } }));
+  assert.deepEqual(await pending, { status: "cancelled" });
+  const lost = bridge.request("edit_npc_actor", args);
+  const rejected = assert.rejects(lost, /confirmed NPC edit may have saved/);
+  socket.close();
+  await rejected;
+});
+
+test("protocol v2 clients cannot pair with the edit-capable companion", async t => {
+  const { bridge, token } = await fixture(t);
+  const socket = new WebSocket(`ws://127.0.0.1:${bridge.port}/bridge`, { origin });
+  await once(socket, "open");
+  const closed = once(socket, "close");
+  socket.send(JSON.stringify({ type: "hello", version: 2, token, worldId: "world", userId: "gm" }));
+  await closed;
+  assert.equal(bridge.session, null);
+});
