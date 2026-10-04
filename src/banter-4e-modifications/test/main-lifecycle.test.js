@@ -31,6 +31,8 @@ test("module entry point registers settings, sockets, and enabled feature hooks"
   assert.equal(handlers.on.get("preCreateChatMessage")?.length, 2);
   assert.equal(handlers.on.get("renderChatMessageHTML")?.length, 3);
   assert.equal(handlers.on.get("renderChatMessage")?.length, 1);
+  assert.equal(handlers.on.get("renderActorDirectory")?.length, 1);
+  assert.equal(handlers.on.get("updateActor")?.length, 2);
   assert.equal(handlers.on.get("createActiveEffect")?.length ?? 0, 0);
   assert.equal(handlers.on.get("deleteCombat")?.length ?? 0, 0);
 });

@@ -36,7 +36,7 @@ try {
   process.once("SIGINT", stop);
   process.once("SIGTERM", stop);
   // Stdout is reserved for the MCP protocol; no world data or tokens are logged.
-  console.error(`Foundry MCP: read-only bridge listening on 127.0.0.1:${bridge.port}.`);
+  console.error(`Foundry MCP: bridge listening on 127.0.0.1:${bridge.port} (reads and NPC creation).`);
 } catch {
   console.error("Foundry MCP could not start. Check configuration and whether the bridge port is already in use.");
   await stop();

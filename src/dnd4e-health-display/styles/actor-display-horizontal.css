@@ -893,26 +893,6 @@ body.dnd4e-horizontal-hud-active #players {
 	color: #f0c879;
 }
 
-.dnd4e-horizontal-actor-display__power-flavour-toggle {
-	border: 1px solid rgb(153 116 86 / 55%);
-	border-radius: 0.3rem;
-	background: #2a2422;
-	color: #a98c70;
-	font-size: 0.7rem;
-	line-height: 1;
-	padding: 0.25rem 0.4rem;
-}
-
-.dnd4e-horizontal-actor-display__power-flavour-toggle[aria-pressed="false"] {
-	border-color: #c89550;
-	color: #f0c879;
-	background: linear-gradient(180deg, #3d3226, #241d16);
-}
-
-.dnd4e-horizontal-actor-display__power-flavour-toggle:hover {
-	border-color: #c89550;
-}
-
 .dnd4e-horizontal-actor-display__power-search {
 	display: flex;
 	align-items: center;
@@ -1087,6 +1067,26 @@ body.dnd4e-horizontal-hud-active #players {
 
 .dnd4e-horizontal-actor-display__power-details-toggle:hover {
 	color: #fff1d5;
+}
+
+.dnd4e-horizontal-actor-display__power-header > .dnd4e-horizontal-actor-display__power-chat {
+	display: grid;
+	place-items: center;
+	width: 1.25rem;
+	height: 1.25rem;
+	margin-left: 0.1rem;
+	border: 1px solid rgb(153 116 86 / 32%) !important;
+	border-radius: 0.3rem !important;
+	background: #262527 !important;
+	color: #aa927a !important;
+	font-size: 0.62rem;
+}
+
+.dnd4e-horizontal-actor-display__power-chat:hover,
+.dnd4e-horizontal-actor-display__power-chat:focus-visible {
+	border-color: #c89550 !important;
+	background: #353130 !important;
+	color: #f0d6b3 !important;
 }
 
 .dnd4e-horizontal-actor-display__npc-power-actions {

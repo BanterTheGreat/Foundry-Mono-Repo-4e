@@ -8,8 +8,9 @@ export const HOTBAR_SLOT_COUNT = 14;
 
 const POWER_CATEGORY_RULES = [
 	["Standard", ["standard"]],
-	["Move", ["move"]],
 	["Minor", ["minor"]],
+	["Move", ["move"]],
+	["Rest", ["rest"]],
 	["Reaction", ["reaction", "interrupt"]],
 	["Other", []],
 ];
@@ -98,7 +99,6 @@ export async function getActorDisplayData(token, activeTab, expandedPowerIds = n
 		isNpcFeatures: isNpc && activeTab === "features",
 		isItems: activeTab === "items",
 		powerCategories,
-		npcPowers: isNpc ? powerCategories.flatMap((category) => category.powers) : [],
 		skills: getSkills(actor),
 		featureCategories: getFeatureCategories(actor),
 		traitCategories: getTraitCategories(actor),

@@ -1,0 +1,79 @@
+{
+  "name": "Shadow Troll",
+  "requestId": "shadow-troll-example-001",
+  "folder": "Monsters",
+  "system": {
+    "advancedCals": false,
+    "details": {
+      "level": 12, "exp": 1400, "size": "lg", "origin": "shadow",
+      "type": "humanoid", "other": "troll", "alignment": "Chaotic Evil",
+      "role": { "primary": "brute", "secondary": "elite", "leader": false },
+      "saves": { "value": 2 }
+    },
+    "attributes": { "hp": { "value": 228, "max": 228, "autototal": false }, "init": { "base": 10 } },
+    "abilities": { "str": { "value": 22 }, "con": { "value": 20 }, "dex": { "value": 18 }, "int": { "value": 6 }, "wis": { "value": 14 }, "cha": { "value": 9 } },
+    "defences": { "ac": { "base": 24 }, "fort": { "base": 24 }, "ref": { "base": 24 }, "wil": { "base": 24 } },
+    "skills": {
+      "acr": { "base": 10 }, "arc": { "base": 4 }, "ath": { "base": 17 },
+      "blu": { "base": 5 }, "dip": { "base": 5 }, "dun": { "base": 8 },
+      "end": { "base": 11 }, "hea": { "base": 8 }, "his": { "base": 4 },
+      "ins": { "base": 8 }, "itm": { "base": 5 }, "nat": { "base": 8 },
+      "prc": { "base": 13 }, "rel": { "base": 4 }, "stl": { "base": 15 },
+      "stw": { "base": 5 }, "thi": { "base": 10 }
+    },
+    "movement": { "base": { "base": 8 }, "climb": { "formula": "8" } },
+    "senses": { "basic": "dv" },
+    "languages": { "spoken": { "value": ["Primordial"], "custom": "Undercommon" } },
+    "resistances": { "necrotic": { "res": 10 } },
+    "actionpoints": { "value": 1 },
+    "powerGroupTypes": "action", "powerSortTypes": "none"
+  },
+  "items": [
+    {
+      "name": "Regenerate in Shadows", "type": "feature",
+      "system": { "featureType": "trait", "description": { "value": "<p>The troll regains 10 hit points whenever it starts its turn and has at least 1 hit point. When he takes fire or radiant damage, his regeneration does not function on his next turn.</p>" } }
+    },
+    {
+      "name": "Shadow Claws", "type": "power",
+      "system": {
+        "powerType": "inherent", "powersource": "", "useType": "atwill", "actionType": "standard",
+        "weaponType": "none", "weaponUse": "none", "rangeType": "melee", "rangePower": "2", "target": "One creature",
+        "attack": { "isAttack": true, "isBasic": true, "ability": "", "formula": "15", "def": "ref", "detail": "Melee 2 (one creature); +15 vs. Reflex" },
+        "hit": { "isDamage": true, "formula": "4d6+12", "critFormula": "36", "detail": "4d6+12 necrotic damage, and the target is weakened until the end of the troll's next turn. The target cannot spend healing surges until it creates a light source." },
+        "damageType": { "necrotic": true },
+        "description": { "value": "<p><em>It swipes a claw and tears away part of your shadow. You feel horrible wounds, even though it didn't touch you.</em></p>" }
+      }
+    },
+    {
+      "name": "Double Claw", "type": "power",
+      "system": {
+        "powerType": "inherent", "powerSubtype": "utility", "powersource": "", "useType": "atwill", "actionType": "standard",
+        "weaponType": "none", "weaponUse": "none", "rangeType": "personal", "target": "",
+        "attack": { "isAttack": false }, "hit": { "isDamage": false, "formula": "", "critFormula": "" },
+        "effect": { "detail": "The troll uses shadow claws twice." }
+      }
+    },
+    {
+      "name": "Snatch", "type": "power",
+      "system": {
+        "powerType": "inherent", "powerSubtype": "utility", "powersource": "", "useType": "atwill", "actionType": "standard",
+        "weaponType": "none", "weaponUse": "none", "rangeType": "melee", "rangePower": "2", "target": "One creature",
+        "attack": { "isAttack": false }, "hit": { "isDamage": false, "formula": "", "critFormula": "" },
+        "effect": { "detail": "The troll uses shadow claws. If the attack hits, the troll grabs the target (escape DC 24). It lifts the creature off the ground, sliding it up to 4 squares to a space adjacent to the troll." },
+        "description": { "value": "<p><em>An arm swoops down from above, grabs you, and hauls you up to the bridge. A massive fanged creature opens its jagged mouth, eager to devour you.</em></p>" }
+      }
+    },
+    {
+      "name": "Tear Free Shadow", "type": "power",
+      "system": {
+        "powerType": "inherent", "powersource": "", "useType": "atwill", "actionType": "standard",
+        "weaponType": "none", "weaponUse": "none", "rangeType": "melee", "rangePower": "1", "target": "One creature",
+        "requirement": "Target must be grabbed.",
+        "attack": { "isAttack": true, "isBasic": true, "ability": "", "formula": "17", "def": "ac", "detail": "Melee 1 (one creature); +17 vs. AC" },
+        "hit": { "isDamage": true, "formula": "8d6+24", "critFormula": "72", "detail": "8d6+24 necrotic damage. Until the troll is killed or until the end of the encounter (whichever comes first), the target and any gear it wields cannot affect the troll in any way, except for attacks with the fire or radiant keyword." },
+        "damageType": { "necrotic": true },
+        "description": { "value": "<p><em>It bites down and tears free shadowy flesh, leaving your skin unmarked, though the pain is horrifying. You see a darkened version of your own screaming face pulled into the troll's body, and you suddenly slip out of the creature's grasp.</em></p>" }
+      }
+    }
+  ]
+}

@@ -99,7 +99,9 @@ export class FoundryBridge {
         this.pending.delete(message.id);
         clearTimeout(pending.timer);
         if (typeof message.error === "string") {
-          pending.reject(new Error("Foundry rejected the read. Check GM access, UUID, arguments, and result size."));
+          pending.reject(new Error(pending.operation === "create_npc_actor"
+            ? "NPC creation unavailable or rejected. Check GM access, DnD4e 0.9.3, Actor folder and source data. If the outcome is uncertain, retry identical data with the same requestId."
+            : "Foundry rejected the read. Check GM access, UUID, arguments, and result size."));
         } else if (Object.hasOwn(message, "result")) {
           pending.resolve(message.result);
         } else {
@@ -119,30 +121,32 @@ export class FoundryBridge {
   }
 
   /**
-   * Send a bounded read request with session identity and a correlation ID.
+   * Send a bounded request with session identity and a correlation ID.
    */
   async request(operation, args = {}) {
     if (!OPERATIONS.includes(operation)) {
-      throw new Error("Unsupported read operation.");
+      throw new Error("Unsupported operation.");
     }
     const session = this.session;
     if (!session || session.socket.readyState !== WebSocket.OPEN) {
-      throw new Error("No GM session connected. Open Foundry and enable the paired read-only bridge.");
+      throw new Error("No GM session connected. Open Foundry and enable the paired MCP bridge.");
     }
     if (this.pending.size >= 8) {
-      throw new Error("Too many pending reads.");
+      throw new Error("Too many pending requests.");
     }
     const id = randomUUID();
     const message = JSON.stringify({ type: "request", id, operation, args, worldId: session.worldId, userId: session.userId });
-    if (Buffer.byteLength(message) > 16384) {
-      throw new Error("Read request is too large.");
+    if (Buffer.byteLength(message) > (operation === "create_npc_actor" ? MAX_MESSAGE_BYTES / 2 : 16384)) {
+      throw new Error("Request is too large.");
     }
     return new Promise((resolve, reject) => {
       const timer = setTimeout(() => {
         this.pending.delete(id);
-        reject(new Error("Foundry read timed out. Check the GM browser tab."));
+        reject(new Error(operation === "create_npc_actor"
+          ? "NPC creation timed out; it may have succeeded. Retry identical data with the same requestId."
+          : "Foundry read timed out. Check the GM browser tab."));
       }, this.timeoutMs);
-      this.pending.set(id, { resolve, reject, timer });
+      this.pending.set(id, { resolve, reject, timer, operation });
       session.socket.send(message, error => {
         if (error && this.pending.has(id)) {
           this.pending.delete(id);
@@ -159,7 +163,9 @@ export class FoundryBridge {
   rejectPending(message) {
     for (const pending of this.pending.values()) {
       clearTimeout(pending.timer);
-      pending.reject(new Error(message));
+      pending.reject(new Error(pending.operation === "create_npc_actor"
+        ? `${message} NPC creation may have succeeded; retry identical data with the same requestId.`
+        : message));
     }
     this.pending.clear();
   }

@@ -1,4 +1,26 @@
 
+.banter-actor-level-row .document-name {
+    flex: 1;
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.3;
+}
+
+.banter-actor-level {
+    flex: 0 0 auto;
+    align-self: center;
+    margin: 0 0.5rem;
+    padding: 0.15rem 0.35rem;
+    border: 1px solid currentColor;
+    border-radius: 0.25rem;
+    color: var(--color-text-secondary, #b5afa3);
+    font-size: 0.75rem;
+    line-height: 1.2;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
 .title-name {
     cursor: default; /* Removes the pointer cursor on hover */
     text-decoration: none; /* If there are underline effects on hover, remove them */

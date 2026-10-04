@@ -1,4 +1,4 @@
-import { MODULE_ID, OPERATIONS, DOCUMENT_TYPES, EMBEDDED_TYPES, pagination } from "../shared/protocol.js";
+import { MODULE_ID, READ_OPERATIONS, DOCUMENT_TYPES, EMBEDDED_TYPES, pagination } from "../shared/protocol.js";
 
 /**
  * Fail closed when the opted-in GM session is no longer available.
@@ -136,7 +136,7 @@ function serialize(document, source) {
  */
 export async function executeRead(operation, args = {}, { game = globalThis.game, fromUuid = globalThis.fromUuid } = {}) {
   assertEnabledGM(game);
-  if (!OPERATIONS.includes(operation)) {
+  if (!READ_OPERATIONS.includes(operation)) {
     throw new Error("Unsupported read operation.");
   }
   if (!args || typeof args !== "object" || Array.isArray(args)) {
@@ -148,7 +148,8 @@ export async function executeRead(operation, args = {}, { game = globalThis.game
       result = {
         world: { id: game.world.id, title: game.world.title },
         user: serialize(game.user), system: { id: game.system.id, version: game.system.version },
-        foundryVersion: game.version, readOnly: true, documentTypes: DOCUMENT_TYPES,
+        foundryVersion: game.version, readOnly: false, documentTypes: DOCUMENT_TYPES,
+        creation: { tool: "create_npc_actor", actorType: "NPC", system: "dnd4e", version: "0.9.3" },
         activeSceneUuid: game.scenes.active?.uuid ?? null,
         combatUuid: game.combat?.uuid ?? null,
         modules: Array.from(game.modules.values(), module => ({ id: module.id, title: module.title, version: module.version, active: module.active }))

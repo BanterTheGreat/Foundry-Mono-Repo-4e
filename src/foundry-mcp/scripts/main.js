@@ -1,5 +1,6 @@
 import { DEFAULT_PORT, MODULE_ID, PROTOCOL_VERSION, MAX_MESSAGE_BYTES } from "../shared/protocol.js";
 import { assertEnabledGM, executeRead } from "./read-api.js";
+import { createNpc } from "./create-api.js";
 
 let socket;
 let retry;
@@ -10,7 +11,7 @@ let status = "disabled";
  * Expose connection status without disclosing the pairing token.
  */
 function getStatus() {
-  return { status, worldId: game.world?.id, userId: game.user?.id, readOnly: true };
+  return { status, worldId: game.world?.id, userId: game.user?.id, readOnly: false, creation: "NPC" };
 }
 
 /**
@@ -69,7 +70,7 @@ function connect() {
       if (request.type === "paired") {
         assertEnabledGM(game);
         status = "connected";
-        console.info("Foundry MCP: read-only bridge connected.", getStatus());
+        console.info("Foundry MCP: bridge connected (reads and NPC creation).", getStatus());
         return;
       }
       if (request.type !== "request" || typeof request.id !== "string") {
@@ -80,11 +81,13 @@ function connect() {
         throw new Error("GM session changed.");
       }
       if (busy) {
-        throw new Error("Another read is in progress; retry shortly.");
+        throw new Error("Another request is in progress; retry shortly.");
       }
       busy = true;
       try {
-        const result = await executeRead(request.operation, request.args);
+        const result = request.operation === "create_npc_actor"
+          ? await createNpc(request.args)
+          : await executeRead(request.operation, request.args);
         assertEnabledGM(game);
         if (game.world.id !== worldId || game.user.id !== userId) {
           throw new Error("GM session changed.");
@@ -102,9 +105,9 @@ function connect() {
     } catch (error) {
       if (request?.type === "request" && typeof request.id === "string" && socket === connection && connection.readyState === WebSocket.OPEN) {
         // Fixed errors prevent third-party document errors from disclosing sensitive data.
-        connection.send(JSON.stringify({ type: "response", id: request.id, worldId, userId, error: "Read rejected or unavailable. Check GM access, UUID, arguments, and result size." }));
+        connection.send(JSON.stringify({ type: "response", id: request.id, worldId, userId, error: "Request rejected or unavailable. For NPC creation, check the folder and data; retry with the same request ID if the outcome is uncertain." }));
       }
-      console.warn("Foundry MCP: a read was rejected.");
+      console.warn("Foundry MCP: a request was rejected.");
     }
   });
   connection.addEventListener("close", () => {
@@ -123,7 +126,7 @@ function connect() {
 
 Hooks.once("init", () => {
   for (const [key, definition] of Object.entries({
-    enabled: { name: "Enable read-only MCP bridge", hint: "Enable only in the GM tab you want to share with your local MCP client.", type: Boolean, default: false },
+    enabled: { name: "Enable MCP bridge connection", hint: "Connect to and retry the local MCP bridge every five seconds while unavailable. Turn this off to stop connection attempts and browser-console connection errors. Enable only in the intended GM tab.", type: Boolean, default: false },
     token: { name: "MCP pairing token", hint: "Paste the 64-character hex token used by the companion server. This is stored for this browser client.", type: String, default: "" },
     port: { name: "Local MCP bridge port", hint: "Loopback WebSocket port used by the companion server.", type: Number, default: DEFAULT_PORT }
   })) {

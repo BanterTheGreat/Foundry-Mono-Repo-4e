@@ -7,6 +7,9 @@ import { fileURLToPath } from "node:url";
 import { WebSocket } from "ws";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
+import { PROTOCOL_VERSION } from "../shared/protocol.js";
+import { readFile } from "node:fs/promises";
+import { validateNpcRequest } from "../shared/npc-data.js";
 
 test("real stdio server bridges an MCP read to a simulated GM and shuts down", { timeout: 10000 }, async t => {
   const listener = createServer();
@@ -28,17 +31,25 @@ test("real stdio server bridges an MCP read to a simulated GM and shuts down", {
   t.after(() => socket.terminate());
   await once(socket, "open");
   const paired = once(socket, "message");
-  socket.send(JSON.stringify({ type: "hello", version: 1, token, worldId: "test-world", userId: "test-gm" }));
+  socket.send(JSON.stringify({ type: "hello", version: PROTOCOL_VERSION, token, worldId: "test-world", userId: "test-gm" }));
   await paired;
   socket.on("message", bytes => {
     const request = JSON.parse(bytes);
+    if (request.operation === "create_npc_actor") {
+      validateNpcRequest(request.args);
+    }
     socket.send(JSON.stringify({
       type: "response", id: request.id, worldId: request.worldId, userId: request.userId,
-      result: { world: { id: "test-world" }, readOnly: true }
+      result: request.operation === "create_npc_actor"
+        ? { uuid: "Actor.npc", name: request.args.name, folder: request.args.folder, type: "NPC" }
+        : { world: { id: "test-world" }, readOnly: false }
     }));
   });
   const result = await client.callTool({ name: "get_session", arguments: {} });
-  assert.deepEqual(JSON.parse(result.content[0].text), { world: { id: "test-world" }, readOnly: true });
+  assert.deepEqual(JSON.parse(result.content[0].text), { world: { id: "test-world" }, readOnly: false });
+  const npc = JSON.parse(await readFile(new URL("fixtures/shadow-troll.json", import.meta.url), "utf8"));
+  const created = await client.callTool({ name: "create_npc_actor", arguments: npc });
+  assert.deepEqual(JSON.parse(created.content[0].text), { uuid: "Actor.npc", name: "Shadow Troll", folder: "Monsters", type: "NPC" });
   const closed = once(socket, "close");
   await client.close();
   await closed;

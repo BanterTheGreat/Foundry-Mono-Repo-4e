@@ -5,7 +5,6 @@ import { openBattleBriefing } from "../combat-start/combat-start.js";
 
 const MODULE_ID = "dnd4e-health-display";
 const SHOW_HORIZONTAL_SETTING = "showHorizontalActorDisplay";
-const POWER_FLAVOUR_HIDDEN_SETTING = "actorDisplayPowerFlavourHidden";
 const HORIZONTAL_TEMPLATE_PATH = `modules/${MODULE_ID}/scripts/actor-display/actor-display-horizontal.hbs`;
 const HORIZONTAL_HUD_BODY_CLASS = "dnd4e-horizontal-hud-active";
 const HORIZONTAL_HUD_HEIGHT_PROPERTY = "--dnd4e-horizontal-hud-height";
@@ -33,15 +32,6 @@ export function registerActorDisplaySettings() {
 		},
 	});
 
-	game.settings.register(MODULE_ID, POWER_FLAVOUR_HIDDEN_SETTING, {
-		name: "Hide player-character power flavour",
-		hint: "Hide the short flavour text beneath player-character powers in the actor display.",
-		scope: "client",
-		config: false,
-		type: Boolean,
-		default: false,
-		onChange: (hidden) => ui.Dnd4eHorizontalActorDisplay?.setPowerFlavourHidden(hidden),
-	});
 }
 
 /** Register hooks which create and refresh the actor display. */
@@ -228,7 +218,6 @@ class ActorDisplayBase extends HandlebarsApplicationMixin(ApplicationV2) {
 		super(options);
 		this.token = token;
 		this.activeTab = this.getInitialTab(token);
-		this.isPowerFlavourHidden = game.settings.get(MODULE_ID, POWER_FLAVOUR_HIDDEN_SETTING);
 		this.savedScrollTop = 0;
 		this.powerSearchQuery = "";
 		this.activePowerCategory = null;
@@ -268,7 +257,6 @@ class ActorDisplayBase extends HandlebarsApplicationMixin(ApplicationV2) {
 		const context = await super._prepareContext(options);
 		return foundry.utils.mergeObject(context, {
 			...await getActorDisplayData(this.token, this.activeTab, this.expandedPowerIds, this.activePowerCategory),
-			isPowerFlavourHidden: this.isPowerFlavourHidden,
 			powerSearchQuery: this.powerSearchQuery,
 		});
 	}
@@ -358,29 +346,6 @@ class ActorDisplayBase extends HandlebarsApplicationMixin(ApplicationV2) {
 		this.render();
 	}
 
-	/**
-	 * Set whether player-character power flavour text is hidden.
-	 *
-	 * @param {boolean} hidden Whether to hide player-character power flavour text.
-	 */
-	setPowerFlavourHidden(hidden) {
-		if (this.isPowerFlavourHidden === hidden) {
-			return;
-		}
-
-		this.isPowerFlavourHidden = hidden;
-		this.render();
-	}
-
-	/**
-	 * Toggle the player-character power flavour text.
-	 */
-	async onTogglePowerFlavour() {
-		const hidden = !this.isPowerFlavourHidden;
-		this.setPowerFlavourHidden(hidden);
-		await game.settings.set(MODULE_ID, POWER_FLAVOUR_HIDDEN_SETTING, hidden);
-	}
-
 	/** @param {PointerEvent} event The action event. @param {HTMLElement} target The action target. */
 	onShowSection(event, target) {
 		this.activeTab = target.dataset.displayTab;
@@ -429,7 +394,7 @@ class ActorDisplayBase extends HandlebarsApplicationMixin(ApplicationV2) {
 		}
 	}
 
-	/** Send an NPC power's standard item card to chat. */
+	/** Send a power's standard item card to chat. */
 	onChatPower(event, target) {
 		return this.actor.items.get(target.dataset.itemId)?.roll();
 	}
@@ -547,7 +512,6 @@ class HorizontalActorDisplay extends ActorDisplayBase {
 		window: { frame: false },
 			actions: {
 			dismiss: HorizontalActorDisplay.prototype.onDismiss,
-			togglePowerFlavour: HorizontalActorDisplay.prototype.onTogglePowerFlavour,
 			selectPowerCategory: HorizontalActorDisplay.prototype.onSelectPowerCategory,
 			showSection: HorizontalActorDisplay.prototype.onShowSection,
 			closeDrawer: HorizontalActorDisplay.prototype.onCloseDrawer,
