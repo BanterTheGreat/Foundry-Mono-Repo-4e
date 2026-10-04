@@ -19,8 +19,8 @@ test("MCP handshake exposes reads and NPC creation, validates arguments, and rep
   await server.connect(serverTransport);
   await client.connect(clientTransport);
   const { tools } = await client.listTools();
-  assert.deepEqual(tools.map(tool => tool.name), ["get_session", "list_documents", "get_document", "list_compendiums", "list_compendium_documents", "edit_npc_actor", "create_npc_actor"]);
-  assert.ok(tools.filter(tool => !["create_npc_actor", "edit_npc_actor"].includes(tool.name)).every(tool => tool.annotations.readOnlyHint));
+  assert.deepEqual(tools.map(tool => tool.name), ["get_session", "list_documents", "get_document", "list_compendiums", "list_compendium_documents", "edit_npc_actor", "create_item", "create_npc_actor"]);
+  assert.ok(tools.filter(tool => !["create_npc_actor", "create_item", "edit_npc_actor"].includes(tool.name)).every(tool => tool.annotations.readOnlyHint));
   assert.equal(tools.at(-1).annotations.readOnlyHint, false);
   assert.equal(tools.at(-1).annotations.idempotentHint, true);
   const offline = await client.callTool({ name: "get_session", arguments: {} });
@@ -65,4 +65,26 @@ test("MCP handshake exposes reads and NPC creation, validates arguments, and rep
   const editTool = tools.find(tool => tool.name === "edit_npc_actor");
   assert.equal(editTool.annotations.readOnlyHint, false);
   assert.equal(editTool.annotations.destructiveHint, true);
+  const itemTool = tools.find(tool => tool.name === "create_item");
+  assert.equal(itemTool.annotations.readOnlyHint, false);
+  assert.equal(itemTool.annotations.destructiveHint, false);
+  assert.equal(itemTool.annotations.idempotentHint, true);
+  assert.ok(itemTool.inputSchema.properties.system);
+  assert.deepEqual(itemTool.inputSchema.properties.type.enum, ["weapon", "equipment", "power", "feature"]);
+  const item = { name: "Hammer", type: "weapon", folder: "Magic Items", requestId: "mcp-world-item-request", system: { enhance: 4, description: { chat: "Flavor" } } };
+  assert.notEqual((await client.callTool({ name: "create_item", arguments: item })).isError, true);
+  assert.equal(calls.at(-1).operation, "create_item");
+  assert.deepEqual(calls.at(-1).args, item);
+  const itemCalls = calls.length;
+  for (const invalidItem of [
+    { ...item, type: "Macro" }, { ...item, effects: [] },
+    { ...item, folder: " " }, { ...item, flags: {} },
+    { ...item, system: { itemPowers: ["Item.power"] } },
+    { ...item, system: { macros: [] } },
+    { ...item, system: { price: -1 } },
+    { ...item, type: "feature", system: { enhance: 4 } }
+  ]) {
+    assert.equal((await client.callTool({ name: "create_item", arguments: invalidItem })).isError, true);
+  }
+  assert.equal(calls.length, itemCalls);
 });

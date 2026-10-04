@@ -1,7 +1,7 @@
 import { createServer } from "node:http";
 import { randomUUID, timingSafeEqual } from "node:crypto";
 import { WebSocketServer, WebSocket } from "ws";
-import { DEFAULT_PORT, EDIT_CONFIRM_TIMEOUT_MS, MAX_MESSAGE_BYTES, OPERATIONS, PROTOCOL_VERSION } from "../shared/protocol.js";
+import { CREATION_OPERATIONS, WRITE_OPERATIONS, DEFAULT_PORT, EDIT_CONFIRM_TIMEOUT_MS, MAX_MESSAGE_BYTES, OPERATIONS, PROTOCOL_VERSION } from "../shared/protocol.js";
 
 /**
  * Token-authenticated loopback transport to exactly one opted-in GM tab.
@@ -99,8 +99,8 @@ export class FoundryBridge {
         this.pending.delete(message.id);
         clearTimeout(pending.timer);
         if (typeof message.error === "string") {
-          pending.reject(new Error(pending.operation === "create_npc_actor"
-            ? "NPC creation unavailable or rejected. Check GM access, DnD4e 0.9.3, Actor folder and source data. If the outcome is uncertain, retry identical data with the same requestId."
+          pending.reject(new Error(CREATION_OPERATIONS.includes(pending.operation)
+            ? "Creation unavailable or rejected. Check GM access, DnD4e 0.9.3, destination folder and source data. If the outcome is uncertain, retry identical data with the same requestId."
             : pending.operation === "edit_npc_actor"
               ? "NPC edit rejected. Check the paired active GM, world NPC UUID, DnD4e 0.9.3 and source data. Read the NPC before retrying an uncertain result."
               : "Foundry rejected the read. Check GM access, UUID, arguments, and result size."));
@@ -138,14 +138,14 @@ export class FoundryBridge {
     }
     const id = randomUUID();
     const message = JSON.stringify({ type: "request", id, operation, args, worldId: session.worldId, userId: session.userId });
-    if (Buffer.byteLength(message) > (["create_npc_actor", "edit_npc_actor"].includes(operation) ? MAX_MESSAGE_BYTES / 2 : 16384)) {
+    if (Buffer.byteLength(message) > (WRITE_OPERATIONS.includes(operation) ? MAX_MESSAGE_BYTES / 2 : 16384)) {
       throw new Error("Request is too large.");
     }
     return new Promise((resolve, reject) => {
       const timer = setTimeout(() => {
         this.pending.delete(id);
-        reject(new Error(operation === "create_npc_actor"
-          ? "NPC creation timed out; it may have succeeded. Retry identical data with the same requestId."
+        reject(new Error(CREATION_OPERATIONS.includes(operation)
+          ? "Creation timed out; it may have succeeded. Retry identical data with the same requestId."
           : operation === "edit_npc_actor"
             ? "NPC edit timed out. Inspect the NPC source before retrying; confirmed changes may have saved."
             : "Foundry read timed out. Check the GM browser tab."));
@@ -167,8 +167,8 @@ export class FoundryBridge {
   rejectPending(message) {
     for (const pending of this.pending.values()) {
       clearTimeout(pending.timer);
-      pending.reject(new Error(pending.operation === "create_npc_actor"
-        ? `${message} NPC creation may have succeeded; retry identical data with the same requestId.`
+      pending.reject(new Error(CREATION_OPERATIONS.includes(pending.operation)
+        ? `${message} Creation may have succeeded; retry identical data with the same requestId.`
         : pending.operation === "edit_npc_actor"
           ? `${message} A confirmed NPC edit may have saved; read its source before retrying.`
           : message));

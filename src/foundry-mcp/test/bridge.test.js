@@ -106,6 +106,16 @@ test("creation transport accepts a stat block larger than a read request and rep
   await rejected;
   await assert.rejects(bridge.request("get_document", { uuid: "Actor.npc", fields: ["x".repeat(20000)] }), /too large/);
   await assert.rejects(bridge.request("create_npc_actor", { ...args, system: { biography: "x".repeat(2 * 1024 * 1024) } }), /too large/);
+  const item = { name: "Hammer", type: "weapon", folder: "Magic Items", requestId: "transport-item-request", system: { description: { value: "x".repeat(20000) } } };
+  const itemReply = once(socket, "message");
+  const itemPending = bridge.request("create_item", item);
+  const itemRejected = assert.rejects(itemPending, /may have succeeded.*same requestId/);
+  assert.deepEqual(JSON.parse((await itemReply)[0]).args, item);
+  await itemRejected;
+  const lost = bridge.request("create_item", item);
+  const lostRejected = assert.rejects(lost, /may have succeeded.*same requestId/);
+  socket.close();
+  await lostRejected;
 });
 
 test("old read-only protocol clients cannot pair with the creation-capable companion", async t => {
@@ -142,6 +152,16 @@ test("protocol v2 clients cannot pair with the edit-capable companion", async t 
   await once(socket, "open");
   const closed = once(socket, "close");
   socket.send(JSON.stringify({ type: "hello", version: 2, token, worldId: "world", userId: "gm" }));
+  await closed;
+  assert.equal(bridge.session, null);
+});
+
+test("protocol v3 clients cannot pair with the world-Item creation companion", async t => {
+  const { bridge, token } = await fixture(t);
+  const socket = new WebSocket(`ws://127.0.0.1:${bridge.port}/bridge`, { origin });
+  await once(socket, "open");
+  const closed = once(socket, "close");
+  socket.send(JSON.stringify({ type: "hello", version: 3, token, worldId: "world", userId: "gm" }));
   await closed;
   assert.equal(bridge.session, null);
 });

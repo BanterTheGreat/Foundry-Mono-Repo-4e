@@ -1,12 +1,14 @@
 export const MODULE_ID = "foundry-mcp";
-export const PROTOCOL_VERSION = 3;
+export const PROTOCOL_VERSION = 4;
 export const EDIT_CONFIRM_TIMEOUT_MS = 60000;
 export const DEFAULT_PORT = 17890;
 export const MAX_MESSAGE_BYTES = 4 * 1024 * 1024;
 export const READ_OPERATIONS = Object.freeze([
   "get_session", "list_documents", "get_document", "list_compendiums", "list_compendium_documents"
 ]);
-export const OPERATIONS = Object.freeze([...READ_OPERATIONS, "create_npc_actor", "edit_npc_actor"]);
+export const CREATION_OPERATIONS = Object.freeze(["create_npc_actor", "create_item"]);
+export const WRITE_OPERATIONS = Object.freeze([...CREATION_OPERATIONS, "edit_npc_actor"]);
+export const OPERATIONS = Object.freeze([...READ_OPERATIONS, ...WRITE_OPERATIONS]);
 export const DOCUMENT_TYPES = Object.freeze([
   "Actor", "Item", "Scene", "JournalEntry", "ChatMessage", "Combat",
   "RollTable", "Playlist", "Macro", "User", "Folder", "Cards"

@@ -6,14 +6,14 @@ Connects a local MCP client to one explicitly enabled, logged-in GM browser tab:
 Codex Desktop <-- MCP / stdio --> Node companion <-- loopback WebSocket --> GM tab
 ```
 
-Requires Node.js 22+ and Foundry 13+. Reads preserve the installed system's fields. NPC creation and editing target DnD4e **0.9.3** only. Live Foundry compatibility needs manual verification by the user.
+Requires Node.js 22+ and Foundry 13+. Reads preserve the installed system's fields. NPC/Item creation and NPC editing target DnD4e **0.9.3** only. Live Foundry compatibility needs manual verification by the user.
 
 ## Setup for Codex Desktop on Windows
 
 1. From the repository root, install companion dependencies with `npm install --prefix src/foundry-mcp`. Run `npm --prefix src/foundry-mcp run generate-token` and copy the generated 64-character hex token. Keep the token private.
 2. Add the configuration below to your Codex MCP settings (`%USERPROFILE%\.codex\config.toml`). Replace the repository path, token, and origin as appropriate. `FOUNDRY_ORIGIN` is the exact origin in the GM browser address bar: scheme, hostname and port, without a path or trailing slash. `http://localhost:30000` and `http://127.0.0.1:30000` are different origins.
 3. Restart the MCP connection in Codex. Codex starts the Node process; you do not need to run `npm start` separately. Only one companion process can use a given port.
-4. Copy the module with `npm run copy-module -- foundry-mcp`, enable **Foundry MCP** in your world, and reload Foundry as the GM. In Configure Settings, enter the same pairing token and bridge port, then enable the MCP bridge. This permits document reads, creation of new NPCs with powers/traits, and active GM confirmed edits to existing NPCs. Settings are client scoped; opt in only in the GM tab you intend to share.
+4. Copy the module with `npm run copy-module -- foundry-mcp`, enable **Foundry MCP** in your world, and reload Foundry as the GM. In Configure Settings, enter the same pairing token and bridge port, then enable the MCP bridge. This permits document reads, creation of new NPCs with powers/traits and world Items, and active GM confirmed edits to existing NPCs. Settings are client scoped; opt in only in the GM tab you intend to share.
 5. Ask Codex to call `get_session`, then list actors and read an actor UUID. Confirm the reported world and GM match your session.
 
 ```toml
@@ -31,7 +31,7 @@ FOUNDRY_MCP_PORT = "17890"
 
 Use the server from the repo: the module-copy command excludes `node_modules`, so the Foundry copy is not the companion's dependency installation. If `node` is unavailable to Codex, use its absolute executable path.
 
-The GM tab must remain open and connected. Reloading disconnects pending requests; while **Enable MCP bridge connection** is checked, the browser retries the connection every five seconds. If the companion server is off, Chrome reports each refused attempt in its console. Uncheck that setting in **Configure Settings → Module Settings → Foundry MCP** to stop the attempts immediately; check it again when the companion is running. Losing the GM role also prevents subsequent operations and result delivery. A creation already sent to Foundry may still complete. The browser console logs successful pairing; inspect status with `game.modules.get("foundry-mcp").api.getStatus()` (no token is returned). The bridge uses protocol v3: restart the companion/MCP connection and reload Foundry together when upgrading.
+The GM tab must remain open and connected. Reloading disconnects pending requests; while **Enable MCP bridge connection** is checked, the browser retries the connection every five seconds. If the companion server is off, Chrome reports each refused attempt in its console. Uncheck that setting in **Configure Settings → Module Settings → Foundry MCP** to stop the attempts immediately; check it again when the companion is running. Losing the GM role also prevents subsequent operations and result delivery. A creation already sent to Foundry may still complete. The browser console logs successful pairing; inspect status with `game.modules.get("foundry-mcp").api.getStatus()` (no token is returned). The bridge uses protocol v4: restart the companion/MCP connection and reload Foundry together when upgrading.
 
 Local HTTP Foundry is the initial setup target. A browser using HTTPS or a remote Foundry host may block its connection to the local `ws://` listener under browser mixed-content or local-network policies. That setup may need a trusted TLS bridge, which is not included in this version.
 
@@ -57,6 +57,18 @@ The tool's nested schema lists supported source fields and rejects others at bot
 
 Keep the same request ID and identical data when retrying after an uncertain timeout/disconnection. The actor stores a fingerprint so retries return its original UUID, including across browser reloads. Reusing an ID with changed data is rejected. A new ID requests a separate NPC, even with the same name. If an actor is manually deleted, its persisted retry receipt is also deleted. Creation never updates existing actors; use the separate confirmed NPC editing tool for changes.
 
+## World Item creation
+
+`create_item` creates one new world `weapon`, `equipment`, `power` or `feature` in DnD4e **0.9.3**. Supply `name`, `type`, a required Item `folder`, a unique `requestId`, nested source `system` data and optional `img`. Folder selectors accept a unique Item folder name, full slash-separated path or existing Item folder ID; missing folders/parents are created, while ambiguous names and Actor/compendium folder IDs are rejected. Creation uses one awaited `Item.create` and never changes an existing Item.
+
+The type-specific nested schema is enforced by both MCP and the paired GM browser. Caller-supplied IDs, flags, effects, macros, container links and item-granting links are excluded. Retry the identical payload with the same request ID after an uncertain result; a persistent fingerprint returns the existing Item UUID across browser reloads. A changed payload under that ID is rejected, and a fresh ID creates an intentional new copy. Missing-folder creation may remain if Item creation fails.
+
+Use the pinned system's [weapon schema](https://github.com/EndlesNights/dnd4eBeta/blob/0.9.3/module/data/item/weapon.mjs) and [equipment schema](https://github.com/EndlesNights/dnd4eBeta/blob/0.9.3/module/data/item/equipment.mjs). `system.description.chat` is the sheet's Flavor Text field used by Automatic Chat Cards. Item descriptions preserve conditional rules; no automated auras, conditions or encounter counters are created.
+
+The [Hammer of the Lost Riders fixture](test/fixtures/hammer-of-the-lost-riders.json) is the level 16 **+4 warhammer**, priced at 45,000 gp. Native fields provide its enhancement, base warhammer damage and 4d6 cold critical bonus. `critDamageForm: "0"` replaces the default enhancement-d6 bonus, with typed cold dice supplied once through `damageCrit.parts`. Its self-stun/blind critical rider and encounter-dependent cold burst/concealment remain in the description for manual adjudication. Preserve the fixture's request ID when retrying this specific creation, and verify the returned UUID with `get_document`.
+
+Protocol **v4** requires restarting the companion/MCP connection and reloading Foundry together. Confirm `get_session.itemCreation` before calling the new tool. Manual verification by the user: create in Magic Items, check the sheet's level/enhancement/price, base warhammer and critical fields, then retry the same payload and confirm there is one Item. Existing world Item edits remain unavailable.
+
 ## NPC editing with GM confirmation
 
 `edit_npc_actor` edits an existing world NPC in DnD4e **0.9.3**. Read its stored data with `get_document` and `source: true` first. Supply its `uuid` and partial `name`, `img` or nested `system` data. Optional `items` patches require an existing embedded item `id` and matching `type` (`power` or `feature`), plus partial `name`, `img` or `system`. Omitted fields remain unchanged; supplied arrays replace the whole array. This operation does not add or delete items, move folders, or adjust prototype tokens automatically.
@@ -67,11 +79,11 @@ Every request with changes opens a popup on the paired **active GM's** screen wi
 
 After approval, the module rechecks GM identity/role, bridge enablement, connection, system version and document source. Intervening manual edits or deleted documents require a fresh request. Embedded item changes and actor changes use separate awaited Foundry operations; a failure can leave partial changes. The response reports `updated`, `cancelled`, `unchanged`, or `incomplete`, with a field summary and known saved fields for incomplete results. After timeout, disconnection or an incomplete result, read the actor again before retrying. Repeating identical already-saved patches returns `unchanged`. Confirmation is required again for any remaining changes.
 
-Editing uses protocol **v3**. Restart the companion/MCP connection and reload Foundry together when installing this change; older clients cannot pair.
+Editing uses protocol **v4**. Restart the companion/MCP connection and reload Foundry together when installing this change; older clients cannot pair.
 
 Other document updates/deletions, macro execution, explicit dice rolls, chat posts, compendium imports and arbitrary script calls are unavailable. Caller-supplied actor IDs, flags, effects, item macros and item-granting data are excluded; item IDs only select existing NPC powers/features for editing. GM-visible gameplay content, including secrets and private chat supplied to that GM, can be returned. User documents expose safe identity fields only; account credentials, arbitrary settings values, server files and DOM/runtime inspection are excluded. Reading compendiums can populate Foundry's in-memory caches.
 
-MCP annotations distinguish reads from NPC creation and editing; the fixed operation allowlist and nested source schemas enforce the boundary. Read requests are limited to 16 KiB, NPC creation/edit requests to 2 MiB, and responses to 4 MiB. The transport uses an independent random pairing token, exact browser-origin and Host checks, a loopback listener and one paired session. The companion trusts the token-holding module to enforce the GM role; it does not independently authenticate to the Foundry server. A process that obtains the token is within that trust boundary.
+MCP annotations distinguish reads from NPC/Item creation and NPC editing; the fixed operation allowlist and nested source schemas enforce the boundary. Read requests are limited to 16 KiB, creation/edit requests to 2 MiB, and responses to 4 MiB. The transport uses an independent random pairing token, exact browser-origin and Host checks, a loopback listener and one paired session. The companion trusts the token-holding module to enforce the GM role; it does not independently authenticate to the Foundry server. A process that obtains the token is within that trust boundary.
 
 ## Verification
 

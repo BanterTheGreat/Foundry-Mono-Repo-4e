@@ -71,7 +71,10 @@ Set `weaponType: "none"`, `weaponUse: "none"` for standalone monster attacks. Ra
 | Effect | `effect.detail` |
 | Requirement | `requirement` (singular); `requirements` is a separate legacy field |
 | Trigger / sustain | `trigger`, `sustain.actionType`, `sustain.detail` |
-| Flavor/full rules | `description.value` (HTML accepted) |
+| Printed flavor text | `description.chat` (Flavor Text field) |
+| Full description/rules | `description.value` (HTML accepted) |
+
+This world uses Automatic Chat Cards. Always copy a power's printed flavor text into `system.description.chat`, even when it also appears in `description.value`. Both the sheet's **Flavor Text** textarea and the generated card use `description.chat`; the separate `chatFlavor` schema field does not populate them. Include flavor for utility powers and every separate mode of the same attack. After creation or editing, verify that every power with printed flavor has the complete text in `description.chat`. Checked against the 0.9.3 [power sheet](https://github.com/EndlesNights/dnd4eBeta/blob/0.9.3/templates/items/parts/details-power.hbs) and [chat card](https://github.com/EndlesNights/dnd4eBeta/blob/0.9.3/templates/chat/item-card.hbs).
 
 Attack `.formula` is the bonus expression; the system supplies the d20. Never prepend `1d20` or use a character formula with half level/ability on top of a printed total. `hit.formula` is primary damage. `damage.parts` is additional damage and would double count the primary damage if repeated there. Additional parts use `{formula: "1d6", type: ["fire"]}` objects, not old tuple arrays. Damage types: `acid`, `cold`, `fire`, `force`, `lightning`, `necrotic`, `physical`, `poison`, `psychic`, `radiant`, `thunder`; `damage` means all damage for resistances and `ongoing` means ongoing. Keyword flags and damage-type flags are separate; use `keywordsCustom` for printed non-damage keywords supported as text by the tool.
 

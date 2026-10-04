@@ -1,3 +1,4 @@
+import { WORLD_ITEM_TYPES } from "../shared/item-data.js";
 import { MODULE_ID, READ_OPERATIONS, DOCUMENT_TYPES, EMBEDDED_TYPES, pagination } from "../shared/protocol.js";
 
 /**
@@ -150,6 +151,7 @@ export async function executeRead(operation, args = {}, { game = globalThis.game
         user: serialize(game.user), system: { id: game.system.id, version: game.system.version },
         foundryVersion: game.version, readOnly: false, documentTypes: DOCUMENT_TYPES,
         creation: { tool: "create_npc_actor", actorType: "NPC", system: "dnd4e", version: "0.9.3" },
+        itemCreation: { tool: "create_item", itemTypes: WORLD_ITEM_TYPES, system: "dnd4e", version: "0.9.3" },
         editing: { tool: "edit_npc_actor", actorType: "NPC", system: "dnd4e", version: "0.9.3", confirmation: "active GM", available: game.user.isActiveGM === true },
         activeSceneUuid: game.scenes.active?.uuid ?? null,
         combatUuid: game.combat?.uuid ?? null,

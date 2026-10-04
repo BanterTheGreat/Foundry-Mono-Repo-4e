@@ -1,0 +1,36 @@
+{
+  "name": "Hammer of the Lost Riders +4",
+  "type": "weapon",
+  "folder": "Magic Items",
+  "requestId": "hammer-lost-riders-level16-20261004-01",
+  "system": {
+    "description": {
+      "chat": "This hammer shatters those who oppose you like fragile ice. But a blizzard swirls at the edge of your vision, and the longer you tarry from battle, the closer it looms.",
+      "value": "<p><em>This hammer shatters those who oppose you like fragile ice. But a blizzard swirls at the edge of your vision, and the longer you tarry from battle, the closer it looms.</em></p><p><strong>Level 16; +4; 45,000 gp. Rare Weapon: Hammer. Adventure Five.</strong></p><p><strong>Critical:</strong> +1d6 cold damage per plus, and you are stunned until the end of your next turn and blinded (save ends).</p><p><strong>Property:</strong> The first time on your turn that you attack with this weapon, it deals 5 cold damage to you and each creature within 2 squares. This area grants concealment until the end of your next turn, as it is filled with a snow storm.</p><p>If you have completed one combat encounter since an extended rest, the range expands to 5 squares. If two combat encounters, the range extends to 20 squares.</p>"
+    },
+    "level": 16,
+    "enhance": 4,
+    "price": 45000,
+    "rarity": "rare",
+    "quantity": 1,
+    "weight": 5,
+    "identified": true,
+    "equipped": false,
+    "weaponType": "militaryM",
+    "weaponHand": "hMain",
+    "weaponBaseType": "warhammer",
+    "weaponGroup": { "ham": true },
+    "properties": { "ver": true },
+    "proficient": "auto",
+    "profBonus": 2,
+    "isRanged": false,
+    "range": { "value": 1, "long": 1 },
+    "damageDice": { "parts": [{ "numDice": "1", "numFaces": "10", "modifier": "" }] },
+    "damageType": { "physical": true },
+    "attackForm": "@profBonus + @enhance",
+    "damageForm": "@enhance",
+    "critDamageForm": "0",
+    "damageCrit": { "parts": [{ "formula": "4d6", "type": ["cold"] }] },
+    "critRange": 20
+  }
+}

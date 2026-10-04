@@ -147,10 +147,19 @@ function refreshAllActorDisplays() {
 	updateGmCombatMergeState();
 }
 
-/** @param {Actor} actor The updated actor. */
+/**
+ * Refresh an available HUD for actor-owned document changes.
+ *
+ * @param {Actor|null} actor The updated actor, or null for world Items.
+ */
 function refreshForActor(actor) {
-	if (ui.Dnd4eHorizontalActorDisplay?.actor?.id === actor.id || actor?.type === "Player Character") {
-		ui.Dnd4eHorizontalActorDisplay.render();
+	const display = ui.Dnd4eHorizontalActorDisplay;
+	if (!actor || !display) {
+		return;
+	}
+
+	if (display.actor?.id === actor.id || actor.type === "Player Character") {
+		display.render();
 	}
 }
 

@@ -1,106 +1,9 @@
 import { MODULE_ID, MAX_MESSAGE_BYTES } from "../shared/protocol.js";
 import { validateNpcRequest } from "../shared/npc-data.js";
+import { canonical, resolveCreationFolder } from "./creation-utils.js";
 import { assertEnabledGM } from "./read-api.js";
 
 const pending = new WeakMap();
-const folderPending = new WeakMap();
-
-/**
- * Resolve an explicit destination and create missing Actor folder paths.
- * Serialize folder work so concurrent NPC requests share the same new folder.
- */
-async function resolveFolder(game, destination, Folder, assertSession) {
-  const previous = folderPending.get(game) ?? Promise.resolve();
-  const promise = previous.catch(() => {}).then(async () => {
-    assertSession();
-    return findOrCreateFolder(game, destination, Folder, assertSession);
-  });
-  folderPending.set(game, promise);
-  try {
-    return await promise;
-  } finally {
-    if (folderPending.get(game) === promise) {
-      folderPending.delete(game);
-    }
-  }
-}
-
-/**
- * Match Actor folders only; require a path or ID for ambiguous names.
- */
-async function findOrCreateFolder(game, destination, Folder, assertSession) {
-  const selector = destination.trim();
-  const byId = game.folders.get(selector);
-  if (byId) {
-    if (byId.type !== "Actor" || byId.pack) {
-      throw new Error("Choose a world Actor folder.");
-    }
-    return byId;
-  }
-  const segments = selector.split("/").map(segment => segment.trim());
-  if (segments.some(segment => !segment || segment.length > 200)) {
-    throw new Error("Use a folder name or path with non-empty names of at most 200 characters.");
-  }
-  const path = segments.join("/");
-  const actorFolders = () => Array.from(game.folders.values()).filter(folder => folder.type === "Actor" && !folder.pack);
-  const matches = actorFolders().filter(folder => segments.length > 1
-    ? folderPath(folder) === path
-    : folder.name === path);
-  if (matches.length > 1) {
-    throw new Error("Folder name or path is ambiguous; specify its full path or folder ID.");
-  }
-  if (matches.length === 1) {
-    return matches[0];
-  }
-  let parent = null;
-  for (const name of segments) {
-    assertSession();
-    const children = actorFolders().filter(folder => folder.name === name && (folder.folder?.id ?? null) === (parent?.id ?? null));
-    if (children.length > 1) {
-      throw new Error("Folder path is ambiguous; specify a folder ID.");
-    }
-    if (children.length === 1) {
-      parent = children[0];
-      continue;
-    }
-    parent = await Folder.create({ name, type: "Actor", folder: parent?.id ?? null });
-    assertSession();
-    if (!parent) {
-      throw new Error("Actor folder creation was cancelled.");
-    }
-  }
-  return parent;
-}
-
-/**
- * Read the parent chain without relying on Foundry's derived folder path.
- */
-function folderPath(folder) {
-  const names = [];
-  const visited = new Set();
-  for (let current = folder; current; current = current.folder) {
-    if (visited.has(current.id)) {
-      throw new Error("Invalid folder hierarchy.");
-    }
-    visited.add(current.id);
-    names.unshift(current.name);
-  }
-  return names.join("/");
-}
-
-/**
- * Canonical JSON makes retry fingerprints independent of property order.
- */
-function canonical(value) {
-  if (Array.isArray(value)) {
-    return value.map(canonical);
-  }
-  if (value && typeof value === "object") {
-    return Object.fromEntries(Object.keys(value).sort().map(key => [key, canonical(value[key])]));
-  }
-  return value;
-}
-
 /**
  * Create one world NPC with embedded powers/traits through a single awaited
  * document creation. Persist a request fingerprint so ambiguous retries cannot
@@ -157,7 +60,7 @@ export async function createNpc(args, { game = globalThis.game, Actor = globalTh
     if (!size) {
       throw new Error("Unsupported NPC size.");
     }
-    const folder = await resolveFolder(game, args.folder, Folder, assertSession);
+    const folder = await resolveCreationFolder(game, args.folder, Folder, assertSession, "Actor");
     assertSession();
     const data = {
       name: args.name, type: "NPC", folder: folder.id,
