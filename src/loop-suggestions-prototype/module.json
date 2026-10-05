@@ -1,0 +1,13 @@
+{
+  "id": "loop-suggestions-prototype",
+  "title": "Loop Suggestions (Prototype)",
+  "description": "Shows heuristic loop suggestions beside The Sound of Silence's editor. Browser analysis only; no playback or loop settings are changed.",
+  "version": "0.1.0",
+  "authors": [{ "name": "Banter" }],
+  "compatibility": { "minimum": "13" },
+  "esmodules": ["scripts/main.js"],
+  "styles": ["styles/suggestions.css"],
+  "relationships": {
+    "requires": [{ "id": "the-sound-of-silence", "type": "module" }]
+  }
+}

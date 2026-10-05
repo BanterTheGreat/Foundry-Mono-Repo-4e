@@ -403,9 +403,15 @@ class ActorDisplayBase extends HandlebarsApplicationMixin(ApplicationV2) {
 		}
 	}
 
-	/** Send a power's standard item card to chat. */
+	/**
+	 * Use a power and send its standard card to chat through the system workflow.
+	 * Actor.usePower consumes limited uses; Item.roll only posts the card.
+	 */
 	onChatPower(event, target) {
-		return this.actor.items.get(target.dataset.itemId)?.roll();
+		const power = this.actor.items.get(target.dataset.itemId);
+		if (power) {
+			return this.actor.usePower(power);
+		}
 	}
 
 	/** Roll an NPC power's damage through the DnD4e damage workflow. */

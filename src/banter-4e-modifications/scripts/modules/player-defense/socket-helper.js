@@ -1,6 +1,7 @@
 import { Logger } from "../../shared/logger.js";
 import { TRIGGER_PROMPT_FLAG } from "../trigger-prompts/constants.js";
 import { toTriggerAttackOutcome } from "./player-defense-outcome.js";
+import { PlayerDefenseEffects } from "./player-defense-effects.js";
 
 // EVERYTHING HERE SHOULD ONLY BE CALLED ON THE GM'S INSTANCE USING SOCKETLIB.
 /**
@@ -93,11 +94,20 @@ export class SocketHelper {
             target.resolved = true;
             target.outcome = outcome;
 
+            const effectCondition = outcome === "miss" ? "miss" : "hit";
+            const selfEffectsApplied = defense.selfEffectsApplied ?? {};
+            const applySelf = defense.autoApplyEffects && !selfEffectsApplied[effectCondition];
+            if (applySelf) {
+                selfEffectsApplied[effectCondition] = true;
+            }
+
             const damageRolled = defense.damageRolled ?? { normal: false, critical: false, miss: false };
             const damageGroups = SocketHelper.#getDamageGroups(targets, defense, damageRolled);
             damageGroups.forEach(group => damageRolled[group] = true);
-            await message.update({ content, flags: { ...message.flags, playerDefense: { ...defense, targets, damageRolled } } });
+            await message.update({ content, flags: { ...message.flags, playerDefense: { ...defense, targets, damageRolled, selfEffectsApplied } } });
             Logger.info("Resolved defense target", { messageId, targetId, outcome });
+
+            await PlayerDefenseEffects.applyOutcomeEffects(defense, target, applySelf);
 
             await game.TriggerPrompts?.handleActiveDefenseOutcome({
                 attackerActorId: defense.attackerId,

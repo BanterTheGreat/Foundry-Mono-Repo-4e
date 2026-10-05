@@ -1,5 +1,6 @@
 import { Logger } from "../../shared/logger.js";
 import { createDefenseDialogPayload } from "./player-defense-workflow.js";
+import { PlayerDefenseEffects } from "./player-defense-effects.js";
 
 /**
  * Handles NPC attack interception and the player-defense dialog workflow.
@@ -149,6 +150,7 @@ export class PlayerDefense {
       content: PlayerDefense.#buildDefenseChatContent(targets),
       flags: {
         playerDefense: {
+          ...attackContext.deferredEffects,
           attackName: item.name,
           attackerId: attacker.id,
           attackerTokenId: attackContext.attackerTokenId,
@@ -273,6 +275,7 @@ export class PlayerDefense {
       item,
       targets: targetsData,
       attacker,
+      deferredEffects: PlayerDefenseEffects.deferAttackEffects(target, targetsData.map(entry => entry.token)),
       attackerTokenId: attackerCombatant?.tokenId ?? speaker.token ?? null,
       sceneId: attackerCombatant?.sceneId ?? canvas.scene?.id ?? null,
     };
