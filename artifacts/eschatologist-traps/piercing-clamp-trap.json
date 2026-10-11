@@ -1,0 +1,218 @@
+{
+  "name": "Piercing Clamp Trap",
+  "type": "NPC",
+  "img": "icons/svg/trap.svg",
+  "system": {
+    "advancedCals": false,
+    "details": {
+      "level": 2,
+      "tier": 1,
+      "exp": 31,
+      "size": "med",
+      "type": "",
+      "origin": "",
+      "other": "Object; Trap",
+      "role": {
+        "primary": "",
+        "secondary": "minion",
+        "leader": false
+      },
+      "saves": {
+        "value": 0
+      }
+    },
+    "attributes": {
+      "hp": {
+        "value": 1,
+        "max": 1,
+        "autototal": false
+      },
+      "init": {
+        "base": 0
+      }
+    },
+    "abilities": {
+      "str": {
+        "value": 10
+      },
+      "con": {
+        "value": 10
+      },
+      "dex": {
+        "value": 10
+      },
+      "int": {
+        "value": 10
+      },
+      "wis": {
+        "value": 10
+      },
+      "cha": {
+        "value": 10
+      }
+    },
+    "defences": {
+      "ac": {
+        "base": 10
+      },
+      "fort": {
+        "base": 10
+      },
+      "ref": {
+        "base": 10
+      },
+      "wil": {
+        "base": 10
+      }
+    },
+    "skills": {
+      "acr": {
+        "base": 1
+      },
+      "arc": {
+        "base": 1
+      },
+      "ath": {
+        "base": 1
+      },
+      "blu": {
+        "base": 1
+      },
+      "dip": {
+        "base": 1
+      },
+      "dun": {
+        "base": 1
+      },
+      "end": {
+        "base": 1
+      },
+      "hea": {
+        "base": 1
+      },
+      "his": {
+        "base": 1
+      },
+      "ins": {
+        "base": 1
+      },
+      "itm": {
+        "base": 1
+      },
+      "nat": {
+        "base": 1
+      },
+      "prc": {
+        "base": 1
+      },
+      "rel": {
+        "base": 1
+      },
+      "stl": {
+        "base": 1
+      },
+      "stw": {
+        "base": 1
+      },
+      "thi": {
+        "base": 1
+      }
+    },
+    "movement": {
+      "base": {
+        "base": 0
+      },
+      "walk": {
+        "formula": "0"
+      },
+      "run": {
+        "formula": "0"
+      },
+      "charge": {
+        "formula": "0"
+      },
+      "shift": {
+        "formula": "0"
+      },
+      "notes": "Stationary object."
+    },
+    "actionpoints": {
+      "value": 0
+    },
+    "biography": "<p>Object trap. The source supplies no defenses, initiative, abilities, size, movement, saves, or action points. Sheet placeholders: Medium, abilities 10, defenses 10, initiative 0, speed 0, save bonus 0, action points 0; unlisted skills use half level. HP 1 represents the minion classification; confirm object durability with the GM. Detection DCs are checks made by creatures, not this actor’s Perception skill. Triggers and conditional effects require GM adjudication.</p>",
+    "powerGroupTypes": "action",
+    "powerSortTypes": "none"
+  },
+  "prototypeToken": {
+    "name": "Piercing Clamp Trap",
+    "actorLink": false,
+    "disposition": -1,
+    "width": 1,
+    "height": 1,
+    "texture": {
+      "src": "icons/svg/trap.svg"
+    }
+  },
+  "items": [
+    {
+      "name": "Detect",
+      "type": "feature",
+      "system": {
+        "featureType": "trait",
+        "description": {
+          "value": "<p>Perception DC 20: One of the burlap sacks on the floor has something metallic peeking through.</p>"
+        }
+      }
+    },
+    {
+      "name": "Countermeasures",
+      "type": "feature",
+      "system": {
+        "featureType": "trait",
+        "description": {
+          "value": "<p><strong>Disable:</strong> Thievery DC 20 to disable the trap.<br><strong>Step Over:</strong> A character aware of the trap can step over it with a Dexterity check (DC 4).</p>"
+        }
+      }
+    },
+    {
+      "name": "Foot Grab",
+      "type": "power",
+      "system": {
+        "powerType": "inherent",
+        "powersource": "",
+        "prepared": true,
+        "useType": "encounter",
+        "actionType": "reaction",
+        "weaponType": "none",
+        "weaponUse": "none",
+        "rangeType": "melee",
+        "rangePower": "1",
+        "target": "Triggering creature",
+        "attack": {
+          "isAttack": true,
+          "isBasic": false,
+          "ability": "",
+          "formula": "8",
+          "def": "ac"
+        },
+        "hit": {
+          "isDamage": true,
+          "formula": "1d6+2",
+          "critFormula": "8",
+          "detail": "1d6+2 damage, and the target is grabbed by its foot, if it has one (escape DC 18). Until the grab ends, the target takes ongoing 5 damage. Each time the target makes an escape attempt against the grab, the target takes 5 damage. If the trap drops the target below 1 hit point, the target loses the foot."
+        },
+        "damageType": {},
+        "description": {
+          "chat": "You step on what looks like a discarded burlap sack, but there’s a click, and your leg feels like it’s been bitten by a dragon.",
+          "value": "<p><em>You step on what looks like a discarded burlap sack, but there’s a click, and your leg feels like it’s been bitten by a dragon.</em></p><p>1d6+2 damage, and the target is grabbed by its foot, if it has one (escape DC 18). Until the grab ends, the target takes ongoing 5 damage. Each time the target makes an escape attempt against the grab, the target takes 5 damage. If the trap drops the target below 1 hit point, the target loses the foot.</p>"
+        },
+        "trigger": "A creature enters the trapped space.",
+        "miss": {
+          "halfDamage": false,
+          "formula": "",
+          "detail": "No miss effect specified."
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,219 @@
+{
+  "name": "Tripwire Mine Trap",
+  "type": "NPC",
+  "img": "icons/svg/trap.svg",
+  "system": {
+    "advancedCals": false,
+    "details": {
+      "level": 7,
+      "tier": 1,
+      "exp": 75,
+      "size": "med",
+      "type": "",
+      "origin": "",
+      "other": "Object; Trap",
+      "role": {
+        "primary": "",
+        "secondary": "minion",
+        "leader": false
+      },
+      "saves": {
+        "value": 0
+      }
+    },
+    "attributes": {
+      "hp": {
+        "value": 1,
+        "max": 1,
+        "autototal": false
+      },
+      "init": {
+        "base": 0
+      }
+    },
+    "abilities": {
+      "str": {
+        "value": 10
+      },
+      "con": {
+        "value": 10
+      },
+      "dex": {
+        "value": 10
+      },
+      "int": {
+        "value": 10
+      },
+      "wis": {
+        "value": 10
+      },
+      "cha": {
+        "value": 10
+      }
+    },
+    "defences": {
+      "ac": {
+        "base": 10
+      },
+      "fort": {
+        "base": 10
+      },
+      "ref": {
+        "base": 10
+      },
+      "wil": {
+        "base": 10
+      }
+    },
+    "skills": {
+      "acr": {
+        "base": 3
+      },
+      "arc": {
+        "base": 3
+      },
+      "ath": {
+        "base": 3
+      },
+      "blu": {
+        "base": 3
+      },
+      "dip": {
+        "base": 3
+      },
+      "dun": {
+        "base": 3
+      },
+      "end": {
+        "base": 3
+      },
+      "hea": {
+        "base": 3
+      },
+      "his": {
+        "base": 3
+      },
+      "ins": {
+        "base": 3
+      },
+      "itm": {
+        "base": 3
+      },
+      "nat": {
+        "base": 3
+      },
+      "prc": {
+        "base": 3
+      },
+      "rel": {
+        "base": 3
+      },
+      "stl": {
+        "base": 3
+      },
+      "stw": {
+        "base": 3
+      },
+      "thi": {
+        "base": 3
+      }
+    },
+    "movement": {
+      "base": {
+        "base": 0
+      },
+      "walk": {
+        "formula": "0"
+      },
+      "run": {
+        "formula": "0"
+      },
+      "charge": {
+        "formula": "0"
+      },
+      "shift": {
+        "formula": "0"
+      },
+      "notes": "Stationary object."
+    },
+    "actionpoints": {
+      "value": 0
+    },
+    "biography": "<p>Object trap. The source supplies no defenses, initiative, abilities, size, movement, saves, or action points. Sheet placeholders: Medium, abilities 10, defenses 10, initiative 0, speed 0, save bonus 0, action points 0; unlisted skills use half level. HP 1 represents the minion classification; confirm object durability with the GM. Detection DCs are checks made by creatures, not this actor’s Perception skill. Triggers and conditional effects require GM adjudication.</p>",
+    "powerGroupTypes": "action",
+    "powerSortTypes": "none"
+  },
+  "prototypeToken": {
+    "name": "Tripwire Mine Trap",
+    "actorLink": false,
+    "disposition": -1,
+    "width": 1,
+    "height": 1,
+    "texture": {
+      "src": "icons/svg/trap.svg"
+    }
+  },
+  "items": [
+    {
+      "name": "Detect",
+      "type": "feature",
+      "system": {
+        "featureType": "trait",
+        "description": {
+          "value": "<p>Perception DC 24: You react to the pressure of a wire against your shin fast enough to stop walking before you trigger the trap.</p>"
+        }
+      }
+    },
+    {
+      "name": "Countermeasures",
+      "type": "feature",
+      "system": {
+        "featureType": "trait",
+        "description": {
+          "value": "<p><strong>Disable:</strong> Thievery DC 24 to disable the trap. Failing by 5 or more triggers it.<br><strong>Step Over:</strong> A character aware of the trap can step over it (Dexterity DC 4).</p>"
+        }
+      }
+    },
+    {
+      "name": "Mine Explosion",
+      "type": "power",
+      "system": {
+        "powerType": "inherent",
+        "powersource": "",
+        "prepared": true,
+        "useType": "encounter",
+        "actionType": "reaction",
+        "weaponType": "none",
+        "weaponUse": "none",
+        "rangeType": "closeBurst",
+        "rangePower": "2",
+        "target": "Creatures in burst",
+        "attack": {
+          "isAttack": true,
+          "isBasic": false,
+          "ability": "",
+          "formula": "10",
+          "def": "ref"
+        },
+        "hit": {
+          "isDamage": true,
+          "formula": "5d6",
+          "critFormula": "30",
+          "detail": "5d6 damage and the target is knocked prone."
+        },
+        "damageType": {},
+        "description": {
+          "chat": "Your foot snags something, and then you’re hurled back by an explosion.",
+          "value": "<p><em>Your foot snags something, and then you’re hurled back by an explosion.</em></p><p>5d6 damage and the target is knocked prone.</p>"
+        },
+        "area": "2",
+        "trigger": "A creature enters the trapped space.",
+        "miss": {
+          "halfDamage": true,
+          "formula": "",
+          "detail": "Half damage. The target is not knocked prone on a miss."
+        }
+      }
+    }
+  ]
+}
