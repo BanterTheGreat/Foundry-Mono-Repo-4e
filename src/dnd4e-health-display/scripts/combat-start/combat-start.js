@@ -489,11 +489,10 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 		this.render();
 	}
 
-	/** Save the current copy as a reusable world preset and apply its strategy notes to this encounter. */
-	async onSavePreset() {
-		const draft = this.readDraft();
+	/** Read and clean strategy notes before applying them to the encounter. */
+	getPreparedStrategy() {
 		const strategyDraft = this.readStrategyDraft();
-		const strategy = {
+		return {
 			environment: strategyDraft.environment.map((note) => note.trim()).filter(Boolean),
 			pointers: strategyDraft.pointers.map((pointer) => ({
 				id: pointer.id,
@@ -501,6 +500,12 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 				notes: pointer.notes.map((note) => note.trim()).filter(Boolean),
 			})),
 		};
+	}
+
+	/** Save the current copy as a reusable world preset and apply its strategy notes to this encounter. */
+	async onSavePreset() {
+		const draft = this.readDraft();
+		const strategy = this.getPreparedStrategy();
 
 		try {
 			await setStrategy(this.combat, strategy);
@@ -705,6 +710,7 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 			return;
 		}
 
+		await setStrategy(this.combat, this.getPreparedStrategy());
 		await setCombatPresentation(this.combat, {
 			commanderCombatantId: this.commanderCombatantId,
 			title: draft.title,
