@@ -19,6 +19,8 @@ Populate each power's flavor field using the Automatic Chat Cards mapping in the
 
 After a successful creation, read the returned actor UUID with `source: false` and compare prepared HP, bloodied value, defenses, initiative, skills, movement, saves, resistances and the complete item list to the block. Inspect `source: true` when diagnosing a mismatch. The user operates Foundry and tests the sheet/buttons; do not automate Foundry.
 
+In the completion message, disclose every deviation from the supplied stat block or requested configuration, including assumptions, inferred values, omissions, substitutions, adjustments and mechanics preserved only as descriptive text rather than automated. For each, state the original value or rule (or that it was unspecified), what was actually created, and why. Include unresolved verification mismatches and identify anything requiring manual adjudication. Routine field mappings that preserve the printed values and behavior need no individual entry. If there are no deviations or limitations, say so explicitly.
+
 If a request times out or disconnects, keep the exact payload and `requestId` for retry. The actor stores the request fingerprint, so a retry returns its original UUID. Changing data under that ID is rejected. A fresh ID means an intentional new actor. Creation does not update an existing NPC; report mismatches rather than silently making another copy.
 
 The [Shadow Troll fixture](../../../src/foundry-mcp/test/fixtures/shadow-troll.json) is a complete example translated from the user's screenshot: one trait and four powers. Replace its example folder and request ID for real use.

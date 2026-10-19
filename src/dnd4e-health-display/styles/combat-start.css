@@ -1,3 +1,104 @@
+.dnd4e-encounter-calculation {
+	grid-column: 1 / -1;
+	min-width: 0;
+	min-height: 0;
+	overflow: auto;
+	padding: 1rem 1.3rem;
+	color: #e9ddca;
+}
+
+.dnd4e-encounter-calculation__summary {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 0.6rem;
+}
+
+.dnd4e-encounter-calculation__summary > div {
+	display: flex;
+	flex-direction: column;
+	gap: 0.3rem;
+	padding: 0.8rem;
+	border: 1px solid #58422f;
+	border-radius: 0.3rem;
+	background: linear-gradient(#242126, #151519);
+}
+
+.dnd4e-encounter-calculation__summary span {
+	color: #c69b5d;
+	font-size: 0.66rem;
+	font-weight: 800;
+	text-transform: uppercase;
+}
+
+.dnd4e-encounter-calculation__summary strong {
+	color: #f2ddbb;
+	font-family: var(--font-h1, "Modesto Condensed", serif);
+	font-size: 1.7rem;
+	overflow-wrap: anywhere;
+}
+
+.dnd4e-encounter-calculation__summary small,
+.dnd4e-encounter-calculation__explanation {
+	color: #b7ac9d;
+	font-size: 0.78rem;
+}
+
+.dnd4e-encounter-calculation h3 {
+	margin: 1rem 0 0.5rem;
+	color: #e4c58d;
+}
+
+.dnd4e-encounter-calculation table {
+	width: 100%;
+	border: 1px solid #58422f;
+	background: #151519;
+	font-size: 0.8rem;
+}
+
+.dnd4e-encounter-calculation th,
+.dnd4e-encounter-calculation td {
+	padding: 0.55rem;
+	text-align: left;
+}
+
+.dnd4e-encounter-calculation thead,
+.dnd4e-encounter-calculation tfoot {
+	background: #292126;
+	color: #e4c58d;
+}
+
+.dnd4e-encounter-calculation tbody tr:nth-child(even) {
+	background: rgb(255 255 255 / 3%);
+}
+
+.dnd4e-encounter-calculation__party {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	padding: 0;
+	list-style: none;
+}
+
+.dnd4e-encounter-calculation__party li {
+	display: flex;
+	gap: 0.75rem;
+	padding: 0.5rem 0.7rem;
+	border: 1px solid #58422f;
+	border-radius: 0.3rem;
+}
+
+.dnd4e-encounter-calculation__warning {
+	padding: 0.5rem;
+	border-left: 2px solid #c69b5d;
+	background: #302419;
+}
+
+@media (max-width: 700px) {
+	.dnd4e-encounter-calculation__summary {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
 .dnd4e-combat-start__tracker-button {
 	display: flex;
 	align-items: center;

@@ -29,6 +29,9 @@
 		<button type="button" data-action="showTab" data-tab="strategy" class="{{#if showStrategy}}is-active{{/if}}">
 			<i class="fa-solid fa-chess-knight" aria-hidden="true"></i> Strategy
 		</button>
+		<button type="button" data-action="showTab" data-tab="calculation" class="{{#if showCalculation}}is-active{{/if}}">
+			<i class="fa-solid fa-calculator" aria-hidden="true"></i> Calculation
+		</button>
 	</nav>
 
 	<div class="dnd4e-combat-start-setup__workspace">
@@ -122,6 +125,8 @@
 				</section>
 			{{/if}}
 		</section>
+		{{else if showCalculation}}
+			{{{calculationHTML}}}
 		{{else}}
 			<section class="dnd4e-combat-start-setup__strategy" aria-label="Strategy">
 				<div class="dnd4e-combat-start-setup__strategy-column">

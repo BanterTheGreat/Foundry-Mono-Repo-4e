@@ -7,8 +7,12 @@
 			<button type="button" data-action="showTab" data-tab="strategy" class="{{#if showStrategy}}is-active{{/if}}">
 				<i class="fa-solid fa-map" aria-hidden="true"></i> Strategy
 			</button>
+			<button type="button" data-action="showTab" data-tab="calculation" class="{{#if showCalculation}}is-active{{/if}}">
+				<i class="fa-solid fa-calculator" aria-hidden="true"></i> Calculation
+			</button>
 		{{/if}}
 	</nav>
+	{{#if showCalculation}}{{{calculationHTML}}}{{/if}}
 
 	{{#if showBriefing}}
 		<div class="dnd4e-combat-start__briefing is-initiative-{{initiativeTrackerPlacement}}">

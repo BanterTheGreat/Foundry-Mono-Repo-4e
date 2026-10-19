@@ -1,0 +1,28 @@
+<section class="dnd4e-encounter-calculation" aria-label="Encounter calculation">
+	<div class="dnd4e-encounter-calculation__summary">
+		<div><span>Party level</span><strong>{{partyLevel}}</strong><small>{{partyCount}} party tokens</small></div>
+		<div><span>Encounter level</span><strong>{{encounterLevel}}</strong><small>{{#if difference}}Party level {{difference}}{{else}}No encounter level yet{{/if}}</small></div>
+		<div><span>Difficulty</span><strong>{{difficulty}}</strong><small>{{enemyCount}} enemy tokens</small></div>
+		<div><span>Calculated XP</span><strong>{{totalXP}}</strong><small>Party budget: {{budget}} XP</small></div>
+	</div>
+	<p class="dnd4e-encounter-calculation__explanation">Calculated from the tokens in this briefing. Enemy XP uses level and rank; statblock XP is ignored. Hidden enemies are included.</p>
+	{{#unless hasParty}}<p>Add player-owned party tokens to calculate encounter level and difficulty.</p>{{/unless}}
+	{{#each warnings}}<p class="dnd4e-encounter-calculation__warning">{{this}}</p>{{/each}}
+	<h3>Enemies</h3>
+	<table>
+		<thead><tr><th scope="col">Enemy</th><th scope="col">Quantity</th><th scope="col">Level</th><th scope="col">Rank</th><th scope="col">XP each</th><th scope="col">Total XP</th></tr></thead>
+		<tbody>
+			{{#each enemyGroups}}
+				<tr><th scope="row">{{name}}</th><td>{{count}}</td><td>{{level}}</td><td>{{rank}}</td><td>{{xp}}</td><td>{{totalXP}}</td></tr>
+			{{else}}
+				<tr><td colspan="6">No hostile enemy tokens are in this briefing.</td></tr>
+			{{/each}}
+		</tbody>
+		<tfoot><tr><th scope="row" colspan="5">Calculated total</th><td>{{totalXP}}</td></tr></tfoot>
+	</table>
+	<h3>Party</h3>
+	<p class="dnd4e-encounter-calculation__explanation">Player-owned tokens form the party. Party level is their average level rounded up. Friendly and neutral NPCs are excluded.</p>
+	<ul class="dnd4e-encounter-calculation__party">
+		{{#each party}}<li><strong>{{name}}</strong><span>Level {{level}}</span></li>{{/each}}
+	</ul>
+</section>

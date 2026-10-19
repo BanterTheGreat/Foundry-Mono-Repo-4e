@@ -1,4 +1,5 @@
 import { getDefaultStrategy, getStrategy, setStrategy } from "./strategy.js";
+import { getEncounterCalculation } from "./encounter-calculation.js";
 
 const MODULE_ID = "dnd4e-health-display";
 const ACTIVE_SETTING = "activeCombatStart";
@@ -8,6 +9,7 @@ const PRESETS_FOLDER_NAME = "Battle Briefings";
 const INITIATIVE_TRACKER_PLACEMENT_SETTING = "combatStartInitiativeTrackerPlacement";
 const SETUP_TEMPLATE = `modules/${MODULE_ID}/scripts/combat-start/combat-start-setup.hbs`;
 const DISPLAY_TEMPLATE = `modules/${MODULE_ID}/scripts/combat-start/combat-start-display.hbs`;
+const CALCULATION_TEMPLATE = `modules/${MODULE_ID}/scripts/combat-start/encounter-calculation.hbs`;
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -43,6 +45,8 @@ export function registerCombatStart() {
 	Hooks.on("createCombatant", refreshCombatStartDisplay);
 	Hooks.on("updateCombatant", refreshCombatStartDisplay);
 	Hooks.on("deleteCombatant", refreshCombatStartDisplay);
+	Hooks.on("updateActor", refreshCalculationForActor);
+	Hooks.on("updateToken", refreshCalculationForToken);
 	Hooks.on("updateCombat", refreshCombatStartDisplayForCombat);
 	Hooks.on("deleteCombat", closeDeletedCombatDisplay);
 
@@ -194,9 +198,50 @@ function synchronizeCombatStartDisplay(presentation) {
 
 /** Refresh the live display when its encounter membership changes. */
 function refreshCombatStartDisplay(combatant) {
+	refreshCombatStartSetup(combatant.parent);
 	if (ui.Dnd4eCombatStartDisplay?.combatId === combatant.parent?.id) {
+		ui.Dnd4eCombatStartDisplay.readStrategyDraft();
 		ui.Dnd4eCombatStartDisplay.render();
 	}
+}
+
+/** Preserve editor drafts while refreshing encounter membership or calculation data. */
+function refreshCombatStartSetup(combat) {
+	const setup = ui.Dnd4eCombatStartSetup;
+	if (setup && setup.combat?.id === combat?.id) {
+		setup.readDraft();
+		setup.readStrategyDraft();
+		setup.render();
+	}
+}
+
+/** Refresh open briefings when an included actor's level, rank, or ownership changes. */
+function refreshCalculationForActor(actor) {
+	for (const combat of game.combats) {
+		const combatant = combat.combatants.find((entry) => entry.actor === actor || entry.actorId === actor.id);
+		if (combatant) {
+			refreshCombatStartDisplay(combatant);
+		}
+	}
+}
+
+/** Refresh token-specific actor data and disposition without reacting to token movement. */
+function refreshCalculationForToken(token, changes) {
+	if (!["disposition", "actorId", "delta", "actorData"].some((key) => key in changes)) {
+		return;
+	}
+	for (const combat of game.combats) {
+		const combatant = combat.combatants.find((entry) => entry.tokenId === token.id && entry.sceneId === token.parent?.id);
+		if (combatant) {
+			refreshCombatStartDisplay(combatant);
+		}
+	}
+}
+
+/** Render the shared GM calculation panel only when its tab is open. */
+async function renderCalculation(combat) {
+	return foundry.applications.handlebars.renderTemplate(CALCULATION_TEMPLATE,
+		getEncounterCalculation(combat, CONST.TOKEN_DISPOSITIONS.HOSTILE));
 }
 
 /** Refresh the presentation when its encounter advances to another turn. */
@@ -322,6 +367,8 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 			combatName: this.combat?.name ?? "Encounter",
 			showBriefing: this.activeTab === "briefing",
 			showStrategy: this.activeTab === "strategy",
+			showCalculation: this.activeTab === "calculation",
+			calculationHTML: this.activeTab === "calculation" ? await renderCalculation(this.combat) : "",
 			draft: this.draft,
 			combatants,
 			strategyEnvironment: this.strategyDraft.environment,
@@ -346,7 +393,7 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 		});
 	}
 
-	/** Switch between the briefing editor and its future strategy workspace. */
+	/** Switch between the briefing editor, strategy, and encounter calculation. */
 	onShowTab(event, target) {
 		const tab = target.dataset.tab;
 		if (!tab || tab === this.activeTab) {
@@ -818,6 +865,8 @@ class CombatStartDisplay extends HandlebarsApplicationMixin(ApplicationV2) {
 			initiativeTrackerPlacement: game.settings.get(MODULE_ID, INITIATIVE_TRACKER_PLACEMENT_SETTING),
 			showBriefing: this.activeTab === "briefing",
 			showStrategy: game.user.isGM && this.activeTab === "strategy",
+			showCalculation: game.user.isGM && this.activeTab === "calculation",
+			calculationHTML: game.user.isGM && this.activeTab === "calculation" ? await renderCalculation(combat) : "",
 			strategyEnvironment: this.strategyDraft.environment,
 			strategyPointers,
 		});
