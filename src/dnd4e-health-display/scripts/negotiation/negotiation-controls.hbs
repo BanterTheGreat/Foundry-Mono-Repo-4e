@@ -1,0 +1,130 @@
+<div class="dnd4e-combat-start-setup__form negotiation-form {{#if showResolution}}has-resolution{{/if}}">
+	<header class="dnd4e-combat-start-setup__heading">
+		<div><span>Encounter Presentation</span><h2>{{#if live}}{{d.subject.name}}{{else}}Prepare Negotiation{{/if}}</h2><p>{{#if live}}{{status}}{{else}}Prepare the subject, revealable concerns, and GM-only offers.{{/if}}</p></div>
+		{{#unless live}}<section class="dnd4e-combat-start-setup__presets" aria-label="Saved negotiation presets"><label>Load preset</label><div class="dnd4e-combat-start-setup__preset-row"><select name="presetId"><option value="">Choose a preset…</option>{{#each presets}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{name}}</option>{{/each}}</select><button type="button" data-command="loadPreset" {{#unless hasPresets}}disabled{{/unless}}>Load</button><button type="button" data-command="deletePreset" class="dnd4e-combat-start-setup__delete" {{#unless hasPresets}}disabled{{/unless}} title="Delete selected preset"><i class="fa-solid fa-trash" aria-hidden="true"></i></button><button type="button" data-command="newPreset" title="New preparation"><i class="fa-solid fa-plus" aria-hidden="true"></i></button></div></section>{{/unless}}
+	</header>
+	<nav class="dnd4e-combat-start-setup__tabs" aria-label="Negotiation sections">{{#each tabs}}<button type="button" data-command="tab" data-tab="{{key}}" class="{{#if active}}is-active{{/if}}" aria-pressed="{{active}}">{{label}}</button>{{/each}}</nav>
+	{{#if showResolution}}
+	<div class="negotiation-dc-reference negotiation-dc-landing">
+		<div class="negotiation-dc-source"><h3>Negotiation at a glance</h3>
+			<p>One hero makes an argument; the GM classifies it, resolves it, then states the NPC’s offer. Use a <strong>Normal check</strong>.</p>
+			{{#if dcs.count}}<p>{{dcs.count}} PCs · average level {{dcs.partyLevel}}</p>{{else}}<p>No valid PC levels; enter a level.</p>{{/if}}
+			{{#if dcs.missingLevels}}<p>{{dcs.missingLevels}} PC actors excluded: missing or unsupported levels.</p>{{/if}}
+		</div>
+		<div class="negotiation-dc-values"><div><span>Easy</span><strong data-dc="easy">{{#if dcs.level}}{{dcs.easy}}{{else}}—{{/if}}</strong></div><div class="is-normal"><span>Normal · target</span><strong data-dc="normal">{{#if dcs.level}}{{dcs.normal}}{{else}}—{{/if}}</strong></div><div><span>Hard</span><strong data-dc="hard">{{#if dcs.level}}{{dcs.hard}}{{else}}—{{/if}}</strong></div></div>
+		<label class="negotiation-dc-level">Level<input name="dcLevelOverride" type="number" min="1" max="30" step="1" value="{{dcs.level}}" aria-label="Negotiation level"></label>
+	</div>
+	{{/if}}
+	<div class="negotiation-editor">
+	{{#unless live}}{{#if hasActivePresentation}}<p class="negotiation-preview">A shared negotiation display is still open, but its GM state is unavailable. Use “Dismiss active negotiation” below to close it for everyone.</p>{{/if}}{{/unless}}
+	<section class="negotiation-tab" {{#unless showPreparation}}hidden{{/unless}}>
+		{{#unless live}}
+		<div class="negotiation-actor-drop" data-actor-drop>
+			{{#if subject}}<img src="{{subject.img}}" alt=""><div><span>Negotiation subject</span><h3>{{subject.name}}</h3><p>Drop another actor here to replace.</p></div><button type="button" data-command="clearActor" title="Clear selected actor"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+			{{else}}<i class="fa-solid fa-user-plus" aria-hidden="true"></i><div><h3>Drop an Actor here</h3><p>Drag from the Actors directory or a compendium.</p></div>{{/if}}
+		</div>
+		<div class="negotiation-grid"><label>Display name override<input data-field="displayName" value="{{d.displayName}}"></label><label>Artwork path override<input data-field="art" value="{{d.art}}" placeholder="Leave empty to use actor portrait"></label></div>
+		<div class="negotiation-grid"><label>Attitude<select name="attitude" data-field="attitude">{{#each attitudes}}<option value="{{key}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}</select></label><label>Starting Interest<input type="number" min="0" max="5" data-field="interest" value="{{d.interest}}"></label><label>Starting Patience<input type="number" min="1" max="5" data-field="patience" value="{{d.patience}}"></label></div>
+		{{else}}
+		<h2>{{d.subject.name}}</h2><p class="negotiation-status">{{status}} · Interest {{d.interest}} / 5 · Patience {{d.patience}} / 5</p>
+		{{/unless}}
+	</section>
+	<section class="negotiation-tab" {{#unless showConcerns}}hidden{{/unless}}>
+		<div class="negotiation-concerns-layout">
+			<nav class="negotiation-concerns-list" aria-label="Motivations and pitfalls">
+				{{#each concernGroups}}
+					<div class="negotiation-concerns-group"><h3>{{label}} <span>{{count}}</span></h3>
+						{{#each concerns}}
+							<button type="button" data-command="selectConcern" data-kind="{{kind}}" data-index="{{index}}" class="negotiation-concern-select {{#if selected}}is-selected{{/if}}" aria-pressed="{{selected}}">
+								<strong>{{#if text}}{{text}}{{else}}Custom concern{{/if}}</strong>
+								<small>{{#if revealed}}Revealed{{else}}Hidden{{/if}}{{#if used}} · Used{{/if}}</small>
+							</button>
+						{{else}}<p class="negotiation-concerns-empty">None yet</p>{{/each}}
+						<button type="button" class="negotiation-concern-add" data-command="{{addCommand}}"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add <span class="sr-only">{{label}}</span></button>
+					</div>
+				{{/each}}
+			</nav>
+			<div class="negotiation-concern-editor">
+				{{#with selectedConcern}}
+					<div data-concern="{{kind}}" data-index="{{index}}">
+						<span class="negotiation-concern-kind">{{kindLabel}}</span>
+						<h3>{{#if text}}{{text}}{{else}}Custom concern{{/if}}</h3>
+						<label>Category<select name="category"><option value="" {{#if customCategory}}selected{{/if}}>Custom</option>{{#each categories}}<option value="{{category}}" {{#if selected}}selected{{/if}}>{{category}}</option>{{/each}}</select></label>
+						<label>Short description<textarea name="description" rows="2" placeholder="What matters to this NPC?">{{description}}</textarea></label>
+						<details class="negotiation-concern-advanced"><summary>Override &amp; private clue</summary>
+							<label>Title override<input name="override" value="{{override}}" placeholder="Use category when blank"></label>
+							<label>Private discovery clue<textarea name="clue" rows="2">{{clue}}</textarea></label>
+						</details>
+						<input type="checkbox" name="revealed" {{#if revealed}}checked{{/if}} hidden>
+						<div class="negotiation-concern-actions">
+							<button type="button" data-command="toggleConcernReveal" class="negotiation-concern-reveal {{#if revealed}}is-revealed{{/if}}" aria-pressed="{{revealed}}" title="Toggle visibility to players"><i class="fa-solid {{#if revealed}}fa-eye{{else}}fa-eye-slash{{/if}}" aria-hidden="true"></i> {{#if revealed}}Revealed{{else}}Hidden{{/if}}</button>
+							{{#if canMarkUsed}}<button type="button" data-command="toggleConcernUsed" class="negotiation-concern-used" aria-pressed="{{used}}">{{#if used}}Used{{else}}Unused{{/if}}</button>{{/if}}
+							<button type="button" data-command="removeConcern" data-kind="{{kind}}" data-index="{{index}}" class="negotiation-concern-remove" aria-label="Remove {{kindLabel}}">Remove</button>
+						</div>
+					</div>
+				{{else}}<p class="negotiation-concerns-empty">Add a motivation or pitfall to begin.</p>{{/with}}
+			</div>
+		</div>
+	</section>
+	<section class="negotiation-tab" {{#unless showOffers}}hidden{{/unless}}><h3>Offers by Interest</h3><div class="negotiation-offers">{{#each offers}}<label>Interest {{index}}<textarea data-offer="{{index}}">{{text}}</textarea></label>{{/each}}</div></section>
+	<section class="negotiation-tab negotiation-rules" {{#unless showResolution}}hidden{{/unless}}>
+
+
+		<div class="negotiation-resolution-columns">
+		<div>
+		<div class="negotiation-argument-reference">
+		<h3>Argument outcomes</h3>
+		<table class="negotiation-argument-outcomes"><thead><tr><th>Outcome</th><th>Unused motivation</th><th>Ordinary argument</th></tr></thead><tbody>
+			{{#each argumentRows}}<tr><td>{{label}}</td>
+				<td><div class="negotiation-outcome-effect"><span>{{motivating}}</span>{{#if @root.live}}<button type="button" data-command="applyArgument" data-kind="motivation" data-result="{{result}}" data-natural="{{natural}}" {{#unless @root.canApplyMotivating}}disabled{{/unless}} aria-label="Apply {{label}} with an unused motivation" title="Apply {{label}} with an unused motivation"><i class="fa-solid fa-check" aria-hidden="true"></i></button>{{/if}}</div></td>
+				<td><div class="negotiation-outcome-effect"><span>{{ordinary}}</span>{{#if @root.live}}<button type="button" data-command="applyArgument" data-kind="ordinary" data-result="{{result}}" data-natural="{{natural}}" {{#unless @root.canApplyArguments}}disabled{{/unless}} aria-label="Apply {{label}} for an ordinary argument" title="Apply {{label}} for an ordinary argument"><i class="fa-solid fa-check" aria-hidden="true"></i></button>{{/if}}</div></td>
+			</tr>{{/each}}
+		</tbody></table>
+		<p><strong>Nat 20:</strong> perfect success with no Patience loss, plus a useful benefit. Interest rises by only 1.<br><strong>Nat 1:</strong> catastrophic failure, including a fictional complication.</p><p>The listed Patience loss already includes the minor hurdle. Mark used motivations in the Concerns tab as needed.</p>
+		</div>
+		<details class="negotiation-rules-details"><summary>Automatic arguments &amp; lies</summary><ul>
+			<li><strong>Pitfall:</strong> Interest −1, Patience −1, no roll. Takes precedence over motivations.</li>
+			<li><strong>Repeated motivation:</strong> Patience −1, Interest unchanged, no roll. An invoked motivation is spent even if the check fails, unless there was a pitfall or detected lie.</li>
+			<li><strong>Repeated ordinary argument:</strong> Interest −1, Patience −1, no roll.</li>
+			<li><strong>Multiple motivations:</strong> choose one to invoke; the rest remain unused.</li>
+			<li><strong>Decisive evidence or concession:</strong> an automatic perfect success with an unused motivation; no natural-20 benefit.</li>
+			<li><strong>Detected lie:</strong> only if Interest did not increase; lose an additional 1 Interest. Its motivation remains unused. Repeating the exposed lie cannot earn a new check.</li>
+		</ul></details>
+
+		<details class="negotiation-rules-details"><summary>Final offers &amp; ending</summary><p>Interest 5: best offer is final. Interest 0: end without a deal. Patience 0: current offer is final. Interest takes priority if both tracks reach an ending value together. At Interest 1–4 with Patience remaining, accept, leave, or make another argument. Tracks stay between 0 and 5. A new speaker or a brief wait never refreshes Patience or used motivations.</p></details>
+
+		</div>
+		<div>
+		<div class="negotiation-discovery-reference">
+			<h3>Discover a concern</h3>
+			<ol>
+				<li>One hero asks to uncover a hidden motivation or pitfall.</li>
+				<li>Roll <strong>Insight</strong> (or another justified skill) against the <strong>Normal DC <span data-dc="normal">{{#if dcs.level}}{{dcs.normal}}{{else}}—{{/if}}</span></strong>.</li>
+				<li>Apply the result below. On success, reveal one concern in the <strong>Concerns</strong> tab; the player chooses which kind.</li>
+			</ol>
+			<table><thead><tr><th>Discovery outcome</th><th>Effect</th></tr></thead><tbody>
+				<tr><td>Perfect</td><td>Reveal one concern; no Patience loss.</td></tr>
+				<tr><td>Success</td><td>Reveal one concern; Patience −1.</td></tr>
+				<tr><td>Failure</td><td>Learn nothing; Patience −1.</td></tr>
+				<tr><td>Catastrophic</td><td>Learn nothing; Patience −1 and a fictional complication.</td></tr>
+			</tbody></table>
+			<p><strong>Interest never changes.</strong> The entire party must make an argument before another discovery check. Nat 20 adds a useful benefit; Nat 1 is catastrophic. If Patience reaches 0, the current offer becomes final.</p>
+		</div>
+
+		</div>
+		</div>
+	</section>
+	</div>
+	<footer class="dnd4e-combat-start-setup__actions" data-buttons>
+		{{#if live}}
+		<div class="negotiation-live-footer">
+			<div class="negotiation-footer-tracks">
+				<label><input name="adjustInterest" type="number" min="0" max="5" step="1" value="{{d.interest}}" aria-label="Override Interest"><span>Interest</span></label>
+				<label><input name="adjustPatience" type="number" min="0" max="5" step="1" value="{{d.patience}}" aria-label="Override Patience"><span>Patience</span></label><strong class="negotiation-offer-shorthand">{{offerLabel}}</strong>
+			</div>
+			<button type="button" data-command="show" class="negotiation-footer-show"><i class="fa-solid fa-eye" aria-hidden="true"></i> Show Negotiation to players</button>
+			<button type="button" data-command="prepare" class="negotiation-footer-end">End</button>
+		</div>
+		{{else}}{{#if hasActivePresentation}}<button type="button" data-command="dismissPresentation">Dismiss active negotiation</button>{{/if}}<div class="dnd4e-combat-start-setup__save-group"><label><span>Preset name</span><input data-field="name" value="{{d.name}}" placeholder="Negotiation name"></label><button type="button" data-command="savePreset"><i class="fa-solid fa-bookmark" aria-hidden="true"></i> Save Preset</button><button type="button" data-command="savePresetAs" title="Save a new copy">Save As</button></div><button type="button" data-command="start" class="dnd4e-combat-start-setup__show"><i class="fa-solid fa-comments" aria-hidden="true"></i> Start Negotiation</button>{{/if}}
+	</footer>
+</div>

@@ -1,0 +1,7 @@
+<div class="negotiation-workspace negotiation-presentation">
+	<header>{{#if subject.art}}<img class="negotiation-portrait" src="{{subject.art}}" alt="{{subject.name}}">{{/if}}<h1>{{subject.name}}</h1></header>
+	<div class="negotiation-revealed-concerns">
+		{{#if motivations.length}}<section><h2>Motivations</h2>{{#each motivations}}<p><strong>{{text}}</strong>{{#if description}}<br>{{description}}{{/if}}{{#if used}} <strong>— Used</strong>{{/if}}</p>{{/each}}</section>{{/if}}
+		{{#if pitfalls.length}}<section><h2>Pitfalls</h2>{{#each pitfalls}}<p><strong>{{text}}</strong>{{#if description}}<br>{{description}}{{/if}}</p>{{/each}}</section>{{/if}}
+	</div>
+</div>

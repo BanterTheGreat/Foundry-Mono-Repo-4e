@@ -1,0 +1,305 @@
+{
+  "name": "Shotgun Trap",
+  "type": "NPC",
+  "img": "icons/svg/trap.svg",
+  "system": {
+    "advancedCals": false,
+    "details": {
+      "level": 7,
+      "tier": 1,
+      "exp": 75,
+      "size": "med",
+      "type": "",
+      "origin": "",
+      "other": "Object; Trap",
+      "role": {
+        "primary": "",
+        "secondary": "minion",
+        "leader": false
+      },
+      "saves": {
+        "value": 0
+      }
+    },
+    "attributes": {
+      "hp": {
+        "value": 1,
+        "max": 1,
+        "autototal": false
+      },
+      "init": {
+        "base": 0
+      }
+    },
+    "abilities": {
+      "str": {
+        "value": 10
+      },
+      "con": {
+        "value": 10
+      },
+      "dex": {
+        "value": 10
+      },
+      "int": {
+        "value": 10
+      },
+      "wis": {
+        "value": 10
+      },
+      "cha": {
+        "value": 10
+      }
+    },
+    "defences": {
+      "ac": {
+        "base": 10
+      },
+      "fort": {
+        "base": 10
+      },
+      "ref": {
+        "base": 10
+      },
+      "wil": {
+        "base": 10
+      }
+    },
+    "skills": {
+      "acr": {
+        "base": 3
+      },
+      "arc": {
+        "base": 3
+      },
+      "ath": {
+        "base": 3
+      },
+      "blu": {
+        "base": 3
+      },
+      "dip": {
+        "base": 3
+      },
+      "dun": {
+        "base": 3
+      },
+      "end": {
+        "base": 3
+      },
+      "hea": {
+        "base": 3
+      },
+      "his": {
+        "base": 3
+      },
+      "ins": {
+        "base": 3
+      },
+      "itm": {
+        "base": 3
+      },
+      "nat": {
+        "base": 3
+      },
+      "prc": {
+        "base": 3
+      },
+      "rel": {
+        "base": 3
+      },
+      "stl": {
+        "base": 3
+      },
+      "stw": {
+        "base": 3
+      },
+      "thi": {
+        "base": 3
+      }
+    },
+    "movement": {
+      "base": {
+        "base": 0
+      },
+      "walk": {
+        "formula": "0"
+      },
+      "run": {
+        "formula": "0"
+      },
+      "charge": {
+        "formula": "0"
+      },
+      "shift": {
+        "formula": "0"
+      },
+      "notes": "Stationary object."
+    },
+    "actionpoints": {
+      "value": 0
+    },
+    "biography": "<p>Object trap. The source supplies no defenses, initiative, abilities, size, movement, saves, or action points. Sheet placeholders: Medium, abilities 10, defenses 10, initiative 0, speed 0, save bonus 0, action points 0; unlisted skills use half level. HP 1 represents the minion classification; confirm object durability with the GM. Detection DCs are checks made by creatures, not this actor’s Perception skill. Triggers and conditional effects require GM adjudication.</p>",
+    "powerGroupTypes": "action",
+    "powerSortTypes": "none"
+  },
+  "prototypeToken": {
+    "name": "Shotgun Trap",
+    "actorLink": false,
+    "disposition": -1,
+    "width": 1,
+    "height": 1,
+    "texture": {
+      "src": "icons/svg/trap.svg"
+    }
+  },
+  "items": [
+    {
+      "name": "Detect",
+      "type": "feature",
+      "system": {
+        "featureType": "trait",
+        "description": {
+          "value": "<p>Perception DC 19: You barely manage to notice a taut wire attached to the door, leading inside the rail car. DC 24: Hidden in the mechanism under the train is a shotgun, pointed right at you.</p>"
+        }
+      }
+    },
+    {
+      "name": "Countermeasures",
+      "type": "feature",
+      "system": {
+        "featureType": "trait",
+        "description": {
+          "value": "<p><strong>Disable:</strong> Thievery DC 24 to open the door safely and disarm the trap. Failing by 5 or more triggers it.<br><strong>Dodge:</strong> A character who suspects a trap can hide under the level of the rail car floor as he opens the door, and so is only hit by the shotgun in the train wheels. The attack deals 1d10+2 damage, or 1d10+14 on a critical hit. Use the separate Dodge damage attack to represent this situation.</p>"
+        }
+      }
+    },
+    {
+      "name": "Point Blank Blast",
+      "type": "power",
+      "system": {
+        "powerType": "inherent",
+        "powersource": "",
+        "prepared": true,
+        "useType": "encounter",
+        "actionType": "reaction",
+        "weaponType": "none",
+        "weaponUse": "none",
+        "rangeType": "range",
+        "rangePower": "1",
+        "target": "Triggering creature",
+        "attack": {
+          "isAttack": true,
+          "isBasic": false,
+          "ability": "",
+          "formula": "10",
+          "def": "ref"
+        },
+        "hit": {
+          "isDamage": true,
+          "formula": "3d10+6",
+          "critFormula": "3d10+42",
+          "detail": "3d10+6 damage, or 3d10+42 on a critical hit."
+        },
+        "damageType": {},
+        "description": {
+          "chat": "As you slide the door open, a wire snaps and a trio of shotguns—one at floor level of the car, one pointed down from the ceiling, and one mounted underneath the car in its wheel area—discharge in your face.",
+          "value": "<p><em>As you slide the door open, a wire snaps and a trio of shotguns—one at floor level of the car, one pointed down from the ceiling, and one mounted underneath the car in its wheel area—discharge in your face.</em></p><p>3d10+6 damage, or 3d10+42 on a critical hit.</p>"
+        },
+        "trigger": "A creature opens the trapped door.",
+        "miss": {
+          "halfDamage": true,
+          "formula": "",
+          "detail": "Half damage."
+        },
+        "effect": {
+          "detail": "Secondary Attack: Repeat the attack against each other creature in Close Blast 3, but it deals half damage on a hit, and none on a miss. Use the separate Secondary Attack power once per other creature."
+        }
+      }
+    },
+    {
+      "name": "Point Blank Blast — Secondary Attack",
+      "type": "power",
+      "system": {
+        "powerType": "inherent",
+        "powersource": "",
+        "prepared": true,
+        "useType": "encounter",
+        "actionType": "reaction",
+        "weaponType": "none",
+        "weaponUse": "none",
+        "rangeType": "closeBlast",
+        "rangePower": "3",
+        "target": "Each other creature in the blast (excluding the triggering creature)",
+        "attack": {
+          "isAttack": true,
+          "isBasic": false,
+          "ability": "",
+          "formula": "10",
+          "def": "ref"
+        },
+        "hit": {
+          "isDamage": true,
+          "formula": "floor((3d10+6)/2)",
+          "critFormula": "floor((3d10+42)/2)",
+          "detail": "Half of the primary attack damage on a hit; none on a miss."
+        },
+        "damageType": {},
+        "description": {
+          "chat": "As you slide the door open, a wire snaps and a trio of shotguns—one at floor level of the car, one pointed down from the ceiling, and one mounted underneath the car in its wheel area—discharge in your face.",
+          "value": "<p><em>As you slide the door open, a wire snaps and a trio of shotguns—one at floor level of the car, one pointed down from the ceiling, and one mounted underneath the car in its wheel area—discharge in your face.</em></p><p>Half of the primary attack damage on a hit; none on a miss.</p>"
+        },
+        "area": "3",
+        "trigger": "Resolve after Point Blank Blast; part of the same encounter use.",
+        "miss": {
+          "halfDamage": false,
+          "formula": "",
+          "detail": "None."
+        },
+        "special": "This is a component of Point Blank Blast, not an additional independent use. Roll against each other creature in Close Blast 3."
+      }
+    },
+    {
+      "name": "Point Blank Blast — Dodge damage",
+      "type": "power",
+      "system": {
+        "powerType": "inherent",
+        "powersource": "",
+        "prepared": true,
+        "useType": "encounter",
+        "actionType": "reaction",
+        "weaponType": "none",
+        "weaponUse": "none",
+        "rangeType": "range",
+        "rangePower": "1",
+        "target": "Triggering creature hiding below the rail car floor",
+        "attack": {
+          "isAttack": true,
+          "isBasic": false,
+          "ability": "",
+          "formula": "10",
+          "def": "ref"
+        },
+        "hit": {
+          "isDamage": true,
+          "formula": "1d10+2",
+          "critFormula": "1d10+14",
+          "detail": "1d10+2 damage, or 1d10+14 on a critical hit."
+        },
+        "damageType": {},
+        "description": {
+          "chat": "As you slide the door open, a wire snaps and a trio of shotguns—one at floor level of the car, one pointed down from the ceiling, and one mounted underneath the car in its wheel area—discharge in your face.",
+          "value": "<p><em>As you slide the door open, a wire snaps and a trio of shotguns—one at floor level of the car, one pointed down from the ceiling, and one mounted underneath the car in its wheel area—discharge in your face.</em></p><p>1d10+2 damage, or 1d10+14 on a critical hit.</p>"
+        },
+        "trigger": "A creature who suspects the trap hides below the rail car floor while opening the trapped door.",
+        "requirement": "Apply the Dodge countermeasure; replaces primary damage, not an additional attack.",
+        "miss": {
+          "halfDamage": true,
+          "formula": "",
+          "detail": "Half damage, as for Point Blank Blast."
+        },
+        "special": "Only the shotgun in the train wheels can hit this creature. Resolve the other creatures’ secondary attacks normally."
+      }
+    }
+  ]
+}
