@@ -25,7 +25,10 @@ import {
 	registerCombatTrackerSettings,
 } from "./scripts/combat-tracker/combat-tracker.js";
 
+import { registerNegotiation, registerNegotiationSettings } from "./scripts/negotiation/negotiation.js";
+
 Hooks.once("init", () => {
+	registerNegotiationSettings();
 	registerHealthDisplaySettings();
 	registerActorDisplaySettings();
 	registerTeamDisplaySettings();
@@ -35,6 +38,7 @@ Hooks.once("init", () => {
 });
 
 Hooks.once("ready", () => {
+	registerNegotiation();
 	registerHealthDisplay();
 	registerActorDisplay();
 	registerTeamDisplay();

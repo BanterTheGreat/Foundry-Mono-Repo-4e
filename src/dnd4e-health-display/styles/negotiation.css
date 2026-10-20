@@ -1,0 +1,465 @@
+.dnd4e-negotiation {
+	--negotiation-brass: #b39862;
+	--negotiation-text: #e8ddc8;
+	color: var(--negotiation-text);
+}
+.dnd4e-negotiation .window-content {
+	background: linear-gradient(140deg, #242321, #141515);
+	color: var(--negotiation-text);
+	padding: 0;
+	overflow: hidden;
+}
+.dnd4e-negotiation .negotiation-workspace {
+	overflow-y: auto;
+	padding: 1rem;
+	min-height: 0;
+}
+.dnd4e-negotiation section {
+	padding: .75rem 0;
+	border-bottom: 1px solid #b3986245;
+}
+.dnd4e-negotiation h1, .dnd4e-negotiation h2, .dnd4e-negotiation h3 {
+	font-family: var(--font-h1);
+	color: var(--negotiation-brass);
+	margin: .5rem 0;
+}
+.dnd4e-negotiation label {
+	display: flex;
+	flex-direction: column;
+	gap: .25rem;
+	margin: .5rem 0;
+}
+.dnd4e-negotiation input, .dnd4e-negotiation textarea, .dnd4e-negotiation select {
+	background: #141515;
+	color: var(--negotiation-text);
+	border: 1px solid #b3986260;
+	width: 100%;
+}
+.dnd4e-negotiation select option { background: #242321; }
+.dnd4e-negotiation textarea { min-height: 4rem; resize: vertical; }
+.dnd4e-negotiation button {
+	background: #343028;
+	color: var(--negotiation-text);
+	border: 1px solid #b3986270;
+	border-radius: .3rem;
+	padding: .4rem .7rem;
+	height: auto;
+	white-space: normal;
+}
+.dnd4e-negotiation button:hover { border-color: var(--negotiation-brass); filter: brightness(1.15); }
+.dnd4e-negotiation :focus-visible { outline: 2px solid var(--negotiation-brass); outline-offset: 2px; }
+.dnd4e-negotiation .negotiation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: .75rem; }
+.dnd4e-negotiation .negotiation-buttons { display: flex; flex-wrap: wrap; gap: .5rem; margin: .75rem 0; }
+.dnd4e-negotiation .negotiation-check { flex-direction: row; align-items: center; }
+.dnd4e-negotiation .negotiation-check input { width: auto; }
+.dnd4e-negotiation .negotiation-concern { background: #ffffff06; padding: .65rem; margin: .5rem 0; border: 1px solid #b3986235; border-radius: .3rem; }
+.dnd4e-negotiation .negotiation-preview, .dnd4e-negotiation .negotiation-status { padding: .65rem; border: 1px solid var(--negotiation-brass); background: #b3986210; }
+.dnd4e-negotiation .negotiation-presentation { display: flex; flex-direction: column; gap: .4rem; }
+.dnd4e-negotiation .negotiation-portrait { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; object-position: center; border: 1px solid #b3986270; border-radius: .4rem; }
+.dnd4e-negotiation .negotiation-presentation p { white-space: pre-wrap; overflow-wrap: anywhere; }
+
+
+/* Share Battle Briefing's header, preset bar, tab strip, and footer chrome. */
+.dnd4e-negotiation-setup .negotiation-form {
+	grid-template-rows: auto auto minmax(0, 1fr) auto;
+	min-height: 0;
+}
+.dnd4e-negotiation-setup .negotiation-editor {
+	min-height: 0;
+	overflow-y: auto;
+	padding: 1rem 1.3rem;
+	background: #111217;
+}
+.dnd4e-negotiation-setup .negotiation-tab {
+	padding: 0;
+	border: 0;
+}
+.dnd4e-negotiation-setup .negotiation-tab[hidden] { display: none; }
+.dnd4e-negotiation-setup .dnd4e-combat-start-setup__presets {
+	padding: 0;
+	border: 0;
+}
+.dnd4e-negotiation-setup .dnd4e-combat-start-setup__save-group {
+	grid-template-columns: minmax(10rem, 1fr) auto auto;
+}
+.dnd4e-negotiation-setup .dnd4e-combat-start-setup__save-group label,
+.dnd4e-negotiation-setup .dnd4e-combat-start-setup__presets label {
+	margin: 0;
+}
+.dnd4e-negotiation-setup .dnd4e-combat-start-setup__tabs button {
+	border-radius: 0;
+	width: auto;
+	flex: 0 1 auto;
+}
+.dnd4e-negotiation-setup .negotiation-columns,
+.dnd4e-negotiation-setup .negotiation-offers {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1rem;
+}
+.dnd4e-negotiation-setup .negotiation-offers textarea { min-height: 6rem; }
+.dnd4e-negotiation-setup .negotiation-actor-drop {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	min-height: 7rem;
+	padding: 1rem;
+	margin-bottom: 1rem;
+	border: 1px dashed #8f6745;
+	border-radius: .35rem;
+	background: radial-gradient(circle at 0 0, #65412835, transparent 75%), #17171b;
+}
+.dnd4e-negotiation-setup .negotiation-actor-drop.is-dragover {
+	border-color: #e4c58d;
+	background: #4c3b25;
+}
+.dnd4e-negotiation-setup .negotiation-actor-drop > img {
+	width: 5rem;
+	height: 5rem;
+	object-fit: cover;
+	border: 1px solid #8f6745;
+	border-radius: .3rem;
+}
+.dnd4e-negotiation-setup .negotiation-actor-drop > i { font-size: 2rem; color: #c69b5d; }
+.dnd4e-negotiation-setup .negotiation-actor-drop > div { flex: 1; min-width: 0; }
+.dnd4e-negotiation-setup .negotiation-actor-drop > button { flex: 0 0 auto; width: 2rem; }
+.dnd4e-negotiation-setup .negotiation-actor-drop p { margin: .3rem 0; color: #9e958a; }
+.dnd4e-negotiation-setup .negotiation-actor-drop span { color: #c69b5d; font-size: .65rem; text-transform: uppercase; letter-spacing: .12em; }
+.dnd4e-negotiation-setup .negotiation-corrections { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #58422f; }
+.dnd4e-negotiation-setup footer .negotiation-buttons { margin: 0 auto 0 0; }
+@media (max-width: 700px) {
+	.dnd4e-negotiation-setup .negotiation-columns,
+	.dnd4e-negotiation-setup .negotiation-offers { grid-template-columns: 1fr; }
+}
+.dnd4e-negotiation-setup .dnd4e-combat-start-setup__preset-row {
+	grid-template-columns: minmax(0, 1fr) auto auto auto;
+}
+
+/* Checkbox controls must not inherit the full-size text-field box or Foundry's icon layer. */
+.dnd4e-negotiation .negotiation-check {
+	gap: .5rem;
+	line-height: 1.3;
+	cursor: pointer;
+}
+.dnd4e-negotiation .negotiation-check input[type="checkbox"] {
+	appearance: none;
+	-webkit-appearance: none;
+	display: inline-grid;
+	place-content: center;
+	flex: 0 0 1rem;
+	width: 1rem;
+	height: 1rem;
+	min-width: 1rem;
+	min-height: 1rem;
+	margin: 0;
+	padding: 0;
+	border: 1px solid #8f7650;
+	border-radius: .2rem;
+	background: #141515;
+	box-shadow: none;
+	transform: none;
+	filter: none;
+	cursor: pointer;
+}
+.dnd4e-negotiation .negotiation-check input[type="checkbox"]::before {
+	content: none;
+}
+.dnd4e-negotiation .negotiation-check input[type="checkbox"]::after {
+	content: "";
+	position: static;
+	width: .65rem;
+	height: .65rem;
+	background: #17171b;
+	clip-path: polygon(12% 42%, 0 57%, 38% 95%, 100% 20%, 84% 6%, 36% 65%);
+	opacity: 0;
+	transform: none;
+	box-shadow: none;
+}
+.dnd4e-negotiation .negotiation-check input[type="checkbox"]:checked {
+	border-color: #d1ad70;
+	background: #d1ad70;
+}
+.dnd4e-negotiation .negotiation-check input[type="checkbox"]:checked::after { opacity: 1; }
+.dnd4e-negotiation .negotiation-check input[type="checkbox"]:focus-visible {
+	outline: 2px solid #e4c58d;
+	outline-offset: 3px;
+}
+
+/* The compact GM window stacks chrome and fields by its own width, not the viewport. */
+.dnd4e-negotiation-setup .negotiation-form { container-type: inline-size; }
+@container (max-width: 600px) {
+	.dnd4e-negotiation-setup .dnd4e-combat-start-setup__heading {
+		align-items: stretch;
+		flex-direction: column;
+		gap: .5rem;
+		padding: .7rem .85rem;
+	}
+	.dnd4e-negotiation-setup .dnd4e-combat-start-setup__heading .dnd4e-combat-start-setup__presets {
+		flex-basis: auto;
+		min-width: 0;
+	}
+	.dnd4e-negotiation-setup .dnd4e-combat-start-setup__heading h2 { font-size: 1.4rem; }
+	.dnd4e-negotiation-setup .dnd4e-combat-start-setup__tabs { padding: .3rem .5rem 0; flex-wrap: wrap; }
+	.dnd4e-negotiation-setup .dnd4e-combat-start-setup__tabs button { padding: .5rem; font-size: .6rem; letter-spacing: .06em; }
+	.dnd4e-negotiation-setup .negotiation-editor { padding: .75rem .85rem; }
+	.dnd4e-negotiation-setup .negotiation-columns,
+	.dnd4e-negotiation-setup .negotiation-offers { grid-template-columns: 1fr; gap: .5rem; }
+	.dnd4e-negotiation-setup .dnd4e-combat-start-setup__actions {
+		align-items: stretch;
+		flex-direction: column;
+		padding: .65rem .85rem;
+	}
+	.dnd4e-negotiation-setup .dnd4e-combat-start-setup__save-group {
+		width: 100%;
+		grid-template-columns: minmax(0, 1fr) auto auto;
+	}
+	.dnd4e-negotiation-setup .dnd4e-combat-start-setup__actions button { padding: .45rem .55rem; }
+	.dnd4e-negotiation-setup .negotiation-actor-drop { min-height: 5rem; padding: .65rem; gap: .65rem; }
+	.dnd4e-negotiation-setup .negotiation-actor-drop > img { width: 3.5rem; height: 3.5rem; }
+}
+
+/* Concerns: a compact index and one focused editor, based on prototype B. */
+.dnd4e-negotiation-setup .negotiation-concerns-layout {
+	display: grid;
+	grid-template-columns: minmax(8rem, 30%) minmax(0, 1fr);
+	min-height: 20rem;
+	border: 1px solid #40372d;
+	border-radius: .35rem;
+	overflow: hidden;
+}
+.dnd4e-negotiation-setup .negotiation-concerns-list {
+	min-width: 0;
+	padding: .6rem;
+	background: #0b0c10;
+	border-right: 1px solid #40372d;
+}
+.dnd4e-negotiation-setup .negotiation-concerns-group + .negotiation-concerns-group { margin-top: 1.1rem; }
+.dnd4e-negotiation-setup .negotiation-concerns-group h3,
+.dnd4e-negotiation-setup .negotiation-concern-kind {
+	font: 800 .62rem var(--font-body, sans-serif);
+	letter-spacing: .09em;
+	text-transform: uppercase;
+	color: #c69b5d;
+	margin: .25rem 0 .5rem;
+}
+.dnd4e-negotiation-setup .negotiation-concerns-group h3 span { color: #8f8679; margin-left: .25rem; }
+.dnd4e-negotiation-setup .negotiation-concern-select {
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+	gap: .2rem;
+	width: 100%;
+	margin: .15rem 0;
+	padding: .5rem .4rem;
+	border: 0;
+	border-left: 2px solid transparent;
+	border-radius: 0;
+	background: transparent;
+	text-align: left;
+	box-shadow: none;
+	line-height: 1.3;
+}
+.dnd4e-negotiation-setup .negotiation-concern-select strong { overflow-wrap: anywhere; font-size: .8rem; }
+.dnd4e-negotiation-setup .negotiation-concern-select small { font-size: .65rem; color: #a99e8e; }
+.dnd4e-negotiation-setup .negotiation-concern-select.is-selected {
+	background: #bd88471f;
+	color: #f2d59e;
+	border-left-color: #bd8847;
+}
+.dnd4e-negotiation-setup .negotiation-concern-add {
+	width: 100%;
+	margin-top: .3rem;
+	padding: .3rem;
+	font-size: .72rem;
+	border-color: transparent;
+	background: transparent;
+	color: #b9a47f;
+}
+.dnd4e-negotiation-setup .negotiation-concern-editor { min-width: 0; padding: .85rem; background: #19191b; }
+.dnd4e-negotiation-setup .negotiation-concern-editor h3 { font-size: 1.25rem; margin: .25rem 0 .85rem; overflow-wrap: anywhere; }
+.dnd4e-negotiation-setup .negotiation-concern-editor label { font-size: .75rem; color: #bdb09a; margin: .65rem 0; }
+.dnd4e-negotiation-setup .negotiation-concern-editor textarea { min-height: 3.5rem; }
+.dnd4e-negotiation-setup .negotiation-concern-advanced summary { cursor: pointer; font-size: .72rem; color: #a99e8e; margin: .75rem 0; }
+.dnd4e-negotiation-setup .negotiation-concern-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; margin-top: 1rem; }
+.dnd4e-negotiation-setup .negotiation-concern-actions button { padding: .3rem .45rem; font-size: .7rem; }
+.dnd4e-negotiation-setup .negotiation-concern-reveal { background: transparent; color: #b6a68d; border-color: #524832; }
+.dnd4e-negotiation-setup .negotiation-concern-reveal.is-revealed { color: #bcd1a5; border-color: #5b6a4a; background: #73895b15; }
+.dnd4e-negotiation-setup .negotiation-concern-remove { margin-left: auto; border-color: transparent; background: transparent; color: #d69485; }
+.dnd4e-negotiation-setup .negotiation-concern-used { font-size: .7rem; color: #c6a66c; }
+.dnd4e-negotiation-setup .negotiation-concerns-empty { color: #8f8679; font-size: .75rem; }
+.dnd4e-negotiation-setup .negotiation-concern-editor input[hidden] { display: none; }
+
+/* A small NPC portrait card; only revealed concerns appear beneath the name. */
+.dnd4e-negotiation-player .negotiation-workspace {
+	padding: .65rem;
+	max-height: 75vh;
+}
+.dnd4e-negotiation-player .negotiation-presentation h1 {
+	font-size: 1.35rem;
+	text-align: center;
+	margin: .6rem 0 .3rem;
+	overflow-wrap: anywhere;
+}
+.dnd4e-negotiation-player .negotiation-presentation h2 {
+	font-size: .85rem;
+	margin: 0 0 .4rem;
+}
+.dnd4e-negotiation-player .negotiation-presentation section {
+	padding: .6rem 0;
+}
+.dnd4e-negotiation-player .negotiation-presentation section:last-child { border-bottom: 0; }
+.dnd4e-negotiation-player .negotiation-presentation p {
+	font-size: .8rem;
+	line-height: 1.4;
+	margin: .4rem 0;
+}
+
+/* Resolution is a compact reference with direct GM track controls first. */
+.dnd4e-negotiation-setup .negotiation-rules { font-size: .8rem; line-height: 1.45; }
+.dnd4e-negotiation-setup .negotiation-rules h2 { font-size: 1.3rem; }
+.dnd4e-negotiation-setup .negotiation-rules h3 { font-size: 1rem; margin-top: 1rem; }
+.dnd4e-negotiation-setup .negotiation-rules .negotiation-corrections {
+	margin: .75rem 0;
+	padding: .75rem;
+	border: 1px solid #8f6745;
+	border-radius: .35rem;
+	background: #bd88470c;
+}
+.dnd4e-negotiation-setup .negotiation-rules .negotiation-corrections h3 { margin: 0; }
+.dnd4e-negotiation-setup .negotiation-dc-reference { margin: 1rem 0; padding: .75rem; background: #090a0d; border: 1px solid #40372d; border-radius: .35rem; }
+.dnd4e-negotiation-setup .negotiation-dc-reference h3 { margin: 0; }
+.dnd4e-negotiation-setup .negotiation-dc-reference p { color: #a99e8e; font-size: .75rem; }
+.dnd4e-negotiation-setup .negotiation-dc-controls { display: flex; gap: .6rem; align-items: end; }
+.dnd4e-negotiation-setup .negotiation-dc-controls label { flex: 1; margin: 0; }
+.dnd4e-negotiation-setup .negotiation-dc-values { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; margin-top: .75rem; text-align: center; }
+.dnd4e-negotiation-setup .negotiation-dc-values > div { padding: .5rem; border: 1px solid #40372d; border-radius: .25rem; }
+.dnd4e-negotiation-setup .negotiation-dc-values span { display: block; font-size: .65rem; color: #a99e8e; }
+.dnd4e-negotiation-setup .negotiation-dc-values strong { font-size: 1.4rem; color: #e7c894; }
+.dnd4e-negotiation-setup .negotiation-dc-values .is-normal { border-color: #bd8847; background: #bd884715; }
+.dnd4e-negotiation-setup .negotiation-rules table { width: 100%; border-collapse: collapse; font-size: .75rem; }
+.dnd4e-negotiation-setup .negotiation-rules th,
+.dnd4e-negotiation-setup .negotiation-rules td { text-align: left; padding: .5rem; border-bottom: 1px solid #40372d; }
+.dnd4e-negotiation-setup .negotiation-rules th { color: #c69b5d; background: #090a0d; }
+.dnd4e-negotiation-setup .negotiation-rules-details { margin: .75rem 0; padding: .65rem; border: 1px solid #40372d; border-radius: .25rem; }
+.dnd4e-negotiation-setup .negotiation-rules-details summary { cursor: pointer; color: #e7c894; font-weight: 700; }
+.dnd4e-negotiation-setup .negotiation-rules-details ul { padding-left: 1.2rem; }
+.dnd4e-negotiation-setup .negotiation-rules-details li { margin: .4rem 0; }
+
+/* Live controls stay available below every tab without a second action bar. */
+.dnd4e-negotiation-setup .negotiation-live-footer {
+	display: flex;
+	align-items: end;
+	gap: .65rem;
+	width: 100%;
+}
+.dnd4e-negotiation-setup .negotiation-footer-tracks {
+	display: flex;
+	align-items: end;
+	gap: .4rem;
+}
+.dnd4e-negotiation-setup .negotiation-footer-tracks label {
+	align-items: center;
+	gap: .2rem;
+	margin: 0;
+	font-size: .65rem;
+	color: #c69b5d;
+}
+.dnd4e-negotiation-setup .negotiation-footer-tracks input[type="number"] {
+	box-sizing: content-box;
+	width: 3ch;
+	min-width: 3ch;
+	height: 2rem;
+	font-size: 1.05rem;
+	padding: .15rem .35rem;
+	text-align: center;
+	font-variant-numeric: tabular-nums;
+	appearance: textfield;
+	-moz-appearance: textfield;
+}
+.dnd4e-negotiation-setup .negotiation-footer-tracks input::-webkit-inner-spin-button,
+.dnd4e-negotiation-setup .negotiation-footer-tracks input::-webkit-outer-spin-button { appearance: none; margin: 0; }
+.dnd4e-negotiation-setup .negotiation-live-footer button {
+	width: auto;
+	flex: 0 0 auto;
+	min-height: 2rem;
+	padding: .4rem .55rem;
+	font-size: .75rem;
+}
+.dnd4e-negotiation-setup .negotiation-live-footer .negotiation-footer-show { margin-left: auto; white-space: normal; }
+.dnd4e-negotiation-setup .negotiation-live-footer .negotiation-footer-end { border-color: #9d5146; color: #efc5ba; }
+.dnd4e-negotiation-setup .negotiation-discovery-reference { margin: .75rem 0; padding: .75rem; border: 1px solid #8f6745; border-radius: .35rem; background: #bd88470c; }
+.dnd4e-negotiation-setup .negotiation-discovery-reference h3 { margin-top: 0; }
+.dnd4e-negotiation-setup .negotiation-discovery-reference ol { padding-left: 1.25rem; }
+.dnd4e-negotiation-setup .negotiation-discovery-reference li { margin: .4rem 0; }
+@container (max-width: 470px) {
+	.dnd4e-negotiation-setup .negotiation-live-footer { flex-wrap: wrap; }
+	.dnd4e-negotiation-setup .negotiation-live-footer .negotiation-footer-show { flex: 1; }
+}
+
+/* Use the wider GM window to keep discovery and argument references in view together. */
+.dnd4e-negotiation-setup .negotiation-resolution-columns {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+	align-items: start;
+	gap: 1.25rem;
+}
+.dnd4e-negotiation-setup .negotiation-resolution-columns > div { min-width: 0; }
+@container (max-width: 760px) {
+	.dnd4e-negotiation-setup .negotiation-resolution-columns { grid-template-columns: 1fr; gap: .5rem; }
+}
+
+/* Scene DCs span the full reference width; arguments left, discovery right. */
+.dnd4e-negotiation-setup .negotiation-dc-landing {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	padding: .65rem .85rem;
+}
+.dnd4e-negotiation-setup .negotiation-dc-source { flex: 1; min-width: 0; }
+.dnd4e-negotiation-setup .negotiation-dc-source p { margin: .3rem 0 0; }
+.dnd4e-negotiation-setup .negotiation-dc-landing .negotiation-dc-values { flex: 0 0 17rem; margin: 0; }
+.dnd4e-negotiation-setup .negotiation-dc-landing .negotiation-dc-controls { flex: 0 0 10rem; }
+.dnd4e-negotiation-setup .negotiation-resolution-columns { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
+.dnd4e-negotiation-setup .negotiation-argument-outcomes td { vertical-align: top; }
+.dnd4e-negotiation-setup .negotiation-argument-outcomes td span { display: block; }
+.dnd4e-negotiation-setup .negotiation-argument-outcomes button { padding: .2rem .5rem; margin-top: .4rem; font-size: .7rem; }
+.dnd4e-negotiation-setup .negotiation-argument-outcomes button:disabled { opacity: .4; cursor: default; }
+.dnd4e-negotiation-setup .negotiation-outcome-undo { margin-top: .5rem; font-size: .75rem; }
+@container (max-width: 760px) {
+	.dnd4e-negotiation-setup .negotiation-dc-landing { flex-wrap: wrap; }
+	.dnd4e-negotiation-setup .negotiation-dc-source { flex-basis: 100%; }
+	.dnd4e-negotiation-setup .negotiation-dc-landing .negotiation-dc-values { flex: 1; }
+	.dnd4e-negotiation-setup .negotiation-resolution-columns { grid-template-columns: 1fr; }
+}
+
+/* DC landing occupies its own fixed grid row above the scrolling editor. */
+.dnd4e-negotiation-setup .negotiation-form.has-resolution { grid-template-rows: auto auto auto minmax(0, 1fr) auto; }
+.dnd4e-negotiation-setup .negotiation-form > .negotiation-dc-landing {
+	margin: 0;
+	border: 0;
+	border-bottom: 1px solid #58422f;
+	border-radius: 0;
+	background: #101115;
+	padding: .65rem 1.3rem;
+}
+.dnd4e-negotiation-setup .negotiation-dc-level { flex: 0 0 4rem; margin: 0; font-size: .7rem; color: #c69b5d; }
+.dnd4e-negotiation-setup .negotiation-argument-reference { margin: .75rem 0; padding: .75rem; border: 1px solid #8f6745; border-radius: .35rem; background: #bd88470c; }
+.dnd4e-negotiation-setup .negotiation-argument-reference > h3 { margin-top: 0; }
+.dnd4e-negotiation-setup .negotiation-footer-tracks label { flex-direction: row; align-items: center; gap: .4rem; }
+.dnd4e-negotiation-setup .negotiation-offer-shorthand { display: block; color: #e7c894; font-size: .8rem; }
+
+/* Compact outcome actions sit alongside their effects, rather than below them. */
+.dnd4e-negotiation-setup .negotiation-outcome-effect { display: flex; align-items: center; gap: .4rem; }
+.dnd4e-negotiation-setup .negotiation-outcome-effect > span { flex: 1; }
+.dnd4e-negotiation-setup .negotiation-outcome-effect button {
+	flex: 0 0 1.5rem;
+	width: 1.5rem;
+	min-height: 1.5rem;
+	margin: 0;
+	padding: .15rem;
+	border-color: transparent;
+	background: transparent;
+	color: #e7c894;
+}
+.dnd4e-negotiation-setup .negotiation-footer-tracks { align-items: center; gap: .7rem; }
+.dnd4e-negotiation-setup .negotiation-footer-tracks .negotiation-offer-shorthand { display: inline; white-space: nowrap; }
