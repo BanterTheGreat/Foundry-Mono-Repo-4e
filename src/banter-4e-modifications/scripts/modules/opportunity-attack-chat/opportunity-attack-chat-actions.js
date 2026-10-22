@@ -264,12 +264,12 @@ export class OpportunityAttackChatActions {
    */
   static #renderVariantButton(variant) {
     if (variant === OpportunityAttackChatActions.VARIANT.CHARGE) {
-      return `<i class="fas fa-person-running"></i> Charge`;
+      return `<i class="fas fa-person-running"></i> Switch to Charge`;
     }
     if (variant === OpportunityAttackChatActions.VARIANT.OPPORTUNITY) {
-      return `<i class="fas fa-triangle-exclamation"></i> Opportunity Attack`;
+      return `<i class="fas fa-triangle-exclamation"></i> Switch to Opportunity Attack`;
     }
-    return `<i class="fas fa-rotate-left"></i> Regular Attack`;
+    return `<i class="fas fa-rotate-left"></i> Switch to Regular Attack`;
   }
 
   /**
