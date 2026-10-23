@@ -1,12 +1,12 @@
-<section class="dnd4e-combat-start{{#unless isGM}} is-player-view{{/unless}}">
+<section class="dnd4e-combat-start{{#unless advanced}} is-basic{{/unless}}{{#unless isGM}} is-player-view{{/unless}}">
 	<nav class="dnd4e-combat-start__tabs" aria-label="Battle Briefing sections">
 		<button type="button" data-action="showTab" data-tab="briefing" class="{{#if showBriefing}}is-active{{/if}}">
 			<i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Battle Briefing
 		</button>
 		{{#if isGM}}
-			<button type="button" data-action="showTab" data-tab="strategy" class="{{#if showStrategy}}is-active{{/if}}">
+			{{#if advanced}}<button type="button" data-action="showTab" data-tab="strategy" class="{{#if showStrategy}}is-active{{/if}}">
 				<i class="fa-solid fa-map" aria-hidden="true"></i> Strategy
-			</button>
+			</button>{{/if}}
 			<button type="button" data-action="showTab" data-tab="calculation" class="{{#if showCalculation}}is-active{{/if}}">
 				<i class="fa-solid fa-calculator" aria-hidden="true"></i> Calculation
 			</button>
@@ -20,13 +20,13 @@
 					<h1>{{title}}</h1>
 					<p>{{description}}</p>
 			</header>
-			<div class="dnd4e-combat-start__side-headings" aria-hidden="true">
+			{{#if advanced}}<div class="dnd4e-combat-start__side-headings" aria-hidden="true">
 				<span class="dnd4e-combat-start__eyebrow">On Their Side</span>
 				<span class="dnd4e-combat-start__eyebrow">On Our Side</span>
-			</div>
+			</div>{{/if}}
 
 			<div class="dnd4e-combat-start__briefing-body">
-				<section class="dnd4e-combat-start__threat">
+				{{#if advanced}}<section class="dnd4e-combat-start__threat">
 					{{#if commander}}
 						<article class="dnd4e-combat-start__commander" style="--commander-position-x: {{commanderPositionX}}%; --commander-position-y: {{commanderPositionY}}%; --commander-scale: {{commanderScale}}">
 							<img src="{{commander.img}}" alt="">
@@ -59,7 +59,7 @@
 					{{/if}}
 				</section>
 
-				<aside class="dnd4e-combat-start__party">
+				{{/if}}<aside class="dnd4e-combat-start__party">
 				<div class="dnd4e-combat-start__heroes">
 					{{#each party}}
 						<article>
@@ -67,6 +67,7 @@
 							<div><strong>{{name}}</strong><small>{{#if @root.isGM}}Level {{level}} · {{/if}}{{role}}</small></div>
 							<div class="dnd4e-combat-start__initiative">
 								<small>Initiative</small>
+								{{#if initiativePlacement}}<span class="dnd4e-combat-start__party-placement" title="Initiative tracker placement">#{{initiativePlacement}}</span>{{/if}}
 								{{#if @root.isGM}}
 									{{#if hasInitiative}}
 										<input type="number" class="dnd4e-combat-start__initiative-input" data-combatant-id="{{id}}" value="{{rawInitiative}}" placeholder="—">

@@ -1850,3 +1850,75 @@
 		border-left: 0;
 	}
 }
+
+/* Basic briefings keep preparation and initiative in a single compact column. */
+.dnd4e-combat-start-setup__form.is-basic .dnd4e-combat-start-setup__workspace {
+	grid-template-columns: minmax(0, 1fr);
+	overflow: auto;
+	align-content: start;
+}
+.dnd4e-combat-start-setup__form.is-basic .dnd4e-combat-start-setup__heading,
+.dnd4e-combat-start-setup__form.is-basic .dnd4e-combat-start-setup__actions {
+	flex-wrap: wrap;
+	gap: 0.6rem;
+}
+.dnd4e-combat-start-setup__form.is-basic .dnd4e-combat-start-setup__roster-actions {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.dnd4e-combat-start-setup__form.is-basic .dnd4e-combat-start-setup__editor {
+	display: block;
+	overflow: visible;
+}
+.dnd4e-combat-start-setup__form.is-basic .dnd4e-combat-start-setup__roster {
+	min-height: 18rem;
+	border-left: 0;
+	border-top: 1px solid rgb(146 108 71 / 45%);
+}
+.dnd4e-combat-start-setup__form.is-basic .dnd4e-combat-start-setup__combatants {
+	flex: 0 0 auto;
+	height: 14rem;
+	min-height: 0;
+	max-height: 14rem;
+	overflow-y: auto;
+}
+.dnd4e-combat-start-setup__form.is-basic .dnd4e-combat-start-setup__combatants > article {
+	flex: 0 0 auto;
+}
+.dnd4e-combat-start-setup__form.is-basic .dnd4e-combat-start-setup__combatants article {
+	grid-template-columns: 2.25rem minmax(0, 1fr) auto auto;
+}
+.dnd4e-combat-start.is-basic .dnd4e-combat-start__briefing {
+	grid-template-rows: auto minmax(0, 1fr) auto;
+}
+.dnd4e-combat-start.is-basic .dnd4e-combat-start__briefing-body {
+	grid-template-columns: minmax(0, 1fr);
+}
+.dnd4e-combat-start.is-basic .dnd4e-combat-start__party {
+	border-left: 0;
+	padding-top: 0.8rem;
+}
+.dnd4e-combat-start__party-placement {
+	color: #dfb066;
+	font-weight: 700;
+}
+.is-basic .dnd4e-encounter-calculation__summary {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.dnd4e-combat-start__initiative {
+	grid-template-columns: auto auto;
+	column-gap: 0.45rem;
+	align-items: center;
+}
+.dnd4e-combat-start__initiative > small {
+	grid-column: 1 / -1;
+}
+.dnd4e-combat-start__party-placement {
+	grid-column: 1;
+	grid-row: 2;
+}
+.dnd4e-combat-start__initiative > b,
+.dnd4e-combat-start__initiative > input,
+.dnd4e-combat-start__initiative > button {
+	grid-column: 2;
+	grid-row: 2;
+}

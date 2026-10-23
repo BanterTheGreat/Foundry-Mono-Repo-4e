@@ -2,6 +2,7 @@ import { getDefaultStrategy, getStrategy, setStrategy } from "./strategy.js";
 import { getEncounterCalculation } from "./encounter-calculation.js";
 
 const MODULE_ID = "dnd4e-health-display";
+const ADVANCED_SETTING = "advancedBattleBriefing";
 const ACTIVE_SETTING = "activeCombatStart";
 const PRESENTATION_FLAG = "presentation";
 const PRESET_FLAG = "preset";
@@ -15,6 +16,16 @@ const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 /** Register the world state used by the independent combat-start submodule. */
 export function registerCombatStartSettings() {
+	game.settings.register(MODULE_ID, ADVANCED_SETTING, {
+		name: "Advanced Battle Briefing",
+		hint: "Enable strategy, commander artwork, and the full briefing layout.",
+		scope: "world",
+		config: true,
+		type: Boolean,
+		default: false,
+		requiresReload: true,
+	});
+
 	game.settings.register(MODULE_ID, ACTIVE_SETTING, {
 		name: "Active Battle Briefing presentation",
 		scope: "world",
@@ -273,7 +284,7 @@ function closeCombatStartDisplay() {
 
 class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 	constructor(options, combat) {
-		super(options);
+		super({ ...options, position: { width: game.settings.get(MODULE_ID, ADVANCED_SETTING) ? 940 : 470, height: game.settings.get(MODULE_ID, ADVANCED_SETTING) ? 760 : 900, ...options.position } });
 		this.combat = combat;
 		this.selectedPresetId = "";
 		const presentation = getCombatPresentation(combat);
@@ -330,6 +341,10 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 	/** @returns {object} */
 	async _prepareContext(options) {
 		const context = await super._prepareContext(options);
+		const advanced = Boolean(game.settings.get(MODULE_ID, ADVANCED_SETTING));
+		if (!advanced && this.activeTab === "strategy") {
+			this.activeTab = "briefing";
+		}
 		const presets = getPresets();
 		const hostileCombatants = Array.from(this.combat?.combatants ?? [])
 			.filter((combatant) => combatant.token?.disposition === CONST.TOKEN_DISPOSITIONS.HOSTILE
@@ -364,6 +379,7 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 			})),
 		}));
 		return foundry.utils.mergeObject(context, {
+			advanced,
 			combatName: this.combat?.name ?? "Encounter",
 			showBriefing: this.activeTab === "briefing",
 			showStrategy: this.activeTab === "strategy",
@@ -419,6 +435,7 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 	_onRender(context, options) {
 		super._onRender(context, options);
 		const roster = this.element.querySelector(".dnd4e-combat-start-setup__combatants");
+
 		if (roster && this._rosterScrollTop != null) {
 			roster.scrollTop = this._rosterScrollTop;
 		}
@@ -464,10 +481,10 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 			name,
 			title: this.element.querySelector('[name="title"]')?.value.trim() ?? "",
 			description: this.element.querySelector('[name="description"]')?.value.trim() ?? "",
-			commanderSubtitle: this.element.querySelector('[name="commanderSubtitle"]')?.value.trim() ?? "",
-			commanderPositionX: Number(this.element.querySelector('[name="commanderPositionX"]')?.value ?? 50),
-			commanderPositionY: Number(this.element.querySelector('[name="commanderPositionY"]')?.value ?? 50),
-			commanderZoom: Number(this.element.querySelector('[name="commanderZoom"]')?.value ?? 100),
+			commanderSubtitle: this.element.querySelector('[name="commanderSubtitle"]')?.value.trim() ?? this.draft.commanderSubtitle,
+			commanderPositionX: Number(this.element.querySelector('[name="commanderPositionX"]')?.value ?? this.draft.commanderPositionX),
+			commanderPositionY: Number(this.element.querySelector('[name="commanderPositionY"]')?.value ?? this.draft.commanderPositionY),
+			commanderZoom: Number(this.element.querySelector('[name="commanderZoom"]')?.value ?? this.draft.commanderZoom),
 		};
 		return this.draft;
 	}
@@ -783,7 +800,7 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 
 class CombatStartDisplay extends HandlebarsApplicationMixin(ApplicationV2) {
 	constructor(options, presentation) {
-		super(options);
+		super({ ...options, position: { width: game.settings.get(MODULE_ID, ADVANCED_SETTING) ? 1040 : 520, ...options.position } });
 		this.presentation = presentation;
 		this.activeTab = "briefing";
 		this.strategyDraft = null;
@@ -828,6 +845,10 @@ class CombatStartDisplay extends HandlebarsApplicationMixin(ApplicationV2) {
 	/** @returns {object} */
 	async _prepareContext(options) {
 		const context = await super._prepareContext(options);
+		const advanced = Boolean(game.settings.get(MODULE_ID, ADVANCED_SETTING));
+		if (!advanced && this.activeTab === "strategy") {
+			this.activeTab = "briefing";
+		}
 		const combat = game.combats.get(this.combatId);
 		const presentation = getCombatPresentation(combat) ?? getDefaultPresentation();
 		const roster = getCombatStartRoster(combat, presentation.commanderCombatantId);
@@ -856,13 +877,18 @@ class CombatStartDisplay extends HandlebarsApplicationMixin(ApplicationV2) {
 		return foundry.utils.mergeObject(context, {
 			...presentation,
 			...roster,
+			advanced,
+			party: roster.party.map((member) => ({
+				...member,
+				initiativePlacement: initiativeTracker.rolled.find((entry) => entry.id === member.id)?.seq,
+			})),
 			commanderScale: Number(presentation.commanderZoom ?? 100) / 100,
 			isGM: game.user.isGM,
 			combatStarted: Boolean(combat?.started),
 			canRollPlayerInitiative,
 			hasUnrolledEnemyInitiative,
 			initiativeTracker,
-			initiativeTrackerPlacement: game.settings.get(MODULE_ID, INITIATIVE_TRACKER_PLACEMENT_SETTING),
+			initiativeTrackerPlacement: advanced ? game.settings.get(MODULE_ID, INITIATIVE_TRACKER_PLACEMENT_SETTING) : "bottom",
 			showBriefing: this.activeTab === "briefing",
 			showStrategy: game.user.isGM && this.activeTab === "strategy",
 			showCalculation: game.user.isGM && this.activeTab === "calculation",

@@ -143,7 +143,7 @@ export function validateNpcRequest(args) {
  * Type is checked against the actual embedded document in the browser.
  */
 export function validateNpcEdit(args) {
-  const { items = [], deleteTraits = [], summary, ...actor } = args ?? {};
+  const { items = [], addPowers = [], deleteTraits = [], summary, ...actor } = args ?? {};
   validateChangeSummary(summary);
   validateShape(actor, { uuid: string, name: string, img: string, system: NPC_SYSTEM_SCHEMA });
   if (!/^Actor\.[A-Za-z0-9_-]{1,128}$/.test(actor.uuid ?? "")) {
@@ -156,6 +156,15 @@ export function validateNpcEdit(args) {
     throw new Error("Items must be an array of at most 100 existing powers or features.");
   }
   const ids = new Set();
+  validateShape(addPowers, [NPC_POWER_ADDITION_SCHEMA], "addPowers");
+  const keys = new Set();
+  for (const power of addPowers) {
+    if (!/^[A-Za-z0-9_-]{1,128}$/.test(power.key ?? "") || keys.has(power.key)
+      || !power.name?.trim() || power.name.length > 200 || !power.system) {
+      throw new Error("Each new power requires a unique stable key, name and system data.");
+    }
+    keys.add(power.key);
+  }
   for (const item of items) {
     const schema = item?.type === "power" ? POWER_SYSTEM_SCHEMA : item?.type === "feature" ? FEATURE_SYSTEM_SCHEMA : null;
     if (!schema) {
@@ -181,3 +190,7 @@ export function validateNpcEdit(args) {
     ids.add(id);
   }
 }
+
+export const NPC_POWER_ADDITION_SCHEMA = {
+  key: string, name: string, img: string, system: POWER_SYSTEM_SCHEMA
+};

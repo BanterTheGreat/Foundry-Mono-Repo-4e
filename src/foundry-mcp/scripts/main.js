@@ -1,3 +1,4 @@
+import { editJournalPages } from "./journal-page-api.js";
 import { addSceneDrawings } from "./scene-drawing-api.js";
 import { createJournal } from "./journal-create-api.js";
 import { DEFAULT_PORT, MODULE_ID, PROTOCOL_VERSION, MAX_MESSAGE_BYTES } from "../shared/protocol.js";
@@ -7,6 +8,7 @@ import { createItem } from "./item-create-api.js";
 import { editNpc } from "./edit-api.js";
 import { importPcOptions } from "./pc-import-api.js";
 import { setupPc } from "./pc-setup-api.js";
+import { createRitual } from "./ritual-create-api.js";
 import { createFeat } from "./feat-create-api.js";
 import { addItemEffects } from "./item-effect-api.js";
 import { fixPcItemIcons } from "./pc-item-icon-api.js";
@@ -23,7 +25,7 @@ let status = "disabled";
  * Expose connection status without disclosing the pairing token.
  */
 function getStatus() {
-  return { status, worldId: game.world?.id, userId: game.user?.id, readOnly: false, creation: "NPC, configured PCs, world Items and Journals", pcImport: "powers and feats from dnd-4e-compendium", featCreation: "world Items or directly on PCs", pcItemIcons: "default equipment icons by slot", editing: "NPC, Item Piles merchant inventory, scene rectangle additions and Item ActiveEffects with active GM confirmation" };
+  return { status, worldId: game.world?.id, userId: game.user?.id, readOnly: false, creation: "NPC, configured PCs, world Items and Journals", pcImport: "powers and feats from dnd-4e-compendium", featCreation: "world Items or directly on PCs", pcItemIcons: "default equipment icons by slot", editing: "journal pages, NPC, Item Piles merchant inventory, scene rectangle additions and Item ActiveEffects with active GM confirmation" };
 }
 
 /**
@@ -107,6 +109,9 @@ function connect() {
           case "add_scene_drawings":
             result = await addSceneDrawings(request.args, connectionOptions);
             break;
+          case "edit_journal_pages":
+            result = await editJournalPages(request.args, connectionOptions);
+            break;
           case "create_journal":
             result = await createJournal(request.args, connectionOptions);
             break;
@@ -136,6 +141,9 @@ function connect() {
             break;
           case "create_item":
             result = await createItem(request.args);
+            break;
+          case "create_ritual":
+            result = await createRitual(request.args, connectionOptions);
             break;
           case "create_feat":
             result = await createFeat(request.args, connectionOptions);

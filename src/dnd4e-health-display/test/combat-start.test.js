@@ -141,3 +141,26 @@ test("live Calculation is available to the GM and never rendered for players", a
 	display.onShowTab(null, { dataset: { tab: "calculation" } });
 	assert.equal(display.activeTab, "briefing");
 });
+
+test("basic briefing retains Calculation and matches PC placement to the visible tracker", async () => {
+	const { context, combat } = loadBriefing();
+	context.game.settings.get = () => false;
+	const hero = { id: "hero", name: "Hero", initiative: 15, actor: { hasPlayerOwner: true, system: {} } };
+	const enemy = { id: "enemy", name: "Enemy", initiative: 20 };
+	combat.combatants.set("hero", hero);
+	combat.combatants.set("enemy", enemy);
+	combat.turns = [enemy, hero];
+	const display = new context.Display({}, { combatId: combat.id });
+	display.activeTab = "strategy";
+	const data = await display._prepareContext({});
+	assert.equal(data.advanced, false);
+	assert.equal(data.showBriefing, true);
+	assert.equal(data.showStrategy, false);
+	assert.equal(data.party[0].initiativePlacement, 2);
+	assert.equal(data.initiativeTrackerPlacement, "bottom");
+	display.activeTab = "calculation";
+	assert.equal((await display._prepareContext({})).showCalculation, true);
+	context.game.settings.get = () => true;
+	display.activeTab = "strategy";
+	assert.equal((await display._prepareContext({})).showStrategy, true);
+});

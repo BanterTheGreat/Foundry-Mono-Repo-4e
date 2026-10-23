@@ -1,6 +1,7 @@
 import { EDIT_CONFIRM_TIMEOUT_MS, MAX_MESSAGE_BYTES, MODULE_ID } from "../shared/protocol.js";
 import { validateNpcEdit } from "../shared/npc-data.js";
 import { assertEnabledGM } from "./read-api.js";
+import { canonical } from "./creation-utils.js";
 
 const pending = new WeakSet();
 
@@ -158,8 +159,26 @@ export async function editNpc(args, {
   if (pending.has(game)) {
     throw new Error("Another NPC edit is awaiting confirmation.");
   }
-  const { uuid, items = [], deleteTraits = [], summary, ...actorData } = args;
+  const { uuid, items = [], addPowers = [], deleteTraits = [], summary, ...actorData } = args;
   const targets = [{ document: actor, patch: flatten(actorData) }];
+  const additions = addPowers.map(({ key, ...power }) => ({ key, power,
+    fingerprint: JSON.stringify(canonical(power)) }));
+  /**
+   * A persisted semantic key prevents replay after partial saves or browser reloads.
+   * Changes to previously added powers belong in ordinary existing-item patches.
+   */
+  const findAddition = addition => {
+    const matches = [...actor.items.values()].filter(item => {
+      const marker = item.toObject(true).flags?.[MODULE_ID]?.npcPowerAddition;
+      return marker?.key === addition.key && marker.userId === userId;
+    });
+    if (matches.length > 1 || matches.some(item => item.type !== "power"
+      || item.toObject(true).flags[MODULE_ID].npcPowerAddition.fingerprint !== addition.fingerprint)) {
+      throw new Error("Power addition key already used with different data or duplicate receipts.");
+    }
+    return matches[0];
+  };
+  const newPowers = additions.filter(addition => !findAddition(addition));
   const markTargets = [];
   for (const { id, type, hitMark, ...data } of items) {
     const item = actor.items.get(id);
@@ -204,9 +223,18 @@ export async function editNpc(args, {
   for (const item of markTargets) {
     changes.push({ document: item.name, uuid: item.uuid, path: "effects: add on-hit Marked", before: "No managed on-hit mark", after: "On hit: Marked; marker is the attacking actor; expires at the end of its next turn." });
   }
+  for (const addition of newPowers) {
+    addition.path = `items: add power (${addition.key})`;
+    changes.push({ document: addition.power.name, uuid: actor.uuid, path: addition.path,
+      before: null, after: addition.power });
+  }
+  const addedPowers = () => additions.flatMap(addition => {
+    const item = findAddition(addition);
+    return item ? [{ key: addition.key, id: item.id, uuid: item.uuid, name: item.name }] : [];
+  });
   const receipt = { uuid, name: actor.name, type: actor.type, changes };
   if (!changes.length) {
-    return { ...receipt, status: "unchanged" };
+    return { ...receipt, status: "unchanged", addedPowers: addedPowers() };
   }
   pending.add(game);
   try {
@@ -226,6 +254,10 @@ export async function editNpc(args, {
     const itemUpdates = targets.slice(1).filter(target => Object.keys(target.patch).length)
       .map(target => ({ _id: target.document.id, ...target.patch }));
     const savedChanges = () => changes.filter(change => {
+      const addition = newPowers.find(addition => addition.path === change.path);
+      if (addition) {
+        return Boolean(findAddition(addition));
+      }
       if (change.path === "items: delete trait") {
         const target = deletionTargets.find(target => target.document.uuid === change.uuid);
         return game.actors.get(actor.id) === actor && !actor.items.has(target.document.id);
@@ -263,6 +295,23 @@ export async function editNpc(args, {
         }
         assertSession();
       }
+      for (const addition of newPowers) {
+        assertSession();
+        if (game.actors.get(actor.id) !== actor) {
+          throw new Error("NPC was removed or replaced before power creation.");
+        }
+        if (findAddition(addition)) {
+          continue;
+        }
+        await actor.createEmbeddedDocuments("Item", [{ ...addition.power, type: "power",
+          flags: { [MODULE_ID]: { npcPowerAddition: {
+            key: addition.key, userId, fingerprint: addition.fingerprint
+          } } } }]);
+        assertSession();
+        if (!findAddition(addition)) {
+          throw new Error("Power creation was cancelled.");
+        }
+      }
       if (deletionTargets.length) {
         assertSession();
         const updates = changes.filter(change => change.path !== "items: delete trait");
@@ -284,10 +333,10 @@ export async function editNpc(args, {
       }
     } catch {
       notify(`Foundry MCP: edit to ${actor.name} did not fully complete. Check the NPC before retrying.`);
-      return { ...receipt, status: "incomplete", applied: savedChanges(), message: "Edit did not fully complete. Read the NPC source before retrying; some changes may have been saved." };
+      return { ...receipt, status: "incomplete", applied: savedChanges(), addedPowers: addedPowers(), message: "Edit did not fully complete. Read the NPC source before retrying; some changes may have been saved." };
     }
     notify(`Foundry MCP: saved ${changes.length} changes to ${actor.name}.`);
-    return { ...receipt, name: actor.name, status: "updated" };
+    return { ...receipt, name: actor.name, status: "updated", addedPowers: addedPowers() };
   } finally {
     pending.delete(game);
   }

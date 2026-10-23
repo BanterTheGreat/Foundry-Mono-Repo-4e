@@ -1,9 +1,13 @@
 # Foundry MCP
 
-Connects a local MCP client to one explicitly enabled, logged-in GM browser tab:
+Connects local MCP conversations to one explicitly enabled, logged-in GM browser tab:
 
 ```text
-Codex Desktop <-- MCP / stdio --> Node companion <-- loopback WebSocket --> GM tab
+MCP conversations <-- stdio --> per-session adapters
+                                      |
+                           authenticated loopback WebSocket
+                                      |
+                              shared companion <-- WebSocket --> GM tab
 ```
 
 Requires Node.js 22+ and Foundry 13+. Reads preserve the installed system's fields. NPC/Item creation, PC setup/imports and NPC editing target DnD4e **0.9.3** only. Live Foundry compatibility needs manual verification by the user.
@@ -12,7 +16,7 @@ Requires Node.js 22+ and Foundry 13+. Reads preserve the installed system's fiel
 
 1. From the repository root, install companion dependencies with `npm install --prefix src/foundry-mcp`. Run `npm --prefix src/foundry-mcp run generate-token` and copy the generated 64-character hex token. Keep the token private.
 2. Add the configuration below to your Codex MCP settings (`%USERPROFILE%\.codex\config.toml`). Replace the repository path, token, and origin as appropriate. `FOUNDRY_ORIGIN` is the exact origin in the GM browser address bar: scheme, hostname and port, without a path or trailing slash. `http://localhost:30000` and `http://127.0.0.1:30000` are different origins.
-3. Restart the MCP connection in Codex. Codex starts the Node process; you do not need to run `npm start` separately. Only one companion process can use a given port.
+3. Restart the MCP connection in Codex or T3. Each conversation starts a lightweight stdio adapter; the adapters automatically start or reuse one shared companion per bridge port. You do not need to run `npm start` separately. Use the same token, origin and port in every client sharing this GM connection.
 4. Copy the module with `npm run copy-module -- foundry-mcp`, enable **Foundry MCP** in your world, and reload Foundry as the GM. In Configure Settings, enter the same pairing token and bridge port, then enable the MCP bridge. This permits document reads, creation of new NPCs with powers/traits and world Items, PC setup and power/feat imports, and active GM confirmed edits to existing NPCs. Settings are client scoped; opt in only in the GM tab you intend to share.
 5. Ask Codex to call `get_session`, then list actors and read an actor UUID. Confirm the reported world and GM match your session.
 
@@ -31,9 +35,21 @@ FOUNDRY_MCP_PORT = "17890"
 
 Use the server from the repo: the module-copy command excludes `node_modules`, so the Foundry copy is not the companion's dependency installation. If `node` is unavailable to Codex, use its absolute executable path.
 
-The GM tab must remain open and connected. Reloading disconnects pending requests; while **Enable MCP bridge connection** is checked, the browser retries the connection every five seconds. If the companion server is off, Chrome reports each refused attempt in its console. Uncheck that setting in **Configure Settings → Module Settings → Foundry MCP** to stop the attempts immediately; check it again when the companion is running. Losing the GM role also prevents subsequent operations and result delivery. A creation already sent to Foundry may still complete. The browser console logs successful pairing; inspect status with `game.modules.get("foundry-mcp").api.getStatus()` (no token is returned). The bridge uses protocol v24: restart the companion/MCP connection and reload Foundry together when upgrading.
+The GM tab must remain open and connected. Reloading disconnects pending requests; while **Enable MCP bridge connection** is checked, the browser retries the connection every five seconds. If the companion server is off, Chrome reports each refused attempt in its console. Uncheck that setting in **Configure Settings → Module Settings → Foundry MCP** to stop the attempts immediately; check it again when the companion is running. Losing the GM role also prevents subsequent operations and result delivery. A creation already sent to Foundry may still complete. The browser console logs successful pairing; inspect status with `game.modules.get("foundry-mcp").api.getStatus()` (no token is returned). The bridge uses protocol v27: restart the companion/MCP connection and reload Foundry together when upgrading.
 
 Local HTTP Foundry is the initial setup target. A browser using HTTPS or a remote Foundry host may block its connection to the local `ws://` listener under browser mixed-content or local-network policies. That setup may need a trusted TLS bridge, which is not included in this version.
+
+## Multiple conversations and companion lifecycle
+
+T3 conversations and Codex Desktop can use the same bridge concurrently. Each adapter authenticates with the pairing token, expected Foundry origin and companion/browser protocol versions before forwarding requests. The shared companion still pairs with exactly one GM tab. Browser callers cannot use the adapter endpoint; browser pairing retains its exact origin, Host and token checks. Responses are routed only to the requesting adapter.
+
+The Foundry client processes one request at a time, so the companion serializes calls from all conversations. It permits one active request and up to seven waiting requests. A queued request expires after 15 seconds without being dispatched; retry after the active request finishes. Disconnecting an adapter removes its queued calls, and queued requests cannot move to a different paired GM session. Once dispatched, writes may still finish if the caller leaves; inspect source and reuse the same request IDs/effect keys after uncertain outcomes. Reconnection never automatically replays a request.
+
+Closing a conversation's stdio input releases that adapter without disconnecting other conversations or the GM. The shared companion retires 30 seconds after its last adapter disconnects and all dispatched requests settle. A conversation opened during that grace period keeps the existing pairing; later conversations automatically start a fresh companion and the GM tab reconnects using its normal retry loop. Optional `FOUNDRY_MCP_IDLE_MS` changes the grace period (100–300000 milliseconds); the default needs no configuration. An app retaining an inactive conversation's adapter keeps the shared process alive, while other conversations can still connect.
+
+**Upgrading from the previous companion:** fully restart T3 and any other MCP client retaining the old process once. The old process has no shared adapter endpoint and cannot be reused. The new adapter reports a configuration/legacy-companion error rather than terminating an existing listener. Keep the current `server/main.js` MCP command and pairing settings. Subsequent conversation changes require no app restart. The browser protocol remains v24.
+
+If startup fails, inspect which process owns the configured port and check token/origin/version consistency. Multiple stdio adapters are expected; only the shared `server/companion.js` process owns the port. A `server/main.js` process owning it is the legacy implementation still running. A listening port alone does not prove the current conversation is connected: verify with `get_session` from that conversation.
 
 ## Scene drawings
 
@@ -95,6 +111,69 @@ Only title and description are required inside `battleBriefing`; other fields de
 Presets are stored in the unique **Battle Briefings** JournalEntry folder with `flags.dnd4e-health-display.preset`, a readable summary page and default ownership NONE. Open **Prepare Battle Briefing**, select the saved preset and load it. Creating a preset does not change a combat, spawn tokens or select a commander. Existing Journals and arbitrary caller flags, ownership or document source are outside this tool.
 
 Reuse identical arguments and the same `requestId` after a timeout/disconnect; persisted receipts prevent duplicate Journals. Changed content or destinations with a saved request ID are rejected. Use `get_document` with `source:true` to verify stored pages and flags. Restart the companion/MCP connection and reload Foundry together for **protocol v23**.
+
+### Add, edit and remove journal pages
+
+Use `edit_journal_pages` with a discovered world JournalEntry `uuid`, a unique
+`requestId`, and any combination of `add`, `update`, and `remove`. Read the journal
+with `get_document` and `source:true` first. An example for an existing journal:
+
+```json
+{
+  "uuid": "JournalEntry.discoveredId",
+  "requestId": "grappa-safehouse-001",
+  "summary": "Add the Grappa's Safehouse chapter to Encounters.",
+  "add": [{"name": "Grappa's Safehouse", "content": "<h2>Move Grappa</h2><p>Push the trolley toward the rear exit.</p>"}]
+}
+```
+
+`update: [{"id": "pageId", "name": "New title", "content": "<p>New text</p>"}]`
+renames or replaces the HTML content of existing text pages; omit either field to
+preserve it. `remove: ["pageId"]` deletes only the selected pages, including
+non-text pages. Up to 100 entries per action are accepted. IDs must be unique
+across updates/removals. Other pages, journal ownership and preset flags remain
+intact; changing a Battle Briefing's summary text does not change its native preset.
+
+The paired active GM reviews the full additions, before/after edits and deleted
+page sources in one two-minute Confirm/Cancel dialog. Cancel, close and expiry
+save nothing. Changed source during review invalidates approval. Writes are
+separate embedded-document operations and can partially succeed. Inspect source
+after `incomplete`, timeout or disconnect, then retry identical arguments with the
+same request ID. Completed receipts prevent replay; addition markers prevent
+duplicates after partial writes. Missing removal IDs are no-ops. Deleting an added
+page before an incomplete request is retried can cause that page to be recreated.
+Use a new request ID for new changes. No arbitrary flags, journal deletion,
+compendium edits, image creation or script execution are accepted.
+
+Protocol **v25** requires reloading Foundry and restarting the shared companion
+and MCP clients together. Allow at least 180 seconds for approval. User verification:
+check the browser console after reload, add a test chapter, edit its title/content,
+cancel one deletion, then confirm deletion. Retry a completed addition and verify
+no duplicate appears; change a journal during review to check stale rejection.
+
+## Add powers to existing NPCs
+
+`edit_npc_actor` accepts `addPowers: [{key, name, img?, system}]` alongside ordinary
+actor edits, existing Item patches and trait deletions. Each entry creates a new
+embedded Item of type `power` directly on the selected world NPC, using the same
+validated DnD4e 0.9.3 power fields as NPC creation. Read the NPC source first.
+The GM reviews each complete proposed power before any writes; cancel, close,
+expiry, stale source or a changed session prevents creation.
+
+Use a stable semantic key such as `alchemists-fire` for each intended power.
+Identical additions reuse persisted power receipts, including after partial saves
+or browser reloads; changed data under a saved key is rejected. To revise a saved
+power, use its embedded Item ID in `items`. Deleting an added power also deletes
+its retry marker, so retrying that addition can recreate it. Use a new key only
+for an intended additional power. Requests accept at most 100 new powers and no
+caller flags, effects, macros, IDs, features, equipment, PCs or token actors.
+Responses include `addedPowers` with stable keys, embedded IDs and UUIDs. Partial
+writes return `incomplete`; inspect source before retrying identical additions.
+
+Protocol **v27** requires restarting the shared companion/MCP clients and
+reloading Foundry together. User verification: add a power to a test NPC,
+check its sheet and roll buttons, retry to check it is not duplicated, and cancel
+a separate addition. Check the browser console after reload.
 
 ## Standalone magic item builder
 
@@ -402,8 +481,24 @@ MCP annotations distinguish reads from creation, PC imports and NPC editing; the
 
 Run `npm --prefix src/foundry-mcp test`. Automated tests use document doubles and local transports, without operating Foundry.
 
+Shared-session regression tests start simultaneous real stdio MCP clients on an isolated port, route requests through a simulated GM that rejects overlapping calls, close one client, abandon another client's stdin, verify the survivor, retire the idle listener and start a fresh session. They also cover configuration rejection, companion loss without write replay, abandoned queued writes and GM identity changes. Manual verification by the user: after the initial upgrade restart, call `get_session` in two T3 conversations, leave one and verify the other and a new conversation still work. Reload Foundry and check the browser console and reported world/GM.
+
 Manual verification by the user: restart the MCP connection, reload Foundry and check the browser console. Pair the intended GM and test discovery/reads, then create the Shadow Troll in a chosen test Actor folder. Verify HP 228/bloodied 114, all defenses 24, initiative +10, Perception +13, speed/climb 8, necrotic resistance 10, saves +2, one action point, a 2x2 prototype token, languages and all five items. Test attack/damage buttons (+15 vs Reflex with 4d6+12; +17 vs AC with 8d6+24). Retry identical data under the same ID and confirm no second actor. Disable the bridge and confirm requests fail; check a non-GM cannot serve reads or create NPCs.
 
 Protocol/setup references: [MCP SDK server guide](https://ts.sdk.modelcontextprotocol.io/server), [official Codex MCP configuration](https://developers.openai.com/codex/mcp/), [Foundry v13 API](https://foundryvtt.com/api/v13/).
 
 Manual NPC edit verification by the user: request an HP and power-formula change on a test NPC. Verify the popup lists old/new values and that the sheet remains unchanged before confirmation. Cancel and close separate requests, then confirm another request and inspect the actor and power. Leave a popup unanswered to check expiry. Change the NPC manually while a popup is open and confirm that it requires a fresh request. Verify a PC and a non-active GM cannot edit. Check the browser console after reload.
+
+## Custom rituals and Techniques
+
+Use `create_ritual` for authored native Ritual Items, including homebrew Techniques.
+Supply `name`, `level` (1?30), `text` (flavor/chat, may be empty), `description`
+(full rules HTML), and a unique `requestId`. Include casting time, duration,
+component costs, market price and key skill in the description.
+Use `actorUuid` to create directly on a world PC, or `folder` for a world Item
+folder (defaults to Rituals). Do not combine the two destinations. A fixed
+notebook icon is used. No effects, macros or arbitrary source fields are accepted.
+Retry identical arguments and request ID after uncertain saves; persisted receipts
+prevent duplicates and reject changed data or destinations. Verify with `get_document`.
+Protocol v26 requires reloading Foundry and restarting the shared companion/MCP
+clients together before the new tool is available.

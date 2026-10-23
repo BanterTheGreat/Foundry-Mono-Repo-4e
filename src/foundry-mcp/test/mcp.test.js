@@ -19,10 +19,20 @@ test("MCP handshake exposes reads and NPC creation, validates arguments, and rep
   await server.connect(serverTransport);
   await client.connect(clientTransport);
   const { tools } = await client.listTools();
-  assert.deepEqual(tools.map(tool => tool.name), ["add_scene_drawings", "create_journal", "build_magic_item", "get_merchant_inventory", "edit_merchant_inventory", "get_session", "list_documents", "get_document", "list_compendiums", "list_compendium_documents", "list_conditions", "add_item_effects", "create_feat", "setup_pc", "import_pc_options", "set_pc_basic_attack_ability", "fix_pc_item_icons", "edit_npc_actor", "create_item", "create_npc_actor"]);
-  assert.ok(tools.filter(tool => !["add_scene_drawings", "create_journal", "build_magic_item", "edit_merchant_inventory", "add_item_effects", "create_npc_actor", "create_item", "create_feat", "setup_pc", "import_pc_options", "set_pc_basic_attack_ability", "fix_pc_item_icons", "edit_npc_actor"].includes(tool.name)).every(tool => tool.annotations.readOnlyHint));
+  assert.deepEqual(tools.map(tool => tool.name), ["add_scene_drawings", "edit_journal_pages", "create_journal", "build_magic_item", "get_merchant_inventory", "edit_merchant_inventory", "get_session", "list_documents", "get_document", "list_compendiums", "list_compendium_documents", "list_conditions", "add_item_effects", "create_ritual", "create_feat", "setup_pc", "import_pc_options", "set_pc_basic_attack_ability", "fix_pc_item_icons", "edit_npc_actor", "create_item", "create_npc_actor"]);
+  assert.ok(tools.filter(tool => !["add_scene_drawings", "edit_journal_pages", "create_journal", "build_magic_item", "edit_merchant_inventory", "add_item_effects", "create_npc_actor", "create_item", "create_ritual", "create_feat", "setup_pc", "import_pc_options", "set_pc_basic_attack_ability", "fix_pc_item_icons", "edit_npc_actor"].includes(tool.name)).every(tool => tool.annotations.readOnlyHint));
   assert.equal(tools.at(-1).annotations.readOnlyHint, false);
   assert.equal(tools.at(-1).annotations.idempotentHint, true);
+  const ritual = { requestId: "custom-ritual-001", name: "Project Reflection", level: 5,
+    text: "", description: "<p>Create an illusion.</p>", actorUuid: "Actor.hero" };
+  assert.notEqual((await client.callTool({ name: "create_ritual", arguments: ritual })).isError, true);
+  assert.deepEqual(calls.at(-1), { operation: "create_ritual", args: ritual });
+  const ritualCalls = calls.length;
+  for (const invalid of [{ ...ritual, level: null }, { ...ritual, folder: "Rituals" },
+    { ...ritual, effects: [] }, { ...ritual, system: {} }]) {
+    assert.equal((await client.callTool({ name: "create_ritual", arguments: invalid })).isError, true);
+  }
+  assert.equal(calls.length, ritualCalls);
   const rectangles = { uuid: "Scene.map", requestId: "scene-drawings-001", drawings: [
     { x: 100, y: 200, width: 300, height: 100, text: "Hazard", hidden: true }
   ] };
@@ -47,6 +57,17 @@ test("MCP handshake exposes reads and NPC creation, validates arguments, and rep
   }
   assert.equal(calls.length, journalCalls);
   assert.equal(tools.find(tool => tool.name === "create_journal").annotations.readOnlyHint, false);
+  const pageEdit = { uuid: "JournalEntry.book", requestId: "journal-pages-test-1",
+    add: [{ name: "Grappa's Safehouse", content: "<h2>Move Grappa</h2>" }] };
+  assert.notEqual((await client.callTool({ name: "edit_journal_pages", arguments: pageEdit })).isError, true);
+  assert.deepEqual(calls.at(-1), { operation: "edit_journal_pages", args: pageEdit });
+  const pageCalls = calls.length;
+  for (const invalid of [{ ...pageEdit, uuid: "Actor.pc" }, { ...pageEdit, flags: {} },
+    { ...pageEdit, requestId: undefined }, { ...pageEdit, add: [{ name: "Empty" }] }]) {
+    assert.equal((await client.callTool({ name: "edit_journal_pages", arguments: invalid })).isError, true);
+  }
+  assert.equal(calls.length, pageCalls);
+  assert.equal(tools.find(tool => tool.name === "edit_journal_pages").annotations.destructiveHint, true);
   const offline = await client.callTool({ name: "get_session", arguments: {} });
   const build = { requestId: "build-magic-test-1", baseUuid: "Compendium.gear.items.Item.hammer", enchantmentUuid: "Compendium.gear.items.Item.battering", folder: "Magic Items", quantity: 2 };
   assert.notEqual((await client.callTool({ name: "build_magic_item", arguments: build })).isError, true);
@@ -152,6 +173,16 @@ test("MCP handshake exposes reads and NPC creation, validates arguments, and rep
   }
   assert.equal(calls.length, edits);
   const editTool = tools.find(tool => tool.name === "edit_npc_actor");
+  const addPower = { uuid: "Actor.npc", addPowers: [{ key: "alchemist-fire", name: "Alchemist's Fire",
+    system: { actionType: "standard", attack: { formula: "14", def: "ref" }, hit: { formula: "3d6" } } }] };
+  assert.notEqual((await client.callTool({ name: "edit_npc_actor", arguments: addPower })).isError, true);
+  assert.deepEqual(calls.at(-1), { operation: "edit_npc_actor", args: addPower });
+  const powerCalls = calls.length;
+  for (const addPowers of [[{ ...addPower.addPowers[0], flags: {} }], [addPower.addPowers[0], addPower.addPowers[0]],
+    [{ name: "Missing key", system: {} }], [{ ...addPower.addPowers[0], system: { macros: [] } }]]) {
+    assert.equal((await client.callTool({ name: "edit_npc_actor", arguments: { uuid: "Actor.npc", addPowers } })).isError, true);
+  }
+  assert.equal(calls.length, powerCalls);
   assert.equal(editTool.annotations.readOnlyHint, false);
   assert.equal(editTool.annotations.destructiveHint, true);
   const basicAttacks = { uuid: "Actor.pc", ability: "wis", summary: "Switch both basic attacks to Wisdom." };

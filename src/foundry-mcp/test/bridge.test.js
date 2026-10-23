@@ -178,6 +178,23 @@ test("scene drawing transport reserves approval time and reports uncertain disco
   await rejected;
 });
 
+test("journal page transport reserves approval time and reports uncertain disconnects", async t => {
+  const { bridge, token } = await fixture(t);
+  const socket = await pair(bridge, token);
+  const incoming = once(socket, "message");
+  const args = { uuid: "JournalEntry.book", requestId: "journal-pages-001", add: [{ name: "Chapter", content: "<p>Text</p>" }] };
+  const pending = bridge.request("edit_journal_pages", args);
+  const request = JSON.parse((await incoming)[0]);
+  assert.deepEqual(request.args, args);
+  assert.ok(bridge.pending.get(request.id).timer._idleTimeout >= 150000);
+  socket.send(JSON.stringify({ type: "response", id: request.id, worldId: "world", userId: "gm", result: { status: "cancelled" } }));
+  assert.deepEqual(await pending, { status: "cancelled" });
+  const lost = bridge.request("edit_journal_pages", args);
+  const rejected = assert.rejects(lost, /Confirmed journal page changes may have saved/);
+  socket.close();
+  await rejected;
+});
+
 test("PC basic attack transport waits for confirmation and reports uncertain disconnects", async t => {
   const { bridge, token } = await fixture(t);
   const socket = await pair(bridge, token);

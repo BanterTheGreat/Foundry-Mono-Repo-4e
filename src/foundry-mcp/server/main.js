@@ -1,14 +1,14 @@
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { FoundryBridge } from "./bridge.js";
+import { CompanionClient } from "./companion-client.js";
+import { companionConfig } from "./companion-config.js";
 import { createMcpServer } from "./mcp.js";
-import { DEFAULT_PORT } from "../shared/protocol.js";
 
 let bridge;
 let server;
 let stopping = false;
 
 /**
- * Close the loopback listener when the MCP client exits.
+ * Release only this conversation's adapter when the MCP client exits.
  */
 async function stop() {
   if (stopping) {
@@ -20,25 +20,25 @@ async function stop() {
 }
 
 try {
-  const port = Number(process.env.FOUNDRY_MCP_PORT ?? DEFAULT_PORT);
-  if (!Number.isInteger(port) || port < 1024 || port > 65535) {
-    throw new Error("Invalid bridge port.");
-  }
-  bridge = new FoundryBridge({
-    token: process.env.FOUNDRY_MCP_TOKEN,
-    origin: process.env.FOUNDRY_ORIGIN,
-    port
-  });
+  // The SDK's stdio transport does not close itself on stdin EOF. Register
+  // before startup so abandoning an initializing session also releases it.
+  process.stdin.once("end", stop);
+  process.stdin.once("close", stop);
+  bridge = new CompanionClient(companionConfig());
   server = createMcpServer(bridge);
   await bridge.start();
-  await server.connect(new StdioServerTransport());
-  server.server.onclose = stop;
-  process.once("SIGINT", stop);
-  process.once("SIGTERM", stop);
-  // Stdout is reserved for the MCP protocol; no world data or tokens are logged.
-  console.error(`Foundry MCP: bridge listening on 127.0.0.1:${bridge.port} (reads, NPC/Item/Journal creation, PC setup/imports, authored feats and confirmed NPC edits and Item ActiveEffects).`);
-} catch {
-  console.error("Foundry MCP could not start. Check configuration and whether the bridge port is already in use.");
+  if (stopping) {
+    await bridge.close();
+  } else {
+    await server.connect(new StdioServerTransport());
+    server.server.onclose = stop;
+    process.once("SIGINT", stop);
+    process.once("SIGTERM", stop);
+    // Stdout is reserved for the MCP protocol; no world data or tokens are logged.
+    console.error(`Foundry MCP: connected to shared companion on 127.0.0.1:${bridge.config.port}.`);
+  }
+} catch (error) {
+  console.error(`Foundry MCP could not start: ${error.message}`);
   await stop();
   process.exitCode = 1;
 }

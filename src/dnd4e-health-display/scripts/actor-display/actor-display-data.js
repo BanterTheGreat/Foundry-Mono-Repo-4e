@@ -482,13 +482,18 @@ function getFeatureCategories(actor) {
 		features: Array.from(actor.items ?? [])
 			.filter((item) => item.type === "feature" && item.system?.featureType === type)
 			.sort((left, right) => left.name.localeCompare(right.name))
-			.map((item) => ({ id: item.id, name: item.name, description: getFeatureDescription(item) })),
+			.map((item) => ({ id: item.id, name: item.name, description: getFeatureDescription(item, actor.type === "NPC") })),
 	})).filter((category) => category.features.length);
 }
 
-/** @param {Item} feature The NPC trait or racial feat to describe. */
-function getFeatureDescription(feature) {
-	const html = feature.system?.description?.chat || feature.system?.description?.value || "";
+/**
+ * @param {Item} feature The feature to describe.
+ * @param {boolean} fullDescription Whether to prefer the full NPC rules text.
+ * @returns {string}
+ */
+function getFeatureDescription(feature, fullDescription = false) {
+	const description = feature.system?.description;
+	const html = (fullDescription ? description?.value || description?.chat : description?.chat || description?.value) || "";
 	if (!html) {
 		return "";
 	}
@@ -543,7 +548,7 @@ function getTraitCategories(actor) {
 		features: Array.from(actor.items ?? [])
 			.filter((item) => item.type === "feature" && item.system?.featureType === type)
 			.sort((left, right) => left.name.localeCompare(right.name))
-			.map((item) => ({ id: item.id, name: item.name, description: getFeatureDescription(item) })),
+			.map((item) => ({ id: item.id, name: item.name, description: getFeatureDescription(item, actor.type === "NPC") })),
 	})).filter((category) => category.features.length);
 }
 

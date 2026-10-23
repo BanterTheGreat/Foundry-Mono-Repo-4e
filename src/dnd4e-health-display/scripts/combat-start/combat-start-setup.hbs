@@ -1,4 +1,4 @@
-<form class="dnd4e-combat-start-setup__form">
+<form class="dnd4e-combat-start-setup__form{{#unless advanced}} is-basic{{/unless}}">
 	<header class="dnd4e-combat-start-setup__heading">
 		<div>
 			<span>Encounter Presentation</span>
@@ -26,9 +26,9 @@
 		<button type="button" data-action="showTab" data-tab="briefing" class="{{#if showBriefing}}is-active{{/if}}">
 			<i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Battle Briefing
 		</button>
-		<button type="button" data-action="showTab" data-tab="strategy" class="{{#if showStrategy}}is-active{{/if}}">
+		{{#if advanced}}<button type="button" data-action="showTab" data-tab="strategy" class="{{#if showStrategy}}is-active{{/if}}">
 			<i class="fa-solid fa-chess-knight" aria-hidden="true"></i> Strategy
-		</button>
+		</button>{{/if}}
 		<button type="button" data-action="showTab" data-tab="calculation" class="{{#if showCalculation}}is-active{{/if}}">
 			<i class="fa-solid fa-calculator" aria-hidden="true"></i> Calculation
 		</button>
@@ -46,7 +46,7 @@
 					<span>Description</span>
 					<textarea name="description" rows="3">{{draft.description}}</textarea>
 				</label>
-				<label class="dnd4e-combat-start-setup__wide">
+				{{#if advanced}}<label class="dnd4e-combat-start-setup__wide">
 					<span>Commander subtitle</span>
 					<input type="text" name="commanderSubtitle" value="{{draft.commanderSubtitle}}" placeholder="Optional text beneath the commander name">
 				</label>
@@ -72,7 +72,7 @@
 							<input type="range" name="commanderZoom" min="100" max="200" step="5" value="{{draft.commanderZoom}}">
 						</label>
 					</div>
-				</fieldset>
+				</fieldset>{{/if}}
 			</div>
 
 		</div>
@@ -103,12 +103,12 @@
 						<button type="button" data-action="toggleCombatantHidden" data-combatant-id="{{id}}" class="dnd4e-combat-start-setup__visibility-toggle" aria-pressed="{{isHidden}}" title="{{#if isHidden}}Show{{else}}Hide{{/if}} {{name}} to players">
 							<i class="fa-solid {{#if isHidden}}fa-eye-slash{{else}}fa-eye{{/if}}" aria-hidden="true"></i>
 						</button>
-						{{#if canBeCommander}}
+						{{#if @root.advanced}}{{#if canBeCommander}}
 							<button type="button" data-action="setCommander" data-combatant-id="{{id}}" class="dnd4e-combat-start-setup__commander-select" aria-pressed="{{isCommander}}" title="Select {{name}} as enemy commander">
 								<i class="fa-solid fa-crown" aria-hidden="true"></i>
 							</button>
 						{{/if}}
-						<button type="button" data-action="removeCombatant" data-combatant-id="{{id}}" class="dnd4e-combat-start-setup__remove-combatant" title="Remove {{name}} from this encounter">
+						{{/if}}<button type="button" data-action="removeCombatant" data-combatant-id="{{id}}" class="dnd4e-combat-start-setup__remove-combatant" title="Remove {{name}} from this encounter">
 							<i class="fa-solid fa-trash" aria-hidden="true"></i>
 						</button>
 					</article>

@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { editNpc, confirmNpcEdit } from "../scripts/edit-api.js";
 import { MODULE_ID, EDIT_CONFIRM_TIMEOUT_MS, EFFECT_CONFIRM_TIMEOUT_MS } from "../shared/protocol.js";
+import { validateNpcEdit } from "../shared/npc-data.js";
 
 /**
  * Model source documents and awaited update APIs without operating Foundry.
@@ -16,6 +17,17 @@ function fixture() {
   const actor = {
     id: "npc", uuid: "Actor.npc", name: source.name, type: source.type, items: new Map(),
     toObject: () => structuredClone(source),
+    createEmbeddedDocuments: async (type, data) => {
+      calls.push({ createType: type, data: structuredClone(data) });
+      return data.map(input => {
+        const id = `power${actor.items.size}`;
+        const source = structuredClone(input);
+        const item = { id, uuid: `Actor.npc.Item.${id}`, name: source.name,
+          type: source.type, parent: actor, source, toObject: () => structuredClone(source) };
+        actor.items.set(id, item);
+        return item;
+      });
+    },
     update: async patch => {
       calls.push({ actor: patch });
       apply(source, patch);
@@ -80,6 +92,119 @@ function addTrait(deps, id = "trait") {
   deps.actor.items.set(id, trait);
   return { trait, source };
 }
+
+const fireAddition = { key: "alchemists-fire", name: "Alchemist's Fire", system: {
+  actionType: "standard", useType: "atwill", rangeType: "rangeBurst", rangePower: "10", area: "1",
+  attack: { isAttack: true, formula: "14", def: "ref" },
+  hit: { isDamage: true, formula: "3d6", critFormula: "18" }, miss: { halfDamage: true },
+  damageType: { fire: true }, description: { chat: "A flask bursts into flame." }
+} };
+
+test("GM-reviewed new powers preserve existing attacks and reuse semantic keys across reloads", async () => {
+  const deps = fixture();
+  const original = deps.item.toObject();
+  deps.confirm = async report => {
+    assert.equal(deps.calls.length, 0);
+    assert.deepEqual(report.changes[0].after.system, fireAddition.system);
+    return true;
+  };
+  const args = { uuid: "Actor.npc", addPowers: [fireAddition] };
+  const result = await editNpc(args, deps);
+  assert.equal(result.status, "updated");
+  assert.equal(result.addedPowers.length, 1);
+  assert.equal(deps.actor.items.size, 2);
+  assert.deepEqual(deps.item.toObject(), original);
+  assert.deepEqual(deps.actor.items.get(result.addedPowers[0].id).source.system, fireAddition.system);
+  deps.game = { ...deps.game };
+  deps.confirm = async () => { assert.fail("Saved addition must not prompt again"); };
+  assert.equal((await editNpc(args, deps)).status, "unchanged");
+  await assert.rejects(editNpc({ ...args, addPowers: [{ ...fireAddition, name: "Changed" }] }, deps), /different data/);
+});
+
+test("new powers require approval and an unchanged, active world NPC", async () => {
+  for (const mode of ["cancel", "stale", "session", "pc", "compendium", "token"]) {
+    const deps = fixture();
+    deps.confirm = async () => {
+      if (mode === "stale") {
+        deps.source.name = "Changed manually";
+      }
+      if (mode === "session") {
+        deps.game.user.isActiveGM = false;
+      }
+      return mode !== "cancel";
+    };
+    if (mode === "pc") {
+      deps.actor.type = "Player Character";
+    }
+    if (mode === "compendium") {
+      deps.actor.pack = "monsters";
+    }
+    if (mode === "token") {
+      deps.actor.parent = {};
+    }
+    try {
+      assert.equal((await editNpc({ uuid: "Actor.npc", addPowers: [fireAddition] }, deps)).status, "cancelled");
+    } catch (error) {
+      assert.match(error.message, /changed|active GM|world NPC/);
+    }
+    assert.equal(deps.calls.length, 0);
+  }
+});
+
+test("partial power additions resume safely after a saved creation loses its response", async () => {
+  const deps = fixture();
+  const create = deps.actor.createEmbeddedDocuments;
+  deps.actor.createEmbeddedDocuments = async (...args) => { await create(...args); throw new Error("Lost response"); };
+  const args = { uuid: "Actor.npc", addPowers: [fireAddition, { ...fireAddition, key: "second-flask", name: "Second Flask" }] };
+  const partial = await editNpc(args, deps);
+  assert.equal(partial.status, "incomplete");
+  assert.equal(partial.addedPowers.length, 1);
+  deps.actor.createEmbeddedDocuments = create;
+  assert.equal((await editNpc(args, deps)).status, "updated");
+  assert.equal(deps.actor.items.size, 3);
+});
+
+test("silently cancelled power creation reports incomplete and permits an approved retry", async () => {
+  const deps = fixture();
+  const create = deps.actor.createEmbeddedDocuments;
+  deps.actor.createEmbeddedDocuments = async () => [];
+  const args = { uuid: "Actor.npc", addPowers: [fireAddition] };
+  assert.equal((await editNpc(args, deps)).status, "incomplete");
+  deps.actor.createEmbeddedDocuments = create;
+  assert.equal((await editNpc(args, deps)).status, "updated");
+});
+
+test("power additions compose with actor edits, existing power edits and trait deletion", async () => {
+  const deps = fixture();
+  addTrait(deps);
+  const result = await editNpc({ uuid: "Actor.npc", system: { biography: "One flask." },
+    items: [{ id: "claw", type: "power", system: { attack: { formula: "11" } } }],
+    addPowers: [fireAddition], deleteTraits: ["trait"] }, deps);
+  assert.equal(result.status, "updated");
+  assert.equal(deps.source.system.biography, "One flask.");
+  assert.equal(deps.item.source.system.attack.formula, "11");
+  assert.equal(deps.actor.items.has("trait"), false);
+  assert.equal(result.addedPowers.length, 1);
+});
+
+test("duplicate persisted power receipts fail closed", async () => {
+  const deps = fixture();
+  const args = { uuid: "Actor.npc", addPowers: [fireAddition] };
+  const result = await editNpc(args, deps);
+  const saved = deps.actor.items.get(result.addedPowers[0].id);
+  deps.actor.items.set("duplicate", { ...saved, id: "duplicate" });
+  await assert.rejects(editNpc(args, deps), /duplicate receipts/);
+});
+
+test("new powers reject caller source, effects, IDs, duplicate keys and missing data", () => {
+  for (const addPowers of [[{ ...fireAddition, flags: {} }], [{ ...fireAddition, effects: [] }],
+    [{ ...fireAddition, id: "invented" }], [{ ...fireAddition, type: "feature" }],
+    [fireAddition, fireAddition], [{ ...fireAddition, key: "" }],
+    [{ ...fireAddition, name: "" }], [{ ...fireAddition, system: undefined }],
+    [{ ...fireAddition, system: { macros: [] } }], Array(101).fill(fireAddition)]) {
+    assert.throws(() => validateNpcEdit({ uuid: "Actor.npc", addPowers }));
+  }
+});
 
 test("trait deletion shows full source before confirmation, preserves other items, and safely retries", async () => {
   const deps = fixture();

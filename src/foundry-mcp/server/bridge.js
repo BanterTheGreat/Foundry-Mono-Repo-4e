@@ -27,23 +27,34 @@ export class FoundryBridge {
     this.timeoutMs = timeoutMs;
     this.pending = new Map();
     this.session = null;
+    this.browserSockets = new Set();
   }
 
   /**
    * Listen locally; verify browser origin and Host before upgrading to WebSocket.
    */
-  async start() {
+  async start({ broker } = {}) {
     this.http = createServer((_request, response) => {
       response.writeHead(404);
       response.end();
     });
     this.wss = new WebSocketServer({
-      server: this.http, path: "/bridge", maxPayload: MAX_MESSAGE_BYTES, perMessageDeflate: false,
-      verifyClient: ({ req, origin }) => origin === this.origin
-        && req.headers.host === `127.0.0.1:${this.http.address()?.port}`
-        && this.wss.clients.size < 4
+      server: this.http, maxPayload: MAX_MESSAGE_BYTES, perMessageDeflate: false,
+      verifyClient: ({ req, origin }) => req.headers.host === `127.0.0.1:${this.http.address()?.port}`
+        && (req.url === "/bridge"
+          ? origin === this.origin && this.browserSockets.size < 4
+          : req.url === "/clients" && !!broker?.authorize(req))
     });
-    this.wss.on("connection", socket => this.accept(socket));
+    // HTTP listen errors are also forwarded by ws. Handle both without an
+    // unhandled error event when simultaneous starters race for the port.
+    this.wss.on("error", () => {});
+    this.wss.on("connection", (socket, request) => {
+      if (request.url === "/clients") {
+        broker.accept(socket);
+      } else {
+        this.accept(socket);
+      }
+    });
     await new Promise((resolve, reject) => {
       this.http.once("error", reject);
       this.http.listen(this.port, "127.0.0.1", resolve);
@@ -66,6 +77,7 @@ export class FoundryBridge {
    * Authenticate before accepting results; never replace an existing GM session.
    */
   accept(socket) {
+    this.browserSockets.add(socket);
     socket.alive = true;
     socket.on("pong", () => { socket.alive = true; });
     const deadline = setTimeout(() => socket.terminate(), 5000);
@@ -109,6 +121,8 @@ export class FoundryBridge {
               ? "Merchant inventory edit rejected. Check Item Piles, world NPC merchant and Item selections. Read inventory before retrying identical operations with the same requestId."
             : pending.operation === "add_scene_drawings"
               ? "Scene drawings rejected. Check the paired active GM, world Scene, rectangle data and stale scene changes. Read drawings before retrying identical data with the same requestId."
+            : pending.operation === "edit_journal_pages"
+              ? "Journal page edit rejected. Read journal source before retrying identical arguments; confirmed changes may have saved."
             : pending.operation === "edit_npc_actor"
               ? "NPC edit rejected. Check the paired active GM, world NPC UUID, DnD4e 0.9.3 and source data. Read the NPC before retrying an uncertain result."
               : "Foundry rejected the read. Check GM access, UUID, arguments, and result size."));
@@ -122,6 +136,7 @@ export class FoundryBridge {
       }
     });
     socket.on("close", () => {
+      this.browserSockets.delete(socket);
       clearTimeout(deadline);
       if (this.session?.socket === socket) {
         this.session = null;
@@ -162,11 +177,13 @@ export class FoundryBridge {
             ? "Merchant edit timed out. Read inventory before retrying identical operations with the same requestId; confirmed changes may have saved."
           : operation === "add_scene_drawings"
             ? "Scene drawing creation timed out. Read scene drawings before retrying identical data with the same requestId; confirmed drawings may have saved."
+          : operation === "edit_journal_pages"
+            ? "Journal page edit timed out. Read journal source before retrying identical arguments; confirmed changes may have saved."
           : operation === "edit_npc_actor"
             ? "NPC edit timed out. Inspect the NPC source before retrying; confirmed changes may have saved."
             : "Foundry read timed out. Check the GM browser tab."));
       }, operation === "add_item_effects" ? Math.max(this.timeoutMs, EFFECT_CONFIRM_TIMEOUT_MS + 30000)
-        : ["edit_npc_actor", "set_pc_basic_attack_ability", "edit_merchant_inventory", "add_scene_drawings"].includes(operation) ? Math.max(this.timeoutMs, EDIT_CONFIRM_TIMEOUT_MS + 30000) : this.timeoutMs);
+        : ["edit_journal_pages", "edit_npc_actor", "set_pc_basic_attack_ability", "edit_merchant_inventory", "add_scene_drawings"].includes(operation) ? Math.max(this.timeoutMs, EDIT_CONFIRM_TIMEOUT_MS + 30000) : this.timeoutMs);
       this.pending.set(id, { resolve, reject, timer, operation });
       session.socket.send(message, error => {
         if (error && this.pending.has(id)) {
@@ -194,7 +211,9 @@ export class FoundryBridge {
           ? `${message} Confirmed merchant changes may have saved; read inventory before retrying identical operations with the same requestId.`
         : pending.operation === "add_scene_drawings"
           ? `${message} Confirmed drawings may have saved; read scene drawings before retrying identical data with the same requestId.`
-        : pending.operation === "edit_npc_actor"
+        : pending.operation === "edit_journal_pages"
+              ? `${message} Confirmed journal page changes may have saved; read journal source before retrying identical arguments.`
+            : pending.operation === "edit_npc_actor"
           ? `${message} A confirmed NPC edit may have saved; read its source before retrying.`
           : message));
     }

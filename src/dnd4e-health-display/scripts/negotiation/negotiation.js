@@ -20,7 +20,12 @@ export function registerNegotiationSettings() {
 
 /** Add the independent Combat tab entry and restore presentations after reconnecting. */
 export function registerNegotiation() {
-	Hooks.on('renderCombatTracker', (_app, element) => {
+	Hooks.on('renderCombatTracker', (app, element) => {
+		// Keep negotiation setup in the sidebar, outside the popped-out encounter view.
+		if (app !== ui.combat) {
+			element.querySelector('[data-negotiation-start]')?.remove();
+			return;
+		}
 		if (!game.user.isGM || element.querySelector('[data-negotiation-start]')) {
 			return;
 		}

@@ -60,6 +60,12 @@ For encounter budgets, use [dnd4e-encounter-difficulty](../dnd4e-encounter-diffi
 
 ## Ability flavor text
 
+When adapting a creature to the requested theme, you may rename its attacks,
+powers, traits, and similar flavor details where appropriate. Keep the names
+consistent with their mechanics and identify renamed abilities as adaptations.
+Apply these adaptations only to the presented recommendations or derived
+statblocks; leave the compendium source data unchanged.
+
 When presenting usable monster abilities, add a short italicized flavor passage
 to every ability, including basic attacks, traits, and triggered powers. Place it
 between the ability name and its mechanics. Preserve suitable published flavor;

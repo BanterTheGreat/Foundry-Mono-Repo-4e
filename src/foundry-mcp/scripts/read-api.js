@@ -159,6 +159,7 @@ export async function executeRead(operation, args = {}, { game = globalThis.game
         user: serialize(game.user), system: { id: game.system.id, version: game.system.version },
         foundryVersion: game.version, readOnly: false, documentTypes: DOCUMENT_TYPES,
         creation: { tool: "create_npc_actor", actorType: "NPC", system: "dnd4e", version: "0.9.3" },
+        ritualCreation: { tool: "create_ritual", destinations: ["world Item folder", "Player Character"], system: "dnd4e", version: "0.9.3" },
         featCreation: { tool: "create_feat", destinations: ["world Item folder", "Player Character"], system: "dnd4e", version: "0.9.3" },
         pcSetup: { tool: "setup_pc", actorType: "Player Character", system: "dnd4e", version: "0.9.3", available: game.user.isActiveGM === true },
         pcItemIcons: { tool: "fix_pc_item_icons", actorType: "Player Character", merchantActorType: "NPC", system: "dnd4e", version: "0.9.3", available: game.user.isActiveGM === true },

@@ -24,7 +24,7 @@ test("real stdio server bridges an MCP read to a simulated GM and shuts down", {
   const transport = new StdioClientTransport({
     command: process.execPath,
     args: [fileURLToPath(new URL("../server/main.js", import.meta.url))],
-    env: { ...process.env, FOUNDRY_MCP_TOKEN: token, FOUNDRY_ORIGIN: "http://localhost:30000", FOUNDRY_MCP_PORT: String(port) },
+    env: { ...process.env, FOUNDRY_MCP_TOKEN: token, FOUNDRY_ORIGIN: "http://localhost:30000", FOUNDRY_MCP_PORT: String(port), FOUNDRY_MCP_IDLE_MS: "200" },
     stderr: "pipe"
   });
   const client = new Client({ name: "stdio-test", version: "1" });

@@ -2,6 +2,14 @@
 
 ## 0.4.0
 
+- Add new embedded powers directly to existing world NPCs through `edit_npc_actor.addPowers`, with full active-GM review, preserved existing attacks, stable semantic retry keys, source/session checks and partial-save receipts. Protocol v27 requires restarting the companion/MCP clients and reloading Foundry together.
+
+- Create custom native Rituals (including Techniques) with `create_ritual`, directly on a world PC or in an Item folder, with level, flavor/rules text and persistent retry protection. Protocol v26 requires reloading Foundry and restarting the shared companion/MCP clients together.
+
+- Add, edit and remove pages in existing world journals through `edit_journal_pages`, with one active-GM review, preserved unrelated pages and metadata, stale-source rejection, completed-request receipts and partial-addition retry protection. Bridge protocol v25 requires restarting the shared companion/MCP clients and reloading Foundry together.
+
+- Share one authenticated companion across simultaneous MCP conversations and clients. Start or reuse it automatically, serialize requests for Foundry's single-request client, isolate responses, expire/cancel queued calls and preserve GM identity. Release adapters on stdin closure, keep other sessions connected, retire the shared listener after idle and reconnect without replaying uncertain writes. Restart existing MCP clients once to replace the legacy exclusive listener; pairing settings and browser protocol v24 remain unchanged.
+
 - Read scene drawings, including hidden shapes and labels, through document reads. Add native rectangle drawings with optional text, visibility and appearance controls through `add_scene_drawings`, with active-GM confirmation, stale-scene rejection and persisted partial-batch retry protection. Preserve existing drawings and scene data.
 
 - Create private world text Journals and native Battle Briefing presets with `create_journal`, including expected actor counts, portrait framing and reusable strategy notes. Validate destinations and actor references, generate preset summaries, and persist receipts for safe retries.

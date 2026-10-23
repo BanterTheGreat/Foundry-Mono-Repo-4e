@@ -171,10 +171,22 @@ this report format takes precedence over the supporting skills' output formats.
 5. **ENEMY OBJECTIVES**: explain the enemy party's overall goal in **two or three
    sentences maximum**, including victory, retreat, or surrender conditions
    where appropriate.
-6. **TACTICS**: give a general, playable account of who does what, how the group
-   cooperates, its target priorities, and its use of actual powers and terrain.
-   Prefer this overview to a turn-by-turn script. Tie choices to enemy motives
-   and intelligence, with adaptable priorities if an opening is unavailable.
+6. **TACTICS**: write in the concise adventure prose of ZEITGEIST's tactics
+   sections: a few connected paragraphs giving the GM the group's plan and the
+   decisions that make this fight distinctive. Organize around cooperating
+   enemies or stages of the fight; discuss individuals separately only when
+   their behavior warrants it. Explain who pressures whom, how actual powers
+   and terrain support the plan, and the few developments that change it.
+   Let motives, intelligence, and a telling character detail guide improvisation.
+   Name powers when their use or cooperation matters, leaving routine action
+   costs, ranges, and triggers in the stat blocks. Check mechanical legality
+   during preparation, then present the resulting tactics directly, without
+   corrective commentary about possible rules mistakes. Keep starting positions
+   and coordinates in Deployment, shared objective mechanics in Special Rules,
+   and morale thresholds in Enemy Objectives; refer to them briefly when needed
+   to explain a tactical choice. Give shared priorities once and leave ordinary
+   contingencies to GM judgment, rather than writing a checklist for each enemy
+   or a turn-by-turn script. Apply this prose style to Battle Briefing notes too.
 7. If the fight has a major shakeup, add a descriptive heading and explain its
    trigger and effect on the fight, such as reinforcements, a phase change, or
    shifting terrain. Omit this section when none applies.
