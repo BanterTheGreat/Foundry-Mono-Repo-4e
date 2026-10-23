@@ -3,6 +3,14 @@ import { assertEnabledGM, executeRead } from "./read-api.js";
 import { createNpc } from "./create-api.js";
 import { createItem } from "./item-create-api.js";
 import { editNpc } from "./edit-api.js";
+import { importPcOptions } from "./pc-import-api.js";
+import { setupPc } from "./pc-setup-api.js";
+import { createFeat } from "./feat-create-api.js";
+import { addItemEffects } from "./item-effect-api.js";
+import { fixPcItemIcons } from "./pc-item-icon-api.js";
+import { setPcBasicAttackAbility } from "./pc-basic-attack-api.js";
+import { getMerchantInventory, editMerchantInventory } from "./merchant-api.js";
+import { buildMagicItem } from "./magic-item-api.js";
 
 let socket;
 let retry;
@@ -13,7 +21,7 @@ let status = "disabled";
  * Expose connection status without disclosing the pairing token.
  */
 function getStatus() {
-  return { status, worldId: game.world?.id, userId: game.user?.id, readOnly: false, creation: "NPC and world Items", editing: "NPC with active GM confirmation" };
+  return { status, worldId: game.world?.id, userId: game.user?.id, readOnly: false, creation: "NPC, configured PCs and world Items", pcImport: "powers and feats from dnd-4e-compendium", featCreation: "world Items or directly on PCs", pcItemIcons: "default equipment icons by slot", editing: "NPC, Item Piles merchant inventory and Item ActiveEffects with active GM confirmation" };
 }
 
 /**
@@ -72,7 +80,7 @@ function connect() {
       if (request.type === "paired") {
         assertEnabledGM(game);
         status = "connected";
-        console.info("Foundry MCP: bridge connected (reads, NPC/Item creation and confirmed NPC edits).", getStatus());
+        console.info("Foundry MCP: bridge connected (reads, NPC/Item creation, PC setup/imports and confirmed NPC edits and Item ActiveEffects).", getStatus());
         return;
       }
       if (request.type !== "request" || typeof request.id !== "string") {
@@ -87,17 +95,52 @@ function connect() {
       }
       busy = true;
       try {
-        const result = request.operation === "create_npc_actor"
-          ? await createNpc(request.args)
-          : request.operation === "create_item"
-            ? await createItem(request.args)
-            : request.operation === "edit_npc_actor"
-              ? await editNpc(request.args, { assertConnection: () => {
-                if (socket !== connection || connection.readyState !== WebSocket.OPEN) {
-                  throw new Error("MCP connection changed.");
-                }
-              } })
-              : await executeRead(request.operation, request.args);
+        const connectionOptions = { assertConnection: () => {
+          if (socket !== connection || connection.readyState !== WebSocket.OPEN) {
+            throw new Error("MCP connection changed.");
+          }
+        } };
+        let result;
+        switch (request.operation) {
+          case "build_magic_item":
+            result = await buildMagicItem(request.args, connectionOptions);
+            break;
+          case "get_merchant_inventory":
+            result = await getMerchantInventory(request.args, connectionOptions);
+            break;
+          case "edit_merchant_inventory":
+            result = await editMerchantInventory(request.args, connectionOptions);
+            break;
+          case "set_pc_basic_attack_ability":
+            result = await setPcBasicAttackAbility(request.args, connectionOptions);
+            break;
+          case "fix_pc_item_icons":
+            result = await fixPcItemIcons(request.args, connectionOptions);
+            break;
+          case "create_npc_actor":
+            result = await createNpc(request.args);
+            break;
+          case "setup_pc":
+            result = await setupPc(request.args, connectionOptions);
+            break;
+          case "import_pc_options":
+            result = await importPcOptions(request.args, connectionOptions);
+            break;
+          case "create_item":
+            result = await createItem(request.args);
+            break;
+          case "create_feat":
+            result = await createFeat(request.args, connectionOptions);
+            break;
+          case "edit_npc_actor":
+            result = await editNpc(request.args, connectionOptions);
+            break;
+          case "add_item_effects":
+            result = await addItemEffects(request.args, connectionOptions);
+            break;
+          default:
+            result = await executeRead(request.operation, request.args);
+        }
         assertEnabledGM(game);
         if (game.world.id !== worldId || game.user.id !== userId) {
           throw new Error("GM session changed.");
@@ -115,7 +158,7 @@ function connect() {
     } catch (error) {
       if (request?.type === "request" && typeof request.id === "string" && socket === connection && connection.readyState === WebSocket.OPEN) {
         // Fixed errors prevent third-party document errors from disclosing sensitive data.
-        connection.send(JSON.stringify({ type: "response", id: request.id, worldId, userId, error: "Request rejected or unavailable. For NPC or Item creation, retry identical data with the same request ID. For NPC edits, inspect source before retrying an uncertain result." }));
+        connection.send(JSON.stringify({ type: "response", id: request.id, worldId, userId, error: "Request rejected or unavailable. For creation or PC imports, retry identical data with the same request ID. For NPC edits or Item effects, inspect source before retrying an uncertain result." }));
       }
       console.warn("Foundry MCP: a request was rejected.");
     }

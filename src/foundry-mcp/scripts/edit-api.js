@@ -85,23 +85,25 @@ function escape(value) {
  * Show the complete before/after summary, with cancellation as the default.
  * Expire the approval before the companion's edit request deadline.
  */
-export async function confirmNpcEdit({ name, changes }, {
-  Dialog = globalThis.Dialog, timeoutMs = EDIT_CONFIRM_TIMEOUT_MS
+export async function confirmNpcEdit({ name, changes, summary, title = "Foundry MCP: Confirm NPC edit" }, {
+  Dialog = globalThis.Dialog, timeoutMs = EDIT_CONFIRM_TIMEOUT_MS, now = Date.now
 } = {}) {
   return new Promise((resolve, reject) => {
+    const expires = now() + timeoutMs;
     let settled = false;
     let timer;
     const finish = value => {
       if (!settled) {
         settled = true;
         clearTimeout(timer);
-        resolve(value);
+        resolve(value === true && now() < expires);
       }
     };
     const rows = changes.map(change => `<tr><td>${escape(change.document)}<br>${escape(change.path)}</td><td style="white-space:pre-wrap;overflow-wrap:anywhere">${escape(change.before)}</td><td style="white-space:pre-wrap;overflow-wrap:anywhere">${escape(change.after)}</td></tr>`).join("");
+    const overview = summary ?? `Update ${name} with ${changes.length} proposed change${changes.length === 1 ? "" : "s"}.`;
     const dialog = new Dialog({
-      title: "Foundry MCP: Confirm NPC edit",
-      content: `<p>Review changes to <strong>${escape(name)}</strong>. Nothing is saved until you confirm. This request expires after 60 seconds.</p><div style="max-height:55vh;overflow:auto"><table><thead><tr><th>Field</th><th>Before</th><th>After</th></tr></thead><tbody>${rows}</tbody></table></div>`,
+      title,
+      content: `<p style="white-space:pre-wrap;overflow-wrap:anywhere"><strong>${escape(overview)}</strong></p><p>Nothing is saved until you confirm. You have 2 minutes to review.</p><h3>Detailed changes</h3><div style="max-height:55vh;overflow:auto"><table><thead><tr><th>Field</th><th>Before</th><th>After</th></tr></thead><tbody>${rows}</tbody></table></div>`,
       buttons: {
         confirm: { label: "Confirm changes", callback: () => finish(true) },
         cancel: { label: "Cancel", callback: () => finish(false) }
@@ -156,7 +158,7 @@ export async function editNpc(args, {
   if (pending.has(game)) {
     throw new Error("Another NPC edit is awaiting confirmation.");
   }
-  const { uuid, items = [], ...actorData } = args;
+  const { uuid, items = [], deleteTraits = [], summary, ...actorData } = args;
   const targets = [{ document: actor, patch: flatten(actorData) }];
   const markTargets = [];
   for (const { id, type, hitMark, ...data } of items) {
@@ -169,10 +171,27 @@ export async function editNpc(args, {
       markTargets.push(item);
     }
   }
+  const deletionTargets = [];
+  for (const id of deleteTraits) {
+    const item = actor.items.get(id);
+    // A deleted ID is a no-op, so retries after partial writes are safe.
+    if (!item) {
+      continue;
+    }
+    if (item.parent !== actor || item.type !== "feature" || item.toObject(true).system?.featureType !== "trait") {
+      throw new Error("Only existing embedded NPC traits can be deleted.");
+    }
+    const target = { document: item, patch: {}, deleting: true };
+    deletionTargets.push(target);
+    targets.push(target);
+  }
   const changes = [];
   for (const target of targets) {
     target.source = JSON.stringify(target.document.toObject(true));
     const source = JSON.parse(target.source);
+    if (target.deleting) {
+      changes.push({ document: target.document.name, uuid: target.document.uuid, path: "items: delete trait", before: source, after: "(deleted)" });
+    }
     for (const [path, after] of Object.entries(target.patch)) {
       const before = atPath(source, path);
       if (JSON.stringify(before) === JSON.stringify(after)) {
@@ -191,7 +210,7 @@ export async function editNpc(args, {
   }
   pending.add(game);
   try {
-    const approved = await confirm({ name: actor.name, changes });
+    const approved = await confirm({ name: actor.name, changes, summary });
     assertSession();
     if (approved !== true) {
       return { ...receipt, status: "cancelled" };
@@ -207,6 +226,10 @@ export async function editNpc(args, {
     const itemUpdates = targets.slice(1).filter(target => Object.keys(target.patch).length)
       .map(target => ({ _id: target.document.id, ...target.patch }));
     const savedChanges = () => changes.filter(change => {
+      if (change.path === "items: delete trait") {
+        const target = deletionTargets.find(target => target.document.uuid === change.uuid);
+        return game.actors.get(actor.id) === actor && !actor.items.has(target.document.id);
+      }
       const document = change.uuid === actor.uuid ? game.actors.get(actor.id)
         : targets.find(target => target.document.uuid === change.uuid)?.document;
       if (change.path === "effects: add on-hit Marked") {
@@ -218,8 +241,9 @@ export async function editNpc(args, {
       if (itemUpdates.length) {
         await actor.updateEmbeddedDocuments("Item", itemUpdates);
         assertSession();
-        const expected = changes.filter(change => change.uuid !== actor.uuid && change.path !== "effects: add on-hit Marked");
-        if (savedChanges().filter(change => change.uuid !== actor.uuid && change.path !== "effects: add on-hit Marked").length !== expected.length) {
+        const isItemUpdate = change => change.uuid !== actor.uuid && !["effects: add on-hit Marked", "items: delete trait"].includes(change.path);
+        const expected = changes.filter(isItemUpdate);
+        if (savedChanges().filter(isItemUpdate).length !== expected.length) {
           throw new Error("Some item updates were cancelled.");
         }
       }
@@ -237,6 +261,22 @@ export async function editNpc(args, {
         if (!updated) {
           throw new Error("NPC update was cancelled.");
         }
+        assertSession();
+      }
+      if (deletionTargets.length) {
+        assertSession();
+        const updates = changes.filter(change => change.path !== "items: delete trait");
+        if (savedChanges().filter(change => change.path !== "items: delete trait").length !== updates.length) {
+          throw new Error("NPC updates must be saved before deleting traits.");
+        }
+        // Updates above may trigger hooks; never delete a trait changed since approval.
+        for (const target of deletionTargets) {
+          const current = actor.items.get(target.document.id);
+          if (current !== target.document || JSON.stringify(current.toObject(true)) !== target.source) {
+            throw new Error("Trait changed before deletion; request a fresh edit.");
+          }
+        }
+        await actor.deleteEmbeddedDocuments("Item", deletionTargets.map(target => target.document.id));
         assertSession();
       }
       if (savedChanges().length !== changes.length) {

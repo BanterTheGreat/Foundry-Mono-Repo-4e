@@ -7,6 +7,20 @@ description: Answer or implement DnD4e 0.9.3 Active Effect modifiers, including 
 
 Reference for DnD4e [`0.9.3`](https://github.com/EndlesNights/dnd4eBeta/tree/0.9.3). Keys and variables are case-sensitive.
 
+## Effect descriptions
+
+Keep effect descriptions focused on mechanics and conditions, including text-only reminders. Configure duration in the effect's duration fields and omit it from the description; the UI already displays it.
+
+Write concise descriptions, compressing the rules text where possible while preserving the mechanics and conditions.
+
+Use "Temp HP" for temporary hit points in effect descriptions.
+
+Abbreviate ability names as Str, Con, Dex, Int, Wis, and Cha, and modifier as Mod. For example: "Gain Mork'Allande's Int Mod Temp HP."
+
+When an effect applies a condition, copy the condition's Name, Icon, and Mods from its existing definition. Omit the condition's rules explanation from the effect description; include only any additional mechanics specific to the effect.
+
+With Foundry MCP, discover configured condition IDs through `list_conditions`, then use `condition: "slowed"` (or the discovered ID) in `add_item_effects`. This copies Name, Icon, and Mods from the same runtime definitions as the UI buttons. Omit `name`, `statuses`, and `changes`; omit `description` unless the effect has additional mechanics to describe. Supply the effect key, application, and duration normally. System-source inspection is unnecessary for condition details.
+
 ## Standard actor keys
 
 These change a stored actor property.

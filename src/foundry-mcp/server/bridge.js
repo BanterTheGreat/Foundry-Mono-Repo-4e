@@ -1,7 +1,7 @@
 import { createServer } from "node:http";
 import { randomUUID, timingSafeEqual } from "node:crypto";
 import { WebSocketServer, WebSocket } from "ws";
-import { CREATION_OPERATIONS, WRITE_OPERATIONS, DEFAULT_PORT, EDIT_CONFIRM_TIMEOUT_MS, MAX_MESSAGE_BYTES, OPERATIONS, PROTOCOL_VERSION } from "../shared/protocol.js";
+import { CREATION_OPERATIONS, WRITE_OPERATIONS, DEFAULT_PORT, EDIT_CONFIRM_TIMEOUT_MS, EFFECT_CONFIRM_TIMEOUT_MS, MAX_MESSAGE_BYTES, OPERATIONS, PROTOCOL_VERSION } from "../shared/protocol.js";
 
 /**
  * Token-authenticated loopback transport to exactly one opted-in GM tab.
@@ -100,7 +100,13 @@ export class FoundryBridge {
         clearTimeout(pending.timer);
         if (typeof message.error === "string") {
           pending.reject(new Error(CREATION_OPERATIONS.includes(pending.operation)
-            ? "Creation unavailable or rejected. Check GM access, DnD4e 0.9.3, destination folder and source data. If the outcome is uncertain, retry identical data with the same requestId."
+            ? "Creation or import unavailable or rejected. Check GM access, DnD4e 0.9.3, destination actor/folder, required compendium packs and source data. If the outcome is uncertain, retry identical data with the same requestId."
+            : pending.operation === "add_item_effects"
+              ? "Item effects rejected. Check the paired active GM, Item UUIDs, DnD4e 0.9.3 and effect data. Inspect source before retrying with the same stable effect keys."
+            : pending.operation === "set_pc_basic_attack_ability"
+              ? "PC basic attack change rejected. Check the paired active GM, world PC and core powers. Read source before retrying."
+            : pending.operation === "edit_merchant_inventory"
+              ? "Merchant inventory edit rejected. Check Item Piles, world NPC merchant and Item selections. Read inventory before retrying identical operations with the same requestId."
             : pending.operation === "edit_npc_actor"
               ? "NPC edit rejected. Check the paired active GM, world NPC UUID, DnD4e 0.9.3 and source data. Read the NPC before retrying an uncertain result."
               : "Foundry rejected the read. Check GM access, UUID, arguments, and result size."));
@@ -146,10 +152,17 @@ export class FoundryBridge {
         this.pending.delete(id);
         reject(new Error(CREATION_OPERATIONS.includes(operation)
           ? "Creation timed out; it may have succeeded. Retry identical data with the same requestId."
+          : operation === "add_item_effects"
+            ? "Effect batch timed out. Inspect Item source before retrying with the same stable effect keys; confirmed effects may have saved."
+          : operation === "set_pc_basic_attack_ability"
+            ? "PC basic attack change timed out. Read PC source before retrying; confirmed changes may have saved."
+          : operation === "edit_merchant_inventory"
+            ? "Merchant edit timed out. Read inventory before retrying identical operations with the same requestId; confirmed changes may have saved."
           : operation === "edit_npc_actor"
             ? "NPC edit timed out. Inspect the NPC source before retrying; confirmed changes may have saved."
             : "Foundry read timed out. Check the GM browser tab."));
-      }, operation === "edit_npc_actor" ? Math.max(this.timeoutMs, EDIT_CONFIRM_TIMEOUT_MS + 15000) : this.timeoutMs);
+      }, operation === "add_item_effects" ? Math.max(this.timeoutMs, EFFECT_CONFIRM_TIMEOUT_MS + 30000)
+        : ["edit_npc_actor", "set_pc_basic_attack_ability", "edit_merchant_inventory"].includes(operation) ? Math.max(this.timeoutMs, EDIT_CONFIRM_TIMEOUT_MS + 30000) : this.timeoutMs);
       this.pending.set(id, { resolve, reject, timer, operation });
       session.socket.send(message, error => {
         if (error && this.pending.has(id)) {
@@ -169,6 +182,12 @@ export class FoundryBridge {
       clearTimeout(pending.timer);
       pending.reject(new Error(CREATION_OPERATIONS.includes(pending.operation)
         ? `${message} Creation may have succeeded; retry identical data with the same requestId.`
+        : pending.operation === "add_item_effects"
+          ? `${message} Confirmed effects may have saved; read Item source before retrying with the same stable keys.`
+        : pending.operation === "set_pc_basic_attack_ability"
+          ? `${message} A confirmed PC basic attack change may have saved; read PC source before retrying.`
+        : pending.operation === "edit_merchant_inventory"
+          ? `${message} Confirmed merchant changes may have saved; read inventory before retrying identical operations with the same requestId.`
         : pending.operation === "edit_npc_actor"
           ? `${message} A confirmed NPC edit may have saved; read its source before retrying.`
           : message));

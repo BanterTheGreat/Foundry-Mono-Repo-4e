@@ -45,6 +45,23 @@ test("world discovery filters names and provides bounded pagination", async () =
   await assert.rejects(executeRead("list_documents", { documentType: "Actor", limit: 101 }, deps));
 });
 
+test("condition discovery reads configured copy-button data without descriptions, flags or source access", async () => {
+  const deps = fixture();
+  deps.game.system = { id: "dnd4e", version: "0.9.3" };
+  deps.game.i18n = { localize: name => name === "slow-key" ? "Slowed" : name };
+  deps.config = { statusEffects: [
+    { id: "slowed", name: "slow-key", img: "slowed.svg", description: "Long rules", flags: { secret: true },
+      changes: [{ key: "system.movement.base.ceil", value: 2, mode: 5, priority: 50 }] },
+    { id: "dazed", name: "Dazed", img: "dazed.svg" }
+  ] };
+  const result = await executeRead("list_conditions", { query: "SLOW", limit: 1 }, deps);
+  assert.equal(result.total, 1);
+  assert.deepEqual(result.entries, [{ id: "slowed", name: "Slowed", img: "slowed.svg",
+    changes: [{ key: "system.movement.base.ceil", value: "2", type: "override", priority: 50 }] }]);
+  deps.game.system.version = "0.9.4";
+  await assert.rejects(executeRead("list_conditions", {}, deps), /0.9.3/);
+});
+
 test("write/eval operations and settings traversal are rejected", async () => {
   const deps = fixture();
   for (const operation of ["update_document", "delete_document", "execute_macro", "eval"]) {

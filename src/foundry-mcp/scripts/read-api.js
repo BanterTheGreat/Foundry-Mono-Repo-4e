@@ -1,4 +1,5 @@
 import { WORLD_ITEM_TYPES } from "../shared/item-data.js";
+import { conditionData } from "./condition-data.js";
 import { MODULE_ID, READ_OPERATIONS, DOCUMENT_TYPES, EMBEDDED_TYPES, pagination } from "../shared/protocol.js";
 
 /**
@@ -135,7 +136,7 @@ function serialize(document, source) {
 /**
  * Dispatch only the supported read operations. Dependencies allow testing without Foundry.
  */
-export async function executeRead(operation, args = {}, { game = globalThis.game, fromUuid = globalThis.fromUuid } = {}) {
+export async function executeRead(operation, args = {}, { game = globalThis.game, fromUuid = globalThis.fromUuid, config = globalThis.CONFIG } = {}) {
   assertEnabledGM(game);
   if (!READ_OPERATIONS.includes(operation)) {
     throw new Error("Unsupported read operation.");
@@ -145,14 +146,33 @@ export async function executeRead(operation, args = {}, { game = globalThis.game
   }
   let result;
   switch (operation) {
+    case "list_conditions": {
+      if (game.system.id !== "dnd4e" || game.system.version !== "0.9.3") {
+        throw new Error("Condition discovery requires DnD4e 0.9.3.");
+      }
+      result = page((config?.statusEffects ?? []).map(status => conditionData(config, game, status.id)), args);
+      break;
+    }
     case "get_session":
       result = {
         world: { id: game.world.id, title: game.world.title },
         user: serialize(game.user), system: { id: game.system.id, version: game.system.version },
         foundryVersion: game.version, readOnly: false, documentTypes: DOCUMENT_TYPES,
         creation: { tool: "create_npc_actor", actorType: "NPC", system: "dnd4e", version: "0.9.3" },
+        featCreation: { tool: "create_feat", destinations: ["world Item folder", "Player Character"], system: "dnd4e", version: "0.9.3" },
+        pcSetup: { tool: "setup_pc", actorType: "Player Character", system: "dnd4e", version: "0.9.3", available: game.user.isActiveGM === true },
+        pcItemIcons: { tool: "fix_pc_item_icons", actorType: "Player Character", merchantActorType: "NPC", system: "dnd4e", version: "0.9.3", available: game.user.isActiveGM === true },
+        pcImport: { tool: "import_pc_options", equipmentPowers: true, itemTypes: ["power", "feature", "ritual", "weapon", "equipment", "consumable", "tool", "loot", "backpack"], actorType: "Player Character", system: "dnd4e", version: "0.9.3", available: game.user.isActiveGM === true },
         itemCreation: { tool: "create_item", itemTypes: WORLD_ITEM_TYPES, system: "dnd4e", version: "0.9.3" },
+          magicItemCreation: { tool: "build_magic_item", itemTypes: ["weapon", "equipment"], system: "dnd4e", version: "0.9.3",
+            sources: "base and enchantment compendium Item UUIDs", destination: "world Item folder",
+            available: game.user.isActiveGM === true },
+          merchantInventory: { readTool: "get_merchant_inventory", editTool: "edit_merchant_inventory", actorType: "NPC",
+            system: "dnd4e", version: "0.9.3", confirmation: "active GM", approvalSeconds: 120,
+            available: game.user.isActiveGM === true && game.modules.get("item-piles")?.active === true },
         editing: { tool: "edit_npc_actor", actorType: "NPC", system: "dnd4e", version: "0.9.3", confirmation: "active GM", available: game.user.isActiveGM === true },
+        pcBasicAttacks: { tool: "set_pc_basic_attack_ability", actorType: "Player Character", system: "dnd4e", version: "0.9.3", confirmation: "active GM", available: game.user.isActiveGM === true },
+        itemEffects: { tool: "add_item_effects", system: "dnd4e", version: "0.9.3", confirmation: "active GM", approvalSeconds: 120, available: game.user.isActiveGM === true },
         activeSceneUuid: game.scenes.active?.uuid ?? null,
         combatUuid: game.combat?.uuid ?? null,
         modules: Array.from(game.modules.values(), module => ({ id: module.id, title: module.title, version: module.version, active: module.active }))

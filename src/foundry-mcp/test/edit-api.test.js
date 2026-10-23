@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { editNpc, confirmNpcEdit } from "../scripts/edit-api.js";
-import { MODULE_ID } from "../shared/protocol.js";
+import { MODULE_ID, EDIT_CONFIRM_TIMEOUT_MS, EFFECT_CONFIRM_TIMEOUT_MS } from "../shared/protocol.js";
 
 /**
  * Model source documents and awaited update APIs without operating Foundry.
@@ -21,6 +21,14 @@ function fixture() {
       apply(source, patch);
       actor.name = source.name;
       return actor;
+    },
+    deleteEmbeddedDocuments: async (type, ids) => {
+      calls.push({ deleteType: type, ids });
+      return ids.map(id => {
+        const item = actor.items.get(id);
+        actor.items.delete(id);
+        return item;
+      });
     },
     updateEmbeddedDocuments: async (type, patches) => {
       calls.push({ type, items: patches });
@@ -62,6 +70,127 @@ function apply(source, patch) {
     parent[key] = value;
   }
 }
+
+/**
+ * Add an independent trait with source data for deletion/approval tests.
+ */
+function addTrait(deps, id = "trait") {
+  const source = { name: `Trait ${id}`, type: "feature", system: { featureType: "trait", description: { value: "<p>Passive rules.</p>" } }, effects: [] };
+  const trait = { id, uuid: `Actor.npc.Item.${id}`, name: source.name, type: "feature", parent: deps.actor, toObject: () => structuredClone(source) };
+  deps.actor.items.set(id, trait);
+  return { trait, source };
+}
+
+test("trait deletion shows full source before confirmation, preserves other items, and safely retries", async () => {
+  const deps = fixture();
+  const { source } = addTrait(deps);
+  deps.confirm = async ({ changes }) => {
+    assert.equal(deps.calls.length, 0);
+    assert.equal(deps.actor.items.has("trait"), true);
+    assert.deepEqual(changes, [{ document: "Trait trait", uuid: "Actor.npc.Item.trait", path: "items: delete trait", before: source, after: "(deleted)" }]);
+    return true;
+  };
+  const args = { uuid: "Actor.npc", deleteTraits: ["trait"] };
+  assert.equal((await editNpc(args, deps)).status, "updated");
+  assert.deepEqual(deps.calls, [{ deleteType: "Item", ids: ["trait"] }]);
+  assert.equal(deps.actor.items.has("trait"), false);
+  assert.equal(deps.actor.items.has("claw"), true);
+  deps.confirm = async () => { assert.fail("Already deleted traits must not prompt"); };
+  assert.equal((await editNpc(args, deps)).status, "unchanged");
+});
+
+test("trait deletion cancellation, stale source, session changes and malformed requests never delete", async () => {
+  for (const change of ["cancel", "source", "session", "removed"]) {
+    const deps = fixture();
+    const { source } = addTrait(deps);
+    deps.confirm = async () => {
+      if (change === "source") {
+        source.system.description.value = "Changed manually";
+      }
+      if (change === "session") {
+        deps.game.user.isActiveGM = false;
+      }
+      if (change === "removed") {
+        deps.actor.items.delete("trait");
+      }
+      return change !== "cancel";
+    };
+    const operation = editNpc({ uuid: "Actor.npc", deleteTraits: ["trait"] }, deps);
+    if (change === "cancel") {
+      assert.equal((await operation).status, "cancelled");
+    } else {
+      await assert.rejects(operation);
+    }
+    assert.equal(deps.calls.length, 0);
+  }
+  for (const args of [
+    { deleteTraits: ["claw"] },
+    { deleteTraits: ["trait", "trait"] },
+    { deleteTraits: ["trait"], items: [{ id: "trait", type: "feature", name: "Other" }] },
+    { deleteTraits: [42] }, { deleteTraits: "trait" },
+    { deleteTraits: ["Actor.npc.Item.trait"] }, { deleteTraits: Array(101).fill("trait") }
+  ]) {
+    const deps = fixture();
+    addTrait(deps);
+    deps.confirm = async () => { assert.fail("Invalid deletions must not prompt"); };
+    await assert.rejects(editNpc({ uuid: "Actor.npc", ...args }, deps));
+    assert.equal(deps.calls.length, 0);
+  }
+  const deps = fixture();
+  const { source } = addTrait(deps);
+  source.system.featureType = "feat";
+  await assert.rejects(editNpc({ uuid: "Actor.npc", deleteTraits: ["trait"] }, deps), /traits/);
+});
+
+test("trait deletion reports partial/cancelled writes and only retries remaining IDs", async () => {
+  const deps = fixture();
+  addTrait(deps, "first");
+  addTrait(deps, "second");
+  const args = { uuid: "Actor.npc", system: { biography: "Preserved rules" }, deleteTraits: ["first", "second"] };
+  deps.actor.deleteEmbeddedDocuments = async (type, ids) => {
+    assert.equal(deps.source.system.biography, "Preserved rules");
+    deps.actor.items.delete(ids[0]);
+    throw new Error("Disconnected after first deletion");
+  };
+  const result = await editNpc(args, deps);
+  assert.equal(result.status, "incomplete");
+  assert.deepEqual(result.applied.map(change => change.path), ["system.biography", "items: delete trait"]);
+  deps.actor.deleteEmbeddedDocuments = async (type, ids) => {
+    assert.deepEqual(ids, ["second"]);
+    return [];
+  };
+  assert.equal((await editNpc(args, deps)).status, "incomplete");
+  deps.actor.deleteEmbeddedDocuments = async (type, ids) => {
+    assert.deepEqual(ids, ["second"]);
+    deps.actor.items.delete("second");
+  };
+  assert.equal((await editNpc(args, deps)).status, "updated");
+});
+
+test("updates cannot delete a trait changed by an update hook after approval", async () => {
+  const deps = fixture();
+  const { source } = addTrait(deps);
+  const update = deps.actor.update;
+  deps.actor.update = async patch => {
+    const result = await update(patch);
+    source.system.description.value = "Changed by hook";
+    return result;
+  };
+  const result = await editNpc({ uuid: "Actor.npc", name: "Other", deleteTraits: ["trait"] }, deps);
+  assert.equal(result.status, "incomplete");
+  assert.equal(deps.actor.items.has("trait"), true);
+  assert.equal(deps.calls.length, 1);
+});
+
+test("a silently cancelled Lore update cannot proceed to trait deletion", async () => {
+  const deps = fixture();
+  addTrait(deps);
+  deps.actor.update = async () => deps.actor;
+  const result = await editNpc({ uuid: "Actor.npc", system: { biography: "Preserve this first" }, deleteTraits: ["trait"] }, deps);
+  assert.equal(result.status, "incomplete");
+  assert.equal(deps.actor.items.has("trait"), true);
+  assert.equal(deps.calls.length, 0);
+});
 
 test("summarizes source changes before approval, preserves omitted data, and awaits NPC/item updates", async () => {
   const deps = fixture();
@@ -197,6 +326,53 @@ test("popup escapes game content and supports confirm, cancel, close, and expiry
     }
     const answer = await confirmNpcEdit({ name: "<script>", changes: [{ document: "Troll", path: "name", before: "Old", after: "<script>" }] }, { Dialog, timeoutMs: 5 });
     assert.equal(answer, action === "confirm");
+  }
+});
+
+test("all edit dialogs allow two minutes and put escaped summary before detailed changes", async t => {
+  assert.equal(EDIT_CONFIRM_TIMEOUT_MS, 120000);
+  assert.equal(EFFECT_CONFIRM_TIMEOUT_MS, EDIT_CONFIRM_TIMEOUT_MS);
+  t.mock.timers.enable({ apis: ["setTimeout", "Date"], now: 0 });
+  let options;
+  class Dialog {
+    constructor(data) { options = data; }
+    render() {}
+    close() { options.close(); }
+  }
+  const request = { name: "Troll", summary: "Update <script> Lore.", changes: [{ document: "Troll", path: "system.biography", before: "old", after: "new" }] };
+  const first = confirmNpcEdit(request, { Dialog });
+  assert.ok(options.content.indexOf("Update &lt;script&gt; Lore.") < options.content.indexOf("Detailed changes"));
+  assert.match(options.content, /2 minutes/);
+  assert.ok(!options.content.includes("<script>"));
+  t.mock.timers.tick(119999);
+  options.buttons.confirm.callback();
+  assert.equal(await first, true);
+  const expired = confirmNpcEdit(request, { Dialog });
+  t.mock.timers.tick(120000);
+  options.buttons.confirm.callback();
+  assert.equal(await expired, false);
+});
+
+test("delayed browser timers cannot approve after the two-minute deadline", async () => {
+  let options;
+  let clock = 0;
+  class Dialog {
+    constructor(data) { options = data; }
+    render() { clock = 120001; options.buttons.confirm.callback(); }
+  }
+  assert.equal(await confirmNpcEdit({ name: "Troll", changes: [] }, { Dialog, now: () => clock }), false);
+});
+
+test("edit summary is review text only and never becomes an Actor update", async () => {
+  const deps = fixture();
+  deps.confirm = async ({ summary }) => {
+    assert.equal(summary, "Rename the troll.");
+    return true;
+  };
+  assert.equal((await editNpc({ uuid: "Actor.npc", name: "Other", summary: "Rename the troll." }, deps)).status, "updated");
+  assert.deepEqual(deps.calls, [{ actor: { name: "Other" } }]);
+  for (const summary of [" ", "x".repeat(1001), 42]) {
+    await assert.rejects(editNpc({ uuid: "Actor.npc", name: "X", summary }, deps));
   }
 });
 

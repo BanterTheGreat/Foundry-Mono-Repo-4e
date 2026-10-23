@@ -146,6 +146,39 @@ test("edit transport allows source patches, waits beyond read deadline, and repo
   await rejected;
 });
 
+test("merchant transport reserves approval time and reports uncertain disconnects", async t => {
+  const { bridge, token } = await fixture(t);
+  const socket = await pair(bridge, token);
+  const incoming = once(socket, "message");
+  const pending = bridge.request("edit_merchant_inventory", { uuid: "Actor.shop", requestId: "stock-edit-1", remove: ["potion"] });
+  const request = JSON.parse((await incoming)[0]);
+  assert.ok(bridge.pending.get(request.id).timer._idleTimeout >= 150000);
+  socket.send(JSON.stringify({ type: "response", id: request.id, worldId: "world", userId: "gm", result: { status: "cancelled" } }));
+  assert.deepEqual(await pending, { status: "cancelled" });
+  const lost = bridge.request("edit_merchant_inventory", {});
+  const rejected = assert.rejects(lost, /Confirmed merchant changes may have saved/);
+  socket.close();
+  await rejected;
+});
+
+test("PC basic attack transport waits for confirmation and reports uncertain disconnects", async t => {
+  const { bridge, token } = await fixture(t);
+  const socket = await pair(bridge, token);
+  const args = { uuid: "Actor.pc", ability: "int" };
+  const incoming = once(socket, "message");
+  const pending = bridge.request("set_pc_basic_attack_ability", args);
+  const request = JSON.parse((await incoming)[0]);
+  assert.deepEqual(request.args, args);
+  await new Promise(resolve => setTimeout(resolve, 150));
+  assert.equal(bridge.pending.size, 1);
+  socket.send(JSON.stringify({ type: "response", id: request.id, worldId: "world", userId: "gm", result: { status: "cancelled" } }));
+  assert.deepEqual(await pending, { status: "cancelled" });
+  const lost = bridge.request("set_pc_basic_attack_ability", args);
+  const rejected = assert.rejects(lost, /confirmed PC basic attack change may have saved/);
+  socket.close();
+  await rejected;
+});
+
 test("protocol v2 clients cannot pair with the edit-capable companion", async t => {
   const { bridge, token } = await fixture(t);
   const socket = new WebSocket(`ws://127.0.0.1:${bridge.port}/bridge`, { origin });
@@ -154,6 +187,22 @@ test("protocol v2 clients cannot pair with the edit-capable companion", async t 
   socket.send(JSON.stringify({ type: "hello", version: 2, token, worldId: "world", userId: "gm" }));
   await closed;
   assert.equal(bridge.session, null);
+});
+
+test("effect transport reserves two minutes for approval and reports uncertain disconnects", async t => {
+  const { bridge, token } = await fixture(t);
+  const socket = await pair(bridge, token);
+  const incoming = once(socket, "message");
+  const pending = bridge.request("add_item_effects", { items: [] });
+  const request = JSON.parse((await incoming)[0]);
+  const entry = bridge.pending.get(request.id);
+  assert.ok(entry.timer._idleTimeout >= 150000);
+  socket.send(JSON.stringify({ type: "response", id: request.id, worldId: "world", userId: "gm", result: { status: "expired" } }));
+  assert.deepEqual(await pending, { status: "expired" });
+  const lost = bridge.request("add_item_effects", { items: [] });
+  const rejected = assert.rejects(lost, /Confirmed effects may have saved/);
+  socket.close();
+  await rejected;
 });
 
 test("protocol v3 clients cannot pair with the world-Item creation companion", async t => {

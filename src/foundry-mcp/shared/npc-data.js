@@ -4,6 +4,8 @@
  * Omitted fields use system defaults; document IDs, flags and executable data
  * are deliberately absent. Arrays describe their element schema.
  */
+import { validateChangeSummary } from "./confirmation-data.js";
+
 const number = "number";
 const integer = "integer";
 const string = "string";
@@ -141,7 +143,8 @@ export function validateNpcRequest(args) {
  * Type is checked against the actual embedded document in the browser.
  */
 export function validateNpcEdit(args) {
-  const { items = [], ...actor } = args ?? {};
+  const { items = [], deleteTraits = [], summary, ...actor } = args ?? {};
+  validateChangeSummary(summary);
   validateShape(actor, { uuid: string, name: string, img: string, system: NPC_SYSTEM_SCHEMA });
   if (!/^Actor\.[A-Za-z0-9_-]{1,128}$/.test(actor.uuid ?? "")) {
     throw new Error("Choose an existing world Actor UUID.");
@@ -167,5 +170,14 @@ export function validateNpcEdit(args) {
       throw new Error("Each item requires a unique existing ID and a valid name if supplied.");
     }
     ids.add(item.id);
+  }
+  if (!Array.isArray(deleteTraits) || deleteTraits.length > 100) {
+    throw new Error("deleteTraits must contain at most 100 embedded trait IDs.");
+  }
+  for (const id of deleteTraits) {
+    if (typeof id !== "string" || !/^[A-Za-z0-9_-]{1,128}$/.test(id) || ids.has(id)) {
+      throw new Error("Trait deletions require unique IDs and cannot also edit the same item.");
+    }
+    ids.add(id);
   }
 }
