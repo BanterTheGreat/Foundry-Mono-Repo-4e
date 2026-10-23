@@ -7,6 +7,8 @@ import { OpportunityAttackChatActions } from "./modules/opportunity-attack-chat/
 import { TargetingWarning } from "./modules/targeting-warning/targeting-warning.js";
 import { CoverPreview } from "./modules/cover-preview/cover-preview.js";
 import { ActorDirectoryLevels } from "./modules/actor-directory-levels/actor-directory-levels.js";
+import { AttackBuffs } from "./modules/attack-buffs/attack-buffs.js";
+import { SkillBuffs } from "./modules/skill-buffs/skill-buffs.js";
 import { TRIGGER_SOCKET_ACTION } from "./modules/trigger-prompts/constants.js";
 import { MODULE_NAME, ENABLE_ACTIVE_DEFENSE, ENABLE_DEBUG_LOGGING, ENABLE_OPPORTUNITY_ATTACK_CHAT_ACTIONS, ENABLE_TRIGGER_PROMPTS } from "./shared/globals.js";
 
@@ -86,6 +88,8 @@ Hooks.on("ready", () => {
 // Hooks.on("init", Dnd4eSystemCustomizations.replaceConditionList);
 Hooks.on("init", Dnd4eSystemCustomizations.replaceSkills);
 Hooks.once("ready", TargetingWarning.install);
+Hooks.once("ready", AttackBuffs.install);
+Hooks.once("ready", SkillBuffs.install);
 Hooks.on("renderActorDirectory", ActorDirectoryLevels.onRenderActorDirectory);
 Hooks.on("updateActor", ActorDirectoryLevels.onUpdateActor);
 

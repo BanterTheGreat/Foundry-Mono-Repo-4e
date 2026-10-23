@@ -323,3 +323,40 @@
 .trigger-prompts-message__actions button {
     width: 100%;
 }
+.banter-attack-buffs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.banter-attack-buff {
+  border: 1px solid #625e52;
+  border-radius: 3px;
+  background: #39362f;
+  color: #d2ccbf;
+  padding: 3px 5px;
+  font: 10px/1.2 Arial, sans-serif;
+  cursor: help;
+}
+
+.banter-attack-buff--decisive {
+  border-color: #76b65e;
+  background: #2a4325;
+  color: #c3f7b6;
+  box-shadow: 0 0 7px #85e05a55;
+  text-shadow: 0 0 5px #7feb7666;
+}
+
+.banter-attack-buff:focus-visible {
+  outline: 2px solid #d2ccbf;
+  outline-offset: 2px;
+}
+
+.banter-attack-buff--decisive-penalty {
+  border-color: #d66d64;
+  background: #4a2625;
+  color: #ffc8c0;
+  box-shadow: 0 0 7px #ef635a55;
+  text-shadow: 0 0 5px #ef756c66;
+}
