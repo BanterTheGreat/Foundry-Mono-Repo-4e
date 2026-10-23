@@ -19,10 +19,34 @@ test("MCP handshake exposes reads and NPC creation, validates arguments, and rep
   await server.connect(serverTransport);
   await client.connect(clientTransport);
   const { tools } = await client.listTools();
-  assert.deepEqual(tools.map(tool => tool.name), ["build_magic_item", "get_merchant_inventory", "edit_merchant_inventory", "get_session", "list_documents", "get_document", "list_compendiums", "list_compendium_documents", "list_conditions", "add_item_effects", "create_feat", "setup_pc", "import_pc_options", "set_pc_basic_attack_ability", "fix_pc_item_icons", "edit_npc_actor", "create_item", "create_npc_actor"]);
-  assert.ok(tools.filter(tool => !["build_magic_item", "edit_merchant_inventory", "add_item_effects", "create_npc_actor", "create_item", "create_feat", "setup_pc", "import_pc_options", "set_pc_basic_attack_ability", "fix_pc_item_icons", "edit_npc_actor"].includes(tool.name)).every(tool => tool.annotations.readOnlyHint));
+  assert.deepEqual(tools.map(tool => tool.name), ["add_scene_drawings", "create_journal", "build_magic_item", "get_merchant_inventory", "edit_merchant_inventory", "get_session", "list_documents", "get_document", "list_compendiums", "list_compendium_documents", "list_conditions", "add_item_effects", "create_feat", "setup_pc", "import_pc_options", "set_pc_basic_attack_ability", "fix_pc_item_icons", "edit_npc_actor", "create_item", "create_npc_actor"]);
+  assert.ok(tools.filter(tool => !["add_scene_drawings", "create_journal", "build_magic_item", "edit_merchant_inventory", "add_item_effects", "create_npc_actor", "create_item", "create_feat", "setup_pc", "import_pc_options", "set_pc_basic_attack_ability", "fix_pc_item_icons", "edit_npc_actor"].includes(tool.name)).every(tool => tool.annotations.readOnlyHint));
   assert.equal(tools.at(-1).annotations.readOnlyHint, false);
   assert.equal(tools.at(-1).annotations.idempotentHint, true);
+  const rectangles = { uuid: "Scene.map", requestId: "scene-drawings-001", drawings: [
+    { x: 100, y: 200, width: 300, height: 100, text: "Hazard", hidden: true }
+  ] };
+  assert.notEqual((await client.callTool({ name: "add_scene_drawings", arguments: rectangles })).isError, true);
+  assert.deepEqual(calls.at(-1), { operation: "add_scene_drawings", args: rectangles });
+  const drawingCalls = calls.length;
+  for (const invalid of [{ ...rectangles, uuid: "Actor.pc" }, { ...rectangles, requestId: undefined },
+    { ...rectangles, drawings: [{ ...rectangles.drawings[0], width: 0 }] },
+    { ...rectangles, drawings: [{ ...rectangles.drawings[0], flags: {} }] },
+    { ...rectangles, drawings: [{ ...rectangles.drawings[0], hidden: "true" }] },
+    { ...rectangles, drawings: [] }, { ...rectangles, flags: {} }]) {
+    assert.equal((await client.callTool({ name: "add_scene_drawings", arguments: invalid })).isError, true);
+  }
+  assert.equal(calls.length, drawingCalls);
+  assert.equal(tools.find(tool => tool.name === "add_scene_drawings").annotations.readOnlyHint, false);
+  const journal = { requestId: "briefing-mcp-1", name: "Ambush", battleBriefing: { title: "Ambush", description: "Hold the line." } };
+  assert.notEqual((await client.callTool({ name: "create_journal", arguments: journal })).isError, true);
+  assert.deepEqual(calls.at(-1), { operation: "create_journal", args: journal });
+  const journalCalls = calls.length;
+  for (const invalid of [{ ...journal, flags: {} }, { ...journal, folder: "Other" }, { ...journal, requestId: undefined }]) {
+    assert.equal((await client.callTool({ name: "create_journal", arguments: invalid })).isError, true);
+  }
+  assert.equal(calls.length, journalCalls);
+  assert.equal(tools.find(tool => tool.name === "create_journal").annotations.readOnlyHint, false);
   const offline = await client.callTool({ name: "get_session", arguments: {} });
   const build = { requestId: "build-magic-test-1", baseUuid: "Compendium.gear.items.Item.hammer", enchantmentUuid: "Compendium.gear.items.Item.battering", folder: "Magic Items", quantity: 2 };
   assert.notEqual((await client.callTool({ name: "build_magic_item", arguments: build })).isError, true);

@@ -45,9 +45,11 @@
 
       == Intrinsic bonuses
       #theme.quoteBox(["What, another magic item? Add it to the pile"])
-      Intrinsic bonuses are the default assumption when playing the game, in order to reduce the loot threatmill effect. See the table to the right for more information.
+      By default, add only *+TIER to attack rolls, Fortitude, Reflex, and Will* (+1/+2/+3 by tier). This is the baseline bonus above; apply it only once.
 
-      If you would receive an item with higher bonuses than your Intrinsic bonus, you may instead use that item's bonuses as normal.
+      *Items still provide their normal bonuses* to attack, damage, AC, defenses, and critical-hit damage.
+
+      The full table is *optional; GM opt-in only*.
 
       == Skill Changes
       Some skills got merged into other skills and renamed. 
@@ -59,15 +61,18 @@
 
       #block(fill: theme.headerColor, inset: 10pt, [
         #align(center)[
-          == Intrinsic bonus by level
+          == OPTIONAL VARIANT
+          *Full intrinsic bonuses by level*
         ]
+
+        *GM opt-in only.* Use this table to replace item progression. Its attack and defense totals already include the +TIER bonus; do not add that bonus again. Use an item's bonus instead wherever it is higher.
 
         #table(
           columns: (1fr, 1fr, 1fr, 1fr, 1fr),
           stroke: theme.tableDivider,
           align: left,
           fill: theme.defaultTableStyle(),
-          inset: 6pt,
+          inset: 4pt,
           [*Level*], [*Attack & Damage*], [*Crit*], [*AC*], [*Defenses*],
           [1], [+1], [–], [–], [+1],
           [2], [+2], [+1d6], [–], [+1],
@@ -99,8 +104,8 @@
           [28], [+9], [+6d6], [+5], [+8],
           [29], [+9], [+6d6], [+6], [+9],
           [30], [+9], [+6d6], [+6], [+9],
-        ),
-      ]), 
+        )
+      ])
     ]
   ]
 }

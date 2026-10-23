@@ -2,6 +2,10 @@
 
 ## 0.4.0
 
+- Read scene drawings, including hidden shapes and labels, through document reads. Add native rectangle drawings with optional text, visibility and appearance controls through `add_scene_drawings`, with active-GM confirmation, stale-scene rejection and persisted partial-batch retry protection. Preserve existing drawings and scene data.
+
+- Create private world text Journals and native Battle Briefing presets with `create_journal`, including expected actor counts, portrait framing and reusable strategy notes. Validate destinations and actor references, generate preset summaries, and persist receipts for safe retries.
+
 - Build standalone magic weapons, implements, armor and equipment from exact base/variant compendium UUIDs with `build_magic_item`, adapting DnD 4e Compendium's Build Magic Item merge rules. Preserve base mechanics, variant properties and native critical damage/effects, apply masterwork AC and suitable art, and persist creation receipts without temporary Items. Reuse the same merger for confirmed merchant additions with `baseUuid`.
 - Manage Item Piles world NPC merchant inventory with paginated stock reads and GM-confirmed additions, removals and absolute quantity changes. Preserve source mechanics and Item Piles properties, reject stale approvals, persist retry receipts, and report partial saves. New additions remain separate stock entries; prices, currency and infinite-stock configuration stay outside this tool.
 - Give all edit confirmations two minutes, with a plain-language change summary above the detailed diff/effect report. Keep the bridge waiting beyond the approval window, reject late clicks even when browser timers lag, and allow agent-authored summary text on NPC edits, PC basic attacks and Item effects.
@@ -14,7 +18,7 @@
 - Import native inventory from explicitly selected compendium packs, preserving levels, enhancements, quantities and effects while adding items unequipped. Detect inventory duplicates by source so same-name variants can coexist.
 - Add native ActiveEffects to powers and equipment, including Items on PCs/NPCs, through `add_item_effects`. Support description-only reminders and condition shortcuts that copy configured Name, Icon, and Mods like the native UI buttons without repeating condition descriptions. Discover condition IDs and details through `list_conditions`. Review one client report with modifiers, application types, durations, conditions, ongoing damage and manual limitations before Confirm; cancel/close or a two-minute expiry saves nothing. Preserve existing effects, skip matching effects on retries, reject stale Item or condition approvals and report partial writes.
 - Author Aura Effects auras on powers/equipment through validated settings for distance, display/color, recipient filters, source evaluation, collisions and stacking. Support visual-only auras without recipient copies, keep bearer protections separate, show settings in GM confirmation, and reject unsupported module schemas or changed aura retries. Damage triggers and early dismissal remain manual.
-- Upgrade to bridge protocol v22; restart the companion and reload Foundry together. Allow at least 180 seconds for tool calls that await approval.
+- Upgrade to bridge protocol v24; restart the companion and reload Foundry together. Allow at least 180 seconds for tool calls that await approval.
 
 ## 0.3.0
 

@@ -6,7 +6,9 @@
   title: str,
   time: str,
   duration: str,
+  marketPrice: str,
   cost: str,
+  focus: none,
   keywords: str,
   description: content,
 ) = {
@@ -33,19 +35,9 @@
           #v(-5pt);
 
           #grid(
-            columns: (1fr, auto),
-            align: (left + top, right + top),
-            grid(
-              columns: (auto, auto),
-              align: (left + top, right + horizon),
-              image("../svgs/magnify.svg", height: 1em), [#h(2pt)#text(keywords, weight: "bold")],
-            ),
-
-            grid(
-              columns: (auto, auto),
-              align: (right + horizon, left + top),
-              [#text(cost, weight: "bold")#h(2pt)], image("../svgs/action.svg", height: 1em),
-            ),
+            columns: (auto, 1fr),
+            align: (left + top, left + horizon),
+            image("../svgs/magnify.svg", height: 1em), [#h(2pt)#text(keywords, weight: "bold")],
           );
 
           #v(-5pt);
@@ -65,6 +57,15 @@
               [#duration#h(2pt)], image("../svgs/duration.svg", height: 1em),
             ),
           );
+
+          #grid(
+            columns: (auto, 1fr),
+            column-gutter: 4pt,
+            row-gutter: 4pt,
+            [*Market Price:*], [#marketPrice],
+            [*Casting Cost:*], [#cost],
+            ..if focus != none { ([*Reusable Focus:*], [#focus]) } else { () },
+          )
 
           #description
         ],

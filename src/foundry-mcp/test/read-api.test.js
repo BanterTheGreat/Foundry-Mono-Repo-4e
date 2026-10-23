@@ -35,6 +35,27 @@ test("reads prepared/source DnD4e data and projects serialized fields", async ()
   assert.equal(source.data.system.hp, 10);
 });
 
+test("reads scene drawings including hidden shapes, labels and individual Drawing UUIDs", async () => {
+  const deps = fixture();
+  const drawing = { _id: "rectangle", x: 100, y: 200, hidden: true, text: "Secret passage",
+    shape: { type: "r", width: 300, height: 100 } };
+  const scene = document("map", "Battlefield", "Scene", { grid: { size: 100 }, walls: [], drawings: [drawing] });
+  deps.fromUuid = async () => scene;
+  const result = await executeRead("get_document", {
+    uuid: "Scene.map", source: true, fields: ["grid", "walls", "drawings"]
+  }, deps);
+  assert.deepEqual(result.data, { grid: { size: 100 }, walls: [], drawings: [drawing] });
+  const embedded = document("rectangle", "", "Drawing", drawing);
+  embedded.uuid = "Scene.map.Drawing.rectangle";
+  embedded.parent = scene;
+  deps.fromUuid = async () => embedded;
+  const single = await executeRead("get_document", { uuid: embedded.uuid, source: true }, deps);
+  assert.equal(single.data.hidden, true);
+  assert.equal(single.data.text, "Secret passage");
+  scene.testUserPermission = () => false;
+  await assert.rejects(executeRead("get_document", { uuid: embedded.uuid }, deps), /access denied/);
+});
+
 test("world discovery filters names and provides bounded pagination", async () => {
   const deps = fixture();
   deps.game.collections.get("Actor").set("def", document("def", "Goblin Archer"));

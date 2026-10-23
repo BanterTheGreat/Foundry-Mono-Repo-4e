@@ -31,9 +31,70 @@ FOUNDRY_MCP_PORT = "17890"
 
 Use the server from the repo: the module-copy command excludes `node_modules`, so the Foundry copy is not the companion's dependency installation. If `node` is unavailable to Codex, use its absolute executable path.
 
-The GM tab must remain open and connected. Reloading disconnects pending requests; while **Enable MCP bridge connection** is checked, the browser retries the connection every five seconds. If the companion server is off, Chrome reports each refused attempt in its console. Uncheck that setting in **Configure Settings → Module Settings → Foundry MCP** to stop the attempts immediately; check it again when the companion is running. Losing the GM role also prevents subsequent operations and result delivery. A creation already sent to Foundry may still complete. The browser console logs successful pairing; inspect status with `game.modules.get("foundry-mcp").api.getStatus()` (no token is returned). The bridge uses protocol v22: restart the companion/MCP connection and reload Foundry together when upgrading.
+The GM tab must remain open and connected. Reloading disconnects pending requests; while **Enable MCP bridge connection** is checked, the browser retries the connection every five seconds. If the companion server is off, Chrome reports each refused attempt in its console. Uncheck that setting in **Configure Settings → Module Settings → Foundry MCP** to stop the attempts immediately; check it again when the companion is running. Losing the GM role also prevents subsequent operations and result delivery. A creation already sent to Foundry may still complete. The browser console logs successful pairing; inspect status with `game.modules.get("foundry-mcp").api.getStatus()` (no token is returned). The bridge uses protocol v24: restart the companion/MCP connection and reload Foundry together when upgrading.
 
 Local HTTP Foundry is the initial setup target. A browser using HTTPS or a remote Foundry host may block its connection to the local `ws://` listener under browser mixed-content or local-network policies. That setup may need a trusted TLS bridge, which is not included in this version.
+
+## Scene drawings
+
+Read an existing scene with `get_document`, `source: true` and `fields: ["name", "grid", "width", "height", "padding", "background", "walls", "drawings"]`. `get_session.activeSceneUuid` identifies the active scene; `list_documents` with `documentType: "Scene"` discovers other scenes. The `drawings` array includes every serialized drawing, including hidden drawings, with IDs, shape/position, text, style and hidden state. Read a single drawing using `Scene.SCENE_ID.Drawing.DRAWING_ID`. An empty array means no drawings. Image fields contain paths/settings, not image pixels.
+
+`add_scene_drawings` adds native rectangles to an existing world Scene after the paired active GM reviews and confirms the complete batch (two minutes). Text is an optional plain label displayed within each rectangle. `hidden: true` hides both rectangle and label from players; the default is visible. Rectangles are annotations, not movement barriers or automated terrain rules.
+
+```json
+{
+  "uuid": "Scene.SCENE_ID",
+  "requestId": "terrain-rectangles-001",
+  "summary": "Mark rubble as difficult terrain and add a hidden GM reminder.",
+  "drawings": [
+    { "x": 400, "y": 300, "width": 300, "height": 200,
+      "text": "Difficult terrain", "hidden": false,
+      "strokeColor": "#FFAA00", "fillColor": "#FFAA00", "fillAlpha": 0.15 },
+    { "x": 800, "y": 300, "width": 200, "height": 100,
+      "text": "Secret entrance", "hidden": true, "fontSize": 24 }
+  ]
+}
+```
+
+Positions are top-left **scene pixels including padding**; width/height are positive pixels. Read the grid size and scene placement before converting squares to pixels. Batch size is 1-100. Optional style fields are `strokeColor`, `strokeWidth` (0-100px), `strokeAlpha`, `fillColor`, `fillAlpha`, `fontSize` (1-512px) and `textColor`; colors use `#RRGGBB` and opacity uses 0-1. Defaults are white text/outline, transparent white fill, 4px stroke and 48px font. Text is limited to 2000 characters; choose a font size that fits the rectangle. The native drawing schema is documented in the [Foundry v13 DrawingData reference](https://foundryvtt.com/api/v13/interfaces/foundry.documents.types.DrawingData.html).
+
+Existing drawings are preserved. This tool does not update or delete existing drawings or modify other scene data. Scene changes during review require a fresh read/review. Cancel, close and expiry save nothing. Results include `updated`, `unchanged`, `cancelled` or `incomplete`, plus known drawing IDs/UUIDs and original batch indexes. Creation is not atomic: after timeout, disconnect or incomplete results, read the scene and retry identical geometry/text/style with the same `requestId`. Persisted per-drawing markers skip saved additions and recover missing ones. Changed request data under an existing marker is rejected; use a fresh ID for a new batch. Deleting a drawing deletes its marker, so retrying that batch can recreate it.
+
+Protocol **v24** requires restarting the companion/MCP connection and reloading Foundry together. Allow at least 180 seconds for tool calls awaiting approval. Manual verification by the user: check the browser console after reload; read a scene with existing drawings, add one labelled visible rectangle and one hidden rectangle to a test scene, cancel a separate batch, confirm visibility/geometry/text and retry the confirmed batch to check there are no duplicates.
+
+## Journals and Battle Briefing presets
+
+`create_journal` creates a private world JournalEntry with text pages, or a native **DnD4e Info Displays** Battle Briefing preset. The paired active GM is required. Ordinary journals work independently of the game system; presets require active `dnd4e-health-display` (whose briefing UI targets Foundry 14). This creates a new document without an edit confirmation.
+
+For an ordinary journal, supply `requestId`, `name`, an explicit JournalEntry `folder` (ID, unique name or full path), and `pages: [{"name": "Page title", "content": "<p>HTML content</p>"}]`. Missing folder paths are created. Up to 100 text pages are supported.
+
+For a preset, omit `folder` and `pages` and supply `battleBriefing` instead:
+
+```json
+{
+  "requestId": "bridge-ambush-briefing-001",
+  "name": "Bridge Ambush",
+  "battleBriefing": {
+    "title": "Hold the Bridge",
+    "description": "Prevent the reinforcements from crossing.",
+    "commanderSubtitle": "Captain of the bridge guard",
+    "commanderPositionX": 50,
+    "commanderPositionY": 50,
+    "commanderZoom": 100,
+    "expectedCombatants": [{ "actorId": "GUARD_ACTOR_ID", "count": 3 }],
+    "strategy": {
+      "environment": ["The bridge is slippery."],
+      "pointers": [{ "actorIds": ["GUARD_ACTOR_ID"], "notes": ["Defend the gate."] }]
+    }
+  }
+}
+```
+
+Only title and description are required inside `battleBriefing`; other fields default to empty notes/combatants, centered portrait positioning and 100% zoom. Discover world Actors first with `list_documents` and use their IDs (the final part of their Actor UUID), not combatant/token IDs. Counts are per actor; strategy pointers apply to all combatants using the selected actors. Preset fields are plain text. Portrait position ranges from 0-100 and zoom from 100-200.
+
+Presets are stored in the unique **Battle Briefings** JournalEntry folder with `flags.dnd4e-health-display.preset`, a readable summary page and default ownership NONE. Open **Prepare Battle Briefing**, select the saved preset and load it. Creating a preset does not change a combat, spawn tokens or select a commander. Existing Journals and arbitrary caller flags, ownership or document source are outside this tool.
+
+Reuse identical arguments and the same `requestId` after a timeout/disconnect; persisted receipts prevent duplicate Journals. Changed content or destinations with a saved request ID are rejected. Use `get_document` with `source:true` to verify stored pages and flags. Restart the companion/MCP connection and reload Foundry together for **protocol v23**.
 
 ## Standalone magic item builder
 

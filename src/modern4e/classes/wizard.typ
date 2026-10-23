@@ -41,7 +41,7 @@
       You possess a spellbook, a book full of mystic lore in which you store your rituals and your daily and utility spells.
 
       == Daily and Utility Powers
-      Your spellbook holds your wizard daily attack powers and wizard utility powers (not including your cantrips). You begin with two daily attack powers in your spellbook, one of which you can use on any given day. Each time you gain a level that lets you select a wizard daily attack power or a wizard utility power, choose two different powers of that type at that level and add them to your book.
+      Your spellbook holds your wizard daily attack powers and wizard utility powers (not including your cantrips). You begin with four daily attack powers in your spellbook, two of which you can prepare on any given day. Each time you gain a level that lets you select a wizard daily attack power or a wizard utility power, choose two different powers of that type at that level and add them to your book.
       After each extended rest, you can prepare a number of daily attack powers and utility powers according to what you can use per day for your level (see the Wizard Powers Prepared per Day table). You can't prepare the same power twice on the same day.
 
       If you replace a power because of gaining a level or through retraining, the previous power vanishes from your spellbook and is replaced by the new power.
@@ -63,10 +63,10 @@
             fill: theme.defaultTableStyle(),
             inset: 8pt,
             [*Level*], [*Daily*], [*Utility*],
-            [1], [1], [-],
-            [2-4], [1], [1],
-            [5], [2], [1],
-            [6-8], [2], [2],
+            [1], [2], [-],
+            [2-4], [2], [1],
+            [5], [3], [1],
+            [6-8], [3], [2],
             [9], [3], [2],
             [10-15], [3], [3],
             [16-21], [3], [4],

@@ -1,4 +1,4 @@
-.PHONY: copy-modules copy-module install typst typst-compile typst-watch typst-fonts typst-clean
+.PHONY: copy-modules copy-module install typst typst-compile typst-release typst-watch typst-fonts typst-clean
 
 # Copies only Foundry modules with manifests; modern4e is always excluded.
 # Override with `make copy-modules FOUNDRY_DATA_PATH=/custom/path/Data`.
@@ -22,6 +22,10 @@ typst: typst-compile
 
 typst-compile:
 	node scripts/typst.mjs compile $(TYPST_ARGS)
+
+# Versioned PDF in src/modern4e, using helpers/configuration.typ's version.
+typst-release:
+	node scripts/typst.mjs release $(TYPST_ARGS)
 
 typst-watch:
 	node scripts/typst.mjs watch $(TYPST_ARGS)

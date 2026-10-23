@@ -1,3 +1,5 @@
+import { addSceneDrawings } from "./scene-drawing-api.js";
+import { createJournal } from "./journal-create-api.js";
 import { DEFAULT_PORT, MODULE_ID, PROTOCOL_VERSION, MAX_MESSAGE_BYTES } from "../shared/protocol.js";
 import { assertEnabledGM, executeRead } from "./read-api.js";
 import { createNpc } from "./create-api.js";
@@ -21,7 +23,7 @@ let status = "disabled";
  * Expose connection status without disclosing the pairing token.
  */
 function getStatus() {
-  return { status, worldId: game.world?.id, userId: game.user?.id, readOnly: false, creation: "NPC, configured PCs and world Items", pcImport: "powers and feats from dnd-4e-compendium", featCreation: "world Items or directly on PCs", pcItemIcons: "default equipment icons by slot", editing: "NPC, Item Piles merchant inventory and Item ActiveEffects with active GM confirmation" };
+  return { status, worldId: game.world?.id, userId: game.user?.id, readOnly: false, creation: "NPC, configured PCs, world Items and Journals", pcImport: "powers and feats from dnd-4e-compendium", featCreation: "world Items or directly on PCs", pcItemIcons: "default equipment icons by slot", editing: "NPC, Item Piles merchant inventory, scene rectangle additions and Item ActiveEffects with active GM confirmation" };
 }
 
 /**
@@ -102,6 +104,12 @@ function connect() {
         } };
         let result;
         switch (request.operation) {
+          case "add_scene_drawings":
+            result = await addSceneDrawings(request.args, connectionOptions);
+            break;
+          case "create_journal":
+            result = await createJournal(request.args, connectionOptions);
+            break;
           case "build_magic_item":
             result = await buildMagicItem(request.args, connectionOptions);
             break;

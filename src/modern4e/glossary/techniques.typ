@@ -17,10 +17,14 @@
         = Learning additional Techniques
         To learn additional techniques, you must train for at least 8 hours with a character who has mastered it and is at least 6 levels higher than the minimum level to use the technique; or train for at least 1 week with a character who has mastered it, regardless of their level; or to study a manual or other text that describes the technique for 8 hours. You must also meet the technique’s level requirement.
 
+        *Market Price* is the one-time cost to buy a manual containing the technique. A found manual can be studied without paying this price, and techniques gained through level advancement require no purchase. Any payment for instruction from a teacher is agreed with the GM; it is not an additional automatic fee.
+
+        Prices use published ritual prices where an equivalent exists. Custom techniques use comparable rituals as pricing benchmarks; their listed prices are Modern4e rules.
+
         When learning either Arcane, Primal or Divine techniques, your class must be of the corresponding power source.
 
         = Performing a Technique
-        Once you’ve mastered a technique, you can use it. Each technique takes time to perform—usually a significant amount, preventing them from being used during combat. Additionally, each technique has costs, typically materials (which are consumed) and sometimes foci (which are reusable), paid at the end of the usage time of the technique. Gold-piece costs represent consumed materials. Pay these costs once each time you perform the technique, including techniques that remain active until dismissed.
+        Once you’ve mastered a technique, you can use it. Each technique takes time to perform—usually a significant amount, preventing them from being used during combat. Additionally, each technique has costs, typically materials (which are consumed) and sometimes foci (which are reusable), paid at the end of the usage time of the technique. *Casting Cost* lists the materials and other resources expended each time you perform the technique. Gold-piece costs represent consumed materials; healing surges are spent separately. A *Reusable Focus* must be available when you perform the technique, but is not consumed or bought again each time. Its value is separate from both the market price and casting cost. Pay casting costs once each time you perform the technique, including techniques that remain active until dismissed.
 
         Some techniques require skill checks; you make the check at the end of the usage time, and cannot take 10 on the check.
       ],
@@ -35,6 +39,8 @@
         title: "Alchemical Creation",
         time: "Special",
         duration: "Instantaneous",
+        // Homebrew pricing: Brew Potion / Master Artisan; the formula is still required.
+        marketPrice: "50 gp",
         cost: "The item's value in reagents",
         keywords: "Creation",
         description: "You create an alchemical item of level no higher than yours that you possess the formula for. The time required depends on the specific formula.",
@@ -46,6 +52,8 @@
         title: "Brew Potion",
         time: "1 hour",
         duration: "Until consumed",
+        // Pricing reference: Brew Potion (ritual1).
+        marketPrice: "75 gp",
         cost: "Price of the potion or elixir created",
         keywords: "Creation",
         description: "You create a potion or an elixir of your level or lower.",
@@ -57,6 +65,8 @@
         title: "Make Whole",
         time: "10 minutes",
         duration: "Instantaneous",
+        // Pricing reference: Make Whole (ritual51).
+        marketPrice: "50 gp",
         cost: "20% of the target’s value",
         keywords: "Creation",
         description: "Through surpassing skill, you swiftly and completely repair a single object, restoring it to perfect condition.",
@@ -68,7 +78,9 @@
         title: "Temporary Patch",
         time: "10 minutes",
         duration: "24 hours",
-        cost: "25 gp",
+        // Adapted pricing reference: Temporary Fix (ritual319).
+        marketPrice: "50 gp",
+        cost: "1 healing surge",
         keywords: "Creation",
         description: "You temporarily repair a single nonmagical object that fits within a 10-foot cube. It functions normally for the duration, then completely breaks again the next time someone attempts to use it.",
       );
@@ -79,6 +91,8 @@
         title: "Ward Campsite",
         time: "30 minutes",
         duration: "8 hours",
+        // Homebrew pricing: level 3 ward; retain the local trap-level material schedule.
+        marketPrice: "125 gp",
         cost: "25 gp or more (see text)",
         keywords: "Warding",
         description: [
@@ -108,6 +122,8 @@
         title: "Prosthetic Genius",
         time: "6 hours",
         duration: "Instantaneous",
+        // Homebrew pricing: level 5 permanent restoration; retain local prosthesis materials.
+        marketPrice: "250 gp",
         cost: "100 gp (see text)",
         keywords: "Creation, Restoration",
         description: "You create a prosthetic replacement that restores the lost limb, organ, or function. The exact form, materials, and required tools depend on your training: a character trained in Thievery might craft intricate clockwork limbs, one trained in Arcana could produce necromantic simulacra or animated prosthetics, and a character trained in Religion might craft rune-scribed blessed steel replacements. Consult the GM for material requirements and any additional checks.",
@@ -119,7 +135,9 @@
         title: "Superior Supply",
         time: "1 minute",
         duration: "Instantaneous",
-        cost: "140 gp, plus the item’s value (in coin)",
+        // Homebrew pricing: level 6 retrieval; compare Duplicate and Deep Pockets.
+        marketPrice: "360 gp",
+        cost: "50 gp, plus the item's price",
         keywords: "Exploration",
         description: "While rifling through a well-stocked pack or container for the usage time, you recover an item you previously purchased (nonmagical adventuring gear) and pull it from the pack. Deduct the item's cost from your wealth when you retrieve it.",
       );
@@ -130,6 +148,8 @@
         title: "Enhanced Durability",
         time: "1 hour",
         duration: "Instantaneous",
+        // Homebrew pricing: level 12 crafting; retain proportional reinforcement cost.
+        marketPrice: "2,600 gp",
         cost: "10% of the target’s value",
         keywords: "Creation",
         description: "You reinforce a Huge or smaller inanimate object, increasing the DC of Strength skill checks to destroy it by +10 and granting it Resist 10 to all damage. Blades enhanced this way do not dull, and inscriptions in stone resist erosion for a century. If you are at least 21st level, ignore the size limit.",
@@ -141,7 +161,9 @@
         title: "Artisan’s Foresight",
         time: "Any amount of time (see text)",
         duration: "Until discharged",
-        cost: "Special (see text) + 4,000 gp",
+        // Homebrew pricing: level 20 crafting; retain surcharge and invested project costs.
+        marketPrice: "25,000 gp",
+        cost: "4,000 gp, plus the project’s materials",
         keywords: "Creation",
         description: "You spend time and resources developing a secret project. As a standard action outside of combat, you may reveal the results: instantly and retroactively craft any object you could construct using any combination of techniques you know and the time and resources invested. Any excess materials beyond what is needed appear in your workshop (or equivalent); any excess time is lost. The final object may be placed on your person or left anywhere out of sight that you’ve visited since using the technique, as desired. Consult the GM for specifics about required materials and limits.",
       );
@@ -152,7 +174,9 @@
         title: "Destined Delivery",
         time: "1 hour",
         duration: "As long as necessary",
-        cost: "23,000 gp",
+        // Homebrew pricing: level 21 utility; between level 20 and level 22 component prices.
+        marketPrice: "50,000 gp",
+        cost: "9,000 gp",
         keywords: "Creation, Divination",
         description: "While crafting an object, you can bind its fate to a specific individual. By some providential means, the object will eventually find its way into that individual’s hands, though you cannot control the exact events that lead to it. Strongly defined heroic or anti‑heroic actions can still disrupt this destiny.",
       );
@@ -163,6 +187,8 @@
         title: "Resistant Preparation",
         time: "1 hour",
         duration: "Instantaneous",
+        // Homebrew pricing: level 21 crafting; retain proportional protection cost.
+        marketPrice: "50,000 gp",
         cost: "10% of the target’s value",
         keywords: "Creation",
         description: "You reinforce a Huge or smaller inanimate object so that it resists magical and supernatural transformations to its form. The protection is highly durable, but a sustained magical effect applied continuously for a week can overcome it.",
@@ -174,6 +200,8 @@
         title: "Permanency",
         time: "Special",
         duration: "Permanent",
+        // Homebrew pricing: level 30 crafting; retain proportional creation surcharge.
+        marketPrice: "600,000 gp",
         cost: "An additional 200% of the target’s value",
         keywords: "Creation",
         description: "Use this technique as part of creating an object to make it effectively eternal; the technique requires the same time as the object's creation. Objects made permanent do not degrade from normal time or weather and resist mundane wear; only direct destructive force or massive environmental damage can destroy them. Any object created this way is unmistakably recognized as your work.",
@@ -193,7 +221,9 @@
         title: "Arcane Mark",
         time: "1 minute",
         duration: "Permanent",
-        cost: "None",
+        // Pricing reference: Arcane Mark (ritual77).
+        marketPrice: "20 gp",
+        cost: "10 gp",
         keywords: "Creation",
         description: "You touch an object and mark it with your personal sigil. The sigil is normally invisible; it can be revealed with an Arcana check to detect magic.",
       );
@@ -204,9 +234,12 @@
         title: "Magic Mouth",
         time: "10 minutes",
         duration: "Until discharged or dismissed",
-        cost: "25 gp",
+        // Pricing reference: Magic Mouth (ritual50).
+        marketPrice: "50 gp",
+        cost: "10 gp",
+        focus: "Optional silver-and-ruby mouth worth 100 gp (see text)",
         keywords: "Communication, Exploration",
-        description: "You bind a spoken message into a surface you touch and set a trigger condition. When the condition is met, a mouth appears on the surface and speaks the message, discharging the ritual. You may use a small silver-and-ruby mouth (100 gp) as a reusable focus; it must remain within 20 squares of any mouth bound to it. The consumed material cost is still 25 gp.",
+        description: "You bind a spoken message into a surface you touch and set a trigger condition. When the condition is met, a mouth appears on the surface and speaks the message, discharging the ritual. You may use a small silver-and-ruby mouth (100 gp) as a reusable focus; it must remain within 20 squares of any mouth bound to it. The consumed material cost is still 10 gp.",
       );
 
       #techniqueEntry(
@@ -215,7 +248,9 @@
         title: "Silence",
         time: "10 minutes",
         duration: "24 hours",
-        cost: "25 gp",
+        // Pricing reference: Silence (ritual58).
+        marketPrice: "75 gp",
+        cost: "30 gp",
         keywords: "Warding",
         description: "You ward a room or a close burst 4 area against sound. Creatures attempting to listen into the area from outside suffer a –10 penalty to Perception checks to do so.",
       );
@@ -226,7 +261,9 @@
         title: "Floating Disk",
         time: "10 minutes",
         duration: "24 hours",
-        cost: "25 gp",
+        // Adapted pricing reference: Tenser's Floating Disk (ritual60).
+        marketPrice: "50 gp",
+        cost: "10 gp",
         keywords: "Exploration",
         description: [You create a disk of force 3 feet in diameter and 1 inch thick that floats a foot above the ground and carries what you place on it. It moves at your speed, either by your command as a move action or to remain within 5 squares of you if uncommanded. If you spend two consecutive rounds more than 5 squares from it, the effect ends. Maximum load by Arcana check result:
 
@@ -243,7 +280,10 @@
         title: "Unseen Servant",
         time: "10 minutes",
         duration: "Until dismissed",
-        cost: "25 gp",
+        // Pricing reference: Unseen Servant (ritual230).
+        marketPrice: "50 gp",
+        cost: "20 gp, doubled for each servant already controlled",
+        focus: "Ceramic hand worth at least 25 gp",
         keywords: "Creation, Hospitality",
         description: "You conjure an invisible, Medium unseen servant of force that obeys simple commands, moves at your speed, can lift up to 100 pounds, performs basic repetitive tasks (cleaning, camp chores, moving objects), never tires, and cannot attack or be attacked. It cannot move more than 20 squares from you and does not occupy space.",
       );
@@ -254,7 +294,10 @@
         title: "Animate Rope",
         time: "1 minute",
         duration: "1 minute",
-        cost: "25 gp",
+        // Pricing reference: Animate Rope (ritual358).
+        marketPrice: "100 gp",
+        cost: "5 gp and 1 healing surge",
+        focus: "The rope to be animated",
         keywords: "Exploration",
         description: "Choose a rope within 20 squares. The rope animates and follows your simple commands (coil, uncoil, knot, etc.). It cannot carry or pull weight besides its own while animated. Command actions: knotting — standard action; move up to 6 squares along a horizontal/vertical surface — move action.",
       );
@@ -265,7 +308,9 @@
         title: "Explosive Runes",
         time: "1 minute",
         duration: "Until discharged",
-        cost: "50 gp",
+        // Pricing reference: Explosive Runes (ritual365).
+        marketPrice: "100 gp",
+        cost: "10 gp and 1 healing surge",
         keywords: "Warding",
         description: "You inscribe runes that trigger a trap when read. You may set a password that allows safe reading. The trap makes an attack in a close burst 2 using your level + 4 vs. Reflex, dealing 4d4 + half your level force damage on a hit and half on a miss. An Arcana or Thievery check with DC = your Arcana check result + 5 can disable the trap.",
       );
@@ -276,7 +321,9 @@
         title: "Pyrotechnics",
         time: "1 minute",
         duration: "10 minutes",
-        cost: "25 gp",
+        // Pricing reference: Pyrotechnics (ritual200).
+        marketPrice: "50 gp",
+        cost: "20 gp",
         keywords: "Creation",
         description: "You conjure small aerial explosions in colors and shapes you choose; you may change color/shape once per minute. Effects are visible 1 mile by day and 10 miles by night.",
       );
@@ -287,7 +334,9 @@
         title: "Inner Archive",
         time: "1 minute",
         duration: "Until dismissed",
-        cost: "25 gp per book or 3 scrolls",
+        // Homebrew pricing: level 3 storage; retain per-volume cost.
+        marketPrice: "125 gp",
+        cost: "25 gp per book or three scrolls",
         keywords: "Warding",
         description: "You store written works (books, scrolls, etc.) in an extradimensional space within your mind. The physical texts vanish while stored and reappear upon your death or when you spend 1 minute resummoning them.",
       );
@@ -298,6 +347,8 @@
         title: "Project Reflection",
         time: "10 minutes",
         duration: "Until discharged or dismissed",
+        // Homebrew pricing: level 3 illusion; compare Hallucinatory Item.
+        marketPrice: "125 gp",
         cost: "25 gp",
         keywords: "Deception",
         description: [You create an intangible illusion of yourself that looks, smells, and sounds like you but cannot move more than 20 squares from its origin. Program the illusion with simple actions to trigger under set circumstances. Your Arcana check sets the Insight DC to discern the illusion and determines programmable actions:
@@ -317,6 +368,8 @@
         title: "Arcane Lock",
         time: "1 minute",
         duration: "Permanent",
+        // Pricing reference: Arcane Lock (ritual23).
+        marketPrice: "150 gp",
         cost: "25 gp",
         keywords: "Warding",
         description: "You magically seal a door, window, gate, or similar barrier. You may permit up to ten specific individuals, accept a verbal password, or allow a visual category of creatures to ignore the seal. Opening without permission uses a DC = your Arcana check + 5.",
@@ -328,7 +381,9 @@
         title: "Dark Light",
         time: "1 minute",
         duration: "1 day",
-        cost: "25 gp",
+        // Pricing reference: Dark Light (ritual79).
+        marketPrice: "150 gp",
+        cost: "30 gp",
         keywords: "Deception, Exploration",
         description: "You create a floating ball of shadow that accompanies you and produces dim light in a 6-square radius; colors do not appear (shades of gray). Only creatures inside the area can see the ball or its light.",
       );
@@ -339,7 +394,9 @@
         title: "Eavesdropper's Foil",
         time: "10 minutes",
         duration: "4 hours",
-        cost: "25 gp",
+        // Pricing reference: Eavesdropper's Foil (ritual257).
+        marketPrice: "175 gp",
+        cost: "80 gp",
         keywords: "Warding",
         description: "You ward up to a close burst 3 around yourself against eavesdropping, imposing a –10 penalty to Perception checks to listen in on communications within the area. The ward moves with you.",
       );
@@ -350,6 +407,8 @@
         title: "Hallucinatory Item",
         time: "10 minutes",
         duration: "24 hours",
+        // Pricing reference: Hallucinatory Item (ritual65).
+        marketPrice: "250 gp",
         cost: "25 gp",
         keywords: "Deception",
         description: [You create an immobile, intangible illusion of one inanimate object that appears real. Your Arcana check result determines the Recognition DC and size limit:
@@ -367,6 +426,8 @@
         title: "Object Reading",
         time: "1 hour",
         duration: "5 minutes",
+        // Pricing reference: Object Reading (ritual225).
+        marketPrice: "250 gp",
         cost: "25 gp",
         keywords: "Divination",
         description: [Hold an object and view past images from its history (owner, forger, recent events). Your Check result determines the amount of images shown:
@@ -384,7 +445,9 @@
         title: "Sending",
         time: "10 minutes",
         duration: "Instantaneous",
-        cost: "140 gp",
+        // Pricing reference: Sending (ritual55).
+        marketPrice: "360 gp",
+        cost: "50 gp",
         keywords: "Communication, Exploration",
         description: "You send a message of up to 25 words to a person you know; they receive it mentally and may respond the same way. DC required for the Arcana check depends on distance: within 10 miles — automatic; within 100 miles — DC 10; within 500 miles — DC 20; within 1,000 miles — DC 30; farther or different plane — DC 40.",
       );
@@ -395,7 +458,9 @@
         title: "Shadow Bridge",
         time: "5 minutes",
         duration: "10 minutes",
-        cost: "140 gp",
+        // Pricing reference: Shadow Bridge (ritual88).
+        marketPrice: "600 gp",
+        cost: "135 gp",
         keywords: "Exploration",
         description: "You form a solid bridge of shadow that must connect to solid surfaces at both ends. Maximum length equals your Arcana check result in squares; maximum width is 1 square per 10 points of your Check result.",
       );
@@ -406,7 +471,10 @@
         title: "Magic Map",
         time: "10 minutes",
         duration: "Special",
-        cost: "140 gp, ≥100 gp crystal plumb, ≤50×50 map",
+        // Pricing reference: Magic Map (ritual224).
+        marketPrice: "800 gp",
+        cost: "325 gp",
+        focus: "Crystal plumb bob worth at least 100 gp; a map covering at most 50 × 50 miles",
         keywords: "Divination, Finding",
         description: [Holding the plumb-bob above the map, if your chosen target is within the depicted area the plumb-bob points to their location and follows movement. Targets may be a creature you have a personal possession or body part from, the most valuable hoard in the area, a named object type, or a specific object you've seen. The duration is limited by your Arcana check:
 
@@ -425,7 +493,9 @@
         title: "Chains of Force",
         time: "5 minutes",
         duration: "Until dismissed",
-        cost: "140 gp",
+        // Adapted pricing reference: Tenser's Binding (ritual126).
+        marketPrice: "1,000 gp",
+        cost: "400 gp",
         keywords: "Binding",
         description: [You bind a helpless creature within 5 squares in chains of arcane force. The Escape DC equals your Arcana check + 5. A target of your level or lower cannot teleport while chained.],
       );
@@ -436,7 +506,9 @@
         title: "Passwall",
         time: "10 minutes",
         duration: "1 minute",
-        cost: "775 gp",
+        // Pricing reference: Passwall (ritual53).
+        marketPrice: "2,600 gp",
+        cost: "1,000 gp",
         keywords: "Exploration, Travel",
         description: "You create a passage through solid material one square wide and one square high. Depth of passage = one square per 5 points of your Arcana check result. A creature caught when the passage closes takes 5d10 damage and is ejected out the nearest end.",
       );
@@ -447,7 +519,9 @@
         title: "Seeming",
         time: "10 minutes",
         duration: "Until dismissed (see text)",
-        cost: "775 gp",
+        // Pricing reference: Seeming (ritual266).
+        marketPrice: "1,700 gp",
+        cost: "680 gp",
         keywords: "Deception",
         description: "You create magical disguises for yourself and up to eight allies, disguising you as nonspecific humanoids of the same size category. Your Arcana check sets the Recognition DC by sight (or sound if applicable). Disguises are intangible, so discrepancies are revealed by touch. Any ally moving more than 5 squares from you loses the disguise.",
       );
@@ -458,7 +532,9 @@
         title: "Telepathic Bond",
         time: "10 minutes",
         duration: "Special",
-        cost: "775 gp",
+        // Pricing reference: Telepathic Bond (ritual229).
+        marketPrice: "4,200 gp",
+        cost: "1,100 gp",
         keywords: "Communication, Exploration",
         description: [You and up to eight allies gain telepathic communication regardless of language, distance, or plane. The duration of which depends on the result of the Arcana check:
           - 9 or lower: 10 minutes;
@@ -475,7 +551,10 @@
         title: "View Location",
         time: "1 hour",
         duration: "Special",
-        cost: "775 gp and a ≥1,000 gp crystal ball or mirror",
+        // Pricing reference: View Location (ritual34).
+        marketPrice: "4,200 gp",
+        cost: "1,600 gp",
+        focus: "Crystal ball or mirror worth at least 1,000 gp",
         keywords: "Scrying",
         description: "You view and hear a previously visited location as if standing there with darkvision; you can use Perception normally. Sensor lasts 1 round per 10 points of your Arcana check result. The sensor is nearly invisible; a Perception check DC = 10 + your level reveals the shimmer.",
       );
@@ -486,7 +565,9 @@
         title: "Greater Sending",
         time: "10 minutes",
         duration: "Special",
-        cost: "8,000 gp",
+        // Adapted pricing reference: Far Sending (ritual174).
+        marketPrice: "4,200 gp",
+        cost: "800 gp",
         keywords: "Communication, Exploration",
         description: "Functions like Sending but you treat your Arcana check result as 40 for the purpose of distance/resolution.",
       );
@@ -497,7 +578,9 @@
         title: "Stasis Shell",
         time: "1 hour",
         duration: "Until moved more than 5 squares in a round",
-        cost: "8,000 gp",
+        // Pricing reference: Stasis Shell (ritual124).
+        marketPrice: "9,000 gp",
+        cost: "1,800 gp",
         keywords: "Warding",
         description: "You seal a nonliving object in a thin quintessence shell, halting its passage of time and preventing degradation while the shell holds. The shell ends if the target is moved more than 5 squares in a round.",
       );
@@ -508,7 +591,9 @@
         title: "Trace Scrying",
         time: "30 minutes",
         duration: "Until dismissed or discharged",
-        cost: "4,000 gp",
+        // Adapted pricing reference: Scry Trap (ritual264).
+        marketPrice: "25,000 gp",
+        cost: "5,000 gp",
         keywords: "Divination, Scrying, Warding",
         description: "When a scrying sensor perceives you, you become aware and may attempt to destroy or trace it. Destroying the sensor ends the scry unless its creator is higher level than you. Tracing requires a Arcana check with a –10 penalty and lets you observe the sensor's creator for 1 round per 5 points of your Arcana check result.",
       );
@@ -519,7 +604,10 @@
         title: "Soul Gem",
         time: "1 hour",
         duration: "Until dismissed",
-        cost: "92,000 gp and a ≥25,000 gp gem",
+        // Homebrew pricing: level 25 soul binding; compare Ease Spirit and Imprisonment.
+        marketPrice: "150,000 gp",
+        cost: "25,000 gp",
+        focus: "Gem worth at least 25,000 gp",
         keywords: "Binding, Necromancy",
         description: "You trap a creature's soul (died within last 8 hours) into the focus, preventing its return to life without the focus. The focus holds one soul at a time and can be reused after the soul is freed.",
       );
@@ -530,7 +618,9 @@
         title: "Raise Land",
         time: "1 hour",
         duration: "Until dismissed",
-        cost: "250,000 gp",
+        // Pricing reference: Raise Land (ritual86).
+        marketPrice: "600,000 gp",
+        cost: "125,000 gp",
         keywords: "Creation",
         description: [You raise the ground in an area around you into the sky. Arcana check result determines radius and height; depth affected is half the radius. Check limits:
 
@@ -550,7 +640,9 @@
         title: "Animal Messenger",
         time: "10 minutes",
         duration: "Special",
-        cost: "25 gp",
+        // Pricing reference: Animal Messenger (ritual40).
+        marketPrice: "50 gp",
+        cost: "10 gp",
         keywords: "Communication, Exploration, Handling",
         description: [Choose a non-hostile Tiny animal (such as a sparrow, raven, fox, or carp) and whisper a message of up to 25 words to it, plus a recipient and location. The animal moves toward that location, avoiding danger, and searches for the recipient. Upon finding them, it delivers your message, then returns to its natural behavior. The duration is determined by your Nature check result:
           - 19 or lower: 6 hours
@@ -566,7 +658,9 @@
         title: "Banish Vermin",
         time: "10 minutes",
         duration: "Special",
-        cost: "25 gp",
+        // Pricing reference: Banish Vermin (ritual101).
+        marketPrice: "30 gp",
+        cost: "10 gp",
         keywords: "Hospitality, Warding",
         description: [Ward an area up to burst 5 to be anathema to all natural Tiny or smaller vermin, who leave the area and will not re-enter for the duration. The duration is determined by your Nature check result:
           - 9 or lower: 3 days
@@ -582,7 +676,9 @@
         title: "Create Campsite",
         time: "10 minutes",
         duration: "8 hours",
-        cost: "25 gp",
+        // Pricing reference: Create Campsite (ritual195).
+        marketPrice: "50 gp",
+        cost: "15 gp",
         keywords: "Exploration",
         description: [You assemble and conceal a 5-square radius campsite, filling gaps in your gear with raw materials from the environment. You and your allies clear the area, set up camp, and prepare food and water. At the end of the duration, you can break down the campsite and conceal evidence of your stay in another 10 minutes. The campsite is well-hidden; the DC to find it is equal to your Nature check result.],
       );
@@ -593,7 +689,9 @@
         title: "Purify Water",
         time: "10 minutes",
         duration: "Instantaneous",
-        cost: "25 gp",
+        // Pricing reference: Purify Water (ritual227).
+        marketPrice: "50 gp",
+        cost: "10 gp",
         keywords: "Exploration",
         description: [Make a Nature check to purify an amount of water depending on the result:
           - 9 or lower: 1 square
@@ -609,7 +707,9 @@
         title: "Traveler’s Camouflage",
         time: "10 minutes",
         duration: "10 hours",
-        cost: "25 gp",
+        // Pricing reference: Traveler's Camouflage (ritual291).
+        marketPrice: "50 gp",
+        cost: "10 gp",
         keywords: "Deception",
         description: [You and any present allies gain a bonus to Stealth checks while traveling, and creatures tracking you take the same penalty to their Nature checks. These benefits don’t apply during combat. Your Nature check result determines the bonus/penalty:
           - 19 or lower: ±2
@@ -624,7 +724,9 @@
         title: "Water Walk",
         time: "10 minutes",
         duration: "1 hour",
-        cost: "25 gp",
+        // Pricing reference: Water Walk (ritual61).
+        marketPrice: "100 gp",
+        cost: "20 gp",
         keywords: "Exploration, Storm, Travel",
         description: "You or an ally can move on water as if it were solid ground; rapids and rough water count as difficult terrain. The target can choose to immerse or swim instead of walking on the surface.",
       );
@@ -635,6 +737,8 @@
         title: "Affect Normal Fire",
         time: "1 minute",
         duration: "8 hours",
+        // Pricing reference: Affect Normal Fire (ritual188).
+        marketPrice: "125 gp",
         cost: "25 gp",
         keywords: "Exploration",
         description: [You can manipulate nonmagical flames within 10 squares as a minor action, creating any of the following effects:
@@ -652,7 +756,9 @@
         title: "Summon Winds",
         time: "10 minutes",
         duration: "8 hours",
-        cost: "25 gp",
+        // Pricing reference: Summon Winds (ritual269).
+        marketPrice: "125 gp",
+        cost: "50 gp",
         keywords: "Exploration, Storm",
         description: "You summon a stiff breeze that follows you. If directed into a sailing vessel’s sails, the breeze increases its speed by 2 miles per hour.",
       );
@@ -663,7 +769,9 @@
         title: "Travelers’ Feast",
         time: "1 hour",
         duration: "24 hours",
-        cost: "25 gp",
+        // Pricing reference: Travelers' Feast (ritual32).
+        marketPrice: "175 gp",
+        cost: "35 gp",
         keywords: "Exploration, Hospitality",
         description: "You conjure or locate enough food and water to feed five Medium or Small creatures or two Large creatures for 24 hours.",
       );
@@ -674,7 +782,9 @@
         title: "Clear the Path",
         time: "30 minutes",
         duration: "Permanent",
-        cost: "140 gp",
+        // Pricing reference: Clear the Path (ritual78).
+        marketPrice: "150 gp",
+        cost: "70 gp",
         keywords: "Exploration",
         description: "Remove all debris, rubble, and other detritus from an area burst 3 within 10 squares. Has no effect on solid earth or rock, manufactured structures, traps, or magical barriers.",
       );
@@ -685,6 +795,8 @@
         title: "Commune with Nature",
         time: "30 minutes",
         duration: "10 minutes",
+        // Pricing reference: Commune With Nature (ritual41).
+        marketPrice: "360 gp",
         cost: "140 gp",
         keywords: "Divination",
         description: [You can ask primal spirits, beasts, or plants yes-or-no questions about the natural surroundings within 1 mile. Make a Nature check; you can ask one question plus one more for every 10 points of the check result. The spirits answer honestly.],
@@ -696,7 +808,9 @@
         title: "Earthen Ramparts",
         time: "10 minutes",
         duration: "Instantaneous",
-        cost: "140 gp",
+        // Pricing reference: Earthen Ramparts (ritual109).
+        marketPrice: "360 gp",
+        cost: "80 gp",
         keywords: "Creation, Warfare",
         description: [You channel the earth into defensive mounds, creating a wall 2 within 10 squares, 2 squares high. One side is sloped (difficult terrain), the rest are sheer cliffs (Athletics DC 20 to climb). For every 10 points of your Nature check result, create an additional such wall.],
       );
@@ -707,7 +821,9 @@
         title: "Find the Path",
         time: "1 hour",
         duration: "Until you reach your destination",
-        cost: "140 gp",
+        // Pricing reference: Find the Path (ritual260).
+        marketPrice: "360 gp",
+        cost: "144 gp",
         keywords: "Divination, Exploration, Finding, Travel",
         description: "Name a destination (visited or specific known place). You know the shortest route toward it, and a group you lead travels 10 extra miles per day while heading there.",
       );
@@ -718,7 +834,9 @@
         title: "Water Breathing",
         time: "10 minutes",
         duration: "Special",
-        cost: "140 gp",
+        // Pricing reference: Water Breathing (ritual37).
+        marketPrice: "680 gp",
+        cost: "135 gp",
         keywords: "Exploration",
         description: [Up to eight creatures gain the ability to breathe and speak underwater, and their gear is protected from water damage. Does not grant swimming ability. The duration is determined by your Nature check result:
           - 14 or lower: 1 hour
@@ -735,7 +853,9 @@
         title: "Tranquil Water",
         time: "10 minutes",
         duration: "1 hour",
-        cost: "140 gp",
+        // Homebrew pricing: level 9 localized travel aid; compare Shadow Bridge and Lower Water.
+        marketPrice: "800 gp",
+        cost: "100 gp",
         keywords: "Exploration",
         description: "You still the water around you, reducing the DC to swim within 5 squares of you to 10.",
       );
@@ -746,7 +866,9 @@
         title: "Trailblaze",
         time: "10 minutes",
         duration: "8 hours",
-        cost: "140 gp",
+        // Pricing reference: Trailblaze (ritual96).
+        marketPrice: "500 gp",
+        cost: "200 gp",
         keywords: "Exploration",
         description: "The wilderness moves aside to let you pass, clearing a path 4 squares wide up to 10 squares ahead and behind you, then closing in your wake. You ignore reductions to overland speed from natural terrain, and the DC to track your party increases by 5.",
       );
@@ -757,7 +879,9 @@
         title: "Create Oasis",
         time: "30 minutes",
         duration: "Instantaneous",
-        cost: "3,100 gp",
+        // Homebrew pricing: level 12 permanent terrain creation; compare Earthen Ramparts and Passwall.
+        marketPrice: "2,600 gp",
+        cost: "1,000 gp",
         keywords: "Creation",
         description: [You alter groundwater flow, creating a permanent spring. In desert terrain, it produces 10 gallons of water per day; in other terrains, 50 gallons per hour. If the terrain allows, a pond or creek may form.],
       );
@@ -768,7 +892,9 @@
         title: "Earth Glide",
         time: "30 minutes",
         duration: "10 hours",
-        cost: "775 gp",
+        // Homebrew pricing: level 12 overland travel; compare Shadow Walk.
+        marketPrice: "2,600 gp",
+        cost: "500 gp",
         keywords: "Exploration, Travel",
         description: "You and all allies within 5 squares gain overland burrow 5, allowing underground travel at 2.5 miles per hour if not taking other actions. You cannot take any action other than burrowing until you return to the surface.",
       );
@@ -779,7 +905,9 @@
         title: "Waterborn",
         time: "10 minutes",
         duration: "Special",
-        cost: "775 gp",
+        // Pricing reference: Waterborn (ritual98).
+        marketPrice: "2,000 gp",
+        cost: "850 gp",
         keywords: "Exploration",
         description: [As Water Breathing, but also grants a swim speed equal to land speed and immunity to cold and pressure of the deep ocean.],
       );
@@ -790,7 +918,9 @@
         title: "Stone Speech",
         time: "10 minutes",
         duration: "10 minutes",
-        cost: "4,000 gp",
+        // Homebrew pricing: level 18 divination; compare View Object and Whispers of the Edifice.
+        marketPrice: "17,000 gp",
+        cost: "5,000 gp",
         keywords: "Communication, Divination",
         description: "You can speak with stones, both natural and worked. They can relate anything they’ve touched or secrets hidden behind or beneath them, with perfect memory for at least a century.",
       );
@@ -801,7 +931,9 @@
         title: "Command Island",
         time: "1 hour",
         duration: "24 hours",
-        cost: "250,000 gp",
+        // Adapted pricing reference: Shift Mote (ritual90).
+        marketPrice: "300,000 gp",
+        cost: "50,000 gp and 5 healing surges",
         keywords: "Exploration, Travel",
         description: "You can command an island you are standing on to move in any direction at 1 mile per hour. The island continues for half a mile after you leave, slowing to a stop over an hour. The movement persists for up to 24 hours from initiation.",
       );
@@ -812,7 +944,9 @@
         title: "Climate",
         time: "1 hour",
         duration: "10 minutes",
-        cost: "250,000 gp",
+        // Homebrew pricing: level 30 landscape magic; compare Raise Land.
+        marketPrice: "600,000 gp",
+        cost: "125,000 gp",
         keywords: "Exploration, Storm",
         description: [You dramatically alter the climate within a 2-mile radius (e.g., desert to snowstorm, rainforest to badlands, summer to winter, or create a monsoon). You cannot directly control specific weather, but the area shifts to the new climate. If maintained for a year and a day, the change becomes permanent.],
       );
@@ -824,7 +958,9 @@
         title: "Bodily Purity Meditation",
         time: "1 hour",
         duration: "Until dismissed",
-        cost: "25 gp",
+        // Homebrew pricing: level 1 personal ward; compare Banish Vermin.
+        marketPrice: "50 gp",
+        cost: "10 gp",
         keywords: "Arete, Warding",
         description: "You gain a +2 power bonus to checks against poisons, diseases, and curses. If you would lose a healing surge as a result of failing a check against a poison, disease, or curse, you can immediately dismiss this technique to avoid losing a healing surge.",
       );
@@ -835,6 +971,8 @@
         title: "Blessed Light",
         time: "1 minute",
         duration: "24 hours",
+        // Homebrew pricing: level 2 undead-revealing light; compare Corpse Light.
+        marketPrice: "100 gp",
         cost: "25 gp",
         keywords: "Divination",
         description: [A Medium or smaller object you touch sheds bright light in a 20-square radius. Any invisible undead creature with level less than or equal to your Skill check result – 10 is illuminated; it retains total concealment, but the square it's located in is revealed.],
@@ -846,6 +984,8 @@
         title: "Last Words",
         time: "10 minutes",
         duration: "See text",
+        // Homebrew pricing: level 2 death divination; compare Last Sight Vision.
+        marketPrice: "100 gp",
         cost: "25 gp",
         keywords: "Divination, Necromancy",
         description: [You hear the last words spoken by a creature whose corpse or skull you touch. Your Skill check determines how far before their death you can hear:
@@ -862,7 +1002,9 @@
         title: "Spirit Messenger",
         time: "10 minutes",
         duration: "See text",
-        cost: "25 gp",
+        // Homebrew pricing: level 2 spirit communication; compare Spirit Fetch.
+        marketPrice: "100 gp",
+        cost: "20 gp",
         keywords: "Communication, Exploration",
         description: [You name a creature and summon a tiny spirit to deliver a message of up to 10 words to the target. The spirit travels tirelessly at 7 miles per hour over any terrain. Your Skill check result determines how long the spirit travels before giving up:
           - 19 or lower: 12 hours
@@ -878,6 +1020,8 @@
         title: "Oracle’s Thread",
         time: "1 minute",
         duration: "8 hours",
+        // Homebrew pricing: level 3 tracking aid; compare other level 3 exploration rituals.
+        marketPrice: "125 gp",
         cost: "25 gp",
         keywords: "Communication, Exploration",
         description: "Your movement leaves a magical track behind you that can be seen and followed only by you and up to six allies of your choice (who do not necessarily need to participate in the ritual; you can specify people you know well instead).",
@@ -889,7 +1033,9 @@
         title: "Trace Undead",
         time: "10 minutes",
         duration: "See text",
-        cost: "25 gp",
+        // Homebrew pricing: level 3 undead divination; compare Undead Ward.
+        marketPrice: "125 gp",
+        cost: "35 gp",
         keywords: "Divination, Finding, Necromancy",
         description: [You touch a destroyed undead creature and follow its magic back to its creator or controller, learning the distance and direction. Your Skill check result determines the range:
           - 19 or lower: 1,000 feet
@@ -905,7 +1051,9 @@
         title: "Hand of Fate",
         time: "10 minutes",
         duration: "10 minutes",
-        cost: "25 gp",
+        // Pricing reference: Hand of Fate (ritual16).
+        marketPrice: "175 gp",
+        cost: "70 gp",
         keywords: "Divination",
         description: "Propose up to three possible courses of action; a translucent blue hand appears and indicates the most rewarding course of action or inaction, based on the likely results of the next hour. The hand judges based on reward rather than risk, favoring high-reward options unless risks are comparable.",
       );
@@ -916,7 +1064,9 @@
         title: "Daylight",
         time: "1 minute",
         duration: "Until dismissed",
-        cost: "25 gp",
+        // Homebrew pricing: level 5 revealing light; compare Starshine.
+        marketPrice: "250 gp",
+        cost: "40 gp",
         keywords: "Exploration",
         description: "You shed bright light in a 30-square radius, and magical darkness effects of a level less than yours within that radius create no darkness.",
       );
@@ -927,7 +1077,9 @@
         title: "Spirit Grounding",
         time: "1 minute",
         duration: "10 minutes",
-        cost: "25 gp",
+        // Homebrew pricing: level 5 spirit binding; compare Magic Circle.
+        marketPrice: "250 gp",
+        cost: "50 gp",
         keywords: "Binding, Necromancy",
         description: "You force an immaterial haunt or similar spirit into physical form, allowing it to communicate, attack, and be attacked directly (though it may still be incorporeal and take reduced damage). Must be used within the area the target haunts and may require other protective measures.",
       );
@@ -938,6 +1090,8 @@
         title: "Deathly Shroud",
         time: "10 minutes",
         duration: "Special",
+        // Pricing reference: Deathly Shroud (ritual80).
+        marketPrice: "600 gp",
         cost: "140 gp",
         keywords: "Deception",
         description: [All creatures, except for undead with Intelligence 0 or higher, perceive you as undead. Powers and wards that affect undead also affect you. The duration is determined by your check result:
@@ -955,6 +1109,8 @@
         title: "Speak with Dead",
         time: "10 minutes",
         duration: "10 minutes",
+        // Pricing reference: Speak with Dead (ritual59).
+        marketPrice: "360 gp",
         cost: "140 gp",
         keywords: "Divination, Necromancy",
         description: [Ask the corpse of an intelligent creature with an intact face questions, which it will answer honestly. The corpse knows what the creature knew in life and anything that’s occurred within its sight since its death. You can ask one question per 10 points of your Religion check result. Exceptional creatures may require a skill challenge to get answers.],
@@ -966,7 +1122,9 @@
         title: "Dismiss",
         time: "10 minutes",
         duration: "Instantaneous",
-        cost: "140 gp",
+        // Homebrew pricing: level 9 planar return; compare level 9 component prices.
+        marketPrice: "800 gp",
+        cost: "325 gp",
         keywords: "Binding",
         description: [You return a willing or helpless extraplanar creature to its home plane. It appears in whatever location on that plane it most considers home, or a random safe location. If you are at least 21st level, you can make a Religion check and target up to a number of creatures equal to your check result.],
       );
@@ -977,7 +1135,9 @@
         title: "Disciple’s Blessing",
         time: "1 hour",
         duration: "24 hours",
-        cost: "775 gp",
+        // Homebrew pricing: level 11 temporary instruction; compare level 11 utility rituals.
+        marketPrice: "1,800 gp",
+        cost: "600 gp",
         keywords: "Training",
         description: "You grant another creature the ability to use a technique you know, as long as that technique is no more than two levels higher than their level, even if they lack training in the relevant skill.",
       );
@@ -988,6 +1148,8 @@
         title: "Skeleton Crew",
         time: "1 hour",
         duration: "Until dismissed",
+        // Homebrew pricing: level 12 group animation; retain local mass-servitor cost.
+        marketPrice: "2,600 gp",
         cost: "1,550 gp",
         keywords: "Exploration, Necromancy",
         description: [You can transmute a number of corpses equal to your Arcana check result into skeletal sailors. They cannot fight, are minions, have defenses equal to your own, and make checks to operate a ship using your. They will obey your commands to operate a ship to the best of their ability but will take no other actions.],
@@ -999,40 +1161,14 @@
         title: "Succor",
         time: "8 hours",
         duration: "Until discharged",
-        cost: "16,000 gp and a focus (holy text) worth 5,000 gp",
+        // Pricing reference: Succor (ritual278).
+        marketPrice: "25,000 gp",
+        cost: "5,000 gp and 4 healing surges",
+        focus: "Holy text worth at least 5,000 gp",
         keywords: "Travel",
         description: [You must use this technique inside a shrine, temple, or holy site of your deity. The technique links the focus to the place in which it is used. Any creature holding the focus can activate it as a standard action. At the end of their next turn, they and up to eight willing creatures they can see teleport to the linked holy site, at any distance including across planes, and the technique is discharged. If an effect prevents the teleportation, the technique is not discharged.],
       );
 
-      #colbreak();
-      #align(center)[== Necromancy]
-      #techniqueEntry(
-        level: 7,
-        category: "Necromancy",
-        title: "Spirit Idol",
-        time: "1 hour",
-        duration: "Permanent",
-        cost: "140 gp, and a focus worth 150 gp (small statue of the target)",
-        keywords: "Divination, Restoration",
-        description: [If the adjacent deceased target is willing, bind their soul to the focus, preventing its passage to the afterlife and preserving their corpse as if affected by the Gentle Repose technique. Once per day, you can ask the bound soul a single question, as if using the Speak with Dead technique.
-
-          Additionally, Raise Dead and similar techniques count only the time before this technique was used when determining whether the corpse can be returned to life. If the focus is destroyed, the soul is released to the afterlife and this technique ends.
-        ],
-      );
-
-      #techniqueEntry(
-        level: 8,
-        category: "Necromancy",
-        title: "Raise Dead",
-        time: "8 hours",
-        duration: "Instantaneous",
-        cost: "500 gp for a heroic-tier target, 5,000 gp for a paragon-tier target, or 50,000 gp for an epic-tier target",
-        keywords: "Restoration",
-        description: [You must have part of the corpse of a willing creature that died no more than 30 days ago, wasn’t petrified, and didn’t die of old age. The target is returned to life, gaining the benefits of an extended rest and ending any temporary conditions suffered at the time of death.
-
-          However, the target takes a -1 death penalty to all attack rolls, saving throws, skill checks, and ability checks until they reach three milestones. Effects that trap the soul or direct divine intervention can prevent this technique from functioning correctly.
-        ],
-      );
     ]
 
     #pagebreak();
@@ -1044,7 +1180,9 @@
         title: "Share Vitality",
         time: "5 minutes",
         duration: "Instantaneous",
-        cost: "Any number of healing surges",
+        // Adapted pricing reference: Comrades' Succor (ritual297).
+        marketPrice: "150 gp",
+        cost: "10 gp, plus the healing surges transferred and one additional surge",
         keywords: "Restoration",
         description: [
           One participant in the ritual gains all but one of the healing surges spent, up to the limit of their usual maximum.
@@ -1057,7 +1195,9 @@
         title: "Delay Affliction",
         time: "1 hour",
         duration: "Instantaneous",
-        cost: "75 gp (in salves and medicines)",
+        // Pricing reference: Delay Affliction (ritual107).
+        marketPrice: "175 gp",
+        cost: "50 gp in salves and medicines",
         keywords: "Restoration",
         description: [
           Delay a charm, confusion, curse, domination, fear, insanity, poison, polymorph, or petrification effect from taking effect on a single creature, including all its side effects. Make a Medicine check to cure or heal with a penalty equal to the level of the effect or the creature that caused it, and use the result to determine the duration of the delay:
@@ -1074,7 +1214,9 @@
         title: "Cure Disease",
         time: "10 minutes",
         duration: "Instantaneous",
-        cost: "150 gp (in salves and medicines)",
+        // Pricing reference: Cure Disease (ritual6).
+        marketPrice: "360 gp",
+        cost: "150 gp in salves and medicines",
         keywords: "Restoration",
         description: [
           Entirely remove a disease from a single creature, including all its side effects and symptoms. This technique draws heavily on the target’s own vitality and may seriously harm them; make a Skill check, with a penalty equal to the level of the disease. The result of this Skill check determines how much damage the target takes:
@@ -1093,7 +1235,9 @@
         title: "Remove Affliction",
         time: "1 hour",
         duration: "Instantaneous",
-        cost: "250 gp (in salves and medicines)",
+        // Pricing reference: Remove Affliction (ritual28).
+        marketPrice: "680 gp",
+        cost: "250 gp in salves and medicines",
         keywords: "Restoration",
         description: [
           Completely remove a charm, confusion, curse, domination, fear, insanity, poison, polymorph, or petrification effect from a single creature, including all its side effects. This technique draws heavily on the target’s own vitality and may seriously harm them.
@@ -1114,7 +1258,9 @@
         title: "Mind Surgery",
         time: "1 hour",
         duration: "Permanent",
-        cost: "7,000 gp (in salves and medicines)",
+        // Adapted pricing reference: Memory Seal (ritual114).
+        marketPrice: "25,000 gp",
+        cost: "7,000 gp in salves and medicines",
         keywords: "Binding, Restoration",
         description: [
           Erase a single memory from either a willing creature or a helpless creature whose Will defense is less than or equal to your Medicine check result. This technique draws heavily on the target’s own vitality and may seriously harm them.
@@ -1133,7 +1279,9 @@
         title: "Instant Treatment",
         time: "2 full rounds",
         duration: "Instantaneous",
-        cost: "23,000 gp",
+        // Homebrew pricing: level 21 accelerated restoration; between level 20 and level 22 component prices.
+        marketPrice: "50,000 gp",
+        cost: "9,000 gp",
         keywords: "Restoration",
         description: [
           This technique functions as Cure Disease or Remove Affliction, at the user’s choice, except as described above.
