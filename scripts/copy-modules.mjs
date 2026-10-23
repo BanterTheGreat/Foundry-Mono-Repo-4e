@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Copies module(s) under src/ into the local Foundry VTT Data/modules folder.
 // With no args, copies every module; pass one or more module folder names to copy only those.
-import { cpSync, mkdirSync, readdirSync } from "node:fs";
+import { cpSync, mkdirSync, readdirSync, existsSync } from "node:fs";
 import { homedir } from "node:os";
 import { basename, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -16,7 +16,7 @@ const defaultDataRoot =
       ? join(homedir(), "Library", "Application Support", "FoundryVTT", "Data")
       : undefined;
 
-const dataRoot = process.env.FOUNDRY_DATA_PATH ?? defaultDataRoot;
+const dataRoot = process.env.FOUNDRY_DATA_PATH || defaultDataRoot;
 
 if (!dataRoot) {
   console.error(
@@ -31,7 +31,9 @@ const ignoredNames = new Set([".git", ".idea", ".vscode", "node_modules", "test"
 const requestedNames = process.argv.slice(2);
 
 const allModules = readdirSync(srcDir, { withFileTypes: true })
-  .filter((entry) => entry.isDirectory())
+  .filter((entry) => entry.isDirectory()
+    && entry.name.toLowerCase() !== "modern4e"
+    && existsSync(join(srcDir, entry.name, "module.json")))
   .map((entry) => entry.name);
 
 const modules = requestedNames.length > 0 ? requestedNames : allModules;
@@ -43,7 +45,7 @@ if (modules.length === 0) {
 
 const missing = modules.filter((name) => !allModules.includes(name));
 if (missing.length > 0) {
-  console.error(`No such module folder(s) under ${srcDir}: ${missing.join(", ")}`);
+  console.error(`Not a deployable Foundry module: ${missing.join(", ")}. A module.json is required; modern4e is never deployed.`);
   process.exit(1);
 }
 

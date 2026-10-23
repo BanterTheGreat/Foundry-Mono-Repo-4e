@@ -1,0 +1,2218 @@
+{
+  "powers": [
+    {
+      "id": "cleric-2-friendly-pastor",
+      "title": "Friendly Pastor",
+      "level": 2,
+      "source": "Divine",
+      "type": "Encounter",
+      "description": "You've got a calm and convincing demeanor, trained from interacting with others in the name of your deity.",
+      "traits": "Divine, Non-Combat, Social",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the end of your next turn, you gain a +2 power bonus to Diplomacy checks. Increase this bonus to a +4 when interacting with people friendly to your church or deity."
+      ],
+      "pages": [
+        15
+      ],
+      "originalClass": "Cleric"
+    },
+    {
+      "id": "cleric-2-intimidating-sermon",
+      "title": "Intimidating Sermon",
+      "level": 2,
+      "source": "Divine",
+      "type": "Encounter",
+      "description": "Your fire and brimstone speech strikes the fear of your deity into those who fear the wrath of your god's power.",
+      "traits": "Divine, Non-Combat, Social",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the end of your next turn, you gain a +3 power bonus to Intimidate checks. If you have been able to speak to the target or targets of your intimidation attempt for at last 5 minutes, increase this bonus to a +5.",
+        "Special: This may not affect enemies who are servants to deities directly opposed to your deity."
+      ],
+      "pages": [
+        15
+      ],
+      "originalClass": "Cleric"
+    },
+    {
+      "id": "cleric-2-lesser-religious-rites",
+      "title": "Lesser Religious Rites",
+      "level": 2,
+      "source": "Divine",
+      "type": "Daily",
+      "description": "With practice or experience you've learned to be ready to cast divi rituals with minimum preparation, and thus you always keep some spare components for them just in case.",
+      "traits": "Divine, Non-Combat, Ritual",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger : You are performing a Religion, Nature, or Medicine ritual of 5th level or lower.",
+        "Effect: You cast the ritual without expending any of the ritual's gold piece component cost (any focus item must still meet the minimum cost). You and any assisting allies get a -2 penalty to any skill required or affected by the ritual until the effect of the ritual is complete.."
+      ],
+      "pages": [
+        15
+      ],
+      "originalClass": "Cleric"
+    },
+    {
+      "id": "cleric-2-preacher-power",
+      "title": "Preacher Power",
+      "level": 2,
+      "source": "Divine",
+      "type": "At-Will",
+      "description": "You manifest minor miracles that enhance your presence so that others listen to your word and know you speak for your god.",
+      "traits": "Divine, Non-Combat, Cantrip",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You create one of the following magical effects on yourself. They last until the end of your next turn: • Your voice booms up to three times as loud. • You alter the appearance of your eyes. • You appear, to others' eyes, to grow or shrink in size by up to a foot.",
+        "Sustain Standard: You sustain the effect and you may add another one of the effects as well. You may only have up to three of these effects ongoing at a time, and you may sustain all of them at once with this sustain action."
+      ],
+      "pages": [
+        15
+      ],
+      "originalClass": "Cleric"
+    },
+    {
+      "id": "cleric-6-confession",
+      "title": "Confession",
+      "level": 6,
+      "source": "Divine",
+      "type": "Encounter",
+      "description": "In your past, followers would look to you for absolution, and even now, you are able to use that skill to convince peole to confide in y their deepest and darkest secrets .",
+      "traits": "Divine, Non-Combat, Social",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the end of your next turn, you get a +5 bonus to your next skill check (usually Diplomacy or Intimidate) to get a creature that you can speak the language of and are conversing with to confess a secret to you. They must be friendly or neutral, and cannot be hostile."
+      ],
+      "pages": [
+        17
+      ],
+      "originalClass": "Cleric"
+    },
+    {
+      "id": "cleric-6-dark-whispers",
+      "title": "Dark Whispers",
+      "level": 6,
+      "source": "Divine",
+      "type": "Daily",
+      "description": "You cause the shadows of a deep cave, a flickering candle, or something else, to whisper from the deep.",
+      "traits": "Divine, Non-Combat, Ritual, Exploration, Shadow, Zone",
+      "action": "Minor Action",
+      "range": "Ranged 150 (750 ft)",
+      "rows": [
+        "Target: One square of shadow within total darkness or dim light",
+        "Effect: The target square of shadow becomes a zone through which you can communicate. You must utilize some sort of darkness, including the shadow of a person or object. Your words emerge from the darkness as a clear whisper, absent any identifying features of your voice. You can choose to whisper to someone in or adjacent to the zone. You can also hear anyone in or adjacent to the zone as well. Their responses emerge as clear whispers. Once the effect is active, you don't need to have line of sight or effect to the zone to commnicate back and forth or to sustain the power. The whispers emerging from the shadows or the whispered responses back to you can be overheard by a Perception check (DC 15 + your level + your Wisdom) by those who are close.",
+        "Sustain Minor: You sustain the effect until the end of your next turn. This power can be sustained up to 1 hour per level."
+      ],
+      "pages": [
+        17
+      ],
+      "originalClass": "Cleric"
+    },
+    {
+      "id": "cleric-6-thaumaturgy",
+      "title": "Thaumaturgy",
+      "level": 6,
+      "source": "Divine",
+      "type": "At-Will",
+      "description": "Your manifest a minor wonder, a glimpse of the power you channe on behalf of your deity.",
+      "traits": "Divine, Non-Combat, Cantrip",
+      "action": "Standard Action",
+      "range": "Ranged 5",
+      "rows": [
+        "Effect: You create one of the following magical effects within range. They last until the end of your next turn: • You cause flames to flicker, brighten, or dim. • You cause harmless tremors in the ground. • You create an instanteous sound that originates from a point of your choice within range, such as a rumble of thunder, the cry of a raven, or ominous whispers. It cannot imitate the voice or sound of anyone specific, or of a specific language, but it can approximate the voice or sound of a type of creature. • You instaneously cause an unlocked door or window to fly open or slam shut .",
+        "Sustain Standard: You sustain the effect and you may add another one of the effects as well. You may only have up to three of these effects ongoing at a time, and you may sustain all of them at once with this sustain action."
+      ],
+      "pages": [
+        17
+      ],
+      "originalClass": "Cleric"
+    },
+    {
+      "id": "cleric-10-church-attendants",
+      "title": "Church Attendants",
+      "level": 10,
+      "source": "Divine",
+      "type": "Daily",
+      "description": "Your reputation precedes you, causing nearby churches to rush to help you when they see you. Or perhaps, you just have a nice face and a persuasive tongue.",
+      "traits": "Divine, Non-Combat, Social, Urban",
+      "action": "No Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: While in an area with a church or temple dedicated to your deity and not hostile or unfriendly to you, you may recruit up to 2 attendants to help you out in non -combat scenarios. For example, they can hlep get your horse ready, carry your things, deliver m essages, go shopping for you, aid another inskill checks outside of combat (they have your stats), etc. They will only help you out while you are in the area with the house of worship, or the immediate surrounding area. They will avoid danger where possible, and may not join you in places where that can't be avoided (example: they may accompany you on a mai n road between cities, but they will probably stay and hide at the entrance to a dungeon, and will probably leave when you get to the next city )."
+      ],
+      "pages": [
+        19
+      ],
+      "originalClass": "Cleric"
+    },
+    {
+      "id": "cleric-10-conditional-favor",
+      "title": "Conditional Favor",
+      "level": 10,
+      "source": "Divine",
+      "type": "Daily",
+      "description": "You swear the target to an oath and grant them a powerful divine blessing, empowering them for as long as they obey your commandment.",
+      "traits": "Divine, Non-Combat, Ritual, Binding",
+      "action": "Standard Action",
+      "range": "Melee Touch",
+      "rows": [
+        "Cast Time: 5 minutes",
+        "Target: One willing creature",
+        "Effect: Expend another power or ritual you have that can target the same target as this power. You must elicit a promise or warning against a behavior from the target. If they violate that oath or prohibition while this is in effect, the expended benefit of the ex pended power or ritual is undone. (If it was a healing spell, for example, the hit point damage or a removed condition is return immediately.) Conditional favor recognizes the spirit of the condition and doesn't trigger a violation due to unintended consquences or circumstances that the subject could not predict with her current knowledge of the situation. (For example, touching a disguised royal prince you were forbidden from touching won't trigger a violation.) The subject knows beforehand whether an action will cause it to lose the paired spell's benefit. The effect of this power also ends at the end of your next extended rest."
+      ],
+      "pages": [
+        19
+      ],
+      "originalClass": "Cleric"
+    },
+    {
+      "id": "cleric-10-divine-mediator",
+      "title": "Divine Mediator",
+      "level": 10,
+      "source": "Divine",
+      "type": "Encounter",
+      "description": "You exhibit the traits of a messenger from your deity, giving you a certain authority when speaking to creatures associated with it.",
+      "traits": "Divine, Non-Combat, Social",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the end of your next turn, you get a +5 bonus to interacting socially with immortals and other monster races or types related to your deity (usually either supported by or directly opposed by). If you have a Channel Divinity or other Divine power rel ated to undead, you may also apply this bonus when socially interacting with the undead. You also gain a language during this encounter if needed. If you do not worship one of these gods, you and your DM choose the type and/or gained language related to yo ur deity together. Deity Example Types Language(s) Avandra Halfling Any Bahamut Dragons, Angel, Draconic Undead Correlon Fey Elven, Goblin Erathis Construct Dwarven, Elven Ioun Aberrant Any Kord Demon, storm Giant, Goblin, elementals, Abyssal hobgoblins Melora Beasts, Animal speech, elementals primordial Moradin Dwarves, earth Dwarven, Giant elementals, constructs , animate objects Pelor Human, angel, Abyssal, Deep shadow, undead Speech Sehanine Fey, Shadow, Elven, Deep Shapechangers Speech The Raven Shadow, Elven, Deep Queen Undead, cold Speech, Abyssal elementals"
+      ],
+      "pages": [
+        19
+      ],
+      "originalClass": "Cleric"
+    },
+    {
+      "id": "cleric-10-religious-rites",
+      "title": "Religious Rites",
+      "level": 10,
+      "source": "Divine",
+      "type": "Daily",
+      "description": "You've become even better at always having the proper componen for rituals and improvising them when you can't.",
+      "traits": "Divine, Non-Combat, Ritual",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You are performing a Religion, Nature, or Medicine ritual of 9th level or lower.",
+        "Effect: You cast the ritual without expending any of the ritual's gold piece component cost (any focus item must still meet the minimum cost). Instead, ou must expend one healing surge, and you double the time to cast the ritual. If you roll a 20 on the ritual ski ll check, you regain the expended healing surge. If the ritual doesn't require a skill check, you can make one anyway when using it to try to gain this benefit. This power cannot be used on any ritual that raises the dead, or creates or enchants an item."
+      ],
+      "pages": [
+        19
+      ],
+      "originalClass": "Cleric"
+    },
+    {
+      "id": "fighter-2-steel-landing-platform",
+      "title": "Steel Landing Platform",
+      "level": 2,
+      "source": "Martial",
+      "type": "Encounter",
+      "description": "You call out to an ally as they begin to fall and lift your shield, giving them a place to land, while taking some of the blow of grav",
+      "traits": "Martial, Non-Combat, Weapon",
+      "action": "Immediate Interrupt",
+      "range": "Close Burst 20",
+      "rows": [
+        "Requirement : You must be wielding a two-handed melee weapon or shield.",
+        "Trigger : An ally in the burst is falliing or getting knocked prone.",
+        "Effect: You may shift up to your speed + your Dexterity + 1. You must end your movement adjacent to the target. If the target is falling, they must make an Acrobatics check with a bonus equal to your Wisdom modifer. Reduce the damage by their total chec k result + your Strength score + the higher of your Dexterity or Constitution (minimum of 0), instead of just half their check result. They are not knocked prone, even if crashing."
+      ],
+      "pages": [
+        27
+      ],
+      "originalClass": "Fighter"
+    },
+    {
+      "id": "fighter-2-steel-launching-platform",
+      "title": "Steel Launching Platform",
+      "level": 2,
+      "source": "Martial",
+      "type": "Encounter",
+      "description": "You call out to an ally and lift your shield. They jump on it and you use all your might to give them a boost with extra height. .",
+      "traits": "Martial, Non-Combat, Exploration, Weapon",
+      "action": "Immediate Interrupt",
+      "range": "Close Burst 1",
+      "rows": [
+        "Requirement: You must be wielding a two-handed melee weapon or shield.",
+        "Trigger : An ally in the burst is making a skill check to jump, or starts flying.",
+        "Target: The triggering creature",
+        "Effect: Do one of the following effects depending on what the target is doing: * If they are jumping, they get a bonus to their Athletics equal to your Strength + Constitution * If they start flying, increase their fly speed by your Strength until the end of this turn"
+      ],
+      "pages": [
+        27
+      ],
+      "originalClass": "Fighter"
+    },
+    {
+      "id": "fighter-2-technical-grappler",
+      "title": "Technical Grappler",
+      "level": 2,
+      "source": "Martial",
+      "type": "Encounter",
+      "description": "Perhaps it is because you are most practiced with grappling in spo athletics competitions or the mat of a dojo, but though practiced a skilled at grappling, for some reason you are able to bring out you greatest techniques when you are able to keep a clear head, not when the adrenaline has pumped up from your life being in danger.",
+      "traits": "Martial, Non-Combat, Weapon",
+      "action": "Minor Action",
+      "range": "Melee Touch",
+      "rows": [
+        "Requirement: You and the target are not in combat .",
+        "Target: One creature.",
+        "Effect: Until the end of your next turn, you get a +5 bonus to any skill checks or attack rolls to grab or restrain the target."
+      ],
+      "pages": [
+        27
+      ],
+      "originalClass": "Fighter"
+    },
+    {
+      "id": "fighter-2-terror-of-the-heel",
+      "title": "Terror of the Heel",
+      "level": 2,
+      "source": "Martial",
+      "type": "Daily",
+      "description": "You can get the audience to dislike with an unnatural intensity. They boo, jeer, and gasp in terror at your fighting style or the thing you say.",
+      "traits": "Martial, Non-Combat, Social, Deception",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You reduce an enemy to 0 hit points or less.",
+        "Effect: You get a +3 bonus to Bluff checks to influence the audience during this encounter. You get a +3 bonus to all Intimidate checks to influence the audience after the combat encounter. The audience counts all creatures who can perceive the battle but are not participating in it (not as allies or enemies). You may also give anyone who was on the other side of the battle (or appeared to be to the audience) a +3 bonus to Diplomacy checks to influence this same audience positively. This bonus lasts until you successfully intimidate them, complete a social encounter, or until the end of your next extended rest."
+      ],
+      "pages": [
+        27
+      ],
+      "originalClass": "Fighter"
+    },
+    {
+      "id": "fighter-2-throat-punch",
+      "title": "Throat Punch",
+      "level": 2,
+      "source": "Martial",
+      "type": "Encounter",
+      "description": "You give a quick chop to an enemy's throat, making them choke, c groan, whimper, and sputter, but unable to speak.",
+      "traits": "Martial, Non-Combat, Social, Weapon",
+      "action": "Standard Action",
+      "range": "Melee Touch",
+      "rows": [
+        "Target: One creature",
+        "Attack: Strength vs Fortitude (unarmed). Gain a bonus equal to the highest of your Wisdom or Dexterity if you and the target are out of combat.",
+        "Hit: If in combat, the target is unable to speak or yell for a number of rounds equal to your Strength. If you are out of combat, it's that many minutes +2 instead."
+      ],
+      "pages": [
+        27
+      ],
+      "originalClass": "Fighter"
+    },
+    {
+      "id": "fighter-6-only-as-good-as-their-tools",
+      "title": "Only As Good as Their Tools",
+      "level": 6,
+      "source": "Martial",
+      "type": "At-Will",
+      "description": "You are capable of wielding your tools as well as your weapons.",
+      "traits": "Martial, Non-Combat, Creation",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Prerequisite: Choose a category of tradesmen or artisan tools upon gaining this power or the first time you use this power.",
+        "Effect: You gain a +2 bonus to your next skill or ability check to use the tools chosen upon gaining this power. I f the tool would already give a +2 bonus, it grants a +5 bonus instead. Tool Inspiration/Examples Categories of tools include most trades or artisans. The third party Trades and Professions book can be a heflpful reference of 5th edition tool proficiencies. If using that system, this book also gives a bonus to your trades skill that use the chosen tools."
+      ],
+      "pages": [
+        31
+      ],
+      "originalClass": "Fighter"
+    },
+    {
+      "id": "fighter-6-showy-weapons-demonstration",
+      "title": "Showy Weapons Demonstration",
+      "level": 6,
+      "source": "Martial",
+      "type": "At-Will",
+      "description": "You begin a beautiful performance of spinning blades and juggling handles.",
+      "traits": "Martial, Non-Combat, Social, Weapon",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Requirement : You must be wielding at least one weapon. It cannot be Unarmed. .",
+        "Effect: Until the end of your next turn, you get a +2 bonus to skill or ability checks to distract, impress, or perform with any weapons you are wielding. If you are wielding at least two weapons, you gain a +5 bonus instead ."
+      ],
+      "pages": [
+        32
+      ],
+      "originalClass": "Fighter"
+    },
+    {
+      "id": "fighter-6-stabilizing-shield",
+      "title": "Stabilizing Shield",
+      "level": 6,
+      "source": "Martial",
+      "type": "Encounter",
+      "description": "You hold up a falling building, debris from a collapsing cave -in, the snow from an avalanche, hail, or even a falling dragon.",
+      "traits": "Martial, Non-Combat, Weapon",
+      "action": "Immediate Interrupt",
+      "range": "Close Burst 1",
+      "rows": [
+        "Requirement: You must be wielding a shield.",
+        "Trigger: Something falls on you or your allies that would cause damage or loss of a healing surge.",
+        "Special: You may shift up to your Dexterity squares first before using the rest of this power.",
+        "Effect: Reduce the damage from the triggering effect to you and adjacent allies by your Strength + Constitution + 2. If you would lose a healing surge from this effect, you do not lose that healing surge.",
+        "Level 11 : Strength + Constitution + 5",
+        "Level 21 : Strength + Constitution + 10",
+        "Sustain Standard : Make a DC 15 Endurance check. If you succeed, you continue to reduce any damage from effects related to the triggering event until the end of your next turn. The DC of this check increases by 5 every time you sustain this power."
+      ],
+      "pages": [
+        31
+      ],
+      "originalClass": "Fighter"
+    },
+    {
+      "id": "fighter-10-shield-platform",
+      "title": "Shield Platform",
+      "level": 10,
+      "source": "Martial",
+      "type": "Encounter",
+      "description": "You throw your shield into the side of a wall where it gets stuck, providing a convenient platform for an ally to climb on top of and stand on.",
+      "traits": "Martial, Non-Combat, Exploration, Weapon",
+      "action": "Minor Action",
+      "range": "Ranged 15",
+      "rows": [
+        "Requirement: You must be wielding a shield.",
+        "Target: One square with a wall or similar vertical surface.",
+        "Effect: You throw your shield at a square adjacent to a wall or obstacle. It can be removed with a standard action. That square becomes able to be climbed without a check and can be stood on. Any creature standing on the shield also gets a +10 bonus to Athletics s kill checks to jump vertically.",
+        "Weapon : If the weapon is magic, you can remove it at any time during your turn as a free action without a check, and it goes straight to your hand."
+      ],
+      "pages": [
+        35
+      ],
+      "originalClass": "Fighter"
+    },
+    {
+      "id": "fighter-10-sucker-punch",
+      "title": "Sucker Punch",
+      "level": 10,
+      "source": "Martial",
+      "type": "Daily",
+      "description": "The fact that you have a weapon helps catch your enemies off -guard when you simply punch them in the face, or break a bottle over th head.",
+      "traits": "Martial, Non-Combat, Soc ial, Weapon",
+      "action": "Standard Action",
+      "range": "Melee 1",
+      "rows": [
+        "Requirement: You have no weapon drawn and you are not surprised.",
+        "Target: One helpless enemy who can speak and reason. .",
+        "Effect: You get a +4 bonus to the triggering initiative roll. On the first round of the ensuing combat encounter, if you are wielding only either improvised or unarmed weapons, enemies grant you combat advantage, your weapon attacks deal an extra 2d6 damage, and y ou gain a bonus to your weapon attack rolls equal to the enhancement bonus + 2 of the main weapon you normally wield."
+      ],
+      "pages": [
+        36
+      ],
+      "originalClass": "Fighter"
+    },
+    {
+      "id": "fighter-10-unexpected-disarming",
+      "title": "Unexpected Disarming",
+      "level": 10,
+      "source": "Martial",
+      "type": "Encounter",
+      "description": "Before an opponent can get a good grip on their weapon, you've already started disarming them.",
+      "traits": "Martial, Non-Combat, Weapon",
+      "action": "Immediate Reaction",
+      "range": "Melee 1",
+      "rows": [
+        "Trigger : An opponent has drawn a weapon.",
+        "Target: The triggering creature.",
+        "Attack: Strength vs Fortitude or Reflex. Gain a +1 bonus for each hand you have free . Gain a +1 bonus if they are grabbed by you . Gain +1 bonus if you are wielding a flail or whip. You get a -5 penalty when using this in combat.",
+        "Hit: They drop the triggering weapon. You may grab it and hold if you have if you have the free hand to wield it."
+      ],
+      "pages": [
+        36
+      ],
+      "originalClass": "Fighter"
+    },
+    {
+      "id": "paladin-2-light-smiting-weapon",
+      "title": "Light Smiting Weapon",
+      "level": 2,
+      "source": "Divine",
+      "type": "Encounter",
+      "description": "Your instrument of divine justice glows to light the way and make your enemies quake with fear.",
+      "traits": "Divine, Non-Combat, Weapon, Exploration, Zone",
+      "action": "Minor Action",
+      "range": "Melee Touch",
+      "rows": [
+        "Target: One weapon, shield, or holy symbol you are touching.",
+        "Effect: The target sheds bright light until the end of the encounter or until you use this power again. The light fills a close burst 3 zone centered on the target. This zone travels with the target object when it moves. You can dismiss the light as a free action at any time. Gain a +2 bonus to Intimidate checks against creatures within the light who are vulnerable to radiant damage or are marked by you."
+      ],
+      "pages": [
+        46
+      ],
+      "originalClass": "Paladin"
+    },
+    {
+      "id": "paladin-6-divine-trapsenses",
+      "title": "Divine Trapsenses",
+      "level": 6,
+      "source": "Divine",
+      "type": "Encounter",
+      "description": "You feel the whisper of your deity before a trap triggers or a hazar endangers you or your friends, prompting you to take action.",
+      "traits": "Divine, Non-Combat, Exploration, Zone",
+      "action": "Immediate Interrupt",
+      "range": "Close Burst 2",
+      "rows": [
+        "Trigger : A trap, hazard, or other object damages you or an ally.",
+        "Effect: Shift 2. Then reduce the damage taken between you and any adjacent targets by your Wisdom + Strength. Divide the damage reduction as you choose one or both targets.",
+        "Special: If you are holding a shield, you may increase the damage reduced by +3."
+      ],
+      "pages": [
+        48
+      ],
+      "originalClass": "Paladin"
+    },
+    {
+      "id": "paladin-6-friendly-guardian",
+      "title": "Friendly Guardian",
+      "level": 6,
+      "source": "Divine",
+      "type": "Encounter",
+      "description": "While there exists the stereotype of the grim paladin, many adopt interpersonal skills and are quite friendly, a result of the empathy required to talk to the people that you are required to protect.",
+      "traits": "Divine, Non-Combat, Social",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: A trap, hazard, or other object damages you or an ally.",
+        "Effect: Until the end of your next turn, gain a +2 power bonus to Diplomacy and Insight checks when interacting with people friendly to your church or deity. You also gain a +2 power bonus when interacting with someone you have protected or attempted to protect or advocate for this encounter. These two bonuses can stack."
+      ],
+      "pages": [
+        48
+      ],
+      "originalClass": "Paladin"
+    },
+    {
+      "id": "paladin-6-intimidating-inquisitor",
+      "title": "Intimidating Inquisitor",
+      "level": 6,
+      "source": "Divine",
+      "type": "Encounter",
+      "description": "You are the image of the grim paladin that the wicked and guilty fear.",
+      "traits": "Divine, Non-Combat, Social",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: A trap, hazard, or other object damages you or an ally.",
+        "Effect: Until the end of your next turn, gain a +2 power bonus to Intimidate and Insight checks when interacting with creatuers neutral or opposed to your church or deity. You also gain a +2 power bonus when interacting with creatures you have defeated or are an ally of a creature you have defeated in combat in the last hour. These two bonuses can stack."
+      ],
+      "pages": [
+        48
+      ],
+      "originalClass": "Paladin"
+    },
+    {
+      "id": "paladin-6-providential-meeting",
+      "title": "Providential Meeting",
+      "level": 6,
+      "source": "Divine",
+      "type": "Daily",
+      "description": "Often when others call out to the gods for help, you are the one w arrives. By divine providence, a person you have helped in the past appears before you once again.",
+      "traits": "Divine, Non-Combat, Social, Urban",
+      "action": "Standard Action",
+      "range": "Personal",
+      "rows": [
+        "Requirement : You are in a populated settlement and outside of combat.",
+        "Special : The first time you use this power, choose a contact that lives or is traveling through the area. The contact must be related to your past as a paladin, usually someone you've saved or helped before, and they must be a mundane NPC, without great power or in fluence (not an adventurer or hero, think the equivalent of an average NPC villager). You may only have one contact this way. Once you have chosen a contact, you cannot change it until that contact is removed from the story or you choose to retrain this po wer.",
+        "Effect: The DM bends the circumstances such that by pure luck you run into the old contact you have already chosen for this power. Roll a d20. On a 10 or lower, they will also have a problem or request that you or your allies can help with. Until the end of your next extended rest, you gain a +2 bonus to the next Diplomacy checks you make when talking with this contact to get their help for something. In addition, sometimes you may need to roll a knowledge check for your contact to see if they can answer a question you are asking them. If you do, use your own stats for them and you gain a +2 bonus to the next knowledge check you make for your contact, a s long as it is information they would reasonably know. Both of these bonuses increase to a +4 if you have taken care of their problem.",
+        "Special: You may choose this power again even if you have already learned it to gain access to another contact."
+      ],
+      "pages": [
+        48
+      ],
+      "originalClass": "Paladin"
+    },
+    {
+      "id": "paladin-6-skillful-sacrifice",
+      "title": "Skillful Sacrifice",
+      "level": 6,
+      "source": "Divine",
+      "type": "Encounter",
+      "description": "You have a sense that the skill check you and your allies are attempting is going badly, so you rush to take on the consquences yourselves.",
+      "traits": "Divine, Non-Combat",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: Your party fails a skill challenge or group skill check.",
+        "Effect: If the consquences of failing the triggering challenge or skill check immediately affect multiple allies you may choose to take the consquences for up to 2 allies in addition to your own (example: losing healing surges, take damage, getting spotted, etc).",
+        "Quick and Dirty Combat : This also applies to Quick and Dirty combat if you are using those rules."
+      ],
+      "pages": [
+        48
+      ],
+      "originalClass": "Paladin"
+    },
+    {
+      "id": "paladin-10-blackguard-s-death-speech",
+      "title": "Blackguard’s Death Speech",
+      "level": 10,
+      "source": "Divine",
+      "type": "Daily",
+      "description": "With the power of an unholy speech, you call forth to a spirit from beyond the grave to return and answer your questions.",
+      "traits": "Divine, Non-Combat, Shadow, Gathering Information, Rest",
+      "action": "Standard Action",
+      "range": "Personal",
+      "rows": [
+        "Requirement : You must be taking a short rest.",
+        "Target: One corpse of an intelligent creature you have slain in the last 5 minutes..",
+        "Effect: You are able to ask the target corpse up to 3 questions and receive answers. It know what it knew in life and no more. During this time, you and the corpse are able to speak and understand a new language called Dread Speech that helps compel them to answer your questions. You gain a +2 bonus to Diplomacy checks and Insight checks with them during this conversation."
+      ],
+      "pages": [
+        50
+      ],
+      "originalClass": "Paladin"
+    },
+    {
+      "id": "paladin-10-divine-shattering",
+      "title": "Divine Shattering",
+      "level": 10,
+      "source": "Divine",
+      "type": "Daily",
+      "description": "Your weapon glows with an awesome might as you strike down th weapons and barriers erected by your cursed foes. .",
+      "traits": "Divine, Non-Combat, Destruction",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Target: One object.",
+        "Effect: Until the end of your next turn, triple your Strength when using Strength checks to destroy the target, or deal 3 times damage to the target. If the object is magical, ignore any damage resistance it might have. If the object is not an artifact and can be affected by the Disenchant ritual, then you may choose to expend a healing surge to immediately destroy the object or obstacle, but you do not regain this power for a number for long rests equal to the level of the magic item that you destroyed."
+      ],
+      "pages": [
+        50
+      ],
+      "originalClass": "Paladin"
+    },
+    {
+      "id": "paladin-10-holy-exterminator",
+      "title": "Holy Exterminator",
+      "level": 10,
+      "source": "Divine",
+      "type": "At-Will",
+      "description": "You behold all the monsteres before you and make quick work of them.",
+      "traits": "Divine, Non-Combat",
+      "action": "No Action",
+      "range": "Personal",
+      "rows": [
+        "Prerequisite: You are using the Quick and Dirty Fighting optional rules.",
+        "Requirement: You are making a Quick and Dirty Fighting roll and are fighting offensively.",
+        "Effect: You get a +2 bonus to the attack roll. If you are fighting against undead, immortals, or shadow creatures, the bonus increases to a +4.",
+        "DM Notes: If the DM wishes, you and the DM may add another creature to the list of types of triggering creatures based on your deity."
+      ],
+      "pages": [
+        50
+      ],
+      "originalClass": "Paladin"
+    },
+    {
+      "id": "paladin-10-lean-on-me",
+      "title": "Lean On Me",
+      "level": 10,
+      "source": "Divine",
+      "type": "Daily",
+      "description": "You infuse yourself with divine energy and rush to an ally's aid.",
+      "traits": "Divine, Non-Combat",
+      "action": "No Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger : An ally fails a Strength, Dexterity, or Constitution skill check during a group skill check or skill challenge.",
+        "Effect: Shift next to the triggering ally. Make the same skill check as them with a power bonus equal to your Wisdom or Charisma. If you succeed, their roll counts as a success instead of a failure. If you fail, their roll still counts as a failure but your roll does not."
+      ],
+      "pages": [
+        50
+      ],
+      "originalClass": "Paladin"
+    },
+    {
+      "id": "paladin-10-summon-noble-squire",
+      "title": "Summon Noble Squire",
+      "level": 10,
+      "source": "Divine",
+      "type": "Daily",
+      "description": "You have attracted a companion squire to help you through your reputation, deeds in the story, oaths, mentorship, etc. They may normally follow from a near but safe distance, or are stationed in the area, but if you require their help they will come ride f or you at a moment's notice.",
+      "traits": "Divine, Non-Combat",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Special : The first time you use this power, choose one of your ability points.",
+        "Effect: You summon up a companion squire to your nearby area. They can help you with mundane tasks (holding things, moving things, cleaning, delivering messages, getting a mount ready or bringing it over, etc) with only general direction needed, taking their own i nitiative to the best of their ability without using your actions until your next long rest, or until they are summoned again and given new orders. They match the ability points chosen the first time you used this power but with an additional +2 bonus, and they get an 11 to all of their other ability points. Once committed to an out-of-combat task, they will not help out in combat. You can also use this power to call them to battle adjacent to you, but they count as a minion, are not damaged by missed attacks, and use your actions to act.",
+        "Standard Action: Melee 1; Strength vs AC; 1d8 + Strength damage.",
+        "Move Action: Move your squire up to 5 squares."
+      ],
+      "pages": [
+        51
+      ],
+      "originalClass": "Paladin"
+    },
+    {
+      "id": "paladin-10-pick-on-someone-your-own-size",
+      "title": "Pick on Someone Your Own Size",
+      "level": 10,
+      "source": "Divine",
+      "type": "At-Will",
+      "description": "In the chaotic scuffle of the brawl, you are motivated to take down the enemies while protecting your allies.",
+      "traits": "Divine, Non-Combat",
+      "action": "No Action",
+      "range": "Personal",
+      "rows": [
+        "Prerequisite: You are using the Quick and Dirty Fighting optional rules.",
+        "Requirement: You are making a Quick and Dirty Fighting roll and are fighting defensively.",
+        "Effect: If the triggering roll fails, you may choose to take the damage or negative consquence for up to a number of allies that are assisting you equal to your Wisdom. In addition, if at least one or two allies assist you, whether they succeed their roll or not, you get a +1 or +2 bonus to all your defenses respectively."
+      ],
+      "pages": [
+        50
+      ],
+      "originalClass": "Paladin"
+    },
+    {
+      "id": "ranger-2-aspect-of-the-water-serpent",
+      "title": "Aspect of the Water Serpent",
+      "level": 2,
+      "source": "Primal",
+      "type": "Encounter",
+      "description": "Following the motions of your beast companion, you can manueve through water with greater ease.",
+      "traits": "Primal, Non-Combat, Beast, Exploration",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Prerequisite : You must have a serpent or lizard beast companion.",
+        "Effect: Until the end of your next turn, gain a +5 power bonus to your next Athletics check to swim. You also count as if you had water breathing during this time, resetting the time you can hold your breath."
+      ],
+      "pages": [
+        58
+      ],
+      "originalClass": "Ranger"
+    },
+    {
+      "id": "ranger-2-cat-s-path",
+      "title": "Cat’s Path",
+      "level": 2,
+      "source": "Primal",
+      "type": "At-Will",
+      "description": "You observe the careful movements of your feline companion and take a similar route.",
+      "traits": "Primal, Non-Combat, Beast, Exploration",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Prerequisite: You must have a cat beast companion.",
+        "Effect: Until the end of your beast companion's next turn, they get a +3 bonus to their next Athletics check or Acrobatics check. If they succeed an Athletics or Acrobatics check while you see them during this time, you get a +5 bonus to your next check with the s ame skill to perform the same task or activity."
+      ],
+      "pages": [
+        58
+      ],
+      "originalClass": "Ranger"
+    },
+    {
+      "id": "ranger-2-endurance-of-the-wolf",
+      "title": "Endurance of the Wolf",
+      "level": 2,
+      "source": "Primal",
+      "type": "Daily",
+      "description": "You have built up your constitution running with your beast companion through the woods and fields .",
+      "traits": "Primal, Non-Combat, Beast, Exploration, Travel",
+      "action": "Standard Action",
+      "range": "Personal",
+      "rows": [
+        "Prerequisite : You must have a wolf or stag/deer beast companion.",
+        "Target: You and up to one ally.",
+        "Effect: Until the end of your next extended rest, the target gain a +2 bonus to Endurance checks. This bonus is increased to a +4 bonus and you also gain a +2 bonus to Nature, Perception, and Stealth checks if following or tracking a creature at least a mile through overland exploration travel or in a skill challenge."
+      ],
+      "pages": [
+        58
+      ],
+      "originalClass": "Ranger"
+    },
+    {
+      "id": "ranger-2-favored-foe",
+      "title": "Favored Foe",
+      "level": 2,
+      "source": "Primal",
+      "type": "At-Will",
+      "description": "You are a specialist in hunting one form of monster or foe, focusin your considerable experience as a ranger into tracking and eliminating them.",
+      "traits": "Primal, Non-Combat, Gathering Information",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Special : The first time you use this power, you may select a type of creature to be your favored foe. You may choose from aberrations, beasts, celestials, constructs, dragons, elementals, fey, giants, immortals, monstrosities, oozes, plants, or undead. Alternativel y, you can select two races of humanoid (such as gnolls and orcs, or goblins and elves). You can only change your favored foe(s) whenever you gain a level, or, if the DM allows it, at narratively significant moments of the story.",
+        "Effect: Choose one: + You gain a +2 bonus to your next Nature, Insight, or Perception check to track the chosen type of creature this turn. + You gain a +2 bonus to your next monster knowledge check related to that type of creature this turn. This power can only be used once per turn.",
+        "Special: You may select this same power again even if you have already learned it to select another type of favored foe(s)."
+      ],
+      "pages": [
+        58
+      ],
+      "originalClass": "Ranger"
+    },
+    {
+      "id": "ranger-2-intimidating-beast-companion",
+      "title": "Intimidating Beast Companion",
+      "level": 2,
+      "source": "Primal",
+      "type": "Encounter",
+      "description": "Your beast companion makes threatening growling noises or scary motions, causing your opposition to hesitate to call your bluff.",
+      "traits": "Primal, Non-Combat, Beast, Social",
+      "action": "Immediate Reaction",
+      "range": "Personal",
+      "rows": [
+        "Prerequisite: You must have a beast companion.",
+        "Trigger: You make an Intimidate check to a creature or creatures that can see or hear your beast companion.",
+        "Effect: You may make a second Intimidate roll with a +2 bonus. You must use the second result."
+      ],
+      "pages": [
+        59
+      ],
+      "originalClass": "Ranger"
+    },
+    {
+      "id": "ranger-2-silent-lizard",
+      "title": "Silent Lizard",
+      "level": 2,
+      "source": "Primal",
+      "type": "Encounter",
+      "description": "You can approach right next to someone without them realizing, a you hardly make a sound.",
+      "traits": "Primal, Non-Combat, Beast, Exploration",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Prerequisite: You must have a lizard beast companion.",
+        "Effect: Until the end of your next turn, gain a +2 power bonus to your next Stealth check to stay quiet. This bonus is increased to a +4 bonus if you are at least mostly underwater, or have partial or total concealment."
+      ],
+      "pages": [
+        59
+      ],
+      "originalClass": "Ranger"
+    },
+    {
+      "id": "ranger-2-springing-intimidation",
+      "title": "Springing Intimidation",
+      "level": 2,
+      "source": "Primal",
+      "type": "Encounter",
+      "description": "You match your beast companion's aggressive energy. Your temperature rises, you look like you'll charge. Everyone begins to e the nearest exit, move slow, and not make any sudden movements scared of what you'll do next.",
+      "traits": "Primal, Non-Combat, Beast, Social",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Prerequisite: You must have a boar or serpent beast companion..",
+        "Effect: Until the end of your next turn, you gain a +2 bonus to Intimidate checks you make. Within the next 5 minutes, if initiative is rolled because a combat encounter begins with enemies you see when the power is used and who are aware of you, you gain a +4 b onus to your initiative check, but you must make an attack on your first turn if able."
+      ],
+      "pages": [
+        59
+      ],
+      "originalClass": "Ranger"
+    },
+    {
+      "id": "ranger-2-ursine-mini-hibernation",
+      "title": "Ursine Mini -Hibernation",
+      "level": 2,
+      "source": "Primal",
+      "type": "Daily",
+      "description": "You have an amazing sleep after eating way too much food.",
+      "traits": "Primal, Non-Combat, Beast, Rest",
+      "action": "Standard Action",
+      "range": "Melee Weapon",
+      "rows": [
+        "Prerequisite : You must have a bear beast companion .",
+        "Requirement : You are taking an extended rest, and have double the food you normally need each day between the last day and this one.",
+        "Effect: Double the duration of this extended rest. At the end, choose either Strength or Constitution. You gain a +2 bonus to ability and skill checks that use the chosen ability points until your next extended rest. You do not regain this power during that next ex tended rest."
+      ],
+      "pages": [
+        60
+      ],
+      "originalClass": "Ranger"
+    },
+    {
+      "id": "ranger-6-favored-foe-s-language",
+      "title": "Favored Foe’s Language",
+      "level": 6,
+      "source": "Primal",
+      "type": "Encounter",
+      "description": "Following and observing your foes have given you increased knowledge in understanding how they communicate.",
+      "traits": "Primal, Non-Combat, Gathering Information, Social",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Prerequisite: You have the Favored Foe power (Ranger 2).",
+        "Target: One creature that is of the type of your favored foe; or a writing or drawing made from a creature that is of the type of your favored foe.",
+        "Effect: Make a Normal DC monster knowledge check based on the level of the target. If you succeed, you can understand and speak a language that the target knows until the end of the encounter and gain a +2 bonus to your next Diplomacy, Intimidate, Insight, or Na ture check against them. If you targeted a piece of writing or drawing, you can understand that, although you cannot write the language yourself from this power. If they don't speak a language, you still gain a +2 bonus to your next Insight, Nature, and Ch arisma checks to understand and communicate with them in other ways (hands, body language, facial expressions, etc.) although the communication that can be given this way is often a lot rougher and more primitive. If you fail the monster knowledge check, you gain a rough understanding of the language of the target, enough to get a simple idea of what they are saying or trying to communicate (they are angry, they are happy, etc.) unless they are trying to hide thei r intent; or you gain a single concept from a piece of writing (it looks like a warning, or it sounds welcoming, etc.) but you cannot speak or write their language."
+      ],
+      "pages": [
+        62
+      ],
+      "originalClass": "Ranger"
+    },
+    {
+      "id": "ranger-10-fetch",
+      "title": "Fetch!",
+      "level": 10,
+      "source": "Primal",
+      "type": "Encounter",
+      "description": "Your beast companion is an expert at the game of fetch.",
+      "traits": "Primal, Non-Combat, Beast",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Prerequisite: You have a beast companion. Trigger A creature catches or throws a weapon or other object. Either the thrower, target of the throw, or a square within line -of-effect of the throw must be within the speed distance of your beast companion.",
+        "Effect: Your beast companion shifts to somewhere between the triggering thrower's line of effect to the catcher, or adjacent to the thrower or target square of the thrower. The beast companion catches the item and holds it if possible, otherwise they drop it in th eir square. They can then shift up to their speed again. If they end this action adjacent to you and are holding the item, you may take the object from them as a free action."
+      ],
+      "pages": [
+        65
+      ],
+      "originalClass": "Ranger"
+    },
+    {
+      "id": "ranger-10-speak-with-other-beasts",
+      "title": "Speak with Other Beasts",
+      "level": 10,
+      "source": "Primal",
+      "type": "Daily",
+      "description": "Your beast companion can talk with other animals. It doesn't necessarily mean you can understand them or the animal they're talking to, but the beast companion may still take the initiative to useful information, lead you somewhere useful, or get help from the other animals during thsi time, depending on how smart they are, course.",
+      "traits": "Primal, Non-Combat, Beast, Social, Wilderness",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Prerequisite: You have a beast companion. .",
+        "Effect: Until the end of the encounter, your beast companion can speak to animal life (including beasts and magical beasts). Animals can communicate what they have seen, heard, or otherwise sensed within the last hour, and a hostile animal may even try to mislead your beast companion. Your beast companion gets a +2 bonus to Nature, Diplomacy, and Intimidate checks with other animals during this time. This bonus increases to a +5 bonus if they are speaking to someone of the same species or very similar (for exampl e, an alligator companion talking to a crocodile, a tiger companion talking to a lion, or an eagle companion talking to a hawk or falcon)."
+      ],
+      "pages": [
+        67
+      ],
+      "originalClass": "Ranger"
+    },
+    {
+      "id": "ranger-10-stealthy-wilderness-scout",
+      "title": "Stealthy Wilderness Scout",
+      "level": 10,
+      "source": "Martial",
+      "type": "At-Will",
+      "description": "You stealthily observe from within the leaves of a tree, or a pit belo the snow.",
+      "traits": "Martial, Non-Combat, Exploration",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the end of this turn, you get a +2 bonus to Athletics checks to climb, and you get a +4 bonus to Stealth checks against other creatures while at least 2 squares above or below them. If at least 4 squares above or below them and you are at least partially obscured, the bonus increases to a +8."
+      ],
+      "pages": [
+        67
+      ],
+      "originalClass": "Ranger"
+    },
+    {
+      "id": "rogue-2-investigative-mind",
+      "title": "Investigative Mind",
+      "level": 2,
+      "source": "Martial",
+      "type": "Encounter",
+      "description": "You see the hints of something here, and direct your sights to where the clues tell you something should be.",
+      "traits": "Martial, Non-Combat, Gathering Information",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Prerequisite: You must have training in Perception.",
+        "Effect: Make a Perception check with a bonus equal to your Intelligence."
+      ],
+      "pages": [
+        76
+      ],
+      "originalClass": "Rogue"
+    },
+    {
+      "id": "rogue-2-looming-thug",
+      "title": "Looming Thug",
+      "level": 2,
+      "source": "Martial",
+      "type": "Encounter",
+      "description": "You stand behind someone, making them feel surrounded and more scared.",
+      "traits": "Martial, Non-Combat, Social",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the end of your next turn, gain a +1 bonus to your next Intimidate check. If you are behind the target you want to intimidate, and an ally of yours who is also trying to intimidate them is in front of them, both you and that ally get a +2 bonus to their Intimidate check instead."
+      ],
+      "pages": [
+        76
+      ],
+      "originalClass": "Rogue"
+    },
+    {
+      "id": "rogue-6-cunning-advice",
+      "title": "Cunning Advice",
+      "level": 6,
+      "source": "Martial",
+      "type": "Encounter",
+      "description": "You are able to aid allies from afar just by giving good advice or good plan of action.",
+      "traits": "Martial, Non-Combat, Social",
+      "action": "Standard Action",
+      "range": "Personal",
+      "rows": [
+        "Requirement: You must be proficient in a skill.",
+        "Target: One ally that can hear you, understands your language, and is within line of sight.",
+        "Effect: Roll an Aid Another check to aid the target ally with a skill you are proficient in, against a DC of 10 + half the level of the creature you are aiding + 2. If you succeed, they gain a +2 bonus to their next check with that same skill until the end of the en counter. Cunning Sneak: You may add your Intelligence as the bonus instead of the +2."
+      ],
+      "pages": [
+        79
+      ],
+      "originalClass": "Rogue"
+    },
+    {
+      "id": "rogue-6-cunning-improvisation",
+      "title": "Cunning Improvisation",
+      "level": 6,
+      "source": "Martial",
+      "type": "Encounter",
+      "description": "A loose flagstone, a swinging blade, a patch of oil —you see not a hazard but an opportunity waiting to be pointed the right way.",
+      "traits": "Martial, Non-Combat, Combat, Exploration",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Choose a trap, hazard, or terrain power in the area. If the chosen trap, hazard, or terrain power can’t affect enemies, you become aware of this and you regain the use of this power. Otherwise, until your next short or extended rest, the next time that trap, hazard, or terrain power would target a creature, it gains a +2 bonus or takes a -2 penalty to its attack roll (your choice). If it hits, you may have it deal extra damage equal to your Sneak Attack. Artful Dodger: You may increase the damage dealt by your Charisma. Cunning Sneak: You may increase the attack bonus and the damage dealt by your Intelligence."
+      ],
+      "pages": [
+        81
+      ],
+      "originalClass": "Rogue"
+    },
+    {
+      "id": "rogue-10-equipment-review",
+      "title": "Equipment Review",
+      "level": 10,
+      "source": "Martial",
+      "type": "Daily",
+      "description": "A professional doesn’t blame their tools, but they know they are only as good as them. You take the time during a break to revie clean, organize, and improve your tools.",
+      "traits": "Martial, Non-Combat, Rest, Restoration",
+      "action": "Standard Action",
+      "range": "Personal",
+      "rows": [
+        "Requirement: You must be taking a short or extended rest.",
+        "Effect: Choose an equipment or tool kit that you or an ally resting with you has. If it grants any equipment bonuses to skills, it grants an additional +2 bonus to those skill checks with that tool until your next short or extended rest."
+      ],
+      "pages": [
+        83
+      ],
+      "originalClass": "Rogue"
+    },
+    {
+      "id": "rogue-10-making-a-plan",
+      "title": "Making a Plan",
+      "level": 10,
+      "source": "Martial",
+      "type": "Daily",
+      "description": "You sit your crew down to mastermind a plan for them, crafting a plan that if executed exactly as you say can hardly fail.",
+      "traits": "Martial, Non-Combat, Rest, Social, Exploration, Physical",
+      "action": "Standard Action",
+      "range": "Personal",
+      "rows": [
+        "Requirement: You must be taking a short or extended rest.",
+        "Target: You and any number of allies resting with you who are not currently using another rest ability.",
+        "Effect: For each target, choose a skill or ability check and a specific activity or use for that check, then give that target a d4 Plan die. Until the end of your next extended rest, the target can roll the Plan die and add both it and your Intelligence to any check they make that matches the skill or ability and the specific use you chose for them, or to an Aid Another check when helping another character make that same check for that same use. Examples: Athletics and swimming or climbing, Acrobatics and balancing or squeezing, Stealth and moving quietly or hiding, Thievery and picking locks or pickpocketing, Bluff and lying or Bluff and disguise."
+      ],
+      "pages": [
+        83
+      ],
+      "originalClass": "Rogue"
+    },
+    {
+      "id": "warlord-2-improvised-distraction",
+      "title": "Improvised Distraction",
+      "level": 2,
+      "source": "Martial",
+      "type": "Encounter",
+      "description": "A good officer never lets a slip become a disaster — you draw the enemy's attention onto yourself so your people can melt back in the dark.",
+      "traits": "Martial, Non-Combat, Exploration, Deception",
+      "action": "Immediate Reaction",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You or an ally fails a Stealth check.",
+        "Effect: You and all other allies that aren't the triggered creature gain a +1 bonus to Stealth checks this turn and until the end of your next turn. If it was part of a group Stealth check or Skill Challenge, it's a +2 bonus instead."
+      ],
+      "pages": [
+        91
+      ],
+      "originalClass": "Warlord"
+    },
+    {
+      "id": "warlord-2-mind-for-maps",
+      "title": "Mind for Maps",
+      "level": 2,
+      "source": "Martial",
+      "type": "Encounter",
+      "description": "Every road, ridge, and old battlefield you've ever studied is filed away in your head, ready the moment you need it.",
+      "traits": "Martial, Non-Combat, Exploration, Travel, War",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the end of your next turn, you gain a +2 bonus to Society skill checks for military history, wars, battles, grand strategy, etc. In addition, this bonus also applies to skill checks related to geography or navigation (often Nature)."
+      ],
+      "pages": [
+        91
+      ],
+      "originalClass": "Warlord"
+    },
+    {
+      "id": "warlord-2-study-the-battlefield",
+      "title": "Study the Battlefield",
+      "level": 2,
+      "source": "Martial",
+      "type": "At-Will",
+      "description": "You see a barrel of Dwarven Fire Whiskey and remember the history of the brew and the rumors of it's numerous explosive accidents. You smile to yourself as you think that it's time for a little fireworks.",
+      "traits": "Martial, Non-Combat, Gathering Information, Battle Preparation",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You get a +2 bonus to Perception checks to identify key features of a battlefield and a bonus to skill checks to identify what they are, except for traps. This includes facets of the terrain, hazards, possible terrain powers, illusions on the terrain, etc. Study the Battlefield DM Notes The DM can add a +2 to identify traps or aspects of traps if someone uses this power on them and the DM doesn’t want to give away that it’s a trap."
+      ],
+      "pages": [
+        92
+      ],
+      "originalClass": "Warlord"
+    },
+    {
+      "id": "warlord-2-tactical-retreat",
+      "title": "Tactical Retreat",
+      "level": 2,
+      "source": "Martial",
+      "type": "Daily",
+      "description": "You see that there is no winning the situation and are able to execute a more effective retreat to save your people.",
+      "traits": "Martial, Non-Combat",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You or an ally must lose 1 healing surge. The DM interrupts the combat encounter with a skill challenge. The skill challenge is created with the players; together you all decide its goal. The negative consequence for losing is generally just resuming the combat, though often in a different place farther away from the initial battle, depending on how many successful checks the party got before they failed the skill challenge. The difficulty of the skill challenge is dependent on the difference in level between the players and the enemies; the DCs of the checks themselves are dependent on the level of the highest enemy. The players escape far enough away to take a short rest if they succeed. The DM is free to adjust the difficulty of the skill challenge depending on other enemy factors as well. Difference in Skill Challenge Levels Complexity Successes Enemies +10 or 3 8 more levels Enemies +4 to +9 2 6 levels Enemies are +3 1 4 levels or less Common Modifiers Skill Challenge Enemy Situation Complexity Modifier Faster than speed 6 +1 Flying, or swimming while +1 you are in water Outnumbers the players by +1 at least 2 Slower than speed 5 -1 Defensive or incentivized -1 to not chase or wander far Only one or two enemies -1"
+      ],
+      "pages": [
+        93
+      ],
+      "originalClass": "Warlord"
+    },
+    {
+      "id": "warlord-6-advice-on-giving-advice",
+      "title": "Advice on Giving Advice",
+      "level": 6,
+      "source": "Martial",
+      "type": "Encounter",
+      "description": "You improve the leadership or mentorship skills of someone else so that you all can benefit from their wisdom together.",
+      "traits": "Martial, Non-Combat, Social",
+      "action": "Standard Action",
+      "range": "Close Burst 100",
+      "rows": [
+        "Target: One ally who can hear you and understand your language.",
+        "Effect: The target may choose an ally of theirs who can hear them and understand their language. The next time this encounter that the chosen ally makes an Aid Another check to aid the target, that Aid Another check grants a +4 bonus instead of the usual +2."
+      ],
+      "pages": [
+        96
+      ],
+      "originalClass": "Warlord"
+    },
+    {
+      "id": "warlord-6-catch-them",
+      "title": "Catch Them!",
+      "level": 6,
+      "source": "Martial",
+      "type": "Encounter",
+      "description": "You lunge to catch a comrade before the ground — or the enemy — can claim them.",
+      "traits": "Martial, Non-Combat, Physical",
+      "action": "Immediate Interrupt",
+      "range": "Ranged 5",
+      "rows": [
+        "Trigger: An ally is falling, or is pushed, pulled, slid, or knocked prone.",
+        "Target: An ally within 5 squares of the triggering ally.",
+        "Effect: The target moves up to their speed to a square adjacent to the triggering ally. If the triggering ally is falling, they land on the targeted ally and both take half of any falling damage. Otherwise, reduce the number of squares they are being pushed, pulle d, or slid by 1. If they would be knocked prone from falling or the forced movement effect, they are not."
+      ],
+      "pages": [
+        96
+      ],
+      "originalClass": "Warlord"
+    },
+    {
+      "id": "warlord-6-find-traps",
+      "title": "Find Traps",
+      "level": 6,
+      "source": "Martial",
+      "type": "Daily",
+      "description": "“Well, I’d know that I would trap this area if I was them…”",
+      "traits": "Martial, Non-Combat, Exploration, Zone",
+      "action": "Standard Action",
+      "range": "Close Burst 10",
+      "rows": [
+        "Effect: You create a zone around you that follows you as you move until the end of your next turn. You are able to detect if a trap is within this zone and within your line of sight, but not the exact location of it. It must be specifically intended to cause harm by its creator (so natural hazards don’t count). This power merely reveals that a trap is present in the zone. You don’t learn the location of each trap, but you do learn the general nature of the danger posed by a trap you sense.",
+        "Sustain Minor: The power sustains."
+      ],
+      "pages": [
+        96
+      ],
+      "originalClass": "Warlord"
+    },
+    {
+      "id": "warlord-6-grab-them",
+      "title": "Grab Them",
+      "level": 6,
+      "source": "Martial",
+      "type": "At-Will",
+      "description": "With a shout and a gesture, you get one of your soldiers to scoo up a fallen comrade and keep moving.",
+      "traits": "Martial, Non-Combat",
+      "action": "Standard Action",
+      "range": "Close Burst 20",
+      "rows": [
+        "Target: One ally who can hear and understand you within the burst.",
+        "Effect: The target can move up to their movement speed and then pick up a willing or unconscious creature of medium size or less, of reasonable weight and size (think around 300 pounds or less), that is not encumbered. Until they stop carrying this creature, it do es not count towards the target’s encumbrance or speed. The target can only pick up one creature at a time this way, and it uses at least one of their hands."
+      ],
+      "pages": [
+        96
+      ],
+      "originalClass": "Warlord"
+    },
+    {
+      "id": "warlord-6-lead-from-the-front",
+      "title": "Lead from the Front",
+      "level": 6,
+      "source": "Martial",
+      "type": "Encounter",
+      "description": "You take your place at the head of the charge, where a commander belongs.",
+      "traits": "Martial, Non-Combat, Battle Preparation",
+      "action": "No Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You roll initiative for a combat encounter and you are not surprised.",
+        "Effect: If you are between all enemies and all of your allies, you gain a +2 bonus to your initiative check. On the first round of combat, you also gain a +2 bonus to your attack rolls, skill checks, and ability checks — as long as you end your standard action clo ser to an enemy — until the end of your first turn."
+      ],
+      "pages": [
+        97
+      ],
+      "originalClass": "Warlord"
+    },
+    {
+      "id": "warlord-10-a-harsh-lesson-in-skill-challenges",
+      "title": "A Harsh Lesson in Skill Challenges",
+      "level": 10,
+      "source": "Martial",
+      "type": "Daily",
+      "description": "Losses can be just as important as victories. You teach an ally how to harness a loss; as demotivating as it may be in the moment, you know it will come in handy in the future.",
+      "traits": "Martial, Non-Combat",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: Your party fails a skill challenge or a group skill check.",
+        "Effect: You gain experience points as if the party had succeeded at the skill challenge. You may also choose one ally. That ally may choose to lose a healing surge if they have any; if they do, they gain 1 action point. Learning from a Loss A failed skill challenge should still move the story — the party reaches the ruins late, or talks their way in but owes someone a favor. This power rewards the table for playing the failure out rather than reloading it, so hand out the experience and let the consequence stand."
+      ],
+      "pages": [
+        100
+      ],
+      "originalClass": "Warlord"
+    },
+    {
+      "id": "warlord-10-cultivated-conscience-of-good",
+      "title": "Cultivated Conscience of Good",
+      "level": 10,
+      "source": "Martial",
+      "type": "Encounter",
+      "description": "You’ve turned your team not just into good warriors, but good people. They all have a keen sense of the consequences of good and bad actions.",
+      "traits": "Martial, Non-Combat, Social, Divination",
+      "action": "Immediate Interrupt",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You or an ally begins to take an action.",
+        "Target: The triggering creature",
+        "Effect: If the action would negatively affect a PC or an NPC ally of the target’s at some point in the future, the target gets a feeling in their conscience that it will, and of who it will affect. They do not learn why.",
+        "Special: The DM may activate this power without the player needing to."
+      ],
+      "pages": [
+        100
+      ],
+      "originalClass": "Warlord"
+    },
+    {
+      "id": "warlord-10-echoing-guidance",
+      "title": "Echoing Guidance",
+      "level": 10,
+      "source": "Martial",
+      "type": "Encounter",
+      "description": "Your words rattle around in the background of an ally’s thought until they emerge at the right time, usually in the form of a flashback or echoing words of wisdom.",
+      "traits": "Martial, Non-Combat, Rest",
+      "action": "Standard Action",
+      "range": "Personal",
+      "rows": [
+        "Requirement: You must be taking a short or extended rest.",
+        "Target: One ally resting with you",
+        "Effect: The target gains a d4 guidance die. They may spend the guidance die to add it to a skill check they make. They keep this die until the end of their next extended rest or until it is spent."
+      ],
+      "pages": [
+        100
+      ],
+      "originalClass": "Warlord"
+    },
+    {
+      "id": "warlord-10-motivational-decompression",
+      "title": "Motivational Decompression",
+      "level": 10,
+      "source": "Martial",
+      "type": "Daily",
+      "description": "You give a motivational speech while everyone rests, to ready yourselves for the challenges ahead.",
+      "traits": "Martial, Non-Combat, Rest, Battle Preparation",
+      "action": "Standard Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You and your allies are taking a short rest.",
+        "Target: You and each ally who can hear you during this short rest and who spends a healing surge",
+        "Effect: The target gains temporary hit points equal to 1 + your Charisma or Wisdom. These temporary hit points last until the end of your next combat encounter or until you begin your next short or extended rest, whichever comes first."
+      ],
+      "pages": [
+        100
+      ],
+      "originalClass": "Warlord"
+    },
+    {
+      "id": "warlord-10-perfected-surprise-attack-stratagem",
+      "title": "Perfected Surprise Attack Stratagem",
+      "level": 10,
+      "source": "Martial",
+      "type": "Daily",
+      "description": "After carefully arranging your team, you are able to execute an ambush with lethal effectiveness.",
+      "traits": "Martial, Non-Combat, Battle Preparation",
+      "action": "No Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: A combat encounter begins with a surprise round that has been initiated by your party. At least half your party (rounded down) must be in the surprise round, and at least half the enemy team (rounded down) must be surprised.",
+        "Effect: This combat encounter begins with two surprise rounds instead of one."
+      ],
+      "pages": [
+        100
+      ],
+      "originalClass": "Warlord"
+    },
+    {
+      "id": "warlord-10-sacrificial-motivation",
+      "title": "Sacrificial Motivation",
+      "level": 10,
+      "source": "Martial",
+      "type": "Daily",
+      "description": "Your death motivates your whole group to do more than they’v ever thought possible.",
+      "traits": "Martial, Non-Combat, Healing, Social, Physical, Restoration",
+      "action": "No Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You die.",
+        "Effect: All of your allies gain a +2 bonus to all skill checks. Whenever an ally rolls a natural 1 on an attack roll, they reroll it and take the second result. Their short rests also restore an additional 2 hit points with every healing surge spent. These effects last until the end of your allies’ next extended rest or until you are resurrected, whichever comes first."
+      ],
+      "pages": [
+        100
+      ],
+      "originalClass": "Warlord"
+    },
+    {
+      "id": "warlord-10-warm-up-sparring-session",
+      "title": "Warm Up Sparring Session",
+      "level": 10,
+      "source": "Martial",
+      "type": "Daily",
+      "description": "A few rounds of practice while the others catch their breath, an your muscles remember what to do before the fighting even sta",
+      "traits": "Martial, Non-Combat, Rest, Battle Preparation",
+      "action": "No Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You and your allies are taking a short rest and at least one of you spends a healing surge to heal.",
+        "Target: You and one ally",
+        "Effect: In the next combat encounter, the target gains a +1 bonus to attack rolls starting at the beginning of their second turn. This bonus increases to +2 starting at the beginning of their fourth turn. These bonuses end at the end of that encounter."
+      ],
+      "pages": [
+        101
+      ],
+      "originalClass": "Warlord"
+    },
+    {
+      "id": "warlord-10-you-ve-got-10",
+      "title": "You've Got 10!",
+      "level": 10,
+      "source": "Martial",
+      "type": "Daily",
+      "description": "When you're all in a rush, your frenzied yelling, rather than being unhelpful and frustrating, is able to spur your allies to new levels of motivation even they didn't think was possible.",
+      "traits": "Martial, Non-Combat, Martial Practice",
+      "action": "Standard Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: An ally is performing a ritual or a martial practice, or is scribing a scroll.",
+        "Effect: Halve the time the ritual, martial practice, or scroll scribing takes to complete."
+      ],
+      "pages": [
+        101
+      ],
+      "originalClass": "Warlord"
+    },
+    {
+      "id": "warlock-2-fearful-eldritch-speech",
+      "title": "Fearful Eldritch Speech",
+      "level": 2,
+      "source": "Arcane",
+      "type": "Encounter",
+      "description": "You speak words in a tongue never meant for mortal throats. Those who hear them without understanding them hear only th malice underneath.",
+      "traits": "Arcane, Non-Combat, Fear, Social, Battle Preparation",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Prerequisite: You must be able to speak a language other than Common.",
+        "Effect: Until the end of your next turn, you gain a +3 bonus to Intimidate checks against creatures that can understand a language. You must speak a language to the creature to benefit from this bonus, but the creature you are intimidating can't speak the language you are speaking when using this power. Finally, this power can't boost Intimidate checks spoken in Common. If this power is used out of combat but it triggers an initiative check for some reason, on the first round of the combat encounter those same creatures get a -2 penalty to their defenses against powers with the Fear keyword."
+      ],
+      "pages": [
+        109
+      ],
+      "originalClass": "Warlock"
+    },
+    {
+      "id": "warlock-2-forbidden-knowledge-ritual",
+      "title": "Forbidden Knowledge Ritual",
+      "level": 2,
+      "source": "Arcane",
+      "type": "Daily",
+      "description": "You beseech your patron or one of their servants to teach you even more forbidden knowledge, though often it comes at a pri",
+      "traits": "Arcane, Non-Combat, Ritual",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Special: Upon first gaining this power, choose an Arcana or Religion ritual of level 6 or less that you can learn. You immediately learn that ritual without having to pay the buy cost and can cast it as if you had the Ritual Caster feat even if you don't have it.",
+        "Trigger: You are performing the ritual you chose for this power.",
+        "Effect: Roll twice for a skill check you are required to make for the ritual and choose the higher result. In addition, the ritual takes half the time to perform. However, you take 5 damage if the ritual is successful, +1 damage per level of the ritual.",
+        "Elemental Pact: You can also use this power with Primal rituals."
+      ],
+      "pages": [
+        109
+      ],
+      "originalClass": "Warlock"
+    },
+    {
+      "id": "warlock-2-minor-desiccation",
+      "title": "Minor Desiccation",
+      "level": 2,
+      "source": "Arcane",
+      "type": "At-Will",
+      "description": "You draw the moisture out of what you touch, and it crumbles t dust and dry husk.",
+      "traits": "Arcane, Non-Combat, Cantrip, Destruction",
+      "action": "Standard Action",
+      "range": "Melee touch",
+      "rows": [
+        "Target: One pool or container of water, one non -creature plant-life, or (with the Sorcerer-King pact) one creature.",
+        "Effect: • If the target is water or a similar watery liquid that is small, like up to 1 quart or liter, it immediately evaporates. • If the target plant -life is medium or smaller, including grass, shrubbery, and so on, it withers and dies. • If the target plant -life is large or bigger, it loses some moisture, but it is not enough to fell most trees or larger plants without several castings, depending on the size.",
+        "Sorcerer-King Pact: If the target is a creature that can get thirsty, they get a little thirsty. Or their skin dries a little. If you made them thirsty, they will generally be compelled to find a drink if they aren't otherwise distracted with something important or in combat. Their physical ability or skill checks, or your DCs in physical skill challenges against them, get a -2 penalty until they get a drink or for 1 hour. If you targeted their skin, they get a -1 penalty to Charisma ability checks or skill checks using their looks to influence others for the next 1 hour.",
+        "Elemental Pact: Once you absorb the water from something, you can later emit the water from your hands or an implement. You can only absorb up to an amount of water equal to the amount in a waterskin, or about 2 liters or half a gallon or 4 pints."
+      ],
+      "pages": [
+        109
+      ],
+      "originalClass": "Warlock"
+    },
+    {
+      "id": "warlock-6-desiccate-plants",
+      "title": "Desiccate Plants",
+      "level": 6,
+      "source": "Arcane",
+      "type": "Daily",
+      "description": "You level your rod at the ground and the water answers, dragge up out of root and soil to spiral once around the implement befo it thins away into nothing.",
+      "traits": "Arcane, Non-Combat, Implement, Destruction",
+      "action": "Standard Action",
+      "range": "Melee touch or Area burst 2 within 1 square",
+      "rows": [
+        "Special: When using this as a ranged power, you must be using it through an implement you are proficient with. If you are, you may increase the range by +1 for every +1 enhancement bonus on the implement.",
+        "Effect: • All water in the burst or one continuous amount of water you are touching immediately evaporates, up to about 100 gallons or 10 cubic feet. This includes water, watery liquids, and mist. Ice and other frozen watery liquids evaporate at half the rate. • All non -creature plant-life within the burst or that you touch that is medium or smaller, including grass, shrubbery, and so on, withers and dies. • Any plant -life within the burst that is large or bigger loses some more moisture, but it is not enough to fell most trees or larger plants without several castings, depending on the size. If you touch a larger plant instead of using the area burst, you can make it wither and die if it is no larger than the size of your average oak tree.",
+        "Sorcerer-King Pact: You may use this twice before each extended rest. The burst also increases by +1 when using an implement, and the touch effect can fell even the largest of non-magical trees.",
+        "Elemental Pact: You may use this twice before each extended rest. You may also use this to emit the water you absorb. You can only store up to about 20 of the gallons you absorb this way, and you can emit it into an open container with your hands or an implement, or make it fall from the sky in an 8 -square cube (40 feet)."
+      ],
+      "pages": [
+        112
+      ],
+      "originalClass": "Warlock"
+    },
+    {
+      "id": "warlock-6-ethereal-jump",
+      "title": "Ethereal Jump",
+      "level": 6,
+      "source": "Arcane",
+      "type": "At-Will",
+      "description": "A minute of muttered syllables and small precise gestures, and then, you are simply not there. You are standing a short distanc away.",
+      "traits": "Arcane, Non-Combat, Teleportation, Ritual, Exploration",
+      "action": "Standard Action",
+      "range": "Personal",
+      "rows": [
+        "Cast Time: 1 minute.",
+        "Effect: You teleport 3 squares.",
+        "Dark Pact: Can teleport +1 square if your destination square is heavily obscured by darkness or shadow.",
+        "Infernal Pact: Can teleport +1 square if your destination square has a majority of fire or ice in it.",
+        "Elemental Pact: Can teleport +2 squares if your destination square has a majority of an element associated with your current elemental affinity.",
+        "Fey Pact: The cast time is reduced to 30 seconds."
+      ],
+      "pages": [
+        112
+      ],
+      "originalClass": "Warlock"
+    },
+    {
+      "id": "warlock-6-glamor-disguise",
+      "title": "Glamor Disguise",
+      "level": 6,
+      "source": "Arcane",
+      "type": "Daily",
+      "description": "You conjure fey magic to change your appearance.",
+      "traits": "Arcane, Non-Combat, Illusion, Deception",
+      "action": "Standard Action",
+      "range": "Personal",
+      "rows": [
+        "Target: One creature you can see that is only up to one size larger or smaller than you.",
+        "Effect: You adopt the target's appearance until the end of your next turn. You gain a +5 bonus to Bluff checks related to mimicking the target. Your apparent size and equipment matches the creature, but you gain neither the abilities, mannerisms, or tactile or aud itory properties of them. If anyone touches your real self through the illusion (or fails to touch your real self if you are disguised as someone larger than you are, for example), they will realize you are not as you seem.",
+        "Sustain Minor: You sustain the effects until the end of your next turn. This can be sustained up to 6 hours this way.",
+        "Fey Pact: If used out of combat, this effect lasts for up to 10 minutes before you start needing to sustain it. You may also sustain it up to 24 hours instead of 6."
+      ],
+      "pages": [
+        112
+      ],
+      "originalClass": "Warlock"
+    },
+    {
+      "id": "warlock-6-knowledge-from-beyond",
+      "title": "Knowledge from Beyond",
+      "level": 6,
+      "source": "Arcane",
+      "type": "Daily",
+      "description": "You channel or consult otherworldly entities to gain increased knowledge.",
+      "traits": "Arcane, Non-Combat, Ritual, Divination, Gathering Information",
+      "action": "Standard Action",
+      "range": "Personal",
+      "rows": [
+        "Cost: Take 10 damage or lose a healing surge.",
+        "Cast Time: 5 minutes.",
+        "Effect: You gain a +5 bonus to a knowledge or monster knowledge check related to Arcana, Nature, Society, Nature, or Society, or an ally gets a +3 bonus to such a skill check. You or the ally must be proficient in that skill to receive the bonus.",
+        "Vestige Pact or Star Pact: You can use this power to boost a skill you don't have trained, but you take an additional 5 damage in addition to whatever cost you paid for this ritual power."
+      ],
+      "pages": [
+        112
+      ],
+      "originalClass": "Warlock"
+    },
+    {
+      "id": "warlock-6-lesser-dark-one-s-luck",
+      "title": "Lesser Dark One’s Luck",
+      "level": 6,
+      "source": "Arcane",
+      "type": "Daily",
+      "description": "You conjure a delicate charm that distorts luck and warps fate, but only when you are not pressured by the stress of a violent encounter.",
+      "traits": "Arcane, Non-Combat",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Requirement: This cannot be used during a combat encounter.",
+        "Trigger: You make a skill check or ability check roll you dislike.",
+        "Effect: Reroll the skill check or ability check, using the higher of the two results."
+      ],
+      "pages": [
+        112
+      ],
+      "originalClass": "Warlock"
+    },
+    {
+      "id": "warlock-6-magic-circle-the-focused",
+      "title": "Magic Circle the Focused",
+      "level": 6,
+      "source": "Arcane",
+      "type": "Daily",
+      "description": "You draw a circle that glows and sparks, keeping the dangerous creature at bay for now.",
+      "traits": "Arcane, Non-Combat, Ritual, Binding",
+      "action": "Standard Action",
+      "range": "Personal",
+      "rows": [
+        "Special: When you gain this power, choose one from the following list of creature origins: aberrant, elemental, fey, immortal, or shadow. This choice is permanent, but you can change this choice on level up.",
+        "Cost: 100 gp",
+        "Cast Time: 30 minutes.",
+        "Effect: This power is identical to the Magic Circle ritual, but can only be used against creatures of the origin you chose. You inscribe a circle on the ground that requires 1 minute to draw per square inside the circle (and it must be a circle). You then perform the ritual by making an Arcana check. An affected creature whose level is lower than your Arcana check result minus 10 cannot pass through the circle, affect creatures through the circle's boundary, or affect the boundary in any way. Other creatures of an affected origin take force damage equa l to your Arcana check result when passing through the boundary, but doing so breaks the circle. Unaffected creatures can take a standard action to obscure the inscription and break the circle."
+      ],
+      "pages": [
+        113
+      ],
+      "originalClass": "Warlock"
+    },
+    {
+      "id": "warlock-6-the-logic-of-madness",
+      "title": "The Logic of Madness",
+      "level": 6,
+      "source": "Arcane",
+      "type": "Encounter",
+      "description": "Secondary effects from your patron seep into your mind, causin a type of magic. Sometimes it causes trouble, other times it cau amazing leaps of logic that don't make sense, but lead to result",
+      "traits": "Arcane, Non-Combat, Social, Gathering Information",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You are making a Diplomacy or Bluff check to convince someone of something, an Insight check to learn something about someone, a Perception or similar check to investigate something, or are making a skill check to gather information.",
+        "Effect: Roll a d20. On a 1 -10, you get a -5 penalty to the triggering check. On an 11 -20, you get a +5 bonus to the triggering check. If you fail the check, you may confuse or anger the recipient, causing -2 penalties to further checks of the same category this encounter. If you succeed on the check, the DM may choose to grant you one pertinent piece of information related to the check, something your character probably shouldn't have known but they seem to know anyway."
+      ],
+      "pages": [
+        113
+      ],
+      "originalClass": "Warlock"
+    },
+    {
+      "id": "warlock-10-desiccate-creatures",
+      "title": "Desiccate Creatures",
+      "level": 10,
+      "source": "Arcane",
+      "type": "Daily",
+      "description": "You turn the same working on living things, and what answers the rod is the water inside them.",
+      "traits": "Arcane, Non-Combat, Implement, Destruction",
+      "action": "Standard Action",
+      "range": "Melee touch or Area burst 3 within 1 square",
+      "rows": [
+        "Special: When using this as a ranged power, you must be using it through an implement you are proficient with. If you are, you may increase the range by +1 for every +1 enhancement bonus on the implement.",
+        "Effect: All non -construct, non-undead creatures in the area other than you, or being touched by you, have moisture drawn from their bodies. Make a Constitution or Charisma (whichever is higher) vs. Fortitude attack against each creature in the area. Each creature you hit suffers 5 damage every 1 hour until they drink something that satiates thirst. Plant creatures, water elementals, and other water-based creatures take 10 damage every 30 minutes instead. Affected creatures can ignore the effects of this power for 1 hour by making a DC 15 Endurance check. However, every time they succeed on this check, the DC increases by +5 until the effect ends or until they fail the check.",
+        "Sorcerer-King Pact: You may use this twice before each extended rest. The burst also increases by +1 when using an implement, and the touch effect doubles the damage and halves the interval once more.",
+        "Elemental Pact: You may use this twice before each extended rest. If you reduce the hit points of a water elemental to 0 this way, you may summon a Lesser Water Elemental (MV) with this."
+      ],
+      "pages": [
+        116
+      ],
+      "originalClass": "Warlock"
+    },
+    {
+      "id": "warlock-10-devil-s-granted-wings",
+      "title": "Devil’s Granted Wings",
+      "level": 10,
+      "source": "Arcane",
+      "type": "Daily",
+      "description": "You grow wings for a long period of time, allowing prolonged flight, although they get in the way and require full concentratio preventing fighting while using them.",
+      "traits": "Arcane, Non-Combat, Polymorph, Ritual, Travel",
+      "action": "Standard Action",
+      "range": "Personal",
+      "rows": [
+        "Cast Time: 30 seconds.",
+        "Effect: You grow wings for as long as you concentrate on sustaining this power with your standard action, up to 8 hours. During this time, you gain the ability to fly with an overland speed of 10 and a fly speed of 5, and you gain a +2 bonus to Intimidate checks. As soon as you start to fly, you cannot take any other actions during that flight except to move or land. Once you land after taking flight, the wings disappear. If the effect ends while you are in the air, you slowly glide to the ground without taking dam age."
+      ],
+      "pages": [
+        116
+      ],
+      "originalClass": "Warlock"
+    },
+    {
+      "id": "warlock-10-elemental-cloak-of-protection",
+      "title": "Elemental Cloak of Protection",
+      "level": 10,
+      "source": "Arcane",
+      "type": "Daily",
+      "description": "With great focus, you surround an ally with a magical cloak tha allows them to dive into the pool of acid or walk past the wall of fire unharmed.",
+      "traits": "Arcane, Non-Combat, Ritual, Warding",
+      "action": "Standard Action",
+      "range": "Ranged 5",
+      "rows": [
+        "Prerequisite: Elemental Pact or Infernal Pact.",
+        "Cast Time: 1 minute.",
+        "Target: One ally",
+        "Effect: You give an ally immunity to elemental damage until the beginning of their next turn. If you have the Infernal Pact, they are immune to fire damage. If you have the Elemental Pact, they are immune to whatever your current elemental affinity is.",
+        "Sustain Standard: The target ally is immune to the chosen damage until the beginning of their next turn. You can sustain this power up to 15 minutes."
+      ],
+      "pages": [
+        116
+      ],
+      "originalClass": "Warlock"
+    },
+    {
+      "id": "warlock-10-magic-circle-against-the-natural",
+      "title": "Magic Circle Against the Natural",
+      "level": 10,
+      "source": "Arcane",
+      "type": "Daily",
+      "description": "You draw a circle that glows and sparks, keeping even mundane dangerous creatures at bay.",
+      "traits": "Arcane, Non-Combat, Ritual, Binding",
+      "action": "Standard Action",
+      "range": "Personal",
+      "rows": [
+        "Cost: 100 gp",
+        "Cast Time: 30 minutes.",
+        "Effect: This power is identical to the Magic Circle ritual, but can only be used against creatures of the natural origin. You inscribe a circle on the ground that requires 1 minute to draw per square inside the circle (and it must be a circle). You then perform the ritual by making an Arcana check. An affected creature whose level is lower than your Arcana check result minus 10 cannot pass through the circle, affect creatures through the circle's boundary, or affect the boundary in any way. Other creatures of an affected origin take force damage equa l to your Arcana check result when passing through the boundary, but doing so breaks the circle. Unaffected creatures can take a standard action to obscure the inscription and break the circle."
+      ],
+      "pages": [
+        116
+      ],
+      "originalClass": "Warlock"
+    },
+    {
+      "id": "warlock-10-missing-time",
+      "title": "Missing Time",
+      "level": 10,
+      "source": "Arcane",
+      "type": "Daily",
+      "description": "They will remember the hour before, and the moment after, and nothing of the space between.",
+      "traits": "Arcane, Non-Combat, Deception",
+      "action": "Standard Action",
+      "range": "Melee touch",
+      "rows": [
+        "Requirement: You are out of combat.",
+        "Target: One creature you touch that is not involved in combat",
+        "Effect: You remove from 1 to 10 minutes of the target's memory from within their last hour. You cannot read their mind, so you must either pick a time frame (the last few minutes, for example) or a specific memory you know exists (that they met you, that they met an ally of yours, or that they saw someone sneaking). If the creature enters combat, they regain their memories."
+      ],
+      "pages": [
+        116
+      ],
+      "originalClass": "Warlock"
+    },
+    {
+      "id": "warlock-10-remote-fey-switch",
+      "title": "Remote Fey Switch",
+      "level": 10,
+      "source": "Arcane",
+      "type": "Daily",
+      "description": "You place a benevolent form of your curse on an ally, binding th two of you across any distance.",
+      "traits": "Arcane, Non-Combat, Teleportation, Ritual, Travel",
+      "action": "Standard Action",
+      "range": "Personal",
+      "rows": [
+        "Cast Time: 5 minutes.",
+        "Target: One ally",
+        "Effect: You place a benevolent form of your curse on an ally. This has no negative effects and lasts up to 8 hours. At any point while this is on them, you or the ally may switch places. There is a brief shimmering light during this time and it takes about 6 -10 se conds, or about 1-2 rounds, for the switch to happen, preventing it from catching anyone off-guard if it happens in front of them, but generally being a brief moment when it happens out of view. If it happens during a battle or it triggers a battle, and you are out of view of each other, the person who enters is surprised for one round. Level 21: You can increase the cast time to 1 hour to increase the duration by up to 24 hours."
+      ],
+      "pages": [
+        117
+      ],
+      "originalClass": "Warlock"
+    },
+    {
+      "id": "warlock-10-ritual-of-chromatic-empowerment",
+      "title": "Ritual of Chromatic Empowerment",
+      "level": 10,
+      "source": "Arcane",
+      "type": "Daily",
+      "description": "You take the element out of the place it collected in and put it in yourself.",
+      "traits": "Arcane, Non-Combat, Ritual, Rest, Battle Preparation",
+      "action": "Standard Action",
+      "range": "Personal",
+      "rows": [
+        "Prerequisite: Elemental Pact and you have the Chromatic Bolt power.",
+        "Requirement: You must be near a natural or near -natural formation of your element. The DM has the final say. It should come from the environment, but it is up to the DM. This must be done during a rest, but before you know what element you'll roll for on the elemental attunement table (see Warlock Elemental Pact).",
+        "Cast Time: 5 minutes.",
+        "Effect: You perform a ritual to absorb the natural powers of the nearby element. Until the end of your next extended rest or you use this power again, you empower one of the elements. As long as you are attuned to it, you gain one of the following effects: • Acid - When you hit with your Chromatic Bolt, until the end of your next turn, lower the AC of one of the creatures hit by your Chromatic Bolt by the lower of your Charisma or Constitution minus 2. • Cold - When you hit with your Chromatic Bolt, you may gain temporary hit points equal to the lower of your Charisma or Constitution until the beginning of your next turn. • Fire - Your Chromatic Bolt deals an extra 1d6 fire damage to the first target. • Lightning - You may have your Chromatic Bolt deal an additional 2 damage to the first target, 1 damage to the second target, and damage equal to the lower of your Charisma or Constitution to a third creature within 5 squares of your second targe t. If there is no other creature within 5 squares, it may deal that damage back to the first creature. • Thunder - You may push the first and second target of your Chromatic Bolt away from each other when it hits, up to a number of squares equal to the lower of your Charisma or Constitution. EXAMPLES OF NATURAL ELEMENTAL FORMATIONS",
+        "Acid: a pool of acid from a laboratory experiment, an acidic swamp, a longstanding acidic trap or hazard, a slime’s lair, a caustic geyser, collected acid in bottles, acid rain.",
+        "Cold: a field of ice or snow, a near -frozen lake, a blizzard, snowfall, hail.",
+        "Fire: a large fire (wild or long -burning), lit lanterns, lava, a magma geyser, a large forge.",
+        "Lightning: a lightning storm, rain, a laboratory with electricity, proximity to lots of metal or arcane machinery, “pre-storm” static in the air, carpets or rugs with static cling, magnetic phenomena.",
+        "Thunder: a lightning or wind storm, high wind, a hurricane, rain, areas of extreme noise such as industrial work sites, echoing canyons or caves."
+      ],
+      "pages": [
+        117
+      ],
+      "originalClass": "Warlock"
+    },
+    {
+      "id": "warlock-10-sacrificial-ritual-of-reclamation",
+      "title": "Sacrificial Ritual of Reclamation",
+      "level": 10,
+      "source": "Arcane",
+      "type": "Daily",
+      "description": "A life given freely, or given unwillingly, buys back a working you thought was spent.",
+      "traits": "Arcane, Non-Combat, Ritual",
+      "action": "Standard Action",
+      "range": "Personal",
+      "rows": [
+        "Cost: One willing or helpless creature, sacrificed.",
+        "Cast Time: 1 hour.",
+        "Effect: Roll an Arcana or Religion check, depending on whether the target ritual power will be Arcane or Divine respectively. It has a DC equal to 35 - the level of the sacrificed creature. If you succeed on the check, you or an ally within 5 squares regains one e xpended ritual power that is at least half that level or below (rounded down) and uses the associated power source. This cannot be used on creatures above level 30."
+      ],
+      "pages": [
+        117
+      ],
+      "originalClass": "Warlock"
+    },
+    {
+      "id": "warlock-10-shadowy-touch",
+      "title": "Shadowy Touch",
+      "level": 10,
+      "source": "Arcane",
+      "type": "Daily",
+      "description": "Your hand becomes of shadows and misty wisps, passing throug the physical easily while still imparting the magical effects you'v infused into your touch.",
+      "traits": "Arcane, Non-Combat, Deception",
+      "action": "Minor Action",
+      "range": "Personal or Melee touch",
+      "rows": [
+        "Target: You or one creature you touch",
+        "Effect: When used out of combat, as long as the target is even slightly distracted or looking away, your next Touch power can be used without its target and others in the vicinity aware you have used it on them. If they are a bit more aware of your presence, the D M may determine you need to use a Thievery check with an easy DC equal to the level of the creature you're trying to use the touch power on. If so, it gets a +5 bonus. When used in combat, you must be hidden and actively hiding from the enemy for this power to work on them. It also doesn't get any +5 bonus when the DM determines you need to use a Thievery check to activate this power."
+      ],
+      "pages": [
+        117
+      ],
+      "originalClass": "Warlock"
+    },
+    {
+      "id": "warlock-10-speaking-in-tongues",
+      "title": "Speaking in Tongues",
+      "level": 10,
+      "source": "Arcane",
+      "type": "Daily",
+      "description": "The words of one tongue are taken out of a mouth and the wor of another are put in their place.",
+      "traits": "Arcane, Non-Combat, Social",
+      "action": "Standard Action",
+      "range": "Personal or Melee touch",
+      "rows": [
+        "Target: You or one creature you touch",
+        "Effect: You or a creature you touch lose the ability to speak Common, or a language of your choice if they don't speak Common, but they gain the ability to speak and understand a language of your choice. The target can still understand the native language they los t during this time, they just can't speak it or write in it. It lasts 1 hour or until you dismiss the effect. If used on an unwilling creature, you must hit on an unarmed melee Constitution or Charisma vs. Will attack."
+      ],
+      "pages": [
+        118
+      ],
+      "originalClass": "Warlock"
+    },
+    {
+      "id": "warlock-10-summon-eldritch-hound",
+      "title": "Summon Eldritch Hound",
+      "level": 10,
+      "source": "Arcane",
+      "type": "Daily",
+      "description": "You conjure a hound that is only shaped like a hound, and it takes the scent you give it.",
+      "traits": "Arcane, Non-Combat, Conjuration, Ritual, Exploration",
+      "action": "Standard Action",
+      "range": "Personal",
+      "rows": [
+        "Cast Time: 5 minutes.",
+        "Effect: You conjure a Small or Medium doglike creature to help you track other people or things. As long as you have a sample of the scent to give the creature, it can detect the direction of the creature it's tracking as long as it's within 1000 feet. It also get s a +5 bonus to Perception, Survival, or Nature checks to track the creature, or to aid others in tracking. It lasts up to 1 hour. The conjured creature has 1 hit point and a speed of 7, although that is reduced to 3 when tracking.",
+        "Fey Pact: The fey hounds of the hunt are legendary for finding their prey. The conjured creature has the fey type and it can detect creatures with no limit, even in other planes, if it has the scent. They last half the time, though.",
+        "Infernal Pact: The conjured creature has the Immortal (demon) or (devil) type and is immune to fire damage but has vulnerability 10 to radiant and cold damage. In addition, this hell -hound will attempt to protect you. It has max hit points equal to yours and two attacks. Melee Attack. Constitution vs. AC. 1d6 + Constitution damage + 1d6 fire damage. Fire Defense (encounter). Immediate Reaction when attacked by a melee attack. Close Burst 1, target enemies. Constitution vs. Reflex. On hit: 2d8 + Constitution fire damage.",
+        "Dark Pact: The conjured dog has the shadow type. It can scout ahead and track for you stealthily before coming back to let you know the way. As long as it is in darkness or low-light, it can turn invisible as an at -will minor action. It has a Stealth check equal to y ours +2. It disappears even if a radiant attack misses it, though.",
+        "Elemental Pact: It lasts twice as long if summoned in terrain related to your current elemental attunement, gains immunity to that element, and gains the elemental type and another type related to that element. It is not affected by penalties related to your current eleme ntal attunement: passing through water or similar liquids will not penalize its tracking if it is acid or cold type, fire means it's not stopped by strong smells by things like smoke, and wind blowing away the scent does not stop it if it is lightning or thunder. If the tracked object or creature passes through terrain or a situation related to your elemental attunement, the hound will alert you. If you have the lightning or thunder attunement, the tracking range doubles.",
+        "Star Pact: The creature is strange and unnerving, slipping through the mind and causing small bouts of madness and small twists of fate. Onlookers' eyes will slide right off it. Unless the creature brings attention to itself, you can roll Stealth vs. Insight to have people you are interacting with not notice the hound.",
+        "Vestige Pact: You may increase the cast time to 1 hour and spend 400 gp in components or use 2 healing surges when using this power to use any one of the pact bonuses from above."
+      ],
+      "pages": [
+        118
+      ],
+      "originalClass": "Warlock"
+    },
+    {
+      "id": "warlock-10-tentacle-from-the-other-side",
+      "title": "Tentacle From the Other Side",
+      "level": 10,
+      "source": "Arcane",
+      "type": "Daily",
+      "description": "You create a portal just large enough for a tentacle to poke through and start causing havoc. Whether it's to guard a door, cause a distraction, or simply to retrieve something for you, the tentacle obeys.",
+      "traits": "Arcane, Non-Combat, Conjuration, Ritual, Creation",
+      "action": "Standard Action",
+      "range": "Personal",
+      "rows": [
+        "Cast Time: 1 round, 1 minute, 10 minutes, or 1 hour.",
+        "Duration: 1 round, 10 minutes, 1 hour, or 6 hours, respectively.",
+        "Effect: You make a tentacle sprout from the ground or a wall. It has a range of 4 squares. In addition to preventing access to that square by taking up space (so if put on the ground, no one can step in that square for example), it will also attempt to grapple nea rby creatures, hurt them, and then drag them into the portal with it. Creatures who are dragged into the portal will not be in play until the effect ends. This ritual automatically ends if the tentacle dies. It has an amount of health equal to your hit poi nts + 10. You can also command the tentacle to grab specific enemies or objects for you, interact with the environment, and so on. It will usually expect a reward for that. Standard Melee Attack: Melee 4; Constitution or Charisma vs. Reflex. On hit: 2d8 + Constitution or Charisma damage and the target is grabbed. Swing Attack (Standard): Close Burst 2; Constitution or Charisma vs. Reflex. On hit: 2d8 + Constitution or Charisma damage. Immediate Reaction: If bloodied or critically hit, it will retreat into its portal, becoming untargetable and invisible. If it does this, it will let go of any creature it's grabbing. The portal will re -open, and the tentacle will re - emerge at the beginnin g of its next turn.",
+        "Sustain Standard: The tentacle will sustain the grab on a grabbed target, deal 1d8 damage to them, and pull them 1 square closer to it. If they reach the tentacle's square, the enemy will disappear until this effect ends.",
+        "Instinctive",
+        "Effect: If you haven't given the tentacle any commands by the end of your turn, it attacks the last creature to attack it. Otherwise, it attacks the nearest creature it can attack and attempts to grab. If it can't do that, it will destroy nearby objects or do a Sw ing Attack, keeping enemies afraid to get close.",
+        "Special: If you cast the 1 round version of this ritual power, you can think of it as lasting 6 seconds or enough for one action. In combat, you must use your whole turn to cast it, and you must keep casting it until the beginning of your next turn. It then lasts from the beginning of that turn until the beginning of your next turn. If used in this way, you may take 3 damage to regain this power."
+      ],
+      "pages": [
+        119
+      ],
+      "originalClass": "Warlock"
+    },
+    {
+      "id": "warlock-10-vestige-memory",
+      "title": "Vestige Memory",
+      "level": 10,
+      "source": "Arcane",
+      "type": "Daily",
+      "description": "Something that has already read every book in a dead language lends you the trick of it.",
+      "traits": "Arcane, Non-Combat, Ritual, Social, Gathering Information",
+      "action": "Standard Action",
+      "range": "Personal",
+      "rows": [
+        "Cast Time: 10 minutes.",
+        "Effect: Choose a language. You are able to read and write in the chosen language for the next 1 hour. You are also able to speak in and understand the language fluently.",
+        "Vestige Pact: The duration extends to 24 hours and you are able to store any text you read in the chosen language during this time into your vestige's memory, allowing perfect recall, search, and analysis of it later. You are also able to allow deeper understanding of i t by equipping a vestige that understands it better. For the next 1 hour, you are able to answer up to 3 questions others ask you about the text as if you were a native person from that culture, even if it's from long ago. Gain a +5 bonus to Society and related skill checks related to the writing when answering questions others ask you about it during this time, for the first 3 questions you are asked at least."
+      ],
+      "pages": [
+        119
+      ],
+      "originalClass": "Warlock"
+    },
+    {
+      "id": "wizard-2-focused-detect-magic",
+      "title": "Focused Detect Magic",
+      "level": 2,
+      "source": "Arcane",
+      "type": "At-Will",
+      "description": "You narrow your attention to one thing and let the residue of magic show itself.",
+      "traits": "Arcane, Non-Combat, Cantrip, Divination",
+      "action": "Minor Action",
+      "range": "Ranged 10",
+      "rows": [
+        "Target: One object or a 2 square area",
+        "Effect: You gain a +2 bonus to your next Arcana check to detect or identify magic emitted by the target or within the target area. If you are already aware the magic is of an arcane source, you gain a +4 bonus instead."
+      ],
+      "pages": [
+        131
+      ],
+      "originalClass": "Wizard"
+    },
+    {
+      "id": "wizard-2-specialty-ritual",
+      "title": "Specialty Ritual",
+      "level": 2,
+      "source": "Arcane",
+      "type": "Daily",
+      "description": "One ritual has become second nature to you, and your hands fin the shortcuts your notes never mention.",
+      "traits": "Arcane, Non-Combat, Ritual",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Requirement: You are performing the chosen ritual.",
+        "Special: When you pick this power, choose one ritual you know of a level equal to or lower than your level. You may replace the chosen ritual whenever you gain a level; the new ritual must be 10th level or lower, and still equal to or lower than your level. You can not choose the Brew Potion or Enchant Magic Item rituals.",
+        "Effect: You cast the chosen ritual without expending any of the ritual's gold piece component cost. Any focus item the ritual requires must still meet its minimum cost. You and any allies assisting you take a -2 penalty to any skill check required by or affected by the ritual."
+      ],
+      "pages": [
+        131
+      ],
+      "originalClass": "Wizard"
+    },
+    {
+      "id": "wizard-6-forging-flame",
+      "title": "Forging Flame",
+      "level": 6,
+      "source": "Arcane",
+      "type": "Daily",
+      "description": "You coax a flame past what its fuel could ever give it, and hold i there.",
+      "traits": "Arcane, Non-Combat, Fire, Ritual, Creation",
+      "action": "Standard Action",
+      "range": "Personal",
+      "rows": [
+        "Cast Time: 5 minutes.",
+        "Effect: You stoke a flame with your magic, hot enough to create items without a proper forge, for 24 hours. You or a smith still need the proper blacksmith tools and materials, or an approximation of them, but once obtained the work can be done anywhere. You can a lso use this flame to weld two metal items together, as long as you can hold them together for 1 minute. Breaking them apart afterward requires a Strength check against a Hard DC for your level when you used this power, +5."
+      ],
+      "pages": [
+        134
+      ],
+      "originalClass": "Wizard"
+    },
+    {
+      "id": "wizard-6-invisible-object",
+      "title": "Invisible Object",
+      "level": 6,
+      "source": "Arcane",
+      "type": "Daily",
+      "description": "You draw the light around it until there is nothing left to see.",
+      "traits": "Arcane, Non-Combat, Illusion, Deception",
+      "action": "Standard Action",
+      "range": "Melee touch or Ranged 5",
+      "rows": [
+        "Target: One object weighing no more than 500 pounds",
+        "Effect: The object becomes invisible until the end of your next turn. If you cast this as a melee touch effect, the invisibility instead lasts 10 minutes or until you dismiss it. If the object becomes part of an attack or a similar offensive action, the invisibili ty ends.",
+        "Sustain Standard: If the target is within 5 squares of you, the invisibility persists until the end of your next turn. If this was originally cast as melee touch, the target needs to be within 20 squares instead, and it can be sustained for up to an additional 10 minutes."
+      ],
+      "pages": [
+        134
+      ],
+      "originalClass": "Wizard"
+    },
+    {
+      "id": "wizard-6-lesser-rites-of-the-general-arcane",
+      "title": "Lesser Rites of the General Arcane",
+      "level": 6,
+      "source": "Arcane",
+      "type": "Daily",
+      "description": "The lesser rites cost you nothing but precision, and precision you can spare.",
+      "traits": "Arcane, Non-Combat, Ritual",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You are performing an Arcana ritual of 6th level or lower.",
+        "Effect: You cast the ritual without expending any of the ritual's gold piece component cost. Any focus item the ritual requires must still meet its minimum cost. You take a -2 penalty to any skill check required by or affected by the ritual, and any allies assisti ng you take a -4 penalty. You cannot use this power to reduce the cost of the Brew Potion or Enchant Magic Item rituals."
+      ],
+      "pages": [
+        134
+      ],
+      "originalClass": "Wizard"
+    },
+    {
+      "id": "wizard-6-protracted-jump",
+      "title": "Protracted Jump",
+      "level": 6,
+      "source": "Arcane",
+      "type": "Encounter",
+      "description": "You or an ally are able to jump great distances for a longer amount of time through a slight manipulation of the spell.",
+      "traits": "Arcane, Non-Combat, Physical, Exploration",
+      "action": "Standard Action",
+      "range": "Melee touch",
+      "rows": [
+        "Prerequisite: You have the Jump power (Wizard 2).",
+        "Target: You or one creature",
+        "Effect: The target can use a move action to jump up to 6 squares or up to its speed, whichever is lower, without having to make an Athletics check. This lasts for up to 1 minute, although it lasts only until the end of the next round if you or the target are in or enter a combat encounter."
+      ],
+      "pages": [
+        134
+      ],
+      "originalClass": "Wizard"
+    },
+    {
+      "id": "wizard-10-arcane-ritual-expert",
+      "title": "Arcane Ritual Expert",
+      "level": 10,
+      "source": "Arcane",
+      "type": "Daily",
+      "description": "You have done this so many times that your pockets have starte keeping what you need: eye of newt, bat guano, a pinch of something you would rather not name.",
+      "traits": "Arcane, Non-Combat, Ritual",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You are performing an Arcana ritual of 9th level or lower.",
+        "Effect: You cast the ritual without expending any of the ritual's gold piece component cost. Any focus item the ritual requires must still meet its minimum cost. Instead, you expend one healing surge, and the ritual takes twice as long to cast. If you roll a 20 on the ritual's skill check, you regain the healing surge expended for this power; if the ritual does not require a skill check, you can make one anyway to try to gain this benefit. You cannot use this power on any ritual that creates or enchants an item, su ch as Brew Potion or Enchant Magic Item."
+      ],
+      "pages": [
+        138
+      ],
+      "originalClass": "Wizard"
+    },
+    {
+      "id": "wizard-10-circle-of-protection-from-energy",
+      "title": "Circle of Protection from Energy",
+      "level": 10,
+      "source": "Arcane",
+      "type": "Daily",
+      "description": "You hold the circle and the circle holds the fire out.",
+      "traits": "Arcane, Non-Combat, Ritual, Warding, Battle Preparation",
+      "action": "Standard Action",
+      "range": "Close Burst 5",
+      "rows": [
+        "Special: Choose one of the energy types when you first gain this power. Your resistance against that energy type increases by your level.",
+        "Cast Time: 1 minute.",
+        "Effect: Choose a damage type among fire, cold, acid, lightning, or thunder, and roll an Arcana check. While you perform this ritual, you and allies within the burst have resistance to that damage type equal to your Arcana check result. You can sustain the ritual f or up to 1 hour, but you must be performing it that entire time instead of moving or taking other actions. Each ally who assists the ritual may instead increase the maximum duration by 1 hour or the area of effect by 2 squares, rather than adding to the Arcana check."
+      ],
+      "pages": [
+        138
+      ],
+      "originalClass": "Wizard"
+    },
+    {
+      "id": "wizard-10-improved-dispel-magic-ritual",
+      "title": "Improved Dispel Magic Ritual",
+      "level": 10,
+      "source": "Arcane",
+      "type": "Daily",
+      "description": "Given an hour and no one shouting at you, very little stays wove",
+      "traits": "Arcane, Non-Combat, Ritual, Destruction",
+      "action": "Standard Action",
+      "range": "Ranged 10",
+      "rows": [
+        "Prerequisite: You have the Dispel Magic power (Wizard 6).",
+        "Cast Time: 1 hour.",
+        "Cost: 100 gp per level of the magical effect.",
+        "Effect: Outside of combat, you can destroy a magical effect that originates from an arcane power source. Roll an Arcana check against 10 + the level of the creature that created the effect, or its estimated level. This check is modified by the general permanence o f the magical effect - either how long it has already lasted in the area or how long it was meant to last, the DM's choice - according to the table below. Permanence Modifier Encounter effect, or less than 1 hour +10 1 hour to less than 1 day +5 1 day to 1 week +0 1 week to less than 1 month -2 1 month to less than 1 year -5 1 year to less than 100 years -10, and 2 healing surges must be spent More than 100 years N/A Effects that have lasted more than 100 years are part of the weave of that area now. More extensive rituals are generally required to dispel those, ones usually obtained as part of the story."
+      ],
+      "pages": [
+        138
+      ],
+      "originalClass": "Wizard"
+    },
+    {
+      "id": "wizard-10-inexhaustible-flame",
+      "title": "Inexhaustible Flame",
+      "level": 10,
+      "source": "Arcane",
+      "type": "Daily",
+      "description": "The fire takes your meaning and refuses to be argued with.",
+      "traits": "Arcane, Non-Combat, Fire, Ritual",
+      "action": "Standard Action",
+      "range": "Ranged 10",
+      "rows": [
+        "Target: One existing fire within range",
+        "Effect: A campfire, bonfire, or other existing fire on a flammable object cannot be extinguished by any outside mundane means. It can still run out of fuel, but dousing it with water or smothering its air will not work. Roll an Arcana check to determine how long t his lasts. Check Result Max Duration 10 or less 10 minutes 11 - 20 1 hour 21 - 30 24 hours 31 - 40 1 week 41 or higher 1 year The DM may allow powerful magical effects to work, but should require the caster to make an attack against your Will. See the master improvisation chart, or simply use d20 + the caster's level for the attack."
+      ],
+      "pages": [
+        138
+      ],
+      "originalClass": "Wizard"
+    },
+    {
+      "id": "wizard-10-mass-animation",
+      "title": "Mass Animation",
+      "level": 10,
+      "source": "Arcane",
+      "type": "Daily",
+      "description": "The room stands up all at once and waits to be told what it is fo",
+      "traits": "Arcane, Non-Combat, Transmutation, Exploration",
+      "action": "Standard Action",
+      "range": "Close Burst 20",
+      "rows": [
+        "Target: Up to 10 nonmagical objects within the burst that are not fastened down or held by a creature. Medium objects count as two, Large objects count as four, and Huge objects count as eight. You cannot animate Huge or larger objects.",
+        "Effect: Each target animates until the end of your next turn, hovering above the ground with a fly speed of 5. You may immediately move all target objects up to their speed. While a target is animated by this power, you can move it 5 squares through the air, and i t retains the ability to fly and hover. You may also use a minor action to have any number of target objects begin a mundane task related to their normal function: brooms begin sweeping, pots begin stirring, and so on. You cannot make attacks with the objects, even if it appears you can. A sword may flick and slice in the air, but with no aim or power behind it.",
+        "Sustain Move: The animation persists until the end of your next turn for objects within 100 squares (about 500 feet), and you may move all target objects up to 5 squares."
+      ],
+      "pages": [
+        139
+      ],
+      "originalClass": "Wizard"
+    },
+    {
+      "id": "power14503",
+      "title": "Form of the Sprinting Elk",
+      "level": 2,
+      "type": "Daily",
+      "description": "Your form shifts as you assume the guise of a great elk and quickly bound away.",
+      "traits": "Polymorph, Primal, Non-Combat, Combat",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You assume the form of the sprinting elk until you take an extended rest or until you end the form as a free action. While in this form, you gain a +4 bonus to speed, but you cannot attack, manipulate objects, or use any magic item powers. Also, your gear becomes part of the form and is inaccessible."
+      ],
+      "link": "https://iws.mx/dnd/?view=power14503",
+      "originalClass": "Druid",
+      "citation": "Published in Heroes of the Feywild, page(s) 79.",
+      "source": "Primal"
+    },
+    {
+      "id": "power14508",
+      "title": "Meld into Stone",
+      "level": 6,
+      "type": "Daily",
+      "description": "Your body merges with stone, letting you slip out of sight and away from harm.",
+      "traits": "Primal, Non-Combat, Combat",
+      "action": "Move Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You shift into an adjacent square occupied by an object made of stone or earth that is your size or larger, such as a wall, a statue, or a boulder. While you occupy this square, you can see normally but you do not have line of effect to anything, and nothing has line of effect to you. You remain in this state until the end of the encounter, until you end this effect as a minor action, or until the object is destroyed. When the effect ends, you appear in the nearest unoccupied square."
+      ],
+      "link": "https://iws.mx/dnd/?view=power14508",
+      "originalClass": "Druid",
+      "citation": "Published in Heroes of the Feywild, page(s) 80.",
+      "source": "Primal"
+    },
+    {
+      "id": "power9666",
+      "title": "Animal Shapes",
+      "level": 10,
+      "type": "Daily",
+      "description": "You transform yourself and your allies into mice, beetles, or other seemingly innocuous animals.",
+      "traits": "Polymorph, Primal, Non-Combat, Combat",
+      "action": "Standard Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Target: You and each ally in the burst",
+        "Effect: Until the end of your next turn, the targets assume the forms of Tiny creatures, such as mice, cats, beetles, or spiders. While in these forms, the targets can't attack, pick up anything, or manipulate objects. The targets gain a +5 power bonus to Stealth checks and a +2 power bonus to AC and Reflex. Each target can end this effect on himself or herself as a minor action.",
+        "Sustain Minor: The effect persists on yourself and any target within 5 squares of you."
+      ],
+      "link": "https://iws.mx/dnd/?view=power9666",
+      "originalClass": "Druid",
+      "citation": "Published in Primal Power, page(s) 45.",
+      "source": "Primal"
+    },
+    {
+      "id": "power5121",
+      "title": "Sea Stride",
+      "level": 6,
+      "type": "At-Will",
+      "description": "You draw on the strength of flowing water to glide through the waves with ease.",
+      "traits": "Primal, Non-Combat, Combat",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You gain a swim speed equal to your speed until the end of your turn."
+      ],
+      "link": "https://iws.mx/dnd/?view=power5121",
+      "originalClass": "Warden",
+      "citation": "Published in Player's Handbook 2, page(s) 158.",
+      "source": "Primal"
+    },
+    {
+      "id": "power13605",
+      "title": "Sylvan Trickery",
+      "level": 10,
+      "type": "Daily",
+      "description": "Your faerie allies cloak you in fey magic to hide you and speed you away.",
+      "traits": "Illusion, Primal, Teleportation, Non-Combat, Combat",
+      "action": "Minor Action",
+      "range": "Melee 1",
+      "rows": [
+        "Target: You or one ally",
+        "Effect: The target becomes invisible until the end of his or her next turn or until he or she makes an attack. When the invisibility ends, the target can teleport up to 3 squares."
+      ],
+      "link": "https://iws.mx/dnd/?view=power13605",
+      "originalClass": "Warden",
+      "citation": "Published in Dragon Magazine 392.",
+      "source": "Primal"
+    },
+    {
+      "id": "power5402",
+      "title": "Primal Gust",
+      "level": 10,
+      "type": "Encounter",
+      "description": "A gust moves an ally or an enemy into position.",
+      "traits": "Primal, Non-Combat, Combat",
+      "action": "Minor Action",
+      "range": "Ranged 10",
+      "rows": [
+        "Target: One creature",
+        "Effect: You slide the target 3 squares."
+      ],
+      "link": "https://iws.mx/dnd/?view=power5402",
+      "originalClass": "Shaman",
+      "citation": "Published in Player's Handbook 2, page(s) 126.",
+      "source": "Primal"
+    },
+    {
+      "id": "power9769",
+      "title": "Twilight's Veil",
+      "level": 10,
+      "type": "Encounter",
+      "description": "You reach into the spirit world, weaving together strands of primal night to cloak yourself and your allies in a veil of invisibility",
+      "traits": "Primal, Non-Combat, Combat",
+      "action": "Minor Action",
+      "range": "Close burst 1",
+      "rows": [
+        "Target: You and each ally in the burst",
+        "Effect: Each target becomes invisible until he or she attacks or until the end of your next turn."
+      ],
+      "link": "https://iws.mx/dnd/?view=power9769",
+      "originalClass": "Shaman",
+      "citation": "Published in Primal Power, page(s) 71.",
+      "source": "Primal"
+    },
+    {
+      "id": "power4938",
+      "title": "Stonebreaker",
+      "level": 2,
+      "type": "Encounter",
+      "description": "Without hesitation, you smash through the door.",
+      "traits": "Primal, Non-Combat, Combat",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the end of your next turn, you gain a +5 bonus to Strength checks to break objects, and you deal double damage against objects."
+      ],
+      "link": "https://iws.mx/dnd/?view=power4938",
+      "originalClass": "Barbarian",
+      "citation": "Published in Player's Handbook 2, page(s) 52.",
+      "source": "Primal"
+    },
+    {
+      "id": "power4912",
+      "title": "Climber's Claws",
+      "level": 6,
+      "type": "Encounter",
+      "description": "Thick claws spring from your hands, allowing you to scale surfaces quickly.",
+      "traits": "Primal, Non-Combat, Combat",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the end of your next turn, you gain a climb speed equal to your speed."
+      ],
+      "link": "https://iws.mx/dnd/?view=power4912",
+      "originalClass": "Barbarian",
+      "citation": "Published in Primal Power, page(s) 14.",
+      "source": "Primal"
+    },
+    {
+      "id": "power11486",
+      "title": "Burrowing Stride",
+      "originalClass": "Seeker",
+      "level": 10,
+      "source": "Primal",
+      "type": "Daily",
+      "description": "You dive into the earth and reappear some distance from your starting point.",
+      "traits": "Primal, Stance, Non-Combat, Combat",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the stance ends, you can use a move action to move either your speed through loose earth or half your speed through solid stone. You must end the move in an unoccupied space."
+      ],
+      "citation": "Published in Player's Handbook 3, page(s) 123.",
+      "link": "https://iws.mx/dnd/?view=power11486"
+    }
+  ]
+}

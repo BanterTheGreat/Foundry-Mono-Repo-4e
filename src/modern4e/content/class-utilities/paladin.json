@@ -1,0 +1,654 @@
+{
+  "powers": [
+    {
+      "id": "power1292",
+      "title": "Astral Speech",
+      "className": "Paladin",
+      "level": 2,
+      "type": "Daily",
+      "description": "You speak with such compelling conviction that others find it difficult to refute your beliefs and claims.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You gain a +4 power bonus to Diplomacy checks until the end of the encounter."
+      ],
+      "source": "Published in Player's Handbook, page(s) 93.",
+      "link": "https://iws.mx/dnd/?view=power1292"
+    },
+    {
+      "id": "power3727",
+      "title": "Bless Weapon",
+      "className": "Paladin",
+      "level": 2,
+      "type": "Daily",
+      "description": "You recite an ancient prayer to imbue your weapon with the power of pure faith.",
+      "traits": "Divine, Radiant",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Choose one weapon you are wielding. Until the end of the encounter, you gain a +1 power bonus to attack rolls with that weapon, and it deals 1d6 extra radiant damage on a hit. In addition, you can score a critical hit with the weapon on a roll of 18–20 against creatures vulnerable to radiant damage."
+      ],
+      "source": "Published in Divine Power, page(s) 85.",
+      "link": "https://iws.mx/dnd/?view=power3727"
+    },
+    {
+      "id": "power7248",
+      "title": "Call of Challenge",
+      "className": "Paladin",
+      "level": 2,
+      "type": "Encounter",
+      "description": "You brandish your weapon and demand that all foes nearby face you in battle.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Close burst 3",
+      "rows": [
+        "Target: Each enemy in the burst",
+        "Effect: Each target is subject to your divine sanction until the end of your next turn."
+      ],
+      "source": "Published in Divine Power, page(s) 85.",
+      "link": "https://iws.mx/dnd/?view=power7248"
+    },
+    {
+      "id": "power3286",
+      "title": "Divine Counter",
+      "className": "Paladin",
+      "level": 2,
+      "type": "Encounter",
+      "description": "The power of your god deflects part of an attack against you, and you call out the attacker.",
+      "traits": "Divine",
+      "action": "Immediate Interrupt",
+      "range": "Personal",
+      "rows": [
+        "Trigger: An enemy hits your Fortitude, Reflex, or Will",
+        "Effect: You take only half damage from the triggering enemy's attack, and the triggering enemy is subject to your divine sanction until the end of its next turn."
+      ],
+      "source": "Published in Divine Power, page(s) 85.",
+      "link": "https://iws.mx/dnd/?view=power3286"
+    },
+    {
+      "id": "power11049",
+      "title": "Kord's Strength",
+      "className": "Paladin",
+      "level": 2,
+      "type": "Encounter",
+      "description": "Kord answers your shouted prayer with strength and power, causing you to excel in acts of physical might.",
+      "traits": "Divine",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You would make an Athletics check or an Endurance check",
+        "Effect: You gain a +5 power bonus to the triggering skill check. Until the end of your next turn, you gain a +2 power bonus to melee damage rolls, and targets you hit with melee attacks are subject to your divine sanction until the end of your next turn."
+      ],
+      "source": "Published in Dragon Magazine 383, page(s) 78.",
+      "link": "https://iws.mx/dnd/?view=power11049"
+    },
+    {
+      "id": "power1288",
+      "title": "Martyr's Blessing",
+      "className": "Paladin",
+      "level": 2,
+      "type": "Daily",
+      "description": "You step into an attack made against an adjacent ally to save your comrade.",
+      "traits": "Divine",
+      "action": "Immediate Interrupt",
+      "range": "Close burst 1",
+      "rows": [
+        "Trigger: An adjacent ally is hit by a melee or a ranged attack",
+        "Effect: You are hit by the attack instead."
+      ],
+      "source": "Published in Player's Handbook, page(s) 93.",
+      "link": "https://iws.mx/dnd/?view=power1288"
+    },
+    {
+      "id": "power13557",
+      "title": "Restore Vitality",
+      "className": "Paladin",
+      "level": 2,
+      "type": "Daily",
+      "description": "You lay your hands upon an ally, invoking the power of your virtue to restore a comrade to health and remove hindering effects.",
+      "traits": "Divine, Healing",
+      "action": "Minor Action",
+      "range": "Melee 1",
+      "rows": [
+        "Target: One creature",
+        "Effect: The target regains hit points equal to your healing surge value and can make a saving throw."
+      ],
+      "source": "Published in Heroes of the Forgotten Kingdoms.",
+      "link": "https://iws.mx/dnd/?view=power13557"
+    },
+    {
+      "id": "power1255",
+      "title": "Sacred Circle",
+      "className": "Paladin",
+      "level": 2,
+      "type": "Daily",
+      "description": "You trace a circle around you with your hand, and it quickly expands into a wide circle of faintly glowing runes that glows brightly and protects you and your close allies.",
+      "traits": "Divine, Implement, Zone",
+      "action": "Standard Action",
+      "range": "Close burst 3",
+      "rows": [
+        "Effect: The burst creates a zone that, until the end of the encounter, gives you and allies within it a +1 power bonus to AC."
+      ],
+      "source": "Published in Player's Handbook, page(s) 93.",
+      "link": "https://iws.mx/dnd/?view=power1255"
+    },
+    {
+      "id": "power3745",
+      "title": "Touch of Grace",
+      "className": "Paladin",
+      "level": 2,
+      "type": "Encounter",
+      "description": "You take onto yourself the suffering of your ally.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Melee touch",
+      "rows": [
+        "Target: One ally",
+        "Effect: You transfer to yourself one effect on the target that a save can end."
+      ],
+      "source": "Published in Divine Power, page(s) 85.",
+      "link": "https://iws.mx/dnd/?view=power3745"
+    },
+    {
+      "id": "power13818",
+      "title": "Vice's Reward",
+      "className": "Paladin",
+      "level": 2,
+      "type": "Encounter",
+      "description": "Your vice buoys your heart, and you revel in the power it provides.",
+      "traits": "Shadow",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You gain 5 temporary hit points, and you can make a saving throw. In addition, you gain a +2 power bonus to all defenses until the end of your next turn.",
+        "Level 11: 10 temporary hit points.",
+        "Level 21: 15 temporary hit points."
+      ],
+      "source": "Published in Heroes of Shadow, page(s) 38.",
+      "link": "https://iws.mx/dnd/?view=power13818"
+    },
+    {
+      "id": "power7249",
+      "title": "Virtue",
+      "className": "Paladin",
+      "level": 2,
+      "type": "Encounter",
+      "description": "You gird yourself in your high ideals and face the enemy with renewed determination.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You spend a healing surge but regain no hit points. You instead gain temporary hit points equal to your healing surge value."
+      ],
+      "source": "Published in Divine Power, page(s) 85.",
+      "link": "https://iws.mx/dnd/?view=power7249"
+    },
+    {
+      "id": "power13822",
+      "title": "Aspect of Domination",
+      "className": "Paladin",
+      "level": 6,
+      "type": "Daily",
+      "description": "You radiate crushing dread so powerful that your enemies cannot bear to be near you.",
+      "traits": "Fear, Shadow",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the end of the encounter, when you hit any enemy with an at-will melee attack, you also push that target up to a number of squares equal to your Charisma."
+      ],
+      "source": "Published in Heroes of Shadow, page(s) 40.",
+      "link": "https://iws.mx/dnd/?view=power13822"
+    },
+    {
+      "id": "power13823",
+      "title": "Aspect of Ferocity",
+      "className": "Paladin",
+      "level": 6,
+      "type": "Daily",
+      "description": "The blood of wounded foes feeds your anger, empowering your blows.",
+      "traits": "Shadow",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the end of the encounter, your melee weapon attacks deal 1[W] extra damage when you are adjacent to at least one bloodied creature."
+      ],
+      "source": "Published in Heroes of Shadow, page(s) 40.",
+      "link": "https://iws.mx/dnd/?view=power13823"
+    },
+    {
+      "id": "power13560",
+      "title": "Bond of Protection",
+      "className": "Paladin",
+      "level": 6,
+      "type": "Daily",
+      "description": "You create a spiritual link between yourself and an ally that allows you to partially shield your friend from harm.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Target: One ally in the burst",
+        "Effect: Until the end of the encounter, the target gains a +2 power bonus to all defenses and a +5 power bonus to Endurance checks. In addition, whenever the target takes damage, you can reduce that damage by 5 as a free action. If you do so, you take 5 damage. This damage ignores your immunities and resistances."
+      ],
+      "source": "Published in Heroes of the Forgotten Kingdoms.",
+      "link": "https://iws.mx/dnd/?view=power13560"
+    },
+    {
+      "id": "power356",
+      "title": "Divine Bodyguard",
+      "className": "Paladin",
+      "level": 6,
+      "type": "Daily",
+      "description": "As your weapon connects with your enemies, so too does the magic of your god connect you to your allies.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Ranged 5",
+      "rows": [
+        "Effect: Choose an ally within 5 squares of you. You take half that ally's damage until the end of the encounter or until you end the effect as a free action. No power or effect can reduce the damage you take from this power."
+      ],
+      "source": "Published in Player's Handbook, page(s) 94.",
+      "link": "https://iws.mx/dnd/?view=power356"
+    },
+    {
+      "id": "power3285",
+      "title": "Fear Not",
+      "className": "Paladin",
+      "level": 6,
+      "type": "Encounter",
+      "description": "You reassure your ally, conferring divine power to throw off ill effects.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Melee touch",
+      "rows": [
+        "Target: One creature",
+        "Effect: The target can make a saving throw. Against a fear effect, the target gains a bonus to the saving throw equal to your Wisdom."
+      ],
+      "source": "Published in Divine Power, page(s) 86.",
+      "link": "https://iws.mx/dnd/?view=power3285"
+    },
+    {
+      "id": "power7382",
+      "title": "Flare of Divine Vengeance",
+      "className": "Paladin",
+      "level": 6,
+      "type": "Daily",
+      "description": "The energy of your divine challenge erupts with light that heals you as the enemy attacks and empowers your next strike against it.",
+      "traits": "Divine, Healing",
+      "action": "Immediate Interrupt",
+      "range": "Personal",
+      "rows": [
+        "Trigger: The target of your divine challenge hits you",
+        "Effect: You can spend a healing surge. You gain a +2 power bonus to attack rolls against the triggering enemy until the end of your next turn."
+      ],
+      "source": "Published in PH Heroes: Series 2.",
+      "link": "https://iws.mx/dnd/?view=power7382"
+    },
+    {
+      "id": "power11050",
+      "title": "Fury of the Battle God",
+      "className": "Paladin",
+      "level": 6,
+      "type": "Encounter",
+      "description": "Failure breeds frustration and frustration breeds unchecked fury, which you channel into your ability to wound your foes.",
+      "traits": "Divine",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You miss a target with a paladin encounter or daily attack power",
+        "Effect: The targets you missed with the power are subject to your divine sanction until the end of your next turn. You gain a +2 power bonus to damage rolls on the next attack you make before the end of your next turn."
+      ],
+      "source": "Published in Dragon Magazine 383, page(s) 78.",
+      "link": "https://iws.mx/dnd/?view=power11050"
+    },
+    {
+      "id": "power1289",
+      "title": "One Heart, One Mind",
+      "className": "Paladin",
+      "level": 6,
+      "type": "Daily",
+      "description": "You and your trusted allies form a telepathic bond.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Close burst 6",
+      "rows": [
+        "Targets: You and each ally in the burst",
+        "Effect: Until the end of the encounter, targets can communicate telepathically with each other out to a range of 20 squares, and your aid another actions give a +4 bonus instead of +2."
+      ],
+      "source": "Published in Player's Handbook, page(s) 94.",
+      "link": "https://iws.mx/dnd/?view=power1289"
+    },
+    {
+      "id": "power3748",
+      "title": "Pure Devotion",
+      "className": "Paladin",
+      "level": 6,
+      "type": "Encounter",
+      "description": "The intensity of your faith protects you from your enemy's insidious power.",
+      "traits": "Divine",
+      "action": "Immediate Interrupt",
+      "range": "Personal",
+      "rows": [
+        "Trigger: An enemy attacks you",
+        "Effect: You gain a +4 power bonus to Fortitude and Will until the end of your next turn."
+      ],
+      "source": "Published in Divine Power, page(s) 86.",
+      "link": "https://iws.mx/dnd/?view=power3748"
+    },
+    {
+      "id": "power7255",
+      "title": "Shield of Discipline",
+      "className": "Paladin",
+      "level": 6,
+      "type": "Encounter",
+      "description": "Toughness hard won through years of rigorous self-control blunts your enemies' attacks.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the end of your next turn, you gain resistance to all damage equal to your Strength."
+      ],
+      "source": "Published in Divine Power, page(s) 86.",
+      "link": "https://iws.mx/dnd/?view=power7255"
+    },
+    {
+      "id": "power3751",
+      "title": "Shield the Virtuous",
+      "className": "Paladin",
+      "level": 6,
+      "type": "Daily",
+      "description": "You speak a prayer of protection for an ally, who is surrounded by a shining halo.",
+      "traits": "Divine, Radiant",
+      "action": "Minor Action",
+      "range": "Close burst 10",
+      "rows": [
+        "Target: One ally in the burst",
+        "Effect: Until the end of the encounter, any enemy that hits or misses the target takes 3 + your Charisma radiant damage, unless that enemy is marked by the target.",
+        "Level 11: 6 + your Charisma radiant damage.",
+        "Level 21: 9 + your Charisma radiant damage."
+      ],
+      "source": "Published in Divine Power, page(s) 86.",
+      "link": "https://iws.mx/dnd/?view=power3751"
+    },
+    {
+      "id": "power7256",
+      "title": "Valiant Rush",
+      "className": "Paladin",
+      "level": 6,
+      "type": "Encounter",
+      "description": "You plunge into battle with divine speed.",
+      "traits": "Divine",
+      "action": "Move Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You move twice your speed to a square adjacent to an enemy that is within your line of sight at the start of this movement."
+      ],
+      "source": "Published in Divine Power, page(s) 87.",
+      "link": "https://iws.mx/dnd/?view=power7256"
+    },
+    {
+      "id": "power10250",
+      "title": "Winter's Fated Stance",
+      "className": "Paladin",
+      "level": 6,
+      "type": "Daily",
+      "description": "A murder of ghostly ravens hover about you, warding you against cold and death.",
+      "traits": "Divine, Stance",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the stance ends, you gain resist cold and necrotic equal to 5 + your Wisdom or Charisma. You can voluntarily end the stance as a free action to gain +2 to a defense of your choice until the end of your next turn."
+      ],
+      "source": "Published in Dragon Magazine 381, page(s) 72.",
+      "link": "https://iws.mx/dnd/?view=power10250"
+    },
+    {
+      "id": "power1279",
+      "title": "Wrath of the Gods",
+      "className": "Paladin",
+      "level": 6,
+      "type": "Daily",
+      "description": "You extend the power of your virtue to nearby allies, enabling you and your friends to easily strike down your enemies.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Close burst 1",
+      "rows": [
+        "Targets: You and each ally in the burst",
+        "Effect: Until the end of the encounter, each target gains a power bonus to damage rolls equal to your Charisma."
+      ],
+      "source": "Published in Player's Handbook, page(s) 94, Heroes of the Forgotten Kingdoms, page(s) 128.",
+      "link": "https://iws.mx/dnd/?view=power1279"
+    },
+    {
+      "id": "power13564",
+      "title": "Beacon of Nobility",
+      "className": "Paladin",
+      "level": 10,
+      "type": "Daily",
+      "description": "You inspire hope in your allies through your combination of divine power and valorous words.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Once per round until the end of the encounter, you can take a minor action to choose an ally within 5 squares of you. That ally gains 5 temporary hit points and a +2 power bonus to the next skill check he or she makes before the end of his or her next turn."
+      ],
+      "source": "Published in Heroes of the Forgotten Kingdoms.",
+      "link": "https://iws.mx/dnd/?view=power13564"
+    },
+    {
+      "id": "power13565",
+      "title": "Beacon of Penance",
+      "className": "Paladin",
+      "level": 10,
+      "type": "Daily",
+      "description": "You sacrifice some of your own vitality to help your allies overcome their wounds.",
+      "traits": "Divine, Healing",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Once per round until the end of the encounter, you can take a minor action to restore 10 hit points to one ally within 2 squares of you. If you do so, you take 10 damage. This damage ignores your immunities and resistances."
+      ],
+      "source": "Published in Heroes of the Forgotten Kingdoms.",
+      "link": "https://iws.mx/dnd/?view=power13565"
+    },
+    {
+      "id": "power7264",
+      "title": "Benediction",
+      "className": "Paladin",
+      "level": 10,
+      "type": "Encounter",
+      "description": "A quick prayer grants vigor and strength to a comrade in battle.",
+      "traits": "Divine, Healing",
+      "action": "Immediate Reaction",
+      "range": "Close burst 5",
+      "rows": [
+        "Trigger: An ally within 5 squares of you hits with a melee attack",
+        "Target: The triggering ally",
+        "Effect: The target can either spend a healing surge or make two damage rolls for the attack and use either result."
+      ],
+      "source": "Published in Divine Power, page(s) 88.",
+      "link": "https://iws.mx/dnd/?view=power7264"
+    },
+    {
+      "id": "power31",
+      "title": "Cleansing Spirit",
+      "className": "Paladin",
+      "level": 10,
+      "type": "Encounter",
+      "description": "A translucent outline briefly appears above the creature you designate. The divine spirit gestures, relieving some of the creature's suffering, then fades instantly away.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Ranged 5",
+      "rows": [
+        "Target: You or one ally",
+        "Effect: The target makes a saving throw with a +2 bonus."
+      ],
+      "source": "Published in Player's Handbook, page(s) 95.",
+      "link": "https://iws.mx/dnd/?view=power31"
+    },
+    {
+      "id": "power10254",
+      "title": "Deathguide's Stance",
+      "className": "Paladin",
+      "level": 10,
+      "type": "Daily",
+      "description": "Muttering devotions, you can channel the death that's all around you into life.",
+      "traits": "Divine, Healing, Stance",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the stance ends, whenever a nonminion enemy within 5 squares of you is bloodied or reduced to 0 hit points, you or an ally within 5 squares of you regains a number of hit points equal to 5 + your Charisma."
+      ],
+      "source": "Published in Dragon Magazine 381, page(s) 72.",
+      "link": "https://iws.mx/dnd/?view=power10254"
+    },
+    {
+      "id": "power13826",
+      "title": "Deathly Aura",
+      "className": "Paladin",
+      "level": 10,
+      "type": "Daily",
+      "description": "The spirit of death surrounds you, nipping at your foes as they are struck.",
+      "traits": "Aura, Necrotic, Shadow",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You activate an aura 1 that lasts until the end of the encounter. While you are bloodied, enemies in the aura take necrotic damage after they are hit by any attack. The damage equals your Charisma."
+      ],
+      "source": "Published in Heroes of Shadow, page(s) 41.",
+      "link": "https://iws.mx/dnd/?view=power13826"
+    },
+    {
+      "id": "power3291",
+      "title": "Font of Healing",
+      "className": "Paladin",
+      "level": 10,
+      "type": "Daily",
+      "description": "Divine beneficence heals you and your companion.",
+      "traits": "Divine, Healing",
+      "action": "Minor Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Target: You and one ally in the burst",
+        "Effect: You spend a healing surge, and each target regains hit points equal to your healing surge value."
+      ],
+      "source": "Published in Divine Power, page(s) 88.",
+      "link": "https://iws.mx/dnd/?view=power3291"
+    },
+    {
+      "id": "power3752",
+      "title": "Guiding Verse",
+      "className": "Paladin",
+      "level": 10,
+      "type": "Encounter",
+      "description": "In the sacred words of a prayer, you find the resolve to shake off a deleterious condition.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You make a saving throw with a bonus equal to 1 + your Wisdom."
+      ],
+      "source": "Published in Divine Power, page(s) 88.",
+      "link": "https://iws.mx/dnd/?view=power3752"
+    },
+    {
+      "id": "power1284",
+      "title": "Noble Shield",
+      "className": "Paladin",
+      "level": 10,
+      "type": "Daily",
+      "description": "You quickly throw up your hand, and a vortex of swirling energy surrounds you and your friends, shielding them from harm at your expense.",
+      "traits": "Divine",
+      "action": "Immediate Interrupt",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You are targeted by a close attack or an area attack",
+        "Effect: A close attack or an area attack targeting you automatically hits you, and any of your allies who are also hit take only half damage. This power does not change other effects the attack might cause."
+      ],
+      "source": "Published in Player's Handbook, page(s) 95.",
+      "link": "https://iws.mx/dnd/?view=power1284"
+    },
+    {
+      "id": "power7265",
+      "title": "Righteous Indignation",
+      "className": "Paladin",
+      "level": 10,
+      "type": "Daily",
+      "description": "Seeing your ally harmed enrages you.",
+      "traits": "Divine",
+      "action": "Immediate Reaction",
+      "range": "Personal",
+      "rows": [
+        "Trigger: An enemy hits your ally within your line of sight",
+        "Effect: The next time you attack before the end of your next turn, you gain a +2 power bonus to the attack roll and deal extra damage equal to 2 + your Strength."
+      ],
+      "source": "Published in Divine Power, page(s) 88.",
+      "link": "https://iws.mx/dnd/?view=power7265"
+    },
+    {
+      "id": "power13827",
+      "title": "Turn of the Dark Tide",
+      "className": "Paladin",
+      "level": 10,
+      "type": "Daily",
+      "description": "You whisper a dread word that lets you and your companions sacrifice health to shed an affliction.",
+      "traits": "Shadow",
+      "action": "Standard Action",
+      "range": "Close burst 3",
+      "rows": [
+        "Target: You and each ally in the burst",
+        "Effect: Each target can take damage equal to one-half his or her level to make a saving throw with a +4 power bonus. The damage cannot be reduced in any way."
+      ],
+      "source": "Published in Heroes of Shadow, page(s) 41.",
+      "link": "https://iws.mx/dnd/?view=power13827"
+    },
+    {
+      "id": "power1446",
+      "title": "Turn the Tide",
+      "className": "Paladin",
+      "level": 10,
+      "type": "Daily",
+      "description": "You whisper a solemn hymn, and divine light washes gently over you and nearby allies, potentially negating harmful and debilitating afflictions.",
+      "traits": "Divine",
+      "action": "Standard Action",
+      "range": "Close burst 3",
+      "rows": [
+        "Targets: You and each ally in the burst",
+        "Effect: The targets make saving throws against every effect that a save can end."
+      ],
+      "source": "Published in Player's Handbook, page(s) 95.",
+      "link": "https://iws.mx/dnd/?view=power1446"
+    },
+    {
+      "id": "power7500",
+      "title": "Vengeful Vigilance",
+      "className": "Paladin",
+      "level": 10,
+      "type": "Daily",
+      "description": "Your awareness expands to allow you to protect your allies in an instant, punishing those who would weaken your allies' resolve.",
+      "traits": "Divine, Stance",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the stance ends, any time an enemy within 5 squares of you makes an attack that does not include you, you can use divine challenge on that enemy as a free action. If the triggering attack is against Will and you mark the attacker, it immediately takes the damage your divine challenge mark normally deals."
+      ],
+      "source": "Published in Dragon Magazine 375, page(s) 13.",
+      "link": "https://iws.mx/dnd/?view=power7500"
+    },
+    {
+      "id": "power10253",
+      "title": "Winter's Arrival",
+      "className": "Paladin",
+      "level": 10,
+      "type": "Encounter",
+      "description": "You step through deep shadow to chase your foe, bringing icy ground back with you.",
+      "traits": "Divine, Teleportation",
+      "action": "Move Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You teleport a number of squares equal to 1 + your Charisma, to a space adjacent to an enemy marked by you. All squares adjacent to you are difficult terrain until the end of your next turn."
+      ],
+      "source": "Published in Dragon Magazine 381, page(s) 72.",
+      "link": "https://iws.mx/dnd/?view=power10253"
+    }
+  ]
+}

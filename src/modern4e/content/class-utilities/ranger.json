@@ -1,0 +1,793 @@
+{
+  "powers": [
+    {
+      "id": "power10699",
+      "title": "Archer's Stairway",
+      "className": "Ranger",
+      "level": 2,
+      "type": "Encounter",
+      "description": "A stairway of arrows appears where you point your bow.",
+      "traits": "Martial, Weapon",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Requirement: You must be wielding a bow or a crossbow.",
+        "Effect: Choose 5 contiguous squares of a vertical surface within your weapon range that you can see. The DC for climbing these squares is reduced by twice your Dexterity until the end of the encounter."
+      ],
+      "source": "Published in Dragon Magazine 383, page(s) 50.",
+      "link": "https://iws.mx/dnd/?view=power10699"
+    },
+    {
+      "id": "power10605",
+      "title": "Begin the Hunt",
+      "className": "Ranger",
+      "level": 2,
+      "type": "Daily",
+      "description": "You quickly identify your prey and ready yourself to attack it.",
+      "traits": "Martial",
+      "action": "No Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You roll initiative",
+        "Effect: You gain a +2 bonus to the initiative check, and using your Hunter's Quarry, you designate one creature you can see as your quarry. You gain a +2 power bonus to attack rolls against that creature until it is no longer your quarry."
+      ],
+      "source": "Published in Martial Power 2, page(s) 35.",
+      "link": "https://iws.mx/dnd/?view=power10605"
+    },
+    {
+      "id": "power9348",
+      "title": "Bending Branch",
+      "className": "Ranger",
+      "level": 2,
+      "type": "Encounter",
+      "description": "You resist a foe's attempt to move you, and like a great tree swaying in a storm, you snap back, ready to attack",
+      "traits": "Martial",
+      "action": "Immediate Interrupt",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You are pulled, pushed, or slid",
+        "Effect: You negate the forced movement. In addition, you gain a +2 bonus to your next melee attack roll before the end of your next turn"
+      ],
+      "source": "Published in Dragon Magazine 377, page(s) 71.",
+      "link": "https://iws.mx/dnd/?view=power9348"
+    },
+    {
+      "id": "power13597",
+      "title": "Bridge of Roots",
+      "className": "Ranger",
+      "level": 2,
+      "type": "Daily",
+      "description": "The primal energy you draw from the ground calls forth a churning mass of great roots that can cover even the most dangerous ground.",
+      "traits": "Primal, Zone",
+      "action": "Minor Action",
+      "range": "Area burst 2 within 10 squares",
+      "rows": [
+        "Effect: The burst creates a zone that lasts until the end of the encounter. At least one square of the zone must be on a solid surface. You and your allies can ignore hindering terrain and difficult terrain in the zone. In addition, any portion of a pit, chasm, or similar feature within the zone becomes safe, passable ground.",
+        "Move Action: You move the zone up to 5 squares, keeping at least one square on a solid surface."
+      ],
+      "source": "Published in Heroes of the Forgotten Kingdoms, page(s) 162.",
+      "link": "https://iws.mx/dnd/?view=power13597"
+    },
+    {
+      "id": "power922",
+      "title": "Crucial Advice",
+      "className": "Ranger",
+      "level": 2,
+      "type": "Encounter",
+      "description": "You are wise in all things. The sooner your friends realize this, the safer and better off they'll be.",
+      "traits": "Martial",
+      "action": "Immediate Reaction",
+      "range": "Ranged 5",
+      "rows": [
+        "Trigger: An ally within range that you can see or hear makes a skill check using a skill in which you're proficient",
+        "Effect: Grant the ally the ability to reroll the skill check, with a power bonus equal to your Wisdom."
+      ],
+      "source": "Published in Player's Handbook, page(s) 106.",
+      "link": "https://iws.mx/dnd/?view=power922"
+    },
+    {
+      "id": "power13598",
+      "title": "Entangling Roots",
+      "className": "Ranger",
+      "level": 2,
+      "type": "Daily",
+      "description": "Thick roots emerge from the ground in response to your command, and your foes stumble as they try to slip through them.",
+      "traits": "Primal, Zone",
+      "action": "Minor Action",
+      "range": "Area burst 2 within 10 squares",
+      "rows": [
+        "Effect: The burst creates a zone that lasts until the end of the encounter. The ground in the zone is difficult terrain for your enemies. When any enemy charges, its movement cannot include any square of the ground in the zone."
+      ],
+      "source": "Published in Heroes of the Forgotten Kingdoms, page(s) 162.",
+      "link": "https://iws.mx/dnd/?view=power13598"
+    },
+    {
+      "id": "power4379",
+      "title": "Ferret an Opening",
+      "className": "Ranger",
+      "level": 2,
+      "type": "Encounter",
+      "description": "With a keen eye, you use one moment of advantage to create another.",
+      "traits": "Martial",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Requirement: You must be flanking an enemy.",
+        "Effect: You gain combat advantage against the flanked enemy until the end of your next turn."
+      ],
+      "source": "Published in Martial Power, page(s) 45.",
+      "link": "https://iws.mx/dnd/?view=power4379"
+    },
+    {
+      "id": "power4380",
+      "title": "Fox Shift",
+      "className": "Ranger",
+      "level": 2,
+      "type": "Encounter",
+      "description": "Distracted by your ally, your foe can't respond effectively to your sly maneuvering.",
+      "traits": "Martial",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You hit a target with a melee attack and the target is marked by an ally",
+        "Effect: You can shift 1 square, and you gain a +2 power bonus to all defenses against your target's attacks until the end of your next turn."
+      ],
+      "source": "Published in Martial Power, page(s) 45.",
+      "link": "https://iws.mx/dnd/?view=power4380"
+    },
+    {
+      "id": "power4382",
+      "title": "Hunter's Privilege",
+      "className": "Ranger",
+      "level": 2,
+      "type": "Daily",
+      "description": "Your keen senses and uncanny instincts give you an edge over your quarry.",
+      "traits": "Martial, Stance",
+      "action": "No Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You make an initiative check at the beginning of an encounter and your check result is higher than any other combatant's",
+        "Effect: Until the stance ends, you add 3 to the extra damage you deal with Hunter's Quarry."
+      ],
+      "source": "Published in Martial Power, page(s) 45.",
+      "link": "https://iws.mx/dnd/?view=power4382"
+    },
+    {
+      "id": "power10606",
+      "title": "Invigorating Stride",
+      "className": "Ranger",
+      "level": 2,
+      "type": "Encounter",
+      "description": "You back away from danger and catch your breath.",
+      "traits": "Healing, Martial",
+      "action": "Move Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You shift a number of squares equal to your Wisdom and must not end the shift adjacent to any enemy. You can use your second wind."
+      ],
+      "source": "Published in Martial Power 2, page(s) 35.",
+      "link": "https://iws.mx/dnd/?view=power10606"
+    },
+    {
+      "id": "power13623",
+      "title": "Oak Skin",
+      "className": "Ranger",
+      "level": 2,
+      "type": "Daily",
+      "description": "Your skin takes on the texture of tough bark, protecting you from the worst of your enemies' attacks.",
+      "traits": "Primal",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You gain resistance to all damage until the end of the encounter. The resistance equals your Wisdom."
+      ],
+      "source": "Published in Heroes of the Forgotten Kingdoms, page(s) 187.",
+      "link": "https://iws.mx/dnd/?view=power13623"
+    },
+    {
+      "id": "power13624",
+      "title": "Ranger's Agility",
+      "className": "Ranger",
+      "level": 2,
+      "type": "Daily",
+      "description": "The power of the primal spirits lets you move with the speed and subtlety of the wind.",
+      "traits": "Primal",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the end of the encounter, you gain a +2 power bonus to speed, and whenever you shift, the distance you can shift increases by 1 square."
+      ],
+      "source": "Published in Heroes of the Forgotten Kingdoms, page(s) 187.",
+      "link": "https://iws.mx/dnd/?view=power13624"
+    },
+    {
+      "id": "power13625",
+      "title": "Safe Passage",
+      "className": "Ranger",
+      "level": 2,
+      "type": "Daily",
+      "description": "The spirits of earth, stone, and land accept your plea for assistance, allowing you and your allies to move unhindered and at great speed.",
+      "traits": "Primal",
+      "action": "Minor Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Target: You and each ally in the burst",
+        "Effect: Until the end of the encounter, each target ignores difficult terrain and gains a +2 power bonus to speed."
+      ],
+      "source": "Published in Heroes of the Forgotten Kingdoms, page(s) 187.",
+      "link": "https://iws.mx/dnd/?view=power13625"
+    },
+    {
+      "id": "power13599",
+      "title": "Stalker's Mist",
+      "className": "Ranger",
+      "level": 2,
+      "type": "Daily",
+      "description": "A thick fog settles over the area, blocking sight and muffling sound. Though the fog confounds other creatures, you can see through it with ease.",
+      "traits": "Primal, Zone",
+      "action": "Minor Action",
+      "range": "Area burst 1 within 10 squares",
+      "rows": [
+        "Effect: The burst creates a zone that lasts until the end of the encounter. Squares in the zone are heavily obscured to your enemies.",
+        "Move Action: You move the zone up to 5 squares."
+      ],
+      "source": "Published in Heroes of the Forgotten Kingdoms, page(s) 162.",
+      "link": "https://iws.mx/dnd/?view=power13599"
+    },
+    {
+      "id": "power10607",
+      "title": "Terrain Advantage",
+      "className": "Ranger",
+      "level": 2,
+      "type": "Encounter",
+      "description": "You use the terrain around you as your first line of defense.",
+      "traits": "Martial",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the end of your next turn, you gain a +4 power bonus to all defenses while you occupy a square of difficult terrain."
+      ],
+      "source": "Published in Martial Power 2, page(s) 35.",
+      "link": "https://iws.mx/dnd/?view=power10607"
+    },
+    {
+      "id": "power923",
+      "title": "Unbalancing Parry",
+      "className": "Ranger",
+      "level": 2,
+      "type": "Encounter",
+      "description": "You deftly block your enemy's strike and turn his momentum against him, causing him to stumble to the side.",
+      "traits": "Martial, Weapon",
+      "action": "Immediate Reaction",
+      "range": "Melee 1",
+      "rows": [
+        "Trigger: An enemy misses you with a melee attack",
+        "Effect: You slide the enemy three squares into a square adjacent to you and gain combat advantage against it until the end of your next turn."
+      ],
+      "source": "Published in Player's Handbook, page(s) 106.",
+      "link": "https://iws.mx/dnd/?view=power923"
+    },
+    {
+      "id": "power749",
+      "title": "Yield Ground",
+      "className": "Ranger",
+      "level": 2,
+      "type": "Encounter",
+      "description": "Even as your foe connects, you leap backward, out of the way of further harm.",
+      "traits": "Martial",
+      "action": "Immediate Reaction",
+      "range": "Personal",
+      "rows": [
+        "Trigger: An enemy damages you with a melee attack",
+        "Effect: You can shift a number of squares equal to your Wisdom. Gain a +2 power bonus to all defenses until the end of your next turn."
+      ],
+      "source": "Published in Player's Handbook, page(s) 106.",
+      "link": "https://iws.mx/dnd/?view=power749"
+    },
+    {
+      "id": "power10702",
+      "title": "Arrow of the Savior",
+      "className": "Ranger",
+      "level": 6,
+      "type": "Encounter",
+      "description": "Your arrow saves a falling friend by pinning him or her to a nearby wall, or presenting a sudden handhold.",
+      "traits": "Martial",
+      "action": "Immediate Interrupt",
+      "range": "Ranged weapon",
+      "rows": [
+        "Requirement: You must be wielding a bow or a crossbow.",
+        "Trigger: A creature in range falls and has a wall or floor within 1 square of it",
+        "Target: The triggering creature",
+        "Effect: The creature can attempt a saving throw to avoid falling farther. If successful, you can slide the creature 1 square to a horizontal surface, or to a vertical surface that the creature now climbs."
+      ],
+      "source": "Published in Dragon Magazine 383, page(s) 50.",
+      "link": "https://iws.mx/dnd/?view=power10702"
+    },
+    {
+      "id": "power4396",
+      "title": "Battle Runner",
+      "className": "Ranger",
+      "level": 6,
+      "type": "Daily",
+      "description": "You move with astonishing speed, making it hard for your foes to track your movement.",
+      "traits": "Martial, Stance",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the stance ends, you can run a number of squares equal to your speed + 4, instead of your speed + 2, and you do not grant combat advantage from running."
+      ],
+      "source": "Published in Martial Power, page(s) 48.",
+      "link": "https://iws.mx/dnd/?view=power4396"
+    },
+    {
+      "id": "power4397",
+      "title": "Boundless Energy",
+      "className": "Ranger",
+      "level": 6,
+      "type": "Encounter",
+      "description": "You call upon your inner strength to persevere.",
+      "traits": "Martial",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You roll an Endurance check and dislike the result",
+        "Prerequisite: You must be proficient in Endurance.",
+        "Effect: Reroll the Endurance check. You decide whether to make the reroll before the DM announces the result."
+      ],
+      "source": "Published in Martial Power, page(s) 48.",
+      "link": "https://iws.mx/dnd/?view=power4397"
+    },
+    {
+      "id": "power9354",
+      "title": "Death Threat",
+      "className": "Ranger",
+      "level": 6,
+      "type": "Encounter",
+      "description": "You bring down your quarry and then fix your hunter eyes on another foe",
+      "traits": "Martial",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You reduce your quarry to 0 hit points",
+        "Effect: Choose one enemy within 5 squares of you. You designate that enemy as your quarry, and you gain combat advantage against it until the end of your next turn"
+      ],
+      "source": "Published in Dragon Magazine 377, page(s) 71.",
+      "link": "https://iws.mx/dnd/?view=power9354"
+    },
+    {
+      "id": "power924",
+      "title": "Evade Ambush",
+      "className": "Ranger",
+      "level": 6,
+      "type": "Daily",
+      "description": "You are the eyes and ears of the group, always alert for the telltale signs of an ambush.",
+      "traits": "Martial",
+      "action": "No Action",
+      "range": "Ranged sight",
+      "rows": [
+        "Effect: At the start of a surprise round in which any allies are surprised, use this power to allow a number of allies equal to your Wisdom to avoid being surprised."
+      ],
+      "source": "Published in Player's Handbook, page(s) 107.",
+      "link": "https://iws.mx/dnd/?view=power924"
+    },
+    {
+      "id": "power10622",
+      "title": "Healing Herbs",
+      "className": "Ranger",
+      "level": 6,
+      "type": "Daily",
+      "description": "You aid a wounded companion by quickly applying a poultice of healing herbs.",
+      "traits": "Healing, Martial",
+      "action": "Minor Action",
+      "range": "Melee touch",
+      "rows": [
+        "Target: One ally",
+        "Effect: You make a Medicine check. The target regains hit points equal to half the result of your check. The target can make a saving throw against one poison effect on him or her that a save can end."
+      ],
+      "source": "Published in Martial Power 2, page(s) 37.",
+      "link": "https://iws.mx/dnd/?view=power10622"
+    },
+    {
+      "id": "power13607",
+      "title": "Healing Lore",
+      "className": "Ranger",
+      "level": 6,
+      "type": "Daily",
+      "description": "The primal power you call upon allows access to the deepest reserves of strength.",
+      "traits": "Healing, Primal",
+      "action": "Minor Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Target: You or one ally in the burst",
+        "Effect: The target can spend a healing surge."
+      ],
+      "source": "Published in Heroes of the Forgotten Kingdoms, page(s) 164.",
+      "link": "https://iws.mx/dnd/?view=power13607"
+    },
+    {
+      "id": "power10623",
+      "title": "Off-Hand Defense",
+      "className": "Ranger",
+      "level": 6,
+      "type": "Daily",
+      "description": "You keep your off-hand weapon ready to block enemy attacks.",
+      "traits": "Martial, Stance",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the stance ends, you gain a +1 power bonus to AC while you are conscious and wielding two melee weapons. If you do not make an off-hand attack during your turn, the bonus is instead +2 until the start of your next turn."
+      ],
+      "source": "Published in Martial Power 2, page(s) 37.",
+      "link": "https://iws.mx/dnd/?view=power10623"
+    },
+    {
+      "id": "power4400",
+      "title": "Serpentine Dodge",
+      "className": "Ranger",
+      "level": 6,
+      "type": "Encounter",
+      "description": "You snake past your enemies, weaving so that they have a hard time making a follow-up attack against you.",
+      "traits": "Martial",
+      "action": "Move Action",
+      "range": "Personal",
+      "rows": [
+        "Requirement: You must be within 2 squares of at least two enemies.",
+        "Effect: You can shift a number of squares equal to 1 + your Wisdom. Until the end of your next turn, you gain a power bonus to all defenses equal to the number of enemies you were adjacent to at any time during this shift."
+      ],
+      "source": "Published in Martial Power, page(s) 48.",
+      "link": "https://iws.mx/dnd/?view=power4400"
+    },
+    {
+      "id": "power925",
+      "title": "Skilled Companion",
+      "className": "Ranger",
+      "level": 6,
+      "type": "Daily",
+      "description": "Your allies benefit from the things that you have learned.",
+      "traits": "Martial",
+      "action": "Minor Action",
+      "range": "Ranged 10",
+      "rows": [
+        "Target: One ally",
+        "Effect: Choose a skill in which you are proficient but the target is not. Until the end of the encounter, the target gains a power bonus to checks with that skill equal to your Wisdom. The target must see or hear you to gain this bonus when making a check."
+      ],
+      "source": "Published in Player's Handbook, page(s) 107.",
+      "link": "https://iws.mx/dnd/?view=power925"
+    },
+    {
+      "id": "power10624",
+      "title": "Stealthy Escape",
+      "className": "Ranger",
+      "level": 6,
+      "type": "Daily",
+      "description": "You slip into the shadows, too smoothly for anyone to notice.",
+      "traits": "Martial",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Prerequisite: You must be proficient in Stealth.",
+        "Trigger: You make a Stealth check and dislike the result",
+        "Effect: Reroll the Stealth check with a bonus equal to your Wisdom. You can use the higher of the two rolls. If the second result is lower than the first, you do not expend this power."
+      ],
+      "source": "Published in Martial Power 2, page(s) 37.",
+      "link": "https://iws.mx/dnd/?view=power10624"
+    },
+    {
+      "id": "power13626",
+      "title": "Step of Morning Mist",
+      "className": "Ranger",
+      "level": 6,
+      "type": "Daily",
+      "description": "A magical mist wraps around you, letting you cross the battlefield in the blink of an eye, then clinging to you as a protective shroud.",
+      "traits": "Primal, Teleportation",
+      "action": "Move Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You teleport up to 5 squares, then gain a +5 power bonus to all defenses until the end of your next turn."
+      ],
+      "source": "Published in Heroes of the Forgotten Kingdoms, page(s) 189.",
+      "link": "https://iws.mx/dnd/?view=power13626"
+    },
+    {
+      "id": "power13609",
+      "title": "Thorn Ward",
+      "className": "Ranger",
+      "level": 6,
+      "type": "Daily",
+      "description": "A shimmering tangle of briars appears before you. It seems harmless, but as a foe moves through it, the briars lash out like a living creature.",
+      "traits": "Primal, Zone",
+      "action": "Minor Action",
+      "range": "Area burst 1 within 10 squares",
+      "rows": [
+        "Effect: The burst creates a zone that lasts until the end of the encounter. Any enemy that ends its turn in the zone takes damage equal to your Wisdom.",
+        "Move Action: You move the zone up to 5 squares."
+      ],
+      "source": "Published in Heroes of the Forgotten Kingdoms, page(s) 164.",
+      "link": "https://iws.mx/dnd/?view=power13609"
+    },
+    {
+      "id": "power748",
+      "title": "Weave Through the Fray",
+      "className": "Ranger",
+      "level": 6,
+      "type": "Encounter",
+      "description": "You dodge through the thick of the fight, denying your foes a chance to pin you down in one spot.",
+      "traits": "Martial",
+      "action": "Immediate Interrupt",
+      "range": "Personal",
+      "rows": [
+        "Trigger: An enemy moves adjacent to you",
+        "Effect: You can shift a number of squares equal to your Wisdom."
+      ],
+      "source": "Published in Player's Handbook, page(s) 108.",
+      "link": "https://iws.mx/dnd/?view=power748"
+    },
+    {
+      "id": "power10636",
+      "title": "Agile Escape",
+      "className": "Ranger",
+      "level": 10,
+      "type": "Encounter",
+      "description": "Nothing can slow you down.",
+      "traits": "Martial",
+      "action": "Immediate Interrupt",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You are hit by an attack that makes you slowed, immobilized, restrained, or dazed",
+        "Effect: You gain a +4 power bonus to all defenses against the triggering attack."
+      ],
+      "source": "Published in Martial Power 2, page(s) 39.",
+      "link": "https://iws.mx/dnd/?view=power10636"
+    },
+    {
+      "id": "power9357",
+      "title": "Blood of the Fallen",
+      "className": "Ranger",
+      "level": 10,
+      "type": "Daily",
+      "description": "Your triumph is like a balm to you",
+      "traits": "Healing, Martial",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You reduce your quarry to 0 hit points",
+        "Effect: You regain hit points equal to your healing surge value + your Strength"
+      ],
+      "source": "Published in Dragon Magazine 377, page(s) 71.",
+      "link": "https://iws.mx/dnd/?view=power9357"
+    },
+    {
+      "id": "power10705",
+      "title": "Defensive Volley",
+      "className": "Ranger",
+      "level": 10,
+      "type": "Encounter",
+      "description": "Your swift arrow weakens an enemy's attack.",
+      "traits": "Martial",
+      "action": "Immediate Reaction",
+      "range": "Ranged weapon",
+      "rows": [
+        "Requirement: You must be wielding a bow or a crossbow.",
+        "Trigger: An ally is hit by an attack",
+        "Target: The triggering ally",
+        "Effect: You reduce the damage the target takes by your Dexterity plus half your level."
+      ],
+      "source": "Published in Dragon Magazine 383, page(s) 50.",
+      "link": "https://iws.mx/dnd/?view=power10705"
+    },
+    {
+      "id": "power926",
+      "title": "Expeditious Stride",
+      "className": "Ranger",
+      "level": 10,
+      "type": "Encounter",
+      "description": "Like a gazelle, you startle allies and enemies alike with your sudden swiftness.",
+      "traits": "Martial",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the end of your next turn, your speed increases by 4, and when you shift, you can shift 1 additional square."
+      ],
+      "source": "Published in Player's Handbook, page(s) 108.",
+      "link": "https://iws.mx/dnd/?view=power926"
+    },
+    {
+      "id": "power13610",
+      "title": "Eyes of the Owl",
+      "className": "Ranger",
+      "level": 10,
+      "type": "Daily",
+      "description": "The spirits of the night grant you enhanced senses.",
+      "traits": "Primal",
+      "action": "Minor Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Target: You and each ally in the burst",
+        "Effect: Each target gains both darkvision and a +2 power bonus to Perception checks until the end of the encounter."
+      ],
+      "source": "Published in Heroes of the Forgotten Kingdoms, page(s) 165.",
+      "link": "https://iws.mx/dnd/?view=power13610"
+    },
+    {
+      "id": "power13611",
+      "title": "Hunter's Thorn Trap",
+      "className": "Ranger",
+      "level": 10,
+      "type": "Encounter",
+      "description": "Your primal magic forms invisible thorns that lurk just below the surface of the ground. When a foe steps on their location, they erupt to rend and tear flesh.",
+      "traits": "Primal, Zone",
+      "action": "Minor Action",
+      "range": "Ranged 10",
+      "rows": [
+        "Target: One square",
+        "Effect: The target becomes a zone that lasts until the end of the encounter or until an enemy enters it. Without a Perception check (DC 10 + your level + your Wisdom), your enemies notice neither the zone nor your use of this power. When an enemy enters the zone, the enemy takes 5 + your Wisdom damage, and it is immobilized until the end of your next turn."
+      ],
+      "source": "Published in Heroes of the Forgotten Kingdoms, page(s) 166.",
+      "link": "https://iws.mx/dnd/?view=power13611"
+    },
+    {
+      "id": "power4412",
+      "title": "Hunting Party",
+      "className": "Ranger",
+      "level": 10,
+      "type": "Daily",
+      "description": "You're not about to give up with a simple miss.",
+      "traits": "Martial, Stance",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the stance ends, each time you miss your quarry with an attack, you can choose an ally within 5 squares of the quarry. If that ally hits the quarry before the start of your next turn, the ally's attack deals extra damage equal to your Hunter's Quarry damage."
+      ],
+      "source": "Published in Martial Power, page(s) 50.",
+      "link": "https://iws.mx/dnd/?view=power4412"
+    },
+    {
+      "id": "power217",
+      "title": "Open the Range",
+      "className": "Ranger",
+      "level": 10,
+      "type": "Daily",
+      "description": "You keep your distance from an approaching adversary, backpedaling easily away from him.",
+      "traits": "Martial",
+      "action": "Immediate Interrupt",
+      "range": "Personal",
+      "rows": [
+        "Trigger: An enemy moves adjacent to you",
+        "Effect: You can shift 1 square and then move a number of squares equal to 1 + your Wisdom. You can't end your move adjacent to the triggering enemy."
+      ],
+      "source": "Published in Player's Handbook, page(s) 109.",
+      "link": "https://iws.mx/dnd/?view=power217"
+    },
+    {
+      "id": "power10637",
+      "title": "Padfoot Advance",
+      "className": "Ranger",
+      "level": 10,
+      "type": "Encounter",
+      "description": "You glide over the ground like a stalking cat.",
+      "traits": "Martial",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the end of your turn, you don't take a penalty to Stealth checks for moving, and if you don't hit with an attack while you are hidden, you remain hidden."
+      ],
+      "source": "Published in Martial Power 2, page(s) 39.",
+      "link": "https://iws.mx/dnd/?view=power10637"
+    },
+    {
+      "id": "power4413",
+      "title": "Prime Shift",
+      "className": "Ranger",
+      "level": 10,
+      "type": "Daily",
+      "description": "Always in motion, you dart in for the shot before spinning away.",
+      "traits": "Martial, Stance",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the stance ends, you can shift a number of squares equal to your Wisdom as a move action whenever you hit an enemy with a ranged attack that has the bonus from the Prime Shot class feature."
+      ],
+      "source": "Published in Martial Power, page(s) 50.",
+      "link": "https://iws.mx/dnd/?view=power4413"
+    },
+    {
+      "id": "power10638",
+      "title": "Resume the Hunt",
+      "className": "Ranger",
+      "level": 10,
+      "type": "Encounter",
+      "description": "You drop a foe and then sprint away in search of the next fight.",
+      "traits": "Martial",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You reduce an enemy to 0 hit points",
+        "Effect: You move your speed. You don't provoke opportunity attacks for leaving a square at the start of this movement. Until the end of your next turn, you gain a +2 bonus to all defenses."
+      ],
+      "source": "Published in Martial Power 2, page(s) 39.",
+      "link": "https://iws.mx/dnd/?view=power10638"
+    },
+    {
+      "id": "power13627",
+      "title": "Root Gate",
+      "className": "Ranger",
+      "level": 10,
+      "type": "Daily",
+      "description": "At your command, great roots threaded with primal power burrow through the ground around you, closing the space between two points on the battlefield.",
+      "traits": "Primal, Teleportation, Zone",
+      "action": "Minor Action",
+      "range": "Close burst 10",
+      "rows": [
+        "Effect: You create two zones, each one in an unoccupied square in the burst. The zones last until the end of the encounter. When you or any of your allies enters either of the zones, that character can teleport to the other zone as a free action, as long as the destination zone is unoccupied."
+      ],
+      "source": "Published in Heroes of the Forgotten Kingdoms, page(s) 190.",
+      "link": "https://iws.mx/dnd/?view=power13627"
+    },
+    {
+      "id": "power4415",
+      "title": "Shed the Mark",
+      "className": "Ranger",
+      "level": 10,
+      "type": "At-Will",
+      "description": "Your enemies can't keep track of your fast movements.",
+      "traits": "Martial",
+      "action": "Move Action",
+      "range": "Personal",
+      "rows": [
+        "Requirement: You must be marked.",
+        "Effect: The marked condition ends, and you can shift 1 square."
+      ],
+      "source": "Published in Martial Power, page(s) 50.",
+      "link": "https://iws.mx/dnd/?view=power4415"
+    },
+    {
+      "id": "power718",
+      "title": "Undaunted Stride",
+      "className": "Ranger",
+      "level": 10,
+      "type": "Daily",
+      "description": "You expertly navigate through difficult terrain.",
+      "traits": "Martial, Stance",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Your movement is not hindered by difficult terrain."
+      ],
+      "source": "Published in Player's Handbook, page(s) 109.",
+      "link": "https://iws.mx/dnd/?view=power718"
+    },
+    {
+      "id": "power13612",
+      "title": "Verdant Flames",
+      "className": "Ranger",
+      "level": 10,
+      "type": "Daily",
+      "description": "Eldritch green flames wrap around your enemies, hampering their ability to defend themselves or hide from you.",
+      "traits": "Fire, Primal, Zone",
+      "action": "Minor Action",
+      "range": "Area burst 1 within 10 squares",
+      "rows": [
+        "Effect: The burst creates a zone that lasts until the end of the encounter. Enemies grant combat advantage and take a –5 penalty to Stealth checks while in the zone. Any enemy that ends its turn in the zone takes fire damage equal to your Wisdom.",
+        "Move Action: You move the zone up to 5 squares."
+      ],
+      "source": "Published in Heroes of the Forgotten Kingdoms, page(s) 166.",
+      "link": "https://iws.mx/dnd/?view=power13612"
+    },
+    {
+      "id": "power10639",
+      "title": "Weathered Resilience",
+      "className": "Ranger",
+      "level": 10,
+      "type": "Daily",
+      "description": "Each setback, stumble, or wound bolsters your determination to succeed.",
+      "traits": "Martial, Stance",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the stance ends, you gain resistance to all damage equal to your Wisdom while you are bloodied."
+      ],
+      "source": "Published in Martial Power 2, page(s) 39.",
+      "link": "https://iws.mx/dnd/?view=power10639"
+    }
+  ]
+}

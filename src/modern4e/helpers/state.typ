@@ -1,0 +1,1 @@
+#let defaultAbilityFormattingEnabled = state("defaultAbilityFormattingEnabled", true)

@@ -1,0 +1,273 @@
+<!doctype html>
+<!-- THROWAWAY PROTOTYPE: Which printed layout makes nine utility powers easiest to choose and reference?
+     Three variants on this page, switchable via ?variant=A|B|C. No book files are changed.
+     Power text is copied from utility-arcane.typ; purpose labels and summaries are editorial aids. -->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Utility powers · layout prototype</title>
+<style>
+  * { box-sizing: border-box; }
+  :root { --ink: #202e33; --muted: #53666b; --rule: #aebfc2; --paper: #f5f8f7; --daily: #354cad; --encounter: #9b3d2c; }
+  body { margin: 0; background: #dce3e2; color: var(--ink); font: 15px/1.4 system-ui, sans-serif; }
+  .workbench { width: min(960px, calc(100% - 40px)); margin: 28px auto 18px; display: flex; gap: 24px; align-items: start; }
+  .workbench p { margin: 4px 0; max-width: 690px; color: #46595e; font-size: 13px; }
+  .eyebrow { font-size: 10px; letter-spacing: .16em; text-transform: uppercase; font-weight: 750; }
+  .print { margin-left: auto; flex-shrink: 0; border: 1px solid #819195; background: transparent; padding: 9px 13px; border-radius: 4px; color: var(--ink); cursor: pointer; }
+  .sheet { width: 230mm; min-height: 277mm; margin: 0 auto 28px; background: var(--paper); padding: 10mm; position: relative; box-shadow: 0 3px 20px #20323420; font: 9pt/1.32 "Rokkitt", Georgia, serif; display: flex; flex-direction: column; }
+  .running { display: flex; justify-content: space-between; border-bottom: 1px solid var(--ink); padding-bottom: 5px; font: 7pt system-ui, sans-serif; letter-spacing: .1em; text-transform: uppercase; }
+  h1 { font: 900 28pt/.98 "Alfa Slab One", Georgia, serif; letter-spacing: -.04em; margin: 15px 0 7px; }
+  .chapter-line { display: flex; align-items: baseline; gap: 14px; margin: 0 0 17px; border-bottom: 2px solid var(--ink); padding-bottom: 9px; }
+  .chapter-line strong { font: 700 12pt Georgia, serif; }
+  .chapter-line span { font: 7.5pt system-ui, sans-serif; color: var(--muted); }
+  .body { flex: 1; }
+  .footer { display: flex; justify-content: space-between; margin-top: 16px; padding-top: 7px; border-top: 1px solid var(--rule); font: 7pt system-ui, sans-serif; color: var(--muted); }
+  h2,h3,p { margin: 0; }
+  .power-title { font-size: 12pt; line-height: 1.1; font-weight: bold; }
+  .use { white-space: nowrap; font: 700 7pt system-ui, sans-serif; color: var(--daily); }
+  .use.encounter { color: var(--encounter); }
+  .meta { font: 7pt/1.5 system-ui, sans-serif; color: var(--muted); }
+  .flavor { font-style: italic; color: #5d6d71; font-size: 8pt; line-height: 1.3; }
+  .rules p + p { margin-top: 4px; }
+  .rules strong { font-weight: 750; }
+  .ability { background: #dbe6e4; padding: 0 2px; font-weight: bold; }
+  .card-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; align-items: start; }
+  .cards-column { display: grid; gap: 3mm; }
+  .card { break-inside: avoid; border-top: 3px solid var(--rule); padding: 6px 10px 7px; background: #eaf0ef; }
+  .card .meta { border-bottom: 1px solid #c8d3d3; margin: 4px 0; padding-bottom: 4px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .card .flavor { margin-top: 8px; padding-top: 5px; border-top: 1px solid #d4dedc; }
+  .card.daily { border-color: var(--daily); }
+  .card.encounter { border-color: var(--encounter); }
+  .entry { display: grid; grid-template-columns: 40mm 1fr; gap: 6mm; padding: 4px 0; border-bottom: 1px solid var(--rule); break-inside: avoid; }
+  .entry .meta { margin-top: 3px; font-size: 6.5pt; line-height: 1.3; }
+  .entry .rules { font-size: 8.5pt; line-height: 1.25; }
+  .entry .flavor { margin-top: 4px; font-size: 7.5pt; line-height: 1.2; }
+  .entry .use { display: block; margin-top: 4px; }
+  .group { margin-top: 6px; }
+  .group:first-child { margin-top: 0; }
+  .group h2 { background: #e2eae8; padding: 4px 7px; font: 700 8pt system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
+  .index { width: 100%; border-collapse: collapse; font-size: 8pt; margin-bottom: 17px; }
+  .index th { text-align: left; background: #253b41; color: white; font: 600 7pt system-ui, sans-serif; padding: 6px; }
+  .index td { padding: 4px 6px; border-bottom: 1px solid #c6d3d2; vertical-align: top; }
+  .index tr:nth-child(odd) td { background: #e9efed; }
+  .index a { color: inherit; text-decoration: none; font-weight: bold; }
+  .index a:hover { text-decoration: underline; }
+  .index .number { color: var(--muted); font: 7pt system-ui, sans-serif; padding-right: 5px; }
+  .reference { columns: 2; column-gap: 6mm; font-size: 8.5pt; line-height: 1.25; }
+  .reference article { break-inside: avoid; margin-bottom: 8px; }
+  .reference .power-title { font-size: 10pt; margin-bottom: 4px; }
+  .reference .number { color: var(--muted); font: 7pt system-ui, sans-serif; margin-right: 5px; }
+  .reference .meta { margin-bottom: 4px; }
+  .reference .flavor { margin-top: 3px; font-size: 7.5pt; }
+  .section-label { font: 700 8pt system-ui,sans-serif; text-transform: uppercase; letter-spacing: .12em; margin: 12px 0 9px; }
+  .review { width: min(870px, calc(100% - 40px)); margin: 0 auto 110px; font-size: 13px; color: #46595e; }
+  .review p { margin: 5px 0; }
+  .switcher { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; background: #192d34; color: #fff; padding: 6px; border-radius: 40px; box-shadow: 0 4px 22px #10202840; z-index: 3; gap: 4px; }
+  .switcher button { border: 0; background: transparent; color: inherit; width: 40px; height: 38px; border-radius: 30px; font-size: 19px; cursor: pointer; }
+  .switcher button:hover { background: #395059; }
+  .switcher span { width: 230px; text-align: center; font-size: 12px; }
+  button:focus-visible,a:focus-visible { outline: 2px solid #c48437; outline-offset: 3px; }
+  @media(max-width: 900px) { .sheet { width: calc(100% - 24px); padding: 22px; } h1 { font-size: 25pt; } }
+  @media(max-width: 600px) { .cards { grid-template-columns: 1fr; } .entry { grid-template-columns: 1fr; gap: 6px; } .reference { columns: 1; } .sheet { min-height: auto; } .chapter-line { align-items: start; flex-direction: column; gap: 4px; } .index { font-size: 7pt; } .index td,.index th { padding: 5px 3px; } .workbench { gap: 8px; } }
+  @page { size: 230mm 277mm; margin: 0; }
+  @media print { body { background: white; } .workbench,.switcher,.review { display:none; } .sheet { margin:0; box-shadow:none; width:230mm; min-height:277mm; padding:10mm; print-color-adjust:exact; -webkit-print-color-adjust:exact; } a { text-decoration:none; } }
+</style>
+<header class="workbench">
+  <div><div class="eyebrow">Throwaway layout study · DND4</div><p id="intent"></p></div>
+  <button class="print" onclick="window.print()">Print / PDF</button>
+</header>
+<main class="sheet" id="sheet">
+  <div class="running"><span>Utility powers / Non-combat</span><span>Arcane · 2</span></div>
+  <h1>Arcane utility powers</h1>
+  <div class="chapter-line"><strong>Level 2</strong><span>Out of combat · Arcane power source · Nine powers from the sample page</span></div>
+  <div class="body" id="content"></div>
+  <footer class="footer"><span>DND4 · Death to CBLoader Edition</span><span>Layout study · 153</span></footer>
+</main>
+<aside class="review"><p id="tradeoff"></p><p>All nine powers retain their complete rules and flavor text. Purpose groups and table summaries are navigation aids. Other level 2 powers continue on the next page. This HTML uses the book’s 230 × 277 mm page size; final font metrics and pagination need checking in Typst.</p></aside>
+<nav class="switcher" aria-label="Prototype variants">
+  <button id="prev" aria-label="Previous variant">←</button><span id="label" aria-live="polite"></span><button id="next" aria-label="Next variant">→</button>
+</nav>
+<script>
+const powers = [
+  {
+    "title": "Arcane Springboard",
+    "description": "Infusing a small square of prepared cloth with arcane energy, you create a bouncy surface that launches any who step on it.",
+    "traits": "Arcane, Conjuration",
+    "range": "Ranged 10",
+    "action": "Standard Action",
+    "type": "Daily",
+    "target": null,
+    "trigger": null,
+    "rows": [
+      "*Effect*: You conjure an arcane springboard in a square within range. The springboard lasts until the end of your next turn. You or any ally who enters the square can jump a number of squares equal to your Wisdom. The distance jumped does not count toward a character's movement. A character can benefit from this conjuration's effect only once per turn.",
+      "*Sustain Minor*: The conjuration persists."
+    ]
+  },
+  {
+    "title": "Shadowy Figurine",
+    "description": "Your magic creates an ebon figurine cloaked in shadow. Tendrils of dim light stretch from the figurine and envelop you and your allies in obscurity.",
+    "traits": "Arcane, Conjuration",
+    "range": "Ranged 10",
+    "action": "Minor Action",
+    "type": "Daily",
+    "target": null,
+    "trigger": null,
+    "rows": [
+      "*Effect*: You conjure a shadowy figurine in a square within range. The figurine lasts until the end of your next turn. While within 2 squares of the figurine, you and your allies gain partial concealment and a +4 power bonus to Stealth checks.",
+      "*Sustain Minor*: The figurine persists until the end of your next turn, and you can move it up to 5 squares."
+    ]
+  },
+  {
+    "title": "Bardic Lore",
+    "description": "Using your magic to sharpen your memory, you recall an important piece of information that you picked up in a story or a song you heard in your travels.",
+    "traits": "Arcane",
+    "range": "Personal",
+    "action": "Minor Action",
+    "type": "Daily",
+    "target": null,
+    "trigger": null,
+    "rows": [
+      "*Effect*: You make a knowledge check, but instead of rolling a d20, resolve the check as if you had rolled a 20."
+    ]
+  },
+  {
+    "title": "Spider Scuttle",
+    "description": "Shadowy spider legs sprout from your body, allowing you to scuttle across the ground and easily scale a nearby surface.",
+    "traits": "Arcane",
+    "range": "Personal",
+    "action": "Free Action",
+    "type": "Encounter",
+    "target": null,
+    "trigger": null,
+    "rows": [
+      "*Effect*: Until the end of your next turn, you gain a climb speed equal to your speed, and you can move at that speed when you crawl."
+    ]
+  },
+  {
+    "title": "Wrathful Aspect",
+    "description": "Your eyes glow with power, and a cloak of red fire swirls around you as you channel your wrath into a terrifying display.",
+    "traits": "Arcane, Fear, Fire",
+    "range": "Personal",
+    "action": "Minor Action",
+    "type": "Encounter",
+    "target": null,
+    "trigger": null,
+    "rows": [
+      "*Effect*: Until the end of your next turn, you gain a +5 power bonus to Intimidate checks."
+    ]
+  },
+  {
+    "title": "Eyes of the Spider Queen",
+    "description": "A cluster of dull black eyes appears on your forehead, giving you enhanced sight in darkness and the power to see the unseen.",
+    "traits": "Arcane",
+    "range": "Personal",
+    "action": "Minor Action",
+    "type": "Daily",
+    "target": null,
+    "trigger": null,
+    "rows": [
+      "*Effect*: Until the end of the encounter, you gain darkvision and can see invisible objects and creatures that are adjacent to you."
+    ]
+  },
+  {
+    "title": "Glib Tongue",
+    "description": "You weave magic into your words, defusing a dangerous situation through the fine art of diplomacy.",
+    "traits": "Arcane",
+    "range": "Personal",
+    "action": "Minor Action",
+    "type": "Encounter",
+    "target": null,
+    "trigger": null,
+    "rows": [
+      "*Effect*: You gain a +5 power bonus to Diplomacy checks and a +2 power bonus to charm attack rolls until the end of your next turn."
+    ]
+  },
+  {
+    "title": "Spectral Image",
+    "description": "You make a complex illusion of a creature or an object to fool your enemies.",
+    "traits": "Arcane, Illusion",
+    "range": "Ranged 10",
+    "action": "Minor Action",
+    "type": "Encounter",
+    "target": null,
+    "trigger": null,
+    "rows": [
+      "*Effect*: The illusion of a creature or an object up to Medium size appears in an unoccupied square within range. It can make sounds and can move within its square, but it cannot leave it. Each of its defenses is 10. The illusion lasts until the end of the encounter, until an attack hits it, or until a creature touches it or moves through it.",
+      "*Insight Check*: DC 15 + one-half your level + your Intelligence allows a creature to determine that the image is an illusion."
+    ]
+  },
+  {
+    "title": "Feather Fall",
+    "description": "You or a creature you choose falls gently, like a feather.",
+    "traits": "Arcane",
+    "range": "Ranged 10",
+    "action": "Free Action",
+    "type": "Daily",
+    "target": "The triggering creature",
+    "trigger": "You fall, or a creature within 10 squares of you falls",
+    "rows": [
+      "*Effect*: The target takes no damage from the fall, and consequently does not fall prone at the end of it."
+    ]
+  }
+];
+const aids = [
+  ['Crossing & movement','Create a jump point'],
+  ['Concealment & deception','Concealment; +4 Stealth'],
+  ['Knowledge & perception','Knowledge check as a rolled 20'],
+  ['Crossing & movement','Climb and crawl at your speed'],
+  ['Social influence','+5 Intimidate'],
+  ['Knowledge & perception','Darkvision; see adjacent invisible creatures'],
+  ['Social influence','+5 Diplomacy; +2 charm attacks'],
+  ['Concealment & deception','Create a sound-making illusion'],
+  ['Crossing & movement','Prevent fall damage and falling prone'],
+];
+powers.forEach((p,i)=>{p.id=i+1; p.group=aids[i][0]; p.summary=aids[i][1];});
+const escapeHtml = s => s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
+const rich = s => escapeHtml(s).replace(/\*([^*]+)\*/g,'<strong>$1</strong>').replace(/\b(Wisdom|Intelligence)\b/g,'<span class="ability">$1</span>');
+const use = p => `<span class="use ${p.type.toLowerCase()}">${p.type}</span>`;
+const rules = p => `<div class="rules">${p.trigger?`<p><strong>Trigger:</strong> ${rich(p.trigger)}</p>`:''}${p.rows.map(r=>`<p>${rich(r)}</p>`).join('')}</div>`;
+const keywords = p => p.traits.split(', ').filter(t=>t!=='Arcane').join(' · ');
+const meta = p => `<span>${p.action}</span><span>${p.range}</span>${p.target?`<span>Target: ${p.target}</span>`:''}${keywords(p)?`<span>${keywords(p)}</span>`:''}`;
+function VariantA() {
+  const card = p => `<article class="card ${p.type.toLowerCase()}"><div class="card-top"><h2 class="power-title">${p.title}</h2>${use(p)}</div><div class="meta">${meta(p)}</div>${rules(p)}<p class="flavor">${p.description}</p></article>`;
+  return `<div class="cards"><div class="cards-column">${powers.slice(0,4).map(card).join('')}</div><div class="cards-column">${powers.slice(4).map(card).join('')}</div></div>`;
+}
+function VariantB() {
+  return ['Crossing & movement','Concealment & deception','Knowledge & perception','Social influence'].map(g=>`<section class="group"><h2>${g}</h2>${powers.filter(p=>p.group===g).map(p=>`<article class="entry"><div><h3 class="power-title">${p.title}</h3>${use(p)}<div class="meta">${meta(p).replaceAll('</span><span>','</span><br><span>')}</div></div><div>${rules(p)}<p class="flavor">${p.description}</p></div></article>`).join('')}</section>`).join('');
+}
+function VariantC() {
+  return `<table class="index"><thead><tr><th>Power</th><th>Use it to…</th><th>Frequency</th><th>Action / Range</th></tr></thead><tbody>${powers.map(p=>`<tr><td><a href="#power-${p.id}"><span class="number">${String(p.id).padStart(2,'0')}</span>${p.title}</a></td><td>${p.summary}</td><td>${use(p)}</td><td>${p.action.replace(' Action','')} / ${p.range}</td></tr>`).join('')}</tbody></table><h2 class="section-label">Full power descriptions</h2><div class="reference">${powers.map(p=>`<article id="power-${p.id}"><h3 class="power-title"><span class="number">${String(p.id).padStart(2,'0')}</span>${p.title}</h3>${(keywords(p)||p.target)?`<div class="meta">${[keywords(p),p.target?`Target: ${p.target}`:''].filter(Boolean).join(' · ')}</div>`:''}${rules(p)}<p class="flavor">${p.description}</p></article>`).join('')}</div>`;
+}
+const variants = {
+  A: { name:'Lean power cards',render:VariantA,intent:'A · Keep familiar power cards, give mechanics priority, and move flavor to the end.',tradeoff:'Best direct replacement. Frequency has a consistent position and a named color accent. Shared level/source move to the page header. Each card keeps everything needed to use the power together.' },
+  B: { name:'Grouped field guide',render:VariantB,intent:'B · Browse by the problem you are trying to solve, with rules in a wide reading column.',tradeoff:'Best for discovery. Purpose headings make the chapter easier to browse; the left rail separates activation details from effects. Costs more vertical space and requires editorial grouping.' },
+  C: { name:'Compare, then reference',render:VariantC,intent:'C · Compare every option in a compact table, then read the complete descriptions below.',tradeoff:'Best for choosing a power. Benefits, frequency, and activation line up across all nine options. The lower section retains all rules; using a power requires looking between the table and its numbered entry.' },
+};
+let variant = new URL(location.href).searchParams.get('variant') || 'A';
+if (!variants[variant]) variant = 'A';
+function render() {
+  const v = variants[variant];
+  document.getElementById('content').innerHTML = v.render();
+  document.getElementById('intent').textContent = v.intent;
+  document.getElementById('tradeoff').textContent = v.tradeoff;
+  document.getElementById('label').textContent = `${variant} / 3 · ${v.name}`;
+  document.getElementById('sheet').dataset.variant = variant;
+  document.title = `${variant} · ${v.name} · Utility layout prototype`;
+}
+function cycle(direction) {
+  const keys = Object.keys(variants);
+  variant = keys[(keys.indexOf(variant)+direction+keys.length)%keys.length];
+  const url = new URL(location.href); url.searchParams.set('variant',variant); url.hash='';
+  history.replaceState({},'',url); render(); window.scrollTo(0,0);
+}
+document.getElementById('prev').onclick=()=>cycle(-1);
+document.getElementById('next').onclick=()=>cycle(1);
+document.addEventListener('keydown',e=>{
+  if(e.target.closest('input,textarea,select,[contenteditable]')) return;
+  if(e.key==='ArrowLeft'||e.key==='ArrowRight') {e.preventDefault();cycle(e.key==='ArrowRight'?1:-1);}
+});
+window.addEventListener('popstate',()=>{variant=new URL(location.href).searchParams.get('variant')||'A';if(!variants[variant])variant='A';render();});
+render();
+</script>
+</html>

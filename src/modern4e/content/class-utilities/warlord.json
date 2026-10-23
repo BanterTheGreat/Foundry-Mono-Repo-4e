@@ -1,0 +1,976 @@
+{
+  "powers": [
+    {
+      "id": "power4549",
+      "title": "Adaptive Stratagem",
+      "className": "Warlord",
+      "level": 2,
+      "type": "Encounter",
+      "description": "Your companion has the ability and the will. You provide the plan and the motivation.",
+      "traits": "Martial",
+      "action": "Minor Action",
+      "range": "Close burst 10",
+      "rows": [
+        "Target: One ally in the burst",
+        "Effect: Until the end of your next turn, the ally gains his or her choice of a power bonus to damage rolls equal to your Intelligence or a power bonus to saving throws equal to your Charisma.",
+        "Resourceful Presence: The ally gains both bonuses."
+      ],
+      "source": "Published in Martial Power, page(s) 104.",
+      "link": "https://iws.mx/dnd/?view=power4549"
+    },
+    {
+      "id": "power1137",
+      "title": "Aid the Injured",
+      "className": "Warlord",
+      "level": 2,
+      "type": "Encounter",
+      "description": "Your presence is both a comfort and an inspiration to an ally.",
+      "traits": "Healing, Martial",
+      "action": "Standard Action",
+      "range": "Melee 1",
+      "rows": [
+        "Target: You or one ally",
+        "Effect: The target can spend a healing surge."
+      ],
+      "source": "Published in Player's Handbook, page(s) 146, Class Compendium.",
+      "link": "https://iws.mx/dnd/?view=power1137"
+    },
+    {
+      "id": "power4675",
+      "title": "Covering Maneuver",
+      "className": "Warlord",
+      "level": 2,
+      "type": "Encounter",
+      "description": "Responding to your expertise, one ally steps in to cover another's recovery.",
+      "traits": "Martial",
+      "action": "Free Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Trigger: You or an ally within 5 squares of you uses second wind",
+        "Target: One ally in the burst other than the triggering character",
+        "Effect: The target can shift 1 square as a free action. In addition, an enemy in the burst is marked by the target until the end of the enemy's next turn."
+      ],
+      "source": "Published in Martial Power, page(s) 105.",
+      "link": "https://iws.mx/dnd/?view=power4675"
+    },
+    {
+      "id": "power1310",
+      "title": "Crescendo of Violence",
+      "className": "Warlord",
+      "level": 2,
+      "type": "Encounter",
+      "description": "When one of your allies delivers a telling blow on a foe, you offer encouragement to help your friend finish the fight.",
+      "traits": "Martial",
+      "action": "Immediate Reaction",
+      "range": "Ranged 5",
+      "rows": [
+        "Trigger: An ally within 5 squares of you scores a critical hit.",
+        "Target: The triggering ally",
+        "Effect: The target gains temporary hit points equal to your Charisma."
+      ],
+      "source": "Published in Player's Handbook, page(s) 146, Class Compendium.",
+      "link": "https://iws.mx/dnd/?view=power1310"
+    },
+    {
+      "id": "power11721",
+      "title": "Cunning Adjustment",
+      "className": "Warlord",
+      "level": 2,
+      "type": "Encounter",
+      "description": "Your strike creates an opening your ally seizes to his or her advantage.",
+      "traits": "Martial",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You hit an enemy with a melee attack.",
+        "Target: One ally adjacent to you",
+        "Effect: The target shifts 3 squares as a free action and gains combat advantage against the triggering enemy until the end of your next turn."
+      ],
+      "source": "Published in Dragon Magazine 384, page(s) 54.",
+      "link": "https://iws.mx/dnd/?view=power11721"
+    },
+    {
+      "id": "power10916",
+      "title": "Encouraging Boost",
+      "className": "Warlord",
+      "level": 2,
+      "type": "Encounter",
+      "description": "You shout words of encouragement, giving your ally a necessary boost.",
+      "traits": "Healing, Martial",
+      "action": "Minor Action",
+      "range": "Ranged 5",
+      "rows": [
+        "Target: One ally",
+        "Effect: The target can use its second wind and regain additional hit points equal to your Charisma."
+      ],
+      "source": "Published in Martial Power 2, page(s) 86.",
+      "link": "https://iws.mx/dnd/?view=power10916"
+    },
+    {
+      "id": "power10917",
+      "title": "Flash of Insight",
+      "className": "Warlord",
+      "level": 2,
+      "type": "Encounter",
+      "description": "Your weapon slips past a foe's guard, allowing you to adjust your attack and throw the creature off balance.",
+      "traits": "Martial",
+      "action": "Free Action",
+      "range": "Melee weapon",
+      "rows": [
+        "Trigger: An enemy is hit by your at-will weapon attack",
+        "Target: The enemy you hit",
+        "Effect: You knock the target prone or push the target a number of squares equal to your Intelligence or Wisdom."
+      ],
+      "source": "Published in Martial Power 2, page(s) 86.",
+      "link": "https://iws.mx/dnd/?view=power10917"
+    },
+    {
+      "id": "power10918",
+      "title": "Hasty Alert",
+      "className": "Warlord",
+      "level": 2,
+      "type": "Daily",
+      "description": "Your shout warns comrades of imminent danger in time for them to react.",
+      "traits": "Martial",
+      "action": "No Action",
+      "range": "Close burst 10",
+      "rows": [
+        "Trigger: A surprise round begins, and you are conscious",
+        "Target: You and each surprised ally in the burst",
+        "Effect: Each target is not surprised and gains a bonus to AC and Reflex equal to your Intelligence until the end of your next turn."
+      ],
+      "source": "Published in Martial Power 2, page(s) 86.",
+      "link": "https://iws.mx/dnd/?view=power10918"
+    },
+    {
+      "id": "power4550",
+      "title": "Heroic Effort (Warlord)",
+      "className": "Warlord",
+      "level": 2,
+      "type": "Daily",
+      "description": "On the brink of exhaustion, you still manage to rally your allies.",
+      "traits": "Martial",
+      "action": "Minor Action",
+      "range": "Close burst 10",
+      "rows": [
+        "Requirement: You must be bloodied.",
+        "Target: Each ally in the burst",
+        "Effect: The target can add your Charisma to damage rolls until you are no longer bloodied. Also, you gain temporary hit points equal to your level + your Charisma."
+      ],
+      "source": "Published in Martial Power, page(s) 105.",
+      "link": "https://iws.mx/dnd/?view=power4550"
+    },
+    {
+      "id": "power4551",
+      "title": "Inspired Belligerence",
+      "className": "Warlord",
+      "level": 2,
+      "type": "Encounter",
+      "description": "You lead your allies to use your enemies' defensive openings to deliver more punishment.",
+      "traits": "Martial",
+      "action": "Minor Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Target: One enemy in the burst granting combat advantage to you or an ally",
+        "Effect: Until the start of your next turn, all your allies gain combat advantage against the target.",
+        "Inspiring Presence: Until the start of your next turn, your allies add your Charisma to damage rolls against the target."
+      ],
+      "source": "Published in Martial Power, page(s) 105.",
+      "link": "https://iws.mx/dnd/?view=power4551"
+    },
+    {
+      "id": "power1139",
+      "title": "Knight's Move",
+      "className": "Warlord",
+      "level": 2,
+      "type": "Encounter",
+      "description": "With a sharp wave of your arm, you direct one of your allies to a more tactically advantageous position.",
+      "traits": "Martial",
+      "action": "Move Action",
+      "range": "Ranged 10",
+      "rows": [
+        "Target: One ally",
+        "Effect: The target can take a move action as a free action."
+      ],
+      "source": "Published in Player's Handbook, page(s) 146, Class Compendium.",
+      "link": "https://iws.mx/dnd/?view=power1139"
+    },
+    {
+      "id": "power11605",
+      "title": "Martial Cascade",
+      "className": "Warlord",
+      "level": 2,
+      "type": "Encounter",
+      "description": "Your daring attack inspires an ally to follow your lead.",
+      "traits": "Martial",
+      "action": "Free Action",
+      "range": "Close burst 10",
+      "rows": [
+        "Trigger: An enemy is hit by your attack",
+        "Target: Each ally in the burst who can see you",
+        "Effect: Until the end of your next turn, any target who spends an action point to make an attack against the triggering enemy gains a +2 power bonus to the attack roll."
+      ],
+      "source": "Published in Dragon Magazine 384, page(s) 51.",
+      "link": "https://iws.mx/dnd/?view=power11605"
+    },
+    {
+      "id": "power4552",
+      "title": "Motivated Recovery",
+      "className": "Warlord",
+      "level": 2,
+      "type": "Daily",
+      "description": "At your encouragement, an injured ally exploits an opportunity to shine.",
+      "traits": "Martial",
+      "action": "Minor Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Target: One bloodied ally in the burst",
+        "Effect: The target regains the use of second wind and gains a power bonus to his or her next attack roll equal to your Charisma."
+      ],
+      "source": "Published in Martial Power, page(s) 105.",
+      "link": "https://iws.mx/dnd/?view=power4552"
+    },
+    {
+      "id": "power2531",
+      "title": "Reckless Opportunity",
+      "className": "Warlord",
+      "level": 2,
+      "type": "Encounter",
+      "description": "You hurl an impulsive command at an ally, hoping that he understands it properly.",
+      "traits": "Martial",
+      "action": "Minor Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Targets: One enemy in the burst and you or one ally in the burst",
+        "Effect: The targets make opposed initiative checks. The winner gains combat advantage against the loser until the end of the winner's next turn.",
+        "Bravura Presence: You or your ally gains a power bonus to the initiative check equal to your Charisma."
+      ],
+      "source": "Published in Martial Power, page(s) 105.",
+      "link": "https://iws.mx/dnd/?view=power2531"
+    },
+    {
+      "id": "power2555",
+      "title": "Repositioning Command",
+      "className": "Warlord",
+      "level": 2,
+      "type": "Daily",
+      "description": "With a single word from you, your allies shift to more advantageous positions.",
+      "traits": "Martial",
+      "action": "Move Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Targets: You and each ally in the burst",
+        "Effect: Each target can shift 1 square.",
+        "Tactical Presence: Increase the burst to 10."
+      ],
+      "source": "Published in Martial Power, page(s) 105.",
+      "link": "https://iws.mx/dnd/?view=power2555"
+    },
+    {
+      "id": "power4554",
+      "title": "Rub Some Dirt On It",
+      "className": "Warlord",
+      "level": 2,
+      "type": "Encounter",
+      "description": "With a wisecrack, you give your comrade a little courage despite his wounds.",
+      "traits": "Martial",
+      "action": "Minor Action",
+      "range": "Melee touch",
+      "rows": [
+        "Target: You if you're bloodied or one bloodied ally",
+        "Effect: The target gains temporary hit points equal to 5 + your Charisma."
+      ],
+      "source": "Published in Martial Power, page(s) 105.",
+      "link": "https://iws.mx/dnd/?view=power4554"
+    },
+    {
+      "id": "power1136",
+      "title": "Shake It Off",
+      "className": "Warlord",
+      "level": 2,
+      "type": "Encounter",
+      "description": "You offer strong words of encouragement to offset a debilitating effect.",
+      "traits": "Martial",
+      "action": "Minor Action",
+      "range": "Ranged 10",
+      "rows": [
+        "Target: You or one ally",
+        "Effect: The target makes a saving throw with a power bonus equal to your Charisma."
+      ],
+      "source": "Published in Player's Handbook, page(s) 146, Class Compendium.",
+      "link": "https://iws.mx/dnd/?view=power1136"
+    },
+    {
+      "id": "power10919",
+      "title": "Spur to Action",
+      "className": "Warlord",
+      "level": 2,
+      "type": "Daily",
+      "description": "Sensing your enemies' advantage, you whisper quick orders that spur your allies into action.",
+      "traits": "Martial",
+      "action": "No Action",
+      "range": "Close burst 10",
+      "rows": [
+        "Trigger: You roll initiative",
+        "Target: You and each ally in the burst",
+        "Effect: Each target can reroll his or her initiative but must use the second result."
+      ],
+      "source": "Published in Martial Power 2, page(s) 86.",
+      "link": "https://iws.mx/dnd/?view=power10919"
+    },
+    {
+      "id": "power10930",
+      "title": "Anchor the Line",
+      "className": "Warlord",
+      "level": 6,
+      "type": "Encounter",
+      "description": "You help an ally stand or guide a friend back into formation.",
+      "traits": "Martial",
+      "action": "Minor Action",
+      "range": "Melee touch",
+      "rows": [
+        "Target: One ally",
+        "Effect: The target stands up, or you slide the target 1 square."
+      ],
+      "source": "Published in Martial Power 2, page(s) 88.",
+      "link": "https://iws.mx/dnd/?view=power10930"
+    },
+    {
+      "id": "power10",
+      "title": "Back to Back",
+      "className": "Warlord",
+      "level": 6,
+      "type": "Daily",
+      "description": "You take heart from the ally guarding your back.",
+      "traits": "Martial, Stance",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You assume the back to back stance. Until the stance ends, while you are adjacent to an ally, you and the ally gain a +1 bonus to attack rolls."
+      ],
+      "source": "Published in Dragon Magazine 384, page(s) 51.",
+      "link": "https://iws.mx/dnd/?view=power10"
+    },
+    {
+      "id": "power7386",
+      "title": "Dragon's Tenacity",
+      "className": "Warlord",
+      "level": 6,
+      "type": "Encounter",
+      "description": "You and your companions become as fierce and indomitable as dragons, striking harder the more you all are hurt.",
+      "traits": "Martial",
+      "action": "Minor Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Target: You and each bloodied ally in the burst",
+        "Effect: Each target gains a +2 power bonus to attack rolls until the end of your next turn.",
+        "Special: If you are a dragonborn, the bonus to attack rolls is +3."
+      ],
+      "source": "Published in PH Heroes: Series 2.",
+      "link": "https://iws.mx/dnd/?view=power7386"
+    },
+    {
+      "id": "power4560",
+      "title": "Encouraging Stance",
+      "className": "Warlord",
+      "level": 6,
+      "type": "Daily",
+      "description": "With a daunting bearing, you unleash a litany of oaths as you attack, pushing your allies onward.",
+      "traits": "Martial, Stance",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the stance ends, when you hit with a melee attack, choose a bloodied ally within 5 squares of you. That ally gains temporary hit points equal to 5 + your Charisma.",
+        "Bravura Presence: You can choose to grant the temporary hit points when you miss with a melee attack, but that grants the target of the attack combat advantage against you until the end of your next turn."
+      ],
+      "source": "Published in Martial Power, page(s) 106.",
+      "link": "https://iws.mx/dnd/?view=power4560"
+    },
+    {
+      "id": "power10931",
+      "title": "Form a Line",
+      "className": "Warlord",
+      "level": 6,
+      "type": "Daily",
+      "description": "You raise your fist in the air, calling your allies to form a defensive front at your position.",
+      "traits": "Martial",
+      "action": "Standard Action",
+      "range": "Close wall 8",
+      "rows": [
+        "Effect: You designate a wall of defensive ground that lasts until the end of your next turn. The wall is 1 square high, and it must include a square you occupy. You and any ally within the wall gain a +1 power bonus to AC, or a +2 power bonus to AC while adjacent to an ally who is also within the wall.",
+        "Sustain Minor: The wall persists."
+      ],
+      "source": "Published in Martial Power 2, page(s) 88.",
+      "link": "https://iws.mx/dnd/?view=power10931"
+    },
+    {
+      "id": "power4561",
+      "title": "Forward Observer",
+      "className": "Warlord",
+      "level": 6,
+      "type": "At-Will",
+      "description": "Discerning the proper angle of fire, you point out concealed enemies to your allies.",
+      "traits": "Martial",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Choose one enemy you can see. Until the end of your next turn, any ally who can see or hear you doesn't take the normal penalty to attack rolls for cover or concealment when attacking that enemy (the penalties for superior cover and total concealment still apply)."
+      ],
+      "source": "Published in Martial Power, page(s) 107.",
+      "link": "https://iws.mx/dnd/?view=power4561"
+    },
+    {
+      "id": "power11724",
+      "title": "Get Down!",
+      "className": "Warlord",
+      "level": 6,
+      "type": "Encounter",
+      "description": "Your barked order draws attention to you long enough for a covered or concealed ally to hide.",
+      "traits": "Martial",
+      "action": "Minor Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Target: One ally",
+        "Effect: The target can shift half his or her speed as a free action to a square where he or she has cover or concealment and make a Stealth check with a +5 power bonus to become hidden."
+      ],
+      "source": "Published in Dragon Magazine 384, page(s) 54.",
+      "link": "https://iws.mx/dnd/?view=power11724"
+    },
+    {
+      "id": "power1141",
+      "title": "Guide the Charge",
+      "className": "Warlord",
+      "level": 6,
+      "type": "Encounter",
+      "description": "You direct your ally's charge, allowing him or her to strike a deadly blow that pushes the foe backward.",
+      "traits": "Martial",
+      "action": "Immediate Interrupt",
+      "range": "Ranged 10",
+      "rows": [
+        "Trigger: An ally within 10 squares of you charges a creature.",
+        "Target: The triggering ally",
+        "Effect: If the charge attack hits, the target gains a bonus to the damage roll equal to your Intelligence, and he or she pushes the charged creature up to 2 squares. The target can then shift up to 2 squares to a square adjacent to the creature."
+      ],
+      "source": "Published in Player's Handbook, page(s) 147, Class Compendium.",
+      "link": "https://iws.mx/dnd/?view=power1141"
+    },
+    {
+      "id": "power4562",
+      "title": "Guileful Switch",
+      "className": "Warlord",
+      "level": 6,
+      "type": "Encounter",
+      "description": "You spring a trap on your opponents, surprising them with your clever stratagem.",
+      "traits": "Martial",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Requirement: You must use this power during your turn before you take any other actions.",
+        "Effect: You and one ally you can see switch places in the initiative order. Your turn ends when you use this power, and the ally takes his or her next turn immediately, even if he or she has already acted during this round. You then act when your ally would have acted."
+      ],
+      "source": "Published in Martial Power, page(s) 107.",
+      "link": "https://iws.mx/dnd/?view=power4562"
+    },
+    {
+      "id": "power3244",
+      "title": "Inspiring Reaction",
+      "className": "Warlord",
+      "level": 6,
+      "type": "Encounter",
+      "description": "As soon as an ally is wounded, you spring forward to keep your friend standing.",
+      "traits": "Healing, Martial",
+      "action": "Immediate Reaction",
+      "range": "Melee 1",
+      "rows": [
+        "Trigger: You or an ally adjacent to you takes damage.",
+        "Target: The character who takes the damage",
+        "Effect: The target can spend a healing surge and regains additional hit points equal to your Charisma."
+      ],
+      "source": "Published in Player's Handbook, page(s) 147, Class Compendium.",
+      "link": "https://iws.mx/dnd/?view=power3244"
+    },
+    {
+      "id": "power10932",
+      "title": "Invigorating Shout",
+      "className": "Warlord",
+      "level": 6,
+      "type": "Daily",
+      "description": "You call to an ally with words of inspiration, pushing your comrade to fight on.",
+      "traits": "Healing, Martial",
+      "action": "Minor Action",
+      "range": "Ranged 5",
+      "rows": [
+        "Target: One ally",
+        "Effect: The target regains one healing surge and also regains hit points equal to his or her healing surge value."
+      ],
+      "source": "Published in Martial Power 2, page(s) 88.",
+      "link": "https://iws.mx/dnd/?view=power10932"
+    },
+    {
+      "id": "power10126",
+      "title": "Leader's Intercession",
+      "className": "Warlord",
+      "level": 6,
+      "type": "Encounter",
+      "description": "Brash impulse places you in the attack's path to spare an ally from harm.",
+      "traits": "Healing, Martial",
+      "action": "Immediate Interrupt",
+      "range": "Melee touch",
+      "rows": [
+        "Trigger: An attack hits an adjacent ally",
+        "Target: The triggering ally",
+        "Effect: You and the target switch places. The attack hits you instead, and you or the target can spend a healing surge."
+      ],
+      "source": "Published in Dragon Magazine 381, page(s) 32.",
+      "link": "https://iws.mx/dnd/?view=power10126"
+    },
+    {
+      "id": "power11611",
+      "title": "Martial Vigor",
+      "className": "Warlord",
+      "level": 6,
+      "type": "Encounter",
+      "description": "When your attack connects, you experience a burst of confidence your allies can share if they follow your lead.",
+      "traits": "Healing, Martial",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You hit an enemy with a martial melee or ranged attack",
+        "Effect: You can spend a healing surge. Until the start of your next turn, any ally that hits the same target with an attack gained from an action point can also spend a healing surge."
+      ],
+      "source": "Published in Dragon Magazine 384, page(s) 51.",
+      "link": "https://iws.mx/dnd/?view=power11611"
+    },
+    {
+      "id": "power4563",
+      "title": "Phalanx Formation",
+      "className": "Warlord",
+      "level": 6,
+      "type": "Daily",
+      "description": "You and your allies link shields for better defense.",
+      "traits": "Martial, Stance",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Requirement: You must be using a shield.",
+        "Effect: Until the stance ends, whenever you are adjacent to any ally who is using a shield, you and the ally gain a +1 power bonus to AC and Reflex."
+      ],
+      "source": "Published in Martial Power, page(s) 107.",
+      "link": "https://iws.mx/dnd/?view=power4563"
+    },
+    {
+      "id": "power6007",
+      "title": "Polearm Vault",
+      "className": "Warlord",
+      "level": 6,
+      "type": "Encounter",
+      "description": "You fly over the heads of friend or foe with a vault leveraged by your polearm.",
+      "traits": "Martial, Weapon",
+      "action": "Move Action",
+      "range": "Personal",
+      "rows": [
+        "Requirement: You must be wielding a polearm.",
+        "Effect: Move 4 squares, ignoring difficult and hindering terrain. You can use this power to move through an enemy's space, but doing so provokes opportunity attacks when leaving a square adjacent to the enemy as normal."
+      ],
+      "source": "Published in Dragon Magazine 369, page(s) 54.",
+      "link": "https://iws.mx/dnd/?view=power6007"
+    },
+    {
+      "id": "power1143",
+      "title": "Quick Step",
+      "className": "Warlord",
+      "level": 6,
+      "type": "Daily",
+      "description": "You spur an ally to move faster.",
+      "traits": "Martial",
+      "action": "Minor Action",
+      "range": "Ranged 10",
+      "rows": [
+        "Target: One ally",
+        "Effect: The target gains a +2 power bonus to speed until the end of the encounter."
+      ],
+      "source": "Published in Player's Handbook, page(s) 147, Class Compendium.",
+      "link": "https://iws.mx/dnd/?view=power1143"
+    },
+    {
+      "id": "power10933",
+      "title": "Reassuring Gesture",
+      "className": "Warlord",
+      "level": 6,
+      "type": "Encounter",
+      "description": "Verbal reassurance is good, but a hearty clap on the shoulder is better.",
+      "traits": "Martial",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You use inspiring word on your ally",
+        "Effect: Your inspiring word also grants its target temporary hit points equal to 5 + your Wisdom or Charisma."
+      ],
+      "source": "Published in Martial Power 2, page(s) 88.",
+      "link": "https://iws.mx/dnd/?view=power10933"
+    },
+    {
+      "id": "power10934",
+      "title": "Reorient the Axis",
+      "className": "Warlord",
+      "level": 6,
+      "type": "Encounter",
+      "description": "You realize that your allies need to adjust their formation, so you order several to move to new locations.",
+      "traits": "Martial",
+      "action": "Move Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Target: Each ally in the burst",
+        "Effect: Each target can shift a number of squares equal to your Intelligence as a free action."
+      ],
+      "source": "Published in Martial Power 2, page(s) 88.",
+      "link": "https://iws.mx/dnd/?view=power10934"
+    },
+    {
+      "id": "power4564",
+      "title": "Rousing Words",
+      "className": "Warlord",
+      "level": 6,
+      "type": "Encounter",
+      "description": "As your ally's spirit wanes, you manage to pick just the right words to inspire him.",
+      "traits": "Healing, Martial",
+      "action": "Minor Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Target: You or one ally in the burst",
+        "Effect: The target can spend two healing surges.",
+        "Inspiring Presence: The target regains additional hit points equal to 5 + your Charisma."
+      ],
+      "source": "Published in Martial Power, page(s) 107.",
+      "link": "https://iws.mx/dnd/?view=power4564"
+    },
+    {
+      "id": "power10128",
+      "title": "Stand Fast",
+      "className": "Warlord",
+      "level": 6,
+      "type": "Encounter",
+      "description": "You and your companions form an immovable wall to withstand the enemy tide.",
+      "traits": "Martial",
+      "action": "Minor Action",
+      "range": "Close burst 3",
+      "rows": [
+        "Target: You and any ally in the burst",
+        "Effect: The target cannot be knocked prone, pushed, pulled, or slid until the end of your next turn. Also until the end of your next turn, when you use inspiring word on an ally, the ally can stand up as a free action."
+      ],
+      "source": "Published in Dragon Magazine 381, page(s) 32.",
+      "link": "https://iws.mx/dnd/?view=power10128"
+    },
+    {
+      "id": "power1140",
+      "title": "Stand Tough",
+      "className": "Warlord",
+      "level": 6,
+      "type": "Daily",
+      "description": "You fortify your allies with a few words of encouragement.",
+      "traits": "Healing, Martial",
+      "action": "Minor Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Targets: You and each ally in the burst",
+        "Effect: Each target regains hit points equal to 10 + your Charisma."
+      ],
+      "source": "Published in Player's Handbook, page(s) 147, Class Compendium.",
+      "link": "https://iws.mx/dnd/?view=power1140"
+    },
+    {
+      "id": "power4565",
+      "title": "Tactical Supervision",
+      "className": "Warlord",
+      "level": 6,
+      "type": "Encounter",
+      "description": "You lend your expertise to your ally to help her strike a foe.",
+      "traits": "Martial",
+      "action": "Immediate Interrupt",
+      "range": "Close burst 10",
+      "rows": [
+        "Trigger: An ally makes a basic attack, a bull rush, or a charge within 10 squares of you",
+        "Target: The triggering ally in the burst",
+        "Effect: The target gains a power bonus to the attack roll equal to your Intelligence."
+      ],
+      "source": "Published in Martial Power, page(s) 107.",
+      "link": "https://iws.mx/dnd/?view=power4565"
+    },
+    {
+      "id": "power2533",
+      "title": "Tempting Target",
+      "className": "Warlord",
+      "level": 6,
+      "type": "Daily",
+      "description": "You invite attack and distract your foes in the process.",
+      "traits": "Healing, Martial, Stance",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the stance ends, you grant combat advantage to all enemies, but any enemies adjacent to you grant combat advantage to your allies.",
+        "Bravura Presence: When an enemy adjacent to you becomes bloodied or is reduced to 0 hit points, you regain hit points equal to your Charisma."
+      ],
+      "source": "Published in Martial Power, page(s) 107.",
+      "link": "https://iws.mx/dnd/?view=power2533"
+    },
+    {
+      "id": "power4573",
+      "title": "Bolstering Shout",
+      "className": "Warlord",
+      "level": 10,
+      "type": "Encounter",
+      "description": "Your war cry quickly rallies your allies.",
+      "traits": "Healing, Martial",
+      "action": "Minor Action",
+      "range": "Close burst 10",
+      "rows": [
+        "Target: Each ally in the burst",
+        "Effect: Until the end of your next turn, each target regains additional hit points equal to your Charisma when he or she uses second wind. Each target can also choose to use second wind as a minor action but gain no bonus to defenses from it."
+      ],
+      "source": "Published in Martial Power, page(s) 109.",
+      "link": "https://iws.mx/dnd/?view=power4573"
+    },
+    {
+      "id": "power10950",
+      "title": "Covering Fire",
+      "className": "Warlord",
+      "level": 10,
+      "type": "Encounter",
+      "description": "You use the confusion generated by another attack to send an ally quickly into position.",
+      "traits": "Martial",
+      "action": "Immediate Interrupt",
+      "range": "Close burst 10",
+      "rows": [
+        "Trigger: An ally makes an area or a close attack that targets an ally within 10 squares of you",
+        "Target: One ally in the burst targeted by the triggering attack",
+        "Effect: The target shifts a number of squares equal to 3 + your Wisdom or Charisma as a free action."
+      ],
+      "source": "Published in Martial Power 2, page(s) 89.",
+      "link": "https://iws.mx/dnd/?view=power10950"
+    },
+    {
+      "id": "power1112",
+      "title": "Defensive Rally",
+      "className": "Warlord",
+      "level": 10,
+      "type": "Daily",
+      "description": "You address your comrades with instructions to help them prevail.",
+      "traits": "Healing, Martial",
+      "action": "Standard Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Target: Each ally in the burst",
+        "Effect: Each target can spend a healing surge and make a saving throw against one effect that a save can end. In addition, each target gains a +2 power bonus to all defenses until the end of your next turn."
+      ],
+      "source": "Published in Player's Handbook, page(s) 149, Class Compendium.",
+      "link": "https://iws.mx/dnd/?view=power1112"
+    },
+    {
+      "id": "power10132",
+      "title": "Draw Their Eyes",
+      "className": "Warlord",
+      "level": 10,
+      "type": "Encounter",
+      "description": "You fix the enemy in your eyes, devoting yourself to defeating the foe at any cost.",
+      "traits": "Martial",
+      "action": "Move Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Move your speed. At the end of your movement, you grant combat advantage to and are marked by one enemy adjacent to you until the end of your next turn. While you are marked by this enemy, you gain a power bonus to your damage rolls against the enemy equal to your Strength."
+      ],
+      "source": "Published in Dragon Magazine 381, page(s) 33.",
+      "link": "https://iws.mx/dnd/?view=power10132"
+    },
+    {
+      "id": "power1147",
+      "title": "Ease Suffering",
+      "className": "Warlord",
+      "level": 10,
+      "type": "Daily",
+      "description": "Your nearby presence is enough to soften the plight of your allies.",
+      "traits": "Martial",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the end of the encounter, allies ignore ongoing damage on any turn they start adjacent to you, neither taking the damage nor making saving throws to end it."
+      ],
+      "source": "Published in Player's Handbook, page(s) 149, Class Compendium.",
+      "link": "https://iws.mx/dnd/?view=power1147"
+    },
+    {
+      "id": "power4574",
+      "title": "Instant Planning",
+      "className": "Warlord",
+      "level": 10,
+      "type": "Daily",
+      "description": "Your instinctive reactions to the situation turn the tide in your favor",
+      "traits": "Martial",
+      "action": "Minor Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Target: You and each ally in the burst",
+        "Effect: Until the end of your next turn, every target gains your choice of a power bonus to attack rolls equal to your Charisma, a power bonus to speed equal to your Charisma, or a power bonus to all defenses equal to your Intelligence.",
+        "Resourceful Presence: You can grant a different bonus to each target."
+      ],
+      "source": "Published in Martial Power, page(s) 109.",
+      "link": "https://iws.mx/dnd/?view=power4574"
+    },
+    {
+      "id": "power11727",
+      "title": "Judicious Action",
+      "className": "Warlord",
+      "level": 10,
+      "type": "Daily",
+      "description": "An ally's efforts are renewed against those you oppose.",
+      "traits": "Martial",
+      "action": "Immediate Reaction",
+      "range": "Close burst 5",
+      "rows": [
+        "Trigger: An ally in the burst misses all targets with an attack when using an action gained by spending an action point",
+        "Target: The triggering ally",
+        "Effect: The target gains 1 action point. Spending this action point does not count against the limits on action point expenditures for this encounter. If the target does not spend the action point before the end of the encounter, it is lost."
+      ],
+      "source": "Published in Dragon Magazine 384, page(s) 55.",
+      "link": "https://iws.mx/dnd/?view=power11727"
+    },
+    {
+      "id": "power2566",
+      "title": "Marked Revelation",
+      "className": "Warlord",
+      "level": 10,
+      "type": "Encounter",
+      "description": "With a fake command and your ally's practiced response, you identify that ally as a danger that your enemies should heed.",
+      "traits": "Martial",
+      "action": "Standard Action",
+      "range": "Close burst 3",
+      "rows": [
+        "Target: Each unmarked enemy in the burst",
+        "Effect: The targets are marked by an ally of your choice until the end of your next turn.",
+        "Tactical Presence: Increase the burst to 5."
+      ],
+      "source": "Published in Martial Power, page(s) 109.",
+      "link": "https://iws.mx/dnd/?view=power2566"
+    },
+    {
+      "id": "power4575",
+      "title": "Rallying Deflection",
+      "className": "Warlord",
+      "level": 10,
+      "type": "Encounter",
+      "description": "You catch the arrow on your shield and send your ally forward to meet the shooter.",
+      "traits": "Martial",
+      "action": "Immediate Interrupt",
+      "range": "Personal",
+      "rows": [
+        "Trigger: An enemy hits you with a ranged attack",
+        "Requirement: You must be using a shield.",
+        "Effect: Reduce the attack's damage by one-half your level. One ally within 5 squares of the attacker can charge the attacker as a free action."
+      ],
+      "source": "Published in Martial Power, page(s) 109.",
+      "link": "https://iws.mx/dnd/?view=power4575"
+    },
+    {
+      "id": "power10951",
+      "title": "Strength of Conviction",
+      "className": "Warlord",
+      "level": 10,
+      "type": "Daily",
+      "description": "You create an area of calm even as violence rages around you.",
+      "traits": "Healing, Martial",
+      "action": "Minor Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Target: Each ally in the burst",
+        "Effect: Each target can spend a healing surge. Until the end of the encounter, your healing powers restore the maximum number of hit points possible."
+      ],
+      "source": "Published in Martial Power 2, page(s) 90.",
+      "link": "https://iws.mx/dnd/?view=power10951"
+    },
+    {
+      "id": "power4576",
+      "title": "Strider Stance",
+      "className": "Warlord",
+      "level": 10,
+      "type": "Daily",
+      "description": "You stand ready to change position quickly or to point out opportunities for your allies to do so.",
+      "traits": "Martial, Stance",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the stance ends, once on each of your turns you can use a move action to shift 1 square and gain a +2 power bonus to damage rolls until the start of your next turn, or you can use a move action to allow an ally within 5 squares of you to do the same as a free action."
+      ],
+      "source": "Published in Martial Power, page(s) 109.",
+      "link": "https://iws.mx/dnd/?view=power4576"
+    },
+    {
+      "id": "power10952",
+      "title": "Tactical Orders",
+      "className": "Warlord",
+      "level": 10,
+      "type": "Encounter",
+      "description": "You bark orders at your allies, commanding them to move into formation.",
+      "traits": "Martial",
+      "action": "Minor Action",
+      "range": "Close burst 3",
+      "rows": [
+        "Target: You and one ally in the burst",
+        "Effect: Each target shifts his or her speed as a free action."
+      ],
+      "source": "Published in Martial Power 2, page(s) 90.",
+      "link": "https://iws.mx/dnd/?view=power10952"
+    },
+    {
+      "id": "power1146",
+      "title": "Tactical Shift",
+      "className": "Warlord",
+      "level": 10,
+      "type": "Daily",
+      "description": "Your mastery of battle tactics and stern commands allow you to move an ally out of harm's way.",
+      "traits": "Martial",
+      "action": "Immediate Interrupt",
+      "range": "Ranged 10",
+      "rows": [
+        "Trigger: An ally is hit by a melee or a ranged attack",
+        "Target: The triggering ally",
+        "Effect: The ally can take a free action to shift a number of squares up to 1 + your Intelligence."
+      ],
+      "source": "Published in Player's Handbook, page(s) 149, Class Compendium.",
+      "link": "https://iws.mx/dnd/?view=power1146"
+    },
+    {
+      "id": "power2565",
+      "title": "Unintended Feint",
+      "className": "Warlord",
+      "level": 10,
+      "type": "Daily",
+      "description": "As your ally misses, you spot an opening that the attack created. You point it out so that your friend can immediately take advantage of it.",
+      "traits": "Martial",
+      "action": "Immediate Reaction",
+      "range": "Close burst 5",
+      "rows": [
+        "Trigger: An ally within 5 squares of you misses with an attack",
+        "Target: The triggering ally in the burst",
+        "Effect: The target can reroll the attack and has combat advantage for it."
+      ],
+      "source": "Published in Martial Power, page(s) 109.",
+      "link": "https://iws.mx/dnd/?view=power2565"
+    },
+    {
+      "id": "power10133",
+      "title": "Warlord's Denial",
+      "className": "Warlord",
+      "level": 10,
+      "type": "Daily",
+      "description": "With your stirring words, you prove that the enemy has no hold on you and your allies.",
+      "traits": "Martial",
+      "action": "Minor Action",
+      "range": "Close burst 2",
+      "rows": [
+        "Target: You and any ally in the burst",
+        "Effect: The target makes a saving throw. Until the end of your next turn, when you use inspiring word on an ally, the ally can make a saving throw."
+      ],
+      "source": "Published in Dragon Magazine 381, page(s) 33.",
+      "link": "https://iws.mx/dnd/?view=power10133"
+    }
+  ]
+}

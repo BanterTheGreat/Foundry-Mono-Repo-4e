@@ -1,0 +1,502 @@
+{
+  "powers": [
+    {
+      "id": "power6991",
+      "title": "Avenger's Resolve",
+      "className": "Avenger",
+      "level": 2,
+      "type": "Encounter",
+      "description": "For a few moments, your faith infuses you with supernatural toughness.",
+      "traits": "Divine",
+      "action": "Immediate Interrupt",
+      "range": "Personal",
+      "rows": [
+        "Trigger: An enemy other than your oath of enmity target hits you",
+        "Effect: You gain resist 5 to all damage until the end of your next turn."
+      ],
+      "source": "Published in Divine Power, page(s) 8.",
+      "link": "https://iws.mx/dnd/?view=power6991"
+    },
+    {
+      "id": "power5336",
+      "title": "Blessing of Vengeance",
+      "className": "Avenger",
+      "level": 2,
+      "type": "Daily",
+      "description": "With the death of your foe, your god grants you a boon.",
+      "traits": "Divine",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: Your oath of enmity target drops to 0 hit points",
+        "Effect: You gain temporary hit points equal to your healing surge value."
+      ],
+      "source": "Published in Player's Handbook 2, page(s) 36.",
+      "link": "https://iws.mx/dnd/?view=power5336"
+    },
+    {
+      "id": "power5337",
+      "title": "Distracting Flare",
+      "className": "Avenger",
+      "level": 2,
+      "type": "Encounter",
+      "description": "Divine light surrounds you, providing a distraction while you slip away unseen.",
+      "traits": "Divine",
+      "action": "Move Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You become invisible and move your speed. You are invisible until the end of the movement."
+      ],
+      "source": "Published in Player's Handbook 2, page(s) 36.",
+      "link": "https://iws.mx/dnd/?view=power5337"
+    },
+    {
+      "id": "power6992",
+      "title": "Enduring Spirit",
+      "className": "Avenger",
+      "level": 2,
+      "type": "Encounter",
+      "description": "The strength of your spirit shines most brightly in adversity.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Requirement: You must be bloodied.",
+        "Effect: You gain a +4 bonus to all defenses until the end of your next turn."
+      ],
+      "source": "Published in Divine Power, page(s) 8.",
+      "link": "https://iws.mx/dnd/?view=power6992"
+    },
+    {
+      "id": "power12456",
+      "title": "Holy Blessing",
+      "className": "Avenger",
+      "level": 2,
+      "type": "Encounter",
+      "description": "Kissing your holy symbol, you momentarily consider your next prey and how best to attack it.",
+      "traits": "Divine",
+      "action": "Free Action",
+      "range": "Close burst 10",
+      "rows": [
+        "Trigger: Your oath of enmity target drops to 0 hit points",
+        "Target: One other enemy within range.",
+        "Effect: You use oath of enmity on the target. Until the end of your next turn, the target grants combat advantage to you."
+      ],
+      "source": "Published in Dragon Magazine 386, page(s) 75.",
+      "link": "https://iws.mx/dnd/?view=power12456"
+    },
+    {
+      "id": "power6993",
+      "title": "Loyal Sanction",
+      "className": "Avenger",
+      "level": 2,
+      "type": "Encounter",
+      "description": "You bless your comrade's efforts to aid you in the defeat of your chosen foe.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Target: One ally in the burst",
+        "Effect: Until the end of your next turn, the target gains a power bonus to damage rolls against your oath of enmity target equal to your Wisdom."
+      ],
+      "source": "Published in Divine Power, page(s) 8.",
+      "link": "https://iws.mx/dnd/?view=power6993"
+    },
+    {
+      "id": "power5338",
+      "title": "Refocus Enmity",
+      "className": "Avenger",
+      "level": 2,
+      "type": "Encounter",
+      "description": "After searching your soul, you realize who your true foe is and swear an oath against it.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Close burst 10",
+      "rows": [
+        "Target: One creature you can see in the burst",
+        "Effect: The target becomes the target of your oath of enmity, replacing the current target."
+      ],
+      "source": "Published in Player's Handbook 2, page(s) 36.",
+      "link": "https://iws.mx/dnd/?view=power5338"
+    },
+    {
+      "id": "power2928",
+      "title": "Resonant Escape",
+      "className": "Avenger",
+      "level": 2,
+      "type": "Encounter",
+      "description": "A quick prayer as you dodge calls forth divine power, which carries you a short distance away.",
+      "traits": "Divine, Teleportation",
+      "action": "Immediate Reaction",
+      "range": "Personal",
+      "rows": [
+        "Trigger: An enemy hits or misses you with a melee attack",
+        "Effect: You teleport 3 squares."
+      ],
+      "source": "Published in Player's Handbook 2, page(s) 36.",
+      "link": "https://iws.mx/dnd/?view=power2928"
+    },
+    {
+      "id": "power6994",
+      "title": "Righteous Pursuit",
+      "className": "Avenger",
+      "level": 2,
+      "type": "Encounter",
+      "description": "Try as your enemy might, there's no escaping your wrath.",
+      "traits": "Divine",
+      "action": "Immediate Reaction",
+      "range": "Personal",
+      "rows": [
+        "Trigger: Your oath of enmity target ends its turn in a square not adjacent to you",
+        "Effect: You shift a number of squares equal to your Wisdom and must end this movement as close to your oath of enmity target as possible."
+      ],
+      "source": "Published in Divine Power, page(s) 8.",
+      "link": "https://iws.mx/dnd/?view=power6994"
+    },
+    {
+      "id": "power6995",
+      "title": "Silver Shadow",
+      "className": "Avenger",
+      "level": 2,
+      "type": "Daily",
+      "description": "You cloak yourself in astral mist, which guards you from harm.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You gain temporary hit points equal to 5 + your level. You also gain concealment, which lasts until you have no temporary hit points."
+      ],
+      "source": "Published in Divine Power, page(s) 8.",
+      "link": "https://iws.mx/dnd/?view=power6995"
+    },
+    {
+      "id": "power3656",
+      "title": "Aspect of Agility",
+      "className": "Avenger",
+      "level": 6,
+      "type": "Encounter",
+      "description": "You move with the speed of the west wind, leaving your foes with little chance of striking you.",
+      "traits": "Divine",
+      "action": "Move Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You shift 5 squares, and you gain a +2 bonus to AC and Reflex until the end of your next turn."
+      ],
+      "source": "Published in Player's Handbook 2, page(s) 37.",
+      "link": "https://iws.mx/dnd/?view=power3656"
+    },
+    {
+      "id": "power7006",
+      "title": "Aspect of Majesty",
+      "className": "Avenger",
+      "level": 6,
+      "type": "Daily",
+      "description": "Your faith fills you with courage and mystically extends the reach of your attacks.",
+      "traits": "Divine, Stance",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the stance ends, you gain a +1 bonus to Will, and your melee reach increases by 1."
+      ],
+      "source": "Published in Divine Power, page(s) 10.",
+      "link": "https://iws.mx/dnd/?view=power7006"
+    },
+    {
+      "id": "power12295",
+      "title": "Cloaked Steps",
+      "className": "Avenger",
+      "level": 6,
+      "type": "Daily",
+      "description": "Shadows cling to you whenever you move, like a lover's embrace.",
+      "traits": "Divine, Stance",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the stance ends, if you move more than 2 squares on your turn, you gain concealment until the start of your next turn."
+      ],
+      "source": "Published in Dragon Magazine 386, page(s) 71.",
+      "link": "https://iws.mx/dnd/?view=power12295"
+    },
+    {
+      "id": "power7698",
+      "title": "Fortifying Chant",
+      "className": "Avenger",
+      "level": 6,
+      "type": "Daily",
+      "description": "You recite holy verses, armoring yourself with the strength of your faith.",
+      "traits": "Divine, Stance",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the stance ends, you gain a +1 bonus to AC and Fortitude. In addition, whenever you reduce your oath of enmity target to 0 hit points, this bonus increases to +4 until the end of your next turn."
+      ],
+      "source": "Published in Divine Power, page(s) 10.",
+      "link": "https://iws.mx/dnd/?view=power7698"
+    },
+    {
+      "id": "power7007",
+      "title": "Harsh Lesson",
+      "className": "Avenger",
+      "level": 6,
+      "type": "Encounter",
+      "description": "You seek penance in the hope that your faults might be corrected.",
+      "traits": "Divine",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You miss every target with an avenger attack power",
+        "Effect: You take 5 damage, and you gain a +2 power bonus to attack rolls until the end of your next turn."
+      ],
+      "source": "Published in Divine Power, page(s) 10.",
+      "link": "https://iws.mx/dnd/?view=power7007"
+    },
+    {
+      "id": "power2933",
+      "title": "Oath of Enduring Wrath",
+      "className": "Avenger",
+      "level": 6,
+      "type": "Daily",
+      "description": "You swear to defeat your enemies, and your god grants you the perseverance to overcome any hindrance.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You gain a +2 power bonus to saving throws until the end of the encounter."
+      ],
+      "source": "Published in Player's Handbook 2, page(s) 37.",
+      "link": "https://iws.mx/dnd/?view=power2933"
+    },
+    {
+      "id": "power3657",
+      "title": "Oath of the Relentless Hunter",
+      "className": "Avenger",
+      "level": 6,
+      "type": "Daily",
+      "description": "You touch an enemy and swear an oath to hunt it to the end of the world. With this oath, you can always find your foe.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Melee touch",
+      "rows": [
+        "Target: One creature",
+        "Effect: Until you use this power on a different target, you can take a standard action to determine the distance and the direction to the target. The distance and the direction are based on a straight line between you and the target, ignoring any barriers. If the target is on a different plane from you, you know which plane but gain no other information."
+      ],
+      "source": "Published in Player's Handbook 2, page(s) 37.",
+      "link": "https://iws.mx/dnd/?view=power3657"
+    },
+    {
+      "id": "power12457",
+      "title": "Prayer of Sacrifice",
+      "className": "Avenger",
+      "level": 6,
+      "type": "Daily",
+      "description": "You are unwilling to fail your god and make a personal sacrifice to help ensure your success with the task at hand.",
+      "traits": "Divine, Stance",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You enter the sacrificial prayer stance. Until the stance ends, when you miss all targets with an encounter attack power, you can choose to take 10 damage that cannot be reduced or negated by any means. If you do so, you regain the use of the encounter attack power."
+      ],
+      "source": "Published in Dragon Magazine 386, page(s) 75.",
+      "link": "https://iws.mx/dnd/?view=power12457"
+    },
+    {
+      "id": "power6934",
+      "title": "Soul Seeker",
+      "className": "Avenger",
+      "level": 6,
+      "type": "Daily",
+      "description": "You call forth a spirit of necromantic hunger, allowing it to harvest the life force of your enemies.",
+      "traits": "Conjuration, Divine, Healing",
+      "action": "Minor Action",
+      "range": "Ranged 10",
+      "rows": [
+        "Effect: A soul-consuming spirit from the land of the dead appears in an unoccupied square within range. The soul seeker counts as an ally for the purpose of flanking. Whenever you reduce an enemy that is adjacent to the soul seeker to 0 hit points or fewer, you heal a number of hit points equal to your Wisdom. If you reduce the target of your oath of enmity to 0 hit points or fewer, you can use your oath of enmity power as a free action against a target adjacent to your soul seeker.",
+        "Sustain Minor: The soul seeker persists and you can move it 5 squares. The soul seeker ignores difficult terrain. The soul seeker vanishes at the end of your turn if it is out of your line of sight."
+      ],
+      "source": "Published in Dragon Magazine 372, page(s) 21.",
+      "link": "https://iws.mx/dnd/?view=power6934"
+    },
+    {
+      "id": "power7008",
+      "title": "Step of Fate",
+      "className": "Avenger",
+      "level": 6,
+      "type": "Daily",
+      "description": "Your world is in motion with your sworn enemy as its center.",
+      "traits": "Divine, Stance",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the stance ends, you can use a free action to shift 1 square as the first action on each of your turns. You can't end this movement farther away from your oath of enmity target than you started."
+      ],
+      "source": "Published in Divine Power, page(s) 10.",
+      "link": "https://iws.mx/dnd/?view=power7008"
+    },
+    {
+      "id": "power5341",
+      "title": "Wrath of the Divine",
+      "className": "Avenger",
+      "level": 6,
+      "type": "Daily",
+      "description": "Suffering a foe's lucky attack, you call on your god to visit your pain upon the one you have sworn to kill.",
+      "traits": "Divine, Radiant",
+      "action": "Immediate Reaction",
+      "range": "Close burst 10",
+      "rows": [
+        "Trigger: An enemy scores a critical hit against you",
+        "Target: Your oath of enmity target in the burst",
+        "Effect: The target takes radiant damage equal to the critical hit's damage."
+      ],
+      "source": "Published in Player's Handbook 2, page(s) 38.",
+      "link": "https://iws.mx/dnd/?view=power5341"
+    },
+    {
+      "id": "power5342",
+      "title": "Avenger's Readiness",
+      "className": "Avenger",
+      "level": 10,
+      "type": "Daily",
+      "description": "As your opponents prepare to strike, you make a sudden move to spoil their plans.",
+      "traits": "Divine",
+      "action": "No Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You roll initiative at the beginning of an encounter",
+        "Effect: You gain a +5 power bonus to the initiative check. You shift 3 squares as a free action when the first creature in the initiative order starts its turn, even if you're surprised."
+      ],
+      "source": "Published in Player's Handbook 2, page(s) 39.",
+      "link": "https://iws.mx/dnd/?view=power5342"
+    },
+    {
+      "id": "power5343",
+      "title": "Channel Endurance",
+      "className": "Avenger",
+      "level": 10,
+      "type": "Encounter",
+      "description": "You focus your inner strength and tap into your god's power to forestall an injury.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You gain resist 5 to all damage until the end of your next turn."
+      ],
+      "source": "Published in Player's Handbook 2, page(s) 39.",
+      "link": "https://iws.mx/dnd/?view=power5343"
+    },
+    {
+      "id": "power10084",
+      "title": "Decaying Presence",
+      "className": "Avenger",
+      "level": 10,
+      "type": "Daily",
+      "description": "Your presence decays your enemy's defenses, allowing your prayers to strike without interference.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Choose one resistance to a damage type possessed by your oath of enmity target. Until you reduce your oath of enmity target to 0 hit points, any enemy adjacent to you does not benefit from any resistance to this damage type."
+      ],
+      "source": "Published in Dragon Magazine 380, page(s) 60.",
+      "link": "https://iws.mx/dnd/?view=power10084"
+    },
+    {
+      "id": "power7019",
+      "title": "Ever Onward",
+      "className": "Avenger",
+      "level": 10,
+      "type": "Daily",
+      "description": "You breathe the words of a restorative prayer. New vigor and swiftness course through you.",
+      "traits": "Divine, Healing",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You can spend a healing surge. In addition, you gain a +2 power bonus to speed until the end of the encounter."
+      ],
+      "source": "Published in Divine Power, page(s) 12.",
+      "link": "https://iws.mx/dnd/?view=power7019"
+    },
+    {
+      "id": "power3658",
+      "title": "Eye of Justice",
+      "className": "Avenger",
+      "level": 10,
+      "type": "Encounter",
+      "description": "Your eyes glow with divine energy, allowing you to spot foes no matter how well they hide.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the end of your next turn, you can see invisible creatures within 5 squares of you."
+      ],
+      "source": "Published in Player's Handbook 2, page(s) 39.",
+      "link": "https://iws.mx/dnd/?view=power3658"
+    },
+    {
+      "id": "power7020",
+      "title": "Leading Step",
+      "className": "Avenger",
+      "level": 10,
+      "type": "Encounter",
+      "description": "After your enemy strikes, you teleport away. An instant later, you bring the enemy after you.",
+      "traits": "Divine, Teleportation",
+      "action": "Immediate Reaction",
+      "range": "Melee 1",
+      "rows": [
+        "Trigger: An enemy adjacent to you damages you",
+        "Target: The triggering enemy",
+        "Effect: You teleport 5 squares and then teleport the target to a square adjacent to you."
+      ],
+      "source": "Published in Divine Power, page(s) 12.",
+      "link": "https://iws.mx/dnd/?view=power7020"
+    },
+    {
+      "id": "power2938",
+      "title": "River of Life",
+      "className": "Avenger",
+      "level": 10,
+      "type": "Daily",
+      "description": "Divine power flows through you, allowing you to shrug off injury after injury.",
+      "traits": "Divine, Healing",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You gain regeneration 5 until the end of the encounter."
+      ],
+      "source": "Published in Player's Handbook 2, page(s) 39.",
+      "link": "https://iws.mx/dnd/?view=power2938"
+    },
+    {
+      "id": "power7021",
+      "title": "Shielding Symbol",
+      "className": "Avenger",
+      "level": 10,
+      "type": "Encounter",
+      "description": "You channel divine power through your holy symbol to shield yourself.",
+      "traits": "Divine, Implement",
+      "action": "Immediate Interrupt",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You are hit by an attack",
+        "Effect: Make a Wisdom attack using your implement. The result is your defense against the triggering attack."
+      ],
+      "source": "Published in Divine Power, page(s) 12.",
+      "link": "https://iws.mx/dnd/?view=power7021"
+    },
+    {
+      "id": "power7022",
+      "title": "Wings of Vengeance",
+      "className": "Avenger",
+      "level": 10,
+      "type": "Encounter",
+      "description": "Ephemeral wings carry you across the battlefield to strike where you are most needed.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the end of your next turn, you gain a fly speed of 7, and you can hover."
+      ],
+      "source": "Published in Divine Power, page(s) 12.",
+      "link": "https://iws.mx/dnd/?view=power7022"
+    }
+  ]
+}

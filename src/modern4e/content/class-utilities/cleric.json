@@ -1,0 +1,827 @@
+{
+  "powers": [
+    {
+      "id": "power9982",
+      "title": "Angelic Witnesses",
+      "className": "Cleric",
+      "level": 2,
+      "type": "Daily",
+      "description": "Your prayers bring the attention of ghostly minor angels, who stand and silently observe you in battle.",
+      "traits": "Conjuration, Divine",
+      "action": "Minor Action",
+      "range": "Close burst 10",
+      "rows": [
+        "Effect: You conjure a silent, ghostly angel in 1 square in the burst. The angel lasts until the end of your next turn and occupies its square. When an ally adjacent to the angel spends a healing surge, he or she regains 4 extra hit points. For each time you used healing word or a Channel Divinity power since the start of your last turn, you conjure an additional angel in a square that's not adjacent to another ghostly angel.",
+        "Sustain Minor: The effect persists, and you can move each angel 3 squares."
+      ],
+      "source": "Published in Dragon Magazine 379, page(s) 56.",
+      "link": "https://iws.mx/dnd/?view=power9982"
+    },
+    {
+      "id": "power3467",
+      "title": "Armor of Faith",
+      "className": "Cleric",
+      "level": 2,
+      "type": "Daily",
+      "description": "You clothe your ally in shining golden armor created from the essence of the Astral Sea.",
+      "traits": "Divine",
+      "action": "Standard Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Target: One ally in the burst",
+        "Effect: The target gains a +4 power bonus to a defense of your choice until the end of the encounter."
+      ],
+      "source": "Published in Divine Power, page(s) 33.",
+      "link": "https://iws.mx/dnd/?view=power3467"
+    },
+    {
+      "id": "power13923",
+      "title": "Blackened Soul",
+      "className": "Cleric",
+      "level": 2,
+      "type": "Daily",
+      "description": "A pulse of shadow leaves your hands to seek your ally, granting vigor and strength but leaving a dark stain on that companion's soul.",
+      "traits": "Divine, Healing, Shadow",
+      "action": "Minor Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Target: One dying ally in the burst",
+        "Effect: The target can spend up to two healing surges. Until the end of the encounter or until the target is restored to full hit points, the target gains a +2 power bonus to attack rolls and damage rolls but grants combat advantage."
+      ],
+      "source": "Published in Heroes of Shadow, page(s) 82.",
+      "link": "https://iws.mx/dnd/?view=power13923"
+    },
+    {
+      "id": "power947",
+      "title": "Bless",
+      "className": "Cleric",
+      "level": 2,
+      "type": "Daily",
+      "description": "You beseech your deity to bless you and your allies.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Close burst 20",
+      "rows": [
+        "Target: You and each ally in the burst",
+        "Effect: Each target gains a +1 power bonus to attack rolls until the end of the encounter."
+      ],
+      "source": "Published in Player's Handbook, page(s) 64, Heroes of the Fallen Lands, page(s) 90, Class Compendium.",
+      "link": "https://iws.mx/dnd/?view=power947"
+    },
+    {
+      "id": "power665",
+      "title": "Cure Light Wounds",
+      "className": "Cleric",
+      "level": 2,
+      "type": "Daily",
+      "description": "You utter a simple prayer, and your touch momentarily suffuses you or a wounded creature with a dim silver light that heals minor injuries.",
+      "traits": "Divine, Healing",
+      "action": "Standard Action",
+      "range": "Melee touch",
+      "rows": [
+        "Target: You or one creature",
+        "Effect: The target regains hit points as if it had spent a healing surge."
+      ],
+      "source": "Published in Player's Handbook, page(s) 64, Heroes of the Fallen Lands, page(s) 90, Class Compendium.",
+      "link": "https://iws.mx/dnd/?view=power665"
+    },
+    {
+      "id": "power482",
+      "title": "Divine Aid",
+      "className": "Cleric",
+      "level": 2,
+      "type": "Encounter",
+      "description": "You request your deity to grant you or one of your allies the strength to overcome a hindrance.",
+      "traits": "Divine",
+      "action": "Standard Action",
+      "range": "Ranged 5",
+      "rows": [
+        "Target: You or one ally",
+        "Effect: The target makes a saving throw with a bonus equal to your Charisma."
+      ],
+      "source": "Published in Player's Handbook, page(s) 64, Class Compendium.",
+      "link": "https://iws.mx/dnd/?view=power482"
+    },
+    {
+      "id": "power3466",
+      "title": "Divine Skill",
+      "className": "Cleric",
+      "level": 2,
+      "type": "Encounter",
+      "description": "You grant divine grace to bolster your ally's prowess in a skill at a crucial moment.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Target: One ally in the burst",
+        "Effect: The target gains a power bonus to his or her next skill check before the end of the encounter. The bonus equals your Charisma."
+      ],
+      "source": "Published in Divine Power, page(s) 33.",
+      "link": "https://iws.mx/dnd/?view=power3466"
+    },
+    {
+      "id": "power7081",
+      "title": "Holy Vestments",
+      "className": "Cleric",
+      "level": 2,
+      "type": "Daily",
+      "description": "Glowing sigils blossom over your armor, forming a protective web.",
+      "traits": "Divine",
+      "action": "Standard Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Choose acid, cold, fire, lightning, poison, or thunder. Until the end of the encounter, you gain resist 5 to that damage type, and any ally who ends a move adjacent to you gains resist 5 to that damage type until the start of his or her next turn."
+      ],
+      "source": "Published in Divine Power, page(s) 33.",
+      "link": "https://iws.mx/dnd/?view=power7081"
+    },
+    {
+      "id": "power7082",
+      "title": "Life Transference",
+      "className": "Cleric",
+      "level": 2,
+      "type": "Daily",
+      "description": "Bruises and lacerations appear on your body as they vanish from your patient.",
+      "traits": "Divine, Healing",
+      "action": "Standard Action",
+      "range": "Melee touch",
+      "rows": [
+        "Target: One creature",
+        "Effect: You take damage equal to your healing surge value, which can't be reduced in any way. The target regains hit points equal to twice that value."
+      ],
+      "source": "Published in Divine Power, page(s) 33.",
+      "link": "https://iws.mx/dnd/?view=power7082"
+    },
+    {
+      "id": "power12607",
+      "title": "Resurgent Strength",
+      "className": "Cleric",
+      "level": 2,
+      "type": "Daily",
+      "description": "This healing prayer staunches wounds while also providing your ally with energy to redouble an attack.",
+      "traits": "Divine, Healing",
+      "action": "Minor Action",
+      "range": "Close burst 3",
+      "rows": [
+        "Target: You or one ally in the burst",
+        "Effect: The target can spend a healing surge. In addition, the target gains a +4 power bonus to damage rolls until the end of your next turn."
+      ],
+      "source": "Published in Heroes of the Fallen Lands, page(s) 91.",
+      "link": "https://iws.mx/dnd/?view=power12607"
+    },
+    {
+      "id": "power7083",
+      "title": "Return from Death's Door",
+      "className": "Cleric",
+      "level": 2,
+      "type": "Daily",
+      "description": "You snatch an ally from the brink of death.",
+      "traits": "Divine, Healing",
+      "action": "Immediate Interrupt",
+      "range": "Ranged 20",
+      "rows": [
+        "Trigger: An ally within 20 squares of you fails a death saving throw",
+        "Target: The triggering ally",
+        "Effect: The target succeeds on the death saving throw and can spend a healing surge."
+      ],
+      "source": "Published in Divine Power, page(s) 33.",
+      "link": "https://iws.mx/dnd/?view=power7083"
+    },
+    {
+      "id": "power11618",
+      "title": "Sacrificial Aegis",
+      "className": "Cleric",
+      "level": 2,
+      "type": "Daily",
+      "description": "The power of your faith siphons life out of you and bolsters your ally with divine protection.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Melee touch",
+      "rows": [
+        "Target: One ally",
+        "Effect: You take damage equal to your surge value. This damage cannot be reduced by any means. The target gains temporary hit points equal to twice that value."
+      ],
+      "source": "Published in Dragon Magazine 384, page(s) 48.",
+      "link": "https://iws.mx/dnd/?view=power11618"
+    },
+    {
+      "id": "power91",
+      "title": "Sanctuary",
+      "className": "Cleric",
+      "level": 2,
+      "type": "Encounter",
+      "description": "You cast a protective ward upon a creature that makes enemies' attacks less effective.",
+      "traits": "Divine",
+      "action": "Standard Action",
+      "range": "Ranged 10",
+      "rows": [
+        "Target: You or one creature",
+        "Effect: The target gains a +5 bonus to all defenses. The effect lasts until the target attacks or until the end of your next turn."
+      ],
+      "source": "Published in Player's Handbook, page(s) 64, Class Compendium.",
+      "link": "https://iws.mx/dnd/?view=power91"
+    },
+    {
+      "id": "power945",
+      "title": "Shield of Faith",
+      "className": "Cleric",
+      "level": 2,
+      "type": "Daily",
+      "description": "A gleaming shield of divine energy appears over you, granting you and nearby allies protection against attacks.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Targets: You and each ally in the burst",
+        "Effect: Each target gains a +2 power bonus to AC until the end of the encounter."
+      ],
+      "source": "Published in Player's Handbook, page(s) 64, Heroes of the Fallen Lands, page(s) 91, Class Compendium.",
+      "link": "https://iws.mx/dnd/?view=power945"
+    },
+    {
+      "id": "power13924",
+      "title": "Veil of Darkness",
+      "className": "Cleric",
+      "level": 2,
+      "type": "Daily",
+      "description": "You create a barrier of pure darkness that no light can enter.",
+      "traits": "Divine, Shadow, Zone",
+      "action": "Minor Action",
+      "range": "Area burst 1 within 10 squares",
+      "rows": [
+        "Effect: The burst creates a zone that lasts until the end of your next turn. The zone is heavily obscured and blocks line of sight.",
+        "Sustain Minor: The zone persists until the end of your next turn."
+      ],
+      "source": "Published in Heroes of Shadow, page(s) 83.",
+      "link": "https://iws.mx/dnd/?view=power13924"
+    },
+    {
+      "id": "power1410",
+      "title": "Bastion of Health",
+      "className": "Cleric",
+      "level": 6,
+      "type": "Encounter",
+      "description": "You invoke a prayer that instantly fortifies one of your allies.",
+      "traits": "Divine, Healing",
+      "action": "Minor Action",
+      "range": "Ranged 10",
+      "rows": [
+        "Target: You or one ally",
+        "Effect: The target can spend a healing surge and regains additional hit points equal to your Charisma."
+      ],
+      "source": "Published in Player's Handbook, page(s) 66, Class Compendium.",
+      "link": "https://iws.mx/dnd/?view=power1410"
+    },
+    {
+      "id": "power2834",
+      "title": "Blades of Holy Fire",
+      "className": "Cleric",
+      "level": 6,
+      "type": "Daily",
+      "description": "Your allies' implements and weapons blaze with white-hot, consecrated flames.",
+      "traits": "Divine, Fire, Radiant",
+      "action": "Minor Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Target: Each ally in the burst",
+        "Effect: The next time the target hits before the end of the encounter, that attack deals 1d6 extra fire and radiant damage."
+      ],
+      "source": "Published in Divine Power, page(s) 34.",
+      "link": "https://iws.mx/dnd/?view=power2834"
+    },
+    {
+      "id": "power652",
+      "title": "Cure Serious Wounds",
+      "className": "Cleric",
+      "level": 6,
+      "type": "Daily",
+      "description": "You utter a simple prayer and gain the power to instantly heal wounds. Your touch suffuses you or a wounded creature with a bright silver light that restores health and vigor.",
+      "traits": "Divine, Healing",
+      "action": "Standard Action",
+      "range": "Melee touch",
+      "rows": [
+        "Target: You or one creature",
+        "Effect: The target regains hit points as if it had spent two healing surges."
+      ],
+      "source": "Published in Player's Handbook, page(s) 66, Heroes of the Fallen Lands, page(s) 94, Class Compendium.",
+      "link": "https://iws.mx/dnd/?view=power652"
+    },
+    {
+      "id": "power488",
+      "title": "Divine Favor",
+      "className": "Cleric",
+      "level": 6,
+      "type": "Daily",
+      "description": "Sacred light suffuses your comrade, bestowing your god's blessing in battle.",
+      "traits": "Divine, Healing",
+      "action": "Standard Action",
+      "range": "Melee touch",
+      "rows": [
+        "Target: You or one ally",
+        "Effect: Until the end of the encounter, the target gains a +2 power bonus to attack rolls and damage rolls, and when the target is first bloodied, he or she can spend a healing surge."
+      ],
+      "source": "Published in Divine Power, page(s) 34.",
+      "link": "https://iws.mx/dnd/?view=power488"
+    },
+    {
+      "id": "power949",
+      "title": "Divine Vigor",
+      "className": "Cleric",
+      "level": 6,
+      "type": "Daily",
+      "description": "You call upon your deity to invigorate you and your battle-weary allies.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Targets: You and each ally in the burst",
+        "Effect: Each target regains the use of his or her second wind."
+      ],
+      "source": "Published in Player's Handbook, page(s) 66, Class Compendium.",
+      "link": "https://iws.mx/dnd/?view=power949"
+    },
+    {
+      "id": "power9985",
+      "title": "Gift of Good Fortune",
+      "className": "Cleric",
+      "level": 6,
+      "type": "Encounter",
+      "description": "You beseech the divine forces that shape destiny and fate to smile on your ally.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Ranged 10",
+      "rows": [
+        "Target: One ally",
+        "Effect: The target makes a saving throw. If you used divine fortune this turn, the ally receives a bonus to the saving throw equal to the bonus your divine fortune grants."
+      ],
+      "source": "Published in Dragon Magazine 379, page(s) 57.",
+      "link": "https://iws.mx/dnd/?view=power9985"
+    },
+    {
+      "id": "power13926",
+      "title": "Gravesite",
+      "className": "Cleric",
+      "level": 6,
+      "type": "Daily",
+      "description": "You invoke the power of your god to claim the ground around you. Enemies that attempt to contest that ground pay for their temerity.",
+      "traits": "Divine, Healing, Shadow, Zone",
+      "action": "Minor Action",
+      "range": "Close burst 3",
+      "rows": [
+        "Effect: The burst creates a zone that lasts until the end of the encounter. You and your allies gain a +2 power bonus to damage rolls against enemies in the zone. Whenever an enemy drops to 0 hit points in the zone, you and each ally in the zone regain 5 hit points."
+      ],
+      "source": "Published in Heroes of Shadow, page(s) 83.",
+      "link": "https://iws.mx/dnd/?view=power13926"
+    },
+    {
+      "id": "power3681",
+      "title": "Holy Celerity",
+      "className": "Cleric",
+      "level": 6,
+      "type": "Encounter",
+      "description": "You imbue an ally with the confidence to advance against all impediments.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Ranged 10",
+      "rows": [
+        "Target: You or one ally",
+        "Effect: Until the end of your next turn, the target ignores the effects of the immobilized, restrained, and slowed conditions."
+      ],
+      "source": "Published in Divine Power, page(s) 34.",
+      "link": "https://iws.mx/dnd/?view=power3681"
+    },
+    {
+      "id": "power952",
+      "title": "Holy Lantern",
+      "className": "Cleric",
+      "level": 6,
+      "type": "At-Will",
+      "description": "You conjure a beam of divine light that shines like a lantern, piercing shadows and deception.",
+      "traits": "Conjuration, Divine",
+      "action": "Standard Action",
+      "range": "Ranged 3",
+      "rows": [
+        "Effect: You conjure a holy lantern in a square within range. The lantern sheds bright light in its square and within a 5-square radius. You and your allies gain a +2 power bonus to Insight checks and Perception checks while in the light. The lantern lasts for 10 hours or until you use this power again.",
+        "Minor Action: You move the lantern up to your speed."
+      ],
+      "source": "Published in Player's Handbook, page(s) 66, Class Compendium.",
+      "link": "https://iws.mx/dnd/?view=power952"
+    },
+    {
+      "id": "power12612",
+      "title": "Light of Revelation",
+      "className": "Cleric",
+      "level": 6,
+      "type": "Daily",
+      "description": "You call forth a mote of divine light that reveals and scours your foes.",
+      "traits": "Divine, Radiant, Zone",
+      "action": "Minor Action",
+      "range": "Close burst 1",
+      "rows": [
+        "Target: You and each ally in the burst",
+        "Effect: Each target gains a +5 power bonus to Insight checks and Perception checks until the end of your next turn. The burst also creates a zone of bright light that lasts until the end of your next turn. When any enemy in the zone makes an attack, that enemy takes 5 radiant damage.",
+        "Sustain Minor: The zone persists until the end of your next turn."
+      ],
+      "source": "Published in Heroes of the Fallen Lands, page(s) 94.",
+      "link": "https://iws.mx/dnd/?view=power12612"
+    },
+    {
+      "id": "power12613",
+      "title": "Mark of Victory",
+      "className": "Cleric",
+      "level": 6,
+      "type": "Daily",
+      "description": "You place a glowing glyph upon your foe, marking it for destruction at the hands of you and your allies.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Target: One enemy in the burst",
+        "Effect: Until the end of the encounter, you and your allies gain a +2 power bonus to attack rolls and damage rolls against the target."
+      ],
+      "source": "Published in Heroes of the Fallen Lands, page(s) 94.",
+      "link": "https://iws.mx/dnd/?view=power12613"
+    },
+    {
+      "id": "power10089",
+      "title": "Seized Destiny",
+      "className": "Cleric",
+      "level": 6,
+      "type": "Daily",
+      "description": "You foster courage where fear reigns, and you provide strength where weakness rules.",
+      "traits": "Divine",
+      "action": "Standard Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Target: You and each ally in the burst",
+        "Effect: The target gains temporary hit points equal to 5 + your Wisdom and gains a +2 power bonus to Will until the end of the encounter."
+      ],
+      "source": "Published in Dragon Magazine 380, page(s) 61.",
+      "link": "https://iws.mx/dnd/?view=power10089"
+    },
+    {
+      "id": "power13927",
+      "title": "Soul Cage",
+      "className": "Cleric",
+      "level": 6,
+      "type": "Daily",
+      "description": "As your enemy expires, you cast a web of divine shadow magic across it, creating a cage that binds it to your command.",
+      "traits": "Divine, Shadow",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: An enemy dies within 5 squares of you.",
+        "Effect: Once before the end of your next extended rest, you can use a minor action to gain one of the following benefits.",
+        "* You can ask the dead enemy one question that it must answer truthfully. Its answer is limited to one hundred words.",
+        "* You gain a +5 power bonus to your next attack roll against an enemy.",
+        "* View one room, one similarly sized outdoor location, or one object that the enemy has seen within the past week. The image you see is drawn from the enemy's memory, and so might not be entirely accurate."
+      ],
+      "source": "Published in Heroes of Shadow, page(s) 83.",
+      "link": "https://iws.mx/dnd/?view=power13927"
+    },
+    {
+      "id": "power3468",
+      "title": "Spirit of Healing",
+      "className": "Cleric",
+      "level": 6,
+      "type": "Daily",
+      "description": "A glowing figure appears at your command, casting an aura of health over your allies.",
+      "traits": "Conjuration, Divine, Healing",
+      "action": "Minor Action",
+      "range": "Ranged 10",
+      "rows": [
+        "Effect: You conjure a spirit of healing in 1 square within range. The spirit lasts until the end of your next turn. When an ally in the spirit's square or adjacent to it hits an enemy, that ally regains hit points equal to your Wisdom. As a move action, you can move the spirit 4 squares.",
+        "Sustain Minor: The spirit persists."
+      ],
+      "source": "Published in Divine Power, page(s) 34.",
+      "link": "https://iws.mx/dnd/?view=power3468"
+    },
+    {
+      "id": "power7092",
+      "title": "Stream of Life",
+      "className": "Cleric",
+      "level": 6,
+      "type": "Daily",
+      "description": "Your life energy flows into a companion and grants your friend the vigor to fight on.",
+      "traits": "Divine, Healing",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You take ongoing 5 damage (save ends). This damage can't be reduced in any way. At the end of your turn, you can choose not to make a saving throw against this ongoing damage. Whenever you take the ongoing damage, an ally within 5 squares of you regains 15 hit points."
+      ],
+      "source": "Published in Divine Power, page(s) 35.",
+      "link": "https://iws.mx/dnd/?view=power7092"
+    },
+    {
+      "id": "power7409",
+      "title": "Walk Among the Wounded",
+      "className": "Cleric",
+      "level": 6,
+      "type": "Encounter",
+      "description": "As you pass by your allies, your presence bolsters their spirits.",
+      "traits": "Divine",
+      "action": "Move Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Move up to your speed. Each ally adjacent to you at any point during this move gains a +1 power bonus to AC until the end of your next turn. If you are bloodied, the bonus is instead +2."
+      ],
+      "source": "Published in PH Heroes: Series 1.",
+      "link": "https://iws.mx/dnd/?view=power7409"
+    },
+    {
+      "id": "power955",
+      "title": "Astral Refuge",
+      "className": "Cleric",
+      "level": 10,
+      "type": "Daily",
+      "description": "With a touch, you send one of your allies to a sequestered location in the Astral Sea, where he or she can recuperate for a brief time before rejoining the battle.",
+      "traits": "Divine, Healing",
+      "action": "Standard Action",
+      "range": "Melee touch",
+      "rows": [
+        "Target: One willing ally",
+        "Effect: The target is removed from play. The target is gone for his or her next two turns and reappears at the start of the third. Until the target reappears, he or she can spend a healing surge on each of his or her turns, but cannot take any actions. When the effect ends, the target reappears in the space he or she last occupied or in the nearest unoccupied space."
+      ],
+      "source": "Published in Player's Handbook, page(s) 67, Class Compendium.",
+      "link": "https://iws.mx/dnd/?view=power955"
+    },
+    {
+      "id": "power12618",
+      "title": "Battle Surge",
+      "className": "Cleric",
+      "level": 10,
+      "type": "Daily",
+      "description": "You turn the tide of battle by healing allies near you and filling them with courage.",
+      "traits": "Divine, Healing",
+      "action": "Standard Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Target: You and each ally in the burst",
+        "Effect: Each target regains hit points as if he or she had spent a healing surge. In addition, each target gains a +2 power bonus to attack rolls until the end of your next turn."
+      ],
+      "source": "Published in Heroes of the Fallen Lands, page(s) 97.",
+      "link": "https://iws.mx/dnd/?view=power12618"
+    },
+    {
+      "id": "power7100",
+      "title": "Godsight",
+      "className": "Cleric",
+      "level": 10,
+      "type": "Daily",
+      "description": "You bestow the ability to see through deception.",
+      "traits": "Divine",
+      "action": "Minor Action",
+      "range": "Ranged 5",
+      "rows": [
+        "Target: You or one ally",
+        "Effect: The target gains truesight 5 until the end of the encounter."
+      ],
+      "source": "Published in Divine Power, page(s) 36.",
+      "link": "https://iws.mx/dnd/?view=power7100"
+    },
+    {
+      "id": "power7101",
+      "title": "Healer's Balm",
+      "className": "Cleric",
+      "level": 10,
+      "type": "Encounter",
+      "description": "You lay a hand on your comrade's brow, taking on his or her pain and suffering.",
+      "traits": "Divine",
+      "action": "Standard Action",
+      "range": "Melee touch",
+      "rows": [
+        "Target: One ally",
+        "Effect: You transfer to yourself all effects on the target that a save can end. You gain a +4 bonus to saving throws against those effects."
+      ],
+      "source": "Published in Divine Power, page(s) 36.",
+      "link": "https://iws.mx/dnd/?view=power7101"
+    },
+    {
+      "id": "power957",
+      "title": "Knights of Unyielding Valor",
+      "className": "Cleric",
+      "level": 10,
+      "type": "Daily",
+      "description": "You conjure four ghostly knights, which carry shields emblazoned with the symbol of your deity.",
+      "traits": "Conjuration, Divine",
+      "action": "Standard Action",
+      "range": "Ranged 10",
+      "rows": [
+        "Effect: You conjure four ghostly knights, each occupying a different square within range. The knights last until the end of the encounter. They grant partial cover to you and your allies. Enemies can't enter the knights' spaces, but you and your allies can move through them. The knights can't attack or be attacked or damaged.",
+        "Move Action: You move each knight up to 2 squares."
+      ],
+      "source": "Published in Player's Handbook, page(s) 67, Class Compendium.",
+      "link": "https://iws.mx/dnd/?view=power957"
+    },
+    {
+      "id": "power152",
+      "title": "Mass Cure Light Wounds",
+      "className": "Cleric",
+      "level": 10,
+      "type": "Daily",
+      "description": "With a wave of your hand, healing motes of silver light engulf you and all nearby allies.",
+      "traits": "Divine, Healing",
+      "action": "Standard Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Targets: You and each ally in the burst",
+        "Effect: Each target regains hit points equal to his or her healing surge value, plus additional hit points equal to your Charisma."
+      ],
+      "source": "Published in Player's Handbook, page(s) 67, Class Compendium.",
+      "link": "https://iws.mx/dnd/?view=power152"
+    },
+    {
+      "id": "power13930",
+      "title": "Phantom Vigor",
+      "className": "Cleric",
+      "level": 10,
+      "type": "Daily",
+      "description": "Tendrils of shadow unfurl around you to wrap your allies, drawing off their health to grant superior strength and speed.",
+      "traits": "Divine, Shadow",
+      "action": "Standard Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Target: You and each ally in the burst",
+        "Effect: Each target loses a healing surge and gains temporary hit points equal to his or her healing surge value. In addition, until the end of the encounter, each target gains a +2 power bonus to speed and a +5 power bonus to Athletics checks and Acrobatics checks."
+      ],
+      "source": "Published in Heroes of Shadow, page(s) 84.",
+      "link": "https://iws.mx/dnd/?view=power13930"
+    },
+    {
+      "id": "power12412",
+      "title": "Prophetic Protection",
+      "className": "Cleric",
+      "level": 10,
+      "type": "Encounter",
+      "description": "The enemy's success is undone as you manipulate fate to protect yourself or an ally.",
+      "traits": "Divine",
+      "action": "Immediate Interrupt",
+      "range": "Close burst 5",
+      "rows": [
+        "Trigger: An enemy in the burst scores a critical hit with an attack against you or an ally",
+        "Effect: The triggering enemy must re-roll the attack with a penalty to the attack roll equal to your Charisma."
+      ],
+      "source": "Published in Dragon Magazine 386, page(s) 39.",
+      "link": "https://iws.mx/dnd/?view=power12412"
+    },
+    {
+      "id": "power12619",
+      "title": "Radiant Armor",
+      "className": "Cleric",
+      "level": 10,
+      "type": "Daily",
+      "description": "A foe's attack is suddenly blocked by a suit of shimmering radiant armor that fades as quickly as it appears.",
+      "traits": "Divine",
+      "action": "Immediate Interrupt",
+      "range": "Close burst 5",
+      "rows": [
+        "Trigger: You or an ally within 5 squares of you takes damage.",
+        "Target: The character in the burst who takes the damage",
+        "Effect: The damage dealt to the target is reduced to 0. Any other effects still apply."
+      ],
+      "source": "Published in Heroes of the Fallen Lands, page(s) 97.",
+      "link": "https://iws.mx/dnd/?view=power12619"
+    },
+    {
+      "id": "power3683",
+      "title": "Recall Ally",
+      "className": "Cleric",
+      "level": 10,
+      "type": "Encounter",
+      "description": "You summon a comrade to your side.",
+      "traits": "Divine, Teleportation",
+      "action": "Move Action",
+      "range": "Ranged 20",
+      "rows": [
+        "Target: One ally",
+        "Effect: You teleport the target to a square adjacent to you."
+      ],
+      "source": "Published in Divine Power, page(s) 36.",
+      "link": "https://iws.mx/dnd/?view=power3683"
+    },
+    {
+      "id": "power9987",
+      "title": "Reverent Mettle",
+      "className": "Cleric",
+      "level": 10,
+      "type": "Encounter",
+      "description": "You blunt an attack against your comrade using only your devout will. Calling upon your deity allows you to perform this trick again.",
+      "traits": "Divine",
+      "action": "Immediate Interrupt",
+      "range": "Close burst 5",
+      "rows": [
+        "Trigger: An ally within 5 squares of you takes damage from an attack",
+        "Target: The triggering ally in the burst",
+        "Effect: Reduce the triggering attack's damage by 5 + your Charisma.",
+        "Special: When you use your Channel Divinity power you may regain the use of reverent mettle."
+      ],
+      "source": "Published in Dragon Magazine 379, page(s) 57.",
+      "link": "https://iws.mx/dnd/?view=power9987"
+    },
+    {
+      "id": "power7888",
+      "title": "Sacred Beneficence",
+      "className": "Cleric",
+      "level": 10,
+      "type": "Daily",
+      "description": "As long as you stand firm against the enemy, your companion draws on your strength to remain unbowed.",
+      "traits": "Divine, Healing",
+      "action": "Standard Action",
+      "range": "Melee touch",
+      "rows": [
+        "Requirement: You must not be bloodied.",
+        "Target: One ally",
+        "Effect: The target gains regeneration 10 until you are bloodied or until the end of the encounter."
+      ],
+      "source": "Published in Divine Power, page(s) 36.",
+      "link": "https://iws.mx/dnd/?view=power7888"
+    },
+    {
+      "id": "power1411",
+      "title": "Shielding Word",
+      "className": "Cleric",
+      "level": 10,
+      "type": "Encounter",
+      "description": "You call out a quick prayer to instantly defend a nearby ally from harm.",
+      "traits": "Divine",
+      "action": "Immediate Interrupt",
+      "range": "Ranged 5",
+      "rows": [
+        "Trigger: An ally within 5 squares of you is hit by an attack",
+        "Target: The triggering ally",
+        "Effect: The target gains a +4 power bonus to AC until the end of your next turn."
+      ],
+      "source": "Published in Player's Handbook, page(s) 67, Class Compendium.",
+      "link": "https://iws.mx/dnd/?view=power1411"
+    },
+    {
+      "id": "power11621",
+      "title": "Transcendent Advisor",
+      "className": "Cleric",
+      "level": 10,
+      "type": "Daily",
+      "description": "A servant of your deity appears before you.",
+      "traits": "Conjuration, Divine",
+      "action": "Standard Action",
+      "range": "Ranged 5",
+      "rows": [
+        "Effect: You conjure an advisor from your deity that appears in an unoccupied square within range. The advisor occupies 1 square and lasts until the end of your next turn. Allies within 5 squares of the counsel can roll twice on all knowledge checks and keep either result.",
+        "Sustain Minor: The effect persists."
+      ],
+      "source": "Published in Dragon Magazine 384, page(s) 49.",
+      "link": "https://iws.mx/dnd/?view=power11621"
+    },
+    {
+      "id": "power13931",
+      "title": "Umbral Soul",
+      "className": "Cleric",
+      "level": 10,
+      "type": "Daily",
+      "description": "With a thought, you transform yourself or an ally into a wispy creature of shadow.",
+      "traits": "Divine, Shadow",
+      "action": "Minor Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Target: You or one ally in the burst",
+        "Effect: The target is insubstantial and weakened until the end of your next turn.",
+        "Sustain Minor: The effect persists until the end of your next turn."
+      ],
+      "source": "Published in Heroes of Shadow, page(s) 84.",
+      "link": "https://iws.mx/dnd/?view=power13931"
+    },
+    {
+      "id": "power12620",
+      "title": "Wall of Shields",
+      "className": "Cleric",
+      "level": 10,
+      "type": "Daily",
+      "description": "A wall of glittering shields, each inscribed with the symbol of your deity, appears between you and your foes.",
+      "traits": "Conjuration, Divine",
+      "action": "Standard Action",
+      "range": "Area wall 8 within 10 squares",
+      "rows": [
+        "Effect: You conjure a wall that lasts until the end of your next turn. The wall can be up to 4 squares high. While you or any ally is in the wall or adjacent to it, that character gains a +2 power bonus to AC. Any enemy that enters the wall is immobilized until the start of its next turn.",
+        "Sustain Minor: The wall persists until the end of your next turn."
+      ],
+      "source": "Published in Heroes of the Fallen Lands, page(s) 97.",
+      "link": "https://iws.mx/dnd/?view=power12620"
+    },
+    {
+      "id": "power7889",
+      "title": "Word of Vigor",
+      "className": "Cleric",
+      "level": 10,
+      "type": "Encounter",
+      "description": "Your ringing prayer inspires all nearby to draw on inner reserves.",
+      "traits": "Divine, Healing",
+      "action": "Minor Action",
+      "range": "Close burst 1",
+      "rows": [
+        "Target: You and each ally in the burst",
+        "Effect: Each target can spend a healing surge and regain 2d6 additional hit points."
+      ],
+      "source": "Published in Divine Power, page(s) 36.",
+      "link": "https://iws.mx/dnd/?view=power7889"
+    }
+  ]
+}

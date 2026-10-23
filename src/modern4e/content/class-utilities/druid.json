@@ -1,0 +1,828 @@
+{
+  "powers": [
+    {
+      "id": "power12326",
+      "title": "All-Encompassing Nature",
+      "className": "Druid",
+      "level": 2,
+      "type": "Encounter",
+      "description": "Your view of nature is broader than most, expanding your knowledge.",
+      "traits": "Primal",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Requirement: You must be proficient in Nature.",
+        "Trigger: You would make an Arcana, Nature, or Religion check",
+        "Effect: You can roll a Nature check instead."
+      ],
+      "source": "Published in Dragon Magazine 386, page(s) 35.",
+      "link": "https://iws.mx/dnd/?view=power12326"
+    },
+    {
+      "id": "power5045",
+      "title": "Barkskin",
+      "className": "Druid",
+      "level": 2,
+      "type": "Encounter",
+      "description": "A protective layer of tree bark covers your body and armor.",
+      "traits": "Primal",
+      "action": "Minor Action",
+      "range": "Ranged 5",
+      "rows": [
+        "Target: You or one ally",
+        "Effect: Until the end of your next turn, the target gains a power bonus to AC equal to your Constitution."
+      ],
+      "source": "Published in Player's Handbook 2, page(s) 86.",
+      "link": "https://iws.mx/dnd/?view=power5045"
+    },
+    {
+      "id": "power13513",
+      "title": "Bear's Strength",
+      "className": "Druid",
+      "level": 2,
+      "type": "Daily",
+      "description": "Primal energy surges through your ally, granting him or her the strength of a wild beast.",
+      "traits": "Primal",
+      "action": "Minor Action",
+      "range": "Melee 1",
+      "rows": [
+        "Target: You or one ally",
+        "Effect: The target gains the following benefits until the end of his or her next extended rest.",
+        "* +2 power bonus to damage rolls that include the target's Strength.",
+        "* +2 power bonus to Athletics checks and Strength ability checks.",
+        "* The target's Strength increases by 4 for the purpose of determining carrying capacity."
+      ],
+      "source": "Published in Heroes of the Forgotten Kingdoms.",
+      "link": "https://iws.mx/dnd/?view=power13513"
+    },
+    {
+      "id": "power13514",
+      "title": "Cat's Grace",
+      "className": "Druid",
+      "level": 2,
+      "type": "Daily",
+      "description": "You imbue an ally with the quick reflexes and fast strike of the jungle cat.",
+      "traits": "Primal",
+      "action": "Minor Action",
+      "range": "Melee 1",
+      "rows": [
+        "Target: You or one ally",
+        "Effect: The target gains the following benefits until the end of his or her next extended rest.",
+        "* +1 power bonus to Reflex.",
+        "* +2 power bonus to initiative checks, Dexterity-based skill checks, and Dexterity ability checks."
+      ],
+      "source": "Published in Heroes of the Forgotten Kingdoms.",
+      "link": "https://iws.mx/dnd/?view=power13514"
+    },
+    {
+      "id": "power16119",
+      "title": "Dust Eddy",
+      "className": "Druid",
+      "level": 2,
+      "type": "Encounter",
+      "description": "You surround yourself with a violent swirl of wind that fills the air with dust and debris.",
+      "traits": "Aura, Beast Form, Elemental, Primal",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You gain partial concealment and activate an aura 1 that last until the end of your next turn or until you leave beast form. Any enemy that ends its turn in the aura is blinded until the end of your next turn."
+      ],
+      "source": "Published in Heroes of the Elemental Chaos, page(s) 63.",
+      "link": "https://iws.mx/dnd/?view=power16119"
+    },
+    {
+      "id": "power13515",
+      "title": "Elk's Fortitude",
+      "className": "Druid",
+      "level": 2,
+      "type": "Daily",
+      "description": "You imbue an ally with the endurance and steadfast determination of an elk.",
+      "traits": "Primal",
+      "action": "Minor Action",
+      "range": "Melee 1",
+      "rows": [
+        "Target: You or one ally",
+        "Effect: The target gains the following benefits until the end of his or her next extended rest.",
+        "* A healing surge.",
+        "* +1 power bonus to Fortitude.",
+        "* +2 power bonus to Endurance checks and Constitution ability checks."
+      ],
+      "source": "Published in Heroes of the Forgotten Kingdoms.",
+      "link": "https://iws.mx/dnd/?view=power13515"
+    },
+    {
+      "id": "power9644",
+      "title": "Ferocious Transformation",
+      "className": "Druid",
+      "level": 2,
+      "type": "Encounter",
+      "description": "In response to an enemy's attack, you transform into a beast and pounce.",
+      "traits": "Primal",
+      "action": "Immediate Reaction",
+      "range": "Personal",
+      "rows": [
+        "Trigger: An enemy hits you while you aren't in beast form",
+        "Effect: You use wild shape to change into beast form and then shift 1 square. You gain combat advantage against the triggering enemy until the end of your next turn."
+      ],
+      "source": "Published in Primal Power, page(s) 40.",
+      "link": "https://iws.mx/dnd/?view=power9644"
+    },
+    {
+      "id": "power2724",
+      "title": "Fleet Pursuit",
+      "className": "Druid",
+      "level": 2,
+      "type": "Daily",
+      "description": "Your limbs propel you forward with the speed of a cheetah.",
+      "traits": "Beast Form, Primal",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the end of the encounter, you gain a power bonus to your speed while you are in beast form equal to your Dexterity."
+      ],
+      "source": "Published in Player's Handbook 2, page(s) 86.",
+      "link": "https://iws.mx/dnd/?view=power2724"
+    },
+    {
+      "id": "power14503",
+      "title": "Form of the Sprinting Elk",
+      "className": "Druid",
+      "level": 2,
+      "type": "Daily",
+      "description": "Your form shifts as you assume the guise of a great elk and quickly bound away.",
+      "traits": "Polymorph, Primal",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You assume the form of the sprinting elk until you take an extended rest or until you end the form as a free action. While in this form, you gain a +4 bonus to speed, but you cannot attack, manipulate objects, or use any magic item powers. Also, your gear becomes part of the form and is inaccessible."
+      ],
+      "source": "Published in Heroes of the Feywild, page(s) 79.",
+      "link": "https://iws.mx/dnd/?view=power14503"
+    },
+    {
+      "id": "power14504",
+      "title": "Lesser Restoration",
+      "className": "Druid",
+      "level": 2,
+      "type": "Daily",
+      "description": "Motes of green energy suffuse your ally, letting him or her draw strength from the essence of the world.",
+      "traits": "Healing, Primal",
+      "action": "Minor Action",
+      "range": "Ranged 10",
+      "rows": [
+        "Target: One ally",
+        "Effect: The target can make a saving throw and spend a healing surge."
+      ],
+      "source": "Published in Heroes of the Feywild, page(s) 79.",
+      "link": "https://iws.mx/dnd/?view=power14504"
+    },
+    {
+      "id": "power2726",
+      "title": "Obscuring Mist",
+      "className": "Druid",
+      "level": 2,
+      "type": "Daily",
+      "description": "A thick fog coalesces from nowhere, hiding your allies.",
+      "traits": "Primal, Zone",
+      "action": "Standard Action",
+      "range": "Area burst 1 within 10 squares",
+      "rows": [
+        "Effect: The burst creates a zone of lightly obscured squares that lasts until the end of your next turn.",
+        "Sustain Minor: The zone persists, and you can increase its size by 1 to a maximum of burst 5."
+      ],
+      "source": "Published in Player's Handbook 2, page(s) 86.",
+      "link": "https://iws.mx/dnd/?view=power2726"
+    },
+    {
+      "id": "power9645",
+      "title": "Resist Energy",
+      "className": "Druid",
+      "level": 2,
+      "type": "Encounter",
+      "description": "Magical energy washes around you, but your primal magic protects you and your allies.",
+      "traits": "Primal",
+      "action": "Immediate Interrupt",
+      "range": "Close burst 1",
+      "rows": [
+        "Trigger: You take cold, fire, lightning, or thunder damage",
+        "Target: You and each ally in the burst",
+        "Effect: Each target gains resist 5 to the triggering damage type until the end of your next turn."
+      ],
+      "source": "Published in Primal Power, page(s) 40.",
+      "link": "https://iws.mx/dnd/?view=power9645"
+    },
+    {
+      "id": "power13516",
+      "title": "Seed of Healing",
+      "className": "Druid",
+      "level": 2,
+      "type": "Daily",
+      "description": "Primal power threads through you, coalescing into a golden seed ripe with healing magic.",
+      "traits": "Healing, Primal",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You spend a healing surge but regain no hit points. Instead, you create a golden seed the size of an acorn. The seed lasts until it is eaten or until the end of your next extended rest. A creature carrying the seed can take a minor action to eat it and regain hit points equal to 10 + your healing surge value."
+      ],
+      "source": "Published in Heroes of the Forgotten Kingdoms.",
+      "link": "https://iws.mx/dnd/?view=power13516"
+    },
+    {
+      "id": "power5046",
+      "title": "Skittering Sneak",
+      "className": "Druid",
+      "level": 2,
+      "type": "Daily",
+      "description": "You can adopt the form of a mouse, a large spider, or another animal that wouldn't draw a second glance from most observers.",
+      "traits": "Primal",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Prerequisite: You must have the wild shape power.",
+        "Effect: Until the end of the encounter, you can use wild shape to assume the form of a Tiny natural beast or fey beast, such as a mouse, a house cat, or a large spider. In this form, you gain a +5 bonus to Stealth checks. You can't attack, pick up anything, or manipulate objects."
+      ],
+      "source": "Published in Player's Handbook 2, page(s) 86.",
+      "link": "https://iws.mx/dnd/?view=power5046"
+    },
+    {
+      "id": "power9646",
+      "title": "Sudden Bite",
+      "className": "Druid",
+      "level": 2,
+      "type": "Encounter",
+      "description": "When your foe drops its guard, you change into a beast to strike.",
+      "traits": "Primal",
+      "action": "Opportunity Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: An enemy provokes an opportunity attack from you",
+        "Effect: You use wild shape to change into beast form. You then make the opportunity attack."
+      ],
+      "source": "Published in Primal Power, page(s) 40.",
+      "link": "https://iws.mx/dnd/?view=power9646"
+    },
+    {
+      "id": "power9647",
+      "title": "Verdant Bounty",
+      "className": "Druid",
+      "level": 2,
+      "type": "Encounter",
+      "description": "Plants erupt to hide your allies.",
+      "traits": "Primal, Zone",
+      "action": "Minor Action",
+      "range": "Area burst 2 within 10 squares",
+      "rows": [
+        "Effect: The burst creates a plant-filled zone that lasts until the end of your next turn. The zone is heavily obscured, and you and your allies gain a +5 bonus to Stealth checks while within the zone."
+      ],
+      "source": "Published in Primal Power, page(s) 40.",
+      "link": "https://iws.mx/dnd/?view=power9647"
+    },
+    {
+      "id": "power9648",
+      "title": "Warding Wind",
+      "className": "Druid",
+      "level": 2,
+      "type": "Encounter",
+      "description": "Winds howl around you, shielding you from harm and hurling your attacker away.",
+      "traits": "Primal",
+      "action": "Immediate Interrupt",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You are hit by a melee attack",
+        "Effect: You gain a +2 power bonus to all defenses until the end of your next turn. If the triggering attack misses you, you slide the attacker 2 squares."
+      ],
+      "source": "Published in Primal Power, page(s) 40.",
+      "link": "https://iws.mx/dnd/?view=power9648"
+    },
+    {
+      "id": "power5051",
+      "title": "Black Harbinger",
+      "className": "Druid",
+      "level": 6,
+      "type": "Daily",
+      "description": "You can turn into a raven and take wing, no longer earthbound.",
+      "traits": "Primal",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Prerequisite: You must have the wild shape power.",
+        "Effect: Until the end of the encounter, you can use wild shape to assume the form of a Tiny raven. In this form, you gain a fly speed equal to your speed, and your walking speed becomes 2. You can't attack, pick up anything, or manipulate objects.",
+        "Until this power ends, you can use wild shape to change among this form, another beast form, and your humanoid form."
+      ],
+      "source": "Published in Player's Handbook 2, page(s) 88.",
+      "link": "https://iws.mx/dnd/?view=power5051"
+    },
+    {
+      "id": "power12834",
+      "title": "Blood Frenzy Howl",
+      "className": "Druid",
+      "level": 6,
+      "type": "Encounter",
+      "description": "Observing your allies' ferocity, you let lose a long howl. Your ululation awakens dormant primal spirits to invigorate your allies.",
+      "traits": "Beast Form, Primal",
+      "action": "Immediate Reaction",
+      "range": "Close burst 10",
+      "rows": [
+        "Trigger: An ally in the burst scores a critical hit",
+        "Target: Each ally in the burst",
+        "Effect: Each target gains temporary hit points equal to 5 + your Constitution."
+      ],
+      "source": "Published in Dragon Magazine 389.",
+      "link": "https://iws.mx/dnd/?view=power12834"
+    },
+    {
+      "id": "power2730",
+      "title": "Camouflage Cloak",
+      "className": "Druid",
+      "level": 6,
+      "type": "Encounter",
+      "description": "Your target takes on the appearance of the surrounding terrain, fading from view.",
+      "traits": "Primal",
+      "action": "Minor Action",
+      "range": "Ranged 5",
+      "rows": [
+        "Target: You or one ally",
+        "Effect: The target becomes invisible until he or she moves or until the end of your next turn."
+      ],
+      "source": "Published in Player's Handbook 2, page(s) 88.",
+      "link": "https://iws.mx/dnd/?view=power2730"
+    },
+    {
+      "id": "power5052",
+      "title": "Chant of Sustenance",
+      "className": "Druid",
+      "level": 6,
+      "type": "Daily",
+      "description": "You intone a brief petition to primal spirits, who funnel power on your behalf to sustain effects you have created.",
+      "traits": "Primal",
+      "action": "Minor Action",
+      "range": "Close burst 10",
+      "rows": [
+        "Target: Each of your zones in the burst",
+        "Effect: You move each target 5 squares. If any of those targets will end at the end of your current turn, you can make those targets last until the end of your next turn."
+      ],
+      "source": "Published in Player's Handbook 2, page(s) 88.",
+      "link": "https://iws.mx/dnd/?view=power5052"
+    },
+    {
+      "id": "power9657",
+      "title": "Creeping Vines",
+      "className": "Druid",
+      "level": 6,
+      "type": "Encounter",
+      "description": "Vines erupt along a vertical surface, creating handholds and footholds for you and your allies.",
+      "traits": "Primal, Zone",
+      "action": "Minor Action",
+      "range": "Area wall 10 within 10 squares",
+      "rows": [
+        "Effect: The wall creates a zone of creeping vines that lasts until the end of your next turn. Each square of the zone must be adjacent to a vertical surface. While within the zone, you and your allies can climb that vertical surface with a climb speed of 5."
+      ],
+      "source": "Published in Primal Power, page(s) 43.",
+      "link": "https://iws.mx/dnd/?view=power9657"
+    },
+    {
+      "id": "power13520",
+      "title": "Eagle's Splendor",
+      "className": "Druid",
+      "level": 6,
+      "type": "Daily",
+      "description": "You invoke primal magic to bestow the majestic presence of the eagle upon you or your ally.",
+      "traits": "Primal",
+      "action": "Minor Action",
+      "range": "Melee 1",
+      "rows": [
+        "Target: You or one ally",
+        "Effect: The target gains the following benefits until the end of his or her next extended rest.",
+        "* +1 power bonus to Charisma attack rolls.",
+        "* +1 power bonus to Will.",
+        "* +2 power bonus to Charisma-based skill checks and Charisma ability checks."
+      ],
+      "source": "Published in Heroes of the Forgotten Kingdoms.",
+      "link": "https://iws.mx/dnd/?view=power13520"
+    },
+    {
+      "id": "power7393",
+      "title": "Leaf Wall",
+      "className": "Druid",
+      "level": 6,
+      "type": "Daily",
+      "description": "Wind spirits hurl tempests of leaves in a swirling mass that disorients enemies while concealing your allies.",
+      "traits": "Conjuration, Primal",
+      "action": "Minor Action",
+      "range": "Area wall 5 within 10 squares",
+      "rows": [
+        "Effect: You conjure a leafy wall that lasts until the end of the encounter. The wall can be up to 4 squares high and must be on a solid surface. You or any ally has partial concealment while in the wall. Enemies grant combat advantage while in the wall or adjacent to it."
+      ],
+      "source": "Published in Heroes of the Forgotten Kingdoms, page(s) 101.",
+      "link": "https://iws.mx/dnd/?view=power7393"
+    },
+    {
+      "id": "power14508",
+      "title": "Meld into Stone",
+      "className": "Druid",
+      "level": 6,
+      "type": "Daily",
+      "description": "Your body merges with stone, letting you slip out of sight and away from harm.",
+      "traits": "Primal",
+      "action": "Move Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You shift into an adjacent square occupied by an object made of stone or earth that is your size or larger, such as a wall, a statue, or a boulder. While you occupy this square, you can see normally but you do not have line of effect to anything, and nothing has line of effect to you. You remain in this state until the end of the encounter, until you end this effect as a minor action, or until the object is destroyed. When the effect ends, you appear in the nearest unoccupied square."
+      ],
+      "source": "Published in Heroes of the Feywild, page(s) 80.",
+      "link": "https://iws.mx/dnd/?view=power14508"
+    },
+    {
+      "id": "power14509",
+      "title": "Nature's Stride",
+      "className": "Druid",
+      "level": 6,
+      "type": "Daily",
+      "description": "You gain a heightened sense of the world around you, letting you move unhindered.",
+      "traits": "Primal",
+      "action": "Minor Action",
+      "range": "Melee 1",
+      "rows": [
+        "Target: You or one ally",
+        "Effect: Until the end of the encounter, the target gains a +2 power bonus to speed and ignores difficult terrain."
+      ],
+      "source": "Published in Heroes of the Feywild, page(s) 80.",
+      "link": "https://iws.mx/dnd/?view=power14509"
+    },
+    {
+      "id": "power13521",
+      "title": "Owl's Wisdom",
+      "className": "Druid",
+      "level": 6,
+      "type": "Daily",
+      "description": "Your primal magic grants your ally the wisdom and insight of an owl, sharpening willpower and granting superior sight.",
+      "traits": "Primal",
+      "action": "Minor Action",
+      "range": "Melee 1",
+      "rows": [
+        "Target: You or one ally",
+        "Effect: The target gains the following benefits until the end of his or her next extended rest.",
+        "* Low-light vision.",
+        "* +1 power bonus to Will.",
+        "* +2 power bonus to Wisdom-based skill checks and Wisdom ability checks."
+      ],
+      "source": "Published in Heroes of the Forgotten Kingdoms.",
+      "link": "https://iws.mx/dnd/?view=power13521"
+    },
+    {
+      "id": "power16121",
+      "title": "Raise the Stones",
+      "className": "Druid",
+      "level": 6,
+      "type": "Daily",
+      "description": "You call to the spirits of earth, and a group of monoliths emerge from the ground.",
+      "traits": "Elemental, Primal",
+      "action": "Standard Action",
+      "range": "Close burst 10",
+      "rows": [
+        "Effect: You create six stone pillars in unoccupied squares on solid ground in the burst. The pillars are blocking terrain. Each pillar stands 10 feet tall and has AC 5, Fortitude 15, Reflex 5, and 30 hit points. A creature can climb a pillar with a DC 15 Athletics check. If a pillar is reduced to 0 hit points, its square and each square adjacent to it becomes rubble-strewn difficult terrain."
+      ],
+      "source": "Published in Heroes of the Elemental Chaos, page(s) 63.",
+      "link": "https://iws.mx/dnd/?view=power16121"
+    },
+    {
+      "id": "power9658",
+      "title": "Rebuking Thorns",
+      "className": "Druid",
+      "level": 6,
+      "type": "Daily",
+      "description": "You utter an evocation of protection, which launches thorns at your attackers.",
+      "traits": "Primal",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the end of the encounter, when any enemy hits you with a melee attack, that enemy takes damage equal to your Constitution or Dexterity."
+      ],
+      "source": "Published in Primal Power, page(s) 43.",
+      "link": "https://iws.mx/dnd/?view=power9658"
+    },
+    {
+      "id": "power9659",
+      "title": "Rodent's Agility",
+      "className": "Druid",
+      "level": 6,
+      "type": "Encounter",
+      "description": "In the blink of an eye, you transform into a mouse, dart away from your foe, and then transform back.",
+      "traits": "Primal",
+      "action": "Move Action",
+      "range": "Personal",
+      "rows": [
+        "Prerequisite: You must have the wild shape power.",
+        "Effect: You move 5 squares. This movement doesn't provoke opportunity attacks, and you can move through enemies' spaces during it."
+      ],
+      "source": "Published in Primal Power, page(s) 43.",
+      "link": "https://iws.mx/dnd/?view=power9659"
+    },
+    {
+      "id": "power13522",
+      "title": "Serpent's Cunning",
+      "className": "Druid",
+      "level": 6,
+      "type": "Daily",
+      "description": "Your ally gains the serpent's cunning, a power that hones his mind to a razor's edge.",
+      "traits": "Primal",
+      "action": "Minor Action",
+      "range": "Melee 1",
+      "rows": [
+        "Target: You or one ally",
+        "Effect: The target gains the following benefits until the end of his or her next extended rest.",
+        "* +1 power bonus to Intelligence attack rolls.",
+        "* Proficiency in one skill of the target's choice.",
+        "* +2 power bonus to Intelligence-based skill checks and Intelligence ability checks."
+      ],
+      "source": "Published in Heroes of the Forgotten Kingdoms.",
+      "link": "https://iws.mx/dnd/?view=power13522"
+    },
+    {
+      "id": "power5507",
+      "title": "Stalker's Eyes",
+      "className": "Druid",
+      "level": 6,
+      "type": "Daily",
+      "description": "Your eyesight, hearing, and sense of smell grow as strong as those of a predator.",
+      "traits": "Primal",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You gain low-light vision and a +4 bonus to Perception checks until the end of the encounter."
+      ],
+      "source": "Published in Player's Handbook 2, page(s) 88.",
+      "link": "https://iws.mx/dnd/?view=power5507"
+    },
+    {
+      "id": "power4893",
+      "title": "Swarm Dispersal",
+      "className": "Druid",
+      "level": 6,
+      "type": "Encounter",
+      "description": "Your body bursts into a swarm and scatters, making an attack ineffective against you.",
+      "traits": "Primal",
+      "action": "Immediate Interrupt",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You take damage from a melee or a ranged attack",
+        "Prerequisite: You must have the wild shape power.",
+        "Effect: You gain resist 10 to all damage until the end of your next turn."
+      ],
+      "source": "Published in Primal Power, page(s) 43.",
+      "link": "https://iws.mx/dnd/?view=power4893"
+    },
+    {
+      "id": "power10371",
+      "title": "Treetop Lurker",
+      "className": "Druid",
+      "level": 6,
+      "type": "Daily",
+      "description": "You take the form of a treetop creature or another animal or insect that can easily traverse heights, taking to a perch unseen by your enemies.",
+      "traits": "Polymorph, Primal",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You assume the form of a Tiny or Small beast or insect that can climb to great heights with ease until the end of the encounter, or until you end the effect as a free action. In this form, you gain a climb speed equal to your speed and a +5 power bonus to Stealth checks. Additionally, any time you fall, you treat the distance you fall as being 20 feet shorter for the purposes of determining falling damage. While in this form, you can't attack or use magic items."
+      ],
+      "source": "Published in Dragon Magazine 382, page(s) 54.",
+      "link": "https://iws.mx/dnd/?view=power10371"
+    },
+    {
+      "id": "power9666",
+      "title": "Animal Shapes",
+      "className": "Druid",
+      "level": 10,
+      "type": "Daily",
+      "description": "You transform yourself and your allies into mice, beetles, or other seemingly innocuous animals.",
+      "traits": "Polymorph, Primal",
+      "action": "Standard Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Target: You and each ally in the burst",
+        "Effect: Until the end of your next turn, the targets assume the forms of Tiny creatures, such as mice, cats, beetles, or spiders. While in these forms, the targets can't attack, pick up anything, or manipulate objects. The targets gain a +5 power bonus to Stealth checks and a +2 power bonus to AC and Reflex. Each target can end this effect on himself or herself as a minor action.",
+        "Sustain Minor: The effect persists on yourself and any target within 5 squares of you."
+      ],
+      "source": "Published in Primal Power, page(s) 45.",
+      "link": "https://iws.mx/dnd/?view=power9666"
+    },
+    {
+      "id": "power2844",
+      "title": "Armor of the Wild",
+      "className": "Druid",
+      "level": 10,
+      "type": "Daily",
+      "description": "Your hide hardens into armored plates. Your enemies can hurt you, but not as badly as they would like.",
+      "traits": "Beast Form, Primal",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the end of the encounter, while you are in beast form, you gain resistance to all damage equal to your Constitution."
+      ],
+      "source": "Published in Player's Handbook 2, page(s) 89.",
+      "link": "https://iws.mx/dnd/?view=power2844"
+    },
+    {
+      "id": "power13528",
+      "title": "Bountiful Vigor",
+      "className": "Druid",
+      "level": 10,
+      "type": "Daily",
+      "description": "Calling forth the essence of the primal world, you infuse your ally with the power of life and renewal.",
+      "traits": "Healing, Primal",
+      "action": "Minor Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Target: You or one ally in the burst",
+        "Effect: Until the end of the encounter, the target has regeneration 5 while bloodied."
+      ],
+      "source": "Published in Heroes of the Forgotten Kingdoms.",
+      "link": "https://iws.mx/dnd/?view=power13528"
+    },
+    {
+      "id": "power51",
+      "title": "Cleansing Rain",
+      "className": "Druid",
+      "level": 10,
+      "type": "Daily",
+      "description": "A gentle rain falls over the area around you, soothing burning wounds.",
+      "traits": "Primal, Zone",
+      "action": "Minor Action",
+      "range": "Close burst 3",
+      "rows": [
+        "Effect: The burst creates a rainy zone that lasts until the end of the encounter. While within the zone, you and any allies gain resist 10 fire and resist 10 acid and a +2 power bonus to saving throws against ongoing fire damage and ongoing acid damage."
+      ],
+      "source": "Published in Primal Power, page(s) 45.",
+      "link": "https://iws.mx/dnd/?view=power51"
+    },
+    {
+      "id": "power13529",
+      "title": "Clear the Chaff",
+      "className": "Druid",
+      "level": 10,
+      "type": "Encounter",
+      "description": "As primal energy washes over your allies, effects that would hinder them fall away like chaff on the wind.",
+      "traits": "Primal",
+      "action": "Minor Action",
+      "range": "Close burst 3",
+      "rows": [
+        "Target: You and each ally in the burst",
+        "Effect: Each target can make a saving throw with a +2 power bonus."
+      ],
+      "source": "Published in Heroes of the Forgotten Kingdoms.",
+      "link": "https://iws.mx/dnd/?view=power13529"
+    },
+    {
+      "id": "power10373",
+      "title": "Diving Fin",
+      "className": "Druid",
+      "level": 10,
+      "type": "Daily",
+      "description": "You can transform into a small sea creature, using your fins to traverse water as easily as land.",
+      "traits": "Polymorph, Primal",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You assume the form of a Tiny or Small aquatic beast, such as a fish or eel, until the end of the encounter, or until you end the effect as a free action. In this form, you gain a swim speed equal to your speed and you can breathe underwater. While in this form, you can't attack, move on land, or use magic items."
+      ],
+      "source": "Published in Dragon Magazine 382, page(s) 55.",
+      "link": "https://iws.mx/dnd/?view=power10373"
+    },
+    {
+      "id": "power2734",
+      "title": "Feywild Sojourn",
+      "className": "Druid",
+      "level": 10,
+      "type": "Encounter",
+      "description": "You take a jaunt to the Feywild, returning to the world when you have healed and changed form.",
+      "traits": "Primal, Teleportation",
+      "action": "Move Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You teleport to a safe place in the Feywild. While you are there, you can't take any actions other than using your second wind and wild shape. At the end of your next turn or as a move action before then, you reappear in an unoccupied space within 10 squares of the space you left."
+      ],
+      "source": "Published in Player's Handbook 2, page(s) 89.",
+      "link": "https://iws.mx/dnd/?view=power2734"
+    },
+    {
+      "id": "power14515",
+      "title": "Form of the Hunting Falcon",
+      "className": "Druid",
+      "level": 10,
+      "type": "Daily",
+      "description": "You change into a nimble bird of prey that easily soars out of reach of your foes.",
+      "traits": "Polymorph, Primal",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You assume the form of the hunting falcon until you take an extended rest, or until you end this effect as a free action. While in this form, you are Small, you have a fly speed of 8, and you gain a +5 power bonus to Perception checks. However, you cannot attack, manipulate objects, or use any magic item powers."
+      ],
+      "source": "Published in Heroes of the Feywild, page(s) 81.",
+      "link": "https://iws.mx/dnd/?view=power14515"
+    },
+    {
+      "id": "power9667",
+      "title": "Goodberry",
+      "className": "Druid",
+      "level": 10,
+      "type": "Daily",
+      "description": "You infuse mundane berries with primal power, letting those who consume them take advantage of their curative energy.",
+      "traits": "Healing, Primal",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You create four goodberries. Each lasts until it is consumed or until the end of your next extended rest. A creature can take a minor action to consume a goodberry either to regain 10 hit points, to make a saving throw, or to gain 10 temporary hit points."
+      ],
+      "source": "Published in Primal Power, page(s) 45, Heroes of the Forgotten Kingdoms, page(s) 104.",
+      "link": "https://iws.mx/dnd/?view=power9667"
+    },
+    {
+      "id": "power2733",
+      "title": "Roots of Rescue",
+      "className": "Druid",
+      "level": 10,
+      "type": "Encounter",
+      "description": "Roots erupt from the ground and hold your ally in place.",
+      "traits": "Primal",
+      "action": "Immediate Interrupt",
+      "range": "Ranged 10",
+      "rows": [
+        "Trigger: You or an ally within 10 squares of you is pulled, pushed, or slid",
+        "Target: The character affected by the forced movement",
+        "Effect: The target is unaffected by the forced movement."
+      ],
+      "source": "Published in Player's Handbook 2, page(s) 90.",
+      "link": "https://iws.mx/dnd/?view=power2733"
+    },
+    {
+      "id": "power16123",
+      "title": "Spirited Wind",
+      "className": "Druid",
+      "level": 10,
+      "type": "Encounter",
+      "description": "A powerful gust circles around you and lifts you and an ally into the air.",
+      "traits": "Elemental, Primal",
+      "action": "Move Action",
+      "range": "Close burst 1",
+      "rows": [
+        "Target: You and one ally in the burst",
+        "Effect: Each target can fly up to 6 squares as a free action, and gains a +4 power bonus to all defenses against opportunity attacks provoked by this movement."
+      ],
+      "source": "Published in Heroes of the Elemental Chaos, page(s) 64.",
+      "link": "https://iws.mx/dnd/?view=power16123"
+    },
+    {
+      "id": "power4894",
+      "title": "Swarm Swap",
+      "className": "Druid",
+      "level": 10,
+      "type": "Encounter",
+      "description": "As an attack sweeps toward you, you burst into a swarm that swoops over an enemy, forcing it into your space.",
+      "traits": "Beast Form, Primal",
+      "action": "Immediate Interrupt",
+      "range": "Melee 1",
+      "rows": [
+        "Trigger: You are targeted by an area or a close attack",
+        "Target: One creature",
+        "Effect: You swap places with the target."
+      ],
+      "source": "Published in Primal Power, page(s) 45.",
+      "link": "https://iws.mx/dnd/?view=power4894"
+    },
+    {
+      "id": "power14516",
+      "title": "Updraft",
+      "className": "Druid",
+      "level": 10,
+      "type": "Daily",
+      "description": "A gust of wind swirls around you, lifting you into the air.",
+      "traits": "Primal",
+      "action": "Move Action",
+      "range": "Ranged 10",
+      "rows": [
+        "Target: You or one ally",
+        "Effect: The target flies up to 5 squares.",
+        "Sustain Move: The target flies again, or you use the power on a different target."
+      ],
+      "source": "Published in Heroes of the Feywild, page(s) 81.",
+      "link": "https://iws.mx/dnd/?view=power14516"
+    },
+    {
+      "id": "power5057",
+      "title": "Winter Storm",
+      "className": "Druid",
+      "level": 10,
+      "type": "Daily",
+      "description": "Ice covers the ground, and biting wind makes your foes more vulnerable to your cold attacks.",
+      "traits": "Primal, Zone",
+      "action": "Standard Action",
+      "range": "Area burst 2 within 10 squares",
+      "rows": [
+        "Effect: The burst creates a zone of difficult terrain that lasts until the end of your next turn. While within the zone, any enemy gains vulnerable 5 cold. You can end the zone as a minor action.",
+        "Sustain Minor: The zone persists, and you can increase its size by 1 to a maximum of burst 5."
+      ],
+      "source": "Published in Player's Handbook 2, page(s) 90.",
+      "link": "https://iws.mx/dnd/?view=power5057"
+    }
+  ]
+}

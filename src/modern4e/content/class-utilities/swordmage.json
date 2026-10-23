@@ -1,0 +1,538 @@
+{
+  "powers": [
+    {
+      "id": "power5739",
+      "title": "Arcane Transport",
+      "className": "Swordmage",
+      "level": 2,
+      "type": "Daily",
+      "description": "You extend your magic to include a nearby friend as you step through an unseen, arcane corridor.",
+      "traits": "Arcane, Teleportation",
+      "action": "Free Action",
+      "range": "Close burst 2",
+      "rows": [
+        "Trigger: You teleport using a swordmage power",
+        "Target: One ally in the burst",
+        "Effect: The target teleports to a space adjacent to the space you teleport to."
+      ],
+      "source": "Published in Arcane Power, page(s) 52.",
+      "link": "https://iws.mx/dnd/?view=power5739"
+    },
+    {
+      "id": "power5740",
+      "title": "Channeling Shield",
+      "className": "Swordmage",
+      "level": 2,
+      "type": "Encounter",
+      "description": "You throw up a temporary shield to absorb some of the power of a foe's attack.",
+      "traits": "Arcane",
+      "action": "Immediate Interrupt",
+      "range": "Close burst 10",
+      "rows": [
+        "Trigger: An attack hits you or an ally within 10 squares of you",
+        "Target: The creature hit by the triggering attack",
+        "Effect: You reduce the damage the target takes from the triggering attack by 5 + your Constitution.",
+        "Aegis of Shielding: The next successful attack you make before the end of your next turn deals extra damage equal to your Constitution."
+      ],
+      "source": "Published in Arcane Power, page(s) 53.",
+      "link": "https://iws.mx/dnd/?view=power5740"
+    },
+    {
+      "id": "power4276",
+      "title": "Dimensional Warp",
+      "className": "Swordmage",
+      "level": 2,
+      "type": "Encounter",
+      "description": "You reach out with arcane power, and two of your nearby allies suddenly wink out and reappear in each other's places.",
+      "traits": "Arcane, Teleportation",
+      "action": "Minor Action",
+      "range": "Close burst 3",
+      "rows": [
+        "Target: You and one ally in the burst or two allies in the burst",
+        "Effect: Each target teleports into the other's space. Both targets must occupy the same size space, or the power fails."
+      ],
+      "source": "Published in Forgotten Realms Player's Guide, page(s) 28.",
+      "link": "https://iws.mx/dnd/?view=power4276"
+    },
+    {
+      "id": "power3331",
+      "title": "Eldritch Speed",
+      "className": "Swordmage",
+      "level": 2,
+      "type": "Daily",
+      "description": "Eldritch power flows in your blood, and when battle is joined, the power speeds you on.",
+      "traits": "Arcane",
+      "action": "No Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Use this power before rolling initiative. You gain a +5 power bonus to your initiative roll. You can take an extra move action during the first round of combat (or during the surprise round, if you are allowed to act during that round)."
+      ],
+      "source": "Published in Forgotten Realms Player's Guide, page(s) 28.",
+      "link": "https://iws.mx/dnd/?view=power3331"
+    },
+    {
+      "id": "power4797",
+      "title": "Elemental Aegis",
+      "className": "Swordmage",
+      "level": 2,
+      "type": "Daily",
+      "description": "You raise an aegis in your ally's defense, infusing the shield with elemental energy to help defend against certain attacks.",
+      "traits": "Arcane",
+      "action": "Immediate Interrupt",
+      "range": "Close burst 10",
+      "rows": [
+        "Trigger: An enemy you have marked attacks an ally.",
+        "Target: One ally in the burst.",
+        "Effect: Choose a damage type: acid, cold, fire, lightning, or thunder. Your ally gains resistance to that damage type equal to 5 + your Constitution until the end of your next turn."
+      ],
+      "source": "Published in Dragon Magazine 367, page(s) 56.",
+      "link": "https://iws.mx/dnd/?view=power4797"
+    },
+    {
+      "id": "power3332",
+      "title": "Fear No Elements",
+      "className": "Swordmage",
+      "level": 2,
+      "type": "Daily",
+      "description": "The elements of the universe are yours to command, and they do not easily damage you.",
+      "traits": "Arcane",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Choose acid, cold, fire, lightning, or thunder. Until the end of the encounter, you gain resist 5 + your Constitution to that damage type."
+      ],
+      "source": "Published in Forgotten Realms Player's Guide, page(s) 28.",
+      "link": "https://iws.mx/dnd/?view=power3332"
+    },
+    {
+      "id": "power3900",
+      "title": "Ghost Step",
+      "className": "Swordmage",
+      "level": 2,
+      "type": "Daily",
+      "description": "Like a ghost, you glide unharmed through the battlefield.",
+      "traits": "Arcane, Stance",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the stance ends, whenever you shift, you can shift 1 additional square."
+      ],
+      "source": "Published in Arcane Power, page(s) 53.",
+      "link": "https://iws.mx/dnd/?view=power3900"
+    },
+    {
+      "id": "power3903",
+      "title": "Host of Shields",
+      "className": "Swordmage",
+      "level": 2,
+      "type": "Daily",
+      "description": "Your weapon produces a few small, glowing shields that orbit your body and ward off blows.",
+      "traits": "Arcane, Stance",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the stance ends, you gain a +2 power bonus to AC and Reflex."
+      ],
+      "source": "Published in Arcane Power, page(s) 53.",
+      "link": "https://iws.mx/dnd/?view=power3903"
+    },
+    {
+      "id": "power3333",
+      "title": "Mythal Recovery",
+      "className": "Swordmage",
+      "level": 2,
+      "type": "Encounter",
+      "description": "You focus your warding inward to bolster yourself against the onslaught.",
+      "traits": "Arcane",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Make a saving throw against an effect that a save can end."
+      ],
+      "source": "Published in Forgotten Realms Player's Guide, page(s) 28.",
+      "link": "https://iws.mx/dnd/?view=power3333"
+    },
+    {
+      "id": "power10434",
+      "title": "Price of Ensnarement",
+      "className": "Swordmage",
+      "level": 2,
+      "type": "Daily",
+      "description": "Your attacks punish those who cannot escape your reach.",
+      "traits": "Arcane, Stance",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the stance ends, you gain a +2 power bonus to damage rolls against slowed or immobilized targets.",
+        "Aegis of Ensnarement: You also gain a +1 power bonus to attack rolls against slowed or immobilized targets."
+      ],
+      "source": "Published in Dragon Magazine 382, page(s) 24.",
+      "link": "https://iws.mx/dnd/?view=power10434"
+    },
+    {
+      "id": "power12218",
+      "title": "Spellbinder's Gift",
+      "className": "Swordmage",
+      "level": 2,
+      "type": "Daily",
+      "description": "A ring of magical energy washes out from you, clinging to your allies' weapons.",
+      "traits": "Arcane, Varies",
+      "action": "Minor Action",
+      "range": "Close burst 5",
+      "rows": [
+        "Target: Each weapon you or an ally is wielding in the burst",
+        "Effect: Choose fire, cold, lightning, or force. The targeted weapon deals this kind of damage until the end of your next turn.",
+        "Sustain Minor: The effect persists until the end of your next turn."
+      ],
+      "source": "Published in Dragon Magazine 385, page(s) 51.",
+      "link": "https://iws.mx/dnd/?view=power12218"
+    },
+    {
+      "id": "power5741",
+      "title": "Ward of Brilliance",
+      "className": "Swordmage",
+      "level": 2,
+      "type": "Daily",
+      "description": "A brilliant flash of light shields you and blinds your foe.",
+      "traits": "Arcane",
+      "action": "Immediate Interrupt",
+      "range": "Personal",
+      "rows": [
+        "Trigger: An enemy marked by you hits you with a melee attack",
+        "Effect: You gain a +4 power bonus to AC and Reflex until the end of your next turn. If the triggering enemy's attack hits you despite the bonus, the triggering enemy is blinded until the end of your next turn."
+      ],
+      "source": "Published in Arcane Power, page(s) 53.",
+      "link": "https://iws.mx/dnd/?view=power5741"
+    },
+    {
+      "id": "power3357",
+      "title": "Armathor's Step",
+      "className": "Swordmage",
+      "level": 6,
+      "type": "Encounter",
+      "description": "Arcane power speeds you into battle.",
+      "traits": "Arcane, Teleportation",
+      "action": "Move Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Teleport 5 squares. If you end this move adjacent to an enemy, you gain a +2 power bonus to the next attack roll you make against that enemy during your turn."
+      ],
+      "source": "Published in Forgotten Realms Player's Guide, page(s) 29.",
+      "link": "https://iws.mx/dnd/?view=power3357"
+    },
+    {
+      "id": "power3358",
+      "title": "Dimensional Warding",
+      "className": "Swordmage",
+      "level": 6,
+      "type": "Daily",
+      "description": "Your warding warps the flow of magic around you, preventing enemies from sneaky escapes or attacks.",
+      "traits": "Arcane, Stance, Zone",
+      "action": "Minor Action",
+      "range": "Close burst 2",
+      "rows": [
+        "Effect: The burst creates a zone that lasts as long as the stance persists. Enemies within the zone cannot teleport. Enemies outside the zone cannot teleport into it.",
+        "Special: The zone remains centered on you, even if you move."
+      ],
+      "source": "Published in Forgotten Realms Player's Guide, page(s) 29.",
+      "link": "https://iws.mx/dnd/?view=power3358"
+    },
+    {
+      "id": "power16012",
+      "title": "Eldritch Quagmire",
+      "className": "Swordmage",
+      "level": 6,
+      "type": "Daily",
+      "description": "Your spell turns the ground beneath your enemies' feet into gooey mud, which grasps and slows their movement.",
+      "traits": "Arcane, Aura",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You activate an aura 2 that lasts until the end of the encounter or until you deactivate it as a free action. The ground in the aura is difficult terrain for your enemies.",
+        "Aegis of Ensnarement: When you deactivate the aura, one enemy within 2 squares of you is immobilized until the end of your next turn."
+      ],
+      "source": "Published in Dragon Magazine 405.",
+      "link": "https://iws.mx/dnd/?view=power16012"
+    },
+    {
+      "id": "power3359",
+      "title": "Fate-Spurned Foe",
+      "className": "Swordmage",
+      "level": 6,
+      "type": "Daily",
+      "description": "Forces beyond your enemy's comprehension work against it at your command.",
+      "traits": "Arcane",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the end of the encounter, any effect that a save can end that you place on an enemy causes a –2 penalty to saving throws against the effect."
+      ],
+      "source": "Published in Forgotten Realms Player's Guide, page(s) 29.",
+      "link": "https://iws.mx/dnd/?view=power3359"
+    },
+    {
+      "id": "power10435",
+      "title": "Nimbus of Shielding",
+      "className": "Swordmage",
+      "level": 6,
+      "type": "Daily",
+      "description": "You extend a magical ward around nearby allies.",
+      "traits": "Arcane, Stance",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the stance ends, your allies gain a +1 power bonus to AC while adjacent to you.",
+        "Aegis of Shielding: Allies instead gain a +1 power bonus to all defenses while adjacent to you."
+      ],
+      "source": "Published in Dragon Magazine 382, page(s) 24.",
+      "link": "https://iws.mx/dnd/?view=power10435"
+    },
+    {
+      "id": "power3938",
+      "title": "Quickling Stride",
+      "className": "Swordmage",
+      "level": 6,
+      "type": "Encounter",
+      "description": "You move through the battlefield in a blur.",
+      "traits": "Arcane",
+      "action": "Move Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You move 12 squares."
+      ],
+      "source": "Published in Arcane Power, page(s) 55.",
+      "link": "https://iws.mx/dnd/?view=power3938"
+    },
+    {
+      "id": "power1703",
+      "title": "Silversteel Veil",
+      "className": "Swordmage",
+      "level": 6,
+      "type": "Encounter",
+      "description": "You raise a magical ward of thin, wispy silver mist. It seems no more tangible than warm breath on a frosty morning, but it gathers under enemy blows and turns them aside.",
+      "traits": "Arcane, Force",
+      "action": "Minor Action",
+      "range": "Close burst 1",
+      "rows": [
+        "Targets: You and each ally in the burst",
+        "Effect: All affected creatures gain a +2 bonus to AC and Reflex defense until the end of your next turn."
+      ],
+      "source": "Published in Forgotten Realms Player's Guide, page(s) 29.",
+      "link": "https://iws.mx/dnd/?view=power1703"
+    },
+    {
+      "id": "power10353",
+      "title": "Stride of the Gallant",
+      "className": "Swordmage",
+      "level": 6,
+      "type": "Daily",
+      "description": "With the rush of wind, you blink to your enemy's side, darting around the battlefield in a swirl of sword and spell.",
+      "traits": "Arcane, Stance, Teleportation",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the stance ends, you gain teleport 3 as an additional movement mode, but you must end such teleports adjacent to an enemy."
+      ],
+      "source": "Published in Dragon Magazine 382, page(s) 60.",
+      "link": "https://iws.mx/dnd/?view=power10353"
+    },
+    {
+      "id": "power3145",
+      "title": "Swordmage's Decree",
+      "className": "Swordmage",
+      "level": 6,
+      "type": "Daily",
+      "description": "Speaking ancient words of aegis binding, you lower a mantle of magic over your enemies that marks them as your foes.",
+      "traits": "Arcane",
+      "action": "Minor Action",
+      "range": "Close blast 3",
+      "rows": [
+        "Target: Each enemy in the blast",
+        "Effect: The target is marked by your Swordmage Aegis power. Marking the target does not remove the mark on another target already affected by your Swordmage Aegis. If you mark only one target with this power, you do not expend the power but cannot use it again during this encounter."
+      ],
+      "source": "Published in Arcane Power, page(s) 55.",
+      "link": "https://iws.mx/dnd/?view=power3145"
+    },
+    {
+      "id": "power5748",
+      "title": "Unicorn's Touch",
+      "className": "Swordmage",
+      "level": 6,
+      "type": "Daily",
+      "description": "Your blade briefly adopts the appearance of a unicorn horn, sending out a focused pulse of curative energy.",
+      "traits": "Arcane, Healing",
+      "action": "Minor Action",
+      "range": "Close burst 1",
+      "rows": [
+        "Target: You or one ally in the burst",
+        "Effect: The target either rolls a saving throw or regains hit points equal to 5 + your Constitution."
+      ],
+      "source": "Published in Arcane Power, page(s) 55.",
+      "link": "https://iws.mx/dnd/?view=power5748"
+    },
+    {
+      "id": "power4801",
+      "title": "Variable Defense",
+      "className": "Swordmage",
+      "level": 6,
+      "type": "Daily",
+      "description": "You summon the strength of the elements to shield you from damage.",
+      "traits": "Arcane",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Choose a damage type: acid, cold, fire, lightning, or thunder. You have resistance to that damage type equal to your Constitution. As a minor action, you can change the type of resistance to any other listed damage type. This resistance lasts until the end of the encounter."
+      ],
+      "source": "Published in Dragon Magazine 367, page(s) 56.",
+      "link": "https://iws.mx/dnd/?view=power4801"
+    },
+    {
+      "id": "power3160",
+      "title": "Zephyr of the Barren Sands",
+      "className": "Swordmage",
+      "level": 6,
+      "type": "Encounter",
+      "description": "You channel the power of the desert winds to briefly lift you into the air.",
+      "traits": "Arcane",
+      "action": "Move Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You fly a number of squares equal to your speed."
+      ],
+      "source": "Published in Arcane Power, page(s) 55.",
+      "link": "https://iws.mx/dnd/?view=power3160"
+    },
+    {
+      "id": "power3367",
+      "title": "Arcane Awareness",
+      "className": "Swordmage",
+      "level": 10,
+      "type": "Encounter",
+      "description": "Arcane power guides your defensive posture, guarding you even from attacks you can't see coming.",
+      "traits": "Arcane",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the end of your next turn, you do not grant combat advantage to any of your enemies."
+      ],
+      "source": "Published in Forgotten Realms Player's Guide, page(s) 30.",
+      "link": "https://iws.mx/dnd/?view=power3367"
+    },
+    {
+      "id": "power10437",
+      "title": "Armor of Assault",
+      "className": "Swordmage",
+      "level": 10,
+      "type": "Daily",
+      "description": "The magic of your vicious attacks temporarily protects you from harm.",
+      "traits": "Arcane, Stance",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the stance ends, when you hit with a melee weapon attack you gain a +1 power bonus to all defenses until the start of your next turn.",
+        "Aegis of Assault: Increase the power bonus to +2."
+      ],
+      "source": "Published in Dragon Magazine 382, page(s) 24.",
+      "link": "https://iws.mx/dnd/?view=power10437"
+    },
+    {
+      "id": "power3368",
+      "title": "Dimensional Dodge",
+      "className": "Swordmage",
+      "level": 10,
+      "type": "Daily",
+      "description": "As the enemy prepares to riddle you with arrows from afar, you vanish and reappear right next to it.",
+      "traits": "Arcane, Teleportation",
+      "action": "Immediate Interrupt",
+      "range": "Personal",
+      "rows": [
+        "Trigger: An enemy within 20 squares of you hits you with a ranged attack.",
+        "Effect: You teleport adjacent to the enemy."
+      ],
+      "source": "Published in Forgotten Realms Player's Guide, page(s) 30.",
+      "link": "https://iws.mx/dnd/?view=power3368"
+    },
+    {
+      "id": "power3957",
+      "title": "Feywild Grace",
+      "className": "Swordmage",
+      "level": 10,
+      "type": "Daily",
+      "description": "You move with otherworldly grace through even the most difficult environments.",
+      "traits": "Arcane, Stance",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the stance ends, you gain a +2 power bonus to speed and a +2 power bonus to Athletics checks, Acrobatics checks, and Stealth checks, and you ignore difficult terrain."
+      ],
+      "source": "Published in Arcane Power, page(s) 57.",
+      "link": "https://iws.mx/dnd/?view=power3957"
+    },
+    {
+      "id": "power3369",
+      "title": "Impenetrable Warding",
+      "className": "Swordmage",
+      "level": 10,
+      "type": "Daily",
+      "description": "The air shimmers about you and thickens against enemy assault. The mythal protects you, always.",
+      "traits": "Arcane, Stance",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Your warding provides its bonus to all your defenses, not just AC."
+      ],
+      "source": "Published in Forgotten Realms Player's Guide, page(s) 31.",
+      "link": "https://iws.mx/dnd/?view=power3369"
+    },
+    {
+      "id": "power5753",
+      "title": "Like a Feather",
+      "className": "Swordmage",
+      "level": 10,
+      "type": "Encounter",
+      "description": "You fear no height, for your magic gives grace to any landing.",
+      "traits": "Arcane",
+      "action": "Free Action",
+      "range": "Personal",
+      "rows": [
+        "Trigger: You are knocked prone or fall",
+        "Effect: You take no falling damage, and you are not knocked prone."
+      ],
+      "source": "Published in Arcane Power, page(s) 57.",
+      "link": "https://iws.mx/dnd/?view=power5753"
+    },
+    {
+      "id": "power3958",
+      "title": "Spider's Leap",
+      "className": "Swordmage",
+      "level": 10,
+      "type": "Encounter",
+      "description": "Like the deathjump spider, you can pounce upon your prey with frightening speed.",
+      "traits": "Arcane",
+      "action": "Move Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: You make an Athletics check to jump with a +10 power bonus. You are considered to have a running start and can move as far as the check allows.",
+        "Aegis of Ensnarement: When you charge, you can use this power as a free action."
+      ],
+      "source": "Published in Arcane Power, page(s) 57.",
+      "link": "https://iws.mx/dnd/?view=power3958"
+    },
+    {
+      "id": "power3147",
+      "title": "Unerring Vision",
+      "className": "Swordmage",
+      "level": 10,
+      "type": "Daily",
+      "description": "Your eyes glow silver, piercing the veils that separate you and your opponent.",
+      "traits": "Arcane",
+      "action": "Minor Action",
+      "range": "Personal",
+      "rows": [
+        "Effect: Until the end of the encounter, you are automatically aware of each creature within 5 squares of you, including those that are hidden or invisible. You know the squares that any of those creatures occupy, but this knowledge does not negate the effects of cover, superior cover, concealment, or total concealment."
+      ],
+      "source": "Published in Arcane Power, page(s) 57.",
+      "link": "https://iws.mx/dnd/?view=power3147"
+    }
+  ]
+}

@@ -1,10 +1,11 @@
-# Foundry VTT 4e Modules — Mono Repo
+# Foundry VTT Modules and Modern 4e - Mono Repo
 
-This repo holds a set of independent Foundry VTT modules for the DnD4e system, each in its own folder under `src/`. They all target the DnD4e system's [`0.9.3` source](https://github.com/EndlesNights/dnd4eBeta/tree/0.9.3); do not assume current upstream APIs or behavior apply without checking this tag.
+This repo holds independent Foundry VTT modules and the Modern 4e Typst rulebook under `src/`. The Foundry modules target the DnD4e system's [`0.9.3` source](https://github.com/EndlesNights/dnd4eBeta/tree/0.9.3); do not assume current upstream APIs or behavior apply without checking this tag.
 
 ## Layout
 
 - `src/<module-name>/` — one Foundry module per folder, each with its own `module.json` manifest. Module folder names match their `module.json` `id`.
+- `src/modern4e/` - the Typst rulebook, assets, and offline D&D 4e compendium. Load the [modern4e skill](.agents/skills/modern4e/SKILL.md) before reading or editing the rulebook or adapting published mechanics to its local rules. It must NEVER be copied to Foundry.
 - `.agents/skills/` — shared reference skills (DnD4e Active Effect keys, aura effects, effect macros) and one per-module skill (`<module-name>`) carrying that module's specific layout/architecture/style notes. Load the matching module skill before working inside `src/<module-name>/`.
 - `Makefile` / `package.json` — copy built modules into the local Foundry `Data/modules` folder for manual testing; see "Deploying to Foundry" below.
 
@@ -19,14 +20,31 @@ This repo holds a set of independent Foundry VTT modules for the DnD4e system, e
 - Track project TODOs as appropriately labeled GitHub Issues rather than local TODO files.
 - Changes that affect initial hooks or a module's manifest should be tested by reloading Foundry and checking the browser console. Where a module has an automated test suite (check its folder for `package.json`/`test/`), run it and resolve failures before handoff.
 - The user exclusively operates Foundry; do not launch, inspect, automate, or otherwise attempt to validate Foundry directly — ask the user to reload and report results instead.
-- Run `npm run copy-module -- <module-name>` after making changes to a module, so the local Foundry install stays in sync for the user's next reload (see "Deploying to Foundry" below).
+- Copy modules after changes intended to run in Foundry, using `npm run copy-module -- <module-name>` so the local install stays in sync for the user's next reload (see "Deploying to Foundry" below). Standalone throwaway prototypes are excluded from this step.
 
 ## Deploying to Foundry
 
-`npm run copy-modules` (or `make copy-modules`) copies every folder in `src/` into your local Foundry `Data/modules` directory, resolved from `%LOCALAPPDATA%\FoundryVTT\Data\modules` (override with the `FOUNDRY_DATA_PATH` environment variable). Re-run it after making changes, then reload Foundry.
+`npm run copy-modules` (or `make copy-modules`) copies only folders in `src/` with a `module.json` manifest (always excluding `modern4e`, even if explicitly requested) into your local Foundry `Data/modules` directory, resolved from `%LOCALAPPDATA%\FoundryVTT\Data\modules` (override with the `FOUNDRY_DATA_PATH` environment variable). Re-run it after making changes, then reload Foundry.
 
 To copy just one (or a few) modules instead of all of them, pass the module folder name(s): `npm run copy-module -- <module-name>` (or `make copy-module MODULE=<module-name>`).
 
-## Module-specific context
+## Project-specific context
 
-Each module has its own skill under `.agents/skills/<module-name>/SKILL.md` with its layout, architecture, and any module-specific conventions (e.g. the HUD visual style guide for `dnd4e-health-display`, naming conventions for `banter-4e-modifications`). Load the relevant one before editing that module.
+Each project has its own skill under `.agents/skills/<project-name>/SKILL.md` with its layout, architecture, and any module-specific conventions (e.g. the HUD visual style guide for `dnd4e-health-display`, naming conventions for `banter-4e-modifications`). Load the relevant one before working in that project.
+
+## Modern 4e development and shared references
+
+Use `make typst-compile` / `npm run typst:compile` to build `src/modern4e/inDev.pdf`,
+`make typst-watch` / `npm run typst:watch` for continuous builds, and
+`make typst-fonts` / `npm run typst:fonts` to inspect available fonts.
+`make typst-clean` / `npm run typst:clean` removes only that development PDF.
+These commands require Typst on PATH (or `TYPST_BIN` pointing to its executable);
+extra CLI options can be passed via `TYPST_ARGS` in Make or after `--` with npm.
+Rulebook development is independent of Foundry deployment.
+
+For published D&D 4e lookups, entry IDs, and `iws.mx/dnd` links, use the shared
+[4e-compendium skill](.agents/skills/4e-compendium/SKILL.md) and its offline data
+in `src/modern4e/content/compendium/`. Published mechanics and local rulebook
+adaptations are distinct; the rulebook guidance governs adaptations.
+The imported rulebook TODO and issue notes are historical reference; track new
+work in GitHub Issues under the repository convention above.
