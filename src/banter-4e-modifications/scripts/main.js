@@ -9,10 +9,16 @@ import { CoverPreview } from "./modules/cover-preview/cover-preview.js";
 import { ActorDirectoryLevels } from "./modules/actor-directory-levels/actor-directory-levels.js";
 import { AttackBuffs } from "./modules/attack-buffs/attack-buffs.js";
 import { SkillBuffs } from "./modules/skill-buffs/skill-buffs.js";
+import { ChatRolls } from "./modules/chat-rolls/chat-rolls.js";
 import { TRIGGER_SOCKET_ACTION } from "./modules/trigger-prompts/constants.js";
 import { MODULE_NAME, ENABLE_ACTIVE_DEFENSE, ENABLE_DEBUG_LOGGING, ENABLE_OPPORTUNITY_ATTACK_CHAT_ACTIONS, ENABLE_TRIGGER_PROMPTS } from "./shared/globals.js";
 
 let socket;
+
+Hooks.on("i18nInit", ChatRolls.registerSettings);
+Hooks.once("ready", ChatRolls.install);
+Hooks.on("renderChatMessageHTML", ChatRolls.render);
+Hooks.on("renderChatMessage", ChatRolls.render);
 
 Hooks.once("i18nInit", () => CoverPreview.register());
 
@@ -90,6 +96,10 @@ Hooks.on("init", Dnd4eSystemCustomizations.replaceSkills);
 Hooks.once("ready", TargetingWarning.install);
 Hooks.once("ready", AttackBuffs.install);
 Hooks.once("ready", SkillBuffs.install);
+// Chat history renders before ready. Restoring stored badges needs no system
+// imports or live actor data, so register its renderer as the module loads.
+Hooks.on("renderChatMessageHTML", AttackBuffs.renderBadges);
+Hooks.on("renderChatMessage", AttackBuffs.renderBadges);
 Hooks.on("renderActorDirectory", ActorDirectoryLevels.onRenderActorDirectory);
 Hooks.on("updateActor", ActorDirectoryLevels.onUpdateActor);
 

@@ -1,0 +1,45 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Compact chat renderer fixture</title>
+<link rel="stylesheet" href="../../styles/chat-rolls.css">
+<style>
+  body { margin: 20px; background: #17181c; font-family: Georgia, serif; }
+  #chat { width: 310px; }
+  .message { padding: 6px; border: 1px solid #666; margin: 8px 0; }
+  .message-header { color: #ccc; font-size: 10px; }
+  .dice-tooltip { display: none; }
+</style>
+<div id="chat"></div>
+<script type="module">
+  import { ChatRolls } from '../../scripts/modules/chat-rolls/chat-rolls.js';
+  import { AttackBuffs } from '../../scripts/modules/attack-buffs/attack-buffs.js';
+  globalThis.game = { system: { id: 'dnd4e', version: '0.9.3' }, settings: { get: () => true },
+    i18n: { localize: text => text }, user: { isGM: true } };
+  globalThis.canvas = { tokens: { controlled: [] } };
+  globalThis.ui = { notifications: { error: text => { window.feedback = text; } } };
+  const die = { faces: 20, results: [{ result: 2, active: false }, { result: 19, active: true }] };
+  const rolls = [
+    { total: 25, dice: [die], options: {}, skill: true },
+    { total: 25, dice: [die], options: { multirollData: { target: 'Kell-Guild Blade', hitstate: 'hit' },
+      banterAttackSource: { itemName: 'Steel Serpent Strike' },
+      banterAttackBuffs: [{ name: 'Hellsworn Blessing', value: 2, decisive: true }] } },
+    { total: 28, dice: [], options: { hitTypeDamage: true, hitType: 'normal',
+      banterChatRoll: { source: { itemName: 'Steel Serpent Strike' }, contributors: [
+        { sourceUuid: 'effect', name: 'Flame infusion', temporary: true, attribution: 'verified',
+          displayFormula: '2d8 + 2', damageType: 'fire', rolledContribution: 11, diceResults: [5, 4] },
+      ] } } },
+  ];
+  window.messages = rolls.map((roll, index) => {
+    const message = { id: String(index), isContentVisible: true, speaker: { alias: 'Idrani Fullhorn' }, rolls: [roll],
+      flags: roll.skill ? { 'banter-4e-modifications': { skillCheck: { skillName: 'Acrobatics', badges: [{ name: 'Proficiency', value: 5 }] } } } : {} };
+    const root = document.createElement('article');
+    root.className = 'message'; root.dataset.messageId = message.id;
+    root.innerHTML = `<header class="message-header">Idrani Fullhorn · just now</header><div class="message-content"><div class="dice-roll"><div class="dice-result"><div data-action="expandRoll"><div class="dice-formula">2d8 + 2</div><div class="dice-tooltip">Dice results: 5, 4</div><h4 class="dice-total">${roll.total}</h4></div></div></div><div class="chatDamageButtons">${roll.options.hitTypeDamage ? '<button class="chat-damage-button" data-action="Damage">Native damage</button><button class="chat-damage-button" data-action="HalfDamage">Half Damage</button>' : ''}</div></div>`;
+    document.querySelector('#chat').append(root);
+    ChatRolls.render(message, root);
+    AttackBuffs.renderBadges(message, root);
+    ChatRolls.render(message, [root]);
+    return message;
+  });
+  window.fixtureReady = true;
+</script>

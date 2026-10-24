@@ -11,6 +11,24 @@ test("typed replacement bonuses reduce the decisive contribution; untyped modifi
   assert.equal(findBonusLoss({ power: [6] }, { power: [4] }, { power: [] }), null);
 });
 
+test("attack base badges show ability, weapon proficiency, and the half-level actually referenced", () => {
+  const { item } = fixture();
+  item.system.attack = { ability: "str", formula: "@wepAttack + @powerMod + @lvhalf" };
+  item.actor.system.abilities = { str: { value: 10, mod: 0 } };
+  const weapon = { system: { attackForm: "@profBonus + @enhance" } };
+  const badges = [];
+  AttackBuffs.appendBaseAttackBadges(badges, item, { powerMod: 0, profBonus: 3, lvhalf: 5 }, weapon);
+  assert.deepEqual(badges.map(badge => [badge.name, badge.value]), [["Strength", 0], ["Proficiency", 3], ["Half-Level", 5]]);
+  item.system.attack.formula = "@powerMod";
+  const custom = [];
+  AttackBuffs.appendBaseAttackBadges(custom, item, { powerMod: 0, profBonus: 3, lvhalf: 5 }, weapon);
+  assert.deepEqual(custom.map(badge => badge.name), ["Strength"]);
+  item.system.attack.ability = null;
+  const missing = [];
+  AttackBuffs.appendBaseAttackBadges(missing, item, {}, null);
+  assert.deepEqual(missing, []);
+});
+
 test("decisive means a hit becomes a miss, with ties still hitting", () => {
   const badges = [{ name: "Bless", value: 2, loss: 2 }, { name: "Charge", value: 1, loss: 1 }];
   assert.deepEqual(resolveBuffBadges(badges, 21, 20, "", "hit").map(badge => badge.decisive), [true, false]);
@@ -190,7 +208,7 @@ test("render uses text nodes, is idempotent, and hides private roll badges", () 
   AttackBuffs.renderBadges(message, root);
   AttackBuffs.renderBadges(message, [root]);
   assert.equal(result.children.length, 1);
-  assert.equal(result.children[0].children[0].textContent, "✦ <img onerror=bad> +2");
+  assert.deepEqual(result.children[0].children[0].children.map(child => child.textContent), ["✦ <img onerror=bad>", "+2"]);
   assert.ok(!result.children[0].children[0].title.includes("AC"));
 });
 
@@ -252,10 +270,10 @@ test("penalty rendering has a red class, a signed number, and the rescued-hit to
     { name: "Marked", value: -2, decisivePenalty: true },
     { name: "Weapon enhancement", value: 2, source: "Spear", kind: "enhancement" },
   ] } }] }, root);
-  assert.equal(created[1].className, "banter-attack-buff banter-attack-buff--decisive-penalty");
-  assert.equal(created[1].textContent, "✦ Marked -2");
+  assert.equal(created[1].className, "banter-attack-buff banter-attack-buff--penalty banter-attack-buff--decisive-penalty");
+  assert.deepEqual(created[1].children.map(child => child.textContent), ["✦ Marked", "-2"]);
   assert.equal(created[1].title, "Without Marked, this attack would hit.");
-  assert.equal(created[2].className, "banter-attack-buff");
-  assert.equal(created[2].textContent, "Enchantment +2");
-  assert.equal(created[2].title, "Spear: listed enhancement +2.");
+  assert.equal(created[4].className, "banter-attack-buff");
+  assert.deepEqual(created[4].children.map(child => child.textContent), ["Enchantment", "+2"]);
+  assert.equal(created[4].title, "Spear: listed enhancement +2.");
 });

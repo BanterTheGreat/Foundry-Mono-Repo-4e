@@ -147,9 +147,13 @@ test("skill badge rendering highlights against a known DC, without automatic nat
   assert.equal(render(14, 15, { name: "Curse", value: -2, loss: -2 }).title, "Without Curse, this check would succeed.");
   assert.equal(render(15, null, { name: "Proficiency", value: 5, loss: 5 }).className, "banter-attack-buff");
   assert.equal(render(15, 15, { name: "Dexterity", kind: "ability", score: 16, value: 3, loss: 0 }).title, "Dexterity 16: +3 ability modifier.");
+  for (const name of ["Proficiency", "Dexterity", "Half-Level", "Bless"]) {
+    assert.equal(render(15, 15, { name, value: 0, loss: 0 }), undefined);
+    assert.equal(created.length, 0, "zero-only modifiers should not create an empty badge row");
+  }
 });
 
-test("ability badges follow the configured skill ability, hide zero, and preserve negative modifiers", () => {
+test("ability badges follow the configured skill ability and preserve zero and negative modifiers", () => {
   const { actor } = fixture();
   actor.system.abilities = { dex: { value: 16, mod: 3 }, wis: { value: 8, mod: -1 } };
   actor.system.skills.ste.ability = "dex";
@@ -160,7 +164,15 @@ test("ability badges follow the configured skill ability, hide zero, and preserv
   assert.equal(SkillBuffs.snapshot(actor, "ste").badges[0].name, "Wisdom");
   assert.equal(SkillBuffs.snapshot(actor, "ste").badges[0].value, -1);
   actor.system.skills.ste.mod = 0;
-  assert.ok(SkillBuffs.snapshot(actor, "ste").badges.every(badge => badge.kind !== "ability"));
+  assert.equal(SkillBuffs.snapshot(actor, "ste").badges[0].value, 0);
   actor.system.skills.ste.absolute = 20;
   assert.ok(SkillBuffs.snapshot(actor, "ste").badges.every(badge => badge.kind !== "ability"));
+});
+
+test("skills show Half-Level only when the system includes it", () => {
+  const { actor } = fixture();
+  actor.system.details = { level: 11 };
+  assert.equal(SkillBuffs.snapshot(actor, "ste").badges.find(badge => badge.name === "Half-Level").value, 5);
+  actor.system.halfLevelOptions = true;
+  assert.ok(SkillBuffs.snapshot(actor, "ste").badges.every(badge => badge.name !== "Half-Level"));
 });

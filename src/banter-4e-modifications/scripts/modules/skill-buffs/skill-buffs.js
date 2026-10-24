@@ -75,7 +75,7 @@ export class SkillBuffs {
     const modifier = skill.mod ?? ability?.mod;
     // The ability badge describes the base modifier, like weapon enhancement
     // on attacks. Keep it neutral; removable effects retain their own badges.
-    if (Number.isFinite(modifier) && modifier !== 0 && Number.isNaN(parseInt(skill.absolute))) {
+    if (Number.isFinite(modifier) && Number.isNaN(parseInt(skill.absolute))) {
       const names = { str: "Strength", con: "Constitution", dex: "Dexterity", int: "Intelligence", wis: "Wisdom", cha: "Charisma" };
       const label = globalThis.CONFIG?.DND4E?.abilityScores?.[abilityId]?.label ?? names[abilityId] ?? abilityId;
       badges.push({
@@ -105,6 +105,11 @@ export class SkillBuffs {
       addSource(trainingType === "expertise" ? "Expertise" : "Proficiency", source => {
         source.system.skills[skillId].training = 0;
       }, value);
+    }
+
+    const level = actor.system.details?.level;
+    if (Number.isFinite(level) && !actor.system.halfLevelOptions && Number.isNaN(parseInt(skill.absolute))) {
+      badges.push({ name: "Half-Level", kind: "base", value: Math.floor(level / 2), loss: 0, decisive: false });
     }
 
     // Include manual named sheet bonuses as well as automated item effects.
@@ -165,6 +170,8 @@ export class SkillBuffs {
       }
     }
     const target = dc === null || dc === undefined || dc === "" ? null : Number(dc);
-    return { skillId, dc: Number.isFinite(target) ? target : null, badges };
+    const label = globalThis.CONFIG?.DND4E?.skills?.[skillId]?.label;
+    return { skillId, ...(label ? { skillName: globalThis.game?.i18n?.localize(label) ?? label } : {}),
+      dc: Number.isFinite(target) ? target : null, badges };
   }
 }

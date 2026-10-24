@@ -23,8 +23,6 @@ export class AttackBuffs {
       ]);
       AttackBuffs.wrapRollClass(MultiAttackRoll, utils);
       Hooks.on("dnd4e.preAttackRoll", AttackBuffs.captureAttack);
-      Hooks.on("renderChatMessageHTML", AttackBuffs.renderBadges);
-      Hooks.on("renderChatMessage", AttackBuffs.renderBadges);
     } catch (error) {
       console.error("banter-4e-modifications | Unable to install attack buff badges", error);
     }
@@ -60,6 +58,9 @@ export class AttackBuffs {
         }
       }
       const roll = await original.call(this, parts, replacements, data, options);
+      if (context) {
+        roll.options.banterAttackSource = { version: 1, itemName: context.item.name };
+      }
       if (badges.length) {
         roll.options[OPTION_KEY] = badges;
       }
@@ -237,6 +238,7 @@ export class AttackBuffs {
     const badges = [];
     const actor = item.actor;
     const weapon = utils.getWeaponUse(item.system, actor);
+    AttackBuffs.appendBaseAttackBadges(badges, item, data, weapon);
     const enhancement = Number(weapon?.system?.enhance);
     if (weapon && Number.isFinite(enhancement) && enhancement > 0) {
       badges.push({
@@ -299,6 +301,35 @@ export class AttackBuffs {
   }
 
   /**
+   * Describe the base attack components from the actual item roll data. Expand
+   * weapon formula aliases to detect proficiency/half-level inside them; do
+   * not assume every custom attack formula includes those components.
+   */
+  static appendBaseAttackBadges(badges, item, data, weapon) {
+    const abilityId = data.ability ?? item.system.attack?.ability;
+    const ability = item.actor.system.abilities?.[abilityId];
+    const modifier = data.powerMod ?? data.mod ?? ability?.mod;
+    if (abilityId && Number.isFinite(modifier)) {
+      const names = { str: "Strength", con: "Constitution", dex: "Dexterity", int: "Intelligence", wis: "Wisdom", cha: "Charisma" };
+      const label = CONFIG.DND4E.abilityScores?.[abilityId]?.label ?? names[abilityId] ?? abilityId;
+      badges.push({ name: game.i18n.localize(label), kind: "ability", score: Number.isFinite(ability?.value) ? ability.value : null,
+        value: modifier, loss: 0, decisive: false });
+    }
+    const weaponFormula = weapon?.system.weaponType === "implement" ? weapon.system.attackFormImp : weapon?.system.attackForm;
+    const expression = (item.system.attack?.formula ?? "")
+      .replace(/@wepAttack\b/g, `(${weaponFormula ?? "0"})`)
+      .replace(/@impAttackO?\b/g, `(${weapon?.system.attackFormImp ?? "0"})`);
+    const proficiency = ["profBonus", "profImpBonus"].filter(key => new RegExp(`@${key}\\b`).test(expression))
+      .map(key => data[key]);
+    if (proficiency.length && proficiency.every(Number.isFinite)) {
+      badges.push({ name: "Proficiency", kind: "base", value: proficiency.reduce((sum, value) => sum + value, 0), loss: 0, decisive: false });
+    }
+    if (/@lvhalf\b/.test(expression) && Number.isFinite(data.lvhalf)) {
+      badges.push({ name: "Half-Level", kind: "base", value: data.lvhalf, loss: 0, decisive: false });
+    }
+  }
+
+  /**
    * Render attack and skill snapshots beneath the roll total. Respect private
    * roll visibility and both supported HTML/jQuery hook payloads. Rerenders
    * use only the serialized snapshot, never the actor's current effects.
@@ -308,6 +339,9 @@ export class AttackBuffs {
       return;
     }
     const root = html?.[0] ?? html;
+    if (root?.querySelector?.('.banter-roll')) {
+      return;
+    }
     const rolls = root?.querySelectorAll?.(".dice-roll");
     if (!rolls) {
       return;
@@ -317,7 +351,7 @@ export class AttackBuffs {
       const badges = skill
         ? resolveBuffBadges(skill.badges, roll.total, skill.dc, "", Number.isFinite(skill.dc) ? roll.total >= skill.dc ? "hit" : "miss" : "")
         : roll.options?.[OPTION_KEY];
-      const visibleBadges = badges?.filter(badge => badge.kind !== "ability" || badge.value !== 0);
+      const visibleBadges = badges?.filter(badge => badge.value !== 0);
       const result = rolls[index]?.querySelector(".dice-result");
       if (!visibleBadges?.length || !result?.querySelector(".dice-total") || result.querySelector(".banter-attack-buffs")) {
         return;
@@ -327,10 +361,19 @@ export class AttackBuffs {
       row.setAttribute("aria-label", skill ? "Skill proficiency and modifiers" : "Weapon enhancement and temporary attack modifiers");
       for (const badge of visibleBadges) {
         const chip = document.createElement("span");
-        chip.className = `banter-attack-buff${badge.decisivePenalty ? " banter-attack-buff--decisive-penalty" : badge.decisive ? " banter-attack-buff--decisive" : ""}`;
+        const neutral = badge.kind === "enhancement" || badge.kind === "ability" || badge.kind === "base" || ["Proficiency", "Expertise"].includes(badge.name);
+        const polarity = badge.value < 0 ? " banter-attack-buff--penalty" : !neutral && badge.value > 0 ? " banter-attack-buff--bonus" : "";
+        chip.className = `banter-attack-buff${polarity}${badge.decisivePenalty ? " banter-attack-buff--decisive-penalty" : badge.decisive ? " banter-attack-buff--decisive" : ""}`;
         chip.tabIndex = 0;
         const name = badge.kind === "enhancement" ? "Enchantment" : badge.name;
-        chip.textContent = `${badge.decisive || badge.decisivePenalty ? "✦ " : ""}${name} ${badge.value > 0 ? "+" : ""}${badge.value}`;
+        const label = document.createElement("span");
+        label.className = "banter-attack-buff__name";
+        label.textContent = `${badge.decisive || badge.decisivePenalty ? "✦ " : ""}${name}`;
+        const value = document.createElement("strong");
+        value.className = "banter-attack-buff__value";
+        value.textContent = `${badge.value > 0 ? "+" : ""}${badge.value}`;
+        chip.append(label);
+        chip.append(value);
         chip.title = badge.kind === "enhancement"
           ? `${badge.source}: listed enhancement +${badge.value}.`
           : badge.kind === "ability"
