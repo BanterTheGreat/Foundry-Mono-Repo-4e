@@ -50,6 +50,7 @@ test("module entry point registers settings, sockets, and enabled feature hooks"
     "banter-4e-modifications.enable-compact-chat-rolls",
     "banter-4e-modifications.enable-opportunity-attack-chat-actions",
     "banter-4e-modifications.enable-trigger-prompts",
+    "banter-4e-modifications.enable-targeting-warning",
   ].sort());
   const compactSetting = settings.find(([, key]) => key === 'enable-compact-chat-rolls')[2];
   assert.equal(compactSetting.scope, 'client');

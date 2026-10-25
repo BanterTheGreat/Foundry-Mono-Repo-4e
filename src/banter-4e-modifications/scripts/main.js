@@ -16,6 +16,7 @@ import { MODULE_NAME, ENABLE_ACTIVE_DEFENSE, ENABLE_DEBUG_LOGGING, ENABLE_OPPORT
 let socket;
 
 Hooks.on("i18nInit", ChatRolls.registerSettings);
+Hooks.on("i18nInit", TargetingWarning.registerSettings);
 Hooks.once("ready", ChatRolls.install);
 Hooks.on("renderChatMessageHTML", ChatRolls.render);
 Hooks.on("renderChatMessage", ChatRolls.render);

@@ -1,27 +1,28 @@
 /* Active defense uses player-facing verdicts and keeps effects outside disclosure. */
 .banter-defense {
-  --defense-ink: #b7e9c7;
-  --defense-edge: #719b7e;
-  --defense-wash: #2e4035;
+  --defense-ink: #b9ddb5;
+  --defense-wash: #243021;
   margin: 4px 0;
-  color: #eee6d9;
-  border: 1px solid var(--defense-edge);
-  border-left: 4px solid var(--defense-ink);
+  color: #ebe7de;
+  border: 1px solid #8f794e;
   border-radius: 5px;
-  background: linear-gradient(110deg, var(--defense-wash), #292a30 80%);
+  background: linear-gradient(90deg,
+    color-mix(in srgb, var(--defense-wash) 85%, var(--defense-ink)) 0%,
+    color-mix(in srgb, var(--defense-wash) 55%, #090909) 24%,
+    #090909 65%);
   overflow: clip;
   font: 12px/1.5 Arial, sans-serif;
 }
-.banter-defense--hit { --defense-ink: #ffb6b6; --defense-edge: #a56d73; --defense-wash: #412f34; }
-.banter-defense--pending { --defense-ink: #dfcba8; --defense-edge: #8e7a58; --defense-wash: #3d3930; }
-.banter-defense--critical { --defense-ink: #ff9baf; --defense-edge: #a34059; --defense-wash: #4b1728; }
+.banter-defense--hit { --defense-ink: #f0b4b4; --defense-wash: #3a2323; }
+.banter-defense--pending { --defense-ink: #d1c6b4; --defense-wash: #302c25; }
+.banter-defense--critical { --defense-ink: #e5cc8e; --defense-wash: #3b311e; }
 .banter-defense > details > summary {
   display: grid;
-  grid-template-columns: 78px minmax(0, 1fr) 39px 10px;
+  grid-template-columns: 76px minmax(0, 1fr) 39px 10px;
   align-items: center;
   gap: 8px;
-  min-height: 84px;
-  padding: 11px 10px;
+  min-height: 78px;
+  padding: 12px 10px;
   cursor: pointer;
   list-style: none;
 }
@@ -34,20 +35,20 @@
   justify-content: center;
   text-align: center;
   padding-right: 8px;
-  border-right: 1px solid #ffffff30;
+  border-right: 1px solid color-mix(in srgb, var(--defense-ink) 35%, #493c26);
 }
-.banter-defense__verdict > strong { font-size: 16px; line-height: 1.25; color: var(--defense-ink); }
+.banter-defense__verdict > strong { font: 700 16px/1.25 Georgia, serif; color: var(--defense-ink); }
 .banter-defense--pending .banter-defense__verdict > strong { font-size: 14px; white-space: nowrap; }
-.banter-defense__verdict > small { margin-top: 5px; font-size: 11px; color: #c4bbae; }
+.banter-defense__verdict > small { margin-top: 5px; font-size: 10px; color: #b5aa96; }
 .banter-defense__identity { min-width: 0; overflow-wrap: anywhere; }
-.banter-defense__identity > strong { font-size: 13px; }
-.banter-defense__identity > div { font-size: 11px; color: #c4bbae; }
-.banter-defense__dc { padding-left: 8px; border-left: 1px solid #ffffff25; text-align: center; }
+.banter-defense__identity > strong { font-size: 12px; }
+.banter-defense__identity > div { font-size: 10px; color: #b5aa96; }
+.banter-defense__dc { padding-left: 8px; border-left: 1px solid #493c26; text-align: center; }
 .banter-defense__dc > small { display: block; font-size: 9px; letter-spacing: .08em; color: #c8b999; }
-.banter-defense__dc > strong { display: block; font: 25px/1.25 Georgia, serif; color: #f4dfb9; }
-.banter-defense__chevron { font: 24px/1 Arial, sans-serif; color: #c4bbae; }
+.banter-defense__dc > strong { display: block; font: 25px/1.25 Georgia, serif; color: #e5cc8e; }
+.banter-defense__chevron { font: 21px/1 Arial, sans-serif; color: #c5b99c; }
 .banter-defense details[open] > summary .banter-defense__chevron { transform: rotate(90deg); }
-.banter-defense__calculation, .banter-defense__effect { padding: 9px 10px; border-top: 1px solid #ffffff25; }
+.banter-defense__calculation, .banter-defense__effect { padding: 9px 10px; border-top: 1px solid #493c26; background: #090909; color: #c5b99c; }
 .banter-defense__effect > strong { display: block; margin-bottom: 3px; font-size: 10px; letter-spacing: .08em; color: var(--defense-ink); }
 .banter-defense__effect p { margin: 0; }
 .chat-message.message:has(.banter-defense) { background: transparent; border: 0; box-shadow: none; padding: 0; }
