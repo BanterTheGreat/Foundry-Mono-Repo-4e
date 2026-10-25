@@ -19,8 +19,8 @@ test("MCP handshake exposes reads and NPC creation, validates arguments, and rep
   await server.connect(serverTransport);
   await client.connect(clientTransport);
   const { tools } = await client.listTools();
-  assert.deepEqual(tools.map(tool => tool.name), ["add_scene_drawings", "edit_journal_pages", "create_journal", "build_magic_item", "get_merchant_inventory", "edit_merchant_inventory", "get_session", "list_documents", "get_document", "list_compendiums", "list_compendium_documents", "list_conditions", "add_item_effects", "create_ritual", "create_feat", "setup_pc", "import_pc_options", "set_pc_basic_attack_ability", "fix_pc_item_icons", "edit_npc_actor", "create_item", "create_npc_actor"]);
-  assert.ok(tools.filter(tool => !["add_scene_drawings", "edit_journal_pages", "create_journal", "build_magic_item", "edit_merchant_inventory", "add_item_effects", "create_npc_actor", "create_item", "create_ritual", "create_feat", "setup_pc", "import_pc_options", "set_pc_basic_attack_ability", "fix_pc_item_icons", "edit_npc_actor"].includes(tool.name)).every(tool => tool.annotations.readOnlyHint));
+  assert.deepEqual(tools.map(tool => tool.name), ["add_scene_drawings", "edit_journal_pages", "create_journal", "build_magic_item", "get_merchant_inventory", "edit_merchant_inventory", "get_session", "list_documents", "get_document", "list_compendiums", "list_compendium_documents", "list_conditions", "add_item_effects", "create_ritual", "create_feat", "setup_pc", "import_pc_options", "edit_pc_actor", "edit_pc_powers", "set_pc_basic_attack_ability", "fix_pc_item_icons", "edit_npc_actor", "create_item", "create_npc_actor"]);
+  assert.ok(tools.filter(tool => !["add_scene_drawings", "edit_journal_pages", "create_journal", "build_magic_item", "edit_merchant_inventory", "add_item_effects", "create_npc_actor", "create_item", "create_ritual", "create_feat", "setup_pc", "import_pc_options", "edit_pc_actor", "edit_pc_powers", "set_pc_basic_attack_ability", "fix_pc_item_icons", "edit_npc_actor"].includes(tool.name)).every(tool => tool.annotations.readOnlyHint));
   assert.equal(tools.at(-1).annotations.readOnlyHint, false);
   assert.equal(tools.at(-1).annotations.idempotentHint, true);
   const ritual = { requestId: "custom-ritual-001", name: "Project Reflection", level: 5,
@@ -185,6 +185,35 @@ test("MCP handshake exposes reads and NPC creation, validates arguments, and rep
   assert.equal(calls.length, powerCalls);
   assert.equal(editTool.annotations.readOnlyHint, false);
   assert.equal(editTool.annotations.destructiveHint, true);
+  const pcActor = { uuid: "Actor.pc", system: {
+    abilities: { str: { value: 18 } }, skills: { ath: { training: 5 } },
+    details: { weaponProf: { value: ["simpleM"], custom: "Longsword" } },
+    languages: { spoken: { value: ["Common", "Elven"] } }
+  } };
+  assert.notEqual((await client.callTool({ name: "edit_pc_actor", arguments: pcActor })).isError, true);
+  assert.deepEqual(calls.at(-1), { operation: "edit_pc_actor", args: pcActor });
+  const pcActorCalls = calls.length;
+  for (const invalid of [{ ...pcActor, flags: {} }, { ...pcActor, items: [] },
+    { uuid: "Actor.pc", system: { skills: { ath: { training: 1 } } } },
+    { uuid: "Actor.pc", system: { abilities: { str: { mod: 5 } } } },
+    { uuid: "Actor.pc", system: { details: { level: 0 } } },
+    { uuid: "Actor.pc", system: { languages: { spoken: { value: [1] } } } }]) {
+    assert.equal((await client.callTool({ name: "edit_pc_actor", arguments: invalid })).isError, true);
+  }
+  assert.equal(calls.length, pcActorCalls);
+  const pcActorTool = tools.find(tool => tool.name === "edit_pc_actor");
+  assert.equal(pcActorTool.annotations.readOnlyHint, false);
+  assert.equal(pcActorTool.annotations.idempotentHint, true);
+  const pcPowers = { uuid: "Actor.pc", powers: [{ id: "power", system: { autoGenChatPowerCard: true, description: { chat: "Flavor" } } }] };
+  assert.notEqual((await client.callTool({ name: "edit_pc_powers", arguments: pcPowers })).isError, true);
+  assert.deepEqual(calls.at(-1), { operation: "edit_pc_powers", args: pcPowers });
+  const pcPowerCalls = calls.length;
+  for (const invalid of [{ ...pcPowers, powers: [] }, { ...pcPowers, system: {} },
+    { ...pcPowers, powers: [{ id: "power", effects: [] }] },
+    { ...pcPowers, powers: [{ id: "power", system: { macros: [] } }] }]) {
+    assert.equal((await client.callTool({ name: "edit_pc_powers", arguments: invalid })).isError, true);
+  }
+  assert.equal(calls.length, pcPowerCalls);
   const basicAttacks = { uuid: "Actor.pc", ability: "wis", summary: "Switch both basic attacks to Wisdom." };
   assert.notEqual((await client.callTool({ name: "set_pc_basic_attack_ability", arguments: basicAttacks })).isError, true);
   assert.deepEqual(calls.at(-1), { operation: "set_pc_basic_attack_ability", args: basicAttacks });

@@ -54,7 +54,7 @@ export class ChatRollActions {
   }
 
   /** Preserve controlled-token targeting; calcDamage owns mitigation and HP. */
-  static async apply(message) {
+  static async apply(message, multiplier = 1) {
     if (message.isContentVisible === false || ChatRollActions.pending.has(message.id)) {
       return false;
     }
@@ -77,7 +77,7 @@ export class ChatRollActions {
     }
     ChatRollActions.pending.add(message.id);
     try {
-      const results = await Promise.allSettled(actors.map(actor => ChatRollActions.applyActorDamage(actor, typedDamage(roll), 1 / divisor)));
+      const results = await Promise.allSettled(actors.map(actor => ChatRollActions.applyActorDamage(actor, typedDamage(roll), multiplier / divisor)));
       const failed = results.filter(result => result.status === 'rejected');
       if (failed.length) {
         console.error('banter-4e-modifications | Damage application failed', failed);
@@ -91,7 +91,7 @@ export class ChatRollActions {
   }
 
   /** Use the awaited adapter only on the pinned version; keep other native actions. */
-  static bind(button, message) {
+  static bind(button, message, multiplier = 1) {
     if (game.system.version !== '0.9.3') {
       return;
     }
@@ -102,7 +102,7 @@ export class ChatRollActions {
       event.stopPropagation();
       button.disabled = true;
       try {
-        await ChatRollActions.apply(message);
+        await ChatRollActions.apply(message, multiplier);
       } finally {
         button.disabled = false;
       }

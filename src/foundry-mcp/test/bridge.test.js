@@ -213,6 +213,42 @@ test("PC basic attack transport waits for confirmation and reports uncertain dis
   await rejected;
 });
 
+test("PC power edit transport waits for confirmation and reports uncertain disconnects", async t => {
+  const { bridge, token } = await fixture(t);
+  const socket = await pair(bridge, token);
+  const args = { uuid: "Actor.pc", powers: [{ id: "power", system: { autoGenChatPowerCard: true } }] };
+  const incoming = once(socket, "message");
+  const pending = bridge.request("edit_pc_powers", args);
+  const request = JSON.parse((await incoming)[0]);
+  assert.deepEqual(request.args, args);
+  await new Promise(resolve => setTimeout(resolve, 150));
+  assert.equal(bridge.pending.size, 1);
+  socket.send(JSON.stringify({ type: "response", id: request.id, worldId: "world", userId: "gm", result: { status: "cancelled" } }));
+  assert.deepEqual(await pending, { status: "cancelled" });
+  const lost = bridge.request("edit_pc_powers", args);
+  const rejected = assert.rejects(lost, /confirmed PC power change may have saved/);
+  socket.close();
+  await rejected;
+});
+
+test("PC actor edit transport waits for confirmation and reports uncertain disconnects", async t => {
+  const { bridge, token } = await fixture(t);
+  const socket = await pair(bridge, token);
+  const args = { uuid: "Actor.pc", system: { abilities: { str: { value: 18 } } } };
+  const incoming = once(socket, "message");
+  const pending = bridge.request("edit_pc_actor", args);
+  const request = JSON.parse((await incoming)[0]);
+  assert.deepEqual(request.args, args);
+  await new Promise(resolve => setTimeout(resolve, 150));
+  assert.equal(bridge.pending.size, 1);
+  socket.send(JSON.stringify({ type: "response", id: request.id, worldId: "world", userId: "gm", result: { status: "cancelled" } }));
+  assert.deepEqual(await pending, { status: "cancelled" });
+  const lost = bridge.request("edit_pc_actor", args);
+  const rejected = assert.rejects(lost, /confirmed PC actor change may have saved/);
+  socket.close();
+  await rejected;
+});
+
 test("protocol v2 clients cannot pair with the edit-capable companion", async t => {
   const { bridge, token } = await fixture(t);
   const socket = new WebSocket(`ws://127.0.0.1:${bridge.port}/bridge`, { origin });

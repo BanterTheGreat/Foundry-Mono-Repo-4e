@@ -203,10 +203,21 @@
     = Powers
     You may choose 2 At-Will, 1 Encounter and 2 Daily #className Powers.
 
-    #classes.powerLinks(className: className);
+    #classes.powerLinks(className: className, skipPaths: true);
     #pagebreak()
 
     #set page(columns: 1)
+
+    #align(center)[
+      = #className Paragon Paths
+    ]
+    #classes.zeitgeistPathReference()
+
+    #columns(2)[
+      #theme.pathBlocksFromJson("../content/paths/barbarian.json")
+    ]
+
+    #pagebreak()
 
     #align(center)[
       = Heroic #className Feats

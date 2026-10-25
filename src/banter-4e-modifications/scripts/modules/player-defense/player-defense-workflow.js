@@ -1,10 +1,10 @@
 /**
  * Produces the user-visible values for a Player Defense dialog.
  *
- * @param {{attackName: string, attackerName: string, defenseStat: string, defenseMod: number, rollDC: number, attackModifier: number, baseDefense: number, reversedRollOffset: number, hitText?: string, missText?: string}} target
+ * @param {{attackName: string, attackerName: string, defenseStat: string, defenseMod: number, defenseDice?: string, rollDC: number, attackModifier: number, baseDefense: number, reversedRollOffset: number, hitText?: string, missText?: string}} target
  * @returns {{title: string, content: string, defendLabel: string}}
  */
-export function createDefenseDialogPayload({ attackName, attackerName, defenseStat, defenseMod, rollDC, attackModifier, baseDefense, reversedRollOffset, hitText = "", missText = "" }) {
+export function createDefenseDialogPayload({ attackName, attackerName, defenseStat, defenseMod, defenseDice = "1d20", rollDC, attackModifier, baseDefense, reversedRollOffset, hitText = "", missText = "" }) {
   const defenseValue = baseDefense + defenseMod;
   const formatSignedNumber = value => value >= 0 ? `+${value}` : `${value}`;
   const defenseCheckName = {
@@ -27,7 +27,7 @@ export function createDefenseDialogPayload({ attackName, attackerName, defenseSt
           <summary class="player-defense-dialog__check" aria-label="Show defense and DC breakdown">
             <span class="player-defense-dialog__eyebrow">${defenseCheckName} check</span>
             <strong>DC ${rollDC}</strong>
-            <span class="player-defense-dialog__check-instruction">Roll 1d20 + ${defenseMod} to defend</span>
+            <span class="player-defense-dialog__check-instruction">Roll ${defenseDice} + ${defenseMod} to defend</span>
             <span class="player-defense-dialog__disclosure-icon" aria-hidden="true"></span>
           </summary>
           <div class="player-defense-dialog__math-section">

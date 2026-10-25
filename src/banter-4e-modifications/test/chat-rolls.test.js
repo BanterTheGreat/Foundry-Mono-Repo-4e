@@ -36,9 +36,13 @@ test('attack entries preserve their own stored outcomes, names and totals', () =
   assert.equal(describeRoll(message, attack(25, 'hit')).label, 'Idrani Fullhorn Hit Kell-Guild Blade');
   assert.equal(describeRoll(message, attack(14, 'miss'), 1).total, 14);
   assert.match(describeRoll(message, attack(25, '')).label, /attacked/);
+  assert.equal(describeRoll(message, attack(25, 'hit')).attackOutcome, 'hit');
+  assert.equal(describeRoll(message, attack(14, 'miss')).attackOutcome, 'miss');
+  assert.equal(describeRoll(message, attack(25, '')).attackOutcome, null);
   for (const special of ['critical', 'fumble', 'immune']) {
     const roll = attack(25, 'hit', [{ name: 'Bless', value: 2, decisive: true }]);
     roll.options.multirollData.critstate = special;
+    assert.equal(describeRoll(message, roll).attackOutcome, special);
     assert.equal(describeRoll(message, roll).exceptional.length, 0);
   }
 });
@@ -83,6 +87,7 @@ test('damage snapshots preserve formula, source identity and zero contributions 
 test('damage divisor changes display once; healing and unrelated rolls retain native rendering', () => {
   const roll = { total: 29, options: { hitTypeDamage: true, hitType: 'miss', divisors: { miss: { value: 2, reason: ['Miss'] } } } };
   assert.equal(describeRoll(message, roll).total, 14);
+  assert.equal(describeRoll(message, roll).label, 'Idrani Fullhorn deals damage');
   roll.options.hitTypeHealing = true;
   assert.equal(describeRoll(message, roll), null);
   assert.equal(describeRoll(message, { total: 10, options: {} }), null);
@@ -107,6 +112,11 @@ test('typed adapter matches native remainder allocation and awaits actor mitigat
   complete();
   assert.equal(await result, true);
   assert.equal(ChatRollActions.pending.size, 0);
+  const halfResult = ChatRollActions.apply({ ...message, rolls: [roll] }, 0.5);
+  assert.deepEqual(calls[1], [[[17, 'physical'], [11, 'fire']], .25]);
+  assert.equal(await ChatRollActions.apply({ ...message, rolls: [roll] }), false);
+  complete();
+  assert.equal(await halfResult, true);
   canvas.tokens.controlled = [];
   assert.equal(await ChatRollActions.apply({ ...message, rolls: [roll] }), false);
   canvas.tokens.controlled = [{ actor: { isOwner: false } }];

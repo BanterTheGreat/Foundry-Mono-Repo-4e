@@ -115,8 +115,8 @@ export class FoundryBridge {
             ? "Creation or import unavailable or rejected. Check GM access, DnD4e 0.9.3, destination actor/folder, required compendium packs and source data. If the outcome is uncertain, retry identical data with the same requestId."
             : pending.operation === "add_item_effects"
               ? "Item effects rejected. Check the paired active GM, Item UUIDs, DnD4e 0.9.3 and effect data. Inspect source before retrying with the same stable effect keys."
-            : pending.operation === "set_pc_basic_attack_ability"
-              ? "PC basic attack change rejected. Check the paired active GM, world PC and core powers. Read source before retrying."
+            : ["edit_pc_actor", "edit_pc_powers", "set_pc_basic_attack_ability"].includes(pending.operation)
+              ? "PC change rejected. Check the paired active GM, world PC and supported fields/powers. Read source before retrying."
             : pending.operation === "edit_merchant_inventory"
               ? "Merchant inventory edit rejected. Check Item Piles, world NPC merchant and Item selections. Read inventory before retrying identical operations with the same requestId."
             : pending.operation === "add_scene_drawings"
@@ -171,8 +171,8 @@ export class FoundryBridge {
           ? "Creation timed out; it may have succeeded. Retry identical data with the same requestId."
           : operation === "add_item_effects"
             ? "Effect batch timed out. Inspect Item source before retrying with the same stable effect keys; confirmed effects may have saved."
-          : operation === "set_pc_basic_attack_ability"
-            ? "PC basic attack change timed out. Read PC source before retrying; confirmed changes may have saved."
+          : ["edit_pc_actor", "edit_pc_powers", "set_pc_basic_attack_ability"].includes(operation)
+            ? "PC change timed out. Read PC source before retrying; confirmed changes may have saved."
           : operation === "edit_merchant_inventory"
             ? "Merchant edit timed out. Read inventory before retrying identical operations with the same requestId; confirmed changes may have saved."
           : operation === "add_scene_drawings"
@@ -183,7 +183,7 @@ export class FoundryBridge {
             ? "NPC edit timed out. Inspect the NPC source before retrying; confirmed changes may have saved."
             : "Foundry read timed out. Check the GM browser tab."));
       }, operation === "add_item_effects" ? Math.max(this.timeoutMs, EFFECT_CONFIRM_TIMEOUT_MS + 30000)
-        : ["edit_journal_pages", "edit_npc_actor", "set_pc_basic_attack_ability", "edit_merchant_inventory", "add_scene_drawings"].includes(operation) ? Math.max(this.timeoutMs, EDIT_CONFIRM_TIMEOUT_MS + 30000) : this.timeoutMs);
+        : ["edit_journal_pages", "edit_npc_actor", "edit_pc_actor", "edit_pc_powers", "set_pc_basic_attack_ability", "edit_merchant_inventory", "add_scene_drawings"].includes(operation) ? Math.max(this.timeoutMs, EDIT_CONFIRM_TIMEOUT_MS + 30000) : this.timeoutMs);
       this.pending.set(id, { resolve, reject, timer, operation });
       session.socket.send(message, error => {
         if (error && this.pending.has(id)) {
@@ -205,8 +205,8 @@ export class FoundryBridge {
         ? `${message} Creation may have succeeded; retry identical data with the same requestId.`
         : pending.operation === "add_item_effects"
           ? `${message} Confirmed effects may have saved; read Item source before retrying with the same stable keys.`
-        : pending.operation === "set_pc_basic_attack_ability"
-          ? `${message} A confirmed PC basic attack change may have saved; read PC source before retrying.`
+        : ["edit_pc_actor", "edit_pc_powers", "set_pc_basic_attack_ability"].includes(pending.operation)
+          ? `${message} A confirmed PC ${pending.operation === "edit_pc_actor" ? "actor" : pending.operation === "edit_pc_powers" ? "power" : "basic attack"} change may have saved; read PC source before retrying.`
         : pending.operation === "edit_merchant_inventory"
           ? `${message} Confirmed merchant changes may have saved; read inventory before retrying identical operations with the same requestId.`
         : pending.operation === "add_scene_drawings"

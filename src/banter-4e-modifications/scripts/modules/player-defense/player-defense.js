@@ -1,6 +1,7 @@
 import { Logger } from "../../shared/logger.js";
 import { createDefenseDialogPayload } from "./player-defense-workflow.js";
 import { PlayerDefenseEffects } from "./player-defense-effects.js";
+import { renderDefenseTarget } from "./player-defense-chat.js";
 
 /**
  * Handles NPC attack interception and the player-defense dialog workflow.
@@ -23,11 +24,27 @@ export class PlayerDefense {
 
     /**
      * @param {string} rollFormula
-     * @returns {{rollModifiers: number[], totalModifier: number}}
+     * Reads the numeric attack bonus separately from dice selection. Only
+     * selections retaining one d20 can be reversed into a defense check.
+     *
+     * @returns {{rollModifiers: number[], totalModifier: number, defenseDice: string}}
      */
   static #getAttackRollData(rollFormula) {
-    const rollModifiers = rollFormula.replace(/\d+d\d+/g, '').match(/[-+]?\d+/g)?.map(Number) || [];
-    return { rollModifiers, totalModifier: rollModifiers.reduce((sum, num) => sum + num, 0) };
+    const compactFormula = rollFormula.replace(/\s+/g, "");
+    const rollModifiers = compactFormula.replace(/\d*d\d+(?:[a-z]+\d*)*/gi, "").match(/[-+]?\d+/g)?.map(Number) || [];
+    const attackDie = compactFormula.match(/\b(\d*)d20(kh|kl|dh|dl|k|d)(\d*)(?![a-z\d])/i);
+    let defenseDice = "1d20";
+    if (attackDie) {
+      const number = Number(attackDie[1] || 1);
+      const selection = attackDie[2].toLowerCase();
+      const count = Number(attackDie[3] || 1);
+      const keepsOne = selection.startsWith("k") ? count === 1 : number - count === 1;
+      if (number > 1 && keepsOne) {
+        const attackKeepsHighest = ["k", "kh", "d", "dl"].includes(selection);
+        defenseDice = `${number}d20${attackKeepsHighest ? "kl" : "kh"}1`;
+      }
+    }
+    return { rollModifiers, totalModifier: rollModifiers.reduce((sum, num) => sum + num, 0), defenseDice };
   }
 
     /**
@@ -56,9 +73,10 @@ export class PlayerDefense {
      * @param {Actor} attacker
      * @param {string} defenseStat
      * @param {Item} item
+     * @param {string} defenseDice Reversed d20 selection, persisted for the defending client.
      * @returns {object[]}
      */
-    static #buildDefenseTargets(targets, rollDC, attackModifier, attacker, defenseStat, item) {
+    static #buildDefenseTargets(targets, rollDC, attackModifier, attacker, defenseStat, item, defenseDice) {
     const { hit, miss } = PlayerDefense.#getPowerDamageData(item);
     return targets.map((target, index) => {
       const actor = target.token.actor;
@@ -81,6 +99,7 @@ export class PlayerDefense {
                 attackerName: attacker.name,
                 defenseStat,
                 defenseMod: target.defenseMod,
+                defenseDice,
                 rollDC,
                 attackModifier,
                 baseDefense: PlayerDefense.BASE_DEFENSE,
@@ -92,29 +111,6 @@ export class PlayerDefense {
                 resolved: false,
       };
     });
-  }
-
-    /**
-     * @param {{id: string, actorName: string}} target
-     * @returns {string}
-     */
-  static #targetMarker(target) {
-        return `<span data-player-defense-result="${target.id}"><em>Awaiting defense...</em></span>`;
-  }
-
-    /**
-     * Builds the public, non-interactive chat content.
-     *
-     * @param {object[]} targets
-     * @param {object} attackContext
-     * @returns {string}
-     */
-  static #buildDefenseChatContent(targets) {
-    return targets.map(target => `
-            <div class="target" data-player-defense-target="${target.id}">
-                <span>${target.actorName} (+${target.defenseMod}) defends!</span>
-                <p>${PlayerDefense.#targetMarker(target)}</p>
-            </div>`).join("<br />");
   }
 
     /**
@@ -147,7 +143,7 @@ export class PlayerDefense {
     const hasMissDamage = Boolean(miss.halfDamage || miss.formula?.trim());
     ChatMessage.create({
       flavor: `<b>${attacker.name}</b> uses <b>${item.name}</b> VS. <b>${attack.def?.toUpperCase() ?? "?"}</b>!`,
-      content: PlayerDefense.#buildDefenseChatContent(targets),
+      content: targets.map(target => renderDefenseTarget(target, item.name)).join(""),
       flags: {
         playerDefense: {
           ...attackContext.deferredEffects,
@@ -175,41 +171,22 @@ export class PlayerDefense {
      * @param {number} diceResult
      * @param {number} totalResult
      * @param {number} rollDC
-     * @returns {{outcome: string, resultHtml: string}}
+     * @returns {{outcome: string}}
      */
   static #getDefenseResult(diceResult, totalResult, rollDC) {
     if (diceResult === PlayerDefense.CRITICAL_FAILURE) {
-      return { outcome: "critical", resultHtml: `<b><a style='color: darkred'>The enemy critically hit! (DC ${rollDC})</a></b>` };
-    }
-
-    if (totalResult < rollDC) {
-      return { outcome: "normal", resultHtml: `<b><a style='color: red'>The enemy hit! (DC ${rollDC})</a></b>` };
+      return { outcome: "critical" };
     }
 
     if (diceResult === PlayerDefense.CRITICAL_SUCCESS) {
-      return { outcome: "miss", resultHtml: `<b><a style='color: darkgreen'>The enemy critically missed! (DC ${rollDC})</a></b>` };
+      return { outcome: "miss" };
     }
 
-    return { outcome: "miss", resultHtml: `<b><a style='color: green'>The enemy missed! (DC ${rollDC})</a></b>` };
-  }
-
-    /**
-     * Formats the power's effect text for a resolved defense outcome.
-     *
-     * @param {object} target
-     * @param {string} outcome
-     * @returns {string}
-     */
-  static #getOutcomeEffectHtml(target, outcome) {
-    const isMiss = outcome === "miss";
-    const text = isMiss ? target.missText : target.hitText;
-    if (!text) {
-      return "";
+    if (totalResult < rollDC) {
+      return { outcome: "normal" };
     }
 
-    const label = isMiss ? "MISS" : "HIT";
-    const cssClass = isMiss ? "player-defense-effect--miss" : "player-defense-effect--hit";
-    return `<div class="player-defense-effect ${cssClass}"><strong>${label}</strong><div>${text}</div></div>`;
+    return { outcome: "miss" };
   }
 
     /**
@@ -225,7 +202,7 @@ export class PlayerDefense {
     }
 
     const rollFormula = message.rolls[0].formula;
-    const { rollModifiers, totalModifier } = PlayerDefense.#getAttackRollData(rollFormula);
+    const { rollModifiers, totalModifier, defenseDice } = PlayerDefense.#getAttackRollData(rollFormula);
     if (rollModifiers.length === 0) {
       Logger.warn("Attack roll contains no modifiers", { messageId: message.id, rollFormula });
     }
@@ -241,7 +218,7 @@ export class PlayerDefense {
     game.PlayerDefense.lastAttack = null;
     game.TriggerPrompts?.clearPendingAttackContext();
     const { attack: attackData } = PlayerDefense.#getPowerDamageData(item);
-    const defenseTargets = PlayerDefense.#buildDefenseTargets(targets, rollDC, totalModifier, attacker, attackData.def?.toUpperCase() ?? "?", item);
+    const defenseTargets = PlayerDefense.#buildDefenseTargets(targets, rollDC, totalModifier, attacker, attackData.def?.toUpperCase() ?? "?", item, defenseDice);
     Logger.info("Intercepting NPC attack", { messageId: message.id, attackerId: attacker.id, itemId: item.id, targetIds: defenseTargets.map(target => target.actorId), rollFormula, totalModifier, rollDC });
     PlayerDefense.#createDefenseMessage(attacker, item, defenseTargets, attack);
     return false;
@@ -353,7 +330,7 @@ export class PlayerDefense {
       return;
     }
 
-    const defenseRoll = new Roll(`1d20 + ${target.defenseMod}`);
+    const defenseRoll = new Roll(`${target.defenseDice ?? "1d20"} + ${target.defenseMod}`);
     defenseRoll.propagateFlavor(`DC ${target.rollDC}`);
     const roll = await defenseRoll.evaluate();
     const diceResult = roll.terms[0].total;
@@ -362,11 +339,12 @@ export class PlayerDefense {
       await game.dice3d.showForRoll(roll, game.user, true);
     }
 
-    const { outcome, resultHtml } = PlayerDefense.#getDefenseResult(diceResult, totalResult, target.rollDC);
-    const effectHtml = PlayerDefense.#getOutcomeEffectHtml(target, outcome);
-    const rollHtml = `<pg>${await roll.render()}</pg>`;
+    const { outcome } = PlayerDefense.#getDefenseResult(diceResult, totalResult, target.rollDC);
+    const resultCard = renderDefenseTarget(target, message.flags.playerDefense.attackName, {
+      outcome, total: totalResult, natural: diceResult, rollHtml: await roll.render(),
+    });
     
     Logger.info("Resolved defense roll", { messageId: message.id, actorId: target.actorId, targetId: target.id, defenseMod: target.defenseMod, rollDC: target.rollDC, diceResult, totalResult, outcome });
-    await socket.executeAsGM("resolveDefenseTarget", message.id, target.id, outcome, resultHtml + rollHtml + effectHtml);
+    await socket.executeAsGM("resolveDefenseTarget", message.id, target.id, outcome, resultCard);
   }
 }

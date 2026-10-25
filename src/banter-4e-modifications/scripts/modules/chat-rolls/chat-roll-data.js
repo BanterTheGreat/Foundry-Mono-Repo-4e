@@ -46,13 +46,21 @@ export function describeRoll(message, roll, index = 0) {
   const skillLabel = skill?.skillName || skillConfig?.label || skillConfig || skill?.skillId;
   const label = kind === 'skill' ? `${speaker} rolled ${globalThis.game?.i18n?.localize(String(skillLabel)) ?? skillLabel}`
     : kind === 'attack' ? `${speaker} ${outcome}${attack?.target ? ` ${attack.target}` : ''}`
-    : `${speaker} rolled damage${snapshot?.targetName ? ` against ${snapshot.targetName}` : ''}`;
+    : `${speaker} deals damage${snapshot?.targetName ? ` against ${snapshot.targetName}` : ''}`;
   const divisor = kind === 'damage' ? options.divisors?.[options.hitType] : null;
   const scale = Number(divisor?.value) > 0 ? Number(divisor.value) : 1;
   const badges = skill?.badges ?? options.banterAttackBuffs ?? [];
   const exceptional = kind === 'attack' && !['critical', 'fumble', 'immune'].includes(special)
     ? badges.filter(badge => !badge.kind && (badge.decisive || badge.decisivePenalty)) : [];
-  return { kind, label, source, total: kind === 'damage' ? Math.floor(roll.total / scale) : roll.total,
+  const attackOutcome = kind === 'attack'
+    ? (Object.hasOwn(verdict, special) ? special : Object.hasOwn(verdict, attack?.hitstate) ? attack.hitstate : null)
+    : null;
+  return { kind, label, source, attackOutcome, total: kind === 'damage' ? Math.floor(roll.total / scale) : roll.total,
+    attackSubject: kind === 'attack' ? `${speaker}${attack?.target ? ` → ${attack.target}` : ''}` : null,
+    attackVerdict: kind === 'attack'
+      ? ({ hit: 'Hit', miss: 'Miss', critical: 'Crit', fumble: 'Crit Fail', immune: 'Immune' }[attackOutcome] || 'Attack')
+      : null,
+    damageSubject: kind === 'damage' ? `${speaker}${snapshot?.targetName ? ` against ${snapshot.targetName}` : ''}` : null,
     natural: naturalD20(roll), badges, exceptional,
     contributors: damageContributors(snapshot?.contributors),
     scale, reasons: divisor?.reason ?? [] };

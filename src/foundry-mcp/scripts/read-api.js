@@ -172,6 +172,8 @@ export async function executeRead(operation, args = {}, { game = globalThis.game
             system: "dnd4e", version: "0.9.3", confirmation: "active GM", approvalSeconds: 120,
             available: game.user.isActiveGM === true && game.modules.get("item-piles")?.active === true },
         editing: { tool: "edit_npc_actor", actorType: "NPC", system: "dnd4e", version: "0.9.3", confirmation: "active GM", available: game.user.isActiveGM === true },
+        pcActorEditing: { tool: "edit_pc_actor", actorType: "Player Character", system: "dnd4e", version: "0.9.3", confirmation: "active GM", approvalSeconds: 120, available: game.user.isActiveGM === true },
+        pcPowerEditing: { tool: "edit_pc_powers", actorType: "Player Character", system: "dnd4e", version: "0.9.3", confirmation: "active GM", approvalSeconds: 120, available: game.user.isActiveGM === true },
         pcBasicAttacks: { tool: "set_pc_basic_attack_ability", actorType: "Player Character", system: "dnd4e", version: "0.9.3", confirmation: "active GM", available: game.user.isActiveGM === true },
         itemEffects: { tool: "add_item_effects", system: "dnd4e", version: "0.9.3", confirmation: "active GM", approvalSeconds: 120, available: game.user.isActiveGM === true },
         sceneDrawings: { tool: "add_scene_drawings", shapes: ["rectangle"], coordinates: "scene pixels", confirmation: "active GM", available: game.user.isActiveGM === true },

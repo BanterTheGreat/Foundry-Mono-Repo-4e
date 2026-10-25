@@ -1,0 +1,345 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Critical hit chat — throwaway prototype</title><style>
+/* Consecutive speakers share a header when compact chat rolls are enabled. */
+.chat-message.message.banter-message-continuation > .message-header {
+  display: none;
+}
+/* The native actor header floats above the card, outside its bordered surface. */
+.chat-message.message:has(.banter-roll),
+.chat-message.message:has(.banter-power) {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  overflow: visible;
+}
+.chat-message.message:has(.banter-roll) > .message-header,
+.chat-message.message:has(.banter-power) > .message-header {
+  margin: 0 0 5px;
+  padding: 0 4px;
+  background: transparent;
+  border: 0;
+}
+.chat-message.message:has(.banter-roll) > .message-content,
+.chat-message.message:has(.banter-power) > .message-content {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(#2d2e35, #23242b);
+  border: 1px solid #62534d;
+  border-radius: 5px;
+  overflow: clip;
+}
+.chat-message.message .banter-roll {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.chat-message.message .dnd4e.chat-card.item-card.banter-power {
+  border-right: 0;
+  border-bottom: 0;
+  border-left: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.banter-roll {
+  color: #f1e8d8;
+  background: linear-gradient(#2d2e35, #23242b);
+  border: 1px solid #62534d;
+  border-radius: 5px;
+  margin: 4px 0;
+  overflow: clip;
+}
+/* Match the stored verdict, including when the chat wrapper owns the surface. */
+.banter-roll.banter-roll--attack {
+  --banter-attack-outcome-color: #8d8580;
+  border-left: 4px solid var(--banter-attack-outcome-color);
+}
+.banter-roll.banter-roll--attack.banter-roll--miss,
+.banter-roll.banter-roll--attack.banter-roll--fumble {
+  --banter-attack-outcome-color: #ed9b9b;
+}
+.banter-roll.banter-roll--attack.banter-roll--hit {
+  --banter-attack-outcome-color: #9dd5b0;
+}
+.banter-roll.banter-roll--attack.banter-roll--critical {
+  --banter-attack-outcome-color: #f5d080;
+}
+.chat-message.message .banter-roll.banter-roll--attack {
+  border-left: 4px solid var(--banter-attack-outcome-color);
+}
+.banter-roll--damage { border-left: 1px solid #826452; }
+.banter-roll .banter-roll__summary {
+  display: grid;
+  /* Keep totals aligned regardless of the TOTAL/DAMAGE label width. */
+  grid-template-columns: minmax(0, 1fr) 40px 10px;
+  grid-template-rows: auto auto;
+  align-items: center;
+  gap: 4px 10px;
+  padding: 10px;
+  cursor: pointer;
+  list-style: none;
+}
+.banter-roll__summary::-webkit-details-marker { display: none; }
+.banter-roll__main { grid-column: 1; grid-row: 1; min-width: 0; }
+.banter-roll .banter-roll__sentence {
+  font-family: var(--font-body, sans-serif);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  overflow-wrap: break-word;
+  text-transform: none;
+}
+.banter-roll--damage .banter-roll__sentence { font-size: 15px; }
+.banter-roll__source { font-size: 11px; color: #c4bbae; line-height: 1.4; margin-top: 2px; overflow-wrap: anywhere; }
+.banter-roll__score { grid-column: 2; grid-row: 1 / 3; text-align: center; font-variant-numeric: tabular-nums; }
+.banter-roll__score strong { display: block; font: 30px/1.1 var(--font-h1, Georgia, serif); }
+.banter-roll__score small { display: block; font-size: 8px; letter-spacing: .12em; color: #c4bbae; }
+.banter-roll__chevron { grid-column: 3; grid-row: 1 / 3; font-size: 21px; color: #c4bbae; }
+.banter-roll__disclosure[open] > summary .banter-roll__chevron { transform: rotate(90deg); }
+.banter-roll__chips { grid-column: 1; grid-row: 2; display: flex; flex-wrap: wrap; gap: 4px; }
+.banter-roll__chips:empty { display: none; }
+.banter-roll__chip { font-size: 10px; padding: 2px 5px; border: 1px solid #766055; border-radius: 3px; cursor: inherit; text-decoration: none; }
+.banter-roll__chip.is-positive { border-color: #689b6c; box-shadow: 0 0 5px #68ab6044; }
+.banter-roll__chip.is-negative { border-color: #b76363; box-shadow: 0 0 5px #cc555544; }
+.banter-roll__calculation { border-top: 1px solid #63564a; padding: 8px 10px; font-size: 11px; }
+.banter-roll__modifier { margin: 0; padding: 5px 0; border-bottom: 1px solid #ffffff0d; font: 12px/1.4 var(--font-body, sans-serif); font-weight: normal; }
+.banter-roll__modifier.is-positive { color: #a5dca8; }
+.banter-roll__modifier.is-negative { color: #f0a0a0; }
+.banter-roll__equation { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 4px 0 10px; font: 14px/1.4 var(--font-body, sans-serif); }
+.banter-roll__equation strong { margin-left: auto; font-size: 22px; font-variant-numeric: tabular-nums; }
+.banter-roll__natural { padding: 4px 7px; background: #ffffff09; border: 1px solid #766756; border-radius: 3px; }
+.banter-roll__original { margin-top: 10px; }
+.banter-roll__original > summary { cursor: pointer; color: #c4bbae; font: 11px/1.5 var(--font-body, sans-serif); }
+.banter-roll__original .target, .banter-roll__original .hit-prediction, .banter-roll__original .dice-flavor { display: none; }
+.banter-roll__original .dice-formula { white-space: normal; overflow-wrap: anywhere; height: auto; border: 0; box-shadow: none; background: transparent; font: 12px/1.5 var(--font-body, sans-serif); padding: 5px 0; }
+.banter-roll__original .dice-total { display: none; }
+.banter-roll__calculation .dice-tooltip { display: block !important; }
+.banter-roll__calculation .dice-total { font-size: 18px; }
+.banter-roll__calculation .dice-roll { background: transparent; color: inherit; }
+.banter-roll__actions { display: flex; }
+.banter-roll button.banter-roll__apply {
+  flex: 1;
+  min-width: 0;
+  display: block;
+  width: 100%; height: 24px; min-height: 24px;
+  padding: 0; margin: 0;
+  border: 0; border-top: 1px solid #e0a07c;
+  border-radius: 0;
+  background: linear-gradient(#945846, #783e33);
+  color: #fff7ed; font-size: 12px; font-weight: bold; line-height: 23px;
+  box-shadow: none;
+}
+.banter-roll__actions > button + button { border-left: 3px solid #e0a07c; }
+.banter-roll button.banter-roll__apply:hover { background: linear-gradient(#b16f55, #94513f); }
+.banter-roll button.banter-roll__apply:active { background: #783e33; }
+.banter-roll__summary:focus-visible, .banter-roll__score:focus-visible { outline: 2px solid #e0bc83; outline-offset: -2px; }
+.banter-roll button.banter-roll__apply:focus-visible { outline: 2px solid #f5d2a1; outline-offset: -3px; }
+.banter-roll__popup {
+  position: fixed; z-index: 10000; width: 210px; padding: 12px;
+  border: 1px solid #bb9c6e; border-radius: 4px;
+  background: #17181d; color: #f1e8d8; font-size: 16px;
+  box-shadow: 0 4px 15px #0009; pointer-events: none;
+}
+.banter-roll__popup[hidden] { display: none; }
+
+/* Power-card design A: a compact coloured header, narration, and native actions. */
+.dnd4e.chat-card.item-card.banter-power {
+  --banter-power-ink: #bcb5a9;
+  --banter-power-edge: #69625b;
+  --banter-power-tint: #333136;
+  color: #f1e8d8;
+  background: linear-gradient(130deg, #2d2e35, #23242b);
+  border: 1px solid var(--banter-power-edge);
+  border-top: 2px solid var(--banter-power-ink);
+  border-radius: 5px;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: inset 0 1px #ffffff05;
+  cursor: pointer;
+}
+.dnd4e.chat-card.item-card.banter-power--atwill {
+  --banter-power-ink: #93d4a1;
+  --banter-power-edge: #65916e;
+  --banter-power-tint: #243b2b;
+}
+.dnd4e.chat-card.item-card.banter-power--encounter {
+  --banter-power-ink: #f0a1a6;
+  --banter-power-edge: #b36570;
+  --banter-power-tint: #482832;
+}
+.dnd4e.chat-card.item-card.banter-power--daily {
+  --banter-power-ink: #d0d0d2;
+  --banter-power-edge: #83838a;
+  --banter-power-tint: #36363d;
+}
+.banter-power .banter-power__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px;
+  padding: 8px 11px;
+  border: 0;
+  border-bottom: 1px solid var(--banter-power-edge);
+  background: linear-gradient(110deg, var(--banter-power-tint), #27292e);
+}
+.banter-power h3.banter-power__heading {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: #f1e8d8;
+  font: 400 16px/1.35 var(--font-h1, Georgia, serif);
+  text-transform: none;
+  text-shadow: none;
+  overflow-wrap: anywhere;
+}
+.banter-power__heading .banter-power__speaker { font-weight: 700; }
+.banter-power__heading .banter-power__name { font-weight: 600; }
+.banter-power .banter-power__narrative {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 8px 9px 12px;
+}
+.banter-power .banter-power__flavor {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #ded4c7;
+  font: italic 13px/1.45 Georgia, serif;
+}
+.banter-power .banter-power__flavor p { margin: 0 0 5px; font: inherit; }
+.banter-power .banter-power__flavor p:last-child { margin-bottom: 0; }
+.banter-power button.banter-power__toggle {
+  flex: 0 0 24px;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  min-height: 24px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  box-shadow: none;
+  color: #c9b99d;
+  line-height: 1;
+  cursor: pointer;
+}
+.banter-power__chevron { font: 19px/1 sans-serif; transition: transform .15s; }
+.banter-power__toggle[aria-expanded="true"] .banter-power__chevron { transform: rotate(90deg); }
+.banter-power button.banter-power__toggle:hover { background: #ffffff0a; color: #f1dfbd; }
+.banter-power .banter-power__rules { border-top: 1px solid #62584d; padding: 10px 11px; }
+.banter-power .banter-power__rules[hidden] { display: none !important; }
+.banter-power .banter-power__rules .card-content {
+  display: block;
+  margin: 0;
+  padding: 0;
+  color: #d9d1ca;
+  font: 12px/1.55 var(--font-body, sans-serif);
+}
+.banter-power .banter-power__rules .item-details { margin: 0; padding: 0; }
+.banter-power .card-footer { margin: 0; padding: 0; border: 0; }
+.banter-power .card-footer:empty { display: none; }
+.banter-power .card-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid #776354;
+  background: #201f25;
+}
+.banter-power .card-buttons:empty { display: none; }
+.banter-power .card-buttons button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  min-width: 0;
+  min-height: 25px;
+  margin: 0;
+  padding: 3px 7px;
+  border: 0;
+  border-radius: 0;
+  background: linear-gradient(#38353b, #2b2a31);
+  box-shadow: inset 0 1px #ffffff08;
+  color: #f5e9d8;
+  font: 650 12px/1.5 var(--font-body, sans-serif);
+  text-transform: none;
+  cursor: pointer;
+}
+.banter-power .card-buttons button:nth-child(even) { border-left: 1px solid #756151; }
+.banter-power .card-buttons button:only-child,
+.banter-power .card-buttons button:nth-child(n+3) { grid-column: 1 / -1; }
+.banter-power .card-buttons button:nth-child(n+3) { border: 0; border-top: 1px solid #756151; }
+.banter-power .card-buttons button[data-action="damage"] {
+  background: linear-gradient(#774335, #57302c);
+  color: #fff0de;
+}
+/* The pinned system handler reads event.target, including when an icon is clicked. */
+.banter-power .card-buttons button * { pointer-events: none; }
+.banter-power .card-buttons .dnd4e-button-icon { width: 14px; height: 14px; }
+.banter-power .card-buttons .dnd4e-button-icon img { width: 14px; height: 14px; border: 0; }
+.banter-power .card-buttons button:not(:disabled):hover { filter: brightness(1.2); }
+.banter-power .card-buttons button:not(:disabled):active { filter: brightness(.9); }
+.banter-power .card-buttons button:disabled { opacity: .5; cursor: default; }
+.banter-power button:focus-visible { outline: 2px solid #e5c695; outline-offset: -3px; }
+@media (prefers-reduced-motion: reduce) {
+  .banter-power__chevron { transition: none; }
+}
+
+
+*{box-sizing:border-box}body{margin:0;color:var(--foreground,#eee);font:13px/1.5 system-ui,sans-serif;padding-bottom:85px}h2{font-size:19px;margin:0 0 6px}p{color:var(--muted-foreground,#a9a4ad);margin:0 0 16px;font-size:12px}.layout{display:grid;grid-template-columns:minmax(0,338px) minmax(0,1fr);gap:22px;align-items:start}.feed{padding:16px;background:#191a20;border-radius:10px;--font-body:Arial,sans-serif;--font-h1:Georgia,serif}.feed-title{font-size:10px;letter-spacing:1.8px;color:#aaa1a7;margin-bottom:16px}.chat-message{margin:0 0 5px;color:#f1e8d8}.message-header{display:flex;justify-content:space-between;color:#b5ab9f;font-size:10px}.message-content{color:#f1e8d8}.banter-roll__summary{user-select:none}.banter-roll__calculation{color:#c4bbae}.banter-roll__chevron{display:block}.notes{font-size:12px;color:var(--muted-foreground,#aaa)}.notes b{color:var(--foreground,#eee)}.notes p{margin:0 0 14px}.replay{font:inherit;color:var(--foreground,#eee);background:var(--secondary,#303039);border:1px solid var(--border,#665b50);border-radius:5px;padding:7px 10px;cursor:pointer;margin:0 0 14px}.state{border-top:1px solid var(--border,#555);padding-top:12px;font-size:11px}.switcher{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);background:#f1e9da;color:#25242b;display:flex;align-items:center;gap:10px;padding:6px;border-radius:30px;box-shadow:0 4px 24px #0005;z-index:10;white-space:nowrap}.switcher button{border:0;border-radius:50%;background:#d7cebf;width:30px;height:30px;cursor:pointer}.switcher span{font-size:11px;min-width:173px;text-align:center}.crit-surface{position:relative}.crit-surface .banter-roll{position:relative;isolation:isolate}.crit-surface .banter-roll__summary{position:relative;z-index:1}.crit-surface .banter-roll__score strong{transition:color .2s}
+/* A: retain identical structure; a permanent gold finish gives rarity. */
+.variant-A .crit-surface{border-color:#b99a62!important;background:linear-gradient(115deg,#423a2c,#292a30 70%)!important;box-shadow:inset 0 0 16px #edb65412}
+.variant-A .crit-surface .banter-roll__sentence{color:#ffe0a1}
+.variant-A .crit-surface .banter-roll__score strong{color:#ffdc8a;text-shadow:0 0 12px #f8c85b44}
+.variant-A .crit-surface .banter-roll__score small{color:#cfb77e}
+.variant-A .crit-surface.arrive{animation:gild .8s ease-out both}
+@keyframes gild{from{box-shadow:0 0 18px #f5d08088,inset 0 0 25px #f5d08044}to{box-shadow:0 0 0 transparent,inset 0 0 16px #edb65412}}
+/* B: a quick diagonal strike and total impact, then settle back to the base card. */
+.variant-B .crit-surface.arrive{animation:impact .44s ease-out both}
+.variant-B .crit-surface.arrive .banter-roll__score strong{animation:score-impact .65s ease-out both}
+.variant-B .crit-surface.arrive .banter-roll::after{content:"";position:absolute;inset:-70px -30px;background:linear-gradient(115deg,transparent 43%,#ffe4a800 44%,#fff0bdcc 49%,#ffe4a800 54%,transparent 55%);z-index:0;pointer-events:none;animation:slash .65s ease-out both}
+.variant-B .crit-surface .banter-roll__score strong{color:#ffe0a1}
+@keyframes impact{0%{transform:translateY(3px);filter:brightness(1.65)}22%{transform:translateX(-3px)}45%{transform:translateX(2px)}70%{transform:translateX(-1px)}100%{transform:none;filter:brightness(1)}}
+@keyframes score-impact{0%{transform:scale(1.4);text-shadow:0 0 22px #ffd17e}100%{transform:scale(1);text-shadow:none}}
+@keyframes slash{0%{transform:translateX(-95%);opacity:0}20%{opacity:1}100%{transform:translateX(95%);opacity:0}}
+/* C: a permanent celebration strip, outside the existing summary layout. */
+.variant-C .crit-surface{border-color:#b99a62!important}
+.variant-C .crit-surface .banter-roll::before{content:"✦  CRITICAL HIT  ✦";display:block;padding:5px 10px;background:linear-gradient(90deg,#69502c,#3b3024);border-bottom:1px solid #997b44;color:#ffe6a8;font:bold 10px/1.4 Arial,sans-serif;letter-spacing:2px;text-align:center}
+.variant-C .crit-surface .banter-roll__score strong{color:#ffe0a1}
+.variant-C .crit-surface.arrive .banter-roll::before{animation:banner .6s ease-out both}
+@keyframes banner{from{letter-spacing:4px;filter:brightness(1.7)}to{letter-spacing:2px;filter:brightness(1)}}
+@media(max-width:570px){.layout{grid-template-columns:1fr}.feed,.notes{max-width:338px;width:100%;margin:auto}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style></head><body>
+<!-- Throwaway UI prototype. Current ChatRolls.renderResult structure + inline production chat-rolls.css.
+     Only simulated data; no Foundry connection. Open directly, ?variant=0|A|B|C.
+     Fonts use production fallback stacks; Foundry theme fonts are not bundled. -->
+<h2 id="title"></h2><p>Current attack-card layout, with the new left borders. Compare crit treatments in the same chat context.</p>
+<div class="layout"><div class="feed" id="feed"><div class="feed-title">CHAT MESSAGES</div><div id="cards"></div></div><aside class="notes"><p id="description"></p><button class="replay" onclick="replay()">↻ Replay critical hit</button><p>Click a card to expand its sample calculation. The replay button previews a single arrival; there is no looping animation.</p><div class="state" id="state"></div><p style="margin-top:12px">Uses production card CSS and DOM structure. Font faces fall back to Arial / Georgia here; Foundry supplies your theme fonts.</p></aside></div>
+<div class="switcher"><button onclick="cycle(-1)" aria-label="Previous variant">←</button><span id="label"></span><button onclick="cycle(1)" aria-label="Next variant">→</button></div>
+<script>
+const keys=['0','A','B','C'];const names=['Base · left borders only','Gilded finish','Impact strike','Critical banner'];
+const descriptions=['The implemented change: red miss, green hit, gold crit. Everything else retains the current presentation.','<b>A · Gilded finish.</b> Same size and hierarchy. Warm gold edges, a faint gilded surface, and an illuminated total. A short glow settles into the permanent finish.','<b>B · Impact strike.</b> A brief slash, a small impact movement, and a total that punches forward. Settles back into the original card with a gold total.','<b>C · Critical banner.</b> Adds a slim celebratory strip above the original summary. The moment leaves a permanent, explicit marker in the chat history.'];
+const rolls=[{outcome:'miss',label:'Ozyn Valder Missed Rogal',total:24,natural:12,chip:true},{outcome:'hit',label:'Ozyn Valder Hit Rogal',total:28,natural:16},{outcome:'critical',label:'Ozyn Valder Critically Hit Rogal',total:34,natural:20},{outcome:'hit',label:'Ozyn Valder Hit Rogal',total:27,natural:15}];
+let current=keys.indexOf(new URLSearchParams(location.search).get('variant'));if(current<0)current=1;
+function card(r,i){return '<article class="chat-message message '+(i?'banter-message-continuation':'')+'">'+(!i?'<header class="message-header"><b>Ozyn Valder</b><span>Just now</span></header>':'')+'<div class="message-content '+(r.outcome==='critical'?'crit-surface':'')+'"><section class="banter-roll banter-roll--attack banter-roll--'+r.outcome+'"><details class="banter-roll__disclosure"><summary class="banter-roll__summary"><div class="banter-roll__main"><div class="banter-roll__sentence">'+r.label+'</div><div class="banter-roll__source">Eldritch Strike</div></div><span class="banter-roll__score"><strong>'+r.total+'</strong><small>TOTAL</small></span><span class="banter-roll__chevron">›</span><div class="banter-roll__chips">'+(r.chip?'<span class="banter-roll__chip is-negative">−2 Prone</span>':'')+'</div></summary><div class="banter-roll__calculation"><div class="banter-roll__equation"><span class="banter-roll__natural">D20 '+r.natural+'</span><span>+ '+(r.total-r.natural)+' =</span><strong>'+r.total+'</strong></div>Sample calculation · stored '+r.outcome+' outcome</div></details></section></div></article>'}
+function replay(){const crit=document.querySelector('.crit-surface');crit.classList.remove('arrive');void crit.offsetWidth;crit.classList.add('arrive')}
+function render(){const k=keys[current];document.getElementById('title').textContent=names[current];document.getElementById('description').innerHTML=descriptions[current];document.getElementById('label').textContent=k+' · '+names[current];document.getElementById('feed').className='feed variant-'+k;document.getElementById('cards').innerHTML=rolls.map(card).join('');document.getElementById('state').textContent='Variant '+k+' · Stored verdict: critical · Total: 34 · Natural die: 20. Reduced-motion preference disables animation. Crit treatments are prototypes only.';replay()}
+function cycle(n){current=(current+n+keys.length)%keys.length;try{const url=new URL(location.href);url.searchParams.set('variant',keys[current]);history.replaceState(null,'',url)}catch(e){}render()}
+document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,[contenteditable]'))return;if(e.key==='ArrowLeft')cycle(-1);if(e.key==='ArrowRight')cycle(1)});render();
+</script></body></html>

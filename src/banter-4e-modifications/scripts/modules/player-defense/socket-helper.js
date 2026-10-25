@@ -2,6 +2,7 @@ import { Logger } from "../../shared/logger.js";
 import { TRIGGER_PROMPT_FLAG } from "../trigger-prompts/constants.js";
 import { toTriggerAttackOutcome } from "./player-defense-outcome.js";
 import { PlayerDefenseEffects } from "./player-defense-effects.js";
+import { replacePendingDefenseCard } from "./player-defense-chat.js";
 
 // EVERYTHING HERE SHOULD ONLY BE CALLED ON THE GM'S INSTANCE USING SOCKETLIB.
 /**
@@ -90,7 +91,14 @@ export class SocketHelper {
             }
 
             const marker = `<span data-player-defense-result="${targetId}"><em>Awaiting defense...</em></span>`;
-            const content = message.content.replace(marker, resultHtml);
+            const replacedCard = replacePendingDefenseCard(message.content, targetId, resultHtml);
+            const content = replacedCard === message.content
+                ? message.content.replace(marker, () => resultHtml)
+                : replacedCard;
+            if (content === message.content) {
+                Logger.error("Defense result could not find its pending chat target", { messageId, targetId });
+                return false;
+            }
             target.resolved = true;
             target.outcome = outcome;
 

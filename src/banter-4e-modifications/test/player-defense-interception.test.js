@@ -34,5 +34,6 @@ test("Player Defense replaces a captured NPC attack with a defense card", () => 
   assert.equal(createdMessages[0].flags.playerDefense.targets[0].baseDefense, 10);
   assert.equal(createdMessages[0].flags.playerDefense.targets[0].reversedRollOffset, 2);
   assert.equal(createdMessages[0].flags.playerDefense.attackRange, "weapon");
-  assert.match(createdMessages[0].content, /Rogal \(\+16\) defends/);
+  assert.match(createdMessages[0].content, /Rogal defends/);
+  assert.match(createdMessages[0].content, /<small>DC<\/small><strong>28/);
 });

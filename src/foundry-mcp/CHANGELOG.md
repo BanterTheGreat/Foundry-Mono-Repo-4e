@@ -2,6 +2,10 @@
 
 ## 0.4.0
 
+- Edit existing world PC ability scores, skill training, weapon/implement/armor proficiencies, spoken languages/scripts and character details through `edit_pc_actor`, with GM review, stale-source protection and partial-save receipts. Protocol v29 requires reloading Foundry and restarting the shared companion/MCP clients together.
+
+- Edit existing world PC powers with `edit_pc_powers`, including automatic card generation and structured card fields, through a full before/after GM confirmation with a two-minute timeout. Preserve unrelated data, reject stale approvals, and return partial-save receipts. Protocol v28 requires reloading Foundry and restarting the companion/MCP clients together.
+
 - Add new embedded powers directly to existing world NPCs through `edit_npc_actor.addPowers`, with full active-GM review, preserved existing attacks, stable semantic retry keys, source/session checks and partial-save receipts. Protocol v27 requires restarting the companion/MCP clients and reloading Foundry together.
 
 - Create custom native Rituals (including Techniques) with `create_ritual`, directly on a world PC or in an Item folder, with level, flavor/rules text and persistent retry protection. Protocol v26 requires reloading Foundry and restarting the shared companion/MCP clients together.

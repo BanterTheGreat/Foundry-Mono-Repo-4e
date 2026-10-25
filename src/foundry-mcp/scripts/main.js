@@ -1,3 +1,5 @@
+import { editPcActor } from "./pc-actor-api.js";
+import { editPcPowers } from "./pc-power-api.js";
 import { editJournalPages } from "./journal-page-api.js";
 import { addSceneDrawings } from "./scene-drawing-api.js";
 import { createJournal } from "./journal-create-api.js";
@@ -25,7 +27,7 @@ let status = "disabled";
  * Expose connection status without disclosing the pairing token.
  */
 function getStatus() {
-  return { status, worldId: game.world?.id, userId: game.user?.id, readOnly: false, creation: "NPC, configured PCs, world Items and Journals", pcImport: "powers and feats from dnd-4e-compendium", featCreation: "world Items or directly on PCs", pcItemIcons: "default equipment icons by slot", editing: "journal pages, NPC, Item Piles merchant inventory, scene rectangle additions and Item ActiveEffects with active GM confirmation" };
+  return { status, worldId: game.world?.id, userId: game.user?.id, readOnly: false, creation: "NPC, configured PCs, world Items and Journals", pcImport: "powers and feats from dnd-4e-compendium", featCreation: "world Items or directly on PCs", pcItemIcons: "default equipment icons by slot", editing: "PC powers, journal pages, NPC, Item Piles merchant inventory, scene rectangle additions and Item ActiveEffects with active GM confirmation" };
 }
 
 /**
@@ -123,6 +125,12 @@ function connect() {
             break;
           case "edit_merchant_inventory":
             result = await editMerchantInventory(request.args, connectionOptions);
+            break;
+          case "edit_pc_actor":
+            result = await editPcActor(request.args, connectionOptions);
+            break;
+          case "edit_pc_powers":
+            result = await editPcPowers(request.args, connectionOptions);
             break;
           case "set_pc_basic_attack_ability":
             result = await setPcBasicAttackAbility(request.args, connectionOptions);

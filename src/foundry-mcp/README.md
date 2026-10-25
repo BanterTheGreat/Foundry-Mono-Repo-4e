@@ -502,3 +502,83 @@ Retry identical arguments and request ID after uncertain saves; persisted receip
 prevent duplicates and reject changed data or destinations. Verify with `get_document`.
 Protocol v26 requires reloading Foundry and restarting the shared companion/MCP
 clients together before the new tool is available.
+
+
+
+## Confirmed PC character edits
+
+`edit_pc_actor` updates existing world Player Characters on DnD4e **0.9.3**.
+Read the actor with `get_document`, `source:true` before proposing changes.
+Supported partial nested fields are:
+
+- `name`, `system.biography`, and `system.details` identity fields: race, class,
+  paragon, epic, age, gender, height, weight, alignment, deity, size, origin,
+  type, other, level (1-30) and exp (non-negative).
+- `system.abilities.<str|con|dex|int|wis|cha>.value` (integer scores).
+- `system.skills.<native key>.training`: **0** untrained, **5** trained,
+  **8** focus trained. Also supports base, ability and armourCheck.
+- `system.details.weaponProf`, `implementProf`, `armourProf`, and
+  `system.languages.spoken` / `script`: `{value: ["nativeKey"], custom: "text"}`.
+  Custom entries use semicolon-separated text. Native keys are case-sensitive;
+  use the pinned system's CONFIG.DND4E definitions (for example `simpleM`,
+  `militaryM`, spoken `Common`/`Elven`, script `Rellanic`).
+
+Example (retain existing selected entries when adding):
+
+```json
+{
+  "uuid": "Actor.hero",
+  "summary": "Increase Strength, train Athletics and add Elven.",
+  "system": {
+    "abilities": {"str": {"value": 18}},
+    "skills": {"ath": {"training": 5}},
+    "languages": {"spoken": {"value": ["Common", "Elven"]}}
+  }
+}
+```
+
+Omitted fields are preserved; supplied arrays replace the entire selection,
+including an empty array to clear it. Changing race/class text does not import
+features or powers; use the dedicated setup/import tools for those operations.
+Derived totals, HP, embedded Items/effects, flags, ownership, macros and arbitrary
+source updates are excluded. NPCs, compendiums and token actors are rejected.
+
+The paired active GM reviews every changed stored field in a before/after dialog.
+Cancel, close or the two-minute expiry saves nothing. Source changes, actor
+replacement, connection loss or GM/world changes invalidate approval. Configure
+the MCP timeout to at least **180 seconds**. Results report
+`updated`/`unchanged`/`cancelled`/`incomplete`, with changes and applied receipts.
+Inspect source after incomplete, timeout or disconnect before retrying; identical
+saved fields are skipped and do not prompt again.
+
+Protocol **v29** requires reloading Foundry and restarting the shared companion
+and MCP clients together. The implementation is in `scripts/pc-actor-api.js`
+and `shared/pc-actor-data.js`.
+
+## Confirmed PC power editing
+
+`edit_pc_powers` edits existing power Items on a world Player Character using
+DnD4e 0.9.3. Read stored source first, then supply the Actor `uuid`, optional
+plain-language `summary`, and `powers: [{id, name?, img?, system?}]`. Power system
+fields use the same nested allowlist as NPC powers: descriptions, flavor
+(`description.chat`), `autoGenChatPowerCard`, target/range, attack/damage/healing
+formulas, effect/miss/special text, usage and other supported power fields.
+Omitted fields are preserved; arrays replace their complete stored value.
+
+The paired active GM sees every changed field before saving, with Confirm changes
+and Cancel and the usual 120-second expiry. Closing or expiry saves nothing.
+Session/source changes invalidate approval. Existing effects, flags, macros,
+other Items and actor fields are preserved; the tool cannot create/delete Items,
+edit features/equipment, or target compendiums/token actors. Use `add_item_effects`
+for effect additions. Unchanged retries skip the dialog. After incomplete saves,
+timeouts or disconnects, read PC source before retrying; responses include saved
+field receipts. Configure MCP call timeout to at least 180 seconds.
+
+Example for a single test power (use discovered Actor and Item IDs):
+
+```json
+{"uuid":"Actor.pcId","summary":"Enable automatic card generation for Healing Spirit.","powers":[{"id":"powerId","system":{"autoGenChatPowerCard":true}}]}
+```
+
+Protocol v28 requires reloading Foundry and restarting the shared companion/MCP
+clients together before this tool is available.

@@ -1,0 +1,39 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{background:#191a1c;color:#ddd;font-family:Arial;margin:16px}.message{width:292px;margin-bottom:16px}#status{font-size:12px;margin-bottom:12px}</style><style>@import "../../styles/chat-rolls.css";</style></head><body><div id="status">Checking native power cards…</div><div id="root">
+<div class="message"><div class="message-content"><div class="dnd4e chat-card item-card power-card use-daily collapsed" data-actor-id="actor"><header class="card-header"><h3>Lightning Strider <span>(Opportunity)</span></h3></header><div class="card-content autogen"><div class="flavour"><p>Become lightning and strike from enemy to enemy.</p></div><div class="item-details"><div class="basics"><span class="usage">Daily</span><span class="sep">✦</span><span class="keywords">Arcane, Lightning, Weapon</span><br><span class="action">Standard Action</span><span class="sep"> </span><span class="range-type">Melee weapon</span></div><p class="effect"><strong>Effect:</strong> Teleport 4 squares.</p><p class="target"><strong>Target:</strong> One creature</p>
+<p class="attack"><strong>Attack</strong>: <a class="attack-bonus" id="bonus">+14</a> vs. AC</p><p class="hit"><strong>Hit:</strong> <a class="inline-roll" id="roll">1[W] + 4</a> lightning damage.</p>
+<p class="miss"><strong>Miss:</strong> Half Damage</p><p class="effect" id="followup"><strong>Effect:</strong> Teleport 3 squares.<br><span id="secondary"><strong>Secondary Attack:</strong> Intelligence vs. AC</span></p></div></div><footer class="card-footer"><div class="card-buttons"><button data-action="attack" id="attack">Attack</button><button data-action="damage">Damage</button><button data-action="healing">Heal</button><button data-action="placeTemplate">Place Template</button></div><div class="effects-tray collapsible collapsed" id="effects"><label>Effects</label><ul><li data-uuid="Item.x.ActiveEffect.y"><button data-action="applyEffect">Apply</button></li></ul></div></footer></div></div></div>
+<div class="message"><div class="dnd4e chat-card power-card use-encounter"><header class="card-header"><h3>Intervening block</h3></header><div class="card-content"><div class="item-details"><p class="target"><strong>Target:</strong> One creature</p><p class="special"><strong>Special:</strong> Do this first.</p><p class="attack"><strong>Attack:</strong> +12 vs. Will</p><p class="hit"><strong>Hit:</strong> Damage</p>INTERVENING TEXT<p class="miss"><strong>Miss:</strong> Nothing</p></div></div></div></div>
+<div class="message"><div class="dnd4e chat-card power-card use-atwill"><header class="card-header"><h3>Custom NPC power</h3></header><div class="card-content" id="custom"><p class="flavor">Authored fiction.</p><p><b>Attack:</b> Custom description with <a id="custom-link">a link</a>.</p></div></div></div>
+</div><script type="module">
+import { PowerChatCards } from "../../scripts/modules/chat-rolls/power-chat-cards.js";
+const check=(condition,message)=>{if(!condition)throw Error(message);console.log('PASS',message)};
+const root=document.querySelector('#root'),cards=[...root.querySelectorAll('.power-card')];
+const attack=document.querySelector('#attack'),bonus=document.querySelector('#bonus'),roll=document.querySelector('#roll'),secondary=document.querySelector('#secondary'),effects=document.querySelector('#effects'),custom=document.querySelector('#custom'),customHTML=custom.innerHTML;
+let clicks=0;attack.addEventListener('click',()=>clicks++);
+const message={speaker:{alias:'Ozyn Valder'}};
+check(PowerChatCards.render(message,root),'renders native power cards');
+const first=cards[0],rows=[...first.querySelectorAll('.banter-power__rule')];
+check(rows.length===4,'bundles five native rule types into four ordered rows');
+check(rows.map(row=>row.querySelector('.banter-power__label').textContent).join('|')==='Effect|Attack|Outcome|Effect','preserves native block order');
+const attackRow=rows[1],outcome=rows[2];
+check(attackRow.textContent.includes('One creature; +14 vs. AC'),'Target and Attack use a semicolon');
+check(attackRow.contains(bonus),'preserves original enriched attack link');
+check(outcome.contains(roll),'preserves original inline damage roll');
+check(outcome.querySelector(':scope > .banter-power__value > .banter-power__value')?.textContent==='Miss: Half Damage','Miss starts a new block under Hit');
+check(first.querySelector('.banter-power__flavor').nextElementSibling.classList.contains('banter-power__rules'),'fiction always precedes mechanics');
+check(!first.querySelector('.banter-power__rules').hidden,'mechanics are visible');
+check(first.querySelector('.banter-power__usage').textContent==='Daily','usage is explicit');
+check(!first.querySelector('.basics .usage'),'usage is not repeated');
+check(first.querySelector('.banter-power__rule:last-child').contains(secondary),'nested secondary attack is retained inside its original Effect');
+check(first.querySelector('.card-footer').contains(effects),'native effects tray stays in the footer');
+check(first.contains(attack),'real native attack button survives');
+attack.click();check(clicks===1,'native button listener is preserved');
+check(first.querySelectorAll('.card-buttons button').length===4,'all optional native action buttons survive');
+check(!cards[1].querySelector('.banter-power__label')?.textContent.includes('Outcome'),'separate rules render');
+check(cards[1].querySelectorAll('.banter-power__rule').length===5,'does not bundle across Special or authored intervening text');
+check(custom.innerHTML===customHTML,'custom descriptions keep complete authored markup');
+check(cards[2].querySelector('#custom-link'),'custom links remain');
+const before=root.innerHTML;PowerChatCards.render(message,root);
+check(root.innerHTML===before,'repeat render is idempotent');
+document.querySelector('#status').textContent='All DOM checks passed · actual module renderer and styles';
+</script></body></html>
