@@ -23,6 +23,9 @@
     - Updated Technique pricing, listing both the Market Price to acquire a technique and the Casting Cost for each use, with reusable focus costs shown separately.
     - Removed the Necromancy Techniques Spirit Idol and Raise Dead.
 
+    = v1.3 - Barbarian Powers
+    - Added revised Barbarian attack powers through level 11 directly to the Barbarian chapter, with new pages for each power type and level.
+
     #v(200pt)
     == Paragon feats to double-check
     The newly added Paragon feats for the following classes still need an author review: Artificer, Avenger, Barbarian, Bard, Cleric, Druid, Invoker, Paladin, Ranger, Rogue, Runepriest, Sorcerer, and Warden.

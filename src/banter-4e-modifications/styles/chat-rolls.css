@@ -444,3 +444,146 @@
 .banter-power .effects-tray > label { display: flex; gap: 6px; padding: 8px 10px; font: 400 11px/1.5 Arial, sans-serif; color: #cdc4b8; cursor: pointer; }
 .banter-power .effects-tray .effect { padding: 8px 10px; border-top: 1px solid #ffffff12; }
 .banter-power button:focus-visible { outline: 2px solid #e9dfce; outline-offset: -3px; }
+
+/* Shared HUD palette: warm power headers, near-black rules and roll surfaces. */
+.chat-message.message:has(.banter-roll) > .message-content,
+.chat-message.message:has(.banter-power) > .message-content {
+  background: #090909;
+  border-color: #8f794e;
+}
+.banter-roll.banter-roll--attack {
+  --banter-attack-ink: #d1c6b4;
+  --banter-attack-wash: #302c25;
+}
+.banter-roll.banter-roll--attack.banter-roll--hit {
+  --banter-attack-ink: #b9ddb5;
+  --banter-attack-wash: #243021;
+}
+.banter-roll.banter-roll--attack.banter-roll--miss,
+.banter-roll.banter-roll--attack.banter-roll--fumble {
+  --banter-attack-ink: #f0b4b4;
+  --banter-attack-wash: #3a2323;
+}
+.banter-roll.banter-roll--attack.banter-roll--critical {
+  --banter-attack-ink: #e5cc8e;
+  --banter-attack-wash: #3b311e;
+}
+.banter-roll.banter-roll--attack,
+.chat-message.message .banter-roll.banter-roll--attack {
+  border: 1px solid #8f794e;
+  background: linear-gradient(90deg,
+    color-mix(in srgb, var(--banter-attack-wash) 85%, var(--banter-attack-ink)) 0%,
+    color-mix(in srgb, var(--banter-attack-wash) 55%, #090909) 24%,
+    #090909 65%);
+  box-shadow: none;
+}
+.banter-roll.banter-roll--damage,
+.chat-message.message .banter-roll.banter-roll--damage {
+  border: 1px solid #8f794e;
+  background: #090909;
+}
+.banter-roll--attack .banter-roll__sentence,
+.banter-roll--damage .banter-roll__sentence {
+  color: #ebe7de;
+}
+.banter-roll--attack .banter-roll__summary,
+.banter-roll--damage .banter-roll__summary {
+  grid-template-columns: 76px minmax(0, 1fr) 10px;
+  min-height: 78px;
+  padding: 12px 10px;
+}
+.banter-roll--attack .banter-roll__score,
+.banter-roll--damage .banter-roll__score {
+  border-right-color: #493c26;
+}
+.banter-roll--attack .banter-roll__score {
+  border-right-color: color-mix(in srgb, var(--banter-attack-ink) 35%, #493c26);
+}
+.banter-roll--attack .banter-roll__score strong {
+  color: var(--banter-attack-ink);
+  font: 700 23px/1.1 Georgia, serif;
+  text-shadow: none;
+}
+.banter-roll--critical .banter-roll__score strong {
+  font-size: 16px;
+}
+.banter-roll--damage .banter-roll__score strong {
+  color: #e5cc8e;
+  font: 600 26px/1.1 Georgia, serif;
+}
+.banter-roll--attack .banter-roll__score small,
+.banter-roll--damage .banter-roll__score small,
+.banter-roll__source {
+  color: #b5aa96;
+}
+.banter-roll__calculation {
+  color: #c5b99c;
+  border-color: #493c26;
+  background: #090909;
+}
+.banter-roll__actions {
+  border-color: #655433;
+  background: #0d0c09;
+}
+.banter-roll button.banter-roll__apply {
+  color: #e5cc8e;
+}
+.banter-roll__actions > button + button {
+  border-color: #493c26;
+}
+.dnd4e.chat-card.item-card.banter-power,
+.chat-message.message .dnd4e.chat-card.item-card.banter-power {
+  border: 1px solid #8f794e;
+  background: #090909;
+  color: #ebe7de;
+}
+.dnd4e.chat-card.item-card.banter-power--atwill { --banter-power-ink: #b9ddb5; }
+.dnd4e.chat-card.item-card.banter-power--encounter { --banter-power-ink: #f0b4b4; }
+.dnd4e.chat-card.item-card.banter-power--daily { --banter-power-ink: #d5dbe7; }
+.banter-power .banter-power__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  border-color: #655433;
+  background: linear-gradient(110deg, #292318, #101010);
+}
+.banter-power h3.banter-power__heading {
+  min-width: 0;
+  color: #eee4cc;
+  font: 600 19px/1.25 Georgia, serif;
+}
+.banter-power__usage {
+  flex-shrink: 0;
+  margin: 0;
+  color: var(--banter-power-ink);
+  font: 700 11px/1.4 Arial, sans-serif;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.banter-power__usage::before {
+  content: '◆';
+  margin-right: 6px;
+}
+.banter-power__range-icon {
+  margin-right: 8px;
+  color: #c5b99c;
+  font-size: 15px;
+}
+.banter-power .banter-power__flavor {
+  padding: 11px 14px;
+  border-color: #493c26;
+  color: #c5b99c;
+  background: linear-gradient(115deg, #191712, #101010);
+  font: italic 13px/1.5 Georgia, serif;
+}
+.banter-power .card-content.banter-power__rules { color: #ebe7de; }
+.banter-power__rules .banter-power__basics { border-color: #493c26; color: #d3c8b1; }
+.banter-power__rule { border-color: #332b1d; }
+.banter-power__label { color: #e5cc8e; }
+.banter-power__value strong { color: #ebe7de; }
+.banter-power .card-buttons { border-color: #655433; background: #0d0c09; }
+.banter-power .card-buttons button { color: #e5cc8e; border-color: #493c26; }
+.banter-power .effects-tray { border-color: #493c26; }

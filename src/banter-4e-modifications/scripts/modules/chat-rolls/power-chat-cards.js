@@ -25,6 +25,32 @@ export class PowerChatCards {
   }
 
   /**
+   * Match the Actor HUD's range icons, preferring the posted power snapshot.
+   * Older messages can use the live item when their snapshot has no range.
+   */
+  static rangeIcon(message, card) {
+    const stored = message.flags?.dnd4e?.itemData?.system;
+    const system = stored?.rangeType ? stored
+      : globalThis.game?.actors?.get(card.dataset.actorId)?.items?.get(card.dataset.itemId)?.system;
+    const range = system?.rangeType;
+    if (['melee', 'touch', 'reach'].includes(range) || (range === 'weapon' && system.weaponType !== 'ranged')) {
+      return { icon: 'fa-sword', label: 'Melee' };
+    }
+    if (range === 'range' || (range === 'weapon' && system.weaponType === 'ranged')) {
+      return { icon: 'fa-bow-arrow', label: 'Ranged' };
+    }
+    const ranges = {
+      closeBurst: { icon: 'fa-arrows-maximize', label: 'Close burst' },
+      closeBlast: { icon: 'fa-square', label: 'Close blast' },
+      rangeBurst: { icon: 'fa-burst', label: 'Area burst' },
+      areaWall: { icon: 'fa-arrows-left-right', label: 'Wall' },
+      wall: { icon: 'fa-arrows-left-right', label: 'Wall' },
+      personal: { icon: 'fa-user', label: 'Personal' },
+    };
+    return ranges[range] ?? { icon: 'fa-star', label: 'Other power range' };
+  }
+
+  /**
    * Repeated native/popout hooks leave transformed nodes and listeners intact.
    */
   static render(message, root) {
@@ -55,6 +81,12 @@ export class PowerChatCards {
     card.classList.remove('collapsed');
     const newHeader = PowerChatCards.element('header', 'banter-power__header');
     const title = PowerChatCards.element('h3', 'banter-power__heading');
+    const range = PowerChatCards.rangeIcon(message, card);
+    const icon = PowerChatCards.element('i', `banter-power__range-icon fa-solid ${range.icon}`);
+    icon.setAttribute('role', 'img');
+    icon.setAttribute('aria-label', range.label);
+    icon.title = range.label;
+    title.append(icon);
     title.append(...heading.childNodes);
     newHeader.append(title);
     const basics = content.querySelector('.item-details > .basics');

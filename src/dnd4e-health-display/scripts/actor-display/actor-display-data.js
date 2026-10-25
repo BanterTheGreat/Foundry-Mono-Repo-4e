@@ -323,7 +323,7 @@ function getTabs(actor, activeTab) {
  * @returns {Array<object>}
  */
 async function getPowerCategories(actor, expandedPowerIds, activePowerCategory) {
-	const powers = Array.from(actor.items ?? []).filter((item) => item.type === "power");
+	const powers = Array.from(actor.items ?? []).filter((item) => item.type === "power" && item.system?.prepared !== false);
 	const knownActions = POWER_CATEGORY_RULES.flatMap(([_name, actions]) => actions);
 
 	const categories = POWER_CATEGORY_RULES.map(([name, actions]) => ({
@@ -445,6 +445,10 @@ function getPowerOrder(power) {
 
 /** @param {Item} power The power whose range icon is needed. */
 function getPowerIcon(power) {
+	if (power.system?.effectType?.spirit) {
+		return "fa-solid fa-ghost";
+	}
+
 	const rangeType = power.system?.rangeType;
 	if (["melee", "touch", "reach"].includes(rangeType)) {
 		return "fa-solid fa-sword";

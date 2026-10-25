@@ -1,6 +1,7 @@
 #import "../helpers/theme.typ";
 #import "../helpers/classes.typ" as classes;
 #import "../helpers/powers.typ";
+#import "barbarian-primal-powers.typ": primalPowers;
 
 #let className = "Barbarian";
 #let barbarianPage() = {
@@ -18,6 +19,7 @@
           ),
           weaponProficiencies: (
             classes.weaponProf.simpleMelee,
+            classes.weaponProf.simpleRanged,
             classes.weaponProf.militaryMelee,
           ),
           implementProficiencies: (),
@@ -91,10 +93,9 @@
             target: "Each enemy in the burst",
             additionalRows: (
               [
-                *Effect:* Choose one target. The next attack by you or an ally against that target before the end of your next turn gains a +3 power bonus to the attack roll and deals extra damage equal to your *Charisma*.
+                *Effect:* Each target takes a -2 penalty to damage rolls and all defenses until the end of your next turn.
 
-                *Level 11:* The bonus to the attack roll increases to +4, and the extra damage increases by 2. #linebreak()
-                *Level 21:* The bonus to the attack roll increases to +5, and the extra damage increases by 4.
+                *Level 11:* The penalty to damage rolls increases to -4.
               ],
             ),
           )
@@ -118,7 +119,7 @@
             range: [*Close* blast 3 (Blast 5 at 11th level, blast 7 at 21st level)],
             trigger: "You reduce a creature to 0 hit points, or an enemy adjacent to you drops to 0 hit points.",
             target: "Each enemy in the blast",
-            traits: "Fear, Primal",
+            traits: "Fear, Primal, Thunder",
             additionalRows: (
               [
                 *Effect:* You may push each target up to 1 square, and each target gains vulnerability to thunder damage equal to your Constitution plus 1 until the end of your next turn.
@@ -158,7 +159,9 @@
       )
 
       = Rage Strike
-      You can focus your fury into a single, devastating attack. You gain the rage strike power.
+      Barbarian daily attack powers with the Rage keyword begin with an attack and let you enter a rage, granting an ongoing benefit until the rage ends. A rage lasts until the end of the encounter, until you enter another rage, or until you fall unconscious.
+
+      You gain the rage strike power. It lets you expend another daily rage power for a single attack while keeping your current rage.
 
       #powers.power(
         title: "Rage Strike",
@@ -196,14 +199,17 @@
 
 
       = Rampage
-      Whenever you use Rage Strike, a Daily power with the Rage keyword, or score a critical hit with a Primal attack power, you may also make a basic attack as a free action.
+      Once per round, when you score a critical hit with a barbarian attack power, you can make a melee basic attack as a free action. You do not have to attack the same target that you critically hit.
 
+      = Powers
+      You may choose 2 At-Will, 1 Encounter and 2 Daily #className Powers.
+
+      Use the revised attack powers printed in this chapter in place of their published versions. The lists include powers available through level 11 and their scaling through that level. A level-based improvement to a power you know applies automatically unless the list says it requires a higher-level power slot. Utility power choices follow the book's normal utility rules.
     ]
 
-    = Powers
-    You may choose 2 At-Will, 1 Encounter and 2 Daily #className Powers.
-
-    #classes.powerLinks(className: className, skipPaths: true);
+    #classes.classFeatures[
+      #primalPowers()
+    ]
     #pagebreak()
 
     #set page(columns: 1)
@@ -414,7 +420,7 @@
         title: "Withering Roar",
         requirements: "11th level, Thaneborn Triumph",
         content: [
-          When you use your roar of triumph power, you choose for each target either to grant combat advantage until the end of your next turn or to take the –2 penalty to all defenses.
+          When you use Roar of Triumph, you can replace its penalty to all defenses for each target with that target granting combat advantage until the end of your next turn. The power's penalty to damage rolls still applies.
         ],
       );
     ]
