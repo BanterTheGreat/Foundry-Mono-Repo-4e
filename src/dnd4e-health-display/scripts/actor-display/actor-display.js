@@ -1,7 +1,7 @@
 import { getActorDisplayData, HOTBAR_FLAG, HOTBAR_SLOT_COUNT } from "./actor-display-data.js";
 import { initializeActorDisplayTooltips } from "./actor-display-tooltips.js";
 import { setGmCombatMergedIntoHorizontalHud } from "./gm-hud-state.js";
-import { openBattleBriefing } from "../combat-start/combat-start.js";
+import { useAbility, showPowerInChat } from "../power-activation/power-activation.js";
 
 const MODULE_ID = "dnd4e-health-display";
 const SHOW_HORIZONTAL_SETTING = "showHorizontalActorDisplay";
@@ -18,7 +18,7 @@ let isHorizontalDismissed = false;
 export function registerActorDisplaySettings() {
 	game.settings.register(MODULE_ID, SHOW_HORIZONTAL_SETTING, {
 		name: "Show horizontal actor display",
-		hint: "Show a horizontal, bottom-left-docked action and inventory display for the currently controlled player-character token. GMs also get it for any controlled token, without the hotbar, plus the combat tracker and encounter notes while an encounter is running.",
+		hint: "Show a horizontal, bottom-left-docked action and inventory display for the currently controlled player-character token. GMs also get it for any controlled token, without the hotbar, plus encounter notes while an encounter is running.",
 		scope: "client",
 		config: true,
 		type: Boolean,
@@ -52,8 +52,6 @@ export function registerActorDisplay() {
 	Hooks.on("deleteActiveEffect", refreshForEffect);
 	Hooks.on("updateCombat", refreshAllActorDisplays);
 	Hooks.on("deleteCombat", refreshAllActorDisplays);
-	Hooks.on("updateCombatant", refreshForCombatantVisibility);
-	Hooks.on("updateToken", refreshForTokenVisibility);
 	Hooks.on("combatStart", updateGmCombatMergeState);
 	Hooks.on("canvasTearDown", closeAllActorDisplays);
 
@@ -81,7 +79,7 @@ function renderSelectedActor() {
 	const isNpcToken = Boolean(token) && token.actor?.type !== "Player Character";
 
 	// The horizontal display is player-character only for regular players. GMs may run it for any
-	// selected token, where it replaces the hotbar with the combat tracker and encounter notes.
+	// selected token, where it replaces the hotbar with encounter notes.
 	const showHorizontal = isHorizontalEnabled && (!isNpcToken || game.user.isGM);
 
 	updateHorizontalDisplay(showHorizontal ? token : null);
@@ -109,8 +107,7 @@ function updateHorizontalDisplay(token) {
 }
 
 /**
- * Track whether the GM's combat tracker and Combat Pointers now live inside the horizontal HUD,
- * so the standalone combat tracker and strategy overlay windows know to stay closed.
+ * Track whether GM encounter notes live inside the horizontal HUD so the strategy overlay stays closed.
  */
 function updateGmCombatMergeState() {
 	setGmCombatMergedIntoHorizontalHud(Boolean(game.user.isGM && ui.Dnd4eHorizontalActorDisplay && game.combat?.started));
@@ -166,31 +163,6 @@ function refreshForActor(actor) {
 /** @param {Item} item The changed embedded item. */
 function refreshForItem(item) {
 	refreshForActor(item.parent);
-}
-
-/**
- * Refresh the embedded GM combat tracker when a combatant's visibility changes, since that's not
- * reflected by any actor, item, or effect update.
- *
- * @param {Combatant} combatant The updated combatant.
- * @param {object} changes The changed fields.
- */
-function refreshForCombatantVisibility(combatant, changes) {
-	if ("hidden" in changes && combatant.parent?.id === game.combat?.id) {
-		ui.Dnd4eHorizontalActorDisplay?.render();
-	}
-}
-
-/**
- * Refresh the embedded GM combat tracker when a tracked combatant's token visibility changes.
- *
- * @param {TokenDocument} token The updated token.
- * @param {object} changes The changed fields.
- */
-function refreshForTokenVisibility(token, changes) {
-	if ("hidden" in changes && game.combat?.combatants.some((combatant) => combatant.token?.id === token.id)) {
-		ui.Dnd4eHorizontalActorDisplay?.render();
-	}
 }
 
 /** @param {ActiveEffect} effect The changed active effect. */
@@ -370,6 +342,9 @@ class ActorDisplayBase extends HandlebarsApplicationMixin(ApplicationV2) {
 			return;
 		}
 		if (power) {
+			if (await useAbility(power, this.token)) {
+				return;
+			}
 			if (this.actor.type === "NPC" && power.hasAttack) {
 				await this.consumePowerUse(power);
 				await power.rollAttack();
@@ -404,13 +379,12 @@ class ActorDisplayBase extends HandlebarsApplicationMixin(ApplicationV2) {
 	}
 
 	/**
-	 * Use a power and send its standard card to chat through the system workflow.
-	 * Actor.usePower consumes limited uses; Item.roll only posts the card.
+	 * Post through the activation service, which preserves normal costs for non-automated powers.
 	 */
 	onChatPower(event, target) {
 		const power = this.actor.items.get(target.dataset.itemId);
 		if (power) {
-			return this.actor.usePower(power);
+			return showPowerInChat(power);
 		}
 	}
 
@@ -544,13 +518,6 @@ class HorizontalActorDisplay extends ActorDisplayBase {
 			hotbarSlot: { handler: HorizontalActorDisplay.prototype.onHotbarSlot, buttons: [0, 2] },
 			clearHotbarSlot: HorizontalActorDisplay.prototype.onClearHotbarSlot,
 			refreshHotbarPower: HorizontalActorDisplay.prototype.onRefreshPower,
-			combatSetCurrent: HorizontalActorDisplay.prototype.onCombatSetCurrent,
-			combatToggleHidden: HorizontalActorDisplay.prototype.onCombatToggleHidden,
-			combatToggleDefeated: HorizontalActorDisplay.prototype.onCombatToggleDefeated,
-			combatRemoveCombatant: HorizontalActorDisplay.prototype.onCombatRemoveCombatant,
-			combatNav: HorizontalActorDisplay.prototype.onCombatNav,
-			combatEndCombat: HorizontalActorDisplay.prototype.onCombatEndCombat,
-			openBriefing: HorizontalActorDisplay.prototype.onOpenBriefing,
 		},
 	};
 
@@ -652,7 +619,6 @@ class HorizontalActorDisplay extends ActorDisplayBase {
 		const height = this.element?.getBoundingClientRect().height ?? 0;
 		document.documentElement.style.setProperty(HORIZONTAL_HUD_HEIGHT_PROPERTY, `${height}px`);
 		this.initializeHotbarDragAndDrop();
-		this.initializeGmCombatInputs();
 		this.syncGmCombatPanelHeight();
 	}
 
@@ -704,11 +670,7 @@ class HorizontalActorDisplay extends ActorDisplayBase {
 		name.style.fontSize = `${fontSize * scale}px`;
 	}
 
-	/**
-	 * Match the GM combat tracker/notes panels' height to the player-info panel beside them. The
-	 * combat tracker itself runs taller than that, since its scrollable combatant list benefits
-	 * from the extra room far more than the two note panels do.
-	 */
+	/** Match the encounter note panels to the actor panel height. */
 	syncGmCombatPanelHeight() {
 		const playerPanel = this.element?.querySelector(".dnd4e-horizontal-actor-display__panel");
 		const panels = this.element?.querySelector(".dnd4e-horizontal-actor-display__gm-combat-panels");
@@ -718,185 +680,6 @@ class HorizontalActorDisplay extends ActorDisplayBase {
 
 		const panelHeight = playerPanel.getBoundingClientRect().height;
 		panels.style.setProperty("--dnd4e-horizontal-gm-panel-height", `${panelHeight}px`);
-		panels.style.setProperty("--dnd4e-horizontal-gm-tracker-height", `${panelHeight * 1.8}px`);
-	}
-
-	/** Commit the embedded GM combat tracker's inline HP and initiative edits. */
-	initializeGmCombatInputs() {
-		if (!game.user.isGM) {
-			return;
-		}
-
-		const combat = game.combat;
-		for (const input of this.element.querySelectorAll("[data-gm-hp-input]")) {
-			input.addEventListener("click", (event) => event.stopPropagation());
-			input.addEventListener("change", async (event) => {
-				const actor = combat?.combatants.get(input.dataset.gmHpInput)?.actor;
-				const max = Number(actor?.system?.attributes?.hp?.max) || 0;
-				const value = Math.max(0, Math.min(max, Number(event.target.value) || 0));
-				try {
-					await actor?.update({ "system.attributes.hp.value": value });
-				} catch (error) {
-					console.error(`${MODULE_ID} | Failed to update combatant HP.`, error);
-					ui.notifications.error("Hit points could not be updated. Check the console for details.");
-					this.render();
-				}
-			});
-		}
-
-		for (const input of this.element.querySelectorAll("[data-gm-init-input]")) {
-			input.addEventListener("click", (event) => event.stopPropagation());
-			input.addEventListener("change", async (event) => {
-				const combatant = combat?.combatants.get(input.dataset.gmInitInput);
-				if (!combatant) {
-					return;
-				}
-
-				const value = event.target.value.trim();
-				try {
-					if (value === "") {
-						await combatant.update({ initiative: null });
-					} else {
-						await combat.setInitiative(combatant.id, Number(value));
-					}
-				} catch (error) {
-					console.error(`${MODULE_ID} | Failed to set initiative.`, error);
-					ui.notifications.error("Initiative could not be set. Check the console for details.");
-					this.render();
-				}
-			});
-		}
-	}
-
-	/** Jump the encounter to a clicked combatant's turn. */
-	async onCombatSetCurrent(event, target) {
-		if (!game.user.isGM) {
-			return;
-		}
-
-		const combat = game.combat;
-		const turn = combat?.turns.findIndex((combatant) => combatant.id === target.dataset.combatantId) ?? -1;
-		if (turn < 0) {
-			return;
-		}
-
-		try {
-			await combat.update({ turn });
-		} catch (error) {
-			console.error(`${MODULE_ID} | Failed to set the current turn.`, error);
-			ui.notifications.error("The current turn could not be changed. Check the console for details.");
-		}
-	}
-
-	/** Toggle whether a combatant and its scene token are hidden from players. */
-	async onCombatToggleHidden(event, target) {
-		if (!game.user.isGM) {
-			return;
-		}
-
-		const combatant = game.combat?.combatants.get(target.dataset.combatantId);
-		if (!combatant) {
-			return;
-		}
-
-		const hidden = !(combatant.hidden || combatant.token?.hidden);
-		try {
-			if (combatant.token && combatant.token.hidden !== hidden) {
-				await combatant.token.update({ hidden });
-			}
-			if (combatant.hidden !== hidden) {
-				await combatant.update({ hidden });
-			}
-		} catch (error) {
-			console.error(`${MODULE_ID} | Failed to change combatant visibility.`, error);
-			ui.notifications.error("The combatant visibility could not be changed. Check the console for details.");
-		}
-	}
-
-	/** Toggle a combatant's defeated status. */
-	async onCombatToggleDefeated(event, target) {
-		if (!game.user.isGM) {
-			return;
-		}
-
-		const combatant = game.combat?.combatants.get(target.dataset.combatantId);
-		if (!combatant) {
-			return;
-		}
-
-		try {
-			const defeated = !combatant.isDefeated;
-			await combatant.update({ defeated });
-			await combatant.actor?.toggleStatusEffect(CONFIG.specialStatusEffects.DEFEATED, { overlay: true, active: defeated });
-		} catch (error) {
-			console.error(`${MODULE_ID} | Failed to toggle defeated status.`, error);
-			ui.notifications.error("The defeated status could not be toggled. Check the console for details.");
-		}
-	}
-
-	/** Remove a combatant from the active encounter without changing its token or actor. */
-	async onCombatRemoveCombatant(event, target) {
-		if (!game.user.isGM) {
-			return;
-		}
-
-		const combatant = game.combat?.combatants.get(target.dataset.combatantId);
-		if (!combatant) {
-			return;
-		}
-
-		target.disabled = true;
-		try {
-			await combatant.delete();
-		} catch (error) {
-			console.error(`${MODULE_ID} | Failed to remove combatant from the encounter.`, error);
-			ui.notifications.error("The combatant could not be removed. Check the console for details.");
-			target.disabled = false;
-		}
-	}
-
-	/** Advance or rewind the encounter by one turn. */
-	async onCombatNav(event, target) {
-		if (!game.user.isGM) {
-			return;
-		}
-
-		try {
-			if (target.dataset.nav === "next") {
-				await game.combat?.nextTurn();
-			} else {
-				await game.combat?.previousTurn();
-			}
-		} catch (error) {
-			console.error(`${MODULE_ID} | Failed to change the turn.`, error);
-			ui.notifications.error("The turn could not be changed. Check the console for details.");
-		}
-	}
-
-	/** End the active encounter. */
-	async onCombatEndCombat(event, target) {
-		if (!game.user.isGM) {
-			return;
-		}
-
-		target.disabled = true;
-		try {
-			await game.combat?.endCombat();
-		} catch (error) {
-			console.error(`${MODULE_ID} | Failed to end the encounter.`, error);
-			ui.notifications.error("The encounter could not be ended. Check the console for details.");
-		} finally {
-			target.disabled = false;
-		}
-	}
-
-	/** Open the Battle Briefing for the active encounter. */
-	async onOpenBriefing() {
-		if (!game.user.isGM || !game.combat) {
-			return;
-		}
-
-		await openBattleBriefing(game.combat);
 	}
 
 	/** Close the dropdown menu whenever a click lands outside this display. */

@@ -32,7 +32,6 @@ body.dnd4e-horizontal-hud-active #players {
 
 .dnd4e-horizontal-actor-display__left-col,
 .dnd4e-horizontal-actor-display__hotbar-column,
-.dnd4e-horizontal-actor-display__gm-tracker,
 .dnd4e-horizontal-actor-display__side-panel {
 	pointer-events: auto;
 }
@@ -821,6 +820,7 @@ body.dnd4e-horizontal-hud-active #players {
 	color: #fff1d5;
 }
 
+.dnd4e-horizontal-actor-display__power-header > .dnd4e-horizontal-actor-display__power-use,
 .dnd4e-horizontal-actor-display__power-header > .dnd4e-horizontal-actor-display__power-chat {
 	display: grid;
 	place-items: center;
@@ -834,6 +834,8 @@ body.dnd4e-horizontal-hud-active #players {
 	font-size: 0.62rem;
 }
 
+.dnd4e-horizontal-actor-display__power-use:hover,
+.dnd4e-horizontal-actor-display__power-use:focus-visible,
 .dnd4e-horizontal-actor-display__power-chat:hover,
 .dnd4e-horizontal-actor-display__power-chat:focus-visible {
 	border-color: #c89550 !important;
@@ -1355,28 +1357,11 @@ body.dnd4e-horizontal-hud-active #players {
 	}
 }
 
-/* -- GM combat panels: the combat tracker and Environment/Pointers notes, embedded in place of
-   the hotbar whenever the GM is running an active encounter. The tracker reuses the standalone
-   combat tracker HUD's own classes (see combat-tracker.css) so both stay visually identical. -- */
+/* GM encounter notes displayed beside the actor panel. */
 .dnd4e-horizontal-actor-display__gm-combat-panels {
 	display: flex;
 	align-items: flex-end;
 	gap: 0.6rem;
-}
-
-.dnd4e-horizontal-actor-display__gm-tracker {
-	width: 19rem;
-	max-height: var(--dnd4e-horizontal-gm-tracker-height, 37rem);
-}
-
-.dnd4e-horizontal-actor-display__gm-tracker .dnd4e-info-combat-tracker__list {
-	flex: 1 1 auto;
-	min-height: 0;
-	max-height: none;
-}
-
-.dnd4e-horizontal-actor-display__gm-tracker-header {
-	cursor: default;
 }
 
 .dnd4e-horizontal-actor-display__side-panel {

@@ -9,11 +9,9 @@ const PC_HEALTH_SEGMENTS = 6;
  * @param {Token} token The hovered token.
  * @param {object} options Current presentation options.
  * @param {boolean} options.useEffectDescriptions Whether effect descriptions replace names.
- * @param {boolean} options.expandTraits Whether NPC trait descriptions are fully expanded.
- * @param {boolean} options.showTraits Whether NPC trait descriptions should be included.
  * @returns {object}
  */
-export function getTokenHoverDisplayData(token, { useEffectDescriptions, expandTraits, showTraits }) {
+export function getTokenHoverDisplayData(token, { useEffectDescriptions }) {
 	const actor = token.actor;
 	const hp = actor.system?.attributes?.hp ?? {};
 	const value = Number(hp.value);
@@ -35,8 +33,6 @@ export function getTokenHoverDisplayData(token, { useEffectDescriptions, expandT
 			filled: index < filledSegments,
 		})),
 		turnDistance: getTurnDistance(token),
-		traits: showTraits ? getNpcTraits(actor) : [],
-		expandTraits,
 		...effectPresentation,
 	};
 }
@@ -132,35 +128,6 @@ function getTurnDistance(token) {
 		count,
 		label: count === 0 ? "Acting now" : `Acts in ${count} turn${count === 1 ? "" : "s"}`,
 	};
-}
-
-/**
- * Expose NPC trait features only to the GM.
- *
- * @param {Actor} actor The displayed actor.
- * @returns {Array<{description: string}>}
- */
-function getNpcTraits(actor) {
-	if (actor.type !== "NPC" || !game.user?.isGM) {
-		return [];
-	}
-
-	return Array.from(actor.items ?? [])
-		.filter((item) => item.type === "feature" && ["trait", "race"].includes(item.system?.featureType))
-		.map((item) => ({ description: getPlainText(item.system?.description?.value) }))
-		.filter((item) => item.description);
-}
-
-/**
- * Convert an item's rich-text description into safe compact display text.
- *
- * @param {string} html Rich-text content.
- * @returns {string}
- */
-function getPlainText(html) {
-	const container = document.createElement("div");
-	container.innerHTML = html ?? "";
-	return container.textContent?.replace(/\s+/g, " ").trim() ?? "";
 }
 
 /**

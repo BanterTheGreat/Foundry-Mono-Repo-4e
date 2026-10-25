@@ -5,7 +5,6 @@ import { TriggerPrompts } from "./modules/trigger-prompts/trigger-prompts.js";
 import { PowerTriggerConfiguration } from "./modules/trigger-prompts/power-trigger-configuration.js";
 import { OpportunityAttackChatActions } from "./modules/opportunity-attack-chat/opportunity-attack-chat-actions.js";
 import { TargetingWarning } from "./modules/targeting-warning/targeting-warning.js";
-import { CoverPreview } from "./modules/cover-preview/cover-preview.js";
 import { ActorDirectoryLevels } from "./modules/actor-directory-levels/actor-directory-levels.js";
 import { AttackBuffs } from "./modules/attack-buffs/attack-buffs.js";
 import { SkillBuffs } from "./modules/skill-buffs/skill-buffs.js";
@@ -21,7 +20,6 @@ Hooks.once("ready", ChatRolls.install);
 Hooks.on("renderChatMessageHTML", ChatRolls.render);
 Hooks.on("renderChatMessage", ChatRolls.render);
 
-Hooks.once("i18nInit", () => CoverPreview.register());
 
 Hooks.on("i18nInit", () => {
   // Register Settings

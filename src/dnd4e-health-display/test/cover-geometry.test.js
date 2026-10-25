@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { calculateCover, crossesCreature, crossesWall } from "../scripts/modules/cover-preview/cover-geometry.js";
+import { calculateCover, crossesCreature, crossesWall } from "../scripts/power-activation/cover-geometry.js";
 
 const attacker = { x: 0, y: 0, width: 100, height: 100 };
 const target = { x: 300, y: 0, width: 100, height: 100 };

@@ -42,8 +42,8 @@
 												<i class="{{icon}}" aria-hidden="true"></i>
 												<strong>{{name}}</strong>
 												{{#if showUses}}<small>{{uses}}</small>{{/if}}
-												{{#if isExpandable}}<button type="button" class="dnd4e-horizontal-actor-display__power-details-toggle" data-action="togglePowerDetails" data-item-id="{{id}}" aria-expanded="{{#if isExpanded}}true{{else}}false{{/if}}" title="{{#if isExpanded}}Hide details{{else}}Show details{{/if}}"><i class="fa-solid {{#if isExpanded}}fa-chevron-up{{else}}fa-chevron-down{{/if}}" aria-hidden="true"></i></button>{{/if}}
-												{{#if isNpcPower}}<span class="dnd4e-horizontal-actor-display__npc-power-actions" role="group" aria-label="{{name}} actions"><button type="button" data-action="chatPower" data-item-id="{{id}}" aria-label="Send {{name}} to chat" title="Send to chat"><i class="fa-solid fa-comment" aria-hidden="true"></i></button>{{#if canRollDamage}}<button type="button" data-action="rollPowerDamage" data-item-id="{{id}}" aria-label="Roll {{name}} damage" title="Roll damage"><i class="fa-solid fa-burst" aria-hidden="true"></i></button>{{/if}}</span>{{/if}}
+												{{#if isExpandable}}<button type="button" class="dnd4e-horizontal-actor-display__power-details-toggle" data-action="togglePowerDetails" data-item-id="{{id}}" aria-expanded="{{#if isExpanded}}true{{else}}false{{/if}}" title="{{#if isExpanded}}Hide details{{else}}Show details{{/if}}"><i class="fa-solid {{#if isExpanded}}fa-chevron-up{{else}}fa-chevron-down{{/if}}" aria-hidden="true"></i></button>{{#if canTargetAutomation}}<button type="button" class="dnd4e-horizontal-actor-display__power-use" data-action="power" data-item-id="{{id}}" title="Use Ability" aria-label="Use {{name}}"><i class="fa-solid fa-crosshairs" aria-hidden="true"></i></button>{{/if}}{{/if}}
+												{{#if isNpcPower}}<span class="dnd4e-horizontal-actor-display__npc-power-actions" role="group" aria-label="{{name}} actions">{{#if canTargetAutomation}}<button type="button" class="dnd4e-horizontal-actor-display__power-use" data-action="power" data-item-id="{{id}}" title="Use Ability" aria-label="Use {{name}}"><i class="fa-solid fa-crosshairs" aria-hidden="true"></i></button>{{/if}}<button type="button" data-action="chatPower" data-item-id="{{id}}" aria-label="Show {{name}} in chat" title="Show in Chat"><i class="fa-solid fa-comment" aria-hidden="true"></i></button>{{#if canRollDamage}}<button type="button" data-action="rollPowerDamage" data-item-id="{{id}}" aria-label="Roll {{name}} damage" title="Roll damage"><i class="fa-solid fa-burst" aria-hidden="true"></i></button>{{/if}}</span>{{/if}}
 												{{#if depleted}}<button type="button" data-action="refreshPower" data-item-id="{{id}}" title="Refresh power"><i class="fa-solid fa-rotate-right"></i></button>{{/if}}
 											</div>
 											{{#unless isExpanded}}{{#if flavour}}{{#unless depleted}}<p class="dnd4e-horizontal-actor-display__power-flavour">{{flavour}}</p>{{/unless}}{{/if}}{{/unless}}
@@ -64,8 +64,8 @@
 												<i class="{{icon}}" aria-hidden="true"></i>
 												<strong>{{name}}</strong>
 												{{#if showUses}}<small>{{uses}}</small>{{/if}}
-												{{#if isExpandable}}<button type="button" class="dnd4e-horizontal-actor-display__power-details-toggle" data-action="togglePowerDetails" data-item-id="{{id}}" aria-expanded="{{#if isExpanded}}true{{else}}false{{/if}}" title="{{#if isExpanded}}Hide details{{else}}Show details{{/if}}"><i class="fa-solid {{#if isExpanded}}fa-chevron-up{{else}}fa-chevron-down{{/if}}" aria-hidden="true"></i></button><button type="button" class="dnd4e-horizontal-actor-display__power-chat" data-action="chatPower" data-item-id="{{id}}" aria-label="Send {{name}} to chat" title="Send to chat"><i class="fa-solid fa-comment" aria-hidden="true"></i></button>{{/if}}
-												{{#if isNpcPower}}<span class="dnd4e-horizontal-actor-display__npc-power-actions" role="group" aria-label="{{name}} actions"><button type="button" data-action="chatPower" data-item-id="{{id}}" aria-label="Send {{name}} to chat" title="Send to chat"><i class="fa-solid fa-comment" aria-hidden="true"></i></button>{{#if canRollDamage}}<button type="button" data-action="rollPowerDamage" data-item-id="{{id}}" aria-label="Roll {{name}} damage" title="Roll damage"><i class="fa-solid fa-burst" aria-hidden="true"></i></button>{{/if}}</span>{{/if}}
+												{{#if isExpandable}}<button type="button" class="dnd4e-horizontal-actor-display__power-details-toggle" data-action="togglePowerDetails" data-item-id="{{id}}" aria-expanded="{{#if isExpanded}}true{{else}}false{{/if}}" title="{{#if isExpanded}}Hide details{{else}}Show details{{/if}}"><i class="fa-solid {{#if isExpanded}}fa-chevron-up{{else}}fa-chevron-down{{/if}}" aria-hidden="true"></i></button>{{#if canTargetAutomation}}<button type="button" class="dnd4e-horizontal-actor-display__power-use" data-action="power" data-item-id="{{id}}" title="Use Ability" aria-label="Use {{name}}"><i class="fa-solid fa-crosshairs" aria-hidden="true"></i></button>{{/if}}<button type="button" class="dnd4e-horizontal-actor-display__power-chat" data-action="chatPower" data-item-id="{{id}}" aria-label="Show {{name}} in chat" title="Show in Chat"><i class="fa-solid fa-comment" aria-hidden="true"></i></button>{{/if}}
+												{{#if isNpcPower}}<span class="dnd4e-horizontal-actor-display__npc-power-actions" role="group" aria-label="{{name}} actions">{{#if canTargetAutomation}}<button type="button" class="dnd4e-horizontal-actor-display__power-use" data-action="power" data-item-id="{{id}}" title="Use Ability" aria-label="Use {{name}}"><i class="fa-solid fa-crosshairs" aria-hidden="true"></i></button>{{/if}}<button type="button" data-action="chatPower" data-item-id="{{id}}" aria-label="Show {{name}} in chat" title="Show in Chat"><i class="fa-solid fa-comment" aria-hidden="true"></i></button>{{#if canRollDamage}}<button type="button" data-action="rollPowerDamage" data-item-id="{{id}}" aria-label="Roll {{name}} damage" title="Roll damage"><i class="fa-solid fa-burst" aria-hidden="true"></i></button>{{/if}}</span>{{/if}}
 												{{#if depleted}}<button type="button" data-action="refreshPower" data-item-id="{{id}}" title="Refresh power"><i class="fa-solid fa-rotate-right"></i></button>{{/if}}
 											</div>
 											{{#unless isExpanded}}{{#if flavour}}{{#unless depleted}}<p class="dnd4e-horizontal-actor-display__power-flavour">{{flavour}}</p>{{/unless}}{{/if}}{{/unless}}
@@ -216,78 +216,6 @@
 
 	{{#if showGmCombatPanels}}
 		<div class="dnd4e-horizontal-actor-display__gm-combat-panels">
-			<div class="dnd4e-info-combat-tracker__panel dnd4e-horizontal-actor-display__gm-tracker">
-				<header class="dnd4e-info-combat-tracker__header dnd4e-horizontal-actor-display__gm-tracker-header">
-					<div class="dnd4e-info-combat-tracker__round">
-						<span>Round</span>
-						<b>{{gmCombatRound}}</b>
-					</div>
-					<button type="button" class="dnd4e-info-combat-tracker__briefing-btn" data-action="openBriefing" title="Open Combat Briefing">
-						<i class="fa-solid fa-swords" aria-hidden="true"></i>
-					</button>
-				</header>
-				<ol class="dnd4e-info-combat-tracker__list" aria-label="Turn order">
-					{{#each gmCombatants}}
-						<li class="dnd4e-info-combat-tracker__combatant {{#if isCurrent}}is-current{{/if}} {{#if isDefeated}}is-defeated{{/if}} {{#if isHidden}}is-hidden{{/if}}">
-							<button type="button" class="dnd4e-info-combat-tracker__portrait" data-action="combatSetCurrent" data-combatant-id="{{id}}" title="Jump to {{name}}'s turn">
-								<img src="{{img}}" alt="" draggable="false">
-								{{#if isDefeated}}<span class="dnd4e-info-combat-tracker__skull"><i class="fa-solid fa-skull" aria-hidden="true"></i></span>{{/if}}
-							</button>
-							<div class="dnd4e-info-combat-tracker__main">
-								<div class="dnd4e-info-combat-tracker__name-row">
-									<strong>{{name}}</strong>
-									<div class="dnd4e-info-combat-tracker__row-actions">
-										<button type="button" class="dnd4e-info-combat-tracker__icon-btn {{#if isHidden}}is-active{{/if}}" data-action="combatToggleHidden" data-combatant-id="{{id}}" title="Toggle visible to players">
-											<i class="fa-solid {{#if isHidden}}fa-eye-slash{{else}}fa-eye{{/if}}" aria-hidden="true"></i>
-										</button>
-										<button type="button" class="dnd4e-info-combat-tracker__icon-btn {{#if isDefeated}}is-active{{/if}}" data-action="combatToggleDefeated" data-combatant-id="{{id}}" title="Toggle defeated">
-											<i class="fa-solid fa-skull" aria-hidden="true"></i>
-										</button>
-										<button type="button" class="dnd4e-info-combat-tracker__icon-btn dnd4e-info-combat-tracker__remove-btn" data-action="combatRemoveCombatant" data-combatant-id="{{id}}" title="Remove from combat" aria-label="Remove {{name}} from combat">
-											<i class="fa-solid fa-trash" aria-hidden="true"></i>
-										</button>
-									</div>
-								</div>
-								{{#if hasHp}}
-									<div class="dnd4e-info-combat-tracker__hp-row">
-										<i class="fa-solid fa-heart" aria-hidden="true"></i>
-										{{#if canEditHp}}
-											<input type="number" class="dnd4e-info-combat-tracker__hp-input" data-gm-hp-input="{{id}}" value="{{hp.value}}" min="0" max="{{hp.maximum}}">
-										{{else}}
-											<span class="dnd4e-info-combat-tracker__hp-value">{{hp.value}}</span>
-										{{/if}}
-										<span class="dnd4e-info-combat-tracker__hp-max">/ {{hp.maximum}}</span>
-									</div>
-									<div class="dnd4e-info-combat-tracker__hp-bar {{#if hp.bloodied}}is-bloodied{{/if}}"><i style="width:{{hp.percent}}%"></i></div>
-								{{/if}}
-							</div>
-							<div class="dnd4e-info-combat-tracker__init">
-								{{#if canEditInitiative}}
-									<input type="number" class="dnd4e-info-combat-tracker__init-input" data-gm-init-input="{{id}}" value="{{rawInitiative}}" placeholder="—">
-								{{else}}
-									<b>{{initiative}}</b>
-								{{/if}}
-								<span>Init</span>
-							</div>
-						</li>
-					{{else}}
-						<li class="dnd4e-info-combat-tracker__empty">No combatants in this encounter.</li>
-					{{/each}}
-				</ol>
-				<footer class="dnd4e-info-combat-tracker__footer">
-					<button type="button" class="dnd4e-info-combat-tracker__nav-btn" data-action="combatNav" data-nav="prev" title="Previous turn">
-						<i class="fa-solid fa-backward-step" aria-hidden="true"></i>
-					</button>
-					<button type="button" class="dnd4e-info-combat-tracker__next-btn" data-action="combatNav" data-nav="next">
-						<span>Next Turn</span>
-						<i class="fa-solid fa-forward-step" aria-hidden="true"></i>
-					</button>
-					<button type="button" class="dnd4e-info-combat-tracker__end-btn" data-action="combatEndCombat" title="End Encounter">
-						<i class="fa-solid fa-flag-checkered" aria-hidden="true"></i>
-					</button>
-				</footer>
-			</div>
-
 			{{#if hasEnvironmentNotes}}
 				<div class="dnd4e-horizontal-actor-display__side-panel">
 					<span class="dnd4e-horizontal-actor-display__side-panel-lbl"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Environment</span>

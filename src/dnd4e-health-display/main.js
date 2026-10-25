@@ -9,10 +9,6 @@ import {
 	registerHealthDisplaySettings,
 } from "./scripts/health-display/health-display.js";
 import {
-	registerTeamDisplay,
-	registerTeamDisplaySettings,
-} from "./scripts/team-display/team-display.js";
-import {
 	registerMarkDisplay,
 	registerMarkDisplaySettings,
 } from "./scripts/mark-display/mark-display.js";
@@ -20,29 +16,24 @@ import {
 	registerCombatStart,
 	registerCombatStartSettings,
 } from "./scripts/combat-start/combat-start.js";
-import {
-	registerCombatTracker,
-	registerCombatTrackerSettings,
-} from "./scripts/combat-tracker/combat-tracker.js";
 
 import { registerNegotiation, registerNegotiationSettings } from "./scripts/negotiation/negotiation.js";
+import { registerPowerActivation, registerPowerActivationSettings } from "./scripts/power-activation/power-activation.js";
 
 Hooks.once("init", () => {
+	registerPowerActivationSettings();
 	registerNegotiationSettings();
 	registerHealthDisplaySettings();
 	registerActorDisplaySettings();
-	registerTeamDisplaySettings();
 	registerMarkDisplaySettings();
 	registerCombatStartSettings();
-	registerCombatTrackerSettings();
 });
 
 Hooks.once("ready", () => {
+	void registerPowerActivation();
 	registerNegotiation();
 	registerHealthDisplay();
 	registerActorDisplay();
-	registerTeamDisplay();
 	registerMarkDisplay();
 	registerCombatStart();
-	registerCombatTracker();
 });

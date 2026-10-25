@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { CoverPreview } from "../scripts/modules/cover-preview/cover-preview.js";
+import { CoverPreview } from "../scripts/power-activation/cover-preview.js";
 
 /** Small renderer double: captures rendered labels, ray colors, and disposal. */
 class Container {
@@ -48,40 +48,13 @@ function token(x, disposition) {
   };
 }
 
-test("cover setting registers before a user exists and enables listeners only for a ready GM", () => {
-  let setting;
-  let ready;
-  let listeners = 0;
-  globalThis.game = {
-    user: null,
-    settings: { register: (module, key, options) => { setting = options; } },
-  };
-  globalThis.Hooks = {
-    once: (hook, callback) => { assert.equal(hook, "ready"); ready = callback; },
-    on: () => { listeners++; },
-  };
-  globalThis.window = { addEventListener: () => { listeners++; } };
-  CoverPreview.register();
-  assert.equal(setting.name, "Enable cover preview (PoC)");
-  assert.equal(setting.config, true);
-  assert.equal(setting.restricted, true);
-  assert.equal(listeners, 0);
-  game.user = { isGM: false };
-  ready();
-  assert.equal(listeners, 0);
-  game.user = { isGM: true };
-  ready();
-  assert.ok(listeners > 0);
-});
-
-test("cover preview follows targets, walls, visibility, settings and scene teardown", context => {
+test("integrated cover follows targets, hover, walls, visibility and scene teardown", () => {
   const hooks = new Map();
   const frames = new Map();
   const events = new Map();
   let nextFrame = 0;
-  let enabled = true;
-  let setting;
   const attacker = token(0, 1);
+  attacker.id = "attacker";
   const target = token(300, -1);
   const wall = { document: { c: [200, -100, 200, 60], move: 1, ds: 0 } };
   globalThis.CONST = { GRID_TYPES: { SQUARE: 1 }, WALL_MOVEMENT_TYPES: { NONE: 0 }, WALL_DOOR_STATES: { OPEN: 1 } };
@@ -98,13 +71,13 @@ test("cover preview follows targets, walls, visibility, settings and scene teard
   };
   globalThis.cancelAnimationFrame = id => frames.delete(id);
   globalThis.game = {
-    user: { id: "me", isGM: true, targets: new Set([target]) },
-    settings: { register: (module, key, options) => { setting = options; }, get: () => enabled },
+    user: { id: "me", isGM: false, targets: new Set([target]) },
+    
   };
   globalThis.canvas = {
     ready: true, scene: { grid: { type: 1 } }, dimensions: { size: 100 },
     interface: new Container(),
-    tokens: { controlled: [attacker], placeables: [attacker, target] },
+    tokens: { controlled: [attacker], placeables: [attacker, target], get: id => id === "attacker" ? attacker : target },
     walls: { placeables: [] },
   };
   const overlay = () => canvas.interface.children[0];
@@ -118,10 +91,12 @@ test("cover preview follows targets, walls, visibility, settings and scene teard
   };
 
   CoverPreview.register();
-  hooks.get("ready")();
-  assert.equal(setting.default, false);
   CoverPreview.refresh();
-  assert.deepEqual(labels(), ["Clear"]);
+  assert.equal(canvas.interface.children.length, 0);
+  const targeting = { source: attacker, targets: [target], mode: "ranged" };
+  CoverPreview.setContext(targeting);
+  flushFrames();
+  assert.deepEqual(labels(), ["Ranged: Clear"]);
   assert.equal(rays().length, 0);
   const label = overlay().children.find(child => child instanceof Text);
   assert.equal(label.x, target.x + target.w / 2);
@@ -131,7 +106,7 @@ test("cover preview follows targets, walls, visibility, settings and scene teard
   canvas.walls.placeables = [wall];
   CoverPreview.refresh();
   assert.equal(old.destroyed, true);
-  assert.deepEqual(labels(), ["Cover −2"]);
+  assert.deepEqual(labels(), ["Ranged: Cover −2"]);
   assert.equal(rays().length, 0);
   events.get("keydown")({ key: "Shift", shiftKey: true });
   flushFrames();
@@ -140,7 +115,7 @@ test("cover preview follows targets, walls, visibility, settings and scene teard
   assert.ok(rays().some(ray => ray.color === 0x74dba3));
   events.get("keyup")({ key: "Shift", shiftKey: false });
   flushFrames();
-  assert.deepEqual(labels(), ["Cover −2"]);
+  assert.deepEqual(labels(), ["Ranged: Cover −2"]);
   assert.equal(rays().length, 0);
   events.get("keydown")({ key: "Shift", shiftKey: true });
   flushFrames();
@@ -149,45 +124,34 @@ test("cover preview follows targets, walls, visibility, settings and scene teard
   assert.equal(rays().length, 0);
   events.get("keydown")({ key: "Shift", shiftKey: true });
   flushFrames();
-  game.user.isGM = false;
-  CoverPreview.refresh();
-  assert.equal(canvas.interface.children.length, 0);
-  game.user.isGM = true;
-
-  const diagnostics = [];
-  context.mock.method(console, "info", message => diagnostics.push(message));
-  game.settings.settings = new Map([["banter-4e-modifications.enable-debug-logging", {}]]);
-  CoverPreview.refresh();
-  assert.equal(diagnostics.length, 1);
-  const detail = JSON.parse(diagnostics[0].slice(diagnostics[0].indexOf("{")));
-  assert.equal(detail.melee.kind, "cover");
-  assert.deepEqual(detail.melee.rays.find(ray => ray.blocked).walls[0].c, wall.document.c);
-  CoverPreview.refresh();
-  assert.equal(diagnostics.length, 1);
-  game.settings.settings.clear();
-
   wall.document.ds = 1;
   CoverPreview.refresh();
-  assert.deepEqual(labels(), ["Clear"]);
+  assert.deepEqual(labels(), ["Ranged: Clear"]);
   assert.equal(rays().length, 0);
   wall.document.ds = 0;
   wall.document.move = 0;
   CoverPreview.refresh();
-  assert.deepEqual(labels(), ["Clear"]);
+  assert.deepEqual(labels(), ["Ranged: Clear"]);
 
   const enemy = token(150, -1);
   enemy.y = -50;
   canvas.tokens.placeables.push(enemy);
   CoverPreview.refresh();
-  assert.deepEqual(labels(), ["Melee: Clear\nRanged: Cover −2"]);
+  assert.deepEqual(labels(), ["Ranged: Cover −2"]);
   assert.equal(rays().length, 4);
+  targeting.mode = "melee";
+  CoverPreview.setContext(targeting);
+  flushFrames();
+  assert.deepEqual(labels(), ["Melee: Clear"]);
+  assert.equal(rays().length, 0);
+  targeting.mode = "ranged";
   enemy.document.disposition = 1;
   CoverPreview.refresh();
-  assert.deepEqual(labels(), ["Clear"]);
+  assert.deepEqual(labels(), ["Ranged: Clear"]);
   enemy.document.disposition = -1;
   enemy.visible = false;
   CoverPreview.refresh();
-  assert.deepEqual(labels(), ["Clear"]);
+  assert.deepEqual(labels(), ["Ranged: Clear"]);
 
   target.document.elevation = 10;
   CoverPreview.refresh();
@@ -201,25 +165,81 @@ test("cover preview follows targets, walls, visibility, settings and scene teard
   target.visible = true;
   canvas.tokens.controlled.push(target);
   CoverPreview.refresh();
-  assert.equal(canvas.interface.children.length, 0);
+  assert.deepEqual(labels(), ["Ranged: Clear"]);
   canvas.tokens.controlled = [attacker];
+  targeting.targets = [];
   game.user.targets.clear();
   CoverPreview.refresh();
   assert.equal(canvas.interface.children.length, 0);
+  // Hover previews unselected enemies without changing the session's targets.
+  hooks.get("hoverToken")(target, true);
+  flushFrames();
+  assert.deepEqual(labels(), ["Ranged: Clear"]);
+  assert.deepEqual(targeting.targets, []);
+  assert.equal(game.user.targets.size, 0);
+  targeting.mode = "melee";
+  CoverPreview.refresh();
+  assert.deepEqual(labels(), ["Melee: Clear"]);
+  targeting.mode = "ranged";
+  target.visible = false;
+  CoverPreview.refresh();
+  assert.equal(canvas.interface.children.length, 0);
+  target.visible = true;
+  target.document.disposition = 1;
+  CoverPreview.refresh();
+  assert.equal(canvas.interface.children.length, 0);
+  target.document.disposition = 0;
+  CoverPreview.refresh();
+  assert.equal(canvas.interface.children.length, 0);
+  target.document.disposition = -1;
+  hooks.get("hoverToken")(target, false);
+  flushFrames();
+  assert.equal(canvas.interface.children.length, 0);
+  hooks.get("hoverToken")(target, true);
+  flushFrames();
+  CoverPreview.setContext(null);
+  flushFrames();
+  assert.equal(canvas.interface.children.length, 0);
+  hooks.get("hoverToken")(target, false);
+  assert.equal(frames.size, 0);
+  CoverPreview.setContext(targeting);
+  flushFrames();
   game.user.targets.add(target);
+  targeting.targets = [target];
 
+  // Token hover can also republish the targeting context before the next frame.
+  // Keep the current label visible until its replacement is ready.
+  CoverPreview.refresh();
+  const stableOverlay = overlay();
+  hooks.get("hoverToken")(target, true);
+  CoverPreview.setContext({ ...targeting });
+  assert.equal(stableOverlay.destroyed, false);
+  assert.equal(overlay(), stableOverlay);
+  flushFrames();
+  hooks.get("hoverToken")(target, false);
+  CoverPreview.setContext({ ...targeting });
+  assert.equal(canvas.interface.children.length, 1);
+  flushFrames();
+  // Selected and hovered versions of the same enemy produce only one label.
+  hooks.get("hoverToken")(target, true);
+  flushFrames();
+  assert.deepEqual(labels(), ["Ranged: Clear"]);
+  hooks.get("hoverToken")(target, false);
+  flushFrames();
+  assert.deepEqual(labels(), ["Ranged: Clear"]);
   hooks.get("targetToken")({ id: "someone-else" });
   assert.equal(frames.size, 0);
   hooks.get("targetToken")(game.user);
   hooks.get("updateWall")();
   assert.equal(frames.size, 1);
   flushFrames();
-  assert.deepEqual(labels(), ["Clear"]);
-  enabled = false;
-  CoverPreview.refresh();
+  assert.deepEqual(labels(), ["Ranged: Clear"]);
+  CoverPreview.setContext(null);
   assert.equal(canvas.interface.children.length, 0);
-  enabled = true;
-  CoverPreview.refresh();
+  flushFrames();
+  assert.equal(canvas.interface.children.length, 0);
+  CoverPreview.setContext(targeting);
+  flushFrames();
   CoverPreview.scheduleRefresh();
   hooks.get("canvasTearDown")();
   assert.equal(canvas.interface.children.length, 0);

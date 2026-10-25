@@ -25,17 +25,6 @@
 		<span class="dnd4e-health-display__health-state" aria-hidden="true">{{healthState}}</span>
 	</div>
 
-	{{#if traits.length}}
-		<section class="dnd4e-health-display__traits{{#if expandTraits}} is-expanded{{/if}}" aria-label="NPC traits">
-			<h3>Traits</h3>
-			<ul>
-				{{#each traits}}
-					<li><span class="dnd4e-health-display__trait-text">{{description}}</span></li>
-				{{/each}}
-			</ul>
-		</section>
-	{{/if}}
-
 	{{#if effects.length}}
 		<ul class="dnd4e-health-display__effects" aria-label="Temporary effects and conditions">
 			{{#each effects}}

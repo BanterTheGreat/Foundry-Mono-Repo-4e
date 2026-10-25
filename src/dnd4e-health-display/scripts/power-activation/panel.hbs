@@ -1,0 +1,16 @@
+<section class="power-targeting__body">
+	<div class="power-targeting__heading"><strong>{{powerName}}</strong><button type="button" data-action="toggleDetails" aria-expanded="{{showDetails}}" title="Toggle power details"><i class="fa-solid fa-book-open" aria-hidden="true"></i> Details</button></div>
+	{{#if showDetails}}<div class="power-targeting__card">{{{card}}}</div>{{/if}}
+	<p class="power-targeting__range" title="Use Foundry's normal targeting controls to select or remove targets. Gold is normal range; blue is long range.">Range <strong>{{normalRange}}{{#if longRange}} / {{range}}{{/if}}</strong> squares · Use normal targeting</p>
+	<p aria-live="polite"><strong>{{selected}} / {{required}} targets</strong> — {{status}}</p>
+	<ul class="power-targeting__targets">
+		{{#each targets}}
+		<li class="{{#if invalid}}is-invalid{{/if}}">{{#if img}}<img src="{{img}}" alt="" width="32" height="32">{{/if}}<span>{{name}}{{#if invalid}} <small>— check target</small>{{/if}}</span><button type="button" data-action="removeTarget" data-token-id="{{id}}" {{#if ../busy}}disabled{{/if}} aria-label="Remove {{name}}">×</button></li>
+		{{/each}}
+	</ul>
+	{{#if problems}}<ul class="power-targeting__warnings">{{#each problems}}<li>{{this}}</li>{{/each}}</ul>{{/if}}
+	<footer>
+		<button type="button" data-action="cancel" {{#unless cancellable}}disabled{{/unless}}>Cancel</button>
+		<button type="button" data-action="attack" class="{{#if ready}}is-ready{{/if}}" {{#if busy}}disabled{{/if}}><i class="fa-solid fa-dice-d20"></i> Attack</button>
+	</footer>
+</section>

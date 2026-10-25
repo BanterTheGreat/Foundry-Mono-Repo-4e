@@ -1,0 +1,10 @@
+<section class="tab power-automation-tab {{tab.cssClass}}" data-tab="automation" data-group="sheet">
+	<label>Enable Target Automation
+		<input type="checkbox" name="flags.dnd4e-health-display.targetAutomation.enabled" {{checked automation.enabled}} {{#unless editable}}disabled{{/unless}}>
+	</label>
+	<label>Amount of Targets
+		<input type="number" name="flags.dnd4e-health-display.targetAutomation.targetCount" value="{{automation.targetCount}}" min="1" step="1" required {{#unless editable}}disabled{{/unless}}>
+	</label>
+	<p>Weapon, Melee X and Ranged X attacks on square grids. Target count and range are advisory: players can proceed after a warning. Ally/enemy restrictions are not inferred from power text.</p>
+	<p>Enabling target automation disables this power's use macros.</p>
+</section>

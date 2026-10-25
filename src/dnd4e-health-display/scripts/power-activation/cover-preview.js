@@ -1,37 +1,40 @@
-import { MODULE_NAME, ENABLE_DEBUG_LOGGING } from "../../shared/globals.js";
-import { Logger } from "../../shared/logger.js";
 import { calculateCover } from "./cover-geometry.js";
 
-const SETTING = "enable-cover-preview";
 const LABELS = { clear: "Clear", cover: "Cover −2", superior: "Superior cover −5", blocked: "Blocked" };
 
-/** GM-only targeting aid. Never applies attack or defense modifiers. */
+/** Targeting-session cover aid. Never applies attack or defense modifiers. */
 export class CoverPreview {
   static #overlay = null;
+  static #targeting = null;
+  static #hovered = null;
   static #frame = null;
   static #shiftHeld = false;
-  static #lastDiagnostic = null;
 
-  /** Register settings before login data exists; defer user-dependent setup. */
-  static register() {
-    game.settings.register(MODULE_NAME, SETTING, {
-      name: "Enable cover preview (PoC)",
-      hint: "GM only: select one attacker and target a token to preview cover above it. Hold Shift to show corner rays. Uses the best corner for both melee and ranged. Square grids and equal elevations only; enemies use opposing token dispositions. Does not modify rolls.",
-      scope: "client",
-      config: true,
-      restricted: true,
-      type: Boolean,
-      default: false,
-      onChange: () => CoverPreview.scheduleRefresh(),
-    });
-    Hooks.once("ready", () => CoverPreview.#install());
+  /**
+   * Update the local targeting context; null hides cover immediately.
+   * @param {{source: Token, targets: Token[], mode: string}|null} targeting
+   */
+  static setContext(targeting) {
+    CoverPreview.#targeting = targeting;
+    // Preserve the overlay until the next frame replaces it to avoid flicker.
+    if (!targeting) {
+      CoverPreview.clear();
+    }
+    CoverPreview.scheduleRefresh();
   }
 
-  /** Attach the GM's input and canvas listeners after Foundry loads the user. */
-  static #install() {
-    if (!game.user.isGM) {
-      return;
-    }
+  /** Install canvas/input listeners when targeting automation initializes. */
+  static register() {
+    Hooks.on("hoverToken", (token, hovered) => {
+      if (hovered) {
+        CoverPreview.#hovered = token;
+      } else if (CoverPreview.#hovered === token) {
+        CoverPreview.#hovered = null;
+      }
+      if (CoverPreview.#targeting) {
+        CoverPreview.scheduleRefresh();
+      }
+    });
     for (const eventName of ["keydown", "keyup"]) {
       window.addEventListener(eventName, event => {
         if (event.key === "Shift") {
@@ -57,6 +60,8 @@ export class CoverPreview {
         cancelAnimationFrame(CoverPreview.#frame);
         CoverPreview.#frame = null;
       }
+      CoverPreview.#targeting = null;
+      CoverPreview.#hovered = null;
       CoverPreview.clear();
     });
   }
@@ -80,7 +85,7 @@ export class CoverPreview {
     });
   }
 
-  /** Remove labels/rays when selection, visibility, settings, or scene changes. */
+  /** Remove labels/rays when selection, visibility, or scene changes. */
   static clear() {
     if (CoverPreview.#overlay && !CoverPreview.#overlay.destroyed) {
       CoverPreview.#overlay.parent?.removeChild(CoverPreview.#overlay);
@@ -94,7 +99,7 @@ export class CoverPreview {
     return { x: token.x, y: token.y, width: token.w, height: token.h };
   }
 
-  /** The PoC cannot infer vertical cover or partial-square footprints. */
+  /** Cover geometry cannot infer vertical cover or partial-square footprints. */
   static #unsupportedReason(attacker, target, size) {
     if (canvas.scene.grid.type !== CONST.GRID_TYPES.SQUARE) {
       return "Cover: square grid only";
@@ -108,18 +113,26 @@ export class CoverPreview {
     return null;
   }
 
-  /** Recalculate locally for visible targets of exactly one controlled attacker. */
+  /** Recalculate only for the active targeting dialog and its resolved attack mode. */
   static refresh() {
     CoverPreview.clear();
-    if (!game.user?.isGM || !canvas.ready || !game.settings.get(MODULE_NAME, SETTING)) {
+    if (!canvas.ready) {
       return;
     }
-    const controlled = canvas.tokens.controlled;
-    if (controlled.length !== 1 || !controlled[0].isOwner) {
+    const targeting = CoverPreview.#targeting;
+    if (!targeting || !["melee", "ranged"].includes(targeting.mode) || !targeting.source?.isOwner
+      || canvas.tokens.get(targeting.source.id) !== targeting.source) {
       return;
     }
-    const attacker = controlled[0];
-    const targets = [...game.user.targets].filter(token => token !== attacker && token.visible);
+    const attacker = targeting.source;
+    const candidates = new Set(targeting.targets);
+    const hovered = CoverPreview.#hovered;
+    // Match the opposing-disposition definition used by creature cover blockers.
+    if (hovered?.actor && Math.abs(attacker.document.disposition) === 1
+      && hovered.document.disposition === -attacker.document.disposition) {
+      candidates.add(hovered);
+    }
+    const targets = [...candidates].filter(token => token !== attacker && token.visible && canvas.tokens.get(token.id) === token);
     if (!targets.length) {
       return;
     }
@@ -148,46 +161,14 @@ export class CoverPreview {
       const geometry = { attacker: CoverPreview.#rectangle(attacker), target: CoverPreview.#rectangle(target), gridSize: size, walls };
       const melee = calculateCover(geometry);
       const ranged = calculateCover({ ...geometry, creatures });
-      CoverPreview.#logObstructions(attacker, target, { ...geometry, creatures }, wallDocuments, melee, ranged);
-      const label = melee.kind === ranged.kind
-        ? LABELS[melee.kind]
-        : `Melee: ${LABELS[melee.kind]}\nRanged: ${LABELS[ranged.kind]}`;
-      // Ranged includes all melee obstacles plus enemy creatures. Show its four
-      // best-corner rays only, avoiding contradictory colors where results differ.
-      if (CoverPreview.#shiftHeld && ranged.kind !== "clear") {
-        for (const ray of ranged.rays) {
+      const result = targeting.mode === "melee" ? melee : ranged;
+      const label = `${targeting.mode === "melee" ? "Melee" : "Ranged"}: ${LABELS[result.kind]}`;
+      if (CoverPreview.#shiftHeld && result.kind !== "clear") {
+        for (const ray of result.rays) {
           CoverPreview.#drawRay(overlay, ray, size);
         }
       }
       CoverPreview.#drawLabel(overlay, target, label, size);
-    }
-  }
-
-  /** Log exact blockers once per changed preview while the GM inspects its rays. */
-  static #logObstructions(attacker, target, geometry, walls, melee, ranged) {
-    if (!CoverPreview.#shiftHeld || !game.settings.settings?.has(`${MODULE_NAME}.${ENABLE_DEBUG_LOGGING}`) || !Logger.isEnabled()) {
-      CoverPreview.#lastDiagnostic = null;
-      return;
-    }
-    const describe = result => ({
-      kind: result.kind,
-      rays: result.rays.map(ray => ({
-        start: ray.start, end: ray.end, blocked: ray.blocked,
-        walls: ray.blockingWalls.map(index => ({ id: walls[index].id, c: walls[index].c, move: walls[index].move, sight: walls[index].sight, door: walls[index].door, ds: walls[index].ds })),
-        creatures: ray.blockingCreatures.map(index => geometry.creatures[index]),
-      })),
-    });
-    const diagnostic = {
-      sceneId: canvas.scene.id,
-      attacker: { id: attacker.id, name: attacker.name, ...geometry.attacker },
-      target: { id: target.id, name: target.name, ...geometry.target },
-      gridSize: geometry.gridSize,
-      melee: describe(melee), ranged: describe(ranged),
-    };
-    const signature = JSON.stringify(diagnostic);
-    if (signature !== CoverPreview.#lastDiagnostic) {
-      Logger.info("[DEBUG-cover] Best-corner obstruction details", diagnostic);
-      CoverPreview.#lastDiagnostic = signature;
     }
   }
 

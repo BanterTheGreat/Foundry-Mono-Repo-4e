@@ -7,7 +7,6 @@ const ACTIVE_SETTING = "activeCombatStart";
 const PRESENTATION_FLAG = "presentation";
 const PRESET_FLAG = "preset";
 const PRESETS_FOLDER_NAME = "Battle Briefings";
-const INITIATIVE_TRACKER_PLACEMENT_SETTING = "combatStartInitiativeTrackerPlacement";
 const SETUP_TEMPLATE = `modules/${MODULE_ID}/scripts/combat-start/combat-start-setup.hbs`;
 const DISPLAY_TEMPLATE = `modules/${MODULE_ID}/scripts/combat-start/combat-start-display.hbs`;
 const CALCULATION_TEMPLATE = `modules/${MODULE_ID}/scripts/combat-start/encounter-calculation.hbs`;
@@ -35,19 +34,6 @@ export function registerCombatStartSettings() {
 		onChange: synchronizeCombatStartDisplay,
 	});
 
-	game.settings.register(MODULE_ID, INITIATIVE_TRACKER_PLACEMENT_SETTING, {
-		name: "Battle Briefing initiative tracker placement",
-		hint: "Place the shared initiative tracker at the bottom or side of the Battle Briefing.",
-		scope: "world",
-		config: true,
-		type: String,
-		choices: {
-			bottom: "Bottom of Battle Briefing",
-			side: "Side of Battle Briefing",
-		},
-		default: "bottom",
-		onChange: () => ui.Dnd4eCombatStartDisplay?.render(),
-	});
 }
 
 /** Register combat-tracker controls and the shared presentation lifecycle. */
@@ -888,7 +874,7 @@ class CombatStartDisplay extends HandlebarsApplicationMixin(ApplicationV2) {
 			canRollPlayerInitiative,
 			hasUnrolledEnemyInitiative,
 			initiativeTracker,
-			initiativeTrackerPlacement: advanced ? game.settings.get(MODULE_ID, INITIATIVE_TRACKER_PLACEMENT_SETTING) : "bottom",
+			initiativeTrackerPlacement: "bottom",
 			showBriefing: this.activeTab === "briefing",
 			showStrategy: game.user.isGM && this.activeTab === "strategy",
 			showCalculation: game.user.isGM && this.activeTab === "calculation",

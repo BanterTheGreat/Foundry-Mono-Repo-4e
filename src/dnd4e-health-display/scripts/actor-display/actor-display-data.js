@@ -1,5 +1,5 @@
+import { supportsTargetAutomation, SETTING as TARGET_AUTOMATION_SETTING } from "../power-activation/rules.js";
 import { generateInlinePowerDetails } from "./actor-display-tooltips.js";
-import { getCombatTrackerData } from "../combat-tracker/combat-tracker-data.js";
 import { getStrategy } from "../combat-start/strategy.js";
 
 const MODULE_ID = "dnd4e-health-display";
@@ -110,7 +110,7 @@ export async function getActorDisplayData(token, activeTab, expandedPowerIds = n
 }
 
 /**
- * Build the GM-only Combat Tracker, Environment, and Combat Pointers panels that attach to the
+ * Build the GM-only Environment and Combat Pointers panels that attach to the
  * horizontal HUD in place of the floating windows, whenever the GM is running an active encounter.
  *
  * @returns {object}
@@ -121,7 +121,6 @@ function getGmCombatPanelsData() {
 		return { showGmCombatPanels: false };
 	}
 
-	const tracker = getCombatTrackerData(combat, true);
 	const strategy = getStrategy(combat);
 	const environmentNotes = (strategy.environment ?? []).filter((note) => note?.trim());
 	const combatant = combat.combatant;
@@ -133,8 +132,6 @@ function getGmCombatPanelsData() {
 
 	return {
 		showGmCombatPanels: true,
-		gmCombatRound: tracker.round,
-		gmCombatants: tracker.combatants,
 		environmentNotes,
 		hasEnvironmentNotes: environmentNotes.length > 0,
 		nowActingName: combatant?.name ?? "",
@@ -366,6 +363,7 @@ async function mapPower(power, actor, expandedPowerIds) {
 		depleted: isPowerDepleted(power),
 		flavour: actor.type === "Player Character" ? getPowerFlavour(power) : "",
 		isNpcPower: actor.type === "NPC",
+		canTargetAutomation: game.settings.get(MODULE_ID, TARGET_AUTOMATION_SETTING) && supportsTargetAutomation(power),
 		isExpandable: actor.type === "Player Character",
 		isExpanded,
 		canRollDamage: power.hasDamage,
