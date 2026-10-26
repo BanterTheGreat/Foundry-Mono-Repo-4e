@@ -40,3 +40,16 @@ Foundry VTT v14 module for DnD4e homebrew automation: simplified conditions and 
 ## Debugging
 
 - Heavily prefer adding temporary debug logging, since you can't directly control foundry.
+
+## Chat card visual style guide
+
+Use this guide when changing compact power, attack, or damage chat cards. The implementation lives in `styles/chat-rolls.css` and `scripts/modules/chat-rolls/`.
+
+- Match the Actor HUD's dark-fantasy palette: near-black rules surfaces, warm parchment text, and aged-brass borders. Keep power and attack header/action colors in shared CSS rules so they stay identical.
+- Headers use `linear-gradient(110deg, #292318, #101010)`, parchment `#eee4cc`, and brass dividers `#655433`. Outer card borders use `#8f794e`; secondary dividers use `#493c26`.
+- Action surfaces and attack footers use `#0d0c09`. Buttons use gold text `#e5cc8e`, borders `#493c26`, a restrained `#ffffff0d` hover highlight, and a visible parchment focus outline `#e9dfce`.
+- Power card titles use `600 17px/1.25 Georgia, serif`. Keep supporting mechanics compact in Arial; the attack header's power name uses 11px. Preserve the small card corners and thin dividers.
+- Foundry's native speaker header remains visible on every message, including consecutive messages from the same speaker. The custom attack header contains the power name and a right-aligned **Roll Damage** button; attacker identity comes from the native header.
+- A multi-target attack has one shared header and damage action. Each target retains its own verdict, total, semantic outcome color, and collapse chevron at the far right, vertically centered in that target's summary.
+- The attack footer shows the total target count on the left and attacked defense on the right (`vs. AC`, `vs. WIL`, etc.). Keep weapon details and full calculations inside the existing disclosures.
+- **Roll Damage** stays unchanged after use and remains available for another roll. It rolls through the original power once per click for the whole attack, with damage application remaining a separate action.

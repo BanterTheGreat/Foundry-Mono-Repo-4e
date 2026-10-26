@@ -39,6 +39,8 @@ Foundry VTT v14 module for the DnD4e system that provides two independent inform
 
 ## HUD visual style guide
 
+For matching power and attack chat cards to this HUD, follow the [chat card visual style guide](../banter-4e-modifications/SKILL.md#chat-card-visual-style-guide).
+
 - Treat the actor HUD as a compact, dark-fantasy game panel: near-black charcoal surfaces, warm parchment text, aged-brass borders, and restrained shadows.
 - Reserve saturated semantic colour for game state: crimson for health, green for at-will powers, red for encounter powers, slate for daily powers, gold for items and selected controls, and cool blue for temporary HP.
 - Build hierarchy through surface contrast, thin warm dividers, compact uppercase labels, and the `--font-h1` display face for character names and important values; do not add decorative chrome without an information purpose.

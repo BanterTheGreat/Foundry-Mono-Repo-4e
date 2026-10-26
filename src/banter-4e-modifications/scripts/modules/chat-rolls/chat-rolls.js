@@ -87,6 +87,9 @@ export class ChatRolls {
     if (model.attackOutcome) {
       card.classList.add(`banter-roll--${model.attackOutcome}`);
     }
+    if (model.damageOutcome) {
+      card.classList.add(`banter-roll--damage-${model.damageOutcome}`);
+    }
     const details = ChatRolls.element('details', 'banter-roll__disclosure');
     details.open = ChatRolls.expanded.get(key) === true;
     details.addEventListener('toggle', () => {
@@ -110,8 +113,10 @@ export class ChatRolls {
       main.append(ChatRolls.element('div', 'banter-roll__source', source));
     }
     const score = ChatRolls.element('span', 'banter-roll__score');
+    const damageLabel = model.damageOutcome === 'crit' ? 'CRITICAL DAMAGE'
+      : model.damageOutcome === 'miss' ? 'MISS DAMAGE' : 'DAMAGE';
     score.append(ChatRolls.element('strong', '', model.kind === 'attack' ? model.attackVerdict : String(model.total)),
-      ChatRolls.element('small', '', model.kind === 'attack' ? `Total ${model.total}` : model.kind === 'damage' ? 'DAMAGE' : 'TOTAL'));
+      ChatRolls.element('small', '', model.kind === 'attack' ? `Total ${model.total}` : model.kind === 'damage' ? damageLabel : 'TOTAL'));
     if (model.kind !== 'damage' && model.natural.length) {
       ChatRolls.attachNaturalPopup(score, model);
     }

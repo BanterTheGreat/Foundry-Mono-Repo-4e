@@ -73,8 +73,7 @@ export class AttackChatCard {
     const group = element('section', 'banter-attack-card');
     const header = element('header', 'banter-attack-card__header');
     const identity = element('div', 'banter-attack-card__identity');
-    identity.append(element('strong', 'banter-attack-card__attacker', `${model.speaker} attacks`),
-      element('div', 'banter-attack-card__power', model.power));
+    identity.append(element('div', 'banter-attack-card__power', model.power));
     const button = element('button', 'banter-attack-card__damage', 'Roll Damage');
     button.type = 'button';
     button.addEventListener('click', event => {
@@ -89,7 +88,7 @@ export class AttackChatCard {
     cards[0].before(group);
     group.append(header, ...cards, footer);
     cards.forEach(card => {
-      // The shared header now supplies speaker and power. Expanded native
+      // The shared header now supplies the power. Expanded native
       // flavor and calculations retain all weapon and other source details.
       card.querySelector('.banter-roll__source')?.remove();
       const index = cards.indexOf(card);

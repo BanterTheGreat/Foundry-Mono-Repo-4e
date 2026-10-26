@@ -68,7 +68,7 @@ test('multi-target cards receive only one shared action and retain every disclos
   AttackChatCard.render(message, root, element);
   assert.deepEqual(group.children.slice(1, 4), cards);
   const header = group.children[0];
-  assert.equal(header.children[0].children[0].textContent, 'Aric attacks');
+  assert.deepEqual(header.children[0].children.map(node => node.textContent), ['Sweeping Strike']);
   assert.equal(header.children[1].textContent, 'Roll Damage');
   assert.deepEqual(group.children.at(-1).children.map(node => node.textContent), ['3 targets', 'vs. AC']);
   assert.deepEqual(cards.map(card => card.querySelector('.banter-roll__sentence').textContent),

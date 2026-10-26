@@ -62,6 +62,7 @@ function fixture({ confirm = true, fastForward = false } = {}) {
 		console, AbortController, MODULE_ID, SETTING, automationConfig, selectionProblems, targetCountProblems, squareDistance,
 		AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin, hasLineOfEffect,
 		CoverPreview: { setContext: value => hooks.push(["coverContext", value]), register() {} },
+		attackResults: { register() {} },
 		sharedAreaPreview: {
 			show: value => hooks.push(["sharedArea", value.id]),
 			clear: () => hooks.push(["sharedArea", null]), register() {},
@@ -79,6 +80,7 @@ function fixture({ confirm = true, fastForward = false } = {}) {
 			settings: { get: (module, key) => key === SETTING || (key === "fastFowardSettings" && fastForward) },
 		},
 		canvas: {
+			scene: { id: "scene" },
 			stage: { scale: { x: 1 } },
 			ready: true, grid: { isSquare: true, size: 100 },
 			tokens: { get: id => tokenMap.get(id), placeables: [...tokenMap.values()] },
@@ -554,6 +556,9 @@ test("submission commits once even when the native submit callback runs twice", 
 	let rolls = 0;
 	f.item.rollAttack = async options => {
 		assert.equal(options.event.shiftKey, true);
+		assert.deepEqual(JSON.parse(JSON.stringify(options.flags[MODULE_ID].attackResults)), {
+			sessionId: "session", sceneId: "scene", targetIds: ["target"],
+		});
 		const app = { rollConfig: { options }, callbackFn: async () => { rolls++; return { total: 20 }; }, close: async () => {} };
 		f.activation.bindAttackDialog(app);
 		const results = await Promise.all([app.callbackFn(), app.callbackFn()]);

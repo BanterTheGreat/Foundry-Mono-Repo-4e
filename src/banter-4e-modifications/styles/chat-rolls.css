@@ -5,35 +5,27 @@
   justify-content: space-between;
   gap: 12px;
   padding: 12px;
-  background: #303138;
-  color: #f1e8d8;
-  border-bottom: 1px solid #62534d;
+  border-bottom: 1px solid;
   font: 12px/1.4 Arial, sans-serif;
 }
 .banter-attack-card__identity { min-width: 0; overflow-wrap: anywhere; }
-.banter-attack-card__attacker { font-size: 13px; }
-.banter-attack-card__power { margin-top: 4px; color: #d7c6a8; font-size: 11px; }
+.banter-attack-card__power { font-size: 11px; }
 .banter-attack-card__header .banter-attack-card__damage {
   width: auto;
   flex: 0 0 auto;
   margin: 0;
   padding: 6px 10px;
   min-height: 32px;
-  border: 1px solid #897b63;
+  border: 1px solid;
   border-radius: 4px;
-  background: #393730;
-  color: #eee6d9;
   font: 12px Arial, sans-serif;
 }
-.banter-attack-card__damage:hover { background: #504936; border-color: #d5bd8e; }
-.banter-attack-card__damage:focus-visible { outline: 2px solid #e5cc8e; outline-offset: 2px; }
 .banter-attack-card__footer {
   display: flex;
   justify-content: space-between;
   gap: 12px;
   padding: 8px 12px;
-  background: #202126;
-  color: #c4bbae;
+  color: #c5b99c;
   font: 10px/1.4 Arial, sans-serif;
 }
 .chat-message.message .banter-attack-card > .banter-roll--attack {
@@ -98,10 +90,6 @@
 .chat-message.message:has(.banter-defense) { background: transparent; border: 0; box-shadow: none; padding: 0; }
 .chat-message.message:has(.banter-defense) > .message-header { padding: 0 4px; margin-bottom: 5px; }
 .chat-message.message:has(.banter-defense) .flavor-text { display: none; }
-/* Consecutive speakers share a header when compact chat rolls are enabled. */
-.chat-message.message.banter-message-continuation > .message-header {
-  display: none;
-}
 /* The native actor header floats above the card, outside its bordered surface. */
 .chat-message.message:has(.banter-roll),
 .chat-message.message:has(.banter-power) {
@@ -332,7 +320,6 @@
   color: #e8e1d7; font-size: 11px; font-weight: bold; line-height: 18px;
   box-shadow: none;
 }
-.banter-roll__actions > button + button { border-left: 1px solid #8b8275; }
 .banter-roll button.banter-roll__apply:hover { background: #ffffff12; }
 .banter-roll button.banter-roll__apply:active { background: #ffffff08; }
 .banter-roll__summary:focus-visible, .banter-roll__score:focus-visible { outline: 2px solid #e0bc83; outline-offset: -2px; }
@@ -483,12 +470,14 @@
 /* The pinned handler uses event.target, even when its native icon is clicked. */
 .banter-power .card-buttons button *, .banter-power .effects-tray button * { pointer-events: none; }
 .banter-power .dnd4e-button-icon, .banter-power .dnd4e-button-icon img { width: 14px; height: 14px; border: 0; }
-.banter-power .card-buttons button:not(:disabled):hover { background: #ffffff0d; }
+.banter-power .card-buttons button:not(:disabled):hover,
+.banter-attack-card__header .banter-attack-card__damage:hover { background: #ffffff0d; }
 .banter-power .card-buttons button:disabled { opacity: .5; cursor: default; }
 .banter-power .effects-tray { margin: 0; border-top: 1px solid #ffffff25; }
 .banter-power .effects-tray > label { display: flex; gap: 6px; padding: 8px 10px; font: 400 11px/1.5 Arial, sans-serif; color: #cdc4b8; cursor: pointer; }
 .banter-power .effects-tray .effect { padding: 8px 10px; border-top: 1px solid #ffffff12; }
-.banter-power button:focus-visible { outline: 2px solid #e9dfce; outline-offset: -3px; }
+.banter-power button:focus-visible,
+.banter-attack-card__damage:focus-visible { outline: 2px solid #e9dfce; outline-offset: -3px; }
 
 /* Shared HUD palette: warm power headers, near-black rules and roll surfaces. */
 .chat-message.message:has(.banter-roll) > .message-content,
@@ -573,8 +562,9 @@
 .banter-roll button.banter-roll__apply {
   color: #e5cc8e;
 }
-.banter-roll__actions > button + button {
-  border-color: #493c26;
+/* Keep the divider stronger than the apply buttons' border reset. */
+.banter-roll__actions > button.banter-roll__apply + button.banter-roll__apply {
+  border-left: 1px solid #655433;
 }
 .dnd4e.chat-card.item-card.banter-power,
 .chat-message.message .dnd4e.chat-card.item-card.banter-power {
@@ -588,13 +578,19 @@
   justify-content: space-between;
   gap: 10px;
   padding: 12px 14px;
+}
+/* Attack and power cards share the same brass surfaces and action palette. */
+.banter-power .banter-power__header,
+.banter-attack-card__header {
   border-color: #655433;
   background: linear-gradient(110deg, #292318, #101010);
+  color: #eee4cc;
 }
+.banter-attack-card__power { color: #eee4cc; }
 .banter-power h3.banter-power__heading {
   min-width: 0;
   color: #eee4cc;
-  font: 600 19px/1.25 Georgia, serif;
+  font: 600 17px/1.25 Georgia, serif;
 }
 .banter-power__usage {
   flex-shrink: 0;
@@ -626,6 +622,95 @@
 .banter-power__rule { border-color: #332b1d; }
 .banter-power__label { color: #e5cc8e; }
 .banter-power__value strong { color: #ebe7de; }
-.banter-power .card-buttons { border-color: #655433; background: #0d0c09; }
-.banter-power .card-buttons button { color: #e5cc8e; border-color: #493c26; }
+.banter-power .card-buttons,
+.banter-attack-card__footer { border-color: #655433; background: #0d0c09; }
+.banter-power .card-buttons button,
+.banter-attack-card__header .banter-attack-card__damage {
+  background: #0d0c09;
+  color: #e5cc8e;
+  border-color: #493c26;
+}
 .banter-power .effects-tray { border-color: #493c26; }
+
+/* Damage outcomes share a fixed result column, without separate header rows. */
+.banter-roll.banter-roll--damage {
+  --banter-damage-ink: #d7c699;
+}
+.banter-roll.banter-roll--damage-miss {
+  --banter-damage-ink: #deb2af;
+}
+.banter-roll.banter-roll--damage-crit {
+  --banter-damage-ink: #e5cc8e;
+}
+.banter-roll.banter-roll--damage,
+.chat-message.message .banter-roll.banter-roll--damage {
+  border-left: 3px solid var(--banter-damage-ink);
+}
+.banter-roll--damage .banter-roll__summary {
+  grid-template-columns: 90px minmax(0, 1fr) 10px;
+  min-height: 100px;
+  padding: 10px;
+}
+.banter-roll--damage .banter-roll__score strong {
+  color: var(--banter-damage-ink);
+  font: 700 31px/1.05 Georgia, serif;
+}
+.banter-roll--damage .banter-roll__score small {
+  /* Reserve two label lines so every total has the same baseline. */
+  min-height: 2.8em;
+  margin-top: 5px;
+  color: var(--banter-damage-ink);
+  font: 700 9px/1.4 Arial, sans-serif;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+/* A warm metallic finish remains after the one-shot critical sheen. */
+.banter-roll.banter-roll--damage-crit,
+.chat-message.message .banter-roll.banter-roll--damage-crit {
+  border-color: #c5a45c;
+  background: linear-gradient(115deg, #342a13 0%, #19160e 36%, #090909 76%);
+  box-shadow: inset 0 1px 0 #ffe5a433, 0 0 12px #d5a63c15;
+}
+.banter-roll--damage-crit .banter-roll__summary {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.banter-roll--damage-crit .banter-roll__summary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, #f7d77f10 43%, #ffeabf30 49%, #f7d77f10 55%, transparent 68%);
+  transform: translateX(-130%);
+  pointer-events: none;
+  z-index: -1;
+  animation: banter-critical-sheen 1.6s ease-out .25s both;
+}
+.banter-roll--damage-crit:hover .banter-roll__summary::before,
+.banter-roll--damage-crit:focus-within .banter-roll__summary::before {
+  animation: banter-critical-replay 1.6s ease-out both;
+}
+.banter-roll--damage-crit .banter-roll__score strong {
+  color: #f6dfa2;
+  text-shadow: 0 0 14px #efbc4d50;
+}
+.banter-roll--damage-crit .banter-roll__score {
+  border-right-color: #9c7e4266;
+}
+@keyframes banter-critical-sheen {
+  from { transform: translateX(-130%); }
+  to { transform: translateX(130%); }
+}
+@keyframes banter-critical-replay {
+  from { transform: translateX(-130%); }
+  to { transform: translateX(130%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .banter-roll--damage-crit .banter-roll__summary::before,
+  .banter-roll--damage-crit:hover .banter-roll__summary::before,
+  .banter-roll--damage-crit:focus-within .banter-roll__summary::before {
+    animation: none;
+    transform: none;
+    opacity: .35;
+  }
+}

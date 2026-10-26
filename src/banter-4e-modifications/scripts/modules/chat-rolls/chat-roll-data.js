@@ -55,7 +55,8 @@ export function describeRoll(message, roll, index = 0) {
   const attackOutcome = kind === 'attack'
     ? (Object.hasOwn(verdict, special) ? special : Object.hasOwn(verdict, attack?.hitstate) ? attack.hitstate : null)
     : null;
-  return { kind, label, source, attackOutcome, total: kind === 'damage' ? Math.floor(roll.total / scale) : roll.total,
+  const damageOutcome = kind === 'damage' && ['miss', 'crit'].includes(options.hitType) ? options.hitType : null;
+  return { kind, label, source, attackOutcome, damageOutcome, total: kind === 'damage' ? Math.floor(roll.total / scale) : roll.total,
     attackSubject: kind === 'attack' ? `${speaker}${attack?.target ? ` → ${attack.target}` : ''}` : null,
     attackVerdict: kind === 'attack'
       ? ({ hit: 'Hit', miss: 'Miss', critical: 'Crit', fumble: 'Crit Fail', immune: 'Immune' }[attackOutcome] || 'Attack')

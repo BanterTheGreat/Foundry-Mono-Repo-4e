@@ -45,3 +45,93 @@
 .power-automation-tab .power-automation__wall { border-top: 1px solid #78603d; padding-top: .75rem; margin-top: .75rem; }
 .power-automation-tab .power-automation__actor { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
 .power-automation-tab .power-automation__actor button { flex: 0 0 auto; width: auto; }
+/* Confirmed attack results: screen-space badges anchored to canvas tokens. */
+.power-attack-result {
+	--result-color: #abd0a1;
+	--result-tint: #243124;
+	--result-border: #8f794e;
+	position: fixed;
+	z-index: 70;
+	display: flex;
+	align-items: stretch;
+	height: 36px;
+	border: 1px solid var(--result-border);
+	border-radius: 5px;
+	background: linear-gradient(#22211b, #11120f);
+	box-shadow: 0 3px 9px #000a, 0 1px 0 #ffffff12 inset;
+	white-space: nowrap;
+	pointer-events: none;
+	user-select: none;
+	animation: power-attack-result-reveal 4.4s ease-out both;
+}
+
+.power-attack-result[hidden] {
+	display: none;
+}
+
+.power-attack-result::after {
+	content: "";
+	position: absolute;
+	left: calc(var(--pointer-x, 50%) - 4px);
+	bottom: -5px;
+	width: 8px;
+	height: 8px;
+	background: #151610;
+	border-right: 1px solid var(--result-border);
+	border-bottom: 1px solid var(--result-border);
+	transform: rotate(45deg);
+}
+
+.power-attack-result__total,
+.power-attack-result__outcome {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	line-height: 1;
+	padding: 0 9px;
+}
+
+.power-attack-result__total {
+	font-family: Georgia, serif;
+	font-size: 25px;
+	font-weight: 600;
+	font-variant-numeric: lining-nums tabular-nums;
+	color: #f3e9d2;
+}
+
+.power-attack-result__outcome {
+	border-left: 1px solid #ffffff0b;
+	border-radius: 0 4px 4px 0;
+	background: linear-gradient(100deg, transparent, var(--result-tint));
+	color: var(--result-color);
+	font: 700 12px/1 Arial, sans-serif;
+	letter-spacing: .7px;
+}
+
+.power-attack-result--miss,
+.power-attack-result--fumble {
+	--result-color: #e5a298;
+	--result-tint: #3b2422;
+}
+
+.power-attack-result--critical {
+	--result-color: #f0ce80;
+	--result-tint: #41331a;
+	--result-border: #b39858;
+}
+
+.power-attack-result--immune,
+.power-attack-result--attack {
+	--result-color: #cfc4ac;
+	--result-tint: #302d26;
+}
+
+@keyframes power-attack-result-reveal {
+	0% { opacity: 0; }
+	8%, 82% { opacity: 1; }
+	100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.power-attack-result { animation: none; }
+}

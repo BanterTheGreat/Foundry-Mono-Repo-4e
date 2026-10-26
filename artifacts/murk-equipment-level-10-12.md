@@ -43,6 +43,22 @@ If “surprise bliky” specifically means a **concealed firearm**, Staff of Kni
 | **Foe Stone — wondrous** | 12 | Adjacent | **At-will, minor:** learn a visible creature's vulnerabilities and lowest defense. Helps choose which creature or trick to deploy, although it provides information rather than perimeter protection. |
 | **Hat of Disguise — head** | 10 | Wild | **At-will, standard:** change your apparent humanoid race to one of your size and alter equipment appearance; **+5 item bonus to Bluff** to maintain the disguise. Supports the apparently harmless handler carrying unexpected trouble. Sound and texture remain unchanged. |
 
+## Modern 4e Stalker Spirit clarification
+
+Use `src/modern4e/classes/shaman.typ` as the authority for Murk's class features. At levels 10–12, Stalker Spirit gives the companion **aura 1**: allies gain a bonus equal to Murk's **Intelligence points** to damage rolls against **bloodied enemies within that aura**. The enemy's location matters; the text does not require the attacking ally to stand beside the companion. The aura expands to 2 at level 21.
+
+The feature also grants **Spirit's Fangs**, an opportunity-action Wisdom vs. Reflex attack dealing **1d10 + Wisdom** when an enemy leaves an adjacent square without shifting. Forced movement does not provoke it. The local feature does **not** grant Stalker's Strike or automatic flanking; the earlier published-rules explanation should not be used to justify equipment choices.
+
+Consequences for this menu:
+
+- Keep **Deathburst Armor**, **Antipathy Gloves**, and the separate companion/perimeter approach. Stalker Spirit does not itself punish enemies for approaching Murk.
+- Raise **Foe Stone** and **Tanglefoot Bags** in priority: identify a vulnerable target, bloody it, and keep it within the companion's aura for the party to exploit.
+- Use **Thunderstone** and **Staff of the Traveler's critical teleport** to place targets in the aura when possible; avoid displacing a bloodied target out of it unnecessarily.
+- **Panther Spirit Armor +2 (level 10)** remains an optional offensive-support alternative: its daily immediate reaction heals a flanking ally within 5 squares of Murk for half the damage of the triggering melee hit. However, Stalker Spirit itself supplies no flank, so this is conditional on the party's actual flanking tools.
+- **Aversion Staff** needs an enemy to be subject to an applicable effect caused by Murk. The ally damage boon alone does not establish that condition.
+
+Modern 4e shamans are explicitly proficient with **staffs and totems**. No extra staff proficiency is required. Its melee basic attack rule also permits Murk to use **Wisdom for the attack**, adding half that ability bonus to damage when using it instead of Strength, making **Staff of Knives** a more workable backup weapon. The listed item enhancement values remain relevant under the book's default bonus rules; full intrinsic progression is a separate GM opt-in variant.
+
 ## Priorities and qualifications
 
 Start with **Deathburst Armor**, **Aversion Staff**, **Flask of the Veiled Horde**, and **Antipathy Gloves**, backed by **Tanglefoot Bags**. This gives Murk a creature to deploy, a harder-to-reach personal space, and punishment for enemies who get through.

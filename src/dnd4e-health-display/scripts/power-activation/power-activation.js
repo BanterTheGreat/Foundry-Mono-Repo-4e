@@ -1,4 +1,5 @@
 import { CoverPreview } from "./cover-preview.js";
+import { attackResults } from "./attack-results.js";
 import { sharedAreaPreview } from "./shared-area-preview.js";
 import { AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin, wallGeometryProblems, hasLineOfEffect } from "./area-geometry.js";
 import { MODULE_ID, SETTING, automationConfig, selectionProblems, targetCountProblems, squareDistance } from "./rules.js";
@@ -29,6 +30,7 @@ export async function registerPowerActivation() {
 		return;
 	}
 	CoverPreview.register();
+	attackResults.register();
 	sharedAreaPreview.register();
 	try {
 		await registerAutomationTab();
@@ -851,7 +853,12 @@ class ActivationSession {
 			}
 			// 0.9.3 inverts modifier behavior when fast-forward is the user's default.
 			const shiftKey = Boolean(game.settings.get("dnd4e", "fastFowardSettings"));
-			const options = { event: { shiftKey, clientY: 160 }, powerActivationSession: this.id };
+			const options = {
+				event: { shiftKey, clientY: 160 }, powerActivationSession: this.id,
+				flags: { [MODULE_ID]: { attackResults: {
+					sessionId: this.id, sceneId: canvas.scene.id, targetIds: this.targets.map(token => token.id),
+				} } },
+			};
 			await (this.source === this.caster ? this.item.rollAttack(options) : rollFromOrigin(this.item, this.source, options));
 			if (this.committed) {
 				await this.complete();

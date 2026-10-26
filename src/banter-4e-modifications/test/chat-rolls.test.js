@@ -93,6 +93,16 @@ test('damage divisor changes display once; healing and unrelated rolls retain na
   assert.equal(describeRoll(message, { total: 10, options: {} }), null);
 });
 
+test('damage outcomes use the stored roll type independently of damage divisors', () => {
+  for (const hitType of ['miss', 'crit', 'normal', undefined]) {
+    const roll = { total: 29, options: { hitTypeDamage: true, hitType } };
+    const model = describeRoll(message, roll);
+    assert.equal(model.damageOutcome, ['miss', 'crit'].includes(hitType) ? hitType : null);
+    assert.equal(model.total, 29);
+  }
+  assert.equal(describeRoll(message, attack(25, 'critical')).damageOutcome, null);
+});
+
 test('typed adapter matches native remainder allocation and awaits actor mitigation', async () => {
   const roll = { total: 28, terms: [{ total: 17, flavor: 'physical' }, { operator: '+' }, { total: 11, flavor: 'fire' }],
     options: { hitTypeDamage: true, hitType: 'miss', divisors: { miss: { value: 2 } } } };
