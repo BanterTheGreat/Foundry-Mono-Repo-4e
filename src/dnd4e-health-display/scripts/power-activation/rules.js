@@ -12,7 +12,12 @@ export function automationConfig(item) {
 		targetMode: config.targetMode === "exact" ? "exact" : "area",
 		targetDisposition: ["allies", "enemies"].includes(config.targetDisposition) ? config.targetDisposition : "all",
 		includeCaster: config.includeCaster === true,
+		summonActor: typeof config.summonActor === "string" ? config.summonActor : "",
+		placementMode: config.placementMode === "summon" ? "summon" : "targets",
+		originActors: Array.isArray(config.originActors) ? config.originActors.filter(uuid => typeof uuid === "string") : [],
 		placeRegion: config.placeRegion === true,
+		wallSolid: config.wallSolid === true,
+		wallHeight: Number(config.wallHeight ?? 1),
 	};
 }
 
@@ -46,6 +51,9 @@ export function selectionProblems(source, targets, range, required, size) {
 /** Whether this power is configured for the supported targeting workflow. */
 export function supportsTargetAutomation(item) {
 	const config = automationConfig(item);
+	if (config.enabled && config.placementMode === "summon") {
+		return Boolean(config.summonActor) && !item.hasAttack;
+	}
 	return config.enabled && ["weapon", "melee", "touch", "reach", "range", ...AREA_TYPES].includes(item.system.rangeType)
 		&& ((AREA_TYPES.includes(item.system.rangeType) && config.targetMode !== "exact")
 			|| (Number.isInteger(config.targetCount) && config.targetCount > 0));

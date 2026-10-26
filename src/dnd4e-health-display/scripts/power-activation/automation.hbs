@@ -1,29 +1,84 @@
 <section class="tab power-automation-tab {{tab.cssClass}}" data-tab="automation" data-group="sheet">
-	<label>Enable Target Automation
+	<label class="power-automation__toggle">Target automation
 		<input type="checkbox" name="flags.dnd4e-health-display.targetAutomation.enabled" {{checked automation.enabled}} {{#unless editable}}disabled{{/unless}}>
 	</label>
-	<label>Amount of Targets
-		<input type="number" name="flags.dnd4e-health-display.targetAutomation.targetCount" value="{{automation.targetCount}}" min="1" step="1" required {{#unless editable}}disabled{{/unless}}>
-	</label>
-	<label>Area target count
-		<select name="flags.dnd4e-health-display.targetAutomation.targetMode" {{#unless editable}}disabled{{/unless}}>
-			{{selectOptions automationTargetModes selected=automation.targetMode}}
+	{{#if automation.enabled}}
+	<label>On use
+		<select name="flags.dnd4e-health-display.targetAutomation.placementMode" {{#unless editable}}disabled{{/unless}}>
+			{{selectOptions automationPlacementModes selected=automation.placementMode}}
 		</select>
 	</label>
-	<label>Area target filter
-		<select name="flags.dnd4e-health-display.targetAutomation.targetDisposition" {{#unless editable}}disabled{{/unless}}>
-			{{selectOptions automationDispositions selected=automation.targetDisposition}}
-		</select>
-	</label>
-	<label>Include caster in area targets
-		<input type="checkbox" name="flags.dnd4e-health-display.targetAutomation.includeCaster" {{checked automation.includeCaster}} {{#unless editable}}disabled{{/unless}}>
-	</label>
-	<p>Supports weapon, melee, ranged, close burst/blast and area burst/blast powers on square grids. Attack powers open the attack dialog; other powers use Confirm to commit the use and use effects. Area size and placement range use the power's Area and Range fields. Close bursts always exclude the caster.</p>
-	<p>Area target count defaults to all creatures matching the filter. Exact count uses Amount of Targets. Allies and enemies use token disposition relative to the caster; neutral tokens only match All creatures. Include caster overrides the disposition filter for the caster.</p>
-	<p>Target count, range and area membership are advisory. Area cover, line of effect, elevation and special targeting requirements need manual checking.</p>
-	<label>On confirm, place Region on selected area
-		<input type="checkbox" name="flags.dnd4e-health-display.targetAutomation.placeRegion" {{checked automation.placeRegion}} {{#unless editable}}disabled{{/unless}}>
-	</label>
-	<p>Places a persistent Region for close burst/blast and area burst/blast powers when the use is committed. Close bursts leave out the caster's space. Requires permission to create Regions; remove the Region manually when it ends.</p>
-	<p>Enabling target automation disables this power's use macros.</p>
+	{{#unless automationView.canSummon}}
+	<p class="power-automation__hint">Summoning is available on non-attack powers.{{#if automationView.invalidSummon}} Choose Select targets / area or make this a non-attack power before using automation.{{/if}}</p>
+	{{/unless}}
+	<fieldset class="power-automation__group">
+		<legend>Targets</legend>
+		{{#if automationView.summon}}
+		<div data-automation-actor="summonActor">
+			<strong>Summoned actor</strong>
+			<p class="power-automation__hint">Drag an actor here.</p>
+			{{#if summonActor}}<p class="power-automation__actor">{{summonActor.name}} <button type="button" data-automation-remove="summonActor" {{#unless editable}}disabled{{/unless}}>Remove</button></p>{{/if}}
+		</div>
+		<p class="power-automation__hint">Select one square within the power's Range. Its top-left corner anchors the actor's prototype token. The token is created only on confirmation; permission to create Tokens and use the actor is required.</p>
+		{{else}}
+		{{#if automationView.area}}
+		<label>Target selection
+			<select name="flags.dnd4e-health-display.targetAutomation.targetMode" {{#unless editable}}disabled{{/unless}}>
+				{{selectOptions automationTargetModes selected=automation.targetMode}}
+			</select>
+		</label>
+		<label>Creatures
+			<select name="flags.dnd4e-health-display.targetAutomation.targetDisposition" {{#unless editable}}disabled{{/unless}}>
+				{{selectOptions automationDispositions selected=automation.targetDisposition}}
+			</select>
+		</label>
+		<p class="power-automation__hint">Allies and enemies are relative to the caster. Neutral tokens only match All creatures.</p>
+		{{/if}}
+		{{#if automationView.showTargetCount}}
+		<label>Number of targets
+			<input type="number" name="flags.dnd4e-health-display.targetAutomation.targetCount" value="{{automation.targetCount}}" min="1" step="1" required {{#unless editable}}disabled{{/unless}}>
+		</label>
+		{{/if}}
+		{{#if automationView.area}}
+		<label>Include origin creature
+			<input type="checkbox" name="flags.dnd4e-health-display.targetAutomation.includeCaster" {{checked automation.includeCaster}} {{#unless editable}}disabled{{/unless}}>
+		</label>
+		<p class="power-automation__hint">Overrides the creature filter for the origin. With an alternate origin, this applies to that token.</p>
+		{{/if}}
+		{{/if}}
+	</fieldset>
+	{{#unless automationView.summon}}
+	<fieldset class="power-automation__group">
+		<legend>Placement</legend>
+		{{#if automationView.area}}
+		<p class="power-automation__hint">Area size and placement range use the power's Area and Range fields.</p>
+		<label>Leave a Region after confirmation
+			<input type="checkbox" name="flags.dnd4e-health-display.targetAutomation.placeRegion" {{checked automation.placeRegion}} {{#unless editable}}disabled{{/unless}}>
+		</label>
+		<p class="power-automation__hint">Requires permission to create Regions. Remove the Region manually when it ends. Close bursts exclude the origin token's space unless Include origin creature is enabled.</p>
+		{{/if}}
+		{{#if automationView.wall}}
+		<div class="power-automation__wall">
+			<label>Require unoccupied wall squares
+				<input type="checkbox" name="flags.dnd4e-health-display.targetAutomation.wallSolid" {{checked automation.wallSolid}} {{#unless editable}}disabled{{/unless}}>
+			</label>
+			<label>Wall height (squares)
+				<input type="number" name="flags.dnd4e-health-display.targetAutomation.wallHeight" value="{{automation.wallHeight}}" min="1" step="1" {{#unless editable}}disabled{{/unless}}>
+			</label>
+			<p class="power-automation__hint">Area is the maximum footprint in squares; Range limits every square. Draw a horizontal footprint and set height from the power's text. Vertical stacking is manual.</p>
+			<p class="power-automation__hint">Height and solid-wall status are Region metadata; movement, sight blocking, damage and vertical targeting are not automated. Occupancy checks use visible tokens at the caster's elevation; the GM can also check hidden tokens.</p>
+		</div>
+		{{/if}}
+		<div data-automation-actor="originActors">
+			<strong>Alternate origins</strong>
+			<p class="power-automation__hint">Drag actors here, then choose one of their visible scene tokens during targeting. The caster is always available.</p>
+			{{#each originActors}}<p class="power-automation__actor">{{name}} <button type="button" data-automation-remove="originActors" data-uuid="{{uuid}}" {{#unless ../editable}}disabled{{/unless}}>Remove</button></p>{{/each}}
+		</div>
+	</fieldset>
+	{{/unless}}
+	<p class="power-automation__hint">Attack powers open the attack dialog; other powers use Confirm. Target count, range and area membership are advisory. Check cover, line of effect, elevation and special targeting requirements manually.</p>
+	{{else}}
+	<p class="power-automation__hint">Enable automation to configure this power's targeting.</p>
+	{{/if}}
+	<p class="power-automation__hint">Enabling target automation disables this power's use macros.</p>
 </section>

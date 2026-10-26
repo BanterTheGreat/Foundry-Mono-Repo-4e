@@ -1,23 +1,51 @@
-<section class="power-targeting__body">
+﻿<section class="power-targeting__body">
 	<div class="power-targeting__heading"><strong>{{powerName}}</strong><button type="button" data-action="toggleDetails" aria-expanded="{{showDetails}}" title="Toggle power details"><i class="fa-solid fa-book-open" aria-hidden="true"></i> Details</button></div>
+	<label class="power-targeting__origin">Origin <select data-origin-selector {{#if busy}}disabled{{/if}}>{{#each originChoices}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{name}}</option>{{/each}}</select></label>
 	{{#if showDetails}}<div class="power-targeting__card">{{{card}}}</div>{{/if}}
-	{{#if area}}
-	<p class="power-targeting__range">{{areaLabel}} <strong>{{areaSize}}</strong> · {{#if placementLocked}}Placement locked. Adjust targets with normal targeting controls.{{else}}Move the pointer on the canvas and click to lock placement.{{/if}}</p>
-	{{#if areaOriginHint}}<p>{{areaOriginHint}} Maximum placement range: {{range}} squares.</p>{{/if}}
-	<p>Check area cover, line of effect and elevation manually.</p>
-	<div><button type="button" data-action="selectArea" {{#if busy}}disabled{{/if}}>Select area targets</button>{{#if movableArea}} <button type="button" data-action="reposition" {{#if busy}}disabled{{/if}}>Reposition</button>{{/if}}</div>
-	{{else}}
-	<p class="power-targeting__range" title="Use Foundry's normal targeting controls to select or remove targets. Gold is normal range; blue is long range.">Range <strong>{{normalRange}}{{#if longRange}} / {{range}}{{/if}}</strong> squares · Use normal targeting</p>
-	{{/if}}
-	<p aria-live="polite"><strong>{{selected}}{{#if exactCount}} / {{required}}{{/if}} targets</strong> — {{status}}</p>
+	<div class="power-targeting__placement">
+		{{#if summon}}
+		<p class="power-targeting__range">Summon square · Range {{range}}</p>
+		<p>{{#if placementLocked}}Placement locked. Confirm to summon the configured actor.{{else}}Select a square on the canvas, then confirm to summon.{{/if}}</p>
+		<div class="power-targeting__controls"><button type="button" data-action="reposition" {{#if busy}}disabled{{/if}}>Reposition</button></div>
+		{{else}}
+		{{#if wall}}
+		<p class="power-targeting__range">Wall · Range {{range}} squares</p>
+		<p><strong>{{wallCount}} / {{areaSize}} squares</strong> · Click or drag through side-adjacent squares. White marks the origin.</p>
+		{{#if wallHint}}<p role="status">{{wallHint}}</p>{{/if}}
+		<div class="power-targeting__controls"><button type="button" data-action="undoWall" {{#if busy}}disabled{{/if}}>Undo square</button><button type="button" data-action="clearWall" {{#if busy}}disabled{{/if}}>Clear wall</button><button type="button" data-action="selectArea" {{#if busy}}disabled{{/if}}>Select wall targets</button></div>
+		{{else}}
+		{{#if area}}
+		<p class="power-targeting__range">{{areaLabel}} {{areaSize}} · Range {{range}} squares</p>
+		<p>{{#if placementLocked}}<strong>Placement locked.</strong> Adjust targets with normal targeting controls.{{else}}Move the pointer on the canvas, then click to lock placement.{{/if}}</p>
+		<div class="power-targeting__controls"><button type="button" data-action="selectArea" {{#if busy}}disabled{{/if}}>Select area targets</button>{{#if movableArea}}<button type="button" data-action="reposition" {{#if busy}}disabled{{/if}}>Reposition</button>{{/if}}</div>
+		{{else}}
+		<p class="power-targeting__range">Range <strong>{{normalRange}}{{#if longRange}} / {{range}}{{/if}}</strong> squares</p>
+		<p>Use normal targeting controls to select or remove targets.</p>
+		{{#if longRange}}<p class="power-targeting__range">Gold: normal range · Blue: long range</p>{{/if}}
+		{{/if}}
+		{{/if}}
+		{{/if}}
+	</div>
+	{{#if problems}}<ul class="power-targeting__warnings" aria-live="polite">{{#each problems}}<li>{{this}}</li>{{/each}}</ul>{{/if}}
+	<p class="power-targeting__status" aria-live="polite">{{#unless summon}}<strong>{{selected}}{{#if exactCount}} / {{required}}{{/if}} targets</strong> · {{/unless}}{{status}}</p>
+	{{#unless summon}}
 	<ul class="power-targeting__targets">
 		{{#each targets}}
-		<li class="{{#if invalid}}is-invalid{{/if}}">{{#if img}}<img src="{{img}}" alt="" width="32" height="32">{{/if}}<span>{{name}}{{#if invalid}} <small>— check target</small>{{/if}}</span><button type="button" data-action="removeTarget" data-token-id="{{id}}" {{#if ../busy}}disabled{{/if}} aria-label="Remove {{name}}">×</button></li>
+		<li class="{{#if invalid}}is-invalid{{/if}}">{{#if img}}<img src="{{img}}" alt="" width="32" height="32">{{/if}}<span class="power-targeting__target-name">{{name}}{{#each warnings}}<small><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> {{this}}</small>{{/each}}</span><button type="button" data-action="removeTarget" data-token-id="{{id}}" {{#if ../busy}}disabled{{/if}} aria-label="Remove {{name}}">×</button></li>
+		{{else}}
+		<li class="power-targeting__empty">No targets selected. Use normal canvas targeting controls.</li>
 		{{/each}}
 	</ul>
-	{{#if problems}}<ul class="power-targeting__warnings">{{#each problems}}<li>{{this}}</li>{{/each}}</ul>{{/if}}
+	{{/unless}}
+	<details class="power-targeting__manual">
+		<summary>Manual checks · cover, elevation and special rules</summary>
+		{{#if areaOriginHint}}<p>{{areaOriginHint}} Maximum placement range: {{range}} squares.</p>{{/if}}
+		<p>Check cover, line of effect, elevation and special power requirements manually. Target count, range and area membership warnings are advisory.</p>
+		{{#if wall}}<p>Confirm when the footprint is complete. Check wall height manually.</p>{{/if}}
+		{{#if summon}}<p>Cancel creates no token.</p>{{/if}}
+	</details>
 	<footer>
 		<button type="button" data-action="cancel" {{#unless cancellable}}disabled{{/unless}}>Cancel</button>
-		<button type="button" data-action="attack" class="{{#if ready}}is-ready{{/if}}" {{#if busy}}disabled{{/if}}>{{#if hasAttack}}<i class="fa-solid fa-dice-d20"></i> Attack{{else}}<i class="fa-solid fa-check"></i> Confirm{{/if}}</button>
+		<button type="button" data-action="attack" class="{{#if ready}}is-ready{{/if}}" {{#if busy}}disabled{{/if}}>{{#if hasAttack}}<i class="fa-solid fa-dice-d20" aria-hidden="true"></i> Attack…{{else}}<i class="fa-solid fa-check" aria-hidden="true"></i> {{#if summon}}Confirm summon{{else}}Confirm{{/if}}{{/if}}</button>
 	</footer>
 </section>

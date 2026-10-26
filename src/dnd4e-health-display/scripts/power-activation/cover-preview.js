@@ -120,7 +120,7 @@ export class CoverPreview {
       return;
     }
     const targeting = CoverPreview.#targeting;
-    if (!targeting || !["melee", "ranged"].includes(targeting.mode) || !targeting.source?.isOwner
+    if (!targeting || !["melee", "ranged"].includes(targeting.mode) || !(targeting.caster ?? targeting.source)?.isOwner
       || canvas.tokens.get(targeting.source.id) !== targeting.source) {
       return;
     }

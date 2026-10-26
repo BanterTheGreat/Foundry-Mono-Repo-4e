@@ -46,6 +46,7 @@ test("explicit filters handle allies, enemies, neutrals, hidden creatures and ca
 	assert.equal(areaTargetAllowed(source, target(0), range, { targetDisposition: "allies" }), false);
 	assert.equal(areaTargetAllowed(source, target(0), range, { targetDisposition: "all" }), true);
 	assert.equal(areaTargetAllowed(source, { ...target(-1), visible: false }, range, { targetDisposition: "all" }), false);
+	assert.equal(areaTargetAllowed(source, source, { shape: "closeBurst" }, { includeCaster: false }), false);
 	assert.equal(areaTargetAllowed(source, source, range, { includeCaster: true }), true);
-	assert.equal(areaTargetAllowed(source, source, { shape: "closeBurst" }, { includeCaster: true }), false);
+	assert.equal(areaTargetAllowed(source, source, { shape: "closeBurst" }, { includeCaster: true }), true);
 });

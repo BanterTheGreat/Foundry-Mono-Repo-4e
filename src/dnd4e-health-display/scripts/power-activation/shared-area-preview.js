@@ -1,4 +1,4 @@
-import { MODULE_ID } from "./rules.js";
+import { MODULE_ID, automationConfig } from "./rules.js";
 
 const CHANNEL = `module.${MODULE_ID}`;
 
@@ -38,14 +38,14 @@ export class SharedAreaPreview {
 
 	/** Coalesce pointer updates into at most one network message per 60 milliseconds. */
 	show(activation) {
-		const bounds = activation.areaBounds();
-		if (!bounds) {
+		const rectangles = activation.areaRectangles();
+		if (!rectangles.length) {
 			this.clear();
 			return;
 		}
 		this.local = {
-			sceneId: canvas.scene.id, sourceId: activation.source.id, bounds,
-			hole: activation.range.shape === "closeBurst"
+			sceneId: canvas.scene.id, sourceId: (activation.caster ?? activation.source).id, rectangles,
+			hole: activation.range.shape === "closeBurst" && !automationConfig(activation.item).includeCaster
 				? { x: activation.source.x, y: activation.source.y, w: activation.source.w, h: activation.source.h } : null,
 		};
 		this.pending ??= window.setTimeout(() => {
@@ -87,7 +87,8 @@ export class SharedAreaPreview {
 		const preview = message.preview;
 		const source = canvas.tokens?.get(preview?.sourceId);
 		if (!preview || !canvas.ready || preview.sceneId !== canvas.scene.id || !source?.visible
-			|| !source.actor?.testUserPermission(user, "OWNER") || !validRectangle(preview.bounds)
+			|| !source.actor?.testUserPermission(user, "OWNER") || !Array.isArray(preview.rectangles) || !preview.rectangles.length || preview.rectangles.length > 1000
+			|| !preview.rectangles.every(validRectangle)
 			|| (preview.hole && !validRectangle(preview.hole))) {
 			this.remove(message.userId);
 			return;
@@ -95,9 +96,11 @@ export class SharedAreaPreview {
 		const graphics = existing?.graphics ?? canvas.interface.addChild(new PIXI.Graphics());
 		graphics.eventMode = "none";
 		graphics.clear();
-		const { x, y, w, h } = preview.bounds;
 		const color = aimingColor(user);
-		graphics.lineStyle(2, color).beginFill(color, .18).drawRect(x, y, w, h);
+		graphics.lineStyle(2, color).beginFill(color, .18);
+		for (const { x, y, w, h } of preview.rectangles) {
+			graphics.drawRect(x, y, w, h);
+		}
 		if (preview.hole) {
 			const hole = preview.hole;
 			graphics.beginHole().drawRect(hole.x, hole.y, hole.w, hole.h).endHole();

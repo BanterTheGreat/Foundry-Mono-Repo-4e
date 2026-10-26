@@ -1,9 +1,9 @@
 import { CoverPreview } from "./cover-preview.js";
 import { sharedAreaPreview } from "./shared-area-preview.js";
-import { AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin } from "./area-geometry.js";
+import { AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin, wallGeometryProblems, hasLineOfEffect } from "./area-geometry.js";
 import { MODULE_ID, SETTING, automationConfig, selectionProblems, squareDistance } from "./rules.js";
 import { renderPowerCard, createPowerMessage } from "./cards.js";
-import { loadSystem, resolveRange, registerAutomationTab, commitCardCosts, commitPowerUse } from "./system-adapter.js";
+import { loadSystem, resolveRange, registerAutomationTab, commitCardCosts, commitPowerUse, rollFromOrigin } from "./system-adapter.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin, DialogV2 } = foundry.applications.api;
 let session = null;
@@ -48,7 +48,7 @@ export async function registerPowerActivation() {
 	Hooks.on("sightRefresh", () => session?.drawRange());
 	Hooks.on("lightingRefresh", () => session?.drawRange());
 	Hooks.on("deleteToken", document => {
-		if (session?.source.id === document.id) {
+		if (session?.source.id === document.id || session?.caster.id === document.id) {
 			void session.cancel();
 		} else {
 			session?.refresh();
@@ -98,11 +98,15 @@ export async function useAbility(item, sourceToken) {
 		if (!item.isOwner || !item.actor?.isOwner || !sourceToken || sourceToken.actor?.uuid !== item.actor.uuid || !canvas.ready || canvas.tokens.get(sourceToken.id) !== sourceToken) {
 			throw new Error("Control an owned token on the current scene before using this ability.");
 		}
-		if (!["weapon", "melee", "touch", "reach", "range", ...AREA_TYPES].includes(item.system.rangeType) || !canvas.grid.isSquare) {
-			throw new Error("Target automation supports weapon, melee, melee touch/reach, ranged, close burst/blast and area burst/blast powers on square grids.");
+		if ((automationConfig(item).placementMode !== "summon" && !["weapon", "melee", "touch", "reach", "range", ...AREA_TYPES].includes(item.system.rangeType)) || !canvas.grid.isSquare) {
+			throw new Error("Target automation supports weapon, melee, melee touch/reach, ranged, close burst/blast, area burst/blast and wall powers on square grids.");
 		}
-		const count = automationConfig(item).targetCount;
-		if ((!AREA_TYPES.includes(item.system.rangeType) || automationConfig(item).targetMode === "exact") && (!Number.isInteger(count) || count < 1)) {
+		const config = automationConfig(item);
+		if (config.placementMode === "summon" && (item.hasAttack || !config.summonActor)) {
+			throw new Error("Summon mode requires a non-attack power and a configured summoned actor.");
+		}
+		const count = config.targetCount;
+		if (config.placementMode !== "summon" && (!AREA_TYPES.includes(item.system.rangeType) || automationConfig(item).targetMode === "exact") && (!Number.isInteger(count) || count < 1)) {
 			throw new Error("Set a positive whole Amount of Targets in this power's Automation tab.");
 		}
 		if (item.system.macros?.some(macro => macro.enabled)) {
@@ -144,15 +148,95 @@ async function deletePreview(message) {
 class ActivationSession {
 	constructor(item, source, range, card, count) {
 		Object.assign(this, { item, source, range, card, count });
+		this.caster = source;
 		this.id = foundry.utils.randomID();
 		this.previousTargets = [...game.user.targets];
 		this.targets = [];
+		this.areaExclusions = new Map();
 		this.busy = false;
 		this.finished = false;
 		this.committed = false;
 		this.syncing = false;
 		this.listeners = new AbortController();
 		this.placementLocked = range.shape === "closeBurst";
+		this.wallCells = [];
+	}
+
+	/** Offer only configured actors' visible tokens on this scene, plus the caster. */
+	originChoices() {
+		const allowed = automationConfig(this.item).originActors;
+		return [this.caster, ...canvas.tokens.placeables.filter(token => token !== this.caster && token.visible
+			&& token.actor && (allowed.includes(token.document.actorId ? `Actor.${token.document.actorId}` : token.actor.uuid)
+				|| allowed.includes(token.actor._stats?.compendiumSource)))];
+	}
+
+	/** Revalidate the whitelist at handoff and submission, including deleted tokens. */
+	originAllowed() {
+		return this.originChoices().includes(this.source) && canvas.tokens.get(this.source.id) === this.source;
+	}
+
+	/** Changing origin resets placement and target selection, retaining the actual caster. */
+	changeOrigin(id) {
+		if (this.busy || this.finished) {
+			return;
+		}
+		const token = this.originChoices().find(candidate => candidate.id === id);
+		if (!token || token === this.source) {
+			return;
+		}
+		this.source = token;
+		this.origin = null;
+		this.wallCells = [];
+		this.wallHover = null;
+		this.placementLocked = this.range.shape === "closeBurst";
+		this.targets = [];
+		if (this.range.shape) {
+			this.selectAreaTargets();
+		} else {
+			this.syncTargets();
+		}
+		this.refresh();
+	}
+
+	/** Resolve permissions and prototype dimensions before spending any resources. */
+	async prepareSummon() {
+		if (this.item.hasAttack) {
+			throw new Error("Summon placement requires a non-attack power.");
+		}
+		const uuid = automationConfig(this.item).summonActor;
+		const actor = uuid ? await fromUuid(uuid) : null;
+		if (actor?.pack) {
+			throw new Error("Import the summoned actor into the Actors directory and configure that actor.");
+		}
+		if (!actor || actor.documentName !== "Actor" || !actor.isOwner || !TokenDocument.canUserCreate(game.user)) {
+			throw new Error("Summoning requires an available owned actor and permission to create Tokens.");
+		}
+		const document = await actor.getTokenDocument({ x: this.origin.x, y: this.origin.y,
+			elevation: this.source.document.elevation, disposition: this.caster.document.disposition });
+		const data = document.toObject();
+		const map = canvas.dimensions.sceneRect;
+		if (data.x < map.x || data.y < map.y || data.x + data.width * canvas.grid.size > map.x + map.width
+			|| data.y + data.height * canvas.grid.size > map.y + map.height) {
+			throw new Error("The summoned token's footprint must fit on the scene.");
+		}
+		this.summonData = data;
+	}
+
+	/** Create once after confirmation; a failed creation must not skip use bookkeeping. */
+	async placeSummon() {
+		if (this.range.shape !== "summon" || this.summonAttempted) {
+			return;
+		}
+		this.summonAttempted = true;
+		try {
+			const tokens = await canvas.scene.createEmbeddedDocuments("Token", [this.summonData]);
+			if (!tokens.length) {
+				throw new Error("Token creation was prevented.");
+			}
+		} catch (error) {
+			console.error(`${MODULE_ID} | Summon creation`, error);
+			ui.notifications.warn(`The power is being used, but its summon could not be placed: ${error.message}`);
+		}
 	}
 
 	/** Retain in-range direct targets and install the session cancellation shortcut. */
@@ -204,6 +288,18 @@ class ActivationSession {
 				return;
 			}
 			const point = position(event);
+			if (this.range.shape === "wall") {
+				const size = canvas.grid.size;
+				const offset = canvas.dimensions.sceneRect;
+				this.wallHover = { x: offset.x + Math.floor((point.x - offset.x) / size) * size,
+					y: offset.y + Math.floor((point.y - offset.y) / size) * size };
+				if (event.buttons === 1) {
+					this.addWallSquare();
+				} else {
+					this.drawRange();
+				}
+				return;
+			}
 			const size = canvas.grid.size;
 			const offset = canvas.dimensions.sceneRect;
 			const origin = this.range.shape === "closeBlast" ? closeBlastOrigin(this.source, point, this.range.area, size)
@@ -223,8 +319,19 @@ class ActivationSession {
 				}
 				event.preventDefault();
 				event.stopImmediatePropagation();
+				if (this.range.shape === "wall") {
+					if (name === "pointerdown") {
+						move(event);
+						this.addWallSquare();
+					}
+					return;
+				}
 				if (name === "click") {
 					move(event);
+					if (this.lineOfEffectProblems().length) {
+						ui.notifications.warn(this.lineOfEffectProblems().join(" "));
+						return;
+					}
 					this.placementLocked = true;
 					this.refresh();
 				}
@@ -232,17 +339,116 @@ class ActivationSession {
 		}
 	}
 
+	/** The same occupied squares drive wall drawing, targeting and Region persistence. */
+	areaRectangles() {
+		if (this.range.shape === "wall") {
+			return this.wallCells.map(cell => ({ ...cell, w: canvas.grid.size, h: canvas.grid.size }));
+		}
+		const bounds = this.areaBounds();
+		return bounds ? [bounds] : [];
+	}
+
+	/** Players must reach each placed square through physical walls; GMs may adjudicate exceptions. */
+	lineOfEffectProblems(cells = null) {
+		if (game.user.isGM || !this.range.shape || this.range.shape === "closeBurst") {
+			return [];
+		}
+		const size = canvas.grid.size;
+		const origin = areaRangeOrigin(this.source, this.range, this.origin, size);
+		const destinations = cells ?? (this.range.shape === "wall" ? this.wallCells
+			: this.range.shape === "closeBlast" ? this.areaRectangles() : origin ? [origin] : []);
+		const walls = (canvas.walls?.placeables ?? []).map(wall => wall.document)
+			.filter(wall => wall.move !== CONST.WALL_MOVEMENT_TYPES.NONE && wall.ds !== CONST.WALL_DOOR_STATES.OPEN)
+			.map(wall => wall.c);
+		return destinations.some(destination => !hasLineOfEffect(this.source, destination, size, walls))
+			? ["Placement requires line of effect from the attack origin."] : [];
+	}
+
+	/** Reject invalid placement without revealing hidden occupying creatures to players. */
+	wallProblems(cells = this.wallCells) {
+		const size = canvas.grid.size;
+		const config = automationConfig(this.item);
+		const problems = wallGeometryProblems(cells, this.range.area, size);
+		problems.push(...this.lineOfEffectProblems(cells));
+		const map = canvas.dimensions.sceneRect;
+		if (cells.some(cell => cell.x < map.x || cell.y < map.y || cell.x + size > map.x + map.width || cell.y + size > map.y + map.height)) {
+			problems.push("Wall squares must be on the scene.");
+		}
+		if (cells.some(cell => squareDistance(this.source, { ...cell, w: size, h: size }, size) > this.range.maximum)) {
+			problems.push(`Every wall square must be within range ${this.range.maximum}.`);
+		}
+		if (!Number.isInteger(config.wallHeight) || config.wallHeight < 1) {
+			problems.push("Set a positive whole wall height in the Automation tab.");
+		}
+		if (config.wallSolid && cells.some(cell => canvas.tokens.placeables.some(token =>
+			(game.user.isGM || token.visible) && Number(token.document.elevation) === Number(this.source.document.elevation)
+			&& intersectsArea(token, { ...cell, w: size, h: size })))) {
+			problems.push("Solid walls require unoccupied squares at the caster's elevation.");
+		}
+		return problems;
+	}
+
+	/** Append only a legal square; skipped pointer squares are never filled implicitly. */
+	addWallSquare() {
+		if (!this.wallHover || this.wallCells.some(cell => cell.x === this.wallHover.x && cell.y === this.wallHover.y)) {
+			return;
+		}
+		const cells = [...this.wallCells, this.wallHover];
+		this.wallHint = this.wallProblems(cells)[0] ?? "";
+		if (!this.wallHint) {
+			this.wallCells = cells;
+			this.origin = cells[0];
+			this.selectAreaTargets();
+		}
+		this.refresh();
+	}
+
+	/** Undo preserves connected drawing history; clear starts a new origin. */
+	editWall(clear = false) {
+		if (this.busy) {
+			return;
+		}
+		this.wallCells = clear ? [] : this.wallCells.slice(0, -1);
+		this.origin = this.wallCells[0];
+		this.wallHint = "";
+		this.selectAreaTargets();
+		this.refresh();
+	}
+
 	/** The selected area remains distinct from the caster's placement range. */
 	areaBounds() {
 		return areaRectangle(this.source, this.range, this.origin, canvas.grid.size);
 	}
 
-	/** Populate each intersecting visible creature once; manual edits survive until re-selection. */
-	selectAreaTargets() {
+	/** Identify the placement and creature footprint at the time of a manual exclusion. */
+	areaSelectionKey(token) {
+		return JSON.stringify([this.source.id, this.range.shape, this.areaRectangles(),
+			token.x, token.y, token.w, token.h, token.document.elevation]);
+	}
+
+	/** Remember manual removal until this area or this creature moves. */
+	excludeAreaTarget(token) {
+		if (this.range.shape && token) {
+			this.areaExclusions.set(token.id, this.areaSelectionKey(token));
+		}
+	}
+
+	/** Explicit re-selection resets exclusions; automatic updates preserve stationary removals. */
+	selectAreaTargets(resetExclusions = true) {
+		if (resetExclusions) {
+			this.areaExclusions.clear();
+		}
 		const config = automationConfig(this.item);
-		const bounds = this.areaBounds();
-		this.targets = canvas.tokens.placeables.filter(token => intersectsArea(token, bounds)
-			&& areaTargetAllowed(this.source, token, this.range, config));
+		const rectangles = this.range.shape === "summon" ? [] : this.areaRectangles();
+		const candidates = canvas.tokens.placeables.filter(token => rectangles.some(bounds => intersectsArea(token, bounds))
+			&& areaTargetAllowed(this.caster, token, this.range, config, this.source));
+		for (const [id, key] of this.areaExclusions) {
+			const token = candidates.find(candidate => candidate.id === id);
+			if (!token || this.areaSelectionKey(token) !== key) {
+				this.areaExclusions.delete(id);
+			}
+		}
+		this.targets = candidates.filter(token => !this.areaExclusions.has(token.id));
 		this.syncTargets();
 	}
 
@@ -251,18 +457,20 @@ class ActivationSession {
 		if (this.finished || this.busy) {
 			return;
 		}
-		if (this.range.shape === "closeBurst" && automationConfig(this.item).targetMode === "area") {
-			this.selectAreaTargets();
+		if (AREA_TYPES.includes(this.range.shape) && automationConfig(this.item).targetMode === "area") {
+			this.selectAreaTargets(false);
 		}
 		this.refresh();
 	}
 
 	/** Validate area membership rather than distance from caster to individual targets. */
 	areaProblems(targets = this.targets, checkCount = true) {
-		const problems = [];
+		const problems = this.lineOfEffectProblems();
 		const config = automationConfig(this.item);
 		const origin = areaRangeOrigin(this.source, this.range, this.origin, canvas.grid.size);
-		if (!this.placementLocked) {
+		if (this.range.shape === "wall") {
+			problems.push(...this.wallProblems());
+		} else if (!this.placementLocked) {
 			problems.push("Click the canvas to lock the area placement.");
 		}
 		if (this.origin && this.range.shape === "closeBlast") {
@@ -272,18 +480,18 @@ class ActivationSession {
 				problems.push("The close blast is no longer adjacent to the caster; reposition it.");
 			}
 		}
-		if (origin && this.range.shape.startsWith("range") && squareDistance(this.source,
+		if (origin && (this.range.shape.startsWith("range") || this.range.shape === "summon") && squareDistance(this.source,
 			{ ...origin, w: canvas.grid.size, h: canvas.grid.size }, canvas.grid.size) > this.range.maximum) {
 			problems.push(`Area origin is outside range ${this.range.maximum}.`);
 		}
-		if (checkCount && config.targetMode === "exact" && targets.length !== this.count) {
+		if (this.range.shape !== "summon" && checkCount && config.targetMode === "exact" && targets.length !== this.count) {
 			problems.push(`Selected ${targets.length} targets; this power expects exactly ${this.count}.`);
 		}
-		if (checkCount && !targets.length) {
+		if (checkCount && !targets.length && this.item.hasAttack && this.range.shape !== "summon") {
 			problems.push("No targets selected.");
 		}
 		for (const token of targets) {
-			if (!areaTargetAllowed(this.source, token, this.range, config) || !intersectsArea(token, this.areaBounds())) {
+			if (!areaTargetAllowed(this.caster, token, this.range, config, this.source) || !this.areaRectangles().some(bounds => intersectsArea(token, bounds))) {
 				problems.push(`${token.visible ? token.name : "Unavailable target"} is outside the area or target filter.`);
 			}
 			if (Number(token.document.elevation) !== Number(this.source.document.elevation)) {
@@ -304,6 +512,11 @@ class ActivationSession {
 		}
 		this.targets = [...game.user.targets];
 		if (this.range.shape) {
+			if (targeted) {
+				this.areaExclusions.delete(token.id);
+			} else {
+				this.excludeAreaTarget(token);
+			}
 			this.refresh();
 			return;
 		}
@@ -358,7 +571,7 @@ class ActivationSession {
 			}
 			this.range = range;
 			this.count = automationConfig(this.item).targetCount;
-			if (((!this.range.shape || automationConfig(this.item).targetMode === "exact") && (!Number.isInteger(this.count) || this.count < 1)) || !automationConfig(this.item).enabled) {
+			if (((this.range.shape !== "summon" && (!this.range.shape || automationConfig(this.item).targetMode === "exact")) && (!Number.isInteger(this.count) || this.count < 1)) || !automationConfig(this.item).enabled) {
 				throw new Error("The power's automation configuration changed. Start Use Ability again after configuring it.");
 			}
 			this.refreshAreaTargets();
@@ -373,13 +586,13 @@ class ActivationSession {
 		if (this.finished) {
 			return;
 		}
-		if (!this.item.isOwner || !this.item.actor?.isOwner) {
+		if (!this.item.isOwner || !this.item.actor?.isOwner || !this.originAllowed()) {
 			void this.cancel();
 			return;
 		}
 		// Cover shares the targeting lifecycle and resolved attack mode.
 		CoverPreview.setContext(this.busy || !this.item.hasAttack ? null : {
-			source: this.source, targets: [...this.targets], mode: this.range.mode,
+			source: this.source, caster: this.caster, targets: [...this.targets], mode: this.range.mode,
 		});
 		this.drawRange();
 		this.panel?.render({ force: true });
@@ -387,8 +600,8 @@ class ActivationSession {
 
 	/** Follow rendered token positions throughout movement without rebuilding the panel each frame. */
 	refreshMovingToken(token) {
-		const automaticBurst = this.range.shape === "closeBurst" && automationConfig(this.item).targetMode === "area";
-		if (this.finished || (!automaticBurst && token !== this.source && !this.targets.includes(token))) {
+		const automaticArea = AREA_TYPES.includes(this.range.shape) && automationConfig(this.item).targetMode === "area";
+		if (this.finished || (!automaticArea && token !== this.source && !this.targets.includes(token))) {
 			return;
 		}
 		if (token === this.source) {
@@ -414,13 +627,27 @@ class ActivationSession {
 		this.refreshRangeMask();
 		if (!this.busy) {
 			if (this.range.shape) {
-				if (this.range.shape.startsWith("range")) {
+				if (this.range.shape.startsWith("range") || ["wall", "summon"].includes(this.range.shape)) {
 					this.drawRangeBoundary(this.range.maximum, 0xf5d787, false);
+				}
+				if (this.range.shape === "wall") {
+					for (const cell of this.areaRectangles()) {
+						this.graphics.lineStyle(2, 0xf5d787).beginFill(0xf5d787, .18).drawRect(cell.x, cell.y, cell.w, cell.h).endFill();
+					}
+					if (this.origin) {
+						this.graphics.lineStyle(3, 0xffffff).drawRect(this.origin.x, this.origin.y, canvas.grid.size, canvas.grid.size);
+					}
+					if (this.wallHover) {
+						const occupied = this.wallCells.some(cell => cell.x === this.wallHover.x && cell.y === this.wallHover.y);
+						const color = occupied ? 0xf5d787 : (this.wallProblems([...this.wallCells, this.wallHover]).length ? 0xdd5555 : 0x77cc88);
+						this.graphics.lineStyle(2, color).drawRect(this.wallHover.x, this.wallHover.y, canvas.grid.size, canvas.grid.size);
+					}
+					return;
 				}
 				const bounds = this.areaBounds();
 				if (bounds) {
 					this.graphics.lineStyle(2, 0xf5d787).beginFill(0xf5d787, .18).drawRect(bounds.x, bounds.y, bounds.w, bounds.h);
-					if (this.range.shape === "closeBurst") {
+					if (this.range.shape === "closeBurst" && !automationConfig(this.item).includeCaster) {
 						this.graphics.beginHole().drawRect(this.source.x, this.source.y, this.source.w, this.source.h).endHole();
 					}
 					this.graphics.endFill();
@@ -441,7 +668,8 @@ class ActivationSession {
 
 	/**
 	 * Clip the entire overlay, including borders, to the unpadded map
-	 * and this attacker's sight. Lit areas also require the attacker's light-perception LOS.
+	 * and the active sight of the attack origin, falling back to the caster's sight.
+	 * Lit areas also require that vision source's light-perception LOS.
 	 * Never use the union of other controlled tokens' vision or previously explored fog.
 	 */
 	refreshRangeMask() {
@@ -478,7 +706,7 @@ class ActivationSession {
 			this.rangeMask.beginFill(0xffffff).drawRect(bounds.x, bounds.y, bounds.width, bounds.height).endFill();
 			return;
 		}
-		const vision = this.source.vision;
+		const vision = this.source.vision?.active ? this.source.vision : this.caster.vision;
 		if (!vision?.active) {
 			return;
 		}
@@ -542,6 +770,11 @@ class ActivationSession {
 
 	/** Allow explicit player overrides for range/count warnings. */
 	async confirmProblems() {
+		const blocked = this.lineOfEffectProblems();
+		if (blocked.length) {
+			ui.notifications.warn(blocked.join(" "));
+			return false;
+		}
 		const problems = this.problems();
 		if (!problems.length) {
 			return true;
@@ -556,7 +789,7 @@ class ActivationSession {
 
 	/** Snapshot factors that affect native target tabs and automatically computed bonuses. */
 	contextKey() {
-		return JSON.stringify([this.range, this.origin, automationConfig(this.item), this.item.toObject(), this.item.actor.toObject(), this.source.document.toObject(), this.targets.map(token => [token.id, token.document.toObject(), token.actor?.toObject()])]);
+		return JSON.stringify([this.caster.document.toObject(), this.range, this.origin, this.wallCells, automationConfig(this.item), this.item.toObject(), this.item.actor.toObject(), this.source.document.toObject(), this.targets.map(token => [token.id, token.document.toObject(), token.actor?.toObject()])]);
 	}
 
 	/** Confirm utility use or open the native attack dialog after reviewing targets. */
@@ -564,8 +797,16 @@ class ActivationSession {
 		if (this.busy || this.finished) {
 			return;
 		}
-		if (this.range.shape && !this.placementLocked) {
+		if (this.range.shape === "wall" && this.wallProblems().length) {
+			ui.notifications.warn(this.wallProblems().join(" "));
+			return;
+		}
+		if (this.range.shape && this.range.shape !== "wall" && !this.placementLocked) {
 			ui.notifications.warn("Place and lock the area before using this ability.");
+			return;
+		}
+		if (!this.originAllowed()) {
+			ui.notifications.warn("The selected origin is no longer allowed.");
 			return;
 		}
 		this.busy = true;
@@ -575,12 +816,15 @@ class ActivationSession {
 				throw new Error("Remove unavailable targets before using this ability.");
 			}
 			const utils = await loadSystem();
-			if (utils.tokenForActor(this.item.actor)?.id !== this.source.id) {
+			if (utils.tokenForActor(this.item.actor)?.id !== this.caster.id) {
 				throw new Error("The system's source token changed. Select the original source before using this ability.");
 			}
 			this.range = await resolveRange(this.item);
 			if (this.finished) {
 				return;
+			}
+			if (this.range.shape === "wall" && this.wallProblems().length) {
+				throw new Error(this.wallProblems().join(" "));
 			}
 			const reviewKey = this.contextKey();
 			if (!await this.confirmProblems() || this.finished) {
@@ -589,6 +833,12 @@ class ActivationSession {
 			if (this.contextKey() !== reviewKey) {
 				ui.notifications.warn("The ability or battlefield changed. Review targets again.");
 				return;
+			}
+			if (this.lineOfEffectProblems().length) {
+				throw new Error(this.lineOfEffectProblems().join(" "));
+			}
+			if (this.range.shape === "wall" && this.wallProblems().length) {
+				throw new Error(this.wallProblems().join(" "));
 			}
 			this.syncTargets();
 			this.confirmedKey = this.contextKey();
@@ -601,7 +851,8 @@ class ActivationSession {
 			}
 			// 0.9.3 inverts modifier behavior when fast-forward is the user's default.
 			const shiftKey = Boolean(game.settings.get("dnd4e", "fastFowardSettings"));
-			await this.item.rollAttack({ event: { shiftKey, clientY: 160 }, powerActivationSession: this.id });
+			const options = { event: { shiftKey, clientY: 160 }, powerActivationSession: this.id };
+			await (this.source === this.caster ? this.item.rollAttack(options) : rollFromOrigin(this.item, this.source, options));
 			if (this.committed) {
 				await this.complete();
 			}
@@ -624,6 +875,15 @@ class ActivationSession {
 		if (this.finished || !this.item.isOwner || !this.item.actor?.isOwner) {
 			throw new Error("You no longer have permission to use this power.");
 		}
+		if (this.range.shape === "summon") {
+			await this.prepareSummon();
+			if (!this.originAllowed() || this.contextKey() !== this.confirmedKey) {
+				throw new Error("The ability or battlefield changed. Review the summon placement again.");
+			}
+		}
+		if (this.lineOfEffectProblems().length) {
+			throw new Error(this.lineOfEffectProblems().join(" "));
+		}
 		this.commitStarted = true;
 		if (!await commitCardCosts(this.item)) {
 			this.commitStarted = false;
@@ -635,11 +895,12 @@ class ActivationSession {
 	/** Apply the native use count, use effects and hook once a power has committed. */
 	async finalizePowerUse() {
 		this.committed = true;
+		await this.placeSummon();
 		await this.placeAreaRegion();
 		await commitPowerUse(this.item);
 		if (game.settings.get("dnd4e", "autoApplyEffects")) {
 			const utils = await loadSystem();
-			await utils.applyEffectsToTokens(this.item.effects, [this.source], "self", this.item.actor);
+			await utils.applyEffectsToTokens(this.item.effects, [this.caster], "self", this.item.actor);
 			await utils.applyAllXEffectsToTokens(this.item.effects, this.item.actor, new Set(this.targets));
 		}
 		Hooks.callAll("dnd4e.usePower", this.item, ChatMessage.getSpeaker({ actor: this.item.actor }));
@@ -647,24 +908,29 @@ class ActivationSession {
 
 	/** Persist the selected geometry once; Region failures must not interrupt power costs/effects. */
 	async placeAreaRegion() {
-		if (this.regionAttempted || !this.range.shape || !automationConfig(this.item).placeRegion) {
+		if (this.regionAttempted || !this.range.shape || this.range.shape === "summon" || !automationConfig(this.item).placeRegion) {
 			return;
 		}
 		this.regionAttempted = true;
 		try {
-			const bounds = this.areaBounds();
-			if (!bounds) {
+			const rectangles = this.areaRectangles();
+			if (!rectangles.length) {
 				throw new Error("No selected area is available.");
 			}
 			const rectangle = ({ x, y, w, h }, hole = false) => ({
 				type: "rectangle", x, y, width: w, height: h, rotation: 0, hole,
 			});
-			const shapes = [rectangle(bounds)];
-			if (this.range.shape === "closeBurst") {
+			const shapes = rectangles.map(bounds => rectangle(bounds));
+			if (this.range.shape === "closeBurst" && !automationConfig(this.item).includeCaster) {
 				shapes.push(rectangle(this.source, true));
 			}
 			const regions = await canvas.scene.createEmbeddedDocuments("Region", [{
-				name: this.item.name, shapes, color: String(game.user.color ?? "#f5d787"),
+				name: this.item.name, shapes,
+				flags: { [MODULE_ID]: { wall: this.range.shape === "wall" ? {
+					origin: this.origin, heightSquares: automationConfig(this.item).wallHeight,
+					elevation: Number(this.source.document.elevation), solid: automationConfig(this.item).wallSolid,
+				} : null } },
+				color: String(game.user.color ?? "#f5d787"),
 				levels: canvas.level ? [canvas.level.id] : [],
 				visibility: CONST.REGION_VISIBILITY.ALWAYS,
 				ownership: { [game.user.id]: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER },
@@ -700,12 +966,20 @@ class ActivationSession {
 				return false;
 			}
 			const system = await loadSystem();
-			if (system.tokenForActor(this.item.actor)?.id !== this.source.id || canvas.tokens.get(this.source.id) !== this.source) {
+			if (system.tokenForActor(this.item.actor)?.id !== this.caster.id || canvas.tokens.get(this.source.id) !== this.source) {
 				ui.notifications.warn("The source token changed. Review targets and reopen the attack dialog.");
 				return false;
 			}
-			if (this.contextKey() !== this.confirmedKey) {
+			if (!this.originAllowed() || this.contextKey() !== this.confirmedKey) {
 				ui.notifications.warn("The ability or battlefield changed. Review targets and open the attack dialog again.");
+				return false;
+			}
+			if (this.range.shape === "wall" && this.wallProblems().length) {
+				ui.notifications.warn("The wall placement is no longer valid. Review it before attacking.");
+				return false;
+			}
+			if (this.lineOfEffectProblems().length) {
+				ui.notifications.warn(this.lineOfEffectProblems().join(" "));
 				return false;
 			}
 			this.syncTargets();
@@ -787,6 +1061,8 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 		classes: ["power-targeting"], position: { width: 340, height: "auto" },
 		window: { title: "Select Targets", resizable: true },
 		actions: {
+			undoWall() { this.session.editWall(); },
+			clearWall() { this.session.editWall(true); },
 			reposition() {
 				if (!this.session.busy) {
 					this.session.placementLocked = this.session.range.shape === "closeBurst";
@@ -809,6 +1085,7 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 			cancel() { return this.session.cancel(); },
 			removeTarget(event, target) {
 				if (!this.session.busy) {
+					this.session.excludeAreaTarget(this.session.targets.find(token => token.id === target.dataset.tokenId));
 					this.session.targets = this.session.targets.filter(token => token.id !== target.dataset.tokenId);
 					this.session.syncTargets();
 					this.session.refresh();
@@ -832,27 +1109,43 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 	async _prepareContext() {
 		const activation = this.session;
 		const problems = activation.problems();
+		// Placement problems belong above the roster, not on every creature.
+		const placementProblems = activation.range.shape ? activation.areaProblems([], false) : [];
+		const targets = activation.targets.map(token => {
+			const warnings = (activation.range.shape ? activation.areaProblems([token], false)
+				: selectionProblems(activation.source, [token], activation.range, 1, canvas.grid.size))
+				.filter(problem => !placementProblems.includes(problem));
+			return {
+				id: token.id, name: token.visible ? token.name : "Unavailable target",
+				img: token.visible ? token.document.texture?.src : null,
+				invalid: warnings.length > 0, warnings,
+			};
+		});
+		const targetWarnings = new Set(targets.flatMap(target => target.warnings));
 		return {
 			hasAttack: Boolean(activation.item.hasAttack),
-			area: Boolean(activation.range.shape), movableArea: activation.range.shape && activation.range.shape !== "closeBurst",
-			areaLabel: { closeBurst: "Close burst", closeBlast: "Close blast", rangeBurst: "Area burst", rangeBlast: "Area blast" }[activation.range.shape],
+			originChoices: activation.originChoices().map(token => ({ id: token.id, name: token.name, selected: token === activation.source })),
+			summon: activation.range.shape === "summon",
+			wall: activation.range.shape === "wall", wallCount: activation.wallCells.length, wallHint: activation.wallHint,
+			area: Boolean(activation.range.shape), movableArea: activation.range.shape && activation.range.shape !== "closeBurst" && activation.range.shape !== "wall",
+			areaLabel: { closeBurst: "Close burst", closeBlast: "Close blast", rangeBurst: "Area burst", rangeBlast: "Area blast", wall: "Area wall", summon: "Summon square" }[activation.range.shape],
 			areaOriginHint: activation.range.shape === "rangeBlast" ? "The pointer places the blast's top-left corner. The white square marks its nearest origin square to the caster."
 				: activation.range.shape === "rangeBurst" ? "The pointer chooses the burst's center square. Range is measured to that square." : "",
 			placementLocked: activation.placementLocked, areaSize: activation.range.area,
-			exactCount: !activation.range.shape || automationConfig(activation.item).targetMode === "exact",
+			exactCount: activation.range.shape !== "summon" && (!activation.range.shape || automationConfig(activation.item).targetMode === "exact"),
 			powerName: activation.item.name, showDetails: Boolean(this.showDetails),
 			card: activation.card, range: activation.range.maximum, normalRange: activation.range.normal,
 			longRange: activation.range.maximum > activation.range.normal, required: activation.count,
 			selected: activation.targets.length, busy: activation.busy, cancellable: !activation.commitStarted,
 			ready: !problems.length && !activation.busy,
 			status: activation.busy ? (activation.item.hasAttack ? "Attack dialog open" : "Using ability") : (problems.length ? "Review targets" : "Ready"),
-			problems, targets: activation.targets.map(token => ({
-				id: token.id, name: token.visible ? token.name : "Unavailable target",
-				img: token.visible ? token.document.texture?.src : null,
-				invalid: (activation.range.shape ? activation.areaProblems([token], false)
-					: selectionProblems(activation.source, [token], activation.range, 1, canvas.grid.size)).length > 0,
-			})),
+			problems: [...new Set(problems)].filter(problem => !targetWarnings.has(problem)), targets,
 		};
+	}
+
+	/** Rebind origin selection after each panel render. */
+	_onRender() {
+		this.element.querySelector("[data-origin-selector]")?.addEventListener("change", event => this.session.changeOrigin(event.target.value));
 	}
 
 	/** Closing the panel is the same as Cancel; don't interrupt a committing roll. */

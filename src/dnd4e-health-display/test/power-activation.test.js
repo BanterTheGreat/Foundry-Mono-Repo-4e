@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 import vm from "node:vm";
-import { AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin } from "../scripts/power-activation/area-geometry.js";
+import { AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin, hasLineOfEffect } from "../scripts/power-activation/area-geometry.js";
 import { automationConfig, squareDistance, selectionProblems, supportsTargetAutomation, MODULE_ID, SETTING } from "../scripts/power-activation/rules.js";
 
 const source = readFileSync(new URL("../scripts/power-activation/power-activation.js", import.meta.url), "utf8")
@@ -60,7 +60,7 @@ function fixture({ confirm = true, fastForward = false } = {}) {
 	}
 	const context = vm.createContext({
 		console, AbortController, MODULE_ID, SETTING, automationConfig, selectionProblems, squareDistance,
-		AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin,
+		AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin, hasLineOfEffect,
 		CoverPreview: { setContext: value => hooks.push(["coverContext", value]), register() {} },
 		sharedAreaPreview: {
 			show: value => hooks.push(["sharedArea", value.id]),
@@ -133,7 +133,7 @@ test("melee, ranged and weapon activations retain existing targets inside their 
 });
 
 test("committed area uses place one Region with the preview bounds and close-burst hole", async () => {
-	for (const shape of AREA_TYPES) {
+	for (const shape of AREA_TYPES.filter(shape => shape !== "wall")) {
 		const f = fixture();
 		const created = [];
 		f.item.getFlag = () => ({ enabled: true, placeRegion: true });
@@ -622,4 +622,176 @@ test("cover context exists only during selection and clears during handoff and c
 	assert.ok(contexts().at(-1)[1]);
 	await f.activation.cancel();
 	assert.equal(contexts().at(-1)[1], null);
+});
+
+
+test("alternate origins require a whitelisted actor and reset placement; revocation invalidates the origin", () => {
+	const f = fixture();
+	f.target.document.actorId = "summon";
+	f.far.document.actorId = "enemy";
+	let allowed = ["Actor.summon"];
+	f.item.getFlag = () => ({ enabled: true, originActors: allowed });
+	assert.deepEqual(Array.from(f.activation.originChoices(), token => token.id), [f.attacker.id, f.target.id]);
+	f.activation.range = { shape: "closeBurst", area: 1, maximum: 1 };
+	f.activation.origin = { x: 100, y: 100 };
+	f.activation.changeOrigin(f.target.id);
+	assert.equal(f.activation.source, f.target);
+	assert.equal(f.activation.caster, f.attacker);
+	assert.equal(f.activation.origin, null);
+	assert.equal(f.activation.originAllowed(), true);
+	allowed = [];
+	assert.equal(f.activation.originAllowed(), false);
+});
+
+test("close bursts include the caster and retain its Region space when toggled", async () => {
+	const f = fixture();
+	f.item.getFlag = () => ({ enabled: true, includeCaster: true, targetDisposition: "enemies", placeRegion: true });
+	f.activation.range = { shape: "closeBurst", area: 1, maximum: 1 };
+	f.activation.selectAreaTargets();
+	assert.equal(f.activation.targets.includes(f.attacker), true);
+	let shapes;
+	f.context.CONST = { REGION_VISIBILITY: { ALWAYS: 1 }, DOCUMENT_OWNERSHIP_LEVELS: { OWNER: 3 } };
+	f.context.canvas.scene = { async createEmbeddedDocuments(type, data) { shapes = data[0].shapes; return data; } };
+	await f.activation.placeAreaRegion();
+	assert.equal(shapes.length, 1);
+	assert.equal(shapes[0].hole, false);
+});
+
+test("summon confirmation uses the actor prototype once and rejects permission or scene-bound failures before costs", async () => {
+	const f = fixture();
+	f.item.hasAttack = false;
+	f.item.getFlag = () => ({ enabled: true, placementMode: "summon", summonActor: "Actor.summon" });
+	f.activation.range = { shape: "summon", area: 1, maximum: 5 };
+	f.activation.origin = { x: 200, y: 100 };
+	f.activation.placementLocked = true;
+	f.context.canvas.dimensions = { sceneRect: { x: 0, y: 0, width: 1000, height: 1000 } };
+	let permitted = true;
+	let creations = 0;
+	let received;
+	f.context.TokenDocument = { canUserCreate: () => permitted };
+	f.context.fromUuid = async () => ({ documentName: "Actor", isOwner: true,
+		getTokenDocument: async data => ({ toObject: () => ({ ...data, actorId: "summon", width: 2, height: 1 }) }) });
+	f.context.canvas.scene = { async createEmbeddedDocuments(type, data) { creations++; received = data[0]; assert.equal(type, "Token"); return data; } };
+	await f.activation.prepareSummon();
+	assert.equal(creations, 0);
+	await f.activation.placeSummon();
+	await f.activation.placeSummon();
+	assert.equal(creations, 1);
+	assert.equal(received.x, 200);
+	assert.equal(received.width, 2);
+	permitted = false;
+	await assert.rejects(f.activation.prepareSummon(), /permission/);
+	permitted = true;
+	f.activation.origin.x = 900;
+	await assert.rejects(f.activation.prepareSummon(), /footprint/);
+});
+
+test("player placement requires physical line of effect and cannot override it", async () => {
+	const f = fixture();
+	f.context.CONST = { WALL_MOVEMENT_TYPES: { NONE: 0 }, WALL_DOOR_STATES: { OPEN: 1 } };
+	const wall = { c: [150, -1000, 150, 1000], move: 1, ds: 0 };
+	f.context.canvas.walls = { placeables: [{ document: wall }] };
+	for (const shape of ["rangeBurst", "rangeBlast", "summon", "closeBlast", "wall"]) {
+		f.activation.range = { shape, area: 1, maximum: 10 };
+		f.activation.origin = { x: 300, y: 0 };
+		f.activation.wallCells = [{ x: 100, y: 0 }, { x: 300, y: 0 }];
+		assert.equal(f.activation.lineOfEffectProblems().length, 1, shape);
+		assert.equal(await f.activation.confirmProblems(), false, shape);
+	}
+	assert.equal(f.confirmations.length, 0, "no Proceed Anyway dialog for blocked placement");
+	wall.ds = 1;
+	assert.equal(f.activation.lineOfEffectProblems().length, 0, "open doors allow placement");
+	wall.ds = 0;
+	wall.move = 0;
+	assert.equal(f.activation.lineOfEffectProblems().length, 0, "vision-only walls do not block effect");
+	wall.move = 1;
+	f.context.game.user.isGM = true;
+	assert.equal(f.activation.lineOfEffectProblems().length, 0, "GM can adjudicate exceptions");
+});
+
+test("range preview uses the selected attack origin's active vision", () => {
+	const f = fixture();
+	f.context.canvas.dimensions = { sceneRect: { x: 0, y: 0, width: 1000, height: 1000 } };
+	f.context.canvas.scene = { tokenVision: true };
+	const sight = { name: "alternate-origin-sight" };
+	f.attacker.vision = { active: false };
+	f.target.vision = { active: true, shape: { points: [0, 0, 100, 0, 0, 100], fragments: [sight] } };
+	f.activation.source = f.target;
+	f.activation.drawRange();
+	assert.deepEqual(f.shapes, [sight]);
+	f.shapes.length = 0;
+	f.target.vision.active = false;
+	f.attacker.vision = { active: true, shape: { points: [0, 0, 100, 0, 0, 100], fragments: [{ name: "caster-sight" }] } };
+	f.activation.drawRange();
+	assert.deepEqual(f.shapes, [{ name: "caster-sight" }], "original character selection still shows the preview");
+	f.shapes.length = 0;
+	f.attacker.vision.active = false;
+	f.far.vision = { active: true, shape: f.target.vision.shape };
+	f.activation.drawRange();
+	assert.deepEqual(f.shapes, [], "unrelated controlled tokens do not grant preview vision");
+});
+
+test("automatic area refresh preserves manual exclusions until the area or excluded creature moves", async () => {
+	for (const shape of ["closeBurst", "rangeBurst", "wall"]) {
+		const f = fixture();
+		f.activation.range = { shape, area: 2, maximum: 10 };
+		f.activation.origin = { x: 100, y: 0 };
+		f.activation.wallCells = [{ x: 100, y: 0 }, { x: 200, y: 0 }];
+		f.activation.selectAreaTargets();
+		f.targets.delete(f.target);
+		f.activation.targetChanged(f.target, false);
+		f.activation.refreshAreaTargets();
+		assert.equal(f.targets.has(f.target), false, shape + ": refresh must preserve removal");
+		f.far.x = 200;
+		f.activation.refreshAreaTargets();
+		assert.equal(f.targets.has(f.target), false, shape + ": another token moving must preserve removal");
+		assert.equal(f.targets.has(f.far), true, shape + ": new arrivals still auto-target");
+		f.target.x = 110;
+		f.activation.refreshAreaTargets();
+		assert.equal(f.targets.has(f.target), true, shape + ": moving excluded creature restores it");
+		f.targets.delete(f.target);
+		f.activation.targetChanged(f.target, false);
+		if (shape === "closeBurst") { f.attacker.x += 10; }
+		else if (shape === "wall") { f.activation.wallCells.push({ x: 300, y: 0 }); }
+		else { f.activation.origin.x += 10; }
+		f.activation.refreshAreaTargets();
+		assert.equal(f.targets.has(f.target), true, shape + ": area movement restores it");
+		f.targets.delete(f.target);
+		f.activation.targetChanged(f.target, false);
+		f.target.x = 1500;
+		f.activation.refreshAreaTargets();
+		assert.equal(f.targets.has(f.target), false);
+		f.target.x = 110;
+		f.activation.refreshAreaTargets();
+		assert.equal(f.targets.has(f.target), true, shape + ": re-entry restores it");
+		f.targets.delete(f.target);
+		f.activation.targetChanged(f.target, false);
+		f.activation.selectAreaTargets();
+		assert.equal(f.targets.has(f.target), true, shape + ": explicit re-selection restores it");
+	}
+});
+
+test("alternate area origins replace the caster for inclusion, preview holes and Regions", async () => {
+	for (const includeCaster of [false, true]) {
+		const f = fixture();
+		f.item.getFlag = () => ({ enabled: true, includeCaster, placeRegion: true });
+		f.activation.range = { shape: "closeBurst", area: 2, maximum: 2 };
+		f.activation.source = f.target;
+		f.activation.selectAreaTargets();
+		assert.equal(f.activation.targets.includes(f.target), includeCaster);
+		assert.equal(f.activation.targets.includes(f.attacker), true, "original caster follows the ordinary target filter");
+		f.context.game.user.isGM = true;
+		assert.equal(f.activation.areaProblems([f.target], false).some(problem => problem.includes("target filter")), !includeCaster);
+		f.activation.drawRange();
+		assert.equal(f.rectangles.some(rectangle => JSON.stringify(rectangle) === JSON.stringify([100, 0, 100, 100])), !includeCaster);
+		let shapes;
+		f.context.CONST = { REGION_VISIBILITY: { ALWAYS: 1 }, DOCUMENT_OWNERSHIP_LEVELS: { OWNER: 3 } };
+		f.context.canvas.scene = { async createEmbeddedDocuments(type, data) { shapes = data[0].shapes; return data; } };
+		await f.activation.placeAreaRegion();
+		assert.equal(shapes.length, includeCaster ? 1 : 2);
+		if (!includeCaster) {
+			assert.equal(shapes[1].hole, true);
+			assert.equal(shapes[1].x, f.target.x);
+		}
+	}
 });
