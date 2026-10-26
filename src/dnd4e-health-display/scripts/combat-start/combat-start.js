@@ -1,8 +1,6 @@
-import { getDefaultStrategy, getStrategy, setStrategy } from "./strategy.js";
 import { getEncounterCalculation } from "./encounter-calculation.js";
 
 const MODULE_ID = "dnd4e-health-display";
-const ADVANCED_SETTING = "advancedBattleBriefing";
 const ACTIVE_SETTING = "activeCombatStart";
 const PRESENTATION_FLAG = "presentation";
 const PRESET_FLAG = "preset";
@@ -15,16 +13,6 @@ const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 /** Register the world state used by the independent combat-start submodule. */
 export function registerCombatStartSettings() {
-	game.settings.register(MODULE_ID, ADVANCED_SETTING, {
-		name: "Advanced Battle Briefing",
-		hint: "Enable strategy, commander artwork, and the full briefing layout.",
-		scope: "world",
-		config: true,
-		type: Boolean,
-		default: false,
-		requiresReload: true,
-	});
-
 	game.settings.register(MODULE_ID, ACTIVE_SETTING, {
 		name: "Active Battle Briefing presentation",
 		scope: "world",
@@ -99,7 +87,6 @@ async function openStartedCombatDisplay(combat) {
 
 	if (!getCombatPresentation(combat)) {
 		await setCombatPresentation(combat, {
-			commanderCombatantId: "",
 			...getDefaultPresentation(),
 			title: combat.name || getDefaultPresentation().title,
 		});
@@ -137,10 +124,6 @@ function mapPresentationToDraft(presentation) {
 		name: "",
 		title: presentation.title ?? defaults.title,
 		description: presentation.description ?? defaults.description,
-		commanderSubtitle: presentation.commanderSubtitle ?? defaults.commanderSubtitle,
-		commanderPositionX: presentation.commanderPositionX ?? defaults.commanderPositionX,
-		commanderPositionY: presentation.commanderPositionY ?? defaults.commanderPositionY,
-		commanderZoom: presentation.commanderZoom ?? defaults.commanderZoom,
 	};
 }
 
@@ -197,7 +180,6 @@ function synchronizeCombatStartDisplay(presentation) {
 function refreshCombatStartDisplay(combatant) {
 	refreshCombatStartSetup(combatant.parent);
 	if (ui.Dnd4eCombatStartDisplay?.combatId === combatant.parent?.id) {
-		ui.Dnd4eCombatStartDisplay.readStrategyDraft();
 		ui.Dnd4eCombatStartDisplay.render();
 	}
 }
@@ -207,7 +189,6 @@ function refreshCombatStartSetup(combat) {
 	const setup = ui.Dnd4eCombatStartSetup;
 	if (setup && setup.combat?.id === combat?.id) {
 		setup.readDraft();
-		setup.readStrategyDraft();
 		setup.render();
 	}
 }
@@ -270,20 +251,18 @@ function closeCombatStartDisplay() {
 
 class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 	constructor(options, combat) {
-		super({ ...options, position: { width: game.settings.get(MODULE_ID, ADVANCED_SETTING) ? 940 : 470, height: game.settings.get(MODULE_ID, ADVANCED_SETTING) ? 760 : 900, ...options.position } });
+		super({ ...options, position: { width: 470, height: 900, ...options.position } });
 		this.combat = combat;
 		this.selectedPresetId = "";
 		const presentation = getCombatPresentation(combat);
-		this.commanderCombatantId = presentation?.commanderCombatantId ?? "";
 		this.activeTab = "briefing";
 		this.draft = mapPresentationToDraft(presentation);
-		this.strategyDraft = foundry.utils.deepClone(getStrategy(combat));
 	}
 
 	static DEFAULT_OPTIONS = {
 		id: "dnd4e-combat-start-setup",
 		classes: ["dnd4e-combat-start-setup"],
-		position: { width: 940, height: 760 },
+		position: { width: 470, height: 900 },
 		window: { title: "Prepare Battle Briefing", resizable: true },
 		actions: {
 			show: CombatStartSetup.prototype.onShow,
@@ -293,16 +272,9 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 			addFriendlyTokens: CombatStartSetup.prototype.onAddFriendlyTokens,
 			addNeutralTokens: CombatStartSetup.prototype.onAddNeutralTokens,
 			addHostileTokens: CombatStartSetup.prototype.onAddHostileTokens,
-			setCommander: CombatStartSetup.prototype.onSetCommander,
 			toggleCombatantHidden: CombatStartSetup.prototype.onToggleCombatantHidden,
 			removeCombatant: CombatStartSetup.prototype.onRemoveCombatant,
 			showTab: CombatStartSetup.prototype.onShowTab,
-			addStrategyPointer: CombatStartSetup.prototype.onAddStrategyPointer,
-			removeStrategyPointer: CombatStartSetup.prototype.onRemoveStrategyPointer,
-			addPointerNote: CombatStartSetup.prototype.onAddPointerNote,
-			removePointerNote: CombatStartSetup.prototype.onRemovePointerNote,
-			addEnvironmentNote: CombatStartSetup.prototype.onAddEnvironmentNote,
-			removeEnvironmentNote: CombatStartSetup.prototype.onRemoveEnvironmentNote,
 		},
 	};
 
@@ -319,64 +291,30 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 		this.combat = combat;
 		this.selectedPresetId = "";
 		const presentation = getCombatPresentation(combat);
-		this.commanderCombatantId = presentation?.commanderCombatantId ?? "";
 		this.draft = mapPresentationToDraft(presentation);
-		this.strategyDraft = foundry.utils.deepClone(getStrategy(combat));
 	}
 
 	/** @returns {object} */
 	async _prepareContext(options) {
 		const context = await super._prepareContext(options);
-		const advanced = Boolean(game.settings.get(MODULE_ID, ADVANCED_SETTING));
-		if (!advanced && this.activeTab === "strategy") {
-			this.activeTab = "briefing";
-		}
 		const presets = getPresets();
-		const hostileCombatants = Array.from(this.combat?.combatants ?? [])
-			.filter((combatant) => combatant.token?.disposition === CONST.TOKEN_DISPOSITIONS.HOSTILE
-				&& !isCombatantHidden(combatant));
-		if (!hostileCombatants.some((combatant) => combatant.id === this.commanderCombatantId)) {
-			this.commanderCombatantId = getDefaultCommanderId(hostileCombatants);
-		}
-		const commanderCombatant = hostileCombatants.find((combatant) => combatant.id === this.commanderCombatantId);
 		const combatants = Array.from(this.combat?.combatants ?? []).map((combatant) => ({
 			...getCombatantData(combatant),
 			dispositionClass: getDispositionClass(combatant.token?.disposition),
 			isHidden: isCombatantHidden(combatant),
-			canBeCommander: combatant.token?.disposition === CONST.TOKEN_DISPOSITIONS.HOSTILE,
-			isCommander: combatant.id === this.commanderCombatantId,
 		}));
 		const availableFriendlyTokens = getAvailableSceneTokens(this.combat, CONST.TOKEN_DISPOSITIONS.FRIENDLY);
 		const availableNeutralTokens = getAvailableSceneTokens(this.combat, CONST.TOKEN_DISPOSITIONS.NEUTRAL);
 		const availableHostileTokens = getAvailableSceneTokens(this.combat, CONST.TOKEN_DISPOSITIONS.HOSTILE);
 		const selectedPreset = presets.find((preset) => preset.id === this.selectedPresetId);
 		const missingCombatants = getMissingCombatants(selectedPreset?.expectedCombatants, this.combat);
-		const enemyTypeGroups = getEnemyTypeGroups(this.combat);
-		const strategyPointers = this.strategyDraft.pointers.map((pointer) => ({
-			id: pointer.id,
-			notes: pointer.notes,
-			tokenOptions: enemyTypeGroups.map((group) => ({
-				id: group.id,
-				name: group.name,
-				img: group.img,
-				dispositionClass: group.dispositionClass,
-				memberIds: group.memberIds.join(","),
-				checked: group.memberIds.every((memberId) => pointer.combatantIds.includes(memberId)),
-			})),
-		}));
 		return foundry.utils.mergeObject(context, {
-			advanced,
 			combatName: this.combat?.name ?? "Encounter",
 			showBriefing: this.activeTab === "briefing",
-			showStrategy: this.activeTab === "strategy",
 			showCalculation: this.activeTab === "calculation",
 			calculationHTML: this.activeTab === "calculation" ? await renderCalculation(this.combat) : "",
 			draft: this.draft,
 			combatants,
-			strategyEnvironment: this.strategyDraft.environment,
-			strategyPointers,
-			commanderPreview: commanderCombatant ? getCombatantData(commanderCombatant) : null,
-			commanderPreviewScale: Number(this.draft.commanderZoom ?? 100) / 100,
 			hasCombatants: combatants.length > 0,
 			availableFriendlyCount: availableFriendlyTokens.length,
 			availableNeutralCount: availableNeutralTokens.length,
@@ -395,15 +333,14 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 		});
 	}
 
-	/** Switch between the briefing editor, strategy, and encounter calculation. */
+	/** Switch between the briefing editor and encounter calculation. */
 	onShowTab(event, target) {
 		const tab = target.dataset.tab;
-		if (!tab || tab === this.activeTab) {
+		if (!["briefing", "calculation"].includes(tab) || tab === this.activeTab) {
 			return;
 		}
 
 		this.readDraft();
-		this.readStrategyDraft();
 		this.activeTab = tab;
 		this.render();
 	}
@@ -417,7 +354,7 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 		return super.render(options);
 	}
 
-	/** Keep the commander artwork preview synchronized with its focus and zoom sliders. */
+	/** Restore the roster scroll position after rendering. */
 	_onRender(context, options) {
 		super._onRender(context, options);
 		const roster = this.element.querySelector(".dnd4e-combat-start-setup__combatants");
@@ -425,22 +362,7 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 		if (roster && this._rosterScrollTop != null) {
 			roster.scrollTop = this._rosterScrollTop;
 		}
-		const preview = this.element.querySelector(".dnd4e-combat-start-setup__art-preview img");
-		const horizontal = this.element.querySelector('[name="commanderPositionX"]');
-		const vertical = this.element.querySelector('[name="commanderPositionY"]');
-		const zoom = this.element.querySelector('[name="commanderZoom"]');
-		if (!preview || !horizontal || !vertical || !zoom) {
-			return;
-		}
 
-		const updatePreview = () => {
-			preview.style.objectPosition = `${horizontal.value}% ${vertical.value}%`;
-			preview.style.transformOrigin = `${horizontal.value}% ${vertical.value}%`;
-			preview.style.transform = `scale(${Number(zoom.value) / 100})`;
-		};
-		horizontal.addEventListener("input", updatePreview);
-		vertical.addEventListener("input", updatePreview);
-		zoom.addEventListener("input", updatePreview);
 	}
 
 	/**
@@ -467,108 +389,15 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 			name,
 			title: this.element.querySelector('[name="title"]')?.value.trim() ?? "",
 			description: this.element.querySelector('[name="description"]')?.value.trim() ?? "",
-			commanderSubtitle: this.element.querySelector('[name="commanderSubtitle"]')?.value.trim() ?? this.draft.commanderSubtitle,
-			commanderPositionX: Number(this.element.querySelector('[name="commanderPositionX"]')?.value ?? this.draft.commanderPositionX),
-			commanderPositionY: Number(this.element.querySelector('[name="commanderPositionY"]')?.value ?? this.draft.commanderPositionY),
-			commanderZoom: Number(this.element.querySelector('[name="commanderZoom"]')?.value ?? this.draft.commanderZoom),
 		};
 		return this.draft;
 	}
 
-	/** Keep the in-progress strategy field values before performing an action. */
-	readStrategyDraft() {
-		if (!this.element || this.activeTab !== "strategy") {
-			return this.strategyDraft;
-		}
-
-		const environment = Array.from(this.element.querySelectorAll("[data-env-note]")).map((input) => input.value);
-		const pointers = this.strategyDraft.pointers.map((pointer) => {
-			const notes = Array.from(this.element.querySelectorAll(`[data-pointer-note][data-pointer-id="${pointer.id}"]`))
-				.map((input) => input.value);
-			const checkboxes = this.element.querySelectorAll(`input[type="checkbox"][data-pointer-id="${pointer.id}"]`);
-			const combatantIds = Array.from(checkboxes)
-				.filter((checkbox) => checkbox.checked)
-				.flatMap((checkbox) => checkbox.dataset.tokenIds.split(","));
-			return { id: pointer.id, notes, combatantIds };
-		});
-		this.strategyDraft = { environment, pointers };
-		return this.strategyDraft;
-	}
-
-	/** Add a blank turn pointer ready to have tokens and notes assigned to it. */
-	onAddStrategyPointer() {
-		this.readStrategyDraft();
-		this.strategyDraft.pointers.push({ id: foundry.utils.randomID(), notes: [], combatantIds: [] });
-		this.render();
-	}
-
-	/** Remove a turn pointer. */
-	onRemoveStrategyPointer(event, target) {
-		this.readStrategyDraft();
-		this.strategyDraft.pointers = this.strategyDraft.pointers.filter((pointer) => pointer.id !== target.dataset.pointerId);
-		this.render();
-	}
-
-	/** Add a blank note line to a turn pointer. */
-	onAddPointerNote(event, target) {
-		this.readStrategyDraft();
-		const pointer = this.strategyDraft.pointers.find((candidate) => candidate.id === target.dataset.pointerId);
-		pointer?.notes.push("");
-		this.render();
-	}
-
-	/** Remove one note line from a turn pointer. */
-	onRemovePointerNote(event, target) {
-		this.readStrategyDraft();
-		const pointer = this.strategyDraft.pointers.find((candidate) => candidate.id === target.dataset.pointerId);
-		pointer?.notes.splice(Number(target.dataset.noteIndex), 1);
-		this.render();
-	}
-
-	/** Add a blank environment note line. */
-	onAddEnvironmentNote() {
-		this.readStrategyDraft();
-		this.strategyDraft.environment.push("");
-		this.render();
-	}
-
-	/** Remove one environment note line. */
-	onRemoveEnvironmentNote(event, target) {
-		this.readStrategyDraft();
-		this.strategyDraft.environment.splice(Number(target.dataset.noteIndex), 1);
-		this.render();
-	}
-
-	/** Read and clean strategy notes before applying them to the encounter. */
-	getPreparedStrategy() {
-		const strategyDraft = this.readStrategyDraft();
-		return {
-			environment: strategyDraft.environment.map((note) => note.trim()).filter(Boolean),
-			pointers: strategyDraft.pointers.map((pointer) => ({
-				id: pointer.id,
-				combatantIds: pointer.combatantIds.filter((id) => this.combat?.combatants.has(id)),
-				notes: pointer.notes.map((note) => note.trim()).filter(Boolean),
-			})),
-		};
-	}
-
-	/** Save the current copy as a reusable world preset and apply its strategy notes to this encounter. */
+	/** Save the current briefing as a reusable world preset. */
 	async onSavePreset() {
 		const draft = this.readDraft();
-		const strategy = this.getPreparedStrategy();
-
-		try {
-			await setStrategy(this.combat, strategy);
-			this.strategyDraft = strategy;
-		} catch (error) {
-			console.error(`${MODULE_ID} | Failed to apply strategy notes to the encounter.`, error);
-			ui.notifications.error("The strategy notes could not be applied. Check the console for details.");
-			return;
-		}
-
 		if (!draft.name) {
-			ui.notifications.info("Applied strategy notes to this encounter. Name a preset to also save it for reuse.");
-			this.render();
+			ui.notifications.warn("Name a preset before saving it.");
 			return;
 		}
 
@@ -578,19 +407,7 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 				name: draft.name,
 				title: draft.title,
 				description: draft.description,
-				commanderSubtitle: draft.commanderSubtitle,
-				commanderPositionX: draft.commanderPositionX,
-				commanderPositionY: draft.commanderPositionY,
-				commanderZoom: draft.commanderZoom,
 				expectedCombatants: getExpectedCombatants(this.combat),
-				strategy: {
-					environment: strategy.environment,
-					pointers: strategy.pointers.map((pointer) => ({
-						id: pointer.id,
-						actorIds: getActorIdsForCombatantIds(pointer.combatantIds, this.combat),
-						notes: pointer.notes,
-					})),
-				},
 			});
 			this.selectedPresetId = entry.id;
 			ui.notifications.info(`Saved Battle Briefing preset “${entry.name}”.`);
@@ -604,7 +421,6 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 	/** Load the selected preset into the editable fields. */
 	onLoadPreset() {
 		this.readDraft();
-		this.readStrategyDraft();
 		const preset = getPresets().find((candidate) => candidate.id === this.selectedPresetId);
 		if (!preset) {
 			return;
@@ -614,18 +430,6 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 			name: preset.name,
 			title: preset.title,
 			description: preset.description,
-			commanderSubtitle: preset.commanderSubtitle ?? "",
-			commanderPositionX: preset.commanderPositionX ?? 50,
-			commanderPositionY: preset.commanderPositionY ?? 50,
-			commanderZoom: preset.commanderZoom ?? 100,
-		};
-		this.strategyDraft = {
-			environment: foundry.utils.deepClone(preset.strategy?.environment ?? []),
-			pointers: (preset.strategy?.pointers ?? []).map((pointer) => ({
-				id: pointer.id,
-				notes: foundry.utils.deepClone(pointer.notes ?? []),
-				combatantIds: getCombatantIdsForActorIds(pointer.actorIds ?? [], this.combat),
-			})),
 		};
 		this.activeTab = "briefing";
 		this.render();
@@ -647,7 +451,6 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 		}
 		this.selectedPresetId = "";
 		this.draft = getDefaultPresentation();
-		this.strategyDraft = getDefaultStrategy();
 		this.render();
 	}
 
@@ -664,13 +467,6 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 	/** Add every missing hostile token from the encounter scene. */
 	async onAddHostileTokens(event, target) {
 		await this.addSceneTokens(CONST.TOKEN_DISPOSITIONS.HOSTILE, "hostile", target);
-	}
-
-	/** Select one hostile combatant as the presentation's enemy commander. */
-	onSetCommander(event, target) {
-		this.readDraft();
-		this.commanderCombatantId = target.dataset.combatantId;
-		this.render();
 	}
 
 	/** Toggle whether a combatant and its scene token are hidden from players. */
@@ -708,10 +504,6 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 		target.disabled = true;
 		try {
 			await this.combat.deleteEmbeddedDocuments("Combatant", [combatantId]);
-			this.strategyDraft.pointers = this.strategyDraft.pointers.map((pointer) => ({
-				...pointer,
-				combatantIds: pointer.combatantIds.filter((id) => id !== combatantId),
-			}));
 			this.render();
 		} catch (error) {
 			console.error(`${MODULE_ID} | Failed to remove combatant from combat.`, error);
@@ -760,15 +552,9 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 			return;
 		}
 
-		await setStrategy(this.combat, this.getPreparedStrategy());
 		await setCombatPresentation(this.combat, {
-			commanderCombatantId: this.commanderCombatantId,
 			title: draft.title,
 			description: draft.description,
-			commanderSubtitle: draft.commanderSubtitle,
-			commanderPositionX: draft.commanderPositionX,
-			commanderPositionY: draft.commanderPositionY,
-			commanderZoom: draft.commanderZoom,
 		});
 		await game.settings.set(MODULE_ID, ACTIVE_SETTING, {
 			id: foundry.utils.randomID(),
@@ -786,16 +572,15 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 
 class CombatStartDisplay extends HandlebarsApplicationMixin(ApplicationV2) {
 	constructor(options, presentation) {
-		super({ ...options, position: { width: game.settings.get(MODULE_ID, ADVANCED_SETTING) ? 1040 : 520, ...options.position } });
+		super({ ...options, position: { width: 520, ...options.position } });
 		this.presentation = presentation;
 		this.activeTab = "briefing";
-		this.strategyDraft = null;
 	}
 
 	static DEFAULT_OPTIONS = {
 		id: "dnd4e-combat-start-display",
 		classes: ["dnd4e-combat-start-display"],
-		position: { width: 1040, height: 800 },
+		position: { width: 520, height: 800 },
 		window: { title: "Battle Briefing", resizable: true },
 		actions: {
 			showTab: CombatStartDisplay.prototype.onShowTab,
@@ -803,13 +588,6 @@ class CombatStartDisplay extends HandlebarsApplicationMixin(ApplicationV2) {
 			rollEnemyInitiative: CombatStartDisplay.prototype.onRollEnemyInitiative,
 			rollInitiative: CombatStartDisplay.prototype.onRollInitiative,
 			forceRollInitiative: CombatStartDisplay.prototype.onForceRollInitiative,
-			addStrategyPointer: CombatStartDisplay.prototype.onAddStrategyPointer,
-			removeStrategyPointer: CombatStartDisplay.prototype.onRemoveStrategyPointer,
-			addPointerNote: CombatStartDisplay.prototype.onAddPointerNote,
-			removePointerNote: CombatStartDisplay.prototype.onRemovePointerNote,
-			addEnvironmentNote: CombatStartDisplay.prototype.onAddEnvironmentNote,
-			removeEnvironmentNote: CombatStartDisplay.prototype.onRemoveEnvironmentNote,
-			saveStrategy: CombatStartDisplay.prototype.onSaveStrategy,
 		},
 	};
 
@@ -827,17 +605,12 @@ class CombatStartDisplay extends HandlebarsApplicationMixin(ApplicationV2) {
 		this.render();
 	}
 
-
 	/** @returns {object} */
 	async _prepareContext(options) {
 		const context = await super._prepareContext(options);
-		const advanced = Boolean(game.settings.get(MODULE_ID, ADVANCED_SETTING));
-		if (!advanced && this.activeTab === "strategy") {
-			this.activeTab = "briefing";
-		}
 		const combat = game.combats.get(this.combatId);
 		const presentation = getCombatPresentation(combat) ?? getDefaultPresentation();
-		const roster = getCombatStartRoster(combat, presentation.commanderCombatantId);
+		const roster = getCombatStartRoster(combat);
 		const initiativeTracker = getInitiativeTracker(combat, game.user.isGM);
 		const canRollPlayerInitiative = !game.user.isGM && combat?.combatants.some((combatant) => !isCombatantHidden(combatant)
 			&& combatant.actor?.hasPlayerOwner
@@ -846,29 +619,13 @@ class CombatStartDisplay extends HandlebarsApplicationMixin(ApplicationV2) {
 		const hasUnrolledEnemyInitiative = combat?.combatants.some((combatant) => combatant.actor
 			&& !combatant.actor.hasPlayerOwner
 			&& combatant.initiative == null) ?? false;
-		this.strategyDraft ??= foundry.utils.deepClone(getStrategy(combat));
-		const enemyTypeGroups = getEnemyTypeGroups(combat);
-		const strategyPointers = this.strategyDraft.pointers.map((pointer) => ({
-			id: pointer.id,
-			notes: pointer.notes,
-			tokenOptions: enemyTypeGroups.map((group) => ({
-				id: group.id,
-				name: group.name,
-				img: group.img,
-				dispositionClass: group.dispositionClass,
-				memberIds: group.memberIds.join(","),
-				checked: group.memberIds.every((memberId) => pointer.combatantIds.includes(memberId)),
-			})),
-		}));
 		return foundry.utils.mergeObject(context, {
 			...presentation,
 			...roster,
-			advanced,
 			party: roster.party.map((member) => ({
 				...member,
 				initiativePlacement: initiativeTracker.rolled.find((entry) => entry.id === member.id)?.seq,
 			})),
-			commanderScale: Number(presentation.commanderZoom ?? 100) / 100,
 			isGM: game.user.isGM,
 			combatStarted: Boolean(combat?.started),
 			canRollPlayerInitiative,
@@ -876,11 +633,8 @@ class CombatStartDisplay extends HandlebarsApplicationMixin(ApplicationV2) {
 			initiativeTracker,
 			initiativeTrackerPlacement: "bottom",
 			showBriefing: this.activeTab === "briefing",
-			showStrategy: game.user.isGM && this.activeTab === "strategy",
 			showCalculation: game.user.isGM && this.activeTab === "calculation",
 			calculationHTML: game.user.isGM && this.activeTab === "calculation" ? await renderCalculation(combat) : "",
-			strategyEnvironment: this.strategyDraft.environment,
-			strategyPointers,
 		});
 	}
 
@@ -934,110 +688,12 @@ class CombatStartDisplay extends HandlebarsApplicationMixin(ApplicationV2) {
 	/** Switch the visible presentation tab. */
 	onShowTab(event, target) {
 		const tab = target.dataset.tab;
-		if (!game.user.isGM && tab !== "briefing") {
+		if (!["briefing", "calculation"].includes(tab) || (!game.user.isGM && tab !== "briefing")) {
 			return;
 		}
 
-		this.readStrategyDraft();
 		this.activeTab = tab;
 		this.render();
-	}
-
-	/** Keep the in-progress strategy field values before performing an action. */
-	readStrategyDraft() {
-		if (!this.element || this.activeTab !== "strategy") {
-			return this.strategyDraft;
-		}
-
-		const environment = Array.from(this.element.querySelectorAll("[data-env-note]")).map((input) => input.value);
-		const pointers = this.strategyDraft.pointers.map((pointer) => {
-			const notes = Array.from(this.element.querySelectorAll(`[data-pointer-note][data-pointer-id="${pointer.id}"]`))
-				.map((input) => input.value);
-			const checkboxes = this.element.querySelectorAll(`input[type="checkbox"][data-pointer-id="${pointer.id}"]`);
-			const combatantIds = Array.from(checkboxes)
-				.filter((checkbox) => checkbox.checked)
-				.flatMap((checkbox) => checkbox.dataset.tokenIds.split(","));
-			return { id: pointer.id, notes, combatantIds };
-		});
-		this.strategyDraft = { environment, pointers };
-		return this.strategyDraft;
-	}
-
-	/** Add a blank turn pointer ready to have tokens and notes assigned to it. */
-	onAddStrategyPointer() {
-		this.readStrategyDraft();
-		this.strategyDraft.pointers.push({ id: foundry.utils.randomID(), notes: [], combatantIds: [] });
-		this.render();
-	}
-
-	/** Remove a turn pointer. */
-	onRemoveStrategyPointer(event, target) {
-		this.readStrategyDraft();
-		this.strategyDraft.pointers = this.strategyDraft.pointers.filter((pointer) => pointer.id !== target.dataset.pointerId);
-		this.render();
-	}
-
-	/** Add a blank note line to a turn pointer. */
-	onAddPointerNote(event, target) {
-		this.readStrategyDraft();
-		const pointer = this.strategyDraft.pointers.find((candidate) => candidate.id === target.dataset.pointerId);
-		pointer?.notes.push("");
-		this.render();
-	}
-
-	/** Remove one note line from a turn pointer. */
-	onRemovePointerNote(event, target) {
-		this.readStrategyDraft();
-		const pointer = this.strategyDraft.pointers.find((candidate) => candidate.id === target.dataset.pointerId);
-		pointer?.notes.splice(Number(target.dataset.noteIndex), 1);
-		this.render();
-	}
-
-	/** Add a blank environment note line. */
-	onAddEnvironmentNote() {
-		this.readStrategyDraft();
-		this.strategyDraft.environment.push("");
-		this.render();
-	}
-
-	/** Remove one environment note line. */
-	onRemoveEnvironmentNote(event, target) {
-		this.readStrategyDraft();
-		this.strategyDraft.environment.splice(Number(target.dataset.noteIndex), 1);
-		this.render();
-	}
-
-	/** Apply the edited strategy notes to the live encounter immediately, without leaving this display. */
-	async onSaveStrategy() {
-		if (!game.user.isGM) {
-			return;
-		}
-
-		const draft = this.readStrategyDraft();
-		const combat = game.combats.get(this.combatId);
-		if (!combat) {
-			ui.notifications.error("The prepared encounter no longer exists.");
-			return;
-		}
-
-		const strategy = {
-			environment: draft.environment.map((note) => note.trim()).filter(Boolean),
-			pointers: draft.pointers.map((pointer) => ({
-				id: pointer.id,
-				combatantIds: pointer.combatantIds.filter((id) => combat.combatants.has(id)),
-				notes: pointer.notes.map((note) => note.trim()).filter(Boolean),
-			})),
-		};
-
-		try {
-			await setStrategy(combat, strategy);
-			this.strategyDraft = strategy;
-			ui.notifications.info("Battle Briefing strategy notes updated.");
-			this.render();
-		} catch (error) {
-			console.error(`${MODULE_ID} | Failed to update strategy notes.`, error);
-			ui.notifications.error("The strategy notes could not be updated. Check the console for details.");
-		}
 	}
 
 	/** Roll every NPC and start the encounter. */
@@ -1171,14 +827,10 @@ function getDefaultPresentation() {
 		name: "",
 		title: "No Road Back",
 		description: "Your enemies stand between you and the only way out.",
-		commanderSubtitle: "",
-		commanderPositionX: 50,
-		commanderPositionY: 50,
-		commanderZoom: 100,
 	};
 }
 
-/** Attach hover and keyboard-focus previews to non-commander portraits. */
+/** Attach hover and keyboard-focus previews to combatant portraits. */
 function initializePortraitPreviews(element) {
 	for (const portrait of element.querySelectorAll("[data-combat-start-portrait]")) {
 		portrait.addEventListener("mouseenter", () => showPortraitPreview(portrait));
@@ -1392,12 +1044,12 @@ function getDispositionClass(disposition) {
 }
 
 /**
- * Build display-ready party, commander, and grouped hostile data.
+ * Build the display-ready party roster.
  *
  * @param {Combat|null} combat
  * @returns {object}
  */
-function getCombatStartRoster(combat, commanderCombatantId = "") {
+function getCombatStartRoster(combat) {
 	const combatants = combat
 		? Array.from(combat.combatants).filter((combatant) => !isCombatantHidden(combatant))
 		: [];
@@ -1408,37 +1060,11 @@ function getCombatStartRoster(combat, commanderCombatantId = "") {
 			rawInitiative: combatant.initiative == null ? "" : Math.round(combatant.initiative),
 			hasInitiative: combatant.initiative != null,
 		}));
-	const enemies = combatants
-		.filter((combatant) => combatant.actor
-			&& !combatant.actor.hasPlayerOwner
-			&& combatant.token?.disposition === CONST.TOKEN_DISPOSITIONS.HOSTILE)
-		.sort((left, right) => getActorLevel(right.actor) - getActorLevel(left.actor));
-	const preferredCommanderIndex = enemies.findIndex((combatant) => combatant.id === commanderCombatantId);
-	const [commander] = enemies.splice(preferredCommanderIndex >= 0 ? preferredCommanderIndex : 0, 1);
-	const enemyGroups = [];
-
-	for (const combatant of enemies) {
-		const key = combatant.actorId ?? combatant.name;
-		const existing = enemyGroups.find((group) => group.key === key);
-		if (existing) {
-			existing.count += 1;
-			continue;
-		}
-
-		enemyGroups.push({
-			...getCombatantData(combatant),
-			key,
-			count: 1,
-		});
-	}
 
 	return {
 		combatName: combat?.name ?? "Encounter",
 		party,
 		partyCount: party.length,
-		enemyCount: enemies.length + (commander ? 1 : 0),
-		commander: commander ? getCombatantData(commander) : null,
-		enemyGroups,
 	};
 }
 
@@ -1475,68 +1101,6 @@ function getInitiativeTracker(combat, isGM = false) {
 	return { rolled, unrolled, hasRolled: rolled.length > 0, count: entries.length };
 }
 
-/**
- * Reduce a turn pointer's combatant-specific ids to the actors they belong to, so a saved preset
- * can be re-applied to a different encounter whose combatants have entirely different ids.
- *
- * @param {string[]} combatantIds
- * @param {Combat|null} combat
- * @returns {string[]}
- */
-function getActorIdsForCombatantIds(combatantIds, combat) {
-	const actorIds = new Set();
-	for (const combatantId of combatantIds) {
-		const combatant = combat?.combatants.get(combatantId);
-		const actorId = combatant?.actorId ?? combatant?.token?.actorId;
-		if (actorId) {
-			actorIds.add(actorId);
-		}
-	}
-
-	return Array.from(actorIds);
-}
-
-/**
- * Resolve a preset turn pointer's actor ids back to this encounter's matching combatant ids.
- *
- * @param {string[]} actorIds
- * @param {Combat|null} combat
- * @returns {string[]}
- */
-function getCombatantIdsForActorIds(actorIds, combat) {
-	return Array.from(combat?.combatants ?? [])
-		.filter((combatant) => actorIds.includes(combatant.actorId ?? combatant.token?.actorId))
-		.map((combatant) => combatant.id);
-}
-
-/**
- * Group non-player combatants by actor, since tactics notes apply to an enemy type rather than one token.
- *
- * @param {Combat|null} combat
- * @returns {Array<{id: string, name: string, img: string, dispositionClass: string, memberIds: string[]}>}
- */
-function getEnemyTypeGroups(combat) {
-	const groups = new Map();
-	for (const combatant of combat?.combatants ?? []) {
-		if (!combatant.actor || combatant.actor.hasPlayerOwner) {
-			continue;
-		}
-
-		const key = combatant.actorId ?? combatant.token?.actorId ?? combatant.id;
-		const group = groups.get(key) ?? {
-			id: key,
-			name: combatant.name,
-			img: getCombatantData(combatant).img,
-			dispositionClass: getDispositionClass(combatant.token?.disposition),
-			memberIds: [],
-		};
-		group.memberIds.push(combatant.id);
-		groups.set(key, group);
-	}
-
-	return Array.from(groups.values());
-}
-
 /** @param {Combatant} combatant @returns {object} */
 function getCombatantData(combatant) {
 	return {
@@ -1548,13 +1112,6 @@ function getCombatantData(combatant) {
 		level: getActorLevel(combatant.actor),
 		initiative: combatant.initiative == null ? "—" : Math.round(combatant.initiative),
 	};
-}
-
-/** @param {Combatant[]} hostileCombatants @returns {string} */
-function getDefaultCommanderId(hostileCombatants) {
-	return hostileCombatants
-		.slice()
-		.sort((left, right) => getActorLevel(right.actor) - getActorLevel(left.actor))[0]?.id ?? "";
 }
 
 /** @param {Actor} actor @returns {number} */

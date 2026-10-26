@@ -1,6 +1,5 @@
-import { getActorDisplayData, HOTBAR_FLAG, HOTBAR_SLOT_COUNT } from "./actor-display-data.js";
+import { getActorDisplayData } from "./actor-display-data.js";
 import { initializeActorDisplayTooltips } from "./actor-display-tooltips.js";
-import { setGmCombatMergedIntoHorizontalHud } from "./gm-hud-state.js";
 import { useAbility, showPowerInChat } from "../power-activation/power-activation.js";
 
 const MODULE_ID = "dnd4e-health-display";
@@ -18,7 +17,7 @@ let isHorizontalDismissed = false;
 export function registerActorDisplaySettings() {
 	game.settings.register(MODULE_ID, SHOW_HORIZONTAL_SETTING, {
 		name: "Show horizontal actor display",
-		hint: "Show a horizontal, bottom-left-docked action and inventory display for the currently controlled player-character token. GMs also get it for any controlled token, without the hotbar, plus encounter notes while an encounter is running.",
+		hint: "Show a horizontal, bottom-left-docked action and inventory display for the currently controlled player-character token. GMs also get it for any controlled token.",
 		scope: "client",
 		config: true,
 		type: Boolean,
@@ -52,7 +51,6 @@ export function registerActorDisplay() {
 	Hooks.on("deleteActiveEffect", refreshForEffect);
 	Hooks.on("updateCombat", refreshAllActorDisplays);
 	Hooks.on("deleteCombat", refreshAllActorDisplays);
-	Hooks.on("combatStart", updateGmCombatMergeState);
 	Hooks.on("canvasTearDown", closeAllActorDisplays);
 
 	renderSelectedActor();
@@ -79,7 +77,7 @@ function renderSelectedActor() {
 	const isNpcToken = Boolean(token) && token.actor?.type !== "Player Character";
 
 	// The horizontal display is player-character only for regular players. GMs may run it for any
-	// selected token, where it replaces the hotbar with encounter notes.
+	// selected token.
 	const showHorizontal = isHorizontalEnabled && (!isNpcToken || game.user.isGM);
 
 	updateHorizontalDisplay(showHorizontal ? token : null);
@@ -103,14 +101,6 @@ function updateHorizontalDisplay(token) {
 		ui.Dnd4eHorizontalActorDisplay.setToken(token);
 	}
 
-	updateGmCombatMergeState();
-}
-
-/**
- * Track whether GM encounter notes live inside the horizontal HUD so the strategy overlay stays closed.
- */
-function updateGmCombatMergeState() {
-	setGmCombatMergedIntoHorizontalHud(Boolean(game.user.isGM && ui.Dnd4eHorizontalActorDisplay && game.combat?.started));
 }
 
 /**
@@ -141,7 +131,6 @@ function getTokenToDisplay() {
 /** Re-render the actor display, e.g. when the combat tracker's turn changes. */
 function refreshAllActorDisplays() {
 	ui.Dnd4eHorizontalActorDisplay?.render();
-	updateGmCombatMergeState();
 }
 
 /**
@@ -175,7 +164,6 @@ function closeHorizontalDisplay() {
 	const display = ui.Dnd4eHorizontalActorDisplay;
 	ui.Dnd4eHorizontalActorDisplay = null;
 	void display?.close({ animate: false });
-	updateGmCombatMergeState();
 }
 
 /** Close the actor display. */
@@ -515,9 +503,6 @@ class HorizontalActorDisplay extends ActorDisplayBase {
 			item: { handler: HorizontalActorDisplay.prototype.onItem, buttons: [0, 2] },
 			toggleEquip: HorizontalActorDisplay.prototype.onToggleEquip,
 			quick: HorizontalActorDisplay.prototype.onQuickAction,
-			hotbarSlot: { handler: HorizontalActorDisplay.prototype.onHotbarSlot, buttons: [0, 2] },
-			clearHotbarSlot: HorizontalActorDisplay.prototype.onClearHotbarSlot,
-			refreshHotbarPower: HorizontalActorDisplay.prototype.onRefreshPower,
 		},
 	};
 
@@ -545,81 +530,13 @@ class HorizontalActorDisplay extends ActorDisplayBase {
 		});
 	}
 
-	/** Wire up dragging powers and items from the drawer onto the hotbar, and dropping them into slots. */
-	initializeHotbarDragAndDrop() {
-		for (const draggable of this.element.querySelectorAll("[data-hotbar-drag-type]")) {
-			draggable.addEventListener("dragstart", (event) => {
-				event.dataTransfer.effectAllowed = "copy";
-				event.dataTransfer.setData("text/plain", JSON.stringify({ itemId: draggable.dataset.itemId }));
-			});
-		}
-
-		for (const slot of this.element.querySelectorAll("[data-hotbar-slot]")) {
-			slot.addEventListener("dragover", (event) => {
-				event.preventDefault();
-				event.dataTransfer.dropEffect = "copy";
-				slot.classList.add("is-drag-over");
-			});
-			slot.addEventListener("dragleave", () => slot.classList.remove("is-drag-over"));
-			slot.addEventListener("drop", (event) => {
-				event.preventDefault();
-				slot.classList.remove("is-drag-over");
-				this.onHotbarDrop(event, slot);
-			});
-		}
-	}
-
-	/** @param {DragEvent} event The drop event. @param {HTMLElement} slot The hotbar slot dropped onto. */
-	async onHotbarDrop(event, slot) {
-		let data;
-		try {
-			data = JSON.parse(event.dataTransfer.getData("text/plain"));
-		} catch (_error) {
-			return;
-		}
-
-		const item = data?.itemId && this.actor.items.get(data.itemId);
-		if (!item || !["power", "weapon", "equipment", "consumable"].includes(item.type)) {
-			return;
-		}
-
-		await this.setHotbarSlot(Number(slot.dataset.hotbarSlot), { itemId: item.id });
-	}
-
-	/** @param {number} index The hotbar slot index. @param {{itemId: string}|null} entry The slot assignment, or null to clear it. */
-	async setHotbarSlot(index, entry) {
-		const slots = Array.from({ length: HOTBAR_SLOT_COUNT }, (_unused, slotIndex) => (
-			this.actor.getFlag(MODULE_ID, HOTBAR_FLAG)?.[slotIndex] ?? null
-		));
-		slots[index] = entry;
-		await this.actor.setFlag(MODULE_ID, HOTBAR_FLAG, slots);
-	}
-
-	/** @param {PointerEvent} event The action event. @param {HTMLElement} target The action target. */
-	onHotbarSlot(event, target) {
-		const item = this.actor.items.get(target.dataset.itemId);
-		if (!item) {
-			return undefined;
-		}
-
-		return item.type === "power" ? this.onPower(event, target) : this.onItem(event, target);
-	}
-
-	/** @param {PointerEvent} event The action event. @param {HTMLElement} target The action target. */
-	onClearHotbarSlot(event, target) {
-		event.stopPropagation();
-		return this.setHotbarSlot(Number(target.dataset.hotbarSlot), null);
-	}
-
-	/** Hide Foundry's macro hotbar, push the players list clear of the HUD's footprint, and wire up hotbar drag-and-drop. */
+	/** Lift the players list clear of the HUD and initialize its layout. */
 	_onRender(context, options) {
 		super._onRender(context, options);
 		document.body.classList.add(HORIZONTAL_HUD_BODY_CLASS);
 		this.initializeActorNameFit();
 		const height = this.element?.getBoundingClientRect().height ?? 0;
 		document.documentElement.style.setProperty(HORIZONTAL_HUD_HEIGHT_PROPERTY, `${height}px`);
-		this.initializeHotbarDragAndDrop();
-		this.syncGmCombatPanelHeight();
 	}
 
 	/** Refit the actor name whenever its available space changes. */
@@ -668,18 +585,6 @@ class HorizontalActorDisplay extends ActorDisplayBase {
 		// trigger the ellipsis for the final character.
 		const scale = Math.max(0, (availableWidth - 1) / naturalWidth);
 		name.style.fontSize = `${fontSize * scale}px`;
-	}
-
-	/** Match the encounter note panels to the actor panel height. */
-	syncGmCombatPanelHeight() {
-		const playerPanel = this.element?.querySelector(".dnd4e-horizontal-actor-display__panel");
-		const panels = this.element?.querySelector(".dnd4e-horizontal-actor-display__gm-combat-panels");
-		if (!playerPanel || !panels) {
-			return;
-		}
-
-		const panelHeight = playerPanel.getBoundingClientRect().height;
-		panels.style.setProperty("--dnd4e-horizontal-gm-panel-height", `${panelHeight}px`);
 	}
 
 	/** Close the dropdown menu whenever a click lands outside this display. */

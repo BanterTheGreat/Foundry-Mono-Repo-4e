@@ -7,10 +7,7 @@ import { getEncounterCalculation } from "../scripts/combat-start/encounter-calcu
 const controllerSource = readFileSync(new URL("../scripts/combat-start/combat-start.js", import.meta.url), "utf8")
 	.replace(/^import .*;\r?\n/gm, "")
 	.replace(/^export /gm, "");
-const strategySource = readFileSync(new URL("../scripts/combat-start/strategy.js", import.meta.url), "utf8")
-	.replace(/^export /gm, "");
-
-/** Exercise Journal loading and starting against the real controller and strategy helpers. */
+/** Exercise Journal loading, presentation persistence, and calculations against the controller. */
 function loadBriefing() {
 	const flags = {};
 	const combat = {
@@ -52,61 +49,25 @@ function loadBriefing() {
 		},
 		ui: { notifications: { warn: assert.fail } },
 	});
-	vm.runInContext(`const {getDefaultStrategy, getStrategy, setStrategy} = (() => {
-		${strategySource}
-		return {getDefaultStrategy, getStrategy, setStrategy};
-	})();
-	${controllerSource}
-
+	vm.runInContext(`${controllerSource}
 	globalThis.Setup = CombatStartSetup;
-	globalThis.Display = CombatStartDisplay;
-	globalThis.readStrategy = getStrategy;`, context);
+	globalThis.Display = CombatStartDisplay;`, context);
 	return { context, combat, preset };
 }
 
-test("starting a Journal briefing persists strategy for combat and reopening", async () => {
-	const { context, combat, preset } = loadBriefing();
-	const setup = new context.Setup({}, combat);
-	setup.selectedPresetId = "preset";
-	setup.onLoadPreset();
-	assert.equal(setup.strategyDraft.environment[0], preset.strategy.environment[0]);
-	assert.equal(setup.strategyDraft.pointers[0].combatantIds[0], "enemy");
-	await setup.onShow();
-	const saved = context.readStrategy(combat);
-	assert.equal(saved.environment[0], "Burning ground", "combat must receive the loaded environment notes");
-	assert.equal(saved.pointers[0].combatantIds[0], "enemy");
-	const reopened = new context.Setup({}, combat);
-	assert.equal(reopened.strategyDraft.pointers[0].notes[0], "Focus the archer");
-	assert.equal(reopened.draft.title, "Ambush");
-});
-
-test("starting from the Strategy tab saves current edits and removes stale combatants", async () => {
+test("legacy Journal presets retain briefing content without applying removed strategy notes", async () => {
 	const { context, combat } = loadBriefing();
 	const setup = new context.Setup({}, combat);
 	setup.selectedPresetId = "preset";
 	setup.onLoadPreset();
-	setup.activeTab = "strategy";
-	setup.element = {
-		querySelector: () => null,
-		querySelectorAll(selector) {
-			if (selector === "[data-env-note]") {
-				return [{ value: " Edited terrain " }, { value: " " }];
-			}
-			if (selector.startsWith("[data-pointer-note]")) {
-				return [{ value: " Updated tactic " }];
-			}
-			return [{ checked: true, dataset: { tokenIds: "enemy,removed" } }];
-		},
-	};
 	await setup.onShow();
-	const saved = JSON.parse(JSON.stringify(context.readStrategy(combat)));
-	assert.deepEqual(saved, {
-		environment: ["Edited terrain"],
-		pointers: [{ id: "pointer", combatantIds: ["enemy"], notes: ["Updated tactic"] }],
-	});
+	assert.equal(combat.getFlag("dnd4e-health-display", "strategy"), undefined);
+	const reopened = new context.Setup({}, combat);
+	assert.equal(reopened.draft.title, "Ambush");
+	assert.equal(reopened.draft.description, "At the gate");
 });
 
-test("Calculation reads the setup roster and tab switches preserve briefing and strategy drafts", async () => {
+test("Calculation reads the setup roster and tab switches preserve the briefing draft", async () => {
 	const { context, combat } = loadBriefing();
 	combat.combatants.clear();
 	combat.combatants.set("hero", {
@@ -115,15 +76,12 @@ test("Calculation reads the setup roster and tab switches preserve briefing and 
 	});
 	const setup = new context.Setup({}, combat);
 	setup.draft.title = "Keep this title";
-	setup.strategyDraft.environment = ["Keep this terrain"];
 	setup.onShowTab(null, { dataset: { tab: "calculation" } });
 	const data = await setup._prepareContext({});
 	assert.equal(data.showCalculation, true);
-	assert.equal(data.showStrategy, false);
 	assert.equal(JSON.parse(data.calculationHTML).partyLevel, 5);
 	setup.onShowTab(null, { dataset: { tab: "briefing" } });
 	assert.equal(setup.draft.title, "Keep this title");
-	assert.equal(setup.strategyDraft.environment[0], "Keep this terrain");
 });
 
 test("live Calculation is available to the GM and never rendered for players", async () => {
@@ -151,16 +109,14 @@ test("basic briefing retains Calculation and matches PC placement to the visible
 	combat.combatants.set("enemy", enemy);
 	combat.turns = [enemy, hero];
 	const display = new context.Display({}, { combatId: combat.id });
-	display.activeTab = "strategy";
+	display.onShowTab(null, { dataset: { tab: "strategy" } });
 	const data = await display._prepareContext({});
-	assert.equal(data.advanced, false);
 	assert.equal(data.showBriefing, true);
-	assert.equal(data.showStrategy, false);
 	assert.equal(data.party[0].initiativePlacement, 2);
 	assert.equal(data.initiativeTrackerPlacement, "bottom");
 	display.activeTab = "calculation";
 	assert.equal((await display._prepareContext({})).showCalculation, true);
 	context.game.settings.get = () => true;
-	display.activeTab = "strategy";
-	assert.equal((await display._prepareContext({})).showStrategy, true);
+	display.onShowTab(null, { dataset: { tab: "strategy" } });
+	assert.equal(display.activeTab, "calculation", "removed tabs cannot be selected even with legacy settings enabled");
 });
