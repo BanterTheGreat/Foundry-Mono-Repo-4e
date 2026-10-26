@@ -19,10 +19,19 @@ test("MCP handshake exposes reads and NPC creation, validates arguments, and rep
   await server.connect(serverTransport);
   await client.connect(clientTransport);
   const { tools } = await client.listTools();
-  assert.deepEqual(tools.map(tool => tool.name), ["add_scene_drawings", "edit_journal_pages", "create_journal", "build_magic_item", "get_merchant_inventory", "edit_merchant_inventory", "get_session", "list_documents", "get_document", "list_compendiums", "list_compendium_documents", "list_conditions", "add_item_effects", "create_ritual", "create_feat", "setup_pc", "import_pc_options", "edit_pc_actor", "edit_pc_powers", "set_pc_basic_attack_ability", "fix_pc_item_icons", "edit_npc_actor", "create_item", "create_npc_actor"]);
-  assert.ok(tools.filter(tool => !["add_scene_drawings", "edit_journal_pages", "create_journal", "build_magic_item", "edit_merchant_inventory", "add_item_effects", "create_npc_actor", "create_item", "create_ritual", "create_feat", "setup_pc", "import_pc_options", "edit_pc_actor", "edit_pc_powers", "set_pc_basic_attack_ability", "fix_pc_item_icons", "edit_npc_actor"].includes(tool.name)).every(tool => tool.annotations.readOnlyHint));
+  assert.deepEqual(tools.map(tool => tool.name), ["get_target_automation", "edit_target_automation", "add_scene_drawings", "edit_journal_pages", "create_journal", "build_magic_item", "get_merchant_inventory", "edit_merchant_inventory", "get_session", "list_documents", "get_document", "list_compendiums", "list_compendium_documents", "list_conditions", "add_item_effects", "create_ritual", "create_feat", "setup_pc", "import_pc_options", "edit_pc_actor", "edit_pc_powers", "set_pc_basic_attack_ability", "fix_pc_item_icons", "edit_npc_actor", "create_item", "create_npc_actor"]);
+  assert.ok(tools.filter(tool => !["edit_target_automation", "add_scene_drawings", "edit_journal_pages", "create_journal", "build_magic_item", "edit_merchant_inventory", "add_item_effects", "create_npc_actor", "create_item", "create_ritual", "create_feat", "setup_pc", "import_pc_options", "edit_pc_actor", "edit_pc_powers", "set_pc_basic_attack_ability", "fix_pc_item_icons", "edit_npc_actor"].includes(tool.name)).every(tool => tool.annotations.readOnlyHint));
   assert.equal(tools.at(-1).annotations.readOnlyHint, false);
   assert.equal(tools.at(-1).annotations.idempotentHint, true);
+  const automation = { powers: [{ uuid: "Item.power", config: { enabled: true, targetCountMode: "upTo", targetCount: 2 } }] };
+  assert.notEqual((await client.callTool({ name: "edit_target_automation", arguments: automation })).isError, true);
+  assert.deepEqual(calls.at(-1), { operation: "edit_target_automation", args: automation });
+  const automationCalls = calls.length;
+  for (const config of [{ targetCount: 0 }, { placementMode: "script" }, { flags: {} }]) {
+    assert.equal((await client.callTool({ name: "edit_target_automation", arguments: { powers: [{ uuid: "Item.power", config }] } })).isError, true);
+  }
+  assert.equal(calls.length, automationCalls);
+  assert.equal(tools.find(tool => tool.name === "edit_target_automation").annotations.readOnlyHint, false);
   const ritual = { requestId: "custom-ritual-001", name: "Project Reflection", level: 5,
     text: "", description: "<p>Create an illusion.</p>", actorUuid: "Actor.hero" };
   assert.notEqual((await client.callTool({ name: "create_ritual", arguments: ritual })).isError, true);

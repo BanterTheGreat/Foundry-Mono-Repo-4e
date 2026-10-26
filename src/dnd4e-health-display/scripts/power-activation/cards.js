@@ -1,6 +1,72 @@
 import { MODULE_ID } from "./rules.js";
 
 /**
+ * Clone already-enriched rules without the card's action and keyword header.
+ */
+function powerRuleContent(card) {
+	const root = document.createElement("div");
+	root.innerHTML = card;
+	const content = root.querySelector(".card-content");
+	if (!content) {
+		return null;
+	}
+	const rules = (content.querySelector(".item-details") ?? content).cloneNode(true);
+	rules.querySelectorAll(".basics, .flavour, .card-buttons, .effects-tray").forEach(node => node.remove());
+	return rules;
+}
+
+/**
+ * Identify only top-level native labels, preserving nested secondary attacks.
+ */
+function powerRuleKind(block) {
+	if (block.matches("p")) {
+		return ["target", "attack", "requirement", "trigger", "effect", "hit", "miss", "special", "sustain"]
+			.find(kind => block.classList.contains(kind));
+	}
+	if (block.classList.contains("banter-power__rule")) {
+		return block.querySelector(":scope > .banter-power__label")?.textContent.trim().replace(/:\s*$/, "").toLowerCase();
+	}
+	return null;
+}
+
+/**
+ * Use source order to distinguish effects before the primary attack from its riders.
+ * Custom prose without recognized labels remains available in full in both views.
+ */
+function powerPhaseRules(card, before) {
+	const rules = powerRuleContent(card);
+	if (!rules) {
+		return "";
+	}
+	const blocks = [...rules.children];
+	const attackIndex = blocks.findIndex(block => ["attack", "hit", "miss", "outcome"].includes(powerRuleKind(block)));
+	for (const [index, block] of blocks.entries()) {
+		const kind = powerRuleKind(block);
+		const preEffect = kind === "effect" && attackIndex >= 0 && index < attackIndex;
+		const setup = ["target", "attack"].includes(kind) || preEffect;
+		const excluded = ["requirement", "trigger"].includes(kind);
+		if (excluded || (before ? kind && !setup : setup)) {
+			block.remove();
+		}
+	}
+	return rules.textContent.trim() ? rules.innerHTML : "";
+}
+
+/**
+ * Read target, attack and preceding effects without action, keywords or requirements.
+ */
+export function preAttackRules(card) {
+	return powerPhaseRules(card, true);
+}
+
+/**
+ * Read outcome rules and subsequent effects after the primary attack.
+ */
+export function postAttackRules(card) {
+	return powerPhaseRules(card, false);
+}
+
+/**
  * Render the native informational card without invoking Item.roll/usePower.
  * DnD4e 0.9.3 toChat uses this same data/template path, but does not return its message.
  */

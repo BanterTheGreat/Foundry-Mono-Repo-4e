@@ -5,6 +5,7 @@
 	{{/unless}}
 	{{#if showDetails}}<div class="power-targeting__card">{{{card}}}</div>{{/if}}
 	{{#if resolved}}
+	{{#if beforeAttackRules}}<details class="power-targeting__before"><summary>Before attack</summary><div class="power-targeting__resolution" role="region" aria-label="Before attack power rules" tabindex="0">{{{beforeAttackRules}}}</div></details>{{/if}}
 	<p class="power-targeting__status" role="status">{{status}}</p>
 	<ul class="power-targeting__targets power-targeting__results">
 		{{#each results}}
@@ -13,13 +14,15 @@
 		<li class="power-targeting__empty">No visible target results. Check the attack message in chat.</li>
 		{{/each}}
 	</ul>
-	<p class="power-targeting__range">{{#if needsDamage}}Roll damage once for the whole attack, including any miss damage.{{else}}Damage application remains a separate action.{{/if}}</p>
+	{{#if resolutionRules}}<div class="power-targeting__resolution" role="region" aria-label="Post-attack power rules" tabindex="0">{{{resolutionRules}}}</div>{{/if}}
+	<p class="power-targeting__range power-targeting__damage-summary">{{#if hasDamageTotal}}<span><strong>{{damageTotal}}</strong> damage rolled</span>{{/if}}<span>{{#if needsDamage}}One shared damage roll · Includes miss damage{{else}}Apply damage and effects manually{{/if}}</span></p>
 	<footer>
 		{{#if needsDamage}}<button type="button" data-action="rollDamage" class="is-ready" {{#if busy}}disabled{{/if}}><i class="fa-solid fa-dice" aria-hidden="true"></i> Roll Damage</button>
 		{{/if}}
 		{{#if canComplete}}<button type="button" data-action="complete" class="is-ready" {{#if busy}}disabled{{/if}}><i class="fa-solid fa-check" aria-hidden="true"></i> Complete</button>{{/if}}
 	</footer>
 	{{else}}
+	{{#if beforeAttackRules}}<div class="power-targeting__resolution" role="region" aria-label="Before attack power rules" tabindex="0"><div class="power-targeting__rules-label">Before attack</div>{{{beforeAttackRules}}}</div>{{/if}}
 	<div class="power-targeting__placement">
 		{{#if summon}}
 		<p class="power-targeting__range">Summon square · Range {{range}}</p>

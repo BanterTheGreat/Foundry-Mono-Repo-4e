@@ -4,7 +4,7 @@ import { sharedAreaPreview } from "./shared-area-preview.js";
 import { AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin, wallGeometryProblems, hasLineOfEffect } from "./area-geometry.js";
 import { MODULE_ID, SETTING, automationConfig, powerOriginRules, selectionProblems, targetCountProblems, squareDistance, targetFilterProblems } from "./rules.js";
 import { registerActorOrigins } from "./actor-origins.js";
-import { renderPowerCard, createPowerMessage } from "./cards.js";
+import { renderPowerCard, createPowerMessage, postAttackRules, preAttackRules } from "./cards.js";
 import { loadSystem, resolveRange, registerAutomationTab, commitCardCosts, commitPowerUse, rollFromOrigin } from "./system-adapter.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin, DialogV2 } = foundry.applications.api;
@@ -1153,6 +1153,7 @@ class ActivationSession {
 			const roll = await this.item.rollDamage({ event });
 			if (roll) {
 				this.damageRolled = true;
+				this.damageTotal = Number.isFinite(roll.total) ? roll.total : null;
 			}
 		} catch (error) {
 			console.error(`${MODULE_ID} | Damage activation`, error);
@@ -1259,9 +1260,14 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 	/** Prepare only current-session display data. */
 	async _prepareContext() {
 		const activation = this.session;
+		this.beforeAttackRules ??= preAttackRules(activation.card);
 		if (activation.phase === "results") {
+			this.resolutionRules ??= postAttackRules(activation.card);
 			return {
 				resolved: true, powerName: activation.item.name, card: activation.card,
+				resolutionRules: this.resolutionRules,
+				beforeAttackRules: this.beforeAttackRules,
+				hasDamageTotal: Number.isFinite(activation.damageTotal), damageTotal: activation.damageTotal,
 				showDetails: Boolean(this.showDetails), busy: activation.busy,
 				needsDamage: activation.item.hasDamage && !activation.damageRolled,
 				canComplete: activation.canComplete(),
@@ -1287,6 +1293,7 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 		const targetWarnings = new Set(targets.flatMap(target => target.warnings));
 		return {
 			hasAttack: Boolean(activation.item.hasAttack),
+			beforeAttackRules: activation.item.hasAttack ? this.beforeAttackRules : "",
 			originChoices: activation.originChoices().map(token => ({ id: token.id, name: token.name, selected: token === activation.source })),
 			summon: activation.range.shape === "summon",
 			wall: activation.range.shape === "wall", wallCount: activation.wallCells.length, wallHint: activation.wallHint,

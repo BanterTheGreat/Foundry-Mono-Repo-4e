@@ -103,6 +103,8 @@ function fixture({ confirm = true, fastForward = false } = {}) {
 		resolveRange: async () => ({ normal: 1, maximum: 1 }),
 		registerAutomationTab: async () => {},
 		renderPowerCard: async () => "power-card",
+		postAttackRules: () => "resolution-rules",
+		preAttackRules: () => "before-attack-rules",
 		createPowerMessage: async () => {
 			const message = {
 				id: "preview", canUserModify: () => true,
@@ -866,6 +868,9 @@ test("committed attack stays open with its results and full power until damage a
 	assert.equal(display.showDetails, true);
 	assert.equal(display.results[0].label, "MISS");
 	assert.equal(display.needsDamage, true);
+	assert.equal(display.resolutionRules, "resolution-rules");
+	assert.equal(display.beforeAttackRules, "before-attack-rules");
+	assert.equal(display.hasDamageTotal, false);
 	f.activation.targetChanged(f.far, true);
 	assert.deepEqual(f.activation.targets, [f.target]);
 	let release;
@@ -877,6 +882,10 @@ test("committed attack stays open with its results and full power until damage a
 	release({ total: 18 });
 	await damage;
 	assert.equal((await panel._prepareContext()).needsDamage, false);
+	const rolledDisplay = await panel._prepareContext();
+	assert.equal(rolledDisplay.resolutionRules, display.resolutionRules);
+	assert.equal(rolledDisplay.hasDamageTotal, true);
+	assert.equal(rolledDisplay.damageTotal, 18);
 	assert.equal(f.activation.finished, false);
 	await f.context.api.TargetingPanel.DEFAULT_OPTIONS.actions.complete.call(panel);
 	assert.equal(f.activation.finished, true);

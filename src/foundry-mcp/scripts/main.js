@@ -1,3 +1,4 @@
+import { targetAutomation } from "./target-automation-api.js";
 import { editPcActor } from "./pc-actor-api.js";
 import { editPcPowers } from "./pc-power-api.js";
 import { editJournalPages } from "./journal-page-api.js";
@@ -108,6 +109,10 @@ function connect() {
         } };
         let result;
         switch (request.operation) {
+          case "get_target_automation":
+          case "edit_target_automation":
+            result = await targetAutomation(request.args, request.operation === "edit_target_automation", connectionOptions);
+            break;
           case "add_scene_drawings":
             result = await addSceneDrawings(request.args, connectionOptions);
             break;

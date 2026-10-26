@@ -19,6 +19,22 @@
 .power-targeting__heading > strong { font-family: var(--font-h1); color: #ead2a1; line-height: 1.2; }
 .power-targeting__heading > button { flex: 0 0 auto; width: auto; padding: .15rem .4rem; font-size: .75rem; }
 .power-targeting__range { font-size: .75rem; color: #c7b99e; }
+.power-targeting__resolution { margin: .15rem 0; padding: .4rem .5rem; border-left: 2px solid #aa8b4e; background: #28251e; font-size: .75rem; line-height: 1.35; max-height: 208px; overflow-y: auto; overflow-wrap: anywhere; }
+.power-targeting__resolution > * + * { margin-top: .3rem; }
+.power-targeting__resolution p { margin: 0; }
+.power-targeting__resolution p + p { margin-top: .3rem; }
+.power-targeting__resolution strong, .power-targeting__resolution .banter-power__label { color: #e2c78e; }
+.power-targeting__resolution .banter-power__rule { display: block; padding: 0; border: 0; background: none; }
+.power-targeting__resolution .banter-power__label { display: inline; font: inherit; font-weight: bold; }
+.power-targeting__resolution .banter-power__label::after { content: ": "; }
+.power-targeting__resolution .banter-power__value { display: inline; font: inherit; }
+.power-targeting__resolution .banter-power__value .banter-power__value { display: block; margin-top: .2rem; }
+.power-targeting__damage-summary { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .2rem .5rem; }
+.power-targeting__damage-summary strong { font-size: 1rem; color: #ecd5a2; }
+.power-targeting__resolution:focus-visible { outline: 2px solid #e0b96d; outline-offset: 2px; }
+.power-targeting__rules-label { margin-bottom: .3rem; font: 700 .65rem/1.35 var(--font-body, sans-serif); text-transform: uppercase; letter-spacing: .04em; color: #cebb94; }
+.power-targeting__before { font-size: .75rem; color: #c8b994; }
+.power-targeting__before summary { cursor: pointer; }
 .power-targeting__card { padding: .35rem; border: 1px solid #78603d; border-radius: .25rem; background: #24211d; max-height: 240px; overflow-y: auto; }
 .power-targeting__card .card-content { display: block !important; }
 .power-targeting__targets { list-style: none; margin: 0; padding: 0; max-height: 144px; overflow-y: auto; }

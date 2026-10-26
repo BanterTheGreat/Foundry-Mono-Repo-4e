@@ -88,7 +88,7 @@ function resolveItem(game, uuid) {
   const item = actor ? actor.items.get(parts[3]) : parts[0] === "Item" ? game.items.get(parts[1]) : null;
   if (!item || item.uuid !== uuid || item.pack || !EFFECT_ITEM_TYPES.includes(item.type)
     || (actor ? actor.pack || actor.parent || item.parent !== actor : item.parent)) {
-    throw new Error("Choose an existing world power/equipment Item or one on a world actor.");
+    throw new Error("Choose an existing supported world power, equipment or feature Item, or one on a world actor.");
   }
   return item;
 }
@@ -204,6 +204,9 @@ export async function addItemEffects(args, {
   const targets = args.items.map(proposal => {
     const item = resolveItem(game, proposal.uuid);
     for (const effect of proposal.effects) {
+      if (item.type === "feature" && effect.application !== "passive") {
+        throw new Error("Features need permanent passive effects; triggered benefits remain manual or belong on a power Item.");
+      }
       const activated = ["power", "consumable"].includes(item.type);
       if (activated === ["equipped", "passive"].includes(effect.application)) {
         throw new Error("Powers/consumables need a power application type; inventory properties use equipped or passive.");

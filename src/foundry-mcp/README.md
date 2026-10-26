@@ -367,13 +367,13 @@ The [Hammer of the Lost Riders fixture](test/fixtures/hammer-of-the-lost-riders.
 
 Protocol **v14** requires restarting the companion/MCP connection and reloading Foundry together. Confirm `get_session.itemCreation` before calling the new tool. Manual verification by the user: create in Magic Items, check the sheet's level/enhancement/price, base warhammer and critical fields, then retry the same payload and confirm there is one Item. Other existing world Item edits remain unavailable.
 
-## Power and equipment ActiveEffects
+## Power, equipment and feature ActiveEffects
 
 Ask for **"Make X give 5 fire resistance"** or **"Read X, Y and Z and add ActiveEffects for all of them."** The agent discovers the Items, reads their stored rules and existing effects, then calls `add_item_effects` with one batch. This is agent interpretation of the rules, not a keyword parser running inside Foundry. Ambiguous names need discovery/disambiguation before proposing changes. Unsupported conditions, aura damage triggers, sustain rules and choices are listed as manual handling in the report; they must not be silently turned into unconditional bonuses.
 
 The paired **active GM client** receives a report showing each Item, each effect's rules, application/recipient, duration, modifier keys/modes/values, conditions, ongoing damage, source-versus-recipient formula data, and manual limitations. **Confirm** appends the proposed effects; **Cancel**, closing the window, or the **two-minute timeout** saves nothing. A late click is rejected even if a background tab delays its timers. Items that changed while the report was open require a fresh proposal. Existing effects remain intact.
 
-Targets can be world Items or Items embedded on world PCs/NPCs. Inventory supports weapon, equipment, tool, loot and backpack properties; use `equipped` to transfer only while equipped, or `passive` to transfer regardless of equip state. Power/consumable templates use native application types such as `self`, `hit`, `miss`, `allies` or `misc` with transfer disabled. Put an equipment's activated ability on its power Item. Power effects need the system's Automatically Apply Effects setting and appropriate targets; `misc` needs manual application. The bridge does not change system settings or immediately apply power templates to actors.
+Targets can be world Items or Items embedded on world PCs/NPCs. Features (feats, traits, class and theme features) support permanent `passive` effects only; triggered benefits remain manual or belong on power Items. Reload Foundry and restart MCP clients after installing this feature support. Inventory supports weapon, equipment, tool, loot and backpack properties; use `equipped` to transfer only while equipped, or `passive` to transfer regardless of equip state. Power/consumable templates use native application types such as `self`, `hit`, `miss`, `allies` or `misc` with transfer disabled. Put an equipment's activated ability on its power Item. Power effects need the system's Automatically Apply Effects setting and appropriate targets; `misc` needs manual application. The bridge does not change system settings or immediately apply power templates to actors.
 
 ```json
 {
@@ -602,3 +602,59 @@ target and roll settings, with complete escaped source data under **Inspect sour
 data**. Existing edits show full before/after fields for the selected document.
 Navigation does not approve or save changes; Confirm, Cancel and the two-minute
 deadline retain their existing behavior.
+
+
+## Target Automation configuration
+
+`get_target_automation` reads a world Actor (shared origins and all its powers),
+world power Item, or power on a world PC/NPC. It returns stored and effective
+configuration, effective origins, native range/area, and the global enable state.
+Read full rules with `get_document`, `source:true`, before proposing changes.
+Requires active `dnd4e-health-display` and DnD4e 0.9.3.
+
+`edit_target_automation` accepts an optional world actor `uuid` and `originActors`
+array for shared origins, plus `powers: [{uuid, config}]`. Only supplied config
+fields change; empty actor lists clear origins. Actor references must be exact
+world Actor UUIDs; import compendium companions before using this tool.
+
+```json
+{
+  "summary": "Configure this power to select up to two enemies.",
+  "powers": [{
+    "uuid": "Actor.hero.Item.power",
+    "config": {
+      "enabled": true,
+      "targetMode": "exact",
+      "targetCountMode": "upTo",
+      "targetCount": 2,
+      "targetDisposition": "enemies"
+    }
+  }]
+}
+```
+
+Supported fields mirror the Automation tab: `enabled`, `placementMode`
+(`targets`/`summon`), `targetMode` (`area`/`exact`), `targetCountMode`
+(`exact`/`upTo`), positive integer `targetCount`, `targetDisposition`
+(`all`/`allies`/`enemies`), `includeCaster`, `targetCondition` (configured ID or
+empty), `targetAdjacent` (empty/`allies`/`enemies`), `summonActor` (UUID or empty),
+`originMode` (`character`/`custom`), `originActors`, `allowCaster`, `placeRegion`,
+`wallSolid`, and positive integer `wallHeight`. Custom origins replace shared
+origins. Summoning requires a non-attack power and a world actor. Native Range
+and Area fields supply distances and geometry; this tool does not edit them.
+
+Enabling automation disables use macros in the same reviewed update, preserving
+their other fields. The GM sees one full before/after report and has **120 seconds**
+to Confirm or Cancel. The bridge reserves at least 150 seconds; configure the MCP
+client call timeout to **at least 180 seconds**. Cancel, close or expiry saves
+nothing; changed source, conditions or session invalidates approval. Batches
+return `updated`, `unchanged`, `cancelled` or `incomplete`, with applied receipts.
+After uncertain/partial outcomes, read sources before retrying. Writes are not
+atomic; identical applied fields are skipped. The global enable setting stays
+under manual control. Configuration never rolls, activates powers, selects tokens
+or creates summons/Regions. Range/count warnings remain advisory; condition,
+adjacency and line-of-effect checks follow the native targeting workflow. Wall
+height/solid settings are metadata, not movement or sight blocking.
+
+Protocol **v31** requires reloading Foundry and restarting the shared companion
+and MCP clients together.

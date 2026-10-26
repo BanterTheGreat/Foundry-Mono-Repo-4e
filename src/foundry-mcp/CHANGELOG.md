@@ -2,6 +2,10 @@
 
 ## 0.4.0
 
+- Add permanent passive ActiveEffects to feats, traits, class and theme features through the existing GM-reviewed batch tool, with duplicate-safe retries. Triggered benefits remain manual or use separate power Items. Reload Foundry and restart MCP clients after updating.
+
+- Read and configure Target Automation on world powers, PC/NPC powers and shared actor origins through dedicated MCP tools. Review all changes, including automatic use-macro disabling, with the usual two-minute GM confirmation; preserve omitted fields, reject stale approvals and report partial saves. Protocol v31 requires reloading Foundry and restarting the companion/MCP clients together.
+
 - Review PC/NPC edits in a document navigator with readable new-power details and expandable source data, replacing the dense combined diff table.
 
 - Custom powers can now be added directly to PCs through `edit_pc_powers`, with GM review and duplicate-safe retries after partial saves. Requires protocol v30 (reload Foundry and restart the shared companion/MCP clients).

@@ -55,6 +55,40 @@ function proposal() {
   ] };
 }
 
+test("world and actor features support confirmed passive effects and duplicate-safe retries", async () => {
+  for (const parent of [false, true]) {
+    const deps = fixture();
+    const feat = deps.makeItem("toughness", "feature", parent ? deps.actor : undefined);
+    const args = { items: [{ uuid: feat.uuid, effects: [{
+      key: "toughness", name: "Toughness", description: "Gain bonus HP and Endurance.",
+      application: "passive", duration: "permanent", useSourceActorData: false,
+      changes: [{ key: "system.attributes.hp.feat", type: "upgrade", value: "5 + @lvhalf" },
+        { key: "system.skills.end.feat", type: "upgrade", value: "2" }]
+    }] }] };
+    assert.equal((await addItemEffects(args, deps)).status, "updated");
+    assert.equal(deps.calls[0].sources[0].transfer, true);
+    assert.equal(deps.calls[0].sources[0].system.equippedRec, false);
+    deps.confirm = () => assert.fail("An identical retry must not prompt");
+    assert.equal((await addItemEffects(args, deps)).status, "unchanged");
+  }
+});
+
+test("features reject activated or equipped effects before confirmation and cancellation saves nothing", async () => {
+  const deps = fixture();
+  const feat = deps.makeItem("feat", "feature", deps.actor);
+  const args = { items: [{ uuid: feat.uuid, effects: [{
+    ...proposal().items[0].effects[0], application: "passive"
+  }] }] };
+  for (const application of ["equipped", "self", "misc", "hit"]) {
+    const invalid = structuredClone(args);
+    invalid.items[0].effects[0].application = application;
+    await assert.rejects(addItemEffects(invalid, deps), /Features need permanent passive/);
+  }
+  deps.confirm = async () => "cancelled";
+  assert.equal((await addItemEffects(args, deps)).status, "cancelled");
+  assert.equal(deps.calls.length, 0);
+});
+
 /**
  * Model the installed Aura Effects schema without launching Foundry.
  */

@@ -4,7 +4,7 @@ import { validateChangeSummary } from "./confirmation-data.js";
 export const EFFECT_APPLICATIONS = Object.freeze(["equipped", "passive", "all", "allies", "enemies", "hit", "miss", "hitOrMiss", "self", "selfAfterAttack", "selfHit", "selfMiss", "misc"]);
 export const EFFECT_DURATIONS = Object.freeze(["permanent", "endOfTargetTurn", "endOfUserTurn", "endOfUserCurrent", "startOfTargetTurn", "startOfUserTurn", "saveEnd", "endOfEncounter", "endOfDay", "custom"]);
 export const EFFECT_ACTIONS = Object.freeze(["attack", "damage", "check", "save", "deathsave", "heal", "attacked", "attackedhit", "attackedmiss", "damaged", "healed"]);
-export const EFFECT_ITEM_TYPES = Object.freeze(["power", "consumable", "weapon", "equipment", "tool", "loot", "backpack"]);
+export const EFFECT_ITEM_TYPES = Object.freeze(["power", "consumable", "weapon", "equipment", "tool", "loot", "backpack", "feature"]);
 export const EFFECT_DAMAGE_TYPES = Object.freeze("damage ongoing acid cold fire force lightning necrotic physical poison psychic radiant thunder".split(" "));
 export const EFFECT_AURA_SCHEMA = Object.freeze({
   distanceFormula: "string", disposition: "string", applyToSelf: "boolean",

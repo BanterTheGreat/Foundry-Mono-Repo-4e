@@ -284,3 +284,20 @@ test("protocol v3 clients cannot pair with the world-Item creation companion", a
   await closed;
   assert.equal(bridge.session, null);
 });
+
+
+test("automation transport reserves two-minute review and reports uncertain disconnects", async t => {
+  const { bridge, token } = await fixture(t);
+  const socket = await pair(bridge, token);
+  const incoming = once(socket, "message");
+  const args = { powers: [{ uuid: "Item.power", config: { enabled: true } }] };
+  const pending = bridge.request("edit_target_automation", args);
+  const request = JSON.parse((await incoming)[0]);
+  assert.ok(bridge.pending.get(request.id).timer._idleTimeout >= 150000);
+  socket.send(JSON.stringify({ type: "response", id: request.id, worldId: "world", userId: "gm", result: { status: "cancelled" } }));
+  assert.deepEqual(await pending, { status: "cancelled" });
+  const lost = bridge.request("edit_target_automation", args);
+  const rejected = assert.rejects(lost, /confirmed automation change may have saved/);
+  socket.close();
+  await rejected;
+});
