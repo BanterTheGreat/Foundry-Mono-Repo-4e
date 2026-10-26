@@ -109,6 +109,7 @@ test("badges follow movement, replace earlier rolls, expire, and clear on scene 
 		setAttribute() {}, append(child) { this.children.push(child); }, remove() { this.removed = true; },
 	});
 	for (const [key, value] of Object.entries({
+		game: { socket: { on() {}, emit() {} } },
 		document: { createElement: element, body: { append: el => elements.push(el) } },
 		window: { innerWidth: 1000 },
 		PIXI: { Point: class { constructor(x, y) { Object.assign(this, { x, y }); } } },
@@ -137,10 +138,22 @@ test("badges follow movement, replace earlier rolls, expire, and clear on scene 
 	hooks.get("createChatMessage")(message("critical"));
 	assert.equal(elements[0].removed, true);
 	assert.equal(display.entries.size, 1);
-	display.entries.get("wolf").expires = 0;
+	let now = 10000;
+	t.mock.method(Date, "now", () => now);
+	tick();
+	assert.equal(display.entries.size, 1, "results stay until the power is completed");
+	display.complete("unrelated");
+	assert.equal(display.entries.get("wolf").expires, Infinity);
+	display.complete("activation");
+	assert.equal(display.entries.get("wolf").expires, 13000);
+	now = 12999;
+	tick();
+	assert.equal(display.entries.size, 1);
+	now = 13000;
 	tick();
 	assert.equal(display.entries.size, 0);
 	assert.equal(frames.size, 0);
+	display.clear();
 	hooks.get("createChatMessage")(message());
 	token.isVisible = false;
 	tick();

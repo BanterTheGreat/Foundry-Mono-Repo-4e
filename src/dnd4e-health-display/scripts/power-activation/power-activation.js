@@ -1,8 +1,9 @@
 import { CoverPreview } from "./cover-preview.js";
-import { attackResults } from "./attack-results.js";
+import { attackResults, messageAttackResults } from "./attack-results.js";
 import { sharedAreaPreview } from "./shared-area-preview.js";
 import { AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin, wallGeometryProblems, hasLineOfEffect } from "./area-geometry.js";
-import { MODULE_ID, SETTING, automationConfig, selectionProblems, targetCountProblems, squareDistance } from "./rules.js";
+import { MODULE_ID, SETTING, automationConfig, powerOriginRules, selectionProblems, targetCountProblems, squareDistance, targetFilterProblems } from "./rules.js";
+import { registerActorOrigins } from "./actor-origins.js";
 import { renderPowerCard, createPowerMessage } from "./cards.js";
 import { loadSystem, resolveRange, registerAutomationTab, commitCardCosts, commitPowerUse, rollFromOrigin } from "./system-adapter.js";
 
@@ -30,8 +31,10 @@ export async function registerPowerActivation() {
 		return;
 	}
 	CoverPreview.register();
+	registerActorOrigins();
 	attackResults.register();
 	sharedAreaPreview.register();
+	Hooks.on("createChatMessage", message => session?.captureAttackResults(message));
 	try {
 		await registerAutomationTab();
 	} catch (error) {
@@ -53,7 +56,7 @@ export async function registerPowerActivation() {
 		if (session?.source.id === document.id || session?.caster.id === document.id) {
 			void session.cancel();
 		} else {
-			session?.refresh();
+			session?.refreshAreaTargets();
 		}
 	});
 	Hooks.on("deleteItem", item => {
@@ -61,10 +64,14 @@ export async function registerPowerActivation() {
 			void session.cancel();
 		}
 	});
+	for (const hook of ["createActiveEffect", "updateActiveEffect", "deleteActiveEffect", "createToken"]) {
+		Hooks.on(hook, () => session?.refreshAreaTargets());
+	}
 	Hooks.on("updateActor", () => void session?.refreshRange());
 	Hooks.on("updateItem", () => void session?.refreshRange());
-	Hooks.on("canvasTearDown", () => void session?.cancel());
+	Hooks.on("canvasTearDown", () => void (session?.committed ? session.dispose(false) : session?.cancel()));
 	Hooks.on("renderApplicationV2", app => session?.bindAttackDialog(app));
+	Hooks.on("dnd4e.evaluateCommonAttackBonuses", (item, attacker, target, config) => session?.applyDetectedCover(item, target, config));
 	// A disconnected client cannot delete immediately; only reconcile its own cards on reconnect.
 	for (const message of game.messages) {
 		if (message.isAuthor && message.getFlag(MODULE_ID, "powerActivation")?.provisional) {
@@ -162,12 +169,14 @@ class ActivationSession {
 		this.listeners = new AbortController();
 		this.placementLocked = range.shape === "closeBurst";
 		this.wallCells = [];
+		this.phase = "targeting";
+		this.attackMessages = [];
 	}
 
-	/** Offer only configured actors' visible tokens on this scene, plus the caster. */
+	/** Offer visible tokens from the effective origin rules, optionally including the caster. */
 	originChoices() {
-		const allowed = automationConfig(this.item).originActors;
-		return [this.caster, ...canvas.tokens.placeables.filter(token => token !== this.caster && token.visible
+		const { originActors: allowed, allowCaster } = powerOriginRules(this.item);
+		return [...(allowCaster ? [this.caster] : []), ...canvas.tokens.placeables.filter(token => token !== this.caster && token.visible
 			&& token.actor && (allowed.includes(token.document.actorId ? `Actor.${token.document.actorId}` : token.actor.uuid)
 				|| allowed.includes(token.actor._stats?.compendiumSource)))];
 	}
@@ -243,6 +252,13 @@ class ActivationSession {
 
 	/** Retain in-range direct targets and install the session cancellation shortcut. */
 	async start() {
+		const choices = this.originChoices();
+		if (!choices.length) {
+			throw new Error("No eligible origin is on this scene. Place a companion configured in this power's Custom origins.");
+		}
+		if (!choices.includes(this.source)) {
+			this.source = choices[0];
+		}
 		this.message = await createPowerMessage(this.item, this.card, this.id);
 		if (!this.message) {
 			throw new Error("Could not create the temporary ability card.");
@@ -443,7 +459,8 @@ class ActivationSession {
 		const config = automationConfig(this.item);
 		const rectangles = this.range.shape === "summon" ? [] : this.areaRectangles();
 		const candidates = canvas.tokens.placeables.filter(token => rectangles.some(bounds => intersectsArea(token, bounds))
-			&& areaTargetAllowed(this.caster, token, this.range, config, this.source));
+			&& areaTargetAllowed(this.caster, token, this.range, config, this.source)
+			&& !targetFilterProblems(token, config, canvas.tokens.placeables, canvas.grid.size).length);
 		for (const [id, key] of this.areaExclusions) {
 			const token = candidates.find(candidate => candidate.id === id);
 			if (!token || this.areaSelectionKey(token) !== key) {
@@ -456,7 +473,7 @@ class ActivationSession {
 
 	/** Keep caster-centered bursts current when tokens or power configuration change. */
 	refreshAreaTargets() {
-		if (this.finished || this.busy) {
+		if (this.finished || this.busy || this.phase !== "targeting") {
 			return;
 		}
 		if (AREA_TYPES.includes(this.range.shape) && automationConfig(this.item).targetMode === "area") {
@@ -505,7 +522,7 @@ class ActivationSession {
 
 	/** Follow Foundry's standard targeting controls. */
 	targetChanged(token, targeted) {
-		if (this.syncing || this.finished) {
+		if (this.syncing || this.finished || this.phase !== "targeting") {
 			return;
 		}
 		if (this.busy) {
@@ -553,17 +570,23 @@ class ActivationSession {
 		}
 	}
 
+	/** Report mandatory per-power requirements for any selection workflow. */
+	filterProblems(targets = this.targets) {
+		const config = automationConfig(this.item);
+		return targets.flatMap(token => targetFilterProblems(token, config, canvas.tokens.placeables, canvas.grid.size));
+	}
+
 	/** Build advisory errors; unavailable targets remain in the panel until removed. */
 	problems() {
 		if (this.range.shape) {
-			return this.areaProblems();
+			return [...this.areaProblems(), ...this.filterProblems()];
 		}
-		return selectionProblems(this.source, this.targets, this.range, this.count, canvas.grid.size, automationConfig(this.item).targetCountMode);
+		return [...selectionProblems(this.source, this.targets, this.range, this.count, canvas.grid.size, automationConfig(this.item).targetCountMode), ...this.filterProblems()];
 	}
 
 	/** Re-evaluate formulas and weapon defaults when actor/item data changes. */
 	async refreshRange() {
-		if (this.finished || this.busy) {
+		if (this.finished || this.busy || this.phase !== "targeting") {
 			return;
 		}
 		try {
@@ -588,6 +611,10 @@ class ActivationSession {
 		if (this.finished) {
 			return;
 		}
+		if (this.phase === "results") {
+			this.panel?.render({ force: true });
+			return;
+		}
 		if (!this.item.isOwner || !this.item.actor?.isOwner || !this.originAllowed()) {
 			void this.cancel();
 			return;
@@ -603,7 +630,7 @@ class ActivationSession {
 	/** Follow rendered token positions throughout movement without rebuilding the panel each frame. */
 	refreshMovingToken(token) {
 		const automaticArea = AREA_TYPES.includes(this.range.shape) && automationConfig(this.item).targetMode === "area";
-		if (this.finished || (!automaticArea && token !== this.source && !this.targets.includes(token))) {
+		if (this.finished || this.phase !== "targeting" || (!automaticArea && token !== this.source && !this.targets.includes(token))) {
 			return;
 		}
 		if (token === this.source) {
@@ -615,7 +642,7 @@ class ActivationSession {
 
 	/** Draw around the source's current canvas position, including interpolated movement. */
 	drawRange() {
-		if (this.finished) {
+		if (this.finished || this.phase !== "targeting") {
 			return;
 		}
 		if (this.range.shape && !this.busy) {
@@ -772,7 +799,7 @@ class ActivationSession {
 
 	/** Allow explicit player overrides for range/count warnings. */
 	async confirmProblems() {
-		const blocked = this.lineOfEffectProblems();
+		const blocked = [...this.lineOfEffectProblems(), ...this.filterProblems()];
 		if (blocked.length) {
 			ui.notifications.warn(blocked.join(" "));
 			return false;
@@ -791,12 +818,12 @@ class ActivationSession {
 
 	/** Snapshot factors that affect native target tabs and automatically computed bonuses. */
 	contextKey() {
-		return JSON.stringify([this.caster.document.toObject(), this.range, this.origin, this.wallCells, automationConfig(this.item), this.item.toObject(), this.item.actor.toObject(), this.source.document.toObject(), this.targets.map(token => [token.id, token.document.toObject(), token.actor?.toObject()])]);
+		return JSON.stringify([this.caster.document.toObject(), this.range, this.origin, this.wallCells, automationConfig(this.item), this.item.toObject(), this.item.actor.toObject(), this.source.document.toObject(), this.targets.map(token => [token.id, token.document.toObject(), token.actor?.toObject()]), this.filterProblems()]);
 	}
 
 	/** Confirm utility use or open the native attack dialog after reviewing targets. */
 	async attack() {
-		if (this.busy || this.finished) {
+		if (this.busy || this.finished || this.phase !== "targeting") {
 			return;
 		}
 		if (this.range.shape === "wall" && this.wallProblems().length) {
@@ -860,8 +887,11 @@ class ActivationSession {
 				} } },
 			};
 			await (this.source === this.caster ? this.item.rollAttack(options) : rollFromOrigin(this.item, this.source, options));
-			if (this.committed) {
-				await this.complete();
+			if (this.attackRolled && !this.finished) {
+				await this.waitForAttackAnimation();
+			}
+			if (this.committed && !this.finished) {
+				await this.complete({ keepOpen: Boolean(this.attackRolled) });
 			}
 		} catch (error) {
 			console.error(`${MODULE_ID} | Attack activation`, error);
@@ -951,6 +981,24 @@ class ActivationSession {
 		}
 	}
 
+	/** Seed native per-target checkboxes while preserving stronger status/macro cover. */
+	applyDetectedCover(item, target, { bonuses }) {
+		if (!this.busy || this.finished || this.phase !== "targeting" || item?.uuid !== this.item.uuid
+			|| !this.targets.includes(target)) {
+			return;
+		}
+		const result = CoverPreview.evaluate(this.source, target, this.range.mode);
+		if (result?.kind === "superior") {
+			bonuses.coverSup.shouldApply = true;
+		}
+		if (result?.kind === "cover" && !bonuses.coverSup.shouldApply) {
+			bonuses.cover.shouldApply = true;
+		}
+		if (bonuses.coverSup.shouldApply && ["cover", "superior"].includes(result?.kind)) {
+			bonuses.cover.shouldApply = false;
+		}
+	}
+
 	/** Wrap only this session's native callback, preserving other modules' roll hooks. */
 	bindAttackDialog(app) {
 		if (app.rollConfig?.options?.powerActivationSession !== this.id || app.powerActivationBound) {
@@ -1000,6 +1048,7 @@ class ActivationSession {
 			}
 			const roll = await callback(...args);
 			if (roll) {
+				this.attackRolled = true;
 				await this.finalizePowerUse();
 			} else {
 				this.committed = true;
@@ -1016,8 +1065,29 @@ class ActivationSession {
 		}
 	}
 
-	/** Preserve the played card and clear local selection UI after a committed use. */
-	async complete() {
+	/** Wait for every attack message's local dice animation, including skipped or disabled dice. */
+	async waitForAttackAnimation() {
+		const dice3d = game.dice3d;
+		if (typeof dice3d?.waitFor3DAnimationByMessageID !== "function") {
+			return;
+		}
+		this.waitingForDice = true;
+		this.refresh();
+		try {
+			await Promise.all(this.attackMessages.map(async message => {
+				try {
+					await dice3d.waitFor3DAnimationByMessageID(message.id);
+				} catch (error) {
+					console.warn(`${MODULE_ID} | Could not wait for Dice So Nice; showing attack results`, error);
+				}
+			}));
+		} finally {
+			this.waitingForDice = false;
+		}
+	}
+
+	/** Finalize the chat card, retaining the panel only for a successful attack's damage step. */
+	async complete({ keepOpen = false } = {}) {
 		try {
 			if (this.message && game.messages.has(this.message.id)) {
 				const content = await renderPowerCard(this.item, await loadSystem(), { showActions: true });
@@ -1027,12 +1097,77 @@ class ActivationSession {
 			console.error(`${MODULE_ID} | Could not finalize played power card`, error);
 			ui.notifications.warn("The ability finished, but its power card could not be finalized. Check chat before reloading.");
 		} finally {
-			await this.dispose(false);
+			if (keepOpen && !this.finished) {
+				this.phase = "results";
+				this.listeners.abort();
+				sharedAreaPreview.clear();
+				CoverPreview.setContext(null);
+				this.graphics?.clear();
+				// PIXI still processes masks on empty graphics; detach before destroying geometry.
+				if (this.graphics) {
+					this.graphics.mask = null;
+				}
+				this.rangeMask?.destroy();
+				this.rangeMask = null;
+			} else {
+				await this.dispose(false);
+			}
+		}
+	}
+
+	/** Retain only this session's chat results; visibility is rechecked when rendering. */
+	captureAttackResults(message) {
+		if (message.flags?.[MODULE_ID]?.attackResults?.sessionId === this.id) {
+			this.attackMessages.push(message);
+			if (this.phase === "results") {
+				this.refresh();
+			}
+		}
+	}
+
+	/** Allow skipping damage only when every confirmed target has a known miss result. */
+	canComplete() {
+		if (this.phase !== "results" || this.busy) {
+			return false;
+		}
+		if (this.damageRolled || !this.item.hasDamage) {
+			return true;
+		}
+		const results = this.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id));
+		return this.targets.length > 0
+			&& this.targets.every(token => results.some(result => result.tokenId === token.id))
+			&& results.every(result => ["miss", "fumble"].includes(result.outcome));
+	}
+
+	/** Roll once for the whole attack; cancelling the native dialog leaves damage available. */
+	async rollDamage(event) {
+		if (this.busy || this.finished || this.phase !== "results" || this.damageRolled || !this.item.hasDamage) {
+			return;
+		}
+		this.busy = true;
+		this.refresh();
+		try {
+			if (!this.item.isOwner || !this.item.actor?.isOwner) {
+				throw new Error("You no longer have permission to roll this power's damage.");
+			}
+			const roll = await this.item.rollDamage({ event });
+			if (roll) {
+				this.damageRolled = true;
+			}
+		} catch (error) {
+			console.error(`${MODULE_ID} | Damage activation`, error);
+			ui.notifications.error(`Damage roll failed: ${error.message}`);
+		} finally {
+			this.busy = false;
+			this.refresh();
 		}
 	}
 
 	/** Explicit cancellation removes only this session's provisional message. */
 	async cancel() {
+		if (this.phase === "results" && !this.busy) {
+			return this.dispose(false);
+		}
 		if (this.commitStarted || this.finished) {
 			return;
 		}
@@ -1044,6 +1179,9 @@ class ActivationSession {
 
 	/** Remove every local listener/graphic and optionally restore prior targets. */
 	async dispose(restore) {
+		if (!this.finished && this.attackMessages.length) {
+			attackResults.complete(this.id);
+		}
 		this.finished = true;
 		sharedAreaPreview.clear();
 		CoverPreview.setContext(null);
@@ -1089,6 +1227,12 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 				this.setPosition({ height: "auto" });
 			},
 			attack() { return this.session.attack(); },
+			rollDamage(event) { return this.session.rollDamage(event); },
+			complete() {
+				if (this.session.canComplete()) {
+					return this.session.dispose(false);
+				}
+			},
 			cancel() { return this.session.cancel(); },
 			removeTarget(event, target) {
 				if (!this.session.busy) {
@@ -1115,12 +1259,24 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 	/** Prepare only current-session display data. */
 	async _prepareContext() {
 		const activation = this.session;
+		if (activation.phase === "results") {
+			return {
+				resolved: true, powerName: activation.item.name, card: activation.card,
+				showDetails: Boolean(this.showDetails), busy: activation.busy,
+				needsDamage: activation.item.hasDamage && !activation.damageRolled,
+				canComplete: activation.canComplete(),
+				status: activation.busy ? "Damage dialog open" : activation.damageRolled ? "Damage rolled" : "Attack resolved",
+				results: activation.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id)
+					.map(result => ({ ...result, name: canvas.tokens.get(result.tokenId)?.visible
+						? canvas.tokens.get(result.tokenId).name : "Unavailable target" }))),
+			};
+		}
 		const problems = activation.problems();
 		// Placement problems belong above the roster, not on every creature.
 		const placementProblems = activation.range.shape ? activation.areaProblems([], false) : [];
 		const targets = activation.targets.map(token => {
-			const warnings = (activation.range.shape ? activation.areaProblems([token], false)
-				: selectionProblems(activation.source, [token], activation.range, 1, canvas.grid.size))
+			const warnings = [...activation.filterProblems([token]), ...(activation.range.shape ? activation.areaProblems([token], false)
+				: selectionProblems(activation.source, [token], activation.range, 1, canvas.grid.size))]
 				.filter(problem => !placementProblems.includes(problem));
 			return {
 				id: token.id, name: token.visible ? token.name : "Unavailable target",
@@ -1146,7 +1302,7 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 			longRange: activation.range.maximum > activation.range.normal, required: activation.count,
 			selected: activation.targets.length, busy: activation.busy, cancellable: !activation.commitStarted,
 			ready: !problems.length && !activation.busy,
-			status: activation.busy ? (activation.item.hasAttack ? "Attack dialog open" : "Using ability") : (problems.length ? "Review targets" : "Ready"),
+			status: activation.waitingForDice ? "Rolling attack dice…" : activation.busy ? (activation.item.hasAttack ? "Attack dialog open" : "Using ability") : (problems.length ? "Review targets" : "Ready"),
 			problems: [...new Set(problems)].filter(problem => !targetWarnings.has(problem)), targets,
 		};
 	}
@@ -1156,9 +1312,12 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 		this.element.querySelector("[data-origin-selector]")?.addEventListener("change", event => this.session.changeOrigin(event.target.value));
 	}
 
-	/** Closing the panel is the same as Cancel; don't interrupt a committing roll. */
+	/** Close resolved attacks without undoing their use; don't interrupt a committing roll. */
 	async close(options) {
 		if (!this.session.finished) {
+			if (this.session.phase === "results" && !this.session.busy) {
+				return this.session.dispose(false);
+			}
 			if (this.session.commitStarted) {
 				return;
 			}

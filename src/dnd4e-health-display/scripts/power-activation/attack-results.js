@@ -1,7 +1,8 @@
 import { MODULE_ID } from "./rules.js";
 
 const LABELS = { hit: "HIT", miss: "MISS", critical: "CRIT", fumble: "CRIT FAIL", immune: "IMMUNE" };
-const DURATION = 4400;
+const DURATION = 3000;
+const CHANNEL = `module.${MODULE_ID}`;
 
 /**
  * Read only newly created, visible attack messages from a confirmed automation session.
@@ -45,12 +46,39 @@ export class AttackResults {
 		this.entries = new Map();
 		this.frame = null;
 		this.generation = 0;
+		this.completed = new Map();
 	}
 
 	/** Receive the same chat document on each client; Foundry controls its visibility. */
 	register() {
+		game.socket.on(CHANNEL, message => {
+			if (message?.type === "attackResultsComplete" && message.sceneId === canvas.scene?.id
+				&& typeof message.sessionId === "string") {
+				this.finish(message.sessionId);
+			}
+		});
 		Hooks.on("createChatMessage", message => this.showAfterAnimation(message));
 		Hooks.on("canvasTearDown", () => this.clear());
+	}
+
+	/** Start the grace period on every client when the activation panel closes. */
+	complete(sessionId) {
+		this.finish(sessionId);
+		game.socket.emit(CHANNEL, { type: "attackResultsComplete", sceneId: canvas.scene?.id, sessionId });
+	}
+
+	/** Retain the deadline for dice animations that finish after Complete was pressed. */
+	finish(sessionId) {
+		if (this.completed.has(sessionId)) {
+			return;
+		}
+		const expires = Date.now() + DURATION;
+		this.completed.set(sessionId, expires);
+		for (const entry of this.entries.values()) {
+			if (entry.message.flags[MODULE_ID].attackResults.sessionId === sessionId) {
+				entry.expires = expires;
+			}
+		}
 	}
 
 	/** Wait for this client's message animation, including skipped or disabled dice. */
@@ -95,7 +123,8 @@ export class AttackResults {
 			}
 			element.hidden = true;
 			document.body.append(element);
-			this.entries.set(result.tokenId, { element, message, expires: Date.now() + DURATION });
+			const sessionId = message.flags[MODULE_ID].attackResults.sessionId;
+			this.entries.set(result.tokenId, { element, message, expires: this.completed.get(sessionId) ?? Infinity });
 		}
 		if (this.entries.size && this.frame === null) {
 			this.update();
@@ -153,6 +182,7 @@ export class AttackResults {
 	/** Cancel animation and remove every badge when the scene is torn down. */
 	clear() {
 		this.generation++;
+		this.completed.clear();
 		if (this.frame !== null) {
 			cancelAnimationFrame(this.frame);
 			this.frame = null;

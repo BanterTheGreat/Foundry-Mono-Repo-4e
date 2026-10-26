@@ -43,15 +43,17 @@ test('attack entries preserve their own stored outcomes, names and totals', () =
     const roll = attack(25, 'hit', [{ name: 'Bless', value: 2, decisive: true }]);
     roll.options.multirollData.critstate = special;
     assert.equal(describeRoll(message, roll).attackOutcome, special);
-    assert.equal(describeRoll(message, roll).exceptional.length, 0);
+    assert.equal(describeRoll(message, roll).attackModifiers.length, 1);
   }
 });
 
-test('only decisive temporary attack sources appear collapsed', () => {
+test('all nonzero temporary attack modifiers appear collapsed', () => {
   const badges = [{ name: 'Strength', kind: 'ability', value: 5, decisive: true },
     { name: 'Bless', value: 2, decisive: true }, { name: 'Other', value: 2, decisive: false },
-    { name: 'Distracted', value: -2, decisivePenalty: true }];
-  assert.deepEqual(describeRoll(message, attack(25, 'hit', badges)).exceptional.map(b => b.name), ['Bless', 'Distracted']);
+    { name: 'Distracted', value: -2, decisivePenalty: true },
+    { name: 'Cover', value: -2 }, { name: 'Unused', value: 0 },
+    { name: 'Enchantment', kind: 'enhancement', value: 2 }];
+  assert.deepEqual(describeRoll(message, attack(25, 'hit', badges)).attackModifiers.map(b => b.name), ['Bless', 'Other', 'Distracted', 'Cover']);
 });
 
 test('skill sources stay in details and private rolls have no presentation model', () => {
@@ -60,7 +62,7 @@ test('skill sources stay in details and private rolls have no presentation model
   } } } };
   const model = describeRoll(skill, { total: 25 });
   assert.match(model.label, /rolled Acrobatics/);
-  assert.equal(model.exceptional.length, 0);
+  assert.equal(model.attackModifiers.length, 0);
   assert.equal(model.badges.length, 1);
   assert.equal(describeRoll({ ...skill, isContentVisible: false }, { total: 25 }), null);
 });

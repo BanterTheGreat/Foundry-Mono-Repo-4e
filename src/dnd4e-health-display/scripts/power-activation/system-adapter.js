@@ -18,6 +18,7 @@ export function automationSheetState(item) {
 		wall: !summon && item.system.rangeType === "wall",
 		canSummon: !item.hasAttack,
 		invalidSummon: summon && item.hasAttack,
+		customOrigins: config.originMode === "custom",
 	};
 }
 
@@ -100,8 +101,17 @@ export async function registerAutomationTab() {
 					? "Summon (requires a non-attack power)" : "Place summoned creature";
 			}
 			result.automationTargetModes = { area: "All in area", exact: "Choose a number of creatures" };
+			result.automationOriginModes = { character: "Use character origins", custom: "Custom origins" };
 			result.automationTargetCountModes = { exact: "Exactly", upTo: "Up to" };
 			result.automationDispositions = { all: "All creatures", enemies: "Enemies", allies: "Allies" };
+			result.automationConditions = { "": "No condition requirement" };
+			for (const status of CONFIG.statusEffects ?? []) {
+				result.automationConditions[status.id] = game.i18n.localize(status.name ?? status.label ?? status.id);
+			}
+			if (result.automation.targetCondition && !result.automationConditions[result.automation.targetCondition]) {
+				result.automationConditions[result.automation.targetCondition] = result.automation.targetCondition;
+			}
+			result.automationAdjacency = { "": "No adjacency requirement", allies: "Adjacent to an ally", enemies: "Adjacent to an enemy" };
 			result.editable = this.isEditable;
 			const actorLabel = async uuid => ({ uuid, name: (await fromUuid(uuid))?.name ?? "Missing actor" });
 			result.summonActor = result.automation.summonActor ? await actorLabel(result.automation.summonActor) : null;

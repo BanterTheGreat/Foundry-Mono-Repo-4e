@@ -2,7 +2,7 @@ import { calculateCover } from "./cover-geometry.js";
 
 const LABELS = { clear: "Clear", cover: "Cover −2", superior: "Superior cover −5", blocked: "Blocked" };
 
-/** Targeting-session cover aid. Never applies attack or defense modifiers. */
+/** Targeting-session cover geometry shared by the preview and native attack dialog. */
 export class CoverPreview {
   static #overlay = null;
   static #targeting = null;
@@ -46,7 +46,7 @@ export class CoverPreview {
     window.addEventListener("blur", () => CoverPreview.#setShiftHeld(false));
     for (const hook of [
       "canvasReady", "controlToken", "updateToken", "createToken", "deleteToken",
-      "refreshToken", "createWall", "updateWall", "deleteWall", "sightRefresh",
+      "refreshToken", "createWall", "updateWall", "deleteWall", "sightRefresh", "canvasPan",
     ]) {
       Hooks.on(hook, () => CoverPreview.scheduleRefresh());
     }
@@ -113,6 +113,30 @@ export class CoverPreview {
     return null;
   }
 
+  /** Recalculate supported cover from the same battlefield geometry used by the preview. */
+  static evaluate(attacker, target, mode) {
+    if (!canvas.ready || !["melee", "ranged"].includes(mode) || !target?.visible
+      || CoverPreview.#unsupportedReason(attacker, target, canvas.dimensions.size)) {
+      return null;
+    }
+    const size = canvas.dimensions.size;
+    // Movement-blocking walls represent physical obstacles, including invisible walls.
+    // Open doors do not block. Terrain height, wall direction, and special cover are out of scope.
+    const wallDocuments = canvas.walls.placeables
+      .map(wall => wall.document)
+      .filter(wall => wall.move !== CONST.WALL_MOVEMENT_TYPES.NONE && wall.ds !== CONST.WALL_DOOR_STATES.OPEN);
+    const walls = wallDocuments.map(wall => wall.c);
+    const disposition = attacker.document.disposition;
+    const creatures = canvas.tokens.placeables.filter(token => token !== attacker && token !== target
+      && token.visible && token.actor && token.document.elevation === attacker.document.elevation
+      && Math.abs(disposition) === 1 && token.document.disposition === -disposition)
+      .map(token => CoverPreview.#rectangle(token));
+    const geometry = { attacker: CoverPreview.#rectangle(attacker), target: CoverPreview.#rectangle(target), gridSize: size, walls };
+    const melee = calculateCover(geometry);
+    const ranged = calculateCover({ ...geometry, creatures });
+    return mode === "melee" ? melee : ranged;
+  }
+
   /** Recalculate only for the active targeting dialog and its resolved attack mode. */
   static refresh() {
     CoverPreview.clear();
@@ -141,34 +165,20 @@ export class CoverPreview {
     canvas.interface.addChild(overlay);
     CoverPreview.#overlay = overlay;
     const size = canvas.dimensions.size;
-    // Movement-blocking walls represent physical obstacles, including invisible walls.
-    // Open doors do not block. Terrain height, wall direction, and special cover are out of scope.
-    const wallDocuments = canvas.walls.placeables
-      .map(wall => wall.document)
-      .filter(wall => wall.move !== CONST.WALL_MOVEMENT_TYPES.NONE && wall.ds !== CONST.WALL_DOOR_STATES.OPEN);
-    const walls = wallDocuments.map(wall => wall.c);
-    const disposition = attacker.document.disposition;
     for (const target of targets) {
       const unsupported = CoverPreview.#unsupportedReason(attacker, target, size);
       if (unsupported) {
-        CoverPreview.#drawLabel(overlay, target, unsupported, size);
+        CoverPreview.#drawLabel(overlay, target, unsupported);
         continue;
       }
-      const creatures = canvas.tokens.placeables.filter(token => token !== attacker && token !== target
-        && token.visible && token.actor && token.document.elevation === attacker.document.elevation
-        && Math.abs(disposition) === 1 && token.document.disposition === -disposition)
-        .map(token => CoverPreview.#rectangle(token));
-      const geometry = { attacker: CoverPreview.#rectangle(attacker), target: CoverPreview.#rectangle(target), gridSize: size, walls };
-      const melee = calculateCover(geometry);
-      const ranged = calculateCover({ ...geometry, creatures });
-      const result = targeting.mode === "melee" ? melee : ranged;
-      const label = `${targeting.mode === "melee" ? "Melee" : "Ranged"}: ${LABELS[result.kind]}`;
+      const result = CoverPreview.evaluate(attacker, target, targeting.mode);
+      const label = LABELS[result.kind];
       if (CoverPreview.#shiftHeld && result.kind !== "clear") {
         for (const ray of result.rays) {
           CoverPreview.#drawRay(overlay, ray, size);
         }
       }
-      CoverPreview.#drawLabel(overlay, target, label, size);
+      CoverPreview.#drawLabel(overlay, target, label);
     }
   }
 
@@ -181,18 +191,21 @@ export class CoverPreview {
     overlay.addChild(graphics);
   }
 
-  /** Place a compact, non-interactive label just above the target footprint. */
-  static #drawLabel(overlay, target, text, size) {
+  /** Keep labels at 16 screen pixels, anchored above the target at any camera zoom. */
+  static #drawLabel(overlay, target, text) {
+    const screenScale = 1 / canvas.stage.scale.x;
     const Text = foundry.canvas.containers.PreciseText;
     const label = new Text(text, {
-      fontFamily: "sans-serif", fontSize: Math.max(11, Math.min(16, size * 0.16)),
+      fontFamily: "sans-serif", fontSize: 16,
       fill: 0xffffff, align: "center", stroke: 0x15191f, strokeThickness: 3,
     });
+    label.scale.set(screenScale);
     label.anchor.set(0.5, 0);
-    label.position.set(target.x + target.w / 2, target.y - label.height - 5);
+    label.position.set(target.x + target.w / 2, target.y - label.height - 8 * screenScale);
     const background = new PIXI.Graphics();
     background.beginFill(0x15191f, 0.9);
-    background.drawRoundedRect(label.x - label.width / 2 - 5, label.y - 3, label.width + 10, label.height + 6, 4);
+    background.drawRoundedRect(label.x - label.width / 2 - 5 * screenScale, label.y - 3 * screenScale,
+      label.width + 10 * screenScale, label.height + 6 * screenScale, 4 * screenScale);
     background.endFill();
     overlay.addChild(background, label);
   }

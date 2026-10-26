@@ -121,10 +121,15 @@ export class ChatRolls {
       ChatRolls.attachNaturalPopup(score, model);
     }
     const chips = ChatRolls.element('div', 'banter-roll__chips');
-    for (const badge of model.exceptional) {
-      const chip = ChatRolls.element('span', `banter-roll__chip ${badge.decisivePenalty ? 'is-negative' : 'is-positive'}`,
+    for (const badge of model.attackModifiers) {
+      const ordinary = !['critical', 'fumble', 'immune'].includes(model.attackOutcome);
+      const decisive = ordinary && (badge.decisive || badge.decisivePenalty);
+      const chip = ChatRolls.element('span', `banter-roll__chip ${badge.value < 0 ? 'is-negative' : 'is-positive'}${decisive ? ' is-decisive' : ''}`,
         `${badge.value >= 0 ? '+' : ''}${badge.value} ${badge.name}`);
-      chip.setAttribute('aria-label', `${chip.textContent}. ${badge.decisivePenalty ? 'Changed a hit into a miss' : 'Changed a miss into a hit'}.`);
+      const outcome = decisive
+        ? ` ${badge.decisivePenalty ? 'Changed a hit into a miss' : 'Changed a miss into a hit'}.` : '';
+      chip.setAttribute('aria-label', `${chip.textContent}.${outcome}`);
+      chip.title = `${badge.name}: ${badge.value >= 0 ? '+' : ''}${badge.value} to this attack.${outcome}`;
       chips.append(chip);
     }
     for (const contributor of model.contributors) {

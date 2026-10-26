@@ -288,6 +288,18 @@
 .banter-roll__chip { font-size: 10px; padding: 2px 5px; border: 1px solid #766055; border-radius: 3px; cursor: inherit; text-decoration: none; }
 .banter-roll__chip.is-positive { border-color: #689b6c; box-shadow: 0 0 5px #68ab6044; }
 .banter-roll__chip.is-negative { border-color: #b76363; box-shadow: 0 0 5px #cc555544; }
+.banter-roll__chip.is-positive.is-decisive {
+  color: #c5ffb0;
+  border-color: #8cda60;
+  background: #304b24;
+  box-shadow: 0 0 5px #8cda6055;
+}
+.banter-roll__chip.is-negative.is-decisive {
+  color: #ffc2b8;
+  border-color: #f08070;
+  background: #562824;
+  box-shadow: 0 0 5px #f0807055;
+}
 .banter-roll__calculation { border-top: 1px solid #63564a; padding: 8px 10px; font-size: 11px; }
 .banter-roll__modifier { margin: 0; padding: 5px 0; border-bottom: 1px solid #ffffff0d; font: 12px/1.4 var(--font-body, sans-serif); font-weight: normal; }
 .banter-roll__modifier.is-positive { color: #a5dca8; }

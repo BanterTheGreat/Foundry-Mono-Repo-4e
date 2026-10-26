@@ -34,6 +34,17 @@
 		</label>
 		<p class="power-automation__hint">Allies and enemies are relative to the caster. Neutral tokens only match All creatures.</p>
 		{{/if}}
+		<label>Required condition
+			<select name="flags.dnd4e-health-display.targetAutomation.targetCondition" {{#unless editable}}disabled{{/unless}}>
+				{{selectOptions automationConditions selected=automation.targetCondition}}
+			</select>
+		</label>
+		<label>Required adjacency
+			<select name="flags.dnd4e-health-display.targetAutomation.targetAdjacent" {{#unless editable}}disabled{{/unless}}>
+				{{selectOptions automationAdjacency selected=automation.targetAdjacent}}
+			</select>
+		</label>
+		<p class="power-automation__hint">Both requirements must match, including for the origin creature. Allies and enemies here are relative to each target. Adjacency includes diagonals and visible creatures at the same elevation, excluding the target itself. Neutral creatures cannot meet an adjacency requirement. These requirements cannot be overridden.</p>
 		{{#if automationView.showTargetCount}}
 		<label>Target count
 			<select name="flags.dnd4e-health-display.targetAutomation.targetCountMode" {{#unless editable}}disabled{{/unless}}>
@@ -49,7 +60,7 @@
 		<label>Include origin creature
 			<input type="checkbox" name="flags.dnd4e-health-display.targetAutomation.includeCaster" {{checked automation.includeCaster}} {{#unless editable}}disabled{{/unless}}>
 		</label>
-		<p class="power-automation__hint">Overrides the creature filter for the origin. With an alternate origin, this applies to that token.</p>
+		<p class="power-automation__hint">Overrides the ally/enemy creature filter for the origin. With an alternate origin, this applies to that token.</p>
 		{{/if}}
 		{{/if}}
 	</fieldset>
@@ -75,13 +86,28 @@
 			<p class="power-automation__hint">Height and solid-wall status are Region metadata; movement, sight blocking, damage and vertical targeting are not automated. Occupancy checks use visible tokens at the caster's elevation; the GM can also check hidden tokens.</p>
 		</div>
 		{{/if}}
-		<div data-automation-actor="originActors">
-			<strong>Alternate origins</strong>
-			<p class="power-automation__hint">Drag actors here, then choose one of their visible scene tokens during targeting. The caster is always available.</p>
-			{{#each originActors}}<p class="power-automation__actor">{{name}} <button type="button" data-automation-remove="originActors" data-uuid="{{uuid}}" {{#unless ../editable}}disabled{{/unless}}>Remove</button></p>{{/each}}
-		</div>
 	</fieldset>
 	{{/unless}}
+	<fieldset class="power-automation__group">
+		<legend>Origin</legend>
+		<label>Origin rules
+			<select name="flags.dnd4e-health-display.targetAutomation.originMode" {{#unless editable}}disabled{{/unless}}>
+				{{selectOptions automationOriginModes selected=automation.originMode}}
+			</select>
+		</label>
+		{{#if automationView.customOrigins}}
+		<label>Allow caster
+			<input type="checkbox" name="flags.dnd4e-health-display.targetAutomation.allowCaster" {{checked automation.allowCaster}} {{#unless editable}}disabled{{/unless}}>
+		</label>
+		<div data-automation-actor="originActors">
+			<strong>Custom origins</strong>
+			<p class="power-automation__hint">Drag actors here. This list replaces character origins. Uncheck Allow caster to require one of these companions.</p>
+			{{#each originActors}}<p class="power-automation__actor">{{name}} <button type="button" data-automation-remove="originActors" data-uuid="{{uuid}}" {{#unless ../editable}}disabled{{/unless}}>Remove</button></p>{{/each}}
+		</div>
+		{{else}}
+		<p class="power-automation__hint">Uses the caster and alternate origins configured with Origins on the actor sheet.</p>
+		{{/if}}
+	</fieldset>
 	<p class="power-automation__hint">Attack powers open the attack dialog; other powers use Confirm. Target count, range and area membership are advisory. Check cover, line of effect, elevation and special targeting requirements manually.</p>
 	{{else}}
 	<p class="power-automation__hint">Enable automation to configure this power's targeting.</p>

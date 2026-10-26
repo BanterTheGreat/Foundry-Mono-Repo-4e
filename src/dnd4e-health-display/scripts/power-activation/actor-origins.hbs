@@ -1,0 +1,9 @@
+<section class="power-automation-tab">
+	<p><strong>{{actorName}}</strong> · Alternate origins</p>
+	<p class="power-automation__hint">Drag companion actors here to let powers originate from their visible tokens on the current scene. The caster remains available. Powers with Custom origins use their own rules instead.</p>
+	{{#each origins}}
+	<p class="power-automation__actor">{{name}} <button type="button" data-remove-origin="{{uuid}}" {{#unless ../editable}}disabled{{/unless}}>Remove</button></p>
+	{{else}}
+	<p>No alternate origins configured.</p>
+	{{/each}}
+</section>

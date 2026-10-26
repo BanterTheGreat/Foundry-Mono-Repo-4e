@@ -2,8 +2,9 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 import vm from "node:vm";
+import { messageAttackResults } from "../scripts/power-activation/attack-results.js";
 import { AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin, hasLineOfEffect } from "../scripts/power-activation/area-geometry.js";
-import { automationConfig, squareDistance, selectionProblems, targetCountProblems, supportsTargetAutomation, MODULE_ID, SETTING } from "../scripts/power-activation/rules.js";
+import { automationConfig, powerOriginRules, squareDistance, selectionProblems, targetCountProblems, supportsTargetAutomation, targetFilterProblems, MODULE_ID, SETTING } from "../scripts/power-activation/rules.js";
 
 const source = readFileSync(new URL("../scripts/power-activation/power-activation.js", import.meta.url), "utf8")
 	.replace(/^import .*;\r?\n/gm, "").replace(/^export /gm, "");
@@ -59,10 +60,10 @@ function fixture({ confirm = true, fastForward = false } = {}) {
 		async close() {}
 	}
 	const context = vm.createContext({
-		console, AbortController, MODULE_ID, SETTING, automationConfig, selectionProblems, targetCountProblems, squareDistance,
+		console, AbortController, MODULE_ID, SETTING, automationConfig, powerOriginRules, selectionProblems, targetCountProblems, squareDistance, targetFilterProblems,
 		AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin, hasLineOfEffect,
 		CoverPreview: { setContext: value => hooks.push(["coverContext", value]), register() {} },
-		attackResults: { register() {} },
+		attackResults: { register() {}, complete: id => hooks.push(["attackResultsComplete", id]) }, messageAttackResults,
 		sharedAreaPreview: {
 			show: value => hooks.push(["sharedArea", value.id]),
 			clear: () => hooks.push(["sharedArea", null]), register() {},
@@ -114,7 +115,7 @@ function fixture({ confirm = true, fastForward = false } = {}) {
 		commitCardCosts: async () => { consumed++; return true; },
 		commitPowerUse: async power => power.update({ "system.uses.value": power.system.uses.value - 1 }),
 	});
-	vm.runInContext(`${source}\nglobalThis.api = { ActivationSession, useAbility, showPowerInChat, setSession: value => { session = value; } };`, context);
+	vm.runInContext(`${source}\nglobalThis.api = { ActivationSession, TargetingPanel, useAbility, showPowerInChat, setSession: value => { session = value; } };`, context);
 	const activation = new context.api.ActivationSession(item, attacker, { normal: 1, maximum: 1 }, "card", 1);
 	context.api.setSession(activation);
 	return { context, activation, item, target, far, attacker, targets, messages, warnings, confirmations, hooks, changes, rectangles, shapes, tokenMap, consumed: () => consumed };
@@ -568,7 +569,8 @@ test("submission commits once even when the native submit callback runs twice", 
 	assert.equal(rolls, 1);
 	assert.equal(f.consumed(), 1);
 	assert.equal(f.item.system.uses.value, 1);
-	assert.equal(f.activation.finished, true);
+	assert.equal(f.activation.finished, false);
+	assert.equal(f.activation.phase, "results");
 	assert.equal(f.messages.get("preview")[`flags.${MODULE_ID}.powerActivation.provisional`], false);
 	assert.ok(f.hooks.some(([hook]) => hook === "dnd4e.usePower"));
 });
@@ -834,4 +836,286 @@ test("exact and up-to settings reach individual and counted-area validation", ()
 		f.activation.targets = [f.target, f.far, f.attacker];
 		assert.match(f.activation.problems().join(" "), /expects 1 to 2/);
 	}
+});
+
+test("committed attack stays open with its results and full power until damage and Complete", async () => {
+	const f = fixture();
+	f.item.hasDamage = true;
+	f.activation.targets = [f.target];
+	const panel = Object.create(f.context.api.TargetingPanel.prototype);
+	panel.session = f.activation;
+	f.activation.panel = panel;
+	panel.render = () => panel;
+	let closed = 0;
+	panel.close = async () => { closed++; };
+	f.item.rollAttack = async () => {
+		f.activation.captureAttackResults({ visible: true, isContentVisible: true,
+			flags: { [MODULE_ID]: { attackResults: { sessionId: f.activation.id, sceneId: "scene", targetIds: [f.target.id] } } },
+			rolls: [{ total: 12, options: { multirollData: { targetID: f.target.id, hitstate: "miss" } } }],
+		});
+		f.activation.attackRolled = true;
+		await f.activation.finalizePowerUse();
+	};
+	await f.activation.attack();
+	assert.equal(f.activation.phase, "results");
+	assert.equal(f.activation.finished, false);
+	assert.equal(closed, 0);
+	panel.showDetails = true;
+	const display = await panel._prepareContext();
+	assert.equal(display.card, "card");
+	assert.equal(display.showDetails, true);
+	assert.equal(display.results[0].label, "MISS");
+	assert.equal(display.needsDamage, true);
+	f.activation.targetChanged(f.far, true);
+	assert.deepEqual(f.activation.targets, [f.target]);
+	let release;
+	let rolls = 0;
+	f.item.rollDamage = () => { rolls++; return new Promise(resolve => { release = resolve; }); };
+	const damage = f.activation.rollDamage({});
+	await f.activation.rollDamage({});
+	assert.equal(rolls, 1);
+	release({ total: 18 });
+	await damage;
+	assert.equal((await panel._prepareContext()).needsDamage, false);
+	assert.equal(f.activation.finished, false);
+	await f.context.api.TargetingPanel.DEFAULT_OPTIONS.actions.complete.call(panel);
+	assert.equal(f.activation.finished, true);
+	assert.equal(closed, 1);
+	assert.equal(f.item.system.uses.value, 1);
+});
+
+test("cancelled damage keeps Roll Damage available; an attack without damage can complete", async () => {
+	const f = fixture();
+	f.activation.phase = "results";
+	f.activation.committed = true;
+	f.item.hasDamage = true;
+	f.item.rollDamage = async () => null;
+	await f.activation.rollDamage({});
+	assert.equal(Boolean(f.activation.damageRolled), false);
+	assert.equal(f.activation.busy, false);
+	assert.equal(f.activation.finished, false);
+	const panel = Object.create(f.context.api.TargetingPanel.prototype);
+	panel.session = f.activation;
+	await f.context.api.TargetingPanel.DEFAULT_OPTIONS.actions.complete.call(panel);
+	assert.equal(f.activation.finished, false);
+	f.item.hasDamage = false;
+	assert.equal((await panel._prepareContext()).needsDamage, false);
+	await f.context.api.TargetingPanel.DEFAULT_OPTIONS.actions.complete.call(panel);
+	assert.equal(f.activation.finished, true);
+});
+
+test("all misses allow completing without damage while mixed and incomplete results do not", async () => {
+	for (const outcomes of [["miss", "miss"], ["miss", "fumble"], ["miss", "hit"], ["miss", "critical"], ["miss"], []]) {
+		const f = fixture();
+		f.activation.phase = "results";
+		f.activation.committed = true;
+		f.activation.targets = [f.target, f.far];
+		f.item.hasDamage = true;
+		f.activation.captureAttackResults({ visible: true, isContentVisible: true,
+			flags: { [MODULE_ID]: { attackResults: { sessionId: f.activation.id, sceneId: "scene", targetIds: [f.target.id, f.far.id] } } },
+			rolls: outcomes.map((outcome, index) => ({ total: 12, options: { multirollData: {
+				targetID: f.activation.targets[index].id, hitstate: outcome, critstate: outcome,
+			} } })),
+		});
+		const panel = Object.create(f.context.api.TargetingPanel.prototype);
+		panel.session = f.activation;
+		const expected = outcomes.length === 2 && outcomes.every(outcome => ["miss", "fumble"].includes(outcome));
+		const display = await panel._prepareContext();
+		assert.equal(display.needsDamage, true);
+		assert.equal(display.canComplete, expected);
+		f.activation.busy = true;
+		assert.equal(f.activation.canComplete(), false);
+		f.activation.busy = false;
+		await f.context.api.TargetingPanel.DEFAULT_OPTIONS.actions.complete.call(panel);
+		assert.equal(f.activation.finished, expected);
+		assert.equal(Boolean(f.activation.damageRolled), false);
+	}
+});
+
+test("condition and adjacency filters combine and reject hidden, overlapping, neutral and elevated neighbors", () => {
+	const token = (id, x, y = 0) => ({ id, name: id, visible: true, x, y, w: 100, h: 100,
+		actor: { statuses: new Set(["prone"]) }, document: { disposition: 1, elevation: 0 } });
+	const target = token("target", 0);
+	const neighbor = token("neighbor", 100, 100);
+	const config = { targetCondition: "prone", targetAdjacent: "allies" };
+	const check = () => targetFilterProblems(target, config, [target, neighbor], 100);
+	assert.deepEqual(check(), []);
+	target.actor.statuses.clear();
+	assert.match(check()[0], /condition/);
+	target.actor.statuses.add("prone");
+	for (const change of [{ visible: false }, { x: 0, y: 0 }, { document: { disposition: 0, elevation: 0 } },
+		{ document: { disposition: 1, elevation: 1 } }]) {
+		const saved = { ...neighbor };
+		Object.assign(neighbor, change);
+		assert.equal(check().length, 1);
+		Object.assign(neighbor, saved);
+	}
+	config.targetAdjacent = "enemies";
+	assert.equal(check().length, 1);
+	neighbor.document.disposition = -1;
+	assert.deepEqual(check(), []);
+	target.w = 200;
+	neighbor.x = 200;
+	neighbor.y = 0;
+	assert.deepEqual(check(), []);
+	target.document.disposition = 0;
+	assert.equal(check().length, 1);
+});
+
+test("mandatory filters block manual selection overrides and automatically update area targets", async () => {
+	const f = fixture({ confirm: true });
+	f.item.getFlag = () => ({ enabled: true, targetCount: 1, targetCondition: "prone" });
+	f.target.actor.statuses = new Set();
+	f.activation.targets = [f.target];
+	assert.equal(await f.activation.confirmProblems(), false);
+	assert.equal(f.confirmations.length, 0);
+	assert.equal(f.consumed(), 0);
+	f.target.actor.statuses.add("prone");
+	assert.equal(await f.activation.confirmProblems(), true);
+	f.activation.range = { shape: "closeBurst", area: 1, maximum: 1 };
+	f.activation.placementLocked = true;
+	f.activation.selectAreaTargets();
+	assert.ok(f.activation.targets.includes(f.target));
+	f.target.actor.statuses.clear();
+	f.activation.refreshAreaTargets();
+	assert.equal(f.activation.targets.length, 0);
+});
+
+test("adjacency changes while the native dialog is open invalidate confirmation", () => {
+	const f = fixture();
+	f.item.getFlag = () => ({ enabled: true, targetCount: 1, targetAdjacent: "enemies" });
+	f.target.document.disposition = 1;
+	f.attacker.document.disposition = -1;
+	f.activation.targets = [f.target];
+	const key = f.activation.contextKey();
+	assert.equal(f.activation.filterProblems().length, 0);
+	f.attacker.document.disposition = 0;
+	assert.notEqual(f.activation.contextKey(), key);
+	assert.equal(f.activation.filterProblems().length, 1);
+});
+
+test("attack results detach the range mask before destroying its graphics geometry", async () => {
+	const f = fixture();
+	const mask = { geometry: { graphicsData: [] }, destroy() { this.geometry = null; } };
+	const overlay = { mask, clear() {}, destroy() {} };
+	f.activation.graphics = overlay;
+	f.activation.rangeMask = mask;
+	await f.activation.complete({ keepOpen: true });
+	// PIXI's next mask pass reads geometry.graphicsData, even on an empty overlay.
+	assert.doesNotThrow(() => overlay.mask?.geometry.graphicsData);
+	assert.equal(overlay.mask, null);
+	assert.equal(mask.geometry, null);
+	await f.activation.dispose(false);
+});
+
+test("target dialog waits for every attack animation before transforming, without reopening after disposal", async () => {
+	for (const disposed of [false, true]) {
+		const f = fixture();
+		f.activation.targets = [f.target];
+		const releases = [];
+		let waiting;
+		const started = new Promise(resolve => { waiting = resolve; });
+		f.context.game.dice3d = { waitFor3DAnimationByMessageID(id) {
+			return new Promise(resolve => { releases.push({ id, resolve }); if (releases.length === 2) waiting(); });
+		} };
+		f.item.rollAttack = async () => {
+			f.activation.attackRolled = true;
+			f.activation.committed = true;
+			f.activation.commitStarted = true;
+			for (const id of ["attack-one", "attack-two"]) {
+				f.activation.captureAttackResults({ id, flags: { [MODULE_ID]: { attackResults: { sessionId: f.activation.id } } } });
+			}
+		};
+		const attack = f.activation.attack();
+		await started;
+		assert.equal(f.activation.phase, "targeting");
+		assert.equal(f.activation.busy, true);
+		assert.equal(f.activation.waitingForDice, true);
+		assert.deepEqual(releases.map(entry => entry.id), ["attack-one", "attack-two"]);
+		releases[0].resolve();
+		await Promise.resolve();
+		assert.equal(f.activation.phase, "targeting");
+		if (disposed) {
+			await f.activation.dispose(false);
+		}
+		releases[1].resolve();
+		await attack;
+		assert.equal(f.activation.phase, disposed ? "targeting" : "results");
+		assert.equal(f.activation.finished, disposed);
+		assert.equal(f.activation.waitingForDice, false);
+	}
+});
+
+test("character origins are inherited, while custom origins replace them and can exclude the caster", async () => {
+	const f = fixture();
+	f.target.document.actorId = "general";
+	f.far.document.actorId = "spirit";
+	f.item.actor.getFlag = () => ({ originActors: ["Actor.general"] });
+	assert.deepEqual(Array.from(f.activation.originChoices(), token => token.id), [f.attacker.id, f.target.id]);
+	f.item.getFlag = () => ({ enabled: true, originMode: "custom", allowCaster: false, originActors: ["Actor.spirit"] });
+	assert.deepEqual(Array.from(f.activation.originChoices(), token => token.id), [f.far.id]);
+	await f.activation.start();
+	assert.equal(f.activation.source, f.far);
+	assert.equal(f.activation.caster, f.attacker);
+	assert.equal(f.activation.originAllowed(), true);
+	f.far.visible = false;
+	assert.equal(f.activation.originAllowed(), false);
+});
+
+test("required companion absence blocks activation before creating a card or paying costs", async () => {
+	for (const originActors of [[], ["Actor.missing"]]) {
+		const f = fixture();
+		f.item.actor.getFlag = () => ({ originActors: ["Actor.a"] });
+		f.item.getFlag = () => ({ enabled: true, originMode: "custom", allowCaster: false, originActors });
+		await assert.rejects(f.activation.start(), /No eligible origin/);
+		assert.equal(f.messages.size, 0);
+		assert.equal(f.consumed(), 0);
+	}
+});
+
+test("legacy origins stay custom while explicitly inherited powers ignore saved custom actors", () => {
+	const actor = { getFlag: () => ({ originActors: ["Actor.general"] }) };
+	const item = { actor, getFlag: () => ({ originActors: ["Actor.legacy"] }) };
+	assert.deepEqual(powerOriginRules(item), { originActors: ["Actor.legacy"], allowCaster: true });
+	item.getFlag = () => ({ originMode: "character", originActors: ["Actor.legacy"], allowCaster: false });
+	assert.deepEqual(powerOriginRules(item), { originActors: ["Actor.general"], allowCaster: true });
+});
+
+
+test("detected cover seeds each native target independently and preserves stronger cover", () => {
+	const f = fixture();
+	f.activation.busy = true;
+	f.activation.targets = [f.target, f.far];
+	let kind = "cover";
+	f.context.CoverPreview.evaluate = (source, target, mode) => {
+		assert.equal(source, f.activation.source);
+		return { kind: target === f.target ? kind : "clear" };
+	};
+	const bonuses = () => ({ cover: { shouldApply: false }, coverSup: { shouldApply: false } });
+	const first = bonuses();
+	f.activation.applyDetectedCover(f.item, f.target, { bonuses: first });
+	assert.equal(first.cover.shouldApply, true);
+	const other = bonuses();
+	f.activation.applyDetectedCover(f.item, f.far, { bonuses: other });
+	assert.equal(other.cover.shouldApply, false);
+	kind = "superior";
+	f.activation.applyDetectedCover(f.item, f.target, { bonuses: first });
+	assert.equal(first.cover.shouldApply, false);
+	assert.equal(first.coverSup.shouldApply, true);
+	kind = "cover";
+	f.activation.applyDetectedCover(f.item, f.target, { bonuses: first });
+	assert.equal(first.cover.shouldApply, false);
+	assert.equal(first.coverSup.shouldApply, true);
+	for (const ignored of ["clear", "blocked", undefined]) {
+		kind = ignored;
+		const unchanged = bonuses();
+		f.activation.applyDetectedCover(f.item, f.target, { bonuses: unchanged });
+		assert.deepEqual(unchanged, bonuses());
+	}
+	kind = "cover";
+	const unrelated = bonuses();
+	f.activation.applyDetectedCover({ uuid: "other" }, f.target, { bonuses: unrelated });
+	f.activation.busy = false;
+	f.activation.applyDetectedCover(f.item, f.target, { bonuses: unrelated });
+	assert.deepEqual(unrelated, bonuses());
 });

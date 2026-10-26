@@ -7,5 +7,5 @@
 - [x] Honor the per-power include-caster setting for area targets. With an alternate attack origin, inclusion applies to that origin token instead of the original caster. Close-burst previews, shared previews, and placed Regions use the same origin-space exclusion.
 - [x] Require player line of effect for AoE origins, summon squares, and every drawn wall square; prevent bypass through Proceed Anyway. Open doors allow placement, and GMs retain override access.
 - [x] Preserve manual area-target removals during automatic refreshes until the area changes or the excluded creature moves or re-enters. Explicitly selecting area targets again resets exclusions.
-- [ ] Add a per-power target filter that only allows creatures with a specified condition.
-- [ ] Add a per-power target filter that only allows creatures adjacent to allies or enemies, with a configurable choice of which relationship is required.
+- [x] Add a per-power target filter that only allows creatures with a specified condition.
+- [x] Add a per-power target filter that only allows creatures adjacent to allies or enemies, with a configurable choice of which relationship is required.

@@ -30,13 +30,15 @@ class Graphics extends Container {
 }
 
 class Text extends Container {
-  width = 120;
-  height = 20;
+  scale = { x: 1, set(value) { this.x = value; } };
+  get width() { return 120 * this.scale.x; }
+  get height() { return this.style.fontSize * this.scale.x; }
   anchor = { set() {} };
   position = { set: (x, y) => { this.x = x; this.y = y; } };
-  constructor(text) {
+  constructor(text, style) {
     super();
     this.text = text;
+    this.style = style;
   }
 }
 
@@ -77,6 +79,7 @@ test("integrated cover follows targets, hover, walls, visibility and scene teard
   globalThis.canvas = {
     ready: true, scene: { grid: { type: 1 } }, dimensions: { size: 100 },
     interface: new Container(),
+    stage: { scale: { x: 1 } },
     tokens: { controlled: [attacker], placeables: [attacker, target], get: id => id === "attacker" ? attacker : target },
     walls: { placeables: [] },
   };
@@ -96,17 +99,29 @@ test("integrated cover follows targets, hover, walls, visibility and scene teard
   const targeting = { source: attacker, targets: [target], mode: "ranged" };
   CoverPreview.setContext(targeting);
   flushFrames();
-  assert.deepEqual(labels(), ["Ranged: Clear"]);
+  assert.deepEqual(labels(), ["Clear"]);
   assert.equal(rays().length, 0);
   const label = overlay().children.find(child => child instanceof Text);
   assert.equal(label.x, target.x + target.w / 2);
   assert.ok(label.y + label.height < target.y);
+  for (const zoom of [0.25, 0.5, 2, 3]) {
+    canvas.stage.scale.x = zoom;
+    hooks.get("canvasPan")();
+    flushFrames();
+    const zoomedLabel = overlay().children.find(child => child instanceof Text);
+    assert.equal(zoomedLabel.height * zoom, 16);
+    assert.equal(zoomedLabel.x, target.x + target.w / 2);
+    assert.ok(Math.abs((target.y - zoomedLabel.y - zoomedLabel.height) * zoom - 8) < 0.000001);
+  }
+  canvas.stage.scale.x = 1;
+  hooks.get("canvasPan")();
+  flushFrames();
   const old = overlay();
 
   canvas.walls.placeables = [wall];
   CoverPreview.refresh();
   assert.equal(old.destroyed, true);
-  assert.deepEqual(labels(), ["Ranged: Cover −2"]);
+  assert.deepEqual(labels(), ["Cover −2"]);
   assert.equal(rays().length, 0);
   events.get("keydown")({ key: "Shift", shiftKey: true });
   flushFrames();
@@ -115,7 +130,7 @@ test("integrated cover follows targets, hover, walls, visibility and scene teard
   assert.ok(rays().some(ray => ray.color === 0x74dba3));
   events.get("keyup")({ key: "Shift", shiftKey: false });
   flushFrames();
-  assert.deepEqual(labels(), ["Ranged: Cover −2"]);
+  assert.deepEqual(labels(), ["Cover −2"]);
   assert.equal(rays().length, 0);
   events.get("keydown")({ key: "Shift", shiftKey: true });
   flushFrames();
@@ -126,36 +141,38 @@ test("integrated cover follows targets, hover, walls, visibility and scene teard
   flushFrames();
   wall.document.ds = 1;
   CoverPreview.refresh();
-  assert.deepEqual(labels(), ["Ranged: Clear"]);
+  assert.deepEqual(labels(), ["Clear"]);
   assert.equal(rays().length, 0);
   wall.document.ds = 0;
   wall.document.move = 0;
   CoverPreview.refresh();
-  assert.deepEqual(labels(), ["Ranged: Clear"]);
+  assert.deepEqual(labels(), ["Clear"]);
 
   const enemy = token(150, -1);
   enemy.y = -50;
   canvas.tokens.placeables.push(enemy);
   CoverPreview.refresh();
-  assert.deepEqual(labels(), ["Ranged: Cover −2"]);
+  assert.deepEqual(labels(), ["Cover −2"]);
   assert.equal(rays().length, 4);
   targeting.mode = "melee";
   CoverPreview.setContext(targeting);
   flushFrames();
-  assert.deepEqual(labels(), ["Melee: Clear"]);
+  assert.deepEqual(labels(), ["Clear"]);
   assert.equal(rays().length, 0);
   targeting.mode = "ranged";
   enemy.document.disposition = 1;
   CoverPreview.refresh();
-  assert.deepEqual(labels(), ["Ranged: Clear"]);
+  assert.deepEqual(labels(), ["Clear"]);
   enemy.document.disposition = -1;
   enemy.visible = false;
   CoverPreview.refresh();
-  assert.deepEqual(labels(), ["Ranged: Clear"]);
+  assert.deepEqual(labels(), ["Clear"]);
 
   target.document.elevation = 10;
   CoverPreview.refresh();
   assert.deepEqual(labels(), ["Cover: elevation unsupported"]);
+  assert.equal(CoverPreview.evaluate(attacker, target, targeting.mode), null);
+  assert.equal(CoverPreview.evaluate(attacker, target, "area"), null);
   assert.equal(rays().length, 0);
   target.document.elevation = 0;
 
@@ -165,7 +182,7 @@ test("integrated cover follows targets, hover, walls, visibility and scene teard
   target.visible = true;
   canvas.tokens.controlled.push(target);
   CoverPreview.refresh();
-  assert.deepEqual(labels(), ["Ranged: Clear"]);
+  assert.deepEqual(labels(), ["Clear"]);
   canvas.tokens.controlled = [attacker];
   targeting.targets = [];
   game.user.targets.clear();
@@ -174,12 +191,12 @@ test("integrated cover follows targets, hover, walls, visibility and scene teard
   // Hover previews unselected enemies without changing the session's targets.
   hooks.get("hoverToken")(target, true);
   flushFrames();
-  assert.deepEqual(labels(), ["Ranged: Clear"]);
+  assert.deepEqual(labels(), ["Clear"]);
   assert.deepEqual(targeting.targets, []);
   assert.equal(game.user.targets.size, 0);
   targeting.mode = "melee";
   CoverPreview.refresh();
-  assert.deepEqual(labels(), ["Melee: Clear"]);
+  assert.deepEqual(labels(), ["Clear"]);
   targeting.mode = "ranged";
   target.visible = false;
   CoverPreview.refresh();
@@ -223,17 +240,17 @@ test("integrated cover follows targets, hover, walls, visibility and scene teard
   // Selected and hovered versions of the same enemy produce only one label.
   hooks.get("hoverToken")(target, true);
   flushFrames();
-  assert.deepEqual(labels(), ["Ranged: Clear"]);
+  assert.deepEqual(labels(), ["Clear"]);
   hooks.get("hoverToken")(target, false);
   flushFrames();
-  assert.deepEqual(labels(), ["Ranged: Clear"]);
+  assert.deepEqual(labels(), ["Clear"]);
   hooks.get("targetToken")({ id: "someone-else" });
   assert.equal(frames.size, 0);
   hooks.get("targetToken")(game.user);
   hooks.get("updateWall")();
   assert.equal(frames.size, 1);
   flushFrames();
-  assert.deepEqual(labels(), ["Ranged: Clear"]);
+  assert.deepEqual(labels(), ["Clear"]);
   CoverPreview.setContext(null);
   assert.equal(canvas.interface.children.length, 0);
   flushFrames();

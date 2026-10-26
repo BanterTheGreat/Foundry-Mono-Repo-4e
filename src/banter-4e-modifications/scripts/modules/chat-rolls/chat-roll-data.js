@@ -50,8 +50,8 @@ export function describeRoll(message, roll, index = 0) {
   const divisor = kind === 'damage' ? options.divisors?.[options.hitType] : null;
   const scale = Number(divisor?.value) > 0 ? Number(divisor.value) : 1;
   const badges = skill?.badges ?? options.banterAttackBuffs ?? [];
-  const exceptional = kind === 'attack' && !['critical', 'fumble', 'immune'].includes(special)
-    ? badges.filter(badge => !badge.kind && (badge.decisive || badge.decisivePenalty)) : [];
+  const attackModifiers = kind === 'attack'
+    ? badges.filter(badge => !badge.kind && Number.isFinite(badge.value) && badge.value !== 0) : [];
   const attackOutcome = kind === 'attack'
     ? (Object.hasOwn(verdict, special) ? special : Object.hasOwn(verdict, attack?.hitstate) ? attack.hitstate : null)
     : null;
@@ -62,7 +62,7 @@ export function describeRoll(message, roll, index = 0) {
       ? ({ hit: 'Hit', miss: 'Miss', critical: 'Crit', fumble: 'Crit Fail', immune: 'Immune' }[attackOutcome] || 'Attack')
       : null,
     damageSubject: kind === 'damage' ? `${speaker}${snapshot?.targetName ? ` against ${snapshot.targetName}` : ''}` : null,
-    natural: naturalD20(roll), badges, exceptional,
+    natural: naturalD20(roll), badges, attackModifiers,
     contributors: damageContributors(snapshot?.contributors),
     scale, reasons: divisor?.reason ?? [] };
 }

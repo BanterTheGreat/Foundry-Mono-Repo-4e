@@ -27,6 +27,10 @@
 .power-targeting__targets span { flex: 1; }
 .power-targeting__targets .is-invalid { color: #f2bc87; }
 .power-targeting__targets button { flex: 0 0 2rem; }
+.power-targeting__verdict { flex: 0 0 auto; font-size: .8rem; color: #cfc4ac; }
+.power-targeting__verdict--hit { color: #abd0a1; }
+.power-targeting__verdict--miss, .power-targeting__verdict--fumble { color: #e5a298; }
+.power-targeting__verdict--critical { color: #f0ce80; }
 .power-targeting__warnings { color: #f2bc87; margin: 0; padding-left: 1.2rem; }
 .power-targeting footer { display: flex; gap: .4rem; position: sticky; bottom: 0; padding: .35rem 0 0; background: #191817; }
 .power-targeting footer button { flex: 1; }
@@ -62,7 +66,7 @@
 	white-space: nowrap;
 	pointer-events: none;
 	user-select: none;
-	animation: power-attack-result-reveal 4.4s ease-out both;
+	animation: power-attack-result-reveal .35s ease-out both;
 }
 
 .power-attack-result[hidden] {
@@ -128,8 +132,7 @@
 
 @keyframes power-attack-result-reveal {
 	0% { opacity: 0; }
-	8%, 82% { opacity: 1; }
-	100% { opacity: 0; }
+	100% { opacity: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
