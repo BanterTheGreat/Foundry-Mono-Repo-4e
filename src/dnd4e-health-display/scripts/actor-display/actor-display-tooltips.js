@@ -8,6 +8,8 @@ export function initializeActorDisplayTooltips(root, actor) {
 	for (const element of root.querySelectorAll("[data-item-tooltip]")) {
 		element.addEventListener("mouseenter", () => activateItemTooltip(element, actor));
 		element.addEventListener("mouseleave", () => game.tooltip.deactivate());
+		element.addEventListener("focus", () => activateItemTooltip(element, actor));
+		element.addEventListener("blur", () => game.tooltip.deactivate());
 	}
 }
 
@@ -60,7 +62,7 @@ async function activateItemTooltip(element, actor) {
 			: "dnd4e-info-tooltip dnd4e-info-tooltip--system";
 		element.dataset.tooltipHtml = html;
 		element.dataset.tooltipClass = cssClass;
-		if (element.matches(":hover")) {
+		if (element.matches(":hover, :focus")) {
 			game.tooltip.activate(element, {
 				html,
 				direction: element.dataset.tooltipDirection || "RIGHT",

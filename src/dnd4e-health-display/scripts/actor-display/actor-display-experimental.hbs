@@ -1,0 +1,26 @@
+<div class="dnd4e-experimental-actor-display__dock">
+	{{#if selectedCategory}}
+	<section class="dnd4e-experimental-actor-display__popup" aria-label="{{selectedCategory.name}} powers">
+		<header><h3>{{selectedCategory.name}} powers</h3><span>{{name}}</span><button type="button" data-action="closePowers" title="Close powers" aria-label="Close powers"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></header>
+		<div class="dnd4e-experimental-actor-display__list">
+			{{#each selectedCategory.powers}}
+			<div class="dnd4e-experimental-actor-display__power {{usageClass}} {{#if depleted}}is-depleted{{/if}}">
+				<span class="dnd4e-experimental-actor-display__power-name" tabindex="0" data-item-id="{{id}}" data-item-tooltip data-tooltip-direction="UP" data-power-usage="{{usageClass}}">
+					<i class="{{icon}}" role="img" aria-label="{{rangeLabel}}" title="{{rangeLabel}}"></i><strong>{{name}}</strong>
+				</span>
+				{{#if depleted}}<small>Spent</small>{{/if}}
+				<button type="button" data-action="chatPower" data-item-id="{{id}}" title="Send to Chat" aria-label="Send {{name}} to Chat"><i class="fa-solid fa-comment" aria-hidden="true"></i></button>
+				<button type="button" data-action="power" data-item-id="{{id}}" {{#if depleted}}disabled{{/if}} title="Use Power" aria-label="Use {{name}}"><i class="fa-solid fa-crosshairs" aria-hidden="true"></i></button>
+			</div>
+			{{else}}
+			<p class="dnd4e-experimental-actor-display__empty">No powers in this category.</p>
+			{{/each}}
+		</div>
+	</section>
+	{{/if}}
+	<nav class="dnd4e-experimental-actor-display__categories" aria-label="Power action type">
+		{{#each categories}}
+		<button type="button" class="{{#if active}}is-active{{/if}}" data-action="selectPowerCategory" data-power-category="{{key}}" aria-expanded="{{#if active}}true{{else}}false{{/if}}">{{name}} <small>{{powers.length}}</small></button>
+		{{/each}}
+	</nav>
+</div>

@@ -58,6 +58,8 @@ export async function getActorDisplayData(token, activeTab, expandedPowerIds = n
 			value: hpValue,
 			maximum: hpMaximum,
 			percent: Math.max(0, Math.min(100, (hpValue / hpMaximum) * 100)),
+			barSegments: getHealthBarSegments(hpValue, hpMaximum, 4),
+			status: hpValue <= 0 ? "Unconscious" : hpValue <= hpMaximum / 2 ? "Bloodied" : "",
 			tempPercent: Math.max(0, Math.min(100, ((Number(actor.system?.attributes?.temphp?.value) || 0) / hpMaximum) * 100)),
 			dialAngle: filledHpSegments * (360 / hpSegmentCount),
 			dialSegmentAngle: actor.type === "Player Character" ? 60 : 90,
@@ -169,6 +171,42 @@ function getFilledSegmentCount(value, maximum, count) {
 }
 
 /**
+ * Preserve exact HP proportions within equally sized bar segments.
+ *
+ * @param {number} value Current hit points.
+ * @param {number} maximum Maximum hit points.
+ * @param {number} count Number of bar segments.
+ * @returns {Array<{percent: number}>}
+ */
+function getHealthBarSegments(value, maximum, count) {
+	const ratio = maximum > 0 ? Math.max(0, Math.min(1, value / maximum)) : 0;
+	return Array.from({ length: count }, (_unused, index) => ({
+		percent: Math.max(0, Math.min(100, ((ratio * count) - index) * 100)),
+	}));
+}
+
+/**
+ * Describe party health without exposing an exact HP readout.
+ *
+ * @param {number} value Current hit points.
+ * @param {number} maximum Maximum hit points.
+ * @returns {string}
+ */
+function getPartyHealthCondition(value, maximum) {
+	const ratio = maximum > 0 ? value / maximum : 0;
+	if (ratio > 0.75) {
+		return "Healthy";
+	}
+	if (ratio > 0.5) {
+		return "Hurt";
+	}
+	if (ratio > 0.25) {
+		return "Bloodied";
+	}
+	return "Near Death";
+}
+
+/**
  * Build SVG annular wedges for a physical-looking segmented resource ring.
  *
  * @param {number} value Current resource value.
@@ -247,6 +285,8 @@ function getCompanions(actor) {
 				id: companion.id,
 				name: companion.name,
 				className: companion.system?.details?.class || "Adventurer",
+				barSegments: getHealthBarSegments(currentHP, maxHP, 4),
+				condition: getPartyHealthCondition(currentHP, maxHP),
 				segments: Array.from({ length: 6 }, (_unused, index) => ({ filled: index < filledSegments })),
 				healthLabel: `${companion.name} health: approximately ${filledSegments} of 6`,
 			};
@@ -321,6 +361,7 @@ async function mapPower(power, actor, expandedPowerIds) {
 		id: power.id,
 		name: power.name,
 		icon: getPowerIcon(power),
+		rangeLabel: getPowerRangeLabel(power),
 		usageClass: `is-${power.system?.useType || "other"}`,
 		showUses: maximum > 1,
 		uses: `${value} / ${maximum}`,
@@ -393,6 +434,19 @@ function getPowerIcon(power) {
 		wall: "fa-solid fa-arrows-left-right",
 		personal: "fa-solid fa-user",
 	}[rangeType] ?? "fa-solid fa-star";
+}
+
+/** Describe the targeting symbol independently of its colour or icon font. */
+function getPowerRangeLabel(power) {
+	const range = power.system?.rangeType;
+	if (range === "weapon") {
+		return { melee: "Melee weapon", ranged: "Ranged weapon" }[power.system?.weaponType] || "Weapon / triggering power";
+	}
+	return {
+		melee: "Melee", touch: "Melee touch", reach: "Melee reach", range: "Ranged",
+		closeBurst: "Close burst", closeBlast: "Close blast", rangeBurst: "Area burst",
+		areaWall: "Area wall", wall: "Area wall", personal: "Personal",
+	}[range] || "Other range";
 }
 
 /** @param {Actor} actor The displayed actor. */
