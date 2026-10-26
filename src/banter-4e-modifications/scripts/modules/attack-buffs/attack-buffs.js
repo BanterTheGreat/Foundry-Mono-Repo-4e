@@ -59,7 +59,9 @@ export class AttackBuffs {
       }
       const roll = await original.call(this, parts, replacements, data, options);
       if (context) {
-        roll.options.banterAttackSource = { version: 1, itemName: context.item.name };
+        // Persist document identity with each target roll, including token actors.
+        roll.options.banterAttackSource = { version: 1, itemName: context.item.name,
+          itemUuid: context.item.uuid, actorUuid: context.item.actor?.uuid };
       }
       if (badges.length) {
         roll.options[OPTION_KEY] = badges;

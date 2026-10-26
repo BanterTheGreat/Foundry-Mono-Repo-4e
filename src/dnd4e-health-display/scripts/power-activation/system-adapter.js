@@ -99,7 +99,8 @@ export async function registerAutomationTab() {
 				result.automationPlacementModes.summon = result.automationView.invalidSummon
 					? "Summon (requires a non-attack power)" : "Place summoned creature";
 			}
-			result.automationTargetModes = { area: "All in area", exact: "Exact amount" };
+			result.automationTargetModes = { area: "All in area", exact: "Choose a number of creatures" };
+			result.automationTargetCountModes = { exact: "Exactly", upTo: "Up to" };
 			result.automationDispositions = { all: "All creatures", enemies: "Enemies", allies: "Allies" };
 			result.editable = this.isEditable;
 			const actorLabel = async uuid => ({ uuid, name: (await fromUuid(uuid))?.name ?? "Missing actor" });

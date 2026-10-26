@@ -9,6 +9,7 @@ export function automationConfig(item) {
 	const config = item.getFlag(MODULE_ID, FLAG) ?? {};
 	return {
 		enabled: config.enabled === true, targetCount: Number(config.targetCount ?? 1),
+		targetCountMode: config.targetCountMode === "upTo" ? "upTo" : "exact",
 		targetMode: config.targetMode === "exact" ? "exact" : "area",
 		targetDisposition: ["allies", "enemies"].includes(config.targetDisposition) ? config.targetDisposition : "all",
 		includeCaster: config.includeCaster === true,
@@ -27,12 +28,22 @@ export function squareDistance(source, target, size) {
 	return Math.max(gap(source.x, source.w, target.x, target.w), gap(source.y, source.h, target.y, target.h));
 }
 
-/** Report advisory problems without discarding selected tokens. */
-export function selectionProblems(source, targets, range, required, size) {
-	const problems = [];
-	if (targets.length !== required) {
-		problems.push(`Selected ${targets.length} targets; this power expects exactly ${required}.`);
+/**
+ * Validate distinct creature counts independently of area selection.
+ * Counted powers require at least one target, including in up-to mode.
+ */
+export function targetCountProblems(selected, required, mode = "exact") {
+	if (mode === "upTo") {
+		return selected < 1 || selected > required
+			? [`Selected ${selected} targets; this power expects 1 to ${required}.`] : [];
 	}
+	return selected !== required
+		? [`Selected ${selected} targets; this power expects exactly ${required}.`] : [];
+}
+
+/** Report advisory problems without discarding selected tokens. */
+export function selectionProblems(source, targets, range, required, size, countMode = "exact") {
+	const problems = targetCountProblems(targets.length, required, countMode);
 	for (const token of targets) {
 		if (!token.actor || !token.visible) {
 			problems.push("A selected target is unavailable.");

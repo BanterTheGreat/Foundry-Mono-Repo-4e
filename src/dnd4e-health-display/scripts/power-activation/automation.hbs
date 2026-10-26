@@ -35,9 +35,15 @@
 		<p class="power-automation__hint">Allies and enemies are relative to the caster. Neutral tokens only match All creatures.</p>
 		{{/if}}
 		{{#if automationView.showTargetCount}}
+		<label>Target count
+			<select name="flags.dnd4e-health-display.targetAutomation.targetCountMode" {{#unless editable}}disabled{{/unless}}>
+				{{selectOptions automationTargetCountModes selected=automation.targetCountMode}}
+			</select>
+		</label>
 		<label>Number of targets
 			<input type="number" name="flags.dnd4e-health-display.targetAutomation.targetCount" value="{{automation.targetCount}}" min="1" step="1" required {{#unless editable}}disabled{{/unless}}>
 		</label>
+		<p class="power-automation__hint">Exactly requires the specified number of creatures. Up to allows one through that number.</p>
 		{{/if}}
 		{{#if automationView.area}}
 		<label>Include origin creature

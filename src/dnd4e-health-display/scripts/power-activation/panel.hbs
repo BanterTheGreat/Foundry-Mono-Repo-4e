@@ -27,7 +27,7 @@
 		{{/if}}
 	</div>
 	{{#if problems}}<ul class="power-targeting__warnings" aria-live="polite">{{#each problems}}<li>{{this}}</li>{{/each}}</ul>{{/if}}
-	<p class="power-targeting__status" aria-live="polite">{{#unless summon}}<strong>{{selected}}{{#if exactCount}} / {{required}}{{/if}} targets</strong> · {{/unless}}{{status}}</p>
+	<p class="power-targeting__status" aria-live="polite">{{#unless summon}}<strong>{{selected}}{{#if countedTargets}} / {{countModeLabel}} {{required}}{{/if}} targets</strong> · {{/unless}}{{status}}</p>
 	{{#unless summon}}
 	<ul class="power-targeting__targets">
 		{{#each targets}}

@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 import vm from "node:vm";
 import { AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin, hasLineOfEffect } from "../scripts/power-activation/area-geometry.js";
-import { automationConfig, squareDistance, selectionProblems, supportsTargetAutomation, MODULE_ID, SETTING } from "../scripts/power-activation/rules.js";
+import { automationConfig, squareDistance, selectionProblems, targetCountProblems, supportsTargetAutomation, MODULE_ID, SETTING } from "../scripts/power-activation/rules.js";
 
 const source = readFileSync(new URL("../scripts/power-activation/power-activation.js", import.meta.url), "utf8")
 	.replace(/^import .*;\r?\n/gm, "").replace(/^export /gm, "");
@@ -59,7 +59,7 @@ function fixture({ confirm = true, fastForward = false } = {}) {
 		async close() {}
 	}
 	const context = vm.createContext({
-		console, AbortController, MODULE_ID, SETTING, automationConfig, selectionProblems, squareDistance,
+		console, AbortController, MODULE_ID, SETTING, automationConfig, selectionProblems, targetCountProblems, squareDistance,
 		AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin, hasLineOfEffect,
 		CoverPreview: { setContext: value => hooks.push(["coverContext", value]), register() {} },
 		sharedAreaPreview: {
@@ -793,5 +793,40 @@ test("alternate area origins replace the caster for inclusion, preview holes and
 			assert.equal(shapes[1].hole, true);
 			assert.equal(shapes[1].x, f.target.x);
 		}
+	}
+});
+
+
+test("counted creature targeting distinguishes exact and up-to counts", () => {
+	for (const required of [2, 3]) {
+		for (let selected = 0; selected <= required + 1; selected++) {
+			assert.equal(targetCountProblems(selected, required).length === 0, selected === required);
+			assert.equal(targetCountProblems(selected, required, "upTo").length === 0, selected >= 1 && selected <= required);
+		}
+	}
+	assert.equal(automationConfig({ getFlag: () => ({}) }).targetCountMode, "exact");
+	assert.equal(automationConfig({ getFlag: () => ({ targetCountMode: "upTo" }) }).targetCountMode, "upTo");
+});
+
+
+test("exact and up-to settings reach individual and counted-area validation", () => {
+	for (const area of [false, true]) {
+		const f = fixture();
+		const config = { enabled: true, targetCount: 2, targetMode: "exact", targetCountMode: "upTo" };
+		f.item.getFlag = () => config;
+		f.activation.count = 2;
+		f.activation.targets = [f.target];
+		if (area) {
+			f.activation.range = { shape: "closeBurst", area: 2, normal: 2, maximum: 2 };
+			f.activation.placementLocked = true;
+		}
+		assert.equal(f.activation.problems().length, 0);
+		config.targetCountMode = "exact";
+		assert.match(f.activation.problems().join(" "), /expects exactly 2/);
+		config.targetCountMode = "upTo";
+		f.activation.targets = [];
+		assert.match(f.activation.problems().join(" "), /expects 1 to 2/);
+		f.activation.targets = [f.target, f.far, f.attacker];
+		assert.match(f.activation.problems().join(" "), /expects 1 to 2/);
 	}
 });

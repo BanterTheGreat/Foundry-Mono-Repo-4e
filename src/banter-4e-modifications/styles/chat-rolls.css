@@ -1,3 +1,47 @@
+/* One damage action belongs to the attack message, not to each target. */
+.banter-attack-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+  background: #303138;
+  color: #f1e8d8;
+  border-bottom: 1px solid #62534d;
+  font: 12px/1.4 Arial, sans-serif;
+}
+.banter-attack-card__identity { min-width: 0; overflow-wrap: anywhere; }
+.banter-attack-card__attacker { font-size: 13px; }
+.banter-attack-card__power { margin-top: 4px; color: #d7c6a8; font-size: 11px; }
+.banter-attack-card__header .banter-attack-card__damage {
+  width: auto;
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 6px 10px;
+  min-height: 32px;
+  border: 1px solid #897b63;
+  border-radius: 4px;
+  background: #393730;
+  color: #eee6d9;
+  font: 12px Arial, sans-serif;
+}
+.banter-attack-card__damage:hover { background: #504936; border-color: #d5bd8e; }
+.banter-attack-card__damage:focus-visible { outline: 2px solid #e5cc8e; outline-offset: 2px; }
+.banter-attack-card__footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 12px;
+  background: #202126;
+  color: #c4bbae;
+  font: 10px/1.4 Arial, sans-serif;
+}
+.chat-message.message .banter-attack-card > .banter-roll--attack {
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 1px solid #ffffff18;
+  border-radius: 0;
+}
 /* Active defense uses player-facing verdicts and keeps effects outside disclosure. */
 .banter-defense {
   --defense-ink: #b9ddb5;

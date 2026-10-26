@@ -1,7 +1,7 @@
 import { CoverPreview } from "./cover-preview.js";
 import { sharedAreaPreview } from "./shared-area-preview.js";
 import { AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin, wallGeometryProblems, hasLineOfEffect } from "./area-geometry.js";
-import { MODULE_ID, SETTING, automationConfig, selectionProblems, squareDistance } from "./rules.js";
+import { MODULE_ID, SETTING, automationConfig, selectionProblems, targetCountProblems, squareDistance } from "./rules.js";
 import { renderPowerCard, createPowerMessage } from "./cards.js";
 import { loadSystem, resolveRange, registerAutomationTab, commitCardCosts, commitPowerUse, rollFromOrigin } from "./system-adapter.js";
 
@@ -484,8 +484,8 @@ class ActivationSession {
 			{ ...origin, w: canvas.grid.size, h: canvas.grid.size }, canvas.grid.size) > this.range.maximum) {
 			problems.push(`Area origin is outside range ${this.range.maximum}.`);
 		}
-		if (this.range.shape !== "summon" && checkCount && config.targetMode === "exact" && targets.length !== this.count) {
-			problems.push(`Selected ${targets.length} targets; this power expects exactly ${this.count}.`);
+		if (this.range.shape !== "summon" && checkCount && config.targetMode === "exact") {
+			problems.push(...targetCountProblems(targets.length, this.count, config.targetCountMode));
 		}
 		if (checkCount && !targets.length && this.item.hasAttack && this.range.shape !== "summon") {
 			problems.push("No targets selected.");
@@ -556,7 +556,7 @@ class ActivationSession {
 		if (this.range.shape) {
 			return this.areaProblems();
 		}
-		return selectionProblems(this.source, this.targets, this.range, this.count, canvas.grid.size);
+		return selectionProblems(this.source, this.targets, this.range, this.count, canvas.grid.size, automationConfig(this.item).targetCountMode);
 	}
 
 	/** Re-evaluate formulas and weapon defaults when actor/item data changes. */
@@ -1132,7 +1132,8 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 			areaOriginHint: activation.range.shape === "rangeBlast" ? "The pointer places the blast's top-left corner. The white square marks its nearest origin square to the caster."
 				: activation.range.shape === "rangeBurst" ? "The pointer chooses the burst's center square. Range is measured to that square." : "",
 			placementLocked: activation.placementLocked, areaSize: activation.range.area,
-			exactCount: activation.range.shape !== "summon" && (!activation.range.shape || automationConfig(activation.item).targetMode === "exact"),
+			countModeLabel: automationConfig(activation.item).targetCountMode === "upTo" ? "up to" : "exactly",
+			countedTargets: activation.range.shape !== "summon" && (!activation.range.shape || automationConfig(activation.item).targetMode === "exact"),
 			powerName: activation.item.name, showDetails: Boolean(this.showDetails),
 			card: activation.card, range: activation.range.maximum, normalRange: activation.range.normal,
 			longRange: activation.range.maximum > activation.range.normal, required: activation.count,

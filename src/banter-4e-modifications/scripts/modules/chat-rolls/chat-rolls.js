@@ -3,6 +3,7 @@ import { DamageSourceCapture } from './damage-source-capture.js';
 import { ChatRollActions } from './chat-roll-actions.js';
 import { PowerChatCards } from './power-chat-cards.js';
 import { ChatMessageGroups } from './chat-message-groups.js';
+import { AttackChatCard } from './attack-chat-card.js';
 
 const MODULE = 'banter-4e-modifications';
 export const CHAT_ROLL_SETTING = 'enable-compact-chat-rolls';
@@ -73,6 +74,9 @@ export class ChatRolls {
       const flavors = [...root.querySelectorAll('.flavor-text')]
         .filter(flavor => !flavor.closest('.banter-roll'));
       calculation.prepend(...flavors);
+    }
+    if (models.length && models.every(model => model.kind === 'attack')) {
+      AttackChatCard.render(message, root, ChatRolls.element);
     }
   }
 
