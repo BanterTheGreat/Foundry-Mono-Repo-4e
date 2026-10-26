@@ -5,6 +5,21 @@
 	<label>Amount of Targets
 		<input type="number" name="flags.dnd4e-health-display.targetAutomation.targetCount" value="{{automation.targetCount}}" min="1" step="1" required {{#unless editable}}disabled{{/unless}}>
 	</label>
-	<p>Weapon, Melee X and Ranged X attacks on square grids. Target count and range are advisory: players can proceed after a warning. Ally/enemy restrictions are not inferred from power text.</p>
+	<label>Area target count
+		<select name="flags.dnd4e-health-display.targetAutomation.targetMode" {{#unless editable}}disabled{{/unless}}>
+			{{selectOptions automationTargetModes selected=automation.targetMode}}
+		</select>
+	</label>
+	<label>Area target filter
+		<select name="flags.dnd4e-health-display.targetAutomation.targetDisposition" {{#unless editable}}disabled{{/unless}}>
+			{{selectOptions automationDispositions selected=automation.targetDisposition}}
+		</select>
+	</label>
+	<label>Include caster in area targets
+		<input type="checkbox" name="flags.dnd4e-health-display.targetAutomation.includeCaster" {{checked automation.includeCaster}} {{#unless editable}}disabled{{/unless}}>
+	</label>
+	<p>Supports weapon, melee, ranged, close burst/blast and area burst/blast powers on square grids. Attack powers open the attack dialog; other powers use Confirm to commit the use and use effects. Area size and placement range use the power's Area and Range fields. Close bursts always exclude the caster.</p>
+	<p>Area target count defaults to all creatures matching the filter. Exact count uses Amount of Targets. Allies and enemies use token disposition relative to the caster; neutral tokens only match All creatures. Include caster overrides the disposition filter for the caster.</p>
+	<p>Target count, range and area membership are advisory. Area cover, line of effect, elevation and special targeting requirements need manual checking.</p>
 	<p>Enabling target automation disables this power's use macros.</p>
 </section>

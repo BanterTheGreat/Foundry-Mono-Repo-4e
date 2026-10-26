@@ -30,6 +30,17 @@ function fixture() {
       }
     }
   };
+  actor.createEmbeddedDocuments = async (type, sources) => {
+    assert.equal(type, "Item");
+    for (const source of sources) {
+      if (actor.failCreate && actor.items.size > 2) {
+        throw new Error("Partial creation");
+      }
+      const id = `new${actor.items.size}`;
+      actor.items.set(id, { id, name: source.name, parent: actor, uuid: `${actor.uuid}.Item.${id}`,
+        toObject: () => structuredClone(source) });
+    }
+  };
   game.actors.set(actor.id, actor);
   for (const [id, name, ability, label] of [["melee", "Melee Basic Attack", "str", "Strength"], ["ranged", "Ranged Basic Attack", "dex", "Dexterity"]]) {
     const source = { name, type: "power", system: {
@@ -140,4 +151,71 @@ test("partial writes return receipts and retry only remaining power changes", as
   assert.equal((await editPcPowers(args, deps)).status, "updated");
   assert.equal(deps.calls.at(-1).length, 1);
   assert.equal(deps.calls.at(-1)[0]._id, "ranged");
+});
+
+const additions = () => ({ uuid: "Actor.pc", addPowers: [
+  { key: "burst", name: "Close Burst", system: { rangeType: "closeBurst", area: "1" } },
+  { key: "blast", name: "Close Blast", system: { area: "3" } }
+] });
+
+test("custom PC powers require review, recover partial creation, and survive retries", async () => {
+  const deps = fixture();
+  deps.actor.failCreate = true;
+  deps.confirm = async proposal => {
+    assert.equal(proposal.changes.length, 2);
+    assert.equal(proposal.changes[0].before, null);
+    assert.equal(proposal.changes[0].after.name, "Close Burst");
+    return true;
+  };
+  const partial = await editPcPowers(additions(), deps);
+  assert.equal(partial.status, "incomplete");
+  assert.equal(partial.addedPowers.length, 1);
+  deps.actor.failCreate = false;
+  deps.confirm = async proposal => {
+    assert.equal(proposal.changes.length, 1);
+    return true;
+  };
+  const saved = await editPcPowers(additions(), deps);
+  assert.equal(saved.status, "updated");
+  assert.equal(saved.addedPowers.length, 2);
+  deps.confirm = async () => assert.fail("Retry must not prompt");
+  assert.equal((await editPcPowers(additions(), deps)).status, "unchanged");
+  assert.equal(deps.actor.items.size, 4);
+  const changed = additions();
+  changed.addPowers[0].system.area = "2";
+  await assert.rejects(editPcPowers(changed, deps), /different data/);
+});
+
+test("custom additions cancel safely and reject unsafe or ambiguous payloads", async () => {
+  const deps = fixture();
+  deps.confirm = async () => false;
+  assert.equal((await editPcPowers(additions(), deps)).status, "cancelled");
+  assert.equal(deps.actor.items.size, 2);
+  for (const mutate of [
+    args => { args.addPowers[0].key = ""; },
+    args => { args.addPowers[1].key = "burst"; },
+    args => { args.addPowers[0].name = " "; },
+    args => { delete args.addPowers[0].system; },
+    args => { args.addPowers[0].system.macros = []; },
+    args => { args.addPowers[0].flags = {}; },
+    args => { args.addPowers[0].effects = []; }
+  ]) {
+    const args = additions();
+    mutate(args);
+    assert.throws(() => validatePcPowerEdit(args));
+  }
+});
+
+test("mixed PC edits and additions share one review and reject revoked sessions", async () => {
+  const deps = fixture();
+  const args = { ...request(), ...additions() };
+  deps.actor.items.get("melee").source.system.damage = { parts: [] };
+  assert.equal((await editPcPowers(args, deps)).status, "updated");
+  const revoked = fixture();
+  revoked.confirm = async () => {
+    revoked.game.user.isActiveGM = false;
+    return true;
+  };
+  await assert.rejects(editPcPowers(additions(), revoked));
+  assert.equal(revoked.actor.items.size, 2);
 });

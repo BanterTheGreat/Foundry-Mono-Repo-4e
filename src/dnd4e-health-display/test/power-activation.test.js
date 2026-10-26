@@ -2,7 +2,8 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 import vm from "node:vm";
-import { automationConfig, squareDistance, selectionProblems, MODULE_ID, SETTING } from "../scripts/power-activation/rules.js";
+import { AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin } from "../scripts/power-activation/area-geometry.js";
+import { automationConfig, squareDistance, selectionProblems, supportsTargetAutomation, MODULE_ID, SETTING } from "../scripts/power-activation/rules.js";
 
 const source = readFileSync(new URL("../scripts/power-activation/power-activation.js", import.meta.url), "utf8")
 	.replace(/^import .*;\r?\n/gm, "").replace(/^export /gm, "");
@@ -49,6 +50,7 @@ function fixture({ confirm = true, fastForward = false } = {}) {
 		clear() {}, destroy() {}, addChild(child) { return child; },
 		moveTo() { return this; }, lineTo() { return this; },
 		lineStyle() { return this; }, beginFill() { return this; },
+		beginHole() { return this; }, endHole() { return this; },
 		drawShape(shape) { shapes.push(shape); return this; },
 		drawRect(...rectangle) { rectangles.push(rectangle); return this; }, endFill() { return this; },
 	};
@@ -57,7 +59,8 @@ function fixture({ confirm = true, fastForward = false } = {}) {
 		async close() {}
 	}
 	const context = vm.createContext({
-		console, AbortController, MODULE_ID, SETTING, automationConfig, selectionProblems,
+		console, AbortController, MODULE_ID, SETTING, automationConfig, selectionProblems, squareDistance,
+		AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin,
 		CoverPreview: { setContext: value => hooks.push(["coverContext", value]), register() {} },
 		foundry: {
 			data: { PolygonTree },
@@ -75,7 +78,7 @@ function fixture({ confirm = true, fastForward = false } = {}) {
 			stage: { scale: { x: 1 } },
 			ready: true, grid: { isSquare: true, size: 100 },
 			tokens: { get: id => tokenMap.get(id), placeables: [...tokenMap.values()] },
-			interface: { addChild: () => graphics }, app: { canvas: { addEventListener() {} } },
+			interface: { addChild: () => graphics }, app: { view: { addEventListener() {} } },
 		},
 		PIXI: {
 			Polygon: class { constructor(points) { this.points = points; this.name = "map"; } },
@@ -110,6 +113,230 @@ function fixture({ confirm = true, fastForward = false } = {}) {
 	context.api.setSession(activation);
 	return { context, activation, item, target, far, attacker, targets, messages, warnings, confirmations, hooks, changes, rectangles, shapes, tokenMap, consumed: () => consumed };
 }
+
+test("melee, ranged and weapon activations retain existing targets inside their range", async () => {
+	for (const rangeType of ["melee", "range", "weapon"]) {
+		const f = fixture();
+		f.item.system.rangeType = rangeType;
+		f.context.api.setSession(null);
+		f.targets.add(f.target);
+		f.targets.add(f.far);
+		await f.context.api.useAbility(f.item, f.attacker);
+		assert.deepEqual([...f.targets], [f.target]);
+		const context = f.hooks.find(([name]) => name === "coverContext")[1];
+		assert.deepEqual(Array.from(context.targets), [f.target]);
+	}
+});
+
+test("ranged activations preserve long-range targets and cancellation restores the original selection", async () => {
+	const f = fixture();
+	f.item.system.rangeType = "range";
+	f.context.api.setSession(null);
+	f.context.resolveRange = async () => ({ normal: 5, maximum: 10, mode: "ranged" });
+	f.targets.add(f.far);
+	await f.context.api.useAbility(f.item, f.attacker);
+	assert.equal(f.targets.has(f.far), true);
+	assert.equal(f.targets.size, 1);
+	const activation = f.context.api;
+	// Starting a replacement cancels the first session and restores its original targets.
+	f.context.resolveRange = async () => ({ normal: 1, maximum: 1, mode: "ranged" });
+	await activation.useAbility(f.item, f.attacker);
+	assert.equal(f.targets.size, 0);
+	assert.equal(f.consumed(), 0);
+});
+
+test("non-attack powers expose targeting and can start Use Ability for every supported range type", async () => {
+	for (const rangeType of ["weapon", "melee", "range", ...AREA_TYPES]) {
+		const f = fixture();
+		f.item.hasAttack = false;
+		f.item.system.rangeType = rangeType;
+		assert.equal(supportsTargetAutomation(f.item), true);
+		assert.equal(await f.context.api.useAbility(f.item, f.attacker), true);
+		assert.equal(f.messages.size, 1);
+		assert.equal(f.warnings.length, 0);
+	}
+});
+
+test("Confirm commits non-attack use once and leaves targets selected without any attack roll", async () => {
+	const f = fixture();
+	f.item.hasAttack = false;
+	f.item.rollAttack = () => assert.fail("utility powers must never roll an attack");
+	await f.activation.start();
+	f.activation.targets = [f.target];
+	await Promise.all([f.activation.attack(), f.activation.attack()]);
+	assert.equal(f.consumed(), 1);
+	assert.equal(f.item.system.uses.value, 1);
+	assert.equal(f.activation.finished, true);
+	assert.equal(f.targets.has(f.target), true);
+	assert.equal(f.messages.get("preview")[`flags.${MODULE_ID}.powerActivation.provisional`], false);
+	assert.equal(f.hooks.filter(([hook]) => hook === "dnd4e.usePower").length, 1);
+});
+
+test("non-attack powers apply native self and all-target use effects to confirmed targets", async () => {
+	const f = fixture();
+	f.item.hasAttack = false;
+	const applied = [];
+	f.context.game.settings.get = (module, key) => key === "autoApplyEffects";
+	f.context.loadSystem = async () => ({
+		tokenForActor: () => f.attacker,
+		applyEffectsToTokens: async (...args) => applied.push(args),
+		applyAllXEffectsToTokens: async (...args) => applied.push(args),
+	});
+	await f.activation.start();
+	f.activation.targets = [f.target];
+	await f.activation.attack();
+	assert.equal(applied.length, 2);
+	assert.equal(applied[0][1][0], f.attacker);
+	assert.equal(applied[0][2], "self");
+	assert.deepEqual([...applied[1][2]], [f.target]);
+});
+
+test("declining utility warnings or resource consumption preserves the unspent targeting session", async () => {
+	for (const declineResources of [false, true]) {
+		const f = fixture({ confirm: false });
+		f.item.hasAttack = false;
+		await f.activation.start();
+		if (declineResources) {
+			f.activation.targets = [f.target];
+			f.context.commitCardCosts = async () => false;
+		}
+		await f.activation.attack();
+		assert.equal(f.consumed(), 0);
+		assert.equal(f.item.system.uses.value, 2);
+		assert.equal(f.activation.finished, false);
+		assert.equal(Boolean(f.activation.commitStarted), false);
+		await f.activation.cancel();
+		assert.equal(f.messages.size, 0);
+	}
+});
+
+test("utility effect failure after commitment retains the card and does not offer duplicate use", async () => {
+	const f = fixture();
+	f.item.hasAttack = false;
+	f.context.commitPowerUse = async () => { throw new Error("effect failure"); };
+	f.context.console = { ...console, error() {} };
+	await f.activation.start();
+	f.activation.targets = [f.target];
+	await f.activation.attack();
+	assert.equal(f.activation.finished, true);
+	assert.equal(f.messages.size, 1);
+	assert.equal(f.consumed(), 1);
+	await f.activation.attack();
+	assert.equal(f.consumed(), 1);
+});
+
+test("close burst starts with all intersecting targets, supports manual removal and cancels without costs", async () => {
+	const f = fixture();
+	f.activation.range = { shape: "closeBurst", area: 2, normal: 2, maximum: 2, mode: "area" };
+	f.activation.placementLocked = true;
+	f.activation.installPlacement = () => assert.fail("Close bursts do not need placement listeners");
+	f.attacker.document.disposition = 1;
+	f.target.document.disposition = -1;
+	await f.activation.start();
+	assert.deepEqual(f.activation.targets.map(token => token.id), [f.target.id]);
+	assert.equal(f.activation.problems().length, 0);
+	f.targets.clear();
+	f.activation.targetChanged(f.target, false);
+	assert.equal(f.activation.targets.length, 0);
+	f.activation.refresh();
+	assert.equal(f.activation.targets.length, 0);
+	f.activation.selectAreaTargets();
+	assert.equal(f.activation.targets.length, 1);
+	await f.activation.cancel();
+	assert.equal(f.messages.size, 0);
+	assert.equal(f.consumed(), 0);
+});
+
+test("all-in-area close bursts update targets when creatures enter or leave the zone", async () => {
+	const f = fixture();
+	f.activation.range = { shape: "closeBurst", area: 2, normal: 2, maximum: 2, mode: "area" };
+	await f.activation.start();
+	f.far.x = 200;
+	f.activation.refreshMovingToken(f.far);
+	await new Promise(resolve => setTimeout(resolve, 150));
+	assert.equal(f.targets.has(f.far), true);
+	f.target.x = 500;
+	f.activation.refreshMovingToken(f.target);
+	await new Promise(resolve => setTimeout(resolve, 150));
+	assert.equal(f.targets.has(f.target), false);
+	assert.equal(f.targets.has(f.attacker), false);
+	await f.activation.cancel();
+});
+
+test("area range checks the origin instead of affected creatures and respects exact-count opt-in", () => {
+	const f = fixture();
+	f.activation.range = { shape: "rangeBurst", area: 5, normal: 5, maximum: 5, mode: "area" };
+	f.activation.origin = { x: 500, y: 0 };
+	f.activation.placementLocked = true;
+	f.activation.selectAreaTargets();
+	assert.equal(f.activation.targets.includes(f.far), true);
+	assert.equal(f.activation.problems().length, 0);
+	f.item.getFlag = () => ({ enabled: true, targetCount: 1, targetMode: "exact" });
+	assert.ok(f.activation.problems().some(problem => /exactly 1/.test(problem)));
+	f.activation.origin = { x: 600, y: 0 };
+	assert.ok(f.activation.problems().some(problem => /origin is outside range/.test(problem)));
+});
+
+test("unlocked placement cannot enter the attack dialog even with Proceed Anyway", async () => {
+	const f = fixture();
+	f.activation.range = { shape: "rangeBlast", area: 3, normal: 5, maximum: 5, mode: "area" };
+	f.activation.placementLocked = false;
+	f.item.rollAttack = () => assert.fail("unplaced area must not roll");
+	await f.activation.attack();
+	assert.equal(f.consumed(), 0);
+	assert.match(f.warnings[0], /lock the area/);
+});
+
+test("moving the caster invalidates a previously adjacent close blast", () => {
+	const f = fixture();
+	f.activation.range = { shape: "closeBlast", area: 3, normal: 3, maximum: 3, mode: "area" };
+	f.activation.origin = { x: 100, y: 0 };
+	f.activation.placementLocked = true;
+	f.activation.selectAreaTargets();
+	assert.equal(f.activation.problems().length, 0);
+	f.attacker.x = 1000;
+	assert.ok(f.activation.problems().some(problem => /no longer adjacent/.test(problem)));
+});
+
+for (const shape of ["closeBlast", "rangeBurst", "rangeBlast"]) {
+test(`${shape} placement uses the PIXI application view, locks and releases listeners on cancellation`, async () => {
+	const f = fixture();
+	const listeners = new Map();
+	delete f.context.canvas.app.canvas;
+	f.context.canvas.app.view = {
+		getBoundingClientRect: () => ({ left: 0, top: 0 }),
+		addEventListener: (name, callback, options) => { listeners.set(name, { callback, signal: options.signal }); },
+	};
+	f.context.canvas.stage.toLocal = point => point;
+	f.context.PIXI.Point = class { constructor(x, y) { Object.assign(this, { x, y }); } };
+	f.context.canvas.dimensions = { sceneRect: { x: 0, y: 0, width: 2000, height: 2000 } };
+	f.context.canvas.scene = { tokenVision: false };
+	f.activation.range = { shape, area: 3, normal: 5, maximum: 5, mode: "area" };
+	await f.activation.start();
+	const event = { clientX: 120, clientY: 20, button: 0, preventDefault() {}, stopImmediatePropagation() {} };
+	listeners.get("pointermove").callback(event);
+	assert.equal(f.activation.origin.x, 100);
+	assert.equal(f.activation.targets.includes(f.target), true);
+	listeners.get("click").callback(event);
+	assert.equal(f.activation.placementLocked, true);
+	listeners.get("pointermove").callback({ ...event, clientX: 600 });
+	assert.equal(f.activation.origin.x, 100);
+	await f.activation.cancel();
+	assert.ok([...listeners.values()].every(listener => listener.signal.aborted));
+});
+}
+
+test("a missing canvas view reports an actionable error and cancels the provisional activation", async () => {
+	const f = fixture();
+	f.context.canvas.app = {};
+	f.context.console = { ...console, error() {} };
+	f.item.system.rangeType = "rangeBurst";
+	f.context.resolveRange = async () => ({ shape: "rangeBurst", area: 1, normal: 10, maximum: 10, mode: "area" });
+	await f.context.api.useAbility(f.item, f.attacker);
+	assert.match(f.warnings[0], /canvas view is unavailable/);
+	assert.equal(f.messages.size, 0);
+	assert.equal(f.consumed(), 0);
+});
 
 test("range mask excludes padding even when scene token vision is disabled", () => {
 	const f = fixture();
@@ -216,7 +443,9 @@ test("Cancel deletes only the provisional card, restores targets, and spends not
 	f.activation.previousTargets = [f.target];
 	f.messages.set("show-in-chat", { id: "show-in-chat" });
 	await f.activation.start();
-	assert.equal(f.targets.size, 0);
+	assert.equal(f.targets.has(f.target), true);
+	f.targets.clear();
+	f.activation.targetChanged(f.target, false);
 	await f.activation.cancel();
 	assert.deepEqual([...f.messages.keys()], ["show-in-chat"]);
 	assert.equal(f.targets.has(f.target), true);

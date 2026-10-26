@@ -1,3 +1,4 @@
+import { changeReviewContent, bindChangeReview } from "./change-review.js";
 import { EDIT_CONFIRM_TIMEOUT_MS, MAX_MESSAGE_BYTES, MODULE_ID } from "../shared/protocol.js";
 import { validateNpcEdit } from "../shared/npc-data.js";
 import { assertEnabledGM } from "./read-api.js";
@@ -75,14 +76,6 @@ function atPath(source, path) {
 }
 
 /**
- * Treat all game content as text in the confirmation UI, including HTML fields.
- */
-function escape(value) {
-  const text = value === undefined ? "(unset)" : typeof value === "string" ? value : JSON.stringify(value);
-  return text.replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
-}
-
-/**
  * Show the complete before/after summary, with cancellation as the default.
  * Expire the approval before the companion's edit request deadline.
  */
@@ -100,11 +93,11 @@ export async function confirmNpcEdit({ name, changes, summary, title = "Foundry 
         resolve(value === true && now() < expires);
       }
     };
-    const rows = changes.map(change => `<tr><td>${escape(change.document)}<br>${escape(change.path)}</td><td style="white-space:pre-wrap;overflow-wrap:anywhere">${escape(change.before)}</td><td style="white-space:pre-wrap;overflow-wrap:anywhere">${escape(change.after)}</td></tr>`).join("");
     const overview = summary ?? `Update ${name} with ${changes.length} proposed change${changes.length === 1 ? "" : "s"}.`;
     const dialog = new Dialog({
       title,
-      content: `<p style="white-space:pre-wrap;overflow-wrap:anywhere"><strong>${escape(overview)}</strong></p><p>Nothing is saved until you confirm. You have 2 minutes to review.</p><h3>Detailed changes</h3><div style="max-height:55vh;overflow:auto"><table><thead><tr><th>Field</th><th>Before</th><th>After</th></tr></thead><tbody>${rows}</tbody></table></div>`,
+      content: changeReviewContent({ name, changes, overview }),
+      render: bindChangeReview,
       buttons: {
         confirm: { label: "Confirm changes", callback: () => finish(true) },
         cancel: { label: "Cancel", callback: () => finish(false) }

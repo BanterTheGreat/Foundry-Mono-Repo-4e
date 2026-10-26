@@ -1,3 +1,5 @@
+import { AREA_TYPES } from "./area-geometry.js";
+
 export const MODULE_ID = "dnd4e-health-display";
 export const SETTING = "enablePowerTargetAutomation";
 export const FLAG = "targetAutomation";
@@ -5,7 +7,12 @@ export const FLAG = "targetAutomation";
 /** Read portable, per-item automation configuration. */
 export function automationConfig(item) {
 	const config = item.getFlag(MODULE_ID, FLAG) ?? {};
-	return { enabled: config.enabled === true, targetCount: Number(config.targetCount ?? 1) };
+	return {
+		enabled: config.enabled === true, targetCount: Number(config.targetCount ?? 1),
+		targetMode: config.targetMode === "exact" ? "exact" : "area",
+		targetDisposition: ["allies", "enemies"].includes(config.targetDisposition) ? config.targetDisposition : "all",
+		includeCaster: config.includeCaster === true,
+	};
 }
 
 /** Count squares between occupied token footprints, with equal-cost diagonals. */
@@ -38,6 +45,7 @@ export function selectionProblems(source, targets, range, required, size) {
 /** Whether this power is configured for the supported targeting workflow. */
 export function supportsTargetAutomation(item) {
 	const config = automationConfig(item);
-	return config.enabled && item.hasAttack && ["weapon", "melee", "range"].includes(item.system.rangeType)
-		&& Number.isInteger(config.targetCount) && config.targetCount > 0;
+	return config.enabled && ["weapon", "melee", "range", ...AREA_TYPES].includes(item.system.rangeType)
+		&& ((AREA_TYPES.includes(item.system.rangeType) && config.targetMode !== "exact")
+			|| (Number.isInteger(config.targetCount) && config.targetCount > 0));
 }

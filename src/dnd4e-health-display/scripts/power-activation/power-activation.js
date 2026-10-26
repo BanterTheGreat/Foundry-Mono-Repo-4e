@@ -1,5 +1,6 @@
 import { CoverPreview } from "./cover-preview.js";
-import { MODULE_ID, SETTING, automationConfig, selectionProblems } from "./rules.js";
+import { AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin } from "./area-geometry.js";
+import { MODULE_ID, SETTING, automationConfig, selectionProblems, squareDistance } from "./rules.js";
 import { renderPowerCard, createPowerMessage } from "./cards.js";
 import { loadSystem, resolveRange, registerAutomationTab, commitCardCosts, commitPowerUse } from "./system-adapter.js";
 
@@ -39,7 +40,7 @@ export async function registerPowerActivation() {
 			session?.targetChanged(token, targeted);
 		}
 	});
-	Hooks.on("updateToken", () => session?.refresh());
+	Hooks.on("updateToken", () => session?.refreshAreaTargets());
 	Hooks.on("refreshToken", token => session?.refreshMovingToken(token));
 	Hooks.on("canvasPan", () => session?.drawRange());
 	Hooks.on("sightRefresh", () => session?.drawRange());
@@ -95,11 +96,11 @@ export async function useAbility(item, sourceToken) {
 		if (!item.isOwner || !item.actor?.isOwner || !sourceToken || sourceToken.actor?.uuid !== item.actor.uuid || !canvas.ready || canvas.tokens.get(sourceToken.id) !== sourceToken) {
 			throw new Error("Control an owned token on the current scene before using this ability.");
 		}
-		if (!item.hasAttack || !["weapon", "melee", "range"].includes(item.system.rangeType) || !canvas.grid.isSquare) {
-			throw new Error("Target automation currently supports Weapon, Melee X and Ranged X attacks on square grids.");
+		if (!["weapon", "melee", "range", ...AREA_TYPES].includes(item.system.rangeType) || !canvas.grid.isSquare) {
+			throw new Error("Target automation supports weapon, melee, ranged, close burst/blast and area burst/blast powers on square grids.");
 		}
 		const count = automationConfig(item).targetCount;
-		if (!Number.isInteger(count) || count < 1) {
+		if ((!AREA_TYPES.includes(item.system.rangeType) || automationConfig(item).targetMode === "exact") && (!Number.isInteger(count) || count < 1)) {
 			throw new Error("Set a positive whole Amount of Targets in this power's Automation tab.");
 		}
 		if (item.system.macros?.some(macro => macro.enabled)) {
@@ -149,9 +150,10 @@ class ActivationSession {
 		this.committed = false;
 		this.syncing = false;
 		this.listeners = new AbortController();
+		this.placementLocked = range.shape === "closeBurst";
 	}
 
-	/** Start fresh targets and install the session cancellation shortcut. */
+	/** Retain in-range direct targets and install the session cancellation shortcut. */
 	async start() {
 		this.message = await createPowerMessage(this.item, this.card, this.id);
 		if (!this.message) {
@@ -161,8 +163,19 @@ class ActivationSession {
 			await deletePreview(this.message);
 			return;
 		}
+		if (!this.range.shape) {
+			this.targets = this.previousTargets.filter(token => canvas.tokens.get(token.id) === token
+				&& token.actor && token.visible
+				&& squareDistance(this.source, token, canvas.grid.size) <= this.range.maximum);
+		}
 		this.syncTargets();
 		this.panel = new TargetingPanel(this);
+		if (this.range.shape) {
+			if (this.range.shape !== "closeBurst") {
+				this.installPlacement();
+			}
+			this.selectAreaTargets();
+		}
 		const options = { capture: true, signal: this.listeners.signal };
 		window.addEventListener("keydown", event => {
 			if (event.key === "Escape" && !this.busy) {
@@ -171,6 +184,111 @@ class ActivationSession {
 			}
 		}, options);
 		this.refresh();
+	}
+
+	/** Capture canvas clicks only while an area is being placed; keep right-drag panning. */
+	installPlacement() {
+		const element = canvas.app?.view;
+		if (!element?.addEventListener) {
+			throw new Error("The canvas view is unavailable. Wait for the scene to finish loading and try again.");
+		}
+		const options = { capture: true, signal: this.listeners.signal };
+		const position = event => {
+			const bounds = element.getBoundingClientRect();
+			return canvas.stage.toLocal(new PIXI.Point(event.clientX - bounds.left, event.clientY - bounds.top));
+		};
+		const move = event => {
+			if (this.busy || this.finished || this.placementLocked) {
+				return;
+			}
+			const point = position(event);
+			const size = canvas.grid.size;
+			const offset = canvas.dimensions.sceneRect;
+			const origin = this.range.shape === "closeBlast" ? closeBlastOrigin(this.source, point, this.range.area, size)
+				: { x: offset.x + Math.floor((point.x - offset.x) / size) * size, y: offset.y + Math.floor((point.y - offset.y) / size) * size };
+			if (this.origin?.x === origin.x && this.origin?.y === origin.y) {
+				return;
+			}
+			this.origin = origin;
+			this.selectAreaTargets();
+			this.refresh();
+		};
+		element.addEventListener("pointermove", move, options);
+		for (const name of ["pointerdown", "pointerup", "click", "dblclick"]) {
+			element.addEventListener(name, event => {
+				if (this.busy || this.finished || this.placementLocked || event.button !== 0) {
+					return;
+				}
+				event.preventDefault();
+				event.stopImmediatePropagation();
+				if (name === "click") {
+					move(event);
+					this.placementLocked = true;
+					this.refresh();
+				}
+			}, options);
+		}
+	}
+
+	/** The selected area remains distinct from the caster's placement range. */
+	areaBounds() {
+		return areaRectangle(this.source, this.range, this.origin, canvas.grid.size);
+	}
+
+	/** Populate each intersecting visible creature once; manual edits survive until re-selection. */
+	selectAreaTargets() {
+		const config = automationConfig(this.item);
+		const bounds = this.areaBounds();
+		this.targets = canvas.tokens.placeables.filter(token => intersectsArea(token, bounds)
+			&& areaTargetAllowed(this.source, token, this.range, config));
+		this.syncTargets();
+	}
+
+	/** Keep caster-centered bursts current when tokens or power configuration change. */
+	refreshAreaTargets() {
+		if (this.finished || this.busy) {
+			return;
+		}
+		if (this.range.shape === "closeBurst" && automationConfig(this.item).targetMode === "area") {
+			this.selectAreaTargets();
+		}
+		this.refresh();
+	}
+
+	/** Validate area membership rather than distance from caster to individual targets. */
+	areaProblems(targets = this.targets, checkCount = true) {
+		const problems = [];
+		const config = automationConfig(this.item);
+		const origin = areaRangeOrigin(this.source, this.range, this.origin, canvas.grid.size);
+		if (!this.placementLocked) {
+			problems.push("Click the canvas to lock the area placement.");
+		}
+		if (this.origin && this.range.shape === "closeBlast") {
+			const extent = this.range.area * canvas.grid.size;
+			const legal = closeBlastOrigin(this.source, { x: this.origin.x + extent / 2, y: this.origin.y + extent / 2 }, this.range.area, canvas.grid.size);
+			if (legal.x !== this.origin.x || legal.y !== this.origin.y) {
+				problems.push("The close blast is no longer adjacent to the caster; reposition it.");
+			}
+		}
+		if (origin && this.range.shape.startsWith("range") && squareDistance(this.source,
+			{ ...origin, w: canvas.grid.size, h: canvas.grid.size }, canvas.grid.size) > this.range.maximum) {
+			problems.push(`Area origin is outside range ${this.range.maximum}.`);
+		}
+		if (checkCount && config.targetMode === "exact" && targets.length !== this.count) {
+			problems.push(`Selected ${targets.length} targets; this power expects exactly ${this.count}.`);
+		}
+		if (checkCount && !targets.length) {
+			problems.push("No targets selected.");
+		}
+		for (const token of targets) {
+			if (!areaTargetAllowed(this.source, token, this.range, config) || !intersectsArea(token, this.areaBounds())) {
+				problems.push(`${token.visible ? token.name : "Unavailable target"} is outside the area or target filter.`);
+			}
+			if (Number(token.document.elevation) !== Number(this.source.document.elevation)) {
+				problems.push(`${token.visible ? token.name : "Unavailable target"} has a different elevation; check the area manually.`);
+			}
+		}
+		return problems;
 	}
 
 	/** Follow Foundry's standard targeting controls. */
@@ -183,6 +301,10 @@ class ActivationSession {
 			return;
 		}
 		this.targets = [...game.user.targets];
+		if (this.range.shape) {
+			this.refresh();
+			return;
+		}
 		if (targeted) {
 			const problems = selectionProblems(this.source, [token], this.range, 1, canvas.grid.size);
 			if (this.targets.length > this.count) {
@@ -216,6 +338,9 @@ class ActivationSession {
 
 	/** Build advisory errors; unavailable targets remain in the panel until removed. */
 	problems() {
+		if (this.range.shape) {
+			return this.areaProblems();
+		}
 		return selectionProblems(this.source, this.targets, this.range, this.count, canvas.grid.size);
 	}
 
@@ -225,12 +350,16 @@ class ActivationSession {
 			return;
 		}
 		try {
-			this.range = await resolveRange(this.item);
+			const range = await resolveRange(this.item);
+			if (range.shape !== this.range.shape) {
+				throw new Error("The power's targeting shape changed. Start Use Ability again.");
+			}
+			this.range = range;
 			this.count = automationConfig(this.item).targetCount;
-			if (!Number.isInteger(this.count) || this.count < 1 || !automationConfig(this.item).enabled) {
+			if (((!this.range.shape || automationConfig(this.item).targetMode === "exact") && (!Number.isInteger(this.count) || this.count < 1)) || !automationConfig(this.item).enabled) {
 				throw new Error("The power's automation configuration changed. Start Use Ability again after configuring it.");
 			}
-			this.refresh();
+			this.refreshAreaTargets();
 		} catch (error) {
 			ui.notifications.warn(error.message);
 			await this.cancel();
@@ -247,7 +376,7 @@ class ActivationSession {
 			return;
 		}
 		// Cover shares the targeting lifecycle and resolved attack mode.
-		CoverPreview.setContext(this.busy ? null : {
+		CoverPreview.setContext(this.busy || !this.item.hasAttack ? null : {
 			source: this.source, targets: [...this.targets], mode: this.range.mode,
 		});
 		this.drawRange();
@@ -256,14 +385,15 @@ class ActivationSession {
 
 	/** Follow rendered token positions throughout movement without rebuilding the panel each frame. */
 	refreshMovingToken(token) {
-		if (this.finished || (token !== this.source && !this.targets.includes(token))) {
+		const automaticBurst = this.range.shape === "closeBurst" && automationConfig(this.item).targetMode === "area";
+		if (this.finished || (!automaticBurst && token !== this.source && !this.targets.includes(token))) {
 			return;
 		}
 		if (token === this.source) {
 			this.drawRange();
 		}
 		window.clearTimeout(this.movementTimer);
-		this.movementTimer = window.setTimeout(() => this.refresh(), 100);
+		this.movementTimer = window.setTimeout(() => this.refreshAreaTargets(), 100);
 	}
 
 	/** Draw around the source's current canvas position, including interpolated movement. */
@@ -276,6 +406,24 @@ class ActivationSession {
 		this.graphics.clear();
 		this.refreshRangeMask();
 		if (!this.busy) {
+			if (this.range.shape) {
+				if (this.range.shape.startsWith("range")) {
+					this.drawRangeBoundary(this.range.maximum, 0xf5d787, false);
+				}
+				const bounds = this.areaBounds();
+				if (bounds) {
+					this.graphics.lineStyle(2, 0xf5d787).beginFill(0xf5d787, .18).drawRect(bounds.x, bounds.y, bounds.w, bounds.h);
+					if (this.range.shape === "closeBurst") {
+						this.graphics.beginHole().drawRect(this.source.x, this.source.y, this.source.w, this.source.h).endHole();
+					}
+					this.graphics.endFill();
+					if (this.range.shape.startsWith("range")) {
+						const origin = areaRangeOrigin(this.source, this.range, this.origin, canvas.grid.size);
+						this.graphics.lineStyle(2, 0xffffff).drawRect(origin.x, origin.y, canvas.grid.size, canvas.grid.size);
+					}
+				}
+				return;
+			}
 			this.drawRangeFill();
 			if (this.range.maximum > this.range.normal) {
 				this.drawRangeBoundary(this.range.maximum, 0x9fc5e4, true);
@@ -401,33 +549,49 @@ class ActivationSession {
 
 	/** Snapshot factors that affect native target tabs and automatically computed bonuses. */
 	contextKey() {
-		return JSON.stringify([this.item.toObject(), this.item.actor.toObject(), this.source.document.toObject(), this.targets.map(token => [token.id, token.document.toObject(), token.actor?.toObject()])]);
+		return JSON.stringify([this.range, this.origin, automationConfig(this.item), this.item.toObject(), this.item.actor.toObject(), this.source.document.toObject(), this.targets.map(token => [token.id, token.document.toObject(), token.actor?.toObject()])]);
 	}
 
-	/** Open the existing attack dialog after confirmation; no use is spent on dialog cancellation. */
+	/** Confirm utility use or open the native attack dialog after reviewing targets. */
 	async attack() {
 		if (this.busy || this.finished) {
+			return;
+		}
+		if (this.range.shape && !this.placementLocked) {
+			ui.notifications.warn("Place and lock the area before using this ability.");
 			return;
 		}
 		this.busy = true;
 		this.refresh();
 		try {
 			if (this.targets.some(token => !token.visible || !token.actor || canvas.tokens.get(token.id) !== token)) {
-				throw new Error("Remove unavailable targets before attacking.");
+				throw new Error("Remove unavailable targets before using this ability.");
 			}
 			const utils = await loadSystem();
 			if (utils.tokenForActor(this.item.actor)?.id !== this.source.id) {
-				throw new Error("The system's source token changed. Select the original attacker before attacking.");
+				throw new Error("The system's source token changed. Select the original source before using this ability.");
 			}
 			this.range = await resolveRange(this.item);
 			if (this.finished) {
 				return;
 			}
+			const reviewKey = this.contextKey();
 			if (!await this.confirmProblems() || this.finished) {
+				return;
+			}
+			if (this.contextKey() !== reviewKey) {
+				ui.notifications.warn("The ability or battlefield changed. Review targets again.");
 				return;
 			}
 			this.syncTargets();
 			this.confirmedKey = this.contextKey();
+			if (!this.item.hasAttack) {
+				await this.submitUtility();
+				if (this.committed) {
+					await this.complete();
+				}
+				return;
+			}
 			// 0.9.3 inverts modifier behavior when fast-forward is the user's default.
 			const shiftKey = Boolean(game.settings.get("dnd4e", "fastFowardSettings"));
 			await this.item.rollAttack({ event: { shiftKey, clientY: 160 }, powerActivationSession: this.id });
@@ -446,6 +610,31 @@ class ActivationSession {
 			this.busy = false;
 			this.refresh();
 		}
+	}
+
+	/** Commit a non-attack power once, after targeting, without calling a roll method. */
+	async submitUtility() {
+		if (this.finished || !this.item.isOwner || !this.item.actor?.isOwner) {
+			throw new Error("You no longer have permission to use this power.");
+		}
+		this.commitStarted = true;
+		if (!await commitCardCosts(this.item)) {
+			this.commitStarted = false;
+			return;
+		}
+		await this.finalizePowerUse();
+	}
+
+	/** Apply the native use count, use effects and hook once a power has committed. */
+	async finalizePowerUse() {
+		this.committed = true;
+		await commitPowerUse(this.item);
+		if (game.settings.get("dnd4e", "autoApplyEffects")) {
+			const utils = await loadSystem();
+			await utils.applyEffectsToTokens(this.item.effects, [this.source], "self", this.item.actor);
+			await utils.applyAllXEffectsToTokens(this.item.effects, this.item.actor, new Set(this.targets));
+		}
+		Hooks.callAll("dnd4e.usePower", this.item, ChatMessage.getSpeaker({ actor: this.item.actor }));
 	}
 
 	/** Wrap only this session's native callback, preserving other modules' roll hooks. */
@@ -489,14 +678,7 @@ class ActivationSession {
 			}
 			const roll = await callback(...args);
 			if (roll) {
-				this.committed = true;
-				await commitPowerUse(this.item);
-				if (game.settings.get("dnd4e", "autoApplyEffects")) {
-					const utils = await loadSystem();
-					await utils.applyEffectsToTokens(this.item.effects, [this.source], "self", this.item.actor);
-					await utils.applyAllXEffectsToTokens(this.item.effects, this.item.actor, new Set(this.targets));
-				}
-				Hooks.callAll("dnd4e.usePower", this.item, ChatMessage.getSpeaker({ actor: this.item.actor }));
+				await this.finalizePowerUse();
 			} else {
 				this.committed = true;
 				ui.notifications.warn("The system returned no attack result after resource processing. Check chat and resources before using the power again.");
@@ -512,7 +694,7 @@ class ActivationSession {
 		}
 	}
 
-	/** Preserve the played card and clear local selection UI after a committed roll. */
+	/** Preserve the played card and clear local selection UI after a committed use. */
 	async complete() {
 		try {
 			if (this.message && game.messages.has(this.message.id)) {
@@ -521,7 +703,7 @@ class ActivationSession {
 			}
 		} catch (error) {
 			console.error(`${MODULE_ID} | Could not finalize played power card`, error);
-			ui.notifications.warn("The attack finished, but its power card could not be finalized. Check chat before reloading.");
+			ui.notifications.warn("The ability finished, but its power card could not be finalized. Check chat before reloading.");
 		} finally {
 			await this.dispose(false);
 		}
@@ -563,6 +745,19 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 		classes: ["power-targeting"], position: { width: 340, height: "auto" },
 		window: { title: "Select Targets", resizable: true },
 		actions: {
+			reposition() {
+				if (!this.session.busy) {
+					this.session.placementLocked = this.session.range.shape === "closeBurst";
+					this.session.selectAreaTargets();
+					this.session.refresh();
+				}
+			},
+			selectArea() {
+				if (!this.session.busy) {
+					this.session.selectAreaTargets();
+					this.session.refresh();
+				}
+			},
 			async toggleDetails() {
 				this.showDetails = !this.showDetails;
 				await this.render({ force: true });
@@ -596,16 +791,24 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 		const activation = this.session;
 		const problems = activation.problems();
 		return {
+			hasAttack: Boolean(activation.item.hasAttack),
+			area: Boolean(activation.range.shape), movableArea: activation.range.shape && activation.range.shape !== "closeBurst",
+			areaLabel: { closeBurst: "Close burst", closeBlast: "Close blast", rangeBurst: "Area burst", rangeBlast: "Area blast" }[activation.range.shape],
+			areaOriginHint: activation.range.shape === "rangeBlast" ? "The pointer places the blast's top-left corner. The white square marks its nearest origin square to the caster."
+				: activation.range.shape === "rangeBurst" ? "The pointer chooses the burst's center square. Range is measured to that square." : "",
+			placementLocked: activation.placementLocked, areaSize: activation.range.area,
+			exactCount: !activation.range.shape || automationConfig(activation.item).targetMode === "exact",
 			powerName: activation.item.name, showDetails: Boolean(this.showDetails),
 			card: activation.card, range: activation.range.maximum, normalRange: activation.range.normal,
 			longRange: activation.range.maximum > activation.range.normal, required: activation.count,
 			selected: activation.targets.length, busy: activation.busy, cancellable: !activation.commitStarted,
 			ready: !problems.length && !activation.busy,
-			status: activation.busy ? "Attack dialog open" : (problems.length ? "Review targets" : "Ready"),
+			status: activation.busy ? (activation.item.hasAttack ? "Attack dialog open" : "Using ability") : (problems.length ? "Review targets" : "Ready"),
 			problems, targets: activation.targets.map(token => ({
 				id: token.id, name: token.visible ? token.name : "Unavailable target",
 				img: token.visible ? token.document.texture?.src : null,
-				invalid: selectionProblems(activation.source, [token], activation.range, 1, canvas.grid.size).length > 0,
+				invalid: (activation.range.shape ? activation.areaProblems([token], false)
+					: selectionProblems(activation.source, [token], activation.range, 1, canvas.grid.size)).length > 0,
 			})),
 		};
 	}

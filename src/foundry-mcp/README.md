@@ -582,3 +582,23 @@ Example for a single test power (use discovered Actor and Item IDs):
 
 Protocol v28 requires reloading Foundry and restarting the shared companion/MCP
 clients together before this tool is available.
+
+### Custom PC powers
+
+`edit_pc_powers` accepts `addPowers: [{key, name, img?, system}]`, alone or with
+existing `powers` patches. Read the world PC source first. The active GM reviews
+all additions and edits together. Each addition requires a stable semantic key;
+identical retries reuse persisted powers, including after partial saves or reloads.
+Changed data under a saved key is rejected; edit the returned Item ID instead.
+Responses include `addedPowers` IDs/UUIDs and applied changes. Deleting a power
+also removes its retry marker, so retrying its addition can recreate it.
+Caller flags, effects, macros, arbitrary fields and non-PC destinations remain
+excluded. Protocol v30 requires reloading Foundry and restarting the shared
+companion/MCP clients together.
+
+PC and NPC document-edit confirmations use a document navigator: select a document
+on the left to inspect its changes. New powers show readable usage, action, range,
+target and roll settings, with complete escaped source data under **Inspect source
+data**. Existing edits show full before/after fields for the selected document.
+Navigation does not approve or save changes; Confirm, Cancel and the two-minute
+deadline retain their existing behavior.

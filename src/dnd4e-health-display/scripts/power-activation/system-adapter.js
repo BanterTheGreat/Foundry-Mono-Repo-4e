@@ -11,6 +11,16 @@ export function loadSystem() {
 /** Resolve the weapon and range using DnD4e 0.9.3's roll data/resolver. */
 export async function resolveRange(item) {
 	const utils = await loadSystem();
+	if (["closeBurst", "closeBlast", "rangeBurst", "rangeBlast"].includes(item.system.rangeType)) {
+		const shape = item.system.rangeType;
+		const area = Number(utils.evaluateFormula(item.system.area, item.actor, { strict: true, contextName: "power area" }));
+		const distance = shape.startsWith("close") ? area
+			: Number(utils.evaluateFormula(item.system.rangePower, item.actor, { strict: true, contextName: "area placement range" }));
+		if (![area, distance].every(value => Number.isInteger(value) && value > 0)) {
+			throw new Error("Area targeting needs positive, whole-square area and range formulas.");
+		}
+		return { shape, area, normal: distance, maximum: distance, mode: "area", weaponId: null };
+	}
 	const data = item.getRollData().item;
 	const weapon = utils.getWeaponUse(data, item.actor);
 	let normal;
@@ -53,6 +63,8 @@ export async function registerAutomationTab() {
 		const result = await prepare.call(this, partId, context, ...args);
 		if (partId === "automation") {
 			result.automation = automationConfig(this.document);
+			result.automationTargetModes = { area: "All in area", exact: "Exact amount" };
+			result.automationDispositions = { all: "All creatures", enemies: "Enemies", allies: "Allies" };
 			result.editable = this.isEditable;
 		}
 		return result;

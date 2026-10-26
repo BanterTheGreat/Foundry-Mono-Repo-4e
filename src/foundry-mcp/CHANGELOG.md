@@ -2,6 +2,10 @@
 
 ## 0.4.0
 
+- Review PC/NPC edits in a document navigator with readable new-power details and expandable source data, replacing the dense combined diff table.
+
+- Custom powers can now be added directly to PCs through `edit_pc_powers`, with GM review and duplicate-safe retries after partial saves. Requires protocol v30 (reload Foundry and restart the shared companion/MCP clients).
+
 - Edit existing world PC ability scores, skill training, weapon/implement/armor proficiencies, spoken languages/scripts and character details through `edit_pc_actor`, with GM review, stale-source protection and partial-save receipts. Protocol v29 requires reloading Foundry and restarting the shared companion/MCP clients together.
 
 - Edit existing world PC powers with `edit_pc_powers`, including automatic card generation and structured card fields, through a full before/after GM confirmation with a two-minute timeout. Preserve unrelated data, reject stale approvals, and return partial-save receipts. Protocol v28 requires reloading Foundry and restarting the companion/MCP clients together.

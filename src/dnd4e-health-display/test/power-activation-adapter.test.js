@@ -43,6 +43,20 @@ test("explicit formula ranges and long range are evaluated; invalid formula resu
 	await assert.rejects(adapter.resolveRange(item), /positive, whole-square range/);
 });
 
+test("native area fields resolve formulas independently of weapon reach and target distance", async () => {
+	const adapter = loadAdapter();
+	for (const shape of ["closeBurst", "closeBlast", "rangeBurst", "rangeBlast"]) {
+		const item = { actor: {}, system: { rangeType: shape, area: "@reach", rangePower: "10" } };
+		const range = await adapter.resolveRange(item);
+		assert.equal(range.shape, shape);
+		assert.equal(range.area, 3);
+		assert.equal(range.maximum, shape.startsWith("close") ? 3 : 10);
+		assert.equal(range.mode, "area");
+		item.system.area = "1.5";
+		await assert.rejects(adapter.resolveRange(item), /whole-square area/);
+	}
+});
+
 test("turn/round power uses are not consumed outside combat; encounter uses are", async () => {
 	const adapter = loadAdapter();
 	let spent = 0;

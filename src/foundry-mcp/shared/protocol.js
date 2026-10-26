@@ -1,5 +1,5 @@
 export const MODULE_ID = "foundry-mcp";
-export const PROTOCOL_VERSION = 29;
+export const PROTOCOL_VERSION = 30;
 export const EDIT_CONFIRM_TIMEOUT_MS = 120000;
 export const EFFECT_CONFIRM_TIMEOUT_MS = EDIT_CONFIRM_TIMEOUT_MS;
 export const DEFAULT_PORT = 17890;
