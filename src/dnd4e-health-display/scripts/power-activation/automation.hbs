@@ -21,5 +21,9 @@
 	<p>Supports weapon, melee, ranged, close burst/blast and area burst/blast powers on square grids. Attack powers open the attack dialog; other powers use Confirm to commit the use and use effects. Area size and placement range use the power's Area and Range fields. Close bursts always exclude the caster.</p>
 	<p>Area target count defaults to all creatures matching the filter. Exact count uses Amount of Targets. Allies and enemies use token disposition relative to the caster; neutral tokens only match All creatures. Include caster overrides the disposition filter for the caster.</p>
 	<p>Target count, range and area membership are advisory. Area cover, line of effect, elevation and special targeting requirements need manual checking.</p>
+	<label>On confirm, place Region on selected area
+		<input type="checkbox" name="flags.dnd4e-health-display.targetAutomation.placeRegion" {{checked automation.placeRegion}} {{#unless editable}}disabled{{/unless}}>
+	</label>
+	<p>Places a persistent Region for close burst/blast and area burst/blast powers when the use is committed. Close bursts leave out the caster's space. Requires permission to create Regions; remove the Region manually when it ends.</p>
 	<p>Enabling target automation disables this power's use macros.</p>
 </section>

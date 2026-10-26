@@ -62,6 +62,10 @@ function fixture({ confirm = true, fastForward = false } = {}) {
 		console, AbortController, MODULE_ID, SETTING, automationConfig, selectionProblems, squareDistance,
 		AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin,
 		CoverPreview: { setContext: value => hooks.push(["coverContext", value]), register() {} },
+		sharedAreaPreview: {
+			show: value => hooks.push(["sharedArea", value.id]),
+			clear: () => hooks.push(["sharedArea", null]), register() {},
+		},
 		foundry: {
 			data: { PolygonTree },
 			applications: { api: { ApplicationV2: App, HandlebarsApplicationMixin: Base => Base, DialogV2: {
@@ -115,7 +119,7 @@ function fixture({ confirm = true, fastForward = false } = {}) {
 }
 
 test("melee, ranged and weapon activations retain existing targets inside their range", async () => {
-	for (const rangeType of ["melee", "range", "weapon"]) {
+	for (const rangeType of ["melee", "touch", "reach", "range", "weapon"]) {
 		const f = fixture();
 		f.item.system.rangeType = rangeType;
 		f.context.api.setSession(null);
@@ -126,6 +130,57 @@ test("melee, ranged and weapon activations retain existing targets inside their 
 		const context = f.hooks.find(([name]) => name === "coverContext")[1];
 		assert.deepEqual(Array.from(context.targets), [f.target]);
 	}
+});
+
+test("committed area uses place one Region with the preview bounds and close-burst hole", async () => {
+	for (const shape of AREA_TYPES) {
+		const f = fixture();
+		const created = [];
+		f.item.getFlag = () => ({ enabled: true, placeRegion: true });
+		f.activation.range = { shape, area: 2, normal: 10, maximum: 10 };
+		f.activation.origin = { x: 300, y: 400 };
+		f.context.CONST = { REGION_VISIBILITY: { ALWAYS: 1 }, DOCUMENT_OWNERSHIP_LEVELS: { OWNER: 3 } };
+		f.context.canvas.level = { id: "ground" };
+		f.context.canvas.scene = {
+			async createEmbeddedDocuments(type, data) { created.push({ type, data }); return data; },
+		};
+		await f.activation.finalizePowerUse();
+		await f.activation.placeAreaRegion();
+		assert.equal(created.length, 1);
+		assert.equal(created[0].type, "Region");
+		const region = created[0].data[0];
+		const bounds = f.activation.areaBounds();
+		assert.deepEqual(JSON.parse(JSON.stringify(region.shapes[0])), {
+			type: "rectangle", x: bounds.x, y: bounds.y, width: bounds.w, height: bounds.h, rotation: 0, hole: false,
+		});
+		assert.equal(region.shapes.length, shape === "closeBurst" ? 2 : 1);
+		if (shape === "closeBurst") {
+			assert.equal(region.shapes[1].hole, true);
+			assert.equal(region.shapes[1].width, f.attacker.w);
+		}
+		assert.equal(region.levels[0], "ground");
+		assert.equal(region.ownership.user, 3);
+		assert.equal(f.item.system.uses.value, 1);
+	}
+});
+
+test("Region placement is opt-in and area-only, and creation failure still commits the power", async () => {
+	const f = fixture();
+	let attempts = 0;
+	f.context.canvas.scene = { async createEmbeddedDocuments() { attempts++; throw new Error("No Region permission"); } };
+	f.context.CONST = { REGION_VISIBILITY: { ALWAYS: 1 }, DOCUMENT_OWNERSHIP_LEVELS: { OWNER: 3 } };
+	f.activation.range = { shape: "closeBurst", area: 1 };
+	await f.activation.placeAreaRegion();
+	assert.equal(attempts, 0);
+	f.item.getFlag = () => ({ placeRegion: true });
+	f.activation.range = { normal: 1, maximum: 1 };
+	await f.activation.placeAreaRegion();
+	assert.equal(attempts, 0);
+	f.activation.range = { shape: "closeBurst", area: 1 };
+	await f.activation.finalizePowerUse();
+	assert.equal(attempts, 1);
+	assert.equal(f.item.system.uses.value, 1);
+	assert.ok(f.warnings.some(message => message.includes("No Region permission")));
 });
 
 test("ranged activations preserve long-range targets and cancellation restores the original selection", async () => {
@@ -146,7 +201,7 @@ test("ranged activations preserve long-range targets and cancellation restores t
 });
 
 test("non-attack powers expose targeting and can start Use Ability for every supported range type", async () => {
-	for (const rangeType of ["weapon", "melee", "range", ...AREA_TYPES]) {
+	for (const rangeType of ["weapon", "melee", "touch", "reach", "range", ...AREA_TYPES]) {
 		const f = fixture();
 		f.item.hasAttack = false;
 		f.item.system.rangeType = rangeType;
@@ -530,6 +585,24 @@ test("battlefield changes during the native dialog return to selection before co
 	await f.activation.cancel();
 });
 
+
+test("shared AoE preview follows aiming, clears during handoff, resumes and clears on cancellation", async () => {
+	const f = fixture();
+	f.activation.range = { shape: "closeBurst", area: 2, normal: 2, maximum: 2, mode: "area" };
+	f.context.resolveRange = async () => f.activation.range;
+	f.activation.placementLocked = true;
+	const previews = () => f.hooks.filter(([name]) => name === "sharedArea");
+	await f.activation.start();
+	assert.equal(previews().at(-1)[1], f.activation.id);
+	f.item.rollAttack = async () => {
+		assert.equal(previews().at(-1)[1], null);
+		return null;
+	};
+	await f.activation.attack();
+	assert.equal(previews().at(-1)[1], f.activation.id);
+	await f.activation.cancel();
+	assert.equal(previews().at(-1)[1], null);
+});
 
 test("cover context exists only during selection and clears during handoff and cancellation", async () => {
 	const f = fixture();

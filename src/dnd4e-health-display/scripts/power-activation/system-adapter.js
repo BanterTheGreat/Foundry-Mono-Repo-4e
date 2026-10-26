@@ -26,7 +26,11 @@ export async function resolveRange(item) {
 	let normal;
 	let maximum;
 	let mode = item.system.rangeType === "range" ? "ranged" : "melee";
-	if (item.system.rangeType === "weapon") {
+	if (item.system.rangeType === "touch") {
+		// Touch is adjacent, regardless of weapon reach or the power's range formula.
+		normal = 1;
+		maximum = 1;
+	} else if (item.system.rangeType === "weapon") {
 		if (!weapon) {
 			throw new Error("Choose an equipped weapon for this power before using target automation.");
 		}

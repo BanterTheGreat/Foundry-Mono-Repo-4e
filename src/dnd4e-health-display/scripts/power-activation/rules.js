@@ -12,6 +12,7 @@ export function automationConfig(item) {
 		targetMode: config.targetMode === "exact" ? "exact" : "area",
 		targetDisposition: ["allies", "enemies"].includes(config.targetDisposition) ? config.targetDisposition : "all",
 		includeCaster: config.includeCaster === true,
+		placeRegion: config.placeRegion === true,
 	};
 }
 
@@ -45,7 +46,7 @@ export function selectionProblems(source, targets, range, required, size) {
 /** Whether this power is configured for the supported targeting workflow. */
 export function supportsTargetAutomation(item) {
 	const config = automationConfig(item);
-	return config.enabled && ["weapon", "melee", "range", ...AREA_TYPES].includes(item.system.rangeType)
+	return config.enabled && ["weapon", "melee", "touch", "reach", "range", ...AREA_TYPES].includes(item.system.rangeType)
 		&& ((AREA_TYPES.includes(item.system.rangeType) && config.targetMode !== "exact")
 			|| (Number.isInteger(config.targetCount) && config.targetCount > 0));
 }

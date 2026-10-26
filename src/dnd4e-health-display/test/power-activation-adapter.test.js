@@ -34,12 +34,39 @@ test("weapon range follows selected melee/ranged mode, reach and normal/long ran
 	assert.equal((await adapter.resolveRange(item)).normal, 3);
 });
 
+test("melee touch stays at one square regardless of weapon reach or range formula", async () => {
+	const adapter = loadAdapter({ id: "spear", system: { properties: { rch: true } } });
+	const item = { actor: {}, system: { rangeType: "touch", rangePower: "" }, getRollData: () => ({ item: {} }) };
+	for (const formula of ["", "@reach", "invalid"]) {
+		item.system.rangePower = formula;
+		const range = await adapter.resolveRange(item);
+		assert.equal(range.normal, 1);
+		assert.equal(range.maximum, 1);
+		assert.equal(range.mode, "melee");
+		assert.equal(range.weaponId, "spear");
+	}
+});
+
 test("explicit formula ranges and long range are evaluated; invalid formula results are rejected", async () => {
 	const adapter = loadAdapter();
 	const item = { actor: {}, system: { rangeType: "range", rangePower: "@reach", range: { long: "10" } }, getRollData: () => ({ item: {} }) };
 	assert.equal((await adapter.resolveRange(item)).normal, 3);
 	assert.equal((await adapter.resolveRange(item)).maximum, 10);
 	item.system.rangePower = "not a range";
+	await assert.rejects(adapter.resolveRange(item), /positive, whole-square range/);
+});
+
+test("melee reach evaluates the power range without a ranged long-range extension", async () => {
+	const adapter = loadAdapter();
+	const item = { actor: {}, system: { rangeType: "reach", rangePower: "2", range: { long: "10" } }, getRollData: () => ({ item: {} }) };
+	for (const [formula, expected] of [["2", 2], ["@reach", 3]]) {
+		item.system.rangePower = formula;
+		const range = await adapter.resolveRange(item);
+		assert.equal(range.normal, expected);
+		assert.equal(range.maximum, expected);
+		assert.equal(range.mode, "melee");
+	}
+	item.system.rangePower = "invalid";
 	await assert.rejects(adapter.resolveRange(item), /positive, whole-square range/);
 });
 

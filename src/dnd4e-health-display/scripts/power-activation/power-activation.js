@@ -1,4 +1,5 @@
 import { CoverPreview } from "./cover-preview.js";
+import { sharedAreaPreview } from "./shared-area-preview.js";
 import { AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin } from "./area-geometry.js";
 import { MODULE_ID, SETTING, automationConfig, selectionProblems, squareDistance } from "./rules.js";
 import { renderPowerCard, createPowerMessage } from "./cards.js";
@@ -28,6 +29,7 @@ export async function registerPowerActivation() {
 		return;
 	}
 	CoverPreview.register();
+	sharedAreaPreview.register();
 	try {
 		await registerAutomationTab();
 	} catch (error) {
@@ -96,8 +98,8 @@ export async function useAbility(item, sourceToken) {
 		if (!item.isOwner || !item.actor?.isOwner || !sourceToken || sourceToken.actor?.uuid !== item.actor.uuid || !canvas.ready || canvas.tokens.get(sourceToken.id) !== sourceToken) {
 			throw new Error("Control an owned token on the current scene before using this ability.");
 		}
-		if (!["weapon", "melee", "range", ...AREA_TYPES].includes(item.system.rangeType) || !canvas.grid.isSquare) {
-			throw new Error("Target automation supports weapon, melee, ranged, close burst/blast and area burst/blast powers on square grids.");
+		if (!["weapon", "melee", "touch", "reach", "range", ...AREA_TYPES].includes(item.system.rangeType) || !canvas.grid.isSquare) {
+			throw new Error("Target automation supports weapon, melee, melee touch/reach, ranged, close burst/blast and area burst/blast powers on square grids.");
 		}
 		const count = automationConfig(item).targetCount;
 		if ((!AREA_TYPES.includes(item.system.rangeType) || automationConfig(item).targetMode === "exact") && (!Number.isInteger(count) || count < 1)) {
@@ -401,6 +403,11 @@ class ActivationSession {
 		if (this.finished) {
 			return;
 		}
+		if (this.range.shape && !this.busy) {
+			sharedAreaPreview.show(this);
+		} else {
+			sharedAreaPreview.clear();
+		}
 		this.graphics ??= canvas.interface.addChild(new PIXI.Graphics());
 		this.graphics.eventMode = "none";
 		this.graphics.clear();
@@ -628,6 +635,7 @@ class ActivationSession {
 	/** Apply the native use count, use effects and hook once a power has committed. */
 	async finalizePowerUse() {
 		this.committed = true;
+		await this.placeAreaRegion();
 		await commitPowerUse(this.item);
 		if (game.settings.get("dnd4e", "autoApplyEffects")) {
 			const utils = await loadSystem();
@@ -635,6 +643,39 @@ class ActivationSession {
 			await utils.applyAllXEffectsToTokens(this.item.effects, this.item.actor, new Set(this.targets));
 		}
 		Hooks.callAll("dnd4e.usePower", this.item, ChatMessage.getSpeaker({ actor: this.item.actor }));
+	}
+
+	/** Persist the selected geometry once; Region failures must not interrupt power costs/effects. */
+	async placeAreaRegion() {
+		if (this.regionAttempted || !this.range.shape || !automationConfig(this.item).placeRegion) {
+			return;
+		}
+		this.regionAttempted = true;
+		try {
+			const bounds = this.areaBounds();
+			if (!bounds) {
+				throw new Error("No selected area is available.");
+			}
+			const rectangle = ({ x, y, w, h }, hole = false) => ({
+				type: "rectangle", x, y, width: w, height: h, rotation: 0, hole,
+			});
+			const shapes = [rectangle(bounds)];
+			if (this.range.shape === "closeBurst") {
+				shapes.push(rectangle(this.source, true));
+			}
+			const regions = await canvas.scene.createEmbeddedDocuments("Region", [{
+				name: this.item.name, shapes, color: String(game.user.color ?? "#f5d787"),
+				levels: canvas.level ? [canvas.level.id] : [],
+				visibility: CONST.REGION_VISIBILITY.ALWAYS,
+				ownership: { [game.user.id]: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER },
+			}]);
+			if (!regions.length) {
+				throw new Error("Region creation was prevented.");
+			}
+		} catch (error) {
+			console.error(`${MODULE_ID} | Area Region creation`, error);
+			ui.notifications.warn(`The power is being used, but its Region could not be placed: ${error.message}`);
+		}
 	}
 
 	/** Wrap only this session's native callback, preserving other modules' roll hooks. */
@@ -723,6 +764,7 @@ class ActivationSession {
 	/** Remove every local listener/graphic and optionally restore prior targets. */
 	async dispose(restore) {
 		this.finished = true;
+		sharedAreaPreview.clear();
 		CoverPreview.setContext(null);
 		window.clearTimeout(this.movementTimer);
 		this.listeners.abort();
