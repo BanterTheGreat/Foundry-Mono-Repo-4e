@@ -8,6 +8,8 @@ import { automationConfig, powerOriginRules, squareDistance, selectionProblems, 
 
 const source = readFileSync(new URL("../scripts/power-activation/power-activation.js", import.meta.url), "utf8")
 	.replace(/^import .*;\r?\n/gm, "").replace(/^export /gm, "");
+const damageSource = readFileSync(new URL("../scripts/power-activation/damage-roll.js", import.meta.url), "utf8")
+	.replace(/^import .*;\r?\n/gm, "").replace(/^export /gm, "");
 
 /** Run the real session controller against document/canvas boundaries, without Foundry. */
 function fixture({ confirm = true, fastForward = false } = {}) {
@@ -30,7 +32,7 @@ function fixture({ confirm = true, fastForward = false } = {}) {
 		drawShape(graphics) { this.shapes.forEach(shape => graphics.drawShape(shape)); }
 	}
 	let consumed = 0;
-	const actor = { uuid: "Actor.a", isOwner: true, toObject: () => ({ id: "a" }) };
+	const actor = { id: "a", uuid: "Actor.a", isOwner: true, toObject: () => ({ id: "a" }) };
 	const item = {
 		id: "p", uuid: "Actor.a.Item.p", name: "Test attack", actor, isOwner: true, hasAttack: true,
 		system: { uses: { per: "encounter", value: 2 }, rangeType: "melee", macros: [] },
@@ -38,6 +40,10 @@ function fixture({ confirm = true, fastForward = false } = {}) {
 		toObject: () => ({ uses: item.system.uses.value }),
 		update: async data => { changes.push(data); item.system.uses.value = data["system.uses.value"]; },
 	};
+	class DamageRoll {
+		static createRoll(parts, replacements, data) { return data.damageRoll; }
+	}
+	item.getRollData = () => ({ damageRoll: item.damageRoll });
 	const token = (id, x) => ({
 		id, name: id, actor, x, y: 0, w: 100, h: 100, visible: true,
 		document: { elevation: 0, toObject: () => ({ id, x }) },
@@ -100,6 +106,7 @@ function fixture({ confirm = true, fastForward = false } = {}) {
 		Hooks: { callAll: (...args) => hooks.push(args) },
 		ChatMessage: { getSpeaker: () => ({ actor: "a" }) },
 		loadSystem: async () => ({ tokenForActor: () => attacker }),
+		loadDamageRollClass: async () => DamageRoll,
 		resolveRange: async () => ({ normal: 1, maximum: 1 }),
 		registerAutomationTab: async () => {},
 		renderPowerCard: async () => "power-card",
@@ -117,10 +124,10 @@ function fixture({ confirm = true, fastForward = false } = {}) {
 		commitCardCosts: async () => { consumed++; return true; },
 		commitPowerUse: async power => power.update({ "system.uses.value": power.system.uses.value - 1 }),
 	});
-	vm.runInContext(`${source}\nglobalThis.api = { ActivationSession, TargetingPanel, useAbility, showPowerInChat, setSession: value => { session = value; } };`, context);
+	vm.runInContext(`${damageSource}\n${source}\nglobalThis.api = { ActivationSession, TargetingPanel, useAbility, showPowerInChat, setSession: value => { session = value; } };`, context);
 	const activation = new context.api.ActivationSession(item, attacker, { normal: 1, maximum: 1 }, "card", 1);
 	context.api.setSession(activation);
-	return { context, activation, item, target, far, attacker, targets, messages, warnings, confirmations, hooks, changes, rectangles, shapes, tokenMap, consumed: () => consumed };
+	return { context, activation, item, DamageRoll, target, far, attacker, targets, messages, warnings, confirmations, hooks, changes, rectangles, shapes, tokenMap, consumed: () => consumed };
 }
 
 test("melee, ranged and weapon activations retain existing targets inside their range", async () => {
@@ -875,11 +882,17 @@ test("committed attack stays open with its results and full power until damage a
 	assert.deepEqual(f.activation.targets, [f.target]);
 	let release;
 	let rolls = 0;
-	f.item.rollDamage = () => { rolls++; return new Promise(resolve => { release = resolve; }); };
+	f.item.damageRoll = { total: 18, async toMessage() { return { id: "damage", rolls: [this] }; } };
+	f.item.rollDamage = function() {
+		rolls++;
+		const roll = f.DamageRoll.createRoll([], [], this.getRollData(), { hitTypeDamage: true });
+		void roll.toMessage();
+		return new Promise(resolve => { release = resolve; });
+	};
 	const damage = f.activation.rollDamage({});
 	await f.activation.rollDamage({});
 	assert.equal(rolls, 1);
-	release({ total: 18 });
+	release(f.item.damageRoll);
 	await damage;
 	assert.equal((await panel._prepareContext()).needsDamage, false);
 	const rolledDisplay = await panel._prepareContext();
@@ -891,6 +904,44 @@ test("committed attack stays open with its results and full power until damage a
 	assert.equal(f.activation.finished, true);
 	assert.equal(closed, 1);
 	assert.equal(f.item.system.uses.value, 1);
+});
+
+test("damage total and completion stay hidden until evaluation and Dice So Nice finish", async () => {
+	const f = fixture();
+	f.activation.phase = "results";
+	f.item.hasDamage = true;
+	const panel = Object.create(f.context.api.TargetingPanel.prototype);
+	panel.session = f.activation;
+	let publish;
+	const roll = { total: 0, toMessage: () => new Promise(resolve => { publish = resolve; }) };
+	f.item.damageRoll = roll;
+	f.item.rollDamage = async function() {
+		const result = f.DamageRoll.createRoll([], [], this.getRollData(), { hitTypeDamage: true });
+		void result.toMessage();
+		return result;
+	};
+	let finish;
+	let started;
+	const animation = new Promise(resolve => { started = resolve; });
+	f.context.game.dice3d = { waitFor3DAnimationByMessageID(id) {
+		assert.equal(id, "damage");
+		started();
+		return new Promise(resolve => { finish = resolve; });
+	} };
+	const pending = f.activation.rollDamage({});
+	await Promise.resolve();
+	await Promise.resolve();
+	assert.equal((await panel._prepareContext()).hasDamageTotal, false);
+	assert.equal(f.activation.canComplete(), false);
+	roll.total = 23;
+	publish({ id: "damage", rolls: [{ total: 23 }] });
+	await animation;
+	assert.equal((await panel._prepareContext()).hasDamageTotal, false);
+	assert.equal(f.activation.busy, true);
+	finish();
+	await pending;
+	assert.equal((await panel._prepareContext()).damageTotal, 23);
+	assert.equal(f.activation.canComplete(), true);
 });
 
 test("cancelled damage keeps Roll Damage available; an attack without damage can complete", async () => {

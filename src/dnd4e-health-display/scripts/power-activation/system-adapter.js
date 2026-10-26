@@ -2,6 +2,13 @@ import { MODULE_ID, FLAG, automationConfig } from "./rules.js";
 import { AREA_TYPES } from "./area-geometry.js";
 
 let systemPromise;
+let damageRollClassPromise;
+
+/** Load the pinned system's native damage roll class for per-call message capture. */
+export async function loadDamageRollClass() {
+	damageRollClassPromise ??= import("../../../../systems/dnd4e/module/rolls/roll-with-expression.mjs");
+	return (await damageRollClassPromise).default;
+}
 
 /**
  * Show only settings used by this power's current targeting workflow.

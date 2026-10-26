@@ -6,6 +6,7 @@ import { MODULE_ID, SETTING, automationConfig, powerOriginRules, selectionProble
 import { registerActorOrigins } from "./actor-origins.js";
 import { renderPowerCard, createPowerMessage, postAttackRules, preAttackRules } from "./cards.js";
 import { loadSystem, resolveRange, registerAutomationTab, commitCardCosts, commitPowerUse, rollFromOrigin } from "./system-adapter.js";
+import { rollDamageAndWait } from "./damage-roll.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin, DialogV2 } = foundry.applications.api;
 let session = null;
@@ -1150,7 +1151,7 @@ class ActivationSession {
 			if (!this.item.isOwner || !this.item.actor?.isOwner) {
 				throw new Error("You no longer have permission to roll this power's damage.");
 			}
-			const roll = await this.item.rollDamage({ event });
+			const roll = await rollDamageAndWait(this.item, event);
 			if (roll) {
 				this.damageRolled = true;
 				this.damageTotal = Number.isFinite(roll.total) ? roll.total : null;
@@ -1271,7 +1272,7 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 				showDetails: Boolean(this.showDetails), busy: activation.busy,
 				needsDamage: activation.item.hasDamage && !activation.damageRolled,
 				canComplete: activation.canComplete(),
-				status: activation.busy ? "Damage dialog open" : activation.damageRolled ? "Damage rolled" : "Attack resolved",
+				status: activation.busy ? "Rolling damage…" : activation.damageRolled ? "Damage rolled" : "Attack resolved",
 				results: activation.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id)
 					.map(result => ({ ...result, name: canvas.tokens.get(result.tokenId)?.visible
 						? canvas.tokens.get(result.tokenId).name : "Unavailable target" }))),
