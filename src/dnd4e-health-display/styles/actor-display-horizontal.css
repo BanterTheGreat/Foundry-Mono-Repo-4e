@@ -1639,3 +1639,97 @@ body.dnd4e-horizontal-hud-active #players {
 	font-size: 10px;
 	line-height: 1;
 }
+
+/* Unified experimental action and character menus above the macro bar. */
+.dnd4e-experimental-actor-display__categories { width: 95%; }
+.dnd4e-experimental-actor-display__menu-gap { flex: 0 0 12px; }
+.dnd4e-experimental-actor-display__categories button {
+	flex: 1 0 auto;
+	min-height: 40px;
+	padding: 12px 3px;
+	font-size: 10px;
+	letter-spacing: .02em;
+	white-space: nowrap;
+}
+.dnd4e-experimental-actor-display__categories small { display: none; }
+.dnd4e-experimental-actor-display__popup.is-character-menu { left: auto; right: 0; }
+.dnd4e-experimental-actor-display__search { padding: 8px; }
+.dnd4e-experimental-actor-display__search input {
+	width: 100%;
+	padding: 6px 8px;
+	border: 1px solid #796440;
+	border-radius: 3px;
+	background: #141413;
+	color: #e9dfc7;
+}
+.dnd4e-experimental-actor-display .is-character-menu .dnd4e-horizontal-actor-display__skills {
+	display: flex;
+	flex-direction: column;
+}
+.dnd4e-experimental-actor-display .is-character-menu button[data-hud-entry],
+.dnd4e-experimental-actor-display .is-character-menu button[data-skill],
+.dnd4e-experimental-actor-display .is-character-menu .dnd4e-horizontal-actor-display__item > button:first-child {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	width: 100%;
+	height: auto;
+	min-height: 34px;
+	padding: 7px 8px;
+	text-align: left;
+}
+.dnd4e-experimental-actor-display .is-character-menu .dnd4e-horizontal-actor-display__item {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+.dnd4e-experimental-actor-display .is-character-menu h4 {
+	margin: 8px 4px;
+	color: #bca67d;
+	font-size: 11px;
+}
+.dnd4e-experimental-actor-display .is-character-menu [hidden] { display: none !important; }
+.dnd4e-experimental-actor-display .is-character-menu button:disabled { opacity: .4; cursor: default; }
+
+/* Give the macro-bar lists breathing room while retaining compact rows. */
+.dnd4e-experimental-actor-display__power + .dnd4e-experimental-actor-display__power {
+	margin-top: 5px;
+}
+.dnd4e-experimental-actor-display .is-character-menu button[data-hud-entry],
+.dnd4e-experimental-actor-display .is-character-menu button[data-skill],
+.dnd4e-experimental-actor-display .is-character-menu .dnd4e-horizontal-actor-display__item {
+	margin-bottom: 5px;
+}
+.dnd4e-experimental-actor-display .is-character-menu .dnd4e-horizontal-actor-display__group + .dnd4e-horizontal-actor-display__group {
+	margin-top: 12px;
+}
+
+/* Compact menu controls and paired character actions. */
+.dnd4e-experimental-actor-display__power.is-depleted .dnd4e-experimental-actor-display__power-name strong {
+	text-decoration: line-through;
+}
+.dnd4e-experimental-actor-display .is-character-menu .dnd4e-horizontal-actor-display__skills {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 5px;
+}
+.dnd4e-experimental-actor-display .is-character-menu .dnd4e-horizontal-actor-display__skills button {
+	min-width: 0;
+	margin-bottom: 0;
+}
+.dnd4e-experimental-actor-display .is-character-menu .dnd4e-horizontal-actor-display__skills button span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.dnd4e-experimental-actor-display__extra-actions {
+	display: flex;
+	gap: 6px;
+}
+.dnd4e-experimental-actor-display .is-character-menu .dnd4e-experimental-actor-display__extra-actions button[data-hud-entry] {
+	flex: 1;
+	min-width: 0;
+	width: auto;
+	justify-content: center;
+}

@@ -121,6 +121,7 @@
 					</div>
 				</div>
 			{{/if}}
+{{#unless experimentalActorHud}}
 			<nav class="dnd4e-horizontal-actor-display__tabs">
 				{{#each tabs}}
 					<button type="button" class="{{#if active}}is-active{{/if}}" data-action="showSection" data-display-tab="{{key}}" aria-expanded="{{#if active}}true{{else}}false{{/if}}">
@@ -129,6 +130,7 @@
 					</button>
 				{{/each}}
 			</nav>
+{{/unless}}
 		</div>
 
 		{{#if experimentalActorHud}}
@@ -168,12 +170,6 @@
 				</section>
 				{{/if}}
 			</div>
-			<div class="dnd4e-horizontal-actor-display__deck-actions" role="group" aria-label="Combat actions">
-								<button type="button" class="dnd4e-horizontal-actor-display__deck-action {{#if horizontalActions.ap.disabled}}is-disabled{{/if}}" data-action="quick" data-command="actionPoint" {{#if horizontalActions.ap.disabled}}disabled{{/if}} title="Spend or use an Action Point" aria-label="Spend or use an Action Point"><i class="fa-solid fa-bolt" aria-hidden="true"></i><span>AP</span></button>
-								<div class="dnd4e-horizontal-actor-display__action-slot"><button type="button" class="dnd4e-horizontal-actor-display__deck-action {{#if isHealOpen}}is-open{{/if}}" data-action="toggleDropdown" data-dropdown="heal" title="Heal and Second Wind" aria-label="Heal and Second Wind"><i class="fa-solid fa-heart" aria-hidden="true"></i><span>Heals</span></button>{{#if isHealOpen}}<div class="dnd4e-horizontal-actor-display__dropdown-menu">{{#each horizontalActions.heal}}<button type="button" data-action="quick" data-command="{{command}}">{{label}}</button>{{/each}}</div>{{/if}}</div>
-								<div class="dnd4e-horizontal-actor-display__action-slot"><button type="button" class="dnd4e-horizontal-actor-display__deck-action {{#if isSaveOpen}}is-open{{/if}}" data-action="toggleDropdown" data-dropdown="save" title="Saving Throw and Death Save" aria-label="Saving Throw and Death Save"><i class="fa-solid fa-star" aria-hidden="true"></i><span>Saves</span></button>{{#if isSaveOpen}}<div class="dnd4e-horizontal-actor-display__dropdown-menu">{{#each horizontalActions.save}}<button type="button" data-action="quick" data-command="{{command}}" {{#if disabled}}disabled{{/if}}>{{label}}{{#if detail}}<small>{{detail}}</small>{{/if}}</button>{{/each}}</div>{{/if}}</div>
-								<div class="dnd4e-horizontal-actor-display__action-slot"><button type="button" class="dnd4e-horizontal-actor-display__deck-action {{#if isRestOpen}}is-open{{/if}}" data-action="toggleDropdown" data-dropdown="rest" title="Short Rest and Extended Rest" aria-label="Short Rest and Extended Rest"><i class="fa-solid fa-moon" aria-hidden="true"></i><span>Rests</span></button>{{#if isRestOpen}}<div class="dnd4e-horizontal-actor-display__dropdown-menu">{{#each horizontalActions.rest}}<button type="button" data-action="quick" data-command="{{command}}">{{label}}</button>{{/each}}</div>{{/if}}</div>
-							</div>
 		</section>
 		{{else}}
 		<div class="dnd4e-horizontal-actor-display__panel">

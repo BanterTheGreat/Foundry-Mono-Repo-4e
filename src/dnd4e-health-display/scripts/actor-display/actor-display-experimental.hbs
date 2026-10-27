@@ -4,13 +4,15 @@
 		<header><h3>{{selectedCategory.name}} powers</h3><span>{{name}}</span><button type="button" data-action="closePowers" title="Close powers" aria-label="Close powers"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></header>
 		<div class="dnd4e-experimental-actor-display__list">
 			{{#each selectedCategory.powers}}
-			<div class="dnd4e-experimental-actor-display__power {{usageClass}} {{#if depleted}}is-depleted{{/if}}">
-				<span class="dnd4e-experimental-actor-display__power-name" tabindex="0" data-item-id="{{id}}" data-item-tooltip data-tooltip-direction="UP" data-power-usage="{{usageClass}}">
+			<div class="dnd4e-experimental-actor-display__power {{usageClass}} {{#if depleted}}is-depleted{{/if}}" tabindex="0" data-item-id="{{id}}" data-item-tooltip data-tooltip-direction="RIGHT" data-power-usage="{{usageClass}}">
+				<span class="dnd4e-experimental-actor-display__power-name">
 					<i class="{{icon}}" role="img" aria-label="{{rangeLabel}}" title="{{rangeLabel}}"></i><strong>{{name}}</strong>
 				</span>
-				{{#if depleted}}<small>Spent</small>{{/if}}
+				{{#if depleted}}<small>Spent</small><button type="button" data-action="refreshPower" data-item-id="{{id}}" title="Refresh power" aria-label="Refresh {{name}}"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i></button>{{/if}}
 				<button type="button" data-action="chatPower" data-item-id="{{id}}" title="Send to Chat" aria-label="Send {{name}} to Chat"><i class="fa-solid fa-comment" aria-hidden="true"></i></button>
+				{{#if canTargetAutomation}}
 				<button type="button" data-action="power" data-item-id="{{id}}" {{#if depleted}}disabled{{/if}} title="Use Power" aria-label="Use {{name}}"><i class="fa-solid fa-crosshairs" aria-hidden="true"></i></button>
+				{{/if}}
 			</div>
 			{{else}}
 			<p class="dnd4e-experimental-actor-display__empty">No powers in this category.</p>
@@ -18,9 +20,76 @@
 		</div>
 	</section>
 	{{/if}}
-	<nav class="dnd4e-experimental-actor-display__categories" aria-label="Power action type">
+	{{#if selectedMenu}}
+	<section class="dnd4e-experimental-actor-display__popup is-character-menu" aria-label="{{selectedMenu.name}}">
+		<header><h3>{{selectedMenu.name}}</h3><span>{{name}}</span><button type="button" data-action="closePowers" aria-label="Close menu"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></header>
+		{{#unless isExtras}}
+		<div class="dnd4e-experimental-actor-display__search"><input type="search" data-hud-search value="{{hudSearchQuery}}" placeholder="Search {{selectedMenu.name}}" aria-label="Search {{selectedMenu.name}}"></div>
+		{{/unless}}
+		<div class="dnd4e-experimental-actor-display__list">
+{{#if isSkills}}
+							<div class="dnd4e-horizontal-actor-display__skills">
+								{{#each skills}}
+									<button type="button" data-action="skill" data-skill="{{key}}" data-hud-entry="{{label}}"><span>{{label}}</span><strong>{{modifier}}</strong></button>
+								{{/each}}
+							</div>
+						{{/if}}
+
+						{{#if isFeatures}}
+							{{#each featureCategories}}
+								<section class="dnd4e-horizontal-actor-display__group">
+									<h4>{{name}}</h4>
+									{{#each features}}
+										<button type="button" class="dnd4e-horizontal-actor-display__feature" data-action="feature" data-item-id="{{id}}" data-item-tooltip data-tooltip-direction="RIGHT" data-hud-entry="{{name}}">
+											<i class="fa-solid fa-book" aria-hidden="true"></i>
+											<strong>{{name}}</strong>
+										</button>
+									{{/each}}
+								</section>
+							{{/each}}
+						{{/if}}
+
+						{{#if isItems}}
+							{{#each itemCategories}}
+								<section class="dnd4e-horizontal-actor-display__group">
+									<h4>{{name}}</h4>
+									{{#each items}}
+										<div class="dnd4e-horizontal-actor-display__item" data-item-tooltip data-tooltip-direction="RIGHT" data-item-id="{{id}}" data-hud-entry="{{name}}">
+											<button type="button" data-action="item" data-item-id="{{id}}">
+												<strong>{{name}}</strong>
+												{{#if weaponSummary}}<small>{{weaponSummary}}</small>{{/if}}
+											</button>
+											{{#if canEquip}}<button type="button" class="dnd4e-horizontal-actor-display__equip {{#if equipped}}is-equipped{{/if}}" data-action="toggleEquip" data-item-id="{{id}}" title="{{#if equipped}}Equipped ? click to unequip{{else}}Equip{{/if}}" aria-label="{{#if equipped}}Unequip{{else}}Equip{{/if}} {{name}}" aria-pressed="{{#if equipped}}true{{else}}false{{/if}}">{{#if @root.experimentalActorHud}}<i class="fa-solid {{#if equipped}}fa-check{{else}}fa-shirt{{/if}}" aria-hidden="true"></i>{{else}}{{#if equipped}}Equipped{{else}}Equip{{/if}}{{/if}}</button>{{/if}}
+										</div>
+									{{/each}}
+								</section>
+							{{/each}}
+						{{/if}}
+
+		{{#if isExtras}}
+		<button type="button" data-hud-entry="Action Point" data-action="quick" data-command="actionPoint" {{#if horizontalActions.ap.disabled}}disabled{{/if}}>Action Point <small>{{horizontalActions.ap.value}}</small></button>
+		<section class="dnd4e-horizontal-actor-display__group"><h4>Healing</h4>
+		<div class="dnd4e-experimental-actor-display__extra-actions">{{#each horizontalActions.heal}}<button type="button" data-hud-entry="{{label}}" data-action="quick" data-command="{{command}}" {{#if disabled}}disabled{{/if}}>{{label}}</button>{{/each}}</div>
+		</section>
+		<section class="dnd4e-horizontal-actor-display__group"><h4>Saves</h4>
+		<div class="dnd4e-experimental-actor-display__extra-actions">{{#each horizontalActions.save}}<button type="button" data-hud-entry="{{label}}" data-action="quick" data-command="{{command}}" {{#if disabled}}disabled{{/if}}>{{label}}</button>{{/each}}</div>
+		</section>
+		<section class="dnd4e-horizontal-actor-display__group"><h4>Rests</h4>
+		<div class="dnd4e-experimental-actor-display__extra-actions">{{#each horizontalActions.rest}}<button type="button" data-hud-entry="{{label}}" data-action="quick" data-command="{{command}}">{{label}}</button>{{/each}}</div>
+		</section>
+		{{/if}}
+		{{#unless isExtras}}<p data-hud-search-empty hidden>No matching entries.</p>{{/unless}}
+		</div>
+	</section>
+	{{/if}}
+
+	<nav class="dnd4e-experimental-actor-display__categories" aria-label="Actor menus">
 		{{#each categories}}
 		<button type="button" class="{{#if active}}is-active{{/if}}" data-action="selectPowerCategory" data-power-category="{{key}}" aria-expanded="{{#if active}}true{{else}}false{{/if}}">{{name}} <small>{{powers.length}}</small></button>
+		{{/each}}
+		<span class="dnd4e-experimental-actor-display__menu-gap" aria-hidden="true"></span>
+		{{#each menus}}
+		<button type="button" class="{{#if active}}is-active{{/if}}" data-action="selectMenu" data-display-tab="{{key}}" aria-expanded="{{#if active}}true{{else}}false{{/if}}">{{name}}</button>
 		{{/each}}
 	</nav>
 </div>

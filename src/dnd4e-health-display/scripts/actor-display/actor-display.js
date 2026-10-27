@@ -18,7 +18,7 @@ let isHorizontalDismissed = false;
 export function registerActorDisplaySettings() {
 	game.settings.register(MODULE_ID, EXPERIMENTAL_SETTING, {
 		name: "Experimental Actor HUD",
-		hint: "Use a narrow portrait HUD with segmented health, party health bars, floating Skills/Feats/Items lists, and a power selector above the macro bar.",
+		hint: "Use a narrow portrait HUD with segmented health, party health bars, powers, Feats, Skills, Items and Extras menus above the macro bar.",
 		scope: "client",
 		config: true,
 		type: Boolean,
@@ -561,7 +561,9 @@ class HorizontalActorDisplay extends ActorDisplayBase {
 		const context = await super._prepareContext(options);
 		context.experimentalActorHud = game.settings.get(MODULE_ID, EXPERIMENTAL_SETTING) && this.actor?.type === "Player Character";
 		if (context.experimentalActorHud) {
-			context.tabs = context.tabs.filter((tab) => tab.key !== "powers");
+			context.tabs = [];
+			this.activeTab = null;
+			context.activeTab = null;
 			if (this.activeTab === "powers") {
 				this.activeTab = null;
 				context.activeTab = null;
@@ -771,7 +773,11 @@ class ExperimentalActorDisplay extends ActorDisplayBase {
 	constructor(options, token) {
 		super(options, token);
 		this.activePowerCategory = null;
+		this.activeTab = null;
+		this.hudSearchQuery = "";
 		this.positionAboveHotbar = this.positionAboveHotbar.bind(this);
+		this.hotbarFrame = null;
+		this.hotbarPosition = null;
 		this.onOutsideClick = this.onOutsideClick.bind(this);
 		this.onEscape = this.onEscape.bind(this);
 		this.layoutObserver = new ResizeObserver(this.positionAboveHotbar);
@@ -791,14 +797,26 @@ class ExperimentalActorDisplay extends ActorDisplayBase {
 		actions: {
 			selectPowerCategory: ExperimentalActorDisplay.prototype.onSelectPowerCategory,
 			closePowers: ExperimentalActorDisplay.prototype.onClosePowers,
+			selectMenu: ExperimentalActorDisplay.prototype.onSelectMenu,
+			skill: ExperimentalActorDisplay.prototype.onSkill,
+			feature: { handler: ExperimentalActorDisplay.prototype.onFeature, buttons: [0, 2] },
+			item: { handler: ExperimentalActorDisplay.prototype.onItem, buttons: [0, 2] },
+			toggleEquip: ExperimentalActorDisplay.prototype.onToggleEquip,
+			quick: ExperimentalActorDisplay.prototype.onQuickAction,
 			power: { handler: ExperimentalActorDisplay.prototype.onPower, buttons: [0, 2] },
 			chatPower: ExperimentalActorDisplay.prototype.onChatPower,
+			refreshPower: ExperimentalActorDisplay.prototype.onRefreshPower,
 		},
 	};
 
 	static PARTS = {
 		main: { template: `modules/${MODULE_ID}/scripts/actor-display/actor-display-experimental.hbs` },
 	};
+
+	/** Start each selected actor with all macro-bar menus closed. */
+	getInitialTab() {
+		return null;
+	}
 
 	get scrollSelector() {
 		return ".dnd4e-experimental-actor-display__list";
@@ -814,15 +832,25 @@ class ExperimentalActorDisplay extends ActorDisplayBase {
 			const group = groups.find((entry) => entry.key === category.key) ?? groups[3];
 			group.powers.push(...category.powers);
 		}
+		groups[3].name = "Others";
 		const selected = groups.find((group) => group.key === this.activePowerCategory);
 		return { ...context, categories: groups.map((group) => ({
 			...group, active: group === selected,
-		})), selectedCategory: selected };
+		})), selectedCategory: selected,
+			experimentalActorHud: true,
+			hudSearchQuery: this.hudSearchQuery,
+			selectedMenu: this.activeTab ? { name: this.activeTab === "extras" ? "Extras" : context.activeTabLabel } : null,
+			isExtras: this.activeTab === "extras",
+			menus: [{ key: "features", name: "Feats" }, { key: "skills", name: "Skills" },
+				{ key: "items", name: "Items" }, { key: "extras", name: "Extras" }]
+				.map((menu) => ({ ...menu, active: this.activeTab === menu.key })),
+		};
 	}
 
 	/** Bind tooltips and keep the selector aligned after hotbar or viewport layout changes. */
 	_onRender(context, options) {
 		super._onRender(context, options);
+		this.hotbarPosition = null;
 		this.layoutObserver.disconnect();
 		const hotbar = document.getElementById("hotbar");
 		if (hotbar) {
@@ -830,6 +858,31 @@ class ExperimentalActorDisplay extends ActorDisplayBase {
 		}
 		this.layoutObserver.observe(document.body);
 		this.positionAboveHotbar();
+		this.trackHotbarPosition();
+		HorizontalActorDisplay.prototype.initializeHudSearch.call(this);
+	}
+
+	/** Follow position-only layout changes and sidebar animations while the HUD is rendered. */
+	trackHotbarPosition() {
+		window.cancelAnimationFrame(this.hotbarFrame);
+		const follow = () => {
+			this.positionAboveHotbar();
+			this.hotbarFrame = window.requestAnimationFrame(follow);
+		};
+		this.hotbarFrame = window.requestAnimationFrame(follow);
+	}
+
+	/** Keep menu searching independent from portrait placement. */
+	positionPortraitDrawer() {}
+
+	/** Toggle a character menu in the shared macro-bar popup. */
+	onSelectMenu(event, target) {
+		this.activeTab = this.activeTab === target.dataset.displayTab ? null : target.dataset.displayTab;
+		this.activePowerCategory = null;
+		this.hudSearchQuery = "";
+		this.savedScrollTop = 0;
+		game.tooltip.deactivate();
+		this.render();
 	}
 
 	/** Place the selector immediately above the actual hotbar, including UI scaling. */
@@ -844,6 +897,11 @@ class ExperimentalActorDisplay extends ActorDisplayBase {
 		}
 		// Application roots inherit Foundry's UI scale; convert viewport pixels to CSS coordinates.
 		const scale = this.element.getBoundingClientRect().width / this.element.offsetWidth || 1;
+		const position = [bar.left, bar.top, bar.width, scale, window.innerHeight].join(":");
+		if (position === this.hotbarPosition) {
+			return;
+		}
+		this.hotbarPosition = position;
 		this.element.style.setProperty("--power-dock-left", `${bar.left / scale}px`);
 		this.element.style.setProperty("--power-dock-bottom", `${(window.innerHeight - bar.top + 6) / scale}px`);
 		this.element.style.setProperty("--power-dock-width", `${bar.width / scale}px`);
@@ -851,6 +909,7 @@ class ExperimentalActorDisplay extends ActorDisplayBase {
 
 	/** Toggle the selected category without changing the character panel's active tab. */
 	onSelectPowerCategory(event, target) {
+		this.activeTab = null;
 		this.activePowerCategory = this.activePowerCategory === target.dataset.powerCategory
 			? null : target.dataset.powerCategory;
 		this.savedScrollTop = 0;
@@ -860,6 +919,7 @@ class ExperimentalActorDisplay extends ActorDisplayBase {
 
 	/** Close the list, leaving the four category buttons visible. */
 	onClosePowers() {
+		this.activeTab = null;
 		this.activePowerCategory = null;
 		game.tooltip.deactivate();
 		this.render();
@@ -867,20 +927,22 @@ class ExperimentalActorDisplay extends ActorDisplayBase {
 
 	/** Dismiss the list when interacting elsewhere on the canvas or UI. */
 	onOutsideClick(event) {
-		if (this.activePowerCategory && !this.element?.contains(event.target)) {
+		if ((this.activePowerCategory || this.activeTab) && !this.element?.contains(event.target)) {
 			this.onClosePowers();
 		}
 	}
 
 	/** Dismiss the list with Escape. */
 	onEscape(event) {
-		if (event.key === "Escape" && this.activePowerCategory) {
+		if (event.key === "Escape" && (this.activePowerCategory || this.activeTab)) {
 			this.onClosePowers();
 		}
 	}
 
 	/** Release every observer and listener when the selector is disabled or its actor disappears. */
 	async close(options) {
+		window.cancelAnimationFrame(this.hotbarFrame);
+		this.hotbarFrame = null;
 		this.layoutObserver.disconnect();
 		window.removeEventListener("resize", this.positionAboveHotbar);
 		document.removeEventListener("pointerdown", this.onOutsideClick);

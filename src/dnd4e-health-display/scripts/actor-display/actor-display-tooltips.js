@@ -196,7 +196,8 @@ export async function generateInlinePowerDetails(actor, power) {
 function generateAttackBlock(power, attackBonus, hasAttack) {
 	const system = power.system ?? {};
 	const personal = system.rangeType === "personal";
-	const range = personal ? "" : getPowerRange(system);
+	const baseRange = personal ? "" : getPowerRange(system);
+	const range = baseRange && system.effectType?.spirit ? `Spirit ${baseRange}` : baseRange;
 	const target = system.target ? ` (${system.target})` : "";
 	const attack = hasAttack
 		? `${formatModifier(attackBonus)} ${localize("DND4E.VS", "vs.")} ${configLabel(CONFIG.DND4E.defensives, system.attack?.def, "abbreviation")}`
