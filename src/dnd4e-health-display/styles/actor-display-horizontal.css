@@ -1147,6 +1147,38 @@ body.dnd4e-horizontal-hud-active #players {
 	text-shadow: 0 0.08rem 0.15rem rgb(0 0 0 / 80%);
 }
 
+/* Feature cards retain enriched system content, with comfortable inset rules text. */
+#tooltip.dnd4e-info-tooltip--feature {
+	width: min(25rem, calc(100vw - 2rem));
+}
+
+#tooltip.dnd4e-info-tooltip--feature .dnd4e-info-tooltip__feature-content {
+	padding: 0.7rem 0.85rem;
+	font-weight: 400;
+	line-height: 1.5;
+	overflow-wrap: anywhere;
+}
+
+#tooltip.dnd4e-info-tooltip--feature .dnd4e-info-tooltip__feature-content p {
+	margin: 0 0 0.65rem;
+}
+
+#tooltip.dnd4e-info-tooltip--feature .dnd4e-info-tooltip__feature-content > :last-child {
+	margin-bottom: 0;
+}
+
+#tooltip.dnd4e-info-tooltip--feature .dnd4e-info-tooltip__feature-content em {
+	color: #c9b999;
+	font-weight: 400;
+}
+
+#tooltip.dnd4e-info-tooltip--feature .dnd4e-info-tooltip__feature-content hr {
+	height: 1px;
+	margin: 0.65rem 0;
+	border: 0;
+	background: linear-gradient(90deg, rgb(196 146 81 / 45%), rgb(196 146 81 / 8%));
+}
+
 #tooltip.dnd4e-info-tooltip .flavour {
 	margin: 0;
 	padding: 0.58rem 0.72rem;
@@ -1683,13 +1715,13 @@ body.dnd4e-horizontal-hud-active #players {
 	background: #141413;
 	color: #e9dfc7;
 }
-.dnd4e-experimental-actor-display .is-character-menu .dnd4e-horizontal-actor-display__skills {
+.dnd4e-experimental-actor-display :is(.is-character-menu, .is-npc-sheet) .dnd4e-horizontal-actor-display__skills {
 	display: flex;
 	flex-direction: column;
 }
-.dnd4e-experimental-actor-display .is-character-menu button[data-hud-entry],
-.dnd4e-experimental-actor-display .is-character-menu button[data-skill],
-.dnd4e-experimental-actor-display .is-character-menu .dnd4e-horizontal-actor-display__item > button:first-child {
+.dnd4e-experimental-actor-display :is(.is-character-menu, .is-npc-sheet) button[data-hud-entry],
+.dnd4e-experimental-actor-display :is(.is-character-menu, .is-npc-sheet) button[data-skill],
+.dnd4e-experimental-actor-display :is(.is-character-menu, .is-npc-sheet) .dnd4e-horizontal-actor-display__item > button:first-child {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -1700,29 +1732,29 @@ body.dnd4e-horizontal-hud-active #players {
 	padding: 7px 8px;
 	text-align: left;
 }
-.dnd4e-experimental-actor-display .is-character-menu .dnd4e-horizontal-actor-display__item {
+.dnd4e-experimental-actor-display :is(.is-character-menu, .is-npc-sheet) .dnd4e-horizontal-actor-display__item {
 	display: flex;
 	align-items: center;
 	gap: 5px;
 }
-.dnd4e-experimental-actor-display .is-character-menu h4 {
+.dnd4e-experimental-actor-display :is(.is-character-menu, .is-npc-sheet) h4 {
 	margin: 8px 4px;
 	color: #bca67d;
 	font-size: 11px;
 }
-.dnd4e-experimental-actor-display .is-character-menu [hidden] { display: none !important; }
-.dnd4e-experimental-actor-display .is-character-menu button:disabled { opacity: .4; cursor: default; }
+.dnd4e-experimental-actor-display :is(.is-character-menu, .is-npc-sheet) [hidden] { display: none !important; }
+.dnd4e-experimental-actor-display :is(.is-character-menu, .is-npc-sheet) button:disabled { opacity: .4; cursor: default; }
 
 /* Give the macro-bar lists breathing room while retaining compact rows. */
 .dnd4e-experimental-actor-display__power + .dnd4e-experimental-actor-display__power {
 	margin-top: 5px;
 }
-.dnd4e-experimental-actor-display .is-character-menu button[data-hud-entry],
-.dnd4e-experimental-actor-display .is-character-menu button[data-skill],
-.dnd4e-experimental-actor-display .is-character-menu .dnd4e-horizontal-actor-display__item {
+.dnd4e-experimental-actor-display :is(.is-character-menu, .is-npc-sheet) button[data-hud-entry],
+.dnd4e-experimental-actor-display :is(.is-character-menu, .is-npc-sheet) button[data-skill],
+.dnd4e-experimental-actor-display :is(.is-character-menu, .is-npc-sheet) .dnd4e-horizontal-actor-display__item {
 	margin-bottom: 5px;
 }
-.dnd4e-experimental-actor-display .is-character-menu .dnd4e-horizontal-actor-display__group + .dnd4e-horizontal-actor-display__group {
+.dnd4e-experimental-actor-display :is(.is-character-menu, .is-npc-sheet) .dnd4e-horizontal-actor-display__group + .dnd4e-horizontal-actor-display__group {
 	margin-top: 12px;
 }
 
@@ -1730,16 +1762,16 @@ body.dnd4e-horizontal-hud-active #players {
 .dnd4e-experimental-actor-display__power.is-depleted .dnd4e-experimental-actor-display__power-name strong {
 	text-decoration: line-through;
 }
-.dnd4e-experimental-actor-display .is-character-menu .dnd4e-horizontal-actor-display__skills {
+.dnd4e-experimental-actor-display :is(.is-character-menu, .is-npc-sheet) .dnd4e-horizontal-actor-display__skills {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: 5px;
 }
-.dnd4e-experimental-actor-display .is-character-menu .dnd4e-horizontal-actor-display__skills button {
+.dnd4e-experimental-actor-display :is(.is-character-menu, .is-npc-sheet) .dnd4e-horizontal-actor-display__skills button {
 	min-width: 0;
 	margin-bottom: 0;
 }
-.dnd4e-experimental-actor-display .is-character-menu .dnd4e-horizontal-actor-display__skills button span {
+.dnd4e-experimental-actor-display :is(.is-character-menu, .is-npc-sheet) .dnd4e-horizontal-actor-display__skills button span {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -1748,7 +1780,7 @@ body.dnd4e-horizontal-hud-active #players {
 	display: flex;
 	gap: 6px;
 }
-.dnd4e-experimental-actor-display .is-character-menu .dnd4e-experimental-actor-display__extra-actions button[data-hud-entry] {
+.dnd4e-experimental-actor-display :is(.is-character-menu, .is-npc-sheet) .dnd4e-experimental-actor-display__extra-actions button[data-hud-entry] {
 	flex: 1;
 	min-width: 0;
 	width: auto;
@@ -1840,4 +1872,69 @@ body.dnd4e-horizontal-hud-active #players {
 .is-experimental-hud button.dnd4e-horizontal-actor-display__portrait-heal:hover {
 	border-color: #bb9654;
 	filter: brightness(1.15);
+}
+
+/* NPC Sheet shares the macro bar footprint and keeps full feature rules readable. */
+.dnd4e-experimental-actor-display__popup.is-npc-sheet { width: 100%; }
+.dnd4e-experimental-actor-display__popup.is-npc-sheet.is-powers-only { width: min(345px, 100%); }
+.is-npc-sheet .dnd4e-experimental-actor-display__list {
+	max-height: none;
+	overflow: hidden;
+}
+.dnd4e-experimental-actor-display__sheet-columns {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	gap: 12px;
+}
+.dnd4e-experimental-actor-display__sheet-columns > section {
+	min-width: 0;
+	min-height: 0;
+	max-height: min(375px, calc(67dvh - 120px));
+	overflow-y: auto;
+	scrollbar-width: thin;
+	scrollbar-color: #806b42 #20201c;
+}
+.dnd4e-experimental-actor-display__feats { border-left: 1px solid #655433; padding-left: 12px; }
+.dnd4e-experimental-actor-display__feat {
+	margin-bottom: 0.5rem;
+	border: 1px solid #655433;
+	border-radius: 0.25rem;
+	background: #242219;
+}
+.dnd4e-experimental-actor-display__feat summary {
+	position: relative;
+	padding: 0.35rem 2.2rem 0.35rem 0.5rem;
+	color: #dfcd94;
+	cursor: pointer;
+}
+.dnd4e-experimental-actor-display__feat summary:focus-visible {
+	outline: 2px solid #dfcd94;
+}
+.dnd4e-experimental-actor-display__feat-content {
+	padding: 0 0.5rem 0.35rem;
+	font-size: 0.78rem;
+	line-height: 1.35;
+	font-weight: 400;
+	overflow-wrap: anywhere;
+}
+.dnd4e-experimental-actor-display__feat-content p { margin: 0.3rem 0; }
+.dnd4e-experimental-actor-display__feat-content > :first-child { margin-top: 0; }
+.dnd4e-experimental-actor-display__feat-content > :last-child { margin-bottom: 0; }
+.dnd4e-experimental-actor-display__feat-content hr {
+	height: 1px;
+	margin: 0.4rem 0;
+	border: 0;
+	background: #655433;
+}
+.dnd4e-experimental-actor-display__feat-content em { color: #c9b999; }
+.dnd4e-experimental-actor-display__feat-sheet {
+	position: absolute;
+	right: 0.3rem;
+	top: 50%;
+	transform: translateY(-50%);
+	margin: 0;
+}
+
+.dnd4e-experimental-actor-display__sheet-columns.is-powers-only {
+	grid-template-columns: minmax(0, 1fr);
 }

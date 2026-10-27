@@ -21,6 +21,7 @@ function loadController(data = {}) {
 			utils: { mergeObject: (left, right) => Object.assign(left, right) },
 		},
 		getActorDisplayData: async () => data,
+		generateSystemTooltip: async (_actor, item) => `<p>${item.name} rules</p>`,
 		game: { settings: {
 			register: (_module, key, config) => settings.set(key, config),
 			get: (_module, key) => key === "experimentalActorHud",
@@ -122,4 +123,51 @@ test("a tab click is not mistaken for an outside click after its button is repla
 		display._onDocumentClick(event);
 	}
 	assert.equal(display.activeTab, "skills");
+});
+
+
+test("NPC experimental menus merge all powers and feats into Sheet", async () => {
+	const { ExperimentalActorDisplay } = loadController({
+		powerCategories: [{ key: "standard", powers: [{ id: "attack" }] },
+			{ key: "move", powers: [{ id: "move" }] }],
+	});
+	const display = Object.create(ExperimentalActorDisplay.prototype);
+	display.token = { actor: { type: "NPC", items: [] } };
+	display.activeTab = display.getInitialTab(display.token);
+	assert.equal(display.activeTab, "sheet");
+	const context = await display._prepareContext({});
+	assert.equal(context.isNpcSheet, true);
+	assert.equal(context.categories.length, 0);
+	assert.equal(context.selectedMenu, null);
+	assert.deepEqual(Array.from(context.selectedCategory.powers, (power) => power.id), ["attack", "move"]);
+	assert.deepEqual(Array.from(context.menus, (menu) => menu.name), ["Skills", "Items", "Extras"]);
+	assert.equal(context.sheetMenu.active, true);
+});
+
+test("NPC feats start expanded up to two and collapsed above two", async () => {
+	for (const count of [1, 2, 3, 4]) {
+		const { ExperimentalActorDisplay } = loadController({ powerCategories: [] });
+		const items = Array.from({ length: count }, (_, id) => ({ id: String(id), name: `Feat ${id}`, type: "feature" }));
+		items.get = (id) => items.find((item) => item.id === id);
+		const display = Object.create(ExperimentalActorDisplay.prototype);
+		display.token = { actor: { type: "NPC", items } };
+		display.activeTab = "sheet";
+		const context = await display._prepareContext({});
+		assert.equal(context.npcFeatures.length, count);
+		for (const feature of context.npcFeatures) {
+			assert.equal(feature.expanded, count <= 2);
+			assert.equal(feature.html, `<p>${feature.name} rules</p>`);
+		}
+	}
+});
+
+test("experimental mode moves NPC menus out of the portrait panel", async () => {
+	const { HorizontalActorDisplay } = loadController({ tabs: [{ key: "features" }], powerCategories: [] });
+	const display = Object.create(HorizontalActorDisplay.prototype);
+	display.token = { actor: { type: "NPC" } };
+	display.activeTab = "features";
+	const context = await display._prepareContext({});
+	assert.equal(context.experimentalActorHud, true);
+	assert.equal(context.tabs.length, 0);
+	assert.equal(context.activeTab, null);
 });

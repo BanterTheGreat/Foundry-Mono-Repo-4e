@@ -1,5 +1,6 @@
 # Targeting Automation TODO
 
+- [ ] Allow switching to a power's Charge or Basic variant during initial targeting, matching the options available in chat messages.
 - [x] Allow specific powers to originate from configured actors/tokens, retaining the power's owning actor for rolls, resources, and use tracking. Previews remain visible when selecting the alternate origin.
 - [x] Support selecting a square for summoning companions, checking placement range, scene bounds, permissions, and player line of effect.
 - [ ] Check occupancy across the summoned token's footprint before allowing placement.

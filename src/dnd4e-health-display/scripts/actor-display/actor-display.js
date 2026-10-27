@@ -1,5 +1,5 @@
 import { getActorDisplayData } from "./actor-display-data.js";
-import { initializeActorDisplayTooltips } from "./actor-display-tooltips.js";
+import { initializeActorDisplayTooltips, generateSystemTooltip } from "./actor-display-tooltips.js";
 import { useAbility, showPowerInChat } from "../power-activation/power-activation.js";
 
 const MODULE_ID = "dnd4e-health-display";
@@ -104,7 +104,7 @@ function updateHorizontalDisplay(token) {
 		return;
 	}
 
-	if (game.settings.get(MODULE_ID, EXPERIMENTAL_SETTING) && token.actor?.type === "Player Character") {
+	if (game.settings.get(MODULE_ID, EXPERIMENTAL_SETTING)) {
 		if (!ui.Dnd4eExperimentalActorDisplay) {
 			ui.Dnd4eExperimentalActorDisplay = new ExperimentalActorDisplay({}, token);
 			ui.Dnd4eExperimentalActorDisplay.render(true);
@@ -559,7 +559,7 @@ class HorizontalActorDisplay extends ActorDisplayBase {
 	/** @returns {object} */
 	async _prepareContext(options) {
 		const context = await super._prepareContext(options);
-		context.experimentalActorHud = game.settings.get(MODULE_ID, EXPERIMENTAL_SETTING) && this.actor?.type === "Player Character";
+		context.experimentalActorHud = game.settings.get(MODULE_ID, EXPERIMENTAL_SETTING);
 		if (context.experimentalActorHud) {
 			context.tabs = [];
 			this.activeTab = null;
@@ -773,7 +773,7 @@ class ExperimentalActorDisplay extends ActorDisplayBase {
 	constructor(options, token) {
 		super(options, token);
 		this.activePowerCategory = null;
-		this.activeTab = null;
+		this.activeTab = this.getInitialTab(token);
 		this.hudSearchQuery = "";
 		this.positionAboveHotbar = this.positionAboveHotbar.bind(this);
 		this.hotbarFrame = null;
@@ -798,6 +798,7 @@ class ExperimentalActorDisplay extends ActorDisplayBase {
 			selectPowerCategory: ExperimentalActorDisplay.prototype.onSelectPowerCategory,
 			closePowers: ExperimentalActorDisplay.prototype.onClosePowers,
 			selectMenu: ExperimentalActorDisplay.prototype.onSelectMenu,
+			openFeatSheet: ExperimentalActorDisplay.prototype.onOpenFeatSheet,
 			skill: ExperimentalActorDisplay.prototype.onSkill,
 			feature: { handler: ExperimentalActorDisplay.prototype.onFeature, buttons: [0, 2] },
 			item: { handler: ExperimentalActorDisplay.prototype.onItem, buttons: [0, 2] },
@@ -813,9 +814,16 @@ class ExperimentalActorDisplay extends ActorDisplayBase {
 		main: { template: `modules/${MODULE_ID}/scripts/actor-display/actor-display-experimental.hbs` },
 	};
 
-	/** Start each selected actor with all macro-bar menus closed. */
-	getInitialTab() {
-		return null;
+	/** Open a feat sheet without toggling its containing disclosure. */
+	onOpenFeatSheet(event, target) {
+		event.preventDefault();
+		event.stopPropagation();
+		return this.actor.items.get(target.dataset.itemId)?.sheet.render(true);
+	}
+
+	/** Open the Sheet for newly displayed NPCs; leave PC menus closed. */
+	getInitialTab(token) {
+		return token?.actor?.type === "NPC" ? "sheet" : null;
 	}
 
 	get scrollSelector() {
@@ -833,15 +841,29 @@ class ExperimentalActorDisplay extends ActorDisplayBase {
 			group.powers.push(...category.powers);
 		}
 		groups[3].name = "Others";
-		const selected = groups.find((group) => group.key === this.activePowerCategory);
-		return { ...context, categories: groups.map((group) => ({
+		const isNpc = this.actor?.type === "NPC";
+		const isNpcSheet = isNpc && this.activeTab === "sheet";
+		const npcFeatures = Array.from(this.actor?.items ?? [])
+			.filter((item) => item.type === "feature")
+			.sort((left, right) => left.name.localeCompare(right.name))
+			.map((item) => ({ id: item.id, name: item.name }));
+		if (isNpcSheet) {
+			await Promise.all(npcFeatures.map(async (feature) => {
+				feature.expanded = npcFeatures.length <= 2;
+				feature.html = await generateSystemTooltip(this.actor, this.actor.items.get(feature.id));
+			}));
+		}
+		const selected = isNpcSheet ? { name: "Sheet", powers: groups.flatMap((group) => group.powers) }
+			: groups.find((group) => group.key === this.activePowerCategory);
+		return { ...context, isNpc, isNpcSheet, npcFeatures, categories: (isNpc ? [] : groups).map((group) => ({
 			...group, active: group === selected,
 		})), selectedCategory: selected,
 			experimentalActorHud: true,
 			hudSearchQuery: this.hudSearchQuery,
-			selectedMenu: this.activeTab ? { name: this.activeTab === "extras" ? "Extras" : context.activeTabLabel } : null,
+			selectedMenu: this.activeTab && !isNpcSheet ? { name: this.activeTab === "extras" ? "Extras" : context.activeTabLabel } : null,
 			isExtras: this.activeTab === "extras",
-			menus: [{ key: "features", name: "Feats" }, { key: "skills", name: "Skills" },
+			sheetMenu: isNpc ? { active: isNpcSheet } : null,
+			menus: [...(isNpc ? [] : [{ key: "features", name: "Feats" }]), { key: "skills", name: "Skills" },
 				{ key: "items", name: "Items" }, { key: "extras", name: "Extras" }]
 				.map((menu) => ({ ...menu, active: this.activeTab === menu.key })),
 		};

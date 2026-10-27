@@ -155,7 +155,7 @@
 			<div class="dnd4e-horizontal-actor-display__portrait-body">
 				<div class="dnd4e-horizontal-actor-display__portrait-resources">
 					<label class="is-temp">Temp HP <input type="number" value="{{tempHp}}" min="0" aria-label="Temporary hit points" data-resource-path="system.attributes.temphp.value"></label>
-					<label class="is-surge">Surges <span><input type="number" value="{{surges.value}}" min="0" max="{{surges.maximum}}" aria-label="Healing surges" data-resource-path="system.details.surges.value"><small>/ {{surges.maximum}}</small></span></label>
+					{{#if hasSurges}}<label class="is-surge">Surges <span><input type="number" value="{{surges.value}}" min="0" max="{{surges.maximum}}" aria-label="Healing surges" data-resource-path="system.details.surges.value"><small>/ {{surges.maximum}}</small></span></label>{{/if}}
 				</div>
 				{{#if combatDeck.companions.length}}
 				<section class="dnd4e-horizontal-actor-display__party" aria-label="Party health">

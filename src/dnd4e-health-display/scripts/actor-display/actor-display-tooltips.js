@@ -56,10 +56,16 @@ async function activateItemTooltip(element, actor) {
 		if (!html || !element.isConnected) {
 			return;
 		}
+		if (item.type === "feature") {
+			html = `<div class="dnd4e-info-tooltip__feature-content">${html}</div>`;
+		}
 
-		const cssClass = usesCustomFormatting
+		let cssClass = usesCustomFormatting
 			? ["dnd4e-info-tooltip", "dnd4e-info-tooltip--power", element.dataset.powerUsage].filter(Boolean).join(" ")
 			: "dnd4e-info-tooltip dnd4e-info-tooltip--system";
+		if (item.type === "feature") {
+			cssClass += " dnd4e-info-tooltip--feature";
+		}
 		element.dataset.tooltipHtml = html;
 		element.dataset.tooltipClass = cssClass;
 		if (element.matches(":hover, :focus")) {
@@ -82,7 +88,7 @@ async function activateItemTooltip(element, actor) {
  * @param {Item} item The item to render.
  * @returns {Promise<string>}
  */
-async function generateSystemTooltip(actor, item) {
+export async function generateSystemTooltip(actor, item) {
 	const generator = dnd4e?.compatibility?.tah?.TokenBarHooks?.generateItemTooltip;
 	if (typeof generator !== "function") {
 		return "";

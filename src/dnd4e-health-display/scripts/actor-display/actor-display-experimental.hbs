@@ -1,8 +1,9 @@
 <div class="dnd4e-experimental-actor-display__dock">
 	{{#if selectedCategory}}
-	<section class="dnd4e-experimental-actor-display__popup" aria-label="{{selectedCategory.name}} powers">
-		<header><h3>{{selectedCategory.name}} powers</h3><span>{{name}}</span><button type="button" data-action="closePowers" title="Close powers" aria-label="Close powers"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></header>
+	<section class="dnd4e-experimental-actor-display__popup {{#if isNpcSheet}}is-npc-sheet {{#unless npcFeatures.length}}is-powers-only{{/unless}}{{/if}}" aria-label="{{selectedCategory.name}}">
+		<header><h3>{{selectedCategory.name}}{{#unless isNpcSheet}} powers{{/unless}}</h3><span>{{name}}</span><button type="button" data-action="closePowers" title="Close powers" aria-label="Close powers"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></header>
 		<div class="dnd4e-experimental-actor-display__list">
+			{{#if isNpcSheet}}<div class="dnd4e-experimental-actor-display__sheet-columns {{#unless npcFeatures.length}}is-powers-only{{/unless}}"><section aria-label="Powers">{{/if}}
 			{{#each selectedCategory.powers}}
 			<div class="dnd4e-experimental-actor-display__power {{usageClass}} {{#if depleted}}is-depleted{{/if}}" tabindex="0" data-item-id="{{id}}" data-item-tooltip data-tooltip-direction="RIGHT" data-power-usage="{{usageClass}}">
 				<span class="dnd4e-experimental-actor-display__power-name">
@@ -17,6 +18,16 @@
 			{{else}}
 			<p class="dnd4e-experimental-actor-display__empty">No powers in this category.</p>
 			{{/each}}
+			{{#if isNpcSheet}}
+			</section>{{#if npcFeatures.length}}<section class="dnd4e-experimental-actor-display__feats" aria-label="Feats">
+			{{#each npcFeatures}}
+			<details class="dnd4e-experimental-actor-display__feat" {{#if expanded}}open{{/if}}>
+				<summary><span data-item-id="{{id}}" data-item-tooltip data-tooltip-direction="RIGHT"><strong>{{name}}</strong></span><button type="button" class="dnd4e-experimental-actor-display__feat-sheet" data-action="openFeatSheet" data-item-id="{{id}}" title="Open feat sheet" aria-label="Open {{name}} sheet"><i class="fa-solid fa-book-open" aria-hidden="true"></i></button></summary>
+				<div class="dnd4e-experimental-actor-display__feat-content">{{{html}}}</div>
+			</details>
+			{{/each}}
+			</section>{{/if}}</div>
+			{{/if}}
 		</div>
 	</section>
 	{{/if}}
@@ -84,6 +95,9 @@
 
 	<nav class="dnd4e-experimental-actor-display__categories" aria-label="Actor menus">
 		<div class="dnd4e-experimental-actor-display__action-menus">
+		{{#if sheetMenu}}
+		<button type="button" class="{{#if sheetMenu.active}}is-active{{/if}}" data-action="selectMenu" data-display-tab="sheet" aria-expanded="{{#if sheetMenu.active}}true{{else}}false{{/if}}">Sheet</button>
+		{{/if}}
 		{{#each categories}}
 		<button type="button" class="{{#if active}}is-active{{/if}}" data-action="selectPowerCategory" data-power-category="{{key}}" aria-expanded="{{#if active}}true{{else}}false{{/if}}">{{name}} <small>{{powers.length}}</small></button>
 		{{/each}}
