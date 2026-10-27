@@ -94,3 +94,124 @@ test("overlapping rolls capture their own message through another getRollData pr
 	pending.get("first")({ id: "first", rolls: [{ total: 11 }] });
 	assert.deepEqual(await first, { total: 11 });
 });
+
+test("selects native damage variants only for the scoped session and tags chat before creation", async () => {
+	globalThis.game = {};
+	for (const type of ["normal", "crit", "miss"]) {
+		const f = fixture(24);
+		let nativeDialogs = 0;
+		class Dialog {
+			static asPromise() { nativeDialogs++; return "ordinary"; }
+		}
+		f.item.rollDamage = async function(options) {
+			assert.equal(options.fastForward, false);
+			return Dialog.asPromise({ rollConfig: { data: this.getRollData() }, callbackFn: (form, config) => {
+				assert.equal(form, null);
+				assert.equal(config.hitType, type);
+				assert.equal(config.fastForward, true);
+				const roll = f.RollClass.createRoll([], [], config.data, { hitTypeDamage: true });
+				void roll.toMessage({ flavor: "Damage" });
+				return roll;
+			} });
+		};
+		f.publish();
+		const result = await rollDamageAndWait(f.item, {}, f.RollClass, { sessionId: "session", type }, Dialog);
+		assert.equal(result.message, f.message);
+		assert.equal(nativeDialogs, 0);
+		assert.equal(Dialog.asPromise({ rollConfig: { data: {} } }), "ordinary");
+		assert.equal(nativeDialogs, 1);
+	}
+});
+
+test("damage modifiers preserve original dice and persist the evaluated bonus and edit audit", async () => {
+	const { adjustDamageMessage } = await import("../scripts/power-activation/damage-roll.js");
+	const originalDie = { result: 6 };
+	let evaluations = 0;
+	globalThis.Roll = class {
+		constructor(formula) { this.formula = formula; }
+		async evaluate() { evaluations++; this.total = 7; this._evaluated = true; return this; }
+	};
+	globalThis.foundry = { dice: { terms: {
+		OperatorTerm: class { constructor(data) { Object.assign(this, data); } },
+		ParentheticalTerm: class { constructor(data) { Object.assign(this, data); } },
+	} } };
+	class Damage {
+		static fromJSON(json) { return { terms: [originalDie], _total: JSON.parse(json).total, constructor: Damage, get total() { return this._total; } }; }
+		static getFormula() { return "1d8 + (1d6 + 3)"; }
+	}
+	const message = { isOwner: true, flags: { "dnd4e-health-display": { damageReview: {} } },
+		rolls: [Object.assign(new Damage(), { total: 6 })],
+		async update(change) { this.change = change; },
+	};
+	await adjustDamageMessage(message, "1d6 + 3", {});
+	assert.equal(evaluations, 1);
+	assert.equal(message.change.rolls[0].terms[0], originalDie);
+	assert.equal(message.change.rolls[0].terms[2].roll.total, 7);
+	assert.equal(message.change.rolls[0].total, 13);
+	assert.equal(message.change["flags.dnd4e-health-display.damageReview.edited"], true);
+	assert.deepEqual(message.change["flags.dnd4e-health-display.damageReview.modifiers"], ["1d6 + 3"]);
+});
+
+test("a second attack opens normally when the item reuses roll data after damage", async () => {
+	globalThis.game = {};
+	const f = fixture();
+	const sharedData = {};
+	f.item.getRollData = () => sharedData;
+	class Dialog {
+		static asPromise() { return "attack dialog opened"; }
+	}
+	f.item.rollDamage = async function() {
+		return Dialog.asPromise({ rollConfig: { data: this.getRollData() }, callbackFn: (form, config) => {
+			const roll = f.RollClass.createRoll([], [], config.data, { hitTypeDamage: true });
+			void roll.toMessage({});
+			return roll;
+		} });
+	};
+	f.publish();
+	await rollDamageAndWait(f.item, {}, f.RollClass, { sessionId: "first", type: "normal" }, Dialog);
+	let accidentallySubmitted = false;
+	const second = Dialog.asPromise({ rollConfig: { data: f.item.getRollData() }, callbackFn() {
+		accidentallySubmitted = true;
+		return "wrong callback";
+	} });
+	assert.equal(second, "attack dialog opened");
+	assert.equal(accidentallySubmitted, false);
+});
+
+
+test("replacing or clearing a damage modifier always starts from the original evaluated roll", async () => {
+	const { adjustDamageMessage } = await import("../scripts/power-activation/damage-roll.js");
+	let evaluations = 0;
+	globalThis.Roll = class {
+		constructor(formula) { this.formula = formula; }
+		async evaluate() { evaluations++; this.total = this.formula === "1d6 + 3" ? 7 : Number(this.formula); return this; }
+	};
+	globalThis.foundry = { dice: { terms: {
+		OperatorTerm: class { constructor(data) { Object.assign(this, data); } },
+		ParentheticalTerm: class { constructor(data) { Object.assign(this, data); } },
+	} } };
+	class Damage {
+		constructor(total) { this._total = total; this.terms = [{ result: 6 }]; }
+		get total() { return this._total; }
+		toJSON() { return { total: this.total, terms: this.terms }; }
+		static fromJSON(json) { const data = JSON.parse(json); return Object.assign(new Damage(data.total), { terms: data.terms }); }
+		static getFormula() { return "damage + modifier"; }
+	}
+	const review = {};
+	const message = { isOwner: true, flags: { "dnd4e-health-display": { damageReview: review } }, rolls: [new Damage(6)],
+		async update(change) {
+			this.rolls = change.rolls;
+			for (const [key, value] of Object.entries(change)) {
+				if (key.startsWith("flags.")) { review[key.split(".").at(-1)] = value; }
+			}
+		},
+	};
+	for (const [formula, expected] of [["1d6 + 3", 13], ["1d6 + 3", 13], ["-2", 4], ["", 6], ["+3", 9]]) {
+		await adjustDamageMessage(message, formula, {});
+		assert.equal(message.rolls[0].total, expected);
+		assert.equal(message.rolls[0].terms[0].result, 6);
+		assert.equal(message.rolls[0].terms.length, 3);
+		assert.equal(review.modifierFormula, formula);
+	}
+	assert.equal(evaluations, 4, "unchanged dice formulas reuse their evaluated modifier");
+});

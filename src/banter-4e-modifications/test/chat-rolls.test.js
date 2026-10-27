@@ -219,3 +219,15 @@ test('mixed pending attacks mark only ordinary rolls unconfirmed and clear them 
   assert.deepEqual(rolls.map((roll, index) => describeRoll(pending, roll, index).unconfirmed), [false, false, true, true]);
   assert.deepEqual(rolls.map((roll, index) => describeRoll(confirmed, roll, index).unconfirmed), [false, false, false, false]);
 });
+
+test('damage review shares unconfirmed and manually edited labels with attack cards', () => {
+  const roll = { total: 18, options: { hitTypeDamage: true } };
+  const message = { speaker: { alias: 'Mage' }, flags: { 'dnd4e-health-display': {
+    damageReview: { pending: true, edited: true, modifiers: ['-2', '1d6 + 3'] },
+  } } };
+  const pending = describeRoll(message, roll, 0);
+  assert.equal(pending.unconfirmed, true);
+  assert.equal(pending.manualEdit, 'Manually edited (-2, 1d6 + 3)');
+  message.flags['dnd4e-health-display'].damageReview.pending = false;
+  assert.equal(describeRoll(message, roll, 0).unconfirmed, false);
+});

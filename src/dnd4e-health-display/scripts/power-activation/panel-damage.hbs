@@ -1,0 +1,18 @@
+	{{#unless noTargets}}
+	{{#if resolutionRules}}<div class="power-targeting__resolution" role="region" aria-label="Post-attack power rules" tabindex="0">{{{resolutionRules}}}</div>{{/if}}
+	<ul class="power-targeting__targets">
+		{{#each damageResults}}
+		<li class="power-targeting__result">
+			<div class="power-targeting__result-summary"><span>{{label}} damage</span><strong>{{total}}</strong></div>
+			{{#if sharedMiss}}<p class="power-targeting__range">Miss damage: <strong>{{missTotal}}</strong> (half the hit damage)</p>{{/if}}
+			{{#if ../reviewingDamage}}
+			<div class="power-targeting__result-adjustment">
+				<label>Modifier <input type="text" data-damage-modifier data-message-id="{{messageId}}" value="{{modifier}}" placeholder="+3, -2, or 1d6 + 3" aria-label="{{label}} damage modifier" {{#if ../busy}}disabled{{/if}}></label>
+				<button type="button" data-action="adjustDamage" data-message-id="{{messageId}}" {{#if ../busy}}disabled{{/if}}>Apply</button>
+			</div>
+			{{/if}}
+		</li>
+		{{/each}}
+	</ul>
+	{{#if reviewingDamage}}<p class="power-targeting__review-hint">Apply a positive or negative modifier or dice formula. Clear it and Apply to reset to +0. Original dice are preserved.</p>{{/if}}
+	{{else}}<p class="power-targeting__range">No targets remain. This power’s use is already spent.</p>{{/unless}}

@@ -253,3 +253,8 @@ export function disableAutomatedPowerMacros(item, changes) {
 		}
 	}
 }
+
+/** Load the native dialog boundary used to select a session's damage outcome. */
+export async function loadDamageDialogClass() {
+	return (await import("../../../../systems/dnd4e/module/applications/apps/dice/_module.mjs")).RollDialog;
+}

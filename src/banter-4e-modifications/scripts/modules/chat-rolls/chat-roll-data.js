@@ -62,10 +62,14 @@ export function describeRoll(message, roll, index = 0) {
       ? ({ hit: 'Hit', miss: 'Miss', critical: 'Crit', fumble: 'Crit Fail', immune: 'Immune' }[attackOutcome] || 'Attack')
       : null,
     damageSubject: kind === 'damage' ? `${speaker}${snapshot?.targetName ? ` against ${snapshot.targetName}` : ''}` : null,
-    unconfirmed: kind === 'attack' && !['critical', 'fumble'].includes(attackOutcome)
-      && Boolean(message.flags?.['dnd4e-health-display']?.attackResults?.pending),
+    unconfirmed: kind === 'damage'
+      ? Boolean(message.flags?.['dnd4e-health-display']?.damageReview?.pending)
+      : kind === 'attack' && !['critical', 'fumble'].includes(attackOutcome)
+        && Boolean(message.flags?.['dnd4e-health-display']?.attackResults?.pending),
     manualEdit: kind === 'attack' && Number.isFinite(options.postAttackModifier)
-      ? `Manually edited (${options.postAttackModifier >= 0 ? '+' : ''}${options.postAttackModifier})` : null,
+      ? `Manually edited (${options.postAttackModifier >= 0 ? '+' : ''}${options.postAttackModifier})`
+      : kind === 'damage' && message.flags?.['dnd4e-health-display']?.damageReview?.edited
+        ? `Manually edited (${(message.flags['dnd4e-health-display'].damageReview.modifiers ?? []).join(', ')})` : null,
     natural: naturalD20(roll), badges, attackModifiers,
     contributors: damageContributors(snapshot?.contributors),
     scale, reasons: divisor?.reason ?? [] };

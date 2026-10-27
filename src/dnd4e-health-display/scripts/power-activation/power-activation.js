@@ -1,3 +1,4 @@
+import { ActivationWorkflow } from "./workflow.js";
 import { registerAttackEffects, syncAttackEffects } from "./attack-effects.js";
 import { registerSummonSocket, requestSummon, summonGM } from "./summon-socket.js";
 import { CoverPreview } from "./cover-preview.js";
@@ -8,7 +9,7 @@ import { MODULE_ID, SETTING, automationConfig, powerOriginRules, selectionProble
 import { registerActorOrigins } from "./actor-origins.js";
 import { renderPowerCard, createPowerMessage, postAttackRules, preAttackRules } from "./cards.js";
 import { loadSystem, resolveRange, registerAutomationTab, commitCardCosts, commitPowerUse, rollFromOrigin } from "./system-adapter.js";
-import { rollDamageAndWait } from "./damage-roll.js";
+import { rollDamageAndWait, adjustDamageMessage, damageMessageTotal, registerDamageReview } from "./damage-roll.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin, DialogV2 } = foundry.applications.api;
 let session = null;
@@ -38,6 +39,7 @@ export async function registerPowerActivation() {
 	CoverPreview.register();
 	registerActorOrigins();
 	attackResults.register();
+	registerDamageReview();
 	sharedAreaPreview.register();
 	Hooks.on("createChatMessage", message => session?.captureAttackResults(message));
 	try {
@@ -160,24 +162,25 @@ async function deletePreview(message) {
 }
 
 /** A disposable local session owns input, graphics, message and native-dialog handoff. */
-class ActivationSession {
+
+class ActivationSession extends ActivationWorkflow {
 	constructor(item, source, range, card, count) {
+		super();
 		Object.assign(this, { item, source, range, card, count });
 		this.caster = source;
 		this.id = foundry.utils.randomID();
 		this.previousTargets = [...game.user.targets];
 		this.targets = [];
 		this.areaExclusions = new Map();
-		this.busy = false;
-		this.finished = false;
+		// Resource processing is historical data: failures must never allow spending twice.
 		this.committed = false;
 		this.syncing = false;
 		this.listeners = new AbortController();
 		this.placementLocked = range.shape === "closeBurst";
 		this.wallCells = [];
-		this.phase = "targeting";
 		this.attackMessages = [];
-		this.resultsConfirmed = false;
+		this.damageMessages = [];
+		this.damageModifierDrafts = new Map();
 	}
 
 	/** Offer visible tokens from the effective origin rules, optionally including the caster. */
@@ -195,7 +198,7 @@ class ActivationSession {
 
 	/** Changing origin resets placement and target selection, retaining the actual caster. */
 	changeOrigin(id) {
-		if (this.busy || this.finished) {
+		if (this.state !== "targeting") {
 			return;
 		}
 		const token = this.originChoices().find(candidate => candidate.id === id);
@@ -480,7 +483,7 @@ class ActivationSession {
 
 	/** Keep caster-centered bursts current when tokens or power configuration change. */
 	refreshAreaTargets() {
-		if (this.finished || this.busy || this.phase !== "targeting") {
+		if (this.state !== "targeting") {
 			return;
 		}
 		if (AREA_TYPES.includes(this.range.shape) && automationConfig(this.item).targetMode === "area") {
@@ -529,7 +532,7 @@ class ActivationSession {
 
 	/** Follow Foundry's standard targeting controls. */
 	targetChanged(token, targeted) {
-		if (this.syncing || this.finished || this.phase !== "targeting") {
+		if (this.syncing || this.finished || this.view.screen !== "targeting") {
 			return;
 		}
 		if (this.busy) {
@@ -593,7 +596,7 @@ class ActivationSession {
 
 	/** Re-evaluate formulas and weapon defaults when actor/item data changes. */
 	async refreshRange() {
-		if (this.finished || this.busy || this.phase !== "targeting") {
+		if (this.state !== "targeting") {
 			return;
 		}
 		try {
@@ -618,7 +621,7 @@ class ActivationSession {
 		if (this.finished) {
 			return;
 		}
-		if (this.phase === "results") {
+		if (this.view.screen === "results") {
 			this.panel?.render({ force: true });
 			return;
 		}
@@ -637,7 +640,7 @@ class ActivationSession {
 	/** Follow rendered token positions throughout movement without rebuilding the panel each frame. */
 	refreshMovingToken(token) {
 		const automaticArea = AREA_TYPES.includes(this.range.shape) && automationConfig(this.item).targetMode === "area";
-		if (this.finished || this.phase !== "targeting" || (!automaticArea && token !== this.source && !this.targets.includes(token))) {
+		if (this.finished || this.view.screen !== "targeting" || (!automaticArea && token !== this.source && !this.targets.includes(token))) {
 			return;
 		}
 		if (token === this.source) {
@@ -649,7 +652,7 @@ class ActivationSession {
 
 	/** Draw around the source's current canvas position, including interpolated movement. */
 	drawRange() {
-		if (this.finished || this.phase !== "targeting") {
+		if (this.finished || this.view.screen !== "targeting") {
 			return;
 		}
 		if (this.range.shape && !this.busy) {
@@ -830,7 +833,7 @@ class ActivationSession {
 
 	/** Confirm utility use or open the native attack dialog after reviewing targets. */
 	async attack() {
-		if (this.busy || this.finished || this.phase !== "targeting") {
+		if (this.state !== "targeting") {
 			return;
 		}
 		if (this.range.shape === "wall" && this.wallProblems().length) {
@@ -845,7 +848,7 @@ class ActivationSession {
 			ui.notifications.warn("The selected origin is no longer allowed.");
 			return;
 		}
-		this.busy = true;
+		this.transition("attackDialog");
 		this.refresh();
 		try {
 			if (this.targets.some(token => !token.visible || !token.actor || canvas.tokens.get(token.id) !== token)) {
@@ -910,9 +913,10 @@ class ActivationSession {
 				await this.complete();
 			}
 		} finally {
-			this.busy = false;
-			if (this.phase === "results") {
-				this.busy = true;
+			if (this.state === "attackDialog") {
+				this.transition("targeting");
+			}
+			if (this.state === "preparingResults") {
 				this.refresh();
 				let applied = false;
 				try {
@@ -921,7 +925,7 @@ class ActivationSession {
 				} catch (error) {
 					ui.notifications.error(`Could not apply attack effects: ${error.message}`);
 				} finally {
-					this.busy = false;
+					this.transition("reviewingResults");
 				}
 				if (applied) {
 					await this.confirmCriticalResults();
@@ -1007,7 +1011,7 @@ class ActivationSession {
 
 	/** Seed native per-target checkboxes while preserving stronger status/macro cover. */
 	applyDetectedCover(item, target, { bonuses }) {
-		if (!this.busy || this.finished || this.phase !== "targeting" || item?.uuid !== this.item.uuid
+		if (this.state !== "attackDialog" || item?.uuid !== this.item.uuid
 			|| !this.targets.includes(target)) {
 			return;
 		}
@@ -1095,19 +1099,15 @@ class ActivationSession {
 		if (typeof dice3d?.waitFor3DAnimationByMessageID !== "function") {
 			return;
 		}
-		this.waitingForDice = true;
+		this.transition("rollingAttack");
 		this.refresh();
-		try {
-			await Promise.all(this.attackMessages.map(async message => {
-				try {
-					await dice3d.waitFor3DAnimationByMessageID(message.id);
-				} catch (error) {
-					console.warn(`${MODULE_ID} | Could not wait for Dice So Nice; showing attack results`, error);
-				}
-			}));
-		} finally {
-			this.waitingForDice = false;
-		}
+		await Promise.all(this.attackMessages.map(async message => {
+			try {
+				await dice3d.waitFor3DAnimationByMessageID(message.id);
+			} catch (error) {
+				console.warn(`${MODULE_ID} | Could not wait for Dice So Nice; showing attack results`, error);
+			}
+		}));
 	}
 
 	/** Finalize the chat card, retaining the panel only for a successful attack's damage step. */
@@ -1122,7 +1122,7 @@ class ActivationSession {
 			ui.notifications.warn("The ability finished, but its power card could not be finalized. Check chat before reloading.");
 		} finally {
 			if (keepOpen && !this.finished) {
-				this.phase = "results";
+				this.transition("preparingResults");
 				this.listeners.abort();
 				sharedAreaPreview.clear();
 				CoverPreview.setContext(null);
@@ -1143,32 +1143,20 @@ class ActivationSession {
 	captureAttackResults(message) {
 		if (message.flags?.[MODULE_ID]?.attackResults?.sessionId === this.id) {
 			this.attackMessages.push(message);
-			if (this.phase === "results") {
+			if (this.view.screen === "results") {
 				this.refresh();
 			}
 		}
 	}
 
-	/** Allow skipping damage only when every confirmed target has a known miss result. */
+	/** Only the final confirmed screen exposes Complete. */
 	canComplete() {
-		if (this.phase !== "results" || this.busy) {
-			return false;
-		}
-		if (!this.resultsConfirmed) {
-			return false;
-		}
-		if (this.damageRolled || !this.item.hasDamage || !this.targets.length) {
-			return true;
-		}
-		const results = this.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id));
-		return this.targets.length > 0
-			&& this.targets.every(token => results.some(result => result.tokenId === token.id))
-			&& results.every(result => ["miss", "fumble"].includes(result.outcome));
+		return this.state === "complete";
 	}
 
 	/** Skip manual review only when all selected targets have fixed critical outcomes. */
 	async confirmCriticalResults() {
-		if (this.phase !== "results" || this.resultsConfirmed || this.busy || this.finished) {
+		if (this.state !== "reviewingResults") {
 			return;
 		}
 		const results = this.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id));
@@ -1181,28 +1169,31 @@ class ActivationSession {
 
 	/** Persist confirmation on the existing attack messages before unlocking damage. */
 	async confirmResults() {
-		if (this.phase !== "results" || this.busy || this.finished || this.resultsConfirmed) {
+		if (this.state !== "reviewingResults") {
 			return;
 		}
-		this.busy = true;
+		this.transition("confirmingResults");
 		this.refresh();
 		try {
 			await syncAttackEffects(this);
 			for (const message of this.attackMessages) {
 				await message.update({ [`flags.${MODULE_ID}.attackResults.pending`]: false });
 			}
-			this.resultsConfirmed = true;
+			this.transition("readyForDamage");
+			await this.rollDamage({}, true);
 		} catch (error) {
 			ui.notifications.error(`Could not confirm attack results: ${error.message}`);
 		} finally {
-			this.busy = false;
+			if (this.state === "confirmingResults") {
+				this.transition("reviewingResults");
+			}
 			this.refresh();
 		}
 	}
 
 	/** Save one roll adjustment before allowing the damage step. */
 	async adjustResult(target) {
-		if (this.busy || this.finished || this.resultsConfirmed || this.phase !== "results") {
+		if (this.state !== "reviewingResults") {
 			return;
 		}
 		const message = this.attackMessages.find(entry => entry.id === target.dataset.messageId);
@@ -1211,7 +1202,7 @@ class ActivationSession {
 			return;
 		}
 		const input = target.closest("li").querySelector("input");
-		this.busy = true;
+		this.transition("updatingResults");
 		try {
 			if (!input.value.trim()) {
 				throw new Error("Enter a numeric modifier.");
@@ -1221,17 +1212,17 @@ class ActivationSession {
 		} catch (error) {
 			ui.notifications.error(error.message);
 		} finally {
-			this.busy = false;
+			this.transition("reviewingResults");
 			this.refresh();
 		}
 	}
 
 	/** Remove a reviewed target from stored rolls and reconcile only this activation's effects. */
 	async removeReviewTarget(tokenId) {
-		if (this.phase !== "results" || this.busy || this.finished || this.resultsConfirmed) {
+		if (this.state !== "reviewingResults") {
 			return;
 		}
-		this.busy = true;
+		this.transition("updatingResults");
 		this.refresh();
 		try {
 			for (const message of this.attackMessages) {
@@ -1243,7 +1234,7 @@ class ActivationSession {
 		} catch (error) {
 			ui.notifications.error(`Could not remove attack target: ${error.message}`);
 		} finally {
-			this.busy = false;
+			this.transition("reviewingResults");
 			if (!this.targets.length) {
 				await this.confirmResults();
 			} else {
@@ -1253,34 +1244,94 @@ class ActivationSession {
 		}
 	}
 
-	/** Roll once for the whole attack; cancelling the native dialog leaves damage available. */
-	async rollDamage(event) {
-		if (this.busy || this.finished || this.phase !== "results" || !this.resultsConfirmed || this.damageRolled || !this.item.hasDamage || !this.targets.length) {
+	/** Roll each outcome once; retries retain already published damage messages. */
+	async rollDamage(event, automatic = false) {
+		if (!["readyForDamage", "reviewingDamage"].includes(this.state) || !this.item.hasDamage || !this.targets.length) {
 			return;
 		}
-		this.busy = true;
+		const outcomes = this.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id));
+		const hasHit = outcomes.some(result => result.outcome === "hit");
+		const sharedMiss = hasHit && this.item.system.miss?.halfDamage;
+		const required = [
+			...(outcomes.some(result => result.outcome === "critical") ? ["crit"] : []),
+			...(outcomes.some(result => ["miss", "fumble"].includes(result.outcome))
+				&& !sharedMiss && (this.item.system.miss?.halfDamage || this.item.system.miss?.formula?.trim()) ? ["miss"] : []),
+			...(hasHit ? ["normal"] : []),
+		];
+		this.sharedMissDamage = Boolean(sharedMiss && outcomes.some(result => ["miss", "fumble"].includes(result.outcome)));
+		this.requiredDamageTypes = required;
+		const types = automatic ? required : [...new Set([...required, "normal"])];
+		if (!types.length) {
+			return;
+		}
+		this.transition("rollingDamage");
 		this.refresh();
 		try {
 			if (!this.item.isOwner || !this.item.actor?.isOwner) {
 				throw new Error("You no longer have permission to roll this power's damage.");
 			}
-			const roll = await rollDamageAndWait(this.item, event);
-			if (roll) {
-				this.damageRolled = true;
-				this.damageTotal = Number.isFinite(roll.total) ? roll.total : null;
+			for (const type of types) {
+				if (this.finished || this.damageMessages.some(message => message.flags?.[MODULE_ID]?.damageReview?.type === type)) {
+					continue;
+				}
+				const roll = await rollDamageAndWait(this.item, event, null, { sessionId: this.id, type });
+				if (roll?.message) {
+					this.damageMessages.push(roll.message);
+				}
 			}
 		} catch (error) {
 			console.error(`${MODULE_ID} | Damage activation`, error);
 			ui.notifications.error(`Damage roll failed: ${error.message}`);
 		} finally {
-			this.busy = false;
+			this.transition(this.damageMessages.length ? "reviewingDamage" : "readyForDamage");
+			this.refresh();
+		}
+	}
+
+	/** Replace the modifier and retain the entered formula across panel renders. */
+	async adjustDamage(target) {
+		if (this.state !== "reviewingDamage") {
+			return;
+		}
+		const message = this.damageMessages.find(entry => entry.id === target.dataset.messageId);
+		const formula = target.closest("li").querySelector("[data-damage-modifier]").value;
+		this.damageModifierDrafts.set(message.id, formula);
+		this.transition("updatingDamage");
+		this.refresh();
+		try {
+			await adjustDamageMessage(message, formula, this.item.getRollData());
+		} catch (error) {
+			ui.notifications.error(`Could not adjust damage: ${error.message}`);
+		} finally {
+			this.transition("reviewingDamage");
+			this.refresh();
+		}
+	}
+
+	/** Persist damage confirmation before showing the final Complete action. */
+	async confirmDamage() {
+		if (!["reviewingDamage", "readyForDamage"].includes(this.state)
+			|| this.requiredDamageTypes?.some(type => !this.damageMessages.some(message => message.flags[MODULE_ID].damageReview.type === type))) {
+			return;
+		}
+		this.transition("confirmingDamage");
+		this.refresh();
+		try {
+			for (const message of this.damageMessages) {
+				await message.update({ [`flags.${MODULE_ID}.damageReview.pending`]: false });
+			}
+			this.transition("complete");
+		} catch (error) {
+			this.transition("reviewingDamage");
+			ui.notifications.error(`Could not confirm damage: ${error.message}`);
+		} finally {
 			this.refresh();
 		}
 	}
 
 	/** Explicit cancellation removes only this session's provisional message. */
 	async cancel() {
-		if (this.phase === "results" && !this.busy) {
+		if (this.view.screen === "results" && !this.busy) {
 			return this.dispose(false);
 		}
 		if (this.commitStarted || this.finished) {
@@ -1297,7 +1348,7 @@ class ActivationSession {
 		if (!this.finished && this.attackMessages.length) {
 			attackResults.complete(this.id);
 		}
-		this.finished = true;
+		this.transition("closed");
 		sharedAreaPreview.clear();
 		CoverPreview.setContext(null);
 		window.clearTimeout(this.movementTimer);
@@ -1324,14 +1375,14 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 			undoWall() { this.session.editWall(); },
 			clearWall() { this.session.editWall(true); },
 			reposition() {
-				if (!this.session.busy) {
+				if (this.session.state === "targeting") {
 					this.session.placementLocked = this.session.range.shape === "closeBurst";
 					this.session.selectAreaTargets();
 					this.session.refresh();
 				}
 			},
 			selectArea() {
-				if (!this.session.busy) {
+				if (this.session.state === "targeting") {
 					this.session.selectAreaTargets();
 					this.session.refresh();
 				}
@@ -1343,6 +1394,9 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 			},
 			attack() { return this.session.attack(); },
 			rollDamage(event) { return this.session.rollDamage(event); },
+			retryDamage(event) { return this.session.rollDamage(event, true); },
+			adjustDamage(event, target) { return this.session.adjustDamage(target); },
+			confirmDamage() { return this.session.confirmDamage(); },
 			removeReviewTarget(event, target) { return this.session.removeReviewTarget(target.dataset.tokenId); },
 			adjustResult(event, target) { return this.session.adjustResult(target); },
 			confirmResults() { return this.session.confirmResults(); },
@@ -1353,7 +1407,7 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 			},
 			cancel() { return this.session.cancel(); },
 			removeTarget(event, target) {
-				if (!this.session.busy) {
+				if (this.session.state === "targeting") {
 					this.session.excludeAreaTarget(this.session.targets.find(token => token.id === target.dataset.tokenId));
 					this.session.targets = this.session.targets.filter(token => token.id !== target.dataset.tokenId);
 					this.session.syncTargets();
@@ -1362,7 +1416,24 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 			},
 		},
 	};
-	static PARTS = { body: { template: `modules/${MODULE_ID}/scripts/power-activation/panel.hbs` } };
+	static PARTS = {
+		body: {
+			template: `modules/${MODULE_ID}/scripts/power-activation/panel.hbs`,
+			templates: ["targeting", "results", "damage"].map(name => `modules/${MODULE_ID}/scripts/power-activation/panel-${name}.hbs`),
+		},
+	};
+
+	/** Keep the frame title in sync with the workflow, including busy operations. */
+	get title() {
+		return `${this.session?.item.name ?? "Ability"} · ${this.session?.view.status || "Select Targets"}`;
+	}
+
+	/** ApplicationV2 updates an existing frame only when a title is supplied. */
+	_configureRenderOptions(options) {
+		super._configureRenderOptions(options);
+		options.window ??= {};
+		options.window.title = this.title;
+	}
 
 	constructor(activation) {
 		const sidebarWidth = ui.sidebar?.element?.getBoundingClientRect?.().width ?? 320;
@@ -1378,21 +1449,32 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 	async _prepareContext() {
 		const activation = this.session;
 		this.beforeAttackRules ??= preAttackRules(activation.card);
-		if (activation.phase === "results") {
+		if (activation.view.screen === "results") {
 			this.resolutionRules ??= postAttackRules(activation.card);
 			return {
-				reviewing: !activation.resultsConfirmed,
+				reviewing: activation.view.reviewing,
+				hasDamage: Boolean(activation.item.hasDamage),
 				resolved: true, noTargets: !activation.targets.length, powerName: activation.item.name, card: activation.card,
 				resolutionRules: this.resolutionRules,
 				beforeAttackRules: this.beforeAttackRules,
-				hasDamageTotal: Number.isFinite(activation.damageTotal), damageTotal: activation.damageTotal,
+				damageResults: activation.damageMessages.map(message => ({ messageId: message.id, total: damageMessageTotal(message),
+					modifier: activation.damageModifierDrafts.get(message.id) ?? message.flags[MODULE_ID].damageReview.modifierFormula ?? "",
+					sharedMiss: activation.sharedMissDamage && message.flags[MODULE_ID].damageReview.type === "normal",
+					missTotal: Math.floor(damageMessageTotal(message) / 2),
+					label: { normal: "Hit", crit: "Crit", miss: "Miss" }[message.flags[MODULE_ID].damageReview.type] })),
+				reviewingDamage: ["reviewingDamage", "updatingDamage"].includes(activation.state),
+				canConfirmDamage: ["readyForDamage", "reviewingDamage"].includes(activation.state)
+					&& !activation.requiredDamageTypes?.some(type => !activation.damageMessages.some(message => message.flags[MODULE_ID].damageReview.type === type)),
 				showDetails: Boolean(this.showDetails), busy: activation.busy,
-				needsDamage: activation.resultsConfirmed && activation.targets.length > 0 && activation.item.hasDamage && !activation.damageRolled,
-				canComplete: activation.canComplete(),
-				status: !activation.resultsConfirmed ? "Confirm attack" : activation.busy ? "Rolling damage…" : activation.damageRolled ? "Damage rolled" : "Attack resolved",
+				pendingDamage: activation.requiredDamageTypes?.some(type => !activation.damageMessages.some(message => message.flags[MODULE_ID].damageReview.type === type)),
+				needsDamage: ["readyForDamage", "reviewingDamage"].includes(activation.state) && activation.targets.length > 0 && activation.item.hasDamage
+					&& (!activation.damageMessages.some(message => message.flags[MODULE_ID].damageReview.type === "normal")
+						|| activation.requiredDamageTypes?.some(type => !activation.damageMessages.some(message => message.flags[MODULE_ID].damageReview.type === type))),
+				canComplete: activation.state === "complete",
+				status: activation.view.status,
 				results: activation.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id)
 					.map(result => ({ ...result, fixedOutcome: ["critical", "fumble"].includes(result.outcome),
-						canAdjust: !activation.resultsConfirmed && !["critical", "fumble"].includes(result.outcome), messageId: message.id, rollIndex: message.rolls.findIndex(roll => roll.options?.multirollData?.targetID === result.tokenId),
+						canAdjust: activation.view.reviewing && !["critical", "fumble"].includes(result.outcome), messageId: message.id, rollIndex: message.rolls.findIndex(roll => roll.options?.multirollData?.targetID === result.tokenId),
 						modifier: message.rolls.find(roll => roll.options?.multirollData?.targetID === result.tokenId)?.options.postAttackModifier ?? 0, name: canvas.tokens.get(result.tokenId)?.visible
 						? canvas.tokens.get(result.tokenId).name : "Unavailable target",
 						img: canvas.tokens.get(result.tokenId)?.visible ? canvas.tokens.get(result.tokenId).document.texture?.src : null }))),
@@ -1430,20 +1512,23 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 			longRange: activation.range.maximum > activation.range.normal, required: activation.count,
 			selected: activation.targets.length, busy: activation.busy, cancellable: !activation.commitStarted,
 			ready: !problems.length && !activation.busy,
-			status: activation.waitingForDice ? "Rolling attack dice…" : activation.busy ? (activation.item.hasAttack ? "Attack dialog open" : "Using ability") : (problems.length ? "Review targets" : "Ready"),
+			status: activation.busy ? (activation.item.hasAttack ? activation.view.status : "Using ability") : (problems.length ? "Review targets" : "Ready"),
 			problems: [...new Set(problems)].filter(problem => !targetWarnings.has(problem)), targets,
 		};
 	}
 
 	/** Rebind origin selection after each panel render. */
 	_onRender() {
+		for (const input of this.element.querySelectorAll("[data-damage-modifier]")) {
+			input.addEventListener("input", () => this.session.damageModifierDrafts.set(input.dataset.messageId, input.value));
+		}
 		this.element.querySelector("[data-origin-selector]")?.addEventListener("change", event => this.session.changeOrigin(event.target.value));
 	}
 
 	/** Close resolved attacks without undoing their use; don't interrupt a committing roll. */
 	async close(options) {
 		if (!this.session.finished) {
-			if (this.session.phase === "results" && !this.session.busy) {
+			if (this.session.view.screen === "results" && !this.session.busy) {
 				return this.session.dispose(false);
 			}
 			if (this.session.commitStarted) {

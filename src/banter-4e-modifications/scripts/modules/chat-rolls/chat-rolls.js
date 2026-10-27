@@ -105,6 +105,12 @@ export class ChatRolls {
     if (model.kind === 'attack') {
       ChatRolls.bindTargetHighlight(sentence, message, message.rolls[index]);
     }
+    if (model.unconfirmed) {
+      main.append(ChatRolls.element('strong', 'banter-roll__manual-edit', 'Unconfirmed'));
+    }
+    if (model.manualEdit) {
+      main.append(ChatRolls.element('strong', 'banter-roll__manual-edit', model.manualEdit));
+    }
     // Flavor is system-rendered HTML; read its text, never inject it as markup.
     const flavor = body.querySelector('.dice-flavor')?.textContent?.trim();
     const hostFlavor = body.closest('.message')?.querySelector('.flavor-text')?.textContent?.trim();
@@ -119,12 +125,6 @@ export class ChatRolls {
       ChatRolls.element('small', '', model.kind === 'attack' ? `Total ${model.total}` : model.kind === 'damage' ? damageLabel : 'TOTAL'));
     if (model.kind !== 'damage' && model.natural.length) {
       ChatRolls.attachNaturalPopup(score, model);
-    }
-    if (model.unconfirmed) {
-      main.append(ChatRolls.element('strong', 'banter-roll__manual-edit', 'Unconfirmed'));
-    }
-    if (model.manualEdit) {
-      main.append(ChatRolls.element('strong', 'banter-roll__manual-edit', model.manualEdit));
     }
     const chips = ChatRolls.element('div', 'banter-roll__chips');
     for (const badge of model.attackModifiers) {

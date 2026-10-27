@@ -1,3 +1,4 @@
+import { ActivationWorkflow } from "../scripts/power-activation/workflow.js";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
@@ -11,6 +12,13 @@ const source = readFileSync(new URL("../scripts/power-activation/power-activatio
 	.replace(/^import .*;\r?\n/gm, "").replace(/^export /gm, "");
 const damageSource = readFileSync(new URL("../scripts/power-activation/damage-roll.js", import.meta.url), "utf8")
 	.replace(/^import .*;\r?\n/gm, "").replace(/^export /gm, "");
+
+/** Reach review through the same legal transitions as a successful attack. */
+function enterReview(activation) {
+	activation.transition("attackDialog");
+	activation.transition("preparingResults");
+	activation.transition("reviewingResults");
+}
 
 /** Run the real session controller against document/canvas boundaries, without Foundry. */
 function fixture({ confirm = true, fastForward = false } = {}) {
@@ -63,12 +71,13 @@ function fixture({ confirm = true, fastForward = false } = {}) {
 		drawRect(...rectangle) { rectangles.push(rectangle); return this; }, endFill() { return this; },
 	};
 	class App {
+		_configureRenderOptions() {}
 		render() { return this; }
 		async close() {}
 	}
 	const context = vm.createContext({
 		summonGM: () => ({ id: "gm" }), requestSummon: async activation => activation.summonCreator?.(),
-		console, AbortController, MODULE_ID, SETTING, automationConfig, powerOriginRules, selectionProblems, targetCountProblems, squareDistance, targetFilterProblems,
+		ActivationWorkflow, console, AbortController, MODULE_ID, SETTING, automationConfig, powerOriginRules, selectionProblems, targetCountProblems, squareDistance, targetFilterProblems,
 		AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin, hasLineOfEffect,
 		CoverPreview: { setContext: value => hooks.push(["coverContext", value]), register() {} },
 		rollFromOrigin, removeAttackTarget, syncAttackEffects: async () => {}, registerAttackEffects() {},
@@ -110,6 +119,7 @@ function fixture({ confirm = true, fastForward = false } = {}) {
 		ChatMessage: { getSpeaker: () => ({ actor: "a" }) },
 		loadSystem: async () => ({ tokenForActor: () => attacker }),
 		loadDamageRollClass: async () => DamageRoll,
+		loadDamageDialogClass: async () => ({ asPromise() {} }),
 		resolveRange: async () => ({ normal: 1, maximum: 1 }),
 		registerAutomationTab: async () => {},
 		renderPowerCard: async () => "power-card",
@@ -488,7 +498,7 @@ test("range overlay has no labels and clears during native attack handoff", () =
 	f.activation.range = { normal: 4, maximum: 8 };
 	f.activation.drawRange();
 	f.rectangles.length = 0;
-	f.activation.busy = true;
+	f.activation.transition("attackDialog");
 	f.activation.drawRange();
 	assert.equal(f.rectangles.length, 0);
 });
@@ -583,7 +593,7 @@ test("submission commits once even when the native submit callback runs twice", 
 	assert.equal(f.consumed(), 1);
 	assert.equal(f.item.system.uses.value, 1);
 	assert.equal(f.activation.finished, false);
-	assert.equal(f.activation.phase, "results");
+	assert.equal(f.activation.view.screen, "results");
 	assert.equal(f.messages.get("preview")[`flags.${MODULE_ID}.powerActivation.provisional`], false);
 	assert.ok(f.hooks.some(([hook]) => hook === "dnd4e.usePower"));
 });
@@ -871,7 +881,7 @@ test("committed attack stays open with its results and full power until damage a
 		await f.activation.finalizePowerUse();
 	};
 	await f.activation.attack();
-	assert.equal(f.activation.phase, "results");
+	assert.equal(f.activation.view.screen, "results");
 	assert.equal(f.activation.finished, false);
 	assert.equal(closed, 0);
 	panel.showDetails = true;
@@ -889,18 +899,18 @@ test("committed attack stays open with its results and full power until damage a
 	assert.equal(display.reviewing, true);
 	assert.equal(display.needsDamage, false);
 	await f.activation.rollDamage({});
-	assert.equal(f.activation.damageRolled, undefined);
+	assert.equal(f.activation.state, "reviewingResults");
 	assert.equal(f.activation.canComplete(), false);
 	await f.context.api.TargetingPanel.DEFAULT_OPTIONS.actions.confirmResults.call(panel);
 	assert.equal((await panel._prepareContext()).needsDamage, true);
 	assert.equal(display.resolutionRules, "resolution-rules");
 	assert.equal(display.beforeAttackRules, "before-attack-rules");
-	assert.equal(display.hasDamageTotal, false);
+	assert.equal(display.damageResults.length, 0);
 	f.activation.targetChanged(f.far, true);
 	assert.deepEqual(f.activation.targets, [f.target]);
 	let release;
 	let rolls = 0;
-	f.item.damageRoll = { total: 18, async toMessage() { return { id: "damage", rolls: [this] }; } };
+	f.item.damageRoll = { total: 18, async toMessage(data) { return { id: "damage", flags: data.flags, rolls: [this], async update() {} }; } };
 	f.item.rollDamage = function() {
 		rolls++;
 		const roll = f.DamageRoll.createRoll([], [], this.getRollData(), { hitTypeDamage: true });
@@ -908,6 +918,7 @@ test("committed attack stays open with its results and full power until damage a
 		return new Promise(resolve => { release = resolve; });
 	};
 	const damage = f.activation.rollDamage({});
+	await new Promise(resolve => setImmediate(resolve));
 	await f.activation.rollDamage({});
 	assert.equal(rolls, 1);
 	release(f.item.damageRoll);
@@ -915,8 +926,8 @@ test("committed attack stays open with its results and full power until damage a
 	assert.equal((await panel._prepareContext()).needsDamage, false);
 	const rolledDisplay = await panel._prepareContext();
 	assert.equal(rolledDisplay.resolutionRules, display.resolutionRules);
-	assert.equal(rolledDisplay.hasDamageTotal, true);
-	assert.equal(rolledDisplay.damageTotal, 18);
+	assert.equal(rolledDisplay.damageResults[0].total, 18);
+	await f.activation.confirmDamage();
 	assert.equal(f.activation.finished, false);
 	await f.context.api.TargetingPanel.DEFAULT_OPTIONS.actions.complete.call(panel);
 	assert.equal(f.activation.finished, true);
@@ -927,8 +938,9 @@ test("committed attack stays open with its results and full power until damage a
 test("damage total and completion stay hidden until evaluation and Dice So Nice finish", async () => {
 	const f = fixture();
 	f.activation.targets = [f.target];
-	f.activation.phase = "results";
-	f.activation.resultsConfirmed = true;
+	enterReview(f.activation);
+	f.activation.transition("confirmingResults");
+	f.activation.transition("readyForDamage");
 	f.item.hasDamage = true;
 	const panel = Object.create(f.context.api.TargetingPanel.prototype);
 	panel.session = f.activation;
@@ -951,29 +963,33 @@ test("damage total and completion stay hidden until evaluation and Dice So Nice 
 	const pending = f.activation.rollDamage({});
 	await Promise.resolve();
 	await Promise.resolve();
-	assert.equal((await panel._prepareContext()).hasDamageTotal, false);
+	await new Promise(resolve => setImmediate(resolve));
+	assert.equal((await panel._prepareContext()).damageResults.length, 0);
 	assert.equal(f.activation.canComplete(), false);
 	roll.total = 23;
-	publish({ id: "damage", rolls: [{ total: 23 }] });
+	publish({ id: "damage", flags: { [MODULE_ID]: { damageReview: { type: "normal" } } }, rolls: [{ total: 23 }], async update() {} });
 	await animation;
-	assert.equal((await panel._prepareContext()).hasDamageTotal, false);
+	assert.equal((await panel._prepareContext()).damageResults.length, 0);
 	assert.equal(f.activation.busy, true);
 	finish();
 	await pending;
-	assert.equal((await panel._prepareContext()).damageTotal, 23);
+	assert.equal((await panel._prepareContext()).damageResults[0].total, 23);
+	assert.equal(f.activation.canComplete(), false);
+	await f.activation.confirmDamage();
 	assert.equal(f.activation.canComplete(), true);
 });
 
 test("cancelled damage keeps Roll Damage available; an attack without damage can complete", async () => {
 	const f = fixture();
 	f.activation.targets = [f.target];
-	f.activation.phase = "results";
-	f.activation.resultsConfirmed = true;
+	enterReview(f.activation);
+	f.activation.transition("confirmingResults");
+	f.activation.transition("readyForDamage");
 	f.activation.committed = true;
 	f.item.hasDamage = true;
 	f.item.rollDamage = async () => null;
 	await f.activation.rollDamage({});
-	assert.equal(Boolean(f.activation.damageRolled), false);
+	assert.notEqual(f.activation.state, "complete");
 	assert.equal(f.activation.busy, false);
 	assert.equal(f.activation.finished, false);
 	const panel = Object.create(f.context.api.TargetingPanel.prototype);
@@ -981,6 +997,7 @@ test("cancelled damage keeps Roll Damage available; an attack without damage can
 	await f.context.api.TargetingPanel.DEFAULT_OPTIONS.actions.complete.call(panel);
 	assert.equal(f.activation.finished, false);
 	f.item.hasDamage = false;
+	await f.activation.confirmDamage();
 	assert.equal((await panel._prepareContext()).needsDamage, false);
 	await f.context.api.TargetingPanel.DEFAULT_OPTIONS.actions.complete.call(panel);
 	assert.equal(f.activation.finished, true);
@@ -989,8 +1006,9 @@ test("cancelled damage keeps Roll Damage available; an attack without damage can
 test("all misses allow completing without damage while mixed and incomplete results do not", async () => {
 	for (const outcomes of [["miss", "miss"], ["miss", "fumble"], ["miss", "hit"], ["miss", "critical"], ["miss"], []]) {
 		const f = fixture();
-		f.activation.phase = "results";
-	f.activation.resultsConfirmed = true;
+		enterReview(f.activation);
+		f.activation.transition("confirmingResults");
+		f.activation.transition("readyForDamage");
 		f.activation.committed = true;
 		f.activation.targets = [f.target, f.far];
 		f.item.hasDamage = true;
@@ -1005,13 +1023,14 @@ test("all misses allow completing without damage while mixed and incomplete resu
 		const expected = outcomes.length === 2 && outcomes.every(outcome => ["miss", "fumble"].includes(outcome));
 		const display = await panel._prepareContext();
 		assert.equal(display.needsDamage, true);
-		assert.equal(display.canComplete, expected);
-		f.activation.busy = true;
+		assert.equal(display.canComplete, false);
+		assert.equal(display.canConfirmDamage, true);
+		f.activation.transition("rollingDamage");
 		assert.equal(f.activation.canComplete(), false);
-		f.activation.busy = false;
+		f.activation.transition("readyForDamage");
+		await f.activation.confirmDamage();
 		await f.context.api.TargetingPanel.DEFAULT_OPTIONS.actions.complete.call(panel);
-		assert.equal(f.activation.finished, expected);
-		assert.equal(Boolean(f.activation.damageRolled), false);
+		assert.equal(f.activation.finished, true);
 	}
 });
 
@@ -1083,6 +1102,7 @@ test("attack results detach the range mask before destroying its graphics geomet
 	const overlay = { mask, clear() {}, destroy() {} };
 	f.activation.graphics = overlay;
 	f.activation.rangeMask = mask;
+	f.activation.transition("attackDialog");
 	await f.activation.complete({ keepOpen: true });
 	// PIXI's next mask pass reads geometry.graphicsData, even on an empty overlay.
 	assert.doesNotThrow(() => overlay.mask?.geometry.graphicsData);
@@ -1111,21 +1131,21 @@ test("target dialog waits for every attack animation before transforming, withou
 		};
 		const attack = f.activation.attack();
 		await started;
-		assert.equal(f.activation.phase, "targeting");
+		assert.equal(f.activation.view.screen, "targeting");
 		assert.equal(f.activation.busy, true);
-		assert.equal(f.activation.waitingForDice, true);
+		assert.equal(f.activation.state, "rollingAttack");
 		assert.deepEqual(releases.map(entry => entry.id), ["attack-one", "attack-two"]);
 		releases[0].resolve();
 		await Promise.resolve();
-		assert.equal(f.activation.phase, "targeting");
+		assert.equal(f.activation.view.screen, "targeting");
 		if (disposed) {
 			await f.activation.dispose(false);
 		}
 		releases[1].resolve();
 		await attack;
-		assert.equal(f.activation.phase, disposed ? "targeting" : "results");
+		assert.equal(f.activation.view.screen, disposed ? "closed" : "results");
 		assert.equal(f.activation.finished, disposed);
-		assert.equal(f.activation.waitingForDice, false);
+		assert.notEqual(f.activation.state, "rollingAttack");
 	}
 });
 
@@ -1167,7 +1187,7 @@ test("legacy origins stay custom while explicitly inherited powers ignore saved 
 
 test("detected cover seeds each native target independently and preserves stronger cover", () => {
 	const f = fixture();
-	f.activation.busy = true;
+	f.activation.transition("attackDialog");
 	f.activation.targets = [f.target, f.far];
 	let kind = "cover";
 	f.context.CoverPreview.evaluate = (source, target, mode) => {
@@ -1198,7 +1218,7 @@ test("detected cover seeds each native target independently and preserves strong
 	kind = "cover";
 	const unrelated = bonuses();
 	f.activation.applyDetectedCover({ uuid: "other" }, f.target, { bonuses: unrelated });
-	f.activation.busy = false;
+	f.activation.transition("targeting");
 	f.activation.applyDetectedCover(f.item, f.target, { bonuses: unrelated });
 	assert.deepEqual(unrelated, bonuses());
 });
@@ -1206,22 +1226,22 @@ test("detected cover seeds each native target independently and preserves strong
 
 test("confirmation updates existing chat messages before unlocking damage and can retry failures", async () => {
 	const f = fixture();
-	f.activation.phase = "results";
+	enterReview(f.activation);
 	let fail = true;
 	const updates = [];
 	f.activation.attackMessages = [{ async update(change) {
-		assert.equal(f.activation.resultsConfirmed, false);
+		assert.notEqual(f.activation.state, "readyForDamage");
 		if (fail) {
 			throw new Error("Save failed");
 		}
 		updates.push(change);
 	} }];
 	await f.activation.confirmResults();
-	assert.equal(f.activation.resultsConfirmed, false);
+	assert.notEqual(f.activation.state, "readyForDamage");
 	assert.equal(f.activation.busy, false);
 	fail = false;
 	await f.activation.confirmResults();
-	assert.equal(f.activation.resultsConfirmed, true);
+	assert.equal(f.activation.state, "readyForDamage");
 	assert.equal(updates[0][`flags.${MODULE_ID}.attackResults.pending`], false);
 });
 
@@ -1244,7 +1264,7 @@ test("critical-only attacks skip review while mixed and incomplete attacks retai
 		};
 		await f.activation.attack();
 		const automatic = outcomes.length === 2 && outcomes.every(outcome => ["critical", "fumble"].includes(outcome));
-		assert.equal(f.activation.resultsConfirmed, automatic, outcomes.join(","));
+		assert.equal(f.activation.state === "readyForDamage", automatic, outcomes.join(","));
 		assert.equal(updates.length, automatic ? 1 : 0);
 		if (automatic) {
 			assert.equal(updates[0][`flags.${MODULE_ID}.attackResults.pending`], false);
@@ -1264,17 +1284,17 @@ test("critical-only attacks skip review while mixed and incomplete attacks retai
 
 test("critical results reject modifier actions even during mixed-result review", async () => {
 	const f = fixture();
-	f.activation.phase = "results";
+	enterReview(f.activation);
 	f.activation.attackMessages = [{ id: "critical", rolls: [{ options: { multirollData: { critstate: "critical" } } }] }];
 	await f.activation.adjustResult({ dataset: { messageId: "critical", rollIndex: "0" },
 		closest() { assert.fail("Critical results must not read modifier inputs"); } });
-	assert.equal(f.activation.resultsConfirmed, false);
+	assert.notEqual(f.activation.state, "readyForDamage");
 	assert.equal(f.activation.busy, false);
 });
 
 test("review removal updates stored rolls and targets, reconciles effects, and skips review for remaining crits", async () => {
 	const f = fixture();
-	f.activation.phase = "results";
+	enterReview(f.activation);
 	f.activation.targets = [f.target, f.far];
 	f.item.hasDamage = true;
 	const chat = { id: "attack", isOwner: true, visible: true, isContentVisible: true,
@@ -1306,14 +1326,14 @@ test("review removal updates stored rolls and targets, reconciles effects, and s
 	assert.ok(syncs >= 1);
 	assert.deepEqual(chat.flags[MODULE_ID].attackResults.targetIds, [f.far.id]);
 	assert.equal(chat.flags[MODULE_ID].attackResults.pending, false);
-	assert.equal(f.activation.resultsConfirmed, true);
+	assert.equal(f.activation.state, "readyForDamage");
 	assert.equal(f.activation.canComplete(), false);
 	assert.equal(f.item.system.uses.value, 2, "review does not consume another use");
 });
 
 test("removing the final target leaves an empty chat record, reconciles effects and permits completion without damage", async () => {
 	const f = fixture();
-	f.activation.phase = "results";
+	enterReview(f.activation);
 	f.activation.targets = [f.target];
 	f.item.hasDamage = true;
 	const chat = { id: "attack", isOwner: true, flags: { [MODULE_ID]: { attackResults: { targetIds: [f.target.id] } } },
@@ -1331,7 +1351,8 @@ test("removing the final target leaves an empty chat record, reconciles effects 
 	assert.equal(chat.rolls.length, 0);
 	assert.match(chat.content, /All targets removed/);
 	assert.equal(f.activation.targets.length, 0);
-	assert.equal(f.activation.resultsConfirmed, true);
+	assert.equal(f.activation.state, "readyForDamage");
+	await f.activation.confirmDamage();
 	assert.equal(f.activation.canComplete(), true);
 	const panel = Object.create(f.context.api.TargetingPanel.prototype);
 	panel.session = f.activation;
@@ -1340,7 +1361,7 @@ test("removing the final target leaves an empty chat record, reconciles effects 
 
 test("result adjustments reconcile effects after persisting the verdict, and failed reconciliation blocks confirmation", async () => {
 	const f = fixture();
-	f.activation.phase = "results";
+	enterReview(f.activation);
 	f.activation.targets = [f.target];
 	const chat = { id: "attack", rolls: [{ options: { multirollData: { hitstate: "miss" } } }], async update() {} };
 	f.activation.attackMessages = [chat];
@@ -1359,11 +1380,164 @@ test("result adjustments reconcile effects after persisting the verdict, and fai
 		closest: () => ({ querySelector: () => ({ value: "3" }) }) });
 	assert.equal(syncs, 1);
 	assert.equal(f.activation.busy, false);
-	assert.equal(f.activation.resultsConfirmed, false);
+	assert.notEqual(f.activation.state, "readyForDamage");
 	await f.activation.confirmResults();
-	assert.equal(f.activation.resultsConfirmed, false);
+	assert.notEqual(f.activation.state, "readyForDamage");
 	assert.ok(f.warnings.some(warning => warning.includes("Effect update failed")));
 	f.context.syncAttackEffects = async () => {};
 	await f.activation.confirmResults();
-	assert.equal(f.activation.resultsConfirmed, true);
+	assert.equal(f.activation.state, "readyForDamage");
+});
+
+test("workflow rejects out-of-order actions and keeps closed sessions terminal", () => {
+	const activation = new ActivationWorkflow();
+	assert.throws(() => activation.transition("rollingDamage"), /Invalid activation transition/);
+	assert.equal(activation.state, "targeting");
+	enterReview(activation);
+	assert.throws(() => activation.transition("targeting"), /Invalid activation transition/);
+	activation.transition("confirmingResults");
+	activation.transition("closed");
+	activation.transition("readyForDamage");
+	assert.equal(activation.state, "closed");
+	assert.equal(activation.busy, false);
+});
+
+test("confirmation finishing after disposal cannot reopen the results panel", async () => {
+	const f = fixture();
+	enterReview(f.activation);
+	let release;
+	f.context.syncAttackEffects = () => new Promise(resolve => { release = resolve; });
+	const pending = f.activation.confirmResults();
+	assert.equal(f.activation.state, "confirmingResults");
+	await f.activation.dispose(false);
+	release();
+	await pending;
+	assert.equal(f.activation.state, "closed");
+	assert.equal(f.activation.canComplete(), false);
+});
+
+
+test("attack confirmation rolls each configured outcome once and requires damage confirmation", async () => {
+	for (const [outcomes, miss, expected, missFormula] of [
+		[["critical", "hit", "miss"], true, ["crit", "normal"]],
+		[["miss", "miss"], false, []],
+		[["miss"], true, ["miss"]],
+		[["hit", "hit"], false, ["normal"]],
+		[["hit", "miss"], false, ["miss", "normal"], "2"],
+	]) {
+		const f = fixture();
+		enterReview(f.activation);
+		f.item.hasDamage = true;
+		f.item.system.miss = { halfDamage: miss, formula: missFormula };
+		f.activation.targets = [f.target];
+		f.activation.attackMessages = [{ visible: true, isContentVisible: true,
+			flags: { [MODULE_ID]: { attackResults: { sessionId: "session", sceneId: "scene", targetIds: [f.target.id] } } },
+			rolls: outcomes.map(outcome => ({ total: 12, options: { multirollData: { targetID: f.target.id, hitstate: outcome, critstate: outcome } } })),
+			async update() {},
+		}];
+		const rolled = [];
+		f.context.rollDamageAndWait = async (item, event, cls, review) => {
+			rolled.push(review.type);
+			return { message: { id: review.type, rolls: [{ total: 20 }], flags: { [MODULE_ID]: { damageReview: review } }, async update() {} } };
+		};
+		await f.activation.confirmResults();
+		assert.deepEqual(rolled, expected);
+		if (miss && outcomes.includes("hit")) {
+			const panel = Object.create(f.context.api.TargetingPanel.prototype);
+			panel.session = f.activation;
+			const hit = (await panel._prepareContext()).damageResults.find(result => result.label === "Hit");
+			assert.equal(hit.sharedMiss, true);
+			assert.equal(hit.missTotal, 10);
+		}
+		assert.equal(f.activation.canComplete(), false);
+		if (!expected.length) {
+			await f.activation.rollDamage({});
+			assert.deepEqual(rolled, ["normal"]);
+		}
+		await f.activation.confirmDamage();
+		assert.equal(f.activation.state, "complete");
+		assert.equal(f.activation.canComplete(), true);
+	}
+});
+
+test("partial damage failures retain successful rolls and block confirmation until retry", async () => {
+	const f = fixture();
+	enterReview(f.activation);
+	f.activation.transition("confirmingResults");
+	f.activation.transition("readyForDamage");
+	f.item.hasDamage = true;
+	f.activation.targets = [f.target];
+	f.activation.attackMessages = [{ visible: true, isContentVisible: true,
+		flags: { [MODULE_ID]: { attackResults: { sessionId: "session", sceneId: "scene", targetIds: [f.target.id] } } },
+		rolls: ["critical", "hit"].map(outcome => ({ total: 12, options: { multirollData: { targetID: f.target.id, critstate: outcome, hitstate: outcome } } })),
+	}];
+	const calls = [];
+	let fail = true;
+	f.context.rollDamageAndWait = async (item, event, cls, review) => {
+		calls.push(review.type);
+		if (review.type === "normal" && fail) {
+			throw new Error("failed");
+		}
+		return { message: { id: review.type, rolls: [{ total: 20 }], flags: { [MODULE_ID]: { damageReview: review } }, async update() {} } };
+	};
+	await f.activation.rollDamage({}, true);
+	await f.activation.confirmDamage();
+	assert.equal(f.activation.state, "reviewingDamage");
+	fail = false;
+	await f.activation.rollDamage({}, true);
+	assert.deepEqual(calls, ["crit", "normal", "normal"]);
+	await f.activation.confirmDamage();
+	assert.equal(f.activation.state, "complete");
+});
+
+
+test("dialog frame title follows targeting, attack, damage review and final confirmation", () => {
+	const f = fixture();
+	const panel = Object.create(f.context.api.TargetingPanel.prototype);
+	panel.session = f.activation;
+	const check = expected => {
+		const options = { window: { resizable: true } };
+		panel._configureRenderOptions(options);
+		assert.equal(options.window.title, `Test attack · ${expected}`);
+		assert.equal(options.window.resizable, true);
+	};
+	check("Select Targets");
+	f.activation.transition("attackDialog");
+	check("Attack dialog open");
+	f.activation.transition("preparingResults");
+	f.activation.transition("reviewingResults");
+	check("Confirm attack");
+	f.activation.transition("confirmingResults");
+	f.activation.transition("readyForDamage");
+	f.activation.transition("rollingDamage");
+	check("Rolling damage…");
+	f.activation.transition("reviewingDamage");
+	check("Confirm damage");
+	f.activation.transition("confirmingDamage");
+	f.activation.transition("complete");
+	check("Damage confirmed");
+});
+
+
+test("damage Apply retains the formula in its field through busy and completed renders", async () => {
+	const f = fixture();
+	enterReview(f.activation);
+	f.activation.transition("confirmingResults");
+	f.activation.transition("readyForDamage");
+	f.activation.transition("rollingDamage");
+	f.activation.transition("reviewingDamage");
+	f.activation.damageMessages = [{ id: "damage", rolls: [{ total: 18 }], flags: { [MODULE_ID]: { damageReview: { type: "normal" } } } }];
+	const panel = Object.create(f.context.api.TargetingPanel.prototype);
+	panel.session = f.activation;
+	const seen = [];
+	f.activation.refresh = () => { seen.push(f.activation.state); };
+	f.context.adjustDamageMessage = async (message, formula) => {
+		assert.equal(formula, "-2");
+		const context = await panel._prepareContext();
+		assert.equal(context.reviewingDamage, true);
+		assert.equal(context.damageResults[0].modifier, "-2");
+	};
+	await f.activation.adjustDamage({ dataset: { messageId: "damage" }, closest: () => ({ querySelector: () => ({ value: "-2" }) }) });
+	assert.equal((await panel._prepareContext()).damageResults[0].modifier, "-2");
+	assert.deepEqual(seen, ["updatingDamage", "reviewingDamage"]);
 });
