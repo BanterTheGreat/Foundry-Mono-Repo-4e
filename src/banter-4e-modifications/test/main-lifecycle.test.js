@@ -65,3 +65,21 @@ test("module entry point registers settings, sockets, and enabled feature hooks"
   assert.equal(handlers.on.get("createActiveEffect")?.length ?? 0, 0);
   assert.equal(handlers.on.get("deleteCombat")?.length ?? 0, 0);
 });
+
+
+test("disabled Player Defense registers no interception or player-popup hooks", async () => {
+  const handlers = new Map();
+  globalThis.Hooks = { on(name, callback) {
+    const list = handlers.get(name) ?? [];
+    list.push(callback);
+    handlers.set(name, list);
+  }, once() {} };
+  globalThis.game = { settings: { register() {}, get: () => false } };
+  await import(`../scripts/main.js?disabled-defense=${Date.now()}`);
+  for (const callback of handlers.get("i18nInit")) {
+    callback();
+  }
+  assert.equal(handlers.has("dnd4e.rollAttack"), false);
+  assert.equal(handlers.has("preCreateChatMessage"), false);
+  assert.equal(handlers.get("renderChatMessageHTML").length, 2);
+});

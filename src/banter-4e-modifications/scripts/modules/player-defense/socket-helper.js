@@ -2,7 +2,7 @@ import { Logger } from "../../shared/logger.js";
 import { TRIGGER_PROMPT_FLAG } from "../trigger-prompts/constants.js";
 import { toTriggerAttackOutcome } from "./player-defense-outcome.js";
 import { PlayerDefenseEffects } from "./player-defense-effects.js";
-import { replacePendingDefenseCard } from "./player-defense-chat.js";
+import { replacePendingDefenseCard, renderDefenseTarget, renderManagedDefenseMessage } from "./player-defense-chat.js";
 
 // EVERYTHING HERE SHOULD ONLY BE CALLED ON THE GM'S INSTANCE USING SOCKETLIB.
 /**
@@ -45,6 +45,35 @@ export class SocketHelper {
     }
 
     /**
+     * Serialize GM defense modifiers alongside incoming player responses.
+     * @param {string} messageId Pending automation attack message.
+     * @param {string} tokenId Defender's scene-token ID.
+     * @param {number} modifier Flat adjustment to the original defense total.
+     * @returns {Promise<void>}
+     */
+    static async adjustDefenseTarget(messageId, tokenId, modifier) {
+        return SocketHelper.#queueUpdate(async () => {
+            const message = game.messages.get(messageId);
+            const context = message?.flags?.["dnd4e-health-display"]?.attackResults;
+            const defense = message?.flags?.playerDefense;
+            const targets = foundry.utils.deepClone(defense?.targets ?? []);
+            const target = targets.find(entry => entry.tokenId === tokenId);
+            if (!game.user.isGM || !context?.pending || !context.targetIds.includes(tokenId)
+                || !target?.resolved || !Number.isFinite(modifier) || [1, 20].includes(target.natural)) {
+                throw new Error("This defense cannot be adjusted.");
+            }
+            target.rolledTotal ??= target.total;
+            delete target.postAttackModifier;
+            target.postDefenseModifier = modifier;
+            target.total = target.rolledTotal + modifier;
+            target.outcome = target.total < target.rollDC ? "normal" : "miss";
+            const content = renderManagedDefenseMessage({ flags: { ...message.flags, playerDefense: { ...defense, targets } },
+                rolls: message.rolls }, context.targetIds);
+            await message.update({ content, "flags.playerDefense.targets": targets });
+        });
+    }
+
+    /**
      * Marks a target's one allowed dialog attempt.
      *
      * @param {string} messageId
@@ -58,12 +87,14 @@ export class SocketHelper {
             const targets = defense?.targets;
             const target = targets?.find(entry => entry.id === targetId);
 
-            if (!target || target.dialogAttempted) {
+            if (!target || target.dialogAttempted || (defense.automationManaged
+                && !message.flags?.["dnd4e-health-display"]?.attackResults?.targetIds?.includes(target.tokenId))) {
                 return false;
             }
 
             target.dialogAttempted = true;
-            await message.update({ flags: { ...message.flags, playerDefense: { ...defense, targets } } });
+            await message.update(defense.automationManaged ? { "flags.playerDefense.targets": targets }
+                : { flags: { ...message.flags, playerDefense: { ...defense, targets } } });
             Logger.info("Attempted defense dialog", { messageId, targetId });
             return true;
         });
@@ -77,9 +108,11 @@ export class SocketHelper {
      * @param {string} targetId
      * @param {"normal"|"critical"|"miss"} outcome
      * @param {string} resultHtml
+     * @param {{total: number, natural: number, rollHtml?: string, roll?: string}|null} result
+     *   Evaluated defense values; managed outcomes are recalculated and persisted by the GM.
      * @returns {Promise<boolean>}
      */
-    static async resolveDefenseTarget(messageId, targetId, outcome, resultHtml) {
+    static async resolveDefenseTarget(messageId, targetId, outcome, resultHtml, result = null) {
         return SocketHelper.#queueUpdate(async () => {
             const message = game.messages.get(messageId);
             const defense = message?.flags?.playerDefense;
@@ -99,8 +132,41 @@ export class SocketHelper {
                 Logger.error("Defense result could not find its pending chat target", { messageId, targetId });
                 return false;
             }
+            if (defense.automationManaged) {
+                const context = message.flags?.["dnd4e-health-display"]?.attackResults;
+                if (!context?.pending || !context.targetIds.includes(target.tokenId)
+                    || !Number.isFinite(result?.total) || !Number.isInteger(result?.natural)
+                    || result.natural < 1 || result.natural > 20) {
+                    return false;
+                }
+                // Store structured results for the automation owner, never start a second workflow.
+                target.resolved = true;
+                target.outcome = result.natural === 1 ? "critical" : result.natural === 20
+                    ? "miss" : result.total < target.rollDC ? "normal" : "miss";
+                target.total = result.total;
+                target.rolledTotal = result.total;
+                target.natural = result.natural;
+                target.rollHtml = result.rollHtml ?? "";
+                const resultCard = renderDefenseTarget(target, defense.attackName, {
+                    outcome: target.outcome, total: target.total, natural: target.natural, rollHtml: target.rollHtml,
+                });
+                const changes = { content: replacePendingDefenseCard(message.content, target.id, resultCard),
+                    "flags.playerDefense.targets": targets };
+                if (result.roll) {
+                    const roll = Roll.fromJSON(result.roll);
+                    roll.options.banterDefenseTarget = target.tokenId;
+                    changes.rolls = [...message.rolls, roll];
+                }
+                await message.update(changes);
+                return true;
+            }
             target.resolved = true;
             target.outcome = outcome;
+            if (result) {
+                target.total = result.total;
+                target.natural = result.natural;
+                target.rollHtml = result.rollHtml ?? "";
+            }
 
             const effectCondition = outcome === "miss" ? "miss" : "hit";
             const selfEffectsApplied = defense.selfEffectsApplied ?? {};

@@ -227,3 +227,107 @@ test("removing a target preserves other rolls, clears cached multiroll HTML and 
 	chat.isOwner = false;
 	await assert.rejects(removeAttackTarget(chat, "wolf"), /own/);
 });
+
+
+test("managed defenses combine delayed PC verdicts with native NPC results and honor removal", () => {
+	const chat = message();
+	chat.flags[MODULE_ID].attackResults.targetIds.push("hero");
+	const target = { tokenId: "hero", resolved: false };
+	chat.flags.playerDefense = { automationManaged: true, targets: [target] };
+	assert.deepEqual(messageAttackResults(chat, "scene")[1], {
+		tokenId: "hero", total: null, outcome: "pending", label: "AWAITING DEFENSE", defense: true,
+	});
+	for (const [stored, expected] of [["normal", "hit"], ["critical", "critical"], ["miss", "miss"]]) {
+		Object.assign(target, { resolved: true, total: 23, outcome: stored });
+		assert.equal(messageAttackResults(chat, "scene")[1].outcome, expected);
+		assert.equal(messageAttackResults(chat, "scene")[0].outcome, "hit");
+	}
+	chat.flags[MODULE_ID].attackResults.targetIds = ["wolf"];
+	assert.equal(messageAttackResults(chat, "scene").length, 1);
+	chat.flags.playerDefense.automationManaged = false;
+	chat.flags[MODULE_ID].attackResults.targetIds.push("hero");
+	assert.equal(messageAttackResults(chat, "scene").length, 1);
+});
+
+
+test("message updates cannot reveal badges while the attack dice animation is still running", async t => {
+  const hooks = new Map();
+  let finish;
+  for (const [key, value] of Object.entries({
+    canvas: { ready: true, scene: { id: "scene" } },
+    game: { socket: { on() {} }, dice3d: { waitFor3DAnimationByMessageID: () => new Promise(resolve => { finish = resolve; }) } },
+    Hooks: { on: (name, callback) => hooks.set(name, callback) },
+  })) {
+    const previous = Object.getOwnPropertyDescriptor(globalThis, key);
+    Object.defineProperty(globalThis, key, { value, configurable: true, writable: true });
+    t.after(() => previous ? Object.defineProperty(globalThis, key, previous) : delete globalThis[key]);
+  }
+  const display = new AttackResults();
+  const shown = [];
+  display.show = chat => shown.push(chat.id);
+  display.register();
+  const chat = message();
+  const initial = hooks.get("createChatMessage")(chat);
+  const update = hooks.get("updateChatMessage")(chat);
+  assert.deepEqual(shown, []);
+  finish();
+  await Promise.all([initial, update]);
+  assert.equal(shown.length, 1);
+});
+
+test("a player awaiting defense has no token result badge or undefined total", t => {
+  const created = [];
+  for (const [key, value] of Object.entries({
+    canvas: { ready: true, scene: { id: "scene" }, tokens: { get: () => ({ isVisible: true, name: "Hero" }) } },
+    document: { createElement: () => ({ children: [], setAttribute() {}, append(child) { this.children.push(child); } }),
+      body: { append: element => created.push(element) } },
+  })) {
+    const previous = Object.getOwnPropertyDescriptor(globalThis, key);
+    Object.defineProperty(globalThis, key, { value, configurable: true, writable: true });
+    t.after(() => previous ? Object.defineProperty(globalThis, key, previous) : delete globalThis[key]);
+  }
+  const chat = message();
+  chat.rolls = [];
+  chat.flags.playerDefense = { automationManaged: true, targets: [{ tokenId: "wolf", resolved: false }] };
+  const display = new AttackResults();
+  display.update = () => {};
+  display.show(chat);
+  assert.equal(created.length, 0);
+  assert.equal(display.entries.size, 0);
+});
+
+
+test("defense badges wait for all local animation batches even with immediate chat display", async t => {
+  const hooks = new Map();
+  for (const [key, value] of Object.entries({
+    canvas: { ready: true, scene: { id: "scene" } },
+    game: { dice3d: { waitFor3DAnimationByMessageID: async () => {} } },
+    Hooks: { on(name, callback) { hooks.set(name, callback); return name; }, off: name => hooks.delete(name) },
+  })) {
+    const previous = Object.getOwnPropertyDescriptor(globalThis, key);
+    Object.defineProperty(globalThis, key, { value, configurable: true, writable: true });
+    t.after(() => previous ? Object.defineProperty(globalThis, key, previous) : delete globalThis[key]);
+  }
+  const display = new AttackResults();
+  const shown = [];
+  display.show = chat => shown.push(chat.id);
+  const chat = message();
+  chat._dice3danimating = true;
+  const pending = display.showAfterAnimation(chat);
+  await new Promise(resolve => setImmediate(resolve));
+  assert.deepEqual(shown, []);
+  hooks.get("diceSoNiceRollComplete")(chat.id);
+  assert.deepEqual(shown, [], "the first batch must not reveal another defender's queued dice");
+  chat._dice3danimating = false;
+  hooks.get("diceSoNiceRollComplete")(chat.id);
+  await pending;
+  assert.deepEqual(shown, [chat.id]);
+  assert.equal(hooks.size, 0);
+  chat._dice3danimating = true;
+  const abandoned = display.showAfterAnimation(chat);
+  await new Promise(resolve => setImmediate(resolve));
+  display.clear();
+  await abandoned;
+  assert.equal(hooks.size, 0);
+  assert.equal(shown.length, 1);
+});

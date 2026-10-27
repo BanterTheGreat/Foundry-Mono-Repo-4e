@@ -118,7 +118,7 @@ Hooks.on("i18nInit", () => {
     Hooks.on("ready", () => game.PlayerDefense = new PlayerDefense());
     Hooks.on("dnd4e.rollAttack", PlayerDefense.OnRollAttack);
     Hooks.on("preCreateChatMessage", PlayerDefense.OnPowerChatMessage);
-    Hooks.on("renderChatMessageHTML", message => PlayerDefense.onRenderDefenseMessage(message, socket));
+    Hooks.on("renderChatMessageHTML", (message, html) => PlayerDefense.onRenderDefenseMessage(message, socket, html));
   }
 });
 

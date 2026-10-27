@@ -1,3 +1,5 @@
+import { requestDamageApplication } from "./damage-application-data.js";
+import { registerDamageApplication } from "./damage-application.js";
 import { publishDamageChat } from "./damage-chat.js";
 import { ActivationWorkflow } from "./workflow.js";
 import { registerAttackEffects, syncAttackEffects } from "./attack-effects.js";
@@ -41,8 +43,10 @@ export async function registerPowerActivation() {
 	registerActorOrigins();
 	attackResults.register();
 	registerDamageReview();
+	registerDamageApplication();
 	sharedAreaPreview.register();
 	Hooks.on("createChatMessage", message => session?.captureAttackResults(message));
+	Hooks.on("updateChatMessage", message => session?.captureAttackResults(message));
 	try {
 		await registerAutomationTab();
 		await registerAttackReview();
@@ -929,6 +933,11 @@ class ActivationSession extends ActivationWorkflow {
 			}
 			if (this.state === "preparingResults") {
 				this.refresh();
+				if (this.hasPendingDefenses()) {
+					this.transition("awaitingDefenses");
+					this.refresh();
+					return;
+				}
 				let applied = false;
 				try {
 					await syncAttackEffects(this);
@@ -1212,11 +1221,22 @@ class ActivationSession extends ActivationWorkflow {
 	/** Retain only this session's chat results; visibility is rechecked when rendering. */
 	captureAttackResults(message) {
 		if (message.flags?.[MODULE_ID]?.attackResults?.sessionId === this.id) {
-			this.attackMessages.push(message);
+			if (!this.attackMessages.some(entry => entry.id === message.id)) {
+				this.attackMessages.push(message);
+			}
+			if (this.state === "awaitingDefenses" && !this.hasPendingDefenses()) {
+				this.transition("reviewingResults");
+			}
 			if (this.view.screen === "results") {
 				this.refresh();
 			}
 		}
+	}
+
+	/** Defense requests belong to persisted session targets, never current selection. */
+	hasPendingDefenses() {
+		return this.attackMessages.some(message => messageAttackResults(message, canvas.scene?.id)
+			.some(result => result.outcome === "pending"));
 	}
 
 	/** Only the final confirmed screen exposes Complete. */
@@ -1239,7 +1259,7 @@ class ActivationSession extends ActivationWorkflow {
 
 	/** Persist confirmation on the existing attack messages before unlocking damage. */
 	async confirmResults() {
-		if (this.state !== "reviewingResults") {
+		if (this.state !== "reviewingResults" || this.hasPendingDefenses()) {
 			return;
 		}
 		this.transition("confirmingResults");
@@ -1251,6 +1271,11 @@ class ActivationSession extends ActivationWorkflow {
 			}
 			this.transition("readyForDamage");
 			await this.rollDamage({}, true);
+			const outcomes = this.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id));
+			if (outcomes.length && outcomes.every(result => ["miss", "fumble"].includes(result.outcome))
+				&& !this.requiredDamageTypes?.length && !this.damageMessages.length) {
+				await this.confirmDamage();
+			}
 		} catch (error) {
 			ui.notifications.error(`Could not confirm attack results: ${error.message}`);
 		} finally {
@@ -1263,7 +1288,7 @@ class ActivationSession extends ActivationWorkflow {
 
 	/** Save one roll adjustment before allowing the damage step. */
 	async adjustResult(target) {
-		if (this.state !== "reviewingResults") {
+		if (!["reviewingResults", "awaitingDefenses"].includes(this.state)) {
 			return;
 		}
 		const message = this.attackMessages.find(entry => entry.id === target.dataset.messageId);
@@ -1277,19 +1302,23 @@ class ActivationSession extends ActivationWorkflow {
 			if (!input.value.trim()) {
 				throw new Error("Enter a numeric modifier.");
 			}
-			await adjustAttackMessage(message, rollIndex, Number(input.value));
+			if (target.dataset.tokenId && message.flags?.playerDefense?.automationManaged) {
+				await game.PlayerDefense.adjustDefenseTarget(message, target.dataset.tokenId, Number(input.value));
+			} else {
+				await adjustAttackMessage(message, rollIndex, Number(input.value));
+			}
 			await syncAttackEffects(this);
 		} catch (error) {
 			ui.notifications.error(error.message);
 		} finally {
-			this.transition("reviewingResults");
+			this.transition(this.hasPendingDefenses() ? "awaitingDefenses" : "reviewingResults");
 			this.refresh();
 		}
 	}
 
 	/** Remove a reviewed target from stored rolls and reconcile only this activation's effects. */
 	async removeReviewTarget(tokenId) {
-		if (this.state !== "reviewingResults") {
+		if (!["reviewingResults", "awaitingDefenses"].includes(this.state)) {
 			return;
 		}
 		this.transition("updatingResults");
@@ -1304,7 +1333,7 @@ class ActivationSession extends ActivationWorkflow {
 		} catch (error) {
 			ui.notifications.error(`Could not remove attack target: ${error.message}`);
 		} finally {
-			this.transition("reviewingResults");
+			this.transition(this.hasPendingDefenses() ? "awaitingDefenses" : "reviewingResults");
 			if (!this.targets.length) {
 				await this.confirmResults();
 			} else {
@@ -1462,6 +1491,7 @@ class ActivationSession extends ActivationWorkflow {
 				await message.update({ [`flags.${MODULE_ID}.damageReview.pending`]: false });
 			}
 			await this.persistTargetDamage(false);
+			await requestDamageApplication(this);
 			this.transition("complete");
 		} catch (error) {
 			this.transition("reviewingDamage");
@@ -1625,10 +1655,12 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 					const token = canvas.tokens.get(result.tokenId);
 					const modifier = activation.targetDamageModifiers.get(result.tokenId);
 					const damageTotal = targetDamageTotal(activation.damageMessages, result.outcome, activation.sharedMissDamage, modifier?.total, activation.requiredDamageTypes);
-					return { ...result, fixedOutcome: ["critical", "fumble"].includes(result.outcome),
-						canAdjust: activation.view.reviewing && !["critical", "fumble"].includes(result.outcome),
+					const defenseTarget = result.defense ? message.flags.playerDefense.targets.find(target => target.tokenId === result.tokenId) : null;
+					return { ...result, fixedOutcome: ["critical", "fumble"].includes(result.outcome) || Boolean(result.defense && [1, 20].includes(defenseTarget?.natural)),
+						canAdjust: ["reviewingResults", "awaitingDefenses"].includes(activation.state) && result.outcome !== "pending" && !["critical", "fumble"].includes(result.outcome)
+							&& (!result.defense || (game.user.isGM && ![1, 20].includes(defenseTarget?.natural))),
 						messageId: message.id, rollIndex: message.rolls.findIndex(roll => roll.options?.multirollData?.targetID === result.tokenId),
-						modifier: message.rolls.find(roll => roll.options?.multirollData?.targetID === result.tokenId)?.options.postAttackModifier ?? 0,
+						modifier: (result.defense ? defenseTarget?.postDefenseModifier : null) ?? message.rolls.find(roll => roll.options?.multirollData?.targetID === result.tokenId)?.options.postAttackModifier ?? 0,
 						name: token?.visible ? token.name : "Unavailable target", img: token?.visible ? token.document.texture?.src : null,
 						damageTotal, hasDamageTotal: !activation.view.reviewing && damageTotal !== null,
 						canAdjustDamage: reviewingDamage && Boolean(activation.item.hasDamage) && damageTotal !== null,
@@ -1662,6 +1694,7 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 			}
 			return {
 				reviewing: activation.view.reviewing,
+				awaitingDefenses: activation.hasPendingDefenses(),
 				hasDamage: Boolean(activation.item.hasDamage),
 				resolved: true, noTargets: !activation.targets.length, powerName: activation.item.name, card: activation.card,
 				resolutionRules: this.resolutionRules,
@@ -1677,8 +1710,9 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 				showDetails: Boolean(this.showDetails), busy: activation.busy,
 				pendingDamage: !activation.view.reviewing && activation.requiredDamageTypes?.some(type => !activation.damageMessages.some(message => message.flags[MODULE_ID].damageReview.type === type)),
 				needsDamage: ["readyForDamage", "reviewingDamage"].includes(activation.state) && activation.targets.length > 0 && activation.item.hasDamage
-					&& (!activation.damageMessages.some(message => message.flags[MODULE_ID].damageReview.type === "normal")
-						|| activation.requiredDamageTypes?.some(type => !activation.damageMessages.some(message => message.flags[MODULE_ID].damageReview.type === type))),
+					&& (activation.requiredDamageTypes
+						? activation.requiredDamageTypes.some(type => !activation.damageMessages.some(message => message.flags[MODULE_ID].damageReview.type === type))
+						: !activation.damageMessages.some(message => message.flags[MODULE_ID].damageReview.type === "normal")),
 				canComplete: activation.state === "complete",
 				status: activation.view.status,
 				results,

@@ -1,4 +1,5 @@
 import { MODULE_ID, SETTING, automationConfig } from "./rules.js";
+import { messageAttackResults } from "./attack-results.js";
 import { loadSystem } from "./system-adapter.js";
 
 const CHANNEL = `module.${MODULE_ID}`;
@@ -50,13 +51,14 @@ export function registerAttackEffects() {
  * The GM verifies the requesting author owns the originating power and session messages.
  */
 export async function syncAttackEffects(activation) {
-	if (!game.settings.get("dnd4e", "autoApplyEffects") || !activation.item.effects?.size) {
+	if ((!game.settings.get("dnd4e", "autoApplyEffects") || !activation.item.effects?.size)
+		&& !activation.attackMessages.some(message => message.flags?.playerDefense?.automationManaged)) {
 		return;
 	}
 	const gm = game.users.activeGM;
 	const request = { type: "attackEffectsRequest", requestId: foundry.utils.randomID(), gmId: gm?.id,
 		userId: game.user.id, sessionId: activation.id, sceneId: canvas.scene.id, itemUuid: activation.item.uuid,
-		messageIds: activation.attackMessages.map(message => message.id) };
+		messageIds: activation.attackMessages.map(message => message.id), finalize: activation.state === "confirmingResults" };
 	if (game.user.isGM || !gm) {
 		return enqueue(request);
 	}
@@ -90,6 +92,15 @@ export async function reconcileAttackEffects(request) {
 			throw new Error("Attack messages no longer match this effect session.");
 		}
 	}
+	const managedDefense = messages.some(message => message.flags?.playerDefense?.automationManaged);
+	if (managedDefense && (!request.finalize || messages.some(message =>
+		messageAttackResults({ flags: message.flags, rolls: message.rolls, visible: true, isContentVisible: true }, scene.id)
+			.some(result => result.outcome === "pending")))) {
+		if (request.finalize) {
+			throw new Error("Wait for every player defense before confirming results.");
+		}
+		return;
+	}
 	const casterId = messages[0].flags[MODULE_ID].attackResults.casterId;
 	const caster = scene.tokens.get(casterId);
 	if (!caster || caster.actor?.uuid !== item.actor.uuid
@@ -117,9 +128,10 @@ export async function reconcileAttackEffects(request) {
 	const seen = new Set();
 	for (const message of messages) {
 		const context = message.flags[MODULE_ID].attackResults;
-		for (const roll of message.rolls ?? []) {
-			const attack = roll.options?.multirollData;
-			if (!attack || !context.targetIds.includes(attack.targetID) || seen.has(attack.targetID)) {
+		for (const result of messageAttackResults({ ...message, flags: message.flags, rolls: message.rolls,
+			visible: true, isContentVisible: true }, scene.id)) {
+			const attack = { targetID: result.tokenId };
+			if (result.outcome === "pending" || seen.has(attack.targetID)) {
 				continue;
 			}
 			seen.add(attack.targetID);
@@ -132,7 +144,7 @@ export async function reconcileAttackEffects(request) {
 			if (disposition !== null) {
 				add(target, target.disposition === disposition ? "allies" : "enemies");
 			}
-			const outcome = ["critical", "fumble", "immune"].includes(attack.critstate) ? attack.critstate : attack.hitstate;
+			const outcome = result.outcome;
 			if (["hit", "critical", "miss", "fumble"].includes(outcome)) {
 				const condition = ["hit", "critical"].includes(outcome) ? "hit" : "miss";
 				add(target, condition);
@@ -172,12 +184,9 @@ export async function reconcileAttackEffects(request) {
 			await actor.deleteEmbeddedDocuments("ActiveEffect", stale);
 		}
 	}
-	if (!game.settings.get("dnd4e", "autoApplyEffects")) {
-		return;
-	}
 	const utils = await loadSystem();
 	for (const [key, entry] of desired) {
-		if (existing.has(key)) {
+		if (!game.settings.get("dnd4e", "autoApplyEffects") || existing.has(key)) {
 			continue;
 		}
 		const tagged = { toObject() {
@@ -189,5 +198,41 @@ export async function reconcileAttackEffects(request) {
 			return data;
 		} };
 		await utils.applyEffectsToTokens([tagged], [{ id: entry.token.id, actor: entry.token.actor }], entry.condition, item.actor);
+	}
+	if (managedDefense) {
+		await finalizeDefenseOutcomes(messages, scene, caster, item, utils);
+	}
+}
+
+/** Finalize attacked-effect expiry and reaction prompts once for each managed session target. */
+async function finalizeDefenseOutcomes(messages, scene, caster, item, utils) {
+	for (const message of messages) {
+		const defense = message.flags?.playerDefense;
+		if (!defense?.automationManaged) {
+			continue;
+		}
+		const finalized = new Set(message.flags[MODULE_ID].attackResults.finalizedTargetIds ?? []);
+		for (const result of messageAttackResults({ flags: message.flags, rolls: message.rolls,
+			visible: true, isContentVisible: true }, scene.id)) {
+			if (finalized.has(result.tokenId) || !["hit", "miss", "critical", "fumble"].includes(result.outcome)) {
+				continue;
+			}
+			const token = scene.tokens.get(result.tokenId);
+			if (!token?.actor) {
+				continue;
+			}
+			finalized.add(result.tokenId);
+			await message.update({ [`flags.${MODULE_ID}.attackResults.finalizedTargetIds`]: [...finalized] });
+			const outcome = ["hit", "critical"].includes(result.outcome) ? "hit" : "miss";
+			if (result.defense) {
+				await utils.endEffectsOnTokens([token.object ?? token], outcome === "hit" ? "attackedhit" : "attackedmiss");
+				await utils.endEffectsOnTokens([token.object ?? token], "attacked");
+			}
+			await game.TriggerPrompts?.handleActiveDefenseOutcome({
+				attackerActorId: caster.actor.id, attackerTokenId: caster.id, sceneId: scene.id,
+				targetActorId: token.actor.id, targetTokenId: token.id, targetSceneId: scene.id,
+				defenseType: item.system.attack?.def, attackRange: defense.attackRange,
+			}, outcome);
+		}
 	}
 }

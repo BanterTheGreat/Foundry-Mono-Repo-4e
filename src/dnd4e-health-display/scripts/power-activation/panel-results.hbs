@@ -10,7 +10,7 @@
 			<div class="power-targeting__attack-cell">
 				<strong class="power-targeting__verdict power-targeting__verdict--{{outcome}}">{{total}} · {{label}}</strong>
 				{{#if canAdjust}}
-				<div class="power-targeting__result-adjustment"><label><span class="power-targeting__sr-only">Attack modifier for {{name}}</span><input type="number" step="any" value="{{modifier}}" {{#if ../busy}}disabled{{/if}}></label><button type="button" data-action="adjustResult" data-message-id="{{messageId}}" data-roll-index="{{rollIndex}}" aria-label="Apply attack modifier for {{name}}" {{#if ../busy}}disabled{{/if}}>Apply</button></div>
+				<div class="power-targeting__result-adjustment"><label><span class="power-targeting__sr-only">{{#if defense}}Defense{{else}}Attack{{/if}} modifier for {{name}}</span><input type="number" step="any" value="{{modifier}}" {{#if ../busy}}disabled{{/if}}></label><button type="button" data-action="adjustResult" {{#if defense}}data-token-id="{{tokenId}}"{{/if}} data-message-id="{{messageId}}" data-roll-index="{{rollIndex}}" aria-label="Apply {{#if defense}}defense{{else}}attack{{/if}} modifier for {{name}}" {{#if ../busy}}disabled{{/if}}>Apply</button></div>
 				{{else}}{{#if fixedOutcome}}<small class="power-targeting__automatic">Automatic</small>{{/if}}{{/if}}
 			</div>
 			<div class="power-targeting__damage-cell">
@@ -35,7 +35,7 @@
 {{else}}<p class="power-targeting__range">No targets remain. This power’s use is already spent.</p>{{/unless}}
 {{/unless}}
 <footer>
-	{{#if reviewing}}<button type="button" data-action="confirmResults" class="is-ready" {{#if busy}}disabled{{/if}}>{{#if hasDamage}}Confirm &amp; Roll Damage{{else}}Confirm Results{{/if}}</button>{{/if}}
+	{{#if reviewing}}<button type="button" data-action="confirmResults" class="is-ready" {{#if busy}}disabled{{else}}{{#if awaitingDefenses}}disabled{{/if}}{{/if}}>{{#if hasDamage}}Confirm &amp; Roll Damage{{else}}Confirm Results{{/if}}</button>{{/if}}
 	{{#if pendingDamage}}<button type="button" data-action="retryDamage" class="is-ready" {{#if busy}}disabled{{/if}}>Retry Damage</button>{{else}}
 	{{#if needsDamage}}<button type="button" data-action="rollDamage" {{#if busy}}disabled{{/if}}>Damage</button>{{/if}}{{/if}}
 	{{#if canConfirmDamage}}<button type="button" data-action="confirmDamage" class="is-ready" {{#if busy}}disabled{{/if}}>Confirm Damage</button>{{/if}}

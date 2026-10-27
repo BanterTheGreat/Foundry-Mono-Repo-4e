@@ -786,3 +786,9 @@
   font: 600 11px/1.4 Arial, sans-serif;
 }
 .banter-target-damage__layer button.banter-roll__apply:disabled { opacity: .5; }
+
+/* Defense verdicts fit the same result column as ordinary attack rows. */
+.banter-roll--defense .banter-roll__score strong {
+  font-size: 18px;
+  white-space: nowrap;
+}

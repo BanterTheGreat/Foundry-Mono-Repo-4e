@@ -36,3 +36,39 @@ export function renderDefenseTarget(target, attackName, result = null) {
   const details = result ? `<div class="banter-defense__calculation"><div>Natural ${escapeLabel(result.natural)} · Required DC ${escapeLabel(target.rollDC)}</div>${result.rollHtml}</div>` : '<div class="banter-defense__calculation">Awaiting defense roll.</div>';
   return `<section class="banter-defense banter-defense--${tone}" data-player-defense-target="${escapeLabel(target.id)}"><details><summary><div class="banter-defense__verdict"><strong>${verdict}</strong><small>${result ? `Total ${escapeLabel(result.total)}` : 'Not rolled'}</small></div><div class="banter-defense__identity"><strong>${escapeLabel(target.actorName)} defends</strong><div>${escapeLabel(attackName)} · ${escapeLabel(target.defenseStat)}</div></div><div class="banter-defense__dc"><small>DC</small><strong>${escapeLabel(target.rollDC)}</strong></div><span class="banter-defense__chevron" aria-hidden="true">›</span></summary>${details}</details>${effect}</section>`;
 }
+
+
+/**
+ * Render the managed session from persisted results, including its ordinary NPC targets.
+ * @param {object} defense GM-persisted playerDefense flag.
+ * @param {string[]} targetIds Remaining automation target identities.
+ * @returns {string}
+ */
+export function renderManagedDefenseContent(defense, targetIds) {
+  const native = (defense.nativeResults ?? []).filter(result => targetIds.includes(result.tokenId)).map(result =>
+    `<section class="banter-defense"><strong>${escapeLabel(result.name)}</strong> &middot; ${escapeLabel(result.total)} &middot; ${escapeLabel(result.label)}</section>`,
+  ).join("");
+  return native + defense.targets.filter(target => targetIds.includes(target.tokenId)).map(target => renderDefenseTarget(
+    { ...target, rollDC: target.rollDC + (target.postAttackModifier ?? 0) }, defense.attackName,
+    target.resolved ? { outcome: target.outcome, total: target.total, natural: target.natural, rollHtml: target.rollHtml ?? "" } : null,
+  )).join("");
+}
+
+
+/**
+ * Reconstruct a mixed session card from current native rolls and persisted defense rolls.
+ * Safe during chat-history rendering before the ready hook creates game.PlayerDefense.
+ * @param {ChatMessage} message Session message.
+ * @param {string[]} targetIds Remaining scene-token IDs.
+ * @returns {string}
+ */
+export function renderManagedDefenseMessage(message, targetIds) {
+  const defense = message.flags.playerDefense;
+  const nativeResults = (message.rolls ?? []).filter(roll => !roll.options?.banterDefenseTarget).map(roll => {
+    const attack = roll.options.multirollData;
+    const outcome = ["critical", "fumble", "immune"].includes(attack.critstate) ? attack.critstate : attack.hitstate;
+    return { tokenId: attack.targetID, name: defense.nativeResults?.find(result => result.tokenId === attack.targetID)?.name ?? "Target",
+      total: roll.total, label: { hit: "HIT", miss: "MISS", critical: "CRIT", fumble: "CRIT FAIL", immune: "IMMUNE" }[outcome] ?? "ATTACK" };
+  });
+  return renderManagedDefenseContent({ ...defense, nativeResults }, targetIds);
+}

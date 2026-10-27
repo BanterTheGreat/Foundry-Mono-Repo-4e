@@ -82,8 +82,10 @@ export async function renderTargetDamage(message, root, ChatRolls) {
       const token = tokens().find(entry => entry.id === target.tokenId);
       calculation.append(ChatRolls.element('div', 'banter-roll__modifier', `${token?.name ?? 'Unavailable target'}: ${target.total}${target.modifierFormula ? ` (${target.modifierFormula})` : ''}`));
     }
-    const button = ChatRolls.element('button', 'banter-roll__apply', 'Apply');
-    button.title = `Apply ${layer.outcome} damage to ${layer.targets.length} target${layer.targets.length === 1 ? '' : 's'}`;
+    let applied = Boolean(message.flags?.['banter-4e-modifications']?.appliedTargetDamage?.[layer.outcome]);
+    const button = ChatRolls.element('button', 'banter-roll__apply', applied ? 'Applied' : 'Apply');
+    button.disabled = applied;
+    button.title = `${applied ? 'Applied' : 'Apply'} ${layer.outcome} damage to ${layer.targets.length} target${layer.targets.length === 1 ? '' : 's'}`;
     button.setAttribute('aria-label', button.title);
     button.type = 'button';
     button.addEventListener('click', async event => {
@@ -113,12 +115,17 @@ export async function renderTargetDamage(message, root, ChatRolls) {
           }
           await ChatRollActions.applyActorDamage(token.actor, parts, 1);
         }
+        applied = true;
+        button.textContent = 'Applied';
+        button.title = `Applied ${layer.outcome} damage to ${layer.targets.length} target${layer.targets.length === 1 ? '' : 's'}`;
+        button.setAttribute('aria-label', button.title);
+        await message.update({ [`flags.banter-4e-modifications.appliedTargetDamage.${layer.outcome}`]: true });
       } catch (error) {
         console.error('Target damage application failed', error);
         ui.notifications.error('Damage application failed. Check target HP before applying again.');
       } finally {
         applying.delete(`${message.id}:${layer.outcome}`);
-        button.disabled = false;
+        button.disabled = applied;
       }
     });
     summary.insertBefore(button, summary.querySelector('.banter-roll__chevron'));

@@ -1,0 +1,35 @@
+<section class="power-damage-application__body">
+	<header class="power-damage-application__intro">
+		<div class="power-damage-application__eyebrow">{{actorName}} · confirmed by {{userName}}</div>
+		<h2>{{name}}</h2>
+		<p>{{count}} affected tokens · {{sceneName}}</p>
+	</header>
+	<div class="power-damage-application__columns" aria-hidden="true"><span>Target / result</span><span>HP → after</span><span>Damage</span><span>Action</span></div>
+	<ol class="power-damage-application__targets">
+		{{#each targets}}
+		<li class="power-damage-application__row {{#if applied}}is-applied{{/if}}" data-damage-token="{{tokenId}}" tabindex="0" aria-label="{{name}}, {{label}}">
+			<div class="power-damage-application__identity">
+				{{#if img}}<img src="{{img}}" alt="" loading="lazy">{{/if}}
+				<div><strong>{{name}}</strong><span class="power-damage-application__verdict power-damage-application__verdict--{{outcome}}">{{label}}</span></div>
+			</div>
+			{{#if unavailable}}<div class="power-damage-application__unavailable">{{status}}</div>{{else}}
+			<div class="power-damage-application__health">
+				{{#if applied}}<strong>{{after}}</strong>{{else}}<strong>{{before}}</strong><span aria-hidden="true"> → </span><strong class="power-damage-application__after">{{after}}</strong>{{/if}}<small> / {{max}}</small>
+				<div class="power-damage-application__bar" aria-hidden="true"><span style="width: {{beforePercent}}%"></span><i style="width: {{afterPercent}}%"></i></div>
+				{{#if hasTemp}}<small class="power-damage-application__temp">Temp {{tempBefore}} → {{tempAfter}}</small>{{/if}}
+			</div>
+			<div class="power-damage-application__damage"><strong>−{{amount}}</strong>{{#if mitigated}}<small>{{raw}} rolled</small>{{/if}}</div>
+			{{/if}}
+			<button type="button" data-action="applyTarget" data-token-id="{{tokenId}}" {{#if disabled}}disabled{{/if}} aria-label="{{status}}: {{name}}">{{status}}</button>
+		</li>
+		{{/each}}
+	</ol>
+	<footer class="power-damage-application__footer">
+		<div class="power-damage-application__summary" aria-live="polite"><span>{{applied}} of {{count}} applied</span><span>{{damageRemaining}} damage remaining</span></div>
+		<div class="power-damage-application__actions">
+			<button type="button" data-action="closeReview">Close</button>
+			<button type="button" class="power-damage-application__all" data-action="applyAll" {{#unless canApply}}disabled{{/unless}}>Apply to All</button>
+		</div>
+			{{#if reviewCount}}<p class="power-damage-application__notice">Some tokens need manual review. Damage will not be retried on an uncertain result.</p>{{/if}}
+	</footer>
+</section>

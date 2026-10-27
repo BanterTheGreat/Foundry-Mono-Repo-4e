@@ -219,3 +219,48 @@
 @media (prefers-reduced-motion: reduce) {
 	.power-attack-result { animation: none; }
 }
+
+/* GM damage ledger: 576px, ten percent narrower than the original prototype. */
+.power-damage-application { color: #eee4cc; border: 1px solid #8f794e; border-radius: .4rem; }
+.power-damage-application .window-header { background: linear-gradient(110deg, #292318, #101010); border-bottom: 1px solid #655433; }
+.power-damage-application .window-content { background: #151514; padding: 0; overflow: hidden; }
+.power-damage-application__body { font: 12px/1.4 Arial, sans-serif; color: #eee4cc; }
+.power-damage-application__intro { padding: 12px 14px; }
+.power-damage-application__eyebrow { color: #c1ae87; font-size: 10px; text-transform: uppercase; letter-spacing: .05em; }
+.power-damage-application__intro h2 { font: 600 21px/1.3 Georgia, serif; color: #eee4cc; margin: 4px 0; border: 0; }
+.power-damage-application__intro p { color: #bbaf97; font-size: 11px; margin: 0; }
+.power-damage-application__columns, .power-damage-application__row { display: grid; grid-template-columns: minmax(140px, 1.5fr) minmax(100px, 1fr) 58px 80px; gap: 9px; align-items: center; padding: 11px 14px; }
+.power-damage-application__columns { background: #211e18; color: #c4b694; font-size: 9px; text-transform: uppercase; padding-block: 7px; border-block: 1px solid #493c26; }
+.power-damage-application__targets { list-style: none; margin: 0; padding: 0; max-height: 330px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #806b42 #20201c; }
+.power-damage-application__row { min-height: 68px; border-bottom: 1px solid #373126; }
+.power-damage-application__row.is-applied { background: #1b2119; }
+.power-damage-application__row:hover, .power-damage-application__row:focus-within { background: #302a1d; box-shadow: inset 3px 0 #d7bb79; }
+.power-damage-application__identity { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.power-damage-application__identity img { object-fit: cover; width: 32px; height: 32px; flex: 0 0 32px; border: 1px solid #8b7650; border-radius: 50%; }
+.power-damage-application__identity strong { overflow-wrap: anywhere; }
+.power-damage-application__verdict { display: block; color: #b6b2ac; font-size: 10px; font-weight: bold; }
+.power-damage-application__verdict--hit { color: #b6d0a2; }
+.power-damage-application__verdict--critical { color: #efd084; }
+.power-damage-application__health { font-variant-numeric: tabular-nums; }
+.power-damage-application__health strong { font: 600 18px/1.25 Georgia, serif; }
+.power-damage-application__after { color: #edbd9e; }
+.power-damage-application small { color: #bbaf97; font-size: 10px; }
+.power-damage-application__temp { display: block; color: #a7c9df !important; margin-top: 3px; }
+.power-damage-application__bar { height: 4px; background: #3f2825; position: relative; margin-top: 5px; }
+.power-damage-application__bar span, .power-damage-application__bar i { position: absolute; left: 0; height: 4px; background: #9d6458; }
+.power-damage-application__bar i { background: #b6c295; }
+.power-damage-application__damage strong { font: 600 19px/1.25 Georgia, serif; color: #ebc28f; }
+.power-damage-application__damage small { display: block; }
+.power-damage-application button, .power-damage-reopen { background: #28251e; color: #eedcba; border: 1px solid #75603c; border-radius: 4px; box-shadow: none; padding: 6px; height: auto; font: 11px/1.3 Arial, sans-serif; }
+.power-damage-application button:hover:not(:disabled) { background: #413723; border-color: #d1b477; }
+.power-damage-application button:disabled { opacity: .6; }
+.power-damage-application button:focus-visible, .power-damage-application__row:focus-visible { outline: 2px solid #e7c980; outline-offset: -2px; }
+.power-damage-application__unavailable { grid-column: span 2; color: #e7b48e; font-size: 11px; }
+.power-damage-application__footer { padding: 12px 14px; background: #201e19; border-top: 1px solid #655433; }
+.power-damage-application__summary { display: flex; justify-content: space-between; margin-bottom: 9px; color: #c4b694; font-size: 11px; }
+.power-damage-application .power-damage-application__all { width: 100%; padding: 11px; background: #5d4c2b; border-color: #b4985f; font-size: 14px; font-weight: bold; }
+
+.power-damage-application__notice { margin: 8px 0 0; color: #e7b48e; font-size: 11px; }
+
+.power-damage-application__actions { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
+.power-damage-application__actions > button { width: 100%; padding: 11px; font-size: 14px; font-weight: bold; }

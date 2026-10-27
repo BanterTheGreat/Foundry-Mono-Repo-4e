@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 import vm from "node:vm";
+import { messageAttackResults } from "../scripts/power-activation/attack-results.js";
 import { MODULE_ID, SETTING } from "../scripts/power-activation/rules.js";
 
 const source = readFileSync(new URL("../scripts/power-activation/attack-effects.js", import.meta.url), "utf8")
@@ -32,10 +33,10 @@ function fixture() {
 	const message = { id: "attack", author: { id: "player" },
 		flags: { [MODULE_ID]: { attackResults: { sessionId: "session", sceneId: "scene", itemUuid: item.uuid,
 			casterId: "caster", effectsManaged: true, targetIds: ["target", "other"] } } },
-		rolls: [{ options: { multirollData: { targetID: "target", hitstate: "hit" } } },
-			{ options: { multirollData: { targetID: "other", hitstate: "miss" } } }],
+		rolls: [{ total: 20, options: { multirollData: { targetID: "target", hitstate: "hit" } } },
+			{ total: 20, options: { multirollData: { targetID: "other", hitstate: "miss" } } }],
 	};
-	const context = vm.createContext({ setTimeout, clearTimeout, MODULE_ID, SETTING, automationConfig: () => ({ enabled: true }),
+	const context = vm.createContext({ setTimeout, clearTimeout, MODULE_ID, SETTING, messageAttackResults, automationConfig: () => ({ enabled: true }),
 		fromUuid: async () => item,
 		game: { user: { id: "gm", isGM: true }, users: { activeGM: { id: "gm" }, get: id => id === "player" ? { id, active: true } : null },
 			scenes: new Map([["scene", scene]]), messages: new Map([["attack", message]]),
@@ -203,4 +204,37 @@ test("without a GM, an owner can reconcile owned actors but cannot mutate unowne
 	await assert.rejects(f.sync(), /GM must be logged in/);
 	assert.equal(f.calls.length, count);
 	assert.ok(f.target.actor.effects.some(effect => effect.name === "hit"), "permissions are checked before deleting effects");
+});
+
+
+test("managed defenses defer effects until confirmation, use defense outcomes, and finalize once", async () => {
+	const f = fixture();
+	const ended = [];
+	const triggered = [];
+	const utils = await f.context.loadSystem();
+	utils.endEffectsOnTokens = async (tokens, condition) => ended.push(condition);
+	f.context.loadSystem = async () => utils;
+	f.context.game.TriggerPrompts = { handleActiveDefenseOutcome: async (context, outcome) => triggered.push([context.targetTokenId, outcome]) };
+	f.item.system = { attack: { def: "ac" } };
+	f.message.update = async data => {
+		f.message.flags[MODULE_ID].attackResults.finalizedTargetIds = data[`flags.${MODULE_ID}.attackResults.finalizedTargetIds`];
+	};
+	f.message.rolls.shift();
+	const target = { tokenId: "target", resolved: false };
+	f.message.flags.playerDefense = { automationManaged: true, targets: [target] };
+	await f.sync();
+	assert.equal(f.calls.length, 0);
+	f.request.finalize = true;
+	await assert.rejects(f.sync(), /Wait for every player defense/);
+	Object.assign(target, { resolved: true, outcome: "critical", total: 3 });
+	await f.sync();
+	assert.ok(names(f.target.actor).includes("hit"));
+	assert.ok(names(f.other.actor).includes("miss"));
+	assert.deepEqual(ended, ["attackedhit", "attacked"]);
+	assert.deepEqual(triggered.sort(), [["other", "miss"], ["target", "hit"]]);
+	const applied = f.calls.length;
+	await f.sync();
+	assert.equal(f.calls.length, applied);
+	assert.equal(ended.length, 2);
+	assert.equal(triggered.length, 2);
 });

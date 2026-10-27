@@ -56,6 +56,11 @@ export class ChatRolls {
       void renderTargetDamage(message, root, ChatRolls).catch(error => console.error('Target damage card failed', error));
       return;
     }
+    if (message.flags?.playerDefense && root?.querySelector
+      && message.flags.playerDefense.targets.every(target => !target.resolved || Number.isFinite(target.total))) {
+      AttackChatCard.renderWithDefenses(message, root, ChatRolls);
+      return;
+    }
     if (root?.querySelector?.('.banter-defense')) {
       root.classList.add('banter-defense-message');
       return;

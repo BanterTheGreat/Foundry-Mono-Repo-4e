@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { ChatRolls } from '../scripts/modules/chat-rolls/chat-rolls.js';
 import { AttackChatCard } from '../scripts/modules/chat-rolls/attack-chat-card.js';
 
 const message = { speaker: { alias: 'Aric' }, rolls: [
@@ -73,4 +74,132 @@ test('multi-target cards receive only one shared action and retain every disclos
   assert.deepEqual(group.children.at(-1).children.map(node => node.textContent), ['3 targets · vs. AC', 'Roll Damage']);
   assert.deepEqual(cards.map(card => card.querySelector('.banter-roll__sentence').textContent),
     ['vs. Enforcer', 'vs. Lookout', 'vs. Captain']);
+});
+
+
+test('one attack card counts both attack and defense rows under the same power', () => {
+  const mixed = { ...message, flags: { playerDefense: { attackName: 'Handaxe', targets: [
+    { tokenId: 'hero', actorName: 'Hero', defenseStat: 'AC', resolved: true, total: 26, outcome: 'miss' },
+  ] } }, rolls: [message.rolls[0]] };
+  assert.equal(AttackChatCard.describe(mixed).targets, 2);
+  assert.equal(AttackChatCard.describe(mixed).power, 'Handaxe');
+});
+
+
+/** Minimal document boundary for exercising the real shared card and row renderers. */
+class Element {
+  constructor(tag, className = '', text = '') {
+    Object.assign(this, { tag, className, textContent: text, children: [], handlers: {}, dataset: {}, style: {} });
+    this.classList = { contains: name => this.className.split(' ').includes(name),
+      add: name => { this.className += ` ${name}`; } };
+  }
+  remove() {
+    if (this.parent) {
+      this.parent.children.splice(this.parent.children.indexOf(this), 1);
+    }
+    this.parent = null;
+  }
+  append(...nodes) {
+    for (const node of nodes) { node.remove(); node.parent = this; this.children.push(node); }
+  }
+  prepend(...nodes) {
+    for (const node of nodes.reverse()) { node.remove(); node.parent = this; this.children.unshift(node); }
+  }
+  before(node) {
+    node.remove();
+    this.parent.children.splice(this.parent.children.indexOf(this), 0, node);
+    node.parent = this.parent;
+  }
+  replaceChildren(...nodes) { for (const child of [...this.children]) child.remove(); this.append(...nodes); }
+  addEventListener(name, callback) { this.handlers[name] = callback; }
+  setAttribute() {}
+  matches(selector) { return selector.startsWith('.') ? this.classList.contains(selector.slice(1)) : this.tag === selector; }
+  closest(selector) { return this.matches(selector) ? this : this.parent?.closest(selector); }
+  querySelectorAll(selector) {
+    const parts = selector.split(' ');
+    const matches = node => {
+      if (!node.matches(parts.at(-1))) {
+        return false;
+      }
+      let parent = node.parent;
+      for (const part of parts.slice(0, -1).reverse()) {
+        while (parent && !parent.matches(part)) parent = parent.parent;
+        if (!parent) {
+          return false;
+        }
+        parent = parent.parent;
+      }
+      return true;
+    };
+    return this.children.flatMap(child => [...(matches(child) ? [child] : []), ...child.querySelectorAll(selector)]);
+  }
+  querySelector(selector) { return this.querySelectorAll(selector)[0] ?? null; }
+  get nextElementSibling() { return this.parent?.children[this.parent.children.indexOf(this) + 1]; }
+}
+
+test('mixed attack and defense use real shared rows, one header/footer, and stable rendering on updates', () => {
+  globalThis.document = { createElement: tag => new Element(tag) };
+  const root = new Element('li', 'message');
+  const content = new Element('div', 'message-content');
+  root.append(content);
+  content.append(new Element('div', 'dice-roll', 'Native attack calculation'));
+  const chat = { id: 'mixed', isContentVisible: true, speaker: { alias: 'Orc' },
+    rolls: [{ total: 19, options: { multirollData: { targetID: 'npc', target: 'Another Orc', def: 'ac', hitstate: 'hit' } } }],
+    flags: { 'dnd4e-health-display': { attackResults: { pending: true, targetIds: ['hero', 'npc'] } },
+      playerDefense: { attackName: 'Handaxe', targets: [{ id: 'hero-0', tokenId: 'hero', actorName: 'Hero', defenseStat: 'AC',
+        resolved: true, total: 26, natural: 16, rollDC: 21, outcome: 'miss', rollHtml: '<div>Defense dice</div>' }] } },
+  };
+  AttackChatCard.renderWithDefenses(chat, root, ChatRolls);
+  assert.equal(root.querySelectorAll('.banter-attack-card').length, 1);
+  assert.equal(root.querySelectorAll('.banter-attack-card__header').length, 1);
+  assert.equal(root.querySelectorAll('.banter-attack-card__footer').length, 1);
+  assert.equal(root.querySelectorAll('.banter-roll--attack').length, 2);
+  assert.equal(root.querySelectorAll('.banter-defense').length, 0);
+  assert.deepEqual(root.querySelectorAll('.banter-roll__sentence').map(node => node.textContent), ['Hero defends', 'vs. Another Orc']);
+  assert.equal(root.querySelector('.banter-roll--defense').querySelector('.banter-roll__score small').textContent, 'Defense 26');
+  assert.equal(root.querySelector('.banter-attack-card__damage').disabled, true);
+  AttackChatCard.renderWithDefenses(chat, root, ChatRolls);
+  assert.equal(root.querySelectorAll('.banter-roll--attack').length, 2, 'legacy and modern render hooks must not duplicate rows');
+  chat.flags.playerDefense.targets[0].total = 28;
+  chat.rolls.push({ total: 26, options: { banterDefenseTarget: 'hero' } });
+  assert.equal(AttackChatCard.targetRows(chat).length, 2, 'stored animation dice must not add another attack row');
+  content.replaceChildren();
+  AttackChatCard.renderWithDefenses(chat, root, ChatRolls);
+  assert.equal(root.querySelector('.banter-roll--defense').querySelector('.banter-roll__score small').textContent, 'Defense 28');
+});
+
+
+test('the defense chat row keeps its result hidden until the local dice animation completes', () => {
+  globalThis.document = { createElement: tag => new Element(tag) };
+  const hooks = new Map();
+  globalThis.Hooks = { on(name, callback) { hooks.set(name, callback); return name; }, off: name => hooks.delete(name) };
+  const root = new Element('li', 'message');
+  const content = new Element('div', 'message-content');
+  root.append(content);
+  const chat = { id: 'animating-defense', isContentVisible: true, _dice3danimating: true,
+    rolls: [{ total: 26, options: { banterDefenseTarget: 'hero' } }], flags: {
+      playerDefense: { attackName: 'Handaxe', targets: [{ id: 'hero-0', tokenId: 'hero', actorName: 'Hero', defenseStat: 'AC',
+        resolved: true, total: 26, natural: 16, rollDC: 21, outcome: 'miss', rollHtml: 'RESULT DICE', missText: 'RESULT EFFECT' }] },
+    } };
+  AttackChatCard.renderWithDefenses(chat, root, ChatRolls);
+  assert.equal(root.querySelector('.banter-roll__score strong').textContent, 'Waiting');
+  assert.equal(root.querySelector('.banter-roll__score small').textContent, 'Awaiting roll');
+  assert.equal(root.querySelectorAll('.banter-roll__popup').length, 0);
+  hooks.get('diceSoNiceRollComplete')(chat.id);
+  assert.equal(root.querySelector('.banter-roll__score strong').textContent, 'Waiting', 'another queued animation is still running');
+  chat._dice3danimating = false;
+  hooks.get('diceSoNiceRollComplete')(chat.id);
+  assert.equal(root.querySelector('.banter-roll__score strong').textContent, 'Evaded');
+  assert.equal(root.querySelector('.banter-roll__score small').textContent, 'Defense 26');
+  assert.equal(hooks.size, 0);
+  chat.flags.playerDefense.targets.push({ id: 'second-0', tokenId: 'second', actorName: 'Second', defenseStat: 'AC',
+    resolved: true, total: 12, natural: 2, rollDC: 21, outcome: 'normal' });
+  chat.rolls.push({ total: 12, options: { banterDefenseTarget: 'second' } });
+  chat._dice3danimating = true;
+  content.replaceChildren();
+  AttackChatCard.renderWithDefenses(chat, root, ChatRolls);
+  assert.deepEqual(root.querySelectorAll('.banter-roll__score strong').map(node => node.textContent), ['Evaded', 'Waiting']);
+  assert.equal(root.querySelector('.banter-attack-card__damage').disabled, true);
+  hooks.get('canvasTearDown')();
+  assert.equal(hooks.size, 0, 'scene changes remove animation listeners');
 });

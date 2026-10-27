@@ -1,7 +1,8 @@
+import { SocketHelper } from "./socket-helper.js";
 import { Logger } from "../../shared/logger.js";
 import { createDefenseDialogPayload } from "./player-defense-workflow.js";
 import { PlayerDefenseEffects } from "./player-defense-effects.js";
-import { renderDefenseTarget } from "./player-defense-chat.js";
+import { renderDefenseTarget, renderManagedDefenseContent, renderManagedDefenseMessage } from "./player-defense-chat.js";
 
 /**
  * Handles NPC attack interception and the player-defense dialog workflow.
@@ -135,13 +136,16 @@ export class PlayerDefense {
      * @param {Actor} attacker
      * @param {Item} item
      * @param {object[]} targets
+     * @param {object} attackContext Captured NPC attack and deferred effect state.
+     * @param {ChatMessage|null} message Native automation message to modify before creation.
+     * @returns {boolean} Whether to retain the native message.
      */
-  static #createDefenseMessage(attacker, item, targets, attackContext) {
+  static #createDefenseMessage(attacker, item, targets, attackContext, message = null) {
     const { attack, hit, miss } = PlayerDefense.#getPowerDamageData(item);
     const system = item.system ?? item.data?.data ?? {};
     const hasDamage = Boolean(item.hasDamage || hit.isDamage || hit.formula?.trim());
     const hasMissDamage = Boolean(miss.halfDamage || miss.formula?.trim());
-    ChatMessage.create({
+    const data = {
       flavor: `<b>${attacker.name}</b> uses <b>${item.name}</b> VS. <b>${attack.def?.toUpperCase() ?? "?"}</b>!`,
       content: targets.map(target => renderDefenseTarget(target, item.name)).join(""),
       flags: {
@@ -164,7 +168,25 @@ export class PlayerDefense {
           targets,
         },
       },
-    });
+    };
+    if (message?.flags?.["dnd4e-health-display"]?.attackResults?.effectsManaged) {
+      // Keep the native session message and its NPC rolls; PC verdicts arrive later.
+      const ids = new Set(targets.map(target => target.tokenId));
+      data.flags = { ...message.flags, ...data.flags };
+      data.flags.playerDefense.automationManaged = true;
+      data.rolls = message.rolls.filter(roll => !ids.has(roll.options?.multirollData?.targetID));
+      data.flags.playerDefense.nativeResults = data.rolls.map(roll => {
+        const attack = roll.options.multirollData;
+        const outcome = ["critical", "fumble", "immune"].includes(attack.critstate) ? attack.critstate : attack.hitstate;
+        return { tokenId: attack.targetID, name: attackContext.nativeTargetNames?.[attack.targetID] ?? "Target",
+          total: roll.total, label: { hit: "HIT", miss: "MISS", critical: "CRIT", fumble: "CRIT FAIL", immune: "IMMUNE" }[outcome] ?? "ATTACK" };
+      });
+      data.content = renderManagedDefenseContent(data.flags.playerDefense, data.flags["dnd4e-health-display"].attackResults.targetIds);
+      message.updateSource(data);
+      return true;
+    }
+    ChatMessage.create(data);
+    return false;
   }
 
     /**
@@ -218,10 +240,25 @@ export class PlayerDefense {
     game.PlayerDefense.lastAttack = null;
     game.TriggerPrompts?.clearPendingAttackContext();
     const { attack: attackData } = PlayerDefense.#getPowerDamageData(item);
-    const defenseTargets = PlayerDefense.#buildDefenseTargets(targets, rollDC, totalModifier, attacker, attackData.def?.toUpperCase() ?? "?", item, defenseDice);
+    let defenseTargets = PlayerDefense.#buildDefenseTargets(targets, rollDC, totalModifier, attacker, attackData.def?.toUpperCase() ?? "?", item, defenseDice);
     Logger.info("Intercepting NPC attack", { messageId: message.id, attackerId: attacker.id, itemId: item.id, targetIds: defenseTargets.map(target => target.actorId), rollFormula, totalModifier, rollDC });
-    PlayerDefense.#createDefenseMessage(attacker, item, defenseTargets, attack);
-    return false;
+    const managed = message.flags?.["dnd4e-health-display"]?.attackResults?.effectsManaged;
+    if (managed) {
+      defenseTargets = defenseTargets.filter(target => message.rolls.find(roll =>
+        roll.options?.multirollData?.targetID === target.tokenId)?.options.multirollData.critstate !== "immune");
+      for (const target of defenseTargets) {
+        const roll = message.rolls.find(entry => entry.options?.multirollData?.targetID === target.tokenId);
+        if (!roll) {
+          Logger.error("Missing per-target attack roll for active defense", { tokenId: target.tokenId });
+          return false;
+        }
+        const data = PlayerDefense.#getAttackRollData(roll.formula);
+        target.attackModifier = data.totalModifier;
+        target.rollDC = PlayerDefense.#getDefenseDC(data.totalModifier);
+        target.defenseDice = data.defenseDice;
+      }
+    }
+    return PlayerDefense.#createDefenseMessage(attacker, item, defenseTargets, attack, managed ? message : null);
   }
 
     /**
@@ -252,11 +289,33 @@ export class PlayerDefense {
       item,
       targets: targetsData,
       attacker,
+      nativeTargetNames: Object.fromEntries(target.targets.map(token => [token.id, token.name ?? token.actor?.name])),
       deferredEffects: PlayerDefenseEffects.deferAttackEffects(target, targetsData.map(entry => entry.token)),
       attackerTokenId: attackerCombatant?.tokenId ?? speaker.token ?? null,
       sceneId: attackerCombatant?.sceneId ?? canvas.scene?.id ?? null,
     };
     Logger.info("Captured NPC attack", { attackerId: attacker.id, itemId, targetIds: targetsData.map(targetData => targetData.token.actor.id), defenseModifiers: targetsData.map(targetData => targetData.defenseMod) });
+  }
+
+  /**
+   * Render remaining managed targets after automation changes its target roster.
+   * @param {ChatMessage} message Session message; does not mutate documents.
+   * @param {string[]} targetIds Remaining scene-token IDs.
+   * @returns {string}
+   */
+  renderManagedMessage(message, targetIds) {
+    return renderManagedDefenseMessage(message, targetIds);
+  }
+
+  /**
+   * Recalculate a managed defense total without rerolling its die.
+   * @param {ChatMessage} message GM-owned pending session message.
+   * @param {string} tokenId Defender's scene-token ID.
+   * @param {number} modifier Flat adjustment to the player defense total.
+   * @returns {Promise<void>}
+   */
+  async adjustDefenseTarget(message, tokenId, modifier) {
+    return SocketHelper.adjustDefenseTarget(message.id, tokenId, modifier);
   }
 
     /**
@@ -265,10 +324,21 @@ export class PlayerDefense {
      * @param {ChatMessage} message
      * @param {object} socket
      */
-  static onRenderDefenseMessage(message, socket) {
+  static onRenderDefenseMessage(message, socket, html = null) {
     const defense = message.flags?.playerDefense;
     if (!defense?.targets || !socket) {
       return;
+    }
+    if (defense.automationManaged && message.isContentVisible !== false
+        && !game.settings.get("banter-4e-modifications", "enable-compact-chat-rolls")) {
+      const root = html?.[0] ?? html;
+      const content = root?.querySelector?.(".message-content");
+      if (content) {
+        // Foundry renders native NPC rolls in mixed messages; restore the complete session card.
+        content.innerHTML = renderManagedDefenseMessage(message,
+          message.flags["dnd4e-health-display"].attackResults.targetIds);
+        root.classList.add("banter-defense-message");
+      }
     }
 
     defense.targets
@@ -335,7 +405,11 @@ export class PlayerDefense {
     const roll = await defenseRoll.evaluate();
     const diceResult = roll.terms[0].total;
     const totalResult = roll.total;
-    if (game.dice3d) {
+    const managed = message.flags.playerDefense.automationManaged;
+    if (managed) {
+      // Appending this evaluated roll to the session message lets DSN synchronize every client.
+      roll.options.banterDefenseTarget = target.tokenId;
+    } else if (game.dice3d) {
       await game.dice3d.showForRoll(roll, game.user, true);
     }
 
@@ -345,6 +419,8 @@ export class PlayerDefense {
     });
     
     Logger.info("Resolved defense roll", { messageId: message.id, actorId: target.actorId, targetId: target.id, defenseMod: target.defenseMod, rollDC: target.rollDC, diceResult, totalResult, outcome });
-    await socket.executeAsGM("resolveDefenseTarget", message.id, target.id, outcome, resultCard);
+    await socket.executeAsGM("resolveDefenseTarget", message.id, target.id, outcome, resultCard, { total: totalResult, natural: diceResult, rollHtml: await roll.render(),
+      ...(managed ? { roll: JSON.stringify(roll.toJSON()) } : {}),
+    });
   }
 }

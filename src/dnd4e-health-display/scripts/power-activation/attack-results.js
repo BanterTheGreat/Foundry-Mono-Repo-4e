@@ -17,7 +17,7 @@ export function messageAttackResults(message, sceneId) {
 		|| context.sceneId !== sceneId || !Array.isArray(context.targetIds)) {
 		return [];
 	}
-	return (message.rolls ?? []).flatMap(roll => {
+	const native = (message.rolls ?? []).flatMap(roll => {
 		const attack = roll.options?.multirollData;
 		if (!attack?.targetID || !context.targetIds.includes(attack.targetID) || !Number.isFinite(roll.total)) {
 			return [];
@@ -25,6 +25,12 @@ export function messageAttackResults(message, sceneId) {
 		const outcome = LABELS[attack.critstate] ? attack.critstate : LABELS[attack.hitstate] ? attack.hitstate : "attack";
 		return [{ tokenId: attack.targetID, total: roll.total, outcome, label: LABELS[outcome] ?? "ATTACK" }];
 	});
+	const defenses = message.flags?.playerDefense?.automationManaged ? message.flags.playerDefense.targets ?? [] : [];
+	return [...native, ...defenses.filter(target => context.targetIds.includes(target.tokenId)).map(target => {
+		const outcome = !target.resolved ? "pending" : target.outcome === "normal" ? "hit" : target.outcome;
+		return { tokenId: target.tokenId, total: target.total ?? null, outcome,
+			label: outcome === "pending" ? "AWAITING DEFENSE" : LABELS[outcome], defense: true };
+	})];
 }
 
 /** Place above a token, shifting sideways to avoid nearby tokens and earlier badges. */
@@ -48,6 +54,7 @@ export class AttackResults {
 		this.frame = null;
 		this.generation = 0;
 		this.completed = new Map();
+		this.animationWaits = new Map();
 	}
 
 	/** Receive the same chat document on each client; Foundry controls its visibility. */
@@ -59,7 +66,7 @@ export class AttackResults {
 			}
 		});
 		Hooks.on("createChatMessage", message => this.showAfterAnimation(message));
-		Hooks.on("updateChatMessage", message => this.show(message));
+		Hooks.on("updateChatMessage", message => this.showAfterAnimation(message));
 		Hooks.on("canvasTearDown", () => this.clear());
 	}
 
@@ -85,22 +92,60 @@ export class AttackResults {
 
 	/** Wait for this client's message animation, including skipped or disabled dice. */
 	async showAfterAnimation(message) {
-		if (!canvas.ready || !messageAttackResults(message, canvas.scene.id).length) {
+		if (!canvas.ready) {
+			return;
+		}
+		if (!messageAttackResults(message, canvas.scene.id).length) {
+			for (const [tokenId, entry] of this.entries) {
+				if (entry.message.id === message.id) {
+					this.remove(tokenId);
+				}
+			}
+			return;
+		}
+		const existing = this.animationWaits.get(message.id);
+		if (existing) {
+			existing.message = message;
+			return existing.promise;
+		}
+		const dice3d = globalThis.game?.dice3d;
+		if (typeof dice3d?.waitFor3DAnimationByMessageID !== "function") {
+			this.show(message);
 			return;
 		}
 		const generation = this.generation;
-		const dice3d = globalThis.game?.dice3d;
-		if (typeof dice3d?.waitFor3DAnimationByMessageID === "function") {
+		const wait = { message };
+		wait.promise = (async () => {
 			try {
 				await dice3d.waitFor3DAnimationByMessageID(message.id);
+				// DSN emits completion for each batch, including overlapping defense rolls.
+				// Its public wait also skips when immediate chat display is enabled.
+				if (wait.message._dice3danimating && generation === this.generation) {
+					await new Promise(resolve => {
+						const hook = Hooks.on("diceSoNiceRollComplete", id => {
+							if (id === message.id && !wait.message._dice3danimating) {
+								wait.cancel();
+							}
+						});
+						wait.cancel = () => {
+							Hooks.off("diceSoNiceRollComplete", hook);
+							resolve();
+						};
+					});
+				}
 			} catch (error) {
 				console.warn(`${MODULE_ID} | Could not wait for Dice So Nice; showing attack results`, error);
 			}
-		}
-		// A scene change invalidates pending results even when returning to the same scene.
-		if (generation === this.generation) {
-			this.show(message);
-		}
+			// Updates share the original wait and read the latest document after animation.
+			if (generation === this.generation) {
+				this.show(wait.message);
+			}
+			if (this.animationWaits.get(message.id) === wait) {
+				this.animationWaits.delete(message.id);
+			}
+		})();
+		this.animationWaits.set(message.id, wait);
+		return wait.promise;
 	}
 
 	/** Build badges using text nodes; replace a token's earlier result on a new attack. */
@@ -108,7 +153,8 @@ export class AttackResults {
 		if (!canvas.ready) {
 			return;
 		}
-		const results = messageAttackResults(message, canvas.scene.id);
+		const results = messageAttackResults(message, canvas.scene.id)
+			.filter(result => result.outcome !== "pending" && Number.isFinite(result.total));
 		for (const [tokenId, entry] of this.entries) {
 			if (entry.message.id === message.id && !results.some(result => result.tokenId === tokenId)) {
 				this.remove(tokenId);
@@ -190,6 +236,10 @@ export class AttackResults {
 	/** Cancel animation and remove every badge when the scene is torn down. */
 	clear() {
 		this.generation++;
+		for (const wait of this.animationWaits.values()) {
+			wait.cancel?.();
+		}
+		this.animationWaits.clear();
 		this.completed.clear();
 		if (this.frame !== null) {
 			cancelAnimationFrame(this.frame);
@@ -246,8 +296,10 @@ export async function adjustAttackMessage(message, index, modifier) {
 	// Keep an explicit audit label even if the modifier is later returned to zero.
 	const editLabel = `Manually edited (${modifier >= 0 ? "+" : ""}${modifier})`;
 	attack.hittext = `${(attack.hittext ?? "").replace(/ · Manually edited \(.*\)$/, "")} · ${editLabel}`;
-	await message.update({ rolls, content: String(rolls.reduce((total, entry) => total + entry.total, 0)),
-		"flags.dnd4e.-=multi-attack-roll": null });
+	const content = message.flags?.playerDefense?.automationManaged
+		? game.PlayerDefense.renderManagedMessage({ flags: message.flags, rolls }, message.flags[MODULE_ID].attackResults.targetIds)
+		: String(rolls.reduce((total, entry) => total + entry.total, 0));
+	await message.update({ rolls, content, "flags.dnd4e.-=multi-attack-roll": null });
 }
 
 /** Persist target removal in the existing chat document and invalidate native cached multiroll HTML. */
@@ -260,8 +312,11 @@ export async function removeAttackTarget(message, tokenId) {
 		throw new Error("You no longer own this attack message.");
 	}
 	const rolls = message.rolls.filter(roll => roll.options?.multirollData?.targetID !== tokenId);
-	await message.update({ rolls, content: rolls.length ? String(rolls.reduce((total, roll) => total + roll.total, 0))
-		: "<p>All targets removed from this attack.</p>",
+	const remainingIds = context.targetIds.filter(id => id !== tokenId);
+	const content = message.flags?.playerDefense?.automationManaged
+		? game.PlayerDefense.renderManagedMessage(message, remainingIds)
+		: rolls.length ? String(rolls.reduce((total, roll) => total + roll.total, 0)) : "<p>All targets removed from this attack.</p>";
+	await message.update({ rolls, content,
 		[`flags.${MODULE_ID}.attackResults.targetIds`]: context.targetIds.filter(id => id !== tokenId),
 		"flags.dnd4e.-=multi-attack-roll": null });
 }
