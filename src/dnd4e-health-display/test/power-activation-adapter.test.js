@@ -16,6 +16,7 @@ test("alternate-origin rolls retain caster data and bind document methods withou
 	actor.system = { attack: 12 };
 	const source = { id: "summon", document: {} };
 	source.document.object = source;
+	const nativeEffects = [{ id: "hit-effect" }];
 	const item = {
 		actor,
 		async rollAttack(options) {
@@ -24,13 +25,33 @@ test("alternate-origin rolls retain caster data and bind document methods withou
 			assert.equal(this.actor.system.attack, 12);
 			assert.equal(this.actor.getName(), "caster");
 			assert.equal(options.powerActivationSession, "session");
+			// Match item.mjs: the system assigns the embedded collection to roll options.
+			options.powerEffects = this.effects;
+			assert.equal(this.effects, nativeEffects);
+			assert.equal(options.powerEffects.length, 0);
 			assert.equal(actor.token.object.id, "caster");
 			return "roll";
 		},
 	};
+	Object.defineProperty(item, "effects", { value: nativeEffects, writable: false, configurable: false });
 	assert.equal(await adapter.rollFromOrigin(item, source, { powerActivationSession: "session" }), "roll");
+	assert.equal(item.effects, nativeEffects);
 	assert.equal(item.actor, actor);
 	assert.equal(actor.token.object.id, "caster");
+});
+
+test("unmanaged origin rolls retain native effect application", async () => {
+	const adapter = loadAdapter();
+	const effects = [{ id: "native-effect" }];
+	const options = {};
+	const item = { actor: {}, async rollAttack(config) {
+		config.powerEffects = this.effects;
+		assert.equal(config.powerEffects, effects);
+		return "roll";
+	} };
+	Object.defineProperty(item, "effects", { value: effects, writable: false, configurable: false });
+	assert.equal(await adapter.rollFromOrigin(item, { document: {} }, options), "roll");
+	assert.equal(options.powerEffects, effects);
 });
 
 test("summon mode resolves Range without requiring an area or a weapon", async () => {

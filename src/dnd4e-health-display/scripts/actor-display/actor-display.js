@@ -917,6 +917,20 @@ class ExperimentalActorDisplay extends ActorDisplayBase {
 		this.render();
 	}
 
+	/** Close the power list before entering targeting, retaining right-click sheet access. */
+	onPower(event, target) {
+		if (event.button !== 2) {
+			this.onClosePowers();
+		}
+		return super.onPower(event, target);
+	}
+
+	/** Close the power list when sending a power to chat. */
+	onChatPower(event, target) {
+		this.onClosePowers();
+		return super.onChatPower(event, target);
+	}
+
 	/** Close the list, leaving the four category buttons visible. */
 	onClosePowers() {
 		this.activeTab = null;

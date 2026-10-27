@@ -194,3 +194,28 @@ test('overlapping damage dialogs persist their own source before effects expire'
     DamageSourceCapture.snapshot = snapshot;
   }
 });
+
+test('manual attack edits remain explicit even when reset to zero', () => {
+  const message = { speaker: { alias: 'Hero' } };
+  const roll = { total: 18, options: { multirollData: { hitstate: 'hit' }, postAttackModifier: 3 } };
+  assert.equal(describeRoll(message, roll).manualEdit, 'Manually edited (+3)');
+  roll.options.postAttackModifier = 0;
+  assert.equal(describeRoll(message, roll).manualEdit, 'Manually edited (+0)');
+  delete roll.options.postAttackModifier;
+  assert.equal(describeRoll(message, roll).manualEdit, null);
+});
+
+
+test('mixed pending attacks mark only ordinary rolls unconfirmed and clear them after confirmation', () => {
+  const pending = { ...message, flags: { 'dnd4e-health-display': { attackResults: { pending: true } } } };
+  const confirmed = { ...message, flags: { 'dnd4e-health-display': { attackResults: { pending: false } } } };
+  const rolls = ['critical', 'fumble', 'hit', 'miss'].map(outcome => {
+    const roll = attack(20, outcome === 'fumble' || outcome === 'miss' ? 'miss' : 'hit');
+    if (['critical', 'fumble'].includes(outcome)) {
+      roll.options.multirollData.critstate = outcome;
+    }
+    return roll;
+  });
+  assert.deepEqual(rolls.map((roll, index) => describeRoll(pending, roll, index).unconfirmed), [false, false, true, true]);
+  assert.deepEqual(rolls.map((roll, index) => describeRoll(confirmed, roll, index).unconfirmed), [false, false, false, false]);
+});

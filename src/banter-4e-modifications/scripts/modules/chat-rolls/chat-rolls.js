@@ -120,6 +120,12 @@ export class ChatRolls {
     if (model.kind !== 'damage' && model.natural.length) {
       ChatRolls.attachNaturalPopup(score, model);
     }
+    if (model.unconfirmed) {
+      main.append(ChatRolls.element('strong', 'banter-roll__manual-edit', 'Unconfirmed'));
+    }
+    if (model.manualEdit) {
+      main.append(ChatRolls.element('strong', 'banter-roll__manual-edit', model.manualEdit));
+    }
     const chips = ChatRolls.element('div', 'banter-roll__chips');
     for (const badge of model.attackModifiers) {
       const ordinary = !['critical', 'fumble', 'immune'].includes(model.attackOutcome);

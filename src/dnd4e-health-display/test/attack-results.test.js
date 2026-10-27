@@ -164,9 +164,66 @@ test("badges follow movement, replace earlier rolls, expire, and clear on scene 
 	privateChat.isContentVisible = false;
 	tick();
 	assert.equal(display.entries.size, 0);
+	const removedChat = message();
+	hooks.get("createChatMessage")(removedChat);
+	removedChat.rolls = [];
+	removedChat.flags[MODULE_ID].attackResults.targetIds = [];
+	hooks.get("updateChatMessage")(removedChat);
+	assert.equal(display.entries.size, 0, "removed targets lose their result badges immediately");
 	hooks.get("createChatMessage")(message());
 	hooks.get("canvasTearDown")();
 	assert.equal(display.entries.size, 0);
 	assert.equal(frames.size, 0);
 	assert.ok(elements.every(el => el.removed));
+});
+
+test("post-roll modifiers update only the selected roll and preserve special outcomes", async t => {
+	const { adjustAttackMessage } = await import("../scripts/power-activation/attack-results.js");
+	for (const key of ["foundry", "game"]) {
+		const previous = Object.getOwnPropertyDescriptor(globalThis, key);
+		t.after(() => previous ? Object.defineProperty(globalThis, key, previous) : delete globalThis[key]);
+	}
+	class Term { constructor(data) { Object.assign(this, data); } }
+	class SavedRoll {
+		constructor(total, attack) { this._total = total; this.terms = []; this.options = { multirollData: attack }; }
+		get total() { return this._total; }
+		static fromJSON(json) { return Object.assign(new SavedRoll(), JSON.parse(json)); }
+		static getFormula() { return "preserved dice + adjustment"; }
+	}
+	globalThis.foundry = { dice: { terms: { OperatorTerm: Term, NumericTerm: Term } } };
+	globalThis.game = { i18n: { localize: key => key } };
+	for (const special of ["normal", "critical", "fumble", "immune"]) {
+		const chat = { isOwner: true, rolls: [new SavedRoll(14, { reviewDefence: 17, hitstate: "miss", critstate: special }),
+			new SavedRoll(20, { reviewDefence: 17, hitstate: "hit" })],
+			async update(data) { this.rolls = data.rolls; } };
+		await adjustAttackMessage(chat, 0, 3);
+		assert.equal(chat.rolls[0].total, 17);
+		assert.match(chat.rolls[0].options.multirollData.hittext, /Manually edited \(\+3\)/);
+		assert.equal(chat.rolls[1].total, 20);
+		assert.equal(chat.rolls[0].options.multirollData.hitstate, special === "normal" ? "hit" : "miss");
+		assert.equal(chat.rolls[0].options.multirollData.critstate, special);
+		await adjustAttackMessage(chat, 0, 1);
+		assert.equal(chat.rolls[0].total, 15, "editing replaces the previous modifier");
+		assert.equal(chat.rolls[0].options.multirollData.hittext.split("Manually edited").length, 2);
+		assert.equal(chat.rolls[0].options.multirollData.hitstate, "miss");
+		await assert.rejects(adjustAttackMessage(chat, 0, NaN), /numeric modifier/);
+	}
+});
+
+test("removing a target preserves other rolls, clears cached multiroll HTML and updates stored target IDs", async () => {
+	const { removeAttackTarget } = await import("../scripts/power-activation/attack-results.js");
+	const chat = message();
+	chat.isOwner = true;
+	chat.flags[MODULE_ID].attackResults.targetIds.push("badger");
+	const remaining = { total: 18, options: { multirollData: { targetID: "badger", hitstate: "miss" } } };
+	chat.rolls.push(remaining);
+	let change;
+	chat.update = async update => { change = update; };
+	await removeAttackTarget(chat, "wolf");
+	assert.deepEqual(change.rolls, [remaining]);
+	assert.deepEqual(change[`flags.${MODULE_ID}.attackResults.targetIds`], ["badger"]);
+	assert.equal(change.content, "18");
+	assert.equal(change["flags.dnd4e.-=multi-attack-roll"], null);
+	chat.isOwner = false;
+	await assert.rejects(removeAttackTarget(chat, "wolf"), /own/);
 });

@@ -1,4 +1,4 @@
-﻿<section class="power-targeting__body">
+<section class="power-targeting__body">
 	<div class="power-targeting__heading"><strong>{{powerName}}</strong><button type="button" data-action="toggleDetails" aria-expanded="{{showDetails}}" title="Toggle power details"><i class="fa-solid fa-book-open" aria-hidden="true"></i> Details</button></div>
 	{{#unless resolved}}
 	<label class="power-targeting__origin">Origin <select data-origin-selector {{#if busy}}disabled{{/if}}>{{#each originChoices}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{name}}</option>{{/each}}</select></label>
@@ -6,17 +6,35 @@
 	{{#if showDetails}}<div class="power-targeting__card">{{{card}}}</div>{{/if}}
 	{{#if resolved}}
 	{{#if beforeAttackRules}}<details class="power-targeting__before"><summary>Before attack</summary><div class="power-targeting__resolution" role="region" aria-label="Before attack power rules" tabindex="0">{{{beforeAttackRules}}}</div></details>{{/if}}
-	<p class="power-targeting__status" role="status">{{status}}</p>
+	<div class="power-targeting__result-stage"><p class="power-targeting__status" role="status">{{status}}</p><span class="power-targeting__result-count">{{results.length}} targets</span></div>
 	<ul class="power-targeting__targets power-targeting__results">
 		{{#each results}}
-		<li><span class="power-targeting__target-name">{{name}}</span><strong class="power-targeting__verdict power-targeting__verdict--{{outcome}}">{{total}} &middot; {{label}}</strong></li>
+		<li class="power-targeting__result">
+			<div class="power-targeting__result-summary">
+				<div class="power-targeting__target-identity">{{#if img}}<img src="{{img}}" alt="" width="26" height="26">{{/if}}<span class="power-targeting__target-name">{{name}}</span>{{#if ../reviewing}}<button type="button" data-action="removeReviewTarget" data-token-id="{{tokenId}}" aria-label="Remove {{name}}" {{#if ../busy}}disabled{{/if}}>×</button>{{/if}}</div>
+				<strong class="power-targeting__verdict power-targeting__verdict--{{outcome}}">{{total}} &middot; {{label}}</strong>
+			</div>
+			{{#if canAdjust}}
+			<div class="power-targeting__result-adjustment">
+				<label>Mod <input type="number" step="any" value="{{modifier}}" aria-label="Post-roll modifier for {{name}}" {{#if ../busy}}disabled{{/if}}></label>
+				<button type="button" data-action="adjustResult" data-message-id="{{messageId}}" data-roll-index="{{rollIndex}}" aria-label="Apply modifier for {{name}}" {{#if ../busy}}disabled{{/if}}>Apply</button>
+			</div>
+			{{else}}
+			<span class="power-targeting__result-confirmed"><i class="fa-solid fa-check" aria-hidden="true"></i> {{#if fixedOutcome}}Automatic{{else}}Confirmed{{/if}}</span>
+			{{/if}}
+		</li>
 		{{else}}
-		<li class="power-targeting__empty">No visible target results. Check the attack message in chat.</li>
+		<li class="power-targeting__empty">{{#if noTargets}}All targets removed from this attack.{{else}}No visible target results. Check the attack message in chat.{{/if}}</li>
 		{{/each}}
 	</ul>
+	{{#if reviewing}}<p class="power-targeting__review-hint">Adjust any attack total, then confirm all results.</p>{{else}}
+	{{#unless noTargets}}
 	{{#if resolutionRules}}<div class="power-targeting__resolution" role="region" aria-label="Post-attack power rules" tabindex="0">{{{resolutionRules}}}</div>{{/if}}
 	<p class="power-targeting__range power-targeting__damage-summary">{{#if hasDamageTotal}}<span><strong>{{damageTotal}}</strong> damage rolled</span>{{/if}}<span>{{#if needsDamage}}One shared damage roll · Includes miss damage{{else}}Apply damage and effects manually{{/if}}</span></p>
+	{{else}}<p class="power-targeting__range">No targets remain. This power’s use is already spent.</p>{{/unless}}
+	{{/if}}
 	<footer>
+		{{#if reviewing}}<button type="button" data-action="confirmResults" class="is-ready" {{#if busy}}disabled{{/if}}>Confirm Results</button>{{/if}}
 		{{#if needsDamage}}<button type="button" data-action="rollDamage" class="is-ready" {{#if busy}}disabled{{/if}}><i class="fa-solid fa-dice" aria-hidden="true"></i> Roll Damage</button>
 		{{/if}}
 		{{#if canComplete}}<button type="button" data-action="complete" class="is-ready" {{#if busy}}disabled{{/if}}><i class="fa-solid fa-check" aria-hidden="true"></i> Complete</button>{{/if}}
@@ -52,7 +70,7 @@
 	{{#unless summon}}
 	<ul class="power-targeting__targets">
 		{{#each targets}}
-		<li class="{{#if invalid}}is-invalid{{/if}}">{{#if img}}<img src="{{img}}" alt="" width="32" height="32">{{/if}}<span class="power-targeting__target-name">{{name}}{{#each warnings}}<small><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> {{this}}</small>{{/each}}</span><button type="button" data-action="removeTarget" data-token-id="{{id}}" {{#if ../busy}}disabled{{/if}} aria-label="Remove {{name}}">×</button></li>
+		<li class="{{#if invalid}}is-invalid{{/if}}"><div class="power-targeting__target-identity">{{#if img}}<img src="{{img}}" alt="" width="26" height="26">{{/if}}<span class="power-targeting__target-name">{{name}}{{#each warnings}}<small><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> {{this}}</small>{{/each}}</span></div><button type="button" data-action="removeTarget" data-token-id="{{id}}" {{#if ../busy}}disabled{{/if}} aria-label="Remove {{name}}">×</button></li>
 		{{else}}
 		<li class="power-targeting__empty">No targets selected. Use normal canvas targeting controls.</li>
 		{{/each}}

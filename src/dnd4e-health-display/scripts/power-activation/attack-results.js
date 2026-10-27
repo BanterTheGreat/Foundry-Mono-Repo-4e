@@ -8,7 +8,8 @@ const CHANNEL = `module.${MODULE_ID}`;
  * Read only newly created, visible attack messages from a confirmed automation session.
  * DnD4e 0.9.3 copies roll options.flags to the message and stores each target's
  * verdict in roll.options.multirollData. Never infer targets from current selection.
- * The persisted attackResults flag is {sessionId, sceneId, targetIds: string[]}.
+ * The persisted attackResults flag includes {sessionId, sceneId, targetIds: string[], pending,
+ * itemUuid, casterId, effectsManaged}; effect reconciliation reads only this session’s messages.
  */
 export function messageAttackResults(message, sceneId) {
 	const context = message.flags?.[MODULE_ID]?.attackResults;
@@ -58,6 +59,7 @@ export class AttackResults {
 			}
 		});
 		Hooks.on("createChatMessage", message => this.showAfterAnimation(message));
+		Hooks.on("updateChatMessage", message => this.show(message));
 		Hooks.on("canvasTearDown", () => this.clear());
 	}
 
@@ -106,7 +108,13 @@ export class AttackResults {
 		if (!canvas.ready) {
 			return;
 		}
-		for (const result of messageAttackResults(message, canvas.scene.id)) {
+		const results = messageAttackResults(message, canvas.scene.id);
+		for (const [tokenId, entry] of this.entries) {
+			if (entry.message.id === message.id && !results.some(result => result.tokenId === tokenId)) {
+				this.remove(tokenId);
+			}
+		}
+		for (const result of results) {
 			const token = canvas.tokens.get(result.tokenId);
 			if (!token?.isVisible) {
 				continue;
@@ -194,3 +202,66 @@ export class AttackResults {
 }
 
 export const attackResults = new AttackResults();
+
+/** Preserve the exact native defence, including conditional bonuses, for later review. */
+export async function registerAttackReview() {
+	const { default: MultiAttackRoll } = await import("../../../../systems/dnd4e/module/rolls/multi-attack-roll.mjs");
+	const populate = MultiAttackRoll.prototype.populateMultirollData;
+	MultiAttackRoll.prototype.populateMultirollData = function (targets, criticals) {
+		const result = populate.call(this, targets, criticals);
+		this.multirollData.forEach((attack, index) => {
+			attack.reviewDefence = targets.targDefValArray[index];
+		});
+		return result;
+	};
+}
+
+/** Add a flat post-roll adjustment without rolling the original dice again. */
+export async function adjustAttackMessage(message, index, modifier) {
+	if (!message.isOwner || !Number.isFinite(modifier)) {
+		throw new Error("Enter a numeric modifier for an attack message you own.");
+	}
+	const rolls = message.rolls.map(roll => roll.constructor.fromJSON(JSON.stringify(roll)));
+	const original = message.rolls[index];
+	const attack = rolls[index]?.options?.multirollData;
+	if (!attack || !Number.isFinite(attack.reviewDefence)) {
+		throw new Error("This roll has no saved defence. Roll a new attack after reloading the module.");
+	}
+	const previous = original.options.postAttackModifier ?? 0;
+	const delta = modifier - previous;
+	const roll = rolls[index];
+	// Evaluated numeric terms keep the original die results and expose the adjustment in chat.
+	if (delta) {
+		roll.terms.push(new foundry.dice.terms.OperatorTerm({ operator: delta < 0 ? "-" : "+" }),
+			new foundry.dice.terms.NumericTerm({ number: Math.abs(delta), options: { flavor: "Post-roll modifier" } }));
+		roll._formula = roll.constructor.getFormula(roll.terms);
+		roll._total = original.total + delta;
+	}
+	roll.options.postAttackModifier = modifier;
+	attack.total = roll.total;
+	if (!["critical", "fumble", "immune"].includes(attack.critstate) && ["hit", "miss"].includes(attack.hitstate)) {
+		attack.hitstate = roll.total >= attack.reviewDefence ? "hit" : "miss";
+		attack.hittext = game.i18n.localize(attack.hitstate === "hit" ? "DND4E.AttackRollHit" : "DND4E.AttackRollMiss");
+	}
+	// Keep an explicit audit label even if the modifier is later returned to zero.
+	const editLabel = `Manually edited (${modifier >= 0 ? "+" : ""}${modifier})`;
+	attack.hittext = `${(attack.hittext ?? "").replace(/ · Manually edited \(.*\)$/, "")} · ${editLabel}`;
+	await message.update({ rolls, content: String(rolls.reduce((total, entry) => total + entry.total, 0)),
+		"flags.dnd4e.-=multi-attack-roll": null });
+}
+
+/** Persist target removal in the existing chat document and invalidate native cached multiroll HTML. */
+export async function removeAttackTarget(message, tokenId) {
+	const context = message.flags?.[MODULE_ID]?.attackResults;
+	if (!context?.targetIds?.includes(tokenId)) {
+		return;
+	}
+	if (!message.isOwner) {
+		throw new Error("You no longer own this attack message.");
+	}
+	const rolls = message.rolls.filter(roll => roll.options?.multirollData?.targetID !== tokenId);
+	await message.update({ rolls, content: rolls.length ? String(rolls.reduce((total, roll) => total + roll.total, 0))
+		: "<p>All targets removed from this attack.</p>",
+		[`flags.${MODULE_ID}.attackResults.targetIds`]: context.targetIds.filter(id => id !== tokenId),
+		"flags.dnd4e.-=multi-attack-roll": null });
+}

@@ -19,7 +19,7 @@
 			<p class="power-automation__hint">Drag an actor here.</p>
 			{{#if summonActor}}<p class="power-automation__actor">{{summonActor.name}} <button type="button" data-automation-remove="summonActor" {{#unless editable}}disabled{{/unless}}>Remove</button></p>{{/if}}
 		</div>
-		<p class="power-automation__hint">Select one square within the power's Range. Its top-left corner anchors the actor's prototype token. The token is created only on confirmation; permission to create Tokens and use the actor is required.</p>
+		<p class="power-automation__hint">Select one square within the power's Range. Its top-left corner anchors the actor's prototype token. The token is created only on confirmation; ownership of the summoned actor and a logged-in GM are required. The GM creates the token.</p>
 		{{else}}
 		{{#if automationView.area}}
 		<label>Target selection

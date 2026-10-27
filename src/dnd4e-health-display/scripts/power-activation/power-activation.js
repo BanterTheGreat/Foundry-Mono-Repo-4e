@@ -1,5 +1,7 @@
+import { registerAttackEffects, syncAttackEffects } from "./attack-effects.js";
+import { registerSummonSocket, requestSummon, summonGM } from "./summon-socket.js";
 import { CoverPreview } from "./cover-preview.js";
-import { attackResults, messageAttackResults } from "./attack-results.js";
+import { attackResults, messageAttackResults, registerAttackReview, adjustAttackMessage, removeAttackTarget } from "./attack-results.js";
 import { sharedAreaPreview } from "./shared-area-preview.js";
 import { AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin, wallGeometryProblems, hasLineOfEffect } from "./area-geometry.js";
 import { MODULE_ID, SETTING, automationConfig, powerOriginRules, selectionProblems, targetCountProblems, squareDistance, targetFilterProblems } from "./rules.js";
@@ -31,6 +33,8 @@ export async function registerPowerActivation() {
 	if (game.system.id !== "dnd4e") {
 		return;
 	}
+	registerSummonSocket();
+	registerAttackEffects();
 	CoverPreview.register();
 	registerActorOrigins();
 	attackResults.register();
@@ -38,6 +42,7 @@ export async function registerPowerActivation() {
 	Hooks.on("createChatMessage", message => session?.captureAttackResults(message));
 	try {
 		await registerAutomationTab();
+		await registerAttackReview();
 	} catch (error) {
 		console.error(`${MODULE_ID} | Could not extend the native power sheet`, error);
 		ui.notifications.error("Power Automation tab could not load. See the browser console.");
@@ -172,6 +177,7 @@ class ActivationSession {
 		this.wallCells = [];
 		this.phase = "targeting";
 		this.attackMessages = [];
+		this.resultsConfirmed = false;
 	}
 
 	/** Offer visible tokens from the effective origin rules, optionally including the caster. */
@@ -220,8 +226,11 @@ class ActivationSession {
 		if (actor?.pack) {
 			throw new Error("Import the summoned actor into the Actors directory and configure that actor.");
 		}
-		if (!actor || actor.documentName !== "Actor" || !actor.isOwner || !TokenDocument.canUserCreate(game.user)) {
-			throw new Error("Summoning requires an available owned actor and permission to create Tokens.");
+		if (!actor || actor.documentName !== "Actor" || !actor.isOwner) {
+			throw new Error("Summoning requires an available owned actor.");
+		}
+		if (!summonGM()) {
+			throw new Error("A GM must be logged in to place a summoned creature.");
 		}
 		const document = await actor.getTokenDocument({ x: this.origin.x, y: this.origin.y,
 			elevation: this.source.document.elevation, disposition: this.caster.document.disposition });
@@ -241,10 +250,7 @@ class ActivationSession {
 		}
 		this.summonAttempted = true;
 		try {
-			const tokens = await canvas.scene.createEmbeddedDocuments("Token", [this.summonData]);
-			if (!tokens.length) {
-				throw new Error("Token creation was prevented.");
-			}
+			await requestSummon(this);
 		} catch (error) {
 			console.error(`${MODULE_ID} | Summon creation`, error);
 			ui.notifications.warn(`The power is being used, but its summon could not be placed: ${error.message}`);
@@ -884,10 +890,11 @@ class ActivationSession {
 			const options = {
 				event: { shiftKey, clientY: 160 }, powerActivationSession: this.id,
 				flags: { [MODULE_ID]: { attackResults: {
-					sessionId: this.id, sceneId: canvas.scene.id, targetIds: this.targets.map(token => token.id),
+					sessionId: this.id, pending: true, sceneId: canvas.scene.id, targetIds: this.targets.map(token => token.id),
+					itemUuid: this.item.uuid, casterId: this.caster.id, effectsManaged: true,
 				} } },
 			};
-			await (this.source === this.caster ? this.item.rollAttack(options) : rollFromOrigin(this.item, this.source, options));
+			await rollFromOrigin(this.item, this.source, options);
 			if (this.attackRolled && !this.finished) {
 				await this.waitForAttackAnimation();
 			}
@@ -904,6 +911,22 @@ class ActivationSession {
 			}
 		} finally {
 			this.busy = false;
+			if (this.phase === "results") {
+				this.busy = true;
+				this.refresh();
+				let applied = false;
+				try {
+					await syncAttackEffects(this);
+					applied = true;
+				} catch (error) {
+					ui.notifications.error(`Could not apply attack effects: ${error.message}`);
+				} finally {
+					this.busy = false;
+				}
+				if (applied) {
+					await this.confirmCriticalResults();
+				}
+			}
 			this.refresh();
 		}
 	}
@@ -936,7 +959,7 @@ class ActivationSession {
 		await this.placeSummon();
 		await this.placeAreaRegion();
 		await commitPowerUse(this.item);
-		if (game.settings.get("dnd4e", "autoApplyEffects")) {
+		if (!this.item.hasAttack && game.settings.get("dnd4e", "autoApplyEffects")) {
 			const utils = await loadSystem();
 			await utils.applyEffectsToTokens(this.item.effects, [this.caster], "self", this.item.actor);
 			await utils.applyAllXEffectsToTokens(this.item.effects, this.item.actor, new Set(this.targets));
@@ -1131,7 +1154,10 @@ class ActivationSession {
 		if (this.phase !== "results" || this.busy) {
 			return false;
 		}
-		if (this.damageRolled || !this.item.hasDamage) {
+		if (!this.resultsConfirmed) {
+			return false;
+		}
+		if (this.damageRolled || !this.item.hasDamage || !this.targets.length) {
 			return true;
 		}
 		const results = this.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id));
@@ -1140,9 +1166,96 @@ class ActivationSession {
 			&& results.every(result => ["miss", "fumble"].includes(result.outcome));
 	}
 
+	/** Skip manual review only when all selected targets have fixed critical outcomes. */
+	async confirmCriticalResults() {
+		if (this.phase !== "results" || this.resultsConfirmed || this.busy || this.finished) {
+			return;
+		}
+		const results = this.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id));
+		if (this.targets.length > 0 && results.length > 0
+			&& this.targets.every(token => results.some(result => result.tokenId === token.id))
+			&& results.every(result => ["critical", "fumble"].includes(result.outcome))) {
+			await this.confirmResults();
+		}
+	}
+
+	/** Persist confirmation on the existing attack messages before unlocking damage. */
+	async confirmResults() {
+		if (this.phase !== "results" || this.busy || this.finished || this.resultsConfirmed) {
+			return;
+		}
+		this.busy = true;
+		this.refresh();
+		try {
+			await syncAttackEffects(this);
+			for (const message of this.attackMessages) {
+				await message.update({ [`flags.${MODULE_ID}.attackResults.pending`]: false });
+			}
+			this.resultsConfirmed = true;
+		} catch (error) {
+			ui.notifications.error(`Could not confirm attack results: ${error.message}`);
+		} finally {
+			this.busy = false;
+			this.refresh();
+		}
+	}
+
+	/** Save one roll adjustment before allowing the damage step. */
+	async adjustResult(target) {
+		if (this.busy || this.finished || this.resultsConfirmed || this.phase !== "results") {
+			return;
+		}
+		const message = this.attackMessages.find(entry => entry.id === target.dataset.messageId);
+		const rollIndex = Number(target.dataset.rollIndex);
+		if (["critical", "fumble"].includes(message?.rolls[rollIndex]?.options?.multirollData?.critstate)) {
+			return;
+		}
+		const input = target.closest("li").querySelector("input");
+		this.busy = true;
+		try {
+			if (!input.value.trim()) {
+				throw new Error("Enter a numeric modifier.");
+			}
+			await adjustAttackMessage(message, rollIndex, Number(input.value));
+			await syncAttackEffects(this);
+		} catch (error) {
+			ui.notifications.error(error.message);
+		} finally {
+			this.busy = false;
+			this.refresh();
+		}
+	}
+
+	/** Remove a reviewed target from stored rolls and reconcile only this activation's effects. */
+	async removeReviewTarget(tokenId) {
+		if (this.phase !== "results" || this.busy || this.finished || this.resultsConfirmed) {
+			return;
+		}
+		this.busy = true;
+		this.refresh();
+		try {
+			for (const message of this.attackMessages) {
+				await removeAttackTarget(message, tokenId);
+			}
+			this.targets = this.targets.filter(token => token.id !== tokenId);
+			this.syncTargets();
+			await syncAttackEffects(this);
+		} catch (error) {
+			ui.notifications.error(`Could not remove attack target: ${error.message}`);
+		} finally {
+			this.busy = false;
+			if (!this.targets.length) {
+				await this.confirmResults();
+			} else {
+				await this.confirmCriticalResults();
+			}
+			this.refresh();
+		}
+	}
+
 	/** Roll once for the whole attack; cancelling the native dialog leaves damage available. */
 	async rollDamage(event) {
-		if (this.busy || this.finished || this.phase !== "results" || this.damageRolled || !this.item.hasDamage) {
+		if (this.busy || this.finished || this.phase !== "results" || !this.resultsConfirmed || this.damageRolled || !this.item.hasDamage || !this.targets.length) {
 			return;
 		}
 		this.busy = true;
@@ -1230,6 +1343,9 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 			},
 			attack() { return this.session.attack(); },
 			rollDamage(event) { return this.session.rollDamage(event); },
+			removeReviewTarget(event, target) { return this.session.removeReviewTarget(target.dataset.tokenId); },
+			adjustResult(event, target) { return this.session.adjustResult(target); },
+			confirmResults() { return this.session.confirmResults(); },
 			complete() {
 				if (this.session.canComplete()) {
 					return this.session.dispose(false);
@@ -1265,17 +1381,21 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 		if (activation.phase === "results") {
 			this.resolutionRules ??= postAttackRules(activation.card);
 			return {
-				resolved: true, powerName: activation.item.name, card: activation.card,
+				reviewing: !activation.resultsConfirmed,
+				resolved: true, noTargets: !activation.targets.length, powerName: activation.item.name, card: activation.card,
 				resolutionRules: this.resolutionRules,
 				beforeAttackRules: this.beforeAttackRules,
 				hasDamageTotal: Number.isFinite(activation.damageTotal), damageTotal: activation.damageTotal,
 				showDetails: Boolean(this.showDetails), busy: activation.busy,
-				needsDamage: activation.item.hasDamage && !activation.damageRolled,
+				needsDamage: activation.resultsConfirmed && activation.targets.length > 0 && activation.item.hasDamage && !activation.damageRolled,
 				canComplete: activation.canComplete(),
-				status: activation.busy ? "Rolling damage…" : activation.damageRolled ? "Damage rolled" : "Attack resolved",
+				status: !activation.resultsConfirmed ? "Confirm attack" : activation.busy ? "Rolling damage…" : activation.damageRolled ? "Damage rolled" : "Attack resolved",
 				results: activation.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id)
-					.map(result => ({ ...result, name: canvas.tokens.get(result.tokenId)?.visible
-						? canvas.tokens.get(result.tokenId).name : "Unavailable target" }))),
+					.map(result => ({ ...result, fixedOutcome: ["critical", "fumble"].includes(result.outcome),
+						canAdjust: !activation.resultsConfirmed && !["critical", "fumble"].includes(result.outcome), messageId: message.id, rollIndex: message.rolls.findIndex(roll => roll.options?.multirollData?.targetID === result.tokenId),
+						modifier: message.rolls.find(roll => roll.options?.multirollData?.targetID === result.tokenId)?.options.postAttackModifier ?? 0, name: canvas.tokens.get(result.tokenId)?.visible
+						? canvas.tokens.get(result.tokenId).name : "Unavailable target",
+						img: canvas.tokens.get(result.tokenId)?.visible ? canvas.tokens.get(result.tokenId).document.texture?.src : null }))),
 			};
 		}
 		const problems = activation.problems();

@@ -177,6 +177,16 @@ export async function registerAutomationTab() {
  * Bind document methods to their real receiver to preserve private fields and updates.
  */
 export function rollFromOrigin(item, source, options) {
+	if (options.powerActivationSession) {
+		// DnD4e 0.9.3 assigns item.effects to these caller-owned options before rolling.
+		// Keep native application empty here; effects is a non-configurable document property.
+		const deferredEffects = [];
+		Object.defineProperty(options, "powerEffects", {
+			configurable: true, enumerable: true,
+			get: () => deferredEffects,
+			set() {},
+		});
+	}
 	const actor = new Proxy(item.actor, {
 		get(target, key) {
 			if (key === "token") {

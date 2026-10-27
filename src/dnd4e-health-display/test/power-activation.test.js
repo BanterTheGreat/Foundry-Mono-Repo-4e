@@ -2,7 +2,8 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 import vm from "node:vm";
-import { messageAttackResults } from "../scripts/power-activation/attack-results.js";
+import { rollFromOrigin } from "../scripts/power-activation/system-adapter.js";
+import { messageAttackResults, removeAttackTarget } from "../scripts/power-activation/attack-results.js";
 import { AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin, hasLineOfEffect } from "../scripts/power-activation/area-geometry.js";
 import { automationConfig, powerOriginRules, squareDistance, selectionProblems, targetCountProblems, supportsTargetAutomation, targetFilterProblems, MODULE_ID, SETTING } from "../scripts/power-activation/rules.js";
 
@@ -66,9 +67,11 @@ function fixture({ confirm = true, fastForward = false } = {}) {
 		async close() {}
 	}
 	const context = vm.createContext({
+		summonGM: () => ({ id: "gm" }), requestSummon: async activation => activation.summonCreator?.(),
 		console, AbortController, MODULE_ID, SETTING, automationConfig, powerOriginRules, selectionProblems, targetCountProblems, squareDistance, targetFilterProblems,
 		AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin, hasLineOfEffect,
 		CoverPreview: { setContext: value => hooks.push(["coverContext", value]), register() {} },
+		rollFromOrigin, removeAttackTarget, syncAttackEffects: async () => {}, registerAttackEffects() {},
 		attackResults: { register() {}, complete: id => hooks.push(["attackResultsComplete", id]) }, messageAttackResults,
 		sharedAreaPreview: {
 			show: value => hooks.push(["sharedArea", value.id]),
@@ -567,7 +570,8 @@ test("submission commits once even when the native submit callback runs twice", 
 	f.item.rollAttack = async options => {
 		assert.equal(options.event.shiftKey, true);
 		assert.deepEqual(JSON.parse(JSON.stringify(options.flags[MODULE_ID].attackResults)), {
-			sessionId: "session", sceneId: "scene", targetIds: ["target"],
+			sessionId: "session", pending: true, sceneId: "scene", targetIds: ["target"],
+			itemUuid: f.item.uuid, casterId: f.attacker.id, effectsManaged: true,
 		});
 		const app = { rollConfig: { options }, callbackFn: async () => { rolls++; return { total: 20 }; }, close: async () => {} };
 		f.activation.bindAttackDialog(app);
@@ -684,10 +688,11 @@ test("summon confirmation uses the actor prototype once and rejects permission o
 	let permitted = true;
 	let creations = 0;
 	let received;
-	f.context.TokenDocument = { canUserCreate: () => permitted };
+	f.context.summonGM = () => permitted ? { id: "gm" } : null;
 	f.context.fromUuid = async () => ({ documentName: "Actor", isOwner: true,
 		getTokenDocument: async data => ({ toObject: () => ({ ...data, actorId: "summon", width: 2, height: 1 }) }) });
 	f.context.canvas.scene = { async createEmbeddedDocuments(type, data) { creations++; received = data[0]; assert.equal(type, "Token"); return data; } };
+	f.activation.summonCreator = () => f.context.canvas.scene.createEmbeddedDocuments("Token", [f.activation.summonData]);
 	await f.activation.prepareSummon();
 	assert.equal(creations, 0);
 	await f.activation.placeSummon();
@@ -696,7 +701,7 @@ test("summon confirmation uses the actor prototype once and rejects permission o
 	assert.equal(received.x, 200);
 	assert.equal(received.width, 2);
 	permitted = false;
-	await assert.rejects(f.activation.prepareSummon(), /permission/);
+	await assert.rejects(f.activation.prepareSummon(), /GM must be logged in/);
 	permitted = true;
 	f.activation.origin.x = 900;
 	await assert.rejects(f.activation.prepareSummon(), /footprint/);
@@ -858,7 +863,7 @@ test("committed attack stays open with its results and full power until damage a
 	let closed = 0;
 	panel.close = async () => { closed++; };
 	f.item.rollAttack = async () => {
-		f.activation.captureAttackResults({ visible: true, isContentVisible: true,
+		f.activation.captureAttackResults({ async update() {}, visible: true, isContentVisible: true,
 			flags: { [MODULE_ID]: { attackResults: { sessionId: f.activation.id, sceneId: "scene", targetIds: [f.target.id] } } },
 			rolls: [{ total: 12, options: { multirollData: { targetID: f.target.id, hitstate: "miss" } } }],
 		});
@@ -870,11 +875,24 @@ test("committed attack stays open with its results and full power until damage a
 	assert.equal(f.activation.finished, false);
 	assert.equal(closed, 0);
 	panel.showDetails = true;
+	f.target.document.texture = { src: "tokens/badger.webp" };
 	const display = await panel._prepareContext();
 	assert.equal(display.card, "card");
 	assert.equal(display.showDetails, true);
 	assert.equal(display.results[0].label, "MISS");
-	assert.equal(display.needsDamage, true);
+	assert.equal(display.results[0].img, "tokens/badger.webp");
+	f.target.visible = false;
+	const hiddenDisplay = await panel._prepareContext();
+	assert.equal(hiddenDisplay.results[0].img, null);
+	assert.equal(hiddenDisplay.results[0].name, "Unavailable target");
+	f.target.visible = true;
+	assert.equal(display.reviewing, true);
+	assert.equal(display.needsDamage, false);
+	await f.activation.rollDamage({});
+	assert.equal(f.activation.damageRolled, undefined);
+	assert.equal(f.activation.canComplete(), false);
+	await f.context.api.TargetingPanel.DEFAULT_OPTIONS.actions.confirmResults.call(panel);
+	assert.equal((await panel._prepareContext()).needsDamage, true);
 	assert.equal(display.resolutionRules, "resolution-rules");
 	assert.equal(display.beforeAttackRules, "before-attack-rules");
 	assert.equal(display.hasDamageTotal, false);
@@ -908,7 +926,9 @@ test("committed attack stays open with its results and full power until damage a
 
 test("damage total and completion stay hidden until evaluation and Dice So Nice finish", async () => {
 	const f = fixture();
+	f.activation.targets = [f.target];
 	f.activation.phase = "results";
+	f.activation.resultsConfirmed = true;
 	f.item.hasDamage = true;
 	const panel = Object.create(f.context.api.TargetingPanel.prototype);
 	panel.session = f.activation;
@@ -946,7 +966,9 @@ test("damage total and completion stay hidden until evaluation and Dice So Nice 
 
 test("cancelled damage keeps Roll Damage available; an attack without damage can complete", async () => {
 	const f = fixture();
+	f.activation.targets = [f.target];
 	f.activation.phase = "results";
+	f.activation.resultsConfirmed = true;
 	f.activation.committed = true;
 	f.item.hasDamage = true;
 	f.item.rollDamage = async () => null;
@@ -968,10 +990,11 @@ test("all misses allow completing without damage while mixed and incomplete resu
 	for (const outcomes of [["miss", "miss"], ["miss", "fumble"], ["miss", "hit"], ["miss", "critical"], ["miss"], []]) {
 		const f = fixture();
 		f.activation.phase = "results";
+	f.activation.resultsConfirmed = true;
 		f.activation.committed = true;
 		f.activation.targets = [f.target, f.far];
 		f.item.hasDamage = true;
-		f.activation.captureAttackResults({ visible: true, isContentVisible: true,
+		f.activation.captureAttackResults({ async update() {}, visible: true, isContentVisible: true,
 			flags: { [MODULE_ID]: { attackResults: { sessionId: f.activation.id, sceneId: "scene", targetIds: [f.target.id, f.far.id] } } },
 			rolls: outcomes.map((outcome, index) => ({ total: 12, options: { multirollData: {
 				targetID: f.activation.targets[index].id, hitstate: outcome, critstate: outcome,
@@ -1178,4 +1201,169 @@ test("detected cover seeds each native target independently and preserves strong
 	f.activation.busy = false;
 	f.activation.applyDetectedCover(f.item, f.target, { bonuses: unrelated });
 	assert.deepEqual(unrelated, bonuses());
+});
+
+
+test("confirmation updates existing chat messages before unlocking damage and can retry failures", async () => {
+	const f = fixture();
+	f.activation.phase = "results";
+	let fail = true;
+	const updates = [];
+	f.activation.attackMessages = [{ async update(change) {
+		assert.equal(f.activation.resultsConfirmed, false);
+		if (fail) {
+			throw new Error("Save failed");
+		}
+		updates.push(change);
+	} }];
+	await f.activation.confirmResults();
+	assert.equal(f.activation.resultsConfirmed, false);
+	assert.equal(f.activation.busy, false);
+	fail = false;
+	await f.activation.confirmResults();
+	assert.equal(f.activation.resultsConfirmed, true);
+	assert.equal(updates[0][`flags.${MODULE_ID}.attackResults.pending`], false);
+});
+
+test("critical-only attacks skip review while mixed and incomplete attacks retain normal review", async () => {
+	for (const outcomes of [["critical", "fumble"], ["fumble", "fumble"], ["critical", "hit"], ["fumble", "miss"], ["critical"], []]) {
+		const f = fixture();
+		f.activation.targets = [f.target, f.far];
+		f.item.hasDamage = true;
+		const updates = [];
+		f.item.rollAttack = async () => {
+			f.activation.captureAttackResults({ visible: true, isContentVisible: true,
+				async update(change) { updates.push(change); },
+				flags: { [MODULE_ID]: { attackResults: { sessionId: f.activation.id, sceneId: "scene", targetIds: [f.target.id, f.far.id] } } },
+				rolls: outcomes.map((outcome, index) => ({ total: 12, options: { multirollData: {
+					targetID: f.activation.targets[index].id, hitstate: outcome, critstate: outcome,
+				} } })),
+			});
+			f.activation.attackRolled = true;
+			await f.activation.finalizePowerUse();
+		};
+		await f.activation.attack();
+		const automatic = outcomes.length === 2 && outcomes.every(outcome => ["critical", "fumble"].includes(outcome));
+		assert.equal(f.activation.resultsConfirmed, automatic, outcomes.join(","));
+		assert.equal(updates.length, automatic ? 1 : 0);
+		if (automatic) {
+			assert.equal(updates[0][`flags.${MODULE_ID}.attackResults.pending`], false);
+		}
+		const panel = Object.create(f.context.api.TargetingPanel.prototype);
+		panel.session = f.activation;
+		const display = await panel._prepareContext();
+		assert.equal(display.reviewing, !automatic);
+		assert.equal(display.needsDamage, automatic);
+		for (const [index, result] of display.results.entries()) {
+			const fixed = ["critical", "fumble"].includes(outcomes[index]);
+			assert.equal(result.fixedOutcome, fixed);
+			assert.equal(result.canAdjust, !automatic && !fixed);
+		}
+	}
+});
+
+test("critical results reject modifier actions even during mixed-result review", async () => {
+	const f = fixture();
+	f.activation.phase = "results";
+	f.activation.attackMessages = [{ id: "critical", rolls: [{ options: { multirollData: { critstate: "critical" } } }] }];
+	await f.activation.adjustResult({ dataset: { messageId: "critical", rollIndex: "0" },
+		closest() { assert.fail("Critical results must not read modifier inputs"); } });
+	assert.equal(f.activation.resultsConfirmed, false);
+	assert.equal(f.activation.busy, false);
+});
+
+test("review removal updates stored rolls and targets, reconciles effects, and skips review for remaining crits", async () => {
+	const f = fixture();
+	f.activation.phase = "results";
+	f.activation.targets = [f.target, f.far];
+	f.item.hasDamage = true;
+	const chat = { id: "attack", isOwner: true, visible: true, isContentVisible: true,
+		flags: { [MODULE_ID]: { attackResults: { sessionId: f.activation.id, sceneId: "scene", targetIds: [f.target.id, f.far.id] } } },
+		rolls: [f.target, f.far].map((token, index) => ({ total: 20, options: { multirollData: {
+			targetID: token.id, hitstate: "hit", critstate: index ? "critical" : "normal",
+		} } })),
+		async update(change) {
+			if (change.rolls) {
+				this.rolls = change.rolls;
+			}
+			for (const property of ["targetIds", "pending"]) {
+				const key = `flags.${MODULE_ID}.attackResults.${property}`;
+				if (key in change) {
+					this.flags[MODULE_ID].attackResults[property] = change[key];
+				}
+			}
+		},
+	};
+	f.activation.attackMessages = [chat];
+	let syncs = 0;
+	f.context.syncAttackEffects = async activation => {
+		assert.equal(chat.rolls.length, 1);
+		assert.equal(chat.rolls[0].options.multirollData.targetID, f.far.id);
+		assert.deepEqual(Array.from(activation.targets), [f.far]);
+		syncs++;
+	};
+	await f.activation.removeReviewTarget(f.target.id);
+	assert.ok(syncs >= 1);
+	assert.deepEqual(chat.flags[MODULE_ID].attackResults.targetIds, [f.far.id]);
+	assert.equal(chat.flags[MODULE_ID].attackResults.pending, false);
+	assert.equal(f.activation.resultsConfirmed, true);
+	assert.equal(f.activation.canComplete(), false);
+	assert.equal(f.item.system.uses.value, 2, "review does not consume another use");
+});
+
+test("removing the final target leaves an empty chat record, reconciles effects and permits completion without damage", async () => {
+	const f = fixture();
+	f.activation.phase = "results";
+	f.activation.targets = [f.target];
+	f.item.hasDamage = true;
+	const chat = { id: "attack", isOwner: true, flags: { [MODULE_ID]: { attackResults: { targetIds: [f.target.id] } } },
+		rolls: [{ total: 20, options: { multirollData: { targetID: f.target.id } } }],
+		async update(change) {
+			if (change.rolls) {
+				this.rolls = change.rolls;
+				this.content = change.content;
+				this.flags[MODULE_ID].attackResults.targetIds = change[`flags.${MODULE_ID}.attackResults.targetIds`];
+			}
+		},
+	};
+	f.activation.attackMessages = [chat];
+	await f.activation.removeReviewTarget(f.target.id);
+	assert.equal(chat.rolls.length, 0);
+	assert.match(chat.content, /All targets removed/);
+	assert.equal(f.activation.targets.length, 0);
+	assert.equal(f.activation.resultsConfirmed, true);
+	assert.equal(f.activation.canComplete(), true);
+	const panel = Object.create(f.context.api.TargetingPanel.prototype);
+	panel.session = f.activation;
+	assert.equal((await panel._prepareContext()).needsDamage, false);
+});
+
+test("result adjustments reconcile effects after persisting the verdict, and failed reconciliation blocks confirmation", async () => {
+	const f = fixture();
+	f.activation.phase = "results";
+	f.activation.targets = [f.target];
+	const chat = { id: "attack", rolls: [{ options: { multirollData: { hitstate: "miss" } } }], async update() {} };
+	f.activation.attackMessages = [chat];
+	f.context.adjustAttackMessage = async (message, index, modifier) => {
+		assert.equal(index, 0);
+		assert.equal(modifier, 3);
+		message.rolls[0].options.multirollData.hitstate = "hit";
+	};
+	let syncs = 0;
+	f.context.syncAttackEffects = async () => {
+		assert.equal(chat.rolls[0].options.multirollData.hitstate, "hit");
+		syncs++;
+		throw new Error("Effect update failed");
+	};
+	await f.activation.adjustResult({ dataset: { messageId: "attack", rollIndex: "0" },
+		closest: () => ({ querySelector: () => ({ value: "3" }) }) });
+	assert.equal(syncs, 1);
+	assert.equal(f.activation.busy, false);
+	assert.equal(f.activation.resultsConfirmed, false);
+	await f.activation.confirmResults();
+	assert.equal(f.activation.resultsConfirmed, false);
+	assert.ok(f.warnings.some(warning => warning.includes("Effect update failed")));
+	f.context.syncAttackEffects = async () => {};
+	await f.activation.confirmResults();
+	assert.equal(f.activation.resultsConfirmed, true);
 });

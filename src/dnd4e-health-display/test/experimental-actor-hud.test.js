@@ -58,7 +58,7 @@ test("four action groups retain move, rest and unclassified powers under Other w
 	assert.equal(open.categories.filter((category) => category.active).length, 1);
 });
 
-test("experimental mode removes only the PC Powers drawer from the character panel", async () => {
+test("experimental mode moves PC menus out of the character panel", async () => {
 	const { HorizontalActorDisplay } = loadController({
 		tabs: [{ key: "powers" }, { key: "skills" }, { key: "features" }, { key: "items" }],
 		powerCategories: [], activeTab: "powers",
@@ -67,7 +67,7 @@ test("experimental mode removes only the PC Powers drawer from the character pan
 	display.token = { actor: { type: "Player Character" } };
 	display.activeTab = "powers";
 	const context = await display._prepareContext({});
-	assert.deepEqual(Array.from(context.tabs, (tab) => tab.key), ["skills", "features", "items"]);
+	assert.deepEqual(Array.from(context.tabs, (tab) => tab.key), []);
 	assert.equal(context.activeTab, null);
 });
 
