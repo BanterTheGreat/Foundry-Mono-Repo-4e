@@ -1,3 +1,4 @@
+import { renderTargetDamage } from './target-damage-card.js';
 import { describeRoll } from './chat-roll-data.js';
 import { DamageSourceCapture } from './damage-source-capture.js';
 import { ChatRollActions } from './chat-roll-actions.js';
@@ -47,6 +48,14 @@ export class ChatRolls {
     }
     const root = html?.[0] ?? html;
     ChatMessageGroups.render(message, root);
+    if (message.flags?.['dnd4e-health-display']?.damageChatParent) {
+      root.hidden = true;
+      return;
+    }
+    if (message.flags?.['dnd4e-health-display']?.damageChat) {
+      void renderTargetDamage(message, root, ChatRolls).catch(error => console.error('Target damage card failed', error));
+      return;
+    }
     if (root?.querySelector?.('.banter-defense')) {
       root.classList.add('banter-defense-message');
       return;
@@ -83,7 +92,7 @@ export class ChatRolls {
   /** Retain native calculations, target links, context menus, and damage listeners. */
   static renderResult(message, body, model, index) {
     const key = `${message.id}:${index}`;
-    const card = ChatRolls.element('section', `banter-roll banter-roll--${model.kind}`);
+    const card = ChatRolls.element('section', `banter-roll banter-roll--${model.kind}${model.kind === 'healing' ? ' banter-roll--damage' : ''}`);
     if (model.attackOutcome) {
       card.classList.add(`banter-roll--${model.attackOutcome}`);
     }
@@ -122,8 +131,8 @@ export class ChatRolls {
     const damageLabel = model.damageOutcome === 'crit' ? 'CRITICAL DAMAGE'
       : model.damageOutcome === 'miss' ? 'MISS DAMAGE' : 'DAMAGE';
     score.append(ChatRolls.element('strong', '', model.kind === 'attack' ? model.attackVerdict : String(model.total)),
-      ChatRolls.element('small', '', model.kind === 'attack' ? `Total ${model.total}` : model.kind === 'damage' ? damageLabel : 'TOTAL'));
-    if (model.kind !== 'damage' && model.natural.length) {
+      ChatRolls.element('small', '', model.kind === 'attack' ? `Total ${model.total}` : model.kind === 'healing' ? 'HEALING' : model.kind === 'damage' ? damageLabel : 'TOTAL'));
+    if (!['damage', 'healing'].includes(model.kind) && model.natural.length) {
       ChatRolls.attachNaturalPopup(score, model);
     }
     const chips = ChatRolls.element('div', 'banter-roll__chips');
@@ -143,7 +152,7 @@ export class ChatRolls {
       chips.append(ChatRolls.element('span', 'banter-roll__chip',
         `${contributor.name} · ${/^[+-]/.test(formula) ? '' : '+'}${formula} ${contributor.damageType || ''}`));
     }
-    if (model.kind === 'attack' || model.kind === 'damage') {
+    if (['attack', 'damage', 'healing'].includes(model.kind)) {
       main.append(chips);
       summary.append(main, score, ChatRolls.element('span', 'banter-roll__chevron', '›'));
     } else {
@@ -160,7 +169,7 @@ export class ChatRolls {
         equation.append(ChatRolls.element('span', '', `${modifier < 0 ? '−' : '+'} ${Math.abs(modifier)} =`));
       }
     } else {
-      equation.append(ChatRolls.element('span', '', 'Rolled damage'));
+      equation.append(ChatRolls.element('span', '', model.kind === 'healing' ? 'Rolled healing' : 'Rolled damage'));
     }
     equation.append(ChatRolls.element('strong', '', String(model.total)));
     calculation.append(equation);
@@ -177,6 +186,9 @@ export class ChatRolls {
       calculation.append(ChatRolls.element('div', 'banter-roll__modifier',
         `Raw roll ${message.rolls[index].total} ÷ ${model.scale} = ${model.total}. ${model.reasons.join(', ')}`));
     }
+    if (model.healingSurge) {
+      main.append(ChatRolls.element('div', 'banter-roll__source', model.healingSurge));
+    }
     const original = ChatRolls.element('details', 'banter-roll__original');
     original.append(ChatRolls.element('summary', '', 'Full dice calculation'), body);
     calculation.append(original);
@@ -186,6 +198,26 @@ export class ChatRolls {
     if (buttons?.classList.contains('chatDamageButtons')) {
       if (model.kind === 'attack') {
         buttons.hidden = true;
+      } else if (model.kind === 'healing') {
+        const apply = buttons.querySelector('[data-action="Heal"]');
+        if (apply) {
+          apply.textContent = 'Apply Healing';
+          apply.classList.add('banter-roll__apply');
+          apply.setAttribute('aria-label', 'Apply Healing to controlled tokens');
+          apply.removeAttribute('data-tooltip');
+          calculation.append(buttons);
+          const actions = ChatRolls.element('div', 'banter-roll__actions');
+          actions.append(apply);
+          const temporary = buttons.querySelector('[data-action="TempHeal"]');
+          if (temporary) {
+            temporary.textContent = 'Add Temp HP';
+            temporary.classList.add('banter-roll__apply');
+            temporary.setAttribute('aria-label', 'Add temporary HP to controlled tokens');
+            temporary.removeAttribute('data-tooltip');
+            actions.append(temporary);
+          }
+          card.append(actions);
+        }
       } else if (model.kind === 'damage') {
         const apply = buttons.querySelector('[data-action="Damage"]');
         if (apply) {

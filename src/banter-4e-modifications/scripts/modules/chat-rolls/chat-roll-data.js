@@ -33,7 +33,7 @@ export function describeRoll(message, roll, index = 0) {
   const attack = options.multirollData;
   const snapshot = options.banterChatRoll;
   const kind = skill ? 'skill' : attack || options.banterAttackBuffs || options.banterAttackSource ? 'attack'
-    : options.hitTypeDamage && !options.hitTypeHealing ? 'damage' : null;
+    : options.hitTypeHealing ? 'healing' : options.hitTypeDamage ? 'damage' : null;
   if (!kind) {
     return null;
   }
@@ -46,6 +46,7 @@ export function describeRoll(message, roll, index = 0) {
   const skillLabel = skill?.skillName || skillConfig?.label || skillConfig || skill?.skillId;
   const label = kind === 'skill' ? `${speaker} rolled ${globalThis.game?.i18n?.localize(String(skillLabel)) ?? skillLabel}`
     : kind === 'attack' ? `${speaker} ${outcome}${attack?.target ? ` ${attack.target}` : ''}`
+    : kind === 'healing' ? `${speaker} restores hit points`
     : `${speaker} deals damage${snapshot?.targetName ? ` against ${snapshot.targetName}` : ''}`;
   const divisor = kind === 'damage' ? options.divisors?.[options.hitType] : null;
   const scale = Number(divisor?.value) > 0 ? Number(divisor.value) : 1;
@@ -61,15 +62,22 @@ export function describeRoll(message, roll, index = 0) {
     attackVerdict: kind === 'attack'
       ? ({ hit: 'Hit', miss: 'Miss', critical: 'Crit', fumble: 'Crit Fail', immune: 'Immune' }[attackOutcome] || 'Attack')
       : null,
-    damageSubject: kind === 'damage' ? `${speaker}${snapshot?.targetName ? ` against ${snapshot.targetName}` : ''}` : null,
-    unconfirmed: kind === 'damage'
+    damageSubject: kind === 'healing' ? `${speaker} restores hit points` : kind === 'damage' ? `${speaker}${snapshot?.targetName ? ` against ${snapshot.targetName}` : ''}` : null,
+    unconfirmed: ['damage', 'healing'].includes(kind)
       ? Boolean(message.flags?.['dnd4e-health-display']?.damageReview?.pending)
       : kind === 'attack' && !['critical', 'fumble'].includes(attackOutcome)
         && Boolean(message.flags?.['dnd4e-health-display']?.attackResults?.pending),
     manualEdit: kind === 'attack' && Number.isFinite(options.postAttackModifier)
       ? `Manually edited (${options.postAttackModifier >= 0 ? '+' : ''}${options.postAttackModifier})`
-      : kind === 'damage' && message.flags?.['dnd4e-health-display']?.damageReview?.edited
+      : ['damage', 'healing'].includes(kind) && message.flags?.['dnd4e-health-display']?.damageReview?.edited
         ? `Manually edited (${(message.flags['dnd4e-health-display'].damageReview.modifiers ?? []).join(', ')})` : null,
+    healingSurge: kind === 'healing' ? (() => {
+      const flavors = (roll.terms ?? []).map(term => term.flavor ?? '');
+      const spends = flavors.some(flavor => /(?:^|[,\s])surge(?:Cost)?(?:$|[,\s])/.test(flavor));
+      const value = flavors.some(flavor => /(?:^|[,\s])surge(?:Value)?(?:$|[,\s])/.test(flavor));
+      return spends && value ? 'Spend 1 healing surge; add the target’s surge value'
+        : spends ? 'Spend 1 healing surge' : value ? 'Add the target’s healing surge value' : null;
+    })() : null,
     natural: naturalD20(roll), badges, attackModifiers,
     contributors: damageContributors(snapshot?.contributors),
     scale, reasons: divisor?.reason ?? [] };

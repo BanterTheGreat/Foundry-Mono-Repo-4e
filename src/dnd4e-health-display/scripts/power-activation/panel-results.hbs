@@ -1,34 +1,43 @@
-	{{#if beforeAttackRules}}<details class="power-targeting__before"><summary>Before attack</summary><div class="power-targeting__resolution" role="region" aria-label="Before attack power rules" tabindex="0">{{{beforeAttackRules}}}</div></details>{{/if}}
-	<div class="power-targeting__result-stage"><p class="power-targeting__status" role="status">{{status}}</p><span class="power-targeting__result-count">{{results.length}} targets</span></div>
+{{#unless reviewing}}{{> "modules/dnd4e-health-display/scripts/power-activation/panel-damage.hbs" }}{{/unless}}
+{{#if reviewing}}<div class="power-targeting__result-stage"><p class="power-targeting__status" role="status">{{status}}</p><span class="power-targeting__result-count">{{results.length}} targets</span></div>{{/if}}
+<details class="power-targeting__target-disclosure {{#if reviewing}}is-reviewing{{/if}}" data-target-disclosure {{#if targetsExpanded}}open{{/if}}><summary><strong>Targets · {{results.length}}</strong>{{#if modifiedTargets}}<span class="power-targeting__modified-count">{{modifiedTargets}} modified</span>{{/if}}<span>{{outcomeSummary}}</span></summary>
+<div class="power-targeting__roster">
+	<div class="power-targeting__columns" aria-hidden="true"><span>Target</span><span>Attack</span><span>Damage</span></div>
 	<ul class="power-targeting__targets power-targeting__results">
 		{{#each results}}
-		<li class="power-targeting__result">
-			<div class="power-targeting__result-summary">
-				<div class="power-targeting__target-identity">{{#if img}}<img src="{{img}}" alt="" width="26" height="26">{{/if}}<span class="power-targeting__target-name">{{name}}</span>{{#if ../reviewing}}<button type="button" data-action="removeReviewTarget" data-token-id="{{tokenId}}" aria-label="Remove {{name}}" {{#if ../busy}}disabled{{/if}}>×</button>{{/if}}</div>
-				<strong class="power-targeting__verdict power-targeting__verdict--{{outcome}}">{{total}} &middot; {{label}}</strong>
+		<li class="power-targeting__ledger-row">
+			<div class="power-targeting__target-identity">{{#if img}}<img src="{{img}}" alt="" width="26" height="26">{{/if}}<span class="power-targeting__target-name" title="{{name}}">{{name}}</span></div>
+			<div class="power-targeting__attack-cell">
+				<strong class="power-targeting__verdict power-targeting__verdict--{{outcome}}">{{total}} · {{label}}</strong>
+				{{#if canAdjust}}
+				<div class="power-targeting__result-adjustment"><label><span class="power-targeting__sr-only">Attack modifier for {{name}}</span><input type="number" step="any" value="{{modifier}}" {{#if ../busy}}disabled{{/if}}></label><button type="button" data-action="adjustResult" data-message-id="{{messageId}}" data-roll-index="{{rollIndex}}" aria-label="Apply attack modifier for {{name}}" {{#if ../busy}}disabled{{/if}}>Apply</button></div>
+				{{else}}{{#if fixedOutcome}}<small class="power-targeting__automatic">Automatic</small>{{/if}}{{/if}}
 			</div>
-			{{#if canAdjust}}
-			<div class="power-targeting__result-adjustment">
-				<label>Mod <input type="number" step="any" value="{{modifier}}" aria-label="Post-roll modifier for {{name}}" {{#if ../busy}}disabled{{/if}}></label>
-				<button type="button" data-action="adjustResult" data-message-id="{{messageId}}" data-roll-index="{{rollIndex}}" aria-label="Apply modifier for {{name}}" {{#if ../busy}}disabled{{/if}}>Apply</button>
+			<div class="power-targeting__damage-cell">
+				{{#if ../reviewing}}<button type="button" class="power-targeting__remove" data-action="removeReviewTarget" data-token-id="{{tokenId}}" aria-label="Remove {{name}}" {{#if ../busy}}disabled{{/if}}>×</button>
+				{{else}}
+				{{#if hasDamageTotal}}<strong>{{damageTotal}}</strong>{{else}}<small>Pending</small>{{/if}}
+				{{#if canAdjustDamage}}<div class="power-targeting__result-adjustment"><label><span class="power-targeting__sr-only">Damage modifier for {{name}}</span><input type="text" data-target-damage-modifier data-token-id="{{tokenId}}" value="{{damageModifier}}" placeholder="+0" {{#if ../busy}}disabled{{/if}}></label><button type="button" data-action="adjustTargetDamage" data-token-id="{{tokenId}}" aria-label="Apply damage modifier for {{name}}" {{#if ../busy}}disabled{{/if}}>Apply</button></div>{{/if}}
+				{{/if}}
 			</div>
-			{{else}}
-			<span class="power-targeting__result-confirmed"><i class="fa-solid fa-check" aria-hidden="true"></i> {{#if fixedOutcome}}Automatic{{else}}Confirmed{{/if}}</span>
-			{{/if}}
 		</li>
 		{{else}}
 		<li class="power-targeting__empty">{{#if noTargets}}All targets removed from this attack.{{else}}No visible target results. Check the attack message in chat.{{/if}}</li>
 		{{/each}}
 	</ul>
-	{{#if reviewing}}<p class="power-targeting__review-hint">Adjust any attack total, then confirm all results.</p>{{else}}
-	{{> "modules/dnd4e-health-display/scripts/power-activation/panel-damage.hbs" }}
-	{{/if}}
-	<footer>
-		{{#if reviewing}}<button type="button" data-action="confirmResults" class="is-ready" {{#if busy}}disabled{{/if}}>{{#if hasDamage}}Confirm &amp; Roll Damage{{else}}Confirm Results{{/if}}</button>{{/if}}
-		{{#if pendingDamage}}<button type="button" data-action="retryDamage" class="is-ready" {{#if busy}}disabled{{/if}}>Retry Damage</button>{{else}}
-		{{#if needsDamage}}<button type="button" data-action="rollDamage" class="is-ready" {{#if busy}}disabled{{/if}}><i class="fa-solid fa-dice" aria-hidden="true"></i> Damage</button>
-		{{/if}}
-		{{/if}}
-		{{#if canConfirmDamage}}<button type="button" data-action="confirmDamage" class="is-ready" {{#if busy}}disabled{{/if}}>Confirm Damage</button>{{/if}}
-		{{#if canComplete}}<button type="button" data-action="complete" class="is-ready" {{#if busy}}disabled{{/if}}><i class="fa-solid fa-check" aria-hidden="true"></i> Complete</button>{{/if}}
-	</footer>
+</div>
+</details>
+{{#if beforeAttackRules}}<details class="power-targeting__before"><summary>Before the Attack</summary><div class="power-targeting__resolution">{{{beforeAttackRules}}}</div></details>{{/if}}
+
+{{#unless reviewing}}
+{{#unless noTargets}}
+	{{#if resolutionRules}}<div class="power-targeting__resolution" role="region" aria-label="After the Attack"><div class="power-targeting__rules-label">After the Attack</div>{{{resolutionRules}}}</div>{{/if}}
+{{else}}<p class="power-targeting__range">No targets remain. This power’s use is already spent.</p>{{/unless}}
+{{/unless}}
+<footer>
+	{{#if reviewing}}<button type="button" data-action="confirmResults" class="is-ready" {{#if busy}}disabled{{/if}}>{{#if hasDamage}}Confirm &amp; Roll Damage{{else}}Confirm Results{{/if}}</button>{{/if}}
+	{{#if pendingDamage}}<button type="button" data-action="retryDamage" class="is-ready" {{#if busy}}disabled{{/if}}>Retry Damage</button>{{else}}
+	{{#if needsDamage}}<button type="button" data-action="rollDamage" {{#if busy}}disabled{{/if}}>Damage</button>{{/if}}{{/if}}
+	{{#if canConfirmDamage}}<button type="button" data-action="confirmDamage" class="is-ready" {{#if busy}}disabled{{/if}}>Confirm Damage</button>{{/if}}
+	{{#if canComplete}}<button type="button" data-action="complete" class="is-ready" {{#if busy}}disabled{{/if}}>Complete</button>{{/if}}
+</footer>

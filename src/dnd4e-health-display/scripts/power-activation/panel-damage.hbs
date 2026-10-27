@@ -1,18 +1,25 @@
-	{{#unless noTargets}}
-	{{#if resolutionRules}}<div class="power-targeting__resolution" role="region" aria-label="Post-attack power rules" tabindex="0">{{{resolutionRules}}}</div>{{/if}}
-	<ul class="power-targeting__targets">
-		{{#each damageResults}}
-		<li class="power-targeting__result">
-			<div class="power-targeting__result-summary"><span>{{label}} damage</span><strong>{{total}}</strong></div>
-			{{#if sharedMiss}}<p class="power-targeting__range">Miss damage: <strong>{{missTotal}}</strong> (half the hit damage)</p>{{/if}}
-			{{#if ../reviewingDamage}}
-			<div class="power-targeting__result-adjustment">
-				<label>Modifier <input type="text" data-damage-modifier data-message-id="{{messageId}}" value="{{modifier}}" placeholder="+3, -2, or 1d6 + 3" aria-label="{{label}} damage modifier" {{#if ../busy}}disabled{{/if}}></label>
-				<button type="button" data-action="adjustDamage" data-message-id="{{messageId}}" {{#if ../busy}}disabled{{/if}}>Apply</button>
+{{#unless noTargets}}
+	{{#if damageCards.length}}
+	<ul class="power-targeting__damage-rolls" style="--damage-outcomes: {{damageCards.length}}" aria-label="Shared damage rolls">
+		{{#each damageCards}}
+		<li class="power-targeting__damage-card power-targeting__damage-card--{{type}}">
+			<header><strong>{{title}}</strong><small>{{targetLabel}}</small></header>
+			<div class="power-targeting__outcome-total"><small>{{#if ../healing}}Total healing{{else}}Total damage{{/if}}</small><strong>{{total}}</strong></div>
+			{{#if derived}}
+			<div class="power-targeting__derived-miss"><span>½ Hit</span><span>{{sourceTotal}} ÷ 2</span><small>Rounded down</small></div>
+			{{else}}
+			<div class="power-targeting__damage-types">
+				{{#each components}}<div><span class="power-targeting__damage-type power-targeting__damage-type--{{type}}"><i aria-hidden="true"></i>{{label}}</span><strong>{{total}}</strong></div>{{/each}}
+			</div>
+			<div class="power-targeting__rolled-line"><span>Rolled</span><strong>{{rolled}}</strong></div>
+			<div class="power-targeting__shared-modifier">
+				{{#if ../reviewingDamage}}<div class="power-targeting__result-adjustment"><label><span>Modifier</span><input type="text" data-damage-modifier data-message-id="{{messageId}}" value="{{modifier}}" placeholder="+0" aria-label="{{title}} roll modifier" {{#if ../busy}}disabled{{/if}}></label><button type="button" data-action="adjustDamage" data-message-id="{{messageId}}" aria-label="Apply {{title}} roll modifier" {{#if ../busy}}disabled{{/if}}>Apply</button></div>
+				{{else}}<span>Modifier</span><span class="power-targeting__modifier-summary">{{#if modifier}}{{modifier}}{{else}}+0{{/if}}</span>{{/if}}
 			</div>
 			{{/if}}
 		</li>
 		{{/each}}
 	</ul>
-	{{#if reviewingDamage}}<p class="power-targeting__review-hint">Apply a positive or negative modifier or dice formula. Clear it and Apply to reset to +0. Original dice are preserved.</p>{{/if}}
-	{{else}}<p class="power-targeting__range">No targets remain. This power’s use is already spent.</p>{{/unless}}
+	{{/if}}
+	{{#if zeroMiss}}<div class="power-targeting__zero-miss"><span>Miss damage</span><strong>0</strong></div>{{/if}}
+{{/unless}}

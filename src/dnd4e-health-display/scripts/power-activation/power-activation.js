@@ -1,3 +1,4 @@
+import { publishDamageChat } from "./damage-chat.js";
 import { ActivationWorkflow } from "./workflow.js";
 import { registerAttackEffects, syncAttackEffects } from "./attack-effects.js";
 import { registerSummonSocket, requestSummon, summonGM } from "./summon-socket.js";
@@ -9,7 +10,7 @@ import { MODULE_ID, SETTING, automationConfig, powerOriginRules, selectionProble
 import { registerActorOrigins } from "./actor-origins.js";
 import { renderPowerCard, createPowerMessage, postAttackRules, preAttackRules } from "./cards.js";
 import { loadSystem, resolveRange, registerAutomationTab, commitCardCosts, commitPowerUse, rollFromOrigin } from "./system-adapter.js";
-import { rollDamageAndWait, adjustDamageMessage, damageMessageTotal, registerDamageReview } from "./damage-roll.js";
+import { rollDamageAndWait, adjustDamageMessage, damageMessageTotal, damageRollBreakdown, targetDamageTotal, registerDamageReview } from "./damage-roll.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin, DialogV2 } = foundry.applications.api;
 let session = null;
@@ -181,6 +182,8 @@ class ActivationSession extends ActivationWorkflow {
 		this.attackMessages = [];
 		this.damageMessages = [];
 		this.damageModifierDrafts = new Map();
+		this.targetDamageModifiers = new Map();
+		this.targetDamageDrafts = new Map();
 	}
 
 	/** Offer visible tokens from the effective origin rules, optionally including the caster. */
@@ -277,10 +280,10 @@ class ActivationSession extends ActivationWorkflow {
 			await deletePreview(this.message);
 			return;
 		}
-		if (!this.range.shape) {
+		if (!this.range.shape || automationConfig(this.item).targetMode === "exact") {
 			this.targets = this.previousTargets.filter(token => canvas.tokens.get(token.id) === token
 				&& token.actor && token.visible
-				&& squareDistance(this.source, token, canvas.grid.size) <= this.range.maximum);
+				&& (this.range.shape || squareDistance(this.source, token, canvas.grid.size) <= this.range.maximum));
 		}
 		this.syncTargets();
 		this.panel = new TargetingPanel(this);
@@ -463,10 +466,13 @@ class ActivationSession extends ActivationWorkflow {
 
 	/** Explicit re-selection resets exclusions; automatic updates preserve stationary removals. */
 	selectAreaTargets(resetExclusions = true) {
+		const config = automationConfig(this.item);
+		if (config.targetMode === "exact") {
+			return;
+		}
 		if (resetExclusions) {
 			this.areaExclusions.clear();
 		}
-		const config = automationConfig(this.item);
 		const rectangles = this.range.shape === "summon" ? [] : this.areaRectangles();
 		const candidates = canvas.tokens.placeables.filter(token => rectangles.some(bounds => intersectsArea(token, bounds))
 			&& areaTargetAllowed(this.caster, token, this.range, config, this.source)
@@ -819,10 +825,11 @@ class ActivationSession extends ActivationWorkflow {
 			return true;
 		}
 		const escape = Handlebars.escapeExpression;
-		return DialogV2.confirm({
+		return DialogV2.wait({
 			window: { title: "Check ability targets" },
 			content: `<p>${problems.map(problem => escape(problem)).join("<br>")}</p>`,
-			yes: { label: "Proceed Anyway" }, no: { label: "Return to Targeting" }, rejectClose: false, defaultYes: false,
+			buttons: [{ action: "proceed", label: "Proceed Anyway", callback: () => true }],
+			close: () => false, rejectClose: false,
 		});
 	}
 
@@ -884,7 +891,11 @@ class ActivationSession extends ActivationWorkflow {
 			if (!this.item.hasAttack) {
 				await this.submitUtility();
 				if (this.committed) {
-					await this.complete();
+					if (this.healingOnly) {
+						await this.rollHealing();
+					} else {
+						await this.complete();
+					}
 				}
 				return;
 			}
@@ -930,6 +941,65 @@ class ActivationSession extends ActivationWorkflow {
 				if (applied) {
 					await this.confirmCriticalResults();
 				}
+			}
+			this.refresh();
+		}
+	}
+
+	/** Healing automation currently supports powers without attacks or damage. */
+	get healingOnly() {
+		return Boolean(this.item.hasHealing && !this.item.hasAttack && !this.item.hasDamage);
+	}
+
+	/** Publish one native healing roll; retry only when no message was created. */
+	async rollHealing() {
+		if (!this.healingOnly || !["attackDialog", "readyForHealing"].includes(this.state)) {
+			return;
+		}
+		if (this.state === "attackDialog") {
+			await this.complete({ keepOpen: true });
+		} else {
+			this.transition("rollingHealing");
+		}
+		this.refresh();
+		try {
+			if (!this.item.isOwner || !this.item.actor?.isOwner) {
+				throw new Error("You no longer have permission to roll this power.");
+			}
+			const result = await rollDamageAndWait(this.item, {}, null, { type: "normal", healing: true, sessionId: this.id });
+			if (result?.message) {
+				this.damageMessages.push(result.message);
+			}
+		} catch (error) {
+			ui.notifications.error(`Could not roll healing: ${error.message}`);
+		} finally {
+			this.transition(this.damageMessages.length ? "reviewingHealing" : "readyForHealing");
+			this.refresh();
+		}
+	}
+
+	/** Keep healing edits and confirmation on the original native chat message. */
+	async reviewHealing(target = null) {
+		if (this.state !== "reviewingHealing") {
+			return;
+		}
+		const message = this.damageMessages[0];
+		this.transition(target ? "updatingHealing" : "confirmingHealing");
+		this.refresh();
+		try {
+			if (target) {
+				const formula = target.closest("li").querySelector("[data-damage-modifier]").value;
+				this.damageModifierDrafts.set(message.id, formula);
+				await adjustDamageMessage(message, formula, this.item.getRollData());
+			} else {
+				await message.update({ [`flags.${MODULE_ID}.damageReview.pending`]: false });
+				this.transition("complete");
+			}
+		} catch (error) {
+			ui.notifications.error(`Could not update healing: ${error.message}`);
+		} finally {
+			if (["updatingHealing", "confirmingHealing"].includes(this.state)) {
+				this.transition("reviewingHealing");
 			}
 			this.refresh();
 		}
@@ -1122,7 +1192,7 @@ class ActivationSession extends ActivationWorkflow {
 			ui.notifications.warn("The ability finished, but its power card could not be finalized. Check chat before reloading.");
 		} finally {
 			if (keepOpen && !this.finished) {
-				this.transition("preparingResults");
+				this.transition(this.healingOnly ? "rollingHealing" : "preparingResults");
 				this.listeners.abort();
 				sharedAreaPreview.clear();
 				CoverPreview.setContext(null);
@@ -1251,12 +1321,13 @@ class ActivationSession extends ActivationWorkflow {
 		}
 		const outcomes = this.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id));
 		const hasHit = outcomes.some(result => result.outcome === "hit");
-		const sharedMiss = hasHit && this.item.system.miss?.halfDamage;
+		const hasMiss = outcomes.some(result => ["miss", "fumble"].includes(result.outcome));
+		const sharedMiss = hasMiss && this.item.system.miss?.halfDamage;
 		const required = [
 			...(outcomes.some(result => result.outcome === "critical") ? ["crit"] : []),
 			...(outcomes.some(result => ["miss", "fumble"].includes(result.outcome))
 				&& !sharedMiss && (this.item.system.miss?.halfDamage || this.item.system.miss?.formula?.trim()) ? ["miss"] : []),
-			...(hasHit ? ["normal"] : []),
+			...(hasHit || sharedMiss ? ["normal"] : []),
 		];
 		this.sharedMissDamage = Boolean(sharedMiss && outcomes.some(result => ["miss", "fumble"].includes(result.outcome)));
 		this.requiredDamageTypes = required;
@@ -1264,7 +1335,7 @@ class ActivationSession extends ActivationWorkflow {
 		if (!types.length) {
 			return;
 		}
-		this.transition("rollingDamage");
+		this.transition(this.damageMessages.length ? "retryingDamage" : "rollingDamage");
 		this.refresh();
 		try {
 			if (!this.item.isOwner || !this.item.actor?.isOwner) {
@@ -1283,6 +1354,13 @@ class ActivationSession extends ActivationWorkflow {
 			console.error(`${MODULE_ID} | Damage activation`, error);
 			ui.notifications.error(`Damage roll failed: ${error.message}`);
 		} finally {
+			try {
+				if (this.damageMessages.length) {
+					await this.persistTargetDamage(true);
+				}
+			} catch (error) {
+				ui.notifications.error(`Could not publish damage card: ${error.message}`);
+			}
 			this.transition(this.damageMessages.length ? "reviewingDamage" : "readyForDamage");
 			this.refresh();
 		}
@@ -1300,12 +1378,75 @@ class ActivationSession extends ActivationWorkflow {
 		this.refresh();
 		try {
 			await adjustDamageMessage(message, formula, this.item.getRollData());
+			await this.persistTargetDamage(true);
 		} catch (error) {
 			ui.notifications.error(`Could not adjust damage: ${error.message}`);
 		} finally {
 			this.transition("reviewingDamage");
 			this.refresh();
 		}
+	}
+
+	/**
+	 * Replace one target's evaluated bonus without changing shared rolls or other targets.
+	 * Empty input resets to zero; an unchanged dice formula keeps its original result.
+	 */
+	async adjustTargetDamage(target) {
+		if (!["readyForDamage", "reviewingDamage"].includes(this.state) || !this.item.hasDamage) {
+			return;
+		}
+		const tokenId = target.dataset.tokenId;
+		const result = this.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id))
+			.find(entry => entry.tokenId === tokenId);
+		if (!result || targetDamageTotal(this.damageMessages, result.outcome, this.sharedMissDamage, 0, this.requiredDamageTypes) === null) {
+			return;
+		}
+		const formula = target.closest("li").querySelector("[data-target-damage-modifier]").value.trim();
+		this.targetDamageDrafts.set(tokenId, formula);
+		const previous = this.targetDamageModifiers.get(tokenId);
+		this.transition("updatingDamage");
+		this.refresh();
+		try {
+			if (!this.item.isOwner || !this.item.actor?.isOwner) {
+				throw new Error("You no longer have permission to modify this power's damage.");
+			}
+			if (previous?.formula !== formula) {
+				const roll = await new Roll(formula || "0", this.item.getRollData()).evaluate();
+				if (!Number.isFinite(roll.total)) {
+					throw new Error("The modifier must produce a finite number.");
+				}
+				this.targetDamageModifiers.set(tokenId, { formula, total: roll.total, roll: roll.toJSON() });
+			}
+			await this.persistTargetDamage(true);
+		} catch (error) {
+			if (previous) {
+				this.targetDamageModifiers.set(tokenId, previous);
+			} else {
+				this.targetDamageModifiers.delete(tokenId);
+			}
+			ui.notifications.error(`Could not adjust target damage: ${error.message}`);
+		} finally {
+			this.transition("reviewingDamage");
+			this.refresh();
+		}
+	}
+
+	/**
+	 * Keep per-target damage receipts on this session's existing attack messages.
+	 * Each receipt stores the evaluated bonus Roll, formula and final total; it never applies HP.
+	 */
+	async persistTargetDamage(pending) {
+		for (const message of this.attackMessages) {
+			const targets = messageAttackResults(message, canvas.scene?.id).map(result => {
+				const modifier = this.targetDamageModifiers.get(result.tokenId);
+				return { tokenId: result.tokenId, outcome: result.outcome,
+					modifierFormula: modifier?.formula ?? "", modifierTotal: modifier?.total ?? 0,
+					modifierRoll: modifier?.roll ?? null,
+					total: targetDamageTotal(this.damageMessages, result.outcome, this.sharedMissDamage, modifier?.total, this.requiredDamageTypes) };
+			});
+			await message.update({ [`flags.${MODULE_ID}.targetDamageReview`]: { sessionId: this.id, pending, targets } });
+		}
+		await publishDamageChat(this, this.attackMessages.flatMap(message => message.flags[MODULE_ID]?.targetDamageReview?.targets ?? []), pending);
 	}
 
 	/** Persist damage confirmation before showing the final Complete action. */
@@ -1320,6 +1461,7 @@ class ActivationSession extends ActivationWorkflow {
 			for (const message of this.damageMessages) {
 				await message.update({ [`flags.${MODULE_ID}.damageReview.pending`]: false });
 			}
+			await this.persistTargetDamage(false);
 			this.transition("complete");
 		} catch (error) {
 			this.transition("reviewingDamage");
@@ -1369,7 +1511,7 @@ class ActivationSession extends ActivationWorkflow {
 /** Small independent ApplicationV2; presentation does not belong to the Actor HUD. */
 class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 	static DEFAULT_OPTIONS = {
-		classes: ["power-targeting"], position: { width: 340, height: "auto" },
+		classes: ["power-targeting"], position: { width: 408, height: "auto" },
 		window: { title: "Select Targets", resizable: true },
 		actions: {
 			undoWall() { this.session.editWall(); },
@@ -1395,7 +1537,10 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 			attack() { return this.session.attack(); },
 			rollDamage(event) { return this.session.rollDamage(event); },
 			retryDamage(event) { return this.session.rollDamage(event, true); },
-			adjustDamage(event, target) { return this.session.adjustDamage(target); },
+			adjustDamage(event, target) { return this.session.healingOnly ? this.session.reviewHealing(target) : this.session.adjustDamage(target); },
+			rollHealing() { return this.session.rollHealing(); },
+			confirmHealing() { return this.session.reviewHealing(); },
+			adjustTargetDamage(event, target) { return this.session.adjustTargetDamage(target); },
 			confirmDamage() { return this.session.confirmDamage(); },
 			removeReviewTarget(event, target) { return this.session.removeReviewTarget(target.dataset.tokenId); },
 			adjustResult(event, target) { return this.session.adjustResult(target); },
@@ -1419,7 +1564,7 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 	static PARTS = {
 		body: {
 			template: `modules/${MODULE_ID}/scripts/power-activation/panel.hbs`,
-			templates: ["targeting", "results", "damage"].map(name => `modules/${MODULE_ID}/scripts/power-activation/panel-${name}.hbs`),
+			templates: ["targeting", "results", "damage", "healing"].map(name => `modules/${MODULE_ID}/scripts/power-activation/panel-${name}.hbs`),
 		},
 	};
 
@@ -1439,7 +1584,7 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 		const sidebarWidth = ui.sidebar?.element?.getBoundingClientRect?.().width ?? 320;
 		// Start beside the sidebar, above canvas center; subsequent renders preserve dragging.
 		super({ position: {
-			left: Math.max(16, (window.innerWidth ?? 1280) - sidebarWidth - 340 - 32),
+			left: Math.max(16, (window.innerWidth ?? 1280) - sidebarWidth - 408 - 32),
 			top: Math.max(50, Math.round((window.innerHeight ?? 900) * .12)),
 		} });
 		this.session = activation;
@@ -1449,35 +1594,94 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 	async _prepareContext() {
 		const activation = this.session;
 		this.beforeAttackRules ??= preAttackRules(activation.card);
+		if (activation.healingOnly && activation.view.screen !== "targeting") {
+			const message = activation.damageMessages[0];
+			const total = message ? damageMessageTotal(message) : null;
+			const surge = activation.item.system.hit.healSurge;
+			return {
+				resolved: true, healing: true, powerName: activation.item.name, card: activation.card,
+				busy: activation.busy, showDetails: Boolean(this.showDetails),
+				reviewingDamage: activation.state === "reviewingHealing",
+				canConfirmHealing: activation.state === "reviewingHealing",
+				needsHealing: activation.state === "readyForHealing", canComplete: activation.canComplete(),
+				damageCards: message ? [{ messageId: message.id, type: "normal", title: "Healing", total,
+					targetLabel: `${activation.targets.length} targets`,
+					rolled: damageMessageTotal({ rolls: message.flags[MODULE_ID].damageReview.baseRolls ?? message.rolls }),
+					modifier: activation.damageModifierDrafts.get(message.id) ?? message.flags[MODULE_ID].damageReview.modifierFormula ?? "" }] : [],
+				results: activation.targets.map(token => {
+					const surgeValue = ["surge", "surgeValue"].includes(surge) ? Number(token.actor?.system.details.surgeValue) : 0;
+					return { name: token.visible ? token.name : "Unavailable target", surgeValue,
+						spendsSurge: ["surge", "surgeCost"].includes(surge), total: total === null ? "Pending" : total + surgeValue };
+				}),
+			};
+		}
 		if (activation.view.screen === "results") {
 			this.resolutionRules ??= postAttackRules(activation.card);
+			const reviewingDamage = ["readyForDamage", "reviewingDamage", "updatingDamage", "retryingDamage"].includes(activation.state);
+			const rolledResults = activation.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id)
+				.map(result => ({ ...result, message })));
+			const results = activation.targets.flatMap(token => rolledResults.filter(result => result.tokenId === token.id))
+				.map(({ message, ...result }) => {
+					const token = canvas.tokens.get(result.tokenId);
+					const modifier = activation.targetDamageModifiers.get(result.tokenId);
+					const damageTotal = targetDamageTotal(activation.damageMessages, result.outcome, activation.sharedMissDamage, modifier?.total, activation.requiredDamageTypes);
+					return { ...result, fixedOutcome: ["critical", "fumble"].includes(result.outcome),
+						canAdjust: activation.view.reviewing && !["critical", "fumble"].includes(result.outcome),
+						messageId: message.id, rollIndex: message.rolls.findIndex(roll => roll.options?.multirollData?.targetID === result.tokenId),
+						modifier: message.rolls.find(roll => roll.options?.multirollData?.targetID === result.tokenId)?.options.postAttackModifier ?? 0,
+						name: token?.visible ? token.name : "Unavailable target", img: token?.visible ? token.document.texture?.src : null,
+						damageTotal, hasDamageTotal: !activation.view.reviewing && damageTotal !== null,
+						canAdjustDamage: reviewingDamage && Boolean(activation.item.hasDamage) && damageTotal !== null,
+						damageModifier: activation.targetDamageDrafts.get(result.tokenId) ?? modifier?.formula ?? "" };
+				});
+			const outcomeCounts = { normal: 0, crit: 0, miss: 0 };
+			for (const result of results) {
+				const type = { hit: "normal", critical: "crit", miss: "miss", fumble: "miss" }[result.outcome];
+				if (type) {
+					outcomeCounts[type]++;
+				}
+			}
+			const damageResults = [...activation.damageMessages].sort((a, b) =>
+				["normal", "crit", "miss"].indexOf(a.flags[MODULE_ID].damageReview.type)
+				- ["normal", "crit", "miss"].indexOf(b.flags[MODULE_ID].damageReview.type)).map(message => {
+				const type = message.flags[MODULE_ID].damageReview.type;
+				return { messageId: message.id, type, total: damageMessageTotal(message),
+					rolled: damageMessageTotal({ rolls: message.flags[MODULE_ID].damageReview.baseRolls ?? message.rolls }),
+					components: damageRollBreakdown(message), count: outcomeCounts[type],
+					targetLabel: `${outcomeCounts[type]} ${outcomeCounts[type] === 1 ? "target" : "targets"}`,
+					modifier: activation.damageModifierDrafts.get(message.id) ?? message.flags[MODULE_ID].damageReview.modifierFormula ?? "",
+					sharedMiss: activation.sharedMissDamage && type === "normal", missTotal: Math.floor(damageMessageTotal(message) / 2),
+					label: { normal: "Hit", crit: "Crit", miss: "Miss" }[type],
+					title: { normal: "Hit", crit: "Critical", miss: "Miss" }[type] };
+			});
+			const damageCards = damageResults.filter(result => !(activation.sharedMissDamage && result.type === "miss"));
+			const hit = damageResults.find(result => result.sharedMiss);
+			if (hit) {
+				damageCards.push({ type: "miss", title: "Miss", count: outcomeCounts.miss, derived: true, total: hit.missTotal, sourceTotal: hit.total,
+					targetLabel: `${outcomeCounts.miss} ${outcomeCounts.miss === 1 ? "target" : "targets"}` });
+			}
 			return {
 				reviewing: activation.view.reviewing,
 				hasDamage: Boolean(activation.item.hasDamage),
 				resolved: true, noTargets: !activation.targets.length, powerName: activation.item.name, card: activation.card,
 				resolutionRules: this.resolutionRules,
 				beforeAttackRules: this.beforeAttackRules,
-				damageResults: activation.damageMessages.map(message => ({ messageId: message.id, total: damageMessageTotal(message),
-					modifier: activation.damageModifierDrafts.get(message.id) ?? message.flags[MODULE_ID].damageReview.modifierFormula ?? "",
-					sharedMiss: activation.sharedMissDamage && message.flags[MODULE_ID].damageReview.type === "normal",
-					missTotal: Math.floor(damageMessageTotal(message) / 2),
-					label: { normal: "Hit", crit: "Crit", miss: "Miss" }[message.flags[MODULE_ID].damageReview.type] })),
-				reviewingDamage: ["reviewingDamage", "updatingDamage"].includes(activation.state),
+				damageResults, damageCards,
+				targetsExpanded: activation.view.reviewing || Boolean(this.targetsExpanded),
+				outcomeSummary: [outcomeCounts.normal ? `${outcomeCounts.normal} Hit` : "", outcomeCounts.crit ? `${outcomeCounts.crit} Crit` : "", outcomeCounts.miss ? `${outcomeCounts.miss} Miss` : ""].filter(Boolean).join(" · "),
+				modifiedTargets: results.filter(result => activation.targetDamageModifiers.get(result.tokenId)?.formula).length,
+				zeroMiss: !activation.sharedMissDamage && outcomeCounts.miss > 0 && !activation.item.system.miss?.formula?.trim(),
+				reviewingDamage,
 				canConfirmDamage: ["readyForDamage", "reviewingDamage"].includes(activation.state)
 					&& !activation.requiredDamageTypes?.some(type => !activation.damageMessages.some(message => message.flags[MODULE_ID].damageReview.type === type)),
 				showDetails: Boolean(this.showDetails), busy: activation.busy,
-				pendingDamage: activation.requiredDamageTypes?.some(type => !activation.damageMessages.some(message => message.flags[MODULE_ID].damageReview.type === type)),
+				pendingDamage: !activation.view.reviewing && activation.requiredDamageTypes?.some(type => !activation.damageMessages.some(message => message.flags[MODULE_ID].damageReview.type === type)),
 				needsDamage: ["readyForDamage", "reviewingDamage"].includes(activation.state) && activation.targets.length > 0 && activation.item.hasDamage
 					&& (!activation.damageMessages.some(message => message.flags[MODULE_ID].damageReview.type === "normal")
 						|| activation.requiredDamageTypes?.some(type => !activation.damageMessages.some(message => message.flags[MODULE_ID].damageReview.type === type))),
 				canComplete: activation.state === "complete",
 				status: activation.view.status,
-				results: activation.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id)
-					.map(result => ({ ...result, fixedOutcome: ["critical", "fumble"].includes(result.outcome),
-						canAdjust: activation.view.reviewing && !["critical", "fumble"].includes(result.outcome), messageId: message.id, rollIndex: message.rolls.findIndex(roll => roll.options?.multirollData?.targetID === result.tokenId),
-						modifier: message.rolls.find(roll => roll.options?.multirollData?.targetID === result.tokenId)?.options.postAttackModifier ?? 0, name: canvas.tokens.get(result.tokenId)?.visible
-						? canvas.tokens.get(result.tokenId).name : "Unavailable target",
-						img: canvas.tokens.get(result.tokenId)?.visible ? canvas.tokens.get(result.tokenId).document.texture?.src : null }))),
+				results,
 			};
 		}
 		const problems = activation.problems();
@@ -1519,8 +1723,26 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 
 	/** Rebind origin selection after each panel render. */
 	_onRender() {
+		const disclosure = this.element.querySelector("[data-target-disclosure]");
+		disclosure?.addEventListener("toggle", () => {
+			if (!disclosure.classList.contains("is-reviewing")) {
+				this.targetsExpanded = disclosure.open;
+			}
+			this.setPosition({ height: "auto" });
+		});
 		for (const input of this.element.querySelectorAll("[data-damage-modifier]")) {
 			input.addEventListener("input", () => this.session.damageModifierDrafts.set(input.dataset.messageId, input.value));
+		}
+		for (const input of this.element.querySelectorAll("[data-target-damage-modifier]")) {
+			input.addEventListener("input", () => this.session.targetDamageDrafts.set(input.dataset.tokenId, input.value));
+		}
+		for (const input of this.element.querySelectorAll("[data-damage-modifier], [data-target-damage-modifier]")) {
+			input.addEventListener("keydown", event => {
+				if (event.key === "Enter") {
+					event.preventDefault();
+					input.closest("label").parentElement.querySelector("button")?.click();
+				}
+			});
 		}
 		this.element.querySelector("[data-origin-selector]")?.addEventListener("change", event => this.session.changeOrigin(event.target.value));
 	}

@@ -76,6 +76,7 @@ function fixture({ confirm = true, fastForward = false } = {}) {
 		async close() {}
 	}
 	const context = vm.createContext({
+		publishDamageChat: async () => {},
 		summonGM: () => ({ id: "gm" }), requestSummon: async activation => activation.summonCreator?.(),
 		ActivationWorkflow, console, AbortController, MODULE_ID, SETTING, automationConfig, powerOriginRules, selectionProblems, targetCountProblems, squareDistance, targetFilterProblems,
 		AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin, hasLineOfEffect,
@@ -90,6 +91,7 @@ function fixture({ confirm = true, fastForward = false } = {}) {
 			data: { PolygonTree },
 			applications: { api: { ApplicationV2: App, HandlebarsApplicationMixin: Base => Base, DialogV2: {
 				confirm: async options => { confirmations.push(options); return confirm; },
+				wait: async options => { confirmations.push(options); return confirm; },
 			} } },
 			utils: { randomID: () => "session" },
 		},
@@ -543,13 +545,13 @@ test("invalid target warnings offer Proceed Anyway and open the native dialog", 
 	f.item.rollAttack = async () => { opened = true; return null; };
 	await f.activation.attack();
 	assert.equal(opened, true);
-	assert.equal(f.confirmations[0].yes.label, "Proceed Anyway");
+	assert.equal(f.confirmations[0].buttons[0].label, "Proceed Anyway");
 	assert.equal(f.consumed(), 0);
 	assert.equal(f.messages.has("preview"), true);
 	await f.activation.cancel();
 });
 
-test("Return to Targeting leaves preview and use untouched", async () => {
+test("closing the warning leaves preview and use untouched", async () => {
 	const f = fixture({ confirm: false });
 	await f.activation.start();
 	f.item.rollAttack = () => assert.fail("Must not open attack dialog");
@@ -671,6 +673,26 @@ test("alternate origins require a whitelisted actor and reset placement; revocat
 	assert.equal(f.activation.originAllowed(), true);
 	allowed = [];
 	assert.equal(f.activation.originAllowed(), false);
+});
+
+test("limited-target areas preserve manual selection when selecting or repositioning the area", () => {
+	for (const shape of ["closeBurst", "closeBlast", "rangeBurst", "rangeBlast", "wall"]) {
+		const f = fixture();
+		f.item.getFlag = () => ({ enabled: true, targetMode: "exact", targetCount: 1 });
+		f.activation.range = { shape, area: 2, maximum: 10 };
+		f.activation.origin = { x: 100, y: 0 };
+		f.activation.wallCells = [{ x: 100, y: 0 }];
+		f.activation.targets = [f.target];
+		f.targets.add(f.target);
+		f.far.x = 200;
+		f.activation.selectAreaTargets();
+		assert.deepEqual(Array.from(f.activation.targets), [f.target], shape);
+		assert.deepEqual([...f.targets], [f.target], shape);
+		f.activation.targets = [];
+		f.targets.clear();
+		f.activation.selectAreaTargets();
+		assert.equal(f.targets.size, 0, shape + ": empty selection stays empty");
+	}
 });
 
 test("close bursts include the caster and retain its Region space when toggled", async () => {
@@ -969,6 +991,8 @@ test("damage total and completion stay hidden until evaluation and Dice So Nice 
 	roll.total = 23;
 	publish({ id: "damage", flags: { [MODULE_ID]: { damageReview: { type: "normal" } } }, rolls: [{ total: 23 }], async update() {} });
 	await animation;
+	assert.equal((await panel._prepareContext()).reviewing, true, "keep the attack review visible during damage animation");
+	assert.equal((await panel._prepareContext()).pendingDamage, false, "do not offer a retry before the first roll finishes");
 	assert.equal((await panel._prepareContext()).damageResults.length, 0);
 	assert.equal(f.activation.busy, true);
 	finish();
@@ -1421,7 +1445,7 @@ test("attack confirmation rolls each configured outcome once and requires damage
 	for (const [outcomes, miss, expected, missFormula] of [
 		[["critical", "hit", "miss"], true, ["crit", "normal"]],
 		[["miss", "miss"], false, []],
-		[["miss"], true, ["miss"]],
+		[["miss"], true, ["normal"]],
 		[["hit", "hit"], false, ["normal"]],
 		[["hit", "miss"], false, ["miss", "normal"], "2"],
 	]) {
@@ -1467,7 +1491,7 @@ test("partial damage failures retain successful rolls and block confirmation unt
 	f.activation.transition("readyForDamage");
 	f.item.hasDamage = true;
 	f.activation.targets = [f.target];
-	f.activation.attackMessages = [{ visible: true, isContentVisible: true,
+	f.activation.attackMessages = [{ async update() {}, visible: true, isContentVisible: true,
 		flags: { [MODULE_ID]: { attackResults: { sessionId: "session", sceneId: "scene", targetIds: [f.target.id] } } },
 		rolls: ["critical", "hit"].map(outcome => ({ total: 12, options: { multirollData: { targetID: f.target.id, critstate: outcome, hitstate: outcome } } })),
 	}];
@@ -1540,4 +1564,282 @@ test("damage Apply retains the formula in its field through busy and completed r
 	await f.activation.adjustDamage({ dataset: { messageId: "damage" }, closest: () => ({ querySelector: () => ({ value: "-2" }) }) });
 	assert.equal((await panel._prepareContext()).damageResults[0].modifier, "-2");
 	assert.deepEqual(seen, ["updatingDamage", "reviewingDamage"]);
+});
+
+/** Give damage-review tests real message flags with an awaited update boundary. */
+function damageReviewFixture(outcome = "hit") {
+	const f = fixture();
+	f.item.hasDamage = true;
+	f.activation.targets = [f.target, f.far];
+	enterReview(f.activation);
+	f.activation.transition("confirmingResults");
+	f.activation.transition("readyForDamage");
+	f.activation.requiredDamageTypes = [];
+	const attack = { id: "attack", visible: true, isContentVisible: true,
+		flags: { [MODULE_ID]: { attackResults: { sessionId: "session", sceneId: "scene", targetIds: [f.target.id, f.far.id] } } },
+		rolls: [f.target, f.far].map(token => ({ total: 20, options: { multirollData: { targetID: token.id, hitstate: outcome } } })),
+		async update(change) {
+			for (const [key, value] of Object.entries(change)) {
+				this.flags[MODULE_ID][key.split(".").at(-1)] = value;
+			}
+		},
+	};
+	f.activation.attackMessages = [attack];
+	const panel = Object.create(f.context.api.TargetingPanel.prototype);
+	panel.session = f.activation;
+	let evaluations = 0;
+	f.context.Roll = class {
+		constructor(formula) { this.formula = formula; }
+		async evaluate() { evaluations++; this.total = this.formula === "2d6" ? 7 : Number(this.formula); return this; }
+		toJSON() { return { formula: this.formula, total: this.total, evaluated: true }; }
+	};
+	const apply = formula => f.activation.adjustTargetDamage({ dataset: { tokenId: f.target.id },
+		closest: () => ({ querySelector: () => ({ value: formula }) }) });
+	return { ...f, panel, attack, apply, evaluations: () => evaluations };
+}
+
+test("a missed target accepts a bonus from zero without rolling shared damage; chat retains the receipt", async () => {
+	const f = damageReviewFixture("miss");
+	let display = await f.panel._prepareContext();
+	assert.equal(display.results[0].damageTotal, 0);
+	assert.equal(display.results[0].canAdjustDamage, true);
+	await f.apply("2d6");
+	display = await f.panel._prepareContext();
+	assert.equal(display.results[0].damageTotal, 7);
+	assert.equal(display.results[1].damageTotal, 0);
+	assert.equal(display.results[0].damageModifier, "2d6");
+	assert.equal(f.activation.damageMessages.length, 0);
+	const review = f.attack.flags[MODULE_ID].targetDamageReview;
+	assert.equal(review.pending, true);
+	assert.equal(review.targets[0].modifierRoll.total, 7);
+	await f.activation.confirmDamage();
+	assert.equal(f.activation.state, "complete");
+	assert.equal(f.attack.flags[MODULE_ID].targetDamageReview.pending, false);
+	assert.equal(f.attack.flags[MODULE_ID].targetDamageReview.targets[0].total, 7);
+});
+
+test("target bonuses replace, clear and retain evaluated dice without changing shared rolls", async () => {
+	const f = damageReviewFixture();
+	f.activation.damageMessages = [{ id: "normal", rolls: [{ total: 8 }], flags: { [MODULE_ID]: { damageReview: { type: "normal" } } } }];
+	for (const [formula, total] of [["2d6", 15], ["2d6", 15], ["-2", 6], ["", 8]]) {
+		await f.apply(formula);
+		const display = await f.panel._prepareContext();
+		assert.equal(display.results[0].damageTotal, total);
+		assert.equal(display.results[1].damageTotal, 8);
+		assert.equal(f.activation.damageMessages[0].rolls[0].total, 8);
+	}
+	assert.equal(f.evaluations(), 3);
+	assert.equal(f.attack.flags[MODULE_ID].targetDamageReview.targets[0].modifierFormula, "");
+});
+
+test("target bonus failures and ownership changes retain the previous evaluated modifier", async () => {
+	const f = damageReviewFixture("miss");
+	await f.apply("2d6");
+	f.attack.update = async () => { throw new Error("save failed"); };
+	await f.apply("3");
+	assert.equal(f.activation.state, "reviewingDamage");
+	assert.equal((await f.panel._prepareContext()).results[0].damageTotal, 7);
+	assert.match(f.warnings.at(-1), /save failed/);
+	f.item.isOwner = false;
+	await f.apply("9");
+	assert.equal(f.evaluations(), 2, "ownership failure does not roll another bonus");
+	assert.equal((await f.panel._prepareContext()).results[0].damageTotal, 7);
+	assert.match(f.warnings.at(-1), /permission/);
+});
+
+test("missing required miss damage cannot be replaced by a target bonus", async () => {
+	const f = damageReviewFixture("miss");
+	f.activation.requiredDamageTypes = ["miss"];
+	assert.equal((await f.panel._prepareContext()).results[0].canAdjustDamage, false);
+	await f.apply("2d6");
+	assert.equal(f.evaluations(), 0);
+	assert.equal(f.activation.state, "readyForDamage");
+});
+
+test("damage confirmation retries failed target receipts and preserves final shared/individual totals", async () => {
+	const f = damageReviewFixture("miss");
+	await f.apply("2d6");
+	const update = f.attack.update;
+	f.attack.update = async () => { throw new Error("receipt failed"); };
+	await f.activation.confirmDamage();
+	assert.equal(f.activation.state, "reviewingDamage");
+	assert.equal(f.activation.canComplete(), false);
+	f.attack.update = update;
+	await f.activation.confirmDamage();
+	assert.equal(f.activation.state, "complete");
+	assert.equal(f.attack.flags[MODULE_ID].targetDamageReview.targets[0].total, 7);
+});
+
+test("results retain selected target order even when chat rolls arrive in reverse order", async () => {
+	const f = damageReviewFixture("miss");
+	f.attack.rolls.reverse();
+	const display = await f.panel._prepareContext();
+	assert.deepEqual(Array.from(display.results, result => result.tokenId), [f.target.id, f.far.id]);
+	assert.equal(f.context.api.TargetingPanel.DEFAULT_OPTIONS.position.width, 408);
+});
+
+test("shared modifiers update every matching target while preserving original roll display and individual bonuses", async () => {
+	const f = damageReviewFixture();
+	const message = { id: "normal", rolls: [{ total: 8 }], flags: { [MODULE_ID]: { damageReview: { type: "normal", baseRolls: [{ total: 8 }] } } } };
+	f.activation.damageMessages = [message];
+	await f.apply("2d6");
+	f.context.adjustDamageMessage = async (entry, formula) => {
+		assert.equal(entry, message);
+		assert.equal(formula, "+3");
+		entry.rolls[0].total = 11;
+	};
+	await f.activation.adjustDamage({ dataset: { messageId: "normal" }, closest: () => ({ querySelector: () => ({ value: "+3" }) }) });
+	const display = await f.panel._prepareContext();
+	assert.equal(display.damageResults[0].rolled, 8);
+	assert.equal(display.damageResults[0].total, 11);
+	assert.equal(display.results[0].damageTotal, 18);
+	assert.equal(display.results[1].damageTotal, 11);
+	assert.equal(f.attack.flags[MODULE_ID].targetDamageReview.targets[0].total, 18);
+	assert.equal(f.evaluations(), 1, "changing the shared roll does not reroll the target's dice");
+});
+
+test("initial damage review waits for every outcome animation; retries keep the existing damage view", async () => {
+	const f = damageReviewFixture();
+	f.attack.rolls[0].options.multirollData.critstate = "critical";
+	let release;
+	const requests = [];
+	f.context.rollDamageAndWait = async (item, event, cls, review) => {
+		requests.push(review.type);
+		return new Promise(resolve => { release = () => resolve({ message: {
+			id: review.type, rolls: [{ total: 20 }], flags: { [MODULE_ID]: { damageReview: review } }, async update() {},
+		} }); });
+	};
+	const rolling = f.activation.rollDamage({}, true);
+	assert.equal(f.activation.state, "rollingDamage");
+	assert.equal((await f.panel._prepareContext()).reviewing, true);
+	assert.equal((await f.panel._prepareContext()).pendingDamage, false);
+	release();
+	await new Promise(resolve => setImmediate(resolve));
+	assert.deepEqual(requests, ["crit", "normal"]);
+	assert.equal((await f.panel._prepareContext()).reviewing, true, "remain in attack review while the second animation runs");
+	assert.equal((await f.panel._prepareContext()).canConfirmDamage, false);
+	release();
+	await rolling;
+	assert.equal(f.activation.state, "reviewingDamage");
+	assert.equal((await f.panel._prepareContext()).reviewing, false);
+	assert.equal((await f.panel._prepareContext()).damageResults.length, 2);
+	f.activation.damageMessages.pop();
+	const retry = f.activation.rollDamage({}, true);
+	assert.equal(f.activation.state, "retryingDamage");
+	const retryDisplay = await f.panel._prepareContext();
+	assert.equal(retryDisplay.reviewing, false, "retry keeps previously rolled damage visible");
+	assert.equal(retryDisplay.reviewingDamage, true);
+	assert.equal(retryDisplay.damageResults[0].total, 20);
+	assert.equal(retryDisplay.busy, true);
+	release();
+	await retry;
+	assert.equal(f.activation.state, "reviewingDamage");
+	assert.equal((await f.panel._prepareContext()).damageResults.length, 2);
+});
+
+test("shared damage is presented Hit first, then Crit and Miss, without reordering recorded rolls", async () => {
+	const f = damageReviewFixture();
+	f.activation.damageMessages = ["crit", "miss", "normal"].map(type => ({
+		id: type, rolls: [{ total: 10 }], flags: { [MODULE_ID]: { damageReview: { type } } },
+	}));
+	const display = await f.panel._prepareContext();
+	assert.deepEqual(Array.from(display.damageResults, result => result.label), ["Hit", "Crit", "Miss"]);
+	assert.deepEqual(Array.from(f.activation.damageMessages, message => message.id), ["crit", "miss", "normal"]);
+});
+
+test("half-on-miss uses one Hit roll even without Hit targets and produces a read-only derived card", async () => {
+	for (const critical of [false, true]) {
+		const f = damageReviewFixture("miss");
+		f.item.system.miss = { halfDamage: true };
+		if (critical) {
+			f.attack.rolls[0].options.multirollData.critstate = "critical";
+		}
+		const calls = [];
+		f.context.rollDamageAndWait = async (item, event, cls, review) => {
+			calls.push(review.type);
+			return { message: { id: review.type, rolls: [{ total: 11 }], flags: { [MODULE_ID]: { damageReview: review } }, async update() {} } };
+		};
+		await f.activation.rollDamage({}, true);
+		assert.deepEqual(calls, critical ? ["crit", "normal"] : ["normal"]);
+		assert.equal(calls.includes("miss"), false);
+		let display = await f.panel._prepareContext();
+		const miss = display.damageCards.find(card => card.type === "miss");
+		assert.equal(miss.derived, true);
+		assert.equal(miss.messageId, undefined);
+		assert.equal(miss.total, 5);
+		assert.equal(miss.sourceTotal, 11);
+		assert.equal(display.damageCards[0].type, "normal");
+		assert.equal(display.damageCards[0].count, 0);
+		f.activation.damageMessages.find(message => message.id === "normal").rolls[0].total = 14;
+		display = await f.panel._prepareContext();
+		assert.equal(display.damageCards.find(card => card.derived).total, 7);
+		assert.equal(display.results.at(-1).damageTotal, 7);
+	}
+});
+
+test("separate Miss damage has its own editable message rather than a derived Hit total", async () => {
+	const f = damageReviewFixture("miss");
+	f.item.system.miss = { formula: "3", halfDamage: false };
+	f.context.rollDamageAndWait = async (item, event, cls, review) => ({ message: {
+		id: review.type, rolls: [{ total: 3 }], flags: { [MODULE_ID]: { damageReview: review } }, async update() {},
+	} });
+	await f.activation.rollDamage({}, true);
+	const display = await f.panel._prepareContext();
+	assert.equal(display.damageCards.length, 1);
+	assert.equal(display.damageCards[0].messageId, "miss");
+	assert.equal(display.damageCards[0].derived, undefined);
+	assert.equal(display.reviewingDamage, true);
+});
+
+test("damage target disclosure starts collapsed and preserves user expansion through modifier updates", async () => {
+	const f = damageReviewFixture("miss");
+	assert.equal((await f.panel._prepareContext()).targetsExpanded, false);
+	let toggle;
+	const disclosure = { open: true, classList: { contains: () => false }, addEventListener(name, callback) {
+		assert.equal(name, "toggle"); toggle = callback;
+	} };
+	f.panel.element = { querySelector: selector => selector === "[data-target-disclosure]" ? disclosure : null, querySelectorAll: () => [] };
+	f.panel.setPosition = () => {};
+	f.panel._onRender();
+	toggle();
+	await f.apply("2d6");
+	assert.equal((await f.panel._prepareContext()).targetsExpanded, true);
+	disclosure.open = false;
+	toggle();
+	assert.equal((await f.panel._prepareContext()).targetsExpanded, false);
+	const attacking = fixture();
+	enterReview(attacking.activation);
+	const panel = Object.create(attacking.context.api.TargetingPanel.prototype);
+	panel.session = attacking.activation;
+	assert.equal((await panel._prepareContext()).targetsExpanded, true, "attack review remains expanded");
+});
+
+test("healing-only utility rolls once, reviews target surge totals, and confirms before completion", async () => {
+	const f = fixture();
+	f.item.hasAttack = false;
+	f.item.hasDamage = false;
+	f.item.hasHealing = true;
+	f.item.system.hit = { healSurge: "surge" };
+	f.target.actor.system = { details: { surgeValue: 9 } };
+	f.activation.targets = [f.target];
+	let rolls = 0;
+	let confirmed = false;
+	f.context.rollDamageAndWait = async (item, event, cls, review) => {
+		rolls++;
+		assert.equal(review.healing, true);
+		return { message: { id: "heal", rolls: [{ total: 7 }], flags: { [MODULE_ID]: { damageReview: review } },
+			async update(data) { confirmed = data[`flags.${MODULE_ID}.damageReview.pending`] === false; } } };
+	};
+	await f.activation.attack();
+	assert.equal(f.activation.state, "reviewingHealing");
+	assert.equal(f.activation.canComplete(), false);
+	const panel = new f.context.api.TargetingPanel(f.activation);
+	const view = await panel._prepareContext();
+	assert.equal(view.results[0].surgeValue, 9);
+	assert.equal(view.results[0].total, 16);
+	await f.activation.rollHealing();
+	assert.equal(rolls, 1);
+	await f.activation.reviewHealing();
+	assert.equal(confirmed, true);
+	assert.equal(f.activation.canComplete(), true);
 });

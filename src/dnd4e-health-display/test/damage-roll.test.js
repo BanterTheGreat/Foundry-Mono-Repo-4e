@@ -215,3 +215,115 @@ test("replacing or clearing a damage modifier always starts from the original ev
 	}
 	assert.equal(evaluations, 4, "unchanged dice formulas reuse their evaluated modifier");
 });
+
+test("target totals share outcome rolls, respect divisors and add individual bonuses after half rounding", async () => {
+	const { targetDamageTotal } = await import("../scripts/power-activation/damage-roll.js");
+	const message = (type, total, divisor = 1) => ({
+		flags: { "dnd4e-health-display": { damageReview: { type } } },
+		rolls: [{ total, options: { hitType: type, divisors: { [type]: { value: divisor } } } }],
+	});
+	const rolls = [message("normal", 22, 2), message("crit", 30), message("miss", 3)];
+	assert.equal(targetDamageTotal(rolls, "hit", false, 7), 18);
+	assert.equal(targetDamageTotal(rolls, "critical", false, 7), 37);
+	assert.equal(targetDamageTotal(rolls, "miss", true, 7), 12, "floor(11 / 2) + 7");
+	assert.equal(targetDamageTotal(rolls, "miss", false, 7), 10);
+	assert.equal(targetDamageTotal([], "miss", false, 7), 7, "no miss roll starts at zero");
+	assert.equal(targetDamageTotal([], "fumble", false, -2), -2);
+	assert.equal(targetDamageTotal([], "miss", false, 7, ["miss"]), null, "missing required miss roll stays pending");
+	assert.equal(targetDamageTotal([], "miss", true, 7), null);
+	assert.equal(targetDamageTotal([], "critical"), null);
+	assert.equal(targetDamageTotal([], "attack"), null);
+	assert.equal(targetDamageTotal(rolls, "hit"), 11, "other targets retain the shared value");
+});
+
+test("attack messages do not render target damage receipts", async () => {
+	const { registerDamageReview } = await import("../scripts/power-activation/damage-roll.js");
+	let render;
+	globalThis.Hooks = { on(name, callback) { assert.equal(name, "renderChatMessageHTML"); render = callback; } };
+	globalThis.game = { modules: { get: () => ({ active: true }) } };
+	globalThis.canvas = { tokens: { get: id => ({ visible: id === "visible", name: id === "visible" ? "Iron Guard" : "Secret creature" }) } };
+	globalThis.document = { createElement: () => ({ children: [], append(child) { this.children.push(child); } }) };
+	registerDamageReview();
+	const content = { children: [], append(child) { this.children.push(child); } };
+	const element = { querySelector: selector => selector === ".message-content" ? content : null };
+	render({ flags: { "dnd4e-health-display": { targetDamageReview: { pending: false, targets: [
+		{ tokenId: "visible", total: 15, modifierFormula: "2d6" },
+		{ tokenId: "hidden", total: 0, modifierFormula: "" },
+	] } } } }, element);
+	assert.deepEqual(content.children, []);
+});
+
+test("damage breakdown groups original typed terms, allocates native remainder and preserves divided totals", async () => {
+	const { damageRollBreakdown } = await import("../scripts/power-activation/damage-roll.js");
+	const message = roll => ({ rolls: [roll], flags: {} });
+	const typed = damageRollBreakdown(message({ total: 17, terms: [
+		{ total: 8, flavor: "radiant" }, { operator: "+" }, { total: 3, flavor: "fire" }, { operator: "+" },
+		{ total: 2, flavor: "radiant" }, { operator: "+" }, { total: 4 },
+	] }));
+	assert.deepEqual(typed.map(({ type, total }) => [type, total]), [["radiant", 13], ["fire", 4]]);
+	const divided = damageRollBreakdown(message({ total: 11, terms: [
+		{ total: 7, flavor: "radiant" }, { operator: "+" }, { total: 4, flavor: "fire" },
+	], options: { hitType: "miss", divisors: { miss: { value: 2 } } } }));
+	assert.equal(divided.reduce((sum, component) => sum + component.total, 0), 5);
+	assert.deepEqual(damageRollBreakdown(message({ total: 0, terms: [{ total: 0, flavor: "cold" }] })), [
+		{ type: "cold", label: "Cold", total: 0 },
+	]);
+	assert.deepEqual(damageRollBreakdown(message({ total: 6, terms: [{ total: 6 }] })), [
+		{ type: "physical", label: "Physical", total: 6 },
+	]);
+});
+
+test("damage breakdown reconstructs original evaluated terms after a shared modifier without rerolling", async () => {
+	const { damageRollBreakdown } = await import("../scripts/power-activation/damage-roll.js");
+	let reconstructed = 0;
+	const original = { total: 8, terms: [{ total: 8, flavor: "radiant" }] };
+	const message = { flags: { "dnd4e-health-display": { damageReview: { baseRolls: [original] } } }, rolls: [{ total: 15,
+		constructor: { fromJSON(json) { reconstructed++; return JSON.parse(json); } },
+	}] };
+	assert.deepEqual(damageRollBreakdown(message), [{ type: "radiant", label: "Radiant", total: 8 }]);
+	assert.equal(reconstructed, 1);
+	assert.equal(message.rolls[0].total, 15);
+});
+
+test("healing dialog submission keeps the native heal action and captures its healing message", async () => {
+	globalThis.game = {};
+	const warnings = [];
+	globalThis.ui = { notifications: { warn: value => warnings.push(value) } };
+	const f = fixture(12);
+	let submittedType;
+	class Dialog {
+		static asPromise() { assert.fail("Automated healing must submit its scoped dialog"); }
+	}
+	f.item.rollHealing = async function() {
+		return Dialog.asPromise({ rollConfig: { data: this.getRollData(), hitType: "normal" }, callbackFn: (form, config) => {
+			submittedType = config.hitType;
+			const roll = f.RollClass.createRoll([], [], config.data, config.hitType === "heal"
+				? { hitTypeHealing: true } : { hitTypeDamage: true });
+			void roll.toMessage({ flavor: config.hitType === "heal" ? "Healing" : "Damage" });
+			return roll;
+		} });
+	};
+	f.publish();
+	const result = await rollDamageAndWait(f.item, {}, f.RollClass, { sessionId: "healing", type: "normal", healing: true }, Dialog);
+	assert.equal(submittedType, "heal", "native callback must receive healing rather than damage");
+	assert.equal(result.message, f.message);
+	assert.deepEqual(warnings, []);
+});
+
+test("automated native damage stays hidden from its first render while healing and ordinary damage remain visible", async () => {
+	const { registerDamageReview } = await import("../scripts/power-activation/damage-roll.js");
+	let render;
+	globalThis.Hooks = { on(name, callback) { render = callback; } };
+	globalThis.game = { modules: { get: () => ({ active: true }) }, settings: { get: () => true } };
+	registerDamageReview();
+	const hidden = [];
+	const element = { style: { setProperty(...args) { hidden.push(args); } }, querySelector: () => null };
+	render({ flags: { "dnd4e-health-display": { damageReview: { sessionId: "session", type: "normal" } } } }, element);
+	assert.deepEqual(hidden, [["display", "none", "important"]], "hide before damageChatParent is assigned");
+	hidden.length = 0;
+	render({ flags: {} }, element);
+	assert.equal(hidden.length, 0);
+	globalThis.game.settings.get = () => false;
+	render({ flags: { "dnd4e-health-display": { damageReview: { sessionId: "session" } } } }, element);
+	assert.equal(hidden.length, 0, "retain native cards when compact cards are disabled");
+});

@@ -4,9 +4,13 @@
 	<label class="power-targeting__origin">Origin <select data-origin-selector {{#if busy}}disabled{{/if}}>{{#each originChoices}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{name}}</option>{{/each}}</select></label>
 	{{/unless}}
 	{{#if showDetails}}<div class="power-targeting__card">{{{card}}}</div>{{/if}}
+	{{#if healing}}
+	{{> "modules/dnd4e-health-display/scripts/power-activation/panel-healing.hbs" }}
+	{{else}}
 	{{#if resolved}}
 	{{> "modules/dnd4e-health-display/scripts/power-activation/panel-results.hbs" }}
 	{{else}}
 	{{> "modules/dnd4e-health-display/scripts/power-activation/panel-targeting.hbs" }}
+	{{/if}}
 	{{/if}}
 </section>

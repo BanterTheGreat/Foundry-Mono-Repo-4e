@@ -86,12 +86,13 @@ test('damage snapshots preserve formula, source identity and zero contributions 
   assert.deepEqual(DamageSourceCapture.correlate(['(18)[fire]'], [], 'crit', context), []);
 });
 
-test('damage divisor changes display once; healing and unrelated rolls retain native rendering', () => {
+test('damage divisor changes display once; healing uses its own presentation', () => {
   const roll = { total: 29, options: { hitTypeDamage: true, hitType: 'miss', divisors: { miss: { value: 2, reason: ['Miss'] } } } };
   assert.equal(describeRoll(message, roll).total, 14);
   assert.equal(describeRoll(message, roll).label, 'Idrani Fullhorn deals damage');
   roll.options.hitTypeHealing = true;
-  assert.equal(describeRoll(message, roll), null);
+  assert.equal(describeRoll(message, roll).kind, 'healing');
+  assert.equal(describeRoll(message, roll).total, 29);
   assert.equal(describeRoll(message, { total: 10, options: {} }), null);
 });
 
@@ -230,4 +231,24 @@ test('damage review shares unconfirmed and manually edited labels with attack ca
   assert.equal(pending.manualEdit, 'Manually edited (-2, 1d6 + 3)');
   message.flags['dnd4e-health-display'].damageReview.pending = false;
   assert.equal(describeRoll(message, roll, 0).unconfirmed, false);
+});
+
+
+test('healing cards show healing, surge semantics and the persisted manual review', () => {
+  const reviewed = { ...message, flags: { 'dnd4e-health-display': { damageReview: {
+    pending: true, edited: true, modifiers: ['+4'],
+  } } } };
+  for (const [surge, expected] of [
+    ['surge', 'Spend 1 healing surge; add the target’s surge value'],
+    ['surgeValue', 'Add the target’s healing surge value'],
+    ['surgeCost', 'Spend 1 healing surge'], ['', null],
+  ]) {
+    const model = describeRoll(reviewed, { total: 12, terms: [{ flavor: `heal, ${surge}` }], options: { hitTypeHealing: true } });
+    assert.equal(model.kind, 'healing');
+    assert.equal(model.label, 'Idrani Fullhorn restores hit points');
+    assert.equal(model.healingSurge, expected);
+    assert.equal(model.unconfirmed, true);
+    assert.equal(model.manualEdit, 'Manually edited (+4)');
+    assert.equal(model.damageOutcome, null);
+  }
 });

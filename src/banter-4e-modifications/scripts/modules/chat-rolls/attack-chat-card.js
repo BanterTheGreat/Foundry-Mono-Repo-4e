@@ -73,7 +73,8 @@ export class AttackChatCard {
     const group = element('section', 'banter-attack-card');
     const header = element('header', 'banter-attack-card__header');
     const identity = element('div', 'banter-attack-card__identity');
-    identity.append(element('div', 'banter-attack-card__power', model.power));
+    identity.append(element('span', 'banter-attack-card__kind', '⌖  ATTACK'),
+      element('div', 'banter-attack-card__power', model.power));
     const button = element('button', 'banter-attack-card__damage', 'Roll Damage');
     button.type = 'button';
     button.addEventListener('click', event => {
@@ -81,10 +82,9 @@ export class AttackChatCard {
       event.stopPropagation();
       void AttackChatCard.rollDamage(message, event);
     });
-    header.append(identity, button);
+    header.append(identity);
     const footer = element('footer', 'banter-attack-card__footer');
-    footer.append(element('span', '', `${model.targets} ${model.targets === 1 ? 'target' : 'targets'}`),
-      element('span', '', model.defense ? `vs. ${model.defense}` : ''));
+    footer.append(element('span', '', `${model.targets} ${model.targets === 1 ? 'target' : 'targets'}${model.defense ? ` · vs. ${model.defense}` : ''}`), button);
     cards[0].before(group);
     group.append(header, ...cards, footer);
     cards.forEach(card => {

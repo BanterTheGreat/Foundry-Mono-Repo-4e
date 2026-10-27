@@ -1,0 +1,9 @@
+{{> "modules/dnd4e-health-display/scripts/power-activation/panel-damage.hbs" }}
+<ul class="power-targeting__targets">
+	{{#each results}}<li><span class="power-targeting__target-name">{{name}}</span><span>{{#if surgeValue}}Surge {{surgeValue}} + healing{{#if spendsSurge}} · Spend 1 surge{{/if}} · {{/if}}<strong>{{total}}</strong></span></li>{{/each}}
+</ul>
+<footer>
+	{{#if needsHealing}}<button type="button" data-action="rollHealing" {{#if busy}}disabled{{/if}}>Retry Healing</button>{{/if}}
+	{{#if canConfirmHealing}}<button type="button" data-action="confirmHealing" class="is-ready" {{#if busy}}disabled{{/if}}>Confirm Healing</button>{{/if}}
+	{{#if canComplete}}<button type="button" data-action="complete" class="is-ready">Complete</button>{{/if}}
+</footer>

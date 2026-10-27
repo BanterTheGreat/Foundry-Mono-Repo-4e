@@ -18,7 +18,7 @@ function captureDamageMessage(RollClass) {
 	RollClass.createRoll = function(parts, replacements, data, options = {}) {
 		const roll = create.call(this, parts, replacements, data, options);
 		const context = data?.[CONTEXT];
-		if (context && options.hitTypeDamage && !options.hitTypeHealing) {
+		if (context && (context.review?.healing ? options.hitTypeHealing : options.hitTypeDamage && !options.hitTypeHealing)) {
 			const toMessage = roll.toMessage;
 			roll.toMessage = function(...args) {
 				if (context.review) {
@@ -47,7 +47,7 @@ export async function rollDamageAndWait(item, event, RollClass = null, review = 
 				if (!scoped?.review) {
 					return original.call(this, config);
 				}
-				return config.callbackFn(null, { ...config.rollConfig, hitType: scoped.review.type, fastForward: true });
+				return config.callbackFn(null, { ...config.rollConfig, hitType: scoped.review.healing ? "heal" : scoped.review.type, fastForward: true });
 			};
 			dialogs.add(DialogClass);
 		}
@@ -66,13 +66,13 @@ export async function rollDamageAndWait(item, event, RollClass = null, review = 
 			return typeof value === "function" ? value.bind(target) : value;
 		},
 	});
-	const roll = await item.rollDamage.call(power, { event: review ? {} : event, ...(review ? { fastForward: false } : {}) });
+	const roll = await (review?.healing ? item.rollHealing : item.rollDamage).call(power, { event: review ? {} : event, ...(review ? { fastForward: false } : {}) });
 	if (!roll) {
 		return null;
 	}
 	const message = await context.message;
 	if (!message) {
-		ui.notifications.warn("Damage was rolled, but its chat message could not be confirmed. Check chat for the result.");
+		ui.notifications.warn("The roll was made, but its chat message could not be confirmed. Check chat for the result.");
 		return { total: null };
 	}
 	if (typeof game.dice3d?.waitFor3DAnimationByMessageID === "function") {
@@ -121,9 +121,85 @@ export function damageMessageTotal(message) {
 	return Math.floor(roll.total / divisor);
 }
 
+/**
+ * Read original evaluated damage by type without rolling or redistributing modifiers.
+ * DnD4e 0.9.3 labels top-level terms with flavor and shares an untyped remainder
+ * between them. Keep that allocation, then divide once and reconcile rounding so
+ * the displayed components sum to the native damage total.
+ */
+export function damageRollBreakdown(message) {
+	const saved = message.flags?.[MODULE_ID]?.damageReview?.baseRolls?.[0];
+	const current = message.rolls[0];
+	const roll = saved && typeof current.constructor.fromJSON === "function"
+		? current.constructor.fromJSON(JSON.stringify(saved)) : saved ?? current;
+	const parts = [];
+	let remaining = roll.total;
+	for (const term of roll.terms ?? []) {
+		if (Number.isFinite(term.total) && term.flavor) {
+			parts.push({ type: term.flavor, value: term.total });
+			remaining -= term.total;
+		}
+	}
+	if (!parts.length) {
+		parts.push({ type: "physical", value: remaining });
+	} else if (remaining) {
+		parts.forEach((part, index) => {
+			part.value += 0 | remaining / parts.length + (index < remaining % parts.length);
+		});
+	}
+	const divisor = Number(roll.options?.divisors?.[roll.options.hitType]?.value) || 1;
+	const groups = new Map();
+	for (const part of parts) {
+		groups.set(part.type, (groups.get(part.type) ?? 0) + part.value);
+	}
+	let accumulated = 0;
+	let displayed = 0;
+	return [...groups].map(([type, value]) => {
+		accumulated += value;
+		const subtotal = Math.floor(accumulated / divisor);
+		const total = subtotal - displayed;
+		displayed = subtotal;
+		const configured = globalThis.CONFIG?.DND4E?.damageTypes?.[type];
+		return { type: String(type).replace(/[^a-z0-9-]/gi, "-"),
+			label: configured ? game.i18n.localize(configured) : type.charAt(0).toUpperCase() + type.slice(1), total };
+	});
+}
+
+/**
+ * Resolve one target from shared outcome rolls, then add its individual bonus.
+ * A known miss with no configured miss roll starts at zero. Missing hit/crit rolls
+ * stay pending. Half-on-miss rounds the shared Hit result before the target bonus.
+ */
+export function targetDamageTotal(messages, outcome, sharedMiss = false, modifier = 0, requiredTypes = []) {
+	const type = outcome === "critical" ? "crit" : ["miss", "fumble"].includes(outcome) ? "miss" : outcome === "hit" ? "normal" : null;
+	if (outcome === "immune") {
+		return modifier ?? 0;
+	}
+	if (!type) {
+		return null;
+	}
+	const message = messages.find(entry => entry.flags?.[MODULE_ID]?.damageReview?.type === (type === "miss" && sharedMiss ? "normal" : type));
+	if (!message) {
+		return type === "miss" && !sharedMiss && !requiredTypes.includes("miss") ? (modifier ?? 0) : null;
+	}
+	const total = damageMessageTotal(message);
+	return (type === "miss" && sharedMiss ? Math.floor(total / 2) : total) + (modifier ?? 0);
+}
+
 /** Label damage review in chat while leaving native roll rendering intact. */
 export function registerDamageReview() {
 	Hooks.on("renderChatMessageHTML", (message, element) => {
+		const damageReview = message.flags?.[MODULE_ID]?.damageReview;
+		// Keep real messages for native dialog results, review edits and Dice So
+		// Nice, but hide backing rolls before the aggregate card is published.
+		// Inline !important also wins over chat themes that override [hidden].
+		if (damageReview?.sessionId && !damageReview.healing
+			&& game.modules?.get("banter-4e-modifications")?.active
+			&& game.settings.get("banter-4e-modifications", "enable-compact-chat-rolls")) {
+			element.style.setProperty("display", "none", "important");
+			return;
+		}
+		element.querySelector(".power-target-damage-review")?.remove();
 		const review = message.flags?.[MODULE_ID]?.damageReview;
 		if (!review || game.modules?.get("banter-4e-modifications")?.active) {
 			return;
@@ -131,7 +207,7 @@ export function registerDamageReview() {
 		element.querySelector(".power-damage-review")?.remove();
 		const label = document.createElement("strong");
 		label.className = "power-damage-review";
-		label.textContent = `${review.pending ? "Unconfirmed damage" : "Confirmed damage"}${review.edited ? ` · Manually edited (${review.modifiers.join(", ")})` : ""}`;
+		label.textContent = `${review.pending ? "Unconfirmed" : "Confirmed"} ${review.healing ? "healing" : "damage"}${review.edited ? ` · Manually edited (${review.modifiers.join(", ")})` : ""}`;
 		element.querySelector(".message-content")?.prepend(label);
 	});
 }
