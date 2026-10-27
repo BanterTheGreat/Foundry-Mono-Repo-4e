@@ -144,6 +144,7 @@
 					<div class="dnd4e-horizontal-actor-display__portrait-name-row">
 						<h2 title="{{name}}">{{name}}</h2>
 						<label class="dnd4e-horizontal-actor-display__portrait-hp"><input type="number" value="{{hp.value}}" max="{{hp.maximum}}" aria-label="Hit points" data-resource-path="system.attributes.hp.value"><span>/ {{hp.maximum}}</span></label>
+						<button type="button" class="dnd4e-horizontal-actor-display__portrait-heal" data-action="quick" data-command="healing" title="Heal" aria-label="Heal"><i class="fa-solid fa-heart" aria-hidden="true"></i></button>
 					</div>
 					<div class="dnd4e-horizontal-actor-display__health-bar" style="--health-segments: 4" role="img" aria-label="Hit points: {{hp.value}} of {{hp.maximum}}">
 						{{#each hp.barSegments}}<span><i style="width: {{percent}}%"></i></span>{{/each}}

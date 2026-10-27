@@ -67,7 +67,6 @@
 						{{/if}}
 
 		{{#if isExtras}}
-		<button type="button" data-hud-entry="Action Point" data-action="quick" data-command="actionPoint" {{#if horizontalActions.ap.disabled}}disabled{{/if}}>Action Point <small>{{horizontalActions.ap.value}}</small></button>
 		<section class="dnd4e-horizontal-actor-display__group"><h4>Healing</h4>
 		<div class="dnd4e-experimental-actor-display__extra-actions">{{#each horizontalActions.heal}}<button type="button" data-hud-entry="{{label}}" data-action="quick" data-command="{{command}}" {{#if disabled}}disabled{{/if}}>{{label}}</button>{{/each}}</div>
 		</section>
@@ -84,12 +83,20 @@
 	{{/if}}
 
 	<nav class="dnd4e-experimental-actor-display__categories" aria-label="Actor menus">
+		<div class="dnd4e-experimental-actor-display__action-menus">
 		{{#each categories}}
 		<button type="button" class="{{#if active}}is-active{{/if}}" data-action="selectPowerCategory" data-power-category="{{key}}" aria-expanded="{{#if active}}true{{else}}false{{/if}}">{{name}} <small>{{powers.length}}</small></button>
 		{{/each}}
-		<span class="dnd4e-experimental-actor-display__menu-gap" aria-hidden="true"></span>
+		</div>
+		<div class="dnd4e-experimental-actor-display__quick-actions" role="group" aria-label="Quick actions">
+			<button type="button" class="dnd4e-experimental-actor-display__quick-icon" data-action="quick" data-command="healing" title="Heal" aria-label="Heal"><i class="fa-solid fa-heart" aria-hidden="true"></i></button>
+		<button type="button" class="dnd4e-experimental-actor-display__action-point" data-action="quick" data-command="actionPoint" {{#if horizontalActions.ap.disabled}}disabled{{/if}} title="Use Action Point ({{horizontalActions.ap.value}} available)" aria-label="Use Action Point, {{horizontalActions.ap.value}} available"><i class="fa-solid fa-star" aria-hidden="true"></i><span>{{horizontalActions.ap.value}}</span></button>
+			<button type="button" class="dnd4e-experimental-actor-display__quick-icon" data-action="quick" data-command="shortRest" title="Short Rest" aria-label="Short Rest"><i class="fa-solid fa-bed" aria-hidden="true"></i></button>
+		</div>
+		<div class="dnd4e-experimental-actor-display__character-menus">
 		{{#each menus}}
 		<button type="button" class="{{#if active}}is-active{{/if}}" data-action="selectMenu" data-display-tab="{{key}}" aria-expanded="{{#if active}}true{{else}}false{{/if}}">{{name}}</button>
 		{{/each}}
+		</div>
 	</nav>
 </div>
