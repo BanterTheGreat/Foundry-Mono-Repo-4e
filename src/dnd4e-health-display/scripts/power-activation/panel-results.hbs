@@ -35,9 +35,9 @@
 {{else}}<p class="power-targeting__range">No targets remain. This power’s use is already spent.</p>{{/unless}}
 {{/unless}}
 <footer>
-	{{#if reviewing}}<button type="button" data-action="confirmResults" class="is-ready" {{#if busy}}disabled{{else}}{{#if awaitingDefenses}}disabled{{/if}}{{/if}}>{{#if hasDamage}}Confirm &amp; Roll Damage{{else}}Confirm Results{{/if}}</button>{{/if}}
+	{{#if reviewing}}<button type="button" data-action="confirmResults" class="is-ready" {{#if busy}}disabled{{else}}{{#if awaitingDefenses}}disabled{{/if}}{{/if}}>{{#if hasDamage}}Roll Damage{{else}}Confirm Results{{/if}}</button>{{/if}}
 	{{#if pendingDamage}}<button type="button" data-action="retryDamage" class="is-ready" {{#if busy}}disabled{{/if}}>Retry Damage</button>{{else}}
 	{{#if needsDamage}}<button type="button" data-action="rollDamage" {{#if busy}}disabled{{/if}}>Damage</button>{{/if}}{{/if}}
-	{{#if canConfirmDamage}}<button type="button" data-action="confirmDamage" class="is-ready" {{#if busy}}disabled{{/if}}>Confirm Damage</button>{{/if}}
+	{{#if canConfirmDamage}}<button type="button" data-action="confirmDamage" class="is-ready" {{#if busy}}disabled{{/if}}>Apply Damage</button>{{/if}}
 	{{#if canComplete}}<button type="button" data-action="complete" class="is-ready" {{#if busy}}disabled{{/if}}>Complete</button>{{/if}}
 </footer>

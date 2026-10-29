@@ -56,7 +56,7 @@ test("unmanaged origin rolls retain native effect application", async () => {
 
 test("summon mode resolves Range without requiring an area or a weapon", async () => {
 	const adapter = loadAdapter();
-	const item = { actor: {}, getFlag: () => ({ placementMode: "summon" }), system: { rangeType: "personal", rangePower: "0" } };
+	const item = { actor: {}, getRollData: () => ({ item: {} }), getFlag: () => ({ placementMode: "summon" }), system: { rangeType: "personal", rangePower: "0" } };
 	assert.equal((await adapter.resolveRange(item)).shape, "summon");
 	assert.equal((await adapter.resolveRange(item)).maximum, 0);
 	item.system.rangePower = "invalid";
@@ -64,20 +64,34 @@ test("summon mode resolves Range without requiring an area or a weapon", async (
 });
 
 /** Exercise the real version adapter against controlled system resolver/formula boundaries. */
-function loadAdapter(weapon = null, combat = null) {
+function loadAdapter(weapon = null, combat = null, evaluateFormula = formula => formula === "@reach" ? 3 : Number(formula)) {
 	const source = readFileSync(new URL("../scripts/power-activation/system-adapter.js", import.meta.url), "utf8")
 		.replace(/^import .*;\r?\n/gm, "").replace(/^export /gm, "");
 	const context = vm.createContext({
 		MODULE_ID, FLAG, AREA_TYPES, automationConfig: item => automationConfig({ getFlag: () => ({}), ...item }),
 		utils: {
 			getWeaponUse: () => weapon,
-			evaluateFormula: formula => formula === "@reach" ? 3 : Number(formula),
+			evaluateFormula,
 		},
 		game: { combat },
 	});
 	vm.runInContext(`${source}\nsystemPromise = Promise.resolve(utils); globalThis.api = {resolveRange, commitCardCosts, commitPowerUse, rollFromOrigin, automationSheetState};`, context);
 	return context.api;
 }
+
+test("range, area and summon formulas receive native item roll data rather than the actor document", async () => {
+	const rollData = { lv: 3, item: {} };
+	const adapter = loadAdapter(null, null, (formula, data) => {
+		assert.equal(data, rollData);
+		return formula === "@lv" ? data.lv : Number(formula);
+	});
+	for (const rangeType of ["reach", "rangeBurst", "personal"]) {
+		const item = { actor: { id: "actor-document" }, getRollData: () => rollData,
+			getFlag: () => rangeType === "personal" ? { placementMode: "summon" } : {},
+			system: { rangeType, rangePower: "@lv", area: "@lv" } };
+		assert.equal((await adapter.resolveRange(item)).maximum, 3);
+	}
+});
 
 test("Automation settings follow the range and workflow without clearing hidden values", () => {
 	const adapter = loadAdapter();
@@ -174,7 +188,7 @@ test("melee reach evaluates the power range without a ranged long-range extensio
 test("native area fields resolve formulas independently of weapon reach and target distance", async () => {
 	const adapter = loadAdapter();
 	for (const shape of ["closeBurst", "closeBlast", "rangeBurst", "rangeBlast"]) {
-		const item = { actor: {}, system: { rangeType: shape, area: "@reach", rangePower: "10" } };
+		const item = { actor: {}, getRollData: () => ({ item: {} }), system: { rangeType: shape, area: "@reach", rangePower: "10" } };
 		const range = await adapter.resolveRange(item);
 		assert.equal(range.shape, shape);
 		assert.equal(range.area, 3);

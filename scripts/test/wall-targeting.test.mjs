@@ -4,6 +4,7 @@ import vm from "node:vm";
 import { test } from "node:test";
 import * as geometry from "../../src/dnd4e-health-display/scripts/power-activation/area-geometry.js";
 import * as rules from "../../src/dnd4e-health-display/scripts/power-activation/rules.js";
+import { ActivationWorkflow } from "../../src/dnd4e-health-display/scripts/power-activation/workflow.js";
 
 const cells = coordinates => coordinates.map(([x, y]) => ({ x: x * 100, y: y * 100 }));
 
@@ -22,7 +23,7 @@ test("wall rules allow bends and loops but reject diagonal joins, branching and 
 function sessionFixture(config = {}) {
   const code = readFileSync(new URL("../../src/dnd4e-health-display/scripts/power-activation/power-activation.js", import.meta.url), "utf8")
     .replace(/^import .*;$/gm, "").replace(/^export /gm, "");
-  const context = vm.createContext({ ...geometry, ...rules, AbortController,
+  const context = vm.createContext({ ...geometry, ...rules, ActivationWorkflow, AbortController,
     foundry: { applications: { api: { ApplicationV2: class {}, HandlebarsApplicationMixin: Base => Base } }, utils: { randomID: () => "session" } },
     game: { user: { id: "user", targets: [], isGM: true, color: "#ffffff" } },
     canvas: { grid: { size: 100 }, dimensions: { sceneRect: { x: 0, y: 0, width: 2000, height: 2000 } }, tokens: { placeables: [] } },

@@ -1,0 +1,13 @@
+{
+  "id": "foundry-test-harness",
+  "title": "Foundry 4e Integration Tests (Development Only)",
+  "description": "Loads this repository's real-Foundry Quench suites in an explicitly opted-in test world.",
+  "version": "0.1.0",
+  "authors": [{ "name": "Banter" }],
+  "compatibility": { "minimum": "14", "verified": "14" },
+  "relationships": {
+    "requires": [{ "id": "quench", "type": "module" }],
+    "systems": [{ "id": "dnd4e", "type": "system", "compatibility": { "minimum": "0.9.3", "maximum": "0.9.3" } }]
+  },
+  "esmodules": ["scripts/main.js"]
+}

@@ -327,3 +327,82 @@ test("automated native damage stays hidden from its first render while healing a
 	render({ flags: { "dnd4e-health-display": { damageReview: { sessionId: "session" } } } }, element);
 	assert.equal(hidden.length, 0, "retain native cards when compact cards are disabled");
 });
+
+test("damage calculation keeps saved roll formulas and balances rounded post-roll adjustments", async () => {
+	const { damageCalculation, damageMessageTotal } = await import("../scripts/power-activation/damage-roll.js");
+	const options = { hitType: "normal", divisors: { normal: { value: 2 } } };
+	const message = { rolls: [{ total: 17, options }], flags: { "dnd4e-health-display": { damageReview: {
+		type: "normal", baseRolls: [{ total: 11, formula: "(1d6[radiant] + 6[radiant] + 0)", options }],
+	} } } };
+	const result = damageCalculation(message);
+	assert.equal(result.rolled, 5);
+	assert.equal(result.calculationModifier, 3);
+	assert.equal(result.rolled + result.calculationModifier, damageMessageTotal(message));
+	assert.equal(result.rollFormula, "((1d6 + 6)) ÷ 2 ↓");
+	assert.equal(result.fullRollFormula, "(1d6[radiant] + 6[radiant] + 0)");
+});
+
+test("critical formula shows Max plus actual dice expressions, not their rolled values", async () => {
+	const { damageCalculation, damageMessageTotal } = await import("../scripts/power-activation/damage-roll.js");
+	const message = { rolls: [{ total: 31, formula: "(18[radiant] + 3d6[radiant]) + (1d8kh1[fire])" }],
+		flags: { "dnd4e-health-display": { damageReview: { type: "crit" } } } };
+	assert.equal(damageCalculation(message).rollFormula, "Max + 3d6 + 1d8kh1");
+	message.rolls[0].formula = "18[radiant]";
+	assert.equal(damageCalculation(message).rollFormula, "Max");
+	assert.equal(damageCalculation(message).calculationModifier, 0);
+});
+
+test("damage calculation separates native fixed modifiers from nested dice results", async () => {
+	const { damageCalculation } = await import("../scripts/power-activation/damage-roll.js");
+	const die = { number: 1, faces: 6, total: 6 };
+	const roll = { total: 12, formula: "(1d6[radiant] + 6[radiant] + (0))", terms: [
+		{ roll: { total: 12, terms: [die, { operator: "+" }, { number: 6, total: 6 },
+			{ operator: "+" }, { roll: { total: 0, terms: [{ number: 0, total: 0 }] } }] } },
+	] };
+	const message = { rolls: [roll], flags: { "dnd4e-health-display": { damageReview: { type: "normal" } } } };
+	assert.equal(damageCalculation(message).rolled, 6);
+	assert.equal(damageCalculation(message).calculationModifier, 6);
+	assert.equal(damageCalculation(message).rollFormula, "1d6");
+});
+
+test("scaled damage dice retain their formula while fixed and manual bonuses join Mod", async () => {
+	const { damageCalculation } = await import("../scripts/power-activation/damage-roll.js");
+	const base = { total: 20, formula: "(1d6 + 6) * 2", terms: [
+		{ roll: { total: 10, terms: [{ number: 1, faces: 6, total: 4 }, { operator: "+" }, { number: 6, total: 6 }] } },
+		{ operator: "*" }, { number: 2, total: 2 },
+	] };
+	const message = { rolls: [{ total: 23 }], flags: { "dnd4e-health-display": { damageReview: { type: "normal", baseRolls: [base] } } } };
+	const result = damageCalculation(message);
+	assert.equal(result.rolled, 8);
+	assert.equal(result.calculationModifier, 15);
+	assert.equal(result.rollFormula, "(1d6) * 2");
+});
+
+test("critical calculation splits MAX, extra dice and manual Mod without rerolling", async () => {
+	const { damageCalculation } = await import("../scripts/power-activation/damage-roll.js");
+	const base = { total: 30, formula: "18 + 3d6", terms: [
+		{ number: 18, total: 18 }, { operator: "+" }, { number: 3, faces: 6, total: 12 },
+	] };
+	const message = { rolls: [{ total: 34 }], flags: { "dnd4e-health-display": { damageReview: { type: "crit", baseRolls: [base] } } } };
+	let result = damageCalculation(message);
+	assert.equal(result.critical, true);
+	assert.equal(result.criticalMaximum, 18);
+	assert.equal(result.criticalDice, 12);
+	assert.equal(result.criticalDiceFormula, "3d6");
+	assert.equal(result.calculationModifier, 4);
+	base.options = message.rolls[0].options = { hitType: "crit", divisors: { crit: { value: 2 } } };
+	result = damageCalculation(message);
+	assert.equal(result.criticalMaximum + result.criticalDice + result.calculationModifier, 17);
+	assert.equal(result.criticalDiceFormula, "(3d6) ÷ 2 ↓");
+});
+
+test("critical MAX excludes fixed bonuses from the native critical formula", async () => {
+	const { damageCalculation } = await import("../scripts/power-activation/damage-roll.js");
+	const message = { rolls: [{ total: 18, formula: "12 + 2d6", options: { formulaInnerData: { powMax: 6 } }, terms: [
+		{ number: 12, total: 12 }, { operator: "+" }, { number: 2, faces: 6, total: 6 },
+	] }], flags: { "dnd4e-health-display": { damageReview: { type: "crit" } } } };
+	const result = damageCalculation(message);
+	assert.equal(result.criticalMaximum, 6);
+	assert.equal(result.criticalDice, 6);
+	assert.equal(result.calculationModifier, 6);
+});

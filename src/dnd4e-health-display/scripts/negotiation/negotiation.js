@@ -37,9 +37,11 @@ export function registerNegotiation() {
 		button.type = 'button';
 		button.dataset.negotiationStart = '';
 		button.className = 'dnd4e-combat-start__tracker-button';
-		button.innerHTML = '<i class="fa-solid fa-comments" aria-hidden="true"></i><span>Start Negotiation</span>';
+		button.title = 'Start Negotiation';
+		button.setAttribute('aria-label', 'Start Negotiation');
+		button.innerHTML = '<i class="fa-solid fa-comments" aria-hidden="true"></i>';
 		button.addEventListener('click', () => openNegotiationControls(game.settings.get(MODULE_ID, SETTING)));
-		header.append(button);
+		(header.querySelector('.battle-momentum-tracker-controls') ?? header).append(button);
 	});
 	for (const hook of ['canvasReady', 'createToken', 'updateToken', 'deleteToken', 'updateActor']) {
 		Hooks.on(hook, () => {

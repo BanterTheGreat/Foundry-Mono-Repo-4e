@@ -19,7 +19,7 @@ This repo holds independent Foundry VTT modules and the Modern 4e Typst rulebook
 - Changelog entries are release summaries, not per-change notes. Since the previous version, record new features and changed behavior in concise bullets/prose suitable for future regression review.
 - Track project TODOs as appropriately labeled GitHub Issues rather than local TODO files.
 - Changes that affect initial hooks or a module's manifest should be tested by reloading Foundry and checking the browser console. Where a module has an automated test suite (check its folder for `package.json`/`test/`), run it and resolve failures before handoff.
-- The user exclusively operates Foundry; do not launch, inspect, automate, or otherwise attempt to validate Foundry directly — ask the user to reload and report results instead.
+- The user operates the Foundry Electron application; do not automate or control Electron. Browser automation and Quench tests are allowed in an explicitly designated test world. For integration-test setup, execution, or new suites, read [tests/foundry/README.md](tests/foundry/README.md). Use manual reload/report checks for campaign worlds.
 - Copy modules after changes intended to run in Foundry, using `npm run copy-module -- <module-name>` so the local install stays in sync for the user's next reload (see "Deploying to Foundry" below). Standalone throwaway prototypes are excluded from this step.
 
 ## Deploying to Foundry

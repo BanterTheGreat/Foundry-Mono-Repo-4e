@@ -23,7 +23,8 @@ export function openDamageApplication(message) {
 /** Listen to persisted chat confirmation rather than accepting player-supplied socket damage. */
 export function registerDamageApplication() {
 	const receive = message => {
-		if (!seen.has(message.id) && message.flags?.[MODULE_ID]?.damageApplication) {
+		if (!seen.has(message.id) && message.flags?.[MODULE_ID]?.damageApplication
+			&& !message.flags[MODULE_ID].damageApplication.dismissed) {
 			openDamageApplication(message);
 		}
 	};
@@ -68,7 +69,9 @@ export function registerDamageApplication() {
 	// Recover outstanding reviews after a GM reload; completed history stays closed.
 	for (const message of game.messages.contents) {
 		const targets = damageApplicationTargets(message);
-		if (targets.some(target => message.flags[MODULE_ID].damageApplications?.[target.tokenId]?.state !== "applied")) {
+		const request = message.flags?.[MODULE_ID]?.damageApplication;
+		if (targets.some(target => game.scenes.get(request.sceneId)?.tokens.get(target.tokenId)?.actor
+			&& message.flags[MODULE_ID].damageApplications?.[target.tokenId]?.state !== "applied")) {
 			receive(message);
 		}
 	}
@@ -185,8 +188,15 @@ export class DamageApplicationPanel extends HandlebarsApplicationMixin(Applicati
 		this.highlightedId = null;
 	}
 
-	/** Closing leaves receipts intact so reopening cannot apply the same damage twice. */
+	/** Persist dismissal across reloads while retaining receipts and manual chat-card reopening. */
 	async close(options) {
+		if (this.applying) {
+			return;
+		}
+		if (game.user.isGM && game.users.activeGM?.id === game.user.id
+			&& game.messages.get(this.message.id) && !this.message.flags[MODULE_ID].damageApplication.dismissed) {
+			await this.message.update({ [`flags.${MODULE_ID}.damageApplication.dismissed`]: true });
+		}
 		this.clearHighlight();
 		panels.delete(this.message.id);
 		return super.close(options);

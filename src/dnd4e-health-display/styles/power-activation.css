@@ -10,16 +10,25 @@
 .power-targeting .window-content { background: #101011; overflow: visible; padding: .65rem; max-height: none; }
 .power-targeting__body { display: grid; gap: .5rem; min-width: 0; font: 12px/1.4 Arial, sans-serif; }
 .power-targeting__body p { margin: 0; }
-.power-targeting__heading { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding-bottom: .5rem; border-bottom: 1px solid #493c26; }
-.power-targeting__heading > strong { font: 600 17px/1.25 Georgia, serif; color: #eee4cc; }
 .power-targeting button { color: #e5cc8e; border: 1px solid #493c26; border-radius: .25rem; background: #0d0c09; box-shadow: none; }
 .power-targeting button:hover:not(:disabled) { background: #ffffff0d; border-color: #8f794e; }
 .power-targeting button:disabled { opacity: .5; }
 .power-targeting button:focus-visible, .power-targeting input:focus-visible, .power-targeting select:focus-visible, .power-targeting summary:focus-visible { outline: 2px solid #e9dfce; outline-offset: 2px; }
-.power-targeting__heading > button { flex: 0 0 auto; width: auto; padding: .2rem .4rem; font-size: 11px; }
+.power-targeting__details { flex: 0 0 auto; width: auto; padding: .2rem .4rem; font-size: 11px; }
 .power-targeting__origin { display: flex; align-items: center; gap: .6rem; font-size: 11px; }
 .power-targeting__origin select { flex: 1; min-width: 0; }
 .power-targeting__placement { display: grid; gap: .4rem; padding: .55rem; background: #222019; border-left: 2px solid #aa8b4e; border-radius: .25rem; font-size: 12px; }
+.power-targeting__placement--direct { padding: 0; background: none; border: 0; color: #baab8e; font-size: 11px; }
+.power-targeting__selection-summary { display: flex; flex-wrap: wrap; align-items: baseline; gap: .2rem .4rem; }
+.power-targeting__selection-summary > strong { font-size: 13px; }
+.power-targeting__selection-summary > span { color: #baab8e; font-size: 11px; }
+.power-targeting__selection-summary b { color: #e5cc8e; font-weight: normal; }
+.power-targeting footer.power-targeting__targeting-footer { display: grid; gap: .4rem; }
+.power-targeting__validation { padding: .45rem .6rem; border: 1px solid #655433; border-radius: .25rem; background: #222019; }
+.power-targeting .power-targeting__validation.is-ready { background: #1f2b1c; border-color: #667e4d; color: #d0e1b6; }
+.power-targeting__validation.has-errors { background: #35211c; border-color: #b17050; color: #f2c5aa; }
+.power-targeting__validation .power-targeting__warnings { margin-top: .25rem; font-size: 11px; line-height: 1.4; color: inherit; }
+.power-targeting__validation li + li { margin-top: .15rem; }
 .power-targeting__controls { display: flex; flex-wrap: wrap; gap: .35rem; }
 .power-targeting__controls button { width: auto; flex: 1 1 auto; padding: .25rem .4rem; font-size: 11px; }
 .power-targeting__wall-controls { flex-wrap: nowrap; }
@@ -50,7 +59,7 @@
 .power-targeting__columns { font-size: 9px; text-transform: uppercase; letter-spacing: .04em; color: #baab8e; background: linear-gradient(110deg, #292318, #171511); border-bottom: 1px solid #493c26; }
 /* The target list is the dialog's only scrolling region. */
 .power-targeting__targets { list-style: none; margin: 0; padding: 0; max-height: 220px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #806b42 #20201c; }
-.power-targeting__targets .power-targeting__ledger-row { align-items: center; min-height: 58px; border: 0; }
+.power-targeting__targets .power-targeting__ledger-row { align-items: center; min-height: 44px; border: 0; }
 .power-targeting__targets .power-targeting__ledger-row + li { border-top: 1px solid #493c26; }
 .power-targeting__target-identity { display: flex; align-items: center; gap: 6px; min-width: 0; }
 .power-targeting__target-identity img { object-fit: contain; flex: 0 0 26px; width: 26px; height: 26px; border: 0; }
@@ -77,18 +86,15 @@
 .power-targeting__damage-card > header { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 8px; text-align: center; border-bottom: 1px solid color-mix(in srgb, var(--outcome-ink) 35%, #493c26); background: linear-gradient(110deg, var(--outcome-wash), #141310); }
 .power-targeting__damage-card > header strong { font: 600 19px/1.2 Georgia, serif; color: var(--outcome-ink); }
 .power-targeting__damage-card > header small { font-size: 9px; color: #b9aa8d; }
-.power-targeting__outcome-total { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 76px; padding: 6px 8px; background: linear-gradient(180deg, color-mix(in srgb, var(--outcome-wash) 35%, transparent), transparent); }
-.power-targeting__outcome-total small { font: 9px/1.2 Arial, sans-serif; text-transform: uppercase; letter-spacing: .05em; color: #baab8e; margin-bottom: 5px; }
-.power-targeting__outcome-total strong { font: 600 36px/1 Georgia, serif; font-variant-numeric: tabular-nums; color: var(--outcome-ink); }
-.power-targeting__damage-types { flex: 1; display: grid; align-content: start; gap: 5px; padding: 8px; border-top: 1px solid #493c26; }
-.power-targeting__damage-types > div { display: flex; align-items: baseline; justify-content: space-between; gap: 4px; min-width: 0; }
-.power-targeting__damage-types strong { font: 600 15px/1.1 Georgia, serif; color: #eee4cc; font-variant-numeric: tabular-nums; }
-.power-targeting__damage-type { display: inline-flex; align-items: baseline; gap: 4px; min-width: 0; overflow-wrap: anywhere; font-size: 10px; color: #dbceb6; }
-.power-targeting__damage-type i { flex: 0 0 6px; width: 6px; height: 6px; background: #dfc991; border-radius: 50%; }
-.power-targeting__damage-type--fire i { background: #df9772; }
-.power-targeting__damage-type--cold i { background: #8abacb; }
-.power-targeting__damage-type--necrotic i { background: #b19ac3; }
-.power-targeting__rolled-line { display: flex; align-items: center; justify-content: space-between; padding: 6px 8px; border-top: 1px solid #493c26; color: #baab8e; font-size: 10px; }
+.power-targeting__outcome-total { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80px; padding: 10px 8px; background: linear-gradient(180deg, color-mix(in srgb, var(--outcome-wash) 35%, transparent), transparent); }
+.power-targeting__outcome-total small { display: none; font: 9px/1.2 Arial, sans-serif; text-transform: uppercase; letter-spacing: .05em; color: #baab8e; margin-bottom: 5px; }
+.power-targeting__outcome-total strong { font: 600 48px/1 Georgia, serif; font-variant-numeric: tabular-nums; color: var(--outcome-ink); }
+/* Compact equation: formula, Mod and Total share one label baseline. */
+.power-targeting__damage-calculation { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr); gap: 3px; align-items: start; margin: 0 8px; padding: 9px 0; border-top: 1px solid #493c26; }
+.power-targeting__damage-calculation > div { display: flex; flex-direction: column; align-items: center; min-width: 0; gap: 5px; }
+.power-targeting__damage-calculation strong { font: 600 18px/1.15 Georgia, serif; font-variant-numeric: tabular-nums; color: #e5dcc9; }
+.power-targeting__damage-calculation small { display: block; width: 100%; overflow: hidden; overflow-wrap: anywhere; text-align: center; font: 9px/1.3 Arial, sans-serif; color: #baab8e; }
+.power-targeting__damage-calculation > span { font: 14px/1.4 Arial, sans-serif; color: #8e7a55; }
 .power-targeting__shared-modifier { padding: 7px 8px 8px; border-top: 1px solid #493c26; font-size: 10px; color: #baab8e; }
 .power-targeting__shared-modifier .power-targeting__result-adjustment { margin: 0; align-items: flex-end; }
 .power-targeting__shared-modifier label > span { display: block; margin-bottom: 4px; color: #baab8e; font-size: 10px; }
@@ -251,7 +257,7 @@
 .power-damage-application__bar i { background: #b6c295; }
 .power-damage-application__damage strong { font: 600 19px/1.25 Georgia, serif; color: #ebc28f; }
 .power-damage-application__damage small { display: block; }
-.power-damage-application button, .power-damage-reopen { background: #28251e; color: #eedcba; border: 1px solid #75603c; border-radius: 4px; box-shadow: none; padding: 6px; height: auto; font: 11px/1.3 Arial, sans-serif; }
+.power-damage-application__body button, .power-damage-reopen { background: #28251e; color: #eedcba; border: 1px solid #75603c; border-radius: 4px; box-shadow: none; padding: 6px; height: auto; font: 11px/1.3 Arial, sans-serif; }
 .power-damage-application button:hover:not(:disabled) { background: #413723; border-color: #d1b477; }
 .power-damage-application button:disabled { opacity: .6; }
 .power-damage-application button:focus-visible, .power-damage-application__row:focus-visible { outline: 2px solid #e7c980; outline-offset: -2px; }
@@ -264,3 +270,15 @@
 
 .power-damage-application__actions { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
 .power-damage-application__actions > button { width: 100%; padding: 11px; font-size: 14px; font-weight: bold; }
+
+/* Criticals separate maximized damage from the evaluated extra dice. */
+.power-targeting__damage-calculation--crit { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.6fr) auto minmax(0, 1fr) auto minmax(0, 1fr); }
+
+/* With three outcomes, give Hit and Crit the space freed by a narrower Miss. */
+.power-targeting__damage-rolls:has(> .power-targeting__damage-card--normal):has(> .power-targeting__damage-card--crit):has(> .power-targeting__damage-card--miss) { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr) minmax(0, .8fr); }
+
+/* Three outcome columns show only a smaller numeric calculation. */
+.power-targeting__damage-rolls:has(> .power-targeting__damage-card--normal):has(> .power-targeting__damage-card--crit):has(> .power-targeting__damage-card--miss) .power-targeting__damage-calculation strong { font-size: 14px; }
+.power-targeting__damage-rolls:has(> .power-targeting__damage-card--normal):has(> .power-targeting__damage-card--crit):has(> .power-targeting__damage-card--miss) .power-targeting__damage-calculation > span { font-size: 12px; }
+.power-targeting__damage-rolls:has(> .power-targeting__damage-card--normal):has(> .power-targeting__damage-card--crit):has(> .power-targeting__damage-card--miss) .power-targeting__damage-calculation small { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.power-targeting__damage-rolls:has(> .power-targeting__damage-card--normal):has(> .power-targeting__damage-card--crit):has(> .power-targeting__damage-card--miss) .power-targeting__damage-calculation { gap: 2px; }

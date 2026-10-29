@@ -20,16 +20,24 @@ import {
 import { registerNegotiation, registerNegotiationSettings } from "./scripts/negotiation/negotiation.js";
 import { registerPowerActivation, registerPowerActivationSettings } from "./scripts/power-activation/power-activation.js";
 
+import { registerCombatLedger, registerLedgerSettings } from "./scripts/combat-ledger/combat-ledger.js";
+
+import { registerBattleMomentum, registerMomentumSettings } from "./scripts/battle-momentum/battle-momentum.js";
+
 Hooks.once("init", () => {
+	registerMomentumSettings();
 	registerPowerActivationSettings();
 	registerNegotiationSettings();
 	registerHealthDisplaySettings();
 	registerActorDisplaySettings();
 	registerMarkDisplaySettings();
 	registerCombatStartSettings();
+	registerLedgerSettings();
 });
 
 Hooks.once("ready", () => {
+	registerCombatLedger();
+	registerBattleMomentum();
 	void registerPowerActivation();
 	registerNegotiation();
 	registerHealthDisplay();

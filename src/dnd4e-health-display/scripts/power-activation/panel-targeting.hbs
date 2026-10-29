@@ -1,30 +1,28 @@
 	{{#if beforeAttackRules}}<div class="power-targeting__resolution" role="region" aria-label="Before the Attack power rules" tabindex="0"><div class="power-targeting__rules-label">Before the Attack</div>{{{beforeAttackRules}}}</div>{{/if}}
-	<div class="power-targeting__placement">
+	{{#unless summon}}
+	<div class="power-targeting__selection-summary"><strong>{{selectionLabel}}</strong><span>{{#if countedTargets}}· {{countModeLabel}} {{required}} targets {{/if}}· Range <b>{{#if area}}{{range}}{{else}}{{normalRange}}{{#if longRange}} / {{range}}{{/if}}{{/if}}</b> squares{{#if area}} · {{areaLabel}} {{areaSize}}{{/if}}</span></div>
+	{{/unless}}
+	<div class="power-targeting__placement {{#unless area}}power-targeting__placement--direct{{/unless}}">
 		{{#if summon}}
 		<p class="power-targeting__range">Summon square · Range {{range}}</p>
 		<p>{{#if placementLocked}}Placement locked. Confirm to summon the configured actor.{{else}}Select a square on the canvas, then confirm to summon.{{/if}}</p>
 		<div class="power-targeting__controls"><button type="button" data-action="reposition" {{#if busy}}disabled{{/if}}>Reposition</button></div>
 		{{else}}
 		{{#if wall}}
-		<p class="power-targeting__range">Wall · Range {{range}} squares</p>
 		<p><strong>{{wallCount}} / {{areaSize}} squares</strong></p>
 		{{#if wallHint}}<p role="status">{{wallHint}}</p>{{/if}}
 		<div class="power-targeting__controls power-targeting__wall-controls"><button type="button" data-action="undoWall" {{#if busy}}disabled{{/if}}>Undo</button><button type="button" data-action="clearWall" {{#if busy}}disabled{{/if}}>Clear</button><button type="button" data-action="selectArea" {{#if busy}}disabled{{/if}}>Select targets</button></div>
 		{{else}}
 		{{#if area}}
-		<p class="power-targeting__range">{{areaLabel}} {{areaSize}} · Range {{range}} squares</p>
 		<p>{{#if placementLocked}}<strong>Placement locked.</strong> Adjust targets with normal targeting controls.{{else}}Move the pointer on the canvas, then click to lock placement.{{/if}}</p>
 		<div class="power-targeting__controls"><button type="button" data-action="selectArea" {{#if busy}}disabled{{/if}}>Select area targets</button>{{#if movableArea}}<button type="button" data-action="reposition" {{#if busy}}disabled{{/if}}>Reposition</button>{{/if}}</div>
 		{{else}}
-		<p class="power-targeting__range">Range <strong>{{normalRange}}{{#if longRange}} / {{range}}{{/if}}</strong> squares</p>
 		<p>Use normal targeting controls to select or remove targets.</p>
 		{{#if longRange}}<p class="power-targeting__range">Gold: normal range · Blue: long range</p>{{/if}}
 		{{/if}}
 		{{/if}}
 		{{/if}}
 	</div>
-	{{#if problems}}<ul class="power-targeting__warnings" aria-live="polite">{{#each problems}}<li>{{this}}</li>{{/each}}</ul>{{/if}}
-	<p class="power-targeting__status" aria-live="polite">{{#unless summon}}<strong>{{selected}}{{#if countedTargets}} / {{countModeLabel}} {{required}}{{/if}} targets</strong> · {{/unless}}{{status}}</p>
 	{{#unless summon}}
 	<div class="power-targeting__roster"><div class="power-targeting__columns" aria-hidden="true"><span>Target</span><span>Attack</span><span>Damage</span></div><ul class="power-targeting__targets">
 		{{#each targets}}
@@ -41,6 +39,10 @@
 		{{#if wall}}<p>Confirm when the footprint is complete. Check wall height manually.</p>{{/if}}
 		{{#if summon}}<p>Cancel creates no token.</p>{{/if}}
 	</details>
-	<footer>
-		<button type="button" data-action="attack" class="{{#if ready}}is-ready{{/if}}" {{#if busy}}disabled{{/if}}>{{#if hasAttack}}<i class="fa-solid fa-dice-d20" aria-hidden="true"></i> Attack…{{else}}<i class="fa-solid fa-check" aria-hidden="true"></i> {{#if summon}}Confirm summon{{else}}Confirm{{/if}}{{/if}}</button>
+	<footer class="power-targeting__targeting-footer">
+		<div class="power-targeting__validation {{#if ready}}is-ready{{else}}{{#if problems}}has-errors{{/if}}{{/if}}" {{#if problems}}role="alert"{{else}}role="status"{{/if}} aria-live="polite">
+			<strong>{{status}}</strong>
+			{{#if problems}}<ul class="power-targeting__warnings">{{#each warningGroups}}<li>{{#if label}}<strong>{{label}}:</strong> {{/if}}{{text}}</li>{{/each}}</ul>{{/if}}
+		</div>
+		<button type="button" data-action="attack" class="is-ready" {{#if busy}}disabled{{/if}}>{{#if hasAttack}}<i class="fa-solid fa-dice-d20" aria-hidden="true"></i> Attack!{{else}}<i class="fa-solid fa-check" aria-hidden="true"></i> {{#if summon}}Confirm summon{{else}}Confirm{{/if}}{{/if}}</button>
 	</footer>

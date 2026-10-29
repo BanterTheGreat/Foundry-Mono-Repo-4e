@@ -1,7 +1,6 @@
 <section class="power-targeting__body">
-	<div class="power-targeting__heading"><strong>{{powerName}}</strong><button type="button" data-action="toggleDetails" aria-expanded="{{showDetails}}" title="Toggle power details"><i class="fa-solid fa-book-open" aria-hidden="true"></i> Details</button></div>
 	{{#unless resolved}}
-	<label class="power-targeting__origin">Origin <select data-origin-selector {{#if busy}}disabled{{/if}}>{{#each originChoices}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{name}}</option>{{/each}}</select></label>
+		<label class="power-targeting__origin">Origin <select data-origin-selector {{#if busy}}disabled{{/if}}>{{#each originChoices}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{name}}</option>{{/each}}</select></label>
 	{{/unless}}
 	{{#if showDetails}}<div class="power-targeting__card">{{{card}}}</div>{{/if}}
 	{{#if healing}}

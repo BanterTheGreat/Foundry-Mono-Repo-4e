@@ -31,7 +31,7 @@ function fixture() {
 	const context = vm.createContext({ MODULE_ID, SETTING: "enabled", console,
 		foundry: { applications: { api: { ApplicationV2: App, HandlebarsApplicationMixin: base => base } } },
 		game: { user: { id: "gm", isGM: true }, users: { activeGM: { id: "gm" } }, settings: { get: () => true },
-			messages: { contents: messages }, scenes: new Map([["scene", { name: "Battle" }]]) },
+			messages: { contents: messages, get: id => id === "chat" ? message : undefined }, scenes: new Map([["scene", { name: "Battle" }]]) },
 		Hooks: { on: (name, fn) => { const listeners = hooks.get(name) ?? []; listeners.push(fn); hooks.set(name, listeners); } },
 		PIXI: { Graphics }, canvas: { scene: { id: "scene" }, tokens: { get: id => id === "one" ? { id, x: 100, y: 200, w: 100, h: 100 } : null, addChild() {} } },
 		ui: { notifications: { error: message => notifications.push(message) } },
@@ -45,7 +45,10 @@ function fixture() {
 	});
 	vm.runInContext(`${source}\nglobalThis.api = { DamageApplicationPanel, registerDamageApplication, openDamageApplication, panels };`, context);
 	const message = { id: "chat", author: { name: "Player" }, targets: [{ tokenId: "one" }, { tokenId: "two" }],
-		flags: { [MODULE_ID]: { damageApplication: { sceneId: "scene", name: "Power", actorName: "PC" } } } };
+		flags: { [MODULE_ID]: { damageApplication: { sceneId: "scene", name: "Power", actorName: "PC" } } },
+		async update(change) {
+			this.flags[MODULE_ID].damageApplication.dismissed = change[`flags.${MODULE_ID}.damageApplication.dismissed`];
+		} };
 	const panel = new context.api.DamageApplicationPanel(message);
 	return { context, panel, message, hooks, applied, outlines, notifications, rows };
 }

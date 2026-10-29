@@ -82,10 +82,12 @@ export async function renderTargetDamage(message, root, ChatRolls) {
       const token = tokens().find(entry => entry.id === target.tokenId);
       calculation.append(ChatRolls.element('div', 'banter-roll__modifier', `${token?.name ?? 'Unavailable target'}: ${target.total}${target.modifierFormula ? ` (${target.modifierFormula})` : ''}`));
     }
-    let applied = Boolean(message.flags?.['banter-4e-modifications']?.appliedTargetDamage?.[layer.outcome]);
+    const applied = Boolean(message.flags?.['banter-4e-modifications']?.appliedTargetDamage?.[layer.outcome]
+      || game.user.flags?.['banter-4e-modifications']?.appliedTargetDamage?.[message.id]?.[layer.outcome]);
     const button = ChatRolls.element('button', 'banter-roll__apply', applied ? 'Applied' : 'Apply');
-    button.disabled = applied;
-    button.title = `${applied ? 'Applied' : 'Apply'} ${layer.outcome} damage to ${layer.targets.length} target${layer.targets.length === 1 ? '' : 's'}`;
+    button.title = game.user.isGM
+      ? `Apply ${layer.outcome} damage to selected tokens, or this group's targets when none are selected. Can be applied again.`
+      : `Apply ${layer.outcome} damage to your assigned character. Can be applied again.`;
     button.setAttribute('aria-label', button.title);
     button.type = 'button';
     button.addEventListener('click', async event => {
@@ -94,9 +96,17 @@ export async function renderTargetDamage(message, root, ChatRolls) {
       if (button.disabled || applying.has(`${message.id}:${layer.outcome}`) || message.isContentVisible === false) {
         return;
       }
-      const affected = tokens();
-      if (affected.length !== layer.targets.length || affected.some(token => !token.actor?.isOwner && !game.user.isGM)) {
-        ui.notifications.warn('Every affected target must be available on this scene and owned by you to apply damage.');
+      const selected = canvas.tokens.controlled ?? [];
+      const character = game.user.character;
+      if (!game.user.isGM && !character?.isOwner) {
+        ui.notifications.warn('You must have an assigned character that you own to apply damage.');
+        return;
+      }
+      const affected = game.user.isGM ? (selected.length ? selected : tokens())
+        : [{ actor: character, id: character.token?.id }];
+      if ((game.user.isGM && !selected.length && affected.length !== layer.targets.length)
+        || affected.some(token => !token.actor || (!token.actor.isOwner && !game.user.isGM))) {
+        ui.notifications.warn('Every affected token must be available on this scene and owned by you to apply damage.');
         return;
       }
       applying.add(`${message.id}:${layer.outcome}`);
@@ -104,28 +114,33 @@ export async function renderTargetDamage(message, root, ChatRolls) {
       try {
         const divisor = Number(roll.options.divisors?.[roll.options.hitType]?.value) || 1;
         for (const token of affected) {
-          const target = layer.targets.find(entry => entry.tokenId === token.id);
+          const target = canvas.scene?.id === data.sceneId
+            ? layer.targets.find(entry => entry.tokenId === token.id
+              || (!game.user.isGM && canvas.tokens.get(entry.tokenId)?.actor?.id === character.id)) : undefined;
           const parts = typedDamage(roll).map(([value, type]) => [value / divisor / (layer.half ? 2 : 1), type]);
           const rawTotal = parts.reduce((total, [value]) => total + value, 0);
-          const adjustment = (target.total ?? model.total) - rawTotal;
+          const adjustment = (target?.total ?? model.total) - rawTotal;
           if (parts.length) {
             parts[0][0] += adjustment;
           } else {
-            parts.push([target.total ?? model.total, 'physical']);
+            parts.push([target?.total ?? model.total, 'physical']);
           }
           await ChatRollActions.applyActorDamage(token.actor, parts, 1);
         }
-        applied = true;
         button.textContent = 'Applied';
-        button.title = `Applied ${layer.outcome} damage to ${layer.targets.length} target${layer.targets.length === 1 ? '' : 's'}`;
+        button.title = `Applied ${layer.outcome} damage to ${affected.length} token${affected.length === 1 ? '' : 's'}`;
         button.setAttribute('aria-label', button.title);
-        await message.update({ [`flags.banter-4e-modifications.appliedTargetDamage.${layer.outcome}`]: true });
+        if (game.user.isGM) {
+          await message.update({ [`flags.banter-4e-modifications.appliedTargetDamage.${layer.outcome}`]: true });
+        } else {
+          await game.user.setFlag('banter-4e-modifications', `appliedTargetDamage.${message.id}.${layer.outcome}`, true);
+        }
       } catch (error) {
         console.error('Target damage application failed', error);
         ui.notifications.error('Damage application failed. Check target HP before applying again.');
       } finally {
         applying.delete(`${message.id}:${layer.outcome}`);
-        button.disabled = applied;
+        button.disabled = false;
       }
     });
     summary.insertBefore(button, summary.querySelector('.banter-roll__chevron'));

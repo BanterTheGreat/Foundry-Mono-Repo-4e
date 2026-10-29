@@ -1,8 +1,62 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import vm from "node:vm";
 import { requestDamageApplication, damageApplicationTargets, typedTargetDamage, projectDamage, prepareDamageTarget, applyTargetDamage } from "../scripts/power-activation/damage-application-data.js";
 
 const MODULE_ID = "dnd4e-health-display";
+
+/** Exercise reload recovery and closing through the real panel controller. */
+function panelFixture() {
+	const f = fixture();
+	const rendered = [];
+	class Application {
+		async render() { rendered.push(this); }
+		async close() {}
+	}
+	game.messages.contents = [f.message];
+	game.settings = { get: () => true };
+	const context = vm.createContext({ game, MODULE_ID, SETTING: "enabled", damageApplicationTargets,
+		prepareDamageTarget, applyTargetDamage, Hooks: { on() {} },
+		foundry: { applications: { api: { ApplicationV2: Application, HandlebarsApplicationMixin: base => base } } } });
+	const source = readFileSync(new URL("../scripts/power-activation/damage-application.js", import.meta.url), "utf8")
+		.replace(/^import .*;\r?\n/gm, "").replace(/^export /gm, "");
+	vm.runInContext(source, context);
+	return { ...f, rendered, recover: () => vm.runInContext("seen.clear(); panels.clear(); registerDamageApplication()", context) };
+}
+
+test("reload does not reopen damage reviews whose tokens have all been deleted", () => {
+	const f = panelFixture();
+	f.tokens.clear();
+	f.recover();
+	assert.equal(f.rendered.length, 0);
+});
+
+test("reload still recovers an outstanding review with a surviving target", () => {
+	const f = panelFixture();
+	f.tokens.delete("miss");
+	f.recover();
+	assert.equal(f.rendered.length, 1);
+});
+
+test("reload keeps fully applied reviews closed", () => {
+	const f = panelFixture();
+	f.message.flags[MODULE_ID].damageApplications = { target: { state: "applied" }, miss: { state: "applied" } };
+	f.recover();
+	assert.equal(f.rendered.length, 0);
+});
+
+test("closing a review persists dismissal so another reload keeps it closed", async () => {
+	const f = panelFixture();
+	f.recover();
+	assert.equal(f.rendered.length, 1);
+	await f.rendered[0].close();
+	f.rendered.length = 0;
+	f.recover();
+	assert.equal(f.rendered.length, 0);
+	assert.equal(f.message.flags[MODULE_ID].damageApplication.dismissed, true);
+	assert.deepEqual(f.changes, []);
+});
 
 /** Document fixture with live dotted updates and the native HP boundary. */
 function fixture() {

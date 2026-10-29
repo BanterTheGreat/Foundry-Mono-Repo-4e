@@ -12,7 +12,7 @@ import { MODULE_ID, SETTING, automationConfig, powerOriginRules, selectionProble
 import { registerActorOrigins } from "./actor-origins.js";
 import { renderPowerCard, createPowerMessage, postAttackRules, preAttackRules } from "./cards.js";
 import { loadSystem, resolveRange, registerAutomationTab, commitCardCosts, commitPowerUse, rollFromOrigin } from "./system-adapter.js";
-import { rollDamageAndWait, adjustDamageMessage, damageMessageTotal, damageRollBreakdown, targetDamageTotal, registerDamageReview } from "./damage-roll.js";
+import { rollDamageAndWait, adjustDamageMessage, damageMessageTotal, damageCalculation, damageRollBreakdown, targetDamageTotal, registerDamageReview } from "./damage-roll.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin, DialogV2 } = foundry.applications.api;
 let session = null;
@@ -1538,6 +1538,32 @@ class ActivationSession extends ActivationWorkflow {
 	}
 }
 
+/** Keep row warnings brief; the validation panel retains every full explanation. */
+function targetWarningLabel(problem) {
+	if (problem.includes("outside range")) {
+		return "Out of Range";
+	}
+	if (problem.includes("line of effect")) {
+		return "No Line of Effect";
+	}
+	if (problem.includes("outside the area or target filter")) {
+		return "Outside Area / Target Filter";
+	}
+	if (problem.includes("different elevation")) {
+		return "Different Elevation";
+	}
+	if (problem.includes("unavailable")) {
+		return "Unavailable Target";
+	}
+	if (problem.includes("requires condition")) {
+		return "Missing Required Condition";
+	}
+	if (problem.includes("must be adjacent")) {
+		return "Requires Adjacency";
+	}
+	return "Target Requirement";
+}
+
 /** Small independent ApplicationV2; presentation does not belong to the Actor HUD. */
 class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 	static DEFAULT_OPTIONS = {
@@ -1636,7 +1662,7 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 				needsHealing: activation.state === "readyForHealing", canComplete: activation.canComplete(),
 				damageCards: message ? [{ messageId: message.id, type: "normal", title: "Healing", total,
 					targetLabel: `${activation.targets.length} targets`,
-					rolled: damageMessageTotal({ rolls: message.flags[MODULE_ID].damageReview.baseRolls ?? message.rolls }),
+					...damageCalculation(message),
 					modifier: activation.damageModifierDrafts.get(message.id) ?? message.flags[MODULE_ID].damageReview.modifierFormula ?? "" }] : [],
 				results: activation.targets.map(token => {
 					const surgeValue = ["surge", "surgeValue"].includes(surge) ? Number(token.actor?.system.details.surgeValue) : 0;
@@ -1678,13 +1704,13 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 				- ["normal", "crit", "miss"].indexOf(b.flags[MODULE_ID].damageReview.type)).map(message => {
 				const type = message.flags[MODULE_ID].damageReview.type;
 				return { messageId: message.id, type, total: damageMessageTotal(message),
-					rolled: damageMessageTotal({ rolls: message.flags[MODULE_ID].damageReview.baseRolls ?? message.rolls }),
+					...damageCalculation(message, activation.damageMessages.find(entry => entry.flags[MODULE_ID].damageReview.type === "normal")),
 					components: damageRollBreakdown(message), count: outcomeCounts[type],
 					targetLabel: `${outcomeCounts[type]} ${outcomeCounts[type] === 1 ? "target" : "targets"}`,
 					modifier: activation.damageModifierDrafts.get(message.id) ?? message.flags[MODULE_ID].damageReview.modifierFormula ?? "",
 					sharedMiss: activation.sharedMissDamage && type === "normal", missTotal: Math.floor(damageMessageTotal(message) / 2),
 					label: { normal: "Hit", crit: "Crit", miss: "Miss" }[type],
-					title: { normal: "Hit", crit: "Critical", miss: "Miss" }[type] };
+					title: { normal: "Hit", crit: "Crit", miss: "Miss" }[type] };
 			});
 			const damageCards = damageResults.filter(result => !(activation.sharedMissDamage && result.type === "miss"));
 			const hit = damageResults.find(result => result.sharedMiss);
@@ -1721,17 +1747,27 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 		const problems = activation.problems();
 		// Placement problems belong above the roster, not on every creature.
 		const placementProblems = activation.range.shape ? activation.areaProblems([], false) : [];
+		const targetProblems = new Set();
+		const warningGroups = new Map();
 		const targets = activation.targets.map(token => {
 			const warnings = [...activation.filterProblems([token]), ...(activation.range.shape ? activation.areaProblems([token], false)
 				: selectionProblems(activation.source, [token], activation.range, 1, canvas.grid.size))]
 				.filter(problem => !placementProblems.includes(problem));
+			const name = token.visible ? token.name : "Unavailable target";
+			for (const problem of warnings) {
+				targetProblems.add(problem);
+				const label = targetWarningLabel(problem);
+				if (!warningGroups.has(label)) {
+					warningGroups.set(label, new Map());
+				}
+				warningGroups.get(label).set(token.id, name);
+			}
 			return {
 				id: token.id, name: token.visible ? token.name : "Unavailable target",
 				img: token.visible ? token.document.texture?.src : null,
-				invalid: warnings.length > 0, warnings,
+				invalid: warnings.length > 0, warnings: [...new Set(warnings.map(targetWarningLabel))],
 			};
 		});
-		const targetWarnings = new Set(targets.flatMap(target => target.warnings));
 		return {
 			hasAttack: Boolean(activation.item.hasAttack),
 			beforeAttackRules: activation.item.hasAttack ? this.beforeAttackRules : "",
@@ -1749,14 +1785,34 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 			card: activation.card, range: activation.range.maximum, normalRange: activation.range.normal,
 			longRange: activation.range.maximum > activation.range.normal, required: activation.count,
 			selected: activation.targets.length, busy: activation.busy, cancellable: !activation.commitStarted,
+			selectionLabel: `${activation.targets.length} ${activation.targets.length === 1 ? "target" : "targets"} selected`,
 			ready: !problems.length && !activation.busy,
-			status: activation.busy ? (activation.item.hasAttack ? activation.view.status : "Using ability") : (problems.length ? "Review targets" : "Ready"),
-			problems: [...new Set(problems)].filter(problem => !targetWarnings.has(problem)), targets,
+			status: activation.busy ? (activation.item.hasAttack ? activation.view.status : "Using ability")
+				: (problems.length ? "Review targeting errors" : (activation.item.hasAttack ? "Ready to Attack" : "Ready to Confirm")),
+			problems: [...new Set(problems)], targets,
+			warningGroups: [
+				...[...new Set(problems)].filter(problem => !targetProblems.has(problem)).map(text => ({ text })),
+				...[...warningGroups].map(([label, names]) => ({ label, text: [...names.values()].join(", ") })),
+			],
 		};
 	}
 
 	/** Rebind origin selection after each panel render. */
 	_onRender() {
+		const header = this.element.querySelector(".window-header");
+		if (header) {
+			let details = header.querySelector('[data-action="toggleDetails"]');
+			if (!details) {
+				details = document.createElement("button");
+				details.type = "button";
+				details.className = "power-targeting__details";
+				details.dataset.action = "toggleDetails";
+				details.title = "Toggle power details";
+				details.innerHTML = '<i class="fa-solid fa-book-open" aria-hidden="true"></i> Details';
+				header.querySelector(".window-title")?.after(details);
+			}
+			details.setAttribute("aria-expanded", String(Boolean(this.showDetails)));
+		}
 		const disclosure = this.element.querySelector("[data-target-disclosure]");
 		disclosure?.addEventListener("toggle", () => {
 			if (!disclosure.classList.contains("is-reviewing")) {
@@ -1792,6 +1848,6 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 			}
 			return this.session.cancel();
 		}
-		return super.close(options);
+		return super.close({ ...options, animate: false });
 	}
 }

@@ -38,8 +38,10 @@ export function loadSystem() {
 /** Resolve the weapon and range using DnD4e 0.9.3's roll data/resolver. */
 export async function resolveRange(item) {
 	const utils = await loadSystem();
+	// The native evaluator expects formula variables, not an Actor document.
+	const rollData = item.getRollData();
 	if (automationConfig(item).placementMode === "summon") {
-		const distance = Number(utils.evaluateFormula(item.system.rangePower, item.actor, { strict: true, contextName: "summon range" }));
+		const distance = Number(utils.evaluateFormula(item.system.rangePower, rollData, { strict: true, contextName: "summon range" }));
 		if (!Number.isInteger(distance) || distance < 0) {
 			throw new Error("Summoning requires a nonnegative whole-square Range.");
 		}
@@ -47,15 +49,15 @@ export async function resolveRange(item) {
 	}
 	if (AREA_TYPES.includes(item.system.rangeType)) {
 		const shape = item.system.rangeType;
-		const area = Number(utils.evaluateFormula(item.system.area, item.actor, { strict: true, contextName: "power area" }));
+		const area = Number(utils.evaluateFormula(item.system.area, rollData, { strict: true, contextName: "power area" }));
 		const distance = shape.startsWith("close") ? area
-			: Number(utils.evaluateFormula(item.system.rangePower, item.actor, { strict: true, contextName: "area placement range" }));
+			: Number(utils.evaluateFormula(item.system.rangePower, rollData, { strict: true, contextName: "area placement range" }));
 		if (![area, distance].every(value => Number.isInteger(value) && value > 0)) {
 			throw new Error("Area targeting needs positive, whole-square area and range formulas.");
 		}
 		return { shape, area, normal: distance, maximum: distance, mode: "area", weaponId: null };
 	}
-	const data = item.getRollData().item;
+	const data = rollData.item;
 	const weapon = utils.getWeaponUse(data, item.actor);
 	let normal;
 	let maximum;
@@ -72,14 +74,14 @@ export async function resolveRange(item) {
 		const ranged = item.system.weaponType !== "melee" && (item.system.weaponType === "ranged" || weapon.system.isRanged || thrown);
 		mode = ranged ? "ranged" : "melee";
 		const meleeRange = item.system.rangePower
-			? Number(utils.evaluateFormula(item.system.rangePower, item.actor, { strict: true, contextName: "weapon reach" }))
+			? Number(utils.evaluateFormula(item.system.rangePower, rollData, { strict: true, contextName: "weapon reach" }))
 			: (weapon.system.properties.rch ? 2 : 1);
 		normal = ranged ? Number(weapon.system.range.value) : meleeRange;
 		maximum = ranged ? Math.max(normal, Number(weapon.system.range.long) || normal) : normal;
 	} else {
-		normal = Number(utils.evaluateFormula(item.system.rangePower, item.actor, { strict: true, contextName: "power targeting range" }));
+		normal = Number(utils.evaluateFormula(item.system.rangePower, rollData, { strict: true, contextName: "power targeting range" }));
 		maximum = item.system.rangeType === "range" && item.system.range?.long
-			? Math.max(normal, Number(utils.evaluateFormula(item.system.range.long, item.actor, { strict: true, contextName: "long range" }))) : normal;
+			? Math.max(normal, Number(utils.evaluateFormula(item.system.range.long, rollData, { strict: true, contextName: "long range" }))) : normal;
 	}
 	if (!Number.isFinite(normal) || normal <= 0 || !Number.isInteger(normal) || !Number.isFinite(maximum) || !Number.isInteger(maximum)) {
 		throw new Error("This power needs a positive, whole-square range for target automation.");

@@ -22,7 +22,7 @@ function captureDamageMessage(RollClass) {
 			const toMessage = roll.toMessage;
 			roll.toMessage = function(...args) {
 				if (context.review) {
-					args[0] = { ...args[0], flags: { ...args[0]?.flags, [MODULE_ID]: { damageReview: { ...context.review, pending: true, edited: false } } } };
+					args[0] = { ...args[0], flags: { ...args[0]?.flags, [MODULE_ID]: { damageReview: { ...context.review, ...(Number.isFinite(Number(data.powMax)) && options.expression?.includes("@powMax") ? { baseDiceMaximum: Number(data.powMax) } : {}), pending: true, edited: false } } } };
 				}
 				context.message = Promise.resolve(toMessage.apply(this, args));
 				return context.message;
@@ -119,6 +119,128 @@ export function damageMessageTotal(message) {
 	const roll = message.rolls[0];
 	const divisor = Number(roll?.options?.divisors?.[roll.options.hitType]?.value) || 1;
 	return Math.floor(roll.total / divisor);
+}
+
+/**
+ * Split additive native terms into dice and fixed contributions. Parenthetical
+ * rolls retain their evaluated dice; multiplication by a constant scales both.
+ * Unsupported expressions fall back to the intact native result.
+ */
+function diceContribution(roll) {
+	if (!roll.terms?.length) {
+		return null;
+	}
+	const values = [];
+	const operators = [];
+	for (const term of roll.terms) {
+		if (term.operator) {
+			operators.push(term.operator);
+			continue;
+		}
+		let value;
+		if (term.faces) {
+			value = { total: term.total, dice: term.total,
+				formula: `${term.number}d${term.faces}${(term.modifiers ?? []).join("")}` };
+		} else if (term.roll) {
+			value = diceContribution(term.roll);
+		} else if (Number.isFinite(term.total) && !term.rolls && !term.terms) {
+			value = { total: term.total, dice: 0, formula: "" };
+		}
+		if (!value || !Number.isFinite(value.total)) {
+			return null;
+		}
+		values.push(value);
+	}
+	// Foundry normally supplies a leading zero for unary signs; accept either.
+	if (operators.length === values.length && ["+", "-"].includes(operators[0])) {
+		values.unshift({ total: 0, dice: 0, formula: "" });
+	}
+	if (operators.length !== values.length - 1) {
+		return null;
+	}
+	for (const precedence of [["*", "/"], ["+", "-"]]) {
+		for (let i = 0; i < operators.length;) {
+			const op = operators[i];
+			if (!precedence.includes(op)) {
+				i++;
+				continue;
+			}
+			const left = values[i];
+			const right = values[i + 1];
+			let result;
+			if (["+", "-"].includes(op)) {
+				const sign = op === "+" ? 1 : -1;
+				result = { total: left.total + sign * right.total, dice: left.dice + sign * right.dice,
+					formula: right.formula ? (left.formula ? `${left.formula} ${op} (${right.formula})`
+						: `${op === "-" ? "-" : ""}${right.formula}`) : left.formula };
+			} else {
+				if ((left.formula && right.formula) || (op === "/" && right.formula)) {
+					return null;
+				}
+				const factor = left.formula ? right.total : left.total;
+				const expression = left.formula || right.formula;
+				result = { total: op === "*" ? left.total * right.total : left.total / right.total,
+					dice: op === "*" ? left.dice * right.total + right.dice * left.total : left.dice / right.total,
+					formula: expression ? `(${expression}) ${op} ${factor}` : "" };
+			}
+			values.splice(i, 2, result);
+			operators.splice(i, 1);
+		}
+	}
+	return operators.length ? null : values[0];
+}
+
+/**
+ * Describe the original native roll and the applied post-roll adjustment without
+ * evaluating either again. Totals use the native divisor and rounding; the Mod
+ * is their effective difference, so the displayed equation always balances.
+ */
+export function damageCalculation(message, normalMessage = null) {
+	const saved = message.flags?.[MODULE_ID]?.damageReview?.baseRolls?.[0];
+	const current = message.rolls[0];
+	const base = saved && typeof current.constructor.fromJSON === "function"
+		? current.constructor.fromJSON(JSON.stringify(saved)) : saved ?? current;
+	let rolled = damageMessageTotal({ rolls: [base] });
+	const total = damageMessageTotal(message);
+	const rawFormula = String(base.formula ?? base._formula ?? "");
+	let formula = rawFormula.replace(/\[[^\]]*\]/g, "").replace(/\s+/g, " ").trim();
+	// Numeric wrapper parentheses and zero additions are native expression chrome.
+	formula = formula.replace(/\(\s*([+-]?\d+(?:\.\d+)?)\s*\)/g, "$1");
+	formula = formula.replace(/\s*\+\s*0(?=\s*(?:[+)]|$))/g, "").trim();
+	if (message.flags?.[MODULE_ID]?.damageReview?.type === "crit") {
+		const dice = formula.match(/\b\d*d\d+(?:[a-z]+\d*)*/gi) ?? [];
+		formula = ["Max", ...dice].join(" + ");
+	}
+	const split = diceContribution(base);
+	const divisor = Number(base.options?.divisors?.[base.options.hitType]?.value) || 1;
+	if (split && message.flags?.[MODULE_ID]?.damageReview?.type !== "crit") {
+		rolled = Math.floor(split.dice / divisor);
+		formula = split.formula || "0";
+	}
+	if (divisor !== 1) {
+		formula = `(${formula || "Roll"}) ÷ ${divisor} ↓`;
+	}
+	const critical = message.flags?.[MODULE_ID]?.damageReview?.type === "crit";
+	const criticalDice = critical && split ? Math.floor(split.dice / divisor) : 0;
+	// The constant part of a critical roll includes ability/enhancement bonuses.
+	// Use the native powMax substitution, not that combined constant subtotal.
+	let maximum = message.flags?.[MODULE_ID]?.damageReview?.baseDiceMaximum
+		?? base.options?.formulaInnerData?.powMax;
+	if (critical && maximum == null && normalMessage) {
+		const normal = normalMessage.flags?.[MODULE_ID]?.damageReview?.baseRolls?.[0] ?? normalMessage.rolls[0];
+		const normalFormula = normal.formula ?? normal._formula;
+		if (normalFormula && typeof globalThis.Roll?.prototype?.evaluateSync === "function") {
+			const maximized = new Roll(normalFormula).evaluateSync({ maximize: true });
+			maximum = diceContribution(maximized)?.dice;
+		}
+	}
+	const criticalMaximum = critical ? Math.floor((maximum == null
+		? base.total - (split?.dice ?? 0) : Number(maximum)) / divisor) : 0;
+	const criticalDiceFormula = critical ? (split?.formula || "0") : "";
+	return { rolled, critical, criticalMaximum, criticalDice,
+		criticalDiceFormula: divisor !== 1 ? `(${criticalDiceFormula}) ÷ ${divisor} ↓` : criticalDiceFormula,
+		calculationModifier: critical ? total - criticalMaximum - criticalDice : total - rolled,
+		rollFormula: formula, fullRollFormula: rawFormula };
 }
 
 /**

@@ -519,6 +519,35 @@ test("selection reports both extra targets and out-of-range tokens", () => {
 	assert.match(problems[1], /far/);
 });
 
+test("targeting keeps full errors in the validation panel and short warnings on target rows", async () => {
+	const f = fixture();
+	f.activation.targets = [f.target, f.far];
+	const panel = Object.create(f.context.api.TargetingPanel.prototype);
+	panel.session = f.activation;
+	const display = await panel._prepareContext();
+	assert.equal(display.selectionLabel, "2 targets selected");
+	assert.equal(display.ready, false);
+	assert.ok(display.problems.some(problem => problem.includes("Selected 2")));
+	assert.ok(display.problems.some(problem => problem.includes("far") && problem.includes("outside range")));
+	assert.deepEqual(Array.from(display.targets.find(target => target.id === f.far.id).warnings), ["Out of Range"]);
+	assert.equal(display.warningGroups.find(group => group.label === "Out of Range").text, "far");
+	f.activation.range.maximum = 0;
+	f.target.document.elevation = 1;
+	f.far.document.elevation = 1;
+	const grouped = await panel._prepareContext();
+	assert.equal(grouped.warningGroups.filter(group => group.label === "Out of Range").length, 1);
+	assert.equal(grouped.warningGroups.find(group => group.label === "Out of Range").text, "target, far");
+	assert.equal(grouped.warningGroups.find(group => group.label === "Different Elevation").text, "target, far");
+	assert.ok(grouped.warningGroups.some(group => !group.label && group.text.includes("Selected 2")));
+	f.activation.range.maximum = 1;
+	f.target.document.elevation = 0;
+	f.activation.targets = [f.target];
+	const ready = await panel._prepareContext();
+	assert.equal(ready.selectionLabel, "1 target selected");
+	assert.equal(ready.status, "Ready to Attack");
+	assert.equal(ready.problems.length, 0);
+});
+
 test("Cancel deletes only the provisional card, restores targets, and spends nothing", async () => {
 	const f = fixture();
 	f.targets.add(f.target);

@@ -1,0 +1,54 @@
+<div class="combat-ledger-body">
+	<header class="combat-ledger-heading">
+		<div><h1>{{#if empty}}Combat Ledger{{else}}{{name}}{{/if}}</h1><small>{{status}} · GM only</small></div>
+		<div class="combat-ledger-controls">
+			{{#unless empty}}<select name="report" aria-label="Combat report">{{#each choices}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}</select>{{/unless}}
+			<button type="button" data-action="settings"><i class="fa-solid fa-link" aria-hidden="true"></i> Attribution</button>
+		</div>
+	</header>
+	{{#if storageError}}<p class="combat-ledger-warning" role="status">The ledger could not be saved. Statistics remain in this GM's memory; original game actions are unaffected. <button type="button" data-action="retry">Retry save</button></p>{{/if}}
+	{{#if empty}}
+		<p>Statistics will appear when combat starts. Earlier combat history cannot be reconstructed.</p>
+	{{else}}
+		{{#if partial}}<p class="combat-ledger-warning">Incomplete recording: tracking began during combat or a GM disconnected/reloaded. Unobserved actions and offline time are not reconstructed.</p>{{/if}}
+		<div class="combat-ledger-kpis">
+			<div><span>Combat elapsed</span><strong>{{elapsed}}</strong></div>
+			<div><span>Round</span><strong>{{round}}</strong></div>
+			<div><span>Player-team hit rate</span><strong>{{partyHitRate}}</strong></div>
+			<div><span>Player-team ≈ damage</span><strong>{{partyDamage}}</strong></div>
+		</div>
+		<section class="combat-ledger-panel"><h2>Battle momentum</h2>
+			<div class="combat-ledger-legend"><span class="health">PC health</span><span class="surges">PC surges</span><span class="enemy">Enemy health</span></div>
+			<div class="combat-ledger-chart">{{{resourceChart}}}</div>
+			<small>Start and end-of-round resources · * latest round snapshot · PCs only for player resources; bound companions excluded.</small>
+			<div class="combat-ledger-damage"><h3>Total damage dealt · per round</h3>
+				<div class="combat-ledger-legend"><span class="surges">Player team</span><span class="enemy">Enemy team</span></div>
+				<div class="combat-ledger-chart">{{{damageChart}}}</div>
+				<small>Damage points, including estimates · player team includes friendly companions · hover points for values.</small>
+			</div>
+		</section>
+		<div class="combat-ledger-heading"><h2>Combatants</h2><select name="team" aria-label="Filter combatants">{{#each teams}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}</select></div>
+		<div class="combat-ledger-table"><table><thead><tr><th>Actor</th><th>Turns</th><th>Avg turn</th><th>Time contemplating</th><th title="Successful hits / attack attempts">Hits</th><th title="Hits received / incoming attack attempts">Hits taken</th><th>≈ Damage</th><th>Avg d20</th><th>Slain</th></tr></thead><tbody>
+		{{#each rows}}
+			{{#if teamStart}}<tr class="combat-ledger-team"><td colspan="9">{{teamLabel}}</td></tr>{{/if}}
+			<tr><td><b>{{name}}</b>{{#if includesLabel}}<small>Includes {{includesLabel}}</small>{{/if}}{{#if active}}<small>Active turn · {{activeDuration}}</small>{{/if}}</td>
+				<td>{{turns}}{{#if active}}<small>+1 active</small>{{/if}}</td><td>{{avgTurn}}</td>
+				<td><b>{{avgContemplating}} avg</b><small>{{totalContemplating}} total</small>{{#if active}}<small>Active turn: {{activeContemplating}}</small>{{/if}}</td>
+				<td>{{hit}} / {{attempts}}<small class="combat-ledger-hit">{{hitRate}}</small>{{#if unknown}}<small>{{unknown}} unresolved</small>{{/if}}</td>
+				<td>{{received}} / {{incoming}}<small class="combat-ledger-received">{{receivedRate}}</small>{{#if unknownIncoming}}<small>{{unknownIncoming}} unresolved</small>{{/if}}</td>
+				<td class="combat-ledger-gold">{{damage}}<small>incl. ≈{{estimatedDamage}}</small></td>
+				<td title="{{d20Count}} kept natural d20 results">{{d20}}</td><td>{{slain}}{{#if estimatedSlain}}<small>incl. ≈{{estimatedSlain}}</small>{{/if}}</td></tr>
+		{{/each}}
+		</tbody></table></div>
+		{{#if unattributedDamage}}<p class="combat-ledger-warning">{{unattributedDamage}} damage has no identifiable source and is excluded from team damage totals.</p>{{/if}}
+		<details class="combat-ledger-definitions" {{#if definitionsOpen}}open{{/if}}><summary>How statistics are counted</summary>
+			<p><b>Turns and time:</b> completed turns, plus the separately displayed active turn. Pauses are excluded. Average turn and contemplation times use completed turns only. The live view refreshes when events arrive and every 15 seconds.</p>
+			<p><b>Time contemplating:</b> turn start until that turn token first moves, rolls an attack, or opens targeting preview. No action means the whole turn. Later inactivity does not restart the timer. Companion timers are recorded separately before attribution.</p>
+			<p><b>Attacks:</b> structured chat results cover normal attacks and targeting automation. Chat updates replace previous results, so confirmation does not count twice. Failed active defenses count as hits against the defender. Pending or unknown outcomes are excluded from hit-rate denominators; attacks without recorded targets cannot be attributed to a defender.</p>
+			<p><b>Damage and slain:</b> actual observed HP and temporary-HP loss, not rolled damage. Confirmed Apply Damage receipts identify the source when available; other loss is estimated against the current turn actor. Manual corrections, ongoing damage and off-turn effects may therefore distort estimates. Slain counts an enemy's first observed transition from positive HP to zero or below.</p>
+			<p><b>Average d20:</b> all kept natural d20s recorded in chat during this combat, without modifiers. Active-defense dice belong to the defender. Private rolls not received by the recording GM cannot be included.</p>
+			<p><b>Graphs:</b> resource percentages use summed current ÷ summed maximum. Player resources include PCs only, excluding attributed companions. Enemies stay in the denominator after defeat or removal; reinforcements join on entry. Damage is each team's total dealt in that round, including friendly summons, regardless of attribution bindings. * marks a partial or current round.</p>
+			<p><b>Storage:</b> one elected GM records. Current encounters and the most recently ended combat are stored in a private Journal. Storage failures never cancel game actions; unsaved data can be lost if that GM reloads or disconnects. Binding changes regroup recorded statistics; historical resource snapshots retain their original membership.</p>
+		</details>
+	{{/if}}
+</div>

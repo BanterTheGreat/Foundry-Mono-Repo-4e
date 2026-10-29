@@ -8,13 +8,22 @@
 			{{#if derived}}
 			<div class="power-targeting__derived-miss"><span>½ Hit</span><span>{{sourceTotal}} ÷ 2</span><small>Rounded down</small></div>
 			{{else}}
-			<div class="power-targeting__damage-types">
-				{{#each components}}<div><span class="power-targeting__damage-type power-targeting__damage-type--{{type}}"><i aria-hidden="true"></i>{{label}}</span><strong>{{total}}</strong></div>{{/each}}
+			<div class="power-targeting__damage-calculation{{#if critical}} power-targeting__damage-calculation--crit{{/if}}" aria-label="Damage calculation">
+				{{#if critical}}
+				<div><strong>{{criticalMaximum}}</strong><small>MAX</small></div>
+				<span aria-hidden="true">+</span>
+				<div><strong>{{criticalDice}}</strong><small title="{{fullRollFormula}}">{{criticalDiceFormula}}</small></div>
+				{{else}}
+				<div><strong>{{rolled}}</strong><small title="{{fullRollFormula}}">{{rollFormula}}</small></div>
+				{{/if}}
+				<span aria-hidden="true">+</span>
+				<div><strong>{{calculationModifier}}</strong><small>Mod</small></div>
+				<span aria-hidden="true">=</span>
+				<div><strong>{{total}}</strong><small>Total</small></div>
 			</div>
-			<div class="power-targeting__rolled-line"><span>Rolled</span><strong>{{rolled}}</strong></div>
 			<div class="power-targeting__shared-modifier">
-				{{#if ../reviewingDamage}}<div class="power-targeting__result-adjustment"><label><span>Modifier</span><input type="text" data-damage-modifier data-message-id="{{messageId}}" value="{{modifier}}" placeholder="+0" aria-label="{{title}} roll modifier" {{#if ../busy}}disabled{{/if}}></label><button type="button" data-action="adjustDamage" data-message-id="{{messageId}}" aria-label="Apply {{title}} roll modifier" {{#if ../busy}}disabled{{/if}}>Apply</button></div>
-				{{else}}<span>Modifier</span><span class="power-targeting__modifier-summary">{{#if modifier}}{{modifier}}{{else}}+0{{/if}}</span>{{/if}}
+				{{#if ../reviewingDamage}}<div class="power-targeting__result-adjustment"><label><span>Adjust damage</span><input type="text" data-damage-modifier data-message-id="{{messageId}}" value="{{modifier}}" placeholder="+0" aria-label="{{title}} roll modifier" {{#if ../busy}}disabled{{/if}}></label><button type="button" data-action="adjustDamage" data-message-id="{{messageId}}" aria-label="Apply {{title}} roll modifier" {{#if ../busy}}disabled{{/if}}>Apply</button></div>
+				{{else}}<span>Adjust damage</span><span class="power-targeting__modifier-summary">{{#if modifier}}{{modifier}}{{else}}+0{{/if}}</span>{{/if}}
 			</div>
 			{{/if}}
 		</li>

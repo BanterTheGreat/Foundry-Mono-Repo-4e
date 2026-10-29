@@ -9,6 +9,14 @@ const STANDARD_XP = [
 ];
 const RANK_MULTIPLIERS = { standard: 1, minion: 0.25, elite: 2, solo: 5 };
 
+/** Return the shared level/rank importance, or null for invalid encounter data. */
+export function getEncounterWeight(level, rank = "standard") {
+	if (!Number.isInteger(level) || level < 1 || level > 40 || !Object.hasOwn(RANK_MULTIPLIERS, rank)) {
+		return null;
+	}
+	return Math.round(STANDARD_XP[level] * RANK_MULTIPLIERS[rank]);
+}
+
 /**
  * Calculate encounter strength from its added tokens, including hidden enemies.
  * Player-owned actors form the party; hostile non-player actors form the opposition.
@@ -45,7 +53,7 @@ export function getEncounterCalculation(combat, hostileDisposition = -1) {
 		enemyCount += 1;
 		const rank = actor.system?.details?.role?.secondary || "standard";
 		const validRank = Object.hasOwn(RANK_MULTIPLIERS, rank);
-		const xp = validLevel && validRank ? Math.round(STANDARD_XP[rawLevel] * RANK_MULTIPLIERS[rank]) : null;
+		const xp = getEncounterWeight(rawLevel, rank);
 		if (xp === null) {
 			warnings.push(`${combatant.name} needs a level from 1 to 40 and a standard, minion, elite, or solo rank.`);
 		}

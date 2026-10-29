@@ -10,6 +10,14 @@
     "typst:watch": "node scripts/typst.mjs watch",
     "typst:fonts": "node scripts/typst.mjs fonts",
     "typst:clean": "node scripts/typst.mjs clean",
-    "test": "node --test scripts/test/*.test.mjs"
+    "test": "node --test scripts/test/*.test.mjs",
+    "test:foundry": "playwright test --config tests/foundry/playwright.config.mjs",
+    "test:foundry:login": "node tests/foundry/login.mjs",
+    "test:foundry:report": "playwright show-report output/foundry-test-report",
+    "test:foundry:deploy": "npm run copy-module -- foundry-test-harness banter-4e-modifications dnd4e-health-display",
+    "prototype:damage": "open src/dnd4e-health-display/PoC/target-flow-prototype/confirm-damage-review.prototype.html"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1"
   }
 }

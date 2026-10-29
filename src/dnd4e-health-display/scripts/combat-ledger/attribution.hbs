@@ -1,0 +1,14 @@
+<div class="combat-ledger-body">
+	<h2>Companion attribution</h2>
+	<p>Bind a friendly actor or scene token to an owner. All its statistics merge into the owner's row; the companion has no separate row. Resource graphs still exclude companions.</p>
+	<div class="combat-ledger-binding-controls">
+		<label>Friendly source<select name="source"><optgroup label="Actors · all tokens">{{#each actors}}<option value="{{uuid}}">{{name}}</option>{{/each}}</optgroup><optgroup label="Scene tokens · override">{{#each tokens}}<option value="{{uuid}}">{{name}}</option>{{/each}}</optgroup></select></label>
+		<label>Credit statistics to<select name="owner">{{#each actors}}<option value="{{uuid}}">{{name}}</option>{{/each}}</select></label>
+		<button type="button" data-action="addBinding">Add binding</button>
+	</div>
+	<div class="combat-ledger-table"><table><thead><tr><th>Source</th><th>Scope</th><th>Owner</th><th></th></tr></thead><tbody>
+	{{#each bindings}}<tr><td>{{source}}</td><td>{{scope}}</td><td>{{owner}}</td><td><button type="button" data-action="removeBinding" data-index="{{index}}" aria-label="Remove binding for {{source}}">Remove</button></td></tr>{{else}}<tr><td colspan="4">No bindings. Each actor has its own overview row.</td></tr>{{/each}}
+	</tbody></table></div>
+	<p class="combat-ledger-note">Token bindings take precedence over actor bindings. Each source has one owner; self-bindings, chains and cycles are disallowed. Existing reports regroup immediately after saving. Removing a binding restores the companion's separate row.</p>
+	<button type="button" data-action="saveBindings" class="combat-ledger-save">Save attribution</button>
+</div>

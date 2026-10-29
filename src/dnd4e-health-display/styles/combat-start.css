@@ -99,7 +99,8 @@
 	}
 }
 
-.dnd4e-combat-start__tracker-button {
+.dnd4e-combat-start__tracker-button,
+.combat-ledger-tracker-button {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -116,7 +117,8 @@
 	letter-spacing: 0.04em;
 }
 
-.dnd4e-combat-start__tracker-button:hover {
+.dnd4e-combat-start__tracker-button:hover,
+.combat-ledger-tracker-button:hover {
 	border-color: #c69a5e;
 	background: linear-gradient(#60402d, #302019);
 	color: #fff4df;

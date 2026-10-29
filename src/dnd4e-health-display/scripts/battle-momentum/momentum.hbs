@@ -1,0 +1,17 @@
+<section class="momentum-body">
+	{{#if unavailable}}
+		<p class="momentum-empty">{{note}}</p>
+	{{else}}
+		<header><strong>{{label}}</strong><span class="momentum-danger" title="Battle Briefing danger, including observed reinforcements">{{danger}}</span></header>
+		<div class="momentum-labels"><span>Party</span><span>Enemies</span></div>
+		<div class="momentum-scale" role="meter" aria-label="Battle balance; positive favors party" aria-valuemin="-100" aria-valuemax="100" aria-valuenow="{{value}}" aria-valuetext="{{label}}">
+			<i class="momentum-center"></i><i class="momentum-needle" style="left: {{position}}%"></i>
+		</div>
+		<div class="momentum-summary"><b title="Change since the start of the current round">{{trend}}{{#if change}} · {{change}}{{/if}}</b><span title="Balance points, not victory probability">{{score}}</span></div>
+		<div class="momentum-toolbar"><small>Round {{round}}{{#if partial}} · Partial history{{/if}}</small><button type="button" data-action="details" aria-expanded="{{#if showDetails}}true{{else}}false{{/if}}" title="Show estimate details">Details <i class="fa-solid fa-angle-{{#if showDetails}}up{{else}}down{{/if}}" aria-hidden="true"></i></button></div>
+		{{#if showDetails}}
+			<footer><span>Capacity {{party}}% / {{enemy}}%</span><span>{{#if boost}}PC down · −{{boost}}{{else}}No breakthrough{{/if}}</span></footer>
+			<p class="momentum-explanation">Level/rank importance follows Battle Briefing. Dazed 70%, Blinded 60%, Stunned 0%; strongest penalty only. Party edge defaults to 1.5. Powers, positioning, temporary HP and friendly NPCs are excluded. Local history resets on reload.</p>
+		{{/if}}
+	{{/if}}
+</section>

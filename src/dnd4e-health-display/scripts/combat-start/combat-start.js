@@ -39,8 +39,13 @@ export function registerCombatStart() {
 	ui.combat?.render();
 }
 
-/** Add the GM-only Battle Briefing button to the combat tracker. */
+/** Add the GM-only Battle Briefing button to the main combat sidebar. */
 function addCombatStartButton(app, element) {
+	if (app !== ui.combat || app.isPopout) {
+		element.querySelector("[data-dnd4e-combat-start]")?.remove();
+		return;
+	}
+
 	if (!game.user.isGM || element.querySelector("[data-dnd4e-combat-start]")) {
 		return;
 	}
@@ -57,9 +62,10 @@ function addCombatStartButton(app, element) {
 	button.className = "dnd4e-combat-start__tracker-button";
 	button.dataset.dnd4eCombatStart = "";
 	button.title = "Prepare a Battle Briefing presentation";
-	button.innerHTML = '<i class="fa-solid fa-swords" aria-hidden="true"></i><span>Battle Briefing</span>';
+	button.setAttribute("aria-label", "Battle Briefing");
+	button.innerHTML = '<i class="fa-solid fa-file-lines" aria-hidden="true"></i>';
 	button.addEventListener("click", () => void openBattleBriefing(app.viewed ?? game.combat));
-	header.append(button);
+	(header.querySelector(".battle-momentum-tracker-controls") ?? header).append(button);
 }
 
 /** Open the setup window, or jump straight to the live briefing if the encounter already started. */
