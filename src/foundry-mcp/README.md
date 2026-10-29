@@ -395,7 +395,7 @@ Every effect requires an explicit application and duration. Native durations inc
 
 Description-only reminders are supported: omit `changes`, `statuses` and `dots`, or pass empty arrays. Supply the reminder text in `description` and the normal `application` and `duration` (for example, `hit` and `endOfUserTurn` for Haunting Spirits). No mechanical modifier or status is required. Different reminder descriptions remain distinct during duplicate detection.
 
-Use a stable semantic `key` for each effect on an Item. Identical existing mechanics are skipped; a changed managed key is rejected for inspection rather than overwritten. Effects-only writes are bounded and validated at both ends; caller flags, scripts, macros, arbitrary effect source, compendium/token writes, replacement and deletion are excluded. Batch writes across Items are separate operations: an error can leave some effects saved. Responses report `updated`, `unchanged`, `cancelled`, `expired` or `incomplete`, with proposals and saved receipts. After uncertain or incomplete outcomes, read source and retry the same keys. Use at least **180 seconds** for MCP tool timeout.
+Use a stable semantic `key` for each effect on an Item. Identical existing mechanics are skipped; a changed managed key is rejected for inspection rather than overwritten. Effects-only writes are bounded and validated at both ends; caller flags, scripts, macros, arbitrary effect source, compendium/token writes are excluded. Explicit deletion and replacement are described below. Batch writes across Items are separate operations: an error can leave some effects saved. Responses report `updated`, `unchanged`, `cancelled`, `expired` or `incomplete`, with proposals and saved receipts. After uncertain or incomplete outcomes, read source and retry the same keys. Use at least **180 seconds** for MCP tool timeout.
 
 Protocol **v14** requires restarting the companion/MCP connection and reloading Foundry together. User verification: check the console after reload, request fire resistance on test equipment and a self/on-hit effect on a test power. Inspect the report, cancel once, confirm another request and verify transfer/equipped settings, application type, duration and changes on the sheets. Leave a report unanswered for two minutes and confirm no effects were added. Repeat an applied request to check duplicates are skipped; manually change an Item during review to check stale approval is rejected. Check the power's actual application and expiry during your normal workflow.
 
@@ -658,3 +658,82 @@ height/solid settings are metadata, not movement or sight blocking.
 
 Protocol **v31** requires reloading Foundry and restarting the shared companion
 and MCP clients together.
+
+## Scene Elevation Region creation
+
+`add_elevation_regions` creates native Regions with embedded
+`scene-elevation-region.elevation` behaviors. Source integration was checked against
+[Scene Elevation Region 1.0.3](https://github.com/OmerCora/scene-elevation-region/blob/main/scripts/region-behavior.mjs).
+Requires Foundry v14+, that module enabled and the paired active GM.
+Read the Scene with `get_document`, `source:true` before placement. Geometry uses
+absolute scene pixels, including padding; convert grid squares using `grid.size`.
+Rectangle origins are top-left; ellipse origins are centers. Polygon points are
+flat x/y pairs. Multiple shapes and holes are supported.
+
+```json
+{
+  "uuid": "Scene.SCENE_ID",
+  "requestId": "platform-001",
+  "summary": "Add a raised platform to the scene.",
+  "regions": [{
+    "name": "Raised platform",
+    "elevation": 5,
+    "shapes": [{ "type": "rectangle", "x": 300, "y": 400, "width": 600, "height": 300 }],
+    "behavior": { "shadowStrength": 2.15, "modifyTokenElevation": true, "modifyTokenScaling": true }
+  }]
+}
+```
+
+Elevation may be negative. Optional behavior fields also include `slope`,
+`slopeHeight` (delta), `slopeDirection` (integer 0-359), `overhead`, and
+`underOverheadMode` (`fade`, `hide`, `keep`). Other visuals inherit scene defaults.
+Region outlines use observer visibility and GM ownership. The GM reviews the full
+new sources; cancellation/expiry saves nothing and stale scene data rejects the
+approval. Allow 180 seconds. Returns region UUIDs and
+`updated`/`unchanged`/`cancelled`/`incomplete`. Read scene source after uncertain
+results, then retry identical data/requestId to skip persisted regions and resume
+partial batches. Changed data under saved markers is rejected. Deleted regions
+can be recreated by a retry. Existing regions and scene settings are preserved.
+No arbitrary behaviors, scripts, flags, region edits or deletion are exposed.
+Protocol v32 requires reloading Foundry and restarting the shared companion and
+MCP clients together.
+
+
+### PC reminders, feature deletion and effect replacement (protocol v33)
+
+`edit_pc_actor` accepts `system.actionpoints.custom` for the Action Point Reminder
+(an empty string clears it), and `deleteFeatures: ["embeddedItemId"]` for deleting
+PC feature Items, including feats, traits, class features and theme features.
+Deletion also removes that feature's embedded effects. Powers and equipment cannot
+be deleted through this input. Missing IDs are no-ops. The active GM reviews the
+full source of every selected feature before confirming. Actor edits save first;
+feature deletion follows, with source/session checks and partial-save receipts.
+
+`add_item_effects.items[]` accepts `remove: ["effectId"]`. Each entry in `effects`
+can instead specify `replaceId: "effectId"` alongside the complete normal effect
+proposal. Use `effects: []` for deletion only. IDs refer to effects embedded in that
+Item; actor-level effects, compendiums and token actors remain excluded. Old source
+is displayed in the GM review. Unselected effects remain untouched. A replacement
+deletes the selected effect and creates a validated new one with a new ID and no
+inherited scripts, flags or macros. Condition and aura proposals remain supported.
+
+Cancellation, expiry and stale approval save nothing. Writes are not atomic:
+a replacement can delete successfully and then fail to create. Read source after
+any incomplete or uncertain result. If the old effect is gone and no replacement
+exists, submit the normal addition without `replaceId`; if the replacement exists,
+identical stable keys prevent duplicate creation. Missing removal IDs are no-ops;
+missing replacement IDs require either an already matching replacement or a fresh
+proposal. These operations do not remove previously applied recipient effects.
+
+Reload Foundry and restart the shared companion/MCP clients together for **v33**.
+User verification: check the browser console after reload; on a test PC, cancel
+then confirm a reminder edit and feature deletion. Test cancelling and confirming
+an effect replacement, and verify that unrelated effects survive. Idrani is not
+modified as part of installing these capabilities.
+
+
+Protocol **v34** adds `hit.baseQuantity`, `hit.baseDiceType`, shared attack/damage
+roll switches, and native boolean `effectType` flags to power edits and custom
+power creation. These fields use the DnD4e 0.9.3 stored model, supporting complete
+power swaps without retaining old weapon-dice counts or Reliable/Invigorating flags.
+Reload Foundry and restart the shared companion/MCP clients together.

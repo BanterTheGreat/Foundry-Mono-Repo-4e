@@ -1,6 +1,6 @@
 import { MODULE_ID, BINDINGS_SETTING, actorResources, participantData, createReport, tickReport,
 	ensureParticipant, finishTurn, markActivity, resourceSnapshot, snapshotRound, recordHealth,
-	recordMessage, messageParticipant, isAttackRoll } from "./ledger-data.js";
+	recordMessage, messageParticipant, isAttackRoll, restoreParticipantKeys } from "./ledger-data.js";
 import { configureLedgerUI, addLedgerButton, refreshLedger } from "./ledger-ui.js";
 export { registerLedgerSettings } from "./ledger-ui.js";
 
@@ -79,7 +79,8 @@ export async function saveLedger() {
 				dirty = true;
 				return;
 			}
-			await journal.setFlag(MODULE_ID, "combatLedger", snapshot);
+			// UUID object keys contain dots, which Foundry can expand into document paths.
+			await journal.setFlag(MODULE_ID, "combatLedger", JSON.stringify(snapshot));
 			storageError = false;
 		} catch (error) {
 			dirty = true;
@@ -96,11 +97,14 @@ export async function saveLedger() {
 /** Recover persisted reports without treating time spent disconnected as measured turn time. */
 function loadLedger(recover = false) {
 	journal = game.journal.find(entry => entry.flags?.[MODULE_ID]?.combatLedgerStorage);
-	const stored = journal?.flags?.[MODULE_ID]?.combatLedger;
+	const raw = journal?.flags?.[MODULE_ID]?.combatLedger;
+	const stored = typeof raw === "string" ? JSON.parse(raw) : raw;
 	if (stored?.version === 1 && stored.reports && !dirty) {
 		reports = structuredClone(stored.reports);
 		lastReportId = stored.lastReportId;
 		for (const report of Object.values(reports)) {
+			report.participants = restoreParticipantKeys(report.participants);
+			report.baselines = restoreParticipantKeys(report.baselines);
 			if (recover && !report.endedAt) {
 				report.lastTick = Date.now();
 				report.paused = game.paused;

@@ -207,7 +207,14 @@ export function registerTargetAutomationTests(quench) {
           assert.equal(fixture.item.system.uses.value, 2);
         });
         it("mandatory condition requirements cannot be overridden", async function () {
-          const session = await fixture.open({ config: { targetCondition: "slowed" }, targets: ["enemy"] });
+          const session = await fixture.open({ config: { targetCondition: "slowed" } });
+          // Startup can auto-select the valid slowed creature. Select the invalid
+          // enemy afterwards, as a user overriding that automatic choice would.
+          assert.isFalse(fixture.tokens.enemy.actor.statuses.has("slowed"));
+          fixture.tokens.enemy.setTarget(true, { releaseOthers: true });
+          await waitForFact(() => session.targets.length === 1 && session.targets[0] === fixture.tokens.enemy,
+            "manual selection of the enemy without the required condition");
+          assert.isNotEmpty(session.filterProblems());
           assert.isFalse(await session.confirmProblems());
           assert.equal(fixture.item.system.uses.value, 2);
           assert.equal(session.state, "targeting");

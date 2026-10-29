@@ -572,3 +572,58 @@ test("confirmation UI escapes source text, defaults to Cancel, expires, and reje
     assert.equal(result, action === "confirm" ? "confirmed" : ["expire", "late"].includes(action) ? "expired" : "cancelled");
   }
 });
+
+
+test("explicit replacement and deletion preserve unrelated effects and reject stale approval", async () => {
+  const deps = fixture();
+  const args = { items: [proposal().items[0]] };
+  await addItemEffects(args, deps);
+  const oldId = [...deps.equipment.effects.keys()][0];
+  deps.equipment.effects.set("unrelated", { id: "unrelated", getFlag: () => undefined,
+    toObject: () => ({ name: "Keep me", system: {} }) });
+  deps.equipment.deleteEmbeddedDocuments = async (type, ids) => {
+    assert.equal(type, "ActiveEffect");
+    ids.forEach(id => deps.equipment.effects.delete(id));
+    deps.equipment.source.effects = [...deps.equipment.effects.values()].map(effect => effect.toObject());
+  };
+  const replacement = structuredClone(args);
+  replacement.items[0].effects[0].replaceId = oldId;
+  replacement.items[0].effects[0].changes[0].value = "10";
+  deps.confirm = async report => {
+    assert.equal(report.items[0].effects[0].status, "replace");
+    assert.equal(report.items[0].effects[0].before.system.changes[0].value, "5");
+    return "cancelled";
+  };
+  assert.equal((await addItemEffects(replacement, deps)).status, "cancelled");
+  assert.ok(deps.equipment.effects.has(oldId));
+  deps.confirm = async () => "confirmed";
+  assert.equal((await addItemEffects(replacement, deps)).status, "updated");
+  assert.ok(deps.equipment.effects.has("unrelated"));
+  assert.equal((await addItemEffects(replacement, deps)).status, "unchanged");
+  const removal = { items: [{ uuid: deps.equipment.uuid, effects: [], remove: ["unrelated"] }] };
+  deps.confirm = async () => { deps.equipment.source.name = "Changed"; return "confirmed"; };
+  await assert.rejects(addItemEffects(removal, deps), /changed while awaiting/);
+  assert.ok(deps.equipment.effects.has("unrelated"));
+  deps.confirm = async () => "confirmed";
+  assert.equal((await addItemEffects(removal, deps)).status, "updated");
+  assert.equal((await addItemEffects(removal, deps)).status, "unchanged");
+});
+
+test("effect deletion rejects duplicate selections and reports partial replacement", async () => {
+  const deps = fixture();
+  const args = { items: [proposal().items[0]] };
+  await addItemEffects(args, deps);
+  const id = [...deps.equipment.effects.keys()][0];
+  const replacement = structuredClone(args);
+  replacement.items[0].effects[0].replaceId = id;
+  replacement.items[0].effects[0].changes[0].value = "10";
+  replacement.items[0].remove = [id];
+  await assert.rejects(addItemEffects(replacement, deps), /distinct effect IDs/);
+  delete replacement.items[0].remove;
+  deps.equipment.deleteEmbeddedDocuments = async () => { deps.equipment.effects.delete(id); };
+  deps.equipment.createEmbeddedDocuments = async () => { throw new Error("Failed creation"); };
+  const result = await addItemEffects(replacement, deps);
+  assert.equal(result.status, "incomplete");
+  assert.equal(result.applied[0].operation, "delete");
+  assert.equal(deps.equipment.effects.size, 0);
+});

@@ -62,12 +62,13 @@ export const POWER_SYSTEM_SCHEMA = {
   requirements: string, special: string, rechargeRoll: string, rechargeCondition: string,
   sustain: { actionType: string, detail: string },
   attack: {
-    isAttack: boolean, isBasic: boolean, isCharge: boolean, isOpp: boolean,
+    isAttack: boolean, shareAttackRoll: boolean, isBasic: boolean, isCharge: boolean, isOpp: boolean,
     canCharge: boolean, canOpp: boolean, ability: string, abilityBonus: integer,
     def: string, defBonus: integer, detail: string, formula: string
   },
   hit: {
-    isDamage: boolean, isHealing: boolean, damageBonusNull: boolean,
+    isDamage: boolean, isHealing: boolean, shareDamageRoll: boolean, damageBonusNull: boolean,
+    baseQuantity: string, baseDiceType: string,
     detail: string, formula: string, critFormula: string, healFormula: string,
     healSurge: string
   },
@@ -75,6 +76,7 @@ export const POWER_SYSTEM_SCHEMA = {
   effect: { detail: string },
   damage: { parts: [{ formula: string, type: [string] }] },
   damageCrit: { parts: [{ formula: string, type: [string] }] },
+  effectType: keyed("augmentable aura beast beastForm channelDiv charm conjuration disease elemental enchantment evocation fear fullDis gaze healing illusion invigorating mount necro nether poison polymorph rage rattling reliable runic shadow sleep spirit stance summoning teleportation transmutation zone", boolean),
   damageType: damageFlags, keywordsCustom: string, keyWords: [string],
   chatFlavor: string, effectHTML: boolean, postEffect: boolean,
   postSpecial: boolean, autoGenChatPowerCard: boolean,

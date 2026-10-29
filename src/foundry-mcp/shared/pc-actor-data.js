@@ -9,7 +9,7 @@ const trait = { value: ["string"], custom: "string" };
  * Keep derived totals, embedded documents, flags and executable data excluded.
  */
 export const PC_ACTOR_EDIT_SCHEMA = {
-  uuid: "string", summary: "string", name: "string",
+  uuid: "string", summary: "string", name: "string", deleteFeatures: ["string"],
   system: {
     abilities: keyed("str con dex int wis cha", { value: "integer" }),
     skills: keyed("acr arc ath blu dip dun end hea his ins itm nat prc rel stl stw thi", {
@@ -21,6 +21,7 @@ export const PC_ACTOR_EDIT_SCHEMA = {
       weaponProf: trait, implementProf: trait, armourProf: trait
     },
     languages: { spoken: trait, script: trait },
+    actionpoints: { custom: "string" },
     biography: "string"
   }
 };
@@ -42,6 +43,14 @@ export function validatePcActorEdit(args) {
   }
   if (args.system?.details?.exp !== undefined && args.system.details.exp < 0) {
     throw new Error("Experience must be non-negative.");
+  }
+  if (args.deleteFeatures !== undefined && (args.deleteFeatures.length > 50
+    || new Set(args.deleteFeatures).size !== args.deleteFeatures.length
+    || args.deleteFeatures.some(id => !/^[A-Za-z0-9_-]{1,128}$/.test(id)))) {
+    throw new Error("Select up to 50 distinct embedded feature IDs.");
+  }
+  if ((args.system?.actionpoints?.custom?.length ?? 0) > 50000) {
+    throw new Error("Action point reminder must be at most 50000 characters.");
   }
   for (const skill of Object.values(args.system?.skills ?? {})) {
     if (skill.training !== undefined && ![0, 5, 8].includes(skill.training)) {

@@ -45,7 +45,9 @@ export function confirmItemEffects({ items, summary }, {
     };
     const sections = items.map(item => `<section><h3>${escape(item.name)} (${escape(item.type)})</h3><p>${escape(item.uuid)}</p>
       ${item.notes ? `<p><strong>Manual handling / limitations:</strong> ${escape(item.notes)}</p>` : ""}
+      ${(item.removals ?? []).map(effect => `<fieldset><legend>DELETE ${escape(effect.name)}</legend><pre>${escape(JSON.stringify(effect, null, 2))}</pre></fieldset>`).join("")}
       ${item.effects.map(effect => `<fieldset><legend>${escape(effect.name)} — ${escape(effect.status)}</legend>
+      ${effect.before ? `<pre>REPLACE source: ${escape(JSON.stringify(effect.before, null, 2))}</pre>` : ""}
       <p style="white-space:pre-wrap">${escape(effect.description)}</p>
       ${effect.condition ? `<p><strong>Copy condition Name, Icon, Mods:</strong> ${escape(effect.condition)}; icon: ${escape(effect.img)}</p>` : ""}
       <p><strong>Applies:</strong> ${escape(applicationLabels[effect.application])}; <strong>Duration:</strong> ${escape(durationLabels[effect.duration])}${effect.durationValue ? ` (${escape(effect.durationValue)} ${escape(effect.durationUnits)})` : ""}${effect.durationAction ? `; ends on ${escape(effect.durationAction)}` : ""}${effect.duration === "saveEnd" ? `; save DC ${escape(effect.saveDC ?? 10)}` : ""}.</p>
@@ -55,11 +57,11 @@ export function confirmItemEffects({ items, summary }, {
       ${effect.statuses?.length ? `<p>Conditions: ${escape(effect.statuses.join(", "))}</p>` : ""}
       ${effect.keywords?.length ? `<p>Keywords: ${escape(effect.keywords.join(", "))}</p>` : ""}
       ${effect.dots?.length ? `<p>Ongoing damage: ${escape(effect.dots.map(dot => `${dot.amount} ${dot.types.join(", ")}`).join("; "))}</p>` : ""}</fieldset>`).join("")}</section>`).join("");
-    const count = items.reduce((total, item) => total + item.effects.filter(effect => effect.status === "add").length, 0);
-    const overview = summary ?? `Review ${count} new effect${count === 1 ? "" : "s"} across ${items.length} item${items.length === 1 ? "" : "s"}, including any manual handling notes.`;
+    const count = items.reduce((total, item) => total + item.effects.filter(effect => ["add", "replace"].includes(effect.status)).length, 0);
+    const overview = summary ?? `Review ${count} new or replacement effect${count === 1 ? "" : "s"} across ${items.length} item${items.length === 1 ? "" : "s"}, including any manual handling notes.`;
     const dialog = new Dialog({
       title: "Foundry MCP: Review ActiveEffects",
-      content: `<p style="white-space:pre-wrap;overflow-wrap:anywhere"><strong>${escape(overview)}</strong></p><p><strong>Nothing is saved until Confirm.</strong> You have 2 minutes to review. Existing effects are preserved. Power application requires DnD4e auto-apply effects and the appropriate targets; miscellaneous effects need manual application.</p><h3>Detailed changes</h3><div style="max-height:60vh;overflow:auto;overflow-wrap:anywhere">${sections}</div>`,
+      content: `<p style="white-space:pre-wrap;overflow-wrap:anywhere"><strong>${escape(overview)}</strong></p><p><strong>Nothing is saved until Confirm.</strong> You have 2 minutes to review. Only explicitly selected effects are deleted or replaced. Other effects are preserved. Power application requires DnD4e auto-apply effects and the appropriate targets; miscellaneous effects need manual application.</p><h3>Detailed changes</h3><div style="max-height:60vh;overflow:auto;overflow-wrap:anywhere">${sections}</div>`,
       buttons: {
         confirm: { label: "Confirm", callback: () => finish("confirmed") },
         cancel: { label: "Cancel", callback: () => finish("cancelled") }
@@ -149,8 +151,8 @@ function matches(source, expected) {
  * Persisted stable keys and mechanical equivalence prevent duplicate additions
  * after timeouts, partial writes, reloads, or an already automated source Item.
  */
-function existingEffect(item, expected) {
-  const effects = Array.from(item.effects.values());
+function existingEffect(item, expected, excludeId) {
+  const effects = Array.from(item.effects.values()).filter(effect => effect.id !== excludeId);
   const managed = effects.filter(effect => effect.getFlag(MODULE_ID, "itemEffectKey") === expected.flags[MODULE_ID].itemEffectKey);
   if (managed.length > 1 || (managed.length && !matches(managed[0].toObject(true), expected))) {
     throw new Error("A managed effect with this key differs or is duplicated. Inspect it before proposing another effect.");
@@ -227,21 +229,26 @@ export async function addItemEffects(args, {
         }
       }
       const data = itemEffectData(item, effect);
-      const existing = existingEffect(item, data);
-      return { spec: effect, data, existing, condition };
+      const replaced = effect.replaceId ? item.effects.get(effect.replaceId) : undefined;
+      const existing = existingEffect(item, data, replaced?.id);
+      if (effect.replaceId && !replaced && !existing) {
+        throw new Error("Replacement effect not found; read source before retrying.");
+      }
+      return { spec: effect, data, existing, condition, replaced };
     });
     for (let index = 0; index < effects.length; index++) {
       if (effects.slice(0, index).some(previous => matches(previous.data, effects[index].data))) {
         throw new Error("The proposal contains duplicate effect mechanics on the same Item.");
       }
     }
-    return { item, proposal, effects, source: JSON.stringify(item.toObject(true)) };
+    return { item, proposal, effects, removals: (proposal.remove ?? []).map(id => item.effects.get(id)).filter(Boolean), source: JSON.stringify(item.toObject(true)) };
   });
-  const receipt = { items: targets.map(({ item, proposal, effects }) => ({
+  const receipt = { items: targets.map(({ item, proposal, effects, removals }) => ({
     uuid: item.uuid, name: item.name, type: item.type, notes: proposal.notes,
-    effects: effects.map(({ spec, existing }) => ({ ...spec, status: existing ? "already present" : "add" }))
+    removals: removals.map(effect => effect.toObject(true)),
+    effects: effects.map(({ spec, existing, replaced }) => ({ ...spec, before: replaced?.toObject(true), status: replaced ? "replace" : existing ? "already present" : "add" }))
   })) };
-  if (!targets.some(target => target.effects.some(effect => !effect.existing))) {
+  if (!targets.some(target => target.removals.length || target.effects.some(effect => !effect.existing || effect.replaced))) {
     // Manual-only batches still show a report, even though no write is needed.
     if (targets.every(target => !target.proposal.notes)) {
       return { ...receipt, status: "unchanged" };
@@ -272,10 +279,22 @@ export async function addItemEffects(args, {
     targets.forEach(assertFresh);
     const applied = [];
     let writing;
+    let deleting;
     try {
       for (const target of targets) {
         assertSession();
         assertFresh(target);
+        const removedIds = [...target.removals.map(effect => effect.id), ...target.effects.filter(effect => effect.replaced).map(effect => effect.replaced.id)];
+        if (removedIds.length) {
+          deleting = { target, ids: removedIds };
+          await target.item.deleteEmbeddedDocuments("ActiveEffect", removedIds);
+          assertSession();
+          if (removedIds.some(id => target.item.effects.has(id))) {
+            throw new Error("Some effect deletions were cancelled.");
+          }
+          applied.push(...removedIds.map(effectId => ({ uuid: target.item.uuid, effectId, operation: "delete" })));
+          deleting = undefined;
+        }
         const additions = target.effects.filter(effect => !effect.existing);
         if (!additions.length) {
           continue;
@@ -297,6 +316,10 @@ export async function addItemEffects(args, {
     } catch {
       // A write can persist and then reject or lose its connection. Inspect the
       // current Item collection for receipts without attempting rollback.
+      if (deleting) {
+        applied.push(...deleting.ids.filter(id => !deleting.target.item.effects.has(id))
+          .map(effectId => ({ uuid: deleting.target.item.uuid, effectId, operation: "delete" })));
+      }
       if (writing) {
         for (const effect of writing.additions) {
           const document = Array.from(writing.target.item.effects.values()).find(entry => entry.getFlag(MODULE_ID, "itemEffectKey") === effect.spec.key);
@@ -308,7 +331,7 @@ export async function addItemEffects(args, {
       notify("Foundry MCP: effect batch did not fully complete. Inspect the affected Items before retrying.");
       return { ...receipt, status: "incomplete", applied, message: "Some effects may have saved. Read source before retrying the same stable keys." };
     }
-    notify(`Foundry MCP: added ${applied.length} ActiveEffects across ${targets.length} Items.`);
+    notify(`Foundry MCP: completed ${applied.length} ActiveEffect changes across ${targets.length} Items.`);
     return { ...receipt, status: applied.length ? "updated" : "unchanged", applied };
   } finally {
     pending.delete(game);

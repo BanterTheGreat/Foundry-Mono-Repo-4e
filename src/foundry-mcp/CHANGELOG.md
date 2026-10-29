@@ -2,6 +2,12 @@
 
 ## 0.4.0
 
+- Power editing and custom power creation expose base damage quantity/type, shared-roll switches and native effect keyword flags so replacements retain correct dice and mechanics. Protocol v34 requires reloading Foundry and restarting MCP clients.
+
+- Edit PC Action Point Reminders and delete explicitly selected embedded features with GM review. Delete or replace selected item ActiveEffects with full old-source review, validated replacements and partial-save reporting. Protocol v33 requires reloading Foundry and restarting the companion/MCP clients together.
+
+- Create Scene Elevation Region platforms, pits, slopes and overhead regions through `add_elevation_regions`, using rectangles, ellipses, polygons and holes. Require Foundry v14+ and the active elevation module; review creation with the active GM, reject stale scenes and resume partial batches without duplicates. Protocol v32 requires reloading Foundry and restarting the companion/MCP clients together.
+
 - Add permanent passive ActiveEffects to feats, traits, class and theme features through the existing GM-reviewed batch tool, with duplicate-safe retries. Triggered benefits remain manual or use separate power Items. Reload Foundry and restart MCP clients after updating.
 
 - Read and configure Target Automation on world powers, PC/NPC powers and shared actor origins through dedicated MCP tools. Review all changes, including automatic use-macro disabling, with the usual two-minute GM confirmation; preserve omitted fields, reject stale approvals and report partial saves. Protocol v31 requires reloading Foundry and restarting the companion/MCP clients together.

@@ -44,5 +44,11 @@
 			<strong>{{status}}</strong>
 			{{#if problems}}<ul class="power-targeting__warnings">{{#each warningGroups}}<li>{{#if label}}<strong>{{label}}:</strong> {{/if}}{{text}}</li>{{/each}}</ul>{{/if}}
 		</div>
-		<button type="button" data-action="attack" class="is-ready" {{#if busy}}disabled{{/if}}>{{#if hasAttack}}<i class="fa-solid fa-dice-d20" aria-hidden="true"></i> Attack!{{else}}<i class="fa-solid fa-check" aria-hidden="true"></i> {{#if summon}}Confirm summon{{else}}Confirm{{/if}}{{/if}}</button>
+		<div class="power-targeting__attack-actions">
+			{{#if hasAttack}}
+			{{#each attackButtons}}<button type="button" data-action="attack" data-variant="{{id}}" class="is-ready" {{#if ../busy}}disabled{{/if}}>{{label}}</button>{{/each}}
+			{{else}}
+			<button type="button" data-action="attack" class="is-ready" {{#if busy}}disabled{{/if}}><i class="fa-solid fa-check" aria-hidden="true"></i> {{#if summon}}Confirm summon{{else}}Confirm{{/if}}</button>
+			{{/if}}
+		</div>
 	</footer>

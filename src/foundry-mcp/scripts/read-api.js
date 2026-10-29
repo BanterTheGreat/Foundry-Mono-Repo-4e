@@ -176,6 +176,10 @@ export async function executeRead(operation, args = {}, { game = globalThis.game
         pcPowerEditing: { tool: "edit_pc_powers", actorType: "Player Character", system: "dnd4e", version: "0.9.3", confirmation: "active GM", approvalSeconds: 120, available: game.user.isActiveGM === true },
         pcBasicAttacks: { tool: "set_pc_basic_attack_ability", actorType: "Player Character", system: "dnd4e", version: "0.9.3", confirmation: "active GM", available: game.user.isActiveGM === true },
         itemEffects: { tool: "add_item_effects", system: "dnd4e", version: "0.9.3", confirmation: "active GM", approvalSeconds: 120, available: game.user.isActiveGM === true },
+        elevationRegions: { tool: "add_elevation_regions", module: "scene-elevation-region", minimumFoundry: 14,
+          confirmation: "active GM", available: game.user.isActiveGM === true && Number.parseInt(game.version, 10) >= 14
+            && game.modules?.get("scene-elevation-region")?.active === true
+            && !!globalThis.CONFIG?.RegionBehavior?.dataModels?.["scene-elevation-region.elevation"] },
         sceneDrawings: { tool: "add_scene_drawings", shapes: ["rectangle"], coordinates: "scene pixels", confirmation: "active GM", available: game.user.isActiveGM === true },
         activeSceneUuid: game.scenes.active?.uuid ?? null,
         combatUuid: game.combat?.uuid ?? null,

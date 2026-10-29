@@ -1,3 +1,4 @@
+import { addElevationRegions } from "./elevation-region-api.js";
 import { targetAutomation } from "./target-automation-api.js";
 import { editPcActor } from "./pc-actor-api.js";
 import { editPcPowers } from "./pc-power-api.js";
@@ -112,6 +113,9 @@ function connect() {
           case "get_target_automation":
           case "edit_target_automation":
             result = await targetAutomation(request.args, request.operation === "edit_target_automation", connectionOptions);
+            break;
+          case "add_elevation_regions":
+            result = await addElevationRegions(request.args, connectionOptions);
             break;
           case "add_scene_drawings":
             result = await addSceneDrawings(request.args, connectionOptions);

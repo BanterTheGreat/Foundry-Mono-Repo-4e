@@ -38,6 +38,15 @@
       );
 
       #theme.featBlock(
+        title: "Armor Proficiency",
+        content: [
+          You gain proficiency with the armor type one step above the highest armor type you are already proficient with, using this progression: Cloth → Leather → Hide → Chainmail → Scale → Plate.
+
+          *Special*: You can take this feat more than once. Each time you select this feat, advance one more step in the progression, up to Plate.
+        ],
+      );
+
+      #theme.featBlock(
         title: "Astral Fire",
         requirements: "2 Dexterity or 2 Charisma",
         content: [

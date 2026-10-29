@@ -937,6 +937,20 @@ class ActivationSession extends ActivationWorkflow {
 		return JSON.stringify([this.caster.document.toObject(), this.variant, this.range, this.origin, this.wallCells, automationConfig(this.item), this.item.toObject(), this.item.actor.toObject(), this.source.document.toObject(), this.targets.map(token => [token.id, token.document.toObject(), token.actor?.toObject()]), this.filterProblems()]);
 	}
 
+	/**
+	 * Prepare the requested attack variant, then open its native attack dialog.
+	 * Failed, unavailable or interrupted variant changes must never roll another mode.
+	 */
+	async attackVariant(id = "regular") {
+		if (this.state !== "targeting" || (this.item.hasAttack && !attackVariants(this.item).some(variant => variant.id === id))) {
+			return;
+		}
+		await this.changeVariant(id);
+		if (this.state === "targeting" && this.variant === id) {
+			return this.attack();
+		}
+	}
+
 	/** Confirm utility use or open the native attack dialog after reviewing targets. */
 	async attack() {
 		if (this.state !== "targeting") {
@@ -1691,7 +1705,7 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 				await this.render({ force: true });
 				this.setPosition({ height: "auto" });
 			},
-			attack() { return this.session.attack(); },
+			attack(event, target) { return this.session.attackVariant(target?.dataset.variant ?? "regular"); },
 			rollDamage(event) { return this.session.rollDamage(event); },
 			retryDamage(event) { return this.session.rollDamage(event, true); },
 			adjustDamage(event, target) { return this.session.healingOnly ? this.session.reviewHealing(target) : this.session.adjustDamage(target); },
@@ -1871,9 +1885,14 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 				invalid: warnings.length > 0, warnings: [...new Set(warnings.map(targetWarningLabel))],
 			};
 		});
+		const variants = attackVariants(activation.item);
+		const regular = variants.find(variant => variant.id === "regular");
+		const alternatives = variants.filter(variant => variant.id !== "regular")
+			.map(variant => ({ ...variant, label: variant.id === "charge" ? "Charge attack" : variant.label }));
+		// Keep the normal attack on the right for two actions and in the middle for three.
+		const attackButtons = regular ? [alternatives[0], { ...regular, label: alternatives.length ? "Normal attack" : "Attack!" }, alternatives[1]].filter(Boolean) : [];
 		return {
-			variants: attackVariants(activation.item).map(variant => ({ ...variant, selected: variant.id === activation.variant })),
-			showVariants: attackVariants(activation.item).length > 1,
+			attackButtons,
 			hasAttack: Boolean(activation.item.hasAttack),
 			beforeAttackRules: activation.item.hasAttack ? this.beforeAttackRules : "",
 			originChoices: activation.originChoices().map(token => ({ id: token.id, name: token.name, selected: token === activation.source })),
@@ -1911,7 +1930,6 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 			portrait.addEventListener("focus", () => this.session.highlightTarget(portrait.dataset.tokenId));
 			portrait.addEventListener("blur", () => this.session.clearTargetHighlight());
 		}
-		this.element.querySelector("[data-variant-selector]")?.addEventListener("change", event => this.session.changeVariant(event.target.value));
 		const header = this.element.querySelector(".window-header");
 		if (header) {
 			let details = header.querySelector('[data-action="toggleDetails"]');

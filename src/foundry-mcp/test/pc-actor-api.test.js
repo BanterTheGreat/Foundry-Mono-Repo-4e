@@ -157,3 +157,42 @@ test("concurrent edits are rejected and failed dialogs release the pending guard
   deps.confirm = async () => true;
   assert.equal((await editPcActor(request(), deps)).status, "updated");
 });
+
+
+test("reminder and feature deletion review source, preserve other items, and retry safely", async () => {
+  const deps = fixture();
+  deps.actor.items = new Map();
+  const feature = { id: "feat", uuid: "Actor.pc.Item.feat", name: "Old feat", type: "feature", parent: deps.actor,
+    toObject: () => ({ name: "Old feat", effects: [{ name: "Old bonus" }] }) };
+  deps.actor.items.set(feature.id, feature);
+  deps.actor.deleteEmbeddedDocuments = async (type, ids) => {
+    assert.equal(type, "Item");
+    ids.forEach(id => deps.actor.items.delete(id));
+  };
+  const args = { uuid: deps.actor.uuid, system: { actionpoints: { custom: "New reminder" } }, deleteFeatures: ["feat"] };
+  deps.confirm = async report => {
+    assert.deepEqual(report.changes.at(-1).before.effects, [{ name: "Old bonus" }]);
+    return false;
+  };
+  assert.equal((await editPcActor(args, deps)).status, "cancelled");
+  assert.equal(deps.actor.items.size, 1);
+  deps.confirm = async () => true;
+  assert.equal((await editPcActor(args, deps)).status, "updated");
+  assert.equal(deps.source.system.actionpoints.custom, "New reminder");
+  assert.equal(deps.actor.items.size, 0);
+  deps.confirm = () => assert.fail("Retry should be unchanged");
+  assert.equal((await editPcActor(args, deps)).status, "unchanged");
+});
+
+test("feature deletion excludes powers and rejects stale source", async () => {
+  const deps = fixture();
+  const item = { id: "item", uuid: "Actor.pc.Item.item", type: "power", parent: deps.actor,
+    toObject: () => ({ name: "Old" }) };
+  deps.actor.items = new Map([[item.id, item]]);
+  const args = { uuid: deps.actor.uuid, deleteFeatures: [item.id] };
+  await assert.rejects(editPcActor(args, deps), /Only embedded PC feature/);
+  item.type = "feature";
+  deps.confirm = async () => { deps.source.name = "Changed"; return true; };
+  await assert.rejects(editPcActor(args, deps), /changed while awaiting/);
+  assert.equal(deps.actor.items.size, 1);
+});

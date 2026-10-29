@@ -18,7 +18,7 @@
 
 #let armorTable(equipment: ()) = {
   return table(
-    columns: (1fr, 1fr, 1fr),
+    columns: (1fr, 1fr, 1fr, 1fr),
     stroke: 0.5pt + theme.tableDivider,
     align: left,
     fill: theme.defaultTableStyle(),
@@ -26,6 +26,7 @@
     [*Armor*],
     [*Armor Bonus*],
     [*Speed Penalty*],
+    [*Skill Penalty*],
     ..equipment,
   )
 }
@@ -371,12 +372,15 @@
       "Cloth",
       "Intelligence or Dexterity",
       "-",
+      "-0",
       "Leather",
       "Intelligence + 2 or Dexterity + 2",
       "-",
+      "-0",
       "Hide",
       "Intelligence + 3 or Dexterity + 3",
       "-",
+      "-0",
     ))
 
     == Heavy Armor
@@ -384,11 +388,14 @@
       "Chainmail",
       "+6",
       "-1",
+      "-0",
       "Scale",
       "+7",
       "-1",
+      "-0",
       "Plate",
-      "+8",
+      "+9",
+      "-1",
       "-1",
     ))
 
@@ -397,10 +404,14 @@
       "Light Shield",
       "+1",
       "-",
+      "-0",
       "Heavy Shield",
       "+2",
       "-",
+      "-1",
     ))
+
+    *Skill Penalty:* The penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.
   ]
 }
 
@@ -428,7 +439,7 @@ Scale
 +7
 -1
 Plate
-+8
++9
 -1
 
 Shields

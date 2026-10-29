@@ -64,14 +64,14 @@ test("native attack cancellation and a changed battlefield spend no use", async 
     await window.targetAutomationFixture.open({ system: { attack: { isAttack: true } }, targets: ["enemy"] });
   });
   const panel = page.locator(".power-targeting");
-  await panel.locator('[data-action="attack"]').click();
+  await panel.locator('[data-action="attack"][data-variant="regular"]').click();
   const native = page.locator(".application.roll-dialogue");
   await expect(native).toBeVisible();
   await native.locator('[data-action="close"]').click();
   await expect.poll(() => page.evaluate(() => window.targetAutomationFixture.activation.state)).toBe("targeting");
   expect(await page.evaluate(() => window.targetAutomationFixture.item.system.uses.value)).toBe(2);
 
-  await panel.locator('[data-action="attack"]').click();
+  await panel.locator('[data-action="attack"][data-variant="regular"]').click();
   await expect(native).toBeVisible();
   await page.evaluate(async () => { await window.targetAutomationFixture.tokens.enemy.document.update({ x: 1200 }); });
   await submitNativeAttack(page);
@@ -109,7 +109,7 @@ for (const scenario of [
         targets: scenario.mixed || scenario.removeTarget ? ["enemy", "far"] : ["enemy"] });
     }, scenario);
     const panel = page.locator(".power-targeting");
-    await panel.locator('[data-action="attack"]').click();
+    await panel.locator('[data-action="attack"][data-variant="regular"]').click();
     const native = page.locator(".application.roll-dialogue");
     await expect(native).toBeVisible();
     await submitNativeAttack(page);
@@ -198,7 +198,7 @@ test("target portraits focus and highlight tokens without changing selection", a
   })).toBeLessThan(2);
   await portrait.focus();
   await portrait.press("Enter");
-  await panel.locator('[data-action="attack"]').focus();
+  await panel.locator('[data-action="attack"][data-variant="regular"]').focus();
   expect(await page.evaluate(() => Boolean(window.targetAutomationFixture.activation.targetHighlight))).toBe(false);
   const facts = await page.evaluate(() => {
     const fixture = window.targetAutomationFixture;
@@ -211,7 +211,7 @@ test("target portraits focus and highlight tokens without changing selection", a
 });
 
 for (const variant of ["charge", "opportunity", "regular"]) {
-  test(`attack mode selector preserves selection and carries ${variant} through native attack and damage`, async ({ page }) => {
+  test(`attack variant buttons preserve selection and carry ${variant} through native attack and damage`, async ({ page }) => {
     await page.evaluate(async () => {
       await window.targetAutomationFixture.open({ system: {
         attack: { isAttack: true, isBasic: true, canCharge: true, canOpp: true, formula: "100" },
@@ -219,27 +219,22 @@ for (const variant of ["charge", "opportunity", "regular"]) {
       }, targets: ["enemy"] });
     });
     const panel = page.locator(".power-targeting");
-    const selector = panel.locator("[data-variant-selector]");
-    await expect(selector.locator("option")).toHaveText(["Basic attack", "Charge", "Opportunity attack"]);
-    await selector.selectOption("charge");
-    await expect.poll(() => page.evaluate(() => window.targetAutomationFixture.activation.variant)).toBe("charge");
-    if (variant !== "charge") {
-      await selector.selectOption(variant);
-    }
-    await expect.poll(() => page.evaluate(() => window.targetAutomationFixture.activation.variant)).toBe(variant);
+    const buttons = panel.locator('.power-targeting__attack-actions [data-action="attack"]');
+    await expect(buttons).toHaveText(["Charge attack", "Normal attack", "Opportunity attack"]);
+    const attackButton = panel.locator(`[data-action="attack"][data-variant="${variant}"]`);
     const selection = await page.evaluate(() => {
       const fixture = window.targetAutomationFixture;
       return { targets: fixture.activation.targets.map(token => token.id), expected: fixture.tokens.enemy.id, uses: fixture.item.system.uses.value };
     });
     expect(selection.targets).toEqual([selection.expected]);
     expect(selection.uses).toBe(2);
-    await panel.locator('[data-action="attack"]').click();
+    await attackButton.click();
     const native = page.locator(".application.roll-dialogue");
     await expect(native).toBeVisible();
     await native.locator('[data-action="close"]').click();
     await expect.poll(() => page.evaluate(() => window.targetAutomationFixture.activation.state)).toBe("targeting");
-    await expect(selector).toHaveValue(variant);
-    await panel.locator('[data-action="attack"]').click();
+    await expect(attackButton).toBeEnabled();
+    await attackButton.click();
     await submitNativeAttack(page);
     await expect.poll(() => page.evaluate(() => window.targetAutomationFixture.activation.state), { timeout: 45000 })
       .toMatch(/^(reviewingResults|reviewingDamage)$/);

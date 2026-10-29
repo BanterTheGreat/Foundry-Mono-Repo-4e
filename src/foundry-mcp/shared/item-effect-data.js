@@ -71,7 +71,8 @@ export function validateItemEffects(args) {
   validateChangeSummary(args?.summary);
   validateShape(args, {
     summary: "string",
-    items: [{ uuid: "string", notes: "string", effects: [{
+    items: [{ uuid: "string", notes: "string", remove: ["string"], effects: [{
+      replaceId: "string",
       key: "string", name: "string", description: "string", condition: "string", application: "string", duration: "string",
       durationValue: "number", durationUnits: "string", durationAction: "string", saveDC: "integer",
       useSourceActorData: "boolean", statuses: ["string"], keywords: ["string"],
@@ -93,8 +94,13 @@ export function validateItemEffects(args) {
     if (item.notes !== undefined && item.notes.length > 5000) {
       throw new Error("Item notes must be at most 5000 characters.");
     }
-    if (!Array.isArray(item.effects) || item.effects.length > 20 || (!item.effects.length && !item.notes?.trim())) {
+    if (!Array.isArray(item.effects) || item.effects.length > 20 || (!item.effects.length && !item.remove?.length && !item.notes?.trim())) {
       throw new Error("Supply effects, or explain why this Item needs manual handling in notes.");
+    }
+    const selected = [...(item.remove ?? []), ...item.effects.map(effect => effect.replaceId).filter(id => id !== undefined)];
+    if (selected.length > 40 || new Set(selected).size !== selected.length
+      || selected.some(id => !/^[A-Za-z0-9_-]{1,128}$/.test(id))) {
+      throw new Error("Select distinct effect IDs for removal or replacement.");
     }
     const keys = new Set();
     for (const effect of item.effects) {

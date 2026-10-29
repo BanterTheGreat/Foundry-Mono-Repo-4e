@@ -210,13 +210,21 @@ function controllerHarness({ rejectStorage = false, rejectWrites = 0, initialSto
 	let services;
 	let writeCount = 0;
 	let stored;
+	const setFlag = async (module, key, value) => {
+		writeCount++;
+		if (rejectWrites-- > 0) {
+			throw Error("write rejected");
+		}
+		assert.equal(typeof value, "string", "flag storage must protect dotted UUID keys");
+		stored = JSON.parse(value);
+	};
 	const creations = [];
 	const game = { user: { id: "gm", isGM: true }, users: { activeGM: { id: "gm" } }, paused: false,
 		system: { id: "dnd4e" }, settings: { get: () => ({ bindings: [] }) },
 		journal: collection(), combats: collection([fixture.combat]), messages: collection(), socket: { on() {} },
 		scenes: new Map([["scene", { tokens: fixture.combat.combatants.map(entry => entry.token) }]]) };
 	if (initialStorage) {
-		game.journal.set("stored", { id: "stored", flags: { [data.MODULE_ID]: { combatLedgerStorage: true, combatLedger: initialStorage } }, async setFlag() {} });
+		game.journal.set("stored", { id: "stored", flags: { [data.MODULE_ID]: { combatLedgerStorage: true, combatLedger: initialStorage } }, setFlag });
 	}
 	const context = vm.createContext({ ...data, structuredClone, Date, console: { warn: (...args) => warnings.push(args) },
 		game, ui: { combat: { render() {} } },
@@ -228,13 +236,7 @@ function controllerHarness({ rejectStorage = false, rejectWrites = 0, initialSto
 			if (rejectStorage) {
 				throw new Error("disk unavailable");
 			}
-			const journal = { id: "journal", async setFlag(module, key, value) {
-				writeCount++;
-				if (rejectWrites-- > 0) {
-					throw Error("write rejected");
-				}
-				stored = value;
-			} };
+			const journal = { id: "journal", setFlag };
 			game.journal.set(journal.id, journal);
 			return journal;
 		} },
@@ -410,6 +412,34 @@ test("reload resets HP baselines without inventing offline damage or turn time",
 	h.enemy.actor.system.attributes.hp.value = 90;
 	h.emit("updateActor", h.enemy.actor);
 	assert.equal(report.participants[h.hero.token.uuid].damage, 10);
+});
+
+test("saved dotted token identities recover into renderable ledger rows", async () => {
+	const fixture = combatFixture();
+	fixture.report.marker = "1:hero";
+	const participants = Object.values(fixture.report.participants);
+	participants[0].turns.push({ elapsedMs: 5000, contemplatingMs: 2000 });
+	fixture.report.participants = { Scene: { scene: { Token: Object.fromEntries(participants.map(entry => [entry.tokenId, entry])) } } };
+	const h = controllerHarness({ initialStorage: { version: 1, reports: { [fixture.report.id]: fixture.report }, lastReportId: null } });
+	const view = uiHarness();
+	view.context.game.actors = fixture.combat.combatants.map(entry => entry.actor);
+	view.context.game.settings = h.game.settings;
+	view.context.api.configureLedgerUI(h.services);
+	const result = await view.context.api.CombatLedger.prototype._prepareContext.call({});
+	assert.equal(result.rows.length, 3);
+	assert.equal(result.rows.find(row => row.name === "hero").avgTurn, "5s");
+	await h.context.api.saveLedger();
+	assert.equal(h.stored.reports[fixture.report.id].participants[fixture.hero.token.uuid].turns.length, 1);
+});
+
+test("JSON flag storage reloads completed and active participant statistics", () => {
+	const fixture = combatFixture();
+	fixture.report.participants[fixture.hero.token.uuid].damage = 42;
+	const initialStorage = JSON.stringify({ version: 1, reports: { [fixture.report.id]: fixture.report }, lastReportId: null });
+	const h = controllerHarness({ initialStorage });
+	const report = Object.values(h.services.getState().reports)[0];
+	assert.equal(data.reportRows(report).find(row => row.name === "hero").damage, 42);
+	assert.equal(h.warnings.length, 0);
 });
 
 test("token-to-owner cycles are rejected using persisted source-actor identity", () => {

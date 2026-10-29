@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import vm from "node:vm";
 import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import * as data from "../scripts/battle-momentum/momentum-data.js";
 import { getEncounterWeight } from "../scripts/combat-start/encounter-calculation.js";
 
@@ -129,7 +130,7 @@ function controllerHarness(isGM = true) {
 		setTimeout(callback) { const id = ++nextTimer; timers.set(id, callback); return id; }, clearTimeout(id) { timers.delete(id); },
 	});
 	const source = readFileSync(new URL("../scripts/battle-momentum/battle-momentum.js", import.meta.url), "utf8")
-		.replace(/^import .*;\n/gm, "").replace(/export /g, "");
+		.replace(/^import .*;\r?\n/gm, "").replace(/export /g, "");
 	vm.runInContext(source + '\nglobalThis.api = { registerBattleMomentum, addMomentumButton, openMomentum, observeCurrentCombat, getPanel: () => panel, sessions, settled: () => refreshQueue };', context);
 	return { context, c, hooks, api: context.api, async flush() {
 		for (const callback of timers.values()) { callback(); }
@@ -214,7 +215,7 @@ test("reopen icon is adjacent to statistics, unique, accessible, and restricted 
 
 test("real ES module loading initializes the panel template without a main-entrypoint cycle", async () => {
 	const { spawnSync } = await import("node:child_process");
-	const controller = new URL("../scripts/battle-momentum/battle-momentum.js", import.meta.url).pathname;
+	const controller = fileURLToPath(new URL("../scripts/battle-momentum/battle-momentum.js", import.meta.url));
 	const script = `
 		import vm from 'node:vm';
 		import { readFileSync } from 'node:fs';

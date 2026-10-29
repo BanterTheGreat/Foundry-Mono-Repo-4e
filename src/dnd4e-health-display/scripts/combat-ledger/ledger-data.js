@@ -2,6 +2,28 @@
 export const MODULE_ID = "dnd4e-health-display";
 export const BINDINGS_SETTING = "combatLedgerBindings";
 
+/**
+ * Recover UUID-keyed records expanded into nested objects by Foundry flag updates.
+ * Participant and baseline snapshots carry their original key, so no identity is guessed.
+ */
+export function restoreParticipantKeys(records = {}) {
+	const restored = {};
+	const visit = value => {
+		if (!value || typeof value !== "object") {
+			return;
+		}
+		if (typeof value.key === "string") {
+			restored[value.key] = value;
+			return;
+		}
+		for (const child of Object.values(value)) {
+			visit(child);
+		}
+	};
+	visit(records);
+	return restored;
+}
+
 /** Read only finite numeric game data. */
 function number(value) {
 	return Number.isFinite(Number(value)) ? Number(value) : 0;

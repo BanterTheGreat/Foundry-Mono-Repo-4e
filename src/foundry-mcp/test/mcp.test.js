@@ -19,10 +19,22 @@ test("MCP handshake exposes reads and NPC creation, validates arguments, and rep
   await server.connect(serverTransport);
   await client.connect(clientTransport);
   const { tools } = await client.listTools();
-  assert.deepEqual(tools.map(tool => tool.name), ["get_target_automation", "edit_target_automation", "add_scene_drawings", "edit_journal_pages", "create_journal", "build_magic_item", "get_merchant_inventory", "edit_merchant_inventory", "get_session", "list_documents", "get_document", "list_compendiums", "list_compendium_documents", "list_conditions", "add_item_effects", "create_ritual", "create_feat", "setup_pc", "import_pc_options", "edit_pc_actor", "edit_pc_powers", "set_pc_basic_attack_ability", "fix_pc_item_icons", "edit_npc_actor", "create_item", "create_npc_actor"]);
-  assert.ok(tools.filter(tool => !["edit_target_automation", "add_scene_drawings", "edit_journal_pages", "create_journal", "build_magic_item", "edit_merchant_inventory", "add_item_effects", "create_npc_actor", "create_item", "create_ritual", "create_feat", "setup_pc", "import_pc_options", "edit_pc_actor", "edit_pc_powers", "set_pc_basic_attack_ability", "fix_pc_item_icons", "edit_npc_actor"].includes(tool.name)).every(tool => tool.annotations.readOnlyHint));
+  assert.deepEqual(tools.map(tool => tool.name), ["get_target_automation", "edit_target_automation", "add_elevation_regions", "add_scene_drawings", "edit_journal_pages", "create_journal", "build_magic_item", "get_merchant_inventory", "edit_merchant_inventory", "get_session", "list_documents", "get_document", "list_compendiums", "list_compendium_documents", "list_conditions", "add_item_effects", "create_ritual", "create_feat", "setup_pc", "import_pc_options", "edit_pc_actor", "edit_pc_powers", "set_pc_basic_attack_ability", "fix_pc_item_icons", "edit_npc_actor", "create_item", "create_npc_actor"]);
+  assert.ok(tools.filter(tool => !["edit_target_automation", "add_elevation_regions", "add_scene_drawings", "edit_journal_pages", "create_journal", "build_magic_item", "edit_merchant_inventory", "add_item_effects", "create_npc_actor", "create_item", "create_ritual", "create_feat", "setup_pc", "import_pc_options", "edit_pc_actor", "edit_pc_powers", "set_pc_basic_attack_ability", "fix_pc_item_icons", "edit_npc_actor"].includes(tool.name)).every(tool => tool.annotations.readOnlyHint));
   assert.equal(tools.at(-1).annotations.readOnlyHint, false);
   assert.equal(tools.at(-1).annotations.idempotentHint, true);
+  const reminder = { uuid: "Actor.hero", system: { actionpoints: { custom: "" } }, deleteFeatures: ["oldFeat"] };
+  assert.notEqual((await client.callTool({ name: "edit_pc_actor", arguments: reminder })).isError, true);
+  assert.deepEqual(calls.at(-1), { operation: "edit_pc_actor", args: reminder });
+  const removeEffects = { items: [{ uuid: "Actor.hero.Item.feat", effects: [], remove: ["oldEffect"] }] };
+  assert.notEqual((await client.callTool({ name: "add_item_effects", arguments: removeEffects })).isError, true);
+  assert.deepEqual(calls.at(-1), { operation: "add_item_effects", args: removeEffects });
+  const damageDiceEdit = { uuid: "Actor.hero", powers: [{ id: "power", system: {
+    hit: { baseQuantity: "2", baseDiceType: "weapon", shareDamageRoll: false },
+    attack: { shareAttackRoll: false }, effectType: { reliable: true, invigorating: false }
+  } }] };
+  assert.notEqual((await client.callTool({ name: "edit_pc_powers", arguments: damageDiceEdit })).isError, true);
+  assert.deepEqual(calls.at(-1), { operation: "edit_pc_powers", args: damageDiceEdit });
   const automation = { powers: [{ uuid: "Item.power", config: { enabled: true, targetCountMode: "upTo", targetCount: 2 } }] };
   assert.notEqual((await client.callTool({ name: "edit_target_automation", arguments: automation })).isError, true);
   assert.deepEqual(calls.at(-1), { operation: "edit_target_automation", args: automation });
@@ -42,6 +54,13 @@ test("MCP handshake exposes reads and NPC creation, validates arguments, and rep
     assert.equal((await client.callTool({ name: "create_ritual", arguments: invalid })).isError, true);
   }
   assert.equal(calls.length, ritualCalls);
+  const elevation = { uuid: "Scene.map", requestId: "elevation-001", regions: [{ name: "Platform", elevation: 5,
+    shapes: [{ type: "rectangle", x: 100, y: 100, width: 200, height: 200 }] }] };
+  assert.notEqual((await client.callTool({ name: "add_elevation_regions", arguments: elevation })).isError, true);
+  assert.deepEqual(calls.at(-1), { operation: "add_elevation_regions", args: elevation });
+  const elevationCalls = calls.length;
+  assert.equal((await client.callTool({ name: "add_elevation_regions", arguments: { ...elevation, flags: {} } })).isError, true);
+  assert.equal(calls.length, elevationCalls);
   const rectangles = { uuid: "Scene.map", requestId: "scene-drawings-001", drawings: [
     { x: 100, y: 200, width: 300, height: 100, text: "Hazard", hidden: true }
   ] };

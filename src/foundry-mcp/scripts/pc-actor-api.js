@@ -31,7 +31,7 @@ export async function editPcActor(args, {
   assertEnabledGM(game);
   validatePcActorEdit(args);
   args = JSON.parse(JSON.stringify(args));
-  const { uuid, summary, ...data } = args;
+  const { uuid, summary, deleteFeatures = [], ...data } = args;
   const worldId = game.world.id;
   const userId = game.user.id;
   const actor = game.actors.get(uuid.slice(6));
@@ -54,6 +54,13 @@ export async function editPcActor(args, {
   const patch = flatten(data);
   const changes = Object.entries(patch).filter(([path, after]) => snapshot(atPath(source, path)) !== snapshot(after))
     .map(([path, after]) => ({ document: actor.name, uuid, path, before: atPath(source, path), after }));
+  const deletions = deleteFeatures.map(id => actor.items.get(id)).filter(Boolean);
+  if (deletions.some(item => item.type !== "feature" || item.parent !== actor || item.pack)) {
+    throw new Error("Only embedded PC feature Items may be deleted.");
+  }
+  changes.push(...deletions.map(item => ({ document: item.name, uuid: item.uuid,
+    path: "DELETE feature (including its effects)", before: item.toObject(true), after: null })));
+  const featureSources = deletions.map(item => snapshot(item.toObject(true)));
   const receipt = { uuid, name: actor.name, changes };
   if (!changes.length) {
     return { ...receipt, status: "unchanged" };
@@ -71,13 +78,24 @@ export async function editPcActor(args, {
     }
     let failed = false;
     try {
-      await actor.update(Object.fromEntries(changes.map(change => [change.path, change.after])));
+      const edits = changes.filter(change => change.uuid === uuid);
+      if (edits.length) {
+        await actor.update(Object.fromEntries(edits.map(change => [change.path, change.after])));
+        assertSession();
+      }
+      if (deletions.length) {
+        if (deletions.some((item, index) => actor.items.get(item.id) !== item
+          || snapshot(item.toObject(true)) !== featureSources[index])) {
+          throw new Error("Feature changed before deletion.");
+        }
+        await actor.deleteEmbeddedDocuments("Item", deletions.map(item => item.id));
+      }
     } catch {
       failed = true;
     }
     assertSession();
     const saved = actor.toObject(true);
-    const applied = changes.filter(change => snapshot(atPath(saved, change.path)) === snapshot(change.after));
+    const applied = changes.filter(change => change.uuid === uuid ? snapshot(atPath(saved, change.path)) === snapshot(change.after) : !actor.items.has(change.uuid.split(".").at(-1)));
     return { ...receipt, status: failed || applied.length !== changes.length ? "incomplete" : "updated", applied };
   } finally {
     pending.delete(game);

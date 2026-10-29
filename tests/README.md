@@ -10,7 +10,7 @@ Run the full `dnd4e-health-display` suite:
 node --test src/dnd4e-health-display/test/*.test.js
 ```
 
-Run only the power activation tests, including automatic target selection, target focusing, and attack-mode switching:
+Run only the power activation tests, including automatic target selection, target focusing, and attack variant buttons:
 
 ```sh
 node --test src/dnd4e-health-display/test/power-activation.test.js
@@ -45,10 +45,10 @@ For a manual check of targeting in your normal world:
 3. Use a Melee 1 power with one eligible enemy in range: it should select that enemy automatically. With more eligible enemies than the power allows, choose targets manually.
 4. Check manual target removal, then proceed through the attack dialog, result confirmation, damage, and completion. Also cancel and reopen the attack dialog.
 
-The browser checks for target portrait mouse/keyboard focusing and native attack-mode switching can be run in the designated test world with:
+The browser checks for target portrait mouse/keyboard focusing and native attack variant buttons can be run in the designated test world with:
 
 ```sh
-npm run test:foundry -- target-automation.spec.mjs --grep "target portraits|attack mode selector"
+npm run test:foundry -- target-automation.spec.mjs --grep "target portraits|attack variant buttons"
 ```
 
-During initial targeting, eligible attacks offer the same Regular/Basic, Charge, and Opportunity Attack modes as chat cards. Switching does not spend a use. Click a target portrait to pan to its token; hover or keyboard focus outlines it. These controls remain available in result review.
+During initial targeting, eligible attacks offer separate Normal attack, Charge attack, and Opportunity attack buttons. Normal attack appears on the right with two buttons and in the middle with three; a lone attack button retains the Attack! label. Each button opens the matching native dialog; cancelling spends no use. Click a target portrait to pan to its token; hover or keyboard focus outlines it. These controls remain available in result review.

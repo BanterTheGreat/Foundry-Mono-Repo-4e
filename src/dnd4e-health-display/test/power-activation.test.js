@@ -2171,7 +2171,83 @@ test("a range change retains the target but flags it as out of range, without sp
 	f.activation.range = { normal: 10, maximum: 10 };
 	f.context.resolveRange = async () => ({ normal: 1, maximum: 1 });
 	await f.activation.changeVariant("charge");
-	assert.deepEqual(f.activation.targets, [f.far]);
+	assert.deepEqual(Array.from(f.activation.targets), [f.far]);
 	assert.ok(f.activation.problems().some(problem => problem.includes("outside range")));
 	assert.equal(f.consumed(), 0);
+});
+
+for (const [attack, expected] of [
+	[{}, ["regular"]],
+	[{ canCharge: true }, ["charge", "regular"]],
+	[{ canOpp: true }, ["opportunity", "regular"]],
+	[{ canCharge: true, canOpp: true }, ["charge", "regular", "opportunity"]],
+]) {
+	test(`targeting attack buttons are ordered ${expected.join(", ")}`, async () => {
+		const f = fixture();
+		f.item.system.attack = attack;
+		const panel = Object.create(f.context.api.TargetingPanel.prototype);
+		panel.session = f.activation;
+		const display = await panel._prepareContext();
+		assert.deepEqual(Array.from(display.attackButtons, button => button.id), expected);
+		assert.equal(display.attackButtons.find(button => button.id === "regular").label, expected.length > 1 ? "Normal attack" : "Attack!");
+		if (expected.includes("charge")) {
+			assert.equal(display.attackButtons.find(button => button.id === "charge").label, "Charge attack");
+		}
+	});
+}
+
+for (const [id, variance] of [["charge", { isCharge: true }], ["opportunity", { isOpp: true }], ["regular", {}]]) {
+	test(`${id} attack button opens its native attack and can be cancelled and reopened`, async () => {
+		const f = fixture();
+		f.item.system.attack = { canCharge: true, canOpp: true };
+		f.activation.targets = [f.target];
+		f.activation.variant = id === "regular" ? "charge" : "regular";
+		let opened = 0;
+		f.item.rollAttack = async options => {
+			opened++;
+			assert.deepEqual(JSON.parse(JSON.stringify(options.variance)), variance);
+			return null;
+		};
+		const panel = { session: f.activation };
+		const click = () => f.context.api.TargetingPanel.DEFAULT_OPTIONS.actions.attack.call(panel, {}, { dataset: { variant: id } });
+		await click();
+		await click();
+		assert.equal(opened, 2);
+		assert.equal(f.activation.state, "targeting");
+		assert.deepEqual(f.activation.targets, [f.target]);
+		assert.equal(f.consumed(), 0);
+	});
+}
+
+test("variant attack buttons do not roll an unavailable, failed or busy mode", async () => {
+	const f = fixture();
+	let opened = 0;
+	f.item.rollAttack = async () => { opened++; return null; };
+	await f.activation.attackVariant("opportunity");
+	f.item.system.attack = { canCharge: true };
+	f.context.resolveRange = async () => { throw new Error("Invalid range"); };
+	await f.activation.attackVariant("charge");
+	f.activation.transition("attackDialog");
+	await f.activation.attackVariant("regular");
+	assert.equal(opened, 0);
+	assert.equal(f.consumed(), 0);
+});
+
+test("mandatory condition validation tests the manual target after automatic selection", async () => {
+	const f = fixture({ confirm: true });
+	f.item.getFlag = () => ({ enabled: true, targetCount: 1, targetCondition: "slowed" });
+	f.target.actor = { ...f.target.actor, statuses: new Set(["slowed"]) };
+	f.far.actor = { ...f.far.actor, statuses: new Set() };
+	await f.activation.start();
+	assert.deepEqual(f.activation.targets, [f.target]);
+	assert.equal(await f.activation.confirmProblems(), true);
+	f.target.setTarget(false);
+	f.activation.targetChanged(f.target, false);
+	f.far.setTarget(true);
+	f.activation.targetChanged(f.far, true);
+	assert.deepEqual(Array.from(f.activation.targets), [f.far]);
+	assert.equal(await f.activation.confirmProblems(), false);
+	assert.equal(f.confirmations.length, 0);
+	assert.equal(f.consumed(), 0);
+	assert.equal(f.activation.state, "targeting");
 });
