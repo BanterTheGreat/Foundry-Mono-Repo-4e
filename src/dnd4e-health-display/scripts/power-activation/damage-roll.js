@@ -22,7 +22,7 @@ function captureDamageMessage(RollClass) {
 			const toMessage = roll.toMessage;
 			roll.toMessage = function(...args) {
 				if (context.review) {
-					args[0] = { ...args[0], flags: { ...args[0]?.flags, [MODULE_ID]: { damageReview: { ...context.review, ...(Number.isFinite(Number(data.powMax)) && options.expression?.includes("@powMax") ? { baseDiceMaximum: Number(data.powMax) } : {}), pending: true, edited: false } } } };
+					args[0] = { ...args[0], flags: { ...args[0]?.flags, ...(context.review.variance ? { dnd4e: { ...args[0]?.flags?.dnd4e, variance: context.review.variance } } : {}), [MODULE_ID]: { damageReview: { ...context.review, ...(Number.isFinite(Number(data.powMax)) && options.expression?.includes("@powMax") ? { baseDiceMaximum: Number(data.powMax) } : {}), pending: true, edited: false } } } };
 				}
 				context.message = Promise.resolve(toMessage.apply(this, args));
 				return context.message;
@@ -66,7 +66,7 @@ export async function rollDamageAndWait(item, event, RollClass = null, review = 
 			return typeof value === "function" ? value.bind(target) : value;
 		},
 	});
-	const roll = await (review?.healing ? item.rollHealing : item.rollDamage).call(power, { event: review ? {} : event, ...(review ? { fastForward: false } : {}) });
+	const roll = await (review?.healing ? item.rollHealing : item.rollDamage).call(power, { event: review ? {} : event, variance: review?.variance ?? {}, ...(review ? { fastForward: false } : {}) });
 	if (!roll) {
 		return null;
 	}

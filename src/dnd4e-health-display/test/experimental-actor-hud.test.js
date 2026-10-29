@@ -171,3 +171,17 @@ test("experimental mode moves NPC menus out of the portrait panel", async () => 
 	assert.equal(context.tabs.length, 0);
 	assert.equal(context.activeTab, null);
 });
+
+test("targeting buttons are disabled for depleted powers in every horizontal HUD list", () => {
+	const template = readFileSync(new URL("../scripts/actor-display/actor-display-horizontal.hbs", import.meta.url), "utf8");
+	const buttons = template.match(/<button[^>]*class="[^"]*__power-use"[^>]*>/g);
+	assert.equal(buttons.length, 4);
+	for (const button of buttons) {
+	assert.ok(button.includes("{{#if depleted}}disabled{{/if}}"));
+	}
+	for (const value of [0, -1]) {
+	assert.equal(presentation.isPowerDepleted({ system: { uses: { max: 1, value } } }), true);
+	}
+	assert.equal(presentation.isPowerDepleted({ system: { uses: { max: 1, value: 1 } } }), false);
+	assert.equal(presentation.isPowerDepleted({ system: { uses: { max: 0, value: 0 } } }), false);
+	});

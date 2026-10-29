@@ -1,3 +1,4 @@
+import { attackVariants } from "../scripts/power-activation/attack-variants.js";
 import { ActivationWorkflow } from "../scripts/power-activation/workflow.js";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
@@ -43,7 +44,7 @@ function fixture({ confirm = true, fastForward = false } = {}) {
 	let consumed = 0;
 	const actor = { id: "a", uuid: "Actor.a", isOwner: true, toObject: () => ({ id: "a" }) };
 	const item = {
-		id: "p", uuid: "Actor.a.Item.p", name: "Test attack", actor, isOwner: true, hasAttack: true,
+		type: "power", id: "p", uuid: "Actor.a.Item.p", name: "Test attack", actor, isOwner: true, hasAttack: true,
 		system: { uses: { per: "encounter", value: 2 }, rangeType: "melee", macros: [] },
 		getFlag: () => ({ enabled: true, targetCount: 1 }),
 		toObject: () => ({ uses: item.system.uses.value }),
@@ -81,7 +82,7 @@ function fixture({ confirm = true, fastForward = false } = {}) {
 		ActivationWorkflow, console, AbortController, MODULE_ID, SETTING, automationConfig, powerOriginRules, selectionProblems, targetCountProblems, squareDistance, targetFilterProblems,
 		AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin, hasLineOfEffect,
 		CoverPreview: { setContext: value => hooks.push(["coverContext", value]), register() {} },
-		rollFromOrigin, removeAttackTarget, syncAttackEffects: async () => {}, registerAttackEffects() {},
+		attackVariants, rollFromOrigin, removeAttackTarget, syncAttackEffects: async () => {}, registerAttackEffects() {},
 		attackResults: { register() {}, complete: id => hooks.push(["attackResultsComplete", id]) }, messageAttackResults,
 		sharedAreaPreview: {
 			show: value => hooks.push(["sharedArea", value.id]),
@@ -144,6 +145,62 @@ function fixture({ confirm = true, fastForward = false } = {}) {
 	context.api.setSession(activation);
 	return { context, activation, item, DamageRoll, target, far, attacker, targets, messages, warnings, confirmations, hooks, changes, rectangles, shapes, tokenMap, consumed: () => consumed };
 }
+
+test("Use Ability automatically targets the sole enemy in Melee 1 range without spending the power", async () => {
+	const f = fixture();
+	f.context.api.setSession(null);
+	f.attacker.document.disposition = 1;
+	f.target.document.disposition = -1;
+	f.far.document.disposition = -1;
+	f.item.getFlag = () => ({ enabled: true, targetCount: 1, targetDisposition: "enemies" });
+	await f.context.api.useAbility(f.item, f.attacker);
+	assert.deepEqual([...f.targets], [f.target]);
+	assert.equal(f.consumed(), 0);
+	assert.equal(f.item.system.uses.value, 2);
+});
+
+test("entering targeting selects both enemies when both fit a two-target power", async () => {
+	const f = fixture();
+	f.activation.count = 2;
+	f.attacker.document.disposition = 1;
+	f.target.document.disposition = -1;
+	f.far.document.disposition = -1;
+	f.far.x = 100;
+	f.item.getFlag = () => ({ enabled: true, targetCount: 2, targetDisposition: "enemies" });
+	await f.activation.start();
+	assert.deepEqual([...f.targets], [f.target, f.far]);
+});
+
+test("direct targeting selects all eligible creatures only when they fit the target limit", async () => {
+	for (const count of [1, 2]) {
+		const f = fixture();
+		f.activation.count = count;
+		await f.activation.start();
+		assert.deepEqual([...f.targets], [f.target]);
+		f.target.setTarget(false);
+		f.activation.targetChanged(f.target, false);
+		f.activation.refresh();
+		assert.equal(f.targets.size, 0, "manual removal must persist");
+	}
+	const f = fixture();
+	f.far.x = 100;
+	await f.activation.start();
+	assert.equal(f.targets.size, 0, "excess candidates require a choice");
+});
+
+test("automatic direct selection respects disposition, conditions, visibility and elevation", async () => {
+	for (const invalid of ["ally", "condition", "hidden", "elevation"]) {
+		const f = fixture();
+		f.attacker.document.disposition = 1;
+		f.target.document.disposition = invalid === "ally" ? 1 : -1;
+		f.item.getFlag = () => ({ enabled: true, targetCount: 1, targetDisposition: "enemies",
+			targetCondition: invalid === "condition" ? "marked" : "" });
+		f.target.visible = invalid !== "hidden";
+		f.target.document.elevation = invalid === "elevation" ? 1 : 0;
+		await f.activation.start();
+		assert.equal(f.targets.size, 0, invalid);
+	}
+});
 
 test("melee, ranged and weapon activations retain existing targets inside their range", async () => {
 	for (const rangeType of ["melee", "touch", "reach", "range", "weapon"]) {
@@ -223,7 +280,7 @@ test("ranged activations preserve long-range targets and cancellation restores t
 	// Starting a replacement cancels the first session and restores its original targets.
 	f.context.resolveRange = async () => ({ normal: 1, maximum: 1, mode: "ranged" });
 	await activation.useAbility(f.item, f.attacker);
-	assert.equal(f.targets.size, 0);
+	assert.deepEqual([...f.targets], [f.target]);
 	assert.equal(f.consumed(), 0);
 });
 
@@ -281,6 +338,9 @@ test("declining utility warnings or resource consumption preserves the unspent t
 		if (declineResources) {
 			f.activation.targets = [f.target];
 			f.context.commitCardCosts = async () => false;
+		} else {
+			f.activation.targets = [];
+			f.activation.syncTargets();
 		}
 		await f.activation.attack();
 		assert.equal(f.consumed(), 0);
@@ -1984,4 +2044,134 @@ test("GM damage review is requested only after every target receipt is confirmed
 	await f.activation.confirmDamage();
 	assert.equal(f.activation.state, "complete");
 	assert.equal(attempts, 2);
+});
+
+test("spent automated powers cannot enter targeting or replace the current session", async () => {
+	const f = fixture();
+	f.item.system.uses.value = 0;
+	assert.equal(await f.context.api.useAbility(f.item, f.attacker), true);
+	assert.deepEqual(f.warnings, ["This power has no uses remaining."]);
+	assert.equal(f.activation.state, "targeting");
+	assert.equal(f.consumed(), 0);
+	assert.equal(f.messages.size, 0);
+	assert.equal(f.targets.size, 0);
+});
+
+for (const [variant, variance] of [["charge", { isCharge: true }], ["opportunity", { isOpp: true }], ["regular", {}]]) {
+	test(`switching to ${variant} preserves targets and placement, updates the preview, and passes native variance`, async () => {
+		const f = fixture();
+		f.item.system.attack = { canCharge: true, canOpp: true };
+		await f.activation.start();
+		f.activation.targets = [f.target];
+		f.activation.origin = { x: 100, y: 0 };
+		f.activation.placementLocked = true;
+		if (variant === "regular") {
+			f.activation.variant = "charge";
+		}
+		const calls = [];
+		f.context.resolveRange = async (_item, selected) => { calls.push(selected); return { normal: selected.isCharge ? 2 : 1, maximum: selected.isCharge ? 2 : 1 }; };
+		f.context.renderPowerCard = async (_item, _utils, options) => { calls.push(options.variance); return "updated card"; };
+		await f.activation.changeVariant(variant);
+		assert.equal(f.activation.variant, variant);
+		assert.deepEqual(JSON.parse(JSON.stringify(calls)), [variance, variance]);
+		assert.deepEqual(f.activation.targets, [f.target]);
+		assert.deepEqual(f.activation.origin, { x: 100, y: 0 });
+		assert.equal(f.activation.placementLocked, true);
+		assert.equal(f.activation.card, "updated card");
+		assert.equal(f.consumed(), 0);
+		assert.equal(f.item.system.uses.value, 2);
+		let opened = false;
+		f.item.rollAttack = async options => {
+			opened = true;
+			assert.deepEqual(JSON.parse(JSON.stringify(options.variance)), variance);
+			return null;
+		};
+		await f.activation.attack();
+		assert.equal(opened, true);
+		assert.equal(f.activation.state, "targeting");
+		assert.equal(f.activation.variant, variant);
+		assert.equal(f.consumed(), 0);
+	});
+}
+
+test("unsupported, busy, failed and late mode changes leave the session intact", async () => {
+	const f = fixture();
+	f.activation.refresh = () => {};
+	await f.activation.changeVariant("charge");
+	assert.equal(f.activation.variant, "regular");
+	f.item.system.attack = { canCharge: true };
+	f.activation.transition("attackDialog");
+	await f.activation.changeVariant("charge");
+	assert.equal(f.activation.variant, "regular");
+	f.activation.transition("targeting");
+	f.context.resolveRange = async () => { throw new Error("Invalid range"); };
+	await f.activation.changeVariant("charge");
+	assert.equal(f.activation.variant, "regular");
+	assert.equal(f.activation.busy, false);
+	assert.ok(f.warnings.includes("Invalid range"));
+	let finish;
+	f.context.resolveRange = () => new Promise(resolve => { finish = resolve; });
+	const pending = f.activation.changeVariant("charge");
+	await f.activation.attack();
+	assert.equal(f.activation.state, "updatingVariant");
+	await f.activation.dispose(false);
+	finish({ normal: 2, maximum: 2 });
+	await pending;
+	assert.equal(f.activation.variant, "regular");
+	assert.equal(f.activation.state, "closed");
+});
+
+test("target portraits pan and highlight without changing selection and ignore unavailable targets", async () => {
+	const f = fixture();
+	f.activation.targets = [f.target];
+	const pans = [];
+	const outlines = [];
+	let destroyed = 0;
+	f.context.canvas.animatePan = position => pans.push(position);
+	f.context.canvas.interface.addChild = graphics => graphics;
+	f.context.PIXI.Graphics = class {
+		lineStyle() { return this; }
+		drawRect(...bounds) { outlines.push(bounds); return this; }
+		destroy() { destroyed++; }
+	};
+	await f.activation.focusTarget(f.target.id);
+	assert.deepEqual(JSON.parse(JSON.stringify(pans)), [{ x: 150, y: 50 }]);
+	f.activation.highlightTarget(f.target.id);
+	assert.deepEqual(outlines, [[100, 0, 100, 100]]);
+	f.activation.clearTargetHighlight();
+	assert.equal(destroyed, 1);
+	for (const unavailable of ["hidden", "deleted", "unselected", "canvas"]) {
+		f.target.visible = unavailable !== "hidden";
+		f.context.canvas.ready = unavailable !== "canvas";
+		if (unavailable === "deleted") {
+			f.tokenMap.delete(f.target.id);
+		} else {
+			f.tokenMap.set(f.target.id, f.target);
+		}
+		const id = unavailable === "unselected" ? f.far.id : f.target.id;
+		await f.activation.focusTarget(id);
+		f.activation.highlightTarget(id);
+	}
+	assert.equal(pans.length, 1);
+	assert.equal(outlines.length, 1);
+	assert.deepEqual(f.activation.targets, [f.target]);
+	assert.equal(f.consumed(), 0);
+	f.context.canvas.ready = true;
+	f.activation.highlightTarget(f.target.id);
+	await f.activation.dispose(false);
+	assert.equal(destroyed, 2);
+	await f.activation.focusTarget(f.target.id);
+	assert.equal(pans.length, 1);
+});
+
+test("a range change retains the target but flags it as out of range, without spending", async () => {
+	const f = fixture();
+	f.item.system.attack = { canCharge: true };
+	f.activation.targets = [f.far];
+	f.activation.range = { normal: 10, maximum: 10 };
+	f.context.resolveRange = async () => ({ normal: 1, maximum: 1 });
+	await f.activation.changeVariant("charge");
+	assert.deepEqual(f.activation.targets, [f.far]);
+	assert.ok(f.activation.problems().some(problem => problem.includes("outside range")));
+	assert.equal(f.consumed(), 0);
 });

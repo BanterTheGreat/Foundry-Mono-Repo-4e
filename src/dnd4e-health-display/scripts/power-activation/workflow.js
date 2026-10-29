@@ -1,6 +1,7 @@
 /** Workflow states own both legal transitions and the panel's presentation mode. */
 const STATES = {
-	targeting: { screen: "targeting", next: ["attackDialog"] },
+	targeting: { screen: "targeting", next: ["attackDialog", "updatingVariant"] },
+	updatingVariant: { screen: "targeting", busy: true, status: "Updating attack mode…", next: ["targeting"] },
 	attackDialog: { screen: "targeting", busy: true, status: "Attack dialog open", next: ["targeting", "rollingAttack", "preparingResults", "rollingHealing"] },
 	rollingAttack: { screen: "targeting", busy: true, status: "Rolling attack dice…", next: ["preparingResults"] },
 	preparingResults: { screen: "results", reviewing: true, busy: true, status: "Preparing attack results…", next: ["reviewingResults", "awaitingDefenses"] },

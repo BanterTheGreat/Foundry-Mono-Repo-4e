@@ -6,7 +6,7 @@
 	<ul class="power-targeting__targets power-targeting__results">
 		{{#each results}}
 		<li class="power-targeting__ledger-row">
-			<div class="power-targeting__target-identity">{{#if img}}<img src="{{img}}" alt="" width="26" height="26">{{/if}}<span class="power-targeting__target-name" title="{{name}}">{{name}}</span></div>
+			<div class="power-targeting__target-identity">{{#if canFocus}}<button type="button" class="power-targeting__focus" data-action="focusTarget" data-token-id="{{tokenId}}" aria-label="Focus {{name}} on canvas" title="Focus {{name}} on canvas">{{#if img}}<img src="{{img}}" alt="" width="26" height="26">{{else}}<i class="fa-solid fa-crosshairs" aria-hidden="true"></i>{{/if}}</button>{{/if}}<span class="power-targeting__target-name" title="{{name}}">{{name}}</span></div>
 			<div class="power-targeting__attack-cell">
 				<strong class="power-targeting__verdict power-targeting__verdict--{{outcome}}">{{total}} · {{label}}</strong>
 				{{#if canAdjust}}

@@ -2,6 +2,7 @@
 	{{#unless resolved}}
 		<label class="power-targeting__origin">Origin <select data-origin-selector {{#if busy}}disabled{{/if}}>{{#each originChoices}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{name}}</option>{{/each}}</select></label>
 	{{/unless}}
+	{{#if showVariants}}<label class="power-targeting__origin">Attack mode <select data-variant-selector {{#if busy}}disabled{{/if}}>{{#each variants}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}</select></label>{{/if}}
 	{{#if showDetails}}<div class="power-targeting__card">{{{card}}}</div>{{/if}}
 	{{#if healing}}
 	{{> "modules/dnd4e-health-display/scripts/power-activation/panel-healing.hbs" }}

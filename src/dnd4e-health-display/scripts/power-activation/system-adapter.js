@@ -36,10 +36,10 @@ export function loadSystem() {
 }
 
 /** Resolve the weapon and range using DnD4e 0.9.3's roll data/resolver. */
-export async function resolveRange(item) {
+export async function resolveRange(item, variance = {}) {
 	const utils = await loadSystem();
 	// The native evaluator expects formula variables, not an Actor document.
-	const rollData = item.getRollData();
+	const rollData = item.getRollData({ variance });
 	if (automationConfig(item).placementMode === "summon") {
 		const distance = Number(utils.evaluateFormula(item.system.rangePower, rollData, { strict: true, contextName: "summon range" }));
 		if (!Number.isInteger(distance) || distance < 0) {

@@ -1,3 +1,4 @@
+import { attackVariants } from "./attack-variants.js";
 import { requestDamageApplication } from "./damage-application-data.js";
 import { registerDamageApplication } from "./damage-application.js";
 import { publishDamageChat } from "./damage-chat.js";
@@ -110,6 +111,10 @@ export async function useAbility(item, sourceToken) {
 	if (!game.settings.get(MODULE_ID, SETTING) || !automationConfig(item).enabled) {
 		return false;
 	}
+	if (item.system.uses?.per && Number(item.system.uses.value) <= 0) {
+		ui.notifications.warn("This power has no uses remaining.");
+		return true;
+	}
 	if (starting || session?.busy) {
 		ui.notifications.warn("Finish or cancel the current ability first.");
 		return true;
@@ -173,6 +178,7 @@ class ActivationSession extends ActivationWorkflow {
 		super();
 		Object.assign(this, { item, source, range, card, count });
 		this.caster = source;
+		this.variant = "regular";
 		this.id = foundry.utils.randomID();
 		this.previousTargets = [...game.user.targets];
 		this.targets = [];
@@ -188,6 +194,77 @@ class ActivationSession extends ActivationWorkflow {
 		this.damageModifierDrafts = new Map();
 		this.targetDamageModifiers = new Map();
 		this.targetDamageDrafts = new Map();
+	}
+
+	/** Native variance is session-local and never changes the stored power. */
+	get variance() {
+		return this.variant === "charge" ? { isCharge: true } : this.variant === "opportunity" ? { isOpp: true } : {};
+	}
+
+	/** Rebuild preview data before accepting a mode change, preserving the selected targets. */
+	async changeVariant(id) {
+		if (this.state !== "targeting" || this.variant === id
+			|| !attackVariants(this.item).some(variant => variant.id === id)) {
+			return;
+		}
+		this.transition("updatingVariant");
+		this.refresh();
+		try {
+			const variance = attackVariants(this.item).find(variant => variant.id === id).variance;
+			const range = await resolveRange(this.item, variance);
+			const card = await renderPowerCard(this.item, await loadSystem(), { variance });
+			if (this.finished) {
+				return;
+			}
+			if (range.shape !== this.range.shape) {
+				throw new Error("The variant changes the targeting shape. Start Use Ability again.");
+			}
+			this.variant = id;
+			this.range = range;
+			this.card = card;
+			this.confirmedKey = null;
+			if (this.panel) {
+				this.panel.beforeAttackRules = preAttackRules(card);
+			}
+		} catch (error) {
+			ui.notifications.warn(error.message);
+		} finally {
+			if (!this.finished) {
+				this.transition("targeting");
+			}
+			this.refresh();
+		}
+	}
+
+	/** Resolve only a currently selected, visible token in this scene. */
+	focusableTarget(id) {
+		const token = this.targets.find(target => target.id === id);
+		return !this.finished && canvas.ready && token?.visible && token.actor
+			&& canvas.tokens.get(id) === token ? token : null;
+	}
+
+	/** Pan without changing control, target selection, or zoom. */
+	focusTarget(id) {
+		const token = this.focusableTarget(id);
+		if (token) {
+			return canvas.animatePan({ x: token.x + token.w / 2, y: token.y + token.h / 2 });
+		}
+	}
+
+	/** Draw a local outline without changing native token hover or selection state. */
+	highlightTarget(id) {
+		this.clearTargetHighlight();
+		const token = this.focusableTarget(id);
+		if (token) {
+			this.targetHighlight = canvas.interface.addChild(new PIXI.Graphics());
+			this.targetHighlight.lineStyle(3, 0xf5d787).drawRect(token.x, token.y, token.w, token.h);
+		}
+	}
+
+	/** Release transient portrait hover graphics on blur, rerender, or disposal. */
+	clearTargetHighlight() {
+		this.targetHighlight?.destroy();
+		this.targetHighlight = null;
 	}
 
 	/** Offer visible tokens from the effective origin rules, optionally including the caster. */
@@ -289,6 +366,7 @@ class ActivationSession extends ActivationWorkflow {
 				&& token.actor && token.visible
 				&& (this.range.shape || squareDistance(this.source, token, canvas.grid.size) <= this.range.maximum));
 		}
+		this.selectUnambiguousTargets();
 		this.syncTargets();
 		this.panel = new TargetingPanel(this);
 		if (this.range.shape) {
@@ -305,6 +383,23 @@ class ActivationSession extends ActivationWorkflow {
 			}
 		}, options);
 		this.refresh();
+	}
+
+	/**
+	 * Select all eligible direct targets on entry when no choice is necessary.
+	 * Run only once so later manual removals remain under the user's control.
+	 */
+	selectUnambiguousTargets() {
+		if (this.range.shape) {
+			return;
+		}
+		const config = automationConfig(this.item);
+		const candidates = canvas.tokens.placeables.filter(token => areaTargetAllowed(this.caster, token, this.range, config, this.source)
+			&& !selectionProblems(this.source, [token], this.range, 1, canvas.grid.size).length
+			&& !targetFilterProblems(token, config, canvas.tokens.placeables, canvas.grid.size).length);
+		if (candidates.length > 0 && candidates.length <= this.count) {
+			this.targets = candidates;
+		}
 	}
 
 	/** Capture canvas clicks only while an area is being placed; keep right-drag panning. */
@@ -610,7 +705,7 @@ class ActivationSession extends ActivationWorkflow {
 			return;
 		}
 		try {
-			const range = await resolveRange(this.item);
+			const range = await resolveRange(this.item, this.variance);
 			if (range.shape !== this.range.shape) {
 				throw new Error("The power's targeting shape changed. Start Use Ability again.");
 			}
@@ -839,12 +934,16 @@ class ActivationSession extends ActivationWorkflow {
 
 	/** Snapshot factors that affect native target tabs and automatically computed bonuses. */
 	contextKey() {
-		return JSON.stringify([this.caster.document.toObject(), this.range, this.origin, this.wallCells, automationConfig(this.item), this.item.toObject(), this.item.actor.toObject(), this.source.document.toObject(), this.targets.map(token => [token.id, token.document.toObject(), token.actor?.toObject()]), this.filterProblems()]);
+		return JSON.stringify([this.caster.document.toObject(), this.variant, this.range, this.origin, this.wallCells, automationConfig(this.item), this.item.toObject(), this.item.actor.toObject(), this.source.document.toObject(), this.targets.map(token => [token.id, token.document.toObject(), token.actor?.toObject()]), this.filterProblems()]);
 	}
 
 	/** Confirm utility use or open the native attack dialog after reviewing targets. */
 	async attack() {
 		if (this.state !== "targeting") {
+			return;
+		}
+		if (!attackVariants(this.item).some(variant => variant.id === this.variant) && this.item.hasAttack) {
+			ui.notifications.warn("This attack mode is no longer available. Select another mode.");
 			return;
 		}
 		if (this.range.shape === "wall" && this.wallProblems().length) {
@@ -869,7 +968,7 @@ class ActivationSession extends ActivationWorkflow {
 			if (utils.tokenForActor(this.item.actor)?.id !== this.caster.id) {
 				throw new Error("The system's source token changed. Select the original source before using this ability.");
 			}
-			this.range = await resolveRange(this.item);
+			this.range = await resolveRange(this.item, this.variance);
 			if (this.finished) {
 				return;
 			}
@@ -906,8 +1005,8 @@ class ActivationSession extends ActivationWorkflow {
 			// 0.9.3 inverts modifier behavior when fast-forward is the user's default.
 			const shiftKey = Boolean(game.settings.get("dnd4e", "fastFowardSettings"));
 			const options = {
-				event: { shiftKey, clientY: 160 }, powerActivationSession: this.id,
-				flags: { [MODULE_ID]: { attackResults: {
+				variance: this.variance, event: { shiftKey, clientY: 160 }, powerActivationSession: this.id,
+				flags: { dnd4e: { variance: this.variance }, [MODULE_ID]: { attackResults: {
 					sessionId: this.id, pending: true, sceneId: canvas.scene.id, targetIds: this.targets.map(token => token.id),
 					itemUuid: this.item.uuid, casterId: this.caster.id, effectsManaged: true,
 				} } },
@@ -1374,7 +1473,7 @@ class ActivationSession extends ActivationWorkflow {
 				if (this.finished || this.damageMessages.some(message => message.flags?.[MODULE_ID]?.damageReview?.type === type)) {
 					continue;
 				}
-				const roll = await rollDamageAndWait(this.item, event, null, { sessionId: this.id, type });
+				const roll = await rollDamageAndWait(this.item, event, null, { sessionId: this.id, type, variance: this.variance });
 				if (roll?.message) {
 					this.damageMessages.push(roll.message);
 				}
@@ -1440,7 +1539,7 @@ class ActivationSession extends ActivationWorkflow {
 				throw new Error("You no longer have permission to modify this power's damage.");
 			}
 			if (previous?.formula !== formula) {
-				const roll = await new Roll(formula || "0", this.item.getRollData()).evaluate();
+				const roll = await new Roll(formula || "0", this.item.getRollData({ variance: this.variance })).evaluate();
 				if (!Number.isFinite(roll.total)) {
 					throw new Error("The modifier must produce a finite number.");
 				}
@@ -1521,6 +1620,7 @@ class ActivationSession extends ActivationWorkflow {
 			attackResults.complete(this.id);
 		}
 		this.transition("closed");
+		this.clearTargetHighlight();
 		sharedAreaPreview.clear();
 		CoverPreview.setContext(null);
 		window.clearTimeout(this.movementTimer);
@@ -1570,6 +1670,7 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 		classes: ["power-targeting"], position: { width: 408, height: "auto" },
 		window: { title: "Select Targets", resizable: true },
 		actions: {
+			focusTarget(event, target) { return this.session.focusTarget(target.dataset.tokenId); },
 			undoWall() { this.session.editWall(); },
 			clearWall() { this.session.editWall(true); },
 			reposition() {
@@ -1687,6 +1788,7 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 							&& (!result.defense || (game.user.isGM && ![1, 20].includes(defenseTarget?.natural))),
 						messageId: message.id, rollIndex: message.rolls.findIndex(roll => roll.options?.multirollData?.targetID === result.tokenId),
 						modifier: (result.defense ? defenseTarget?.postDefenseModifier : null) ?? message.rolls.find(roll => roll.options?.multirollData?.targetID === result.tokenId)?.options.postAttackModifier ?? 0,
+						canFocus: Boolean(activation.focusableTarget(result.tokenId)),
 						name: token?.visible ? token.name : "Unavailable target", img: token?.visible ? token.document.texture?.src : null,
 						damageTotal, hasDamageTotal: !activation.view.reviewing && damageTotal !== null,
 						canAdjustDamage: reviewingDamage && Boolean(activation.item.hasDamage) && damageTotal !== null,
@@ -1763,12 +1865,15 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 				warningGroups.get(label).set(token.id, name);
 			}
 			return {
+				canFocus: Boolean(activation.focusableTarget(token.id)),
 				id: token.id, name: token.visible ? token.name : "Unavailable target",
 				img: token.visible ? token.document.texture?.src : null,
 				invalid: warnings.length > 0, warnings: [...new Set(warnings.map(targetWarningLabel))],
 			};
 		});
 		return {
+			variants: attackVariants(activation.item).map(variant => ({ ...variant, selected: variant.id === activation.variant })),
+			showVariants: attackVariants(activation.item).length > 1,
 			hasAttack: Boolean(activation.item.hasAttack),
 			beforeAttackRules: activation.item.hasAttack ? this.beforeAttackRules : "",
 			originChoices: activation.originChoices().map(token => ({ id: token.id, name: token.name, selected: token === activation.source })),
@@ -1799,6 +1904,14 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 
 	/** Rebind origin selection after each panel render. */
 	_onRender() {
+		this.session.clearTargetHighlight();
+		for (const portrait of this.element.querySelectorAll('[data-action="focusTarget"]')) {
+			portrait.addEventListener("mouseenter", () => this.session.highlightTarget(portrait.dataset.tokenId));
+			portrait.addEventListener("mouseleave", () => this.session.clearTargetHighlight());
+			portrait.addEventListener("focus", () => this.session.highlightTarget(portrait.dataset.tokenId));
+			portrait.addEventListener("blur", () => this.session.clearTargetHighlight());
+		}
+		this.element.querySelector("[data-variant-selector]")?.addEventListener("change", event => this.session.changeVariant(event.target.value));
 		const header = this.element.querySelector(".window-header");
 		if (header) {
 			let details = header.querySelector('[data-action="toggleDetails"]');

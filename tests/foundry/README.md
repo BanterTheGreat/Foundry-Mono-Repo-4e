@@ -112,7 +112,9 @@ and exactly-once summoning.
 targeting panel. It covers cancellation, stale battlefield rejection, hit, miss,
 half-on-miss, separate miss damage, mixed outcomes, critical hits/failures,
 removing reviewed targets, shared/individual damage modifiers, confirmation,
-completion, and repeated GM HP-application requests. Dice use Foundry's
+completion, repeated GM HP-application requests, target portrait focusing/highlighting,
+and switching Regular/Basic, Charge, and Opportunity Attack modes through native
+attack and damage rolls. Dice use Foundry's
 configurable RNG while these scenarios run, then restore it during cleanup.
 
 DnD4e 0.9.3 enumerates the attack form's own properties as if they are all input

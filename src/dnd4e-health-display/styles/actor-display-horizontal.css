@@ -1938,3 +1938,8 @@ body.dnd4e-horizontal-hud-active #players {
 .dnd4e-experimental-actor-display__sheet-columns.is-powers-only {
 	grid-template-columns: minmax(0, 1fr);
 }
+
+.dnd4e-horizontal-actor-display__power-use:disabled {
+ opacity: .4;
+ cursor: default;
+}

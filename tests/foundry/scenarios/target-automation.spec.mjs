@@ -181,3 +181,83 @@ for (const scenario of [
     expect(errors).toEqual([]);
   });
 }
+
+test("target portraits focus and highlight tokens without changing selection", async ({ page }) => {
+  await page.evaluate(async () => {
+    await window.targetAutomationFixture.open({ system: { attack: { isAttack: true } }, targets: ["enemy"] });
+  });
+  const panel = page.locator(".power-targeting");
+  const portrait = panel.locator('[data-action="focusTarget"]');
+  await expect(portrait).toHaveCount(1);
+  await portrait.hover();
+  expect(await page.evaluate(() => Boolean(window.targetAutomationFixture.activation.targetHighlight))).toBe(true);
+  await portrait.click();
+  await expect.poll(() => page.evaluate(() => {
+    const token = window.targetAutomationFixture.tokens.enemy;
+    return Math.abs(canvas.stage.pivot.x - token.center.x) + Math.abs(canvas.stage.pivot.y - token.center.y);
+  })).toBeLessThan(2);
+  await portrait.focus();
+  await portrait.press("Enter");
+  await panel.locator('[data-action="attack"]').focus();
+  expect(await page.evaluate(() => Boolean(window.targetAutomationFixture.activation.targetHighlight))).toBe(false);
+  const facts = await page.evaluate(() => {
+    const fixture = window.targetAutomationFixture;
+    return { targets: fixture.activation.targets.map(token => token.id), expected: fixture.tokens.enemy.id,
+      uses: fixture.item.system.uses.value, state: fixture.activation.state, controlled: canvas.tokens.controlled.map(token => token.id), caster: fixture.tokens.caster.id };
+  });
+  expect(facts.targets).toEqual([facts.expected]);
+  expect(facts.controlled).toEqual([facts.caster]);
+  expect(facts).toMatchObject({ uses: 2, state: "targeting" });
+});
+
+for (const variant of ["charge", "opportunity", "regular"]) {
+  test(`attack mode selector preserves selection and carries ${variant} through native attack and damage`, async ({ page }) => {
+    await page.evaluate(async () => {
+      await window.targetAutomationFixture.open({ system: {
+        attack: { isAttack: true, isBasic: true, canCharge: true, canOpp: true, formula: "100" },
+        hit: { isDamage: true, formula: "7", critFormula: "14" },
+      }, targets: ["enemy"] });
+    });
+    const panel = page.locator(".power-targeting");
+    const selector = panel.locator("[data-variant-selector]");
+    await expect(selector.locator("option")).toHaveText(["Basic attack", "Charge", "Opportunity attack"]);
+    await selector.selectOption("charge");
+    await expect.poll(() => page.evaluate(() => window.targetAutomationFixture.activation.variant)).toBe("charge");
+    if (variant !== "charge") {
+      await selector.selectOption(variant);
+    }
+    await expect.poll(() => page.evaluate(() => window.targetAutomationFixture.activation.variant)).toBe(variant);
+    const selection = await page.evaluate(() => {
+      const fixture = window.targetAutomationFixture;
+      return { targets: fixture.activation.targets.map(token => token.id), expected: fixture.tokens.enemy.id, uses: fixture.item.system.uses.value };
+    });
+    expect(selection.targets).toEqual([selection.expected]);
+    expect(selection.uses).toBe(2);
+    await panel.locator('[data-action="attack"]').click();
+    const native = page.locator(".application.roll-dialogue");
+    await expect(native).toBeVisible();
+    await native.locator('[data-action="close"]').click();
+    await expect.poll(() => page.evaluate(() => window.targetAutomationFixture.activation.state)).toBe("targeting");
+    await expect(selector).toHaveValue(variant);
+    await panel.locator('[data-action="attack"]').click();
+    await submitNativeAttack(page);
+    await expect.poll(() => page.evaluate(() => window.targetAutomationFixture.activation.state), { timeout: 45000 })
+      .toMatch(/^(reviewingResults|reviewingDamage)$/);
+    if (await page.evaluate(() => window.targetAutomationFixture.activation.state) === "reviewingResults") {
+      await panel.locator('[data-action="confirmResults"]').click();
+    }
+    await expect.poll(() => page.evaluate(() => window.targetAutomationFixture.activation.state), { timeout: 45000 }).toBe("reviewingDamage");
+    const expectedVariance = variant === "charge" ? { isCharge: true } : variant === "opportunity" ? { isOpp: true } : {};
+    const facts = await page.evaluate(() => {
+      const fixture = window.targetAutomationFixture;
+      return { attack: fixture.activation.attackMessages.map(message => message.flags.dnd4e?.variance ?? {}),
+        damage: fixture.activation.damageMessages.map(message => message.flags.dnd4e?.variance ?? {}), uses: fixture.item.system.uses.value };
+    });
+    expect(facts.uses).toBe(1);
+    expect(facts.attack.length).toBeGreaterThan(0);
+    for (const variance of [...facts.attack, ...facts.damage]) {
+      expect(variance).toEqual(expectedVariance);
+    }
+    await expect(panel.locator('[data-action="focusTarget"]')).toHaveCount(1);
+  });
+}

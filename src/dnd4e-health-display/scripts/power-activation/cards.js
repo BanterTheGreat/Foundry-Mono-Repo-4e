@@ -70,9 +70,9 @@ export function postAttackRules(card) {
  * Render the native informational card without invoking Item.roll/usePower.
  * DnD4e 0.9.3 toChat uses this same data/template path, but does not return its message.
  */
-export async function renderPowerCard(item, utils, { showActions = false } = {}) {
-	const system = await item.getChatData();
-	const rollData = item.getRollData();
+export async function renderPowerCard(item, utils, { showActions = false, variance = {} } = {}) {
+	const system = await item.getChatData({}, variance);
+	const rollData = item.getRollData({ variance });
 	const cardData = item.system.autoGenChatPowerCard
 		? await foundry.applications.ux.TextEditor.implementation.enrichHTML(utils.preparePowerCardData(system, rollData), { relativeTo: item.actor, rollData }) : null;
 	const html = await foundry.applications.handlebars.renderTemplate("systems/dnd4e/templates/chat/item-card.hbs", {

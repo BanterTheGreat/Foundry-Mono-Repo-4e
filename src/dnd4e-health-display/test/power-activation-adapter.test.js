@@ -299,3 +299,11 @@ test("the native Automation tab accepts actor drops, deduplicates the whitelist 
 	assert.equal(await sheet._onDrop({ target: { closest: () => null } }), "native");
 	assert.deepEqual(errors, []);
 });
+
+test("range formulas receive the selected native attack variance", async () => {
+	const adapter = loadAdapter(null, null, (_formula, data) => data.isCharge ? 3 : 1);
+	const item = { actor: {}, system: { rangeType: "reach", rangePower: "@isCharge" },
+		getRollData: ({ variance }) => ({ item: {}, ...variance }) };
+	assert.equal((await adapter.resolveRange(item, { isCharge: true })).maximum, 3);
+	assert.equal((await adapter.resolveRange(item)).maximum, 1);
+});
