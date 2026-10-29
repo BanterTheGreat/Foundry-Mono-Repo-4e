@@ -8,9 +8,14 @@ const source = readFileSync(new URL("../scripts/actor-display/actor-display.js",
 	.replace(/^export /gm, "");
 
 /** Load the controller against a minimal application host without running Foundry. */
-function loadController(data = {}) {
+function loadController(data = {}, overrides = {}) {
 	const settings = new Map();
+	const hooks = new Map();
+	let renders = 0;
 	const context = vm.createContext({
+		bindPowerHitChanceHover: () => () => {},
+		Hooks: { on: (name, callback) => hooks.set(name, callback) },
+		ui: { Dnd4eExperimentalActorDisplay: { render: () => { renders++; } } },
 		foundry: {
 			applications: { api: {
 				ApplicationV2: class {
@@ -21,15 +26,30 @@ function loadController(data = {}) {
 			utils: { mergeObject: (left, right) => Object.assign(left, right) },
 		},
 		getActorDisplayData: async () => data,
+		getNpcPowerHints: () => ({ actionLabel: "Standard", conditionSummary: "Dazed", weakSummary: "Mira", hasPowerHints: true }),
+		canvas: { tokens: { placeables: [] } },
 		generateSystemTooltip: async (_actor, item) => `<p>${item.name} rules</p>`,
 		game: { settings: {
 			register: (_module, key, config) => settings.set(key, config),
 			get: (_module, key) => key === "experimentalActorHud",
 		} },
+		...overrides,
 	});
-	vm.runInContext(`${source}\nglobalThis.controller = { ExperimentalActorDisplay, HorizontalActorDisplay, registerActorDisplaySettings };`, context);
-	return { ...context.controller, settings };
+	vm.runInContext(`${source}\nglobalThis.controller = { ExperimentalActorDisplay, HorizontalActorDisplay, registerActorDisplaySettings, registerActorDisplay };`, context);
+	return { ...context.controller, settings, hooks, renderCount: () => renders };
 }
+
+test("NPC hints refresh on token identity/disposition changes without rerendering during movement", () => {
+	const { registerActorDisplay, hooks, renderCount } = loadController();
+	registerActorDisplay();
+	const update = hooks.get("updateToken");
+	update({}, { x: 100, y: 200 });
+	assert.equal(renderCount(), 0);
+	for (const key of ["name", "disposition", "actorId", "actorLink", "delta"]) {
+		update({}, { [key]: "changed" });
+	}
+	assert.equal(renderCount(), 5);
+});
 
 test("experimental HUD is a client opt-in and preserves existing HUD settings", () => {
 	const { registerActorDisplaySettings, settings } = loadController();
@@ -39,6 +59,29 @@ test("experimental HUD is a client opt-in and preserves existing HUD settings", 
 	assert.equal(setting.default, false);
 	assert.equal(setting.scope, "client");
 	assert.equal(settings.get("showHorizontalActorDisplay").default, true);
+});
+
+test("right-clicking a floating power row opens its embedded sheet and stops action dispatch", () => {
+	const { ExperimentalActorDisplay } = loadController();
+	const display = Object.create(ExperimentalActorDisplay.prototype);
+	const listeners = new Map();
+	const opened = [];
+	const row = { dataset: { itemId: "power" }, addEventListener: (name, callback) => listeners.set(name, callback) };
+	const items = new Map([["power", { sheet: { render: force => opened.push(force) } }]]);
+	display.token = { actor: { items } };
+	display.element = { querySelectorAll: () => [row] };
+	display.initializePowerContextMenus();
+	assert.deepEqual([...listeners.keys()], ["contextmenu"]);
+	let prevented = 0;
+	let stopped = 0;
+	const event = { preventDefault: () => { prevented++; }, stopPropagation: () => { stopped++; } };
+	listeners.get("contextmenu")(event);
+	assert.deepEqual(opened, [true]);
+	assert.equal(prevented, 1);
+	assert.equal(stopped, 1);
+	items.delete("power");
+	assert.doesNotThrow(() => listeners.get("contextmenu")(event));
+	assert.deepEqual(opened, [true]);
 });
 
 test("four action groups retain move, rest and unclassified powers under Other without opening a list", async () => {
@@ -132,7 +175,7 @@ test("NPC experimental menus merge all powers and feats into Sheet", async () =>
 			{ key: "move", powers: [{ id: "move" }] }],
 	});
 	const display = Object.create(ExperimentalActorDisplay.prototype);
-	display.token = { actor: { type: "NPC", items: [] } };
+	display.token = { actor: { type: "NPC", items: new Map([["attack", { id: "attack" }], ["move", { id: "move" }]]) } };
 	display.activeTab = display.getInitialTab(display.token);
 	assert.equal(display.activeTab, "sheet");
 	const context = await display._prepareContext({});
@@ -142,6 +185,8 @@ test("NPC experimental menus merge all powers and feats into Sheet", async () =>
 	assert.deepEqual(Array.from(context.selectedCategory.powers, (power) => power.id), ["attack", "move"]);
 	assert.deepEqual(Array.from(context.menus, (menu) => menu.name), ["Skills", "Items", "Extras"]);
 	assert.equal(context.sheetMenu.active, true);
+	assert.equal(context.selectedCategory.powers[0].actionLabel, "Standard");
+	assert.equal(context.selectedCategory.powers[0].weakSummary, "Mira");
 });
 
 test("NPC feats start expanded up to two and collapsed above two", async () => {
@@ -185,3 +230,48 @@ test("targeting buttons are disabled for depleted powers in every horizontal HUD
 	assert.equal(presentation.isPowerDepleted({ system: { uses: { max: 1, value: 1 } } }), false);
 	assert.equal(presentation.isPowerDepleted({ system: { uses: { max: 0, value: 0 } } }), false);
 	});
+
+
+test("NPC Sheet awaits the native attack bonus and adds percentages to listed PCs", async () => {
+	let calls = 0;
+	const item = { id: "attack", name: "Test", async getAttackBonus() { calls++; return 10; } };
+	const { ExperimentalActorDisplay } = loadController({ powerCategories: [{ key: "standard", powers: [{ id: "attack" }] }] }, {
+		getNpcPowerHints: () => ({ weakTargets: [{ name: "Mira", value: 20 }], weakSummary: "Mira", weakTooltip: "Reflex" }),
+		formatPowerHitChances: (targets, bonus) => { assert.equal(bonus, 10); return targets[0].name + " (55%)"; },
+	});
+	const display = Object.create(ExperimentalActorDisplay.prototype);
+	display.token = { actor: { type: "NPC", items: new Map([[item.id, item]]) } };
+	display.activeTab = "sheet";
+	const context = await display._prepareContext({});
+	assert.equal(context.selectedCategory.powers[0].weakSummary, "Mira (55%)");
+	assert.match(context.selectedCategory.powers[0].weakTooltip, /situational modifiers/);
+	assert.equal(calls, 1);
+});
+
+test("only NPC Sheet renders bind range hover, and rerenders release its previous binding", () => {
+	const bindings = [];
+	let cleared = 0;
+	const { ExperimentalActorDisplay, HorizontalActorDisplay } = loadController({}, {
+		bindPowerRangeHover: (...args) => { bindings.push(args); return () => { cleared++; }; },
+		isPowerActivationActive: () => false,
+		document: { getElementById: () => null, body: {} },
+	});
+	const base = Object.getPrototypeOf(ExperimentalActorDisplay.prototype);
+	base._onRender = () => {};
+	HorizontalActorDisplay.prototype.initializeHudSearch = () => {};
+	const display = Object.create(ExperimentalActorDisplay.prototype);
+	display.token = { actor: {} };
+	display.element = {};
+	display.layoutObserver = { disconnect() {}, observe() {} };
+	display.positionAboveHotbar = () => {};
+	display.trackHotbarPosition = () => {};
+	display._onRender({ isNpcSheet: false }, {});
+	assert.equal(bindings.length, 0);
+	display._onRender({ isNpcSheet: true }, {});
+	assert.equal(bindings.length, 1);
+	assert.equal(bindings[0][0], display.element);
+	assert.equal(bindings[0][1], display.actor);
+	assert.equal(bindings[0][2], display.token);
+	display.clearPowerRangeHover();
+	assert.equal(cleared, 1);
+});

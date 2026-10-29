@@ -1,6 +1,9 @@
+import { bindPowerHitChanceHover } from "./power-hit-chance-hover.js";
+import { bindPowerRangeHover } from "../power-activation/power-range-hover.js";
 import { getActorDisplayData } from "./actor-display-data.js";
+import { getNpcPowerHints, formatPowerHitChances } from "./npc-power-hints.js";
 import { initializeActorDisplayTooltips, generateSystemTooltip } from "./actor-display-tooltips.js";
-import { useAbility, showPowerInChat } from "../power-activation/power-activation.js";
+import { useAbility, showPowerInChat, isPowerActivationActive } from "../power-activation/power-activation.js";
 
 const MODULE_ID = "dnd4e-health-display";
 const SHOW_HORIZONTAL_SETTING = "showHorizontalActorDisplay";
@@ -52,6 +55,7 @@ export function registerActorDisplay() {
 	Hooks.on("controlToken", scheduleSelectedActorRender);
 	Hooks.on("createToken", scheduleSelectedActorRender);
 	Hooks.on("deleteToken", scheduleSelectedActorRender);
+	Hooks.on("updateToken", refreshForToken);
 	Hooks.on("updateActor", refreshForActor);
 	Hooks.on("createItem", refreshForItem);
 	Hooks.on("updateItem", refreshForItem);
@@ -153,6 +157,13 @@ function getTokenToDisplay() {
 function refreshAllActorDisplays() {
 	ui.Dnd4eHorizontalActorDisplay?.render();
 	ui.Dnd4eExperimentalActorDisplay?.render();
+}
+
+/** Refresh scene-PC names and placed disposition without rerendering on every token move. */
+function refreshForToken(_token, changes) {
+	if (["name", "disposition", "actorId", "actorLink", "delta"].some(key => key in changes)) {
+		refreshAllActorDisplays();
+	}
 }
 
 /**
@@ -275,11 +286,27 @@ class ActorDisplayBase extends HandlebarsApplicationMixin(ApplicationV2) {
 		}
 		this.initializeResourceInputs();
 		this.initializePowerSearch();
+		this.initializePowerContextMenus();
 		initializeActorDisplayTooltips(this.element, this.actor);
+	}
+
+	/** Open the embedded Power Sheet when any part of a floating power row is right-clicked. */
+	initializePowerContextMenus() {
+		for (const row of this.element.querySelectorAll(".dnd4e-experimental-actor-display__power[data-item-id]")) {
+			row.addEventListener("contextmenu", event => {
+				event.preventDefault();
+				event.stopPropagation();
+				this.actor.items.get(row.dataset.itemId)?.sheet.render(true);
+			});
+		}
 	}
 
 	/** Preserve the workspace scroll position across document refreshes. */
 	render(options = {}) {
+		this.clearPowerHitChanceHover?.();
+		this.clearPowerHitChanceHover = null;
+		this.clearPowerRangeHover?.();
+		this.clearPowerRangeHover = null;
 		if (this.scrollSelector) {
 			this.savedScrollTop = this.element?.querySelector(this.scrollSelector)?.scrollTop ?? this.savedScrollTop;
 		}
@@ -855,6 +882,22 @@ class ExperimentalActorDisplay extends ActorDisplayBase {
 		}
 		const selected = isNpcSheet ? { name: "Sheet", powers: groups.flatMap((group) => group.powers) }
 			: groups.find((group) => group.key === this.activePowerCategory);
+		if (isNpcSheet) {
+			selected.powers = await Promise.all(selected.powers.map(async power => {
+				const item = this.actor.items.get(power.id);
+				const hints = getNpcPowerHints(item, this.token, canvas.tokens?.placeables ?? []);
+				if (hints.weakTargets?.length && typeof item.getAttackBonus === "function") {
+					try {
+						const bonus = await item.getAttackBonus();
+						hints.weakSummary = formatPowerHitChances(hints.weakTargets, bonus);
+						hints.weakTooltip += " Percentages are base d20 hit chances, including natural 1/20; situational modifiers, combat advantage, cover, concealment and roll modes are excluded.";
+					} catch (error) {
+						console.warn(`Dnd4e Info Displays | Could not calculate ${item.name}'s hit chances.`, error);
+					}
+				}
+				return { ...power, ...hints };
+			}));
+		}
 		return { ...context, isNpc, isNpcSheet, npcFeatures, categories: (isNpc ? [] : groups).map((group) => ({
 			...group, active: group === selected,
 		})), selectedCategory: selected,
@@ -872,6 +915,10 @@ class ExperimentalActorDisplay extends ActorDisplayBase {
 	/** Bind tooltips and keep the selector aligned after hotbar or viewport layout changes. */
 	_onRender(context, options) {
 		super._onRender(context, options);
+		if (context.isNpcSheet) {
+			this.clearPowerRangeHover = bindPowerRangeHover(this.element, this.actor, this.token, isPowerActivationActive);
+			this.clearPowerHitChanceHover = bindPowerHitChanceHover(this.element, this.actor, this.token, isPowerActivationActive);
+		}
 		this.hotbarPosition = null;
 		this.layoutObserver.disconnect();
 		const hotbar = document.getElementById("hotbar");
@@ -977,6 +1024,10 @@ class ExperimentalActorDisplay extends ActorDisplayBase {
 
 	/** Release every observer and listener when the selector is disabled or its actor disappears. */
 	async close(options) {
+		this.clearPowerHitChanceHover?.();
+		this.clearPowerHitChanceHover = null;
+		this.clearPowerRangeHover?.();
+		this.clearPowerRangeHover = null;
 		window.cancelAnimationFrame(this.hotbarFrame);
 		this.hotbarFrame = null;
 		this.layoutObserver.disconnect();

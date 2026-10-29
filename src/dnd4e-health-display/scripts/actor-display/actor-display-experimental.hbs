@@ -6,9 +6,23 @@
 			{{#if isNpcSheet}}<div class="dnd4e-experimental-actor-display__sheet-columns {{#unless npcFeatures.length}}is-powers-only{{/unless}}"><section aria-label="Powers">{{/if}}
 			{{#each selectedCategory.powers}}
 			<div class="dnd4e-experimental-actor-display__power {{usageClass}} {{#if depleted}}is-depleted{{/if}}" tabindex="0" data-item-id="{{id}}" data-item-tooltip data-tooltip-direction="RIGHT" data-power-usage="{{usageClass}}">
+				{{#if @root.isNpcSheet}}
+				<div class="dnd4e-experimental-actor-display__npc-power-copy">
+					<i class="{{icon}}" role="img" aria-label="{{rangeLabel}}" title="{{rangeLabel}}"></i>
+					<div class="dnd4e-experimental-actor-display__npc-power-title">
+						<span class="dnd4e-experimental-actor-display__power-name"><strong>{{name}}</strong></span>
+						{{#if conditionSummary}}<span class="dnd4e-experimental-actor-display__npc-power-conditions">{{conditionSummary}}</span>{{/if}}
+					</div>
+					<div class="dnd4e-experimental-actor-display__npc-power-usage">
+						<span class="dnd4e-experimental-actor-display__npc-power-action">{{actionLabel}}</span>
+						{{#if weakSummary}}<span class="dnd4e-experimental-actor-display__npc-power-weak{{#if isWeakFallback}} is-fallback{{/if}}" title="{{weakTooltip}}">{{weakSummary}}</span>{{/if}}
+					</div>
+				</div>
+				{{else}}
 				<span class="dnd4e-experimental-actor-display__power-name">
 					<i class="{{icon}}" role="img" aria-label="{{rangeLabel}}" title="{{rangeLabel}}"></i><strong>{{name}}</strong>
 				</span>
+				{{/if}}
 				{{#if depleted}}<small>Spent</small><button type="button" data-action="refreshPower" data-item-id="{{id}}" title="Refresh power" aria-label="Refresh {{name}}"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i></button>{{/if}}
 				<button type="button" data-action="chatPower" data-item-id="{{id}}" title="Send to Chat" aria-label="Send {{name}} to Chat"><i class="fa-solid fa-comment" aria-hidden="true"></i></button>
 				{{#if canTargetAutomation}}

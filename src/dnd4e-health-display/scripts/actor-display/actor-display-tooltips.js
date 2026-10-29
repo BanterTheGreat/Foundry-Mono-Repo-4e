@@ -1,3 +1,5 @@
+const tooltipBodies = new WeakMap();
+
 /**
  * Attach lazily generated DnD4e item tooltips to actor-display controls.
  *
@@ -24,21 +26,16 @@ export function initializeActorDisplayTooltips(root, actor) {
  * @param {Actor} actor The parent actor.
  */
 async function activateItemTooltip(element, actor) {
-	if (element.dataset.tooltipHtml) {
-		game.tooltip.activate(element, {
-			html: element.dataset.tooltipHtml,
-			direction: element.dataset.tooltipDirection || "RIGHT",
-			cssClass: element.dataset.tooltipClass,
-		});
-		return;
-	}
-
 	const item = actor.items.get(element.dataset.itemId);
 	if (!item) {
 		return;
 	}
 
 	try {
+		if (tooltipBodies.has(element)) {
+			await showItemTooltip(element, item, tooltipBodies.get(element), element.dataset.tooltipClass);
+			return;
+		}
 		const customPower = item.type === "power" && Boolean(item.system?.autoGenChatPowerCard);
 		let usesCustomFormatting = customPower;
 		let html = "";
@@ -66,18 +63,22 @@ async function activateItemTooltip(element, actor) {
 		if (item.type === "feature") {
 			cssClass += " dnd4e-info-tooltip--feature";
 		}
-		element.dataset.tooltipHtml = html;
+		tooltipBodies.set(element, html);
 		element.dataset.tooltipClass = cssClass;
-		if (element.matches(":hover, :focus")) {
-			game.tooltip.activate(element, {
-				html,
-				direction: element.dataset.tooltipDirection || "RIGHT",
-				cssClass,
-			});
-		}
+		await showItemTooltip(element, item, html, cssClass);
 	} catch (error) {
 		console.error(`Dnd4e Info Displays | Could not generate tooltip for ${item.name}.`, error);
 	}
+}
+
+/** Display the cached rules body while the canvas overlay owns target hit chances. */
+async function showItemTooltip(element, item, body, cssClass) {
+	const html = body;
+	if (!element.isConnected || !element.matches(":hover, :focus")) {
+		return;
+	}
+	element.dataset.tooltipHtml = html;
+	game.tooltip.activate(element, { html, direction: element.dataset.tooltipDirection || "RIGHT", cssClass });
 }
 
 /**

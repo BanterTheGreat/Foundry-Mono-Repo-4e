@@ -1,6 +1,7 @@
 import { projectDamage } from "../scripts/power-activation/damage-application-data.js";
 import { getTokenHoverDisplayData } from "../scripts/health-display/token-hover-display-data.js";
 import { registerTargetAutomationTests } from "./target-automation.js";
+import { getNpcPowerHints } from "../scripts/actor-display/npc-power-hints.js";
 
 /** Register live document, native damage, and Handlebars integration tests. */
 export function registerTests(quench, { assertTestWorld, TestDocuments }) {
@@ -55,6 +56,49 @@ export function registerTests(quench, { assertTestWorld, TestDocuments }) {
         element.innerHTML = html;
         assert.include(element.textContent, actor.name);
         assert.include(html, "Bloodied");
+      });
+
+      it("renders compact NPC hints and retains right-side traits with native powers", async function () {
+        const actor = await fixtures.createActor({ items: [{ name: "Storm test", type: "power", system: {
+          actionType: "minor", attack: { isAttack: true, def: "ref" },
+          hit: { detail: "The target is dazed (save ends)." },
+        } }] });
+        const pc = await fixtures.createActor({ type: "Player Character" });
+        const defense = ["fort", "ref", "wil"].reduce((lowest, key) =>
+          pc.system.defences[key].value < pc.system.defences[lowest].value ? key : lowest, "fort");
+        const power = actor.items.find(item => item.type === "power");
+        await power.update({ "system.attack.def": defense });
+        const source = { document: { disposition: CONST.TOKEN_DISPOSITIONS.HOSTILE } };
+        const hints = getNpcPowerHints(power, source, [{ actor: pc, name: "Mira <test>" }]);
+        assert.equal(hints.actionLabel, "Minor");
+        assert.equal(hints.conditionSummary, game.i18n.localize(CONFIG.statusEffects.find(status => status.id === "dazed").name));
+        assert.equal(hints.weakSummary, "Mira <test>");
+        const render = async data => {
+          const html = await foundry.applications.handlebars.renderTemplate(
+            "modules/dnd4e-health-display/scripts/actor-display/actor-display-experimental.hbs", {
+              isNpcSheet: true, name: actor.name, selectedCategory: { name: "Sheet", powers: [{
+                id: power.id, name: power.name, ...data,
+              }] }, npcFeatures: [{ name: "Stormborn", html: "Trait rules" }],
+            });
+          const element = document.createElement("div");
+          element.innerHTML = html;
+          return element;
+        };
+        const element = await render(hints);
+        const row = element.querySelector(".dnd4e-experimental-actor-display__power");
+        assert.include(row.textContent, "Minor");
+        assert.include(row.textContent, "Mira <test>");
+        assert.notInclude(row.textContent, "Weak:");
+		assert.isNotNull(row.querySelector(".dnd4e-experimental-actor-display__npc-power-copy > i"));
+		assert.isNotNull(row.querySelector(".dnd4e-experimental-actor-display__npc-power-title > .dnd4e-experimental-actor-display__npc-power-conditions"));
+		assert.isNotNull(row.querySelector(".dnd4e-experimental-actor-display__npc-power-usage > .dnd4e-experimental-actor-display__npc-power-weak"));
+        assert.isNull(row.querySelector("test"), "PC names are escaped");
+        assert.lengthOf(element.querySelectorAll(".dnd4e-experimental-actor-display__sheet-columns > section"), 2);
+        assert.include(element.querySelector(".dnd4e-experimental-actor-display__feats").textContent, "Stormborn");
+        source.document.disposition = CONST.TOKEN_DISPOSITIONS.FRIENDLY;
+        const friendly = await render(getNpcPowerHints(power, source, [{ actor: pc }]));
+        assert.isNull(friendly.querySelector(".dnd4e-experimental-actor-display__npc-power-weak"));
+        assert.isNotNull(friendly.querySelector(".dnd4e-experimental-actor-display__npc-power-conditions"));
       });
     });
   }, { displayName: "INFO DISPLAYS: Live health and template integration", preSelected: false });

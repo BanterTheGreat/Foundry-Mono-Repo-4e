@@ -9,6 +9,7 @@ import { messageAttackResults, removeAttackTarget } from "../scripts/power-activ
 import { AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin, hasLineOfEffect } from "../scripts/power-activation/area-geometry.js";
 import { automationConfig, powerOriginRules, squareDistance, selectionProblems, targetCountProblems, supportsTargetAutomation, targetFilterProblems, MODULE_ID, SETTING } from "../scripts/power-activation/rules.js";
 
+const drawingSource = readFileSync(new URL("../scripts/power-activation/range-area-drawing.js", import.meta.url), "utf8").replace(/^export /gm, "");
 const source = readFileSync(new URL("../scripts/power-activation/power-activation.js", import.meta.url), "utf8")
 	.replace(/^import .*;\r?\n/gm, "").replace(/^export /gm, "");
 const damageSource = readFileSync(new URL("../scripts/power-activation/damage-roll.js", import.meta.url), "utf8")
@@ -140,7 +141,7 @@ function fixture({ confirm = true, fastForward = false } = {}) {
 		commitCardCosts: async () => { consumed++; return true; },
 		commitPowerUse: async power => power.update({ "system.uses.value": power.system.uses.value - 1 }),
 	});
-	vm.runInContext(`${damageSource}\n${source}\nglobalThis.api = { ActivationSession, TargetingPanel, useAbility, showPowerInChat, setSession: value => { session = value; } };`, context);
+	vm.runInContext(`${drawingSource}\nconst powerRangeHover = { clear() {} };\n${damageSource}\n${source}\nglobalThis.api = { ActivationSession, TargetingPanel, useAbility, showPowerInChat, setSession: value => { session = value; } };`, context);
 	const activation = new context.api.ActivationSession(item, attacker, { normal: 1, maximum: 1 }, "card", 1);
 	context.api.setSession(activation);
 	return { context, activation, item, DamageRoll, target, far, attacker, targets, messages, warnings, confirmations, hooks, changes, rectangles, shapes, tokenMap, consumed: () => consumed };
@@ -489,8 +490,31 @@ test("range mask excludes padding even when scene token vision is disabled", () 
 	assert.equal(f.activation.graphics.mask, f.activation.rangeMask);
 });
 
-test("range mask preserves disconnected visible patches to both sides of the attacker", () => {
+test("GM targeting without token sight retains a map-bounded range mask", () => {
 	const f = fixture();
+	f.context.game.user.isGM = true;
+	f.context.canvas.scene = { tokenVision: true };
+	f.context.canvas.dimensions = { sceneRect: { x: 200, y: 300, width: 900, height: 700 } };
+	f.attacker.vision = { active: false };
+	f.activation.drawRange();
+	assert.deepEqual(f.rectangles[0], [200, 300, 900, 700]);
+});
+
+test("player targeting without token sight does not receive the GM map fallback", () => {
+	const f = fixture();
+	f.context.game.user.isGM = false;
+	f.context.canvas.scene = { tokenVision: true };
+	f.context.canvas.dimensions = { sceneRect: { x: 200, y: 300, width: 900, height: 700 } };
+	f.attacker.vision = { active: false };
+	f.activation.drawRange();
+	assert.ok(!f.rectangles.some(r => JSON.stringify(r) === JSON.stringify([200, 300, 900, 700])));
+	assert.equal(f.shapes.length, 0);
+});
+
+for (const isGM of [false, true]) {
+test(`range mask preserves disconnected visible patches with active sight (GM=${isGM})`, () => {
+	const f = fixture();
+	f.context.game.user.isGM = isGM;
 	f.context.canvas.dimensions = { sceneRect: { x: 0, y: 0, width: 1000, height: 1000 } };
 	f.context.canvas.scene = { tokenVision: true };
 	const left = { name: "left" };
@@ -514,7 +538,9 @@ test("range mask preserves disconnected visible patches to both sides of the att
 	f.attacker.vision.active = false;
 	f.activation.drawRange();
 	assert.deepEqual(f.shapes, []);
+	assert.equal(f.rectangles.some(r => JSON.stringify(r) === JSON.stringify([0, 0, 1000, 1000])), isGM);
 });
+}
 
 for (const globalEnabled of [false, true]) {
 	for (const powerEnabled of [false, true]) {

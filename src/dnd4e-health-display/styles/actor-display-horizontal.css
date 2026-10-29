@@ -1876,7 +1876,7 @@ body.dnd4e-horizontal-hud-active #players {
 
 /* NPC Sheet shares the macro bar footprint and keeps full feature rules readable. */
 .dnd4e-experimental-actor-display__popup.is-npc-sheet { width: 100%; }
-.dnd4e-experimental-actor-display__popup.is-npc-sheet.is-powers-only { width: min(345px, 100%); }
+.dnd4e-experimental-actor-display__popup.is-npc-sheet.is-powers-only { width: 50%; }
 .is-npc-sheet .dnd4e-experimental-actor-display__list {
 	max-height: none;
 	overflow: hidden;
@@ -1943,3 +1943,53 @@ body.dnd4e-horizontal-hud-active #players {
  opacity: .4;
  cursor: default;
 }
+
+/* Center the icon, title/condition stack and action/weakness stack independently. */
+.is-npc-sheet .dnd4e-experimental-actor-display__power {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+.dnd4e-experimental-actor-display__npc-power-copy {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	flex: 1;
+	min-width: 0;
+}
+.dnd4e-experimental-actor-display__npc-power-copy > i {
+	flex: 0 0 18px;
+	text-align: center;
+	color: #c4b18a;
+}
+.dnd4e-experimental-actor-display__npc-power-title {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-width: 0;
+}
+.dnd4e-experimental-actor-display__npc-power-usage {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	flex: 0 1 auto;
+	min-width: 0;
+	max-width: 48%;
+	text-align: right;
+}
+.dnd4e-experimental-actor-display__npc-power-action {
+	color: #bdc5b0;
+	font-size: 10px;
+	white-space: nowrap;
+}
+.dnd4e-experimental-actor-display__npc-power-conditions,
+.dnd4e-experimental-actor-display__npc-power-weak {
+	font-size: 10px;
+	line-height: 1.4;
+	overflow-wrap: anywhere;
+}
+.dnd4e-experimental-actor-display__npc-power-conditions { color: #dfc28a; }
+.dnd4e-experimental-actor-display__npc-power-weak {
+	color: #e0af9e;
+	white-space: pre-line;
+}
+.dnd4e-experimental-actor-display__npc-power-weak.is-fallback { color: #e6a052; }

@@ -1,3 +1,5 @@
+import { powerRangeHover } from "../scripts/power-activation/power-range-hover.js";
+import { isPowerActivationActive } from "../scripts/power-activation/power-activation.js";
 import { TargetAutomationFixture, waitForFact } from "./target-automation-fixture.js";
 import { resolveRange, automationSheetState } from "../scripts/power-activation/system-adapter.js";
 import { supportsTargetAutomation, targetCountProblems, targetFilterProblems, selectionProblems, powerOriginRules } from "../scripts/power-activation/rules.js";
@@ -16,10 +18,34 @@ export function registerTargetAutomationTests(quench) {
         await fixture?.cleanup();
       });
       beforeEach(async function () {
+        powerRangeHover.clear();
         await fixture.cancel();
       });
       afterEach(async function () {
+        powerRangeHover.clear();
         await fixture.cancel();
+      });
+
+      it("previews native Ranged 10 without automation or resource/target changes and yields to activation", async function () {
+        const item = fixture.power({ rangeType: "range", rangePower: "10" }, { enabled: false });
+        const targets = [...game.user.targets].map(token => token.id);
+        const uses = item.system.uses.value;
+        try {
+          await powerRangeHover.show(item, fixture.tokens.caster, isPowerActivationActive);
+          assert.equal(powerRangeHover.range.normal, 10);
+          assert.isNotNull(powerRangeHover.graphics);
+          assert.strictEqual(powerRangeHover.graphics.mask, powerRangeHover.rangeMask);
+          assert.deepEqual([...game.user.targets].map(token => token.id), targets);
+          assert.equal(item.system.uses.value, uses);
+          const graphics = powerRangeHover.graphics;
+          await fixture.open();
+          assert.isNull(powerRangeHover.graphics);
+          assert.isTrue(graphics.destroyed);
+          await powerRangeHover.show(item, fixture.tokens.caster, isPowerActivationActive);
+          assert.isNull(powerRangeHover.graphics);
+        } finally {
+          powerRangeHover.clear();
+        }
       });
 
       describe("Native range and weapon resolver", function () {
