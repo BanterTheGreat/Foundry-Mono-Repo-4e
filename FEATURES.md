@@ -33,7 +33,7 @@ This file tracks the features currently implemented in this repository. Availabi
 | Attack workflow | native attack-dialog integration, resource processing, result review, adjustments, and confirmation. | Players & GM; owned actors |
 | Defense result timing | NPC-to-PC defense results wait for local Dice So Nice animations before reveal and confirmation. | Players & GM |
 | Damage workflow | critical and miss damage, shared-roll adjustments, and damage review. | Players & GM; owned actors |
-| GM damage application | PC and NPC attacks both open GM review, including NPC attacks on PCs with no players connected; per-target HP and temporary HP previews, individual application, and Apply to All. | **GM only** |
+| GM damage application | GM-controlled NPC attacks apply confirmed damage to PCs directly; other attacks open GM review; per-target HP and temporary HP previews, individual application, and Apply to All. | **GM only** |
 | Cancellation and retries | guarded workflow transitions and prevention of duplicate resource spending. | Players & GM |
 
 Some targeting checks are advisory. Special power rules require manual adjudication. Wall Regions store geometry and metadata; movement, sight blocking, damage, and vertical targeting remain manual. Summoning requires an owned actor and a logged-in GM.

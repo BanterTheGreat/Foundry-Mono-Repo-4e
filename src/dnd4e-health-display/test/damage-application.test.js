@@ -230,7 +230,7 @@ test("missing required backing rolls block application rather than bypassing typ
 	assert.deepEqual(f.changes, []);
 });
 
-test("GM-only NPC attack on a PC opens damage review and applies its confirmed damage", async () => {
+test("GM-only NPC attack on a PC applies damage directly without opening review", async () => {
 	const f = panelFixture();
 	f.actor.type = "Player Character";
 	f.message.author = game.user;
@@ -240,7 +240,23 @@ test("GM-only NPC attack on a PC opens damage review and applies its confirmed d
 		hasDamage: true, actor: { type: "NPC", name: "Beast" } },
 		attackMessages: [f.message], damageMessages: [f.damage] });
 	f.recover();
-	assert.equal(f.rendered.length, 1);
+	assert.equal(f.rendered.length, 0);
+	assert.deepEqual(f.changes, [13]);
+	assert.equal(f.message.flags[MODULE_ID].damageApplications.target.state, "applied");
 	await applyTargetDamage(f.message, "target");
 	assert.deepEqual(f.changes, [13]);
+});
+
+test("mixed NPC targets apply PC damage directly and retain review for NPC targets", async () => {
+	const f = panelFixture();
+	f.actor.type = "Player Character";
+	f.tokens.get("miss").actor = { ...f.actor, type: "NPC" };
+	await requestDamageApplication({ id: "session", item: { name: "Claw", uuid: f.request.itemUuid,
+		hasDamage: true, actor: { type: "NPC", name: "Beast" } },
+		attackMessages: [f.message], damageMessages: [f.damage] });
+	assert.deepEqual(f.changes, [13]);
+	assert.equal(f.message.flags[MODULE_ID].damageApplications.target.state, "applied");
+	assert.equal(f.message.flags[MODULE_ID].damageApplications.miss, undefined);
+	f.recover();
+	assert.equal(f.rendered.length, 1);
 });

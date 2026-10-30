@@ -3,20 +3,33 @@ import { MODULE_ID } from "./rules.js";
 const queues = new Map();
 
 /**
- * Persist a GM review request on the first attack message after damage confirmation.
+ * Persist confirmed damage, applying GM-controlled NPC damage to PCs without another dialog.
  * Only message IDs cross this seam; the GM reads the confirmed target receipts and rolls.
  */
 export async function requestDamageApplication(session) {
 	if (!session.item.hasDamage || !session.attackMessages.length) {
 		return;
 	}
-	await session.attackMessages[0].update({ [`flags.${MODULE_ID}.damageApplication`]: {
+	const message = session.attackMessages[0];
+	const directTargets = game.user.isGM && game.users.activeGM?.id === game.user.id && session.item.actor?.type === "NPC"
+		? session.attackMessages.flatMap(entry => entry.flags?.[MODULE_ID]?.targetDamageReview?.targets ?? [])
+			.filter(target => game.scenes.get(canvas.scene.id)?.tokens.get(target.tokenId)?.actor?.type === "Player Character")
+		: [];
+	await message.update({ [`flags.${MODULE_ID}.damageApplication`]: {
 		sessionId: session.id, sceneId: canvas.scene.id, itemUuid: session.item.uuid,
+		dismissed: directTargets.length > 0,
 		name: session.item.name, actorName: session.item.actor.name,
 		messageIds: session.attackMessages.map(message => message.id),
 		damageMessageIds: session.damageMessages.map(message => message.id),
 		sharedMiss: Boolean(session.sharedMissDamage), requiredDamageTypes: session.requiredDamageTypes ?? [],
 	} });
+	for (const target of directTargets) {
+		await applyTargetDamage(message, target.tokenId);
+	}
+	if (directTargets.length && damageApplicationTargets(message).some(target =>
+		message.flags[MODULE_ID].damageApplications?.[target.tokenId]?.state !== "applied")) {
+		await message.update({ [`flags.${MODULE_ID}.damageApplication.dismissed`]: false });
+	}
 }
 
 /** Read the entire confirmed roster, including misses that deal zero damage. */
