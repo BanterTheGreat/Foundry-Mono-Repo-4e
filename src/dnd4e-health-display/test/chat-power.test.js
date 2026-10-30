@@ -13,7 +13,7 @@ function loadChatAction(showPowerInChat = () => assert.fail("No card expected"))
 		showPowerInChat,
 		foundry: { applications: { api: { ApplicationV2: class {}, HandlebarsApplicationMixin: (base) => base } } },
 	});
-	vm.runInContext(`${controllerSource}\nglobalThis.chatAction = HorizontalActorDisplay.DEFAULT_OPTIONS.actions.chatPower;`, context);
+	vm.runInContext(`${controllerSource}\nglobalThis.chatAction = ActorDisplay.DEFAULT_OPTIONS.actions.chatPower;`, context);
 	return context.chatAction;
 }
 
@@ -27,7 +27,7 @@ for (const actorType of ["Player Character", "NPC"]) {
 		};
 		let shown;
 		const result = await loadChatAction(async item => { shown = item; return "chat-card"; })
-			.call({ actor }, {}, { dataset: { itemId: "power" } });
+			.call({ actor, onClosePowers() {} }, {}, { dataset: { itemId: "power" } });
 		assert.equal(shown, power);
 		assert.equal(power.system.uses.value, 2);
 		assert.equal(result, "chat-card");
@@ -36,5 +36,5 @@ for (const actorType of ["Player Character", "NPC"]) {
 
 test("sending a deleted power to chat is harmless", async () => {
 	const actor = { items: new Map(), usePower: () => assert.fail("No power should be used") };
-	assert.equal(await loadChatAction().call({ actor }, {}, { dataset: { itemId: "missing" } }), undefined);
+	assert.equal(await loadChatAction().call({ actor, onClosePowers() {} }, {}, { dataset: { itemId: "missing" } }), undefined);
 });

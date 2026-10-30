@@ -92,7 +92,7 @@ export const powerRangeHover = new PowerRangeHover();
 /** Bind whole NPC power rows, including keyboard focus and their nested action buttons. */
 export function bindPowerRangeHover(root, actor, token, blocked) {
 	const listeners = [];
-	for (const row of root.querySelectorAll(".dnd4e-experimental-actor-display__power[data-item-id]")) {
+	for (const row of root.querySelectorAll(".dnd4e-actor-display__power[data-item-id]")) {
 		const show = () => void powerRangeHover.show(actor.items.get(row.dataset.itemId), token, blocked);
 		const hide = event => {
 			if (!row.contains(event.relatedTarget)) {

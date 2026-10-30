@@ -19,7 +19,7 @@ node --test src/dnd4e-health-display/test/power-activation.test.js
 NPC Sheet action labels, condition summaries, scene-PC weakness rules, and controller wiring:
 
 ```sh
-node --test src/dnd4e-health-display/test/npc-power-hints.test.js src/dnd4e-health-display/test/experimental-actor-hud.test.js
+node --test src/dnd4e-health-display/test/npc-power-hints.test.js src/dnd4e-health-display/test/actor-hud.test.js
 ```
 
 NPC Sheet hover range previews (shared targeting renderer, async cancellation and cleanup):
@@ -36,7 +36,7 @@ Players still require token vision, and active token vision still clips either p
 Area powers preview their placement range;
 close powers show their reachable extent without choosing a blast direction.
 
-For a manual NPC Sheet check, enable Experimental Actor HUD, select an NPC and open Sheet.
+For a manual NPC Sheet check, select an NPC and open Sheet.
 Action types should align right; conditions and `Weak: PC names` share a smaller second line.
 Basic Attacks appear first under their own heading, followed by Other Powers; empty groups are omitted. Traits retain the right column. Check AC attacks, friendly and neutral NPC dispositions,
 PC defense changes, adding/removing scene PCs, and long names. Chat/use buttons must still work.

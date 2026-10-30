@@ -1,0 +1,54 @@
+<div class="dnd4e-horizontal-actor-display__outer {{#if isGM}}is-gm{{/if}} is-portrait-hud">
+	<div class="dnd4e-horizontal-actor-display__left-col">
+		<section class="dnd4e-horizontal-actor-display__portrait-hud" aria-label="{{name}}">
+			<div class="dnd4e-horizontal-actor-display__portrait-hero">
+				<button type="button" class="dnd4e-horizontal-actor-display__portrait-image" data-action="quick" data-command="openSheet" aria-label="Open {{name}}'s character sheet">
+					<img src="{{portrait}}" alt="{{name}}" draggable="false">
+				</button>
+				<div class="dnd4e-horizontal-actor-display__portrait-overlay">
+					{{#if hp.status}}<span class="dnd4e-horizontal-actor-display__portrait-status">{{hp.status}}</span>{{/if}}
+					<div class="dnd4e-horizontal-actor-display__portrait-name-row">
+						<h2 title="{{name}}">{{name}}</h2>
+						<label class="dnd4e-horizontal-actor-display__portrait-hp"><input type="number" value="{{hp.value}}" max="{{hp.maximum}}" aria-label="Hit points" data-resource-path="system.attributes.hp.value"><span>/ {{hp.maximum}}</span></label>
+						<button type="button" class="dnd4e-horizontal-actor-display__portrait-heal" data-action="quick" data-command="healing" title="Heal" aria-label="Heal"><i class="fa-solid fa-heart" aria-hidden="true"></i></button>
+					</div>
+					<div class="dnd4e-horizontal-actor-display__health-bar" style="--health-segments: 4" role="img" aria-label="Hit points: {{hp.value}} of {{hp.maximum}}">
+						{{#each hp.barSegments}}<span><i style="width: {{percent}}%"></i></span>{{/each}}
+					</div>
+					<div class="dnd4e-horizontal-actor-display__temp-track" aria-hidden="true"><i style="width: {{hp.tempPercent}}%"></i></div>
+				</div>
+			</div>
+			<div class="dnd4e-horizontal-actor-display__portrait-body">
+				<div class="dnd4e-horizontal-actor-display__portrait-resources">
+					<label class="is-temp">Temp HP <input type="number" value="{{tempHp}}" min="0" aria-label="Temporary hit points" data-resource-path="system.attributes.temphp.value"></label>
+					{{#if hasSurges}}<label class="is-surge">Surges <span><input type="number" value="{{surges.value}}" min="0" max="{{surges.maximum}}" aria-label="Healing surges" data-resource-path="system.details.surges.value"><small>/ {{surges.maximum}}</small></span></label>{{/if}}
+				</div>
+				{{#if combatDeck.companions.length}}
+				<section class="dnd4e-horizontal-actor-display__party" aria-label="Party health">
+					<h3>Party health</h3>
+					{{#each combatDeck.companions}}
+					<div class="dnd4e-horizontal-actor-display__party-member">
+						<div class="dnd4e-horizontal-actor-display__party-name"><strong title="{{name}}">{{name}}</strong><span>{{condition}}</span></div>
+						<div class="dnd4e-horizontal-actor-display__health-bar" style="--health-segments: 4" role="img" aria-label="{{name}}: {{condition}}">
+							{{#each barSegments}}<span><i style="width: {{percent}}%"></i></span>{{/each}}
+						</div>
+					</div>
+					{{/each}}
+				</section>
+				{{/if}}
+			</div>
+		</section>
+		
+	</div>
+
+	{{#unless isGM}}
+		{{#if isInCombat}}
+		<div class="dnd4e-horizontal-actor-display__turn-controls">
+				<button type="button" class="dnd4e-horizontal-actor-display__end-turn" data-action="quick" data-command="endTurn" {{#unless isCurrentTurn}}disabled{{/unless}} title="{{#if isCurrentTurn}}End your turn{{else}}Not your turn{{/if}}">
+					<i class="fa-solid fa-hourglass-end" aria-hidden="true"></i> End Turn
+				</button>
+		</div>
+		{{/if}}
+	{{/unless}}
+
+</div>

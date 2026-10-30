@@ -1,26 +1,26 @@
-<div class="dnd4e-experimental-actor-display__dock">
+<div class="dnd4e-actor-display__dock">
 	{{#if selectedCategory}}
-	<section class="dnd4e-experimental-actor-display__popup {{#if isNpcSheet}}is-npc-sheet {{#unless npcFeatures.length}}is-powers-only{{/unless}}{{/if}}" aria-label="{{selectedCategory.name}}">
+	<section class="dnd4e-actor-display__popup {{#if isNpcSheet}}is-npc-sheet {{#unless npcFeatures.length}}is-powers-only{{/unless}}{{/if}}" aria-label="{{selectedCategory.name}}">
 		<header><h3>{{selectedCategory.name}}{{#unless isNpcSheet}} powers{{/unless}}</h3><span>{{name}}</span><button type="button" data-action="closePowers" title="Close powers" aria-label="Close powers"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></header>
-		<div class="dnd4e-experimental-actor-display__list">
-			{{#if isNpcSheet}}<div class="dnd4e-experimental-actor-display__sheet-columns {{#unless npcFeatures.length}}is-powers-only{{/unless}}"><section aria-label="Powers">{{/if}}
+		<div class="dnd4e-actor-display__list">
+			{{#if isNpcSheet}}<div class="dnd4e-actor-display__sheet-columns {{#unless npcFeatures.length}}is-powers-only{{/unless}}"><section aria-label="Powers">{{/if}}
 			{{#each selectedCategory.powers}}
-			{{#if npcPowerGroup}}<h4 class="dnd4e-experimental-actor-display__npc-power-group">{{npcPowerGroup}}</h4>{{/if}}
-			<div class="dnd4e-experimental-actor-display__power {{usageClass}} {{#if depleted}}is-depleted{{/if}}" tabindex="0" data-item-id="{{id}}" data-item-tooltip data-tooltip-direction="RIGHT" data-power-usage="{{usageClass}}">
+			{{#if npcPowerGroup}}<h4 class="dnd4e-actor-display__npc-power-group">{{npcPowerGroup}}</h4>{{/if}}
+			<div class="dnd4e-actor-display__power {{usageClass}} {{#if depleted}}is-depleted{{/if}}" tabindex="0" data-item-id="{{id}}" data-item-tooltip data-tooltip-direction="RIGHT" data-power-usage="{{usageClass}}">
 				{{#if @root.isNpcSheet}}
-				<div class="dnd4e-experimental-actor-display__npc-power-copy">
+				<div class="dnd4e-actor-display__npc-power-copy">
 					<i class="{{icon}}" role="img" aria-label="{{rangeLabel}}" title="{{rangeLabel}}"></i>
-					<div class="dnd4e-experimental-actor-display__npc-power-title">
-						<span class="dnd4e-experimental-actor-display__power-name"><strong>{{name}}</strong></span>
-						{{#if conditionSummary}}<span class="dnd4e-experimental-actor-display__npc-power-conditions">{{conditionSummary}}</span>{{/if}}
+					<div class="dnd4e-actor-display__npc-power-title">
+						<span class="dnd4e-actor-display__power-name"><strong>{{name}}</strong></span>
+						{{#if conditionSummary}}<span class="dnd4e-actor-display__npc-power-conditions">{{conditionSummary}}</span>{{/if}}
 					</div>
-					<div class="dnd4e-experimental-actor-display__npc-power-usage">
-						<span class="dnd4e-experimental-actor-display__npc-power-action">{{actionLabel}}</span>
-						{{#if weakSummary}}<span class="dnd4e-experimental-actor-display__npc-power-weak{{#if isWeakFallback}} is-fallback{{/if}}" title="{{weakTooltip}}">{{weakSummary}}</span>{{/if}}
+					<div class="dnd4e-actor-display__npc-power-usage">
+						<span class="dnd4e-actor-display__npc-power-action">{{actionLabel}}</span>
+						{{#if weakSummary}}<span class="dnd4e-actor-display__npc-power-weak{{#if isWeakFallback}} is-fallback{{/if}}" title="{{weakTooltip}}">{{weakSummary}}</span>{{/if}}
 					</div>
 				</div>
 				{{else}}
-				<span class="dnd4e-experimental-actor-display__power-name">
+				<span class="dnd4e-actor-display__power-name">
 					<i class="{{icon}}" role="img" aria-label="{{rangeLabel}}" title="{{rangeLabel}}"></i><strong>{{name}}</strong>
 				</span>
 				{{/if}}
@@ -31,14 +31,14 @@
 				{{/if}}
 			</div>
 			{{else}}
-			<p class="dnd4e-experimental-actor-display__empty">No powers in this category.</p>
+			<p class="dnd4e-actor-display__empty">No powers in this category.</p>
 			{{/each}}
 			{{#if isNpcSheet}}
-			</section>{{#if npcFeatures.length}}<section class="dnd4e-experimental-actor-display__feats" aria-label="Feats">
+			</section>{{#if npcFeatures.length}}<section class="dnd4e-actor-display__feats" aria-label="Feats">
 			{{#each npcFeatures}}
-			<details class="dnd4e-experimental-actor-display__feat" {{#if expanded}}open{{/if}}>
-				<summary><span data-item-id="{{id}}" data-item-tooltip data-tooltip-direction="RIGHT"><strong>{{name}}</strong></span><button type="button" class="dnd4e-experimental-actor-display__feat-sheet" data-action="openFeatSheet" data-item-id="{{id}}" title="Open feat sheet" aria-label="Open {{name}} sheet"><i class="fa-solid fa-book-open" aria-hidden="true"></i></button></summary>
-				<div class="dnd4e-experimental-actor-display__feat-content">{{{html}}}</div>
+			<details class="dnd4e-actor-display__feat" {{#if expanded}}open{{/if}}>
+				<summary><span data-item-id="{{id}}" data-item-tooltip data-tooltip-direction="RIGHT"><strong>{{name}}</strong></span><button type="button" class="dnd4e-actor-display__feat-sheet" data-action="openFeatSheet" data-item-id="{{id}}" title="Open feat sheet" aria-label="Open {{name}} sheet"><i class="fa-solid fa-book-open" aria-hidden="true"></i></button></summary>
+				<div class="dnd4e-actor-display__feat-content">{{{html}}}</div>
 			</details>
 			{{/each}}
 			</section>{{/if}}</div>
@@ -47,12 +47,12 @@
 	</section>
 	{{/if}}
 	{{#if selectedMenu}}
-	<section class="dnd4e-experimental-actor-display__popup is-character-menu" aria-label="{{selectedMenu.name}}">
+	<section class="dnd4e-actor-display__popup is-character-menu" aria-label="{{selectedMenu.name}}">
 		<header><h3>{{selectedMenu.name}}</h3><span>{{name}}</span><button type="button" data-action="closePowers" aria-label="Close menu"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></header>
 		{{#unless isExtras}}
-		<div class="dnd4e-experimental-actor-display__search"><input type="search" data-hud-search value="{{hudSearchQuery}}" placeholder="Search {{selectedMenu.name}}" aria-label="Search {{selectedMenu.name}}"></div>
+		<div class="dnd4e-actor-display__search"><input type="search" data-hud-search value="{{hudSearchQuery}}" placeholder="Search {{selectedMenu.name}}" aria-label="Search {{selectedMenu.name}}"></div>
 		{{/unless}}
-		<div class="dnd4e-experimental-actor-display__list">
+		<div class="dnd4e-actor-display__list">
 {{#if isSkills}}
 							<div class="dnd4e-horizontal-actor-display__skills">
 								{{#each skills}}
@@ -94,13 +94,13 @@
 
 		{{#if isExtras}}
 		<section class="dnd4e-horizontal-actor-display__group"><h4>Healing</h4>
-		<div class="dnd4e-experimental-actor-display__extra-actions">{{#each horizontalActions.heal}}<button type="button" data-hud-entry="{{label}}" data-action="quick" data-command="{{command}}" {{#if disabled}}disabled{{/if}}>{{label}}</button>{{/each}}</div>
+		<div class="dnd4e-actor-display__extra-actions">{{#each horizontalActions.heal}}<button type="button" data-hud-entry="{{label}}" data-action="quick" data-command="{{command}}" {{#if disabled}}disabled{{/if}}>{{label}}</button>{{/each}}</div>
 		</section>
 		<section class="dnd4e-horizontal-actor-display__group"><h4>Saves</h4>
-		<div class="dnd4e-experimental-actor-display__extra-actions">{{#each horizontalActions.save}}<button type="button" data-hud-entry="{{label}}" data-action="quick" data-command="{{command}}" {{#if disabled}}disabled{{/if}}>{{label}}</button>{{/each}}</div>
+		<div class="dnd4e-actor-display__extra-actions">{{#each horizontalActions.save}}<button type="button" data-hud-entry="{{label}}" data-action="quick" data-command="{{command}}" {{#if disabled}}disabled{{/if}}>{{label}}</button>{{/each}}</div>
 		</section>
 		<section class="dnd4e-horizontal-actor-display__group"><h4>Rests</h4>
-		<div class="dnd4e-experimental-actor-display__extra-actions">{{#each horizontalActions.rest}}<button type="button" data-hud-entry="{{label}}" data-action="quick" data-command="{{command}}">{{label}}</button>{{/each}}</div>
+		<div class="dnd4e-actor-display__extra-actions">{{#each horizontalActions.rest}}<button type="button" data-hud-entry="{{label}}" data-action="quick" data-command="{{command}}">{{label}}</button>{{/each}}</div>
 		</section>
 		{{/if}}
 		{{#unless isExtras}}<p data-hud-search-empty hidden>No matching entries.</p>{{/unless}}
@@ -108,8 +108,8 @@
 	</section>
 	{{/if}}
 
-	<nav class="dnd4e-experimental-actor-display__categories" aria-label="Actor menus">
-		<div class="dnd4e-experimental-actor-display__action-menus">
+	<nav class="dnd4e-actor-display__categories" aria-label="Actor menus">
+		<div class="dnd4e-actor-display__action-menus">
 		{{#if sheetMenu}}
 		<button type="button" class="{{#if sheetMenu.active}}is-active{{/if}}" data-action="selectMenu" data-display-tab="sheet" aria-expanded="{{#if sheetMenu.active}}true{{else}}false{{/if}}">Sheet</button>
 		{{/if}}
@@ -117,12 +117,12 @@
 		<button type="button" class="{{#if active}}is-active{{/if}}" data-action="selectPowerCategory" data-power-category="{{key}}" aria-expanded="{{#if active}}true{{else}}false{{/if}}">{{name}} <small>{{powers.length}}</small></button>
 		{{/each}}
 		</div>
-		<div class="dnd4e-experimental-actor-display__quick-actions" role="group" aria-label="Quick actions">
-			<button type="button" class="dnd4e-experimental-actor-display__quick-icon" data-action="quick" data-command="healing" title="Heal" aria-label="Heal"><i class="fa-solid fa-heart" aria-hidden="true"></i></button>
-		<button type="button" class="dnd4e-experimental-actor-display__action-point" data-action="quick" data-command="actionPoint" {{#if horizontalActions.ap.disabled}}disabled{{/if}} title="Use Action Point ({{horizontalActions.ap.value}} available)" aria-label="Use Action Point, {{horizontalActions.ap.value}} available"><i class="fa-solid fa-star" aria-hidden="true"></i><span>{{horizontalActions.ap.value}}</span></button>
-			<button type="button" class="dnd4e-experimental-actor-display__quick-icon" data-action="quick" data-command="shortRest" title="Short Rest" aria-label="Short Rest"><i class="fa-solid fa-bed" aria-hidden="true"></i></button>
+		<div class="dnd4e-actor-display__quick-actions" role="group" aria-label="Quick actions">
+			<button type="button" class="dnd4e-actor-display__quick-icon" data-action="quick" data-command="healing" title="Heal" aria-label="Heal"><i class="fa-solid fa-heart" aria-hidden="true"></i></button>
+		<button type="button" class="dnd4e-actor-display__action-point" data-action="quick" data-command="actionPoint" {{#if horizontalActions.ap.disabled}}disabled{{/if}} title="Use Action Point ({{horizontalActions.ap.value}} available)" aria-label="Use Action Point, {{horizontalActions.ap.value}} available"><i class="fa-solid fa-star" aria-hidden="true"></i><span>{{horizontalActions.ap.value}}</span></button>
+			<button type="button" class="dnd4e-actor-display__quick-icon" data-action="quick" data-command="shortRest" title="Short Rest" aria-label="Short Rest"><i class="fa-solid fa-bed" aria-hidden="true"></i></button>
 		</div>
-		<div class="dnd4e-experimental-actor-display__character-menus">
+		<div class="dnd4e-actor-display__character-menus">
 		{{#each menus}}
 		<button type="button" class="{{#if active}}is-active{{/if}}" data-action="selectMenu" data-display-tab="{{key}}" aria-expanded="{{#if active}}true{{else}}false{{/if}}">{{name}}</button>
 		{{/each}}

@@ -6,31 +6,19 @@ import { initializeActorDisplayTooltips, generateSystemTooltip } from "./actor-d
 import { useAbility, showPowerInChat, isPowerActivationActive } from "../power-activation/power-activation.js";
 
 const MODULE_ID = "dnd4e-health-display";
-const SHOW_HORIZONTAL_SETTING = "showHorizontalActorDisplay";
-const EXPERIMENTAL_SETTING = "experimentalActorHud";
-const HORIZONTAL_TEMPLATE_PATH = `modules/${MODULE_ID}/scripts/actor-display/actor-display-horizontal.hbs`;
 const HORIZONTAL_HUD_BODY_CLASS = "dnd4e-horizontal-hud-active";
 const HORIZONTAL_HUD_HEIGHT_PROPERTY = "--dnd4e-horizontal-hud-height";
-
+const SHOW_ACTOR_SETTING = "showHorizontalActorDisplay";
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 let selectionRenderTimer = null;
-let isHorizontalDismissed = false;
+let isActorDismissed = false;
 
 /** Register client settings owned by the actor display. */
 export function registerActorDisplaySettings() {
-	game.settings.register(MODULE_ID, EXPERIMENTAL_SETTING, {
-		name: "Experimental Actor HUD",
-		hint: "Use a narrow portrait HUD with segmented health, party health bars, powers, Feats, Skills, Items and Extras menus above the macro bar.",
-		scope: "client",
-		config: true,
-		type: Boolean,
-		default: false,
-		onChange: () => renderSelectedActor(),
-	});
-	game.settings.register(MODULE_ID, SHOW_HORIZONTAL_SETTING, {
-		name: "Show horizontal actor display",
-		hint: "Show a horizontal, bottom-left-docked action and inventory display for the currently controlled player-character token. GMs also get it for any controlled token.",
+	game.settings.register(MODULE_ID, SHOW_ACTOR_SETTING, {
+		name: "Show Actor HUD",
+		hint: "Show the portrait, power and character menus above the macro bar for the currently controlled player-character token. GMs also get it for any controlled token.",
 		scope: "client",
 		config: true,
 		type: Boolean,
@@ -39,7 +27,7 @@ export function registerActorDisplaySettings() {
 			if (enabled) {
 				renderSelectedActor();
 			} else {
-				closeHorizontalDisplay();
+				closeActorDisplay();
 			}
 		},
 	});
@@ -49,7 +37,7 @@ export function registerActorDisplaySettings() {
 /** Register hooks which create and refresh the actor display. */
 export function registerActorDisplay() {
 	Hooks.on("canvasReady", () => {
-		isHorizontalDismissed = false;
+		isActorDismissed = false;
 		renderSelectedActor();
 	});
 	Hooks.on("controlToken", scheduleSelectedActorRender);
@@ -73,57 +61,53 @@ export function registerActorDisplay() {
 /** Render after Foundry has finished changing the controlled-token collection. */
 function scheduleSelectedActorRender(token, controlled) {
 	if (controlled) {
-		isHorizontalDismissed = false;
+		isActorDismissed = false;
 	}
 
 	window.clearTimeout(selectionRenderTimer);
 	selectionRenderTimer = window.setTimeout(renderSelectedActor, 0);
 }
 
-/** Select the best token for the current user and update the horizontal actor display. */
+/** Select the best token for the current user and update the actor HUD. */
 function renderSelectedActor() {
 	if (!canvas?.ready) {
 		return;
 	}
 
 	const token = getTokenToDisplay();
-	const isHorizontalEnabled = game.settings.get(MODULE_ID, SHOW_HORIZONTAL_SETTING);
+	const isActorEnabled = game.settings.get(MODULE_ID, SHOW_ACTOR_SETTING);
 	const isNpcToken = Boolean(token) && token.actor?.type !== "Player Character";
 
-	// The horizontal display is player-character only for regular players. GMs may run it for any
+	// The actor HUD is player-character only for regular players. GMs may run it for any
 	// selected token.
-	const showHorizontal = isHorizontalEnabled && (!isNpcToken || game.user.isGM);
+	const showActor = isActorEnabled && (!isNpcToken || game.user.isGM);
 
-	updateHorizontalDisplay(showHorizontal ? token : null);
+	updateActorDisplay(showActor ? token : null);
 }
 
 /** @param {Token|null} token The token the horizontal display should follow, or null to hide it. */
-function updateHorizontalDisplay(token) {
-	if (isHorizontalDismissed) {
+function updateActorDisplay(token) {
+	if (isActorDismissed) {
 		return;
 	}
 
 	if (!token) {
-		closeHorizontalDisplay();
+		closeActorDisplay();
 		return;
 	}
 
-	if (game.settings.get(MODULE_ID, EXPERIMENTAL_SETTING)) {
-		if (!ui.Dnd4eExperimentalActorDisplay) {
-			ui.Dnd4eExperimentalActorDisplay = new ExperimentalActorDisplay({}, token);
-			ui.Dnd4eExperimentalActorDisplay.render(true);
-		} else {
-			ui.Dnd4eExperimentalActorDisplay.setToken(token);
-		}
+	if (!ui.Dnd4eActorPortrait) {
+		ui.Dnd4eActorPortrait = new ActorPortraitDisplay({}, token);
+		ui.Dnd4eActorPortrait.render(true);
 	} else {
-		closeExperimentalDisplay();
+		ui.Dnd4eActorPortrait.setToken(token);
 	}
 
-	if (!ui.Dnd4eHorizontalActorDisplay) {
-		ui.Dnd4eHorizontalActorDisplay = new HorizontalActorDisplay({}, token);
-		ui.Dnd4eHorizontalActorDisplay.render(true);
+	if (!ui.Dnd4eActorDisplay) {
+		ui.Dnd4eActorDisplay = new ActorDisplay({}, token);
+		ui.Dnd4eActorDisplay.render(true);
 	} else {
-		ui.Dnd4eHorizontalActorDisplay.setToken(token);
+		ui.Dnd4eActorDisplay.setToken(token);
 	}
 
 }
@@ -155,8 +139,8 @@ function getTokenToDisplay() {
 
 /** Re-render the actor display, e.g. when the combat tracker's turn changes. */
 function refreshAllActorDisplays() {
-	ui.Dnd4eHorizontalActorDisplay?.render();
-	ui.Dnd4eExperimentalActorDisplay?.render();
+	ui.Dnd4eActorPortrait?.render();
+	ui.Dnd4eActorDisplay?.render();
 }
 
 /** Refresh scene-PC names and placed disposition without rerendering on every token move. */
@@ -172,14 +156,14 @@ function refreshForToken(_token, changes) {
  * @param {Actor|null} actor The updated actor, or null for world Items.
  */
 function refreshForActor(actor) {
-	const display = ui.Dnd4eHorizontalActorDisplay;
+	const display = ui.Dnd4eActorDisplay;
 	if (!actor || !display) {
 		return;
 	}
 
 	if (display.actor?.id === actor.id || actor.type === "Player Character") {
 		display.render();
-		ui.Dnd4eExperimentalActorDisplay?.render();
+		ui.Dnd4eActorPortrait?.render();
 	}
 }
 
@@ -193,18 +177,13 @@ function refreshForEffect(effect) {
 	refreshForActor(effect.parent);
 }
 
-/** Close the horizontal actor display when its canvas is removed. */
-function closeHorizontalDisplay() {
-	closeExperimentalDisplay();
-	const display = ui.Dnd4eHorizontalActorDisplay;
-	ui.Dnd4eHorizontalActorDisplay = null;
-	void display?.close({ animate: false });
-}
-
-/** Remove the experimental selector and its layout observers. */
-function closeExperimentalDisplay() {
-	const display = ui.Dnd4eExperimentalActorDisplay;
-	ui.Dnd4eExperimentalActorDisplay = null;
+/** Close the actor HUD when its canvas is removed. */
+function closeActorDisplay() {
+	const portrait = ui.Dnd4eActorPortrait;
+	ui.Dnd4eActorPortrait = null;
+	void portrait?.close({ animate: false });
+	const display = ui.Dnd4eActorDisplay;
+	ui.Dnd4eActorDisplay = null;
 	void display?.close({ animate: false });
 }
 
@@ -212,13 +191,13 @@ function closeExperimentalDisplay() {
 function closeAllActorDisplays() {
 	window.clearTimeout(selectionRenderTimer);
 	selectionRenderTimer = null;
-	closeHorizontalDisplay();
+	closeActorDisplay();
 }
 
-/** Dismiss the horizontal actor display until the user controls a token again. */
-function dismissHorizontalDisplay() {
-	isHorizontalDismissed = true;
-	closeHorizontalDisplay();
+/** Dismiss the actor HUD until the user controls a token again. */
+function dismissActorDisplay() {
+	isActorDismissed = true;
+	closeActorDisplay();
 }
 
 /**
@@ -292,7 +271,7 @@ class ActorDisplayBase extends HandlebarsApplicationMixin(ApplicationV2) {
 
 	/** Open the embedded Power Sheet when any part of a floating power row is right-clicked. */
 	initializePowerContextMenus() {
-		for (const row of this.element.querySelectorAll(".dnd4e-experimental-actor-display__power[data-item-id]")) {
+		for (const row of this.element.querySelectorAll(".dnd4e-actor-display__power[data-item-id]")) {
 			row.addEventListener("contextmenu", event => {
 				event.preventDefault();
 				event.stopPropagation();
@@ -524,7 +503,7 @@ class ActorDisplayBase extends HandlebarsApplicationMixin(ApplicationV2) {
 	}
 }
 
-class HorizontalActorDisplay extends ActorDisplayBase {
+class ActorPortraitDisplay extends ActorDisplayBase {
 	constructor(options, token) {
 		super(options, token);
 		this.openDropdown = null;
@@ -552,53 +531,28 @@ class HorizontalActorDisplay extends ActorDisplayBase {
 		dragResizable: false,
 		window: { frame: false },
 			actions: {
-			dismiss: HorizontalActorDisplay.prototype.onDismiss,
-			selectPowerCategory: HorizontalActorDisplay.prototype.onSelectPowerCategory,
-			showSection: HorizontalActorDisplay.prototype.onShowSection,
-			closeDrawer: HorizontalActorDisplay.prototype.onCloseDrawer,
-			toggleDropdown: HorizontalActorDisplay.prototype.onToggleDropdown,
-			power: { handler: HorizontalActorDisplay.prototype.onPower, buttons: [0, 2] },
-			chatPower: HorizontalActorDisplay.prototype.onChatPower,
-			rollPowerDamage: HorizontalActorDisplay.prototype.onRollPowerDamage,
-			refreshPower: HorizontalActorDisplay.prototype.onRefreshPower,
-			togglePowerDetails: HorizontalActorDisplay.prototype.onTogglePowerDetails,
-			skill: HorizontalActorDisplay.prototype.onSkill,
-			feature: { handler: HorizontalActorDisplay.prototype.onFeature, buttons: [0, 2] },
-			item: { handler: HorizontalActorDisplay.prototype.onItem, buttons: [0, 2] },
-			toggleEquip: HorizontalActorDisplay.prototype.onToggleEquip,
-			quick: HorizontalActorDisplay.prototype.onQuickAction,
+			dismiss: ActorPortraitDisplay.prototype.onDismiss,
+			toggleDropdown: ActorPortraitDisplay.prototype.onToggleDropdown,
+			quick: ActorPortraitDisplay.prototype.onQuickAction,
 		},
 	};
 
 	static PARTS = {
-		main: { template: HORIZONTAL_TEMPLATE_PATH },
+		main: { template: `modules/${MODULE_ID}/scripts/actor-display/actor-portrait.hbs` },
 	};
 
-	get scrollSelector() {
-		return ".dnd4e-horizontal-actor-display__drawer-body";
-	}
-
-	/** @param {Token} token The token about to be displayed. @returns {string|null} The GM's drawer opens straight to Features for NPCs; the drawer otherwise starts closed. */
-	getInitialTab(token) {
-		return game.user.isGM && token?.actor?.type === "NPC" ? "features" : null;
+	/** The portrait has no tab drawer; menus belong to ActorDisplay. */
+	getInitialTab() {
+		return null;
 	}
 
 	/** @returns {object} */
 	async _prepareContext(options) {
 		const context = await super._prepareContext(options);
-		context.experimentalActorHud = game.settings.get(MODULE_ID, EXPERIMENTAL_SETTING);
-		if (context.experimentalActorHud) {
-			context.tabs = [];
-			this.activeTab = null;
-			context.activeTab = null;
-			if (this.activeTab === "powers") {
-				this.activeTab = null;
-				context.activeTab = null;
-			}
-		}
+		context.tabs = [];
+		context.activeTab = null;
 		return foundry.utils.mergeObject(context, {
 			openDropdown: this.openDropdown,
-			hudSearchQuery: this.hudSearchQuery ?? "",
 			isSaveOpen: this.openDropdown === "save",
 			isHealOpen: this.openDropdown === "heal",
 			isRestOpen: this.openDropdown === "rest",
@@ -610,8 +564,6 @@ class HorizontalActorDisplay extends ActorDisplayBase {
 		super._onRender(context, options);
 		document.body.classList.add(HORIZONTAL_HUD_BODY_CLASS);
 		this.initializeActorNameFit();
-		this.initializeHudSearch();
-		this.positionPortraitDrawer();
 		const height = this.element?.getBoundingClientRect().height ?? 0;
 		document.documentElement.style.setProperty(HORIZONTAL_HUD_HEIGHT_PROPERTY, `${height}px`);
 	}
@@ -633,8 +585,7 @@ class HorizontalActorDisplay extends ActorDisplayBase {
 		this._nameFitFrame = window.requestAnimationFrame(() => {
 			this._nameFitFrame = null;
 			this.fitActorName();
-			this.positionPortraitDrawer();
-		});
+			});
 	}
 
 	/** Scale an overlong actor name to the precise width left beside the quick-action buttons. */
@@ -665,106 +616,25 @@ class HorizontalActorDisplay extends ActorDisplayBase {
 		name.style.fontSize = `${fontSize * scale}px`;
 	}
 
-	/** Close the dropdown menu whenever a click lands outside this display. */
+	/** Close portrait dropdowns when clicking outside. */
 	_onDocumentClick(event) {
-		const portraitDrawerOpen = this.activeTab && this.element?.querySelector(".is-experimental-hud");
-		if (!this.openDropdown && !portraitDrawerOpen) {
-			return;
-		}
-
-		if (this.element?.contains(event.target)) {
-			return;
-		}
-
-		this.openDropdown = null;
-		if (portraitDrawerOpen) {
-			this.activeTab = null;
-		}
-		this.render();
-	}
-
-	/** Close floating PC lists with Escape without changing the standard HUD. */
-	async _onHudKeydown(event) {
-		if (event.key === "Escape" && this.activeTab && this.element?.querySelector(".is-experimental-hud")) {
-			const tab = this.activeTab;
-			this.activeTab = null;
-			game.tooltip.deactivate();
-			await this.render();
-			this.element?.querySelector(`[data-display-tab="${tab}"]`)?.focus();
+		if (this.openDropdown && !this.element?.contains(event.target)) {
+			this.openDropdown = null;
+			this.render();
 		}
 	}
 
-	/** Filter the existing skill, feature and inventory entries without refreshing the actor. */
-	initializeHudSearch() {
-		const input = this.element.querySelector("[data-hud-search]");
-		if (!input) {
-			return;
+	/** Close portrait dropdowns with Escape. */
+	_onHudKeydown(event) {
+		if (event.key === "Escape" && this.openDropdown) {
+			this.openDropdown = null;
+			this.render();
 		}
-		const filter = () => {
-			this.hudSearchQuery = input.value;
-			const query = input.value.trim().toLocaleLowerCase();
-			let count = 0;
-			for (const entry of this.element.querySelectorAll("[data-hud-entry]")) {
-				entry.hidden = !entry.dataset.hudEntry.toLocaleLowerCase().includes(query);
-				count += Number(!entry.hidden);
-			}
-			for (const group of this.element.querySelectorAll(".dnd4e-horizontal-actor-display__group")) {
-				group.hidden = !group.querySelector("[data-hud-entry]:not([hidden])");
-			}
-			const empty = this.element.querySelector("[data-hud-search-empty]");
-			if (empty) {
-				empty.hidden = count > 0;
-			}
-			this.positionPortraitDrawer();
-		};
-		input.addEventListener("input", filter);
-		filter();
-	}
-
-	/** Keep floating lists inside the viewport, accounting for Foundry's UI scale. */
-	positionPortraitDrawer() {
-		const root = this.element?.querySelector(".is-experimental-hud");
-		const column = root?.querySelector(".dnd4e-horizontal-actor-display__left-col");
-		const drawer = root?.querySelector(".dnd4e-horizontal-actor-display__drawer");
-		if (!drawer || !column) {
-			return;
-		}
-		const bounds = column.getBoundingClientRect();
-		const scale = bounds.width / column.offsetWidth || 1;
-		const above = bounds.right + ((drawer.offsetWidth + 42) * scale) > window.innerWidth - 8;
-		root.classList.toggle("is-drawer-above", above);
-		const available = above ? bounds.top - 16 : window.innerHeight - 32;
-		root.style.setProperty("--portrait-drawer-height", `${Math.max(120, Math.min(350, available / scale))}px`);
-		root.style.setProperty("--portrait-drawer-x", "0px");
-		root.style.setProperty("--portrait-drawer-y", "0px");
-		const popup = drawer.getBoundingClientRect();
-		const x = popup.left < 8 ? 8 - popup.left : Math.min(0, window.innerWidth - 8 - popup.right);
-		const y = popup.top < 8 ? 8 - popup.top : Math.min(0, window.innerHeight - 8 - popup.bottom);
-		root.style.setProperty("--portrait-drawer-x", `${x / scale}px`);
-		root.style.setProperty("--portrait-drawer-y", `${y / scale}px`);
 	}
 
 	/** Dismiss this actor display until the user controls a token again. */
 	onDismiss() {
-		dismissHorizontalDisplay();
-	}
-
-	/** Close the tab drawer and any open dropdown when a tab is toggled. */
-	onShowSection(event, target) {
-		// Rendering can detach the clicked button before the document's outside-click listener runs.
-		event.stopPropagation();
-		const tab = target.dataset.displayTab;
-		this.activeTab = this.activeTab === tab ? null : tab;
-		this.hudSearchQuery = "";
-		this.openDropdown = null;
-		this.savedScrollTop = 0;
-		this.render();
-	}
-
-	/** Close the tab drawer. */
-	onCloseDrawer() {
-		this.activeTab = null;
-		this.render();
+		dismissActorDisplay();
 	}
 
 	/** @param {PointerEvent} event The action event. @param {HTMLElement} target The action target. */
@@ -795,8 +665,8 @@ class HorizontalActorDisplay extends ActorDisplayBase {
 	}
 }
 
-/** Compact PC powers selector anchored to Foundry's macro bar. */
-class ExperimentalActorDisplay extends ActorDisplayBase {
+/** Main actor menus anchored to Foundry's macro bar. */
+class ActorDisplay extends ActorDisplayBase {
 	constructor(options, token) {
 		super(options, token);
 		this.activePowerCategory = null;
@@ -816,29 +686,29 @@ class ExperimentalActorDisplay extends ActorDisplayBase {
 	}
 
 	static DEFAULT_OPTIONS = {
-		id: "dnd4e-experimental-actor-display",
+		id: "dnd4e-actor-display",
 		tag: "aside",
-		classes: ["dnd4e-experimental-actor-display"],
+		classes: ["dnd4e-actor-display"],
 		position: { width: "auto", height: "auto" },
 		window: { frame: false },
 		actions: {
-			selectPowerCategory: ExperimentalActorDisplay.prototype.onSelectPowerCategory,
-			closePowers: ExperimentalActorDisplay.prototype.onClosePowers,
-			selectMenu: ExperimentalActorDisplay.prototype.onSelectMenu,
-			openFeatSheet: ExperimentalActorDisplay.prototype.onOpenFeatSheet,
-			skill: ExperimentalActorDisplay.prototype.onSkill,
-			feature: { handler: ExperimentalActorDisplay.prototype.onFeature, buttons: [0, 2] },
-			item: { handler: ExperimentalActorDisplay.prototype.onItem, buttons: [0, 2] },
-			toggleEquip: ExperimentalActorDisplay.prototype.onToggleEquip,
-			quick: ExperimentalActorDisplay.prototype.onQuickAction,
-			power: { handler: ExperimentalActorDisplay.prototype.onPower, buttons: [0, 2] },
-			chatPower: ExperimentalActorDisplay.prototype.onChatPower,
-			refreshPower: ExperimentalActorDisplay.prototype.onRefreshPower,
+			selectPowerCategory: ActorDisplay.prototype.onSelectPowerCategory,
+			closePowers: ActorDisplay.prototype.onClosePowers,
+			selectMenu: ActorDisplay.prototype.onSelectMenu,
+			openFeatSheet: ActorDisplay.prototype.onOpenFeatSheet,
+			skill: ActorDisplay.prototype.onSkill,
+			feature: { handler: ActorDisplay.prototype.onFeature, buttons: [0, 2] },
+			item: { handler: ActorDisplay.prototype.onItem, buttons: [0, 2] },
+			toggleEquip: ActorDisplay.prototype.onToggleEquip,
+			quick: ActorDisplay.prototype.onQuickAction,
+			power: { handler: ActorDisplay.prototype.onPower, buttons: [0, 2] },
+			chatPower: ActorDisplay.prototype.onChatPower,
+			refreshPower: ActorDisplay.prototype.onRefreshPower,
 		},
 	};
 
 	static PARTS = {
-		main: { template: `modules/${MODULE_ID}/scripts/actor-display/actor-display-experimental.hbs` },
+		main: { template: `modules/${MODULE_ID}/scripts/actor-display/actor-display.hbs` },
 	};
 
 	/** Open a feat sheet without toggling its containing disclosure. */
@@ -854,7 +724,7 @@ class ExperimentalActorDisplay extends ActorDisplayBase {
 	}
 
 	get scrollSelector() {
-		return ".dnd4e-experimental-actor-display__list";
+		return ".dnd4e-actor-display__list";
 	}
 
 	/** Prepare four action groups; move, rest and unclassified powers belong to Other. */
@@ -907,7 +777,6 @@ class ExperimentalActorDisplay extends ActorDisplayBase {
 		return { ...context, isNpc, isNpcSheet, npcFeatures, categories: (isNpc ? [] : groups).map((group) => ({
 			...group, active: group === selected,
 		})), selectedCategory: selected,
-			experimentalActorHud: true,
 			hudSearchQuery: this.hudSearchQuery,
 			selectedMenu: this.activeTab && !isNpcSheet ? { name: this.activeTab === "extras" ? "Extras" : context.activeTabLabel } : null,
 			isExtras: this.activeTab === "extras",
@@ -934,7 +803,33 @@ class ExperimentalActorDisplay extends ActorDisplayBase {
 		this.layoutObserver.observe(document.body);
 		this.positionAboveHotbar();
 		this.trackHotbarPosition();
-		HorizontalActorDisplay.prototype.initializeHudSearch.call(this);
+		this.initializeHudSearch();
+	}
+
+	/** Filter the existing skill, feature and inventory entries without refreshing the actor. */
+	initializeHudSearch() {
+		const input = this.element.querySelector("[data-hud-search]");
+		if (!input) {
+			return;
+		}
+		const filter = () => {
+			this.hudSearchQuery = input.value;
+			const query = input.value.trim().toLocaleLowerCase();
+			let count = 0;
+			for (const entry of this.element.querySelectorAll("[data-hud-entry]")) {
+				entry.hidden = !entry.dataset.hudEntry.toLocaleLowerCase().includes(query);
+				count += Number(!entry.hidden);
+			}
+			for (const group of this.element.querySelectorAll(".dnd4e-horizontal-actor-display__group")) {
+				group.hidden = !group.querySelector("[data-hud-entry]:not([hidden])");
+			}
+			const empty = this.element.querySelector("[data-hud-search-empty]");
+			if (empty) {
+				empty.hidden = count > 0;
+			}
+		};
+		input.addEventListener("input", filter);
+		filter();
 	}
 
 	/** Follow position-only layout changes and sidebar animations while the HUD is rendered. */
@@ -947,8 +842,6 @@ class ExperimentalActorDisplay extends ActorDisplayBase {
 		this.hotbarFrame = window.requestAnimationFrame(follow);
 	}
 
-	/** Keep menu searching independent from portrait placement. */
-	positionPortraitDrawer() {}
 
 	/** Toggle a character menu in the shared macro-bar popup. */
 	onSelectMenu(event, target) {

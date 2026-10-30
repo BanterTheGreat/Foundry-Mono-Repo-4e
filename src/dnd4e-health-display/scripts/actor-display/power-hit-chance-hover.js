@@ -129,7 +129,7 @@ export function setTargetingHitChanceContext(context) {
 /** Bind whole power rows and dispose labels on leaving, rerendering, closing or activation. */
 export function bindPowerHitChanceHover(root, actor, token, blocked) {
 	const listeners = [];
-	for (const row of root.querySelectorAll(".dnd4e-experimental-actor-display__power[data-item-id]")) {
+	for (const row of root.querySelectorAll(".dnd4e-actor-display__power[data-item-id]")) {
 		const show = () => void preview.show(actor.items.get(row.dataset.itemId), token, blocked);
 		const hide = event => {
 			if (!row.contains(event.relatedTarget)) {

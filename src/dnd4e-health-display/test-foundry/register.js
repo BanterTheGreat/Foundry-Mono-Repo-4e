@@ -75,7 +75,7 @@ export function registerTests(quench, { assertTestWorld, TestDocuments }) {
         assert.equal(hints.weakSummary, "Mira <test>");
         const render = async data => {
           const html = await foundry.applications.handlebars.renderTemplate(
-            "modules/dnd4e-health-display/scripts/actor-display/actor-display-experimental.hbs", {
+            "modules/dnd4e-health-display/scripts/actor-display/actor-display.hbs", {
               isNpcSheet: true, name: actor.name, selectedCategory: { name: "Sheet", powers: [{
                 id: power.id, name: power.name, ...data,
               }] }, npcFeatures: [{ name: "Stormborn", html: "Trait rules" }],
@@ -85,20 +85,20 @@ export function registerTests(quench, { assertTestWorld, TestDocuments }) {
           return element;
         };
         const element = await render(hints);
-        const row = element.querySelector(".dnd4e-experimental-actor-display__power");
+        const row = element.querySelector(".dnd4e-actor-display__power");
         assert.include(row.textContent, "Minor");
         assert.include(row.textContent, "Mira <test>");
         assert.notInclude(row.textContent, "Weak:");
-		assert.isNotNull(row.querySelector(".dnd4e-experimental-actor-display__npc-power-copy > i"));
-		assert.isNotNull(row.querySelector(".dnd4e-experimental-actor-display__npc-power-title > .dnd4e-experimental-actor-display__npc-power-conditions"));
-		assert.isNotNull(row.querySelector(".dnd4e-experimental-actor-display__npc-power-usage > .dnd4e-experimental-actor-display__npc-power-weak"));
+		assert.isNotNull(row.querySelector(".dnd4e-actor-display__npc-power-copy > i"));
+		assert.isNotNull(row.querySelector(".dnd4e-actor-display__npc-power-title > .dnd4e-actor-display__npc-power-conditions"));
+		assert.isNotNull(row.querySelector(".dnd4e-actor-display__npc-power-usage > .dnd4e-actor-display__npc-power-weak"));
         assert.isNull(row.querySelector("test"), "PC names are escaped");
-        assert.lengthOf(element.querySelectorAll(".dnd4e-experimental-actor-display__sheet-columns > section"), 2);
-        assert.include(element.querySelector(".dnd4e-experimental-actor-display__feats").textContent, "Stormborn");
+        assert.lengthOf(element.querySelectorAll(".dnd4e-actor-display__sheet-columns > section"), 2);
+        assert.include(element.querySelector(".dnd4e-actor-display__feats").textContent, "Stormborn");
         source.document.disposition = CONST.TOKEN_DISPOSITIONS.FRIENDLY;
         const friendly = await render(getNpcPowerHints(power, source, [{ actor: pc }]));
-        assert.isNull(friendly.querySelector(".dnd4e-experimental-actor-display__npc-power-weak"));
-        assert.isNotNull(friendly.querySelector(".dnd4e-experimental-actor-display__npc-power-conditions"));
+        assert.isNull(friendly.querySelector(".dnd4e-actor-display__npc-power-weak"));
+        assert.isNotNull(friendly.querySelector(".dnd4e-actor-display__npc-power-conditions"));
       });
     });
   }, { displayName: "INFO DISPLAYS: Live health and template integration", preSelected: false });
