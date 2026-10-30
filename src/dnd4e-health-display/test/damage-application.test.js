@@ -98,7 +98,7 @@ function fixture() {
 	return { message, target, actor, changes, request, damage, tokens };
 }
 
-test("PC confirmation publishes a durable request including zero-damage sessions; NPCs do not", async () => {
+test("PC and NPC confirmation publish durable requests including zero-damage sessions", async () => {
 	const f = fixture();
 	const session = { id: "session", item: { name: "Cold", uuid: f.request.itemUuid, hasDamage: true,
 		actor: { type: "Player Character", name: "Elara" } }, attackMessages: [f.message], damageMessages: [] };
@@ -109,7 +109,7 @@ test("PC confirmation publishes a durable request including zero-damage sessions
 	delete f.message.flags[MODULE_ID].damageApplication;
 	session.item.actor.type = "NPC";
 	await requestDamageApplication(session);
-	assert.equal(f.message.flags[MODULE_ID].damageApplication, undefined);
+	assert.equal(f.message.flags[MODULE_ID].damageApplication.actorName, "Elara");
 });
 
 test("roster includes zero-damage misses and rejects foreign or unconfirmed session messages", () => {
@@ -228,4 +228,19 @@ test("missing required backing rolls block application rather than bypassing typ
 	game.messages.delete("damage");
 	await assert.rejects(applyTargetDamage(f.message, "target"), /roll is no longer available/);
 	assert.deepEqual(f.changes, []);
+});
+
+test("GM-only NPC attack on a PC opens damage review and applies its confirmed damage", async () => {
+	const f = panelFixture();
+	f.actor.type = "Player Character";
+	f.message.author = game.user;
+	f.damage.author = game.user;
+	delete f.message.flags[MODULE_ID].damageApplication;
+	await requestDamageApplication({ id: "session", item: { name: "Claw", uuid: f.request.itemUuid,
+		hasDamage: true, actor: { type: "NPC", name: "Beast" } },
+		attackMessages: [f.message], damageMessages: [f.damage] });
+	f.recover();
+	assert.equal(f.rendered.length, 1);
+	await applyTargetDamage(f.message, "target");
+	assert.deepEqual(f.changes, [13]);
 });

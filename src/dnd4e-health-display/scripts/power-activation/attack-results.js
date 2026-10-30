@@ -2,6 +2,7 @@ import { MODULE_ID } from "./rules.js";
 
 const LABELS = { hit: "HIT", miss: "MISS", critical: "CRIT", fumble: "CRIT FAIL", immune: "IMMUNE" };
 const DURATION = 3000;
+const revealedDefenses = new WeakMap();
 const CHANNEL = `module.${MODULE_ID}`;
 
 /**
@@ -11,7 +12,7 @@ const CHANNEL = `module.${MODULE_ID}`;
  * The persisted attackResults flag includes {sessionId, sceneId, targetIds: string[], pending,
  * itemUuid, casterId, effectsManaged}; effect reconciliation reads only this session’s messages.
  */
-export function messageAttackResults(message, sceneId) {
+export function messageAttackResults(message, sceneId, { waitForDefenseAnimation = false } = {}) {
 	const context = message.flags?.[MODULE_ID]?.attackResults;
 	if (!message.visible || !message.isContentVisible || !context?.sessionId
 		|| context.sceneId !== sceneId || !Array.isArray(context.targetIds)) {
@@ -27,8 +28,22 @@ export function messageAttackResults(message, sceneId) {
 	});
 	const defenses = message.flags?.playerDefense?.automationManaged ? message.flags.playerDefense.targets ?? [] : [];
 	return [...native, ...defenses.filter(target => context.targetIds.includes(target.tokenId)).map(target => {
-		const outcome = !target.resolved ? "pending" : target.outcome === "normal" ? "hit" : target.outcome;
-		return { tokenId: target.tokenId, total: target.total ?? null, outcome,
+		// Presentation waits are client-local; authoritative consumers keep the stored outcome.
+		let waiting = false;
+		if (waitForDefenseAnimation && target.resolved) {
+			let revealed = revealedDefenses.get(message);
+			if (!revealed) {
+				revealed = new Set();
+				revealedDefenses.set(message, revealed);
+			}
+			const hasDice = (message.rolls ?? []).some(roll => roll.options?.banterDefenseTarget === target.tokenId);
+			waiting = Boolean(message._dice3danimating && hasDice && !revealed.has(target.tokenId));
+			if (!waiting) {
+				revealed.add(target.tokenId);
+			}
+		}
+		const outcome = !target.resolved || waiting ? "pending" : target.outcome === "normal" ? "hit" : target.outcome;
+		return { tokenId: target.tokenId, total: outcome === "pending" ? null : target.total ?? null, outcome,
 			label: outcome === "pending" ? "AWAITING DEFENSE" : LABELS[outcome], defense: true };
 	})];
 }

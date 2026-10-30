@@ -7,7 +7,7 @@ for (const actorType of ["NPC", "Player Character"]) {
 	for (const system of [
 		{ attack: {} },
 		{ attack: { canCharge: true, canOpp: true } },
-		{ attack: { isBasic: true } },
+		{ rangeType: "melee", attack: { isBasic: true } },
 		{ rollModes: [{ charge: true }, { opportunityAttack: true }] },
 		{ rollModes: { charge: { chargeAttack: true }, opportunity: { opportunityAttack: true } } },
 		{ rollModes: [{ charge: false, opportunityAttack: false }] },
@@ -38,9 +38,25 @@ test("utilities and non-powers have no alternate attack modes", () => {
 test("PC and NPC basic attacks offer Charge even when its variant checkbox is off", () => {
 	for (const type of ["NPC", "Player Character"]) {
 		const item = { type: "power", hasAttack: true, actor: { type },
-			system: { attack: { isBasic: true, canCharge: false } } };
+			system: { rangeType: "melee", attack: { isBasic: true, canCharge: false } } };
 		assert.deepEqual(attackVariants(item).find(variant => variant.id === "charge")?.variance, { isCharge: true });
 		item.system.attack.isBasic = false;
 		assert.equal(attackVariants(item).some(variant => variant.id === "charge"), false);
 	}
 });
+
+for (const type of ["NPC", "Player Character"]) {
+	for (const rangeType of ["melee", "weapon", "range", "touch", "reach", "closeBurst", "closeBlast", "rangeBurst", "rangeBlast", "wall", "personal", "special", undefined]) {
+		test(`${type} implicit basic variants require Melee X or Weapon: ${rangeType}`, () => {
+			const system = { rangeType, attack: { isBasic: true } };
+			const item = { type: "power", hasAttack: true, actor: { type }, system };
+			const eligible = ["melee", "weapon"].includes(rangeType);
+			assert.deepEqual(attackVariants(item).map(variant => variant.id), eligible
+				? (type === "NPC" ? ["regular", "charge", "opportunity"] : ["regular", "charge"])
+				: ["regular"]);
+			system.attack.canCharge = true;
+			system.attack.canOpp = true;
+			assert.deepEqual(attackVariants(item).map(variant => variant.id), ["regular", "charge", "opportunity"]);
+		});
+	}
+}

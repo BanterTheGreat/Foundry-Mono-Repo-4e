@@ -2277,3 +2277,36 @@ test("mandatory condition validation tests the manual target after automatic sel
 	assert.equal(f.consumed(), 0);
 	assert.equal(f.activation.state, "targeting");
 });
+
+test("managed defense results stay pending through local dice animation and cannot confirm early", async () => {
+	const f = fixture();
+	f.context.canvas.scene.id = "scene";
+	f.activation.targets = [f.target];
+	const chat = { id: "animated-defense", visible: true, isContentVisible: true, _dice3danimating: true,
+		rolls: [{ options: { banterDefenseTarget: "target" } }], flags: {
+			[MODULE_ID]: { attackResults: { sessionId: f.activation.id, sceneId: "scene", targetIds: ["target"] } },
+			playerDefense: { automationManaged: true, targets: [{ tokenId: "target", resolved: true, total: 10, outcome: "normal" }] },
+		} };
+	f.activation.transition("attackDialog");
+	f.activation.transition("preparingResults");
+	f.activation.transition("awaitingDefenses");
+	f.activation.captureAttackResults(chat);
+	assert.equal(f.activation.state, "awaitingDefenses");
+	assert.equal(f.activation.hasPendingDefenses(), true);
+	const panel = new f.context.api.TargetingPanel(f.activation);
+	const view = await panel._prepareContext();
+	assert.equal(view.results[0].outcome, "pending");
+	assert.equal(view.results[0].total, null);
+	await f.activation.confirmResults();
+	assert.equal(f.activation.state, "awaitingDefenses");
+	chat._dice3danimating = false;
+	f.activation.captureAttackResults(chat);
+	assert.equal(f.activation.state, "reviewingResults");
+	assert.equal(f.activation.hasPendingDefenses(), false);
+	// A later defender's animation must not hide an already revealed result.
+	chat._dice3danimating = true;
+	assert.equal(f.activation.hasPendingDefenses(), false);
+	await f.activation.dispose(false);
+	f.activation.captureAttackResults(chat);
+	assert.equal(f.activation.state, "closed");
+});

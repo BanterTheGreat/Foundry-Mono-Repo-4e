@@ -1045,3 +1045,22 @@ body.dnd4e-horizontal-hud-active #players {
 	white-space: pre-line;
 }
 .dnd4e-actor-display__npc-power-weak.is-fallback { color: #e6a052; }
+
+/* Anchor End Turn to the AP star without shifting the menu row. */
+.dnd4e-actor-display__action-point-controls {
+	position: relative;
+	display: flex;
+	flex: 0 0 auto;
+}
+.dnd4e-actor-display__categories .dnd4e-horizontal-actor-display__end-turn {
+	position: absolute;
+	bottom: calc(100% + 8px);
+	left: 50%;
+	transform: translateX(-50%);
+	width: max-content;
+	padding-inline: 0.65rem;
+	white-space: nowrap;
+}
+.dnd4e-actor-display__categories .dnd4e-horizontal-actor-display__end-turn:hover:not(:disabled) {
+	transform: translate(-50%, -1px);
+}

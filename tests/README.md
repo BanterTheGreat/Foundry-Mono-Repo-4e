@@ -67,6 +67,25 @@ The final summary lists the number of tests that passed, failed, or were skipped
 
 Local tests use mocked Foundry boundaries and cannot verify the running application's rendering or system integration. For browser and Quench tests in the designated test world, follow [the Foundry integration guide](foundry/README.md).
 
+Actor HUD live coverage is registered as `dnd4e-health-display.actor-hud` in Quench
+(**INFO DISPLAYS: Actor HUD tabs and controls**). It covers all PC power groups,
+Feats, Skills, Items and Extras, plus the NPC-only Sheet with basic attacks and
+trait disclosures. It also exercises search, menu dismissal, token switching,
+equipment toggles, resource edits, native sheets/dialogs, skill rolls, power
+refresh/chat and entry into Target Automation using real HUD buttons.
+
+After configuring the designated test world as described in that guide, run:
+
+```sh
+npm run test:foundry:deploy
+npm run test:foundry -- integration.spec.mjs
+```
+
+The batch runs as GM; player-only End Turn and ownership restrictions are outside
+this batch. Dialog tests open and cancel native dialogs rather than submitting
+every healing/rest option. Existing targeting suites cover the subsequent attack
+and damage workflow.
+
 Hovering or keyboard-focusing an NPC Sheet power shows base hit chances inside the bottom edge of all visible scene PC tokens, including AC attacks. Labels use the canvas interface
 layer above token art, stay the same screen size while zooming, and follow token movement/selection.
 They disappear on leaving the row, closing/rerendering the HUD, scene teardown or starting activation.

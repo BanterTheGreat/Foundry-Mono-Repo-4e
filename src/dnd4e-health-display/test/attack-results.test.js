@@ -331,3 +331,16 @@ test("defense badges wait for all local animation batches even with immediate ch
   assert.equal(hooks.size, 0);
   assert.equal(shown.length, 1);
 });
+
+test("defense animation masking is presentation-only and skips defenses without animated dice", () => {
+	const chat = message();
+	chat.rolls = [{ options: { banterDefenseTarget: "wolf" } }];
+	chat._dice3danimating = true;
+	chat.flags.playerDefense = { automationManaged: true, targets: [
+		{ tokenId: "wolf", resolved: true, total: 12, outcome: "normal" },
+	] };
+	assert.equal(messageAttackResults(chat, "scene")[0].outcome, "hit");
+	assert.equal(messageAttackResults(chat, "scene", { waitForDefenseAnimation: true })[0].outcome, "pending");
+	chat.rolls = [];
+	assert.equal(messageAttackResults(chat, "scene", { waitForDefenseAnimation: true })[0].outcome, "hit");
+});

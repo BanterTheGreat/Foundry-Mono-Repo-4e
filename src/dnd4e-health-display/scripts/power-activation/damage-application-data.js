@@ -3,11 +3,11 @@ import { MODULE_ID } from "./rules.js";
 const queues = new Map();
 
 /**
- * Persist a GM review request on the first attack message after PC damage confirmation.
+ * Persist a GM review request on the first attack message after damage confirmation.
  * Only message IDs cross this seam; the GM reads the confirmed target receipts and rolls.
  */
 export async function requestDamageApplication(session) {
-	if (session.item.actor?.type !== "Player Character" || !session.item.hasDamage || !session.attackMessages.length) {
+	if (!session.item.hasDamage || !session.attackMessages.length) {
 		return;
 	}
 	await session.attackMessages[0].update({ [`flags.${MODULE_ID}.damageApplication`]: {

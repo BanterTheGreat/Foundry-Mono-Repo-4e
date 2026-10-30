@@ -85,7 +85,7 @@
 												<strong>{{name}}</strong>
 												{{#if weaponSummary}}<small>{{weaponSummary}}</small>{{/if}}
 											</button>
-											{{#if canEquip}}<button type="button" class="dnd4e-horizontal-actor-display__equip {{#if equipped}}is-equipped{{/if}}" data-action="toggleEquip" data-item-id="{{id}}" title="{{#if equipped}}Equipped ? click to unequip{{else}}Equip{{/if}}" aria-label="{{#if equipped}}Unequip{{else}}Equip{{/if}} {{name}}" aria-pressed="{{#if equipped}}true{{else}}false{{/if}}">{{#if @root.experimentalActorHud}}<i class="fa-solid {{#if equipped}}fa-check{{else}}fa-shirt{{/if}}" aria-hidden="true"></i>{{else}}{{#if equipped}}Equipped{{else}}Equip{{/if}}{{/if}}</button>{{/if}}
+											{{#if canEquip}}<button type="button" class="dnd4e-horizontal-actor-display__equip {{#if equipped}}is-equipped{{/if}}" data-action="toggleEquip" data-item-id="{{id}}" title="{{#if equipped}}Equipped; click to unequip{{else}}Equip{{/if}}" aria-label="{{#if equipped}}Unequip{{else}}Equip{{/if}} {{name}}" aria-pressed="{{#if equipped}}true{{else}}false{{/if}}"><i class="fa-solid {{#if equipped}}fa-check{{else}}fa-shirt{{/if}}" aria-hidden="true"></i></button>{{/if}}
 										</div>
 									{{/each}}
 								</section>
@@ -119,7 +119,16 @@
 		</div>
 		<div class="dnd4e-actor-display__quick-actions" role="group" aria-label="Quick actions">
 			<button type="button" class="dnd4e-actor-display__quick-icon" data-action="quick" data-command="healing" title="Heal" aria-label="Heal"><i class="fa-solid fa-heart" aria-hidden="true"></i></button>
+		<div class="dnd4e-actor-display__action-point-controls">
+			{{#if isPlayerCharacter}}
+			{{#if isInCombat}}
+			<button type="button" class="dnd4e-horizontal-actor-display__end-turn" data-action="quick" data-command="endTurn" {{#unless isCurrentTurn}}disabled{{/unless}} title="{{#if isCurrentTurn}}End your turn{{else}}Not your turn{{/if}}">
+				End Turn
+			</button>
+			{{/if}}
+			{{/if}}
 		<button type="button" class="dnd4e-actor-display__action-point" data-action="quick" data-command="actionPoint" {{#if horizontalActions.ap.disabled}}disabled{{/if}} title="Use Action Point ({{horizontalActions.ap.value}} available)" aria-label="Use Action Point, {{horizontalActions.ap.value}} available"><i class="fa-solid fa-star" aria-hidden="true"></i><span>{{horizontalActions.ap.value}}</span></button>
+		</div>
 			<button type="button" class="dnd4e-actor-display__quick-icon" data-action="quick" data-command="shortRest" title="Short Rest" aria-label="Short Rest"><i class="fa-solid fa-bed" aria-hidden="true"></i></button>
 		</div>
 		<div class="dnd4e-actor-display__character-menus">

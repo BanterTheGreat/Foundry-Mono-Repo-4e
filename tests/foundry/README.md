@@ -75,6 +75,17 @@ Current coverage checks runtime prerequisites, Banter's init-time skill schema
 changes, native damage versus the health preview, negative HP limits, and real
 hover-template rendering.
 
+The `dnd4e-health-display.actor-hud` Quench batch clicks the production PC/NPC
+Actor HUD controls in a temporary scene. Coverage includes the four PC power
+groups, Feats/Skills/Items/Extras, NPC Sheet power grouping and trait disclosures,
+case-insensitive search and empty results, equipment/resource persistence,
+Escape/outside dismissal, actor switching, native sheet/dialog opening, skill
+rolls, power refresh/chat and Target Automation handoff. It restores the HUD
+visibility setting and uses the targeting fixture's scene/document cleanup.
+It runs with `integration.spec.mjs`, or can be selected in Quench as
+**INFO DISPLAYS: Actor HUD tabs and controls**. This GM batch does not cover
+player-only End Turn or submit every native healing/rest dialog option.
+
 Active Defense Quench tests exercise the registered attack and chat hooks with
 real actors, scene tokens, powers, rolls, and messages. They check PC interception
 in a mixed PC/NPC attack, reversed dice selection and per-target DCs, natural

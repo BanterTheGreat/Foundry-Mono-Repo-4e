@@ -3,6 +3,16 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 import vm from "node:vm";
 
+test("item equip controls always use state icons with accessible toggle labels", () => {
+	const template = readFileSync(new URL("../scripts/actor-display/actor-display.hbs", import.meta.url), "utf8");
+	const button = template.match(/<button[^>]*data-action="toggleEquip"[^>]*>(.*?)<\/button>/s);
+	assert.ok(button);
+	assert.equal(button[1], '<i class="fa-solid {{#if equipped}}fa-check{{else}}fa-shirt{{/if}}" aria-hidden="true"></i>');
+	assert.ok(button[0].includes('aria-label="{{#if equipped}}Unequip{{else}}Equip{{/if}} {{name}}"'));
+	assert.ok(button[0].includes('aria-pressed="{{#if equipped}}true{{else}}false{{/if}}"'));
+	assert.ok(button[0].includes('title="{{#if equipped}}Equipped; click to unequip{{else}}Equip{{/if}}"'));
+});
+
 const source = readFileSync(new URL("../scripts/actor-display/actor-display.js", import.meta.url), "utf8")
 	.replace(/^import .*;\r?\n/gm, "")
 	.replace(/^export /gm, "");
@@ -276,4 +286,24 @@ test("the main HUD follows selection, refreshes both parts and respects visibili
 		assert.equal(ui.Dnd4eActorDisplay, null);
 		assert.equal(ui.Dnd4eActorPortrait, null);
 	}
+});
+
+test("End Turn is text-only above AP for PCs regardless of user role and retains combat gating", () => {
+	const template = readFileSync(new URL("../scripts/actor-display/actor-display.hbs", import.meta.url), "utf8");
+	const portrait = readFileSync(new URL("../scripts/actor-display/actor-portrait.hbs", import.meta.url), "utf8");
+	const controls = template.match(/<div class="dnd4e-actor-display__action-point-controls">(.*?)<\/div>/s)?.[1];
+	assert.ok(controls);
+	assert.match(controls, /{{#if isPlayerCharacter}}\s*{{#if isInCombat}}\s*<button[^>]*data-command="endTurn"[^>]*>\s*End Turn\s*<\/button>\s*{{\/if}}\s*{{\/if}}/);
+	assert.equal(controls.includes('fa-hourglass-end'), false);
+	assert.ok(controls.includes('data-command="endTurn" {{#unless isCurrentTurn}}disabled{{/unless}}'));
+	assert.ok(controls.includes('data-command="actionPoint"'));
+	assert.equal(template.includes("isGM"), false);
+	assert.equal(portrait.includes('data-command="endTurn"'), false);
+	const css = readFileSync(new URL("../styles/actor-display.css", import.meta.url), "utf8");
+	const anchor = css.match(/\.dnd4e-actor-display__action-point-controls \{([^}]+)\}/)?.[1];
+	assert.match(anchor, /position: relative/);
+	const turn = css.match(/\.dnd4e-actor-display__categories \.dnd4e-horizontal-actor-display__end-turn \{([^}]+)\}/)?.[1];
+	assert.match(turn, /bottom: calc\(100% \+ 8px\)/);
+	assert.match(turn, /left: 50%/);
+	assert.match(turn, /transform: translateX\(-50%\)/);
 });

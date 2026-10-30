@@ -51,6 +51,13 @@ export async function registerPowerActivation() {
 	sharedAreaPreview.register();
 	Hooks.on("createChatMessage", message => session?.captureAttackResults(message));
 	Hooks.on("updateChatMessage", message => session?.captureAttackResults(message));
+	// Defense rolls append to an existing message. Reveal only after its last local DSN batch.
+	Hooks.on("diceSoNiceRollComplete", id => {
+		const message = session?.attackMessages.find(entry => entry.id === id);
+		if (message && !message._dice3danimating) {
+			session.captureAttackResults(message);
+		}
+	});
 	try {
 		await registerAutomationTab();
 		await registerAttackReview();
@@ -1274,7 +1281,7 @@ class ActivationSession extends ActivationWorkflow {
 
 	/** Defense requests belong to persisted session targets, never current selection. */
 	hasPendingDefenses() {
-		return this.attackMessages.some(message => messageAttackResults(message, canvas.scene?.id)
+		return this.attackMessages.some(message => messageAttackResults(message, canvas.scene?.id, { waitForDefenseAnimation: true })
 			.some(result => result.outcome === "pending"));
 	}
 
@@ -1288,7 +1295,7 @@ class ActivationSession extends ActivationWorkflow {
 		if (this.state !== "reviewingResults") {
 			return;
 		}
-		const results = this.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id));
+		const results = this.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id, { waitForDefenseAnimation: true }));
 		if (this.targets.length > 0 && results.length > 0
 			&& this.targets.every(token => results.some(result => result.tokenId === token.id))
 			&& results.every(result => ["critical", "fumble"].includes(result.outcome))) {
@@ -1310,7 +1317,7 @@ class ActivationSession extends ActivationWorkflow {
 			}
 			this.transition("readyForDamage");
 			await this.rollDamage({}, true);
-			const outcomes = this.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id));
+			const outcomes = this.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id, { waitForDefenseAnimation: true }));
 			if (outcomes.length && outcomes.every(result => ["miss", "fumble"].includes(result.outcome))
 				&& !this.requiredDamageTypes?.length && !this.damageMessages.length) {
 				await this.confirmDamage();
@@ -1387,7 +1394,7 @@ class ActivationSession extends ActivationWorkflow {
 		if (!["readyForDamage", "reviewingDamage"].includes(this.state) || !this.item.hasDamage || !this.targets.length) {
 			return;
 		}
-		const outcomes = this.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id));
+		const outcomes = this.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id, { waitForDefenseAnimation: true }));
 		const hasHit = outcomes.some(result => result.outcome === "hit");
 		const hasMiss = outcomes.some(result => ["miss", "fumble"].includes(result.outcome));
 		const sharedMiss = hasMiss && this.item.system.miss?.halfDamage;
@@ -1464,7 +1471,7 @@ class ActivationSession extends ActivationWorkflow {
 			return;
 		}
 		const tokenId = target.dataset.tokenId;
-		const result = this.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id))
+		const result = this.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id, { waitForDefenseAnimation: true }))
 			.find(entry => entry.tokenId === tokenId);
 		if (!result || targetDamageTotal(this.damageMessages, result.outcome, this.sharedMissDamage, 0, this.requiredDamageTypes) === null) {
 			return;
@@ -1505,7 +1512,7 @@ class ActivationSession extends ActivationWorkflow {
 	 */
 	async persistTargetDamage(pending) {
 		for (const message of this.attackMessages) {
-			const targets = messageAttackResults(message, canvas.scene?.id).map(result => {
+			const targets = messageAttackResults(message, canvas.scene?.id, { waitForDefenseAnimation: true }).map(result => {
 				const modifier = this.targetDamageModifiers.get(result.tokenId);
 				return { tokenId: result.tokenId, outcome: result.outcome,
 					modifierFormula: modifier?.formula ?? "", modifierTotal: modifier?.total ?? 0,
@@ -1716,7 +1723,7 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 		if (activation.view.screen === "results") {
 			this.resolutionRules ??= postAttackRules(activation.card);
 			const reviewingDamage = ["readyForDamage", "reviewingDamage", "updatingDamage", "retryingDamage"].includes(activation.state);
-			const rolledResults = activation.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id)
+			const rolledResults = activation.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id, { waitForDefenseAnimation: true })
 				.map(result => ({ ...result, message })));
 			const results = activation.targets.flatMap(token => rolledResults.filter(result => result.tokenId === token.id))
 				.map(({ message, ...result }) => {

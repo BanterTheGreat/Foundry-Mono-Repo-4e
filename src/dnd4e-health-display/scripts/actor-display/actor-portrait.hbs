@@ -41,14 +41,5 @@
 		
 	</div>
 
-	{{#unless isGM}}
-		{{#if isInCombat}}
-		<div class="dnd4e-horizontal-actor-display__turn-controls">
-				<button type="button" class="dnd4e-horizontal-actor-display__end-turn" data-action="quick" data-command="endTurn" {{#unless isCurrentTurn}}disabled{{/unless}} title="{{#if isCurrentTurn}}End your turn{{else}}Not your turn{{/if}}">
-					<i class="fa-solid fa-hourglass-end" aria-hidden="true"></i> End Turn
-				</button>
-		</div>
-		{{/if}}
-	{{/unless}}
 
 </div>

@@ -2,6 +2,7 @@ import { projectDamage } from "../scripts/power-activation/damage-application-da
 import { getTokenHoverDisplayData } from "../scripts/health-display/token-hover-display-data.js";
 import { registerTargetAutomationTests } from "./target-automation.js";
 import { getNpcPowerHints } from "../scripts/actor-display/npc-power-hints.js";
+import { registerActorHudTests } from "./actor-hud.js";
 
 /** Register live document, native damage, and Handlebars integration tests. */
 export function registerTests(quench, { assertTestWorld, TestDocuments }) {
@@ -102,5 +103,5 @@ export function registerTests(quench, { assertTestWorld, TestDocuments }) {
       });
     });
   }, { displayName: "INFO DISPLAYS: Live health and template integration", preSelected: false });
-  return [key, registerTargetAutomationTests(quench)];
+  return [key, registerTargetAutomationTests(quench), registerActorHudTests(quench)];
 }
