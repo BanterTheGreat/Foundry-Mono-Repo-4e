@@ -275,3 +275,22 @@ test("only NPC Sheet renders bind range hover, and rerenders release its previou
 	display.clearPowerRangeHover();
 	assert.equal(cleared, 1);
 });
+
+
+test("NPC Sheet groups Basic Attacks first without losing powers or reordering within a group", async () => {
+	for (const flags of [[false, true, false, true], [false, false], [true, true], []]) {
+		const powers = flags.map((isBasic, id) => ({ id: String(id), type: "power", name: `Power ${id}`, system: { attack: { isBasic } } }));
+		const items = [...powers];
+		items.get = id => items.find(item => item.id === id);
+		const { ExperimentalActorDisplay } = loadController({ powerCategories: [{ key: "standard", powers: powers.map(({ id }) => ({ id })) }] });
+		const display = Object.create(ExperimentalActorDisplay.prototype);
+		display.token = { actor: { type: "NPC", items } };
+		display.activeTab = "sheet";
+		const context = await display._prepareContext({});
+		const rows = context.selectedCategory.powers;
+		assert.deepEqual(Array.from(rows, row => row.id), [...powers.filter(p => p.system.attack.isBasic), ...powers.filter(p => !p.system.attack.isBasic)].map(p => p.id));
+		assert.deepEqual(Array.from(rows, row => row.npcPowerGroup).filter(Boolean), [
+			...(flags.includes(true) ? ["Basic Attacks"] : []), ...(flags.includes(false) ? ["Other Powers"] : []),
+		]);
+	}
+});

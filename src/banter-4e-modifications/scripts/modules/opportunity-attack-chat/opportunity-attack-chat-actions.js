@@ -182,7 +182,7 @@ export class OpportunityAttackChatActions {
   static #canUseCharge(item) {
     const system = item.system ?? item.data?.data ?? {};
     const attack = item.attack ?? system.attack ?? {};
-    return attack.canCharge === true
+    return attack.isBasic === true || attack.canCharge === true
       || OpportunityAttackChatActions.#hasRollMode(system.rollModes, "charge")
       || OpportunityAttackChatActions.#hasRollMode(system.rollModes, "chargeAttack");
   }

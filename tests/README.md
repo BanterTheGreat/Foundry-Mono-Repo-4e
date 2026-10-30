@@ -38,7 +38,7 @@ close powers show their reachable extent without choosing a blast direction.
 
 For a manual NPC Sheet check, enable Experimental Actor HUD, select an NPC and open Sheet.
 Action types should align right; conditions and `Weak: PC names` share a smaller second line.
-Traits retain the right column. Check AC attacks, friendly and neutral NPC dispositions,
+Basic Attacks appear first under their own heading, followed by Other Powers; empty groups are omitted. Traits retain the right column. Check AC attacks, friendly and neutral NPC dispositions,
 PC defense changes, adding/removing scene PCs, and long names. Chat/use buttons must still work.
 Reload Foundry and check the console, switch actors and menus, drag/reopen the HUD, and hover each power twice.
 Weak means tied for the lowest Fortitude/Reflex/Will. If nobody qualifies, orange `Lowest` names show the scene PCs tied for the lowest targeted defense in the party. Neither hint checks attack range or line of sight. Listed names include base d20 hit percentages from the native power attack bonus and prepared target defense (natural 1 misses, natural 20 hits). Situational modifiers, combat advantage, cover, concealment and roll modes are excluded; if the bonus cannot be resolved, names remain without percentages.
@@ -67,11 +67,10 @@ The final summary lists the number of tests that passed, failed, or were skipped
 
 Local tests use mocked Foundry boundaries and cannot verify the running application's rendering or system integration. For browser and Quench tests in the designated test world, follow [the Foundry integration guide](foundry/README.md).
 
-Hovering or keyboard-focusing an NPC Sheet power shows base hit chances inside the bottom edge of targeted,
-controlled/highlighted, or hovered PC tokens, including AC attacks. Labels use the canvas interface
+Hovering or keyboard-focusing an NPC Sheet power shows base hit chances inside the bottom edge of all visible scene PC tokens, including AC attacks. Labels use the canvas interface
 layer above token art, stay the same screen size while zooming, and follow token movement/selection.
 They disappear on leaving the row, closing/rerendering the HUD, scene teardown or starting activation.
-Check overlapping tokens, pan/zoom, changing targets, and hovering different powers in Foundry.
+Check overlapping tokens, pan/zoom, changing targets, and hovering different powers in Foundry. During Target Automation, the GM sees chances only on session targets and highlighted PCs.
 Situational modifiers remain excluded. Run the focused tests with
 `node --test src/dnd4e-health-display/test/power-hit-chance-hover.test.js`.
 
@@ -88,4 +87,4 @@ The browser checks for target portrait mouse/keyboard focusing and native attack
 npm run test:foundry -- target-automation.spec.mjs --grep "target portraits|attack variant buttons"
 ```
 
-During initial targeting, eligible attacks offer separate Normal attack, Charge attack, and Opportunity attack buttons. Normal attack appears on the right with two buttons and in the middle with three; a lone attack button retains the Attack! label. Each button opens the matching native dialog; cancelling spends no use. Click a target portrait to pan to its token; hover or keyboard focus outlines it. These controls remain available in result review.
+During initial targeting, eligible attacks offer separate Normal attack, Charge attack, and Opportunity attack buttons. PC and NPC powers marked Basic Attack always offer Charge, even with the Charge variant checkbox off; chat-card variants use the same rule. Normal attack appears on the right with two buttons and in the middle with three; a lone attack button retains the Attack! label. Each button opens the matching native dialog; cancelling spends no use. Click a target portrait to pan to its token; hover or keyboard focus outlines it. These controls remain available in result review.

@@ -16,10 +16,11 @@ export class PowerHitChanceHover {
 		this.hooks = [];
 		this.overlay?.destroy({ children: true });
 		this.overlay = null;
+		this.refresh = null;
 	}
 
 	/** Resolve the native base attack bonus once per hover, never rolling or targeting anything. */
-	async show(item, source, blocked = () => false) {
+	async show(item, source, blocked = () => false, candidates = () => canvas.tokens.placeables) {
 		this.clear();
 		const revision = this.revision;
 		const defense = item?.system?.attack?.def;
@@ -47,14 +48,15 @@ export class PowerHitChanceHover {
 					this.clear();
 					return;
 				}
-				this.draw(defense, bonus);
+				this.draw(defense, bonus, candidates());
 			};
 			for (const name of ["targetToken", "controlToken", "hoverToken", "refreshToken", "updateToken", "canvasPan", "sightRefresh"]) {
 				this.hooks.push([name, Hooks.on(name, draw)]);
 			}
 			for (const name of ["updateActor", "updateItem"]) {
-				this.hooks.push([name, Hooks.on(name, () => void this.show(item, source, blocked))]);
+				this.hooks.push([name, Hooks.on(name, () => void this.show(item, source, blocked, candidates))]);
 			}
+			this.refresh = draw;
 			draw();
 		} catch {
 			if (revision === this.revision) {
@@ -64,13 +66,11 @@ export class PowerHitChanceHover {
 	}
 
 	/** Follow visible scene PCs and camera zoom; interface labels render above all token art. */
-	draw(defense, bonus) {
+	draw(defense, bonus, candidates) {
 		this.overlay?.destroy({ children: true });
 		this.overlay = null;
-		const candidates = new Set([...game.user.targets, ...canvas.tokens.controlled,
-			...canvas.tokens.placeables.filter(token => token.hover)]);
 		const scale = 1 / canvas.stage.scale.x;
-		for (const token of candidates) {
+		for (const token of new Set(candidates)) {
 			const value = token.actor?.system?.defences?.[defense]?.value;
 			if (token.actor?.type !== "Player Character" || !token.visible || canvas.tokens.get(token.id) !== token
 				|| value === null || value === undefined || value === "" || !Number.isFinite(Number(value))) {
@@ -82,17 +82,21 @@ export class PowerHitChanceHover {
 			// Sort after the token layer so the label survives when placed over the art.
 			this.overlay.zIndex = (canvas.tokens.zIndex ?? 0) + 1;
 			const text = formatPowerHitChances([{ name: "", value: Number(value) }], bonus).trim().replace(/[()]/g, "");
-			const label = new foundry.canvas.containers.PreciseText(`${text} to hit`, {
+			const label = new foundry.canvas.containers.PreciseText(text, {
 				fontFamily: "sans-serif", fontSize: 16, fill: 0xdfcd94,
 				align: "center", stroke: 0x15191f, strokeThickness: 3,
 			});
 			label.scale.set(scale);
 			label.anchor.set(0.5, 0);
-			label.position.set(token.x + token.w / 2, token.y + token.h - label.height - 5 * scale);
+			const width = label.width;
+			const height = label.height;
+			const centerX = token.x + token.w / 2;
+			const top = token.y + token.h - height - 5 * scale;
+			label.position.set(centerX, top);
 			const background = new PIXI.Graphics();
 			background.beginFill(0x15191f, 0.9);
-			background.drawRoundedRect(label.x - label.width / 2 - 5 * scale, label.y - 3 * scale,
-				label.width + 10 * scale, label.height + 6 * scale, 4 * scale);
+			background.drawRoundedRect(centerX - width / 2 - 5 * scale, top - 3 * scale,
+				width + 10 * scale, height + 6 * scale, 4 * scale);
 			background.endFill();
 			this.overlay.addChild(background, label);
 		}
@@ -100,6 +104,27 @@ export class PowerHitChanceHover {
 }
 
 const preview = new PowerHitChanceHover();
+const targetingPreview = new PowerHitChanceHover();
+let targetingContext = null;
+
+/** GM targeting keeps chances limited to the session targets and highlighted PCs. */
+export function setTargetingHitChanceContext(context) {
+	const previous = targetingContext;
+	targetingContext = game.user.isGM ? context : null;
+	if (!targetingContext) {
+		targetingPreview.clear();
+		return;
+	}
+	preview.clear();
+	if (previous?.item === context.item && previous?.source === context.source) {
+		targetingPreview.refresh?.();
+		return;
+	}
+	void targetingPreview.show(context.item, context.source, () => !targetingContext, () => [
+		...(targetingContext?.targets ?? []), ...canvas.tokens.controlled,
+		...canvas.tokens.placeables.filter(token => token.hover),
+	]);
+}
 
 /** Bind whole power rows and dispose labels on leaving, rerendering, closing or activation. */
 export function bindPowerHitChanceHover(root, actor, token, blocked) {

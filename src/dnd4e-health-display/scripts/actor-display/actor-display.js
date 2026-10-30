@@ -895,8 +895,14 @@ class ExperimentalActorDisplay extends ActorDisplayBase {
 						console.warn(`Dnd4e Info Displays | Could not calculate ${item.name}'s hit chances.`, error);
 					}
 				}
-				return { ...power, ...hints };
+				return { ...power, ...hints, isBasic: (item.attack ?? item.system?.attack)?.isBasic === true };
 			}));
+			const basicPowers = selected.powers.filter(power => power.isBasic);
+			const otherPowers = selected.powers.filter(power => !power.isBasic);
+			selected.powers = [
+				...basicPowers.map((power, index) => ({ ...power, npcPowerGroup: index === 0 ? "Basic Attacks" : "" })),
+				...otherPowers.map((power, index) => ({ ...power, npcPowerGroup: index === 0 ? "Other Powers" : "" })),
+			];
 		}
 		return { ...context, isNpc, isNpcSheet, npcFeatures, categories: (isNpc ? [] : groups).map((group) => ({
 			...group, active: group === selected,

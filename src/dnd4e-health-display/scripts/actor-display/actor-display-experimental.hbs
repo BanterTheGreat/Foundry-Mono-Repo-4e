@@ -5,6 +5,7 @@
 		<div class="dnd4e-experimental-actor-display__list">
 			{{#if isNpcSheet}}<div class="dnd4e-experimental-actor-display__sheet-columns {{#unless npcFeatures.length}}is-powers-only{{/unless}}"><section aria-label="Powers">{{/if}}
 			{{#each selectedCategory.powers}}
+			{{#if npcPowerGroup}}<h4 class="dnd4e-experimental-actor-display__npc-power-group">{{npcPowerGroup}}</h4>{{/if}}
 			<div class="dnd4e-experimental-actor-display__power {{usageClass}} {{#if depleted}}is-depleted{{/if}}" tabindex="0" data-item-id="{{id}}" data-item-tooltip data-tooltip-direction="RIGHT" data-power-usage="{{usageClass}}">
 				{{#if @root.isNpcSheet}}
 				<div class="dnd4e-experimental-actor-display__npc-power-copy">

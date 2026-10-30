@@ -1,3 +1,4 @@
+import { setTargetingHitChanceContext } from "../actor-display/power-hit-chance-hover.js";
 import { rangeAreaDrawing } from "./range-area-drawing.js";
 import { powerRangeHover } from "./power-range-hover.js";
 import { attackVariants } from "./attack-variants.js";
@@ -742,7 +743,10 @@ class ActivationSession extends ActivationWorkflow {
 			void this.cancel();
 			return;
 		}
-		// Cover shares the targeting lifecycle and resolved attack mode.
+		// Cover and hit chances share the targeting lifecycle.
+		setTargetingHitChanceContext(this.busy || !this.item.hasAttack ? null : {
+			item: this.item, source: this.caster, targets: [...this.targets],
+		});
 		CoverPreview.setContext(this.busy || !this.item.hasAttack ? null : {
 			source: this.source, caster: this.caster, targets: [...this.targets], mode: this.range.mode,
 		});
@@ -1239,6 +1243,7 @@ class ActivationSession extends ActivationWorkflow {
 				this.listeners.abort();
 				sharedAreaPreview.clear();
 				CoverPreview.setContext(null);
+		setTargetingHitChanceContext(null);
 				this.graphics?.clear();
 				// PIXI still processes masks on empty graphics; detach before destroying geometry.
 				if (this.graphics) {
@@ -1558,6 +1563,7 @@ class ActivationSession extends ActivationWorkflow {
 		this.clearTargetHighlight();
 		sharedAreaPreview.clear();
 		CoverPreview.setContext(null);
+		setTargetingHitChanceContext(null);
 		window.clearTimeout(this.movementTimer);
 		this.listeners.abort();
 		this.graphics?.destroy({ children: true });

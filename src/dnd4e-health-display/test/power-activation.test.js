@@ -82,7 +82,7 @@ function fixture({ confirm = true, fastForward = false } = {}) {
 		summonGM: () => ({ id: "gm" }), requestSummon: async activation => activation.summonCreator?.(),
 		ActivationWorkflow, console, AbortController, MODULE_ID, SETTING, automationConfig, powerOriginRules, selectionProblems, targetCountProblems, squareDistance, targetFilterProblems,
 		AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin, hasLineOfEffect,
-		CoverPreview: { setContext: value => hooks.push(["coverContext", value]), register() {} },
+		setTargetingHitChanceContext: () => {}, CoverPreview: { setContext: value => hooks.push(["coverContext", value]), register() {} },
 		attackVariants, rollFromOrigin, removeAttackTarget, syncAttackEffects: async () => {}, registerAttackEffects() {},
 		attackResults: { register() {}, complete: id => hooks.push(["attackResultsComplete", id]) }, messageAttackResults,
 		sharedAreaPreview: {

@@ -11,7 +11,7 @@ export function attackVariants(item) {
 	const attack = item.attack ?? system.attack ?? {};
 	const modes = Array.isArray(system.rollModes) ? system.rollModes : Object.values(system.rollModes ?? {});
 	const variants = [{ id: "regular", label: attack.isBasic ? "Basic attack" : "Regular attack", variance: {} }];
-	if (attack.canCharge === true || modes.some(mode => mode?.charge === true || mode?.chargeAttack === true)) {
+	if (attack.isBasic === true || attack.canCharge === true || modes.some(mode => mode?.charge === true || mode?.chargeAttack === true)) {
 		variants.push({ id: "charge", label: "Charge", variance: { isCharge: true } });
 	}
 	if (attack.canOpp === true || modes.some(mode => mode?.opportunityAttack === true)

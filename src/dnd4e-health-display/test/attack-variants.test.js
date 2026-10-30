@@ -34,3 +34,13 @@ test("utilities and non-powers have no alternate attack modes", () => {
 	assert.deepEqual(attackVariants({ type: "weapon", hasAttack: true }), []);
 	assert.equal(attackVariants({ type: "power", hasAttack: true, system: { attack: { isBasic: true } } })[0].label, "Basic attack");
 });
+
+test("PC and NPC basic attacks offer Charge even when its variant checkbox is off", () => {
+	for (const type of ["NPC", "Player Character"]) {
+		const item = { type: "power", hasAttack: true, actor: { type },
+			system: { attack: { isBasic: true, canCharge: false } } };
+		assert.deepEqual(attackVariants(item).find(variant => variant.id === "charge")?.variance, { isCharge: true });
+		item.system.attack.isBasic = false;
+		assert.equal(attackVariants(item).some(variant => variant.id === "charge"), false);
+	}
+});

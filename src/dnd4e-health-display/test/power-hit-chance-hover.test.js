@@ -22,11 +22,15 @@ function fixture() {
 		endFill() {}
 	}
 	class Text {
-		constructor(text) {
+		constructor(text, style) {
+			this.style = style;
+			const ratio = style.fontSize / 16;
+			const baseWidth = text === "\u2316" ? 20 * ratio : 100;
+			const baseHeight = 20 * ratio;
 			this.text = text;
-			this.width = 100;
-			this.height = 20;
-			this.scale = { set: value => { this.zoom = value; this.height = 20 * value; this.width = 100 * value; } };
+			this.width = baseWidth;
+			this.height = baseHeight;
+			this.scale = { set: value => { this.zoom = value; this.height = baseHeight * value; this.width = baseWidth * value; } };
 			this.anchor = { set() {} };
 			this.position = { set: (x, y) => { this.x = x; this.y = y; } };
 		}
@@ -44,12 +48,12 @@ function fixture() {
 	tokens.placeables = [caster, target];
 	const layer = new Container();
 	const canvas = { ready: true, tokens, stage: { scale: { x: 1 } }, interface: layer };
-	const game = { user: { targets: new Set([target]) } };
+	const game = { user: { isGM: true, targets: new Set([target]) } };
 	const context = vm.createContext({ canvas, game, formatPowerHitChances,
 		PIXI: { Container, Graphics }, foundry: { canvas: { containers: { PreciseText: Text } } },
 		Hooks: { on: (name, callback) => { hooks.set(++id, { name, callback }); return id; }, off: (_name, id) => hooks.delete(id) },
 	});
-	vm.runInContext(`${source}\nglobalThis.api = { preview, bindPowerHitChanceHover };`, context);
+	vm.runInContext(`${source}\nglobalThis.api = { preview, targetingPreview, setTargetingHitChanceContext, bindPowerHitChanceHover };`, context);
 	return { ...context.api, caster, actor, item, target, canvas, game, layer, hooks,
 		fire: name => [...hooks.values()].filter(h => h.name === name).forEach(h => h.callback()) };
 }
@@ -62,7 +66,8 @@ test("hit chance labels sit inside the bottom edge of PC tokens in the interface
 	assert.ok(overlay.zIndex > f.canvas.tokens.zIndex, "hit chance overlay must sort above the token layer");
 	assert.equal(overlay.eventMode, "none");
 	const label = overlay.children[1];
-	assert.equal(label.text, "55% to hit");
+	assert.equal(label.text, "55%");
+	assert.equal(overlay.children.length, 2);
 	assert.equal(label.x, 150);
 	assert.equal(label.y, 275);
 	f.target.y = 400;
@@ -75,24 +80,38 @@ test("hit chance labels sit inside the bottom edge of PC tokens in the interface
 	assert.equal(f.hooks.size, 0);
 });
 
-test("selection updates include targeted, highlighted and hovered PCs once, including AC", async () => {
+test("Sheet hover shows every visible scene PC without selection, including AC", async () => {
 	const f = fixture();
 	f.item.system.attack.def = "ac";
-	f.canvas.tokens.controlled.push(f.target);
-	f.target.hover = true;
-	await f.preview.show(f.item, f.caster);
-	assert.equal(f.preview.overlay.children.length, 2);
 	f.game.user.targets.clear();
-	f.canvas.tokens.controlled = [];
-	f.target.hover = false;
-	f.fire("targetToken");
-	assert.equal(f.preview.overlay, null);
-	f.target.hover = true;
-	f.fire("hoverToken");
-	assert.equal(f.preview.overlay.children[1].text, "55% to hit");
+	await f.preview.show(f.item, f.caster);
+	assert.equal(f.preview.overlay.children[1].text, "55%");
 	f.target.visible = false;
 	f.fire("sightRefresh");
 	assert.equal(f.preview.overlay, null);
+	f.target.visible = true;
+	f.fire("refreshToken");
+	assert.equal(f.preview.overlay.children.length, 2);
+});
+
+test("Target Automation uses only session targets and highlighted PCs, and clears on exit", async () => {
+	const f = fixture();
+	f.setTargetingHitChanceContext({ item: f.item, source: f.caster, targets: [] });
+	await new Promise(resolve => setImmediate(resolve));
+	assert.equal(f.targetingPreview.overlay, null);
+	f.setTargetingHitChanceContext({ item: f.item, source: f.caster, targets: [f.target] });
+	f.fire("targetToken");
+	assert.equal(f.targetingPreview.overlay.children[1].text, "55%");
+	f.setTargetingHitChanceContext({ item: f.item, source: f.caster, targets: [] });
+	f.target.hover = true;
+	f.fire("hoverToken");
+	assert.equal(f.targetingPreview.overlay.children.length, 2);
+	f.setTargetingHitChanceContext(null);
+	assert.equal(f.targetingPreview.overlay, null);
+	assert.equal(f.hooks.size, 0);
+	f.game.user.isGM = false;
+	f.setTargetingHitChanceContext({ item: f.item, source: f.caster, targets: [f.target] });
+	assert.equal(f.targetingPreview.overlay, null);
 });
 
 test("invalid attacks, removed tokens, bad bonuses and activation suppress labels", async () => {
