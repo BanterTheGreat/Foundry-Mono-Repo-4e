@@ -84,7 +84,7 @@ export class DamageApplicationPanel extends HandlebarsApplicationMixin(Applicati
 		position: { width: 576, height: "auto" },
 		window: { title: "Apply Damage", resizable: false },
 		actions: {
-			applyTarget(event, target) { return this.applyDamage([target.dataset.tokenId]); },
+			applyTarget(event, target) { return this.applyDamage([target.dataset.damageKey]); },
 			applyAll() { return this.applyDamage(); },
 			closeReview() { return this.close(); },
 		},
@@ -123,7 +123,7 @@ export class DamageApplicationPanel extends HandlebarsApplicationMixin(Applicati
 	}
 
 	/** Lock the footer and all rows while writes are in flight; retain successful rows after failures. */
-	async applyDamage(tokenIds) {
+	async applyDamage(keys) {
 		if (this.applying) {
 			return;
 		}
@@ -131,11 +131,11 @@ export class DamageApplicationPanel extends HandlebarsApplicationMixin(Applicati
 		this.clearHighlight();
 		void this.render({ force: true });
 		try {
-			const targets = damageApplicationTargets(this.message).filter(target =>
-				(!tokenIds || tokenIds.includes(target.tokenId)) && !this.message.flags[MODULE_ID].damageApplications?.[target.tokenId]);
+			const targets = damageApplicationTargets(this.message).map(target => ({ ...target, key: target.key ?? target.tokenId })).filter(target =>
+				(!keys || keys.includes(target.key)) && !this.message.flags[MODULE_ID].damageApplications?.[target.key]);
 			for (const target of targets) {
 				try {
-					await applyTargetDamage(this.message, target.tokenId);
+					await applyTargetDamage(this.message, target.key);
 				} catch (error) {
 					console.error(`${MODULE_ID} | Apply damage`, error);
 					ui.notifications.error(error.message);

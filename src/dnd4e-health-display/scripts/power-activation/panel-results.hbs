@@ -6,7 +6,7 @@
 	<ul class="power-targeting__targets power-targeting__results">
 		{{#each results}}
 		<li class="power-targeting__ledger-row">
-			<div class="power-targeting__target-identity">{{#if canFocus}}<button type="button" class="power-targeting__focus" data-action="focusTarget" data-token-id="{{tokenId}}" aria-label="Focus {{name}} on canvas" title="Focus {{name}} on canvas">{{#if img}}<img src="{{img}}" alt="" width="26" height="26">{{else}}<i class="fa-solid fa-crosshairs" aria-hidden="true"></i>{{/if}}</button>{{/if}}<span class="power-targeting__target-name" title="{{name}}">{{name}}</span></div>
+			<div class="power-targeting__target-identity">{{#if canFocus}}<button type="button" class="power-targeting__focus" data-action="focusTarget" data-token-id="{{tokenId}}" aria-label="Focus {{name}} on canvas" title="Focus {{name}} on canvas">{{#if img}}<img src="{{img}}" alt="" width="26" height="26">{{else}}<i class="fa-solid fa-crosshairs" aria-hidden="true"></i>{{/if}}</button>{{/if}}<span class="power-targeting__target-name" title="{{name}}">{{name}}{{#if attackerName}}<small class="power-targeting__attacker">by {{attackerName}}</small>{{/if}}</span></div>
 			<div class="power-targeting__attack-cell">
 				<strong class="power-targeting__verdict power-targeting__verdict--{{outcome}}">{{total}} · {{label}}</strong>
 				{{#if canAdjust}}
@@ -17,7 +17,7 @@
 				{{#if ../reviewing}}<button type="button" class="power-targeting__remove" data-action="removeReviewTarget" data-token-id="{{tokenId}}" aria-label="Remove {{name}}" {{#if ../busy}}disabled{{/if}}>×</button>
 				{{else}}
 				{{#if hasDamageTotal}}<strong>{{damageTotal}}</strong>{{else}}<small>Pending</small>{{/if}}
-				{{#if canAdjustDamage}}<div class="power-targeting__result-adjustment"><label><span class="power-targeting__sr-only">Damage modifier for {{name}}</span><input type="text" data-target-damage-modifier data-token-id="{{tokenId}}" value="{{damageModifier}}" placeholder="+0" {{#if ../busy}}disabled{{/if}}></label><button type="button" data-action="adjustTargetDamage" data-token-id="{{tokenId}}" aria-label="Apply damage modifier for {{name}}" {{#if ../busy}}disabled{{/if}}>Apply</button></div>{{/if}}
+				{{#if canAdjustDamage}}<div class="power-targeting__result-adjustment"><label><span class="power-targeting__sr-only">Damage modifier for {{name}}</span><input type="text" data-target-damage-modifier data-result-key="{{key}}" value="{{damageModifier}}" placeholder="+0" {{#if ../busy}}disabled{{/if}}></label><button type="button" data-action="adjustTargetDamage" data-result-key="{{key}}" aria-label="Apply damage modifier for {{name}}" {{#if ../busy}}disabled{{/if}}>Apply</button></div>{{/if}}
 				{{/if}}
 			</div>
 		</li>

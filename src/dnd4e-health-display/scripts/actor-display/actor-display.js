@@ -4,6 +4,7 @@ import { getActorDisplayData, getGroupHealthBars } from "./actor-display-data.js
 import { getNpcPowerHints, formatPowerHitChances } from "./npc-power-hints.js";
 import { initializeActorDisplayTooltips, generateSystemTooltip } from "./actor-display-tooltips.js";
 import { useAbility, showPowerInChat, isPowerActivationActive } from "../power-activation/power-activation.js";
+import { supportsGroupAttack } from "../power-activation/multi-attack.js";
 
 const MODULE_ID = "dnd4e-health-display";
 const HORIZONTAL_HUD_BODY_CLASS = "dnd4e-horizontal-hud-active";
@@ -411,18 +412,19 @@ class ActorDisplayBase extends HandlebarsApplicationMixin(ApplicationV2) {
 
 	/** @param {PointerEvent} event The action event. @param {HTMLElement} target The action target. */
 	async onPower(event, target) {
-		// Target automation is single-creature only for now.
-		if (this.isGroup && event.button !== 2) {
+		const power = this.actor.items.get(target.dataset.itemId);
+
+		// A group may only use target automation for powers that support several attackers.
+		if (this.isGroup && event.button !== 2 && !supportsGroupAttack(power, this.tokens)) {
 			return;
 		}
 
-		const power = this.actor.items.get(target.dataset.itemId);
 		if (event.button === 2) {
 			power?.sheet.render(true);
 			return;
 		}
 		if (power) {
-			if (await useAbility(power, this.token)) {
+			if (await useAbility(power, this.token, this.isGroup ? this.tokens : null)) {
 				return;
 			}
 			if (this.actor.type === "NPC" && power.hasAttack) {
@@ -822,8 +824,8 @@ class ActorDisplay extends ActorDisplayBase {
 				return {
 					...power,
 					...hints,
-					// Target automation is disabled while several creatures are selected.
-					canTargetAutomation: power.canTargetAutomation && !this.isGroup,
+					// Several creatures may use only powers whose targets are chosen one creature at a time.
+					canTargetAutomation: power.canTargetAutomation && (!this.isGroup || supportsGroupAttack(item, this.tokens)),
 					isBasic: (item.attack ?? item.system?.attack)?.isBasic === true,
 				};
 			}));

@@ -238,3 +238,43 @@ test("managed defenses defer effects until confirmation, use defense outcomes, a
 	assert.equal(ended.length, 2);
 	assert.equal(triggered.length, 2);
 });
+
+/** Two creatures use their own copies of the power on the same target, one hitting and one missing. */
+function groupFixture(outcomes = ["hit", "miss"]) {
+	const f = fixture();
+	const second = { id: "caster2", actor: { ...f.caster.actor, uuid: "Actor.caster2", effects: [] }, disposition: 1 };
+	f.context.game.scenes.get("scene").tokens.get = id => ({ caster: f.caster, caster2: second, target: f.target, other: f.other })[id];
+	const attack = (id, casterId, itemUuid, outcome) => ({ id, author: { id: "player" }, flags: { [MODULE_ID]: { attackResults: {
+		sessionId: "session", sceneId: "scene", itemUuid, casterId, effectsManaged: true, groupSize: 2, targetIds: ["target"] } } },
+		rolls: [{ total: 20, options: { multirollData: { targetID: "target", hitstate: outcome } } }] });
+	const first = attack("attack", "caster", f.item.uuid, outcomes[0]);
+	const other = attack("attack2", "caster2", "Actor.caster2.Item.power", outcomes[1]);
+	f.context.game.messages.set("attack", first);
+	f.context.game.messages.set("attack2", other);
+	const request = { ...f.request, messageIds: ["attack", "attack2"] };
+	return { ...f, second, first, other, sync: () => f.context.api.reconcileAttackEffects(request) };
+}
+
+test("a multi-attack applies hit effects when any attacker hits and gives each attacker its own self effects", async () => {
+	const g = groupFixture(["hit", "miss"]);
+	await g.sync();
+	assert.deepEqual(names(g.target.actor), ["all", "enemies", "hit", "hitOrMiss"].sort(), "one hit is enough; the other attacker's miss adds no miss effect");
+	assert.deepEqual(names(g.caster.actor), ["self", "selfAfterAttack", "selfHit"]);
+	assert.deepEqual(names(g.second.actor), ["self", "selfAfterAttack", "selfMiss"]);
+});
+
+test("a multi-attack applies miss effects only when every attack on the target missed", async () => {
+	const g = groupFixture(["miss", "miss"]);
+	await g.sync();
+	assert.deepEqual(names(g.target.actor), ["all", "enemies", "hitOrMiss", "miss"].sort());
+	assert.deepEqual(names(g.caster.actor), ["self", "selfAfterAttack", "selfMiss"]);
+	assert.deepEqual(names(g.second.actor), ["self", "selfAfterAttack", "selfMiss"]);
+});
+
+test("a multi-attack accepts each creature's own power copy but a single attack still rejects a foreign item", async () => {
+	const g = groupFixture(["hit", "hit"]);
+	await assert.doesNotReject(g.sync());
+	const single = fixture();
+	single.message.flags[MODULE_ID].attackResults.itemUuid = "Actor.other.Item.power";
+	await assert.rejects(single.sync(), /no longer match/);
+});

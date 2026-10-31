@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { AttackResults, messageAttackResults, placeAttackBadge } from "../scripts/power-activation/attack-results.js";
+import { AttackResults, messageAttackResults, placeAttackBadge, resultKey } from "../scripts/power-activation/attack-results.js";
 import { MODULE_ID } from "../scripts/power-activation/rules.js";
 
 /** Model the persisted 0.9.3 chat message, including its per-client visibility. */
@@ -17,12 +17,25 @@ test("uses stored token IDs and authoritative outcomes, including critical overr
 	for (const [outcome, label] of [["hit", "HIT"], ["miss", "MISS"], ["critical", "CRIT"], ["fumble", "CRIT FAIL"], ["immune", "IMMUNE"]]) {
 		const chat = message("miss");
 		chat.rolls[0].options.multirollData.critstate = outcome;
-		assert.deepEqual(messageAttackResults(chat, "scene"), [{ tokenId: "wolf", total: 24, outcome, label }]);
+		assert.deepEqual(messageAttackResults(chat, "scene"), [{ tokenId: "wolf", messageId: "attack-message", attackerId: undefined, key: "wolf", total: 24, outcome, label }]);
 	}
 	const chat = message("");
 	assert.equal(messageAttackResults(chat, "scene")[0].label, "ATTACK");
 	chat.rolls.push({ total: 16, options: { multirollData: { targetID: "other", hitstate: "miss" } } });
 	assert.equal(messageAttackResults(chat, "scene").length, 1);
+});
+
+test("a multi-attack keys each attacker's result on the same target separately", () => {
+	const make = (id, casterId) => ({
+		...message("hit"), id,
+		flags: { [MODULE_ID]: { attackResults: { sessionId: "activation", sceneId: "scene", targetIds: ["wolf"], casterId, groupSize: 2 } } },
+	});
+	const results = [make("m1", "goblin-a"), make("m2", "goblin-b")].flatMap(chat => messageAttackResults(chat, "scene"));
+	assert.deepEqual(results.map(result => result.key), ["goblin-a:wolf", "goblin-b:wolf"]);
+	assert.deepEqual(results.map(result => result.attackerId), ["goblin-a", "goblin-b"]);
+	assert.deepEqual(results.map(result => result.messageId), ["m1", "m2"]);
+	assert.equal(resultKey({ casterId: "goblin-a" }, "wolf"), "wolf", "a single attack keeps the plain token id");
+	assert.equal(resultKey({ casterId: "goblin-a", groupSize: 1 }, "wolf"), "wolf");
 });
 
 test("waits for the matching Dice So Nice message and discards waits across scene teardown", async t => {
@@ -235,7 +248,8 @@ test("managed defenses combine delayed PC verdicts with native NPC results and h
 	const target = { tokenId: "hero", resolved: false };
 	chat.flags.playerDefense = { automationManaged: true, targets: [target] };
 	assert.deepEqual(messageAttackResults(chat, "scene")[1], {
-		tokenId: "hero", total: null, outcome: "pending", label: "AWAITING DEFENSE", defense: true,
+		tokenId: "hero", messageId: "attack-message", attackerId: undefined, key: "hero",
+		total: null, outcome: "pending", label: "AWAITING DEFENSE", defense: true,
 	});
 	for (const [stored, expected] of [["normal", "hit"], ["critical", "critical"], ["miss", "miss"]]) {
 		Object.assign(target, { resolved: true, total: 23, outcome: stored });

@@ -56,6 +56,9 @@
 .power-targeting__result-count { color: #baab8e; font-size: 10px; }
 .power-targeting__roster { border: 1px solid #655433; border-radius: .3rem; background: #181714; }
 .power-targeting__columns, .power-targeting__targets .power-targeting__ledger-row { display: grid; grid-template-columns: minmax(0, 1fr) 84px 110px; gap: 7px; padding: 8px; }
+.power-targeting__attackers { display: flex; align-items: center; justify-content: center; gap: 3px; color: #e5dcc7; }
+.power-targeting__attackers input { width: 44px; height: 24px; padding: 0 2px; text-align: center; }
+.power-targeting__attacker { display: block; font-size: 10px; font-weight: normal; color: #baab8e; }
 .power-targeting__columns { font-size: 9px; text-transform: uppercase; letter-spacing: .04em; color: #baab8e; background: linear-gradient(110deg, #292318, #171511); border-bottom: 1px solid #493c26; }
 /* The target list is the dialog's only scrolling region. */
 .power-targeting__targets { list-style: none; margin: 0; padding: 0; max-height: 220px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #806b42 #20201c; }

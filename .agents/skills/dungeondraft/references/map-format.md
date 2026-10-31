@@ -1,6 +1,6 @@
 # .dungeondraft_map format
 
-Verified against the user's 97 maps (builds 0.9.4 format 2; 1.0.x, 1.1.0.5 and 1.2.0.1 format 3) and the Dungeondraft assembly. Target the newest build in the library (1.2.0.1 "opulent kirin") and use a real map of that build as the structural reference, e.g. `Documents\DungeonDraft Maps\Zeitgeist\Book 5\Subway.dungeondraft_map`. A generator that matches a real map's keys, key order and value kinds loads; compare before trusting a hand-written file.
+Verified against the user's 97 maps (builds 0.9.4 format 2; 1.0.x, 1.1.0.5 and 1.2.0.1 format 3) and the Dungeondraft assembly. Target the newest build in the library (1.2.0.1 "opulent kirin") and use a real map of that build as the structural reference, e.g. `Documents\DungeonDraft Maps\Zeitgeist\Book 5\Subway.dungeondraft_map`. A generator that matches a real map's keys, key order and value kinds loads; compare before trusting a hand-written file. `src/dungeondraft-tools/inspect/library-survey.mjs` re-derives every fact marked verified below from the user's library, and `map-schema.mjs` prints a map's key tree.
 
 ## File and units
 
@@ -19,13 +19,13 @@ Verified against the user's 97 maps (builds 0.9.4 format 2; 1.0.x, 1.1.0.5 and 1
 
 Keys in order: `format` (3), `width`, `height`, `next_node_id` (hex string beyond the largest node id), `next_prefab_id` ("0"), `msi` (`offset_map_size` 512, `max_offset_distance` 0.2, `cell_size` 64, `seed` hex), `grid` (`color`, `texture` `res://textures/grid/dotted_line.png`), `building_wear` (null), `wall_shadow`, `object_shadow`, `trace_image_visible`, `embedded` ({}), `levels`.
 
-The user's recent maps keep `wall_shadow` and `object_shadow` false and every object's `shadow` false. Shadows are one toggle each; how the world flags interact with per-object `shadow` is unverified.
+Object shadows are always off (mapping rule 2): `object_shadow` false and every object's `shadow` false. `wall_shadow` is false too, as in the user's recent maps. How the world flags interact with per-object `shadow` is unverified.
 
 ## levels["0"]
 
 Keys in order: `label` ("Ground"), `environment` (`baked_lighting` true, `ambient_light` "ffffffff"), `layers`, `shapes` (`polygons`, `walls`, both []), `tiles`, `patterns`, `walls`, `portals` ([]; real portals live inside their wall), `cave`, `terrain`, `water`, `materials` ({}), `paths`, `objects`, `lights`, `roofs`, `texts`, `texts_vis` (true).
 
-- `layers`: `100/200/300/400` User Layers 1-4, `700` Above Walls, `900` Above Roofs, `1100` Above Lights, `-400` Below Ground, `-100` Below Water. Walls draw above layers 100-400, so props that overlap a wall (a dock ladder over a coping wall) need layer 700; the user's maps use 100 and 700. Patterns normally use 100; use higher layers to stack floors over paving.
+- `layers`: `100/200/300/400` User Layers 1-4, `700` Above Walls, `900` Above Roofs, `1100` Above Lights, `-400` Below Ground, `-100` Below Water. Walls draw above layers 100-400, so props that overlap a wall need layer 700; the user's maps use 100 and 700. The user's `Dockyard` map keeps patterns and objects on layer 100 together, so patterns draw under objects on the same layer. Keep every pattern at or below the lowest object layer (use -400, -100 and 100 for patterns): a pattern on a higher layer than an object covers it, which hid all the clutter and crates in an early dockyard build. Put overlapping patterns on different layers rather than relying on file order.
 - `tiles`: `cells` = `PoolIntArray` of `w*h` entries (-1 = no tile), `colors` = `w*h` copies of "ffffffff", `lookup` {}.
 - `cave`: `bitmap` and `entrance_bitmap` = `PoolByteArray` of `floor(2wh + 1.5(w+h) + 2)` zeros (fits all 25 distinct sizes in the library), `ground_color`/`wall_color` "ff7f7e71", `texture` `res://textures/caves/colorable/floor.png`.
 - `water`: `{ "disable_border": false }`. Some maps carry a `tree`, written by the water tool; the user paints water with a terrain texture instead.
@@ -36,7 +36,7 @@ Keys in order: `label` ("Ground"), `environment` (`baked_lighting` true, `ambien
 **pattern** (floor polygon): `position`, `shape_rotation`, `scale`, `points`, `layer`, `color`, `outline`, `texture`, `rotation`, `node_id`. Use `position` (0,0) and absolute `points` so every polygon shares one texture lattice. Patterns are tiled 1:1 at scale 1 (the user sometimes sets scale > 1.2 for taste). A polygon with a hole is one ring plus a bridging slit (seen in the user's `Warehouse` map). The generator splits regions into disjoint rectangles instead (greedy scanline merge); adjacent same-texture patterns are expected to union seamlessly.
 
 **wall**: `points`, `texture`, `color`, `loop`, `type`, `joint`, `normalize_uv`, `shadow`, `node_id`, `portals`.
-- Thickness is the texture's height, centred on the polyline. A 254 px wall (Scenes `thickwall`) centred on cell-centre lines fills those squares exactly.
+- Thickness is the texture's height, centred on the polyline. A 254 px wall (Scenes `thickwall`) centred on cell-centre lines would fill those squares exactly, but mapping rule 5 puts walls on grid lines (coordinates that are multiples of 256), and only on the outer edge of a wall square, so centre-line walls are not a pattern to copy. The wall squares' inner edge gets no wall.
 - `joint` is Godot `Line2D` joint mode: 0 sharp (square corners), 1 bevel, 2 round. `type` 0 occurs only in builds up to 1.0.1.3 (a legacy value); every wall from 1.0.2.1 on, 1.2.0.1 included, is `type` 1. Use 1.
 - A closed rectangle is one wall with `loop: true` and four points. Pack `_end` sprites exist for open ends; that Dungeondraft draws them automatically is expected but unverified.
 
@@ -45,7 +45,7 @@ Keys in order: `label` ("Ground"), `environment` (`baked_lighting` true, `ambien
 - Portals cut an opening in their wall. A wider opening is adjacent portals, one per 256 px (the user's maps do this with `opening.png`).
 - `closed: false` is an open door; how Dungeondraft draws an open door of a given texture is unverified.
 
-**object**: `position` (sprite centre), `rotation`, `scale` (uniform `Vector2( s, s )`, s = target px / texture px), `mirror`, `texture`, `layer`, `shadow`, `block_light`, optional `custom_color` (placed before `node_id`), `node_id`.
+**object**: `position` (sprite centre), `rotation`, `scale` (uniform `Vector2( s, s )`, s = target px / texture px), `mirror`, `texture`, `layer`, `shadow`, `block_light`, optional `custom_color` (placed before `node_id`), `node_id`. Colorable textures (tag Colorable, names ending `x` such as `bottle_5x`, `patterns/colorable`) render as raw red unless the object has a `custom_color`; leave them out unless tinting.
 
 **path**: `position`, `rotation`, `scale`, `edit_points` (relative to `position`), `smoothness`, `texture`, `width`, `layer`, `fade_in`, `fade_out`, `grow`, `shrink`, `block_light`, `loop`, `node_id`. How `width` relates to texture height is unresolved (13 for a thin line, 256 and 452 elsewhere); verify before generating paths.
 
@@ -56,6 +56,12 @@ Keys in order: `label` ("Ground"), `environment` (`baked_lighting` true, `ambien
 `enabled`, `expand_slots`, `smooth_blending`, `texture_1`..`texture_4`, `splat`. Unused slots keep the built-ins (`res://textures/terrain/terrain_dirt.png`, `_gravel`, `_sand`, `_snow`).
 - `splat` is a `PoolByteArray` of RGBA weights per **64 px texel, 4x4 texels per square**, row-major (`index = (ty * 4w + tx) * 4`, one weight per slot, summing to 255). Length `16 * w * h * 4`.
 - The user paints the whole ground with terrain (often water as slot 1) and lays land on top with patterns, so a `brick_street_broken` pattern lets the terrain show through its gaps.
+
+## Where the mapping rules show up in the file
+
+(`verify-dungeondraft-map.mjs` checks each of these.)
+
+1. Scale: each object's `scale`. 2. `world.object_shadow` and each object's `shadow`. 5. Each wall's `points`: an axis-aligned segment has its constant coordinate on a multiple of 256, and a one-square-thick ring has exactly one wall loop, on its outer edge. 6. `cave.bitmap`, `cave.entrance_bitmap`, `shapes.polygons`, `shapes.walls`. Rules 3 and 4 are about composition; judge them from the preview.
 
 ## Unverified
 

@@ -53,6 +53,46 @@ export function createDefenseDialogPayload({ attackName, attackerName, defenseSt
 }
 
 /**
+ * Produces one dialog for every attack a multi-attack makes on a single defender. Each attack keeps
+ * its own check (the attackers' bonuses can differ), and the defender rolls them all at once.
+ *
+ * @param {Array<{attackName: string, attackerName: string, defenseStat: string, defenseMod: number, defenseDice?: string, rollDC: number, attackModifier: number, baseDefense: number, reversedRollOffset: number, hitText?: string, missText?: string, actorName?: string}>} attacks
+ *   The attacks on one defender, in the order they were made.
+ * @returns {{title: string, content: string, defendLabel: string}}
+ */
+export function createGroupedDefenseDialogPayload(attacks) {
+  const [first] = attacks;
+  const escape = value => String(value ?? "").replace(/[&<>"']/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[character]));
+  const formatSignedNumber = value => value >= 0 ? `+${value}` : `${value}`;
+  const failureText = createPlayerFacingEffectText(first.hitText ?? "", "The attack hits.");
+  const successText = createPlayerFacingEffectText(first.missText ?? "", "Nothing happens.");
+  const rows = attacks.map((attack, index) => `
+          <li class="player-defense-dialog__attack">
+            <strong>${escape(attack.attackerName)}</strong>
+            <span>${escape(attack.defenseStat)} check · <b>DC ${escape(attack.rollDC)}</b></span>
+            <span class="player-defense-dialog__check-instruction">Roll ${escape(attack.defenseDice ?? "1d20")} ${formatSignedNumber(attack.defenseMod)}</span>
+          </li>`).join("");
+
+  return {
+    title: `${first.attackName} - ${attacks.length} attacks`,
+    content: `
+      <section class="player-defense-dialog player-defense-dialog--grouped">
+        <section class="player-defense-dialog__attacks">
+          <h3>${attacks.length} attacks on you</h3>
+          <ol>${rows}
+          </ol>
+        </section>
+        <section class="player-defense-dialog__outcomes">
+          <h3>Consequences of each attack</h3>
+          <div class="player-defense-dialog__outcome player-defense-dialog__outcome--failure"><strong>On failure</strong><div>${failureText}</div></div>
+          <div class="player-defense-dialog__outcome player-defense-dialog__outcome--success"><strong>On success</strong><div>${successText}</div></div>
+        </section>
+      </section>`,
+    defendLabel: `Defend Yourself (${attacks.length} rolls)`,
+  };
+}
+
+/**
  * Changes a DnD4e effect written for the attacking actor into text a defender
  * can read naturally. “Your character” keeps the original third-person verb
  * form, unlike replacing “the target” directly with “you”.

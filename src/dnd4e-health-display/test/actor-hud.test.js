@@ -353,15 +353,16 @@ test("mixed creature types, player characters and non-GM multi-selections do not
 	}
 });
 
-test("group HUD context names the count, adds a bar per creature and disables target automation", async () => {
+test("group HUD context names the count, adds a bar per creature and offers Use Power only for group-capable powers", async () => {
 	const tokens = [npcToken("a", "goblin", { value: 5, max: 20 }), npcToken("b"), npcToken("c")];
 	const power = { id: "attack", canTargetAutomation: true };
-	const item = { id: "attack", name: "Attack", type: "power", system: {} };
+	const item = { id: "attack", name: "Attack", type: "power", system: { rangeType: "closeBurst" } };
 	const items = [item];
 	items.get = id => items.find(entry => entry.id === id);
 	tokens[0].actor.items = items;
 	const { ActorDisplay } = loadController({ name: "Goblin", powerCategories: [{ key: "standard", powers: [power] }] }, {
 		getGroupHealthBars: (list) => list.map(token => ({ id: token.id })),
+		supportsGroupAttack: (power) => power.system.rangeType === "melee",
 	});
 	const display = Object.create(ActorDisplay.prototype);
 	display.token = tokens[0];
@@ -371,7 +372,9 @@ test("group HUD context names the count, adds a bar per creature and disables ta
 	assert.equal(context.isGroup, true);
 	assert.equal(context.name, "3 creatures selected");
 	assert.deepEqual(Array.from(context.groupBars, bar => bar.id), ["a", "b", "c"]);
-	assert.equal(context.selectedCategory.powers[0].canTargetAutomation, false);
+	assert.equal(context.selectedCategory.powers[0].canTargetAutomation, false, "area powers stay manual for a group");
+	item.system.rangeType = "melee";
+	assert.equal((await display._prepareContext({})).selectedCategory.powers[0].canTargetAutomation, true, "melee powers support a group");
 
 	display.tokens = [tokens[0]];
 	const single = await display._prepareContext({});
@@ -379,18 +382,27 @@ test("group HUD context names the count, adds a bar per creature and disables ta
 	assert.equal(single.selectedCategory.powers[0].canTargetAutomation, true);
 });
 
-test("group HUD blocks Use Power but still sends the first creature's power to chat", async () => {
+test("group HUD starts a group attack for supported powers, blocks the rest and chats the first creature's power", async () => {
 	const chatted = [];
-	const item = { id: "attack", actor: { type: "NPC" } };
+	const used = [];
+	const item = { id: "attack", actor: { type: "NPC" }, system: { rangeType: "melee" } };
+	let supported = true;
 	const { ActorDisplay } = loadController({}, {
 		showPowerInChat: (power) => { chatted.push(power); },
-		useAbility: async () => { throw new Error("Use Power must not start in a group"); },
+		useAbility: async (power, token, tokens) => { used.push([power, token, tokens]); return true; },
+		supportsGroupAttack: () => supported,
 	});
 	const display = Object.create(ActorDisplay.prototype);
 	display.token = { actor: { items: new Map([["attack", item]]) } };
 	display.tokens = [display.token, { actor: { items: new Map() } }];
 	display.onClosePowers = () => {};
 	await display.onPower({ button: 0 }, { dataset: { itemId: "attack" } });
+	assert.equal(used.length, 1);
+	assert.equal(used[0][1], display.token);
+	assert.equal(used[0][2], display.tokens, "the whole selection is handed to the activation");
+	supported = false;
+	await display.onPower({ button: 0 }, { dataset: { itemId: "attack" } });
+	assert.equal(used.length, 1, "unsupported powers never start");
 	await display.onChatPower({ button: 0 }, { dataset: { itemId: "attack" } });
 	assert.deepEqual(chatted, [item]);
 });

@@ -86,8 +86,9 @@ export async function reconcileAttackEffects(request) {
 	const messages = request.messageIds.map(id => game.messages.get(id));
 	for (const message of messages) {
 		const context = message?.flags?.[MODULE_ID]?.attackResults;
+		// A multi-attack's creatures each use their own copy of the power.
 		if (!message || message.author?.id !== user.id || context?.sessionId !== request.sessionId
-			|| context.sceneId !== scene.id || context.itemUuid !== item.uuid || !context.effectsManaged
+			|| context.sceneId !== scene.id || (context.itemUuid !== item.uuid && !(context.groupSize > 1)) || !context.effectsManaged
 			|| !Array.isArray(context.targetIds)) {
 			throw new Error("Attack messages no longer match this effect session.");
 		}
@@ -101,10 +102,13 @@ export async function reconcileAttackEffects(request) {
 		}
 		return;
 	}
+	const grouped = messages.some(message => message.flags[MODULE_ID].attackResults.groupSize > 1);
 	const casterId = messages[0].flags[MODULE_ID].attackResults.casterId;
 	const caster = scene.tokens.get(casterId);
-	if (!caster || caster.actor?.uuid !== item.actor.uuid
-		|| messages.some(message => message.flags[MODULE_ID].attackResults.casterId !== casterId)) {
+	const casters = grouped ? [...new Set(messages.map(message => message.flags[MODULE_ID].attackResults.casterId))].map(id => scene.tokens.get(id)) : [caster];
+	if (!caster || casters.some(entry => !entry?.actor)
+		|| (!grouped && (caster.actor?.uuid !== item.actor.uuid
+			|| messages.some(message => message.flags[MODULE_ID].attackResults.casterId !== casterId)))) {
 		throw new Error("The attack's caster is no longer available.");
 	}
 	// Include removed targets so only this session's stale effects can be deleted there.
@@ -123,9 +127,28 @@ export async function reconcileAttackEffects(request) {
 			desired.set(`${token.actor.uuid}:${key}`, { key, token, effect, condition });
 		}
 	};
-	add(caster, "self");
-	add(caster, "selfAfterAttack");
+	for (const entry of casters) {
+		add(entry, "self");
+		add(entry, "selfAfterAttack");
+	}
 	const seen = new Set();
+	// Several attackers can hit or miss one target: a hit effect needs any hit, a miss effect needs every attack to miss.
+	const targetOutcomes = new Map();
+	for (const message of grouped ? messages : []) {
+		for (const result of messageAttackResults({ ...message, flags: message.flags, rolls: message.rolls,
+			visible: true, isContentVisible: true }, scene.id)) {
+			if (result.outcome === "pending") {
+				continue;
+			}
+			const hit = ["hit", "critical"].includes(result.outcome);
+			const miss = ["miss", "fumble"].includes(result.outcome);
+			const previous = targetOutcomes.get(result.tokenId) ?? { hit: false, miss: false, outcome: result.outcome };
+			targetOutcomes.set(result.tokenId, { hit: previous.hit || hit, miss: previous.miss || miss, outcome: previous.outcome });
+			if (hit || miss) {
+				add(scene.tokens.get(result.attackerId), hit ? "selfHit" : "selfMiss");
+			}
+		}
+	}
 	for (const message of messages) {
 		const context = message.flags[MODULE_ID].attackResults;
 		for (const result of messageAttackResults({ ...message, flags: message.flags, rolls: message.rolls,
@@ -144,12 +167,15 @@ export async function reconcileAttackEffects(request) {
 			if (disposition !== null) {
 				add(target, target.disposition === disposition ? "allies" : "enemies");
 			}
-			const outcome = result.outcome;
+			const aggregate = targetOutcomes.get(attack.targetID);
+			const outcome = aggregate ? (aggregate.hit ? "hit" : aggregate.miss ? "miss" : aggregate.outcome) : result.outcome;
 			if (["hit", "critical", "miss", "fumble"].includes(outcome)) {
 				const condition = ["hit", "critical"].includes(outcome) ? "hit" : "miss";
 				add(target, condition);
 				add(target, "hitOrMiss");
-				add(caster, condition === "hit" ? "selfHit" : "selfMiss");
+				if (!aggregate) {
+					add(caster, condition === "hit" ? "selfHit" : "selfMiss");
+				}
 			}
 		}
 	}
@@ -228,8 +254,9 @@ async function finalizeDefenseOutcomes(messages, scene, caster, item, utils) {
 				await utils.endEffectsOnTokens([token.object ?? token], outcome === "hit" ? "attackedhit" : "attackedmiss");
 				await utils.endEffectsOnTokens([token.object ?? token], "attacked");
 			}
+			const attacker = scene.tokens.get(message.flags[MODULE_ID].attackResults.casterId) ?? caster;
 			await game.TriggerPrompts?.handleActiveDefenseOutcome({
-				attackerActorId: caster.actor.id, attackerTokenId: caster.id, sceneId: scene.id,
+				attackerActorId: attacker.actor.id, attackerTokenId: attacker.id, sceneId: scene.id,
 				targetActorId: token.actor.id, targetTokenId: token.id, targetSceneId: scene.id,
 				defenseType: item.system.attack?.def, attackRange: defense.attackRange,
 			}, outcome);

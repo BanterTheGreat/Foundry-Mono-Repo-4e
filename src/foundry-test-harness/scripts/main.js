@@ -1,4 +1,4 @@
-import { assertTestWorld, MODULE_ID, TestDocuments } from "./fixtures.js";
+import { assertTestWorld, FOLDER_NAME, MODULE_ID, TestDocuments } from "./fixtures.js";
 
 const suiteModules = ["banter-4e-modifications", "dnd4e-health-display"];
 const batchKeys = ["foundry-test-harness.runtime"];
@@ -36,7 +36,31 @@ async function registerSuites(api) {
   if (!quench?.registerBatch || !quench?.runBatches) {
     throw new Error("Quench is unavailable. Enable Quench and reload the world.");
   }
-  quench.registerBatch(batchKeys[0], ({ describe, it, assert }) => {
+  quench.registerBatch(batchKeys[0], ({ describe, it, assert, afterEach }) => {
+    describe("Fixture folders", function () {
+      let fixtures;
+      afterEach(async function () {
+        await fixtures?.cleanup();
+        fixtures = null;
+      });
+      it("places created actors in one top-level INTEGRATION TESTS folder", async function () {
+        fixtures = new TestDocuments();
+        const [first, second] = await Promise.all([fixtures.createActor(), fixtures.createActor()]);
+        const folders = game.folders.filter(folder => folder.type === "Actor" && folder.name === FOLDER_NAME);
+        assert.lengthOf(folders, 1, "exactly one Actor folder");
+        assert.isFalse(Boolean(folders[0].folder), "folder is top-level");
+        assert.equal(first.folder?.id, folders[0].id);
+        assert.equal(second.folder?.id, folders[0].id);
+      });
+      it("keeps the folder after fixture cleanup", async function () {
+        fixtures = new TestDocuments();
+        const actor = await fixtures.createActor();
+        const folderId = actor.folder.id;
+        await fixtures.cleanup();
+        assert.isUndefined(game.actors.get(actor.id));
+        assert.exists(game.folders.get(folderId));
+      });
+    });
     describe("Pinned Foundry runtime", function () {
       it("runs on Foundry 14 and DnD4e 0.9.3 as the active GM", function () {
         assertTestWorld();

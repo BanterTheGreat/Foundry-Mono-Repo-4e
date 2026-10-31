@@ -1,6 +1,6 @@
 import { SocketHelper } from "./socket-helper.js";
 import { Logger } from "../../shared/logger.js";
-import { createDefenseDialogPayload } from "./player-defense-workflow.js";
+import { createDefenseDialogPayload, createGroupedDefenseDialogPayload } from "./player-defense-workflow.js";
 import { PlayerDefenseEffects } from "./player-defense-effects.js";
 import { renderDefenseTarget, renderManagedDefenseContent, renderManagedDefenseMessage } from "./player-defense-chat.js";
 
@@ -13,6 +13,7 @@ export class PlayerDefense {
   static CRITICAL_FAILURE = 1;
   static CRITICAL_SUCCESS = 20;
   lastAttack = { item: "", targets: [], attacker: null };
+  static #groupedDialogs = new Set();
 
     /**
      * @param {ChatMessage} message
@@ -274,7 +275,9 @@ export class PlayerDefense {
       return;
     }
 
-    const attackerCombatant = game.combat?.combatants.find(combatant => combatant.actorId === attacker.id);
+    // Several unlinked creatures can share one actor id, so match the exact attacking token first.
+    const attackerCombatant = (speaker.token ? game.combat?.combatants.find(combatant => combatant.tokenId === speaker.token) : null)
+      ?? game.combat?.combatants.find(combatant => combatant.actorId === attacker.id);
 
     const itemId = item.id ?? item._id;
     const targetsData = target.targets
@@ -326,6 +329,13 @@ export class PlayerDefense {
      */
   static onRenderDefenseMessage(message, socket, html = null) {
     const defense = message.flags?.playerDefense;
+    // A multi-attack's defenders get one dialog for all the attacks on them, once every attack exists.
+    // Any attack of the group can complete it, including one with no player-character targets.
+    const group = socket ? PlayerDefense.#getAttackGroup(message) : null;
+    if (group?.complete) {
+      PlayerDefense.#showGroupedDefenseDialogs(group, socket);
+    }
+
     if (!defense?.targets || !socket) {
       return;
     }
@@ -341,9 +351,110 @@ export class PlayerDefense {
       }
     }
 
+    if (group) {
+      // A multi-attack's targets are handled together above, not one message at a time.
+      return;
+    }
+
     defense.targets
       .filter(target => !target.dialogAttempted && target.assignedUserId === game.user.id)
       .forEach(target => PlayerDefense.#tryShowDefenseDialog(message, target, socket));
+  }
+
+    /**
+     * Finds the attack messages of a multi-attack (several creatures using one power together).
+     * Single attacks, and ordinary NPC attacks, return null and keep their one-dialog-per-target flow.
+     *
+     * @param {ChatMessage} message
+     * @returns {{sessionId: string, messages: ChatMessage[], complete: boolean}|null}
+     */
+  static #getAttackGroup(message) {
+    const context = message.flags?.["dnd4e-health-display"]?.attackResults;
+    if (!(context?.groupSize > 1) || !context.sessionId) {
+      return null;
+    }
+
+    const messages = Array.from(game.messages?.contents ?? game.messages ?? [])
+      .filter(entry => entry.flags?.["dnd4e-health-display"]?.attackResults?.sessionId === context.sessionId);
+    if (!messages.some(entry => entry.id === message.id)) {
+      messages.push(message);
+    }
+
+    return { sessionId: context.sessionId, messages, complete: messages.length >= context.groupSize };
+  }
+
+    /**
+     * Opens one dialog per defending token covering every attack on it from this group.
+     *
+     * @param {{sessionId: string, messages: ChatMessage[]}} group
+     * @param {object} socket
+     */
+  static #showGroupedDefenseDialogs(group, socket) {
+    const byToken = new Map();
+    for (const message of group.messages) {
+      for (const target of message.flags?.playerDefense?.targets ?? []) {
+        if (!target.dialogAttempted && target.assignedUserId === game.user.id) {
+          byToken.set(target.tokenId, [...(byToken.get(target.tokenId) ?? []), { message, target }]);
+        }
+      }
+    }
+
+    for (const [tokenId, entries] of byToken) {
+      const key = `${group.sessionId}:${tokenId}`;
+      if (PlayerDefense.#groupedDialogs.has(key)) {
+        continue;
+      }
+
+      PlayerDefense.#groupedDialogs.add(key);
+      PlayerDefense.#tryShowGroupedDefenseDialog(entries, socket).finally(() => PlayerDefense.#groupedDialogs.delete(key));
+    }
+  }
+
+    /**
+     * Claims every attack's one dialog attempt through the GM, then shows them together.
+     *
+     * @param {Array<{message: ChatMessage, target: object}>} entries
+     * @param {object} socket
+     * @returns {Promise<void>}
+     */
+  static async #tryShowGroupedDefenseDialog(entries, socket) {
+    try {
+      const claimed = [];
+      for (const entry of entries) {
+        if (await socket.executeAsGM("attemptDefenseDialog", entry.message.id, entry.target.id)) {
+          claimed.push(entry);
+        }
+      }
+
+      if (claimed.length) {
+        PlayerDefense.#showGroupedDefenseDialog(claimed, socket);
+      }
+    } catch (error) {
+      Logger.error("Failed to request or render grouped defense dialog", { tokenId: entries[0]?.target.tokenId, error: error.message });
+    }
+  }
+
+    /**
+     * Renders one modal for all attacks on a defender; each attack still gets its own defense roll.
+     *
+     * @param {Array<{message: ChatMessage, target: object}>} entries
+     * @param {object} socket
+     */
+  static #showGroupedDefenseDialog(entries, socket) {
+    const dialog = createGroupedDefenseDialogPayload(entries.map(({ message, target }) =>
+      ({ attackName: message.flags.playerDefense.attackName, ...target })));
+    new foundry.applications.api.DialogV2({
+      window: { title: dialog.title },
+      content: dialog.content,
+      classes: ["player-defense-dialog-window"],
+      position: { width: 450 },
+      buttons: [{
+        action: "defend",
+        label: dialog.defendLabel,
+        default: true,
+        callback: () => Promise.all(entries.map(({ message, target }) => PlayerDefense.#defend(message, target, socket))),
+      }],
+    }).render({ force: true });
   }
 
     /**

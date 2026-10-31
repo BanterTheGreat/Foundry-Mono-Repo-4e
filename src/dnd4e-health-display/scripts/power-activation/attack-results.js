@@ -18,13 +18,14 @@ export function messageAttackResults(message, sceneId, { waitForDefenseAnimation
 		|| context.sceneId !== sceneId || !Array.isArray(context.targetIds)) {
 		return [];
 	}
+	const identify = tokenId => ({ tokenId, messageId: message.id, attackerId: context.casterId, key: resultKey(context, tokenId) });
 	const native = (message.rolls ?? []).flatMap(roll => {
 		const attack = roll.options?.multirollData;
 		if (!attack?.targetID || !context.targetIds.includes(attack.targetID) || !Number.isFinite(roll.total)) {
 			return [];
 		}
 		const outcome = LABELS[attack.critstate] ? attack.critstate : LABELS[attack.hitstate] ? attack.hitstate : "attack";
-		return [{ tokenId: attack.targetID, total: roll.total, outcome, label: LABELS[outcome] ?? "ATTACK" }];
+		return [{ ...identify(attack.targetID), total: roll.total, outcome, label: LABELS[outcome] ?? "ATTACK" }];
 	});
 	const defenses = message.flags?.playerDefense?.automationManaged ? message.flags.playerDefense.targets ?? [] : [];
 	return [...native, ...defenses.filter(target => context.targetIds.includes(target.tokenId)).map(target => {
@@ -43,9 +44,22 @@ export function messageAttackResults(message, sceneId, { waitForDefenseAnimation
 			}
 		}
 		const outcome = !target.resolved || waiting ? "pending" : target.outcome === "normal" ? "hit" : target.outcome;
-		return { tokenId: target.tokenId, total: outcome === "pending" ? null : target.total ?? null, outcome,
+		return { ...identify(target.tokenId), total: outcome === "pending" ? null : target.total ?? null, outcome,
 			label: outcome === "pending" ? "AWAITING DEFENSE" : LABELS[outcome], defense: true };
 	})];
+}
+
+/**
+ * Identify one attack's result on one target. Single attacks keep the plain token id; a multi-attack
+ * (several creatures using the power together) can hit one token more than once, so each attacker's
+ * result gets its own key.
+ *
+ * @param {{casterId?: string, groupSize?: number}} context The message's persisted attack context.
+ * @param {string} tokenId The attacked token id.
+ * @returns {string}
+ */
+export function resultKey(context, tokenId) {
+	return context?.groupSize > 1 ? `${context.casterId}:${tokenId}` : tokenId;
 }
 
 /** Place above a token, shifting sideways to avoid nearby tokens and earlier badges. */

@@ -17,6 +17,8 @@ export async function requestDamageApplication(session) {
 		: [];
 	await message.update({ [`flags.${MODULE_ID}.damageApplication`]: {
 		sessionId: session.id, sceneId: canvas.scene.id, itemUuid: session.item.uuid,
+		// A multi-attack's creatures each use their own copy of the power.
+		itemUuids: [...new Set(session.attackMessages.map(entry => entry.flags?.[MODULE_ID]?.attackResults?.itemUuid).filter(Boolean))],
 		dismissed: directTargets.length > 0,
 		name: session.item.name, actorName: session.item.actor.name,
 		messageIds: session.attackMessages.map(message => message.id),
@@ -24,15 +26,19 @@ export async function requestDamageApplication(session) {
 		sharedMiss: Boolean(session.sharedMissDamage), requiredDamageTypes: session.requiredDamageTypes ?? [],
 	} });
 	for (const target of directTargets) {
-		await applyTargetDamage(message, target.tokenId);
+		await applyTargetDamage(message, target.key ?? target.tokenId);
 	}
 	if (directTargets.length && damageApplicationTargets(message).some(target =>
-		message.flags[MODULE_ID].damageApplications?.[target.tokenId]?.state !== "applied")) {
+		message.flags[MODULE_ID].damageApplications?.[target.key]?.state !== "applied")) {
 		await message.update({ [`flags.${MODULE_ID}.damageApplication.dismissed`]: false });
 	}
 }
 
-/** Read the entire confirmed roster, including misses that deal zero damage. */
+/**
+ * Read the entire confirmed roster, including misses that deal zero damage. Each attack on a target
+ * is its own entry, keyed by `key`, so several creatures hitting one token are each applied
+ * (and mitigated) separately.
+ */
 export function damageApplicationTargets(message) {
 	const request = message.flags?.[MODULE_ID]?.damageApplication;
 	if (!request?.sessionId || !Array.isArray(request.messageIds) || !request.messageIds.includes(message.id)) {
@@ -44,14 +50,15 @@ export function damageApplicationTargets(message) {
 		const attack = source?.flags?.[MODULE_ID]?.attackResults;
 		const review = source?.flags?.[MODULE_ID]?.targetDamageReview;
 		if (!source || source.author?.id !== message.author?.id || attack?.sessionId !== request.sessionId
-			|| attack.sceneId !== request.sceneId || attack.itemUuid !== request.itemUuid
+			|| attack.sceneId !== request.sceneId || !(request.itemUuids ?? [request.itemUuid]).includes(attack.itemUuid)
 			|| attack.pending || review?.pending !== false || review.sessionId !== request.sessionId) {
 			return [];
 		}
 		for (const target of review.targets ?? []) {
 			if (attack.targetIds?.includes(target.tokenId) && Number.isFinite(target.total)
 				&& ["hit", "critical", "miss", "fumble", "immune"].includes(target.outcome)) {
-				targets.set(target.tokenId, target);
+				const key = target.key ?? target.tokenId;
+				targets.set(key, { ...target, key });
 			}
 		}
 	}
@@ -70,7 +77,8 @@ export function typedTargetDamage(message, target) {
 	const source = (request.damageMessageIds ?? []).map(id => game.messages.get(id)).find(entry => {
 		const review = entry?.flags?.[MODULE_ID]?.damageReview;
 		return entry?.author?.id === message.author?.id && review?.sessionId === request.sessionId
-			&& review.pending === false && review.type === type;
+			&& review.pending === false && review.type === type
+			&& (review.attackerId === undefined || target.attackerId === undefined || review.attackerId === target.attackerId);
 	});
 	const roll = source?.rolls?.[0];
 	const total = Math.max(0, Math.floor(target.total));
@@ -133,10 +141,13 @@ export function projectDamage(actor, amount) {
 export async function prepareDamageTarget(message, target) {
 	const request = message.flags[MODULE_ID].damageApplication;
 	const token = game.scenes.get(request.sceneId)?.tokens.get(target.tokenId);
-	const receipt = message.flags[MODULE_ID].damageApplications?.[target.tokenId];
+	const receipt = message.flags[MODULE_ID].damageApplications?.[target.key ?? target.tokenId];
 	const label = { hit: "HIT", critical: "CRIT", miss: "MISS", fumble: "CRIT FAIL", immune: "IMMUNE" }[target.outcome];
+	// Only a multi-attack names the attacker, since a single attack has no other candidates.
+	const attackerName = target.key && target.key !== target.tokenId
+		? game.scenes.get(request.sceneId)?.tokens.get(target.attackerId)?.name ?? "Attacker" : "";
 	if (!token?.actor) {
-		return { ...target, label, name: token?.name ?? "Missing token", unavailable: true, status: "Token unavailable", disabled: true };
+		return { ...target, label, attackerName, name: token?.name ?? "Missing token", unavailable: true, status: "Token unavailable", disabled: true };
 	}
 	const actor = token.actor;
 	const raw = Math.max(0, Math.floor(target.total));
@@ -148,7 +159,7 @@ export async function prepareDamageTarget(message, target) {
 	const applied = receipt?.state === "applied";
 	const uncertain = receipt && !applied;
 	const health = applied ? receipt.health : projectDamage(actor, amount);
-	return { ...target, ...health, name: token.name, img: token.texture?.src, actor, amount,
+	return { ...target, ...health, attackerName, name: token.name, img: token.texture?.src, actor, amount,
 		raw, mitigated: amount !== raw, applied, uncertain, disabled: Boolean(receipt),
 		status: applied ? "Applied" : uncertain ? "Check HP manually" : "Apply",
 		hasTemp: health.tempBefore > 0, beforePercent: Math.max(0, Math.min(100, health.before / health.max * 100)),
@@ -160,22 +171,23 @@ export async function prepareDamageTarget(message, target) {
  * Serialize actor mutations across popups. A persisted claim prevents duplicate clicks,
  * reopen/reload duplicates and GM failover retries. An uncertain write requires manual review.
  */
-export async function applyTargetDamage(message, tokenId) {
+export async function applyTargetDamage(message, key) {
 	if (!game.user.isGM || game.users.activeGM?.id !== game.user.id) {
 		throw new Error("Only the active GM can apply this damage.");
 	}
 	const request = message.flags?.[MODULE_ID]?.damageApplication;
+	const tokenId = damageApplicationTargets(message).find(entry => entry.key === key)?.tokenId ?? key;
 	const actor = game.scenes.get(request?.sceneId)?.tokens.get(tokenId)?.actor;
-	const key = actor?.uuid ?? `${message.id}:${tokenId}`;
-	const previous = queues.get(key) ?? Promise.resolve();
+	const queueKey = actor?.uuid ?? `${message.id}:${tokenId}`;
+	const previous = queues.get(queueKey) ?? Promise.resolve();
 	const next = previous.catch(() => {}).then(async () => {
 		if (game.users.activeGM?.id !== game.user.id) {
 			throw new Error("The active GM changed. Reopen the damage review on that GM.");
 		}
-		if (message.flags[MODULE_ID].damageApplications?.[tokenId]) {
+		if (message.flags[MODULE_ID].damageApplications?.[key]) {
 			return;
 		}
-		const target = damageApplicationTargets(message).find(entry => entry.tokenId === tokenId);
+		const target = damageApplicationTargets(message).find(entry => entry.key === key);
 		if (!target) {
 			throw new Error("This target no longer has confirmed damage.");
 		}
@@ -186,7 +198,7 @@ export async function applyTargetDamage(message, tokenId) {
 		if (prepared.disabled) {
 			throw new Error(`${prepared.name}: ${prepared.status}.`);
 		}
-		const path = `flags.${MODULE_ID}.damageApplications.${tokenId}`;
+		const path = `flags.${MODULE_ID}.damageApplications.${key}`;
 		const health = projectDamage(prepared.actor, prepared.amount);
 		await message.update({ [path]: { state: "applying", amount: prepared.amount, health, gmId: game.user.id } });
 		try {
@@ -203,12 +215,12 @@ export async function applyTargetDamage(message, tokenId) {
 			throw new Error(`${prepared.name}: ${error.message} Check HP before applying anything manually.`);
 		}
 	});
-	queues.set(key, next);
+	queues.set(queueKey, next);
 	try {
 		return await next;
 	} finally {
-		if (queues.get(key) === next) {
-			queues.delete(key);
+		if (queues.get(queueKey) === next) {
+			queues.delete(queueKey);
 		}
 	}
 }

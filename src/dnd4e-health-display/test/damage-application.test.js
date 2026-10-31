@@ -260,3 +260,49 @@ test("mixed NPC targets apply PC damage directly and retain review for NPC targe
 	f.recover();
 	assert.equal(f.rendered.length, 1);
 });
+
+/** Add a second attacker's confirmed hit on the same target, as a multi-attack produces. */
+function addSecondAttacker(f, { total = 12 } = {}) {
+	const request = f.message.flags[MODULE_ID].damageApplication;
+	// Each creature uses its own copy of the power, so the item UUIDs and damage rolls differ.
+	f.message.flags[MODULE_ID].attackResults = { ...f.message.flags[MODULE_ID].attackResults, itemUuid: "Actor.a.Item.power", casterId: "a", groupSize: 2 };
+	f.message.flags[MODULE_ID].targetDamageReview.targets = [{ tokenId: "target", key: "a:target", attackerId: "a", outcome: "hit", total: 18 }];
+	f.damage.flags[MODULE_ID].damageReview.attackerId = "a";
+	const second = { ...f.message, id: "attack-b", flags: { [MODULE_ID]: {
+		attackResults: { ...f.message.flags[MODULE_ID].attackResults, itemUuid: "Actor.b.Item.power", casterId: "b", targetIds: ["target"] },
+		targetDamageReview: { sessionId: "session", pending: false, targets: [{ tokenId: "target", key: "b:target", attackerId: "b", outcome: "hit", total }] },
+	} } };
+	const secondDamage = { ...f.damage, id: "damage-b", flags: { [MODULE_ID]: { damageReview: { sessionId: "session", pending: false, type: "normal", attackerId: "b" } } },
+		rolls: [{ total, terms: [{ total, flavor: "cold" }], options: {} }] };
+	globalThis.game.messages.set(second.id, second);
+	globalThis.game.messages.set(secondDamage.id, secondDamage);
+	Object.assign(request, { messageIds: ["attack", "attack-b"], damageMessageIds: ["damage", "damage-b"],
+		itemUuids: ["Actor.a.Item.power", "Actor.b.Item.power"] });
+	return { second, secondDamage };
+}
+
+test("a multi-attack lists each attacker's hit on one target as its own roster entry", () => {
+	const f = fixture();
+	addSecondAttacker(f);
+	const roster = damageApplicationTargets(f.message);
+	assert.deepEqual(roster.map(entry => entry.key), ["a:target", "b:target"]);
+	assert.deepEqual(roster.map(entry => entry.tokenId), ["target", "target"]);
+	assert.deepEqual(roster.map(entry => entry.total), [18, 12]);
+});
+
+test("each attacker's damage uses its own roll and is mitigated and applied separately", async () => {
+	const f = fixture();
+	addSecondAttacker(f, { total: 12 });
+	f.damage.rolls[0] = { total: 18, terms: [{ total: 18, flavor: "cold" }], options: {} };
+	const [first, second] = damageApplicationTargets(f.message);
+	assert.deepEqual(await typedTargetDamage(f.message, first), [[18, "cold"]]);
+	assert.deepEqual(await typedTargetDamage(f.message, second), [[12, "cold"]]);
+	await applyTargetDamage(f.message, "a:target");
+	assert.deepEqual(f.changes, [13], "native resistance (5) reduces the first hit by itself");
+	await applyTargetDamage(f.message, "b:target");
+	assert.deepEqual(f.changes, [13, 7], "the second hit is mitigated on its own, not merged into one 30 damage total");
+	assert.equal(f.message.flags[MODULE_ID].damageApplications["a:target"].state, "applied");
+	assert.equal(f.message.flags[MODULE_ID].damageApplications["b:target"].state, "applied");
+	await applyTargetDamage(f.message, "a:target");
+	assert.deepEqual(f.changes, [13, 7], "an applied hit is never applied twice");
+});

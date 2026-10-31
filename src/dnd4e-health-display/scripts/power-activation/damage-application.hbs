@@ -10,7 +10,7 @@
 		<li class="power-damage-application__row {{#if applied}}is-applied{{/if}}" data-damage-token="{{tokenId}}" tabindex="0" aria-label="{{name}}, {{label}}">
 			<div class="power-damage-application__identity">
 				{{#if img}}<img src="{{img}}" alt="" loading="lazy">{{/if}}
-				<div><strong>{{name}}</strong><span class="power-damage-application__verdict power-damage-application__verdict--{{outcome}}">{{label}}</span></div>
+				<div><strong>{{name}}</strong>{{#if attackerName}}<small>by {{attackerName}}</small>{{/if}}<span class="power-damage-application__verdict power-damage-application__verdict--{{outcome}}">{{label}}</span></div>
 			</div>
 			{{#if unavailable}}<div class="power-damage-application__unavailable">{{status}}</div>{{else}}
 			<div class="power-damage-application__health">
@@ -20,7 +20,7 @@
 			</div>
 			<div class="power-damage-application__damage"><strong>−{{amount}}</strong>{{#if mitigated}}<small>{{raw}} rolled</small>{{/if}}</div>
 			{{/if}}
-			<button type="button" data-action="applyTarget" data-token-id="{{tokenId}}" {{#if disabled}}disabled{{/if}} aria-label="{{status}}: {{name}}">{{status}}</button>
+			<button type="button" data-action="applyTarget" data-damage-key="{{key}}" {{#if disabled}}disabled{{/if}} aria-label="{{status}}: {{name}}">{{status}}</button>
 		</li>
 		{{/each}}
 	</ol>

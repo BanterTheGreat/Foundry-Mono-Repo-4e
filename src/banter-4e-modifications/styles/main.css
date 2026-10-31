@@ -163,6 +163,47 @@
     color: #ffe1a0;
 }
 
+.player-defense-dialog__attacks {
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+    border: 1px solid #5d5143;
+    border-radius: 0.3rem;
+    background: #101015;
+}
+
+.player-defense-dialog__attacks h3 {
+    margin: 0;
+    padding: 0.65rem 0.7rem;
+    color: #ead9bd;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.player-defense-dialog__attacks ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.player-defense-dialog__attack {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.15rem 0.5rem;
+    padding: 0.5rem 0.7rem;
+    border-top: 1px solid #4e453b;
+    color: #d7ccbb;
+    font-size: 0.78rem;
+}
+
+.player-defense-dialog__attack strong {
+    color: #f6e6cd;
+}
+
+.player-defense-dialog__attack b {
+    color: #ffe1a0;
+}
+
 .player-defense-dialog__outcomes {
     margin-bottom: 0.75rem;
     overflow: hidden;

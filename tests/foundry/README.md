@@ -61,7 +61,11 @@ The harness requires exact world opt-in and the active GM before creating
 fixtures. Each test tracks and deletes only its own documents in `afterEach`;
 cleanup failure fails the run. Fixtures have a name prefix and a
 `flags.foundry-test-harness.runId` marker for manual recovery after a browser
-crash. Existing actors, scenes, combat, and settings are not reset. Run serially;
+crash. Existing actors, scenes, combat, and settings are not reset. Fixture actors and scenes
+are created inside a top-level **INTEGRATION TESTS** folder (one per document type,
+made on first use through `getTestFolderId(type)` and kept between runs; only the
+fixture documents are deleted). Use `createActor` or pass `folder: await
+getTestFolderId("Actor" | "Scene")` when creating a new top-level fixture. Run serially;
 never run the Quench UI and browser suites simultaneously or use this world for
 play during tests. Node/VM tests do not establish real runtime compatibility.
 

@@ -1,6 +1,6 @@
 <section class="power-targeting__body">
 	{{#unless resolved}}
-		<label class="power-targeting__origin">Origin <select data-origin-selector {{#if busy}}disabled{{/if}}>{{#each originChoices}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{name}}</option>{{/each}}</select></label>
+		{{#unless isGroup}}<label class="power-targeting__origin">Origin <select data-origin-selector {{#if busy}}disabled{{/if}}>{{#each originChoices}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{name}}</option>{{/each}}</select></label>{{/unless}}
 	{{/unless}}
 	{{#if showDetails}}<div class="power-targeting__card">{{{card}}}</div>{{/if}}
 	{{#if healing}}

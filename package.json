@@ -11,6 +11,7 @@
     "typst:fonts": "node scripts/typst.mjs fonts",
     "typst:clean": "node scripts/typst.mjs clean",
     "test": "node --test scripts/test/*.test.mjs",
+    "test:dungeondraft": "node --test src/dungeondraft-tools/test/*.test.mjs",
     "test:foundry": "playwright test --config tests/foundry/playwright.config.mjs",
     "test:foundry:login": "node tests/foundry/login.mjs",
     "test:foundry:report": "playwright show-report output/foundry-test-report",

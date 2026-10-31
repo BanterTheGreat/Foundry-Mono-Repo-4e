@@ -15,16 +15,16 @@
 - **256 px = one 5 ft square.** Evidence: the water stairs are 256x263, a standard crate is about 206 px, a Scenes `thickwall` is 254 px thick. Pixel sizes are all the packs give, so verify scale by looking.
 - Wall thickness is the texture height: 33 to 330 px, median 88. Only a few families (Scenes `thickwall`, Death `bone2wall`) are a full square thick.
 - Families named `*_shadow*` or tagged `Shadow` are grey drop-shadow silhouettes, not the prop. Exclude them when searching for the object.
+- **Colorable** textures (index column `colorable`) are drawn raw red until Dungeondraft tints them; they are meant for objects given a `custom_color`. Filter them out of untinted scatter (the dockyard generator refuses them).
 - Variants: letters (`_1a`, `_1b`) are alternate versions of one design, digits are different designs.
 - Known defect: Shops `tentmarket2_5.png` is a 0-byte file.
 
 ## The index
 
-`C:\Users\Imre\Documents\Dungeondraft Assets\New Crosshead Textures\_index\` holds a generated, searchable index of every texture (about 23.7k, thumbnails excluded) and the tools around it. Its `README.md` is the usage guide: read it rather than the packs, which are 7 GB. In short:
+`src/dungeondraft-tools/index-data/` holds a generated, git-ignored, searchable index of every texture (about 23.7k, thumbnails excluded): `assets.tsv`, `catalog/<Pack>.md`, `vocab.md` and a `README.md` usage guide. Read it rather than the packs, which are 7 GB. If it is missing or a pack changed, regenerate it in seconds with `node src/dungeondraft-tools/index/build-index.mjs`. The tools, run from the repository root:
 
-- `search.mjs` finds textures by name, tag, pack, kind, size, colorable, and `--no-shadow`; `--files` lists exact paths.
-- `contact.mjs` renders a numbered thumbnail sheet of search results or of exact `--names "Pack:name[:kind]"`; view it with Read. `extract.mjs` writes one texture to disk.
-- `png.mjs` is a dependency-free PNG decoder/encoder with a compositing canvas (rotation, scale, tint, alpha shadows, clipped tiling). Map renderers and the preview tool use it.
-- `build-index.mjs` regenerates `assets.tsv`, `catalog/<Pack>.md` and `vocab.md` in seconds; run it after any pack is added or updated.
+- `index/search.mjs` finds textures by name, tag, pack, kind, size, colorable, and `--no-shadow`; `--files` lists exact paths.
+- `index/contact.mjs` renders a numbered thumbnail sheet of search results or of exact `--names "Pack:name[:kind]"`; view it with Read. `index/extract.mjs` writes one texture to disk.
+- `lib/png.mjs` is a dependency-free PNG decoder/encoder with a compositing canvas (rotation, scale, tint, alpha shadows, clipped tiling). Map renderers and the preview tool use it.
 
 Choose textures from contact sheets, not names. Names such as `desk` or `door_wood` hide what is actually drawn (flat closed doors, a barred door with hinge knobs), and one wrong pick shows only in the render.

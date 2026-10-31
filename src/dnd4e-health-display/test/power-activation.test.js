@@ -5,6 +5,7 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 import vm from "node:vm";
 import { rollFromOrigin } from "../scripts/power-activation/system-adapter.js";
+import * as multiAttack from "../scripts/power-activation/multi-attack.js";
 import { messageAttackResults, removeAttackTarget } from "../scripts/power-activation/attack-results.js";
 import { AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin, hasLineOfEffect } from "../scripts/power-activation/area-geometry.js";
 import { automationConfig, powerOriginRules, squareDistance, selectionProblems, targetCountProblems, supportsTargetAutomation, targetFilterProblems, MODULE_ID, SETTING } from "../scripts/power-activation/rules.js";
@@ -80,7 +81,7 @@ function fixture({ confirm = true, fastForward = false } = {}) {
 	const context = vm.createContext({
 		publishDamageChat: async () => {}, requestDamageApplication: async activation => hooks.push(["damageApplication", activation.state]),
 		summonGM: () => ({ id: "gm" }), requestSummon: async activation => activation.summonCreator?.(),
-		ActivationWorkflow, console, AbortController, MODULE_ID, SETTING, automationConfig, powerOriginRules, selectionProblems, targetCountProblems, squareDistance, targetFilterProblems,
+		...multiAttack, ActivationWorkflow, console, AbortController, MODULE_ID, SETTING, automationConfig, powerOriginRules, selectionProblems, targetCountProblems, squareDistance, targetFilterProblems,
 		AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin, hasLineOfEffect,
 		setTargetingHitChanceContext: () => {}, CoverPreview: { setContext: value => hooks.push(["coverContext", value]), register() {} },
 		attackVariants, rollFromOrigin, removeAttackTarget, syncAttackEffects: async () => {}, registerAttackEffects() {},
@@ -2309,4 +2310,279 @@ test("managed defense results stay pending through local dice animation and cann
 	await f.activation.dispose(false);
 	f.activation.captureAttackResults(chat);
 	assert.equal(f.activation.state, "closed");
+});
+
+/**
+ * Several unlinked creatures of one type, each with its own actor and copy of the power, standing
+ * around one target (and optionally a second target). Positions put every attacker in Melee 1 reach.
+ */
+function groupFixture({ attackers = 3, count = 1 } = {}) {
+	const f = fixture();
+	const sites = [[0, 0], [0, 100], [200, 0], [200, 100], [100, 100]];
+	const tokens = [];
+	for (let index = 0; index < attackers; index++) {
+		const id = `goblin${index}`;
+		const actor = { id: "goblin", uuid: `Scene.s.Token.${id}.Actor.goblin`, isOwner: true, items: new Map(), toObject: () => ({ id }) };
+		const item = {
+			type: "power", id: "p", uuid: `${actor.uuid}.Item.p`, name: "Test attack", actor, isOwner: true, hasAttack: true, hasDamage: false,
+			system: { uses: { per: "encounter", value: 2 }, rangeType: "melee", macros: [], miss: {} },
+			getFlag: () => ({ enabled: true, targetCount: count }),
+			toObject: () => ({ uses: item.system.uses.value }),
+			update: async data => { item.system.uses.value = data["system.uses.value"]; },
+			getRollData: () => ({}),
+		};
+		actor.items.set("p", item);
+		const token = { id, name: `Goblin ${index + 1}`, actor, x: sites[index][0], y: sites[index][1], w: 100, h: 100, visible: true,
+			document: { elevation: 0, toObject: () => ({ id }) },
+			setTarget(selected) { selected ? f.targets.add(this) : f.targets.delete(this); } };
+		f.tokenMap.set(id, token);
+		tokens.push(token);
+	}
+	f.context.canvas.tokens.placeables = [...f.tokenMap.values()];
+	f.context.loadSystem = async () => ({ tokenForActor: actor => tokens.find(token => token.actor === actor) });
+	const session = new f.context.api.ActivationSession(tokens[0].actor.items.get("p"), tokens[0], { normal: 1, maximum: 1 }, "card", count, tokens);
+	f.context.api.setSession(session);
+	return { ...f, session, tokens, items: tokens.map(token => token.actor.items.get("p")) };
+}
+
+/** Match the cross-realm arrays and Maps produced inside the controller's VM context. */
+const plain = value => JSON.parse(JSON.stringify(value instanceof Map ? [...value] : value));
+
+test("a group attacking one creature with a one-target power assigns every minion to it by default", () => {
+	const g = groupFixture({ attackers: 3 });
+	g.session.targets = [g.target];
+	assert.equal(g.session.isGroup, true);
+	assert.equal(g.session.slots, 3);
+	assert.deepEqual(plain(g.session.demands()), [["target", 3]]);
+	assert.deepEqual(plain(g.session.problems()), []);
+	g.session.setAttackerCount("target", 2);
+	assert.deepEqual(plain(g.session.demands()), [["target", 2]]);
+	assert.match(g.session.problems().join(" "), /Assigned 2 attacks; this group makes exactly 3/);
+	g.session.setAttackerCount("target", "");
+	assert.deepEqual(plain(g.session.demands()), [["target", 3]], "blank input returns to the automatic share");
+	g.session.setAttackerCount("target", 99);
+	assert.equal(g.session.demands().get("target"), 3, "no more attackers than creatures");
+});
+
+test("three minions with a three-target power make nine attacks, hitting each of three creatures three times", () => {
+	const g = groupFixture({ attackers: 3, count: 3 });
+	const third = { ...g.far, id: "third" };
+	g.tokenMap.set("third", third);
+	assert.equal(g.session.slots, 9);
+	g.session.range = { normal: 5, maximum: 5 };
+	g.session.attackerRanges = new Map(g.tokens.map(token => [token.id, g.session.range]));
+	g.far.x = 100;
+	g.far.y = 200;
+	third.x = 200;
+	third.y = 200;
+	g.session.targets = [g.target, g.far, third];
+	assert.deepEqual(plain(g.session.demands()), [["target", 3], ["far", 3], ["third", 3]]);
+	assert.deepEqual(plain(g.session.problems()), []);
+	const picked = g.session.pickAttackers();
+	assert.equal(picked.ok, true);
+	for (const targets of picked.assignments.values()) {
+		assert.equal(new Set(targets).size, 3, "each minion attacks three different creatures");
+	}
+	g.session.targets = [g.target];
+	assert.match(g.session.problems().join(" "), /Assigned 3 attacks; this group makes exactly 9/);
+});
+
+test("a target out of range for some assigned attackers is flagged without blocking the rest", () => {
+	const g = groupFixture({ attackers: 3 });
+	g.tokens[1].x = 1000;
+	g.tokens[2].x = 1000;
+	g.session.targets = [g.target];
+	const warnings = g.session.groupTargetWarnings(g.target);
+	assert.match(warnings[0], /outside range for 2 of its 3 assigned attackers/);
+	g.session.setAttackerCount("target", 1);
+	g.session.setAttackerCount("far", 1);
+	g.session.targets = [g.target];
+	assert.deepEqual(plain(g.session.groupTargetWarnings(g.target)), []);
+	g.session.tokens = null;
+	g.tokens.forEach(token => { token.x = 1000; });
+	assert.match(g.session.groupTargetWarnings(g.target)[0], /outside range 1/);
+});
+
+/** Attach a fake native dialog to every attacker's roll; the first is submitted by the "user". */
+function attachGroupDialogs(g, { edit = () => {}, onSubmit = () => {} } = {}) {
+	const calls = [];
+	g.items.forEach((item, index) => {
+		item.rollAttack = async options => {
+			const fields = [{ name: "0.cover", type: "checkbox", checked: false, value: "on" }, { name: "0.comAdv", type: "checkbox", checked: false, value: "on" },
+				{ name: "bonus", type: "text", value: "" }];
+			const element = { elements: fields, style: {}, requestSubmit() { app.submitted = app.callbackFn(element, {}); } };
+			const app = { rollConfig: { options }, element, close: async () => {}, callbackFn: async form => {
+				onSubmit(index, form);
+				return { total: 20 };
+			} };
+			calls.push({ index, options, element });
+			g.session.bindAttackDialog(app);
+			// Later attackers submit themselves on the next tick; the first waits for the user.
+			await new Promise(resolve => setTimeout(resolve, 5));
+			if (!app.submitted) {
+				edit(fields);
+				app.submitted = app.callbackFn(element, {});
+			}
+			return app.submitted;
+		};
+	});
+	return calls;
+}
+
+test("a group rolls one native attack per assigned minion, each through its own copy of the power", async () => {
+	const g = groupFixture({ attackers: 3 });
+	g.session.targets = [g.target];
+	const calls = attachGroupDialogs(g);
+	await g.session.attack();
+	assert.equal(calls.length, 3);
+	for (const [index, call] of calls.entries()) {
+		const context = plain(call.options.flags[MODULE_ID].attackResults);
+		assert.equal(context.casterId, g.tokens[index].id);
+		assert.deepEqual(context.targetIds, ["target"], "all three attack the same creature");
+		assert.equal(context.groupSize, 3);
+		assert.equal(context.attackIndex, index);
+		assert.equal(context.itemUuid, g.items[index].uuid);
+	}
+	assert.equal(g.consumed(), 3, "every attacking minion pays the card cost");
+	assert.deepEqual(g.items.map(item => item.system.uses.value), [1, 1, 1], "every minion spends its own use");
+	assert.deepEqual(plain([...g.targets].map(token => token.id)), ["target"], "the session's targets are restored afterwards");
+});
+
+test("a minion with no assigned target does not attack or spend its power", async () => {
+	const g = groupFixture({ attackers: 3 });
+	g.item.getFlag = () => ({ enabled: true, targetCount: 1, targetCountMode: "upTo" });
+	for (const item of g.items) {
+		item.getFlag = () => ({ enabled: true, targetCount: 1, targetCountMode: "upTo" });
+	}
+	g.session.targets = [g.target];
+	g.session.setAttackerCount("target", 2);
+	const calls = attachGroupDialogs(g);
+	await g.session.attack();
+	assert.equal(calls.length, 2);
+	assert.equal(g.items.filter(item => item.system.uses.value === 1).length, 2);
+	assert.equal(g.items.filter(item => item.system.uses.value === 2).length, 1);
+	assert.equal(calls[0].options.flags[MODULE_ID].attackResults.groupSize, 2);
+});
+
+test("the one visible dialog's manual edits reach every minion; automatic defaults stay their own", async () => {
+	const g = groupFixture({ attackers: 3 });
+	g.session.targets = [g.target];
+	const seen = [];
+	const calls = attachGroupDialogs(g, {
+		edit: fields => { fields[1].checked = true; fields[2].value = "+2"; },
+		onSubmit: (index, form) => seen.push([index, form.elements.map(field => field.checked ?? field.value)]),
+	});
+	await g.session.attack();
+	assert.deepEqual(seen.map(([index]) => index), [0, 1, 2]);
+	for (const [, values] of seen) {
+		assert.deepEqual(values, [false, true, "+2"], "cover keeps its default; combat advantage and the bonus are shared");
+	}
+	assert.equal(calls[1].element.style.display, "none", "later dialogs never appear");
+	assert.equal(calls[2].element.style.display, "none");
+	assert.equal(calls[0].element.style.display, undefined);
+});
+
+test("cancelling the first dialog rolls nobody and spends nothing", async () => {
+	const g = groupFixture({ attackers: 3 });
+	g.session.targets = [g.target];
+	const rolled = [];
+	g.items.forEach((item, index) => {
+		item.rollAttack = async () => { rolled.push(index); return null; };
+	});
+	await g.session.attack();
+	assert.deepEqual(rolled, [0], "the group stops at the cancelled dialog");
+	assert.equal(g.consumed(), 0);
+	assert.equal(g.session.state, "targeting");
+});
+
+test("a minion that fails to roll shrinks the persisted group so waiting defenders are released", async () => {
+	const g = groupFixture({ attackers: 3 });
+	g.session.targets = [g.target];
+	const calls = attachGroupDialogs(g);
+	const original = g.items[2].rollAttack;
+	g.items[2].rollAttack = async () => null;
+	const updates = [];
+	g.session.attackMessages = [1, 2].map(() => ({ async update(change) { updates.push(change); } }));
+	await g.session.attack();
+	assert.equal(calls.length, 2);
+	assert.equal(updates.length, 2);
+	assert.equal(updates[0][`flags.${MODULE_ID}.attackResults.groupSize`], 2);
+	assert.ok(g.warnings.some(message => /could not make its attack/.test(message)));
+	assert.equal(original.length, 1);
+});
+
+/** Review state after three minions attacked one creature: two hits and a miss. */
+function groupDamageFixture() {
+	const g = groupFixture({ attackers: 3 });
+	g.items.forEach(item => { item.hasDamage = true; });
+	g.session.targets = [g.target];
+	g.session.units = g.tokens.map((token, index) => ({ id: token.id, caster: token, source: token, item: g.items[index], targets: [g.target], rolled: true }));
+	enterReview(g.session);
+	g.session.transition("confirmingResults");
+	g.session.transition("readyForDamage");
+	g.session.attackMessages = g.tokens.map((token, index) => ({
+		id: `attack${index}`, visible: true, isContentVisible: true,
+		flags: { [MODULE_ID]: { attackResults: { sessionId: "session", sceneId: "scene", targetIds: ["target"], casterId: token.id, groupSize: 3 } } },
+		rolls: [{ total: 20 + index, options: { multirollData: { targetID: "target", hitstate: index === 2 ? "miss" : "hit" } } }],
+		async update(change) {
+			for (const [key, value] of Object.entries(change)) {
+				this.flags[MODULE_ID][key.split(".").at(-1)] = value;
+			}
+		},
+	}));
+	const rolled = [];
+	g.context.rollDamageAndWait = async (item, event, cls, review) => {
+		rolled.push({ item, review: { ...review } });
+		const total = 5 + g.items.indexOf(item);
+		return { message: { id: `damage-${review.attackerId}-${review.type}`, rolls: [{ total }], flags: { [MODULE_ID]: { damageReview: review } }, async update() {} } };
+	};
+	g.context.Roll = class {
+		constructor(formula) { this.formula = formula; }
+		async evaluate() { this.total = Number(this.formula); return this; }
+		toJSON() { return { formula: this.formula, total: this.total, evaluated: true }; }
+	};
+	const panel = Object.create(g.context.api.TargetingPanel.prototype);
+	panel.session = g.session;
+	return { ...g, panel, rolled };
+}
+
+test("every attacking minion rolls its own damage, and only for its own hits", async () => {
+	const g = groupDamageFixture();
+	await g.session.rollDamage({}, true);
+	assert.equal(g.rolled.length, 2, "the minion that missed rolls nothing");
+	assert.deepEqual(g.rolled.map(entry => entry.review.attackerId), ["goblin0", "goblin1"]);
+	assert.deepEqual(g.rolled.map(entry => entry.item), [g.items[0], g.items[1]], "each roll goes through that minion's own power");
+	assert.deepEqual(g.rolled.map(entry => entry.review.type), ["normal", "normal"]);
+	assert.equal(g.session.damageMissing(), false);
+	assert.equal(g.session.damageFor("goblin0").length, 1);
+	assert.equal(g.session.damageFor("goblin1")[0].id, "damage-goblin1-normal");
+});
+
+test("review lists each attack on the target by attacker with its own damage total and modifier", async () => {
+	const g = groupDamageFixture();
+	await g.session.rollDamage({}, true);
+	let display = await g.panel._prepareContext();
+	assert.deepEqual(plain(display.results.map(row => row.key)), ["goblin0:target", "goblin1:target", "goblin2:target"]);
+	assert.deepEqual(plain(display.results.map(row => row.attackerName)), ["Goblin 1", "Goblin 2", "Goblin 3"]);
+	assert.deepEqual(plain(display.results.map(row => row.damageTotal)), [5, 6, 0]);
+	assert.deepEqual(plain(display.damageCards.map(card => card.title)), ["Hit · Goblin 1", "Hit · Goblin 2"]);
+	assert.deepEqual(plain(display.damageCards.map(card => card.targetLabel)), ["1 target", "1 target"]);
+
+	await g.session.adjustTargetDamage({ dataset: { resultKey: "goblin1:target" }, closest: () => ({ querySelector: () => ({ value: "3" }) }) });
+	display = await g.panel._prepareContext();
+	assert.deepEqual(plain(display.results.map(row => row.damageTotal)), [5, 9, 0], "a bonus on one hit leaves the other hits alone");
+	assert.equal(display.results[1].damageModifier, "3");
+	assert.equal(display.results[0].damageModifier, "");
+	const receipts = g.session.attackMessages.map(message => message.flags[MODULE_ID].targetDamageReview.targets[0]);
+	assert.deepEqual(plain(receipts.map(entry => [entry.key, entry.attackerId, entry.total])), [["goblin0:target", "goblin0", 5], ["goblin1:target", "goblin1", 9], ["goblin2:target", "goblin2", 0]]);
+});
+
+test("a group cannot confirm damage until every attacker that needs a roll has one", async () => {
+	const g = groupDamageFixture();
+	await g.session.rollDamage({}, true);
+	g.session.damageMessages.pop();
+	assert.equal(g.session.damageMissing(), true);
+	const display = await g.panel._prepareContext();
+	assert.equal(display.canConfirmDamage, false);
+	assert.equal(display.pendingDamage, true);
 });

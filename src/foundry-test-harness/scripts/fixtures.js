@@ -1,4 +1,6 @@
 export const MODULE_ID = "foundry-test-harness";
+export const FOLDER_NAME = "INTEGRATION TESTS";
+const folderRequests = new Map();
 
 /**
  * Refuse persisted test mutations outside the explicitly opted-in world and active GM.
@@ -17,6 +19,33 @@ export function assertTestWorld() {
 }
 
 /**
+ * Find or create the top-level "INTEGRATION TESTS" folder for a document type.
+ * The folder is intentionally kept between runs, and only fixture documents are ever deleted.
+ * Concurrent requests share one creation so parallel fixtures cannot produce duplicate folders.
+ * @param {string} type - The folder's document type, such as "Actor" or "Scene".
+ * @returns {Promise<string>} The folder ID.
+ */
+export function getTestFolderId(type) {
+  assertTestWorld();
+  const existing = game.folders.find(folder => folder.type === type && folder.name === FOLDER_NAME && !folder.folder);
+  if (existing) {
+    return Promise.resolve(existing.id);
+  }
+  if (!folderRequests.has(type)) {
+    const request = Folder.create({ name: FOLDER_NAME, type, flags: { [MODULE_ID]: { testFolder: true } } })
+      .then(folder => {
+        if (!folder) {
+          throw new Error(`Creating the ${FOLDER_NAME} ${type} folder was prevented by a hook.`);
+        }
+        return folder.id;
+      })
+      .finally(() => folderRequests.delete(type));
+    folderRequests.set(type, request);
+  }
+  return folderRequests.get(type);
+}
+
+/**
  * Track only documents created by this fixture; delete them in reverse order after each test.
  * Embedded documents are removed with their parent. Cleanup failures fail the test run.
  */
@@ -30,6 +59,7 @@ export class TestDocuments {
     const actor = await Actor.create({
       name: `[Integration test ${this.runId}] NPC`,
       type,
+      folder: await getTestFolderId("Actor"),
       items,
       effects,
       ownership: ownerId ? { [ownerId]: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER } : {},

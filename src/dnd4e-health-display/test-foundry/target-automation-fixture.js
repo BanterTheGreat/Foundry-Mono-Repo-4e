@@ -1,4 +1,4 @@
-import { assertTestWorld, TestDocuments } from "../../foundry-test-harness/scripts/fixtures.js";
+import { assertTestWorld, getTestFolderId, TestDocuments } from "../../foundry-test-harness/scripts/fixtures.js";
 import { useAbility } from "../scripts/power-activation/power-activation.js";
 
 const MODULE = "dnd4e-health-display";
@@ -40,6 +40,7 @@ export class TargetAutomationFixture {
     try {
       this.scene = await Scene.create({
         name: `[Integration test ${this.documents.runId}] Target Automation`,
+        folder: await getTestFolderId("Scene"),
         width: 3000, height: 3000, padding: 0, tokenVision: false, navigation: false,
         grid: { type: CONST.GRID_TYPES.SQUARE, size: 100, distance: 5, units: "ft" },
         flags: { "foundry-test-harness": { runId: this.documents.runId } },

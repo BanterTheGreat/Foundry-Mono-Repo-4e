@@ -5,12 +5,18 @@ export async function publishDamageChat(session, targets, pending = true) {
 	if (!session.damageMessages.length) {
 		return;
 	}
-	const layers = ["hit", "miss", "critical"].flatMap(outcome => {
-		const type = outcome === "critical" ? "crit" : outcome === "hit" || session.sharedMissDamage ? "normal" : "miss";
-		const source = session.damageMessages.find(message => message.flags[MODULE_ID].damageReview.type === type)
-			?? (outcome === "miss" && !session.requiredDamageTypes.includes("miss") ? session.damageMessages[0] : null);
-		const affected = targets.filter(target => target.outcome === outcome || (outcome === "miss" && target.outcome === "fumble"));
-		return source && affected.some(target => Number.isFinite(target.total) && target.total > 0) ? [{ outcome, messageId: source.id, half: outcome === "miss" && session.sharedMissDamage, targets: affected }] : [];
+	// Every attacking creature rolled its own damage, so each one contributes its own layers.
+	const attackers = [...new Set(targets.map(target => target.attackerId))];
+	const layers = (attackers.length ? attackers : [undefined]).flatMap(attackerId => {
+		const messages = session.damageFor?.(attackerId) ?? session.damageMessages;
+		const mine = targets.filter(target => target.attackerId === attackerId);
+		return ["hit", "miss", "critical"].flatMap(outcome => {
+			const type = outcome === "critical" ? "crit" : outcome === "hit" || session.sharedMissDamage ? "normal" : "miss";
+			const source = messages.find(message => message.flags[MODULE_ID].damageReview.type === type)
+				?? (outcome === "miss" && !session.requiredDamageTypes.includes("miss") ? messages[0] : null);
+			const affected = mine.filter(target => target.outcome === outcome || (outcome === "miss" && target.outcome === "fumble"));
+			return source && affected.some(target => Number.isFinite(target.total) && target.total > 0) ? [{ outcome, messageId: source.id, half: outcome === "miss" && session.sharedMissDamage, targets: affected }] : [];
+		});
 	});
 	if (!layers.length && !session.damageChat) {
 		return;

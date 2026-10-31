@@ -52,3 +52,22 @@ test("damage card omits outcomes without positive damage, including unconfigured
 	await publishDamageChat(session, [{ tokenId: "b", outcome: "miss", total: 0 }]);
 	assert.equal(saved, null, "do not create an empty damage card");
 });
+
+test("a multi-attack's damage card has separate layers for each attacker's own roll", async () => {
+	globalThis.canvas = { scene: { id: "scene" } };
+	let saved;
+	globalThis.ChatMessage = { async create(data) {
+		saved = data;
+		return { id: "card" };
+	} };
+	const source = (id, attackerId, type = "normal") => ({ id, flags: { [MODULE_ID]: { damageReview: { type, attackerId } } }, async update() {} });
+	const messages = [source("a-damage", "a"), source("b-damage", "b")];
+	const session = { item: { name: "Claw" }, damageMessages: messages, sharedMissDamage: false, requiredDamageTypes: ["normal"],
+		damageFor: attackerId => messages.filter(message => message.flags[MODULE_ID].damageReview.attackerId === attackerId) };
+	await publishDamageChat(session, [
+		{ tokenId: "hero", key: "a:hero", attackerId: "a", outcome: "hit", total: 7 },
+		{ tokenId: "hero", key: "b:hero", attackerId: "b", outcome: "hit", total: 4 },
+	]);
+	const layers = saved.flags[MODULE_ID].damageChat.layers;
+	assert.deepEqual(layers.map(layer => [layer.messageId, layer.targets.map(target => target.key)]), [["a-damage", ["a:hero"]], ["b-damage", ["b:hero"]]]);
+});

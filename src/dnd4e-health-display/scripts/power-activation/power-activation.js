@@ -16,6 +16,7 @@ import { MODULE_ID, SETTING, automationConfig, powerOriginRules, selectionProble
 import { registerActorOrigins } from "./actor-origins.js";
 import { renderPowerCard, createPowerMessage, postAttackRules, preAttackRules } from "./cards.js";
 import { loadSystem, resolveRange, registerAutomationTab, commitCardCosts, commitPowerUse, rollFromOrigin } from "./system-adapter.js";
+import { supportsGroupAttack, resolveDemands, groupCountProblems, assignAttackers, snapshotFormFields, diffFormFields, applyFormChanges } from "./multi-attack.js";
 import { rollDamageAndWait, adjustDamageMessage, damageMessageTotal, damageCalculation, damageRollBreakdown, targetDamageTotal, registerDamageReview } from "./damage-roll.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin, DialogV2 } = foundry.applications.api;
@@ -117,7 +118,7 @@ export async function showPowerInChat(item) {
  * Start an activation; returns false only when ordinary caller behavior should run.
  * Other HUDs/macros may call the same API with the exact source Token.
  */
-export async function useAbility(item, sourceToken) {
+export async function useAbility(item, sourceToken, groupTokens = null) {
 	if (!game.settings.get(MODULE_ID, SETTING) || !automationConfig(item).enabled) {
 		return false;
 	}
@@ -151,12 +152,19 @@ export async function useAbility(item, sourceToken) {
 			throw new Error("Powers with enabled use macros need the ordinary use workflow. Disable target automation for this power.");
 		}
 		const utils = await loadSystem();
-		if (utils.tokenForActor(item.actor)?.id !== sourceToken.id) {
+		// Several creatures of one type may attack together; each uses its own copy of the power.
+		const attackers = groupTokens?.length > 1 && supportsGroupAttack(item, groupTokens) ? [...groupTokens] : [sourceToken];
+		if (attackers.length > 1) {
+			if (attackers.some(token => !token.actor.items.get(item.id)?.isOwner || !token.actor.isOwner
+				|| canvas.tokens.get(token.id) !== token || utils.tokenForActor(token.actor)?.id !== token.id)) {
+				throw new Error("Every selected creature must be an owned, unlinked token on this scene with this power.");
+			}
+		} else if (utils.tokenForActor(item.actor)?.id !== sourceToken.id) {
 			throw new Error("Select only the source token for this actor so the system uses the same attacker as the range preview.");
 		}
 		const range = await resolveRange(item);
 		const card = await renderPowerCard(item, utils);
-		session = new ActivationSession(item, sourceToken, range, card, count);
+		session = new ActivationSession(item, sourceToken, range, card, count, attackers);
 		await session.start();
 	} catch (error) {
 		ui.notifications.error(error.message);
@@ -190,10 +198,14 @@ async function deletePreview(message) {
 /** A disposable local session owns input, graphics, message and native-dialog handoff. */
 
 class ActivationSession extends ActivationWorkflow {
-	constructor(item, source, range, card, count) {
+	constructor(item, source, range, card, count, attackers = [source]) {
 		super();
-		Object.assign(this, { item, source, range, card, count });
+		Object.assign(this, { item, source, range, card, count, attackers });
 		this.caster = source;
+		// Per-attacker ranges (weapons can differ between creatures) and the user's attackers-per-target input.
+		this.attackerRanges = new Map(attackers.map(token => [token.id, range]));
+		this.attackCounts = new Map();
+		this.units = null;
 		this.variant = "regular";
 		this.id = foundry.utils.randomID();
 		this.previousTargets = [...game.user.targets];
@@ -217,6 +229,107 @@ class ActivationSession extends ActivationWorkflow {
 		return this.variant === "charge" ? { isCharge: true } : this.variant === "opportunity" ? { isOpp: true } : {};
 	}
 
+	/** @returns {boolean} Whether several creatures of one type are using this power together. */
+	get isGroup() {
+		return this.attackers.length > 1;
+	}
+
+	/** @returns {number} Total attacks the group can make: each attacker's targets-per-use, combined. */
+	get slots() {
+		return this.attackers.length * this.count;
+	}
+
+	/** @param {Token} token An attacker. @returns {Item} That attacker's own copy of the power. */
+	itemFor(token) {
+		return token.actor?.items?.get(this.item.id) ?? this.item;
+	}
+
+	/** @param {Token} token An attacker. @returns {object} Its resolved range (weapons can differ per creature). */
+	rangeFor(token) {
+		return this.isGroup ? this.attackerRanges.get(token.id) ?? this.range : this.range;
+	}
+
+	/** Resolve each attacker's own range after the shared range or attack variant changes. */
+	async refreshAttackerRanges() {
+		if (!this.isGroup) {
+			return;
+		}
+		const ranges = await Promise.all(this.attackers.map(token => resolveRange(this.itemFor(token), this.variance)));
+		this.attackerRanges = new Map(this.attackers.map((token, index) => [token.id, ranges[index]]));
+	}
+
+	/** Square distance only; elevation stays an advisory manual check, as for a single attacker. */
+	canReach(attacker, target) {
+		return squareDistance(attacker, target, canvas.grid.size) <= this.rangeFor(attacker).maximum;
+	}
+
+	/** Whether any of the attackers could attack this token from where they stand. */
+	withinReach(token) {
+		return this.isGroup ? this.attackers.some(attacker => this.canReach(attacker, token))
+			: squareDistance(this.source, token, canvas.grid.size) <= this.range.maximum;
+	}
+
+	/** @returns {Map<string, number>} How many attackers are assigned to each selected target. */
+	demands() {
+		return resolveDemands(this.targets.map(token => token.id), this.attackCounts, this.slots, this.attackers.length);
+	}
+
+	/** Record the user's attackers-per-target input; blank or invalid input returns to the automatic share. */
+	setAttackerCount(tokenId, value) {
+		if (this.state !== "targeting") {
+			return;
+		}
+		const count = Math.floor(Number(value));
+		if (String(value).trim() === "" || !Number.isFinite(count) || count < 1) {
+			this.attackCounts.delete(tokenId);
+		} else {
+			this.attackCounts.set(tokenId, Math.min(count, this.attackers.length));
+		}
+		this.refresh();
+	}
+
+	/**
+	 * Randomly pick which creature makes each attack, within range. The result is only built when
+	 * the attack is made, so every use rerolls who attacks whom.
+	 *
+	 * @returns {{ok: boolean, assignments: Map<string, string[]>, shortfalls: Map<string, number>}}
+	 */
+	pickAttackers() {
+		return assignAttackers({
+			attackers: this.attackers.map(token => token.id), demands: this.demands(), perAttacker: this.count,
+			canReach: (attackerId, targetId) => this.canReach(this.attackers.find(token => token.id === attackerId),
+				this.targets.find(token => token.id === targetId)),
+		});
+	}
+
+	/** Describe count, range and reach problems for a group selection. */
+	groupProblems() {
+		const demands = this.demands();
+		const problems = groupCountProblems(demands, this.slots, automationConfig(this.item).targetCountMode);
+		for (const token of this.targets) {
+			problems.push(...this.groupTargetWarnings(token, demands));
+		}
+		if (!problems.length && !this.pickAttackers().ok) {
+			problems.push("The group cannot reach every assigned attack at once. Reduce the attackers on a target.");
+		}
+		return problems;
+	}
+
+	/** Warn about one target in a group selection; ranges are checked per assigned attacker. */
+	groupTargetWarnings(token, demands = this.demands()) {
+		if (!token.actor || !token.visible) {
+			return ["A selected target is unavailable."];
+		}
+		const reachable = this.attackers.filter(attacker => this.canReach(attacker, token)).length;
+		const wanted = demands.get(token.id) ?? 1;
+		if (reachable < wanted) {
+			const name = token.visible ? token.name : "Unavailable target";
+			return [reachable ? `${name} is outside range for ${wanted - reachable} of its ${wanted} assigned attackers.`
+				: `${name} is outside range ${this.range.maximum}.`];
+		}
+		return [];
+	}
+
 	/** Rebuild preview data before accepting a mode change, preserving the selected targets. */
 	async changeVariant(id) {
 		if (this.state !== "targeting" || this.variant === id
@@ -237,6 +350,7 @@ class ActivationSession extends ActivationWorkflow {
 			}
 			this.variant = id;
 			this.range = range;
+			await this.refreshAttackerRanges();
 			this.card = card;
 			this.confirmedKey = null;
 			if (this.panel) {
@@ -285,6 +399,10 @@ class ActivationSession extends ActivationWorkflow {
 
 	/** Offer visible tokens from the effective origin rules, optionally including the caster. */
 	originChoices() {
+		if (this.isGroup) {
+			// Each creature attacks from its own square; custom origins do not apply to a group.
+			return this.attackers.filter(token => canvas.tokens.get(token.id) === token);
+		}
 		const { originActors: allowed, allowCaster } = powerOriginRules(this.item);
 		return [...(allowCaster ? [this.caster] : []), ...canvas.tokens.placeables.filter(token => token !== this.caster && token.visible
 			&& token.actor && (allowed.includes(token.document.actorId ? `Actor.${token.document.actorId}` : token.actor.uuid)
@@ -369,6 +487,7 @@ class ActivationSession extends ActivationWorkflow {
 		if (!choices.includes(this.source)) {
 			this.source = choices[0];
 		}
+		await this.refreshAttackerRanges();
 		this.message = await createPowerMessage(this.item, this.card, this.id);
 		if (!this.message) {
 			throw new Error("Could not create the temporary ability card.");
@@ -380,7 +499,7 @@ class ActivationSession extends ActivationWorkflow {
 		if (!this.range.shape || automationConfig(this.item).targetMode === "exact") {
 			this.targets = this.previousTargets.filter(token => canvas.tokens.get(token.id) === token
 				&& token.actor && token.visible
-				&& (this.range.shape || squareDistance(this.source, token, canvas.grid.size) <= this.range.maximum));
+				&& (this.range.shape || this.withinReach(token)));
 		}
 		this.selectUnambiguousTargets();
 		this.syncTargets();
@@ -411,9 +530,10 @@ class ActivationSession extends ActivationWorkflow {
 		}
 		const config = automationConfig(this.item);
 		const candidates = canvas.tokens.placeables.filter(token => areaTargetAllowed(this.caster, token, this.range, config, this.source)
-			&& !selectionProblems(this.source, [token], this.range, 1, canvas.grid.size).length
+			&& (this.isGroup ? token.actor && token.visible && this.withinReach(token)
+				: !selectionProblems(this.source, [token], this.range, 1, canvas.grid.size).length)
 			&& !targetFilterProblems(token, config, canvas.tokens.placeables, canvas.grid.size).length);
-		if (candidates.length > 0 && candidates.length <= this.count) {
+		if (candidates.length > 0 && candidates.length <= (this.isGroup ? this.slots : this.count)) {
 			this.targets = candidates;
 		}
 	}
@@ -671,9 +791,9 @@ class ActivationSession extends ActivationWorkflow {
 			return;
 		}
 		if (targeted) {
-			const problems = selectionProblems(this.source, [token], this.range, 1, canvas.grid.size);
-			if (this.targets.length > this.count) {
-				problems.push(`This power expects ${this.count} targets.`);
+			const problems = this.isGroup ? this.groupTargetWarnings(token) : selectionProblems(this.source, [token], this.range, 1, canvas.grid.size);
+			if (this.targets.length > (this.isGroup ? this.slots : this.count)) {
+				problems.push(`This power expects ${this.isGroup ? this.slots : this.count} targets.`);
 			}
 			if (problems.length) {
 				ui.notifications.warn(problems.join(" "));
@@ -712,6 +832,9 @@ class ActivationSession extends ActivationWorkflow {
 		if (this.range.shape) {
 			return [...this.areaProblems(), ...this.filterProblems()];
 		}
+		if (this.isGroup) {
+			return [...this.groupProblems(), ...this.filterProblems()];
+		}
 		return [...selectionProblems(this.source, this.targets, this.range, this.count, canvas.grid.size, automationConfig(this.item).targetCountMode), ...this.filterProblems()];
 	}
 
@@ -726,6 +849,7 @@ class ActivationSession extends ActivationWorkflow {
 				throw new Error("The power's targeting shape changed. Start Use Ability again.");
 			}
 			this.range = range;
+			await this.refreshAttackerRanges();
 			this.count = automationConfig(this.item).targetCount;
 			if (((this.range.shape !== "summon" && (!this.range.shape || automationConfig(this.item).targetMode === "exact")) && (!Number.isInteger(this.count) || this.count < 1)) || !automationConfig(this.item).enabled) {
 				throw new Error("The power's automation configuration changed. Start Use Ability again after configuring it.");
@@ -866,7 +990,8 @@ class ActivationSession extends ActivationWorkflow {
 
 	/** Snapshot factors that affect native target tabs and automatically computed bonuses. */
 	contextKey() {
-		return JSON.stringify([this.caster.document.toObject(), this.variant, this.range, this.origin, this.wallCells, automationConfig(this.item), this.item.toObject(), this.item.actor.toObject(), this.source.document.toObject(), this.targets.map(token => [token.id, token.document.toObject(), token.actor?.toObject()]), this.filterProblems()]);
+		return JSON.stringify([this.caster.document.toObject(), this.variant, this.range, this.origin, this.wallCells, automationConfig(this.item), this.item.toObject(), this.item.actor.toObject(), this.source.document.toObject(), this.targets.map(token => [token.id, token.document.toObject(), token.actor?.toObject()]), this.filterProblems(),
+			this.isGroup ? [this.attackers.map(token => [token.id, token.document.toObject(), token.actor?.toObject(), this.itemFor(token).toObject()]), [...this.demands()]] : null]);
 	}
 
 	/**
@@ -911,10 +1036,11 @@ class ActivationSession extends ActivationWorkflow {
 				throw new Error("Remove unavailable targets before using this ability.");
 			}
 			const utils = await loadSystem();
-			if (utils.tokenForActor(this.item.actor)?.id !== this.caster.id) {
+			if (this.attackers.some(token => utils.tokenForActor(token.actor)?.id !== token.id)) {
 				throw new Error("The system's source token changed. Select the original source before using this ability.");
 			}
 			this.range = await resolveRange(this.item, this.variance);
+			await this.refreshAttackerRanges();
 			if (this.finished) {
 				return;
 			}
@@ -950,15 +1076,37 @@ class ActivationSession extends ActivationWorkflow {
 			}
 			// 0.9.3 inverts modifier behavior when fast-forward is the user's default.
 			const shiftKey = Boolean(game.settings.get("dnd4e", "fastFowardSettings"));
-			const options = {
-				variance: this.variance, event: { shiftKey, clientY: 160 }, powerActivationSession: this.id,
-				flags: { dnd4e: { variance: this.variance }, [MODULE_ID]: { attackResults: {
-					sessionId: this.id, pending: true, sceneId: canvas.scene.id, targetIds: this.targets.map(token => token.id),
-					itemUuid: this.item.uuid, casterId: this.caster.id, effectsManaged: true,
-				} } },
-			};
-			await rollFromOrigin(this.item, this.source, options);
+			this.units = this.buildUnits();
+			this.sharedDialogChanges = [];
+			for (const [index, unit] of this.units.entries()) {
+				if (this.finished) {
+					break;
+				}
+				// Each creature rolls through its own copy of the power against its assigned targets.
+				this.currentUnit = unit;
+				this.syncTargets(unit.targets);
+				const options = {
+					variance: this.variance, event: { shiftKey, clientY: 160 }, powerActivationSession: this.id, powerActivationUnit: unit.id,
+					flags: { dnd4e: { variance: this.variance }, [MODULE_ID]: { attackResults: {
+						sessionId: this.id, pending: true, sceneId: canvas.scene.id, targetIds: unit.targets.map(token => token.id),
+						itemUuid: unit.item.uuid, casterId: unit.caster.id, effectsManaged: true,
+						...(this.units.length > 1 ? { groupSize: this.units.length, attackIndex: index } : {}),
+					} } },
+				};
+				await rollFromOrigin(unit.item, unit.source, options);
+				if (!unit.rolled) {
+					if (index > 0 && !this.finished) {
+						ui.notifications.warn(`${unit.caster.name} could not make its attack; the rest of the group continues.`);
+					}
+					if (index === 0) {
+						break;
+					}
+				}
+			}
+			this.currentUnit = null;
 			if (this.attackRolled && !this.finished) {
+				this.syncTargets();
+				await this.closeUnrolledGroup();
 				await this.waitForAttackAnimation();
 			}
 			if (this.committed && !this.finished) {
@@ -1082,17 +1230,17 @@ class ActivationSession extends ActivationWorkflow {
 	}
 
 	/** Apply the native use count, use effects and hook once a power has committed. */
-	async finalizePowerUse() {
+	async finalizePowerUse(unit = null) {
 		this.committed = true;
 		await this.placeSummon();
 		await this.placeAreaRegion();
-		await commitPowerUse(this.item);
+		await commitPowerUse(unit?.item ?? this.item);
 		if (!this.item.hasAttack && game.settings.get("dnd4e", "autoApplyEffects")) {
 			const utils = await loadSystem();
 			await utils.applyEffectsToTokens(this.item.effects, [this.caster], "self", this.item.actor);
 			await utils.applyAllXEffectsToTokens(this.item.effects, this.item.actor, new Set(this.targets));
 		}
-		Hooks.callAll("dnd4e.usePower", this.item, ChatMessage.getSpeaker({ actor: this.item.actor }));
+		Hooks.callAll("dnd4e.usePower", unit?.item ?? this.item, ChatMessage.getSpeaker({ actor: (unit?.item ?? this.item).actor }));
 	}
 
 	/** Persist the selected geometry once; Region failures must not interrupt power costs/effects. */
@@ -1135,11 +1283,12 @@ class ActivationSession extends ActivationWorkflow {
 
 	/** Seed native per-target checkboxes while preserving stronger status/macro cover. */
 	applyDetectedCover(item, target, { bonuses }) {
-		if (this.state !== "attackDialog" || item?.uuid !== this.item.uuid
-			|| !this.targets.includes(target)) {
+		const unit = this.currentUnit ?? this.unitFor();
+		if (this.state !== "attackDialog" || item?.uuid !== unit.item.uuid
+			|| !unit.targets.includes(target)) {
 			return;
 		}
-		const result = CoverPreview.evaluate(this.source, target, this.range.mode);
+		const result = CoverPreview.evaluate(unit.source, target, this.rangeFor(unit.caster).mode);
 		if (result?.kind === "superior") {
 			bonuses.coverSup.shouldApply = true;
 		}
@@ -1158,26 +1307,83 @@ class ActivationSession extends ActivationWorkflow {
 		}
 		app.powerActivationBound = true;
 		this.dialog = app;
+		const unit = this.unitFor(app.rollConfig.options.powerActivationUnit);
 		const callback = app.callbackFn;
+		const before = snapshotFormFields(app.element);
 		let submission;
 		app.callbackFn = (...args) => {
-			submission ??= this.submitAttack(callback, args);
+			if (this.units?.indexOf(unit) === 0 && this.units.length > 1) {
+				// The user's manual edits in the one visible dialog apply to every attacker's roll.
+				this.sharedDialogChanges = diffFormFields(before, snapshotFormFields(args[0]));
+			}
+			submission ??= this.submitAttack(callback, args, unit);
 			return submission;
 		};
+		if (this.units?.indexOf(unit) > 0) {
+			// Later attackers reuse the first dialog's edits and submit without asking again.
+			// Wait a tick so the dialog has finished rendering before it submits itself.
+			applyFormChanges(app.element, this.sharedDialogChanges ?? []);
+			app.element.style.display = "none";
+			window.setTimeout(() => app.element?.requestSubmit(), 0);
+		}
+	}
+
+	/**
+	 * Resolve one attacker's roll unit. Outside a group this is the single caster, so tests and
+	 * callers that never built units keep working.
+	 */
+	unitFor(id = null) {
+		return this.units?.find(unit => unit.id === id) ?? this.units?.[0]
+			?? { id: this.caster.id, caster: this.caster, source: this.source, item: this.item, targets: this.targets, rolled: false };
+	}
+
+	/**
+	 * Pair each attacking creature with its own targets. A single attacker is the caster and every
+	 * selected target; a group is divided by the randomized, range-checked assignment.
+	 */
+	buildUnits() {
+		if (!this.isGroup) {
+			return [{ id: this.caster.id, caster: this.caster, source: this.source, item: this.item, targets: [...this.targets], rolled: false }];
+		}
+		const picked = this.pickAttackers();
+		if (!picked.ok) {
+			throw new Error("The group cannot reach every assigned attack at once. Reduce the attackers on a target.");
+		}
+		return this.attackers.flatMap(token => {
+			const assigned = new Set(picked.assignments.get(token.id) ?? []);
+			const targets = this.targets.filter(target => assigned.has(target.id));
+			return targets.length ? [{ id: token.id, caster: token, source: token, item: this.itemFor(token), targets, rolled: false }] : [];
+		});
+	}
+
+	/** If an attacker never rolled, shrink the persisted group so waiting defenders are not left hanging. */
+	async closeUnrolledGroup() {
+		const rolled = this.units.filter(unit => unit.rolled).length;
+		if (this.units.length < 2 || rolled === this.units.length) {
+			return;
+		}
+		for (const message of this.attackMessages) {
+			await message.update({ [`flags.${MODULE_ID}.attackResults.groupSize`]: rolled });
+		}
 	}
 
 	/** Commit once, and always resolve the native dialog even if an adapter step fails. */
-	async submitAttack(callback, args) {
+	async submitAttack(callback, args, unit = this.unitFor()) {
 		try {
-			if (this.finished || !this.item.isOwner || !this.item.actor?.isOwner) {
+			if (this.finished || !unit.item.isOwner || !unit.item.actor?.isOwner) {
 				return false;
 			}
 			const system = await loadSystem();
-			if (system.tokenForActor(this.item.actor)?.id !== this.caster.id || canvas.tokens.get(this.source.id) !== this.source) {
+			if (system.tokenForActor(unit.item.actor)?.id !== unit.caster.id || canvas.tokens.get(unit.source.id) !== unit.source) {
 				ui.notifications.warn("The source token changed. Review targets and reopen the attack dialog.");
 				return false;
 			}
-			if (!this.originAllowed() || this.contextKey() !== this.confirmedKey) {
+			// Earlier attackers in a group spend uses and change documents themselves, so only the first
+			// attacker compares the reviewed snapshot; later ones just confirm their targets still exist.
+			const stale = this.units?.indexOf(unit) > 0
+				? unit.targets.some(token => !token.visible || !token.actor || canvas.tokens.get(token.id) !== token)
+				: this.contextKey() !== this.confirmedKey;
+			if (!this.originAllowed() || stale) {
 				ui.notifications.warn("The ability or battlefield changed. Review targets and open the attack dialog again.");
 				return false;
 			}
@@ -1189,19 +1395,21 @@ class ActivationSession extends ActivationWorkflow {
 				ui.notifications.warn(this.lineOfEffectProblems().join(" "));
 				return false;
 			}
-			this.syncTargets();
-			if (this.item.system.uses?.per && Number(this.item.system.uses.value) <= 0) {
+			this.syncTargets(unit.targets);
+			if (unit.item.system.uses?.per && Number(unit.item.system.uses.value) <= 0) {
 				throw new Error("This power has no uses remaining.");
 			}
+			const firstCommit = !this.commitStarted;
 			this.commitStarted = true;
-			if (!await commitCardCosts(this.item)) {
-				this.commitStarted = false;
+			if (!await commitCardCosts(unit.item)) {
+				this.commitStarted = !firstCommit;
 				return false;
 			}
 			const roll = await callback(...args);
 			if (roll) {
 				this.attackRolled = true;
-				await this.finalizePowerUse();
+				unit.rolled = true;
+				await this.finalizePowerUse(unit);
 			} else {
 				this.committed = true;
 				ui.notifications.warn("The system returned no attack result after resource processing. Check chat and resources before using the power again.");
@@ -1389,25 +1597,56 @@ class ActivationSession extends ActivationWorkflow {
 		}
 	}
 
+	/**
+	 * Damage rolls belong to the attacker that rolled them. A message without an attacker id predates
+	 * multi-attacks and belongs to the only attacker.
+	 *
+	 * @param {string} attackerId The attacking token id.
+	 * @returns {ChatMessage[]}
+	 */
+	damageFor(attackerId) {
+		if (attackerId === undefined) {
+			return this.damageMessages;
+		}
+		return this.damageMessages.filter(message => {
+			const owner = message.flags?.[MODULE_ID]?.damageReview?.attackerId;
+			return owner === undefined || owner === attackerId;
+		});
+	}
+
+	/** @returns {boolean} Whether any attacker still lacks a damage roll its results require. */
+	damageMissing() {
+		const missing = (messages, required) => required?.some(type => !messages.some(message => message.flags[MODULE_ID].damageReview.type === type));
+		if (!this.unitRequired) {
+			return Boolean(missing(this.damageMessages, this.requiredDamageTypes));
+		}
+		return [...this.unitRequired].some(([id, required]) => missing(this.damageFor(id), required));
+	}
+
 	/** Roll each outcome once; retries retain already published damage messages. */
 	async rollDamage(event, automatic = false) {
 		if (!["readyForDamage", "reviewingDamage"].includes(this.state) || !this.item.hasDamage || !this.targets.length) {
 			return;
 		}
-		const outcomes = this.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id, { waitForDefenseAnimation: true }));
-		const hasHit = outcomes.some(result => result.outcome === "hit");
-		const hasMiss = outcomes.some(result => ["miss", "fumble"].includes(result.outcome));
-		const sharedMiss = hasMiss && this.item.system.miss?.halfDamage;
-		const required = [
-			...(outcomes.some(result => result.outcome === "critical") ? ["crit"] : []),
-			...(outcomes.some(result => ["miss", "fumble"].includes(result.outcome))
-				&& !sharedMiss && (this.item.system.miss?.halfDamage || this.item.system.miss?.formula?.trim()) ? ["miss"] : []),
-			...(hasHit || sharedMiss ? ["normal"] : []),
-		];
-		this.sharedMissDamage = Boolean(sharedMiss && outcomes.some(result => ["miss", "fumble"].includes(result.outcome)));
-		this.requiredDamageTypes = required;
-		const types = automatic ? required : [...new Set([...required, "normal"])];
-		if (!types.length) {
+		const allOutcomes = this.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id, { waitForDefenseAnimation: true }));
+		// Each attacking creature rolls its own damage for its own hits, crits and misses.
+		const plans = (this.units ?? [this.unitFor()]).map(unit => {
+			const outcomes = this.isGroup ? allOutcomes.filter(result => result.attackerId === unit.id) : allOutcomes;
+			const hasHit = outcomes.some(result => result.outcome === "hit");
+			const hasMiss = outcomes.some(result => ["miss", "fumble"].includes(result.outcome));
+			const sharedMiss = hasMiss && unit.item.system.miss?.halfDamage;
+			const required = [
+				...(outcomes.some(result => result.outcome === "critical") ? ["crit"] : []),
+				...(hasMiss && !sharedMiss && (unit.item.system.miss?.halfDamage || unit.item.system.miss?.formula?.trim()) ? ["miss"] : []),
+				...(hasHit || sharedMiss ? ["normal"] : []),
+			];
+			return { unit, required, sharedMiss: Boolean(sharedMiss && hasMiss),
+				types: automatic ? required : [...new Set([...required, "normal"])] };
+		});
+		this.sharedMissDamage = plans.some(plan => plan.sharedMiss);
+		this.unitRequired = new Map(plans.map(plan => [plan.unit.id, plan.required]));
+		this.requiredDamageTypes = [...new Set(plans.flatMap(plan => plan.required))];
+		if (!plans.some(plan => plan.types.length)) {
 			return;
 		}
 		this.transition(this.damageMessages.length ? "retryingDamage" : "rollingDamage");
@@ -1416,13 +1655,15 @@ class ActivationSession extends ActivationWorkflow {
 			if (!this.item.isOwner || !this.item.actor?.isOwner) {
 				throw new Error("You no longer have permission to roll this power's damage.");
 			}
-			for (const type of types) {
-				if (this.finished || this.damageMessages.some(message => message.flags?.[MODULE_ID]?.damageReview?.type === type)) {
-					continue;
-				}
-				const roll = await rollDamageAndWait(this.item, event, null, { sessionId: this.id, type, variance: this.variance });
-				if (roll?.message) {
-					this.damageMessages.push(roll.message);
+			for (const { unit, types } of plans) {
+				for (const type of types) {
+					if (this.finished || this.damageFor(unit.id).some(message => message.flags?.[MODULE_ID]?.damageReview?.type === type)) {
+						continue;
+					}
+					const roll = await rollDamageAndWait(unit.item, event, null, { sessionId: this.id, type, variance: this.variance, attackerId: unit.id });
+					if (roll?.message) {
+						this.damageMessages.push(roll.message);
+					}
 				}
 			}
 		} catch (error) {
@@ -1470,10 +1711,10 @@ class ActivationSession extends ActivationWorkflow {
 		if (!["readyForDamage", "reviewingDamage"].includes(this.state) || !this.item.hasDamage) {
 			return;
 		}
-		const tokenId = target.dataset.tokenId;
+		const tokenId = target.dataset.resultKey ?? target.dataset.tokenId;
 		const result = this.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id, { waitForDefenseAnimation: true }))
-			.find(entry => entry.tokenId === tokenId);
-		if (!result || targetDamageTotal(this.damageMessages, result.outcome, this.sharedMissDamage, 0, this.requiredDamageTypes) === null) {
+			.find(entry => entry.key === tokenId);
+		if (!result || targetDamageTotal(this.damageFor(result.attackerId), result.outcome, this.sharedMissDamage, 0, this.requiredDamageTypes) === null) {
 			return;
 		}
 		const formula = target.closest("li").querySelector("[data-target-damage-modifier]").value.trim();
@@ -1513,11 +1754,11 @@ class ActivationSession extends ActivationWorkflow {
 	async persistTargetDamage(pending) {
 		for (const message of this.attackMessages) {
 			const targets = messageAttackResults(message, canvas.scene?.id, { waitForDefenseAnimation: true }).map(result => {
-				const modifier = this.targetDamageModifiers.get(result.tokenId);
-				return { tokenId: result.tokenId, outcome: result.outcome,
+				const modifier = this.targetDamageModifiers.get(result.key);
+				return { tokenId: result.tokenId, key: result.key, attackerId: result.attackerId, outcome: result.outcome,
 					modifierFormula: modifier?.formula ?? "", modifierTotal: modifier?.total ?? 0,
 					modifierRoll: modifier?.roll ?? null,
-					total: targetDamageTotal(this.damageMessages, result.outcome, this.sharedMissDamage, modifier?.total, this.requiredDamageTypes) };
+					total: targetDamageTotal(this.damageFor(result.attackerId), result.outcome, this.sharedMissDamage, modifier?.total, this.requiredDamageTypes) };
 			});
 			await message.update({ [`flags.${MODULE_ID}.targetDamageReview`]: { sessionId: this.id, pending, targets } });
 		}
@@ -1526,8 +1767,7 @@ class ActivationSession extends ActivationWorkflow {
 
 	/** Persist damage confirmation before showing the final Complete action. */
 	async confirmDamage() {
-		if (!["reviewingDamage", "readyForDamage"].includes(this.state)
-			|| this.requiredDamageTypes?.some(type => !this.damageMessages.some(message => message.flags[MODULE_ID].damageReview.type === type))) {
+		if (!["reviewingDamage", "readyForDamage"].includes(this.state) || this.damageMissing()) {
 			return;
 		}
 		this.transition("confirmingDamage");
@@ -1728,8 +1968,9 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 			const results = activation.targets.flatMap(token => rolledResults.filter(result => result.tokenId === token.id))
 				.map(({ message, ...result }) => {
 					const token = canvas.tokens.get(result.tokenId);
-					const modifier = activation.targetDamageModifiers.get(result.tokenId);
-					const damageTotal = targetDamageTotal(activation.damageMessages, result.outcome, activation.sharedMissDamage, modifier?.total, activation.requiredDamageTypes);
+					const modifier = activation.targetDamageModifiers.get(result.key);
+					const damageTotal = targetDamageTotal(activation.damageFor(result.attackerId), result.outcome, activation.sharedMissDamage, modifier?.total, activation.requiredDamageTypes);
+					const attacker = canvas.tokens.get(result.attackerId);
 					const defenseTarget = result.defense ? message.flags.playerDefense.targets.find(target => target.tokenId === result.tokenId) : null;
 					return { ...result, fixedOutcome: ["critical", "fumble"].includes(result.outcome) || Boolean(result.defense && [1, 20].includes(defenseTarget?.natural)),
 						canAdjust: ["reviewingResults", "awaitingDefenses"].includes(activation.state) && result.outcome !== "pending" && !["critical", "fumble"].includes(result.outcome)
@@ -1738,9 +1979,10 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 						modifier: (result.defense ? defenseTarget?.postDefenseModifier : null) ?? message.rolls.find(roll => roll.options?.multirollData?.targetID === result.tokenId)?.options.postAttackModifier ?? 0,
 						canFocus: Boolean(activation.focusableTarget(result.tokenId)),
 						name: token?.visible ? token.name : "Unavailable target", img: token?.visible ? token.document.texture?.src : null,
+						attackerName: activation.isGroup ? (attacker?.name ?? "Attacker") : "",
 						damageTotal, hasDamageTotal: !activation.view.reviewing && damageTotal !== null,
 						canAdjustDamage: reviewingDamage && Boolean(activation.item.hasDamage) && damageTotal !== null,
-						damageModifier: activation.targetDamageDrafts.get(result.tokenId) ?? modifier?.formula ?? "" };
+						damageModifier: activation.targetDamageDrafts.get(result.key) ?? modifier?.formula ?? "" };
 				});
 			const outcomeCounts = { normal: 0, crit: 0, miss: 0 };
 			for (const result of results) {
@@ -1749,24 +1991,40 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 					outcomeCounts[type]++;
 				}
 			}
+			// A group's attackers each roll their own damage, so cards and counts are per attacker.
+			const countsFor = attackerId => {
+				const counts = { normal: 0, crit: 0, miss: 0 };
+				for (const result of results.filter(entry => !activation.isGroup || entry.attackerId === attackerId)) {
+					const type = { hit: "normal", critical: "crit", miss: "miss", fumble: "miss" }[result.outcome];
+					if (type) {
+						counts[type]++;
+					}
+				}
+				return counts;
+			};
+			const cardOwner = message => message.flags[MODULE_ID].damageReview.attackerId;
+			const cardName = message => activation.isGroup ? canvas.tokens.get(cardOwner(message))?.name ?? "Attacker" : "";
 			const damageResults = [...activation.damageMessages].sort((a, b) =>
-				["normal", "crit", "miss"].indexOf(a.flags[MODULE_ID].damageReview.type)
+				(activation.attackers.findIndex(token => token.id === cardOwner(a)) - activation.attackers.findIndex(token => token.id === cardOwner(b)))
+				|| ["normal", "crit", "miss"].indexOf(a.flags[MODULE_ID].damageReview.type)
 				- ["normal", "crit", "miss"].indexOf(b.flags[MODULE_ID].damageReview.type)).map(message => {
 				const type = message.flags[MODULE_ID].damageReview.type;
-				return { messageId: message.id, type, total: damageMessageTotal(message),
-					...damageCalculation(message, activation.damageMessages.find(entry => entry.flags[MODULE_ID].damageReview.type === "normal")),
-					components: damageRollBreakdown(message), count: outcomeCounts[type],
-					targetLabel: `${outcomeCounts[type]} ${outcomeCounts[type] === 1 ? "target" : "targets"}`,
+				const counts = countsFor(cardOwner(message));
+				const attackerName = cardName(message);
+				const title = { normal: "Hit", crit: "Crit", miss: "Miss" }[type];
+				return { messageId: message.id, type, total: damageMessageTotal(message), attackerId: cardOwner(message), attackerName,
+					...damageCalculation(message, activation.damageFor(cardOwner(message)).find(entry => entry.flags[MODULE_ID].damageReview.type === "normal")),
+					components: damageRollBreakdown(message), count: counts[type],
+					targetLabel: `${counts[type]} ${counts[type] === 1 ? "target" : "targets"}`,
 					modifier: activation.damageModifierDrafts.get(message.id) ?? message.flags[MODULE_ID].damageReview.modifierFormula ?? "",
 					sharedMiss: activation.sharedMissDamage && type === "normal", missTotal: Math.floor(damageMessageTotal(message) / 2),
-					label: { normal: "Hit", crit: "Crit", miss: "Miss" }[type],
-					title: { normal: "Hit", crit: "Crit", miss: "Miss" }[type] };
+					label: title, title: attackerName ? `${title} · ${attackerName}` : title };
 			});
 			const damageCards = damageResults.filter(result => !(activation.sharedMissDamage && result.type === "miss"));
-			const hit = damageResults.find(result => result.sharedMiss);
-			if (hit) {
-				damageCards.push({ type: "miss", title: "Miss", count: outcomeCounts.miss, derived: true, total: hit.missTotal, sourceTotal: hit.total,
-					targetLabel: `${outcomeCounts.miss} ${outcomeCounts.miss === 1 ? "target" : "targets"}` });
+			for (const hit of damageResults.filter(result => result.sharedMiss)) {
+				const counts = countsFor(hit.attackerId);
+				damageCards.push({ type: "miss", title: hit.attackerName ? `Miss · ${hit.attackerName}` : "Miss", count: counts.miss, derived: true, total: hit.missTotal, sourceTotal: hit.total,
+					targetLabel: `${counts.miss} ${counts.miss === 1 ? "target" : "targets"}` });
 			}
 			return {
 				reviewing: activation.view.reviewing,
@@ -1778,16 +2036,15 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 				damageResults, damageCards,
 				targetsExpanded: activation.view.reviewing || Boolean(this.targetsExpanded),
 				outcomeSummary: [outcomeCounts.normal ? `${outcomeCounts.normal} Hit` : "", outcomeCounts.crit ? `${outcomeCounts.crit} Crit` : "", outcomeCounts.miss ? `${outcomeCounts.miss} Miss` : ""].filter(Boolean).join(" · "),
-				modifiedTargets: results.filter(result => activation.targetDamageModifiers.get(result.tokenId)?.formula).length,
+				modifiedTargets: results.filter(result => activation.targetDamageModifiers.get(result.key)?.formula).length,
 				zeroMiss: !activation.sharedMissDamage && outcomeCounts.miss > 0 && !activation.item.system.miss?.formula?.trim(),
 				reviewingDamage,
-				canConfirmDamage: ["readyForDamage", "reviewingDamage"].includes(activation.state)
-					&& !activation.requiredDamageTypes?.some(type => !activation.damageMessages.some(message => message.flags[MODULE_ID].damageReview.type === type)),
+				canConfirmDamage: ["readyForDamage", "reviewingDamage"].includes(activation.state) && !activation.damageMissing(),
 				showDetails: Boolean(this.showDetails), busy: activation.busy,
-				pendingDamage: !activation.view.reviewing && activation.requiredDamageTypes?.some(type => !activation.damageMessages.some(message => message.flags[MODULE_ID].damageReview.type === type)),
+				pendingDamage: !activation.view.reviewing && activation.damageMissing(),
 				needsDamage: ["readyForDamage", "reviewingDamage"].includes(activation.state) && activation.targets.length > 0 && activation.item.hasDamage
 					&& (activation.requiredDamageTypes
-						? activation.requiredDamageTypes.some(type => !activation.damageMessages.some(message => message.flags[MODULE_ID].damageReview.type === type))
+						? activation.damageMissing()
 						: !activation.damageMessages.some(message => message.flags[MODULE_ID].damageReview.type === "normal")),
 				canComplete: activation.state === "complete",
 				status: activation.view.status,
@@ -1799,9 +2056,10 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 		const placementProblems = activation.range.shape ? activation.areaProblems([], false) : [];
 		const targetProblems = new Set();
 		const warningGroups = new Map();
+		const demands = activation.isGroup ? activation.demands() : null;
 		const targets = activation.targets.map(token => {
 			const warnings = [...activation.filterProblems([token]), ...(activation.range.shape ? activation.areaProblems([token], false)
-				: selectionProblems(activation.source, [token], activation.range, 1, canvas.grid.size))]
+				: activation.isGroup ? activation.groupTargetWarnings(token, demands) : selectionProblems(activation.source, [token], activation.range, 1, canvas.grid.size))]
 				.filter(problem => !placementProblems.includes(problem));
 			const name = token.visible ? token.name : "Unavailable target";
 			for (const problem of warnings) {
@@ -1816,6 +2074,7 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 				canFocus: Boolean(activation.focusableTarget(token.id)),
 				id: token.id, name: token.visible ? token.name : "Unavailable target",
 				img: token.visible ? token.document.texture?.src : null,
+				attackers: demands?.get(token.id),
 				invalid: warnings.length > 0, warnings: [...new Set(warnings.map(targetWarningLabel))],
 			};
 		});
@@ -1829,7 +2088,9 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 			attackButtons,
 			hasAttack: Boolean(activation.item.hasAttack),
 			beforeAttackRules: activation.item.hasAttack ? this.beforeAttackRules : "",
-			originChoices: activation.originChoices().map(token => ({ id: token.id, name: token.name, selected: token === activation.source })),
+			originChoices: activation.isGroup ? [] : activation.originChoices().map(token => ({ id: token.id, name: token.name, selected: token === activation.source })),
+			isGroup: activation.isGroup, attackerCount: activation.attackers.length,
+			groupSummary: activation.isGroup ? `${activation.attackers.length} attackers · ${[...demands.values()].reduce((sum, value) => sum + value, 0)} of ${activation.slots} attacks assigned` : "",
 			summon: activation.range.shape === "summon",
 			wall: activation.range.shape === "wall", wallCount: activation.wallCells.length, wallHint: activation.wallHint,
 			area: Boolean(activation.range.shape), movableArea: activation.range.shape && activation.range.shape !== "closeBurst" && activation.range.shape !== "wall",
@@ -1889,7 +2150,10 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 			input.addEventListener("input", () => this.session.damageModifierDrafts.set(input.dataset.messageId, input.value));
 		}
 		for (const input of this.element.querySelectorAll("[data-target-damage-modifier]")) {
-			input.addEventListener("input", () => this.session.targetDamageDrafts.set(input.dataset.tokenId, input.value));
+			input.addEventListener("input", () => this.session.targetDamageDrafts.set(input.dataset.resultKey, input.value));
+		}
+		for (const input of this.element.querySelectorAll("[data-attackers]")) {
+			input.addEventListener("change", () => this.session.setAttackerCount(input.dataset.tokenId, input.value));
 		}
 		for (const input of this.element.querySelectorAll("[data-damage-modifier], [data-target-damage-modifier]")) {
 			input.addEventListener("keydown", event => {
