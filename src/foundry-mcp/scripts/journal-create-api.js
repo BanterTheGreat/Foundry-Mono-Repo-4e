@@ -82,14 +82,14 @@ export async function createJournal(args, {
     if (args.battleBriefing) {
       const preset = args.battleBriefing;
       flags[BRIEFING_MODULE_ID] = { preset: {
-        title: preset.title, description: preset.description, commanderSubtitle: preset.commanderSubtitle ?? "",
+        title: preset.title, commanderSubtitle: preset.commanderSubtitle ?? "",
         commanderPositionX: preset.commanderPositionX ?? 50, commanderPositionY: preset.commanderPositionY ?? 50,
         commanderZoom: preset.commanderZoom ?? 100,
         expectedCombatants: (preset.expectedCombatants ?? []).map(entry => ({ ...entry, name: game.actors.get(entry.actorId).name })),
         strategy: { environment: preset.strategy?.environment ?? [],
           pointers: (preset.strategy?.pointers ?? []).map((pointer, index) => ({ ...pointer, id: `mcp-pointer-${index + 1}` })) }
       } };
-      pages = [{ name: args.name, content: `<h1>${escapeHtml(preset.title)}</h1><p>${escapeHtml(preset.description)}</p>` }];
+      pages = [{ name: args.name, content: `<h1>${escapeHtml(preset.title)}</h1>` }];
     }
     const entry = await JournalEntry.create({
       name: args.name, folder: folder.id, ownership: { default: CONST.DOCUMENT_OWNERSHIP_LEVELS.NONE }, flags,

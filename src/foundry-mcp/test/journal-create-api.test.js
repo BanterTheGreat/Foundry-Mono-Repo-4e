@@ -5,7 +5,7 @@ import { createJournal } from "../scripts/journal-create-api.js";
 import { validateJournalRequest } from "../shared/journal-data.js";
 
 const args = { requestId: "journal-test-01", name: "Ambush", battleBriefing: {
-  title: "Hold <the bridge>", description: "Stop the reinforcements & escape.",
+  title: "Hold <the bridge>",
   expectedCombatants: [{ actorId: "guard", count: 3 }],
   strategy: { environment: ["The bridge is slippery."], pointers: [{ actorIds: ["guard"], notes: ["Defend the gate."] }] }
 } };
@@ -45,9 +45,10 @@ test("creates a private native Battle Briefing preset with reusable actor pointe
   assert.equal(deps.game.folders.get(data.folder).name, "Battle Briefings");
   assert.deepEqual(data.ownership, { default: 0 });
   assert.equal(data.pages[0].type, "text");
-  assert.equal(data.pages[0].text.content, "<h1>Hold &lt;the bridge&gt;</h1><p>Stop the reinforcements &amp; escape.</p>");
+  assert.equal(data.pages[0].text.content, "<h1>Hold &lt;the bridge&gt;</h1>");
   const preset = data.flags["dnd4e-health-display"].preset;
   assert.equal(preset.commanderZoom, 100);
+  assert.equal(Object.hasOwn(preset, "description"), false);
   assert.deepEqual(preset.expectedCombatants, [{ actorId: "guard", count: 3, name: "Guard" }]);
   assert.deepEqual(preset.strategy.pointers, [{ id: "mcp-pointer-1", actorIds: ["guard"], notes: ["Defend the gate."] }]);
 });
@@ -75,7 +76,7 @@ test("concurrent and persisted retries create once and reject changed data", asy
 
 test("validation rejects raw flags, malformed pointers, missing fields and invalid framing", () => {
   for (const input of [{ ...args, flags: {} }, { ...args, folder: "Elsewhere" }, { ...args, pages: [] },
-    { ...args, battleBriefing: { title: "Missing description" } },
+    { ...args, battleBriefing: { title: "" } },
     { ...args, battleBriefing: { ...args.battleBriefing, commanderZoom: 99 } },
     { ...args, battleBriefing: { ...args.battleBriefing, strategy: { pointers: [{}] } } },
     { ...args, battleBriefing: { ...args.battleBriefing, expectedCombatants: [{ actorId: "guard", count: 0 }] } },

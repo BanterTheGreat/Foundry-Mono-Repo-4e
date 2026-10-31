@@ -6,7 +6,7 @@ export const JOURNAL_SCHEMA = {
   requestId: "string", name: "string", folder: "string",
   pages: [{ name: "string", content: "string" }],
   battleBriefing: {
-    title: "string", description: "string", commanderSubtitle: "string",
+    title: "string", commanderSubtitle: "string",
     commanderPositionX: "number", commanderPositionY: "number", commanderZoom: "number",
     expectedCombatants: [{ actorId: "string", count: "integer" }],
     strategy: { environment: ["string"], pointers: [{ actorIds: ["string"], notes: ["string"] }] }
@@ -28,8 +28,8 @@ export function validateJournalRequest(args) {
       throw new Error("Battle Briefings use their dedicated folder and generated summary page.");
     }
     const preset = args.battleBriefing;
-    if (typeof preset.title !== "string" || typeof preset.description !== "string") {
-      throw new Error("A Battle Briefing requires title and description strings.");
+    if (typeof preset.title !== "string" || !preset.title.trim()) {
+      throw new Error("A Battle Briefing requires a nonblank title string.");
     }
     for (const [key, min, max] of [["commanderPositionX", 0, 100], ["commanderPositionY", 0, 100], ["commanderZoom", 100, 200]]) {
       if (preset[key] !== undefined && (preset[key] < min || preset[key] > max)) {

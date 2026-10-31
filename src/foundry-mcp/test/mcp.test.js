@@ -91,7 +91,7 @@ test("MCP handshake exposes reads and NPC creation, validates arguments, and rep
   }
   assert.equal(calls.length, drawingCalls);
   assert.equal(tools.find(tool => tool.name === "add_scene_drawings").annotations.readOnlyHint, false);
-  const journal = { requestId: "briefing-mcp-1", name: "Ambush", battleBriefing: { title: "Ambush", description: "Hold the line." } };
+  const journal = { requestId: "briefing-mcp-1", name: "Ambush", battleBriefing: { title: "Ambush" } };
   assert.notEqual((await client.callTool({ name: "create_journal", arguments: journal })).isError, true);
   assert.deepEqual(calls.at(-1), { operation: "create_journal", args: journal });
   const journalCalls = calls.length;

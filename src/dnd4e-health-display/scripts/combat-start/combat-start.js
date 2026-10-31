@@ -129,7 +129,6 @@ function mapPresentationToDraft(presentation) {
 	return {
 		name: "",
 		title: presentation.title ?? defaults.title,
-		description: presentation.description ?? defaults.description,
 	};
 }
 
@@ -394,7 +393,6 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 		this.draft = {
 			name,
 			title: this.element.querySelector('[name="title"]')?.value.trim() ?? "",
-			description: this.element.querySelector('[name="description"]')?.value.trim() ?? "",
 		};
 		return this.draft;
 	}
@@ -412,7 +410,6 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 				existingId: this.selectedPresetId,
 				name: draft.name,
 				title: draft.title,
-				description: draft.description,
 				expectedCombatants: getExpectedCombatants(this.combat),
 			});
 			this.selectedPresetId = entry.id;
@@ -435,7 +432,6 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 		this.draft = {
 			name: preset.name,
 			title: preset.title,
-			description: preset.description,
 		};
 		this.activeTab = "briefing";
 		this.render();
@@ -560,7 +556,6 @@ class CombatStartSetup extends HandlebarsApplicationMixin(ApplicationV2) {
 
 		await setCombatPresentation(this.combat, {
 			title: draft.title,
-			description: draft.description,
 		});
 		await game.settings.set(MODULE_ID, ACTIVE_SETTING, {
 			id: foundry.utils.randomID(),
@@ -832,7 +827,6 @@ function getDefaultPresentation() {
 	return {
 		name: "",
 		title: "No Road Back",
-		description: "Your enemies stand between you and the only way out.",
 	};
 }
 
@@ -920,7 +914,7 @@ function mapEntryToPreset(entry) {
  */
 async function savePresetToJournal(preset) {
 	const { existingId, name, ...flagData } = preset;
-	const summaryPage = buildPresetSummaryPage(name, flagData.title, flagData.description);
+	const summaryPage = buildPresetSummaryPage(name, flagData.title);
 
 	const existing = existingId ? game.journal.get(existingId) : null;
 	if (existing) {
@@ -950,14 +944,14 @@ async function deletePresetFromJournal(id) {
 	await game.journal.get(id)?.delete();
 }
 
-/** @param {string} name @param {string} title @param {string} description @returns {object} */
-function buildPresetSummaryPage(name, title, description) {
+/** @param {string} name @param {string} title @returns {object} */
+function buildPresetSummaryPage(name, title) {
 	return {
 		name: name || title || "Battle Briefing",
 		type: "text",
 		text: {
 			format: CONST.JOURNAL_ENTRY_PAGE_FORMATS.HTML,
-			content: `<h1>${escapeHtml(title)}</h1><p>${escapeHtml(description)}</p>`,
+			content: `<h1>${escapeHtml(title)}</h1>`,
 		},
 	};
 }

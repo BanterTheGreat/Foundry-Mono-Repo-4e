@@ -64,7 +64,8 @@ test("legacy Journal presets retain briefing content without applying removed st
 	assert.equal(combat.getFlag("dnd4e-health-display", "strategy"), undefined);
 	const reopened = new context.Setup({}, combat);
 	assert.equal(reopened.draft.title, "Ambush");
-	assert.equal(reopened.draft.description, "At the gate");
+	assert.equal(reopened.draft.description, undefined);
+	assert.equal(combat.getFlag("dnd4e-health-display", "presentation").description, undefined);
 });
 
 test("Calculation reads the setup roster and tab switches preserve the briefing draft", async () => {
