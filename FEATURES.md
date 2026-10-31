@@ -44,7 +44,7 @@ Some targeting checks are advisory. Special power rules require manual adjudicat
 
 | Feature | Description | Access |
 | --- | --- | --- |
-| Battle Briefings | titles, commander presentation, and encounter combatants; encounter write-ups live in the Encounters Journal. | GM prepares; players view the presentation |
+| Battle Briefings | titles, commander presentation, and encounter combatants; encounter write-ups live in the Encounters Journal. Skill imports use concise GM prose like Grappa's Safehouse, omitting grids, legends, deployment and design-report material. | GM prepares; players view the presentation |
 | Briefing presets | reusable journal-backed preparations and expected enemy rosters. | **GM only** |
 | Roster management | add friendly, neutral, or hostile tokens; remove combatants; control visibility. | **GM only** |
 | Encounter calculator | difficulty, encounter level, and XP calculations. | **GM only** |

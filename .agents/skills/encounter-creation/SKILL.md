@@ -204,7 +204,8 @@ the Foundry insertion question below so it is offered even without insertion.
 
 End the report by asking whether to insert this encounter into Foundry using MCP,
 creating its enemies, a title-and-enemies Battle Briefing preset, and an Encounters
-Journal chapter containing the full write-up without monster stat blocks. If the destination Actor
+Journal chapter adapted into concise GM prose in the style of Grappa's Safehouse,
+following the Foundry handoff's chapter guidance. If the destination Actor
 folder is not already specified, ask for that folder in the same closing
 question. State that the preset contains only the title and enemy roster, excluding
 the party, while the chapter holds the GM encounter information. This approval gate is explicitly requested by the user:

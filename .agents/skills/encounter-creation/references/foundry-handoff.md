@@ -54,7 +54,7 @@ Populate:
   Leave strategy and other optional presentation fields unset.
 
 Keep deployment slots, starting positions and coordinates in the encounter report
-and Encounters chapter rather than the loadable preset.
+only; omit them from both the Encounters chapter and loadable preset.
 
 **Exclude the party from the entire briefing:** no PC actors in combatants or
 strategy pointers, and no party roster, PC names, levels, or class breakdown in
@@ -82,12 +82,15 @@ the established **Grappa's Safehouse** and **Toll Bridge** examples use a short
 situation paragraph, descriptive headings and concise, connected GM prose.
 Link roster names to verified actors with `@UUID[Actor.<id>]{Name}`.
 
-Include the full approved write-up: difficulty, enemy roster/counts, situation,
-read-aloud text when supplied, terrain and deployment, objectives, tactics,
-reinforcements or phase changes, accepted special rules and manual handling,
-morale, rewards, evidence and aftermath as applicable. Preserve the reviewed
-mechanics and distinguish optional proposals from included rules. Omit monster
-stat blocks because the actors hold them. Use behavior-based tactical targets.
+Adapt the approved encounter into a practical GM chapter like Grappa's Safehouse:
+a short situation paragraph followed by descriptive headings and concise prose
+covering enemy plans, objectives, encounter mechanics, morale and aftermath.
+Preserve reviewed rules, triggers, DCs and action costs needed to run the scene;
+weave relevant terrain interactions into the prose. Use actor links and natural
+names rather than alphabetical deployment IDs. Omit the battlemap grid, legend,
+deployment tables, starting positions, coordinates, map symbols, roster/XP tables,
+difficulty-calculation commentary and design notes. Omit monster stat blocks
+because the actors hold them. Use behavior-based tactical targets.
 
 For an existing journal, use `edit_journal_pages` to add a chapter, or update the
 exact existing page ID when revising that encounter. Match its known ID or exact
