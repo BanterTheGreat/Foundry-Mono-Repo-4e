@@ -106,7 +106,7 @@ Ledger recording depends on observed actions; missing history and offline time c
 | PC reminders and selected feature deletion | Manage supported reminders and remove selected features. | **GM only**; authenticated MCP bridge |
 | Target Automation | read and configure power targeting settings. | **GM only**; authenticated MCP bridge |
 | Journals | create journals and Battle Briefing presets; add, edit, and remove pages. | **GM only**; authenticated MCP bridge |
-| Scene annotations | labelled rectangles and elevation Regions. | **GM only**; authenticated MCP bridge |
+| Scene annotations | labelled rectangles, plus reading and editing elevation Regions. | **GM only**; authenticated MCP bridge |
 | Connection management | authenticated, opted-in GM bridge shared across conversations. | **GM only**; authenticated MCP bridge |
 | Write safeguards | GM review for supported edits, source-change checks, and duplicate protection for supported retries. | **GM only**; authenticated MCP bridge |
 

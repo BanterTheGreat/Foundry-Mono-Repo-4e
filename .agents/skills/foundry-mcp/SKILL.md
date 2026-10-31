@@ -49,6 +49,10 @@ compendium mutations remain excluded. Protocol v25 requires reloading Foundry an
 restarting the shared companion/MCP clients together. Implementation lives in
 `scripts/journal-page-api.js` and `shared/journal-page-data.js`.
 
+## Scene Regions
+
+Use `get_scene_regions` (world Scene UUID) to read every Region, its shapes, behaviors and Elevation, plus the scene grid for pixel conversion. Use `edit_scene_regions` with exact Region IDs to rename, recolor, replace shapes, patch the single Scene Elevation Region Elevation behavior (`elevation`, `behavior`) or `remove` Regions; `add_elevation_regions` still creates new ones. The active GM confirms one report (120 seconds; allow 180). Edits are absolute, so after incomplete/uncertain results read the Regions and retry identical arguments. Other behaviors, flags, ownership, visibility and scripts are excluded. Implementation lives in `scripts/scene-region-api.js`, the read case in `scripts/read-api.js` and validation in `shared/scene-region-data.js` (shape/behavior rules shared with `shared/elevation-region-data.js`). Protocol v35 requires reloading Foundry and restarting the companion/MCP clients together.
+
 ## Module boundaries
 
 All edit confirmations allow two minutes. On `edit_npc_actor`, `set_pc_basic_attack_ability` and `add_item_effects`, provide `summary`: one plain-language sentence describing the proposed change, shown above the detailed diff/report. Use proposal wording rather than claiming unsaved changes are complete. Summary text is escaped for display and never written to game documents. Configure tool timeout to at least 180 seconds; the bridge waits beyond the approval window. Missing summaries get a generated fallback.

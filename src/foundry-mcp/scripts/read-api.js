@@ -1,5 +1,7 @@
 import { WORLD_ITEM_TYPES } from "../shared/item-data.js";
 import { conditionData } from "./condition-data.js";
+import { ELEVATION_BEHAVIOR_TYPE } from "../shared/elevation-region-data.js";
+import { validateSceneRegionRead } from "../shared/scene-region-data.js";
 import { MODULE_ID, READ_OPERATIONS, DOCUMENT_TYPES, EMBEDDED_TYPES, pagination } from "../shared/protocol.js";
 
 /**
@@ -153,6 +155,36 @@ export async function executeRead(operation, args = {}, { game = globalThis.game
       result = page((config?.statusEffects ?? []).map(status => conditionData(config, game, status.id)), args);
       break;
     }
+    case "get_scene_regions": {
+      validateSceneRegionRead(args);
+      const scene = game.scenes.get(args.uuid.slice(6));
+      if (!scene || scene.pack || scene.parent || scene.uuid !== args.uuid || !scene.regions) {
+        throw new Error("A world Scene with Regions is required.");
+      }
+      assertReadable(scene, game);
+      const entries = Array.from(scene.regions.values(), region => {
+        const source = region.toObject(true);
+        const behaviors = (source.behaviors ?? []).map(behavior => ({
+          id: behavior._id, uuid: `${region.uuid}.RegionBehavior.${behavior._id}`, name: behavior.name ?? "",
+          type: behavior.type, disabled: behavior.disabled ?? false, system: behavior.system ?? {}
+        }));
+        return {
+          id: region.id, uuid: region.uuid, name: region.name ?? "", color: source.color ?? null,
+          visibility: source.visibility ?? null, highlightMode: source.highlightMode ?? null,
+          shapes: source.shapes ?? [], behaviors,
+          elevation: behaviors.find(behavior => behavior.type === ELEVATION_BEHAVIOR_TYPE)?.system?.elevation ?? null
+        };
+      });
+      result = {
+        scene: {
+          uuid: scene.uuid, name: scene.name, width: scene.width, height: scene.height, padding: scene.padding,
+          grid: { size: scene.grid?.size, distance: scene.grid?.distance, units: scene.grid?.units }
+        },
+        elevationModuleActive: game.modules?.get("scene-elevation-region")?.active === true,
+        ...page(entries, args)
+      };
+      break;
+    }
     case "get_session":
       result = {
         world: { id: game.world.id, title: game.world.title },
@@ -180,6 +212,7 @@ export async function executeRead(operation, args = {}, { game = globalThis.game
           confirmation: "active GM", available: game.user.isActiveGM === true && Number.parseInt(game.version, 10) >= 14
             && game.modules?.get("scene-elevation-region")?.active === true
             && !!globalThis.CONFIG?.RegionBehavior?.dataModels?.["scene-elevation-region.elevation"] },
+        sceneRegions: { readTool: "get_scene_regions", editTool: "edit_scene_regions", confirmation: "active GM", approvalSeconds: 120, coordinates: "scene pixels", available: game.user.isActiveGM === true },
         sceneDrawings: { tool: "add_scene_drawings", shapes: ["rectangle"], coordinates: "scene pixels", confirmation: "active GM", available: game.user.isActiveGM === true },
         activeSceneUuid: game.scenes.active?.uuid ?? null,
         combatUuid: game.combat?.uuid ?? null,

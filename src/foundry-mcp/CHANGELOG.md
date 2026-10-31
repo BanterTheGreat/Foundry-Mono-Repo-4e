@@ -2,6 +2,8 @@
 
 ## 0.4.0
 
+- Read scene Regions (shapes, behaviors, Elevation, grid conversion data) with `get_scene_regions`, and rename, recolor, reshape, change Elevation behavior settings or delete existing Regions with GM-reviewed `edit_scene_regions`. Reject stale scenes and report partial saves. Protocol v35 requires reloading Foundry and restarting the companion/MCP clients together.
+
 - Power editing and custom power creation expose base damage quantity/type, shared-roll switches and native effect keyword flags so replacements retain correct dice and mechanics. Protocol v34 requires reloading Foundry and restarting MCP clients.
 
 - Edit PC Action Point Reminders and delete explicitly selected embedded features with GM review. Delete or replace selected item ActiveEffects with full old-source review, validated replacements and partial-save reporting. Protocol v33 requires reloading Foundry and restarting the companion/MCP clients together.

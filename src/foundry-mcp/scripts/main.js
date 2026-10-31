@@ -1,4 +1,5 @@
 import { addElevationRegions } from "./elevation-region-api.js";
+import { editSceneRegions } from "./scene-region-api.js";
 import { targetAutomation } from "./target-automation-api.js";
 import { editPcActor } from "./pc-actor-api.js";
 import { editPcPowers } from "./pc-power-api.js";
@@ -29,7 +30,7 @@ let status = "disabled";
  * Expose connection status without disclosing the pairing token.
  */
 function getStatus() {
-  return { status, worldId: game.world?.id, userId: game.user?.id, readOnly: false, creation: "NPC, configured PCs, world Items and Journals", pcImport: "powers and feats from dnd-4e-compendium", featCreation: "world Items or directly on PCs", pcItemIcons: "default equipment icons by slot", editing: "PC powers, journal pages, NPC, Item Piles merchant inventory, scene rectangle additions and Item ActiveEffects with active GM confirmation" };
+  return { status, worldId: game.world?.id, userId: game.user?.id, readOnly: false, creation: "NPC, configured PCs, world Items and Journals", pcImport: "powers and feats from dnd-4e-compendium", featCreation: "world Items or directly on PCs", pcItemIcons: "default equipment icons by slot", editing: "PC powers, journal pages, NPC, Item Piles merchant inventory, scene Region and rectangle edits and Item ActiveEffects with active GM confirmation" };
 }
 
 /**
@@ -116,6 +117,9 @@ function connect() {
             break;
           case "add_elevation_regions":
             result = await addElevationRegions(request.args, connectionOptions);
+            break;
+          case "edit_scene_regions":
+            result = await editSceneRegions(request.args, connectionOptions);
             break;
           case "add_scene_drawings":
             result = await addSceneDrawings(request.args, connectionOptions);

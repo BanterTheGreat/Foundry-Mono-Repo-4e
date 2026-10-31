@@ -694,9 +694,51 @@ approval. Allow 180 seconds. Returns region UUIDs and
 results, then retry identical data/requestId to skip persisted regions and resume
 partial batches. Changed data under saved markers is rejected. Deleted regions
 can be recreated by a retry. Existing regions and scene settings are preserved.
-No arbitrary behaviors, scripts, flags, region edits or deletion are exposed.
-Protocol v32 requires reloading Foundry and restarting the shared companion and
-MCP clients together.
+No arbitrary behaviors, scripts or flags are exposed; edit or delete existing
+Regions with `edit_scene_regions` (below). Protocol v32 requires reloading Foundry
+and restarting the shared companion and MCP clients together.
+
+### Reading and editing scene Regions (protocol v35)
+
+`get_scene_regions` takes a world Scene `uuid` (optional `query`/`offset`/`limit`)
+and returns every Region, including GM-only outlines: id, UUID, name, color,
+visibility, shapes, embedded behaviors (id, UUID, type, disabled, system data) and
+`elevation` from the Scene Elevation Region Elevation behavior (`null` without
+one). The result also carries the scene width, height, padding and grid
+size/distance/units for pixel conversion, and whether the elevation module is active.
+
+`edit_scene_regions` changes or deletes existing Regions after the usual active-GM
+Confirm/Cancel review (120 seconds, allow 180):
+
+```json
+{
+  "uuid": "Scene.SCENE_ID",
+  "summary": "Raise the dais and slope it, and remove the old pit.",
+  "update": [{
+    "id": "REGION_ID",
+    "name": "Dais",
+    "color": "#66CCFF",
+    "shapes": [{ "type": "rectangle", "x": 300, "y": 400, "width": 600, "height": 300 }],
+    "elevation": 10,
+    "behavior": { "slope": true, "slopeHeight": 5, "slopeDirection": 90 }
+  }],
+  "remove": ["OTHER_REGION_ID"]
+}
+```
+
+Updates change only supplied fields. `shapes` replaces the complete shape list
+(same rectangle/ellipse/polygon/hole rules as creation). `elevation` and `behavior`
+patch the Region's single Elevation behavior and require Foundry v14+, the active
+module and exactly one such behavior; name, color, shapes and removal work on any
+Region. `remove` deletes exact Regions with their behaviors; missing IDs are
+no-ops, and an ID cannot be both updated and removed. Other behaviors, flags,
+ownership, visibility and scripts are excluded. The scene is compared before and
+after review and each Region's source before writing, so stale approvals save
+nothing. Edits set absolute values: after an incomplete, timed-out or disconnected
+result, read the Regions and retry identical arguments. Results are
+`updated`/`unchanged`/`cancelled`/`incomplete` with applied receipts. Protocol v35
+requires reloading Foundry and restarting the shared companion and MCP clients
+together.
 
 
 ### PC reminders, feature deletion and effect replacement (protocol v33)
