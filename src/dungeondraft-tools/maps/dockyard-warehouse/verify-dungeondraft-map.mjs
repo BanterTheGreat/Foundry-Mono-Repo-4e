@@ -8,7 +8,8 @@ import { ARTIFACTS_DIR, MAPS_OUT_DIR, REFERENCE_MAP } from '../../config.mjs';
 import { locateOnPolyline, pointInPolygon } from '../../lib/geometry.mjs';
 import { loadRows } from '../../lib/lib.mjs';
 import { packs } from '../../lib/packs.mjs';
-import { COLS, LABEL, ROWS, S, parseGrid } from './grid.mjs';
+import { SHADOW_CIRCLE_SCALE, SHADOW_LAYER, SHADOW_PATH_LAYER, isShadowTexture } from '../../lib/shadows.mjs';
+import { COLS, LABEL, ROWS, S, blocksOf, parseGrid } from './grid.mjs';
 
 const ENCOUNTER = 'dockyard-warehouse';
 const arg = (n, d) => (process.argv.includes(n) ? process.argv[process.argv.indexOf(n) + 1] : d);
@@ -52,6 +53,7 @@ const refWall = rlv.walls.find((w) => w.portals.length);
 compareKeys(lv.walls[0], refWall, 'wall');
 compareKeys(lv.walls[0].portals[0], refWall.portals[0], 'portal');
 compareKeys(lv.patterns[0], rlv.patterns[0], 'pattern');
+compareKeys(lv.paths[0], rlv.paths[0], 'path');
 compareKeys(lv.objects[0], rlv.objects[0], 'object', ['custom_color']);
 ok(JSON.stringify(lv.layers) === JSON.stringify(rlv.layers), 'layers table differs from real map');
 
@@ -107,19 +109,18 @@ for (const { w, P } of loops) {
     ok(p.wall_id === w.node_id && p.closed === false, `portal ${p.node_id}: wall_id / open state`);
   }
 }
-// every square of the ring and the room is covered exactly once by the masonry and floor patterns (layer -100), and the
-// paving (layer -400) covers all land squares and none of the water
+// every square inside the wall line (wall squares, doorways and room alike) is covered exactly once by the plank floor (layer
+// -100) and by no masonry (a wall square is walkable floor), and the paving (layer -400) covers all land squares and none of the water
 const centre = (c, r) => [(c - 0.5) * S, (r - 0.5) * S];
 const polys = (layer, nameRe) => lv.patterns.filter((p) => p.layer === layer && nameRe.test(p.texture)).map((p) => pool(p.points));
 const masonry = polys(-100, /Stone_Sidewalk/i), floors = polys(-100, /planks_1b/i);
+ok(masonry.length === 0, 'wall squares are walkable floor: there must be no masonry pattern');
 const doorKey = new Set(doorCells.map(([c, r]) => `${c},${r}`));
 for (let c = ring.c1; c <= ring.c2; c++) {
   for (let r = ring.r1; r <= ring.r2; r++) {
     const pt = centre(c, r);
-    const isRing = c === ring.c1 || c === ring.c2 || r === ring.r1 || r === ring.r2;
-    const m = masonry.filter((poly) => pointInPolygon(pt, poly)).length, f = floors.filter((poly) => pointInPolygon(pt, poly)).length;
-    const wantMasonry = isRing && !doorKey.has(`${c},${r}`);
-    ok(m === (wantMasonry ? 1 : 0) && f === (wantMasonry ? 0 : 1), `square (${c},${r}): masonry x${m}, floor x${f}`);
+    const f = floors.filter((poly) => pointInPolygon(pt, poly)).length;
+    ok(f === 1, `square (${c},${r}): plank floor x${f}, expected exactly one`);
   }
 }
 {
@@ -135,7 +136,7 @@ for (let c = ring.c1; c <= ring.c2; c++) {
 }
 // layering: every pattern sits at or below the lowest object layer, so patterns never cover objects
 {
-  const topPattern = Math.max(...lv.patterns.map((p) => p.layer)), lowObject = Math.min(...lv.objects.map((o) => o.layer));
+  const topPattern = Math.max(...lv.patterns.map((p) => p.layer)), lowObject = Math.min(...lv.objects.filter((o) => !isShadowTexture(o.texture)).map((o) => o.layer));
   ok(topPattern <= lowObject, `a pattern on layer ${topPattern} could cover objects on layer ${lowObject}`);
 }
 
@@ -148,7 +149,10 @@ for (let c = ring.c1; c <= ring.c2; c++) {
 }
 
 // 5. the user's mapping rules (the dungeondraft skill)
-const scales = lv.objects.map((o) => vec(o.scale));
+// Rule 1 covers props; the BW shadow circles are exempt (the user sets them at 1.3 and above) and get their own range in section 7.
+const isShadow = (o) => isShadowTexture(o.texture);
+const propObjects = lv.objects.filter((o) => !isShadow(o)), shadowObjects = lv.objects.filter(isShadow);
+const scales = propObjects.map((o) => vec(o.scale));
 ok(scales.every(([sx, sy]) => sx === sy && sx >= 0.8 - 1e-9 && sx <= 1.2 + 1e-9), `rule 1: ${scales.filter(([sx]) => sx < 0.8 || sx > 1.2).length} objects have a scale outside 0.8-1.2`);
 ok(map.world.object_shadow === false && lv.objects.every((o) => o.shadow === false), 'rule 2: object shadows must be off (world.object_shadow and every object.shadow)');
 {
@@ -172,6 +176,84 @@ for (const { w, P } of loops) {
 }
 ok(poolLen(lv.cave.bitmap) === caveLen && !/[1-9]/.test(lv.cave.bitmap.replace(/^Pool\w+\(/, '')) && !/[1-9]/.test(lv.cave.entrance_bitmap.replace(/^Pool\w+\(/, '')), 'rule 6: cave tool data must stay empty');
 ok(lv.shapes.polygons.length === 0 && lv.shapes.walls.length === 0, 'rule 6: building tool shapes must stay empty');
+
+// 7. BW shadows, re-derived from the grid (not from structure.mjs): half shadows along the outer wall, one fading outdoors and a
+// tighter one fading onto the floor inside (both stopping at the doorways), a circle under every big prop, all on the shadow layer
+// and never buried under a pattern on a higher layer.
+{
+  const shadowPaths = lv.paths.filter((p) => isShadowTexture(p.texture));
+  ok(shadowPaths.length === lv.paths.length && shadowPaths.length > 0, 'every path must be a BW shadow path (this map has no other paths)');
+  ok(shadowPaths.every((p) => p.layer === SHADOW_PATH_LAYER && /[/]BW_(Half|Full)_Shadow_(Large|Small)_(025|050|075|100)[.]png$/.test(p.texture)), 'shadow paths must be BW shadow textures on the shadow path layer');
+  ok(shadowObjects.every((o) => o.layer === SHADOW_LAYER && /[/]objects[/]BW_Shadow_Circle_(025|050|075|100)[.]png$/.test(o.texture)), 'shadow objects must be BW circle shadows (not colorable) on the shadow layer');
+  // the user's rule: shadow paths sit below the walls (which draw above layers 100-400, i.e. below 600) but above every prop, so they shade the props too
+  const propTop = Math.max(...propObjects.filter((o) => o.layer < 600).map((o) => o.layer));
+  ok(lv.paths.every((p) => p.layer >= propTop && p.layer < 600), `a shadow path must sit at or above the highest prop layer under the walls (${propTop}) and below the walls`);
+  const circleScales = shadowObjects.map((o) => vec(o.scale));
+  ok(circleScales.every(([sx, sy]) => sx === sy && sx >= SHADOW_CIRCLE_SCALE - 1e-9 && sx <= 2 + 1e-9), `shadow circles must be scaled ${SHADOW_CIRCLE_SCALE}-2`);
+
+  const runs = shadowPaths.map((p) => { const [ox, oy] = vec(p.position); return { p, pts: pool(p.edit_points).map(([x, y]) => [x + ox, y + oy]) }; });
+  ok(runs.every(({ pts }) => pts.length === 2), 'wall shadows are straight two-point runs');
+  const centreX = ((ring.c1 - 1) * S + ring.c2 * S) / 2, centreY = ((ring.r1 - 1) * S + ring.r2 * S) / 2;
+  /** The sides of one rectangle: where it runs, which door squares break it, and which way a correct shadow fades. */
+  const sides = (inset) => {
+    const [x0, y0, x1, y1] = [(ring.c1 - 1 + inset) * S, (ring.r1 - 1 + inset) * S, (ring.c2 - inset) * S, (ring.r2 - inset) * S];
+    return [
+      { name: 'top', fixed: y0, lo: x0, hi: x1, horizontal: true, doors: doorCells.filter(([, r]) => r === ring.r1).map(([c]) => [(c - 1) * S, c * S]) },
+      { name: 'bottom', fixed: y1, lo: x0, hi: x1, horizontal: true, doors: doorCells.filter(([, r]) => r === ring.r2).map(([c]) => [(c - 1) * S, c * S]) },
+      { name: 'left', fixed: x0, lo: y0, hi: y1, horizontal: false, doors: doorCells.filter(([c]) => c === ring.c1).map(([, r]) => [(r - 1) * S, r * S]) },
+      { name: 'right', fixed: x1, lo: y0, hi: y1, horizontal: false, doors: doorCells.filter(([c]) => c === ring.c2).map(([, r]) => [(r - 1) * S, r * S]) },
+    ];
+  };
+  // both shades run along the wall line: Large fading outdoors, Small fading into the building
+  for (const [inset, size, outward] of [[0, 'Large', true], [0, 'Small', false]]) {
+    const kind = outward ? 'outer shade' : 'inner contact shade';
+    for (const side of sides(inset)) {
+      const along = (q) => (side.horizontal ? q[0] : q[1]), across = (q) => (side.horizontal ? q[1] : q[0]);
+      const mine = runs.filter(({ p, pts }) => pts.every((q) => Math.abs(across(q) - side.fixed) < 0.5) && new RegExp(`_Half_Shadow_${size}_`).test(p.texture));
+      ok(mine.every(({ p }) => new RegExp(`_Half_Shadow_${size}_`).test(p.texture)), `${kind} ${side.name}: shadows must be Half ${size}`);
+      // every run fades to the correct side: left of travel (u.y, -u.x) points away from the building centre outdoors, towards it indoors
+      for (const { pts, p } of mine) {
+        const u = [pts[1][0] - pts[0][0], pts[1][1] - pts[0][1]], l = Math.hypot(...u);
+        const left = [u[1] / l, -u[0] / l], mid = [(pts[0][0] + pts[1][0]) / 2 - centreX, (pts[0][1] + pts[1][1]) / 2 - centreY];
+        ok((left[0] * mid[0] + left[1] * mid[1] > 0) === outward, `${kind} ${side.name} (${p.node_id}): the fade lies on the wrong side of the wall`);
+      }
+      // coverage: every 32 px of the side is shaded exactly once, except across the doorways
+      let bad = 0;
+      for (let t = side.lo + 16; t < side.hi; t += 32) {
+        const inDoor = side.doors.some(([a, b]) => t > a && t < b);
+        const hits = mine.filter(({ pts }) => t >= Math.min(along(pts[0]), along(pts[1])) - 0.5 && t <= Math.max(along(pts[0]), along(pts[1])) + 0.5).length;
+        if (hits !== (inDoor ? 0 : 1)) { bad++; }
+      }
+      ok(bad === 0, `${kind} ${side.name}: ${bad} stretches are shaded across a doorway, unshaded, or doubled`);
+    }
+  }
+  // rule 7: the quay edge (the first water column) has one full-height half shadow running south, so its fade falls east across the water
+  const quayX = (Math.min(...grid.cells(LABEL.WATER).map(([c]) => c)) - 1) * S;
+  const quayRuns = runs.filter(({ pts }) => pts.every((q) => Math.abs(q[0] - quayX) < 0.5));
+  ok(quayRuns.length === 1 && /_Half_Shadow_Large_/.test(quayRuns[0].p.texture), 'the quay edge needs exactly one Half Large shadow');
+  ok(quayRuns.length === 1 && Math.abs(quayRuns[0].pts[0][1]) < 0.5 && Math.abs(quayRuns[0].pts[1][1] - H * S) < 0.5, 'the quay shadow must span the whole map height, north to south (fade east onto the water)');
+  const onSide = (pts, inset) => sides(inset).some((s) => pts.every((q) => Math.abs((s.horizontal ? q[1] : q[0]) - s.fixed) < 0.5));
+  ok(runs.every(({ pts }) => onSide(pts, 0) || quayRuns.some((r) => r.pts === pts)), 'a shadow path lies on neither the wall line nor the quay edge');
+
+  // a circle under every big prop: each tall cargo stack (centre of its block) and the ledger desk
+  const big = [];
+  for (const b of blocksOf(grid, LABEL.TALL)) { big.push({ what: `stack ${b.c1}-${b.c2} x ${b.r1}-${b.r2}`, p: [((b.c1 + b.c2 - 1) / 2) * S, ((b.r1 + b.r2 - 1) / 2) * S] }); }
+  { const [lc, lr] = grid.cells(LABEL.LEDGER)[0]; big.push({ what: 'ledger desk', p: [(lc - 0.5) * S, (lr - 0.5) * S] }); }
+  for (const { what, p } of big) {
+    ok(shadowObjects.some((o) => { const [sx, sy] = vec(o.position); return Math.hypot(sx - p[0], sy - p[1]) < 80; }), `${what} has no circle shadow`);
+  }
+
+  // the shadow paths sit above every pattern; the circles are objects on the lowest layer, so no pattern on a higher layer may bury one
+  ok(lv.paths.every((p) => p.layer > Math.max(...lv.patterns.map((q) => q.layer))), 'a shadow path must sit above every pattern');
+  const above = lv.patterns.filter((p) => p.layer > SHADOW_LAYER).map((p) => pool(p.points));
+  const buriedAt = (q) => above.some((poly) => pointInPolygon(q, poly));
+  let buried = 0;
+  for (const o of shadowObjects) {
+    const [x, y] = vec(o.position), radius = (512 * vec(o.scale)[0]) / 2;
+    for (let dx = -radius; dx <= radius; dx += 64) { for (let dy = -radius; dy <= radius; dy += 64) { if (Math.hypot(dx, dy) <= radius && buriedAt([x + dx, y + dy])) { buried++; } } }
+  }
+  ok(buried === 0, `${buried} shadow samples lie under a pattern on a higher layer and would be hidden`);
+}
 
 // 6. nodes
 const ids = [];

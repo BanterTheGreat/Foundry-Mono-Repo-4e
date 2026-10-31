@@ -2144,7 +2144,10 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 			if (!disclosure.classList.contains("is-reviewing")) {
 				this.targetsExpanded = disclosure.open;
 			}
-			this.setPosition({ height: "auto" });
+			// The toggle event is asynchronous and can arrive after the panel was closed.
+			if (this.element) {
+				this.setPosition({ height: "auto" });
+			}
 		});
 		for (const input of this.element.querySelectorAll("[data-damage-modifier]")) {
 			input.addEventListener("input", () => this.session.damageModifierDrafts.set(input.dataset.messageId, input.value));

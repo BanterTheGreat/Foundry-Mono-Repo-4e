@@ -1,6 +1,6 @@
 ---
 name: encounter-creation
-description: Design D&D 4e encounters around difficulty, party levels, enemy goals and battlefield space; use an existing map or propose a read-only grid, validate the roster, and offer approved Foundry MCP enemy and Battle Briefing creation.
+description: Design D&D 4e encounters around difficulty, party levels, enemy goals and battlefield space; use an existing map or propose a grid via the dnd4e-battlemap skill, validate the roster, and offer approved Foundry MCP enemy and Battle Briefing creation. For a map with no encounter, use dnd4e-battlemap instead.
 ---
 
 # Encounter Creation
@@ -10,10 +10,11 @@ Use [dnd4e-monster-search](../dnd4e-monster-search/SKILL.md) to select creatures
 and [dnd4e-encounter-difficulty](../dnd4e-encounter-difficulty/SKILL.md) to validate
 the final roster. These skills own source preferences, monster conversions, XP
 math, and difficulty thresholds; follow them rather than substituting estimates.
-Load the available `dnd4e-battlemap` skill for its map-design guidance, terrain
-categories/colors, scale, and coordinates. This encounter workflow uses that
-guidance with the read-only presentation below, rather than its editable-map
-workflow.
+Load the [dnd4e-battlemap skill](../dnd4e-battlemap/SKILL.md) for map design,
+terrain categories/colors, scale, coordinates, and the grid/legend/deployment
+format. It owns the map; this skill adds the encounter-specific overrides below
+(alphabetical creature IDs, placement in the report, and fitting the map to the
+roster).
 
 ## Establish the brief
 
@@ -64,12 +65,9 @@ against the actual shortlisted powers. Leave room for the entire roster and
 party to deploy and maneuver; select proposed dimensions to suit the fight
 rather than automatically using the battlemap skill's compact 9-by-9 default.
 
-Use the battlemap skill's six tactical ingredients: multiple routes, cover and
-blocking terrain, elevation, difficult terrain, hazards, and interactive
-features. For a proposed map, usually combine three or four that fit the
-environment and enemy goals. Preserve viable approaches and counterplay; make
-choke points deliberate and elevated areas accessible. For an existing map,
-look for opportunities in the described features rather than adding new ones.
+Apply the battlemap skill's six tactical ingredients and design rules, choosing
+the ones that fit the environment and enemy goals. For an existing map, look for
+opportunities in the described features rather than adding new ones.
 
 Tie enemy jobs and tactics to this space: where a screen can hold, how a mobile
 enemy changes routes, what protects a ranged position, and what players can
@@ -151,21 +149,12 @@ this report format takes precedence over the supporting skills' output formats.
    **Deployment** side by side directly beneath it, before enemy objectives.
    Use two equal-width columns: the terrain legend on the left and the deployment
    table on the right, aligned at the top. On narrow screens, stack them with the
-   legend first. Label dimensions as columns by
-   rows, use 5-foot squares unless otherwise requested, and show one-based row
-   and column coordinates. Mark entrances, starting areas, objectives, and
-   tactically significant features; distinguish creature markers from underlying
-   terrain. Use the battlemap skill's **Legend, creature IDs, and deployment**
-   table columns, using this skill's alphabetical IDs and two-column layout.
-   Keep one deployment row per creature. Explain every used symbol/color,
-   including heights and access
-   points. Use the battlemap skill's terrain colors when rendering
-   colored cells, with symbols so color is not the only cue. Prefer an inline
-   read-only grid when supported; otherwise use an aligned monospaced text grid
-   with the same coordinates and legend in this report position. Include no
-   painting, palette-editing, or reset controls. Verify dimensions, legend
-   coverage, reachable routes/features, creature space, and agreement with the
-   roster and tactics. Omit this entire item for an existing map; when describing
+   legend first. Build the grid, legend, and deployment table exactly as the
+   [dnd4e-battlemap skill](../dnd4e-battlemap/SKILL.md) specifies (dimensions,
+   coordinates, terrain colors and symbols, read-only presentation, one deployment
+   row per creature), using this skill's alphabetical IDs. Run the battlemap
+   skill's verification, plus agreement with the roster and tactics. Omit this
+   entire item for an existing map; when describing
    deployment on that supplied map, still use the same alphabetical creature IDs and
    deployment table, with positions based on the user's map information.
 5. **ENEMY OBJECTIVES**: explain the enemy party's overall goal in **two or three

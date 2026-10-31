@@ -122,3 +122,16 @@ clicks the production Apply Damage button against real actors and messages. It v
 NPC-to-PC hits and zero-damage misses apply without an approval popup, repeated clicks
 and receipts cannot apply twice, and PC-to-NPC damage waits for GM approval.
 Run it with `npm run test:foundry -- integration.spec.mjs`.
+
+The `dnd4e-health-display.multi-attack` Quench batch (**INFO DISPLAYS: Multi-creature attacks**)
+selects three unlinked minions sharing one NPC. It covers the group HUD (one portrait, one
+bar each, Sheet-only menu, Use Power for a Melee power, hidden for a mixed selection), the
+attackers-per-target input and range warnings, random range-checked assignment, one native
+dialog with later dialogs hidden and the user's manual edits shared, cancelling, per-minion
+uses, per-attack damage rows, and applying each hit to the target separately. A second case
+uses a Melee 5 power with three targets each for nine attacks. The banter batch
+`banter-4e-modifications.active-defense` also checks that every attack of a multi-attack is
+intercepted with its own DC and resolves on its own message. The Playwright scenario
+`multi-attack-defense.spec.mjs` needs the non-GM test player and checks that the player gets
+one dialog for all attacks, rolls each defense, and that a reload does not reopen it.
+Run the Quench batches with `npm run test:foundry -- integration.spec.mjs`.

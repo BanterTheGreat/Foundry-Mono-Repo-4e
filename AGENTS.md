@@ -6,7 +6,7 @@ This repo holds independent Foundry VTT modules and the Modern 4e Typst rulebook
 
 - `src/<module-name>/` — one Foundry module per folder, each with its own `module.json` manifest. Module folder names match their `module.json` `id`.
 - `src/modern4e/` - the Typst rulebook, assets, and offline D&D 4e compendium. Load the [modern4e skill](.agents/skills/modern4e/SKILL.md) before reading or editing the rulebook or adapting published mechanics to its local rules. It must NEVER be copied to Foundry.
-- `src/dungeondraft-tools/` - Dungeondraft tooling: texture index, PNG compositor, and battlemap / `.dungeondraft_map` generators (the asset packs and maps themselves stay in `Documents\Dungeondraft Assets`). It is never deployed to Foundry. Load the [dungeondraft skill](.agents/skills/dungeondraft/SKILL.md) before reading or writing a `.dungeondraft_map`, searching pack textures, or building an encounter battlemap.
+- `src/dungeondraft-tools/` - Dungeondraft tooling: texture index, PNG compositor, and battlemap / `.dungeondraft_map` generators (the asset packs and maps themselves stay in `Documents\Dungeondraft Assets`). It is never deployed to Foundry. Load the [dungeondraft skill](.agents/skills/dungeondraft/SKILL.md) before reading or writing a `.dungeondraft_map`, searching pack textures, or building a Dungeondraft battlemap. Only do so when the user explicitly says "Dungeondraft"; a plain "battlemap" or "map" request means the [dnd4e-battlemap skill](.agents/skills/dnd4e-battlemap/SKILL.md)'s read-only grid.
 - `.agents/skills/` — shared reference skills (DnD4e Active Effect keys, aura effects, effect macros) and one per-module skill (`<module-name>`) carrying that module's specific layout/architecture/style notes. Load the matching module skill before working inside `src/<module-name>/`.
 - `Makefile` / `package.json` — copy built modules into the local Foundry `Data/modules` folder for manual testing; see "Deploying to Foundry" below.
 
@@ -53,6 +53,8 @@ For monster selection or recommendations, use the
 [dnd4e-monster-search skill](.agents/skills/dnd4e-monster-search/SKILL.md): prefer
 Monster Manual 3 / Monster Vault and recalculate other sources with the saved
 user-supplied monster-math table.
+For a battlemap or grid on its own (no encounter), use the
+[dnd4e-battlemap skill](.agents/skills/dnd4e-battlemap/SKILL.md).
 For encounter design, use the
 [Encounter Creation skill](.agents/skills/encounter-creation/SKILL.md) to build and
 validate a roster, report tactics, and offer approved Foundry insertion with an

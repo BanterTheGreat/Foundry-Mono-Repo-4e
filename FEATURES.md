@@ -72,7 +72,7 @@ Ledger recording depends on observed actions; missing history and offline time c
 
 | Feature | Description | Access |
 | --- | --- | --- |
-| Player active defense | targeted players defend against NPC attacks; results update in chat. | Targeted owners roll; GM resolves message updates |
+| Player active defense | targeted players defend against NPC attacks; results update in chat. Waiting cards with only pending player defenses suppress the inherited attack dice sound. | Targeted owners roll; GM resolves message updates |
 | Compact chat cards | styled power, attack, damage, and skill cards with multi-target summaries and shared Roll Damage actions. | Players & GM; roll actions respect ownership |
 | Modifier badges | attack and skill modifier sources captured at roll time. | Players & GM; subject to chat visibility |
 | Targeting warnings | warn when attacking without selected targets. | Players & GM |
@@ -141,7 +141,7 @@ The book is largely complete through level 10; later advancement is not fully ve
 | Automated tests | for repository tooling and supported module behavior. | Developers / maintainers |
 | Foundry integration-test harness | and browser test workflow for the designated test world. Fixture actors and scenes are created in an "INTEGRATION TESTS" folder. | Developers / maintainers |
 | UI prototypes | for design exploration, separate from production features. | Developers / maintainers |
-| Dungeondraft tooling | (`src/dungeondraft-tools`) searchable index and previews of the local Crosshead asset packs, a dependency-free PNG compositor, and generators and verifiers that turn an encounter grid into a battlemap PNG and a native Dungeondraft map. Never deployed to Foundry. | Developers / maintainers |
+| Dungeondraft tooling | (`src/dungeondraft-tools`) searchable index and previews of the local Crosshead asset packs, a dependency-free PNG compositor, and generators and verifiers that turn an encounter grid into a battlemap PNG and a native Dungeondraft map (the dockyard, Cloudwood and Grappa safehouse maps include Baileywiki shadow paths and prop circles; the safehouse map adds an east street and a south corridor around the original grid). Never deployed to Foundry. | Developers / maintainers |
 
 ## Manual Feature Test Checklist
 
@@ -154,6 +154,7 @@ Check each item after enabling its module (and, where noted, its setting).
 - [ ] Homebrew skills — replaces History, Heal, Religion, Streetwise, and Dungeoneering with Crafting, Society, Religion (Wisdom), and Medicine (Intelligence).
 - [ ] Target warning — warns a player who rolls an attack without selecting a target.
 - [ ] Active defense — an NPC attack prompts the targeted player to roll a defense; the chat result is updated.
+- [ ] Defense waiting audio — targeting only PCs creates a silent waiting card; mixed PC/NPC attacks retain audio for the native NPC rolls.
 - [ ] Opportunity-attack chat actions — eligible power cards cycle between regular, Charge, and Opportunity Attack rolls.
 - [ ] Trigger prompts — enabled, configured combat triggers send private, claimable chat prompts to the relevant player.
 - [ ] Opportunity attack trigger — prompt when an enemy movement permits an opportunity attack.

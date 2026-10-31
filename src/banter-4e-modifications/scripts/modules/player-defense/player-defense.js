@@ -176,6 +176,10 @@ export class PlayerDefense {
       data.flags = { ...message.flags, ...data.flags };
       data.flags.playerDefense.automationManaged = true;
       data.rolls = message.rolls.filter(roll => !ids.has(roll.options?.multirollData?.targetID));
+      if (data.rolls.length === 0) {
+        // The native roll message carries dice audio even after its rolls are removed.
+        data.sound = null;
+      }
       data.flags.playerDefense.nativeResults = data.rolls.map(roll => {
         const attack = roll.options.multirollData;
         const outcome = ["critical", "fumble", "immune"].includes(attack.critstate) ? attack.critstate : attack.hitstate;

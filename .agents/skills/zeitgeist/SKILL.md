@@ -51,3 +51,16 @@ number when available; distinguish PDF page numbers when they differ.
 When adapting material into Modern 4e, also follow the
 [modern4e skill](../modern4e/SKILL.md) and distinguish the published adventure
 material from local rulebook changes.
+
+## Look and feel for maps and art
+
+This skill does not hold an art guide; the setting's look comes from the Players Guide, which describes Flint, the industrial
+capital of Risur where most of the campaign plays out. Use it to dress battlemaps:
+
+- Flint is a soot-choked industrial city set among granite hills: red brick and grey granite, cobbled streets worn to dirt,
+  factories, freight rail and the "subrail", crowded flophouses and stacked tenements for factory workers.
+- Better districts (Stray River) have well-tended streets and quaint two-storey brick houses; the Nettles are shacks and
+  poorly built slum housing clinging to hillsides.
+- Interiors use gas-lit lamps on the walls or in ceiling recesses. Technology is steam-and-clockwork industry: copper pipes,
+  cogs, crates of freight, workshops. Magic is present but the mood is a gritty industrial age, not a gleaming fantasy city.
+- Keep palettes dark and sooty with warm lamp accents; avoid pristine or rustic-fantasy dressing for Flint scenes.

@@ -72,6 +72,28 @@ const walls = scene.walls.map((w) => {
   return { points: poolVec(w.points), texture: res(w), color: 'ffffffff', loop: w.loop, type: 1, joint: 0, normalize_uv: true, shadow: false, node_id: id, portals };
 });
 
+// ---------- paths: the BW wall shadows ----------
+const paths = scene.paths.map((p) => {
+  const [ox, oy] = p.points[0];
+  return {
+    position: vec(ox, oy),
+    rotation: 0,
+    scale: vec(1, 1),
+    edit_points: poolVec(p.points.map(([x, y]) => [+(x - ox).toFixed(2), +(y - oy).toFixed(2)])),
+    smoothness: p.points.length > 2 ? 1 : 0,
+    texture: res(p),
+    width: p.width,
+    layer: p.layer,
+    fade_in: false,
+    fade_out: false,
+    grow: false,
+    shrink: false,
+    block_light: false,
+    loop: false,
+    node_id: nodeId(),
+  };
+});
+
 // ---------- terrain ----------
 const TW = COLS * 4, TH = ROWS * 4; // 64-px texels
 const splat = new Array(TW * TH * 4).fill(0);
@@ -132,7 +154,7 @@ const level = {
   terrain,
   water: { disable_border: false },
   materials: {},
-  paths: [],
+  paths,
   objects,
   lights: [],
   roofs: { shade: true, shade_contrast: 0.5, sun_direction: 45, roofs: [] },
@@ -190,4 +212,4 @@ const file = path.join(OUT, `${NAME}.dungeondraft_map`);
 fs.writeFileSync(file, JSON.stringify(map, null, '\t') + '\n');
 const portalCount = walls.reduce((a, w) => a + w.portals.length, 0);
 console.log(`Wrote ${file}`);
-console.log(`${patterns.length} patterns, ${walls.length} walls (${portalCount} portals), ${objects.length} objects (${scene.stats.clutter} clutter); packs: ${[...usedPacks].sort().join(', ')}`);
+console.log(`${patterns.length} patterns, ${walls.length} walls (${portalCount} portals), ${paths.length} shadow paths, ${objects.length} objects (${scene.stats.clutter} clutter); packs: ${[...usedPacks].sort().join(', ')}`);

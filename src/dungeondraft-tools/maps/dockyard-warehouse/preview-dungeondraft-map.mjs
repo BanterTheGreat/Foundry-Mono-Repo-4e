@@ -94,6 +94,19 @@ function drawWall(w) {
   });
 }
 
+/** A path is its texture tiled along the polyline, `width` px thick (texture scaled uniformly, so a tile is texture-width * width / texture-height long). */
+function drawPath(p) {
+  const sp = tex(p.texture), [ox, oy] = vec(p.position), P = pool(p.edit_points).map(([x, y]) => [x + ox, y + oy]);
+  const tile = sp.w * (p.width / sp.h);
+  for (let i = 0; i + 1 < P.length; i++) {
+    const a = P[i], b = P[i + 1], len = Math.hypot(b[0] - a[0], b[1] - a[1]), ang = Math.atan2(b[1] - a[1], b[0] - a[0]);
+    for (let t = 0; t < len; t += tile) {
+      const t1 = Math.min(t + tile, len), mid = t + tile / 2;
+      cv.draw(sp, { cx: (a[0] + Math.cos(ang) * mid) * k, cy: (a[1] + Math.sin(ang) * mid) * k, w: tile * k, h: p.width * k, rot: ang, clip: clipRect(a, ang, t, t1, p.width) });
+    }
+  }
+}
+
 function drawObject(o) {
   const sp = tex(o.texture), [x, y] = vec(o.position), sc = vec(o.scale)[0];
   cv.draw(sp, { cx: x * k, cy: y * k, w: sp.w * sc * k, rot: o.rotation, flipX: o.mirror });
@@ -103,6 +116,7 @@ function drawObject(o) {
 const WALL_Z = 600;
 const items = [
   ...lv.patterns.map((p) => ({ z: p.layer, draw: () => drawPattern(p) })),
+  ...lv.paths.map((p) => ({ z: p.layer, draw: () => drawPath(p) })),
   ...lv.objects.map((o) => ({ z: o.layer, draw: () => drawObject(o) })),
   ...lv.walls.map((w) => ({ z: WALL_Z, draw: () => drawWall(w) })),
 ];

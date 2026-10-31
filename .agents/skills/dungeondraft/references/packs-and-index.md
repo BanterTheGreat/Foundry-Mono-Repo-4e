@@ -15,6 +15,7 @@
 - **256 px = one 5 ft square.** Evidence: the water stairs are 256x263, a standard crate is about 206 px, a Scenes `thickwall` is 254 px thick. Pixel sizes are all the packs give, so verify scale by looking.
 - Wall thickness is the texture height: 33 to 330 px, median 88. Only a few families (Scenes `thickwall`, Death `bone2wall`) are a full square thick.
 - Families named `*_shadow*` or tagged `Shadow` are grey drop-shadow silhouettes, not the prop. Exclude them when searching for the object.
+- The `[BW] Baileywiki Shadows` pack (id `IFGltsLb`, file `BW-Baileywiki-Shadows.dungeondraft_pack`, no `CH - ` prefix) is entirely shadows and lights: circles, half/full shadow paths and patterns at strengths 025-100, plus three circle lights. `--no-shadow` hides it. See the Shadows section of SKILL.md for how to use it. Its tag file names the circles `_25`/`_50`/`_75` but the files are `_025`/`_050`/`_075`; trust the index, not the tags.
 - **Colorable** textures (index column `colorable`) are drawn raw red until Dungeondraft tints them; they are meant for objects given a `custom_color`. Filter them out of untinted scatter (the dockyard generator refuses them).
 - Variants: letters (`_1a`, `_1b`) are alternate versions of one design, digits are different designs.
 - Known defect: Shops `tentmarket2_5.png` is a 0-byte file.

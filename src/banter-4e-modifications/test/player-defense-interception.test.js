@@ -109,6 +109,33 @@ test("player attackers and NPC-only targets never enter Player Defense", () => {
   }
 });
 
+test("automated defense waiting cards silence inherited dice audio only when no native rolls remain", () => {
+  for (const includeNpc of [false, true]) {
+    const attacker = { id: "enemy", name: "Enemy", type: "NPC" };
+    const hero = { id: "hero", name: "Hero", type: "Player Character" };
+    const token = { id: "hero-token", actor: hero };
+    const item = { id: "bite", name: "Bite", system: { attack: { def: "ac" } } };
+    globalThis.canvas = { scene: { id: "scene" } };
+    globalThis.game = {
+      actors: [attacker], users: [{ id: "gm", active: true, isGM: true }],
+      settings: { settings: new Map(), get: () => false }, PlayerDefense: new PlayerDefense(),
+    };
+    PlayerDefense.OnRollAttack(item, { targets: [token], targDefValArray: [20] }, { actor: attacker.id });
+    const rolls = [{ formula: "1d20 + 10", options: { multirollData: { targetID: token.id } } }];
+    if (includeNpc) {
+      rolls.push({ formula: "1d20 + 10", options: { multirollData: { targetID: "npc-token" } } });
+    }
+    const message = {
+      flavor: "Bite", sound: "sounds/dice.wav", rolls,
+      flags: { "dnd4e-health-display": { attackResults: { effectsManaged: true, targetIds: [token.id] } } },
+      updateSource(data) { Object.assign(this, data); },
+    };
+    assert.equal(PlayerDefense.OnPowerChatMessage(message), true);
+    assert.equal(message.rolls.length, includeNpc ? 1 : 0);
+    assert.equal(message.sound, includeNpc ? "sounds/dice.wav" : null);
+  }
+});
+
 
 test("managed defense modifiers change the total without rerolling or overriding natural results", async () => {
   globalThis.foundry = { utils: { deepClone: structuredClone } };

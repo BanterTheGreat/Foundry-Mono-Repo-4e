@@ -5,6 +5,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { INDEX_DIR, PACK_DIR, loadRows, readPck, readEntry } from '../lib/lib.mjs';
+import { packs as allPacks } from '../lib/packs.mjs';
 
 const [packArg, nameArg, outArg] = process.argv.slice(2);
 if (!packArg || !nameArg) {
@@ -33,13 +34,13 @@ hits = hits.slice(0, 12);
 fs.mkdirSync(outDir, { recursive: true });
 const tableCache = new Map();
 for (const r of hits) {
-  const file = fs.readdirSync(PACK_DIR).find((n) => n.startsWith(`CH - ${r.pack} v`) && n.endsWith('.dungeondraft_pack'));
+  const file = allPacks().byName.get(r.pack).file;
   if (!tableCache.has(file)) {
-    tableCache.set(file, readPck(path.join(PACK_DIR, file)));
+    tableCache.set(file, readPck(file));
   }
   const entry = tableCache.get(file).find((e) => e.path.endsWith('/' + r.rel));
   const safe = (s) => s.replace(/[^A-Za-z0-9]+/g, '_');
   const dest = path.join(outDir, `${safe(r.pack)}__${r.kind}__${r.name.replace(/[^\w.-]+/g, '_')}${r.sub === 'end' ? '_end' : ''}.png`);
-  fs.writeFileSync(dest, readEntry(path.join(PACK_DIR, file), entry));
+  fs.writeFileSync(dest, readEntry(file, entry));
   console.log(`${dest}  (${r.w}x${r.h})`);
 }

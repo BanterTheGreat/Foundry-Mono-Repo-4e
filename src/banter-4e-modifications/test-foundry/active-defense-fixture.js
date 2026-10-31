@@ -95,3 +95,75 @@ async function fixedAttackRoll(formula) {
   source.total += adjustment;
   return Roll.fromJSON(JSON.stringify(source));
 }
+
+/**
+ * Several creatures using one power together against a single player character, as the group
+ * attack workflow produces: one attack message per creature in the same session, each carrying
+ * `groupSize` and its own `casterId`. Each creature's roll adds a different bonus, so each
+ * attack has its own DC. Like `createDefenseScenario`, it feeds the system's rollAttack hook
+ * and then creates the native chat message, without opening the native NPC attack dialog.
+ */
+export async function createGroupDefenseScenario({ ownerId, attackers = 3, dialogs = false } = {}) {
+  assertTestWorld();
+  if (!game.settings.get("banter-4e-modifications", "enable-active-defense") || !game.PlayerDefense || !game.SocketHelper) {
+    throw new Error("Enable Active Defense and reload the test world before running its tests.");
+  }
+  if (ownerId && !game.users.get(ownerId)?.active) {
+    throw new Error("The assigned test player must be logged in first.");
+  }
+  const fixtures = new TestDocuments();
+  const previousAttack = game.PlayerDefense.lastAttack;
+  let hook;
+  try {
+    const hero = await fixtures.createActor({ type: "Player Character", ownerId });
+    const heroToken = await fixtures.createToken(hero, 100);
+    if (!heroToken.object) {
+      throw new Error("The test token is not available on the canvas.");
+    }
+    const sessionId = fixtures.runId;
+    const creatures = [];
+    for (let index = 0; index < attackers; index++) {
+      const actor = await fixtures.createActor({ items: [{
+        name: `[Integration test ${fixtures.runId}] Group strike ${index + 1}`, type: "power",
+        system: { attack: { isAttack: true, def: "ac" }, hit: { detail: "The target is struck." },
+          miss: { detail: "The target avoids the strike." } },
+      }] });
+      creatures.push({ actor, token: await fixtures.createToken(actor, 300 + index * 100), item: actor.items.contents[0] });
+    }
+    // Only suppress dialogs on our own Quench fixtures; browser workflows use real assignment.
+    if (!dialogs) {
+      hook = Hooks.on("preCreateChatMessage", message => {
+        if (message.flags?.["foundry-test-harness"]?.runId === fixtures.runId && message.flags.playerDefense) {
+          message.updateSource({ "flags.playerDefense.targets": message.flags.playerDefense.targets.map(target =>
+            ({ ...target, dialogAttempted: true })) });
+        }
+      });
+    }
+    const messages = [];
+    for (const [index, { actor, token, item }] of creatures.entries()) {
+      const roll = await fixedAttackRoll(`1d20 + ${6 + index}`);
+      roll.options.multirollData = { targetID: heroToken.id, hitstate: "hit", critstate: "normal" };
+      const payload = { targets: [heroToken.object], targDefValArray: [22], targetHit: [heroToken.object], targetMissed: [] };
+      Hooks.callAll("dnd4e.rollAttack", item, payload, { actor: actor.id, token: token.id });
+      messages.push(await fixtures.createMessage({
+        flavor: item.name, speaker: { actor: actor.id, token: token.id, scene: canvas.scene.id }, rolls: [roll],
+        flags: { "dnd4e-health-display": { attackResults: {
+          sessionId, effectsManaged: true, pending: true, sceneId: canvas.scene.id, sourceTokenId: token.id,
+          casterId: token.id, groupSize: attackers, attackIndex: index, itemUuid: item.uuid, targetIds: [heroToken.id],
+        } } },
+      }));
+      if (!messages.at(-1).flags.playerDefense?.automationManaged) {
+        throw new Error("The registered Active Defense hooks did not intercept a group member's attack.");
+      }
+    }
+    return { fixtures, hero, heroToken, creatures, messages, sessionId };
+  } catch (error) {
+    await fixtures.cleanup();
+    throw error;
+  } finally {
+    if (hook !== undefined) {
+      Hooks.off("preCreateChatMessage", hook);
+    }
+    game.PlayerDefense.lastAttack = previousAttack;
+  }
+}

@@ -6,6 +6,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { PACK_DIR, loadRows, readPck, readEntry } from '../lib/lib.mjs';
 import { decodePng, encodePng, Sprite, Canvas } from '../lib/png.mjs';
+import { packs } from '../lib/packs.mjs';
 
 const args = process.argv.slice(2);
 const out = args.shift();
@@ -69,9 +70,8 @@ const gridRows = Math.ceil(rows.length / o.cols) || 1;
 const pad = 6;
 const c = new Canvas(o.cols * (o.cell + pad) + pad, gridRows * (o.cell + pad) + pad, o.bg);
 const tables = new Map();
-const files = fs.readdirSync(PACK_DIR);
 rows.forEach((r, i) => {
-  const file = path.join(PACK_DIR, files.find((n) => n.startsWith(`CH - ${r.pack} v`) && n.endsWith('.dungeondraft_pack')));
+  const file = packs().byName.get(r.pack).file;
   if (!tables.has(file)) { tables.set(file, readPck(file)); }
   const e = tables.get(file).find((x) => x.path.endsWith('/' + r.rel));
   const sp = new Sprite(decodePng(readEntry(file, e)));

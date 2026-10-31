@@ -6,6 +6,7 @@ import { INDEX_DIR, PACK_DIR, readPck, readEntry, pngSize, parseLoose, relPath, 
 
 const KINDS = ['objects', 'paths', 'patterns', 'terrain', 'walls', 'portals', 'lights', 'materials'];
 const BLURBS = {
+  '[BW] Baileywiki Shadows': 'Baileywiki shadow and lighting utilities (not props): circular drop-shadow objects, soft shadow paths and patterns, circular lights, each in 25/50/75/100 strengths. Mostly shadows, so --no-shadow hides them.',
   'Above&Below': 'Airships, sailing ships, clouds, caves, giant mushrooms, creatures/mounts, weapons/armor.',
   'Buildings': 'Medieval town buildings: walls, roofs, doors/portals, furniture, shops (alchemist, bakery, bar, blacksmith), carpets, weapons.',
   'Death': 'Undead/graveyard/desolate theme: skeletons and bones, dead trees and plants, red rock, statues, broken stone, floor art.',

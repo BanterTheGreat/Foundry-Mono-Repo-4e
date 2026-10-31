@@ -1,4 +1,4 @@
-import { createDefenseScenario } from "./active-defense-fixture.js";
+import { createDefenseScenario, createGroupDefenseScenario } from "./active-defense-fixture.js";
 import { SocketHelper } from "../scripts/modules/player-defense/socket-helper.js";
 
 /** Register tests against real hooks, serialized Roll objects, and persisted chat documents. */
@@ -93,6 +93,36 @@ export function registerActiveDefenseTests(quench) {
         assert.equal(message.flags.playerDefense.targets[0].outcome, "normal");
         assert.isFalse(message.flags.playerDefense.targets[1].resolved);
         assert.lengthOf(message.rolls, 1, "adjustments must not roll any new dice");
+      });
+
+      it("intercepts every attack of a multi-attack with its own DC, attacker and pending defense", async function () {
+        scenario = await createGroupDefenseScenario();
+        assert.lengthOf(scenario.messages, 3);
+        const targets = scenario.messages.map(message => message.flags.playerDefense.targets[0]);
+        assert.deepEqual(targets.map(target => target.tokenId), Array(3).fill(scenario.heroToken.id), "all three attacks target the same character");
+        assert.deepEqual(targets.map(target => target.rollDC), [18, 19, 20], "each attacker's own bonus sets its own DC");
+        assert.deepEqual(scenario.messages.map(message => message.flags.playerDefense.attackerTokenId), scenario.creatures.map(creature => creature.token.id));
+        for (const message of scenario.messages) {
+          assert.equal(message.flags["dnd4e-health-display"].attackResults.groupSize, 3);
+          assert.isTrue(message.flags.playerDefense.automationManaged);
+          assert.isTrue(message.flags["dnd4e-health-display"].attackResults.pending);
+          assert.lengthOf(message.rolls, 0, "the player character's native roll is replaced by a defense");
+        }
+        assert.isFalse(targets.some(target => target.resolved));
+      });
+
+      it("resolves each attack of a multi-attack on its own message without touching the others", async function () {
+        scenario = await createGroupDefenseScenario();
+        const [first, second] = scenario.messages;
+        const target = first.flags.playerDefense.targets[0];
+        const roll = await new Roll("10 + 12").evaluate();
+        assert.isTrue(await SocketHelper.resolveDefenseTarget(first.id, target.id, "miss", "ignored", { total: 22, natural: 10,
+          rollHtml: await roll.render(), roll: JSON.stringify(roll.toJSON()) }));
+        assert.isTrue(first.flags.playerDefense.targets[0].resolved);
+        assert.isFalse(second.flags.playerDefense.targets[0].resolved);
+        assert.lengthOf(first.rolls, 1);
+        assert.equal(first.rolls[0].options.banterDefenseTarget, scenario.heroToken.id);
+        assert.lengthOf(second.rolls, 0);
       });
     });
   }, { displayName: "BANTER: Active Defense live hooks and GM resolution", preSelected: false });

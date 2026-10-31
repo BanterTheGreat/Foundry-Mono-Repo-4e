@@ -49,6 +49,8 @@ Keys in order: `label` ("Ground"), `environment` (`baked_lighting` true, `ambien
 
 **path**: `position`, `rotation`, `scale`, `edit_points` (relative to `position`), `smoothness`, `texture`, `width`, `layer`, `fade_in`, `fade_out`, `grow`, `shrink`, `block_light`, `loop`, `node_id`. How `width` relates to texture height is unresolved (13 for a thin line, 256 and 452 elsewhere); verify before generating paths.
 
+- Path `width` equals the texture's pixel height at scale 1 (stairs_whitestone_2 is 256x275 and the user's maps use 275; a width above or below that scales the texture uniformly, its tiles lengthening with it). Cliff strips (`terrain_dirt_cliff`, `terrain_dirtdark_cliff`, paths) are lit from the strip's top, which is the left of the direction of travel on screen: for travel direction `d` the top points to `(d.y, -d.x)`, so run each cliff so that this points at the high ground (cliff-generator inference from the images; unverified in Dungeondraft). A 2-point path needs `smoothness` 0 or 1 alike. Paths sit on layers 100-200 below object layers.
+
 `node_id` is a hex string, unique across the level (patterns, walls, portals, objects, paths).
 
 ## terrain
@@ -65,4 +67,4 @@ Keys in order: `label` ("Ground"), `environment` (`baked_lighting` true, `ambien
 
 ## Unverified
 
-Dungeondraft was not run against generated maps. Treat these as open until the user reports: pattern tile scale, open-door rendering, wall `_end` caps, world-versus-object shadow flags, path `width`. A generated map that matches a real map's structure but renders oddly points at one of these, not at the JSON syntax.
+Dungeondraft was not run against generated maps. Treat these as open until the user reports: pattern tile scale, open-door rendering, wall `_end` caps, world-versus-object shadow flags, path `width` and cliff-strip orientation (Cloudwood map). A generated map that matches a real map's structure but renders oddly points at one of these, not at the JSON syntax.
