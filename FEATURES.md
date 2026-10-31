@@ -50,11 +50,11 @@ Some targeting checks are advisory. Special power rules require manual adjudicat
 | Encounter calculator | difficulty, encounter level, and XP calculations. | **GM only** |
 | Combat Pointers | encounter strategy notes and turn pointers. | **GM only** |
 | GM combat tracker | turn order, HP and initiative editing, visibility, defeat, removal, turn navigation, and combat ending. | **GM only** |
-| Combat Ledger | saved GM combat reports with elapsed time, turns, average turn time, and time spent contemplating. | **GM only** |
+| Combat Ledger | saved GM combat reports with elapsed time, turns, average turn time, and time spent contemplating. Optional world setting "Enable Combat Ledger" (on by default, reload required); when off, nothing is recorded and the tracker button is hidden, but saved reports are kept. | **GM only** |
 | Combat statistics | hits, incoming hits, estimated damage, average d20 results, and kills. | **GM only** |
 | Round charts | damage dealt and party/enemy resource snapshots. | **GM only** |
 | Companion attribution | merge companion statistics into their owner. | **GM only** |
-| Battle momentum | configurable GM strength estimator with provisional calibration; estimates are not victory probabilities. | **GM only** |
+| Battle momentum | configurable GM strength estimator with provisional calibration; estimates are not victory probabilities. Optional world setting "Enable Battle Momentum" (on by default, reload required); when off, combats are not observed and no button is shown. With the Ledger off, the button appears alone in the tracker header. | **GM only** |
 
 Ledger recording depends on observed actions; missing history and offline time cannot be reconstructed.
 

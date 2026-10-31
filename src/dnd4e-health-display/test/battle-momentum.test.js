@@ -110,7 +110,7 @@ test("momentum changes independently of balance and resets at a new round", () =
 });
 
 /** Exercise the actual controller with document-free ApplicationV2 and hook boundaries. */
-function controllerHarness(isGM = true) {
+function controllerHarness(isGM = true, enabled = true) {
 	const c = fixture();
 	const hooks = new Map();
 	const timers = new Map();
@@ -124,7 +124,7 @@ function controllerHarness(isGM = true) {
 		async close() { this.rendered = false; }
 	}
 	const context = vm.createContext({ ...data, MODULE_ID: "dnd4e-health-display", console,
-		game: { user: { isGM }, combat: c, settings: { get: () => 1.5, register() {} } }, ui: { combat: { viewed: c } },
+		game: { user: { isGM }, combat: c, settings: { get: (module, key) => key === "battleMomentumEnabled" ? enabled : 1.5, register() {} } }, ui: { combat: { viewed: c } },
 		foundry: { applications: { api: { ApplicationV2: Application, HandlebarsApplicationMixin: base => base } } },
 		Hooks: { on(name, callback) { const list = hooks.get(name) ?? []; list.push(callback); hooks.set(name, list); } },
 		setTimeout(callback) { const id = ++nextTimer; timers.set(id, callback); return id; }, clearTimeout(id) { timers.delete(id); },
@@ -232,4 +232,32 @@ test("real ES module loading initializes the panel template without a main-entry
 	`;
 	const result = spawnSync(process.execPath, ["--experimental-vm-modules", "--input-type=module", "-e", script], { encoding: "utf8" });
 	assert.equal(result.status, 0, result.stderr);
+});
+
+test("disabled Battle Momentum registers no hooks, panel, or tracker observation for a GM", async () => {
+	const h = controllerHarness(true, false);
+	h.api.registerBattleMomentum();
+	await h.flush();
+	assert.equal(h.hooks.size, 0);
+	assert.equal(h.api.getPanel(), undefined);
+	assert.equal(h.api.sessions.size, 0);
+});
+
+test("momentum icon sits alone in the tracker header when Combat Ledger is disabled", () => {
+	const h = controllerHarness();
+	let icon;
+	const header = { children: [], querySelector: () => null, append(node) { this.children.push(node); } };
+	h.context.document = { createElement: () => ({ dataset: {}, children: [],
+		setAttribute(name, value) { this[name] = value; }, addEventListener() {},
+		append(node) { this.children.push(node); if (node.dataset?.battleMomentum !== undefined) { icon = node; } },
+	}) };
+	const element = { querySelector: selector => selector === ".combat-tracker-header" ? header : null };
+	h.api.addMomentumButton(h.context.ui.combat, element);
+	assert.equal(header.children.length, 1);
+	assert.equal(header.children[0].className, "battle-momentum-tracker-controls");
+	assert.equal(header.children[0].children[0], icon);
+	assert.equal(icon["aria-label"], "Open battle momentum");
+	h.api.addMomentumButton(h.context.ui.combat, { querySelector: selector => selector === ".combat-tracker-header" ? { ...header, querySelector: () => header.children[0] } : icon });
+	assert.equal(header.children.length, 1);
+	assert.equal(header.children[0].children.length, 1);
 });

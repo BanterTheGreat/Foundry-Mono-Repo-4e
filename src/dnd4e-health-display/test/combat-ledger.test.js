@@ -202,7 +202,7 @@ function collection(entries = []) {
 }
 
 /** Exercise the actual controller registrations, storage, and document observers. */
-function controllerHarness({ rejectStorage = false, rejectWrites = 0, initialStorage = null } = {}) {
+function controllerHarness({ rejectStorage = false, rejectWrites = 0, initialStorage = null, enabled = true } = {}) {
 	const hooks = new Map();
 	const scheduled = [];
 	const warnings = [];
@@ -220,7 +220,7 @@ function controllerHarness({ rejectStorage = false, rejectWrites = 0, initialSto
 	};
 	const creations = [];
 	const game = { user: { id: "gm", isGM: true }, users: { activeGM: { id: "gm" } }, paused: false,
-		system: { id: "dnd4e" }, settings: { get: () => ({ bindings: [] }) },
+		system: { id: "dnd4e" }, settings: { get: (module, key) => key === data.LEDGER_ENABLED_SETTING ? enabled : { bindings: [] } },
 		journal: collection(), combats: collection([fixture.combat]), messages: collection(), socket: { on() {} },
 		scenes: new Map([["scene", { tokens: fixture.combat.combatants.map(entry => entry.token) }]]) };
 	if (initialStorage) {
@@ -472,4 +472,13 @@ test("the production ledger view reads real reports, weighted attribution, and b
 	assert.match(result.damageChart, /24 damage/);
 	h.context.game.user.isGM = false;
 	await assert.rejects(() => h.context.api.CombatLedger.prototype._prepareContext.call({}), /GM only/);
+});
+
+test("disabled Combat Ledger registers no hooks, recording, storage, or timers", () => {
+	const h = controllerHarness({ enabled: false });
+	assert.equal(h.hooks.size, 0);
+	assert.equal(h.services, undefined);
+	assert.equal(h.creations.length, 0);
+	assert.equal(h.scheduled.length, 0);
+	assert.equal(h.writeCount, 0);
 });

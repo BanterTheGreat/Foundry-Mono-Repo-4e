@@ -1,6 +1,7 @@
 import { createMomentumSession, observeMomentum, momentumView } from "./momentum-data.js";
 
 const MODULE_ID = "dnd4e-health-display";
+const ENABLED_SETTING = "battleMomentumEnabled";
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 const sessions = new Map();
 let panel;
@@ -9,6 +10,11 @@ let refreshQueue = Promise.resolve();
 
 /** Register the visible estimator's explicit, provisional calibration. */
 export function registerMomentumSettings() {
+	game.settings.register(MODULE_ID, ENABLED_SETTING, {
+		name: "Enable Battle Momentum",
+		hint: "Show the GM's battle momentum estimator and its combat tracker button. Turning this off stops observing combats.",
+		scope: "world", config: true, type: Boolean, default: true, requiresReload: true,
+	});
 	game.settings.register(MODULE_ID, "momentumPartyEdge", {
 		name: "Battle momentum: party edge", scope: "client", config: true, type: Number, default: 1.5,
 		hint: "Party-strength multiplier used by the GM's momentum estimate. 1.5 is provisional; this is not a victory probability.",
@@ -22,9 +28,9 @@ export function registerMomentumSettings() {
 	});
 }
 
-/** Register exclusively on GM clients; the ledger registers its tracker control first. */
+/** Register exclusively on GM clients when enabled; the ledger, if enabled, registers its tracker control first. */
 export function registerBattleMomentum() {
-	if (!game.user.isGM) {
+	if (!game.user.isGM || !game.settings.get(MODULE_ID, ENABLED_SETTING)) {
 		return;
 	}
 	Hooks.on("renderCombatTracker", (app, element) => {
@@ -53,13 +59,14 @@ function currentCombat() {
 	return ui.combat?.viewed ?? game.combat;
 }
 
-/** Insert one icon immediately after Combat Ledger's statistics button. */
+/** Insert one icon immediately after Combat Ledger's statistics button, or into the tracker header when the ledger is disabled. */
 export function addMomentumButton(app, element) {
 	if (!game.user.isGM || app !== ui.combat || app.isPopout || element.querySelector("[data-battle-momentum]")) {
 		return;
 	}
 	const statistics = element.querySelector("[data-combat-ledger]");
-	if (!statistics) {
+	const header = statistics ? null : element.querySelector(".combat-tracker-header") ?? element.querySelector(".directory-header");
+	if (!statistics && !header) {
 		return;
 	}
 	const button = document.createElement("button");
@@ -70,12 +77,16 @@ export function addMomentumButton(app, element) {
 	button.setAttribute("aria-label", "Open battle momentum");
 	button.innerHTML = '<i class="fa-solid fa-scale-balanced" aria-hidden="true"></i>';
 	button.addEventListener("click", openMomentum);
-	let controls = statistics.closest(".battle-momentum-tracker-controls");
+	let controls = statistics ? statistics.closest(".battle-momentum-tracker-controls") : header.querySelector(".battle-momentum-tracker-controls");
 	if (!controls) {
 		controls = document.createElement("div");
 		controls.className = "battle-momentum-tracker-controls";
-		statistics.before(controls);
-		controls.append(statistics);
+		if (statistics) {
+			statistics.before(controls);
+			controls.append(statistics);
+		} else {
+			header.append(controls);
+		}
 	}
 	controls.append(button);
 }

@@ -1,4 +1,4 @@
-import { MODULE_ID, BINDINGS_SETTING, reportRows, tickReport } from "./ledger-data.js";
+import { MODULE_ID, BINDINGS_SETTING, LEDGER_ENABLED_SETTING, reportRows, tickReport } from "./ledger-data.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 let services = { getState: () => ({ reports: {} }), retry: async () => {} };
@@ -11,6 +11,11 @@ export function configureLedgerUI(recorder) {
 
 /** Register the independent GM-only world-settings submenu. */
 export function registerLedgerSettings() {
+	game.settings.register(MODULE_ID, LEDGER_ENABLED_SETTING, {
+		name: "Enable Combat Ledger",
+		hint: "Record and show GM combat reports. Turning this off stops recording and hides the Combat Ledger button; saved reports are kept.",
+		scope: "world", config: true, type: Boolean, default: true, requiresReload: true,
+	});
 	game.settings.register(MODULE_ID, BINDINGS_SETTING, {
 		name: "Combat Ledger attribution", scope: "world", config: false, type: Object,
 		default: { bindings: [] }, onChange: refreshLedger,

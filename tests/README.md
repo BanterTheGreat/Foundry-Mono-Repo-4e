@@ -19,6 +19,14 @@ Run the full `dnd4e-health-display` suite:
 node --test src/dnd4e-health-display/test/*.test.js
 ```
 
+Combat Ledger and Battle Momentum, including their "Enable" world settings:
+
+```sh
+node --test src/dnd4e-health-display/test/combat-ledger.test.js src/dnd4e-health-display/test/battle-momentum.test.js
+```
+
+After reload, untick "Enable Combat Ledger" and/or "Enable Battle Momentum" in module settings, reload again, and confirm the matching combat tracker buttons are gone and the console is clean. With only the Ledger off, the momentum button should still appear.
+
 Run only the power activation tests, including automatic target selection, target focusing, and attack variant buttons:
 
 ```sh

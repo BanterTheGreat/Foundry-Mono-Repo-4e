@@ -1,4 +1,4 @@
-import { MODULE_ID, BINDINGS_SETTING, actorResources, participantData, createReport, tickReport,
+import { MODULE_ID, BINDINGS_SETTING, LEDGER_ENABLED_SETTING, actorResources, participantData, createReport, tickReport,
 	ensureParticipant, finishTurn, markActivity, resourceSnapshot, snapshotRound, recordHealth,
 	recordMessage, messageParticipant, isAttackRoll, restoreParticipantKeys } from "./ledger-data.js";
 import { configureLedgerUI, addLedgerButton, refreshLedger } from "./ledger-ui.js";
@@ -358,7 +358,7 @@ function announcePreview(app) {
  */
 export function registerCombatLedger() {
 	observeLedger(() => {
-		if (game.system.id !== "dnd4e") {
+		if (game.system.id !== "dnd4e" || !game.settings.get(MODULE_ID, LEDGER_ENABLED_SETTING)) {
 			return;
 		}
 		configureLedgerUI({ getState: () => ({ reports, lastReportId, storageError, dirty }), retry: saveLedger });

@@ -1,6 +1,7 @@
 /** Combat Ledger records are plain, GM-owned JSON; no document mutations belong here. */
 export const MODULE_ID = "dnd4e-health-display";
 export const BINDINGS_SETTING = "combatLedgerBindings";
+export const LEDGER_ENABLED_SETTING = "combatLedgerEnabled";
 
 /**
  * Recover UUID-keyed records expanded into nested objects by Foundry flag updates.
