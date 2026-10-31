@@ -1,11 +1,23 @@
 <div class="dnd4e-horizontal-actor-display__outer {{#if isGM}}is-gm{{/if}} is-portrait-hud">
 	<div class="dnd4e-horizontal-actor-display__left-col">
-		<section class="dnd4e-horizontal-actor-display__portrait-hud" aria-label="{{name}}">
+		<section class="dnd4e-horizontal-actor-display__portrait-hud {{#if isGroup}}is-group{{/if}}" aria-label="{{name}}">
 			<div class="dnd4e-horizontal-actor-display__portrait-hero">
-				<button type="button" class="dnd4e-horizontal-actor-display__portrait-image" data-action="quick" data-command="openSheet" aria-label="Open {{name}}'s character sheet">
+				<button type="button" class="dnd4e-horizontal-actor-display__portrait-image" data-action="quick" data-command="openSheet" aria-label="Open {{#if isGroup}}the first selected creature's{{else}}{{name}}'s{{/if}} character sheet">
 					<img src="{{portrait}}" alt="{{name}}" draggable="false">
 				</button>
 				<div class="dnd4e-horizontal-actor-display__portrait-overlay">
+					{{#if isGroup}}
+					<div class="dnd4e-horizontal-actor-display__portrait-name-row">
+						<h2 title="{{name}}">{{name}}</h2>
+					</div>
+					<div class="dnd4e-horizontal-actor-display__group-bars">
+						{{#each groupBars}}
+						<div class="dnd4e-horizontal-actor-display__health-bar" style="--health-segments: 4" role="img" aria-label="{{name}}: {{value}} of {{maximum}} hit points">
+							{{#each barSegments}}<span><i style="width: {{percent}}%"></i></span>{{/each}}
+						</div>
+						{{/each}}
+					</div>
+					{{else}}
 					{{#if hp.status}}<span class="dnd4e-horizontal-actor-display__portrait-status">{{hp.status}}</span>{{/if}}
 					<div class="dnd4e-horizontal-actor-display__portrait-name-row">
 						<h2 title="{{name}}">{{name}}</h2>
@@ -16,8 +28,10 @@
 						{{#each hp.barSegments}}<span><i style="width: {{percent}}%"></i></span>{{/each}}
 					</div>
 					<div class="dnd4e-horizontal-actor-display__temp-track" aria-hidden="true"><i style="width: {{hp.tempPercent}}%"></i></div>
+					{{/if}}
 				</div>
 			</div>
+			{{#unless isGroup}}
 			<div class="dnd4e-horizontal-actor-display__portrait-body">
 				<div class="dnd4e-horizontal-actor-display__portrait-resources">
 					<label class="is-temp">Temp HP <input type="number" value="{{tempHp}}" min="0" aria-label="Temporary hit points" data-resource-path="system.attributes.temphp.value"></label>
@@ -37,8 +51,9 @@
 				</section>
 				{{/if}}
 			</div>
+			{{/unless}}
 		</section>
-		
+
 	</div>
 
 

@@ -1,6 +1,6 @@
 import { bindPowerHitChanceHover } from "./power-hit-chance-hover.js";
 import { bindPowerRangeHover } from "../power-activation/power-range-hover.js";
-import { getActorDisplayData } from "./actor-display-data.js";
+import { getActorDisplayData, getGroupHealthBars } from "./actor-display-data.js";
 import { getNpcPowerHints, formatPowerHitChances } from "./npc-power-hints.js";
 import { initializeActorDisplayTooltips, generateSystemTooltip } from "./actor-display-tooltips.js";
 import { useAbility, showPowerInChat, isPowerActivationActive } from "../power-activation/power-activation.js";
@@ -74,7 +74,8 @@ function renderSelectedActor() {
 		return;
 	}
 
-	const token = getTokenToDisplay();
+	const group = getSelectedNpcGroup();
+	const token = group?.[0] ?? getTokenToDisplay();
 	const isActorEnabled = game.settings.get(MODULE_ID, SHOW_ACTOR_SETTING);
 	const isNpcToken = Boolean(token) && token.actor?.type !== "Player Character";
 
@@ -82,11 +83,14 @@ function renderSelectedActor() {
 	// selected token.
 	const showActor = isActorEnabled && (!isNpcToken || game.user.isGM);
 
-	updateActorDisplay(showActor ? token : null);
+	updateActorDisplay(showActor ? token : null, group ?? [token]);
 }
 
-/** @param {Token|null} token The token the horizontal display should follow, or null to hide it. */
-function updateActorDisplay(token) {
+/**
+ * @param {Token|null} token The token the horizontal display should follow, or null to hide it.
+ * @param {Token[]} tokens Every token represented by the display; the first is the primary token.
+ */
+function updateActorDisplay(token, tokens = [token]) {
 	if (isActorDismissed) {
 		return;
 	}
@@ -97,19 +101,39 @@ function updateActorDisplay(token) {
 	}
 
 	if (!ui.Dnd4eActorPortrait) {
-		ui.Dnd4eActorPortrait = new ActorPortraitDisplay({}, token);
+		ui.Dnd4eActorPortrait = new ActorPortraitDisplay({}, token, tokens);
 		ui.Dnd4eActorPortrait.render(true);
 	} else {
-		ui.Dnd4eActorPortrait.setToken(token);
+		ui.Dnd4eActorPortrait.setToken(token, tokens);
 	}
 
 	if (!ui.Dnd4eActorDisplay) {
-		ui.Dnd4eActorDisplay = new ActorDisplay({}, token);
+		ui.Dnd4eActorDisplay = new ActorDisplay({}, token, tokens);
 		ui.Dnd4eActorDisplay.render(true);
 	} else {
-		ui.Dnd4eActorDisplay.setToken(token);
+		ui.Dnd4eActorDisplay.setToken(token, tokens);
 	}
 
+}
+
+/**
+ * Resolve a multi-token selection of one NPC type for GMs.
+ *
+ * Tokens of the same creature type share their source actor id, whether they are linked or
+ * unlinked, so renamed tokens such as "Goblin 1" and "Goblin 2" still group together.
+ *
+ * @returns {Token[]|null} The controlled tokens in selection order, or null when not applicable.
+ */
+function getSelectedNpcGroup() {
+	const controlled = canvas.tokens?.controlled ?? [];
+	if (controlled.length < 2 || !game.user.isGM) {
+		return null;
+	}
+
+	const actorId = controlled[0].document?.actorId;
+	const isSameCreature = controlled.every((token) => token.actor?.type === "NPC"
+		&& token.document?.actorId === actorId);
+	return actorId && isSameCreature ? Array.from(controlled) : null;
 }
 
 /**
@@ -161,7 +185,8 @@ function refreshForActor(actor) {
 		return;
 	}
 
-	if (display.actor?.id === actor.id || actor.type === "Player Character") {
+	if (display.actor?.id === actor.id || actor.type === "Player Character"
+		|| display.tokens?.some((token) => token.actor?.id === actor.id)) {
 		display.render();
 		ui.Dnd4eActorPortrait?.render();
 	}
@@ -204,9 +229,10 @@ function dismissActorDisplay() {
  * Shared token-tracking, data-preparation, and interaction logic for the actor display.
  */
 class ActorDisplayBase extends HandlebarsApplicationMixin(ApplicationV2) {
-	constructor(options, token) {
+	constructor(options, token, tokens = [token]) {
 		super(options);
 		this.token = token;
+		this.tokens = tokens;
 		this.activeTab = this.getInitialTab(token);
 		this.savedScrollTop = 0;
 		this.powerSearchQuery = "";
@@ -214,8 +240,14 @@ class ActorDisplayBase extends HandlebarsApplicationMixin(ApplicationV2) {
 		this.expandedPowerIds = new Set();
 	}
 
+	/** The primary token's actor. Group actions always resolve through the first selected token. */
 	get actor() {
 		return this.token?.actor;
+	}
+
+	/** @returns {boolean} Whether several creatures of one NPC type are selected together. */
+	get isGroup() {
+		return (this.tokens?.length ?? 0) > 1;
 	}
 
 	/** @returns {string} The CSS selector of this layout's scrollable workspace, if any. */
@@ -228,10 +260,14 @@ class ActorDisplayBase extends HandlebarsApplicationMixin(ApplicationV2) {
 		return token.actor?.type === "NPC" ? "features" : "powers";
 	}
 
-	/** @param {Token} token The new displayed token. */
-	setToken(token) {
+	/**
+	 * @param {Token} token The new displayed (primary) token.
+	 * @param {Token[]} tokens Every token represented by the display.
+	 */
+	setToken(token, tokens = [token]) {
 		const actorChanged = this.actor?.id !== token.actor?.id;
 		this.token = token;
+		this.tokens = tokens;
 		if (actorChanged) {
 			this.activeTab = this.getInitialTab(token);
 			this.savedScrollTop = 0;
@@ -240,14 +276,27 @@ class ActorDisplayBase extends HandlebarsApplicationMixin(ApplicationV2) {
 			this.activePowerCategory = null;
 			this.expandedPowerIds.clear();
 		}
+
+		// Group selections only offer the Sheet menu, so leave any other open menu behind.
+		if (this.isGroup && this.activeTab && this.activeTab !== "sheet") {
+			this.activeTab = "sheet";
+			this.savedScrollTop = 0;
+		}
 		this.render();
 	}
 
 	/** @returns {object} */
 	async _prepareContext(options) {
 		const context = await super._prepareContext(options);
+		const data = await getActorDisplayData(this.token, this.activeTab, this.expandedPowerIds, this.activePowerCategory);
+		const groupData = this.isGroup ? {
+			isGroup: true,
+			name: `${this.tokens.length} creatures selected`,
+			groupBars: getGroupHealthBars(this.tokens),
+		} : { isGroup: false };
 		return foundry.utils.mergeObject(context, {
-			...await getActorDisplayData(this.token, this.activeTab, this.expandedPowerIds, this.activePowerCategory),
+			...data,
+			...groupData,
 			powerSearchQuery: this.powerSearchQuery,
 		});
 	}
@@ -362,6 +411,11 @@ class ActorDisplayBase extends HandlebarsApplicationMixin(ApplicationV2) {
 
 	/** @param {PointerEvent} event The action event. @param {HTMLElement} target The action target. */
 	async onPower(event, target) {
+		// Target automation is single-creature only for now.
+		if (this.isGroup && event.button !== 2) {
+			return;
+		}
+
 		const power = this.actor.items.get(target.dataset.itemId);
 		if (event.button === 2) {
 			power?.sheet.render(true);
@@ -504,8 +558,8 @@ class ActorDisplayBase extends HandlebarsApplicationMixin(ApplicationV2) {
 }
 
 class ActorPortraitDisplay extends ActorDisplayBase {
-	constructor(options, token) {
-		super(options, token);
+	constructor(options, token, tokens) {
+		super(options, token, tokens);
 		this.openDropdown = null;
 		this.hudSearchQuery = "";
 		this._nameFitFrame = null;
@@ -667,8 +721,8 @@ class ActorPortraitDisplay extends ActorDisplayBase {
 
 /** Main actor menus anchored to Foundry's macro bar. */
 class ActorDisplay extends ActorDisplayBase {
-	constructor(options, token) {
-		super(options, token);
+	constructor(options, token, tokens) {
+		super(options, token, tokens);
 		this.activePowerCategory = null;
 		this.activeTab = this.getInitialTab(token);
 		this.hudSearchQuery = "";
@@ -765,7 +819,13 @@ class ActorDisplay extends ActorDisplayBase {
 						console.warn(`Dnd4e Info Displays | Could not calculate ${item.name}'s hit chances.`, error);
 					}
 				}
-				return { ...power, ...hints, isBasic: (item.attack ?? item.system?.attack)?.isBasic === true };
+				return {
+					...power,
+					...hints,
+					// Target automation is disabled while several creatures are selected.
+					canTargetAutomation: power.canTargetAutomation && !this.isGroup,
+					isBasic: (item.attack ?? item.system?.attack)?.isBasic === true,
+				};
 			}));
 			const basicPowers = selected.powers.filter(power => power.isBasic);
 			const otherPowers = selected.powers.filter(power => !power.isBasic);

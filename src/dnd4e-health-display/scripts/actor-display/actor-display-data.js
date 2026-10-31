@@ -107,6 +107,27 @@ export async function getActorDisplayData(token, activeTab, expandedPowerIds = n
 }
 
 /**
+ * Build one segmented health bar for every selected creature.
+ *
+ * @param {Token[]} tokens The selected tokens, in selection order.
+ * @returns {Array<{id: string, name: string, value: number, maximum: number, barSegments: Array<{percent: number}>}>}
+ */
+export function getGroupHealthBars(tokens) {
+	return tokens.map((token) => {
+		const hp = token.actor?.system?.attributes?.hp ?? {};
+		const value = Number(hp.value) || 0;
+		const maximum = Math.max(Number(hp.max) || 0, 1);
+		return {
+			id: token.id,
+			name: token.name ?? token.actor?.name ?? "",
+			value,
+			maximum,
+			barSegments: getHealthBarSegments(value, maximum, 4),
+		};
+	});
+}
+
+/**
  * Format the actor's level and class or monster role.
  *
  * @param {Actor} actor The displayed actor.

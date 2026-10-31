@@ -665,6 +665,18 @@ body.dnd4e-horizontal-hud-active #players {
 }
 .dnd4e-horizontal-actor-display__health-bar i { display: block; height: 100%; background: #bc4f60; }
 .dnd4e-horizontal-actor-display__portrait-overlay .dnd4e-horizontal-actor-display__health-bar { height: 8.4px; margin-top: 8.4px; }
+/* Multi-selection: one thin bar per creature, stacking up over the shared portrait. */
+.dnd4e-horizontal-actor-display__portrait-hud.is-group .dnd4e-horizontal-actor-display__portrait-hero { border-radius: 6px; }
+.dnd4e-horizontal-actor-display__group-bars {
+	display: flex;
+	flex-direction: column;
+	gap: 4.8px;
+	margin-top: 8.4px;
+}
+.dnd4e-horizontal-actor-display__group-bars .dnd4e-horizontal-actor-display__health-bar {
+	height: 6px;
+	margin-top: 0;
+}
 .dnd4e-horizontal-actor-display__temp-track { height: 3.6px; margin-top: 3.6px; background: #1c3039; }
 .dnd4e-horizontal-actor-display__temp-track i { display: block; height: 100%; background: #76c7df; }
 .dnd4e-horizontal-actor-display__portrait-body { padding: 0 14.4px 14.4px; }

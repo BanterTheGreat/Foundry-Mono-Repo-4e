@@ -307,3 +307,110 @@ test("End Turn is text-only above AP for PCs regardless of user role and retains
 	assert.match(turn, /left: 50%/);
 	assert.match(turn, /transform: translateX\(-50%\)/);
 });
+
+/** Build a controlled NPC token for multi-selection tests. */
+function npcToken(id, actorId = "goblin", hp = { value: 10, max: 20 }) {
+	return { id, name: `Goblin ${id}`, document: { actorId }, actor: { id: actorId, type: "NPC", system: { attributes: { hp } } } };
+}
+
+/** Run the selection hook for a controlled-token list and report what each HUD part received. */
+function renderSelection(controlled, isGM = true) {
+	const selected = [];
+	let closed = 0;
+	const part = () => ({ actor: controlled[0]?.actor, setToken: (token, tokens) => selected.push({ token, tokens }),
+		render: () => {}, close: () => { closed++; } });
+	const ui = { Dnd4eActorDisplay: part(), Dnd4eActorPortrait: part() };
+	const { registerActorDisplay } = loadController({}, {
+		ui,
+		canvas: { ready: true, tokens: { controlled, placeables: [] } },
+		window: { clearTimeout() {} },
+		game: { user: { isGM }, settings: { get: () => true } },
+	});
+	registerActorDisplay();
+	return { selected, closed };
+}
+
+test("GMs get one HUD for several tokens of the same NPC type, led by the first controlled token", () => {
+	const tokens = [npcToken("a"), npcToken("b"), npcToken("c")];
+	const { selected, closed } = renderSelection(tokens);
+	assert.equal(closed, 0);
+	assert.equal(selected.length, 2);
+	for (const call of selected) {
+		assert.equal(call.token, tokens[0]);
+		assert.deepEqual(Array.from(call.tokens), tokens);
+	}
+});
+
+test("mixed creature types, player characters and non-GM multi-selections do not show a group HUD", () => {
+	for (const [tokens, isGM] of [
+		[[npcToken("a", "goblin"), npcToken("b", "orc")], true],
+		[[npcToken("a"), { ...npcToken("b"), actor: { id: "goblin", type: "Player Character" } }], true],
+		[[npcToken("a"), npcToken("b")], false],
+	]) {
+		const { selected, closed } = renderSelection(tokens, isGM);
+		assert.equal(selected.length, 0);
+		assert.equal(closed, 2);
+	}
+});
+
+test("group HUD context names the count, adds a bar per creature and disables target automation", async () => {
+	const tokens = [npcToken("a", "goblin", { value: 5, max: 20 }), npcToken("b"), npcToken("c")];
+	const power = { id: "attack", canTargetAutomation: true };
+	const item = { id: "attack", name: "Attack", type: "power", system: {} };
+	const items = [item];
+	items.get = id => items.find(entry => entry.id === id);
+	tokens[0].actor.items = items;
+	const { ActorDisplay } = loadController({ name: "Goblin", powerCategories: [{ key: "standard", powers: [power] }] }, {
+		getGroupHealthBars: (list) => list.map(token => ({ id: token.id })),
+	});
+	const display = Object.create(ActorDisplay.prototype);
+	display.token = tokens[0];
+	display.tokens = tokens;
+	display.activeTab = "sheet";
+	const context = await display._prepareContext({});
+	assert.equal(context.isGroup, true);
+	assert.equal(context.name, "3 creatures selected");
+	assert.deepEqual(Array.from(context.groupBars, bar => bar.id), ["a", "b", "c"]);
+	assert.equal(context.selectedCategory.powers[0].canTargetAutomation, false);
+
+	display.tokens = [tokens[0]];
+	const single = await display._prepareContext({});
+	assert.equal(single.isGroup, false);
+	assert.equal(single.selectedCategory.powers[0].canTargetAutomation, true);
+});
+
+test("group HUD blocks Use Power but still sends the first creature's power to chat", async () => {
+	const chatted = [];
+	const item = { id: "attack", actor: { type: "NPC" } };
+	const { ActorDisplay } = loadController({}, {
+		showPowerInChat: (power) => { chatted.push(power); },
+		useAbility: async () => { throw new Error("Use Power must not start in a group"); },
+	});
+	const display = Object.create(ActorDisplay.prototype);
+	display.token = { actor: { items: new Map([["attack", item]]) } };
+	display.tokens = [display.token, { actor: { items: new Map() } }];
+	display.onClosePowers = () => {};
+	await display.onPower({ button: 0 }, { dataset: { itemId: "attack" } });
+	await display.onChatPower({ button: 0 }, { dataset: { itemId: "attack" } });
+	assert.deepEqual(chatted, [item]);
+});
+
+test("group HUD data builds exact per-creature bars", () => {
+	const bars = presentation.getGroupHealthBars([npcToken("a", "goblin", { value: 10, max: 20 }), npcToken("b", "goblin", { value: -5, max: 0 })]);
+	assert.equal(bars.length, 2);
+	assert.deepEqual(Array.from(bars[0].barSegments, segment => segment.percent), [100, 100, 0, 0]);
+	assert.ok(bars[1].barSegments.every(segment => segment.percent === 0));
+});
+
+test("group HUD templates hide Temp HP and everything except the Sheet menu", () => {
+	const portrait = readFileSync(new URL("../scripts/actor-display/actor-portrait.hbs", import.meta.url), "utf8");
+	const template = readFileSync(new URL("../scripts/actor-display/actor-display.hbs", import.meta.url), "utf8");
+	assert.match(portrait, /{{#unless isGroup}}\s*<div class="dnd4e-horizontal-actor-display__portrait-body">/);
+	assert.match(portrait, /{{#each groupBars}}/);
+	const groupBranch = portrait.match(/{{#if isGroup}}(.*?){{else}}/s)[1];
+	assert.equal(groupBranch.includes("temp"), false);
+	assert.equal(groupBranch.includes("data-resource-path"), false);
+	assert.match(template, /{{#unless isGroup}}\s*<div class="dnd4e-actor-display__quick-actions"/);
+	assert.match(template, /<\/div>\s*{{\/unless}}\s*<\/nav>/);
+	assert.ok(template.indexOf('data-display-tab="sheet"') < template.indexOf("{{#unless isGroup}}"));
+});

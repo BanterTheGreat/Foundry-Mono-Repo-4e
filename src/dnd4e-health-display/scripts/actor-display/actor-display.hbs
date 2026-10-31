@@ -117,6 +117,7 @@
 		<button type="button" class="{{#if active}}is-active{{/if}}" data-action="selectPowerCategory" data-power-category="{{key}}" aria-expanded="{{#if active}}true{{else}}false{{/if}}">{{name}} <small>{{powers.length}}</small></button>
 		{{/each}}
 		</div>
+		{{#unless isGroup}}
 		<div class="dnd4e-actor-display__quick-actions" role="group" aria-label="Quick actions">
 			<button type="button" class="dnd4e-actor-display__quick-icon" data-action="quick" data-command="healing" title="Heal" aria-label="Heal"><i class="fa-solid fa-heart" aria-hidden="true"></i></button>
 		<div class="dnd4e-actor-display__action-point-controls">
@@ -136,5 +137,6 @@
 		<button type="button" class="{{#if active}}is-active{{/if}}" data-action="selectMenu" data-display-tab="{{key}}" aria-expanded="{{#if active}}true{{else}}false{{/if}}">{{name}}</button>
 		{{/each}}
 		</div>
+		{{/unless}}
 	</nav>
 </div>
