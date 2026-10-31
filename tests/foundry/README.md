@@ -140,3 +140,10 @@ with `npm run test:foundry -- integration.spec.mjs`. The suite is substantial an
 still does not claim every combination: player wall/vision permissions, all
 effect-module combinations, and network/server failure injection remain outside
 the live coverage. Existing Node tests cover additional controlled failure paths.
+
+The `dnd4e-health-display.damage-confirmation` Quench batch seeds evaluated attack
+and damage messages at the damage-review boundary, then clicks the production
+Apply Damage action. Real document hooks and native HP/temp-HP changes verify
+NPC-to-PC direct application, zero-damage misses, duplicate-click protection,
+and the retained PC-to-NPC approval dialog. It does not exercise the preceding
+native attack/defense dice animations. It runs with `integration.spec.mjs`.

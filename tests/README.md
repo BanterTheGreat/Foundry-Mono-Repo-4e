@@ -107,3 +107,9 @@ npm run test:foundry -- target-automation.spec.mjs --grep "target portraits|atta
 ```
 
 During initial targeting, eligible attacks offer separate Normal attack, Charge attack, and Opportunity attack buttons. PC and NPC powers marked Basic Attack always offer Charge, even with the Charge variant checkbox off; chat-card variants use the same rule. Normal attack appears on the right with two buttons and in the middle with three; a lone attack button retains the Attack! label. Each button opens the matching native dialog; cancelling spends no use. Click a target portrait to pan to its token; hover or keyboard focus outlines it. These controls remain available in result review.
+
+The Quench batch `dnd4e-health-display.damage-confirmation` (**INFO DISPLAYS: GM direct damage and approval**)
+clicks the production Apply Damage button against real actors and messages. It verifies
+NPC-to-PC hits and zero-damage misses apply without an approval popup, repeated clicks
+and receipts cannot apply twice, and PC-to-NPC damage waits for GM approval.
+Run it with `npm run test:foundry -- integration.spec.mjs`.

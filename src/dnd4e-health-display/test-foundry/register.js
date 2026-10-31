@@ -1,3 +1,4 @@
+import { registerDamageConfirmationTests } from "./damage-confirmation.js";
 import { projectDamage } from "../scripts/power-activation/damage-application-data.js";
 import { getTokenHoverDisplayData } from "../scripts/health-display/token-hover-display-data.js";
 import { registerTargetAutomationTests } from "./target-automation.js";
@@ -103,5 +104,5 @@ export function registerTests(quench, { assertTestWorld, TestDocuments }) {
       });
     });
   }, { displayName: "INFO DISPLAYS: Live health and template integration", preSelected: false });
-  return [key, registerTargetAutomationTests(quench), registerActorHudTests(quench)];
+  return [key, registerTargetAutomationTests(quench), registerActorHudTests(quench), registerDamageConfirmationTests(quench)];
 }
