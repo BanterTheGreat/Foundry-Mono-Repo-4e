@@ -2,6 +2,15 @@
 
 Open a terminal in the repository root. You need Node.js installed (`node --version` checks this). The Node test commands below run locally without Foundry or an agent; results appear directly in your terminal.
 
+Battle Briefing title-only loading (including legacy presets) and journal creation:
+
+```sh
+node --test src/dnd4e-health-display/test/combat-start.test.js
+node --test src/foundry-mcp/test/journal-create-api.test.js
+```
+
+After reload, load an old preset, verify only its title appears, save/reopen, and confirm enemy counts still load. Check the browser console.
+
 ## Info Displays and targeting
 
 Run the full `dnd4e-health-display` suite:

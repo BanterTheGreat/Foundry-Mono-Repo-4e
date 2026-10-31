@@ -2,6 +2,8 @@
 
 ## 0.4.0
 
+- Battle Briefings retain their title and combatants without a description field. Encounter handoff stores full GM write-ups in Encounters Journal chapters with actor links instead of stat blocks. Protocol v36 requires reloading Foundry and restarting companion/MCP clients together.
+
 - Read scene Regions (shapes, behaviors, Elevation, grid conversion data) with `get_scene_regions`, and rename, recolor, reshape, change Elevation behavior settings or delete existing Regions with GM-reviewed `edit_scene_regions`. Reject stale scenes and report partial saves. Protocol v35 requires reloading Foundry and restarting the companion/MCP clients together.
 
 - Power editing and custom power creation expose base damage quantity/type, shared-roll switches and native effect keyword flags so replacements retain correct dice and mechanics. Protocol v34 requires reloading Foundry and restarting MCP clients.

@@ -92,7 +92,6 @@ For a preset, omit `folder` and `pages` and supply `battleBriefing` instead:
   "name": "Bridge Ambush",
   "battleBriefing": {
     "title": "Hold the Bridge",
-    "description": "Prevent the reinforcements from crossing.",
     "commanderSubtitle": "Captain of the bridge guard",
     "commanderPositionX": 50,
     "commanderPositionY": 50,
@@ -106,7 +105,7 @@ For a preset, omit `folder` and `pages` and supply `battleBriefing` instead:
 }
 ```
 
-Only title is required inside `battleBriefing`; other fields default to empty notes/combatants, centered portrait positioning and 100% zoom. Discover world Actors first with `list_documents` and use their IDs (the final part of their Actor UUID), not combatant/token IDs. Counts are per actor; strategy pointers apply to all combatants using the selected actors. Preset fields are plain text. Portrait position ranges from 0-100 and zoom from 100-200.
+Description is no longer supported. Only title is required inside `battleBriefing`; other fields default to empty notes/combatants, centered portrait positioning and 100% zoom. Discover world Actors first with `list_documents` and use their IDs (the final part of their Actor UUID), not combatant/token IDs. Counts are per actor; strategy pointers apply to all combatants using the selected actors. Preset fields are plain text. Portrait position ranges from 0-100 and zoom from 100-200.
 
 Presets are stored in the unique **Battle Briefings** JournalEntry folder with `flags.dnd4e-health-display.preset`, a readable summary page and default ownership NONE. Open **Prepare Battle Briefing**, select the saved preset and load it. Creating a preset does not change a combat, spawn tokens or select a commander. Existing Journals and arbitrary caller flags, ownership or document source are outside this tool.
 
@@ -779,3 +778,5 @@ roll switches, and native boolean `effectType` flags to power edits and custom
 power creation. These fields use the DnD4e 0.9.3 stored model, supporting complete
 power swaps without retaining old weapon-dice counts or Reliable/Invigorating flags.
 Reload Foundry and restart the shared companion/MCP clients together.
+
+Encounter handoff creates a title-and-enemy-roster preset for loading, then adds or updates one chapter in the exact-name **Encounters** Journal (created if missing). Chapters contain the full GM write-up with actor links, without monster stat blocks. Protocol **v36** requires reloading Foundry and restarting companion/MCP clients together.

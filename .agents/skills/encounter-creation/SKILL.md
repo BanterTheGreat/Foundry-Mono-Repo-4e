@@ -186,7 +186,7 @@ this report format takes precedence over the supporting skills' output formats.
    and morale thresholds in Enemy Objectives; refer to them briefly when needed
    to explain a tactical choice. Give shared priorities once and leave ordinary
    contingencies to GM judgment, rather than writing a checklist for each enemy
-   or a turn-by-turn script. Apply this prose style to Battle Briefing notes too.
+   or a turn-by-turn script. Apply this prose style to Encounters Journal chapters too.
 7. If the fight has a major shakeup, add a descriptive heading and explain its
    trigger and effect on the fight, such as reinforcements, a phase change, or
    shifting terrain. Omit this section when none applies.
@@ -202,7 +202,7 @@ this report format takes precedence over the supporting skills' output formats.
    and other relevant statistics. For converted creatures, present the final
    revised values and identify mechanical adjustments without citing sources.
 
-In both the report and Battle Briefing, describe targets by observable behavior,
+In both the report and Encounters Journal chapter, describe targets by observable behavior,
 position, or immediate threat, without naming specific PCs or party classes:
 for example, "the skirmisher pressures anyone supporting from the backline."
 
@@ -214,10 +214,11 @@ loading and applying it to the requested creatures. Include this offer alongside
 the Foundry insertion question below so it is offered even without insertion.
 
 End the report by asking whether to insert this encounter into Foundry using MCP,
-creating its enemies and a Battle Briefing Journal. If the destination Actor
+creating its enemies, a title-and-enemies Battle Briefing preset, and an Encounters
+Journal chapter containing the full write-up without monster stat blocks. If the destination Actor
 folder is not already specified, ask for that folder in the same closing
-question. State that the briefing will contain the enemy roster and tactics and
-will exclude the party. This approval gate is explicitly requested by the user:
+question. State that the preset contains only the title and enemy roster, excluding
+the party, while the chapter holds the GM encounter information. This approval gate is explicitly requested by the user:
 present the full encounter before asking, and wait for agreement before writes.
 
 ## After approval
