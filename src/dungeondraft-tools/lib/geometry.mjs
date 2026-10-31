@@ -89,3 +89,17 @@ export function chooseRemovals(items, keepFraction, rng) {
   const removeCount = items.length - Math.round(items.length * keepFraction);
   return new Set(ranked.slice(0, removeCount).map(([, item]) => item));
 }
+
+/** Distance from (x, y) to the segment `[a, b]`. */
+export function distToSegment(x, y, [a, b]) {
+  const len2 = (b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2;
+  const t = Math.max(0, Math.min(1, ((x - a[0]) * (b[0] - a[0]) + (y - a[1]) * (b[1] - a[1])) / len2));
+  return Math.hypot(a[0] + t * (b[0] - a[0]) - x, a[1] + t * (b[1] - a[1]) - y);
+}
+
+/** Distance from (x, y) to the nearest segment of a polyline (a list of [x, y] points, open). */
+export function distToPolyline(x, y, pts) {
+  let best = Infinity;
+  for (let i = 0; i + 1 < pts.length; i++) { best = Math.min(best, distToSegment(x, y, [pts[i], pts[i + 1]])); }
+  return best;
+}

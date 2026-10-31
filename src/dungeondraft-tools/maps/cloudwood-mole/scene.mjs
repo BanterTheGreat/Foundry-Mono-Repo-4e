@@ -9,16 +9,14 @@
 // biggest props (canopies, logs, boundary stones, the hearth). Both sit on layer -100 and are composed last from their own seeded
 // RNG, so adding or retuning them never moves anything else.
 // Deterministic for a given seed. Needs the texture index (index/build-index.mjs).
-import { chooseRemovals, seededRandom } from '../../lib/geometry.mjs';
-import { familyMembers, findTexture } from '../../lib/packs.mjs';
-import { SHADOW_CIRCLE_SCALE, SHADOW_LAYER, shadowCircleSpec, shadowPathSpec, shadowPathWidth } from '../../lib/shadows.mjs';
+import { distToPolyline, seededRandom } from '../../lib/geometry.mjs';
+import { findTexture } from '../../lib/packs.mjs';
+import { CLUTTER_CUTS, SCALE_MAX, SCALE_MIN, applyClutterCuts, assertThemes, buildObject, circleShadows, clamp, makeFam, pathRecord, randomHelpers, shadowPathRecord } from '../../lib/scene-kit.mjs';
+import { SHADOW_LAYER } from '../../lib/shadows.mjs';
 import { COLS, ROWS, S, parseGrid } from './grid.mjs';
 import { deriveStructure } from './structure.mjs';
 
-export const SCALE_MIN = 0.8;
-export const SCALE_MAX = 1.2;
-/** Compounding clutter cuts requested by the user so far (each 0.15 = 15% less than the level before). Append to cut again. */
-export const CLUTTER_CUTS = [0.15, 0.15];
+export { CLUTTER_CUTS, SCALE_MAX, SCALE_MIN };
 
 // Layers: paths 100 (cliffs) and 200 (stairs, planks); clutter 300; props 400; tree canopies and hedges 700 (above walls).
 export const LAYER = { shadow: SHADOW_LAYER, cliff: 100, ground: 200, clutter: 300, prop: 400, canopy: 700 };
@@ -43,18 +41,6 @@ function vnoise(x, y, s) {
 const fbm = (x, y, s) => 0.62 * vnoise(x, y, s) + 0.38 * vnoise(x * 2.3, y * 2.3, s + 7);
 const smooth = (a, b, v) => { const t = Math.max(0, Math.min(1, (v - a) / (b - a))); return t * t * (3 - 2 * t); };
 
-/** Distance from a point to a polyline. */
-function distToPolyline(x, y, pts) {
-  let best = Infinity;
-  for (let i = 0; i + 1 < pts.length; i++) {
-    const [ax, ay] = pts[i], [bx, by] = pts[i + 1];
-    const len2 = (bx - ax) ** 2 + (by - ay) ** 2;
-    const t = Math.max(0, Math.min(1, ((x - ax) * (bx - ax) + (y - ay) * (by - ay)) / len2));
-    best = Math.min(best, Math.hypot(ax + t * (bx - ax) - x, ay + t * (by - ay) - y));
-  }
-  return best;
-}
-
 /** The charcoal road, in square units from the map's top-left: in at the south-west, over the planks, up both banks to the exit. */
 const ROAD_U = [[0, 13.6], [2.4, 13.7], [5, 13.3], [6.8, 13.0], [8.6, 12.6], [9, 10.6], [8.8, 8.6], [9.4, 7.3], [11.5, 7.0], [12.6, 7.1], [14, 7.2], [15, 7.6], [16.2, 6.5], [16.8, 5.0], [17.8, 3.6], [19, 3.1], [20.2, 3.0]];
 /** Old charcoal stains in the gully and on the terrace: [centre x, centre y, radius x, radius y] in square units. */
@@ -64,9 +50,7 @@ export function composeScene(html, { seed = 20261031, clutterCuts = CLUTTER_CUTS
   const grid = parseGrid(html);
   const st = deriveStructure(grid);
   const rng = seededRandom(seed);
-  const rr = (a, b) => a + (b - a) * rng();
-  const pick = (list) => list[Math.floor(rng() * list.length)];
-  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const { rr, pick } = randomHelpers(rng);
   const W = COLS * S, H = ROWS * S;
   const T = findTexture;
   const road = ROAD_U.map(([x, y]) => [x * S, y * S]);
@@ -79,17 +63,13 @@ export function composeScene(html, { seed = 20261031, clutterCuts = CLUTTER_CUTS
 
   /** Place one object. `scale` is used as given; `px` asks for a size and is clamped into the allowed scale range. `casts` marks a big prop that gets a shadow. */
   function place(tex, x, y, { scale, px, rot = 0, mirror = false, layer = LAYER.clutter, keep = false, casts = false }) {
-    if (tex.colorable) { throw new Error(`${tex.name} is a colorable texture: placed untinted it renders raw red`); }
-    const s = scale ?? clamp(px / Math.max(tex.w, tex.h), SCALE_MIN, SCALE_MAX);
-    if (s < SCALE_MIN - 1e-9 || s > SCALE_MAX + 1e-9) { throw new Error(`Rule 1: ${tex.name} scale ${s.toFixed(3)} is outside ${SCALE_MIN}-${SCALE_MAX}`); }
-    const o = { pack: tex.pack, rel: tex.rel, name: tex.name, x: +x.toFixed(1), y: +y.toFixed(1), scale: +s.toFixed(3), rot: +rot.toFixed(4), mirror, layer };
+    const { object: o, radius: r } = buildObject(tex, x, y, { scale, px, rot, mirror, layer });
     objects.push(o);
-    const r = (Math.max(tex.w, tex.h) * s) / 2;
     if (keep) { circles.push({ x, y, r: r * 0.8 }); }
     if (casts) { casters.push({ o, size: r * 2 }); }
     return o;
   }
-  const fam = (pack, family, { min = 30, max = 400, name } = {}) => familyMembers(pack, family).filter((m) => !m.colorable && Math.max(m.w, m.h) >= min && Math.max(m.w, m.h) <= max && (!name || name.test(m.name)));
+  const fam = makeFam(400);
   const cellRect = (c1, r1, c2, r2, pad = 0) => ({ x0: (c1 - 1) * S - pad, y0: (r1 - 1) * S - pad, x1: c2 * S + pad, y1: r2 * S + pad });
 
   // ---------- keep-out areas for clutter ----------
@@ -134,9 +114,8 @@ export function composeScene(html, { seed = 20261031, clutterCuts = CLUTTER_CUTS
 
   // ---------- paths: cliffs (rule 7), stairs, planks ----------
   const paths = [];
-  const pathTex = (spec) => T(spec);
   /** A straight path through `pts` with a little wander on interior points. */
-  const mkPath = (spec, pts, width, layer, role) => { const tex = pathTex(spec); paths.push({ pack: tex.pack, rel: tex.rel, name: tex.name, points: pts, width, layer, role }); };
+  const mkPath = (spec, pts, width, layer, role) => { paths.push(pathRecord(T(spec), pts, width, layer, role)); };
 
   const CLIFF_SMALL = 'Seasons:terrain_dirt_cliff:paths', CLIFF_BIG = 'Seasons:terrain_dirtdark_cliff:paths';
   for (const run of st.cliffs) {
@@ -286,9 +265,7 @@ export function composeScene(html, { seed = 20261031, clutterCuts = CLUTTER_CUTS
     wet: [fam('Dungeondraft', 'reeds', { min: 190, max: 370 }), fam('Dungeondraft', 'reeds', { min: 190, max: 370 }), fam('Dungeondraft', 'reeds', { min: 190, max: 370 }), fam('Seasons', 'rock_stone', { min: 40, max: 130 })],
     cliffFoot: [fam('Seasons', 'rock_dirt', { min: 70, max: 190 }), fam('Seasons', 'rock_stone', { min: 70, max: 190 }), fam('Seasons', 'fern', { min: 120, max: 270, name: /[ab]$/ })],
   };
-  for (const [name, families] of Object.entries(THEMES)) {
-    if (families.some((f) => !f.length)) { throw new Error(`Clutter theme ${name} has an empty texture family`); }
-  }
+  assertThemes(THEMES);
   /** Drop one piece of a theme at (x, y) if the spot is free. */
   function scatterOne(theme, x, y, { wet = false } = {}) {
     const tex = pick(pick(THEMES[theme]));
@@ -323,29 +300,23 @@ export function composeScene(html, { seed = 20261031, clutterCuts = CLUTTER_CUTS
       scatterOne('cliffFoot', run.a[0] + d[0] * t + lowSide[0] * off, run.a[1] + d[1] * t + lowSide[1] * off);
     }
   }
-  // Apply the clutter cuts exactly (see the dockyard generator): remove a seeded share of what was placed.
-  const CLUTTER_DENSITY = clutterCuts.reduce((density, cut) => density * (1 - cut), 1);
-  const doomed = chooseRemovals(clutterObjects, CLUTTER_DENSITY, seededRandom((seed ^ 0x9e3779b1) | 0));
-  const clutterKept = clutterObjects.length - doomed.size;
-  for (let i = objects.length - 1; i >= 0; i--) { if (doomed.has(objects[i])) { objects.splice(i, 1); } }
+  // Apply the clutter cuts exactly: a seeded share of what was placed is removed (see applyClutterCuts in lib/scene-kit.mjs).
+  const clutterKept = applyClutterCuts(objects, clutterObjects, seed, clutterCuts);
 
   // ---------- shadows (Baileywiki BW pack): cliff sides and the biggest props ----------
   // Composed last from their own RNG so the layout above does not move. Neither is a placed prop: the circles are exempt from the
   // 0.8-1.2 scale range (rule 1), as in the user's own touch-ups, and sit below every other object.
-  const shadowRng = seededRandom((seed ^ 0x5bd1e995) | 0);
-  const sr = (a, b) => a + (b - a) * shadowRng();
   let cliffShadows = 0, propShadows = 0;
   for (const run of st.cliffs) {
     // The cliff strip's hard-edged shadow runs the cliff's own line the other way round: a half shadow fades to the LEFT of travel,
     // and the cliff path travels with the high ground on its left, so reversed it fades across the low ground. Its hard edge hides
     // under the cliff strip itself.
-    mkPath(shadowPathSpec(CLIFF_SHADOW), [...run.path].reverse(), shadowPathWidth(CLIFF_SHADOW), LAYER.shadow, 'shadow');
+    paths.push(shadowPathRecord(T, CLIFF_SHADOW, [...run.path].reverse(), LAYER.shadow));
     cliffShadows++;
   }
-  for (const { o, size } of casters) {
-    const tex = T(shadowCircleSpec(size >= BIG_PROP_PX ? '075' : '050'));
-    const scale = clamp(size / 400, SHADOW_CIRCLE_SCALE, 2);
-    objects.push({ pack: tex.pack, rel: tex.rel, name: tex.name, x: +(o.x + sr(-25, 25)).toFixed(1), y: +(o.y + sr(-25, 25)).toFixed(1), scale: +scale.toFixed(3), rot: 0, mirror: false, layer: LAYER.shadow });
+  const propCircles = circleShadows(casters.map(({ o, size }) => ({ x: o.x, y: o.y, size, strength: size >= BIG_PROP_PX ? '075' : '050' })), { seed, sizePerScale: 400, T });
+  for (const { object } of propCircles) {
+    objects.push(object);
     propShadows++;
   }
 

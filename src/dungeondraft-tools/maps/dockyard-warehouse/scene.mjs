@@ -5,14 +5,14 @@
 //  5 one wall on each wall square's outer edge, the square itself walkable floor
 //  6 buildings from walls + patterns + terrain, no cave/building tool
 // Deterministic for a given seed. Needs the texture index (index/build-index.mjs).
-import { blob, chooseRemovals, decompose, pointInPolygon, rectPolygon, seededRandom } from '../../lib/geometry.mjs';
-import { familyMembers, findTexture } from '../../lib/packs.mjs';
-import { SHADOW_CIRCLE_SCALE, SHADOW_LAYER, SHADOW_PATH_LAYER, shadowCircleSpec, shadowPathSpec, shadowPathWidth } from '../../lib/shadows.mjs';
+import { blob, decompose, distToSegment, pointInPolygon, rectPolygon, seededRandom } from '../../lib/geometry.mjs';
+import { findTexture } from '../../lib/packs.mjs';
+import { CLUTTER_CUTS, CRATE_SPECS, SCALE_MAX, SCALE_MIN, WALL_LAMPS, applyClutterCuts, assertThemes, buildObject, circleShadows, clamp, makeFam, onWall, patternRecord, randomHelpers, shadowPathRecord, wallRecord } from '../../lib/scene-kit.mjs';
+import { SHADOW_LAYER, SHADOW_PATH_LAYER, shadowPathWidth } from '../../lib/shadows.mjs';
 import { COLS, LABEL, ROWS, S, blocksOf, parseGrid } from './grid.mjs';
 import { deriveStructure } from './structure.mjs';
 
-export const SCALE_MIN = 0.8;
-export const SCALE_MAX = 1.2;
+export { CLUTTER_CUTS, SCALE_MAX, SCALE_MIN };
 
 // Shadows (Baileywiki BW pack): a half shadow along the building's outer wall falling on the street, a tight one along the
 // same wall's base falling on the floor inside, and a circle under each of the biggest props.
@@ -25,16 +25,11 @@ export const QUAY_SHADOW = { edge: 'half', size: 'large', strength: '075' };
 /** How far (px) a half shadow reaches from its line: the fade lies across half the texture height. */
 export const shadowReach = (options) => shadowPathWidth(options) / 2;
 
-/** Compounding clutter cuts requested by the user so far (each 0.15 = 15% less than the level before). Append to this to cut again. */
-export const CLUTTER_CUTS = [0.15, 0.15];
-
 export function composeScene(html, { seed = 20261031, clutterCuts = CLUTTER_CUTS } = {}) {
   const grid = parseGrid(html);
   const structure = deriveStructure(grid); // the wall squares, doorways and room, interpreted once; floors, walls and wall detail all read it
   const rng = seededRandom(seed);
-  const rr = (a, b) => a + (b - a) * rng();
-  const pick = (list) => list[Math.floor(rng() * list.length)];
-  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const { rr, pick } = randomHelpers(rng);
   const W = COLS * S, H = ROWS * S;
   const waterX = (Math.min(...grid.cells(LABEL.WATER).map(([c]) => c)) - 1) * S;
 
@@ -46,11 +41,9 @@ export function composeScene(html, { seed = 20261031, clutterCuts = CLUTTER_CUTS
 
   /** Place one object. `scale` is used as given; `px` asks for a size and is clamped into the allowed scale range. */
   function place(tex, x, y, { scale, px, rot = 0, mirror = false, layer = 100 }) {
-    if (tex.colorable) { throw new Error(`${tex.name} is a colorable texture: placed untinted it renders raw red`); }
-    const s = scale ?? clamp(px / Math.max(tex.w, tex.h), SCALE_MIN, SCALE_MAX);
-    if (s < SCALE_MIN - 1e-9 || s > SCALE_MAX + 1e-9) { throw new Error(`Rule 1: ${tex.name} scale ${s.toFixed(3)} is outside ${SCALE_MIN}-${SCALE_MAX}`); }
-    objects.push({ pack: tex.pack, rel: tex.rel, name: tex.name, x: +x.toFixed(1), y: +y.toFixed(1), scale: +s.toFixed(3), rot: +rot.toFixed(4), mirror, layer });
-    return { x, y, r: (Math.max(tex.w, tex.h) * s) / 2 };
+    const { object, radius } = buildObject(tex, x, y, { scale, px, rot, mirror, layer });
+    objects.push(object);
+    return { x, y, r: radius };
   }
   const T = findTexture;
 
@@ -63,7 +56,7 @@ export function composeScene(html, { seed = 20261031, clutterCuts = CLUTTER_CUTS
 
   // ---------- floors (patterns) ----------
   const patterns = [];
-  const pattern = (spec, points, layer) => { const t = T(spec); patterns.push({ pack: t.pack, rel: t.rel, name: t.name, points, layer }); };
+  const pattern = (spec, points, layer) => { patterns.push(patternRecord(T(spec), points, layer)); };
   const cellRect = ({ c1, r1, c2, r2 }) => rectPolygon((c1 - 1) * S, (r1 - 1) * S, c2 * S, r2 * S);
 
   // Pattern layers sit below every object: -400 base paving, -100 the next tier, 100 the top tier (patterns draw under objects
@@ -91,20 +84,13 @@ export function composeScene(html, { seed = 20261031, clutterCuts = CLUTTER_CUTS
   // The line and its openings come from the structure; the wall squares themselves are walkable floor.
   const wall = T('Scenes:wall1a:walls');
   const door = T('Buildings:door_wood_14:portals');
-  const mkWall = (points, openings, opening) => ({ pack: wall.pack, rel: wall.rel, name: wall.name, thickness: wall.h, loop: true, points, openings: openings.map(([x, y]) => ({ x, y, pack: opening.pack, rel: opening.rel, closed: false })) });
-  const walls = [mkWall(structure.wallLine, structure.openings, door)];
+  const walls = [wallRecord(wall, { loop: true, points: structure.wallLine, openings: structure.openings }, door)];
 
   // ---------- wall dressing: light and flush, so the wall squares still read as walkable floor ----------
   // Shelves and lanterns are drawn with their mounting edge at the top, so rotation 0 faces a north wall; each side turns
   // them a quarter turn. Only shallow shelves, wall lanterns and corner cobwebs: no posts, buttresses or deep shelving.
-  /** A point `back` px in from the outer wall edge of band cell `cell`, shifted `along` px along the wall. */
-  const onWall = (cell, back, along) => {
-    const { out, c, r } = cell;
-    const cx = (c - 0.5) * S, cy = (r - 0.5) * S;
-    return [cx + out[0] * (S / 2 - back) - out[1] * along, cy + out[1] * (S / 2 - back) + out[0] * along];
-  };
   const SHELVES = [['Buildings:Shelf_Wall_Small:objects', 64], ['Buildings:Shelf_Wall_Worn_Small:objects', 40], ['Buildings:Wall_Shelf_Broken_01:objects', 80]];
-  const LAMPS = ['Buildings:Lantern_Wall_01:objects', 'Buildings:Lantern_Wall_02:objects'];
+  const LAMPS = WALL_LAMPS;
   const { ring: wallRing, outerRect } = structure;
   let wallDetail = 0;
   let sinceShelf = 0;
@@ -121,7 +107,7 @@ export function composeScene(html, { seed = 20261031, clutterCuts = CLUTTER_CUTS
     }
     if (cell.nextToDoor) {
       // a wall lantern at the edge of the doorway, flush to the wall
-      const [x, y] = onWall(cell, 44, cell.doorward * (S / 2 - 50));
+      const [x, y] = onWall(S, cell, 44, cell.doorward * (S / 2 - 50));
       place(T(pick(LAMPS)), x, y, { scale: rr(0.9, 1.05), rot: rot + rr(-0.05, 0.05), layer: 300 });
       wallDetail++;
       continue;
@@ -132,11 +118,11 @@ export function composeScene(html, { seed = 20261031, clutterCuts = CLUTTER_CUTS
       const [spec, depth] = pick(SHELVES);
       const tex = T(spec);
       const s = rr(0.85, 1.05);
-      const [x, y] = onWall(cell, depth * s / 2 + rr(0, 6), rr(-40, 40));
+      const [x, y] = onWall(S, cell, depth * s / 2 + rr(0, 6), rr(-40, 40));
       bigProps.push({ ...place(tex, x, y, { scale: s, rot: rot + rr(-0.03, 0.03), layer: 200 }), r: depth * s * 0.55 });
       wallDetail++;
       if (rng() < 0.5) {
-        const [lx, ly] = onWall(cell, 44 + rr(0, 12), rr(-70, 70));
+        const [lx, ly] = onWall(S, cell, 44 + rr(0, 12), rr(-70, 70));
         place(T(pick(LAMPS)), lx, ly, { scale: rr(0.9, 1.05), rot: rot + rr(-0.06, 0.06), layer: 300 });
         wallDetail++;
       }
@@ -144,9 +130,7 @@ export function composeScene(html, { seed = 20261031, clutterCuts = CLUTTER_CUTS
   }
 
   // ---------- cargo: loose, not perfectly inside squares ----------
-  const crateSpecs = ['Buildings:Crate_Large_02:objects', 'Above&Below:crate_03a:objects', 'Buildings:Crate_03:objects', 'Above&Below:cloth_crate_02:objects', 'Buildings:Crate_01:objects', 'Buildings:Crate_Large_01:objects'];
-  const midSpecs = ['Buildings:Crate_01:objects', 'Buildings:Crate_Large_02:objects', 'Buildings:Barrel_Simple_Wooden_01:objects', 'Buildings:Barrel_Closed:objects', 'Above&Below:cloth_crate_02:objects', 'Buildings:Crate_03:objects', 'Above&Below:crate_03a:objects'];
-  const topSpecs = ['Buildings:Crate_Cloth_Covered_01:objects', 'Buildings:Barrel_Small_Closed:objects', 'Buildings:Sack_Pile_02:objects', 'Buildings:Sack_Tied_Upright_01:objects', 'Above&Below:cloth_crate_01:objects'];
+  const { base: crateSpecs, mid: midSpecs, top: topSpecs } = CRATE_SPECS;
   for (const block of blocksOf(grid, LABEL.LOW)) {
     for (let c = block.c1; c <= block.c2; c++) {
       for (let r = block.r1; r <= block.r2; r++) {
@@ -202,7 +186,7 @@ export function composeScene(html, { seed = 20261031, clutterCuts = CLUTTER_CUTS
 
   // ---------- clutter (rule 3): clustered by theme, piled against walls, and sprinkled about ----------
   // ground detail stays small: 30-200 px on its longest side
-  const fam = (pack, family) => familyMembers(pack, family).filter((m) => !m.colorable && Math.max(m.w, m.h) >= 30 && Math.max(m.w, m.h) <= 200);
+  const fam = makeFam(200);
   const THEMES = {
     stones: [fam('Seasons', 'rock_stone'), fam('Seasons', 'rock_dirt'), fam('Death', 'rubble_white'), fam('Buildings', 'debris_stonewall'), fam('Buildings', 'debris_stone_pile')],
     litter: [fam('Buildings', 'paper'), fam('Buildings', 'paper_scatter'), fam('Above&Below', 'gold_coins'), fam('Buildings', 'coin_pouch'), fam('Dungeondraft', 'feather'), fam('Dungeondraft', 'bottle'), fam('Buildings', 'mug'), fam('Buildings', 'cloth_rag_stained')],
@@ -213,19 +197,12 @@ export function composeScene(html, { seed = 20261031, clutterCuts = CLUTTER_CUTS
     spill: [fam('Buildings', 'sack_open_spilled'), fam('Seasons', 'hay_stack'), fam('Buildings', 'bucket_water'), fam('Seasons', 'tools_bucket')],
     vermin: [fam('Buildings', 'rat'), fam('Dungeondraft', 'mouse')],
   };
-  for (const [name, families] of Object.entries(THEMES)) {
-    if (families.some((f) => !f.length)) { throw new Error(`Clutter theme ${name} has an empty texture family`); }
-  }
+  assertThemes(THEMES);
   const OUTDOOR = ['stones', 'stones', 'litter', 'wood', 'wood', 'rope', 'weeds', 'weeds', 'spill', 'vermin'];
   const INDOOR = ['litter', 'litter', 'wood', 'wood', 'rope', 'spill', 'vermin']; // no loose stones or boulders indoors
 
   const segments = (loop) => loop.map((a, i) => [a, loop[(i + 1) % loop.length]]);
   const wallSegs = segments(structure.wallLine);
-  const distToSegment = (x, y, [a, b]) => {
-    const len2 = (b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2;
-    const t = clamp(((x - a[0]) * (b[0] - a[0]) + (y - a[1]) * (b[1] - a[1])) / len2, 0, 1);
-    return Math.hypot(a[0] + t * (b[0] - a[0]) - x, a[1] + t * (b[1] - a[1]) - y);
-  };
   const outdoorOk = (x, y) => x > 30 && y > 30 && y < H - 30 && x < waterX - 90 && !(x > structure.outerRect.x0 - 20 && x < structure.outerRect.x1 + 20 && y > structure.outerRect.y0 - 20 && y < structure.outerRect.y1 + 20);
   const indoorOk = (x, y) => x > room.x0 + 40 && x < room.x1 - 40 && y > room.y0 + 40 && y < room.y1 - 40;
 
@@ -280,13 +257,8 @@ export function composeScene(html, { seed = 20261031, clutterCuts = CLUTTER_CUTS
   for (let i = 0; i < 32; i++) { wallBase(INDOOR, structure.wallLine, +1, indoorOk); }
   for (let i = 0; i < 20; i++) { cluster(INDOOR, roomBounds, indoorOk, 1); }
 
-  // Apply the clutter cuts exactly. Scaling the placement attempts instead missed the target (a -15% cut left one map with the
-  // same count) because rejected attempts place nothing. Instead remove a seeded share of what was placed: the result is exactly
-  // round(placed * density), and a deeper cut always removes a superset of what a shallower cut removed.
-  const CLUTTER_DENSITY = clutterCuts.reduce((density, cut) => density * (1 - cut), 1);
-  const doomed = chooseRemovals(clutterObjects, CLUTTER_DENSITY, seededRandom((seed ^ 0x9e3779b1) | 0));
-  const clutterKept = clutterObjects.length - doomed.size;
-  for (let i = objects.length - 1; i >= 0; i--) { if (doomed.has(objects[i])) { objects.splice(i, 1); } }
+  // Apply the clutter cuts exactly: a seeded share of what was placed is removed (see applyClutterCuts in lib/scene-kit.mjs).
+  const clutterKept = applyClutterCuts(objects, clutterObjects, seed, clutterCuts);
 
   // flotsam on the water (passable)
   for (const [spec, x, y, px] of [
@@ -300,30 +272,23 @@ export function composeScene(html, { seed = 20261031, clutterCuts = CLUTTER_CUTS
   // SHADOW_PATH_LAYER: below the walls but above every prop, so they shade the props they cross as well (the user's rule), and
   // above every pattern. The circles are objects under the biggest props on SHADOW_LAYER and are exempt from the 0.8-1.2
   // scale range (rule 1); a pattern on a higher layer would bury one, so each circle's footprint is checked against those.
-  const shadowRng = seededRandom((seed ^ 0x5bd1e995) | 0);
-  const sr = (a, b) => a + (b - a) * shadowRng();
   const paths = [];
   const buried = patterns.filter((p) => p.layer > SHADOW_LAYER).map((p) => p.points);
   const assertVisible = (label, samples) => {
     const hit = samples.find((q) => buried.some((poly) => pointInPolygon(q, poly)));
     if (hit) { throw new Error(`${label} would be buried under a higher-layer pattern near (${Math.round(hit[0])}, ${Math.round(hit[1])}); move that pattern`); }
   };
-  const mkShadowPath = (options, points) => {
-    const tex = T(shadowPathSpec(options));
-    paths.push({ pack: tex.pack, rel: tex.rel, name: tex.name, points, width: shadowPathWidth(options), layer: SHADOW_PATH_LAYER, role: 'shadow' });
-  };
+  const mkShadowPath = (options, points) => { paths.push(shadowPathRecord(T, options, points, SHADOW_PATH_LAYER)); };
   for (const run of structure.shadowRuns.outer) { mkShadowPath(WALL_SHADOW_OUTER, run); }
   for (const run of structure.shadowRuns.inner) { mkShadowPath(WALL_SHADOW_INNER, run); }
   // the quay edge, running south so the fade (left of travel) lies east across the water; the curb strip hides the hard edge
   mkShadowPath(QUAY_SHADOW, [[waterX, 0], [waterX, H]]);
-  for (const { x, y, size, strength } of casters) {
-    const tex = T(shadowCircleSpec(strength));
-    const scale = clamp(size / 400, SHADOW_CIRCLE_SCALE, 2);
-    const cx = x + sr(-25, 25), cy = y + sr(-25, 25), radius = (tex.w * scale) / 2, samples = [];
+  circleShadows(casters, { seed, sizePerScale: 400, T }).forEach(({ object, radius, centre: [cx, cy] }, i) => {
+    const samples = [];
     for (let dx = -radius; dx <= radius; dx += 64) { for (let dy = -radius; dy <= radius; dy += 64) { if (Math.hypot(dx, dy) <= radius) { samples.push([cx + dx, cy + dy]); } } }
-    assertVisible(`circle shadow at (${Math.round(x)}, ${Math.round(y)})`, samples);
-    objects.push({ pack: tex.pack, rel: tex.rel, name: tex.name, x: +cx.toFixed(1), y: +cy.toFixed(1), scale: +scale.toFixed(3), rot: 0, mirror: false, layer: SHADOW_LAYER });
-  }
+    assertVisible(`circle shadow at (${Math.round(casters[i].x)}, ${Math.round(casters[i].y)})`, samples);
+    objects.push(object);
+  });
 
   return { world: { cols: COLS, rows: ROWS, size: S }, terrain, patterns, walls, paths, objects, ring: structure.ring, structure, stats: { clutter: clutterKept, clutterPlaced: clutterObjects.length, wallDetail, objects: objects.length, paths: paths.length, propShadows: casters.length } };
 }

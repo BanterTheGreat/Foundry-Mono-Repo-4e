@@ -1,28 +1,24 @@
 // Independent checks for the generated Cloudwood mole map (we cannot launch Dungeondraft from here): structure against a real map
 // of the same build, asset paths, array sizes, geometry against the encounter grid (re-derived here from the HTML on purpose, not
-// from structure.mjs, so a mistake in the structure shows up as a mismatch) and the user's mapping rules.
+// from structure.mjs, so a mistake in the structure shows up as a mismatch) and the user's mapping rules. The checks every map
+// shares live in lib/map-checks.mjs.
 // Usage: node verify-dungeondraft-map.mjs [map] [--ref "<real 1.2.0.1 map>"] [--html encounter.html]
 // Exits 1 if anything fails.
 import fs from 'node:fs';
 import path from 'node:path';
 import { MAPS_OUT_DIR, REFERENCE_MAP, REPO_DIR } from '../../config.mjs';
-import { loadRows } from '../../lib/lib.mjs';
-import { packs } from '../../lib/packs.mjs';
-import { SHADOW_CIRCLE_SCALE, SHADOW_LAYER, isShadowTexture } from '../../lib/shadows.mjs';
+import { cliArg, cliMapPath } from '../../lib/cli.mjs';
+import { SHADOW_LAYER } from '../../lib/shadows.mjs';
+import { checkArraySizes, checkAssets, checkColorable, checkMappingRules, checkNodes, checkShadowTextures, checkStructure, createChecker, loadMap, mapFileIn, pool, splitObjects, vec } from '../../lib/map-checks.mjs';
 
 const ENCOUNTER = 'cloudwood-mole';
 const S = 256, BASE_COLS = 18, BASE_ROWS = 14, PAD = 1;
-const arg = (n, d) => (process.argv.includes(n) ? process.argv[process.argv.indexOf(n) + 1] : d);
-const MAP = process.argv[2] && !process.argv[2].startsWith('--') ? process.argv[2] : path.join(MAPS_OUT_DIR, ENCOUNTER, `${ENCOUNTER}.dungeondraft_map`);
-const REF = arg('--ref', REFERENCE_MAP);
-const HTML = arg('--html', path.join(REPO_DIR, 'output', 'encounters', `${ENCOUNTER}.html`));
-const map = JSON.parse(fs.readFileSync(MAP, 'utf8'));
-const ref = JSON.parse(fs.readFileSync(REF, 'utf8'));
-let fails = 0, passes = 0;
-const ok = (cond, msg) => { if (cond) { passes++; } else { fails++; console.log('FAIL:', msg); } };
-const vec = (s) => s.replace('Vector2', '').match(/-?\d+(?:\.\d+)?(?:e[-+]?\d+)?/gi).map(Number);
-const pool = (s) => { const v = s.replace(/^Pool\w+\(/, '').replace(/\)$/, '').split(',').map(Number); const P = []; for (let i = 0; i + 1 < v.length; i += 2) { P.push([v[i], v[i + 1]]); } return P; };
-const poolLen = (s) => s.replace(/^Pool\w+\(/, '').replace(/\)$/, '').split(',').length;
+const MAP = cliMapPath(mapFileIn(MAPS_OUT_DIR, ENCOUNTER));
+const REF = cliArg('--ref', REFERENCE_MAP);
+const HTML = cliArg('--html', path.join(REPO_DIR, 'output', 'encounters', `${ENCOUNTER}.html`));
+const map = loadMap(MAP);
+const ref = loadMap(REF);
+const { ok, finish } = createChecker();
 
 // The encounter, read again here: "(c,r) <terrain>, elevation +N feet"
 const base = new Map();
@@ -40,56 +36,17 @@ for (let r = 1; r <= H; r++) { for (let c = 1; c <= W; c++) { cells.push({ c, r,
 const centre = (c) => [(c.c - 0.5) * S, (c.r - 0.5) * S];
 const STAIR = 'Root stair / worn ascent', STREAM = 'Stream / wet undergrowth', PLANK = 'Plank crossing', TRUNK = 'Massive tree trunk', LOG = 'Fallen log', THORN = 'Thorn hollow', CACHE = "Guide's waypoint cache";
 
-// 1. structure vs a real map made by the same Dungeondraft build: identical key sets and order, same value kinds
-function shape(v) {
-  if (v === null) { return 'null'; }
-  if (Array.isArray(v)) { return 'array'; }
-  if (typeof v === 'string') { const m = v.match(/^(Vector2|Pool\w+Array|PoolIntArray)\(/); return m ? m[1] : /^[0-9a-f]{8}$/.test(v) ? 'color' : 'string'; }
-  return typeof v;
-}
-function compareKeys(a, b, where, optional = []) {
-  const ka = Object.keys(a).filter((k) => !optional.includes(k)), kb = Object.keys(b).filter((k) => !optional.includes(k));
-  ok(JSON.stringify(ka) === JSON.stringify(kb), `${where}: keys differ\n   ours: ${ka}\n   real: ${kb}`);
-  for (const k of ka) {
-    if (k in b && !(shape(a[k]) === shape(b[k]) || shape(a[k]) === 'string' && shape(b[k]) === 'color' || shape(a[k]) === 'color' && shape(b[k]) === 'string' || shape(b[k]) === 'null' || shape(a[k]) === 'null')) {
-      ok(false, `${where}.${k}: value kind ${shape(a[k])} vs real ${shape(b[k])}`);
-    }
-  }
-}
-const lv = map.world.levels['0'], rlv = ref.world.levels['0'];
-compareKeys(map, ref, 'root', ['mod']);
-compareKeys(map.header, ref.header, 'header');
-compareKeys(map.header.creation_date, ref.header.creation_date, 'header.creation_date');
-compareKeys(map.header.editor_state, ref.header.editor_state, 'editor_state');
-compareKeys(map.world, ref.world, 'world');
-compareKeys(lv, rlv, 'level');
-for (const k of ['environment', 'tiles', 'cave', 'terrain', 'roofs', 'water', 'shapes']) { compareKeys(lv[k], rlv[k], `level.${k}`); }
-compareKeys(lv.paths[0], rlv.paths[0], 'path');
-compareKeys(lv.objects[0], rlv.objects[0], 'object', ['custom_color']);
-ok(JSON.stringify(lv.layers) === JSON.stringify(rlv.layers), 'layers table differs from real map');
+const lv = map.world.levels['0'];
+
+// 1. structure vs a real map made by the same Dungeondraft build
+checkStructure(ok, map, ref);
 
 // 2. array sizes
 ok(map.world.width === W && map.world.height === H, `map is ${map.world.width}x${map.world.height}, expected the encounter grid plus ${PAD} square on every side: ${W}x${H}`);
-ok(poolLen(lv.tiles.cells) === W * H && lv.tiles.colors.length === W * H, 'tiles size');
-ok(poolLen(lv.terrain.splat) === 16 * W * H * 4, `splat size ${poolLen(lv.terrain.splat)} != ${16 * W * H * 4}`);
-const caveLen = Math.floor(2 * W * H + 1.5 * (W + H) + 2);
-ok(poolLen(lv.cave.bitmap) === caveLen && poolLen(lv.cave.entrance_bitmap) === caveLen, `cave bitmap size != ${caveLen}`);
-const splat = lv.terrain.splat.replace(/^Pool\w+\(/, '').replace(/\)$/, '').split(',').map(Number);
-{
-  let bad = 0; for (let i = 0; i < splat.length; i += 4) { if (splat[i] + splat[i + 1] + splat[i + 2] + splat[i + 3] !== 255) { bad++; } }
-  ok(bad === 0, `${bad} splat texels do not sum to 255`);
-}
+const { caveLen, splat } = checkArraySizes(ok, map);
 
 // 3. every res:// path exists in the packs, and the manifest lists exactly the packs used
-const { byId } = packs();
-const texts = [];
-(function collect(o) { if (Array.isArray(o)) { o.forEach(collect); } else if (o && typeof o === 'object') { Object.values(o).forEach(collect); } else if (typeof o === 'string' && o.startsWith('res://packs/')) { texts.push(o); } })(lv);
-const idsUsed = new Set(texts.map((t) => t.split('/')[3]));
-for (const t of new Set(texts)) { ok(byId.get(t.split('/')[3])?.entries.has(t), `missing asset ${t}`); }
-const manifestIds = new Set(map.header.asset_manifest.map((m) => m.id));
-for (const id of idsUsed) { ok(manifestIds.has(id), `pack ${id} used but not in manifest`); }
-for (const m of map.header.asset_manifest) { ok(JSON.stringify(byId.get(m.id)?.meta) === JSON.stringify(m), `manifest entry for ${m.name} differs from pack.json`); }
-ok([...manifestIds].every((id) => idsUsed.has(id)), 'manifest lists a pack that is not used');
+checkAssets(ok, map);
 
 // 4. geometry vs the encounter grid
 const pathsOf = (re) => lv.paths.filter((p) => re.test(p.texture)).map((p) => { const [ox, oy] = vec(p.position); return { p, pts: pool(p.edit_points).map(([x, y]) => [x + ox, y + oy]) }; });
@@ -176,22 +133,12 @@ const trees = objAt(/\/tree_[^/]*\.png$/);
   ok(lv.objects.filter((o) => { const [x, y] = vec(o.position); return Math.hypot(x - cx, y - cy) < 100 && o.layer === 400; }).length >= 3, 'the waypoint cache lacks its gear');
 }
 
-// colorable textures are drawn as raw red unless tinted with custom_color
-{
-  const colorable = new Set(loadRows().filter((r) => r.colorable === 'y').map((r) => `${r.pack}|${r.rel}`));
-  const idToName = new Map([...byId.values()].map((p) => [p.meta.id, p.name]));
-  const key = (t) => `${idToName.get(t.split('/')[3])}|${t.split('/').slice(4).join('/')}`;
-  const bad = lv.objects.filter((o) => !o.custom_color && colorable.has(key(o.texture)));
-  ok(bad.length === 0, `${bad.length} colorable textures placed without custom_color (they render raw red): ${bad.slice(0, 3).map((o) => o.texture.split('/').pop())}`);
-}
+checkColorable(ok, map);
 
-// 5. the user's mapping rules (the dungeondraft skill)
+// 5. the user's mapping rules (the dungeondraft skill): 1, 2, 4 and 6 are shared, 3 is checked here
 // Rule 1 covers props; the BW shadow circles are exempt (the user sets them at 1.3 and above) and get their own range below.
-const isShadow = (o) => isShadowTexture(o.texture);
-const propObjects = lv.objects.filter((o) => !isShadow(o)), shadowObjects = lv.objects.filter(isShadow);
-const scales = propObjects.map((o) => vec(o.scale));
-ok(scales.every(([sx, sy]) => sx === sy && sx >= 0.8 - 1e-9 && sx <= 1.2 + 1e-9), `rule 1: ${scales.filter(([sx]) => sx < 0.8 || sx > 1.2).length} objects have a scale outside 0.8-1.2`);
-ok(map.world.object_shadow === false && lv.objects.every((o) => o.shadow === false), 'rule 2: object shadows must be off (world.object_shadow and every object.shadow)');
+const { propObjects, shadowObjects } = splitObjects(lv);
+checkMappingRules(ok, map, { S, caveLen });
 {
   // rule 3: a floor against a bare map, and difficult terrain must be noticeably denser than the ordinary ground around it
   const clutter = lv.objects.filter((o) => o.layer === 300);
@@ -204,30 +151,15 @@ ok(map.world.object_shadow === false && lv.objects.every((o) => o.shadow === fal
   const dryN = clutter.filter((o) => dryKeys.has(inCell(o))).length / dryKeys.size;
   ok(wetN >= 1.8 * dryN, `rule 3: difficult terrain has ${wetN.toFixed(2)} clutter per square against ${dryN.toFixed(2)} on ordinary ground (needs to be noticeably denser)`);
 }
-{
-  // rule 4: nothing is snapped to a square centre or tilted by exactly zero
-  const snapped = lv.objects.filter((o) => { const [x, y] = vec(o.position); return Math.abs(((x + S / 2) % S) - S / 2) < 0.5 && Math.abs(((y + S / 2) % S) - S / 2) < 0.5 && Math.abs(o.rotation) < 1e-3; }).length;
-  ok(snapped === 0, `rule 4: ${snapped} objects sit exactly on a square centre with no rotation`);
-}
 ok(lv.walls.length === 0 && lv.portals.length === 0 && lv.patterns.length === 0, 'this map has no walls, portals or patterns');
-ok(poolLen(lv.cave.bitmap) === caveLen && !/[1-9]/.test(lv.cave.bitmap.replace(/^Pool\w+\(/, '')) && !/[1-9]/.test(lv.cave.entrance_bitmap.replace(/^Pool\w+\(/, '')), 'rule 6: cave tool data must stay empty');
-ok(lv.shapes.polygons.length === 0 && lv.shapes.walls.length === 0, 'rule 6: building tool shapes must stay empty');
 
 // 6. nodes and bounds
-const ids = [];
-(function collect(o) { if (Array.isArray(o)) { o.forEach(collect); } else if (o && typeof o === 'object') { if (typeof o.node_id === 'string') { ids.push(o.node_id); } Object.values(o).forEach(collect); } })(lv);
-ok(new Set(ids).size === ids.length, 'duplicate node_id values');
-ok(parseInt(map.world.next_node_id, 16) > Math.max(...ids.map((x) => parseInt(x, 16))), 'next_node_id not beyond the largest node id');
-ok(lv.objects.every((o) => { const [x, y] = vec(o.position); return x > -400 && y > -400 && x < W * S + 400 && y < H * S + 400; }), 'object far outside the map');
+checkNodes(ok, map, { S, margin: 400 });
 ok(lv.paths.every((p) => p.layer <= Math.min(...propObjects.map((o) => o.layer))), 'a path sits above an object layer and could cover objects');
 
 // 7. BW shadows: a half shadow along every cliff falling on the low ground, a circle under every big prop, everything on the shadow layer
 {
-  const shadowPaths = lv.paths.filter((p) => isShadowTexture(p.texture));
-  ok(shadowPaths.every((p) => p.layer === SHADOW_LAYER && /[/]BW_(Half|Full)_Shadow_(Large|Small)_(025|050|075|100)[.]png$/.test(p.texture)), 'shadow paths must be BW shadow textures on the shadow layer');
-  ok(shadowObjects.every((o) => o.layer === SHADOW_LAYER && /[/]objects[/]BW_Shadow_Circle_(025|050|075|100)[.]png$/.test(o.texture)), 'shadow objects must be BW circle shadows (not colorable) on the shadow layer');
-  const circleScales = shadowObjects.map((o) => vec(o.scale));
-  ok(circleScales.every(([sx, sy]) => sx === sy && sx >= SHADOW_CIRCLE_SCALE - 1e-9 && sx <= 2 + 1e-9), `shadow circles must be scaled ${SHADOW_CIRCLE_SCALE}-2`);
+  const { shadowPaths } = checkShadowTextures(ok, map, { pathLayer: SHADOW_LAYER, onlyShadowPaths: false });
   const shadowLines = shadowPaths.map((p) => { const [ox, oy] = vec(p.position); return pool(p.edit_points).map(([x, y]) => [x + ox, y + oy]); });
   for (const { p, pts } of cliffs) {
     // a half shadow must follow the cliff's line but run the other way, so its fade (left of travel) lies across the low ground
@@ -241,5 +173,4 @@ ok(lv.paths.every((p) => p.layer <= Math.min(...propObjects.map((o) => o.layer))
     ok(shadowObjects.some((s) => { const [sx, sy] = vec(s.position); return Math.hypot(sx - p[0], sy - p[1]) < 60; }), `big prop ${o.texture.split('/').pop()} at (${Math.round(p[0])}, ${Math.round(p[1])}) has no circle shadow`);
   }
 }
-console.log(`${passes} checks passed, ${fails} failed.`);
-process.exit(fails ? 1 : 0);
+finish();
