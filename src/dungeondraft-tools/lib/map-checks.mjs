@@ -186,5 +186,27 @@ export function checkNodes(ok, map, { S, margin }) {
   ok(lv.objects.every((o) => { const [x, y] = vec(o.position); return x > -margin && y > -margin && x < W * S + margin && y < H * S + margin; }), 'object far outside the map');
 }
 
+/**
+ * Wall order: a wall draws over every wall before it in the file, so a wall whose end lies strictly inside another wall's run (a
+ * partition meeting a room's outer wall) must come first, or its end shows over the wall it joins. See `orderWalls` in scene-kit.
+ * @returns {number} How many walls run into a later-or-same wall wrongly (0 when the order is right).
+ */
+export function checkWallOrder(ok, map) {
+  const walls = map.world.levels['0'].walls.map((w) => ({ id: w.node_id, loop: w.loop, run: (() => { const P = pool(w.points); return w.loop ? [...P, P[0]] : P; })() }));
+  const dist = (p, run) => { let best = Infinity; for (let i = 0; i + 1 < run.length; i++) { const [a, b] = [run[i], run[i + 1]], len2 = (b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2; const t = len2 ? Math.max(0, Math.min(1, ((p[0] - a[0]) * (b[0] - a[0]) + (p[1] - a[1]) * (b[1] - a[1])) / len2)) : 0; best = Math.min(best, Math.hypot(a[0] + t * (b[0] - a[0]) - p[0], a[1] + t * (b[1] - a[1]) - p[1])); } return best; };
+  let wrong = 0;
+  walls.forEach((a, i) => {
+    if (a.loop) { return; }
+    walls.forEach((b, j) => {
+      if (i === j) { return; }
+      const first = b.run[0], last = b.run[b.run.length - 1];
+      const inside = [a.run[0], a.run[a.run.length - 1]].some((p) => dist(p, b.run) < 0.5 && (b.loop || (Math.hypot(p[0] - first[0], p[1] - first[1]) > 0.5 && Math.hypot(p[0] - last[0], p[1] - last[1]) > 0.5)));
+      if (inside && i > j) { wrong++; ok(false, `wall order: wall ${a.id} ends inside wall ${b.id} but is drawn after it, so it shows over it`); }
+    });
+  });
+  if (!wrong) { ok(true, 'wall order'); }
+  return wrong;
+}
+
 /** Absolute path of a file next to a map, for the entry scripts' defaults. */
 export const mapFileIn = (dir, encounter, stem = encounter) => path.join(dir, encounter, `${stem}.dungeondraft_map`);

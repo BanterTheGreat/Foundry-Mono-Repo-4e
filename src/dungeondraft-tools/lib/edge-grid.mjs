@@ -10,7 +10,7 @@
 const SIDES = { N: [0, -1], E: [1, 0], S: [0, 1], W: [-1, 0] };
 const OPPOSITE = { N: 'S', E: 'W', S: 'N', W: 'E' };
 /** Cell tags, with the optional creature id some grids append to the terrain ("Open ground, A.1"). */
-const CELL_TAG = /<[^<>]*\btitle="Column (\d+), row (\d+): ([^",]+)(?:, [A-Z]\.\d)?"[^<>]*>/g;
+const CELL_TAG = /<[^<>]*\btitle="Column (\d+), row (\d+): ([^"]+?)(?:, [A-Z]?\d*\.\d)?"[^<>]*>/g;
 
 /**
  * Whether a grid page uses the edge-wall format.
@@ -85,8 +85,13 @@ export function parseEdgeGrid(html, { size = 256 } = {}) {
   return { cols, rows, size, cells, edges, lines: mergeLines(edges) };
 }
 
-/** Merge touching collinear edges into runs, in reading order (horizontal lines top to bottom, then vertical left to right). */
-function mergeLines(edges) {
+/**
+ * Merge touching collinear edges into runs, in reading order (horizontal lines top to bottom, then vertical left to right).
+ * Exported so a map that extends an edge grid (a corridor, a street) can merge its added edges with the parsed ones.
+ * @param {{kind: 'wall'|'door', horizontal: boolean, x1: number, y1: number, x2: number, y2: number}[]} edges Edges in px, as in `parseEdgeGrid().edges`.
+ * @returns {{horizontal: boolean, points: number[][], openings: {x: number, y: number}[]}[]}
+ */
+export function mergeLines(edges) {
   const groups = new Map();
   for (const e of edges) {
     const key = `${e.horizontal ? 'h' : 'v'}:${e.horizontal ? e.y1 : e.x1}`;

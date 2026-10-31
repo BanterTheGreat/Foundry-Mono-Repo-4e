@@ -4,7 +4,7 @@
 // Seeded randomness is order-sensitive: a scene's layout depends on every draw from its RNG, so nothing here draws from the
 // scene's own stream except `randomHelpers`, which wraps it without consuming anything, and `circleShadows`, which has its own
 // stream. Moving code in here must never change how many draws a scene makes or in what order.
-import { chooseRemovals, seededRandom } from './geometry.mjs';
+import { chooseRemovals, distToPolyline, seededRandom } from './geometry.mjs';
 import { familyMembers } from './packs.mjs';
 import { SHADOW_CIRCLE_SCALE, SHADOW_LAYER, shadowCircleSpec, shadowPathSpec, shadowPathWidth } from './shadows.mjs';
 
@@ -125,6 +125,39 @@ export function wallRecord(tex, { id, loop, points, openings }, door) {
     pack: tex.pack, rel: tex.rel, name: tex.name, thickness: tex.h, loop, points,
     openings: openings.map(([x, y]) => ({ x, y, pack: door.pack, rel: door.rel, closed: false })),
   };
+}
+
+/**
+ * Order walls so the ones that enclose a room draw above the ones that run into them. Dungeondraft walls have no layer of their
+ * own (they all sit between user layer 400 and "Above Walls"); a wall draws over every wall before it in the list. So a partition
+ * whose end meets another wall must come BEFORE that wall, or its end cap and texture show over the wall it joins (the overlap the
+ * user saw where partitions met the outer wall).
+ *
+ * `rank` sets the broad tiers first (a higher rank draws later, e.g. 1 for the building's outline, 0 for partitions); inside a tier a
+ * wall whose end lies strictly inside another wall's run goes before that wall. Walls that only meet end to end keep their order.
+ * @param {{points: number[][], loop?: boolean}[]} walls Wall records (or anything with `points` and `loop`).
+ * @param {(wall: object) => number} [rank] Tier of a wall, default all equal.
+ * @returns {object[]} The same records, bottom to top.
+ */
+export function orderWalls(walls, rank = () => 0) {
+  const runOf = (w) => (w.loop ? [...w.points, w.points[0]] : w.points);
+  /** Whether an end of `a` lies strictly inside `b`'s run (on it, but not at one of its own ends). */
+  const endsInside = (a, b) => {
+    if (a === b || a.loop) { return false; }
+    const run = runOf(b), first = run[0], last = run[run.length - 1];
+    return [a.points[0], a.points[a.points.length - 1]].some((p) => distToPolyline(p[0], p[1], run) < 0.5 && (b.loop || (Math.hypot(p[0] - first[0], p[1] - first[1]) > 0.5 && Math.hypot(p[0] - last[0], p[1] - last[1]) > 0.5)));
+  };
+  const remaining = walls.map((w, i) => ({ w, i, tier: rank(w) }));
+  const out = [];
+  while (remaining.length) {
+    const tier = Math.min(...remaining.map((r) => r.tier));
+    const pool = remaining.filter((r) => r.tier === tier);
+    // a wall can go next when no other wall in the tier still has an end inside it
+    const next = pool.find((r) => !pool.some((o) => o !== r && endsInside(o.w, r.w))) ?? pool[0]; // a cycle keeps the original order
+    out.push(next.w);
+    remaining.splice(remaining.indexOf(next), 1);
+  }
+  return out;
 }
 
 /**

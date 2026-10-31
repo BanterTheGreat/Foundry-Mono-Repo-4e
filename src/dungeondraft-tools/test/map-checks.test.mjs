@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { checkArraySizes, checkMappingRules, checkNodes, checkShadowTextures, checkStructure, createChecker, pool, poolLen, splitObjects, vec } from '../lib/map-checks.mjs';
+import { checkArraySizes, checkMappingRules, checkNodes, checkShadowTextures, checkStructure, checkWallOrder, createChecker, pool, poolLen, splitObjects, vec } from '../lib/map-checks.mjs';
 
 const S = 256;
 const bytes = (n, fill = 0) => `PoolByteArray( ${new Array(n).fill(fill).join(', ')} )`;
@@ -194,4 +194,20 @@ test('checkStructure compares keys and value kinds, and only the records a map a
   const layers = clone();
   layers.world.levels[0].layers = { 100: 'a', 200: 'b' };
   assert.match(failures((ok) => checkStructure(ok, layers, ref)).messages.join('\n'), /layers table/);
+});
+
+test('checkWallOrder fails when a partition is drawn after the wall it ends inside, and passes in the right order', () => {
+  const wall = (id, pts) => ({ node_id: id, loop: false, points: `PoolVector2Array( ${pts.map((p) => p.join(', ')).join(', ')} )` });
+  const divider = wall('1', [[0, 512], [1024, 512]]);
+  const partition = wall('2', [[512, 0], [512, 512]]);
+  const mapOf = (...walls) => ({ world: { levels: { 0: { walls } } } });
+  const good = createChecker(), bad = createChecker();
+  assert.equal(checkWallOrder(good.ok, mapOf(partition, divider)), 0);
+  assert.equal(good.failed(), 0);
+  assert.equal(checkWallOrder(bad.ok, mapOf(divider, partition)), 1);
+  assert.equal(bad.failed(), 1);
+  // meeting end to end is not an overlap either way
+  const l1 = wall('3', [[0, 0], [512, 0]]), l2 = wall('4', [[512, 0], [512, 512]]);
+  const corner = createChecker();
+  assert.equal(checkWallOrder(corner.ok, mapOf(l2, l1)), 0);
 });

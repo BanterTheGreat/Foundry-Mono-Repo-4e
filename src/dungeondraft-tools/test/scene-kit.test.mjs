@@ -7,7 +7,7 @@ import { distToPolyline, distToSegment, seededRandom } from '../lib/geometry.mjs
 import { findTexture } from '../lib/packs.mjs';
 import {
   CLUTTER_CUTS, CRATE_SPECS, SCALE_MAX, SCALE_MIN, WALL_LAMPS, applyClutterCuts, assertThemes, buildObject, circleShadows, clamp,
-  makeFam, onWall, pathRecord, patternRecord, randomHelpers, shadowPathRecord, wallRecord,
+  makeFam, onWall, orderWalls, pathRecord, patternRecord, randomHelpers, shadowPathRecord, wallRecord,
 } from '../lib/scene-kit.mjs';
 import { SHADOW_CIRCLE_SCALE, SHADOW_LAYER, SHADOW_PATH_LAYER } from '../lib/shadows.mjs';
 import * as cloudwood from '../maps/cloudwood-mole/scene.mjs';
@@ -187,4 +187,31 @@ test('shadowPathRecord uses the BW texture, its height as width, the given layer
   assert.equal(rec.role, 'shadow');
   assert.equal(shadowPathRecord(T, { edge: 'half', size: 'small', strength: '050' }, [[0, 0], [1, 0]], SHADOW_LAYER, 'mass').width, 256);
   assert.equal(shadowPathRecord(T, { edge: 'half', size: 'small', strength: '050' }, [[0, 0], [1, 0]], SHADOW_LAYER, 'mass').role, 'mass');
+});
+
+test('orderWalls draws a partition before the wall it runs into, and an outline last', () => {
+  const room = { name: 'outline', loop: false, points: [[0, 0], [1024, 0], [1024, 1024], [0, 1024]] };
+  const horizontal = { name: 'divider', loop: false, points: [[0, 512], [1024, 512]] };
+  const vertical = { name: 'partition', loop: false, points: [[512, 0], [512, 512]] }; // ends inside the divider, and on the outline
+  const names = (list) => list.map((w) => w.name);
+  const ranked = orderWalls([room, horizontal, vertical], (w) => (w.name === 'outline' ? 1 : 0));
+  assert.deepEqual(names(ranked), ['partition', 'divider', 'outline']);
+  // the order the generator happened to list them in does not matter
+  assert.deepEqual(names(orderWalls([vertical, room, horizontal], (w) => (w.name === 'outline' ? 1 : 0))), ['partition', 'divider', 'outline']);
+  // without ranks the T-junction alone still puts the partition first
+  assert.deepEqual(names(orderWalls([horizontal, vertical])), ['partition', 'divider']);
+});
+
+test('orderWalls leaves walls that only meet end to end, or never meet, in their order', () => {
+  const a = { name: 'a', loop: false, points: [[0, 0], [512, 0]] };
+  const b = { name: 'b', loop: false, points: [[512, 0], [512, 512]] }; // an L corner: neither end is inside the other
+  const c = { name: 'c', loop: false, points: [[2048, 0], [2048, 512]] };
+  assert.deepEqual(orderWalls([c, b, a]).map((w) => w.name), ['c', 'b', 'a']);
+  assert.deepEqual(orderWalls([a, b, c]).map((w) => w.name), ['a', 'b', 'c']);
+});
+
+test('orderWalls treats a closed loop as a wall other walls run into', () => {
+  const loop = { name: 'loop', loop: true, points: [[0, 0], [1024, 0], [1024, 1024], [0, 1024]] };
+  const spur = { name: 'spur', loop: false, points: [[1024, 512], [2048, 512]] }; // starts on the loop's east side
+  assert.deepEqual(orderWalls([loop, spur]).map((w) => w.name), ['spur', 'loop']);
 });

@@ -39,6 +39,13 @@ test('cells, terrain and sides are read, and the grid size is the largest column
   assert.deepEqual([...c.doors], ['S']);
 });
 
+test('a terrain label may itself contain a comma, with or without a creature id after it', () => {
+  const grid = parseEdgeGrid('<td title="Column 1, row 1: low crates (cover, difficult)">B</td><td title="Column 2, row 1: low crates (cover, difficult), 3.2">B</td>');
+  assert.equal(grid.cells.size, 2);
+  assert.equal(grid.cells.get('1,1').terrain, 'low crates (cover, difficult)');
+  assert.equal(grid.cells.get('2,1').terrain, 'low crates (cover, difficult)');
+});
+
 test('a creature id appended to the title is not part of the terrain', () => {
   const grid = parseEdgeGrid('<td title="Column 1, row 1: Open ground, A.1">A.1</td>');
   assert.equal(grid.cells.get('1,1').terrain, 'Open ground');
