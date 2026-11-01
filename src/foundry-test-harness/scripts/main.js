@@ -88,12 +88,18 @@ async function registerSuites(api) {
 }
 
 /**
- * Run only this harness's explicit batches and resolve on Quench's report event.
+ * Run this harness's explicit batches (or a chosen subset of them) and resolve on Quench's report event.
  * runBatches resolves when the runner starts, so awaiting it alone does not await tests.
+ *
+ * @param {string[]} [keys] Registered batch keys to run. Defaults to every batch.
  */
-async function run() {
+async function run(keys = [...batchKeys]) {
   assertTestWorld();
   const api = game.modules.get(MODULE_ID).api;
+  const unknown = keys.filter(key => !batchKeys.includes(key));
+  if (unknown.length) {
+    throw new Error(`Unknown test batch: ${unknown.join(", ")}`);
+  }
   // Quench 0.10.0 exposes no public busy getter; guard its current runner as well as ours.
   if (!api.ready || running || globalThis.quench?._currentRunner) {
     throw new Error("The test harness is not ready, or a Quench run is already active.");
@@ -110,7 +116,7 @@ async function run() {
           reject(error);
         }
       });
-      Promise.resolve(globalThis.quench.runBatches([...batchKeys])).catch(error => {
+      Promise.resolve(globalThis.quench.runBatches([...keys])).catch(error => {
         Hooks.off("quenchReports", hook);
         reject(error);
       });
@@ -122,7 +128,7 @@ async function run() {
         system: game.system.version,
         modules: Object.fromEntries([...suiteModules, "quench", MODULE_ID].map(id => [id, game.modules.get(id)?.version])),
       },
-      batchKeys: [...batchKeys],
+      batchKeys: [...keys],
       report,
     };
   } finally {

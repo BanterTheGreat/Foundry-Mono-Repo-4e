@@ -1,5 +1,4 @@
 import { Logger } from "../../shared/logger.js";
-import { TRIGGER_PROMPT_FLAG } from "../trigger-prompts/constants.js";
 import { toTriggerAttackOutcome } from "./player-defense-outcome.js";
 import { PlayerDefenseEffects } from "./player-defense-effects.js";
 import { replacePendingDefenseCard, renderDefenseTarget, renderManagedDefenseMessage } from "./player-defense-chat.js";
@@ -197,52 +196,6 @@ export class SocketHelper {
             for (const group of damageGroups) {
                 await SocketHelper.#rollDefenseDamage(defense, group, messageId);
             }
-            return true;
-        });
-    }
-
-    /**
-     * Atomically marks a trigger prompt as used before its selected item is
-     * posted to chat.
-     *
-     * @param {string} messageId
-     * @param {string} itemId
-     * @returns {Promise<object|null>}
-     */
-    static async claimTriggerPrompt(messageId, itemId) {
-        return SocketHelper.#queueUpdate(async () => {
-            const message = game.messages.get(messageId);
-            const prompt = message?.flags?.[TRIGGER_PROMPT_FLAG];
-            const allowedItemIds = prompt?.choices?.map(choice => choice.itemId) ?? [prompt?.itemId];
-            if (!prompt || prompt.used || !allowedItemIds.includes(itemId)) {
-                return null;
-            }
-
-            prompt.used = true;
-            await message.update({ flags: { ...message.flags, [TRIGGER_PROMPT_FLAG]: prompt } });
-            return { ...prompt, itemId };
-        });
-    }
-
-    /**
-     * Deletes a still-unclaimed trigger prompt after its response window ends.
-     * The same serialized queue as prompt claims ensures a choice made at the
-     * deadline wins over expiry.
-     *
-     * @param {string} messageId
-     *   Trigger prompt message to expire.
-     * @returns {Promise<boolean>}
-     *   Whether an unclaimed prompt was deleted.
-     */
-    static async expireTriggerPrompt(messageId) {
-        return SocketHelper.#queueUpdate(async () => {
-            const message = game.messages.get(messageId);
-            const prompt = message?.flags?.[TRIGGER_PROMPT_FLAG];
-            if (!prompt || prompt.used) {
-                return false;
-            }
-
-            await message.delete();
             return true;
         });
     }

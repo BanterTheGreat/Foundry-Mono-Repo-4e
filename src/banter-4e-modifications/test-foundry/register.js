@@ -1,4 +1,5 @@
 import { registerActiveDefenseTests } from "./active-defense.js";
+import { registerTriggerPromptTests } from "./trigger-prompts.js";
 
 /** Register integration tests against the actual post-init DnD4e configuration. */
 export function registerTests(quench, { assertTestWorld, TestDocuments }) {
@@ -35,5 +36,5 @@ export function registerTests(quench, { assertTestWorld, TestDocuments }) {
       });
     });
   }, { displayName: "BANTER: Live initialization and actor schema", preSelected: false });
-  return [key, registerActiveDefenseTests(quench)];
+  return [key, registerActiveDefenseTests(quench), registerTriggerPromptTests(quench)];
 }

@@ -1,28 +1,52 @@
-import { Logger } from "../../shared/logger.js";
-import { TRIGGER_PROMPT_UI, TRIGGER_SOCKET_ACTION } from "./constants.js";
+import { TRIGGER_PROMPT_UI } from "./constants.js";
 import { ActorTriggerConfiguration } from "./actor-trigger-configuration.js";
+import { AttackResultCapture } from "./attack-result-capture.js";
+import {
+  CombatEventBus,
+  MOVEMENT_TYPE,
+  createAttackEventFromDefense,
+  createAttackEventsFromCapture,
+  createHpChangedEvent,
+  createMovementCommittedEvent,
+  createSaveResolvedEvent,
+} from "./combat-events.js";
 import { CombatTriggerDispatcher } from "./combat-trigger-dispatcher.js";
 import { TriggerPromptChat } from "./trigger-prompt-chat.js";
-import { AttackResultCapture } from "./attack-result-capture.js";
 
 /**
  * Foundry hook adapter for the trigger-prompt submodule.
  *
- * The adapter records the DnD4e attack hook until its chat message is created,
- * then translates Foundry events into the dispatcher, configuration, and
- * private-chat module interfaces.
+ * Each hook handler translates one Foundry occurrence into a normalized combat
+ * event and puts it on the event bus; the dispatcher subscribes to the bus.
+ * Hooks that fire on every client (token moves and actor updates) act only on
+ * the client whose user made the change, so each event is reported exactly once and
+ * no GM has to be connected.
  */
 export class TriggerPrompts {
   /**
    * @param {object} socket
-   *   Registered SocketLib module used to evaluate player-originated attacks
-   *   on the primary GM.
+   *   Registered SocketLib module used to reach a prompt's author.
    */
   constructor(socket) {
     this.socket = socket;
     this.attackCapture = new AttackResultCapture();
+    this.events = new CombatEventBus();
     this.promptChat = new TriggerPromptChat(socket);
     this.dispatcher = new CombatTriggerDispatcher(this.promptChat);
+    this.events.subscribe(event => this.dispatcher.handle(event));
+  }
+
+  /**
+   * Tidies prompts left from an earlier session and, on one GM client, moves
+   * legacy actor-flag assignments onto powers.
+   *
+   * @returns {Promise<void>}
+   */
+  async onReady() {
+    await this.promptChat.sweepExpiredPrompts();
+    if (game.user.isGM) {
+      await ActorTriggerConfiguration.migrateAllLegacyAssignments();
+    }
   }
 
   /**
@@ -41,79 +65,93 @@ export class TriggerPrompts {
   }
 
   /**
-   * Completes a captured attack from a DnD4e chat-roll message.
+   * Completes a captured attack from a DnD4e chat-roll message and reports one
+   * attack event per target.
    *
    * @param {ChatMessage} message
-   * @param {object} socket
    */
-  static onPreCreateRollMessage(message, socket) {
+  static onPreCreateRollMessage(message) {
     const attack = game.TriggerPrompts?.attackCapture.consume(message);
     if (attack) {
-      socket.executeAsGM(TRIGGER_SOCKET_ACTION.EVALUATE_ATTACK, attack)
-        .catch(error => Logger.error("Failed to evaluate trigger attack", { error: error.message }));
+      game.TriggerPrompts.events.emitAll(createAttackEventsFromCapture(attack));
     }
   }
 
   /**
    * Waits for the rolling client's Dice So Nice animation, when present, then
-   * evaluates a failed saving throw on the primary GM. The author check keeps
-   * every other client from creating duplicate prompts for the same message.
+   * reports a failed saving throw. The author check keeps every other client
+   * from reporting the same message.
    *
    * @param {ChatMessage} message
-   * @param {object} socket
    * @returns {Promise<void>}
    */
-  static async onCreateRollMessage(message, socket) {
+  static async onCreateRollMessage(message) {
     if (message.author?.id !== game.user?.id) {
       return;
     }
     const savingThrow = TriggerPrompts.#captureSavingThrowFailure(message);
     if (savingThrow) {
       await TriggerPrompts.#waitForDiceSoNiceAnimation(message.id);
-      if (!socket) {
-        Logger.error("Failed to evaluate trigger saving throw", { error: "SocketLib was not ready when the saving throw was created." });
-        return;
-      }
-      await socket.executeAsGM(TRIGGER_SOCKET_ACTION.EVALUATE_SAVING_THROW, savingThrow)
-        .catch(error => Logger.error("Failed to evaluate trigger saving throw", { error: error.message }));
+      await game.TriggerPrompts?.events.emit(createSaveResolvedEvent(savingThrow));
     }
   }
 
   /**
-   * SocketLib entry point that evaluates an attack on the authoritative GM.
-   *
-   * @param {object} context
-   * @returns {Promise<void>}
-   */
-  static async evaluateCapturedAttackFromSocket(attackContext) {
-    await game.TriggerPrompts?.dispatcher.evaluateCapturedAttack(attackContext);
-  }
-
-  /**
-   * Evaluates movement triggers before a token's coordinates are changed.
+   * Reports a committed token move. Foundry fires `moveToken` on every client
+   * once a move is applied, so only the user who requested it reports it,
+   * keeping each move to one event whoever (player or GM) made it.
    *
    * @param {TokenDocument} document
-   * @param {object} changes
+   * @param {TokenMovementOperation} movement
+   *   The committed movement, with its origin and the waypoints it passed.
+   * @param {object} operation
+   * @param {User} user
+   *   User who requested the move.
    * @returns {Promise<void>}
    */
-  static async onPreUpdateTokenPosition(document, changes) {
-    if (!game.user.isGM || !game.TriggerPrompts || (changes.x === undefined && changes.y === undefined)) {
+  static async onMoveToken(document, movement, operation, user) {
+    const triggerPrompts = game.TriggerPrompts;
+    if (!triggerPrompts || user?.id !== game.user.id || movement.method === "undo") {
       return;
     }
-    await game.TriggerPrompts.dispatcher.evaluateTokenMovement(document, changes);
+    const path = TriggerPrompts.#buildMovementPath(movement);
+    if (path.length < 2) {
+      return;
+    }
+    await triggerPrompts.events.emit(createMovementCommittedEvent({
+      sceneId: document.parent.id,
+      tokenId: document.id,
+      path,
+      movementType: TriggerPrompts.#classifyMovementType(movement),
+    }));
   }
 
   /**
-   * Passes completed HP updates to the primary-GM dispatcher. DnD4e carries
-   * the previous HP value in the update options.
+   * Reports hit-point changes made by this client's user. DnD4e carries the
+   * previous HP value in the update options.
    *
    * @param {Actor} actor
    * @param {object} changes
    * @param {object} options
+   * @param {string} userId
+   *   User who made the update.
    * @returns {Promise<void>}
    */
-  static async onUpdateActorHealth(actor, changes, options) {
-    await game.TriggerPrompts?.dispatcher.evaluateBloodiedTransition(actor, changes, options);
+  static async onUpdateActor(actor, changes, options, userId) {
+    const triggerPrompts = game.TriggerPrompts;
+    if (!triggerPrompts || userId !== game.user.id || !game.combat?.started) {
+      return;
+    }
+    const oldHp = options.dnd4e?.hp?.hp;
+    const newHp = actor.system.attributes?.hp?.value;
+    if (!Number.isFinite(oldHp) || !Number.isFinite(newHp) || oldHp === newHp) {
+      return;
+    }
+    const bloodiedThreshold = actor.system.details?.bloodied ?? actor.system.attributes?.hp?.max / 2;
+    const events = game.combat.combatants
+      .filter(combatant => combatant.actor?.uuid === actor.uuid)
+      .map(combatant => createHpChangedEvent({ sceneId: combatant.sceneId, tokenId: combatant.tokenId, oldHp, newHp, bloodiedThreshold }));
+    await triggerPrompts.events.emitAll(events);
   }
 
   /**
@@ -165,31 +203,87 @@ export class TriggerPrompts {
   }
 
   /**
-   * Receives a Player Defense outcome after its GM-authoritative resolution.
+   * SocketLib entry point: claims a prompt this client authored.
    *
-   * @param {object} context
-   * @param {"hit"|"miss"} outcome
-   * @returns {Promise<void>}
+   * @param {string} messageId
+   * @param {string} itemId
+   * @returns {Promise<object|null>}
    */
-  async handleActiveDefenseOutcome(attackContext, outcome) {
-    await this.dispatcher.evaluateActiveDefenseOutcome(attackContext, outcome);
+  static async claimPromptFromSocket(messageId, itemId) {
+    return game.TriggerPrompts?.promptChat.claimPrompt(messageId, itemId) ?? null;
   }
 
   /**
-   * SocketLib entry point that evaluates a saving-throw result on the GM.
+   * SocketLib entry point: dismisses a prompt this client authored.
    *
-   * @param {object} savingThrowContext
+   * @param {string} messageId
+   * @returns {Promise<boolean>}
+   */
+  static async dismissPromptFromSocket(messageId) {
+    return game.TriggerPrompts?.promptChat.dismissPrompt(messageId) ?? false;
+  }
+
+  /**
+   * Reports a Player Defense outcome after its resolution on the GM.
+   *
+   * @param {object} defenseContext
+   * @param {"hit"|"miss"} outcome
    * @returns {Promise<void>}
    */
-  static async evaluateSavingThrowFromSocket(savingThrowContext) {
-    await game.TriggerPrompts?.dispatcher.evaluateSavingThrow(savingThrowContext);
+  async handleActiveDefenseOutcome(defenseContext, outcome) {
+    await this.events.emit(createAttackEventFromDefense(defenseContext, outcome));
+  }
+
+  /**
+   * Discards the capture for an attack Player Defense has replaced before
+   * creation, so its later roll cannot produce a second result.
+   *
+   * @param {ChatMessage} [message]
+   *   The attack message Player Defense is replacing.
+   */
+  clearPendingAttackContext(message) {
+    this.attackCapture.discard(message);
+  }
+
+  /**
+   * Classifies how a token moved. Every move is currently a walk: the table
+   * does not use shifts, forced movement, or teleports yet. The classification
+   * is recorded on each event for later triggers, and none reads it today.
+   *
+   * @param {TokenMovementOperation} movement
+   * @returns {string}
+   *   A {@link MOVEMENT_TYPE} value.
+   */
+  static #classifyMovementType(movement) {
+    return MOVEMENT_TYPE.WALK;
+  }
+
+  /**
+   * Lists the top-left positions a committed move travelled through.
+   *
+   * Foundry's `passed.waypoints` excludes the origin and ends at the
+   * destination, so the origin is prepended. Repeated positions are dropped.
+   *
+   * @param {TokenMovementOperation} movement
+   * @returns {Array<{x: number, y: number}>}
+   *   At least two positions for a move that went anywhere, otherwise fewer.
+   */
+  static #buildMovementPath(movement) {
+    const path = [];
+    for (const position of [movement.origin, ...(movement.passed?.waypoints ?? [])]) {
+      const previous = path.at(-1);
+      if (Number.isFinite(position?.x) && Number.isFinite(position?.y) && (previous?.x !== position.x || previous?.y !== position.y)) {
+        path.push({ x: position.x, y: position.y });
+      }
+    }
+    return path;
   }
 
   /**
    * Extracts a failed, non-death saving throw from DnD4e's chat-roll data.
    *
    * @param {ChatMessage} message
-   * @returns {{actor: {actorId: string|null, sceneId: string|null, tokenId: string|null}, outcome: "fail"}|null}
+   * @returns {{actorId: string|null, sceneId: string|null, tokenId: string|null, outcome: "fail"}|null}
    */
   static #captureSavingThrowFailure(message) {
     const rollData = message.flags?.dnd4e?.roll;
@@ -207,11 +301,9 @@ export class TriggerPrompts {
       return null;
     }
     return {
-      actor: {
-        actorId: rollData?.actorId ?? message.speaker?.actor ?? null,
-        sceneId: message.speaker?.scene ?? null,
-        tokenId: message.speaker?.token ?? null,
-      },
+      actorId: rollData?.actorId ?? message.speaker?.actor ?? null,
+      sceneId: message.speaker?.scene ?? null,
+      tokenId: message.speaker?.token ?? null,
       outcome: "fail",
     };
   }
@@ -231,10 +323,5 @@ export class TriggerPrompts {
     }
     await new Promise(resolve => setTimeout(resolve, 0));
     await waitForAnimation.call(game.dice3d, messageId);
-  }
-
-  /** Clears a captured attack that Player Defense has replaced before creation. */
-  clearPendingAttackContext() {
-    this.attackCapture.discard();
   }
 }

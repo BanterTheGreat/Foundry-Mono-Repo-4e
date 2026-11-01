@@ -1,8 +1,9 @@
 /**
- * Stable trigger identifiers persisted in actor configuration and prompt flags.
+ * Stable trigger identifiers persisted in actor and item configuration and in
+ * prompt flags.
  *
  * Do not change an existing value without a migration: worlds store these IDs
- * in actor flags.
+ * in document flags.
  */
 export const TRIGGER_ID = Object.freeze({
   OPPORTUNITY_ATTACK: "opportunity-attack",
@@ -19,17 +20,6 @@ export const TRIGGER_ID = Object.freeze({
   FAILS_SAVING_THROW: "fails-saving-throw",
 });
 
-/**
- * Event categories emitted by the dispatcher and consumed by trigger
- * definitions. Each category has a different event-data shape.
- */
-export const TRIGGER_EVENT_TYPE = Object.freeze({
-  MOVEMENT: "movement",
-  ATTACK_RESULT: "attack-result",
-  BLOODIED: "bloodied",
-  SAVING_THROW_RESULT: "saving-throw-result",
-});
-
 /** Actions exposed by a private trigger-prompt chat card's data attributes. */
 export const TRIGGER_PROMPT_ACTION = Object.freeze({
   USE: "use",
@@ -38,7 +28,10 @@ export const TRIGGER_PROMPT_ACTION = Object.freeze({
 
 /** Flag namespace used on private prompt chat messages. */
 export const TRIGGER_PROMPT_FLAG = "triggerPrompts";
-/** Flag namespace used on actors for persistent trigger configuration. */
+/**
+ * Flag key under the module scope for persistent trigger configuration. Actors
+ * store their actor-level options under it; powers store their assignments.
+ */
 export const TRIGGER_CONFIGURATION_FLAG = "trigger-prompts";
 /** Time for which a recipient may select one power from a prompt. */
 export const TRIGGER_PROMPT_TIMEOUT_MS = 10_000;
@@ -46,20 +39,20 @@ export const TRIGGER_PROMPT_TIMEOUT_MS = 10_000;
 /**
  * SocketLib handler names used by the trigger-prompt submodule.
  *
- * Evaluation and mutable chat-message operations are routed through a GM so
- * the authoritative client creates, claims, and expires prompts.
+ * Events are evaluated on the client that caused them, so no evaluation
+ * message crosses the socket. The two remaining handlers run on the prompt's
+ * author, who keeps the prompt message and is the only client (besides a GM)
+ * Foundry lets modify it.
  */
 export const TRIGGER_SOCKET_ACTION = Object.freeze({
-  EVALUATE_ATTACK: "evaluateTriggerAttack",
-  EVALUATE_SAVING_THROW: "evaluateTriggerSavingThrow",
   CLAIM_PROMPT: "claimTriggerPrompt",
-  EXPIRE_PROMPT: "expireTriggerPrompt",
+  DISMISS_PROMPT: "dismissTriggerPrompt",
 });
 
 /**
  * Legacy virtual power selections understood during configuration migration.
  *
- * New configuration stores a concrete assignment for each selected power.
+ * Current configuration stores a concrete assignment for each selected power.
  */
 export const ABILITY_SELECTION = Object.freeze({
   BASIC_ATTACKS: "basic-attacks",
@@ -74,5 +67,6 @@ export const TRIGGER_PROMPT_UI = Object.freeze({
   ITEM_CONFIG_CLASS: "trigger-prompts-item-config",
   ITEM_CONFIG_ACTION: "configure-item-trigger-prompts",
   PROMPT_ACTIONS_CLASS: "trigger-prompts-message__actions",
+  PROMPT_HIDDEN_CLASS: "trigger-prompts-message--hidden",
   DISMISS_LABEL: "Ignore",
 });

@@ -243,7 +243,7 @@ export class PlayerDefense {
     const rollDC = PlayerDefense.#getDefenseDC(totalModifier);
     const { targets, item, attacker } = attack;
     game.PlayerDefense.lastAttack = null;
-    game.TriggerPrompts?.clearPendingAttackContext();
+    game.TriggerPrompts?.clearPendingAttackContext(message);
     const { attack: attackData } = PlayerDefense.#getPowerDamageData(item);
     let defenseTargets = PlayerDefense.#buildDefenseTargets(targets, rollDC, totalModifier, attacker, attackData.def?.toUpperCase() ?? "?", item, defenseDice);
     Logger.info("Intercepting NPC attack", { messageId: message.id, attackerId: attacker.id, itemId: item.id, targetIds: defenseTargets.map(target => target.actorId), rollFormula, totalModifier, rollDC });

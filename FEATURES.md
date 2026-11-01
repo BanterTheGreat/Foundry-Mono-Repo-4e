@@ -80,7 +80,7 @@ Ledger recording depends on observed actions; missing history and offline time c
 | Actor directory levels | Show actor levels in the directory. | Players & GM; visible directory entries |
 | Optional attack chat variants | regular, Charge, and Opportunity Attack actions on eligible powers. | Players & GM; eligible powers |
 | Revised skills | Crafting, Society, Intelligence-based Medicine, and Wisdom-based Religion; Streetwise and Dungeoneering are merged away. | Players & GM; world-wide rules |
-| Optional private trigger prompts | actor and power configuration, claimable prompts, opportunity attacks, hit/miss events, bloodied transitions, marked-creature events, melee hits, and failed saving throws. | Owners & GM configure; relevant recipients receive private prompts |
+| Optional private trigger prompts | declarative triggers over one combat-event stream (attack results, committed token movement with a recorded movement type, hit-point changes, saving throws): opportunity attacks, hit/miss events, bloodied transitions, marked-creature events, melee hits, and failed saving throws. Assignments are stored on each power; an opt-in, per-power "Suggest triggers from this trigger text" reads the power's own trigger line, shows what it understood and what it does not check, and pre-ticks rows for review. Events are evaluated by the client that caused them and prompts are claimed, dismissed, and expired without a GM connected. | Owners & GM configure; relevant recipients receive private prompts |
 
 ## Too Much To Track
 
@@ -158,6 +158,10 @@ Check each item after enabling its module (and, where noted, its setting).
 - [ ] Defense waiting audio — targeting only PCs creates a silent waiting card; mixed PC/NPC attacks retain audio for the native NPC rolls.
 - [ ] Opportunity-attack chat actions — eligible power cards cycle between regular, Charge, and Opportunity Attack rolls.
 - [ ] Trigger prompts — enabled, configured combat triggers send private, claimable chat prompts to the relevant player.
+- [ ] Trigger prompts without a GM — with no GM connected, a player's attack, move, hit-point change or save still prompts the right recipients; two recipients answering at once record one use; an expired prompt loses its buttons after a reload.
+- [ ] Trigger text suggestions — in a power's Triggers dialog, "Suggest triggers from this trigger text" is off on open, shows the matched trigger, wording and anything not checked when ticked, ticks the matching rows, restores them when unticked, and stores nothing until Save (saved rows show "from trigger text").
+- [ ] Power-stored triggers — assignments follow a duplicated power, one dragged to another actor, and one imported from a compendium; existing actor-flag assignments move onto their powers on first GM load.
+- [ ] Movement triggers — opportunity-attack and marked-creature prompts fire for player and GM moves, for large tokens measured by footprint, and not for a move that only ends adjacent.
 - [ ] Opportunity attack trigger — prompt when an enemy movement permits an opportunity attack.
 - [ ] Enemy misses you — prompt when an enemy misses the configured actor.
 - [ ] Enemy misses — prompt when an enemy misses.

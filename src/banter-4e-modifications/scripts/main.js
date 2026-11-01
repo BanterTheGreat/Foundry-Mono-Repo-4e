@@ -10,6 +10,7 @@ import { AttackBuffs } from "./modules/attack-buffs/attack-buffs.js";
 import { SkillBuffs } from "./modules/skill-buffs/skill-buffs.js";
 import { ChatRolls } from "./modules/chat-rolls/chat-rolls.js";
 import { TRIGGER_SOCKET_ACTION } from "./modules/trigger-prompts/constants.js";
+import { Logger } from "./shared/logger.js";
 import { MODULE_NAME, ENABLE_ACTIVE_DEFENSE, ENABLE_DEBUG_LOGGING, ENABLE_OPPORTUNITY_ATTACK_CHAT_ACTIONS, ENABLE_TRIGGER_PROMPTS } from "./shared/globals.js";
 
 let socket;
@@ -70,10 +71,9 @@ Hooks.once("socketlib.ready", () => {
   socket.register("updateMessage", SocketHelper.updateMessage);
   socket.register("attemptDefenseDialog", SocketHelper.attemptDefenseDialog);
   socket.register("resolveDefenseTarget", SocketHelper.resolveDefenseTarget);
-  socket.register(TRIGGER_SOCKET_ACTION.EVALUATE_ATTACK, TriggerPrompts.evaluateCapturedAttackFromSocket);
-  socket.register(TRIGGER_SOCKET_ACTION.EVALUATE_SAVING_THROW, TriggerPrompts.evaluateSavingThrowFromSocket);
-  socket.register(TRIGGER_SOCKET_ACTION.CLAIM_PROMPT, SocketHelper.claimTriggerPrompt);
-  socket.register(TRIGGER_SOCKET_ACTION.EXPIRE_PROMPT, SocketHelper.expireTriggerPrompt);
+  // Trigger prompts are kept by their author, so these run on that client, not a GM.
+  socket.register(TRIGGER_SOCKET_ACTION.CLAIM_PROMPT, TriggerPrompts.claimPromptFromSocket);
+  socket.register(TRIGGER_SOCKET_ACTION.DISMISS_PROMPT, TriggerPrompts.dismissPromptFromSocket);
 });
 
 Hooks.once("ready", () => {
@@ -86,6 +86,7 @@ Hooks.on("ready", () => game.SocketHelper = new SocketHelper());
 Hooks.on("ready", () => {
   if (game.settings.get(MODULE_NAME, ENABLE_TRIGGER_PROMPTS)) {
     game.TriggerPrompts = new TriggerPrompts(socket);
+    game.TriggerPrompts.onReady().catch(error => Logger.error("Trigger prompt startup failed", { error: error.message }));
   }
 });
 
@@ -127,15 +128,14 @@ Hooks.on("i18nInit", () => {
 Hooks.on("i18nInit", () => {
   if (game.settings.get(MODULE_NAME, ENABLE_TRIGGER_PROMPTS)) {
     Hooks.on("dnd4e.rollAttack", TriggerPrompts.onDnd4eRollAttack);
-    Hooks.on("preCreateChatMessage", message => TriggerPrompts.onPreCreateRollMessage(message, socket));
-    Hooks.on("createChatMessage", message => TriggerPrompts.onCreateRollMessage(message, socket));
-    Hooks.on("preUpdateToken", TriggerPrompts.onPreUpdateTokenPosition);
-    Hooks.on("updateActor", TriggerPrompts.onUpdateActorHealth);
+    Hooks.on("preCreateChatMessage", TriggerPrompts.onPreCreateRollMessage);
+    Hooks.on("createChatMessage", TriggerPrompts.onCreateRollMessage);
+    Hooks.on("moveToken", TriggerPrompts.onMoveToken);
+    Hooks.on("updateActor", TriggerPrompts.onUpdateActor);
     Hooks.on("getActorSheetHeaderButtons", TriggerPrompts.onGetActorSheetHeaderButtons);
     Hooks.on("getItemSheetHeaderButtons", PowerTriggerConfiguration.onGetItemSheetHeaderButtons);
     Hooks.on("getHeaderControlsApplicationV2", TriggerPrompts.onGetHeaderControlsApplicationV2);
     Hooks.on("getHeaderControlsApplicationV2", PowerTriggerConfiguration.onGetHeaderControlsApplicationV2);
-    Hooks.on("deleteItem", PowerTriggerConfiguration.onDeleteItem);
     Hooks.on("renderChatMessageHTML", (message, html) => TriggerPrompts.onRenderPromptMessage(message, html));
   }
 });

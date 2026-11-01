@@ -94,6 +94,28 @@ To save readable results to a file while also displaying them (macOS/Linux):
 node --test --test-reporter=spec src/dnd4e-health-display/test/*.test.js 2>&1 | tee /tmp/info-display-tests.txt
 ```
 
+## Banter trigger prompts
+
+Run the full Banter's 4e Modifications suite (trigger definitions, events, geometry, text suggestions, configuration, prompt chat, and the hook adapter):
+
+```sh
+npm test --prefix src/banter-4e-modifications
+```
+
+Live checks in the designated test world (deploy first with `npm run test:foundry:deploy`; the Foundry server must be running with the world loaded). The first runs every trigger, positive and negative, through real hooks (about 2 minutes). The second needs the non-GM test player and no other GM connected; it checks prompts for a player's own moves, hiding from non-recipients, a simultaneous claim by GM and player, and prompts with no GM connected (about 1 minute):
+
+```sh
+npx playwright test --config tests/foundry/playwright.config.mjs trigger-prompts.spec.mjs
+npx playwright test --config tests/foundry/playwright.config.mjs trigger-prompts-players.spec.mjs
+```
+
+After reload with "Enable trigger prompts" on, check in a test world with a started combat (no GM needs to stay connected once a player is acting):
+
+- Open a power's **Triggers** header button. Tick "Suggest triggers from this trigger text": the matched trigger, the matched wording and anything "Not checked" appear, matching rows are ticked, and nothing is stored until Save. Untick it and the rows return to how they were.
+- Move a token past an enemy as a player and as the GM; both should offer the enemy's opportunity attack, and moving away without passing adjacent should not.
+- Click a prompt's power as the owning player, and as the GM, while the other client watches: exactly one use is recorded and the card loses its buttons on every client.
+- Let a prompt run out, then reload: its buttons are gone and the card is removed.
+
 ## Reading the results
 
 The final summary lists the number of tests that passed, failed, or were skipped. A successful run has `fail 0`; failed tests include their names, assertion details, and file locations. Tests skipped by a name filter have not been checked by that run. Without the `tee` pipe, a failing run also returns a nonzero exit status.

@@ -355,6 +355,44 @@
     color: var(--color-text-dark-secondary);
 }
 
+.trigger-prompts-config__badge {
+    display: inline-block;
+    margin-left: 0.4rem;
+    padding: 0 0.35rem;
+    border: 1px solid var(--color-border-highlight);
+    border-radius: 3px;
+    font-size: var(--font-size-11);
+    vertical-align: middle;
+}
+
+.trigger-prompts-suggestions {
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--color-border-light-2);
+}
+
+.trigger-prompts-suggestions__panel {
+    margin-top: 0.4rem;
+}
+
+.trigger-prompts-suggestions__panel ul {
+    margin: 0.25rem 0 0;
+    padding-left: 1.2rem;
+}
+
+.trigger-prompts-suggestions__panel small {
+    display: block;
+    color: var(--color-text-dark-secondary);
+}
+
+.trigger-prompts-suggestions__unchecked {
+    color: var(--color-level-error);
+}
+
+/* A prompt meant for other users is hidden from its author. */
+.trigger-prompts-message--hidden {
+    display: none !important;
+}
+
 .trigger-prompts-message__actions {
     display: grid;
     gap: 0.4rem;
