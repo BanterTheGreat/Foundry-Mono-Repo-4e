@@ -16,16 +16,16 @@ const NAME_LENGTH_LIMIT = 14;
 const OPEN_ENDED_RANK = 1000;
 
 /**
- * Turn the health segments into gems. A divider follows the middle gem so the bloodied point is visible.
+ * Turn the health segments into gems. A wider gap follows the middle gem so the bloodied point is visible.
  *
  * @param {boolean[]} filled Whether each segment is filled, in drain order.
- * @returns {Array<{filled: boolean, divider: boolean}>}
+ * @returns {Array<{filled: boolean, gapAfter: boolean}>}
  */
 export function buildGems(filled) {
 	const half = filled.length / 2;
 	return filled.map((isFilled, index) => ({
 		filled: isFilled,
-		divider: filled.length > 1 && index === half - 1,
+		gapAfter: filled.length > 1 && index === half - 1,
 	}));
 }
 

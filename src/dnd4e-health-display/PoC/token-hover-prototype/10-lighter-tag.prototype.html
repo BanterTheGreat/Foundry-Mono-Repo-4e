@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prototype 10 - Lighter tag</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Signika:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="common.css">
+<!--
+THROWAWAY PROTOTYPE - lightening the rim-crown tag (the one now behind the setting in the real module), which felt "a bit full".
+Presets (bottom bar, or left/right arrows; the choice lives in ?variant=):
+  A  Current                  - exactly what ships now.
+  B  Lighter (ideas 1-4)      - slimmer (smaller gems, tighter padding, smaller name), see-through fill, the bloodied divider line replaced
+                                by a wider gap, and the border kept only for Solo / Leader / Elite / Minion.
+  C  Gems tab + plain name    - idea 5: only the gems get a backing (a small pill on the rim); the name is plain outlined text underneath.
+Every idea is also a toggle in the top bar, so they can be mixed and compared one at a time; picking a preset resets the toggles.
+  Slim             idea 1   smaller gems, tighter rows, lighter name
+  See-through      idea 2   tag fill 94% -> 68% opaque, softer shadow
+  Divider          idea 3   line (current) / gap (wider space, no line) / warm (no divider; gems turn orange-red when bloodied, hot when last stand)
+  Border           idea 4   always (brass) / roles only (coloured border for Solo / Leader / Elite / Minion, none for ordinary creatures)
+  Name             idea 5   in the tag (current) / outside (plain outlined text under a gems-only pill)
+Quantised data only (4 / 6 / 1 segments), no state word, no initiative counter, no animations.
+Prototype aid: hover a token and press 1-5 to set its HP to 100 / 75 / 50 / 25 / 0 %.
+-->
+<style>
+.ring{position:absolute;pointer-events:none;z-index:30}
+.ring svg.base{position:absolute;inset:0;overflow:visible}
+.ring .hv{fill:none;stroke-width:2;stroke-opacity:.8}
+
+/* gems */
+.gem{flex:none;box-sizing:border-box;width:11px;height:11px;transform:rotate(45deg);margin:2px;border:1.5px solid #a9896f;background:#302b2a;border-radius:2px}
+.gem.on{border-color:#e0707a;background:linear-gradient(135deg,#e2545e,#7a1220)}
+.gem.on.warm2{border-color:#ffb06a;background:linear-gradient(135deg,#ffb35c,#b4410e)}
+.gem.on.warm3{border-color:#ffc0b8;background:linear-gradient(135deg,#ff9a8f,#d0141e);box-shadow:0 0 5px #ff4a4acc}
+.gsep{flex:none;align-self:center;width:2px;height:16px;margin:0 3px;background:#f3e6c8;border-radius:1px;opacity:.85}
+.gspace{flex:none;width:7px}
+.slim .gem{width:9px;height:9px;margin:2px;border-width:1.3px}
+.slim .gsep{height:13px}
+.slim .gspace{width:5px}
+
+/* tag */
+.stag{position:absolute;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;white-space:nowrap;text-shadow:0 1px 2px #000;
+  filter:drop-shadow(0 3px 5px #000c)}
+.stag.soft{filter:drop-shadow(0 2px 3px #0008)}
+.stag svg.sh{position:absolute;left:0;top:0;overflow:visible;z-index:0}
+.stag .tabrow{position:relative;z-index:1;display:flex;align-items:center;gap:4px;padding:4px 10px 3px}
+.stag .namerow{position:relative;z-index:1;align-self:stretch;display:flex;align-items:center;justify-content:center;gap:6px;padding:3px 14px 6px;font:700 15px var(--font);letter-spacing:.02em}
+.stag.slim .tabrow{gap:3px;padding:3px 8px 2px}
+.stag.slim .namerow{padding:1px 11px 4px;font:600 13px var(--font);gap:5px}
+.role{font-size:11px}
+.slim .role{font-size:10px}
+
+/* idea 5: gems pill + plain name */
+.otag{position:absolute;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;white-space:nowrap;filter:drop-shadow(0 2px 4px #000a)}
+.otag .opill{position:relative;display:flex;align-items:center;gap:4px;padding:3px 9px 2px;border-radius:999px;border:1px solid var(--bc)}
+.otag.slim .opill{gap:3px;padding:2px 8px 1px}
+.otag .oname{display:flex;align-items:center;gap:5px;margin-top:2px;font:700 14px var(--font);letter-spacing:.02em;color:#fff;
+  paint-order:stroke fill;-webkit-text-stroke:3.5px rgba(5,5,8,.9);text-shadow:0 1px 3px #000}
+.otag.slim .oname{font:600 13px var(--font)}
+
+/* effect strip: same as prototype 6 */
+.stub{position:absolute;height:2px;background:var(--rc);opacity:.85}
+.fl{position:absolute;min-width:260px;max-width:380px;padding:4px 7px 4px 6px;background:#08080adf;border:1px solid #997456aa;border-left:3px solid var(--rc);
+  border-radius:4px 9px 9px 4px;box-shadow:0 6px 16px #000b}
+.fl.flip{border-left:1px solid #997456aa;border-right:3px solid var(--rc);border-radius:9px 4px 4px 9px}
+.fr{display:grid;grid-template-columns:18px 1fr auto;gap:0 7px;min-height:22px;align-items:center}
+.fr.d{grid-template-areas:"i n e" ". d d";padding:3px 0 4px;align-items:start}
+.fr.d .fi{grid-area:i;margin-top:2px}.fr.d .fn{grid-area:n;align-self:center}.fr.d .fe{grid-area:e;align-self:center}
+.fd{grid-area:d;font:400 11px/1.3 var(--font);color:#bdb092;white-space:normal}
+.fr + .fr{border-top:1px solid #ffffff0d}
+.fi{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:9px;background:radial-gradient(circle at 35% 30%,#2b2625,#0b0a0b);border:1px solid #b08a63}
+.fn{font:600 12.5px var(--font);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fe{font:700 10px var(--font);letter-spacing:.06em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
+.fe .sv{color:#8fc2e6}
+.fr.soon .fe{color:#f0b455}.fr.soon .fi{border-color:#f0b455;color:#f0b455}
+.fr.more{display:block;padding:2px 0 0 25px;font:700 10px var(--font);letter-spacing:.06em;color:var(--dim)}
+
+/* prototype chrome */
+.vbar{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);z-index:210;display:flex;align-items:center;gap:6px;padding:4px;border-radius:999px;background:#fff;color:#111;
+  box-shadow:0 4px 18px #0009;font:600 13px system-ui,sans-serif;user-select:none}
+.vbar button{border:0;background:#eee;color:#111;border-radius:999px;width:28px;height:28px;font-size:16px;cursor:pointer}
+.vbar button:hover{background:#ddd}
+.vbar .lbl{min-width:250px;text-align:center}
+.vbar .dots{display:flex;gap:4px;margin:0 4px}
+.vbar .dots i{width:8px;height:8px;border-radius:50%;background:#ccc;cursor:pointer}.vbar .dots i.cur{background:#111}
+.vbar a{color:#111;text-decoration:none;padding:4px 10px;border-radius:999px}.vbar a:hover{background:#eee}
+.hint{position:fixed;left:16px;bottom:16px;z-index:100;max-width:420px;color:#cfc3a8;font:13px/1.45 var(--font);background:#000a;padding:8px 12px;border-radius:8px}
+.hint b{color:#fff}
+.aids{flex-wrap:wrap;justify-content:center;border-radius:14px;max-width:96vw;white-space:normal;row-gap:4px}
+</style>
+<body>
+<div class="hint" id="hint"></div>
+<script src="common.js"></script>
+<script>
+const P = Proto;
+const MAX_ROWS = 10;
+let ringEl = null;
+
+const PRESETS = [
+	{ key: "A", name: "Current", opts: { slim: false, see: false, divider: "line", border: "always", name: "in" },
+		note: "Exactly what is in the real module now: opaque tag, divider line, brass border on everyone." },
+	{ key: "B", name: "Lighter (ideas 1-4)", opts: { slim: true, see: true, divider: "gap", border: "roles", name: "in" },
+		note: "Slimmer rows and gems, see-through fill, a gap instead of the divider line, and a border only for roles (try Hana or a goblin vs Gorrak, Vorhaal, Warcaster)." },
+	{ key: "C", name: "Gems tab + plain name (idea 5)", opts: { slim: true, see: true, divider: "gap", border: "roles", name: "out" },
+		note: "Only the gems have a backing; the name is plain outlined text underneath. Lightest, but no single shape and the name leans on its outline over busy art." },
+];
+let current = Math.max(0, PRESETS.findIndex((p) => p.key === new URLSearchParams(location.search).get("variant")));
+let opts = { ...PRESETS[current].opts };
+
+/** Health tier from the SEGMENTS only: 1 = healthy/hurt, 2 = bloodied (half or less), 3 = last stand (a quarter or less). */
+function tier(d) {
+	if (d.n === 1) {
+		return 1;
+	}
+	const f = d.filled / d.n;
+	return f <= 0.25 ? 3 : f <= 0.5 ? 2 : 1;
+}
+const roleIcon = (d, color) => (d.role?.icon ? `<span class="role" style="color:${color}"><i class="${d.role.icon}"></i></span>` : "");
+
+function gemRow(d) {
+	const half = d.n / 2;
+	const warm = opts.divider === "warm" ? tier(d) : 1;
+	return d.segments.map((on, i) => {
+		const gem = `<span class="gem${on ? " on" : ""}${on && warm > 1 ? ` warm${warm}` : ""}"></span>`;
+		let sep = "";
+		if (d.n > 1 && i === half - 1) {
+			sep = opts.divider === "line" ? `<span class="gsep"></span>` : opts.divider === "gap" ? `<span class="gspace"></span>` : "";
+		}
+		return gem + sep;
+	}).join("");
+}
+
+/** Single stepped outline, same maths as the real module's buildTagOutline(). */
+function outline({ width, tabHeight, plateHeight, tabLeft, tabWidth }) {
+	const height = tabHeight + plateHeight;
+	const tabRight = tabLeft + tabWidth;
+	const tr = Math.min(9, tabHeight / 2);
+	const pr = Math.min(11, plateHeight / 2);
+	const f = 5;
+	const left = tabLeft > 1;
+	const right = tabRight < width - 1;
+	let p = `M${tabLeft} ${tr}A${tr} ${tr} 0 0 1 ${tabLeft + tr} 0H${tabRight - tr}A${tr} ${tr} 0 0 1 ${tabRight} ${tr}`;
+	if (right) {
+		p += `V${tabHeight - f}A${f} ${f} 0 0 0 ${tabRight + f} ${tabHeight}H${width - pr}A${pr} ${pr} 0 0 1 ${width} ${tabHeight + pr}`;
+	}
+	p += `V${height - pr}A${pr} ${pr} 0 0 1 ${width - pr} ${height}H${pr}A${pr} ${pr} 0 0 1 0 ${height - pr}`;
+	p += left ? `V${tabHeight + pr}A${pr} ${pr} 0 0 1 ${pr} ${tabHeight}H${tabLeft - f}A${f} ${f} 0 0 0 ${tabLeft} ${tabHeight - f}Z` : `V${tr}Z`;
+	return { path: p, width, height };
+}
+
+function tagHtml(d, c, color, top) {
+	const slim = opts.slim ? " slim" : "";
+	const nameHtml = `${roleIcon(d, color)}<span style="${d.defeated ? "text-decoration:line-through" : ""}">${c.name}</span>`;
+	if (opts.name === "out") {
+		const bc = d.role || opts.border === "always" ? color : "transparent";
+		const fill = opts.see ? "rgba(11,10,13,.68)" : "rgba(11,10,13,.94)";
+		return `<div class="otag${slim}" data-top="${top}" style="top:${top}px;--bc:${bc}"><div class="opill" style="background:${fill}">${gemRow(d)}</div><div class="oname">${nameHtml}</div></div>`;
+	}
+	return `<div class="stag${slim}${opts.see ? " soft" : ""}" data-top="${top}" style="top:${top}px;--rc:${color}"><svg class="sh"></svg>
+		<div class="tabrow">${gemRow(d)}</div><div class="namerow">${nameHtml}</div></div>`;
+}
+
+/** Draw the stepped outline (name inside the tag) and raise the gem row onto the token's rim. */
+function shapeTag(root, d, color) {
+	const top = (el) => parseFloat(el.dataset.top);
+	const otag = root.querySelector(".otag");
+	if (otag) {
+		const pill = otag.querySelector(".opill");
+		otag.style.top = `${top(otag) - pill.offsetHeight * 0.78}px`;
+		return;
+	}
+	const tag = root.querySelector(".stag");
+	const tab = tag.querySelector(".tabrow");
+	const row = tag.querySelector(".namerow");
+	row.style.minWidth = `${tab.offsetWidth + 24}px`;
+	const o = outline({ width: tag.offsetWidth, tabHeight: tab.offsetHeight, plateHeight: row.offsetHeight, tabLeft: tab.offsetLeft, tabWidth: tab.offsetWidth });
+	const svg = tag.querySelector("svg.sh");
+	svg.setAttribute("width", o.width);
+	svg.setAttribute("height", o.height);
+	svg.setAttribute("viewBox", `0 0 ${o.width} ${o.height}`);
+	const stroke = d.role || opts.border === "always" ? color : "none";
+	svg.innerHTML = `<path d="${o.path}" fill="#0b0a0d" fill-opacity="${opts.see ? 0.68 : 0.94}" stroke="${stroke}" stroke-width="1.2" stroke-linejoin="round"/>`;
+	tag.style.top = `${top(tag) - tab.offsetHeight * 0.78}px`;
+}
+
+/** Soonest ending first; encounter-long, then open-ended last. */
+function effectRows(c) {
+	return c.effects.map((e) => ({ e, r: P.resolveEnd(c, e) })).sort((a, b) => {
+		const rank = (x) => (x.r.dist === null ? 1000 + (x.r.kind === "encounter" ? 0 : 1) : x.r.dist);
+		return rank(a) - rank(b);
+	});
+}
+function ending(r) {
+	switch (r.kind) {
+		case "save": return `<span class="sv">Save</span>`;
+		case "encounter": return `<i class="fa-solid fa-infinity"></i>`;
+		case "none": return "—";
+		default: return `${r.when === "start" ? "SoT" : "EoT"} ${r.who.short}`;
+	}
+}
+
+function showRing(c, el) {
+	hideRing();
+	const d = P.getData(c);
+	const board = scene.board;
+	const br = board.getBoundingClientRect();
+	const tr = el.getBoundingClientRect();
+	const size = Math.max(44, tr.width);
+	const pad = 30;
+	const W = size + pad * 2;
+	const cx = W / 2;
+	const color = P.ROLE_COLOR[d.role?.key] ?? "#997456";
+	const r = size / 2 + 4;
+	ringEl = document.createElement("div");
+	ringEl.className = "ring";
+	ringEl.style.cssText = `left:${tr.left - br.left + tr.width / 2 - W / 2}px;top:${tr.top - br.top + tr.height / 2 - W / 2}px;width:${W}px;height:${W}px;--rc:${color}`;
+	ringEl.innerHTML = `<svg class="base" viewBox="0 0 ${W} ${W}"><circle class="hv" cx="${cx}" cy="${cx}" r="${r}" stroke="${color}"/></svg>${tagHtml(d, c, color, pad + size + 3)}`;
+	board.appendChild(ringEl);
+	shapeTag(ringEl, d, color);
+
+	const rows = effectRows(c);
+	if (!rows.length) {
+		return;
+	}
+	const shown = rows.length > MAX_ROWS ? rows.slice(0, MAX_ROWS - 1) : rows;
+	const fl = document.createElement("div");
+	fl.className = "fl";
+	fl.innerHTML = shown.map(({ e, r: end }) => {
+		const soon = end.dist !== null && end.dist <= 1;
+		const under = !e.condition && e.desc;
+		return `<div class="fr${soon ? " soon" : ""}${under ? " d" : ""}"><span class="fi"><i class="${e.icon}"></i></span><span class="fn"${e.ongoing ? ` style="color:#ffb27a"` : ""}>${e.name}</span><span class="fe">${ending(end)}</span>${under ? `<span class="fd">${e.desc}</span>` : ""}</div>`;
+	}).join("") + (rows.length > shown.length ? `<div class="fr more">+${rows.length - shown.length} more</div>` : "");
+	ringEl.appendChild(fl);
+	const lw = fl.offsetWidth;
+	const lh = fl.offsetHeight;
+	const gap = 16;
+	const edge = r + 8;
+	const frameLeft = tr.left + tr.width / 2 - W / 2;
+	const frameTop = tr.top + tr.height / 2 - W / 2;
+	const flip = frameLeft + cx + edge + gap + lw > innerWidth - 8;
+	let top = cx - lh / 2;
+	const viewTop = frameTop + top;
+	top += Math.max(48, Math.min(viewTop, innerHeight - lh - 56)) - viewTop;
+	const stub = document.createElement("div");
+	stub.className = "stub";
+	stub.style.cssText = `width:${gap}px;top:${cx - 1}px;left:${flip ? cx - edge - gap : cx + edge}px`;
+	fl.classList.toggle("flip", flip);
+	fl.style.left = `${flip ? cx - edge - gap - lw : cx + edge + gap}px`;
+	fl.style.top = `${top}px`;
+	ringEl.appendChild(stub);
+}
+function hideRing() {
+	ringEl?.remove();
+	ringEl = null;
+}
+const redraw = () => {
+	if (P.state.hoverId) {
+		showRing(P.byId(P.state.hoverId), scene.els.get(P.state.hoverId));
+	}
+};
+
+const sel = (id, label, options) => `<label>${label} <select id="${id}">${options.map(([v, t]) => `<option value="${v}">${t}</option>`).join("")}</select></label>`;
+const scene = P.mount({
+	aids: `<label><input type="checkbox" id="o-slim"> Slim (1)</label><label><input type="checkbox" id="o-see"> See-through (2)</label>`
+		+ sel("o-divider", "Divider (3)", [["line", "line"], ["gap", "gap"], ["warm", "warm gems"]])
+		+ sel("o-border", "Border (4)", [["always", "always"], ["roles", "roles only"]])
+		+ sel("o-name", "Name (5)", [["in", "in tag"], ["out", "outside"]]),
+	onAids: (bar) => {
+		const read = () => {
+			opts = {
+				slim: bar.querySelector("#o-slim").checked,
+				see: bar.querySelector("#o-see").checked,
+				divider: bar.querySelector("#o-divider").value,
+				border: bar.querySelector("#o-border").value,
+				name: bar.querySelector("#o-name").value,
+			};
+			const same = Object.keys(opts).every((k) => opts[k] === PRESETS[current].opts[k]);
+			document.getElementById("vlbl").textContent = `${PRESETS[current].key} · ${PRESETS[current].name}${same ? "" : " (custom)"}`;
+			redraw();
+		};
+		bar.addEventListener("change", read);
+	},
+	onHover: (c, el) => showRing(c, el),
+	onLeave: hideRing,
+	onChange: redraw,
+});
+
+/* HP presets for the hovered token: 1-5 = 100 / 75 / 50 / 25 / 0 percent */
+addEventListener("keydown", (ev) => {
+	const c = P.state.hoverId ? P.byId(P.state.hoverId) : null;
+	const level = { 1: 1, 2: 0.75, 3: 0.5, 4: 0.25, 5: 0 }[ev.key];
+	if (c && level !== undefined) {
+		c.hp = level === 0 ? 0 : Math.max(1, Math.round(c.max * level));
+		scene.refresh();
+	}
+});
+
+/* preset switcher */
+document.body.insertAdjacentHTML("beforeend", `<div class="vbar"><button id="vprev" aria-label="Previous preset">‹</button><span class="lbl" id="vlbl"></span><div class="dots" id="vdots"></div><button id="vnext" aria-label="Next preset">›</button><a href="index.html">All</a></div>`);
+function setVariant(index) {
+	current = (index + PRESETS.length) % PRESETS.length;
+	const p = PRESETS[current];
+	opts = { ...p.opts };
+	history.replaceState(null, "", `?variant=${p.key}`);
+	const bar = document.querySelector(".aids");
+	bar.querySelector("#o-slim").checked = opts.slim;
+	bar.querySelector("#o-see").checked = opts.see;
+	bar.querySelector("#o-divider").value = opts.divider;
+	bar.querySelector("#o-border").value = opts.border;
+	bar.querySelector("#o-name").value = opts.name;
+	document.getElementById("vlbl").textContent = `${p.key} · ${p.name}`;
+	document.getElementById("vdots").innerHTML = PRESETS.map((o, i) => `<i data-i="${i}" class="${i === current ? "cur" : ""}" title="${o.name}"></i>`).join("");
+	document.getElementById("hint").innerHTML = `<b>${p.key} - ${p.name}.</b> ${p.note}<br>Hover a token; press <kbd>1</kbd>-<kbd>5</kbd> to set its HP (100/75/50/25/0%). Compare Kess (short name, bloodied), Hana (6 gems), a goblin (1 gem), Gorrak (elite) and the tight Hana/Kess/Brannoch cluster.`;
+	redraw();
+}
+document.getElementById("vprev").onclick = () => setVariant(current - 1);
+document.getElementById("vnext").onclick = () => setVariant(current + 1);
+document.getElementById("vdots").onclick = (ev) => ev.target.dataset.i && setVariant(Number(ev.target.dataset.i));
+addEventListener("keydown", (ev) => {
+	if (ev.target.matches?.("input,select,textarea")) {
+		return;
+	}
+	if (ev.key === "ArrowRight") {
+		setVariant(current + 1);
+	} else if (ev.key === "ArrowLeft") {
+		setVariant(current - 1);
+	}
+});
+setVariant(current);
+</script>
+</body>
+</html>

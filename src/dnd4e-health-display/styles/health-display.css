@@ -417,7 +417,7 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	filter: drop-shadow(0 3px 5px rgb(0 0 0 / 80%));
+	filter: drop-shadow(0 2px 3px rgb(0 0 0 / 55%));
 	text-shadow: 0 1px 2px #000;
 	transform: translateX(-50%);
 	white-space: nowrap;
@@ -431,27 +431,32 @@
 }
 
 .dnd4e-token-ring__tag-shape path {
-	fill: rgb(11 10 13 / 94%);
-	stroke: var(--ring-accent);
+	fill: rgb(11 10 13 / 68%);
+	stroke: none;
 	stroke-linejoin: round;
 	stroke-width: 1.2;
+}
+
+/* Only creatures with a Solo / Leader / Elite / Minion role get a border; ordinary creatures have none. */
+.dnd4e-token-ring__frame.has-role .dnd4e-token-ring__tag-shape path {
+	stroke: var(--ring-accent);
 }
 
 .dnd4e-token-ring__gems {
 	position: relative;
 	display: flex;
 	align-items: center;
-	gap: 4px;
-	padding: 4px 10px 3px;
+	gap: 3px;
+	padding: 3px 8px 2px;
 }
 
 .dnd4e-token-ring__gem {
 	flex: none;
 	box-sizing: border-box;
-	width: 11px;
-	height: 11px;
+	width: 9px;
+	height: 9px;
 	margin: 2px;
-	border: 1.5px solid #a9896f;
+	border: 1.3px solid #a9896f;
 	border-radius: 2px;
 	background: #302b2a;
 	transform: rotate(45deg);
@@ -462,15 +467,10 @@
 	background: linear-gradient(135deg, #e2545e, #7a1220);
 }
 
-.dnd4e-token-ring__gem-divider {
+/* A wider gap after the middle gem marks the bloodied point. */
+.dnd4e-token-ring__gem-gap {
 	flex: none;
-	align-self: center;
-	width: 2px;
-	height: 16px;
-	margin: 0 3px;
-	border-radius: 1px;
-	background: #f3e6c8;
-	opacity: 0.85;
+	width: 5px;
 }
 
 .dnd4e-token-ring__namerow {
@@ -479,16 +479,16 @@
 	align-items: center;
 	justify-content: center;
 	align-self: stretch;
-	gap: 0.4rem;
-	padding: 3px 14px 6px;
-	font-size: 0.95rem;
-	font-weight: 700;
+	gap: 0.3rem;
+	padding: 1px 11px 4px;
+	font-size: 0.8rem;
+	font-weight: 600;
 	letter-spacing: 0.02em;
 }
 
 .dnd4e-token-ring__role {
 	color: var(--ring-accent);
-	font-size: 0.7rem;
+	font-size: 0.62rem;
 	line-height: 1;
 }
 

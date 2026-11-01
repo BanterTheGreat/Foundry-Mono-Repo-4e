@@ -15,17 +15,17 @@ import {
 
 const effect = (name, ending, extra = {}) => ({ name, img: `${name}.png`, isCondition: false, description: "", ending, ...extra });
 
-test("gems follow the health segments and put a divider at the bloodied mark", () => {
+test("gems follow the health segments and leave a gap at the bloodied mark", () => {
 	const gems = buildGems([true, true, false, false]);
 	assert.deepEqual(gems.map((gem) => gem.filled), [true, true, false, false]);
-	assert.deepEqual(gems.map((gem) => gem.divider), [false, true, false, false], "the divider follows the middle gem");
+	assert.deepEqual(gems.map((gem) => gem.gapAfter), [false, true, false, false], "the gap follows the middle gem");
 	const pc = buildGems([true, true, true, true, false, false]);
-	assert.deepEqual(pc.map((gem) => gem.divider), [false, false, true, false, false, false]);
+	assert.deepEqual(pc.map((gem) => gem.gapAfter), [false, false, true, false, false, false]);
 });
 
-test("a minion's single gem has no divider, and no segments means no gems", () => {
-	assert.deepEqual(buildGems([true]), [{ filled: true, divider: false }]);
-	assert.deepEqual(buildGems([false]), [{ filled: false, divider: false }]);
+test("a minion's single gem has no gap, and no segments means no gems", () => {
+	assert.deepEqual(buildGems([true]), [{ filled: true, gapAfter: false }]);
+	assert.deepEqual(buildGems([false]), [{ filled: false, gapAfter: false }]);
 	assert.deepEqual(buildGems([]), []);
 });
 
