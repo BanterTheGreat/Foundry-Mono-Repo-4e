@@ -3,7 +3,6 @@ import { TargetAutomationFixture, waitForFact } from "./target-automation-fixtur
 const MODULE = "dnd4e-health-display";
 const HARNESS = "foundry-test-harness";
 const SETTING = "compactTracker";
-const FLOATING_TEXT_MS = 3500;
 const ROOT = "dnd4e-compact-tracker";
 const round6 = number => Math.round(number * 1e6) / 1e6;
 
@@ -34,7 +33,6 @@ class CompactTrackerFixture {
   /** Build the sandbox scene, add a second player character, and remember the client state to restore. */
   async setup() {
     this.previousSetting = game.settings.get(MODULE, SETTING);
-    this.floatingTextUntil = 0;
     this.previousExpanded = ui.sidebar.expanded;
     this.previousTab = ui.sidebar.tabGroups?.primary;
     await this.ta.setup();
@@ -53,21 +51,11 @@ class CompactTrackerFixture {
     return this;
   }
 
-  /**
-   * Change an actor's HP. Foundry floats the change above the token for a couple of seconds, and tearing the canvas
-   * down meanwhile makes PIXI destroy that text twice, so cleanup waits for the text to finish.
-   */
-  async changeHp(actor, value) {
-    this.floatingTextUntil = Date.now() + FLOATING_TEXT_MS;
-    await actor.update({ "system.attributes.hp.value": value });
-  }
-
   /** A fresh, unstarted encounter with every roster member, viewed in the open sidebar. */
   async newCombat({ title = "Quench Ambush", omit = [] } = {}) {
     await this.deleteCombat();
     for (const actor of Object.values(this.ta.actors)) {
       if (actor.system.attributes.hp.value !== 40 || actor.system.attributes.hp.max !== 40) {
-        this.floatingTextUntil = Date.now() + FLOATING_TEXT_MS;
         await actor.update({ "system.attributes.hp.value": 40, "system.attributes.hp.max": 40 });
       }
     }
@@ -201,7 +189,6 @@ class CompactTrackerFixture {
         }
         await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(resolve, 100))));
       },
-      () => new Promise(resolve => setTimeout(resolve, Math.max(0, this.floatingTextUntil - Date.now()))),
       () => this.deleteCombat(),
       () => game.settings.set(MODULE, SETTING, this.previousSetting),
       () => this.ta.cleanup(),
@@ -363,7 +350,7 @@ export function registerCompactTrackerTests(quench) {
           const steps = [[40, "is-green"], [38, "is-green"], [31, "is-green"], [30, "is-yellow"], [21, "is-yellow"], [20, "is-orange"],
             [11, "is-orange"], [10, "is-red"], [1, "is-red"], [0, "is-red"]];
           for (const [hp, className] of steps) {
-            await fixture.changeHp(fixture.ta.actors.far, hp);
+            await fixture.ta.actors.far.update({ "system.attributes.hp.value": hp });
             await waitForFact(() => hpText("far") === `${hp}/40`, `far HP text ${hp}/40`);
             const element = fixture.row("far").querySelector("[data-compact-hp]");
             assert.include(element.className, className, `${hp}/40`);
@@ -376,7 +363,7 @@ export function registerCompactTrackerTests(quench) {
 
         it("refreshes HP live when an actor changes", async function () {
           assert.equal(hpText("ally"), "40/40");
-          await fixture.changeHp(fixture.ta.actors.ally, 3);
+          await fixture.ta.actors.ally.update({ "system.attributes.hp.value": 3 });
           await waitForFact(() => hpText("ally") === "3/40", "live HP update");
           assert.include(fixture.row("ally").querySelector("[data-compact-hp]").className, "is-red");
         });
@@ -641,7 +628,7 @@ export function registerCompactTrackerTests(quench) {
           const y = () => fixture.yBetween("caster", "enemy");
           await fixture.drag("second", y, { drop: false });
           const before = fixture.row("second");
-          await fixture.changeHp(fixture.ta.actors.ally, 7);
+          await fixture.ta.actors.ally.update({ "system.attributes.hp.value": 7 });
           await new Promise(resolve => setTimeout(resolve, 500));
           await fixture.ensureVisible();
           assert.isTrue(fixture.row("second").classList.contains("is-dragging"), "the dragged row is still dimmed after any re-render");

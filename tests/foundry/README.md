@@ -38,7 +38,10 @@ the runner does not launch or control the Electron application.
 
 ## Running and reports
 
-- `npm run test:foundry` runs headless Chromium.
+- `npm run test:foundry` runs headless Chromium. It passes GPU flags (`--enable-gpu`, `--ignore-gpu-blocklist`, `--use-angle=d3d11`, set in
+  `playwright.config.mjs`), because headless Chromium otherwise draws Foundry's canvas on the CPU and the full run takes about
+  three times as long (roughly 2.5 minutes with a GPU, 7 without). Without a GPU Chromium falls back to software
+  rendering; the 600 second scenario timeout leaves room for that.
 - `npm run test:foundry -- --headed` shows Chromium during the run.
 - `npm run test:foundry:report` opens the Playwright HTML report.
 - `npm run test:foundry:deploy` refreshes the three deployed modules before a run.

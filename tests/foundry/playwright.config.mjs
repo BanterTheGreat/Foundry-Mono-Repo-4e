@@ -20,6 +20,9 @@ export default defineConfig({
   use: {
     baseURL: `${settings.url.replace(/\/$/, "")}/`,
     browserName: "chromium",
+    // Headless Chromium otherwise renders Foundry's canvas on the CPU (SwiftShader), which makes the suite about 3x slower.
+    // Chromium falls back to software rendering when no GPU is available.
+    launchOptions: { args: ["--enable-gpu", "--ignore-gpu-blocklist", "--use-angle=d3d11"] },
     viewport: { width: 1920, height: 1080 },
     storageState: existsSync(authPath) ? authPath : undefined,
     trace: "retain-on-failure",

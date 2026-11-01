@@ -48,6 +48,7 @@ export class TargetAutomationFixture {
       this.documents.documents.push(this.scene);
       await this.scene.view();
       await waitForFact(() => canvas.ready && canvas.scene.id === this.scene.id, "test scene");
+      this.trackFloatingText();
       await game.settings.set(MODULE, "enablePowerTargetAutomation", true);
       const caster = await this.documents.createActor({ type: "Player Character", items: [basePower, {
         name: "Test reach spear", type: "weapon", system: { equipped: true, weaponType: "simpleM",
@@ -134,8 +135,37 @@ export class TargetAutomationFixture {
   }
 
   /** Restore the original view/settings and delete only fixture-owned documents. */
+  /**
+   * Remember every floating number (damage, healing) Foundry animates on the canvas. Drawing another scene while one is
+   * still animating makes PIXI destroy that text twice and throw, so cleanup waits for them to finish first.
+   */
+  trackFloatingText() {
+    const layer = canvas.interface;
+    const original = layer.createScrollingText;
+    this.floatingText = [];
+    layer.createScrollingText = (...args) => {
+      const result = original.apply(layer, args);
+      this.floatingText.push(Promise.resolve(result).catch(() => {}));
+      return result;
+    };
+    this.releaseFloatingText = () => {
+      delete layer.createScrollingText;
+    };
+  }
+
+  /** Wait (up to a few seconds) for tracked floating numbers to finish, then stop tracking. */
+  async settleFloatingText() {
+    await Promise.race([Promise.allSettled(this.floatingText ?? []), new Promise(resolve => setTimeout(resolve, 8000))]);
+    this.releaseFloatingText?.();
+  }
+
   async cleanup() {
     const failures = [];
+    try {
+      await this.settleFloatingText();
+    } catch (error) {
+      failures.push(error);
+    }
     try {
       await this.cancel();
     } catch (error) {
