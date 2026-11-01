@@ -1,45 +1,16 @@
 import { getTokenHoverDisplayData } from "./token-hover-display-data.js";
 import { hideTokenRing, renderTokenRing, repositionTokenRing } from "./token-ring.js";
 
-const DISPLAY_ID = "dnd4e-token-hover-display";
-const DISPLAY_TEMPLATE = "modules/dnd4e-health-display/scripts/health-display/health-display.hbs";
 const STYLESHEET_ID = "dnd4e-health-display-styles";
 const STYLESHEET_PATH = "modules/dnd4e-health-display/styles/health-display.css";
-const EFFECT_DESCRIPTIONS_SETTING = "shiftEffectDescriptions";
-const TOKEN_RING_SETTING = "tokenRingDisplay";
 
 let hoveredToken = null;
 let renderSequence = 0;
-let shiftHeld = false;
 let ringRepositionFrame = null;
-
-/** Register settings used by the token hover display. */
-export function registerHealthDisplaySettings() {
-	game.settings.register("dnd4e-health-display", EFFECT_DESCRIPTIONS_SETTING, {
-		name: "Show effect descriptions by default",
-		hint: "When enabled, temporary-effect descriptions are shown by default and holding Shift reveals their names. Disable this to reverse that behavior.",
-		scope: "client",
-		config: true,
-		type: Boolean,
-		default: true,
-		onChange: refreshHoveredToken,
-	});
-
-	game.settings.register("dnd4e-health-display", TOKEN_RING_SETTING, {
-		name: "Token ring hover display (experimental)",
-		hint: "Replaces the panel above the map with a name tag hanging from the hovered token, with its health shown as gems, and a compact effect list beside it. Conditions show a title; other effects add their description underneath. The effect-label setting and Shift do not apply to it.",
-		scope: "client",
-		config: true,
-		type: Boolean,
-		default: false,
-		onChange: refreshHoveredToken,
-	});
-}
 
 /** Register the token hover display and the hooks which keep it current. */
 export function registerHealthDisplay() {
 	ensureStylesheet();
-	ensureDisplay();
 
 	Hooks.on("hoverToken", onHoverToken);
 	Hooks.on("updateActor", refreshForActor);
@@ -57,9 +28,6 @@ export function registerHealthDisplay() {
 	Hooks.on("canvasTearDown", hideDisplay);
 	Hooks.on("canvasPan", scheduleRingReposition);
 	Hooks.on("refreshToken", scheduleRingReposition);
-	window.addEventListener("keydown", onModifierChange);
-	window.addEventListener("keyup", onModifierChange);
-	window.addEventListener("blur", clearModifiers);
 }
 
 /** Load the display styles even when Foundry has cached an older module manifest. */
@@ -74,38 +42,6 @@ function ensureStylesheet() {
 	stylesheet.rel = "stylesheet";
 	stylesheet.href = `${STYLESHEET_PATH}?v=${encodeURIComponent(version)}-${Date.now()}`;
 	document.head.append(stylesheet);
-}
-
-/**
- * Create the fixed display mount point if it does not exist yet.
- *
- * @returns {HTMLElement}
- */
-function ensureDisplay() {
-	let display = document.getElementById(DISPLAY_ID);
-
-	if (!display) {
-		display = document.createElement("section");
-		display.id = DISPLAY_ID;
-		display.classList.add("dnd4e-health-display");
-		display.setAttribute("aria-live", "polite");
-		Object.assign(display.style, {
-			position: "fixed",
-			top: "3.5rem",
-			left: "50%",
-			right: "auto",
-			bottom: "auto",
-			zIndex: "90",
-			width: "min(34rem, calc(100vw - 2rem))",
-			margin: "0",
-			transform: "translateX(-50%)",
-			pointerEvents: "none",
-		});
-		display.hidden = true;
-		document.body.append(display);
-	}
-
-	return display;
 }
 
 /**
@@ -127,7 +63,7 @@ function onHoverToken(token, hovered) {
 }
 
 /**
- * Render the currently hovered token.
+ * Render the ring, name tag and effect list for the currently hovered token.
  *
  * @param {Token} token The token to render.
  */
@@ -138,44 +74,16 @@ async function renderDisplay(token) {
 	}
 
 	const sequence = ++renderSequence;
-
-	if (isRingMode()) {
-		ensureDisplay().hidden = true;
-		await renderTokenRing(
-			token,
-			getTokenHoverDisplayData(token, { useEffectDescriptions: false }),
-			() => sequence !== renderSequence || hoveredToken?.id !== token.id,
-		);
-		return;
-	}
-
-	hideTokenRing();
-	const render = foundry.applications?.handlebars?.renderTemplate ?? globalThis.renderTemplate;
-	const html = await render(DISPLAY_TEMPLATE, getTokenHoverDisplayData(token, {
-		useEffectDescriptions: shouldShowDescriptions(),
-	}));
-
-	if (sequence !== renderSequence || hoveredToken?.id !== token.id) {
-		return;
-	}
-
-	const display = ensureDisplay();
-	display.innerHTML = html;
-	display.hidden = false;
-}
-
-/**
- * Whether the optional token-ring display replaces the panel.
- *
- * @returns {boolean}
- */
-function isRingMode() {
-	return game.settings.get("dnd4e-health-display", TOKEN_RING_SETTING);
+	await renderTokenRing(
+		token,
+		getTokenHoverDisplayData(token),
+		() => sequence !== renderSequence || hoveredToken?.id !== token.id,
+	);
 }
 
 /** Keep the ring on the hovered token while the canvas pans, zooms or the token moves. */
 function scheduleRingReposition() {
-	if (!hoveredToken || ringRepositionFrame !== null || !isRingMode()) {
+	if (!hoveredToken || ringRepositionFrame !== null) {
 		return;
 	}
 
@@ -186,55 +94,6 @@ function scheduleRingReposition() {
 			void renderDisplay(hoveredToken);
 		}
 	});
-}
-
-/**
- * Resolve the current label mode from the configured default and Shift state.
- *
- * @returns {boolean}
- */
-function shouldShowDescriptions() {
-	const descriptionsByDefault = game.settings.get("dnd4e-health-display", EFFECT_DESCRIPTIONS_SETTING);
-	return descriptionsByDefault !== shiftHeld;
-}
-
-/**
- * Invert the configured effect-label mode while Shift is held.
- *
- * @param {KeyboardEvent} event The keyboard event.
- */
-function onModifierChange(event) {
-	const nextValue = event.shiftKey;
-
-	if (nextValue === shiftHeld) {
-		return;
-	}
-
-	shiftHeld = nextValue;
-
-	if (hoveredToken) {
-		void renderDisplay(hoveredToken);
-	}
-}
-
-/** Clear modifier state if the browser loses focus. */
-function clearModifiers() {
-	if (!shiftHeld) {
-		return;
-	}
-
-	shiftHeld = false;
-
-	if (hoveredToken) {
-		void renderDisplay(hoveredToken);
-	}
-}
-
-/** Refresh the currently hovered token, if any. */
-function refreshHoveredToken() {
-	if (hoveredToken) {
-		void renderDisplay(hoveredToken);
-	}
 }
 
 /**
@@ -281,7 +140,7 @@ function refreshForItem(item) {
 	}
 }
 
-/** Refresh initiative distance when the active combat or its combatants change. */
+/** Refresh effect ending distances when the active combat or its combatants change. */
 function refreshForCombat() {
 	if (hoveredToken) {
 		void renderDisplay(hoveredToken);
@@ -292,6 +151,5 @@ function refreshForCombat() {
 function hideDisplay() {
 	hoveredToken = null;
 	renderSequence += 1;
-	ensureDisplay().hidden = true;
 	hideTokenRing();
 }

@@ -145,7 +145,7 @@ test("more than the row limit collapses the tail into an overflow count", () => 
 test("ring data carries gems, role and name, never a state word, and keeps a minimum size", () => {
 	const base = {
 		name: "Gorrak", healthLabel: "Health: Bloodied", healthState: "Bloodied", segments: [{ filled: true }, { filled: true }, { filled: false }, { filled: false }],
-		role: { key: "elite", label: "Elite", icon: "fa-solid fa-diamond" }, turnDistance: { count: 3, label: "Acts in 3 turns" }, effects: [],
+		role: { key: "elite", label: "Elite", icon: "fa-solid fa-diamond" }, effects: [],
 	};
 	const tiny = buildTokenRingData(base, { size: 10 });
 	assert.equal(tiny.size, 44, "tiny zoomed-out tokens still get a readable ring");

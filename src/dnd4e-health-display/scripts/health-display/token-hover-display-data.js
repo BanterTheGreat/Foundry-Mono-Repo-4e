@@ -7,11 +7,9 @@ const PC_HEALTH_SEGMENTS = 6;
  * Build hover-display presentation data without exposing exact hit point values.
  *
  * @param {Token} token The hovered token.
- * @param {object} options Current presentation options.
- * @param {boolean} options.useEffectDescriptions Whether effect descriptions replace names.
  * @returns {object}
  */
-export function getTokenHoverDisplayData(token, { useEffectDescriptions }) {
+export function getTokenHoverDisplayData(token) {
 	const actor = token.actor;
 	const hp = actor.system?.attributes?.hp ?? {};
 	const value = Number(hp.value);
@@ -19,7 +17,7 @@ export function getTokenHoverDisplayData(token, { useEffectDescriptions }) {
 	const role = getSpecialRole(actor);
 	const segmentCount = getHealthSegmentCount(actor, role);
 	const filledSegments = getFilledSegments(value, maximum, segmentCount);
-	const effectPresentation = getEffectPresentation(actor, useEffectDescriptions);
+	const effectPresentation = getEffectPresentation(actor);
 	const healthState = getHealthState(actor, role, value, maximum, filledSegments);
 
 	return {
@@ -32,7 +30,6 @@ export function getTokenHoverDisplayData(token, { useEffectDescriptions }) {
 		segments: Array.from({ length: segmentCount }, (_unused, index) => ({
 			filled: index < filledSegments,
 		})),
-		turnDistance: getTurnDistance(token),
 		...effectPresentation,
 	};
 }
@@ -96,38 +93,6 @@ function getHealthState(actor, role, value, maximum, filledSegments) {
 		: ["Defeated", "Last Stand", "Bloodied", "Hurt", "Healthy"];
 
 	return states[filledSegments] ?? "Healthy";
-}
-
-/**
- * Count initiative slots from the active combatant to this token's next turn.
- *
- * @param {Token} token The displayed token.
- * @returns {{label: string, count: number}|null}
- */
-function getTurnDistance(token) {
-	const combat = game.combat;
-	const turns = combat?.turns ?? [];
-	const currentIndex = Number(combat?.turn);
-
-	if (!combat?.started || !turns.length || !Number.isInteger(currentIndex) || currentIndex < 0) {
-		return null;
-	}
-
-	let targetIndex = turns.findIndex((combatant) => combatant.tokenId === token.document?.id);
-
-	if (targetIndex < 0) {
-		targetIndex = turns.findIndex((combatant) => combatant.actorId === token.actor?.id);
-	}
-
-	if (targetIndex < 0) {
-		return null;
-	}
-
-	const count = (targetIndex - currentIndex + turns.length) % turns.length;
-	return {
-		count,
-		label: count === 0 ? "Acting now" : `Acts in ${count} turn${count === 1 ? "" : "s"}`,
-	};
 }
 
 /**

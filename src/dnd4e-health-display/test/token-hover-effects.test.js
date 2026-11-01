@@ -41,9 +41,9 @@ const effectOf = (parent, name, extra = {}) => ({
 	...extra,
 });
 
-function present(actor, effects, useDescriptions = false) {
+function present(actor, effects) {
 	actor.effects = effects;
-	return getEffectPresentation(actor, useDescriptions).effects;
+	return getEffectPresentation(actor).effects;
 }
 
 test.beforeEach(() => {
@@ -61,17 +61,7 @@ test("conditions are flagged and custom effects expose their description as plai
 	assert.equal(dazed.isCondition, true);
 	assert.equal(wind.isCondition, false);
 	assert.equal(wind.description, "+2 bonus to all defenses.");
-	assert.equal(wind.name, "Second Wind", "the title stays the effect name when descriptions are not requested");
-});
-
-test("the classic label mode is unchanged: descriptions replace names only for non-conditions", () => {
-	const hero = actorOf("hero", "Hero");
-	const [dazed, wind] = present(hero, [
-		effectOf(hero, "Dazed", { statuses: new Set(["dazed"]), description: "Cannot flank" }),
-		effectOf(hero, "Second Wind", { description: "+2 bonus to all defenses." }),
-	], true);
-	assert.equal(dazed.name, "Dazed");
-	assert.equal(wind.name, "+2 bonus to all defenses.");
+	assert.equal(wind.name, "Second Wind", "the title is always the effect name");
 });
 
 test("without a running combat nothing knows how many turns away an ending is", () => {
@@ -156,14 +146,4 @@ test("encounter, custom and unrecognised durations", () => {
 	assert.deepEqual(custom.ending, { type: "custom", label: "Until dawn" });
 	assert.deepEqual(customBare.ending, { type: "custom", label: "Custom" });
 	assert.deepEqual(none.ending, { type: "none" });
-});
-
-test("the existing duration label used by the classic display is unchanged", () => {
-	const hero = actorOf("hero", "Hero");
-	const effects = present(hero, [
-		effectOf(hero, "Dazed", { system: { durationType: "saveEnd" } }),
-		effectOf(hero, "Blessing", { system: { durationType: "endOfEncounter" } }),
-		effectOf(hero, "Slowed", { system: { durationType: "endOfTargetTurn" } }),
-	]);
-	assert.deepEqual(effects.map((entry) => entry.duration?.label), ["Save Ends", "Encounter", "EoT Hero"]);
 });

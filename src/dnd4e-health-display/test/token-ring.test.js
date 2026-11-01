@@ -1,10 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { registerHealthDisplay, registerHealthDisplaySettings } from "../scripts/health-display/health-display.js";
+import { registerHealthDisplay } from "../scripts/health-display/health-display.js";
 
 const RING_ID = "dnd4e-token-ring-display";
-const CLASSIC_ID = "dnd4e-token-hover-display";
-const CLASSIC_TEMPLATE = "modules/dnd4e-health-display/scripts/health-display/health-display.hbs";
+const OLD_PANEL_ID = "dnd4e-token-hover-display";
 const RING_TEMPLATE = "modules/dnd4e-health-display/scripts/health-display/token-ring.hbs";
 
 /** A bare element: just the properties and queries the display code touches. */
@@ -31,8 +30,6 @@ function element(id = "") {
 
 const nodes = new Map();
 const hooks = new Map();
-const settings = { shiftEffectDescriptions: true, tokenRingDisplay: false };
-const configs = {};
 const frames = [];
 let renderCalls = [];
 let renderImpl = async (path) => `<${path}>`;
@@ -60,10 +57,6 @@ globalThis.foundry = { applications: { handlebars: { renderTemplate: (path, data
 globalThis.game = {
 	combat: null,
 	modules: { get: () => ({ version: "1.0" }) },
-	settings: {
-		register: (_module, key, config) => { configs[key] = config; },
-		get: (_module, key) => settings[key],
-	},
 };
 globalThis.canvas = {
 	ready: true,
@@ -110,16 +103,13 @@ const effect = (name, extra = {}) => ({
 });
 
 const ringCalls = () => renderCalls.filter((call) => call.path === RING_TEMPLATE);
-const classicCalls = () => renderCalls.filter((call) => call.path === CLASSIC_TEMPLATE);
 
 test.before(() => {
-	registerHealthDisplaySettings();
 	registerHealthDisplay();
 });
 
 test.beforeEach(async () => {
 	fire("canvasTearDown");
-	settings.tokenRingDisplay = false;
 	renderCalls = [];
 	renderImpl = async (path) => `<${path}>`;
 	zoom = 1;
@@ -130,34 +120,12 @@ test.beforeEach(async () => {
 	await settle();
 });
 
-test("the ring setting is a client-scoped checkbox that is off by default", () => {
-	const config = configs.tokenRingDisplay;
-	assert.equal(config.scope, "client");
-	assert.equal(config.config, true);
-	assert.equal(config.type, Boolean);
-	assert.equal(config.default, false);
-	assert.match(config.name, /ring/i);
-	assert.match(config.name, /experimental/i);
-});
-
-test("with the setting off, hovering shows the classic panel and never builds a ring", async () => {
-	const token = tokenWith("a");
-	fire("hoverToken", token, true);
-	await settle();
-	assert.equal(classicCalls().length, 1);
-	assert.equal(ringCalls().length, 0);
-	assert.equal(nodes.get(CLASSIC_ID).hidden, false);
-	assert.equal(nodes.get(RING_ID), undefined, "no ring mount is even created");
-});
-
-test("with the setting on, hovering shows the ring and hides the classic panel", async () => {
-	settings.tokenRingDisplay = true;
+test("hovering shows the ring and never mounts the old panel above the map", async () => {
 	const token = tokenWith("a", [effect("Dazed", { statuses: new Set(["dazed"]), system: { durationType: "saveEnd" } })]);
 	fire("hoverToken", token, true);
 	await settle();
-	assert.equal(classicCalls().length, 0);
 	assert.equal(ringCalls().length, 1);
-	assert.equal(nodes.get(CLASSIC_ID).hidden, true);
+	assert.equal(nodes.get(OLD_PANEL_ID), undefined, "no top-centre panel is mounted");
 	const root = nodes.get(RING_ID);
 	assert.equal(root.hidden, false);
 	assert.equal(root.innerHTML, `<${RING_TEMPLATE}>`);
@@ -172,7 +140,6 @@ test("with the setting on, hovering shows the ring and hides the classic panel",
 });
 
 test("the ring frame is centred on the token", async () => {
-	settings.tokenRingDisplay = true;
 	fire("hoverToken", tokenWith("a"), true);
 	await settle();
 	const root = nodes.get(RING_ID);
@@ -182,7 +149,6 @@ test("the ring frame is centred on the token", async () => {
 });
 
 test("the effect strip and its stub are placed beside the ring, flipping near the screen edge", async () => {
-	settings.tokenRingDisplay = true;
 	const root = element(RING_ID);
 	root.hidden = true;
 	root.parts[".dnd4e-token-ring__strip"] = Object.assign(element(), { offsetWidth: 260, offsetHeight: 100 });
@@ -203,7 +169,6 @@ test("the effect strip and its stub are placed beside the ring, flipping near th
 });
 
 test("the name tag is outlined from its measured rows and raised so the gems sit on the token's rim", async () => {
-	settings.tokenRingDisplay = true;
 	const root = element(RING_ID);
 	root.hidden = true;
 	const part = (sizes) => Object.assign(element(), sizes);
@@ -228,7 +193,6 @@ test("the name tag is outlined from its measured rows and raised so the gems sit
 });
 
 test("leaving the token hides the ring, and leaving a different token does not", async () => {
-	settings.tokenRingDisplay = true;
 	const a = tokenWith("a");
 	fire("hoverToken", a, true);
 	await settle();
@@ -239,7 +203,6 @@ test("leaving the token hides the ring, and leaving a different token does not",
 });
 
 test("a slow render for a token that has since lost the pointer never reappears", async () => {
-	settings.tokenRingDisplay = true;
 	const pending = [];
 	renderImpl = (path, data) => new Promise((resolve) => pending.push(() => resolve(`<ring ${data.name}>`)));
 	const a = tokenWith("a");
@@ -257,26 +220,7 @@ test("a slow render for a token that has since lost the pointer never reappears"
 	assert.equal(nodes.get(RING_ID).hidden, true);
 });
 
-test("turning the setting off while hovering swaps back to the classic panel", async () => {
-	settings.tokenRingDisplay = true;
-	const token = tokenWith("a");
-	fire("hoverToken", token, true);
-	await settle();
-	assert.equal(nodes.get(RING_ID).hidden, false);
-	settings.tokenRingDisplay = false;
-	configs.tokenRingDisplay.onChange();
-	await settle();
-	assert.equal(nodes.get(RING_ID).hidden, true);
-	assert.equal(nodes.get(CLASSIC_ID).hidden, false);
-	settings.tokenRingDisplay = true;
-	configs.tokenRingDisplay.onChange();
-	await settle();
-	assert.equal(nodes.get(RING_ID).hidden, false);
-	assert.equal(nodes.get(CLASSIC_ID).hidden, true);
-});
-
 test("panning moves the ring without rendering again; zooming redraws it at the new size", async () => {
-	settings.tokenRingDisplay = true;
 	fire("hoverToken", tokenWith("a"), true);
 	await settle();
 	const root = nodes.get(RING_ID);
@@ -297,20 +241,22 @@ test("panning moves the ring without rendering again; zooming redraws it at the 
 	assert.equal(ringCalls()[1].data.size, 200);
 });
 
-test("movement refreshes of the hovered token reposition the ring, and nothing runs with the setting off", async () => {
-	fire("hoverToken", tokenWith("a"), true);
-	await settle();
-	fire("canvasPan");
-	assert.equal(frames.length, 0, "classic mode never schedules ring work");
-	settings.tokenRingDisplay = true;
+test("movement refreshes of the hovered token reposition the ring", async () => {
 	fire("hoverToken", tokenWith("a"), true);
 	await settle();
 	fire("refreshToken", {});
 	assert.equal(frames.length, 1);
+	await runFrames();
+	assert.equal(ringCalls().length, 1, "a pure movement refresh does not render again");
+});
+
+test("with nothing hovered, pan and movement events schedule no ring work", () => {
+	fire("canvasPan");
+	fire("refreshToken", {});
+	assert.equal(frames.length, 0);
 });
 
 test("a token the canvas cannot measure hides the ring instead of throwing", async () => {
-	settings.tokenRingDisplay = true;
 	canvas.ready = false;
 	try {
 		fire("hoverToken", tokenWith("a"), true);

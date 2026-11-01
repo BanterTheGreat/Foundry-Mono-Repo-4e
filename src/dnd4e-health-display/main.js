@@ -4,10 +4,7 @@ import {
 	registerActorDisplay,
 	registerActorDisplaySettings,
 } from "./scripts/actor-display/actor-display.js";
-import {
-	registerHealthDisplay,
-	registerHealthDisplaySettings,
-} from "./scripts/health-display/health-display.js";
+import { registerHealthDisplay } from "./scripts/health-display/health-display.js";
 import {
 	registerMarkDisplay,
 	registerMarkDisplaySettings,
@@ -31,7 +28,6 @@ Hooks.once("init", () => {
 	registerCompactTrackerSettings();
 	registerPowerActivationSettings();
 	registerNegotiationSettings();
-	registerHealthDisplaySettings();
 	registerActorDisplaySettings();
 	registerMarkDisplaySettings();
 	registerCombatStartSettings();

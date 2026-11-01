@@ -17,7 +17,7 @@ deployed to Foundry). `config.mjs` is the only file that knows machine paths; ov
 any of them with `DD_PACK_DIR`, `DD_INDEX_DIR`, `DD_MAPS_DIR`, `DD_MAP_LIBRARY`,
 `DD_REFERENCE_MAP`, `DD_INSTALL_DIR`. Defaults:
 
-- Packs: `C:\Users\Imre\Documents\Dungeondraft Assets\New Crosshead Textures` (22 `.dungeondraft_pack` files, ~7 GB: 21 Crosshead plus the Baileywiki shadows pack).
+- Packs: `C:\Users\Imre\Documents\Dungeondraft Assets\Currently Used` (25 `.dungeondraft_pack` files, ~8 GB, ~26.9k textures: 24 Crosshead packs plus the Baileywiki shadows pack). The old `New Crosshead Textures` folder is empty.
 - Finished maps, the ground truth for the format: `C:\Users\Imre\Documents\DungeonDraft Maps` (97 files).
 - Generated PNGs and maps: `C:\Users\Imre\Documents\Dungeondraft Assets\Generated Maps\<encounter>\`.
 

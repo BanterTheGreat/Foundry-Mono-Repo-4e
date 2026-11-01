@@ -10,7 +10,7 @@ const at = (variable, fallback) => path.resolve(process.env[variable] || fallbac
 const DOCUMENTS = 'C:/Users/Imre/Documents';
 
 /** Folder holding the `.dungeondraft_pack` files the user maps from (DD_PACK_DIR). */
-export const PACK_DIR = at('DD_PACK_DIR', `${DOCUMENTS}/Dungeondraft Assets/New Crosshead Textures`);
+export const PACK_DIR = at('DD_PACK_DIR', `${DOCUMENTS}/Dungeondraft Assets/Currently Used`);
 /** Generated, git-ignored index of every pack texture: assets.tsv, catalog/, vocab.md, README.md (DD_INDEX_DIR). */
 export const INDEX_DIR = at('DD_INDEX_DIR', path.join(TOOLS_DIR, 'index-data'));
 /** Where rendered PNGs and generated `.dungeondraft_map` files are written, one folder per encounter (DD_MAPS_DIR). */

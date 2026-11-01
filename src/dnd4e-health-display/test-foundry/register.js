@@ -1,6 +1,7 @@
 import { registerDamageConfirmationTests } from "./damage-confirmation.js";
 import { projectDamage } from "../scripts/power-activation/damage-application-data.js";
 import { getTokenHoverDisplayData } from "../scripts/health-display/token-hover-display-data.js";
+import { buildTokenRingData } from "../scripts/health-display/token-ring-data.js";
 import { registerTargetAutomationTests } from "./target-automation.js";
 import { getNpcPowerHints } from "../scripts/actor-display/npc-power-hints.js";
 import { registerActorHudTests } from "./actor-hud.js";
@@ -22,9 +23,10 @@ export function registerTests(quench, { assertTestWorld, TestDocuments }) {
         await fixtures?.cleanup();
       });
 
-      it("mounts exactly one hover display during ready", function () {
-        assert.lengthOf(document.querySelectorAll("#dnd4e-token-hover-display"), 1);
-        assert.isBoolean(game.settings.get("dnd4e-health-display", "shiftEffectDescriptions"));
+      it("loads the hover display stylesheet and leaves out the old panel above the map", function () {
+        assert.lengthOf(document.querySelectorAll("#dnd4e-health-display-styles"), 1);
+        assert.lengthOf(document.querySelectorAll("#dnd4e-token-hover-display"), 0);
+        assert.throws(() => game.settings.get("dnd4e-health-display", "tokenRingDisplay"));
       });
 
       it("predicts the same temp HP and HP as native applyDamage", async function () {
@@ -47,19 +49,22 @@ export function registerTests(quench, { assertTestWorld, TestDocuments }) {
         assert.equal(actor.system.attributes.hp.value, projected.after);
       });
 
-      it("renders the real hover template with live actor data", async function () {
+      it("renders the real token ring template with live actor data", async function () {
         const actor = await fixtures.createActor();
         await actor.update({ "system.attributes.hp.value": 20 });
-        const data = getTokenHoverDisplayData({ actor, name: actor.name }, { useEffectDescriptions: false });
-        assert.equal(data.healthState, "Bloodied");
-        assert.lengthOf(data.segments.filter(segment => segment.filled), 2);
+        const display = getTokenHoverDisplayData({ actor, name: actor.name });
+        assert.equal(display.healthState, "Bloodied");
+        assert.lengthOf(display.segments.filter(segment => segment.filled), 2);
         const html = await foundry.applications.handlebars.renderTemplate(
-          "modules/dnd4e-health-display/scripts/health-display/health-display.hbs", data,
+          "modules/dnd4e-health-display/scripts/health-display/token-ring.hbs", buildTokenRingData(display, { size: 80 }),
         );
         const element = document.createElement("div");
         element.innerHTML = html;
         assert.include(element.textContent, actor.name);
-        assert.include(html, "Bloodied");
+        assert.lengthOf(element.querySelectorAll(".dnd4e-token-ring__gem"), 4);
+        assert.lengthOf(element.querySelectorAll(".dnd4e-token-ring__gem.is-filled"), 2);
+        assert.include(html, "Health: Bloodied");
+        assert.notInclude(element.textContent, "Bloodied", "the tag shows gems, not a state word");
       });
 
       it("renders compact NPC hints and retains right-side traits with native powers", async function () {
