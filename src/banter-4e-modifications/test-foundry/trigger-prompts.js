@@ -468,14 +468,16 @@ export function registerTriggerPromptTests(quench) {
           await waitForFact(() => !game.messages.has(message.id), "the sweep to delete the expired card");
         });
 
-        it("renders its power button until used", async function () {
+        it("hides the chat record and renders its floating power button", async function () {
           const message = await oneCard();
           ui.sidebar.expand();
           ui.sidebar.changeTab("chat", "primary");
           await ui.chat.render({ force: true });
           const element = await waitForFact(() => ui.chat.element?.querySelector(`li[data-message-id="${message.id}"]`), "the rendered card");
-          assert.exists(element.querySelector("[data-trigger-prompt-action='use']"));
-          assert.include(element.querySelector("[data-trigger-prompt-action='dismiss']").textContent, "Ignore (");
+          assert.equal(getComputedStyle(element).display, "none");
+          const alert = await waitForFact(() => document.querySelector(`.banter-trigger-alert[data-message-id="${message.id}"]`), "the floating alert");
+          assert.exists(alert.querySelector("[data-trigger-prompt-action='use']"));
+          assert.equal(alert.querySelector("[data-trigger-prompt-action='dismiss']").textContent, "Ignore");
         });
       });
 

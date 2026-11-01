@@ -388,9 +388,86 @@
     color: var(--color-level-error);
 }
 
-/* A prompt meant for other users is hidden from its author. */
+/* Shared trigger records never appear in chat; recipients use floating alerts. */
 .trigger-prompts-message--hidden {
     display: none !important;
+}
+
+/* Recipient-only trigger alerts stay visible above the hotbar with chat closed. */
+#banter-trigger-alerts {
+    position: fixed;
+    z-index: 10000;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(720px, calc(100vw - 40px));
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 8px;
+    pointer-events: none;
+}
+
+.banter-trigger-alert {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 11px 12px;
+    border: 1px solid #8f794e;
+    border-radius: 7px;
+    background: linear-gradient(110deg, #292318, #101010);
+    color: #eee4cc;
+    box-shadow: 0 8px 24px #0009;
+    pointer-events: auto;
+}
+
+.banter-trigger-alert__copy { flex: 1; min-width: 0; }
+.banter-trigger-alert:hover, .banter-trigger-alert:focus-within { z-index: 2; }
+/* Bridge the gap so the pointer can enter and scroll a long power tooltip. */
+.banter-trigger-alert::before { content: ""; position: absolute; bottom: 100%; left: 0; right: 0; height: 10px; }
+.banter-trigger-alert__label { color: #e5cc8e; font: 9px/1.4 Arial, sans-serif; letter-spacing: .7px; text-transform: uppercase; }
+.banter-trigger-alert__cause { margin-top: 3px; font: 600 13px/1.35 Georgia, serif; overflow-wrap: anywhere; }
+.banter-trigger-alert__actions { display: flex; flex-wrap: wrap; gap: 5px; max-width: 60%; }
+.banter-trigger-alert__actions button {
+    flex: 0 1 auto;
+    width: auto;
+    min-height: 28px;
+    margin: 0;
+    padding: 5px 9px;
+    border: 1px solid #655433;
+    border-radius: 4px;
+    background: #0d0c09;
+    color: #e5cc8e;
+    font: 11px/1.3 Arial, sans-serif;
+    overflow-wrap: anywhere;
+}
+.banter-trigger-alert__actions button:hover { background: #ffffff0d; }
+.banter-trigger-alert__actions button:focus-visible { outline: 2px solid #e9dfce; outline-offset: 2px; }
+.banter-trigger-alert__track { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; overflow: hidden; border-radius: 0 0 6px 6px; background: #493c26; }
+.banter-trigger-alert__drain { height: 100%; background: #e5cc8e; transform-origin: left; animation: banter-trigger-drain 10s linear forwards; }
+@keyframes banter-trigger-drain { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+.banter-trigger-alert__tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 0;
+    width: min(420px, 100%);
+    max-height: min(360px, 45vh);
+    overflow: auto;
+    padding: 14px;
+    border: 1px solid #8f794e;
+    border-radius: 7px;
+    background: #151410;
+    box-shadow: 0 8px 24px #000b;
+    color: #eee4cc;
+    font: 12px/1.5 Arial, sans-serif;
+    z-index: 1;
+}
+.banter-trigger-alert__tooltip[hidden] { display: none; }
+.banter-trigger-alert__tooltip > strong { display: block; margin-bottom: 8px; color: #e5cc8e; font: 600 18px/1.3 Georgia, serif; }
+.banter-trigger-alert__tooltip > div { margin: 5px 0; }
+@media (max-width: 600px) {
+    .banter-trigger-alert { flex-wrap: wrap; }
+    .banter-trigger-alert__actions { max-width: 100%; }
 }
 
 .trigger-prompts-message__actions {

@@ -1,4 +1,5 @@
 import { Logger } from "../../shared/logger.js";
+import { TriggerPromptAlerts } from "./trigger-prompt-alerts.js";
 import { TRIGGER_PROMPT_ACTION, TRIGGER_PROMPT_FLAG, TRIGGER_PROMPT_TIMEOUT_MS, TRIGGER_PROMPT_UI, TRIGGER_SOCKET_ACTION } from "./constants.js";
 
 /** Extra time a claim is honored after the deadline, to absorb network delay. */
@@ -22,6 +23,7 @@ export class TriggerPromptChat {
    */
   constructor(socket) {
     this.socket = socket;
+    this.alerts = new TriggerPromptAlerts((message, html) => this.bindPromptCard(message, html, false));
   }
 
   /**
@@ -57,6 +59,8 @@ export class TriggerPromptChat {
       flags: {
         [TRIGGER_PROMPT_FLAG]: {
           triggerId: trigger.id,
+          label: trigger.label,
+          detail: promptContext.detail,
           actorId: actor.id,
           actorUuid: actor.uuid ?? null,
           choices: choices.map(assignment => ({ assignmentId: assignment.id, itemId: assignment.item.id })),
@@ -76,11 +80,17 @@ export class TriggerPromptChat {
    *
    * @param {ChatMessage} message
    * @param {HTMLElement} html
+   * @param {boolean} [showAlert=true] Whether this is a chat render that also ensures its floating alert exists.
    */
-  bindPromptCard(message, html) {
+  bindPromptCard(message, html, showAlert = true) {
     const prompt = message.flags?.[TRIGGER_PROMPT_FLAG];
     if (!prompt) {
       return;
+    }
+    if (showAlert) {
+      // The message is the shared claim record, not a second user-facing prompt.
+      html.classList?.add(TRIGGER_PROMPT_UI.PROMPT_HIDDEN_CLASS);
+      this.alerts.show(message);
     }
     if (!prompt.recipientIds?.includes(game.user.id)) {
       html.classList?.add(TRIGGER_PROMPT_UI.PROMPT_HIDDEN_CLASS);
@@ -90,14 +100,22 @@ export class TriggerPromptChat {
       TriggerPromptChat.#removeControls(html);
       return;
     }
-    this.#startExpiryCountdown(html, prompt.expiresAt);
+    if (showAlert) {
+      this.#startExpiryCountdown(html, prompt.expiresAt);
+    }
     html.querySelectorAll(`[data-trigger-prompt-action='${TRIGGER_PROMPT_ACTION.USE}']`).forEach(button => button.addEventListener("click", async event => {
       event.preventDefault();
+      if (TriggerPromptChat.isExpired(prompt) || prompt.used) {
+        return;
+      }
       await this.#claimAndUsePower(message, event.currentTarget.dataset.itemId ?? prompt.itemId);
     }));
     html.querySelectorAll(`[data-trigger-prompt-action='${TRIGGER_PROMPT_ACTION.DISMISS}']`).forEach(button => button.addEventListener("click", async event => {
       event.preventDefault();
-      await this.#executeOnAuthor(message, TRIGGER_SOCKET_ACTION.DISMISS_PROMPT, () => this.dismissPrompt(message.id));
+      const dismissed = await this.#executeOnAuthor(message, TRIGGER_SOCKET_ACTION.DISMISS_PROMPT, () => this.dismissPrompt(message.id));
+      if (dismissed) {
+        this.alerts.remove(message.id);
+      }
     }));
   }
 
@@ -194,6 +212,7 @@ export class TriggerPromptChat {
     if (!prompt) {
       return;
     }
+    this.alerts.remove(message.id);
     const actor = (prompt.actorUuid && globalThis.fromUuidSync?.(prompt.actorUuid)) || game.actors.get(prompt.actorId);
     const item = actor?.items.get(prompt.itemId);
     if (!item?.roll) {

@@ -1,5 +1,14 @@
 # Running tests yourself
 
+Compact floating trigger alerts (hidden chat records, cause text, actual power tooltips, direct power use, Ignore, privacy, duplicate renders and draining deadline timer):
+
+```sh
+node --test src/banter-4e-modifications/test/trigger-prompt-alerts.test.js src/banter-4e-modifications/test/trigger-prompt-chat.test.js
+npx playwright test --config tests/foundry/playwright.config.mjs trigger-alerts.spec.mjs
+```
+
+The browser check requires the designated test world and a deployed module. After reloading a campaign world, verify the alert appears above the hotbar with chat closed, power details appear on hover and keyboard focus, and the bottom gold line drains until the alert expires. Check the browser console.
+
 Open a terminal in the repository root. You need Node.js installed (`node --version` checks this). The Node test commands below run locally without Foundry or an agent; results appear directly in your terminal.
 
 Battle Briefing title-only loading (including legacy presets) and journal creation:

@@ -1,5 +1,7 @@
 # Real Foundry integration tests
 
+`trigger-alerts.spec.mjs` exercises compact floating prompts with real Foundry messages and assigned powers, without switching scenes or starting combat. It checks that synchronization records stay hidden in chat, plus the cause, native DnD4e power rules on hover/focus, direct claimed use, Ignore/deletion, used-state synchronization, recipient privacy, expiry and a draining animation aligned to an already-running deadline. Fixtures are marked and cleaned up; actor/message counts must match afterwards.
+
 The development-only `foundry-test-harness` module loads each module's
 `test-foundry/register.js`. Production entry points do not load these tests.
 Quench runs assertions inside Foundry; Playwright drives a separate Chromium

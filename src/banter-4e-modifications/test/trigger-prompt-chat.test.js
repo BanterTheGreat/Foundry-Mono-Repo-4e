@@ -48,7 +48,10 @@ function setUp({ user = { id: "player", isGM: false }, users = [], messages = []
   mock.timers.enable({ apis: ["Date", "setInterval", "setTimeout"], now: NOW });
   globalThis.game = { user, users, messages: new Map(messages.map(message => [message.id, message])), settings: { settings: new Map() }, actors: new Map() };
   globalThis.ui = { notifications: { warn() {} } };
-  return new TriggerPromptChat(socket);
+  const chat = new TriggerPromptChat(socket);
+  // Floating DOM is covered separately; these tests exercise shared claim/chat behavior.
+  chat.alerts = { show() {}, remove() {} };
+  return chat;
 }
 
 test.afterEach(() => mock.timers.reset());
@@ -142,6 +145,16 @@ test("a message that is not a prompt is left alone", () => {
   assert.equal(card.listeners.size, 0);
 });
 
+test("a recipient's trigger message is hidden in chat while its floating alert is shown", () => {
+  const promptChat = setUp();
+  const shown = [];
+  promptChat.alerts.show = message => shown.push(message.id);
+  const card = createCard();
+  promptChat.bindPromptCard(createMessage("private-record", {}), card);
+  assert.ok(card.classes.has(TRIGGER_PROMPT_UI.PROMPT_HIDDEN_CLASS));
+  assert.deepEqual(shown, ["private-record"]);
+});
+
 test("a used prompt has its controls removed", () => {
   const promptChat = setUp();
   const card = createCard();
@@ -187,6 +200,14 @@ test("a claim marks the prompt used exactly once", async () => {
   assert.equal(first.itemId, "reaction");
   assert.equal(second, null);
   assert.equal(message.flags[TRIGGER_PROMPT_FLAG].used, true);
+});
+
+test("a floating alert cannot claim after its deadline even if browser cleanup was delayed", async () => {
+  const promptChat = setUp({ socket: { executeAsUser() { assert.fail("expired controls must not claim"); } } });
+  const card = createCard();
+  promptChat.bindPromptCard(createMessage("prompt", {}), card, false);
+  mock.timers.tick(TRIGGER_PROMPT_TIMEOUT_MS);
+  await card.click(TRIGGER_PROMPT_ACTION.USE, "reaction");
 });
 
 test("two recipients answering at once produce one winner", async () => {
@@ -292,6 +313,8 @@ test("creating a prompt stores a deadline, the recipients, and the actor, and sc
   const flag = created[0].flags[TRIGGER_PROMPT_FLAG];
   assert.equal(flag.expiresAt, NOW + TRIGGER_PROMPT_TIMEOUT_MS);
   assert.equal(flag.actorUuid, "Actor.hero");
+  assert.equal(flag.label, "Enemy hits you");
+  assert.equal(flag.detail, "Badger hit Rogal.");
   assert.deepEqual(flag.choices, [{ assignmentId: "a", itemId: "reaction" }]);
   assert.match(created[0].content, /Riposte &lt;b>/);
   // The author's cleanup timer is housekeeping: it deletes the prompt only after the deadline.

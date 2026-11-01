@@ -165,6 +165,16 @@ test("ring data carries gems, role and name, never a state word, and keeps a min
 	assert.equal(buildTokenRingData({ ...base, defeated: true }, { size: 80 }).defeated, true, "defeated still strikes the name through");
 });
 
+test("only all-condition lists use the compact strip, including effects beyond the row limit", () => {
+	const conditions = Array.from({ length: MAX_EFFECT_ROWS + 1 }, () => ({ name: "Bloodied", isCondition: true }));
+	const compact = (effects) => buildTokenRingData({ effects }, { size: 80 }).conditionsOnly;
+	assert.equal(compact(conditions), true);
+	assert.equal(compact([...conditions, { name: "Custom", isCondition: false }]), false);
+	assert.equal(compact([{ name: "Custom" }]), false, "an effect without a description still uses normal width");
+	assert.equal(compact([]), false);
+	assert.equal(compact(undefined), false);
+});
+
 test("the effect strip sits to the right of the ring, centred on the token", () => {
 	const placement = placeEffectStrip({
 		centre: 52, radius: 33, strip: { width: 260, height: 100 }, frame: { left: 100, top: 300 }, viewport: { width: 1600, height: 900 },

@@ -202,6 +202,7 @@ export function buildTokenRingData(display, { size }) {
 		role: display.role ?? null,
 		healthLabel: display.healthLabel,
 		effects: rows,
+		conditionsOnly: Boolean(display.effects?.length) && display.effects.every((effect) => effect.isCondition),
 		overflow,
 	};
 }

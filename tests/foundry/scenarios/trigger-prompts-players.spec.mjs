@@ -58,6 +58,7 @@ const traceModule = page => page.evaluate(() => {
 });
 
 const card = (page, messageId) => page.locator(`li[data-message-id="${messageId}"]`);
+const alert = (page, messageId) => page.locator(`.banter-trigger-alert[data-message-id="${messageId}"]`);
 
 test("prompts reach the right people, stay hidden from everyone else, and work with no GM connected", async ({ page: gm, browser }, testInfo) => {
   test.setTimeout(600000);
@@ -151,7 +152,8 @@ test("prompts reach the right people, stay hidden from everyone else, and work w
     await expect.poll(() => card(player, wolfPrompt.id).count()).toBe(1);
     await expect(card(player, wolfPrompt.id)).toHaveClass(/trigger-prompts-message--hidden/);
     await expect(card(player, wolfPrompt.id)).toBeHidden();
-    await expect(card(gm, wolfPrompt.id).locator("[data-trigger-prompt-action='use']")).toBeVisible();
+    await expect(card(gm, wolfPrompt.id)).toBeHidden();
+    await expect(alert(gm, wolfPrompt.id).locator("[data-trigger-prompt-action='use']")).toBeVisible();
     // Nobody answers, so the author's own client removes it after the deadline: no GM involved.
     await expect.poll(async () => (await prompts(gm, OPPORTUNITY)).length, { message: "the unanswered card is removed by its author", timeout: 25000 }).toBe(0);
 
@@ -164,10 +166,10 @@ test("prompts reach the right people, stay hidden from everyone else, and work w
     expect(heroPrompt.author, "authored by the GM who moved the wolf").toBe(gmId);
     expect(heroPrompt.recipients.sort()).toEqual([gmId, owner.id].sort());
     expect(heroPrompt.choices).toEqual([fixture.heroOpportunityId]);
-    const useButton = id => `li[data-message-id="${id}"] [data-trigger-prompt-action='use']`;
+    const useButton = id => `.banter-trigger-alert[data-message-id="${id}"] [data-trigger-prompt-action='use']`;
     await expect(gm.locator(useButton(heroPrompt.id))).toBeVisible();
     await expect(player.locator(useButton(heroPrompt.id))).toBeVisible();
-    await expect(player.locator(`li[data-message-id="${heroPrompt.id}"] [data-trigger-prompt-action='dismiss']`)).toContainText("Ignore (");
+    await expect(alert(player, heroPrompt.id).locator("[data-trigger-prompt-action='dismiss']")).toHaveText("Ignore");
     await Promise.all([gm.locator(useButton(heroPrompt.id)).click(), player.locator(useButton(heroPrompt.id)).click()]);
     await expect.poll(async () => (await prompts(gm, OPPORTUNITY))[0]?.used, { message: "the claim is stored", timeout: 15000 }).toBe(true);
     await expect(gm.locator(useButton(heroPrompt.id))).toHaveCount(0);
@@ -176,7 +178,7 @@ test("prompts reach the right people, stay hidden from everyone else, and work w
       const [gmCalls, playerCalls] = await Promise.all([gm, player].map(page => page.evaluate(() => window.usePowerCalls)));
       return [...gmCalls, ...playerCalls];
     }, { message: "exactly one of the two simultaneous clicks used the power", timeout: 10000 }).toEqual([fixture.heroOpportunityId]);
-    // A claimed prompt stays in chat as a record; only unanswered ones expire.
+    // A claimed prompt retains its hidden synchronization record; only unanswered ones expire.
     expect((await prompts(gm, OPPORTUNITY)).map(prompt => prompt.used)).toEqual([true]);
 
     // --- C: the GM disconnects; the player's own actions still produce prompts -----------------------------
@@ -198,13 +200,13 @@ test("prompts reach the right people, stay hidden from everyone else, and work w
     expect(missPrompt.author).toBe(owner.id);
     expect(missPrompt.recipients, "only the connected owner").toEqual([owner.id]);
     await showChat(player);
-    await expect(card(player, missPrompt.id)).toBeVisible();
-    await expect(card(player, missPrompt.id).locator("[data-trigger-prompt-action='use']")).toBeVisible();
+    await expect(card(player, missPrompt.id)).toBeHidden();
+    await expect(alert(player, missPrompt.id).locator("[data-trigger-prompt-action='use']")).toBeVisible();
 
     // C2: the same player claims it with nobody else connected to keep the prompt.
-    await card(player, missPrompt.id).locator("[data-trigger-prompt-action='use']").click();
+    await alert(player, missPrompt.id).locator("[data-trigger-prompt-action='use']").click();
     await expect.poll(async () => (await prompts(player, "you-miss"))[0]?.used, { timeout: 15000 }).toBe(true);
-    await expect(card(player, missPrompt.id).locator("[data-trigger-prompt-action='use']")).toHaveCount(0);
+    await expect(alert(player, missPrompt.id)).toHaveCount(0);
     expect(await player.evaluate(() => window.usePowerCalls), "the claimed power was used exactly once").toEqual([fixture.heroReactionId]);
 
     // C3: a move past the wolf would prompt the wolf's owner, the GM, who is not here: nothing is created.

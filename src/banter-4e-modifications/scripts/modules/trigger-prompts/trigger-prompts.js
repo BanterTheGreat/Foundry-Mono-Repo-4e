@@ -44,6 +44,9 @@ export class TriggerPrompts {
    */
   async onReady() {
     await this.promptChat.sweepExpiredPrompts();
+    for (const message of game.messages.values()) {
+      this.promptChat.alerts.show(message);
+    }
     if (game.user.isGM) {
       await ActorTriggerConfiguration.migrateAllLegacyAssignments();
     }

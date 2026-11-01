@@ -137,5 +137,8 @@ Hooks.on("i18nInit", () => {
     Hooks.on("getHeaderControlsApplicationV2", TriggerPrompts.onGetHeaderControlsApplicationV2);
     Hooks.on("getHeaderControlsApplicationV2", PowerTriggerConfiguration.onGetHeaderControlsApplicationV2);
     Hooks.on("renderChatMessageHTML", (message, html) => TriggerPrompts.onRenderPromptMessage(message, html));
+    Hooks.on("createChatMessage", message => game.TriggerPrompts?.promptChat.alerts.show(message));
+    Hooks.on("updateChatMessage", message => game.TriggerPrompts?.promptChat.alerts.show(message));
+    Hooks.on("deleteChatMessage", message => game.TriggerPrompts?.promptChat.alerts.remove(message.id));
   }
 });

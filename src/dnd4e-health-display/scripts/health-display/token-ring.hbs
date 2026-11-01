@@ -22,7 +22,7 @@
 
 	{{#if effects.length}}
 		<span class="dnd4e-token-ring__stub" aria-hidden="true"></span>
-		<ul class="dnd4e-token-ring__strip" aria-label="Temporary effects and conditions">
+		<ul class="dnd4e-token-ring__strip{{#if conditionsOnly}} is-conditions-only{{/if}}" aria-label="Temporary effects and conditions">
 			{{#each effects}}
 				<li class="dnd4e-token-ring__effect{{#if soon}} is-soon{{/if}}{{#if description}} has-description{{/if}}">
 					<img class="dnd4e-token-ring__effect-icon" src="{{img}}" alt="">
