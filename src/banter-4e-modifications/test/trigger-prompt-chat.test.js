@@ -92,6 +92,45 @@ test("a recipient who is the prompt's author claims it locally without the socke
   assert.equal(message.flags[TRIGGER_PROMPT_FLAG].used, true);
 });
 
+for (const handled of [true, false]) {
+  test(`prompted powers try Target Automation and ${handled ? "skip" : "use"} native fallback`, async () => {
+    const calls = [];
+    const other = { id: "other" };
+    const controlled = { id: "controlled", controlled: true };
+    const item = { id: "reaction", type: "power", roll: async () => {} };
+    const actor = {
+      items: new Map([[item.id, item]]),
+      getActiveTokens: () => [other, controlled],
+      usePower: async (...args) => calls.push(["native", ...args]),
+    };
+    const promptChat = setUp({ socket: { executeAsUser: async () => ({ actorId: "hero", itemId: item.id }) } });
+    game.actors.set("hero", actor);
+    game.modules = new Map([["dnd4e-health-display", { powerActivation: {
+      useAbility: async (...args) => { calls.push(["automation", ...args]); return handled; },
+    } }]]);
+    const card = createCard();
+    promptChat.bindPromptCard(createMessage("prompt", {}), card);
+    await card.click(TRIGGER_PROMPT_ACTION.USE, item.id);
+    assert.deepEqual(calls, handled
+      ? [["automation", item, controlled]]
+      : [["automation", item, controlled], ["native", item, { configureDialog: true }]]);
+  });
+}
+
+test("prompted synthetic actors pass their own token to Target Automation", async () => {
+  const token = { id: "synthetic" };
+  const item = { id: "reaction", type: "power", roll: async () => {} };
+  const actor = { token: { object: token }, items: new Map([[item.id, item]]), usePower: async () => assert.fail("handled") };
+  const promptChat = setUp({ socket: { executeAsUser: async () => ({ actorId: "hero", itemId: item.id }) } });
+  game.actors.set("hero", actor);
+  game.modules = new Map([["dnd4e-health-display", { powerActivation: {
+    useAbility: async (power, source) => { assert.equal(power, item); assert.equal(source, token); return true; },
+  } }]]);
+  const card = createCard();
+  promptChat.bindPromptCard(createMessage("prompt", {}), card);
+  await card.click(TRIGGER_PROMPT_ACTION.USE, item.id);
+});
+
 test("a claim goes to a connected GM when the prompt's author has left", async () => {
   const calls = [];
   const promptChat = setUp({

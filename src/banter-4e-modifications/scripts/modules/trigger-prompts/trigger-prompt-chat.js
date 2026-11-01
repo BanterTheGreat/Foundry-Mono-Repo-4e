@@ -221,6 +221,14 @@ export class TriggerPromptChat {
     }
 
     if (item.type === "power" && actor.usePower) {
+      const activation = game.modules?.get("dnd4e-health-display")?.powerActivation;
+      if (activation?.useAbility) {
+        const tokens = actor.getActiveTokens?.() ?? [];
+        const sourceToken = actor.token?.object ?? tokens.find(token => token.controlled) ?? tokens[0];
+        if (await activation.useAbility(item, sourceToken)) {
+          return;
+        }
+      }
       await actor.usePower(item, { configureDialog: true });
       return;
     }

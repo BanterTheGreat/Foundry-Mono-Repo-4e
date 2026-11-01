@@ -153,6 +153,7 @@ function enhanceRows(element, combat, draggable) {
 		if (!combatant) {
 			continue;
 		}
+		row.querySelectorAll('[data-action="toggleDefeated"]').forEach(button => button.remove());
 		for (const selector of ["[data-compact-grip]", "[data-compact-role]", "[data-compact-hp]"]) {
 			row.querySelectorAll(selector).forEach(node => node.remove());
 		}

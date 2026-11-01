@@ -111,6 +111,21 @@ test("with the setting off the tracker is left exactly as Foundry rendered it", 
 	assert.equal(dom.rows.every(row => row.name.inserted.length === 0 && row.initiative.inserted.length === 0), true);
 });
 
+for (const enabled of [true, false]) {
+	test(`Mark as Defeated is ${enabled ? "removed from compact" : "retained in native"} tracker rows`, () => {
+		const h = harness({ enabled });
+		const { combat } = encounter();
+		const dom = trackerDom(combat);
+		const buttons = dom.rows.map(row => {
+			const button = node();
+			row.selectors['[data-action="toggleDefeated"]'] = [button];
+			return button;
+		});
+		h.render(combat, dom);
+		assert.ok(buttons.every(button => button.removed === enabled));
+	});
+}
+
 test("turning the setting off removes the markup, subtitle suffix and attributes a previous render left behind", () => {
 	const h = harness({ enabled: false });
 	const { combat } = encounter();

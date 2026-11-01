@@ -1,6 +1,6 @@
 # Running tests yourself
 
-Compact floating trigger alerts (hidden chat records, cause text, actual power tooltips, direct power use, Ignore, privacy, duplicate renders and draining deadline timer):
+Compact floating trigger alerts (hidden chat records, cause text, actual power tooltips, Target Automation handoff with native-use fallback, Ignore, privacy, duplicate renders and draining deadline timer):
 
 ```sh
 node --test src/banter-4e-modifications/test/trigger-prompt-alerts.test.js src/banter-4e-modifications/test/trigger-prompt-chat.test.js
@@ -36,7 +36,7 @@ node --test src/dnd4e-health-display/test/combat-ledger.test.js src/dnd4e-health
 
 After reload, untick "Enable Combat Ledger" and/or "Enable Battle Momentum" in module settings, reload again, and confirm the matching combat tracker buttons are gone and the console is clean. With only the Ledger off, the momentum button should still appear.
 
-Compact combat tracker (pure logic, turn timer and pause rules, and the tracker wiring against hand-made DOM nodes):
+Compact combat tracker (pure logic, turn timer and pause rules, removal of Mark as Defeated only in compact mode, and the tracker wiring against hand-made DOM nodes):
 
 ```sh
 node --test src/dnd4e-health-display/test/compact-tracker-data.test.js src/dnd4e-health-display/test/turn-timer.test.js src/dnd4e-health-display/test/compact-tracker.test.js

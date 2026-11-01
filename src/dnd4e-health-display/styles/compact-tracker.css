@@ -125,17 +125,6 @@
 	text-align: center;
 }
 
-/* Defeat is a rare action; keep it out of the way until the row is hovered or focused. */
-.dnd4e-compact-tracker .combatant [data-action="toggleDefeated"] {
-	display: none;
-}
-
-.dnd4e-compact-tracker .combatant:hover [data-action="toggleDefeated"],
-.dnd4e-compact-tracker .combatant:focus-within [data-action="toggleDefeated"],
-.dnd4e-compact-tracker .combatant [data-action="toggleDefeated"].active {
-	display: inline-flex;
-}
-
 /* Role icon, with the same colours as the token-hover health display. */
 .dnd4e-compact-tracker__role {
 	flex: none;
