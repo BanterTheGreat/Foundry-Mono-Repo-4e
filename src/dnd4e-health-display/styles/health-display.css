@@ -404,56 +404,86 @@
 	overflow: visible;
 }
 
-.dnd4e-token-ring__bar-border {
+.dnd4e-token-ring__hover-ring {
 	fill: none;
 	stroke: var(--ring-accent);
-	stroke-linecap: round;
-	stroke-width: 13;
-}
-
-.dnd4e-token-ring__bar-back {
-	fill: none;
-	stroke: #0f0b0a;
-	stroke-linecap: round;
-	stroke-width: 11;
-}
-
-.dnd4e-token-ring__empty {
-	fill: none;
-	stroke: #302b2a;
-	stroke-width: 7.5;
-}
-
-.dnd4e-token-ring__fill {
-	fill: none;
-	stroke: url(#dnd4e-token-ring-hp);
-	stroke-width: 7.5;
-}
-
-.dnd4e-token-ring__notch {
-	stroke: #f3e6c8;
-	stroke-linecap: round;
+	stroke-opacity: 0.8;
 	stroke-width: 2;
 }
 
-.dnd4e-token-ring__plate {
+.dnd4e-token-ring__tag {
 	position: absolute;
 	left: 50%;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
-	gap: 0.4rem;
-	box-sizing: border-box;
-	padding: 0.15rem 0.75rem 0.2rem;
-	border: 1px solid var(--ring-accent);
-	border-radius: 999px;
-	background: rgb(8 8 10 / 85%);
-	box-shadow: 0 0.2rem 0.5rem rgb(0 0 0 / 70%);
-	font-size: 0.95rem;
-	font-weight: 700;
-	letter-spacing: 0.02em;
+	filter: drop-shadow(0 3px 5px rgb(0 0 0 / 80%));
 	text-shadow: 0 1px 2px #000;
 	transform: translateX(-50%);
 	white-space: nowrap;
+}
+
+.dnd4e-token-ring__tag-shape {
+	position: absolute;
+	top: 0;
+	left: 0;
+	overflow: visible;
+}
+
+.dnd4e-token-ring__tag-shape path {
+	fill: rgb(11 10 13 / 94%);
+	stroke: var(--ring-accent);
+	stroke-linejoin: round;
+	stroke-width: 1.2;
+}
+
+.dnd4e-token-ring__gems {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	padding: 4px 10px 3px;
+}
+
+.dnd4e-token-ring__gem {
+	flex: none;
+	box-sizing: border-box;
+	width: 11px;
+	height: 11px;
+	margin: 2px;
+	border: 1.5px solid #a9896f;
+	border-radius: 2px;
+	background: #302b2a;
+	transform: rotate(45deg);
+}
+
+.dnd4e-token-ring__gem.is-filled {
+	border-color: #e0707a;
+	background: linear-gradient(135deg, #e2545e, #7a1220);
+}
+
+.dnd4e-token-ring__gem-divider {
+	flex: none;
+	align-self: center;
+	width: 2px;
+	height: 16px;
+	margin: 0 3px;
+	border-radius: 1px;
+	background: #f3e6c8;
+	opacity: 0.85;
+}
+
+.dnd4e-token-ring__namerow {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	align-self: stretch;
+	gap: 0.4rem;
+	padding: 3px 14px 6px;
+	font-size: 0.95rem;
+	font-weight: 700;
+	letter-spacing: 0.02em;
 }
 
 .dnd4e-token-ring__role {
@@ -464,14 +494,6 @@
 
 .dnd4e-token-ring__name.is-defeated {
 	text-decoration: line-through;
-}
-
-.dnd4e-token-ring__state {
-	color: #f1b9b9;
-	font-size: 0.56rem;
-	font-weight: 800;
-	letter-spacing: 0.1em;
-	text-transform: uppercase;
 }
 
 .dnd4e-token-ring__stub {

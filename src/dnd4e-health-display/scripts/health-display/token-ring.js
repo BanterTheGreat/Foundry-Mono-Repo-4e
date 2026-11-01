@@ -1,4 +1,4 @@
-import { MIN_RING_SIZE, buildTokenRingData, placeEffectStrip } from "./token-ring-data.js";
+import { MIN_RING_SIZE, RIM_OVERLAP, buildTagOutline, buildTokenRingData, placeEffectStrip } from "./token-ring-data.js";
 
 const RING_ID = "dnd4e-token-ring-display";
 const RING_TEMPLATE = "modules/dnd4e-health-display/scripts/health-display/token-ring.hbs";
@@ -50,6 +50,38 @@ function ensureRing() {
 	}
 
 	return root;
+}
+
+/**
+ * Measure the tag and draw its single stepped outline. The gem row is raised so it sits on the token's lower rim.
+ *
+ * @param {HTMLElement} root The ring mount point.
+ * @param {object} data Ring template data.
+ */
+function shapeTag(root, data) {
+	const tag = root.querySelector(".dnd4e-token-ring__tag");
+	const gems = root.querySelector(".dnd4e-token-ring__gems");
+	const row = root.querySelector(".dnd4e-token-ring__namerow");
+	const shape = root.querySelector(".dnd4e-token-ring__tag-shape");
+
+	if (!tag || !gems || !row || !shape) {
+		return;
+	}
+
+	// Keep the name row clearly wider than the gems so the step always shows.
+	row.style.minWidth = `${gems.offsetWidth + 24}px`;
+	const outline = buildTagOutline({
+		width: tag.offsetWidth,
+		tabHeight: gems.offsetHeight,
+		plateHeight: row.offsetHeight,
+		tabLeft: gems.offsetLeft,
+		tabWidth: gems.offsetWidth,
+	});
+	shape.setAttribute("width", outline.width);
+	shape.setAttribute("height", outline.height);
+	shape.setAttribute("viewBox", `0 0 ${outline.width} ${outline.height}`);
+	shape.innerHTML = `<path d="${outline.path}"/>`;
+	tag.style.top = `${data.tagTop - gems.offsetHeight * RIM_OVERLAP}px`;
 }
 
 /**
@@ -114,6 +146,7 @@ export async function renderTokenRing(token, display, isStale) {
 	root.hidden = false;
 	shownTokenId = token.id;
 	shownLayout = { data, size: data.size };
+	shapeTag(root, data);
 	layoutRing(root, data, rect);
 }
 

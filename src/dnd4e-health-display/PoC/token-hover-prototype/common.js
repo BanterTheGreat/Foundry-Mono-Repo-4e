@@ -213,7 +213,7 @@ window.Proto = (() => {
 
 	function nav(current) {
 		const items = [["index.html", "All"], ["1-token-ring.prototype.html", "1 Ring"],
-			["4-effect-readout.prototype.html", "4 Effect readout"], ["5-quiet-dossier.prototype.html", "5 Quiet + Alt"], ["6-ring-readout.prototype.html", "6 Ring + readout"]];
+			["4-effect-readout.prototype.html", "4 Effect readout"], ["5-quiet-dossier.prototype.html", "5 Quiet + Alt"], ["6-ring-readout.prototype.html", "6 Ring + readout"], ["7-health-designs.prototype.html?variant=A", "7 Health designs"], ["8-gem-iterations.prototype.html?variant=C", "8 Gem iterations"], ["9-stepped-tag.prototype.html?variant=1", "9 Stepped tag"]];
 		document.body.insertAdjacentHTML("beforeend", `<nav class="protonav">${items.map(([href, label]) =>
 			`<a href="${href}"${href === current ? ' class="cur"' : ""}>${label}</a>`).join("")}</nav>`);
 		addEventListener("keydown", (ev) => {

@@ -27,7 +27,7 @@ export function registerHealthDisplaySettings() {
 
 	game.settings.register("dnd4e-health-display", TOKEN_RING_SETTING, {
 		name: "Token ring hover display (experimental)",
-		hint: "Replaces the panel above the map with a health ring drawn around the hovered token and a compact effect list beside it. Conditions show a title; other effects add their description underneath. The effect-label setting and Shift do not apply to it.",
+		hint: "Replaces the panel above the map with a name tag hanging from the hovered token, with its health shown as gems, and a compact effect list beside it. Conditions show a title; other effects add their description underneath. The effect-label setting and Shift do not apply to it.",
 		scope: "client",
 		config: true,
 		type: Boolean,

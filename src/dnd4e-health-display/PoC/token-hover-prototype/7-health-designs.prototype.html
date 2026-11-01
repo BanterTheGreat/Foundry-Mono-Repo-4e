@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prototype 7 - Health designs</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Signika:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="common.css">
+<!--
+THROWAWAY PROTOTYPE - five ways to show HEALTH on the ring + effect-strip hover display (the strip, plate and effects are identical in every variant).
+Question: which health presentation reads fastest at a glance, and which one survives crowded tokens?
+Switch with the bar at the bottom (or the left/right arrow keys); the choice lives in ?variant=A..E.
+  A  Capsule arc  - what ships now: segmented arc inside a bordered bar around the token.
+  B  Plate bar    - no arc; the classic segmented bar sits inside the name plate. Token stays clean.
+  C  Rim gems     - a row of gems straddling the token's lower rim, with a gap at the bloodied mark.
+  D  State halo   - one thin ring coloured by health band (green/yellow/orange/red). No segments.
+  E  Side gauge   - vertical segmented gauge docked to the token's left edge, draining from the top.
+All variants only use the same quantised data as the real display (4 segments for monsters, 6 for PCs, 1 for minions, plus the state word),
+so none of them reveals exact monster HP. Prototype aid: hover a token and press 1-5 to set its HP to 100 / 75 / 50 / 25 / 0 %.
+No animations, no initiative counter, no marking (arrows cover it).
+-->
+<style>
+.ring{position:absolute;pointer-events:none;z-index:30}
+.ring svg{position:absolute;inset:0;overflow:visible}
+.ring .hv{fill:none;stroke-width:2;stroke-opacity:.8}
+.ring .bborder{fill:none;stroke-linecap:round;stroke-width:13}
+.ring .bback{fill:none;stroke:#0f0b0a;stroke-linecap:round;stroke-width:11}
+.ring .empty{fill:none;stroke:#302b2a;stroke-width:7.5}
+.ring .fill{fill:none;stroke:url(#hpGrad);stroke-width:7.5}
+.ring .notch{stroke:#f3e6c8;stroke-width:2;stroke-linecap:round}
+.ring .halo-back{fill:none;stroke:#07070a;stroke-opacity:.85;stroke-width:9}
+.ring .halo{fill:none;stroke-width:4.5}
+
+.plate{position:absolute;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:stretch;gap:4px;white-space:nowrap;
+  padding:3px 12px 4px;border-radius:999px;background:#08080ad9;border:1px solid var(--rc);box-shadow:0 3px 8px #000b;font:700 15px var(--font);
+  letter-spacing:.02em;text-shadow:0 1px 2px #000}
+.plate.tall{border-radius:12px;padding:4px 12px 6px;min-width:128px}
+.prow{display:flex;align-items:center;justify-content:center;gap:6px}
+.plate .role{font-size:11px}
+.plate .st{font:800 9px var(--font);letter-spacing:.1em;text-transform:uppercase;color:#f1b9b9}
+.plate .st.big{font-size:10.5px}
+
+/* B: bar inside the plate */
+.pbar{position:relative;display:grid;grid-template-columns:repeat(var(--n),1fr);gap:3px;height:11px;padding:2px;border:1px solid var(--rc);border-radius:6px;background:#0f0b0a;box-shadow:inset 0 0 3px #000}
+.pbar .seg{border-radius:2px;background:#302b2a}
+.pbar .seg.on{background:linear-gradient(#d84b55,#8e1724 55%,#5e0b13);box-shadow:inset 0 1px 1px #ffffff40}
+.pbar .mid{position:absolute;left:50%;top:-3px;bottom:-3px;width:2px;margin-left:-1px;background:#f3e6c8;border-radius:1px;opacity:.9}
+
+/* C: gems on the rim */
+.gems{position:absolute;display:flex;gap:4px;transform:translateX(-50%);padding:3px 7px;border-radius:999px;background:#08080ad9;border:1px solid var(--rc);box-shadow:0 2px 6px #000b}
+.gem{width:11px;height:11px;transform:rotate(45deg);margin:2px;border:1.5px solid #a9896f;background:#302b2a;border-radius:2px}
+.gem.on{border-color:#e0707a;background:linear-gradient(135deg,#e2545e,#7a1220)}
+.gsep{align-self:center;width:2px;height:16px;margin:0 3px;background:#f3e6c8;border-radius:1px;opacity:.85}
+
+/* E: side gauge */
+.gauge{position:absolute;width:12px;display:flex;flex-direction:column;gap:3px;padding:2px;border:1px solid var(--rc);border-radius:6px;background:#0f0b0a;box-shadow:0 2px 6px #000b}
+.gauge .gs{flex:1;border-radius:2px;background:#302b2a}
+.gauge .gs.on{background:linear-gradient(90deg,#d84b55,#8e1724 60%,#5e0b13);box-shadow:inset 1px 0 1px #ffffff40}
+.gauge .gm{position:absolute;left:-5px;right:-5px;height:2px;margin-top:-1px;background:#f3e6c8;border-radius:1px;opacity:.9}
+
+/* effect strip: same as prototype 6 */
+.stub{position:absolute;height:2px;background:var(--rc);opacity:.85}
+.fl{position:absolute;min-width:260px;max-width:380px;padding:4px 7px 4px 6px;background:#08080adf;border:1px solid #997456aa;border-left:3px solid var(--rc);
+  border-radius:4px 9px 9px 4px;box-shadow:0 6px 16px #000b}
+.fl.flip{border-left:1px solid #997456aa;border-right:3px solid var(--rc);border-radius:9px 4px 4px 9px}
+.fr{display:grid;grid-template-columns:18px 1fr auto;gap:0 7px;min-height:22px;align-items:center}
+.fr.d{grid-template-areas:"i n e" ". d d";padding:3px 0 4px;align-items:start}
+.fr.d .fi{grid-area:i;margin-top:2px}.fr.d .fn{grid-area:n;align-self:center}.fr.d .fe{grid-area:e;align-self:center}
+.fd{grid-area:d;font:400 11px/1.3 var(--font);color:#bdb092;white-space:normal}
+.fr + .fr{border-top:1px solid #ffffff0d}
+.fi{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:9px;background:radial-gradient(circle at 35% 30%,#2b2625,#0b0a0b);border:1px solid #b08a63}
+.fn{font:600 12.5px var(--font);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fe{font:700 10px var(--font);letter-spacing:.06em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
+.fe .sv{color:#8fc2e6}
+.fr.soon .fe{color:#f0b455}.fr.soon .fi{border-color:#f0b455;color:#f0b455}
+.fr.more{display:block;padding:2px 0 0 25px;font:700 10px var(--font);letter-spacing:.06em;color:var(--dim)}
+
+/* prototype chrome */
+.vbar{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);z-index:210;display:flex;align-items:center;gap:6px;padding:4px;border-radius:999px;background:#fff;color:#111;
+  box-shadow:0 4px 18px #0009;font:600 13px system-ui,sans-serif;user-select:none}
+.vbar button{border:0;background:#eee;color:#111;border-radius:999px;width:28px;height:28px;font-size:16px;cursor:pointer}
+.vbar button:hover{background:#ddd}
+.vbar .lbl{min-width:210px;text-align:center}
+.vbar .dots{display:flex;gap:4px;margin:0 4px}
+.vbar .dots i{width:8px;height:8px;border-radius:50%;background:#ccc;cursor:pointer}.vbar .dots i.cur{background:#111}
+.vbar a{color:#111;text-decoration:none;padding:4px 10px;border-radius:999px}.vbar a:hover{background:#eee}
+.hint{position:fixed;left:16px;bottom:16px;z-index:100;max-width:400px;color:#cfc3a8;font:13px/1.45 var(--font);background:#000a;padding:8px 12px;border-radius:8px}
+.hint b{color:#fff}.hint .pro{color:#9fd49b}.hint .con{color:#f0a49c}
+</style>
+<body>
+<div class="hint" id="hint"></div>
+<svg width="0" height="0" style="position:absolute"><defs>
+	<linearGradient id="hpGrad" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox"><stop offset="0" stop-color="#e2545e"/><stop offset=".55" stop-color="#9a1a28"/><stop offset="1" stop-color="#6a0d16"/></linearGradient>
+</defs></svg>
+<script src="common.js"></script>
+<script>
+const P = Proto;
+const BAND = { green: "#8fd18a", yellow: "#e8d36a", orange: "#f0953f", red: "#ee6a5f", dead: "#7d7870" };
+const ARC_START = 125;
+const ARC_SWEEP = 290;
+const MAX_ROWS = 10;
+let ringEl = null;
+
+const polar = (cx, r, deg) => [cx + r * Math.cos(deg * Math.PI / 180), cx + r * Math.sin(deg * Math.PI / 180)];
+const arc = (cx, r, a0, a1) => {
+	const [x0, y0] = polar(cx, r, a0);
+	const [x1, y1] = polar(cx, r, a1);
+	return `M${x0.toFixed(2)} ${y0.toFixed(2)}A${r} ${r} 0 ${a1 - a0 > 180 ? 1 : 0} 1 ${x1.toFixed(2)} ${y1.toFixed(2)}`;
+};
+/** Quantised health band: >75% green, >50% yellow, >25% orange, else red - computed from the SEGMENTS, never exact HP. */
+function band(d) {
+	if (d.defeated) {
+		return "dead";
+	}
+	if (d.n === 1) {
+		return "green";
+	}
+	const f = d.filled / d.n;
+	return f > 0.75 ? "green" : f > 0.5 ? "yellow" : f > 0.25 ? "orange" : "red";
+}
+const stateWord = (d) => (["Healthy", "Alive"].includes(d.healthState) ? "" : d.healthState);
+
+/* Each variant returns { svg, html, plateInner, plateClass, plateTop, radius } for the shared frame. */
+const VARIANTS = [
+	{
+		key: "A", name: "Capsule arc (current)",
+		note: `<span class="pro">+ Reads as a ring, everything hugs the token. Closest to the classic bar.</span><br><span class="con">- Thick arc crowds neighbouring tokens; 6 PC segments get small.</span>`,
+		build({ d, size, pad, cx, color }) {
+			const r = size / 2 + 9;
+			const inset = 3.5 / r * 180 / Math.PI;
+			const gap = d.n > 1 ? 3.5 : 0;
+			const span = ARC_SWEEP / d.n;
+			let svg = `<path class="bborder" stroke="${color}" d="${arc(cx, r, ARC_START + inset, ARC_START + ARC_SWEEP - inset)}"/><path class="bback" d="${arc(cx, r, ARC_START + inset, ARC_START + ARC_SWEEP - inset)}"/>`;
+			d.segments.forEach((on, i) => {
+				svg += `<path class="${on ? "fill" : "empty"}" d="${arc(cx, r, ARC_START + i * span + gap / 2, ARC_START + (i + 1) * span - gap / 2)}"/>`;
+			});
+			if (d.n > 1) {
+				const [x0, y0] = polar(cx, r - 6, ARC_START + ARC_SWEEP / 2);
+				const [x1, y1] = polar(cx, r + 10, ARC_START + ARC_SWEEP / 2);
+				svg += `<line class="notch" x1="${x0}" y1="${y0}" x2="${x1}" y2="${y1}"/>`;
+			}
+			return { svg, html: "", plateInner: "", plateClass: "", plateTop: pad + size + 4, radius: r };
+		},
+	},
+	{
+		key: "B", name: "Plate bar",
+		note: `<span class="pro">+ Token art stays completely clear; the bar is the classic one players know. Most compact around the token.</span><br><span class="con">- Health lives below the token, so it is read after the name. A bit boxy.</span>`,
+		build({ d, size, pad, cx, color }) {
+			const r = size / 2 + 4;
+			const svg = `<circle class="hv" cx="${cx}" cy="${cx}" r="${r}" stroke="${color}"/>`;
+			const bar = `<div class="pbar" style="--n:${d.n}">${d.segments.map((on) => `<span class="seg${on ? " on" : ""}"></span>`).join("")}${d.n > 1 ? `<span class="mid"></span>` : ""}</div>`;
+			return { svg, html: "", plateInner: bar, plateClass: "tall", plateTop: pad + size + 4, radius: r };
+		},
+	},
+	{
+		key: "C", name: "Rim gems",
+		note: `<span class="pro">+ Tiny and countable ("3 of 4"). Sits on the token like the pips idea; no ring to crowd neighbours.</span><br><span class="con">- Covers a sliver of token art; a 6-gem PC row is the widest thing here.</span>`,
+		build({ d, size, pad, cx, color }) {
+			const r = size / 2 + 4;
+			const svg = `<circle class="hv" cx="${cx}" cy="${cx}" r="${r}" stroke="${color}"/>`;
+			const half = d.n / 2;
+			const gems = `<div class="gems" style="left:${cx}px;top:${pad + size - 11}px">${d.segments.map((on, i) => `<span class="gem${on ? " on" : ""}"></span>${d.n > 1 && i === half - 1 ? `<span class="gsep"></span>` : ""}`).join("")}</div>`;
+			return { svg, html: gems, plateInner: "", plateClass: "", plateTop: pad + size + 12, radius: r };
+		},
+	},
+	{
+		key: "D", name: "State halo",
+		note: `<span class="pro">+ Fastest to read across a busy map (colour first, word second). Thinnest footprint of the ring options.</span><br><span class="con">- Only four states, no segment count. Colour carries the meaning (the state word backs it up).</span>`,
+		build({ d, size, pad, cx, color }) {
+			const r = size / 2 + 7;
+			const b = band(d);
+			const dash = d.defeated ? ` stroke-dasharray="4 4"` : "";
+			const svg = `<circle class="halo-back" cx="${cx}" cy="${cx}" r="${r}"/><circle class="halo" cx="${cx}" cy="${cx}" r="${r}" stroke="${BAND[b]}"${dash} style="filter:drop-shadow(0 0 4px ${BAND[b]}aa)"/>`
+				+ (d.role ? `<circle class="hv" cx="${cx}" cy="${cx}" r="${r + 5.5}" stroke="${color}"/>` : "");
+			return { svg, html: "", plateInner: "", plateClass: "", plateTop: pad + size + 12, radius: r + 5, stateColor: BAND[b] };
+		},
+	},
+	{
+		key: "E", name: "Side gauge",
+		note: `<span class="pro">+ Vertical "thermometer" is the easiest fill to compare between tokens side by side. Doesn't wrap the token.</span><br><span class="con">- Collides with a neighbour on the left; effect strip and gauge sit on opposite sides, so the token is boxed in.</span>`,
+		build({ d, size, pad, cx, color }) {
+			const r = size / 2 + 4;
+			const svg = `<circle class="hv" cx="${cx}" cy="${cx}" r="${r}" stroke="${color}"/>`;
+			const segs = d.segments.map((_on, i) => `<span class="gs${i >= d.n - d.filled ? " on" : ""}"></span>`).join("");
+			const gauge = `<div class="gauge" style="left:${pad - 20}px;top:${pad}px;height:${size}px">${segs}${d.n > 1 ? `<span class="gm" style="top:50%"></span>` : ""}</div>`;
+			return { svg, html: gauge, plateInner: "", plateClass: "", plateTop: pad + size + 4, radius: r };
+		},
+	},
+];
+
+let current = Math.max(0, VARIANTS.findIndex((v) => v.key === new URLSearchParams(location.search).get("variant")));
+
+/** Soonest ending first; encounter-long, then open-ended last. */
+function effectRows(c) {
+	return c.effects.map((e) => ({ e, r: P.resolveEnd(c, e) })).sort((a, b) => {
+		const rank = (x) => (x.r.dist === null ? 1000 + (x.r.kind === "encounter" ? 0 : 1) : x.r.dist);
+		return rank(a) - rank(b);
+	});
+}
+function ending(r) {
+	switch (r.kind) {
+		case "save": return `<span class="sv">Save</span>`;
+		case "encounter": return `<i class="fa-solid fa-infinity"></i>`;
+		case "none": return "—";
+		default: return `${r.when === "start" ? "SoT" : "EoT"} ${r.who.short}`;
+	}
+}
+
+function showRing(c, el) {
+	hideRing();
+	const d = P.getData(c);
+	const board = scene.board;
+	const br = board.getBoundingClientRect();
+	const tr = el.getBoundingClientRect();
+	const size = Math.max(44, tr.width);
+	const pad = 28;
+	const W = size + pad * 2;
+	const cx = W / 2;
+	const color = P.ROLE_COLOR[d.role?.key] ?? "#997456";
+	const v = VARIANTS[current].build({ c, d, size, pad, cx, color });
+	const st = stateWord(d);
+	const stColor = v.stateColor ? ` style="color:${v.stateColor}"` : "";
+	const stHtml = st ? `<span class="st${v.stateColor ? " big" : ""}"${stColor}>${st}</span>` : "";
+	const role = d.role?.icon ? `<span class="role" style="color:${color}"><i class="${d.role.icon}"></i></span>` : "";
+	const plate = `<div class="plate ${v.plateClass}" style="top:${v.plateTop}px;${d.role ? `box-shadow:0 3px 8px #000b,0 0 10px ${color}55` : ""}">
+		<div class="prow">${role}<span style="${d.defeated ? "text-decoration:line-through" : ""}">${c.name}</span>${stHtml}</div>${v.plateInner}</div>`;
+	ringEl = document.createElement("div");
+	ringEl.className = "ring";
+	ringEl.style.cssText = `left:${tr.left - br.left + tr.width / 2 - W / 2}px;top:${tr.top - br.top + tr.height / 2 - W / 2}px;width:${W}px;height:${W}px;--rc:${color};--n:${d.n}`;
+	ringEl.innerHTML = `<svg viewBox="0 0 ${W} ${W}">${v.svg}</svg>${v.html}${plate}`;
+	board.appendChild(ringEl);
+
+	const rows = effectRows(c);
+	if (!rows.length) {
+		return;
+	}
+	const shown = rows.length > MAX_ROWS ? rows.slice(0, MAX_ROWS - 1) : rows;
+	const fl = document.createElement("div");
+	fl.className = "fl";
+	fl.innerHTML = shown.map(({ e, r }) => {
+		const soon = r.dist !== null && r.dist <= 1;
+		const under = !e.condition && e.desc;
+		return `<div class="fr${soon ? " soon" : ""}${under ? " d" : ""}"><span class="fi"><i class="${e.icon}"></i></span><span class="fn"${e.ongoing ? ` style="color:#ffb27a"` : ""}>${e.name}</span><span class="fe">${ending(r)}</span>${under ? `<span class="fd">${e.desc}</span>` : ""}</div>`;
+	}).join("") + (rows.length > shown.length ? `<div class="fr more">+${rows.length - shown.length} more</div>` : "");
+	ringEl.appendChild(fl);
+	const lw = fl.offsetWidth;
+	const lh = fl.offsetHeight;
+	const gap = 16;
+	const edge = v.radius + 8;
+	const frameLeft = tr.left + tr.width / 2 - W / 2;
+	const frameTop = tr.top + tr.height / 2 - W / 2;
+	const flip = frameLeft + cx + edge + gap + lw > innerWidth - 8;
+	let top = cx - lh / 2;
+	const viewTop = frameTop + top;
+	top += Math.max(48, Math.min(viewTop, innerHeight - lh - 56)) - viewTop;
+	const stub = document.createElement("div");
+	stub.className = "stub";
+	stub.style.cssText = `width:${gap}px;top:${cx - 1}px;left:${flip ? cx - edge - gap : cx + edge}px`;
+	fl.classList.toggle("flip", flip);
+	fl.style.left = `${flip ? cx - edge - gap - lw : cx + edge + gap}px`;
+	fl.style.top = `${top}px`;
+	ringEl.appendChild(stub);
+}
+function hideRing() {
+	ringEl?.remove();
+	ringEl = null;
+}
+const redraw = () => {
+	if (P.state.hoverId) {
+		showRing(P.byId(P.state.hoverId), scene.els.get(P.state.hoverId));
+	}
+};
+const scene = P.mount({
+	onHover: (c, el) => showRing(c, el),
+	onLeave: hideRing,
+	onChange: redraw,
+});
+
+/* HP presets for the hovered token: 1-5 = 100 / 75 / 50 / 25 / 0 percent */
+addEventListener("keydown", (ev) => {
+	const c = P.state.hoverId ? P.byId(P.state.hoverId) : null;
+	const level = { 1: 1, 2: 0.75, 3: 0.5, 4: 0.25, 5: 0 }[ev.key];
+	if (c && level !== undefined) {
+		c.hp = level === 0 ? 0 : Math.max(1, Math.round(c.max * level));
+		scene.refresh();
+	}
+});
+
+/* variant switcher */
+document.body.insertAdjacentHTML("beforeend", `<div class="vbar"><button id="vprev" aria-label="Previous design">‹</button><span class="lbl" id="vlbl"></span><div class="dots" id="vdots"></div><button id="vnext" aria-label="Next design">›</button><a href="index.html">All</a></div>`);
+function setVariant(index) {
+	current = (index + VARIANTS.length) % VARIANTS.length;
+	const v = VARIANTS[current];
+	history.replaceState(null, "", `?variant=${v.key}`);
+	document.getElementById("vlbl").textContent = `${v.key} · ${v.name}`;
+	document.getElementById("vdots").innerHTML = VARIANTS.map((o, i) => `<i data-i="${i}" class="${i === current ? "cur" : ""}" title="${o.name}"></i>`).join("");
+	document.getElementById("hint").innerHTML = `<b>${v.key} - ${v.name}.</b> Hover a token; press <kbd>1</kbd>-<kbd>5</kbd> to set its HP to 100 / 75 / 50 / 25 / 0%. Try Hana (6 segments), Gorrak (elite), a goblin (minion) and Vorhaal (2x2).<br>${v.note}`;
+	redraw();
+}
+document.getElementById("vprev").onclick = () => setVariant(current - 1);
+document.getElementById("vnext").onclick = () => setVariant(current + 1);
+document.getElementById("vdots").onclick = (ev) => ev.target.dataset.i && setVariant(Number(ev.target.dataset.i));
+addEventListener("keydown", (ev) => {
+	if (ev.target.matches?.("input,select,textarea")) {
+		return;
+	}
+	if (ev.key === "ArrowRight") {
+		setVariant(current + 1);
+	} else if (ev.key === "ArrowLeft") {
+		setVariant(current - 1);
+	}
+});
+setVariant(current);
+</script>
+</body>
+</html>

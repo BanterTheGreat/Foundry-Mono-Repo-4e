@@ -3,7 +3,8 @@ import test from "node:test";
 import {
 	MAX_EFFECT_ROWS,
 	buildEffectRows,
-	buildRingGeometry,
+	buildGems,
+	buildTagOutline,
 	buildTokenRingData,
 	computeTurnsAway,
 	describeEnding,
@@ -14,23 +15,48 @@ import {
 
 const effect = (name, ending, extra = {}) => ({ name, img: `${name}.png`, isCondition: false, description: "", ending, ...extra });
 
-test("the health arc has one path per segment, keeps fill flags, and notches the middle", () => {
-	const geometry = buildRingGeometry([true, true, false, false], 56);
-	assert.equal(geometry.segments.length, 4);
-	assert.deepEqual(geometry.segments.map((segment) => segment.filled), [true, true, false, false]);
-	assert.ok(geometry.segments.every((segment) => /^M[\d.]+ [\d.]+A/.test(segment.path)));
-	assert.ok(geometry.notch, "multi-segment bars carry a bloodied notch");
-	assert.match(geometry.bar, /^M[\d.]+ [\d.]+A/, "one continuous bar encloses the segments");
-	assert.ok(geometry.segments.every((segment) => segment.delay === undefined), "nothing is animated");
-	assert.equal(geometry.outer, 56 + 48, "the frame is the token plus padding on both sides");
+test("gems follow the health segments and put a divider at the bloodied mark", () => {
+	const gems = buildGems([true, true, false, false]);
+	assert.deepEqual(gems.map((gem) => gem.filled), [true, true, false, false]);
+	assert.deepEqual(gems.map((gem) => gem.divider), [false, true, false, false], "the divider follows the middle gem");
+	const pc = buildGems([true, true, true, true, false, false]);
+	assert.deepEqual(pc.map((gem) => gem.divider), [false, false, true, false, false, false]);
 });
 
-test("a minion's single segment spans the whole arc with no notch or gap", () => {
-	const geometry = buildRingGeometry([true], 56);
-	assert.equal(geometry.segments.length, 1);
-	assert.equal(geometry.notch, null);
-	assert.match(geometry.segments[0].path, /A\S+ \S+ 0 1 1/, "290 degrees needs the large-arc flag");
-	assert.ok(geometry.bar, "even a single segment sits in its bar");
+test("a minion's single gem has no divider, and no segments means no gems", () => {
+	assert.deepEqual(buildGems([true]), [{ filled: true, divider: false }]);
+	assert.deepEqual(buildGems([false]), [{ filled: false, divider: false }]);
+	assert.deepEqual(buildGems([]), []);
+});
+
+test("a centred gem row gives a stepped outline with a step and a fillet on both sides", () => {
+	const outline = buildTagOutline({ width: 130, tabHeight: 24, plateHeight: 28, tabLeft: 20, tabWidth: 90 });
+	assert.deepEqual([outline.width, outline.height], [130, 52]);
+	assert.equal(outline.path, "M20 9A9 9 0 0 1 29 0H101A9 9 0 0 1 110 9V19A5 5 0 0 0 115 24H119A11 11 0 0 1 130 35V41A11 11 0 0 1 119 52H11A11 11 0 0 1 0 41V35A11 11 0 0 1 11 24H15A5 5 0 0 0 20 19Z");
+	assert.equal(outline.path.match(/A5 5 0 0 0/g).length, 2, "one concave fillet per step");
+});
+
+test("a gem row flush with the right edge steps only on the left", () => {
+	const outline = buildTagOutline({ width: 130, tabHeight: 24, plateHeight: 28, tabLeft: 40, tabWidth: 90 });
+	assert.equal(outline.path.match(/A5 5 0 0 0/g).length, 1);
+	assert.match(outline.path, /^M40 9A9 9 0 0 1 49 0H121A9 9 0 0 1 130 9V41A11/, "the right edge runs straight down");
+});
+
+test("a gem row as wide as the tag is a plain rounded block, and the outline always closes", () => {
+	const flush = buildTagOutline({ width: 90, tabHeight: 24, plateHeight: 28, tabLeft: 0, tabWidth: 90 });
+	assert.equal(flush.path.includes("A5 5"), false, "no steps, so no fillets");
+	for (const measure of [
+		{ width: 130, tabHeight: 24, plateHeight: 28, tabLeft: 20, tabWidth: 90 },
+		{ width: 130, tabHeight: 24, plateHeight: 28, tabLeft: 40, tabWidth: 90 },
+		{ width: 90, tabHeight: 24, plateHeight: 28, tabLeft: 0, tabWidth: 90 },
+		{ width: 60, tabHeight: 8, plateHeight: 8, tabLeft: 5, tabWidth: 50 },
+	]) {
+		const { path } = buildTagOutline(measure);
+		assert.ok(path.endsWith("Z"));
+		assert.ok(!/NaN|undefined/.test(path));
+	}
+	const tiny = buildTagOutline({ width: 60, tabHeight: 8, plateHeight: 8, tabLeft: 5, tabWidth: 50 });
+	assert.match(tiny.path, /A4 4 0 0 1/, "corner radii shrink to fit short rows");
 });
 
 test("computeTurnsAway counts forwards around the order and rejects unknown creatures", () => {
@@ -116,22 +142,27 @@ test("more than the row limit collapses the tail into an overflow count", () => 
 	assert.deepEqual(buildEffectRows(undefined), { rows: [], overflow: 0 });
 });
 
-test("ring data hides the state word for healthy creatures and keeps the role and a minimum size", () => {
+test("ring data carries gems, role and name, never a state word, and keeps a minimum size", () => {
 	const base = {
-		name: "Gorrak", healthLabel: "Health: Bloodied", segments: [{ filled: true }, { filled: true }, { filled: false }, { filled: false }],
+		name: "Gorrak", healthLabel: "Health: Bloodied", healthState: "Bloodied", segments: [{ filled: true }, { filled: true }, { filled: false }, { filled: false }],
 		role: { key: "elite", label: "Elite", icon: "fa-solid fa-diamond" }, turnDistance: { count: 3, label: "Acts in 3 turns" }, effects: [],
 	};
-	const hurt = buildTokenRingData({ ...base, healthState: "Bloodied" }, { size: 10 });
-	assert.equal(hurt.stateLabel, "Bloodied");
-	assert.equal(hurt.size, 44, "tiny zoomed-out tokens still get a readable ring");
-	assert.equal(hurt.role.key, "elite");
-	assert.equal(hurt.turnDistance, undefined, "the plate no longer carries the initiative counter");
-	assert.equal(hurt.animate, undefined, "the ring is not animated");
-	assert.equal(hurt.plateTop, 24 + 44 + 4);
-	for (const healthState of ["Healthy", "Alive"]) {
-		assert.equal(buildTokenRingData({ ...base, healthState }, { size: 80 }).stateLabel, "");
+	const tiny = buildTokenRingData(base, { size: 10 });
+	assert.equal(tiny.size, 44, "tiny zoomed-out tokens still get a readable ring");
+	assert.equal(tiny.outer, 44 + 60);
+	assert.equal(tiny.radius, 22 + 4, "the thin hover ring hugs the token");
+	assert.equal(tiny.role.key, "elite");
+	assert.equal(tiny.gems.length, 4);
+	assert.equal(tiny.tagTop, 30 + 44 + 3);
+	assert.equal(tiny.healthLabel, "Health: Bloodied", "the state stays available to screen readers");
+	for (const key of ["stateLabel", "turnDistance", "animate", "segments", "bar"]) {
+		assert.equal(tiny[key], undefined, `${key} is not part of the tag design`);
 	}
-	assert.equal(buildTokenRingData({ ...base, healthState: "Healthy", role: undefined }, { size: 80 }).role, null);
+	for (const healthState of ["Bloodied", "Defeated", "Last Stand", "Healthy", "Alive"]) {
+		assert.equal(buildTokenRingData({ ...base, healthState }, { size: 80 }).stateLabel, undefined);
+	}
+	assert.equal(buildTokenRingData({ ...base, role: undefined }, { size: 80 }).role, null);
+	assert.equal(buildTokenRingData({ ...base, defeated: true }, { size: 80 }).defeated, true, "defeated still strikes the name through");
 });
 
 test("the effect strip sits to the right of the ring, centred on the token", () => {

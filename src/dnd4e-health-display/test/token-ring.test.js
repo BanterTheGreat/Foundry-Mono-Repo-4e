@@ -202,6 +202,31 @@ test("the effect strip and its stub are placed beside the ring, flipping near th
 	assert.ok(parseFloat(strip.style.left) < 0);
 });
 
+test("the name tag is outlined from its measured rows and raised so the gems sit on the token's rim", async () => {
+	settings.tokenRingDisplay = true;
+	const root = element(RING_ID);
+	root.hidden = true;
+	const part = (sizes) => Object.assign(element(), sizes);
+	const tag = part({ offsetWidth: 130 });
+	const gems = part({ offsetWidth: 90, offsetHeight: 24, offsetLeft: 20 });
+	const row = part({ offsetHeight: 28 });
+	const shape = Object.assign(element(), { attrs: {}, setAttribute(key, value) { this.attrs[key] = value; } });
+	Object.assign(root.parts, {
+		".dnd4e-token-ring__tag": tag,
+		".dnd4e-token-ring__gems": gems,
+		".dnd4e-token-ring__namerow": row,
+		".dnd4e-token-ring__tag-shape": shape,
+	});
+	nodes.set(RING_ID, root);
+	fire("hoverToken", tokenWith("a"), true);
+	await settle();
+	const { tagTop } = ringCalls()[0].data;
+	assert.equal(row.style.minWidth, "114px", "the name row stays wider than the gem row so the step shows");
+	assert.match(shape.innerHTML, /^<path d="M20 9A9 9 0 0 1 29 0H101/);
+	assert.deepEqual([shape.attrs.width, shape.attrs.height], [130, 52]);
+	assert.equal(tag.style.top, `${tagTop - 24 * 0.78}px`, "the gem row rises into the token's lower rim");
+});
+
 test("leaving the token hides the ring, and leaving a different token does not", async () => {
 	settings.tokenRingDisplay = true;
 	const a = tokenWith("a");

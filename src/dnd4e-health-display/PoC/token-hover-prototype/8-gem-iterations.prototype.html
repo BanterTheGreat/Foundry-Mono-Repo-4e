@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prototype 8 - Gem iterations</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Signika:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="common.css">
+<!--
+THROWAWAY PROTOTYPE - iterations on design C ("Rim gems") from prototype 7. Effect strip, quantised health data and the HP keys are unchanged.
+Switch with the bar at the bottom (or left/right arrows); the choice lives in ?variant=.
+  C  Reference  - the gems from prototype 7: a flat pill of diamonds on the lower rim, plate below.
+  1  Bead arc   - round jewels sit ON the rim and follow the token's curve; no pill, so wide PC rows wrap instead of sticking out.
+  2  Rail + role socket - bigger faceted diamonds in one rail; the role icon becomes the first socket (plate loses its icon);
+                  gems change tier with health: crimson -> hot orange when bloodied -> bright with a glow on the last gem.
+  3  Unified tag - gems and name share ONE tag that overlaps the token's lower rim; hexagonal gems, state word beside them.
+Everything is quantised (4 / 6 / 1 segments + state word), so no variant shows exact monster HP. No animations, no initiative counter.
+Prototype aid: hover a token and press 1-5 to set its HP to 100 / 75 / 50 / 25 / 0 %.
+-->
+<style>
+.ring{position:absolute;pointer-events:none;z-index:30}
+.ring svg{position:absolute;inset:0;overflow:visible}
+.ring .hv{fill:none;stroke-width:2;stroke-opacity:.8}
+
+.plate{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;
+  padding:3px 12px 4px;border-radius:999px;background:#08080ad9;border:1px solid var(--rc);box-shadow:0 3px 8px #000b;font:700 15px var(--font);
+  letter-spacing:.02em;text-shadow:0 1px 2px #000}
+.plate .role{font-size:11px}
+.plate .st{font:800 9px var(--font);letter-spacing:.1em;text-transform:uppercase;color:#f1b9b9}
+
+/* reference C: flat pill of diamonds */
+.gems{position:absolute;display:flex;align-items:center;gap:4px;transform:translateX(-50%);padding:3px 7px;border-radius:999px;background:#08080ad9;border:1px solid var(--rc);box-shadow:0 2px 6px #000b}
+.gem{flex:none;width:11px;height:11px;transform:rotate(45deg);margin:2px;border:1.5px solid #a9896f;background:#302b2a;border-radius:2px}
+.gem.on{border-color:#e0707a;background:linear-gradient(135deg,#e2545e,#7a1220)}
+.gsep{align-self:center;width:2px;height:16px;margin:0 3px;background:#f3e6c8;border-radius:1px;opacity:.85}
+
+/* 2: rail with role socket + tiered faceted gems */
+.rail{position:absolute;display:flex;align-items:center;gap:4px;transform:translateX(-50%);padding:3px 8px 3px 4px;border-radius:999px;background:#08080aeb;border:1px solid var(--rc);box-shadow:0 3px 8px #000b}
+.rail.norole{padding-left:8px}
+.socket{flex:none;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:10px;color:#fff;background:var(--rc);border:2px solid #08080a;box-shadow:inset 0 0 0 1px #ffffff40;margin-right:2px}
+.fgem{flex:none;position:relative;width:15px;height:17px;margin:0 1px;clip-path:polygon(50% 0,100% 38%,50% 100%,0 38%);background:#302b2a}
+.fgem::after{content:"";position:absolute;left:3px;top:3px;width:5px;height:5px;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);background:#ffffff55}
+.fgem.empty::after{background:#ffffff10}
+.fgem.t1{background:linear-gradient(160deg,#e2545e,#7a1220)}
+.fgem.t2{background:linear-gradient(160deg,#ffb35c,#b4410e)}
+.fgem.t3{background:linear-gradient(160deg,#ff9a8f,#d0141e);filter:drop-shadow(0 0 3px #ff4a4acc)}
+.rsep{align-self:stretch;width:2px;margin:1px 3px;background:#f3e6c8;border-radius:1px;opacity:.85}
+
+/* 3: unified tag */
+.tag{position:absolute;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:3px;white-space:nowrap;
+  padding:4px 14px 5px;border-radius:14px;background:#08080aeb;border:1px solid var(--rc);box-shadow:0 3px 10px #000c;text-shadow:0 1px 2px #000}
+.tag .grow{display:flex;align-items:center;gap:3px}
+.tag .nrow{display:flex;align-items:center;gap:6px;font:700 15px var(--font);letter-spacing:.02em}
+.tag .role{font-size:11px}
+.tag .st{font:800 9px var(--font);letter-spacing:.1em;text-transform:uppercase;color:#f1b9b9}
+.hex{flex:none;width:14px;height:15px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:#302b2a}
+.hex.on{background:linear-gradient(160deg,#e2545e,#7a1220)}
+.hsep{width:2px;height:15px;margin:0 3px;background:#f3e6c8;border-radius:1px;opacity:.85}
+
+/* effect strip: same as prototype 6 */
+.stub{position:absolute;height:2px;background:var(--rc);opacity:.85}
+.fl{position:absolute;min-width:260px;max-width:380px;padding:4px 7px 4px 6px;background:#08080adf;border:1px solid #997456aa;border-left:3px solid var(--rc);
+  border-radius:4px 9px 9px 4px;box-shadow:0 6px 16px #000b}
+.fl.flip{border-left:1px solid #997456aa;border-right:3px solid var(--rc);border-radius:9px 4px 4px 9px}
+.fr{display:grid;grid-template-columns:18px 1fr auto;gap:0 7px;min-height:22px;align-items:center}
+.fr.d{grid-template-areas:"i n e" ". d d";padding:3px 0 4px;align-items:start}
+.fr.d .fi{grid-area:i;margin-top:2px}.fr.d .fn{grid-area:n;align-self:center}.fr.d .fe{grid-area:e;align-self:center}
+.fd{grid-area:d;font:400 11px/1.3 var(--font);color:#bdb092;white-space:normal}
+.fr + .fr{border-top:1px solid #ffffff0d}
+.fi{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:9px;background:radial-gradient(circle at 35% 30%,#2b2625,#0b0a0b);border:1px solid #b08a63}
+.fn{font:600 12.5px var(--font);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fe{font:700 10px var(--font);letter-spacing:.06em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
+.fe .sv{color:#8fc2e6}
+.fr.soon .fe{color:#f0b455}.fr.soon .fi{border-color:#f0b455;color:#f0b455}
+.fr.more{display:block;padding:2px 0 0 25px;font:700 10px var(--font);letter-spacing:.06em;color:var(--dim)}
+
+/* prototype chrome */
+.vbar{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);z-index:210;display:flex;align-items:center;gap:6px;padding:4px;border-radius:999px;background:#fff;color:#111;
+  box-shadow:0 4px 18px #0009;font:600 13px system-ui,sans-serif;user-select:none}
+.vbar button{border:0;background:#eee;color:#111;border-radius:999px;width:28px;height:28px;font-size:16px;cursor:pointer}
+.vbar button:hover{background:#ddd}
+.vbar .lbl{min-width:230px;text-align:center}
+.vbar .dots{display:flex;gap:4px;margin:0 4px}
+.vbar .dots i{width:8px;height:8px;border-radius:50%;background:#ccc;cursor:pointer}.vbar .dots i.cur{background:#111}
+.vbar a{color:#111;text-decoration:none;padding:4px 10px;border-radius:999px}.vbar a:hover{background:#eee}
+.hint{position:fixed;left:16px;bottom:16px;z-index:100;max-width:420px;color:#cfc3a8;font:13px/1.45 var(--font);background:#000a;padding:8px 12px;border-radius:8px}
+.hint b{color:#fff}.hint .pro{color:#9fd49b}.hint .con{color:#f0a49c}
+</style>
+<body>
+<div class="hint" id="hint"></div>
+<script src="common.js"></script>
+<script>
+const P = Proto;
+const MAX_ROWS = 10;
+let ringEl = null;
+
+const polar = (cx, r, deg) => [cx + r * Math.cos(deg * Math.PI / 180), cx + r * Math.sin(deg * Math.PI / 180)];
+/** Health tier from the SEGMENTS only: 1 = healthy/hurt, 2 = bloodied (half or less), 3 = last stand (a quarter or less). */
+function tier(d) {
+	if (d.n === 1) {
+		return 1;
+	}
+	const f = d.filled / d.n;
+	return f <= 0.25 ? 3 : f <= 0.5 ? 2 : 1;
+}
+const stateWord = (d) => (["Healthy", "Alive"].includes(d.healthState) ? "" : d.healthState);
+const hoverRing = (cx, r, color) => `<circle class="hv" cx="${cx}" cy="${cx}" r="${r}" stroke="${color}"/>`;
+const roleIcon = (d, color) => (d.role?.icon ? `<span class="role" style="color:${color}"><i class="${d.role.icon}"></i></span>` : "");
+
+/*
+ * Each variant returns { svg, html, radius, plateTop, plate? }.
+ * radius is the ring radius the effect strip keeps clear of; plate (optional) replaces the default name plate.
+ */
+const VARIANTS = [
+	{
+		key: "C", name: "Reference: flat gem pill",
+		note: `<span class="pro">+ What you picked: tiny, countable, on the token.</span><br><span class="con">- The pill is flat while the token is round; a 6-gem PC row sticks out sideways.</span>`,
+		build({ d, size, pad, cx, color }) {
+			const r = size / 2 + 4;
+			const half = d.n / 2;
+			const gems = d.segments.map((on, i) => `<span class="gem${on ? " on" : ""}"></span>${d.n > 1 && i === half - 1 ? `<span class="gsep"></span>` : ""}`).join("");
+			return { svg: hoverRing(cx, r, color), html: `<div class="gems" style="left:${cx}px;top:${pad + size - 11}px">${gems}</div>`, radius: r, plateTop: pad + size + 12 };
+		},
+	},
+	{
+		key: "1", name: "Bead arc",
+		note: `<span class="pro">+ Follows the token's curve, so wide rows wrap round it instead of sticking out. Beads sit on the hover ring: one object, no pill.</span><br><span class="con">- No backing, so on busy tokens beads can get lost; relies on their dark outline.</span>`,
+		build({ d, size, pad, cx, color }) {
+			const r = size / 2 + 4;
+			const bead = Math.max(8, Math.min(14, size * 0.2));
+			const step = (bead + 3.5) / r * 180 / Math.PI;
+			const sepExtra = d.n > 1 ? 7 / r * 180 / Math.PI : 0;
+			const total = (d.n - 1) * step + sepExtra;
+			let angle = 90 - total / 2;
+			let svg = hoverRing(cx, r, color);
+			const half = d.n / 2;
+			d.segments.forEach((on, i) => {
+				const [x, y] = polar(cx, r, angle);
+				svg += `<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="${bead / 2}" fill="${on ? "url(#bead)" : "#302b2a"}" stroke="${on ? "#2b0508" : "#6a5b45"}" stroke-width="1.6"/>`;
+				if (on) {
+					svg += `<circle cx="${(x - bead * 0.16).toFixed(2)}" cy="${(y - bead * 0.18).toFixed(2)}" r="${bead * 0.14}" fill="#ffffff80"/>`;
+				}
+				if (d.n > 1 && i === half - 1) {
+					const mid = angle + (step + sepExtra) / 2;
+					const [x0, y0] = polar(cx, r - bead / 2 - 2, mid);
+					const [x1, y1] = polar(cx, r + bead / 2 + 3, mid);
+					svg += `<line x1="${x0.toFixed(2)}" y1="${y0.toFixed(2)}" x2="${x1.toFixed(2)}" y2="${y1.toFixed(2)}" stroke="#f3e6c8" stroke-width="2" stroke-linecap="round"/>`;
+					angle += sepExtra;
+				}
+				angle += step;
+			});
+			return { svg, html: "", radius: r, plateTop: pad + size + 9 + bead / 2 };
+		},
+	},
+	{
+		key: "2", name: "Rail + role socket + tiers",
+		note: `<span class="pro">+ Role moves into the rail, so the plate is just a name. Gems warm up at bloodied and glow on the last one: the state is readable from colour AND count.</span><br><span class="con">- Widest of the three; the 4-tier colour change needs the bloodied colour to stay distinct from the strip's amber.</span>`,
+		build({ d, size, pad, cx, color }) {
+			const r = size / 2 + 4;
+			const t = tier(d);
+			const half = d.n / 2;
+			const gems = d.segments.map((on, i) => `<span class="fgem ${on ? `t${t}` : "empty"}"></span>${d.n > 1 && i === half - 1 ? `<span class="rsep"></span>` : ""}`).join("");
+			const socket = d.role ? `<span class="socket">${d.role.icon ? `<i class="${d.role.icon}"></i>` : `<i class="fa-solid fa-chess-pawn"></i>`}</span>` : "";
+			const html = `<div class="rail${d.role ? "" : " norole"}" style="left:${cx}px;top:${pad + size - 13}px">${socket}${gems}</div>`;
+			return { svg: hoverRing(cx, r, color), html, radius: r, plateTop: pad + size + 17, plateRole: false };
+		},
+	},
+	{
+		key: "3", name: "Unified tag",
+		note: `<span class="pro">+ One object instead of two: gems and name live in a single tag that hangs off the token. Shortest vertical footprint.</span><br><span class="con">- The tag is wider than the token, so neighbours can be covered; gems are read above the name, not on the token.</span>`,
+		build({ d, size, pad, cx, color }) {
+			const r = size / 2 + 4;
+			const half = d.n / 2;
+			const gems = d.segments.map((on, i) => `<span class="hex${on ? " on" : ""}"></span>${d.n > 1 && i === half - 1 ? `<span class="hsep"></span>` : ""}`).join("");
+			const st = stateWord(d);
+			const plate = `<div class="tag" style="top:${pad + size - 10}px"><div class="grow">${gems}</div>
+				<div class="nrow">${roleIcon(d, color)}<span style="${d.defeated ? "text-decoration:line-through" : ""}">${d.c.name}</span>${st ? `<span class="st">${st}</span>` : ""}</div></div>`;
+			return { svg: hoverRing(cx, r, color), html: "", radius: r, plateTop: 0, plate };
+		},
+	},
+];
+
+let current = Math.max(0, VARIANTS.findIndex((v) => v.key === new URLSearchParams(location.search).get("variant")));
+
+/** Soonest ending first; encounter-long, then open-ended last. */
+function effectRows(c) {
+	return c.effects.map((e) => ({ e, r: P.resolveEnd(c, e) })).sort((a, b) => {
+		const rank = (x) => (x.r.dist === null ? 1000 + (x.r.kind === "encounter" ? 0 : 1) : x.r.dist);
+		return rank(a) - rank(b);
+	});
+}
+function ending(r) {
+	switch (r.kind) {
+		case "save": return `<span class="sv">Save</span>`;
+		case "encounter": return `<i class="fa-solid fa-infinity"></i>`;
+		case "none": return "—";
+		default: return `${r.when === "start" ? "SoT" : "EoT"} ${r.who.short}`;
+	}
+}
+
+function showRing(c, el) {
+	hideRing();
+	const d = P.getData(c);
+	const board = scene.board;
+	const br = board.getBoundingClientRect();
+	const tr = el.getBoundingClientRect();
+	const size = Math.max(44, tr.width);
+	const pad = 30;
+	const W = size + pad * 2;
+	const cx = W / 2;
+	const color = P.ROLE_COLOR[d.role?.key] ?? "#997456";
+	const v = VARIANTS[current].build({ c, d, size, pad, cx, color });
+	const st = stateWord(d);
+	const showRole = v.plateRole !== false;
+	const plate = v.plate ?? `<div class="plate" style="top:${v.plateTop}px;${d.role ? `box-shadow:0 3px 8px #000b,0 0 10px ${color}55` : ""}">${showRole ? roleIcon(d, color) : ""}<span style="${d.defeated ? "text-decoration:line-through" : ""}">${c.name}</span>${st ? `<span class="st">${st}</span>` : ""}</div>`;
+	ringEl = document.createElement("div");
+	ringEl.className = "ring";
+	ringEl.style.cssText = `left:${tr.left - br.left + tr.width / 2 - W / 2}px;top:${tr.top - br.top + tr.height / 2 - W / 2}px;width:${W}px;height:${W}px;--rc:${color}`;
+	ringEl.innerHTML = `<svg viewBox="0 0 ${W} ${W}"><defs><radialGradient id="bead" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#ff7d86"/><stop offset=".6" stop-color="#b31d2c"/><stop offset="1" stop-color="#6a0d16"/></radialGradient></defs>${v.svg}</svg>${v.html}${plate}`;
+	board.appendChild(ringEl);
+
+	const rows = effectRows(c);
+	if (!rows.length) {
+		return;
+	}
+	const shown = rows.length > MAX_ROWS ? rows.slice(0, MAX_ROWS - 1) : rows;
+	const fl = document.createElement("div");
+	fl.className = "fl";
+	fl.innerHTML = shown.map(({ e, r }) => {
+		const soon = r.dist !== null && r.dist <= 1;
+		const under = !e.condition && e.desc;
+		return `<div class="fr${soon ? " soon" : ""}${under ? " d" : ""}"><span class="fi"><i class="${e.icon}"></i></span><span class="fn"${e.ongoing ? ` style="color:#ffb27a"` : ""}>${e.name}</span><span class="fe">${ending(r)}</span>${under ? `<span class="fd">${e.desc}</span>` : ""}</div>`;
+	}).join("") + (rows.length > shown.length ? `<div class="fr more">+${rows.length - shown.length} more</div>` : "");
+	ringEl.appendChild(fl);
+	const lw = fl.offsetWidth;
+	const lh = fl.offsetHeight;
+	const gap = 16;
+	const edge = v.radius + 8;
+	const frameLeft = tr.left + tr.width / 2 - W / 2;
+	const frameTop = tr.top + tr.height / 2 - W / 2;
+	const flip = frameLeft + cx + edge + gap + lw > innerWidth - 8;
+	let top = cx - lh / 2;
+	const viewTop = frameTop + top;
+	top += Math.max(48, Math.min(viewTop, innerHeight - lh - 56)) - viewTop;
+	const stub = document.createElement("div");
+	stub.className = "stub";
+	stub.style.cssText = `width:${gap}px;top:${cx - 1}px;left:${flip ? cx - edge - gap : cx + edge}px`;
+	fl.classList.toggle("flip", flip);
+	fl.style.left = `${flip ? cx - edge - gap - lw : cx + edge + gap}px`;
+	fl.style.top = `${top}px`;
+	ringEl.appendChild(stub);
+}
+function hideRing() {
+	ringEl?.remove();
+	ringEl = null;
+}
+const redraw = () => {
+	if (P.state.hoverId) {
+		showRing(P.byId(P.state.hoverId), scene.els.get(P.state.hoverId));
+	}
+};
+const scene = P.mount({
+	onHover: (c, el) => showRing(c, el),
+	onLeave: hideRing,
+	onChange: redraw,
+});
+
+/* HP presets for the hovered token: 1-5 = 100 / 75 / 50 / 25 / 0 percent */
+addEventListener("keydown", (ev) => {
+	const c = P.state.hoverId ? P.byId(P.state.hoverId) : null;
+	const level = { 1: 1, 2: 0.75, 3: 0.5, 4: 0.25, 5: 0 }[ev.key];
+	if (c && level !== undefined) {
+		c.hp = level === 0 ? 0 : Math.max(1, Math.round(c.max * level));
+		scene.refresh();
+	}
+});
+
+/* variant switcher */
+document.body.insertAdjacentHTML("beforeend", `<div class="vbar"><button id="vprev" aria-label="Previous design">‹</button><span class="lbl" id="vlbl"></span><div class="dots" id="vdots"></div><button id="vnext" aria-label="Next design">›</button><a href="index.html">All</a></div>`);
+function setVariant(index) {
+	current = (index + VARIANTS.length) % VARIANTS.length;
+	const v = VARIANTS[current];
+	history.replaceState(null, "", `?variant=${v.key}`);
+	document.getElementById("vlbl").textContent = `${v.key} · ${v.name}`;
+	document.getElementById("vdots").innerHTML = VARIANTS.map((o, i) => `<i data-i="${i}" class="${i === current ? "cur" : ""}" title="${o.name}"></i>`).join("");
+	document.getElementById("hint").innerHTML = `<b>${v.key} - ${v.name}.</b> Hover a token; press <kbd>1</kbd>-<kbd>5</kbd> to set its HP to 100 / 75 / 50 / 25 / 0%. Compare Hana (6 gems), Gorrak (elite), a goblin (minion) and Vorhaal (2x2); also Kess next to Hana (tight cluster).<br>${v.note}`;
+	redraw();
+}
+document.getElementById("vprev").onclick = () => setVariant(current - 1);
+document.getElementById("vnext").onclick = () => setVariant(current + 1);
+document.getElementById("vdots").onclick = (ev) => ev.target.dataset.i && setVariant(Number(ev.target.dataset.i));
+addEventListener("keydown", (ev) => {
+	if (ev.target.matches?.("input,select,textarea")) {
+		return;
+	}
+	if (ev.key === "ArrowRight") {
+		setVariant(current + 1);
+	} else if (ev.key === "ArrowLeft") {
+		setVariant(current - 1);
+	}
+});
+setVariant(current);
+</script>
+</body>
+</html>

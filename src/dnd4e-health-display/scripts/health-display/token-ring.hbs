@@ -1,32 +1,23 @@
 <div class="dnd4e-token-ring__frame{{#if role}} is-{{role.key}}{{/if}}" style="width: {{outer}}px; height: {{outer}}px;">
-	<svg class="dnd4e-token-ring__svg" viewBox="0 0 {{outer}} {{outer}}" role="img" aria-label="{{healthLabel}}">
-		<defs>
-			<linearGradient id="dnd4e-token-ring-hp" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="{{outer}}">
-				<stop offset="0" stop-color="#e2545e"/>
-				<stop offset="0.55" stop-color="#9a1a28"/>
-				<stop offset="1" stop-color="#6a0d16"/>
-			</linearGradient>
-		</defs>
-		<path class="dnd4e-token-ring__bar-border" d="{{bar}}"/>
-		<path class="dnd4e-token-ring__bar-back" d="{{bar}}"/>
-		{{#each segments}}
-			<path class="{{#if filled}}dnd4e-token-ring__fill{{else}}dnd4e-token-ring__empty{{/if}}" d="{{path}}"/>
-		{{/each}}
-		{{#if notch}}
-			<line class="dnd4e-token-ring__notch" x1="{{notch.x1}}" y1="{{notch.y1}}" x2="{{notch.x2}}" y2="{{notch.y2}}"/>
-		{{/if}}
+	<svg class="dnd4e-token-ring__svg" viewBox="0 0 {{outer}} {{outer}}" aria-hidden="true">
+		<circle class="dnd4e-token-ring__hover-ring" cx="{{centre}}" cy="{{centre}}" r="{{radius}}"/>
 	</svg>
 
-	<div class="dnd4e-token-ring__plate" style="top: {{plateTop}}px;">
-		{{#if role.icon}}
-			<span class="dnd4e-token-ring__role" title="{{role.label}}" aria-label="{{role.label}}">
-				<i class="{{role.icon}}" aria-hidden="true"></i>
-			</span>
-		{{/if}}
-		<span class="dnd4e-token-ring__name{{#if defeated}} is-defeated{{/if}}">{{name}}</span>
-		{{#if stateLabel}}
-			<span class="dnd4e-token-ring__state" aria-hidden="true">{{stateLabel}}</span>
-		{{/if}}
+	<div class="dnd4e-token-ring__tag" style="top: {{tagTop}}px;">
+		<svg class="dnd4e-token-ring__tag-shape" aria-hidden="true"></svg>
+		<div class="dnd4e-token-ring__gems" role="img" aria-label="{{healthLabel}}">
+			{{#each gems}}
+				<span class="dnd4e-token-ring__gem{{#if filled}} is-filled{{/if}}"></span>{{#if divider}}<span class="dnd4e-token-ring__gem-divider"></span>{{/if}}
+			{{/each}}
+		</div>
+		<div class="dnd4e-token-ring__namerow">
+			{{#if role.icon}}
+				<span class="dnd4e-token-ring__role" title="{{role.label}}" aria-label="{{role.label}}">
+					<i class="{{role.icon}}" aria-hidden="true"></i>
+				</span>
+			{{/if}}
+			<span class="dnd4e-token-ring__name{{#if defeated}} is-defeated{{/if}}">{{name}}</span>
+		</div>
 	</div>
 
 	{{#if effects.length}}

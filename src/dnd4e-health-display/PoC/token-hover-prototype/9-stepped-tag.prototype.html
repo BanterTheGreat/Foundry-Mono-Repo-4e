@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prototype 9 - Stepped tag</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Signika:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="common.css">
+<!--
+THROWAWAY PROTOTYPE - the "in-between" of prototype 8's unified tag and design C: the gems stay ABOVE the name, but both sit in ONE stepped silhouette,
+a narrow gem row stacked on a wider name row (   XXX / XXXXXX). The outline is a single SVG path with rounded corners and concave fillets where
+the two rows meet, drawn from the measured content, so it works for any name length and gem count (1, 4 or 6).
+Switch with the bar at the bottom (or left/right arrows); the choice lives in ?variant=.
+  C  Reference   - the flat gem pill plus a separate plate (design C from prototype 7).
+  1  Crown       - gem row centred on the name row, hanging just under the token (a step on both sides).
+  2  Folder tab  - gem row flush to the RIGHT edge, as in the sketch (a step on the left only).
+  3  Rim crown   - like 1, but the gem row overlaps the token's lower rim so the gems sit on the token and only the name row hangs below.
+Gem shape: the aid-bar select swaps Diamond (design C, default), Faceted (tiered colour, from prototype 8) and Hex.
+Everything is quantised (4 / 6 / 1 segments + state word), so no exact monster HP. No animations, no initiative counter.
+Prototype aid: hover a token and press 1-5 to set its HP to 100 / 75 / 50 / 25 / 0 %.
+-->
+<style>
+.ring{position:absolute;pointer-events:none;z-index:30}
+.ring svg.base{position:absolute;inset:0;overflow:visible}
+.ring .hv{fill:none;stroke-width:2;stroke-opacity:.8}
+
+/* gems */
+.gem{flex:none;width:11px;height:11px;transform:rotate(45deg);margin:2px;border:1.5px solid #a9896f;background:#302b2a;border-radius:2px}
+.gem.on{border-color:#e0707a;background:linear-gradient(135deg,#e2545e,#7a1220)}
+.fgem{flex:none;position:relative;width:15px;height:17px;margin:0 1px;clip-path:polygon(50% 0,100% 38%,50% 100%,0 38%);background:#302b2a}
+.fgem::after{content:"";position:absolute;left:3px;top:3px;width:5px;height:5px;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);background:#ffffff55}
+.fgem.empty::after{background:#ffffff10}
+.fgem.t1{background:linear-gradient(160deg,#e2545e,#7a1220)}
+.fgem.t2{background:linear-gradient(160deg,#ffb35c,#b4410e)}
+.fgem.t3{background:linear-gradient(160deg,#ff9a8f,#d0141e)}
+.hex{flex:none;width:14px;height:15px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:#302b2a}
+.hex.on{background:linear-gradient(160deg,#e2545e,#7a1220)}
+.gsep{flex:none;align-self:center;width:2px;height:16px;margin:0 3px;background:#f3e6c8;border-radius:1px;opacity:.85}
+
+/* reference: pill + plate */
+.gems{position:absolute;display:flex;align-items:center;gap:4px;transform:translateX(-50%);padding:3px 7px;border-radius:999px;background:#08080ad9;border:1px solid var(--rc);box-shadow:0 2px 6px #000b}
+.plate{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;
+  padding:3px 12px 4px;border-radius:999px;background:#08080ad9;border:1px solid var(--rc);box-shadow:0 3px 8px #000b;font:700 15px var(--font);letter-spacing:.02em;text-shadow:0 1px 2px #000}
+
+/* stepped tag */
+.stag{position:absolute;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;white-space:nowrap;text-shadow:0 1px 2px #000;
+  filter:drop-shadow(0 3px 5px #000c)}
+.stag.right{align-items:flex-end}
+.stag svg.sh{position:absolute;left:0;top:0;overflow:visible;z-index:0}
+.stag .tabrow{position:relative;z-index:1;display:flex;align-items:center;padding:4px 10px 3px}
+.stag .namerow{position:relative;z-index:1;align-self:stretch;display:flex;align-items:center;justify-content:center;gap:6px;padding:3px 14px 6px;font:700 15px var(--font);letter-spacing:.02em}
+.role{font-size:11px}
+.st{font:800 9px var(--font);letter-spacing:.1em;text-transform:uppercase;color:#f1b9b9}
+
+/* effect strip: same as prototype 6 */
+.stub{position:absolute;height:2px;background:var(--rc);opacity:.85}
+.fl{position:absolute;min-width:260px;max-width:380px;padding:4px 7px 4px 6px;background:#08080adf;border:1px solid #997456aa;border-left:3px solid var(--rc);
+  border-radius:4px 9px 9px 4px;box-shadow:0 6px 16px #000b}
+.fl.flip{border-left:1px solid #997456aa;border-right:3px solid var(--rc);border-radius:9px 4px 4px 9px}
+.fr{display:grid;grid-template-columns:18px 1fr auto;gap:0 7px;min-height:22px;align-items:center}
+.fr.d{grid-template-areas:"i n e" ". d d";padding:3px 0 4px;align-items:start}
+.fr.d .fi{grid-area:i;margin-top:2px}.fr.d .fn{grid-area:n;align-self:center}.fr.d .fe{grid-area:e;align-self:center}
+.fd{grid-area:d;font:400 11px/1.3 var(--font);color:#bdb092;white-space:normal}
+.fr + .fr{border-top:1px solid #ffffff0d}
+.fi{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:9px;background:radial-gradient(circle at 35% 30%,#2b2625,#0b0a0b);border:1px solid #b08a63}
+.fn{font:600 12.5px var(--font);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fe{font:700 10px var(--font);letter-spacing:.06em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
+.fe .sv{color:#8fc2e6}
+.fr.soon .fe{color:#f0b455}.fr.soon .fi{border-color:#f0b455;color:#f0b455}
+.fr.more{display:block;padding:2px 0 0 25px;font:700 10px var(--font);letter-spacing:.06em;color:var(--dim)}
+
+/* prototype chrome */
+.vbar{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);z-index:210;display:flex;align-items:center;gap:6px;padding:4px;border-radius:999px;background:#fff;color:#111;
+  box-shadow:0 4px 18px #0009;font:600 13px system-ui,sans-serif;user-select:none}
+.vbar button{border:0;background:#eee;color:#111;border-radius:999px;width:28px;height:28px;font-size:16px;cursor:pointer}
+.vbar button:hover{background:#ddd}
+.vbar .lbl{min-width:200px;text-align:center}
+.vbar .dots{display:flex;gap:4px;margin:0 4px}
+.vbar .dots i{width:8px;height:8px;border-radius:50%;background:#ccc;cursor:pointer}.vbar .dots i.cur{background:#111}
+.vbar a{color:#111;text-decoration:none;padding:4px 10px;border-radius:999px}.vbar a:hover{background:#eee}
+.hint{position:fixed;left:16px;bottom:16px;z-index:100;max-width:420px;color:#cfc3a8;font:13px/1.45 var(--font);background:#000a;padding:8px 12px;border-radius:8px}
+.hint b{color:#fff}.hint .pro{color:#9fd49b}.hint .con{color:#f0a49c}
+</style>
+<body>
+<div class="hint" id="hint"></div>
+<script src="common.js"></script>
+<script>
+const P = Proto;
+const MAX_ROWS = 10;
+let ringEl = null;
+let gemStyle = "diamond";
+
+/** Health tier from the SEGMENTS only: 1 = healthy/hurt, 2 = bloodied (half or less), 3 = last stand (a quarter or less). */
+function tier(d) {
+	if (d.n === 1) {
+		return 1;
+	}
+	const f = d.filled / d.n;
+	return f <= 0.25 ? 3 : f <= 0.5 ? 2 : 1;
+}
+const stateWord = (d) => (["Healthy", "Alive"].includes(d.healthState) ? "" : d.healthState);
+const hoverRing = (cx, r, color) => `<circle class="hv" cx="${cx}" cy="${cx}" r="${r}" stroke="${color}"/>`;
+const roleIcon = (d, color) => (d.role?.icon ? `<span class="role" style="color:${color}"><i class="${d.role.icon}"></i></span>` : "");
+
+/** The gem row in the chosen shape, with a divider at the bloodied mark. */
+function gemRow(d) {
+	const half = d.n / 2;
+	return d.segments.map((on, i) => {
+		let gem;
+		if (gemStyle === "faceted") {
+			gem = `<span class="fgem ${on ? `t${tier(d)}` : "empty"}"></span>`;
+		} else if (gemStyle === "hex") {
+			gem = `<span class="hex${on ? " on" : ""}"></span>`;
+		} else {
+			gem = `<span class="gem${on ? " on" : ""}"></span>`;
+		}
+		return gem + (d.n > 1 && i === half - 1 ? `<span class="gsep"></span>` : "");
+	}).join("");
+}
+
+/** Markup for one stepped tag: an SVG outline behind a narrow gem row stacked on a wider name row. */
+function stepTag(d, c, color, align, top) {
+	const st = stateWord(d);
+	return `<div class="stag ${align}" data-align="${align}" style="top:${top}px;--rc:${color}"><svg class="sh"></svg>
+		<div class="tabrow">${gemRow(d)}</div>
+		<div class="namerow">${roleIcon(d, color)}<span style="${d.defeated ? "text-decoration:line-through" : ""}">${c.name}</span>${st ? `<span class="st">${st}</span>` : ""}</div></div>`;
+}
+
+/**
+ * Measure the tag and draw its single stepped outline, with rounded convex corners and concave fillets where the rows meet.
+ * `overlap` raises the tag so the gem row sits on the token's rim (variant 3).
+ */
+function shapeTag(root, color, overlap) {
+	const tag = root.querySelector(".stag");
+	if (!tag) {
+		return;
+	}
+	const tab = tag.querySelector(".tabrow");
+	const name = tag.querySelector(".namerow");
+	const flush = tag.dataset.align === "right";
+	name.style.minWidth = `${tab.offsetWidth + (flush ? 14 : 24)}px`;
+	const pw = tag.offsetWidth;
+	const th = tab.offsetHeight;
+	const ph = name.offsetHeight;
+	const H = th + ph;
+	const x0 = tab.offsetLeft;
+	const x1 = x0 + tab.offsetWidth;
+	const Rt = Math.min(9, th / 2);
+	const Rp = Math.min(11, ph / 2);
+	const f = 5;
+	const leftStep = x0 > 1;
+	const rightStep = x1 < pw - 1;
+	let d = `M${x0} ${Rt}A${Rt} ${Rt} 0 0 1 ${x0 + Rt} 0H${x1 - Rt}A${Rt} ${Rt} 0 0 1 ${x1} ${Rt}`;
+	if (rightStep) {
+		d += `V${th - f}A${f} ${f} 0 0 0 ${x1 + f} ${th}H${pw - Rp}A${Rp} ${Rp} 0 0 1 ${pw} ${th + Rp}`;
+	}
+	d += `V${H - Rp}A${Rp} ${Rp} 0 0 1 ${pw - Rp} ${H}H${Rp}A${Rp} ${Rp} 0 0 1 0 ${H - Rp}`;
+	if (leftStep) {
+		d += `V${th + Rp}A${Rp} ${Rp} 0 0 1 ${Rp} ${th}H${x0 - f}A${f} ${f} 0 0 0 ${x0} ${th - f}Z`;
+	} else {
+		d += `V${Rt}Z`;
+	}
+	const svg = tag.querySelector("svg.sh");
+	svg.setAttribute("width", pw);
+	svg.setAttribute("height", H);
+	svg.setAttribute("viewBox", `0 0 ${pw} ${H}`);
+	svg.innerHTML = `<path d="${d}" fill="#0b0a0d" fill-opacity=".94" stroke="${color}" stroke-width="1.2" stroke-linejoin="round"/>`;
+	if (overlap) {
+		tag.style.top = `${parseFloat(tag.style.top) - th * 0.78}px`;
+	}
+}
+
+const VARIANTS = [
+	{
+		key: "C", name: "Reference: pill + plate",
+		note: `<span class="pro">+ What you picked: tiny, countable, on the token.</span><br><span class="con">- Two separate objects that don't line up; the pill is flat while the token is round.</span>`,
+		build({ d, c, size, pad, cx, color }) {
+			const r = size / 2 + 4;
+			const st = stateWord(d);
+			const html = `<div class="gems" style="left:${cx}px;top:${pad + size - 11}px">${gemRow(d)}</div>
+				<div class="plate" style="top:${pad + size + 12}px">${roleIcon(d, color)}<span style="${d.defeated ? "text-decoration:line-through" : ""}">${c.name}</span>${st ? `<span class="st">${st}</span>` : ""}</div>`;
+			return { svg: hoverRing(cx, r, color), html, radius: r };
+		},
+	},
+	{
+		key: "1", name: "Crown (centred)",
+		note: `<span class="pro">+ Gems above the name in one silhouette, symmetrical, like a little crest under the token.</span><br><span class="con">- The tab only just reads as a step when the name is barely wider than the gems (6-gem PCs).</span>`,
+		build({ d, c, size, pad, cx, color }) {
+			const r = size / 2 + 4;
+			return { svg: hoverRing(cx, r, color), html: stepTag(d, c, color, "center", pad + size + 3), radius: r, shape: { overlap: false } };
+		},
+	},
+	{
+		key: "2", name: "Folder tab (right-aligned, as sketched)",
+		note: `<span class="pro">+ Exactly the shape you drew: the gem row is a tab flush right, so only one step. Reads as a tag with a flag.</span><br><span class="con">- Lopsided under a round token; the left side of the name row has nothing above it.</span>`,
+		build({ d, c, size, pad, cx, color }) {
+			const r = size / 2 + 4;
+			return { svg: hoverRing(cx, r, color), html: stepTag(d, c, color, "right", pad + size + 3), radius: r, shape: { overlap: false } };
+		},
+	},
+	{
+		key: "3", name: "Rim crown (gems on the token)",
+		note: `<span class="pro">+ Keeps what made C good, gems ON the token, while the name row joins them into one piece.</span><br><span class="con">- Covers the lower edge of the token art, like C did; the tag is the widest thing over small tokens.</span>`,
+		build({ d, c, size, pad, cx, color }) {
+			const r = size / 2 + 4;
+			return { svg: hoverRing(cx, r, color), html: stepTag(d, c, color, "center", pad + size + 3), radius: r, shape: { overlap: true } };
+		},
+	},
+];
+
+let current = Math.max(0, VARIANTS.findIndex((v) => v.key === new URLSearchParams(location.search).get("variant")));
+
+/** Soonest ending first; encounter-long, then open-ended last. */
+function effectRows(c) {
+	return c.effects.map((e) => ({ e, r: P.resolveEnd(c, e) })).sort((a, b) => {
+		const rank = (x) => (x.r.dist === null ? 1000 + (x.r.kind === "encounter" ? 0 : 1) : x.r.dist);
+		return rank(a) - rank(b);
+	});
+}
+function ending(r) {
+	switch (r.kind) {
+		case "save": return `<span class="sv">Save</span>`;
+		case "encounter": return `<i class="fa-solid fa-infinity"></i>`;
+		case "none": return "—";
+		default: return `${r.when === "start" ? "SoT" : "EoT"} ${r.who.short}`;
+	}
+}
+
+function showRing(c, el) {
+	hideRing();
+	const d = P.getData(c);
+	const board = scene.board;
+	const br = board.getBoundingClientRect();
+	const tr = el.getBoundingClientRect();
+	const size = Math.max(44, tr.width);
+	const pad = 30;
+	const W = size + pad * 2;
+	const cx = W / 2;
+	const color = P.ROLE_COLOR[d.role?.key] ?? "#997456";
+	const v = VARIANTS[current].build({ c, d, size, pad, cx, color });
+	ringEl = document.createElement("div");
+	ringEl.className = "ring";
+	ringEl.style.cssText = `left:${tr.left - br.left + tr.width / 2 - W / 2}px;top:${tr.top - br.top + tr.height / 2 - W / 2}px;width:${W}px;height:${W}px;--rc:${color}`;
+	ringEl.innerHTML = `<svg class="base" viewBox="0 0 ${W} ${W}">${v.svg}</svg>${v.html}`;
+	board.appendChild(ringEl);
+	if (v.shape) {
+		shapeTag(ringEl, color, v.shape.overlap);
+	}
+
+	const rows = effectRows(c);
+	if (!rows.length) {
+		return;
+	}
+	const shown = rows.length > MAX_ROWS ? rows.slice(0, MAX_ROWS - 1) : rows;
+	const fl = document.createElement("div");
+	fl.className = "fl";
+	fl.innerHTML = shown.map(({ e, r }) => {
+		const soon = r.dist !== null && r.dist <= 1;
+		const under = !e.condition && e.desc;
+		return `<div class="fr${soon ? " soon" : ""}${under ? " d" : ""}"><span class="fi"><i class="${e.icon}"></i></span><span class="fn"${e.ongoing ? ` style="color:#ffb27a"` : ""}>${e.name}</span><span class="fe">${ending(r)}</span>${under ? `<span class="fd">${e.desc}</span>` : ""}</div>`;
+	}).join("") + (rows.length > shown.length ? `<div class="fr more">+${rows.length - shown.length} more</div>` : "");
+	ringEl.appendChild(fl);
+	const lw = fl.offsetWidth;
+	const lh = fl.offsetHeight;
+	const gap = 16;
+	const edge = v.radius + 8;
+	const frameLeft = tr.left + tr.width / 2 - W / 2;
+	const frameTop = tr.top + tr.height / 2 - W / 2;
+	const flip = frameLeft + cx + edge + gap + lw > innerWidth - 8;
+	let top = cx - lh / 2;
+	const viewTop = frameTop + top;
+	top += Math.max(48, Math.min(viewTop, innerHeight - lh - 56)) - viewTop;
+	const stub = document.createElement("div");
+	stub.className = "stub";
+	stub.style.cssText = `width:${gap}px;top:${cx - 1}px;left:${flip ? cx - edge - gap : cx + edge}px`;
+	fl.classList.toggle("flip", flip);
+	fl.style.left = `${flip ? cx - edge - gap - lw : cx + edge + gap}px`;
+	fl.style.top = `${top}px`;
+	ringEl.appendChild(stub);
+}
+function hideRing() {
+	ringEl?.remove();
+	ringEl = null;
+}
+const redraw = () => {
+	if (P.state.hoverId) {
+		showRing(P.byId(P.state.hoverId), scene.els.get(P.state.hoverId));
+	}
+};
+const scene = P.mount({
+	aids: `<label>Gems <select id="gstyle"><option value="diamond">Diamond (C)</option><option value="faceted">Faceted + tiers</option><option value="hex">Hex</option></select></label>`,
+	onAids: (bar) => bar.querySelector("#gstyle").onchange = (ev) => {
+		gemStyle = ev.target.value;
+		redraw();
+	},
+	onHover: (c, el) => showRing(c, el),
+	onLeave: hideRing,
+	onChange: redraw,
+});
+
+/* HP presets for the hovered token: 1-5 = 100 / 75 / 50 / 25 / 0 percent */
+addEventListener("keydown", (ev) => {
+	const c = P.state.hoverId ? P.byId(P.state.hoverId) : null;
+	const level = { 1: 1, 2: 0.75, 3: 0.5, 4: 0.25, 5: 0 }[ev.key];
+	if (c && level !== undefined) {
+		c.hp = level === 0 ? 0 : Math.max(1, Math.round(c.max * level));
+		scene.refresh();
+	}
+});
+
+/* variant switcher */
+document.body.insertAdjacentHTML("beforeend", `<div class="vbar"><button id="vprev" aria-label="Previous design">‹</button><span class="lbl" id="vlbl"></span><div class="dots" id="vdots"></div><button id="vnext" aria-label="Next design">›</button><a href="index.html">All</a></div>`);
+function setVariant(index) {
+	current = (index + VARIANTS.length) % VARIANTS.length;
+	const v = VARIANTS[current];
+	history.replaceState(null, "", `?variant=${v.key}`);
+	document.getElementById("vlbl").textContent = `${v.key} · ${v.name}`;
+	document.getElementById("vdots").innerHTML = VARIANTS.map((o, i) => `<i data-i="${i}" class="${i === current ? "cur" : ""}" title="${o.name}"></i>`).join("");
+	document.getElementById("hint").innerHTML = `<b>${v.key} - ${v.name}.</b> Hover a token; press <kbd>1</kbd>-<kbd>5</kbd> to set its HP to 100 / 75 / 50 / 25 / 0%. Compare Hana (6 gems), Kess (short name), a goblin (1 gem) and Vorhaal (2x2).<br>${v.note}`;
+	redraw();
+}
+document.getElementById("vprev").onclick = () => setVariant(current - 1);
+document.getElementById("vnext").onclick = () => setVariant(current + 1);
+document.getElementById("vdots").onclick = (ev) => ev.target.dataset.i && setVariant(Number(ev.target.dataset.i));
+addEventListener("keydown", (ev) => {
+	if (ev.target.matches?.("input,select,textarea")) {
+		return;
+	}
+	if (ev.key === "ArrowRight") {
+		setVariant(current + 1);
+	} else if (ev.key === "ArrowLeft") {
+		setVariant(current - 1);
+	}
+});
+setVariant(current);
+</script>
+</body>
+</html>

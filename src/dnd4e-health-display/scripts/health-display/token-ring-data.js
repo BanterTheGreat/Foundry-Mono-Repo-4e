@@ -1,87 +1,69 @@
 /**
- * Pure presentation rules for the optional token-ring hover display: ring geometry, effect endings and ordering,
- * and where the effect strip sits beside the ring. Nothing here touches Foundry globals.
+ * Pure presentation rules for the optional token-ring hover display: gems, the stepped name tag, effect endings and
+ * ordering, and where the effect strip sits beside the token. Nothing here touches Foundry globals.
  */
 
-export const RING_PADDING = 24;
+export const RING_PADDING = 30;
 export const MIN_RING_SIZE = 44;
 export const MAX_EFFECT_ROWS = 10;
+/** How far the gem row rises into the token, as a fraction of its own height. */
+export const RIM_OVERLAP = 0.78;
 
-const ARC_START = 125;
-const ARC_SWEEP = 290;
-const SEGMENT_GAP = 3.5;
-const BAR_PADDING = 3.5;
+const RING_OFFSET = 4;
+const TAG_GAP = 3;
 const STRIP_GAP = 16;
 const NAME_LENGTH_LIMIT = 14;
 const OPEN_ENDED_RANK = 1000;
 
 /**
- * Convert polar coordinates around a centre to an SVG point.
- *
- * @param {number} centre Centre on both axes.
- * @param {number} radius Distance from the centre.
- * @param {number} degrees Angle in degrees, 0 pointing right and increasing clockwise.
- * @returns {{x: number, y: number}}
- */
-function polar(centre, radius, degrees) {
-	const radians = degrees * Math.PI / 180;
-	return { x: centre + radius * Math.cos(radians), y: centre + radius * Math.sin(radians) };
-}
-
-/**
- * Build an SVG arc path between two angles.
- *
- * @param {number} centre Centre on both axes.
- * @param {number} radius Arc radius.
- * @param {number} from Start angle in degrees.
- * @param {number} to End angle in degrees.
- * @returns {string}
- */
-function arcPath(centre, radius, from, to) {
-	const start = polar(centre, radius, from);
-	const end = polar(centre, radius, to);
-	return `M${start.x.toFixed(2)} ${start.y.toFixed(2)}A${radius} ${radius} 0 ${to - from > 180 ? 1 : 0} 1 ${end.x.toFixed(2)} ${end.y.toFixed(2)}`;
-}
-
-/**
- * Build the segmented health arc. It spans 290 degrees with its gap at the bottom, where the name plate sits.
- * The segments sit inside one bordered bar, like the classic health bar, so the gaps read as divisions of a single bar.
+ * Turn the health segments into gems. A divider follows the middle gem so the bloodied point is visible.
  *
  * @param {boolean[]} filled Whether each segment is filled, in drain order.
- * @param {number} size Token diameter in pixels.
- * @returns {object}
+ * @returns {Array<{filled: boolean, divider: boolean}>}
  */
-export function buildRingGeometry(filled, size) {
-	const outer = size + RING_PADDING * 2;
-	const centre = outer / 2;
-	const radius = size / 2 + 9;
-	const count = Math.max(1, filled.length);
-	const span = ARC_SWEEP / count;
-	const gap = count > 1 ? SEGMENT_GAP : 0;
-	const segments = filled.map((isFilled, index) => {
-		const path = arcPath(centre, radius, ARC_START + index * span + gap / 2, ARC_START + (index + 1) * span - gap / 2);
-		return { filled: isFilled, path };
-	});
-	let notch = null;
+export function buildGems(filled) {
+	const half = filled.length / 2;
+	return filled.map((isFilled, index) => ({
+		filled: isFilled,
+		divider: filled.length > 1 && index === half - 1,
+	}));
+}
 
-	if (count > 1) {
-		const angle = ARC_START + ARC_SWEEP / 2;
-		const inner = polar(centre, radius - 6, angle);
-		const outerPoint = polar(centre, radius + 10, angle);
-		notch = { x1: inner.x, y1: inner.y, x2: outerPoint.x, y2: outerPoint.y };
+/**
+ * Build the outline of the stepped tag: a narrow gem row stacked on a wider name row, as one shape with rounded
+ * corners and concave fillets where the rows meet. A gem row flush with either edge simply has no step on that side.
+ *
+ * @param {object} measure Measured sizes in pixels.
+ * @param {number} measure.width Width of the whole tag (the name row).
+ * @param {number} measure.tabHeight Height of the gem row.
+ * @param {number} measure.plateHeight Height of the name row.
+ * @param {number} measure.tabLeft Left edge of the gem row inside the tag.
+ * @param {number} measure.tabWidth Width of the gem row.
+ * @returns {{path: string, width: number, height: number}}
+ */
+export function buildTagOutline({ width, tabHeight, plateHeight, tabLeft, tabWidth }) {
+	const height = tabHeight + plateHeight;
+	const tabRight = tabLeft + tabWidth;
+	const tabRadius = Math.min(9, tabHeight / 2);
+	const plateRadius = Math.min(11, plateHeight / 2);
+	const fillet = 5;
+	const leftStep = tabLeft > 1;
+	const rightStep = tabRight < width - 1;
+	let path = `M${tabLeft} ${tabRadius}A${tabRadius} ${tabRadius} 0 0 1 ${tabLeft + tabRadius} 0H${tabRight - tabRadius}A${tabRadius} ${tabRadius} 0 0 1 ${tabRight} ${tabRadius}`;
+
+	if (rightStep) {
+		path += `V${tabHeight - fillet}A${fillet} ${fillet} 0 0 0 ${tabRight + fillet} ${tabHeight}H${width - plateRadius}A${plateRadius} ${plateRadius} 0 0 1 ${width} ${tabHeight + plateRadius}`;
 	}
 
-	// The bar's round caps reach past its path ends, so pull the ends in to leave a little padding around the segments.
-	const inset = BAR_PADDING / radius * 180 / Math.PI;
+	path += `V${height - plateRadius}A${plateRadius} ${plateRadius} 0 0 1 ${width - plateRadius} ${height}H${plateRadius}A${plateRadius} ${plateRadius} 0 0 1 0 ${height - plateRadius}`;
 
-	return {
-		outer,
-		centre,
-		radius,
-		segments,
-		notch,
-		bar: arcPath(centre, radius, ARC_START + inset, ARC_START + ARC_SWEEP - inset),
-	};
+	if (leftStep) {
+		path += `V${tabHeight + plateRadius}A${plateRadius} ${plateRadius} 0 0 1 ${plateRadius} ${tabHeight}H${tabLeft - fillet}A${fillet} ${fillet} 0 0 0 ${tabLeft} ${tabHeight - fillet}Z`;
+	} else {
+		path += `V${tabRadius}Z`;
+	}
+
+	return { path, width, height };
 }
 
 /**
@@ -205,22 +187,19 @@ export function buildEffectRows(effects) {
  */
 export function buildTokenRingData(display, { size }) {
 	const ringSize = Math.max(MIN_RING_SIZE, Math.round(size));
-	const geometry = buildRingGeometry((display.segments ?? []).map((segment) => Boolean(segment.filled)), ringSize);
+	const outer = ringSize + RING_PADDING * 2;
 	const { rows, overflow } = buildEffectRows(display.effects);
 
 	return {
 		size: ringSize,
-		outer: geometry.outer,
-		centre: geometry.centre,
-		radius: geometry.radius,
-		segments: geometry.segments,
-		notch: geometry.notch,
-		bar: geometry.bar,
-		plateTop: RING_PADDING + ringSize + 4,
+		outer,
+		centre: outer / 2,
+		radius: ringSize / 2 + RING_OFFSET,
+		gems: buildGems((display.segments ?? []).map((segment) => Boolean(segment.filled))),
+		tagTop: RING_PADDING + ringSize + TAG_GAP,
 		name: display.name,
 		defeated: Boolean(display.defeated),
 		role: display.role ?? null,
-		stateLabel: ["Healthy", "Alive"].includes(display.healthState) ? "" : display.healthState,
 		healthLabel: display.healthLabel,
 		effects: rows,
 		overflow,
