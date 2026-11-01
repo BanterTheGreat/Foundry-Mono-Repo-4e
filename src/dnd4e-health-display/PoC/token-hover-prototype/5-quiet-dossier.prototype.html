@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prototype 5 - Quiet tokens + Alt dossier</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Signika:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="common.css">
+<!--
+THROWAWAY PROTOTYPE - idea 5: quiet by default, deeper on demand.
+Question: how much can live permanently ON the token so hover can shrink to a name tag?
+- Always on the token: bloodied = red vignette + cracks, last stand = pulsing red, defeated = greyed skull,
+  role pip (top-left), condition pips along the bottom edge (max 3, then "+N"), acting token has the gold ring.
+- Plain hover: a small name tag (role icon, name, turns until acting) and a faint "Alt" hint. Nothing else.
+- Hold Alt while hovering: the dossier opens (full HP bar, effects with durations, GM-only NPC traits).
+  Release Alt and it closes. (Alt is eaten so the browser menu bar does not steal focus.)
+-->
+<style>
+/* ----- permanent on-token state ----- */
+.token .disc{overflow:hidden}
+.token.bloodied .disc{box-shadow:0 3px 6px #000a,inset 0 0 0 100px #b0121a22,inset 0 0 calc(var(--cell)*var(--s)*.3) #d0141e}
+.token .crack{position:absolute;inset:7%;border-radius:50%;pointer-events:none;display:none;overflow:hidden}
+.token.bloodied .crack{display:block}
+.token .crack svg{width:100%;height:100%}
+.token .crack path{fill:none;stroke:#1a0306;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;opacity:.75}
+.token.last-stand .disc{animation:ls 1.1s ease-in-out infinite}
+@keyframes ls{50%{box-shadow:0 3px 6px #000a,inset 0 0 calc(var(--cell)*.5) #ff2a35}}
+.token.defeated .ini{display:none}
+.token.defeated .disc::after{content:"\f54c";font:900 calc(var(--cell)*var(--s)*.4)/1 "Font Awesome 6 Free";color:#d8d2c4;opacity:.8}
+.rolepip{position:absolute;left:0;top:0;width:calc(var(--cell)*.3);height:calc(var(--cell)*.3);min-width:16px;min-height:16px;border-radius:50%;display:grid;place-items:center;
+  font-size:calc(var(--cell)*.16);color:#fff;background:var(--rc);border:2px solid #0a090b;box-shadow:0 2px 4px #000a}
+.pips{position:absolute;left:50%;bottom:-4px;transform:translateX(-50%);display:flex;gap:2px;pointer-events:none}
+.pips span{width:calc(var(--cell)*.3);height:calc(var(--cell)*.3);min-width:16px;min-height:16px;border-radius:50%;display:grid;place-items:center;
+  font-size:calc(var(--cell)*.16);color:#f5eee5;background:radial-gradient(circle at 35% 30%,#33302f,#0b0a0b);border:1.5px solid #b08a63;box-shadow:0 2px 4px #000a}
+.pips .soon{border-color:#f0b455;color:#f0b455}
+.pips .more{font:700 10px var(--font)}
+
+/* ----- hover: name tag ----- */
+.tag{position:absolute;z-index:30;transform:translateX(-50%);display:flex;align-items:center;gap:6px;white-space:nowrap;padding:2px 11px 3px;border-radius:999px;pointer-events:none;
+  background:#08080ad9;border:1px solid #997456b3;box-shadow:0 3px 8px #000b;font:700 14px var(--font);text-shadow:0 1px 2px #000;animation:tagIn .12s ease-out}
+@keyframes tagIn{from{opacity:0;transform:translateX(-50%) translateY(-3px)}}
+.tag .hour{font-size:11px;color:var(--gold);display:inline-flex;gap:3px;align-items:center}
+.tag .alt{font:700 9px monospace;color:#b7a98a;border:1px solid #fff3;border-radius:3px;padding:0 4px;opacity:.75}
+
+/* ----- Alt: dossier ----- */
+.doss{position:absolute;z-index:40;width:330px;pointer-events:none;color:var(--ink);font-family:var(--font);
+  background:linear-gradient(180deg,#1b1816f5,#0a090bf7);border:1px solid #997456b3;border-radius:.65rem;padding:10px 12px;box-shadow:0 12px 32px #000d,inset 0 1px #ffffff12;animation:tagIn .12s ease-out;
+  transform:none}
+.doss .h{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.doss .n{flex:1;font:700 1.2rem/1.15 var(--font)}
+.doss .n.dead{text-decoration:line-through}
+.doss .r{font:700 10px var(--font);letter-spacing:.1em;text-transform:uppercase;color:var(--rc)}
+.doss .hour{color:var(--gold);font:700 12px var(--font)}
+.doss .hp-bar{height:1.3rem}
+.doss .lab{font:700 10px var(--font);letter-spacing:.12em;text-transform:uppercase;color:#a08a64;margin:10px 0 4px;display:flex;justify-content:space-between}
+.doss .lab .gm{color:#ff9b8f}
+.doss .e{display:flex;align-items:center;gap:8px;padding:3px 0}
+.doss .e .ic{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:11px;background:radial-gradient(circle at 35% 30%,#2b2625,#0b0a0b);border:1.5px solid #b08a63}
+.doss .e .nm{flex:1;font:600 13px var(--font)}
+.doss .e .du{font:700 10px var(--font);letter-spacing:.07em;text-transform:uppercase;color:var(--gold)}
+.doss .tr{font:12px/1.35 var(--font);color:#d8cdb6;margin-top:3px}.doss .tr b{color:var(--gold)}
+.doss .none{color:var(--dim);font:italic 13px var(--font)}
+.hint{position:fixed;left:16px;bottom:16px;z-index:100;max-width:360px;color:#cfc3a8;font:13px/1.4 var(--font);background:#000a;padding:8px 12px;border-radius:8px}
+</style>
+<body>
+<div class="hint"><b>5 - Quiet + Alt.</b> Look at the map <i>without</i> hovering: Kess/Gorrak/Vorhaal are bloodied, Tilda is nearly down, the third goblin is dead. Gorrak (8 effects) and Hana (6) show 3 pips + "+N" on the token; amber pips end this or next turn. Hover for the name tag; hold <kbd>Alt</kbd> for the dossier.</div>
+<script src="common.js"></script>
+<script>
+const P = Proto;
+let tag = null;
+let doss = null;
+let alt = false;
+
+const CRACK = `<svg viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M78 6 L66 30 L74 38 L58 62 L64 70 L48 98"/><path d="M66 30 L50 34 L44 46"/><path d="M58 62 L72 66 L80 82"/><path d="M6 60 L24 56 L30 70 L46 72"/></svg>`;
+
+function tokenExtra(d) {
+	const c = d.c;
+	const rc = P.ROLE_COLOR[d.role?.key] ?? "";
+	const role = d.role?.icon ? `<span class="rolepip" style="--rc:${rc}"><i class="${d.role.icon}"></i></span>` : "";
+	const shown = c.effects.slice(0, 3);
+	const pips = c.effects.length ? `<div class="pips">${shown.map((e) => {
+		const r = P.resolveEnd(c, e);
+		return `<span class="${r.dist !== null && r.dist <= 1 ? "soon" : ""}"><i class="${e.icon}"></i></span>`;
+	}).join("")}${c.effects.length > 3 ? `<span class="more">+${c.effects.length - 3}</span>` : ""}</div>` : "";
+	return `<div class="crack">${CRACK}</div>${role}${pips}`;
+}
+
+function place(node, el, below) {
+	const br = scene.board.getBoundingClientRect();
+	const tr = el.getBoundingClientRect();
+	if (below) {
+		node.style.left = `${tr.left - br.left + tr.width / 2}px`;
+		node.style.top = `${tr.bottom - br.top + 14}px`;
+		return;
+	}
+	const w = node.offsetWidth;
+	const h = node.offsetHeight;
+	let left = tr.right + 12;
+	if (left + w > innerWidth - 8) {
+		left = tr.left - w - 12;
+	}
+	const top = Math.max(48, Math.min(tr.top + tr.height / 2 - 40, innerHeight - h - 56));
+	node.style.left = `${left - br.left}px`;
+	node.style.top = `${top - br.top}px`;
+}
+function clear() {
+	tag?.remove();
+	doss?.remove();
+	tag = doss = null;
+}
+function show() {
+	clear();
+	const id = P.state.hoverId;
+	if (!id) {
+		return;
+	}
+	const c = P.byId(id);
+	const el = scene.els.get(id);
+	const d = P.getData(c);
+	const rc = P.ROLE_COLOR[d.role?.key] ?? "#997456";
+	const turn = d.turn ? `<span class="hour"><i class="fa-solid fa-hourglass-half"></i> ${d.turn.count === 0 ? "now" : d.turn.count}</span>` : "";
+	if (!alt) {
+		tag = document.createElement("div");
+		tag.className = "tag";
+		tag.style.borderColor = `${rc}cc`;
+		tag.innerHTML = `${d.role?.icon ? `<i class="${d.role.icon}" style="color:${rc};font-size:11px"></i>` : ""}<span style="${d.defeated ? "text-decoration:line-through" : ""}">${c.name}</span>${turn}<span class="alt">Alt</span>`;
+		scene.board.appendChild(tag);
+		place(tag, el, true);
+		return;
+	}
+	const fx = c.effects.length ? c.effects.map((e) => {
+		const r = P.resolveEnd(c, e);
+		const du = r.kind === "save" ? "Save ends" : r.kind === "encounter" ? "Encounter" : r.kind === "none" ? "" : `${r.when === "start" ? "SoT" : "EoT"} ${r.who.short}`;
+		return `<div class="e"><span class="ic"><i class="${e.icon}"></i></span><span class="nm">${e.name}</span><span class="du">${du}</span></div>`;
+	}).join("") : `<div class="none">No effects</div>`;
+	const traits = P.state.gm && c.traits ? `<div class="lab"><span>Traits</span><span class="gm">GM ONLY</span></div>${c.traits.map((t) => `<div class="tr"><b>${t.name}.</b> ${t.text}</div>`).join("")}` : "";
+	doss = document.createElement("div");
+	doss.className = "doss";
+	doss.style.setProperty("--rc", rc);
+	doss.innerHTML = `<div class="h"><div><div class="n${d.defeated ? " dead" : ""}">${c.name}</div>${d.role ? `<div class="r">${d.role.label}</div>` : ""}</div><span style="flex:1"></span>${turn}</div>
+		${P.barHtml(d)}<div class="lab"><span>Effects</span></div>${fx}${traits}`;
+	scene.board.appendChild(doss);
+	place(doss, el, false);
+}
+
+const scene = P.mount({ tokenExtra, onHover: show, onLeave: clear, onChange: show });
+addEventListener("keydown", (ev) => {
+	if (ev.key === "Alt") {
+		ev.preventDefault();
+		if (!alt) {
+			alt = true;
+			show();
+		}
+	}
+});
+addEventListener("keyup", (ev) => {
+	if (ev.key === "Alt") {
+		ev.preventDefault();
+		alt = false;
+		show();
+	}
+});
+addEventListener("blur", () => {
+	alt = false;
+	show();
+});
+P.nav("5-quiet-dossier.prototype.html");
+</script>
+</body>
+</html>

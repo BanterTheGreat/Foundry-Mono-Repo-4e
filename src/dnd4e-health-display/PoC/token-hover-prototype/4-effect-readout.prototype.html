@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prototype 4 - Effect readout</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Signika:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="common.css">
+<!--
+THROWAWAY PROTOTYPE - idea 4: effects that say how they end.
+Question: if the effects ARE the hover display, what makes a row useful at a 4e table?
+- Anchored readout beside the token (flips left near the right edge, clamps to the viewport). Header is minimal: name + HP state.
+- Each effect row = icon, name, and a plain-language ending ("End of Vorhaal's turn" / "Save ends").
+- Rows are sorted by what ends soonest; anything ending this or next turn gets an amber tint.
+  Encounter-long and open-ended effects sink to the bottom.
+- 1-3 effects use a roomy two-line row; more than 3 (6-8 is normal) collapse to one line per effect.
+- No initiative track and no "next to end" footer (cut after the first round).
+Marking is intentionally NOT shown (the arrows already cover it).
+-->
+<style>
+.ro{position:absolute;z-index:40;width:350px;pointer-events:none;color:var(--ink);font-family:var(--font);
+  background:linear-gradient(180deg,#1b1816f5,#0a090bf7);border:1px solid #997456b3;border-radius:.65rem;box-shadow:0 10px 28px #000c,inset 0 1px #ffffff12;
+  animation:roIn .14s ease-out}
+@keyframes roIn{from{opacity:0;transform:translateX(var(--from,-6px))}}
+.ro .hd{display:flex;align-items:center;gap:8px;padding:8px 12px;border-left:3px solid var(--rc,#997456);border-radius:.65rem .65rem 0 0}
+.ro .nm{flex:1;min-width:0;font:700 1.1rem/1.15 var(--font);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ro .nm.dead{text-decoration:line-through}
+.ro .hs{flex:none;display:flex;align-items:center;gap:6px;font:800 10px var(--font);letter-spacing:.09em;text-transform:uppercase;color:#f1b9b9}
+.ro .mini{display:flex;gap:2px}.ro .mini s{display:block;width:9px;height:11px;border-radius:2px;background:#302b2a;text-decoration:none}
+.ro .mini s.on{background:linear-gradient(#d84b55,#7a1220)}
+.ro .hr{flex:none;color:var(--gold);font:700 11px var(--font)}
+.ro .cnt{flex:none;font:700 10px var(--font);letter-spacing:.08em;color:var(--dim);border:1px solid #fff2;border-radius:999px;padding:1px 7px}
+.rows{padding:6px;border-top:1px solid #ffffff14;display:flex;flex-direction:column;gap:4px}
+.er{display:grid;grid-template-columns:30px 1fr;gap:1px 9px;align-items:center;padding:6px 8px;border-radius:8px;background:#ffffff09;border:1px solid #ffffff10}
+.er.soon{background:linear-gradient(90deg,#e0a03a24,#ffffff08);border-color:#e0a03a77}
+.er .ic{grid-row:span 2;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:14px;background:radial-gradient(circle at 35% 30%,#2b2625,#0b0a0b);border:1.5px solid #b08a63}
+.er.soon .ic{border-color:#e0a03a}
+.er .t{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.er .en{font:700 14px var(--font)}
+.er .when{font:700 10px var(--font);letter-spacing:.08em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
+.er.soon .when{color:#f0b455}
+.er .how{font:12px var(--font);color:#cdbf9f}
+.er .inf{font-size:14px;color:var(--dim)}
+.sv{color:#8fc2e6}.og{color:#ff9f5a;font-weight:700}
+/* compact: one line per effect */
+.ro.compact{width:380px}
+.ro.compact .rows{gap:3px;padding:5px}
+.ro.compact .er{grid-template-columns:24px 1fr auto;gap:0 8px;padding:3px 7px}
+.ro.compact .er .ic{grid-row:auto;width:24px;height:24px;font-size:12px}
+.ro.compact .er .t{display:block}
+.ro.compact .er .en{font-size:13px}
+.ro.compact .er .when{display:none}
+.ro.compact .er .how{font-size:11px;text-align:right;white-space:nowrap}
+.ro.compact .er.soon .how{color:#f0b455}
+.empty{padding:10px 12px;color:var(--dim);font:italic 13px var(--font)}
+.hint{position:fixed;left:16px;bottom:16px;z-index:100;max-width:360px;color:#cfc3a8;font:13px/1.4 var(--font);background:#000a;padding:8px 12px;border-radius:8px}
+</style>
+<body>
+<div class="hint"><b>4 - Effect readout.</b> Hover Hana (6 effects) or Gorrak (8) for the compact layout, Kess (2) for the roomy one. Press <kbd>Next turn</kbd> and watch the order and amber "ending soon" tints change. Hold <kbd>Shift</kbd> for effect descriptions. <kbd>E</kbd> adds a random effect.</div>
+<script src="common.js"></script>
+<script>
+const P = Proto;
+let ro = null;
+let shift = false;
+
+/** Sort key = turns until the ending (lower = sooner); open-ended effects last. */
+function effectRows(c) {
+	return c.effects.map((e) => ({ e, r: P.resolveEnd(c, e) })).sort((a, b) => {
+		const rank = (x) => (x.r.dist === null ? 1000 + (x.r.kind === "encounter" ? 0 : 1) : x.r.dist);
+		return rank(a) - rank(b);
+	});
+}
+function when(r) {
+	if (r.kind === "encounter") {
+		return `<i class="fa-solid fa-infinity inf"></i>`;
+	}
+	if (r.kind === "none") {
+		return "No set end";
+	}
+	return r.dist === 0 ? "This turn" : r.dist === 1 ? "Next turn" : `In ${r.dist} turns`;
+}
+function render(c, el) {
+	hide();
+	const d = P.getData(c);
+	const rows = effectRows(c);
+	const compact = rows.length > 3;
+	const rc = P.ROLE_COLOR[d.role?.key] ?? "#997456";
+	const body = rows.length ? rows.map(({ e, r }) => {
+		const soon = r.dist !== null && r.dist <= 1;
+		const ongoing = e.ongoing ? `<span class="og">${e.ongoing.n} ${e.ongoing.type}</span> · ` : "";
+		const how = compact
+			? (r.kind === "save" ? `${ongoing}<span class="sv">Save ends</span>` : r.kind === "encounter" ? "Encounter" : r.kind === "none" ? "No set end" : r.text)
+			: (r.kind === "save" ? `${ongoing}<span class="sv">Save ends</span> (d20, 10+) at end of its own turn` : r.text);
+		return `<div class="er${soon ? " soon" : ""}">
+			<span class="ic"><i class="${e.icon}"></i></span>
+			<div class="t"><span class="en">${shift ? (e.desc ?? e.name) : e.name}</span><span class="when">${when(r)}</span></div>
+			<div class="how">${how}</div></div>`;
+	}).join("") : `<div class="empty">No effects.</div>`;
+	ro = document.createElement("div");
+	ro.className = `ro${compact ? " compact" : ""}`;
+	ro.innerHTML = `<div class="hd" style="--rc:${rc}">
+		${d.role?.icon ? `<span style="color:${rc}"><i class="${d.role.icon}"></i></span>` : ""}
+		<span class="nm${d.defeated ? " dead" : ""}">${c.name}</span>
+		${compact ? `<span class="cnt">${rows.length} EFFECTS</span>` : ""}
+		<span class="hs"><span class="mini">${d.segments.map((on) => `<s class="${on ? "on" : ""}"></s>`).join("")}</span>${d.healthState}</span>
+		${d.turn ? `<span class="hr" title="${d.turn.label}"><i class="fa-solid fa-hourglass-half"></i> ${d.turn.count}</span>` : ""}
+	</div><div class="rows">${body}</div>`;
+	scene.board.appendChild(ro);
+	// anchor beside the token, flip to the left if it would leave the viewport, clamp vertically
+	const br = scene.board.getBoundingClientRect();
+	const tr = el.getBoundingClientRect();
+	const w = ro.offsetWidth;
+	const h = ro.offsetHeight;
+	let left = tr.right + 12;
+	if (left + w > innerWidth - 8) {
+		left = tr.left - w - 12;
+		ro.style.setProperty("--from", "6px");
+	}
+	let top = tr.top + tr.height / 2 - 28;
+	top = Math.max(48, Math.min(top, innerHeight - h - 56));
+	ro.style.left = `${left - br.left}px`;
+	ro.style.top = `${top - br.top}px`;
+}
+function hide() {
+	ro?.remove();
+	ro = null;
+}
+const redraw = () => {
+	if (P.state.hoverId) {
+		render(P.byId(P.state.hoverId), scene.els.get(P.state.hoverId));
+	}
+};
+const scene = P.mount({
+	onHover: (c, el, ev) => {
+		shift = ev.shiftKey;
+		render(c, el);
+	},
+	onLeave: hide,
+	onChange: redraw,
+});
+addEventListener("keydown", (ev) => {
+	if (ev.key === "Shift" && !shift) {
+		shift = true;
+		redraw();
+	}
+});
+addEventListener("keyup", (ev) => {
+	if (ev.key === "Shift") {
+		shift = false;
+		redraw();
+	}
+});
+P.nav("4-effect-readout.prototype.html");
+</script>
+</body>
+</html>

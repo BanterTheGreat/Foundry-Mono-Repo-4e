@@ -1,0 +1,59 @@
+<div class="dnd4e-token-ring__frame{{#if role}} is-{{role.key}}{{/if}}" style="width: {{outer}}px; height: {{outer}}px;">
+	<svg class="dnd4e-token-ring__svg" viewBox="0 0 {{outer}} {{outer}}" role="img" aria-label="{{healthLabel}}">
+		<defs>
+			<linearGradient id="dnd4e-token-ring-hp" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="{{outer}}">
+				<stop offset="0" stop-color="#e2545e"/>
+				<stop offset="0.55" stop-color="#9a1a28"/>
+				<stop offset="1" stop-color="#6a0d16"/>
+			</linearGradient>
+		</defs>
+		<path class="dnd4e-token-ring__bar-border" d="{{bar}}"/>
+		<path class="dnd4e-token-ring__bar-back" d="{{bar}}"/>
+		{{#each segments}}
+			<path class="{{#if filled}}dnd4e-token-ring__fill{{else}}dnd4e-token-ring__empty{{/if}}" d="{{path}}"/>
+		{{/each}}
+		{{#if notch}}
+			<line class="dnd4e-token-ring__notch" x1="{{notch.x1}}" y1="{{notch.y1}}" x2="{{notch.x2}}" y2="{{notch.y2}}"/>
+		{{/if}}
+	</svg>
+
+	<div class="dnd4e-token-ring__plate" style="top: {{plateTop}}px;">
+		{{#if role.icon}}
+			<span class="dnd4e-token-ring__role" title="{{role.label}}" aria-label="{{role.label}}">
+				<i class="{{role.icon}}" aria-hidden="true"></i>
+			</span>
+		{{/if}}
+		<span class="dnd4e-token-ring__name{{#if defeated}} is-defeated{{/if}}">{{name}}</span>
+		{{#if stateLabel}}
+			<span class="dnd4e-token-ring__state" aria-hidden="true">{{stateLabel}}</span>
+		{{/if}}
+	</div>
+
+	{{#if effects.length}}
+		<span class="dnd4e-token-ring__stub" aria-hidden="true"></span>
+		<ul class="dnd4e-token-ring__strip" aria-label="Temporary effects and conditions">
+			{{#each effects}}
+				<li class="dnd4e-token-ring__effect{{#if soon}} is-soon{{/if}}{{#if description}} has-description{{/if}}">
+					<img class="dnd4e-token-ring__effect-icon" src="{{img}}" alt="">
+					<span class="dnd4e-token-ring__effect-title">{{title}}</span>
+					<span class="dnd4e-token-ring__effect-ending is-{{endingKind}}">
+						{{#if soon}}<i class="fa-solid fa-hourglass-end" aria-hidden="true"></i>{{/if}}
+						{{#if isEncounter}}
+							<i class="fa-solid fa-infinity" aria-hidden="true"></i><span class="dnd4e-token-ring__sr">{{endingLabel}}</span>
+						{{else if isOpenEnded}}
+							<span aria-hidden="true">&mdash;</span><span class="dnd4e-token-ring__sr">No set end</span>
+						{{else}}
+							{{endingLabel}}
+						{{/if}}
+					</span>
+					{{#if description}}
+						<span class="dnd4e-token-ring__effect-description">{{description}}</span>
+					{{/if}}
+				</li>
+			{{/each}}
+			{{#if overflow}}
+				<li class="dnd4e-token-ring__more">+{{overflow}} more</li>
+			{{/if}}
+		</ul>
+	{{/if}}
+</div>

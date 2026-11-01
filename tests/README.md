@@ -39,6 +39,14 @@ layout, drag events and a real Target Automation session; it runs with `npm run 
 
 The Node tests cannot show real styling. After reload, enable **Compact combat tracker** in module settings and check, as GM: rows have no portraits and show role icons and coloured current/max HP; before Begin, editing an initiative re-sorts the list; after Begin, dragging a row between two others keeps the highlighted turn on the same combatant. Open Select Targets for the acting player's token and confirm the timer reads "Paused · Target Automation", then roll with Dice So Nice on and confirm "Paused · Dice So Nice". As a player, confirm no drag handles, no timer and no enemy HP. Disable the setting and confirm the stock tracker returns without a reload. Check the browser console.
 
+Token ring hover display (optional setting; ring geometry, effect endings and ordering, strip placement, the setting gate, and pan/zoom handling against mocked Foundry globals):
+
+```sh
+node --test src/dnd4e-health-display/test/token-ring-data.test.js src/dnd4e-health-display/test/token-hover-effects.test.js src/dnd4e-health-display/test/token-ring.test.js
+```
+
+The Node tests cannot show real rendering. After reload, enable **Token ring hover display (experimental)** in module settings (client scope) and hover tokens: the ring should sit around the token with the plate below and the effect list beside it, and the panel above the map should be gone. Check a PC, an elite or solo, a minion and a defeated NPC; a creature with 8+ effects; custom effects (description line) versus conditions (one line); amber "ending soon" rows after advancing the turn; a token near the right, top and bottom screen edges; pan, zoom and dragging the hovered token; and the browser console. Disable the setting and confirm the panel returns without a reload.
+
 Run only the power activation tests, including automatic target selection, target focusing, and attack variant buttons:
 
 ```sh

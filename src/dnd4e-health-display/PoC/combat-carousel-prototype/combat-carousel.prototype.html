@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Combat carousel prototype</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<!--
+THROWAWAY PROTOTYPE. Sample data only; no Foundry access, no persistence. Double-click to open.
+
+Question: what should the compact combat tracker look like as a combat CAROUSEL (turn order laid out
+horizontally over the scene) instead of a vertical list in the sidebar?
+
+Three structurally different variants on one mock scene, switched with the bottom bar, ← / → keys or
+?variant=a|b|c:
+  A  Strip      The compact tracker's rows turned sideways: one-line chips (role icon, name, HP, hide-token),
+                active chip centred and wider. Densest; no portraits. Header bar carries round / next player / timer.
+  B  Spotlight  Cover-flow of portrait cards. The acting combatant is a big centred card; the next turns fan out to the
+                right, the turns already taken fade out to the left. Controls, next player and timer sit in a dock.
+  C  Queue      BG3-style initiative queue. The acting combatant is the "NOW" block at the left, everyone else is a
+                small portrait with an HP ring queueing to the right. Hover for details. Past turns drop off.
+
+All three keep what the compact tracker already decided: team colour, role icon (Solo > Leader > Elite > Minion),
+HP green/yellow/orange/red, hide-token button, round + turn, next player, turn timer with yellow/orange stages.
+Every combatant appears once per round, and the strip keeps going into the next round (marked "Round 2").
+NOT prototyped: drag-to-reorder initiative (needs an answer for a horizontal strip), Battle Briefing title.
+
+Prototype aids (not part of any design):
+  N / P = next / previous turn, click an HP number = -5, Shift+click = +5, hover a card = ring its token on the map.
+-->
+<style>
+*{box-sizing:border-box}
+:root{--ink:#eee4cc;--dim:#b7a98a;--line:#493c26;--brass:#80683e;--gold:#e5cc8e;--bg:#111112;
+  --pc:#6fa3b5;--enemy:#c0645e;--friend:#8fbf8a;--hp-green:#8fd18a;--hp-yellow:#e8d36a;--hp-orange:#f0953f;--hp-red:#ee6a5f}
+html,body{margin:0;height:100%;overflow:hidden}
+body{background:#1f1812;color:var(--ink);font:12px/1.4 Arial,sans-serif;user-select:none}
+button{font:inherit;color:inherit;background:#211e18;border:1px solid #655433;border-radius:4px;padding:3px 9px;cursor:pointer}
+button:hover{border-color:var(--gold)}
+button:disabled{opacity:.35;cursor:default;border-color:#655433}
+button:focus-visible{outline:2px solid #e9dfce;outline-offset:2px}
+.fa-solid{pointer-events:none}
+
+/* ---------- mock scene ---------- */
+#scene{position:fixed;inset:0;
+  background:repeating-linear-gradient(90deg,#ffffff0d 0 1px,transparent 1px 70px),repeating-linear-gradient(0deg,#ffffff0d 0 1px,transparent 1px 70px),
+    repeating-linear-gradient(135deg,#6b5238 0 35px,#5f4932 35px 70px)}
+.chrome{position:absolute;border:1px dashed #8f806288;background:#0008;color:#8f8062;border-radius:4px;font-size:10px;display:grid;place-items:center;text-align:center}
+.chrome.nav{left:10px;top:10px;width:230px;height:30px}
+.chrome.players{left:10px;bottom:72px;width:150px;height:70px}
+.chrome.hotbar{left:10px;bottom:10px;width:520px;height:52px}
+.chrome.side{right:8px;top:10px;bottom:10px;width:40px;writing-mode:vertical-rl}
+.tok{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;display:grid;place-items:center;
+  font:700 17px Georgia,serif;color:#fff;text-shadow:0 2px 3px #000a;border:3px solid var(--tc);
+  background:radial-gradient(circle at 35% 30%,hsl(var(--h) 45% 52%),hsl(var(--h) 50% 26%) 70%,hsl(var(--h) 55% 14%));
+  box-shadow:0 3px 6px #000a;transition:box-shadow .2s}
+.tok.pc{--tc:var(--pc)}.tok.enemy{--tc:var(--enemy)}
+.tok.dead{filter:grayscale(1) brightness(.5)}
+.tok.hl{box-shadow:0 0 0 4px #fff,0 0 16px #fff}
+.tok.act{box-shadow:0 0 0 4px var(--gold),0 0 22px var(--gold);animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 6px var(--gold),0 0 30px var(--gold)}}
+
+/* ---------- shared carousel plumbing ---------- */
+.car{position:absolute;z-index:20}
+.vp{position:relative}
+.card{position:absolute;transition:transform .45s cubic-bezier(.3,.8,.3,1),opacity .35s,width .45s,margin-left .45s;will-change:transform}
+.card.hid{filter:opacity(.55)}
+.card.dead .nm{text-decoration:line-through;color:var(--dim)}
+.card.dead .disc{filter:grayscale(1) brightness(.6)}
+.hpn{background:transparent;border:0;padding:0 2px;font:700 12px Arial;font-variant-numeric:tabular-nums;color:var(--c)}
+.hpn:hover{border:0;text-decoration:underline}
+.hpn span{font-weight:400;color:var(--dim);font-size:10px}
+.hp-green{--c:var(--hp-green)}.hp-yellow{--c:var(--hp-yellow)}.hp-orange{--c:var(--hp-orange)}.hp-red{--c:var(--hp-red)}
+.eye{padding:0 5px;line-height:18px;font-size:11px;background:transparent;border-color:transparent;color:var(--dim)}
+.eye:hover{color:var(--gold);border-color:#655433}
+.eye[aria-pressed=true]{color:#c0645e}
+.disc{width:var(--d);height:var(--d);flex:none;border-radius:50%;display:grid;place-items:center;border:2px solid var(--tc);
+  font:700 calc(var(--d)*.4)/1 Georgia,serif;color:#fff;text-shadow:0 2px 3px #000a;
+  background:radial-gradient(circle at 35% 30%,hsl(var(--h) 45% 52%),hsl(var(--h) 50% 26%) 70%,hsl(var(--h) 55% 14%))}
+.role{width:14px;text-align:center;font-size:12px;line-height:1;cursor:help}
+.tm-yellow{color:var(--hp-yellow)!important}.tm-orange{color:var(--hp-orange)!important}
+.ctl{display:inline-flex;gap:4px;align-items:center}
+.end{padding:3px 14px;font-weight:700;border-color:var(--brass)}
+.timer b{font:700 13px Arial;font-variant-numeric:tabular-nums;color:var(--ink)}
+.lab{font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:#8f8062}
+.np-line b{color:var(--pc)}.np-line .when{color:var(--gold)}
+
+/* ---------- A: strip ---------- */
+.v-a{left:250px;right:60px;top:10px}
+.v-a .top{display:flex;align-items:center;gap:16px;padding:5px 10px;background:linear-gradient(110deg,#30291cec,#151411ec);
+  border:1px solid var(--brass);border-radius:6px 6px 0 0;font-size:11px;color:var(--dim)}
+.v-a .top .rt{font-size:10px;letter-spacing:.07em;text-transform:uppercase}.v-a .top .rt b{color:var(--ink)}
+.v-a .top .sp{flex:1}
+.v-a .vp{height:56px;overflow:hidden;background:#111112ec;border:1px solid var(--brass);border-top:0;border-radius:0 0 6px 6px;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
+.v-a .card{top:18px;height:30px;left:50%;display:flex;align-items:center;gap:6px;padding:0 4px 0 6px;
+  border-left:3px solid var(--tc);border-radius:3px 5px 5px 3px;background:linear-gradient(90deg,#211e18,#171612);box-shadow:inset 0 1px #ffffff08}
+.v-a .card.active{background:linear-gradient(90deg,#54401f,#2a2114);box-shadow:inset 0 1px #ffffff12,0 0 0 1px var(--brass),0 0 14px #80683e88}
+.v-a .card.nextpc{box-shadow:inset 0 -2px var(--pc)}
+.v-a .card.first::before{content:"Round " attr(data-rn);position:absolute;left:0;top:-14px;font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+.v-a .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.v-a .card.active .nm{font-weight:700;color:#fff}
+.v-a .hpn{flex:none}
+
+/* ---------- B: spotlight ---------- */
+.v-b{left:50%;margin-left:-380px;width:760px;top:8px}
+.v-b .top{text-align:center;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);text-shadow:0 1px 3px #000}
+.v-b .top b{color:var(--gold)}
+.v-b .vp{height:262px;margin-top:2px;perspective:1000px;overflow:hidden;
+  background:radial-gradient(ellipse at 50% 45%,#000b,#0000 72%);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.v-b .card{top:24px;left:50%;width:150px;height:200px;display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 8px 8px;
+  border-radius:12px;background:linear-gradient(#2a251c,#14120f);border:1px solid #5a4a2e;border-top:3px solid var(--tc);box-shadow:0 8px 18px #000a}
+.v-b .card.active{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 0 26px #e5cc8e66,0 10px 24px #000}
+.v-b .card.acted{filter:saturate(.5) brightness(.8)}
+.v-b .disc{--d:76px}
+.v-b .nm{font:700 13px/1.15 Georgia,serif;text-align:center;max-height:30px;overflow:hidden;color:var(--ink)}
+.v-b .role{position:absolute;top:9px;left:9px}
+.v-b .card.first::before{content:"R" attr(data-rn);position:absolute;top:8px;right:9px;font-size:10px;font-weight:700;color:var(--gold)}
+.hpbar{width:100%;height:6px;border-radius:3px;background:#000b;overflow:hidden}
+.hpbar .fill{display:block;height:100%}
+.v-b .acting{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.v-b .np{position:absolute;bottom:-9px;left:50%;transform:translateX(-50%);background:var(--pc);color:#06121a;font:700 8px Arial;letter-spacing:.08em;padding:1px 7px;border-radius:8px;white-space:nowrap}
+.v-b .eye{position:absolute;bottom:6px;right:4px}
+.v-b .dock{display:flex;justify-content:center;align-items:center;gap:18px;margin:2px auto 0;width:max-content;padding:6px 14px;
+  background:#111112ec;border:1px solid var(--brass);border-radius:20px;font-size:11px;color:var(--dim)}
+.v-b .dock .timer{display:flex;gap:8px;align-items:baseline}
+
+/* ---------- C: queue ---------- */
+.v-c{left:260px;right:60px;top:10px}
+.v-c .top{display:flex;align-items:center;gap:18px;margin:0 0 6px 4px;font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--dim);text-shadow:0 1px 3px #000}
+.v-c .top b{color:var(--ink)}.v-c .top .sp{flex:1}
+.v-c .top .np-line{letter-spacing:0;text-transform:none;font-size:11px}
+.v-c .vp{height:96px}
+.v-c .card{left:0;top:0}
+.ring{--d:40px;position:relative;width:calc(var(--d) + 8px);height:calc(var(--d) + 8px);padding:4px;border-radius:50%;flex:none;
+  background:conic-gradient(var(--c) calc(var(--f)*1%),#2d2820 0);box-shadow:0 3px 8px #000a}
+.ring .disc{border-width:2px}
+.v-c .role{position:absolute;top:-3px;right:-3px;width:17px;height:17px;border-radius:50%;background:#111112;border:1px solid #655433;display:grid;place-items:center;font-size:9px}
+.v-c .card:not(.active){height:48px}
+.v-c .card:not(.active) .disc{--d:40px}
+.v-c .card.active{height:78px;display:flex;align-items:center;gap:10px;padding:5px 12px 5px 5px;border-radius:40px 10px 10px 40px;
+  background:linear-gradient(90deg,#54401fee,#1b1812ee);border:1px solid var(--brass);box-shadow:0 0 18px #80683e88,0 6px 14px #000a}
+.v-c .card.active .ring{--d:60px}
+.v-c .card.active .disc{--d:60px}
+.v-c .info{min-width:0;display:flex;flex-direction:column;gap:1px}
+.v-c .info .nm{font:14px/1.2 Georgia,serif;color:var(--gold);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.v-c .info .sub{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--dim)}
+.v-c .info .timer b{font-size:12px}
+.v-c .card.acted{display:none}
+.v-c .card.first:not(.active)::before{content:"R" attr(data-rn);position:absolute;left:-17px;top:-6px;height:60px;padding-left:3px;border-left:2px solid var(--gold);
+  font-size:9px;font-weight:700;color:var(--gold)}
+.v-c .tip{display:none;position:absolute;top:100%;left:24px;transform:translateX(-50%);margin-top:16px;white-space:nowrap;background:#111112f4;
+  border:1px solid var(--brass);border-radius:6px;padding:4px 9px;font-size:11px;z-index:60;box-shadow:0 6px 14px #000a}
+.v-c .card:hover{z-index:70!important}
+.v-c .card:hover .tip{display:block}
+.v-c .np{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:2px;font:700 8px Arial;letter-spacing:.08em;color:var(--pc);white-space:nowrap}
+.v-c .ctl{background:#111112e8;border:1px solid var(--brass);border-radius:6px;padding:3px}
+
+/* ---------- prototype chrome ---------- */
+.switcher{position:fixed;z-index:100;left:50%;bottom:14px;transform:translateX(-50%);display:flex;align-items:center;gap:10px;
+  background:#f4efe4;color:#1a1710;padding:6px 10px;border-radius:999px;box-shadow:0 6px 24px #000c;font:600 13px Arial,sans-serif}
+.switcher button{background:#1a1710;color:#f4efe4;border:0;border-radius:50%;width:26px;height:26px;padding:0}
+.switcher #vlabel{min-width:150px;text-align:center}
+.aids{position:fixed;z-index:100;right:60px;bottom:14px;width:280px;background:#111112ee;border:1px solid var(--line);border-radius:6px;padding:8px 10px;font-size:11px;color:var(--dim)}
+.aids label{display:block;color:var(--ink)}
+.aids .st{margin-top:6px;color:var(--ink)}
+</style>
+<body>
+<div id="scene">
+  <div class="chrome nav">Scene navigation</div>
+  <div class="chrome players">Players</div>
+  <div class="chrome hotbar">Macro hotbar</div>
+  <div class="chrome side">Sidebar (tracker no longer lives here)</div>
+  <div id="tokens"></div>
+  <div id="carousel" class="car"></div>
+</div>
+<div class="switcher"><button data-var="-1" aria-label="Previous variant">&larr;</button><span id="vlabel"></span><button data-var="1" aria-label="Next variant">&rarr;</button></div>
+<div class="aids">
+  <label><input type="checkbox" id="fast"> Fast-forward turn timer ×10</label>
+  <label><input type="checkbox" id="pause"> Pause timer (Target Automation)</label>
+  <div>N / P next / previous turn · click HP −5, Shift+click +5</div>
+  <div class="st" id="state"></div>
+</div>
+
+<script>
+/* ---------- sample state (the ten combatants from the real tracker screenshot, in turn order) ---------- */
+const CAST = [
+  { id: "d1", name: "Bought Druid", team: "enemy", hp: 84, max: 84, hue: 110, pos: [58, 38] },
+  { id: "p1", name: "Mork'allande", team: "pc", hp: 62, max: 76, hue: 205, pos: [30, 50] },
+  { id: "d2", name: "Bought Druid", team: "enemy", hp: 84, max: 84, hue: 95, pos: [62, 58] },
+  { id: "h1", name: "Hired Trail-hand", team: "enemy", hp: 1, max: 1, hue: 35, role: "minion", pos: [52, 48] },
+  { id: "p2", name: "Sedridor Wardyn", team: "pc", hp: 66, max: 66, hue: 265, pos: [36, 42] },
+  { id: "h2", name: "Hired Trail-hand", team: "enemy", hp: 1, max: 1, hue: 30, role: "minion", pos: [50, 62] },
+  { id: "b1", name: "Debt-bound Bramble Brute", team: "enemy", hp: 108, max: 108, hue: 150, pos: [68, 46] },
+  { id: "p3", name: "Idrani Fullhorn", team: "pc", hp: 99, max: 99, hue: 175, pos: [34, 62] },
+  { id: "b2", name: "Debt-bound Bramble Brute", team: "enemy", hp: 108, max: 108, hue: 145, pos: [67, 66] },
+  { id: "p4", name: "Gorktholomew", team: "pc", hp: 99, max: 101, hue: 20, pos: [41, 54] },
+];
+const n = CAST.length;
+const TEAM = { pc: "#6fa3b5", enemy: "#c0645e", friend: "#8fbf8a" };
+const ROLES = { solo: ["fa-skull", "#ff8d83"], leader: ["fa-star", "#f1ce70"], elite: ["fa-diamond", "#c58aff"], minion: ["fa-chess-pawn", "#8d867c"] };
+const HPCOL = { green: "#8fd18a", yellow: "#e8d36a", orange: "#f0953f", red: "#ee6a5f" };
+
+/** T = absolute turn count since combat started (0-based). Everything else derives from it. */
+let T = 5;
+let ms = 0;
+let current = "a";
+const cards = new Map();
+const q = s => document.querySelector(s);
+const car = q("#carousel");
+
+/* ---------- helpers ---------- */
+const round = () => Math.floor(T / n) + 1;
+const band = c => { const f = c.max ? c.hp / c.max : 0; return f > .75 ? "green" : f > .5 ? "yellow" : f > .25 ? "orange" : "red"; };
+const ini = c => c.name.split(/\s+/).slice(0, 2).map(w => w[0]).join("").toUpperCase();
+const fmtT = x => { const s = Math.floor(x / 1000); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; };
+const stage = x => x >= 120000 ? "tm-orange" : x >= 60000 ? "tm-yellow" : "";
+const roleHtml = c => c.role ? `<span class="role" title="${c.role}" style="color:${ROLES[c.role][1]}"><i class="fa-solid ${ROLES[c.role][0]}"></i></span>` : "";
+const hpHtml = c => `<button class="hpn hp-${band(c)}" data-hp="${c.id}" title="Prototype aid: click −5, Shift+click +5"><b>${c.hp}</b><span>/${c.max}</span></button>`;
+const eyeHtml = c => `<button class="eye" data-eye="${c.id}" aria-pressed="${!!c.hidden}" title="${c.hidden ? "Show" : "Hide"} token"><i class="fa-solid fa-eye-slash"></i></button>`;
+const discHtml = c => `<div class="disc" style="--h:${c.hue}">${ini(c)}</div>`;
+function nextPc() {
+  for (let s = 1; s <= n; s++) {
+    const c = CAST[(T + s) % n];
+    if (c.team === "pc") { return { c, turns: s, t: T + s }; }
+  }
+  return null;
+}
+const nextLine = () => { const x = nextPc(); return x ? `<span class="np-line">Next player: <b>${x.c.name}</b> <span class="when">${x.turns === 1 ? "next" : `in ${x.turns} turns`}</span></span>` : ""; };
+const timerLine = () => `<span class="timer"><span class="lab">Turn timer</span> <b data-timer class="${stage(ms)}">${fmtT(ms)}</b></span>`;
+const roundText = () => `Round <b>${round()}</b> · Turn <b>${(T % n) + 1}</b> of ${n}`;
+const controls = labelled => `<span class="ctl">
+  <button data-act="prevround" title="Previous round"${T === 0 ? " disabled" : ""}><i class="fa-solid fa-backward-step"></i></button>
+  <button data-act="prev" title="Previous turn"${T === 0 ? " disabled" : ""}><i class="fa-solid fa-arrow-left"></i></button>
+  <button class="end" data-act="next" title="End turn"><i class="fa-solid fa-check"></i>${labelled ? " End Turn" : ""}</button>
+  <button data-act="next" title="Next turn"><i class="fa-solid fa-arrow-right"></i></button>
+  <button data-act="nextround" title="Next round"><i class="fa-solid fa-forward-step"></i></button></span>`;
+
+/* ---------- the three variants. Each: top/dock chrome, card(), place() ---------- */
+const V = {
+  a: {
+    name: "Strip",
+    top: () => `<span class="rt">${roundText()}</span><span class="sp"></span>${nextLine()}${timerLine()}${controls(true)}`,
+    card: c => `<span class="role">${c.role ? roleHtml(c) : ""}</span><span class="nm" title="${c.name}">${c.name}</span>${hpHtml(c)}${eyeHtml(c)}`,
+    place(pos, b) {
+      const a = Math.abs(pos), s = Math.sign(pos), w = pos === 0 ? 236 : 172;
+      const x = (pos === 0 ? 0 : s * (118 + 6 + 86 + (a - 1) * 178)) + b * 26;
+      return { w, x, o: pos < 0 ? Math.max(0, .6 - (a - 1) * .1) : 1, z: 20 - a, tf: `translateX(${x}px)` };
+    },
+  },
+  b: {
+    name: "Spotlight",
+    top: () => roundText(),
+    dock: () => `${controls(true)}${nextLine()}${timerLine()}`,
+    card: (c, active, isNext) => `${roleHtml(c)}${discHtml(c)}<div class="nm" title="${c.name}">${c.name}</div>
+      <div class="hpbar"><span class="fill" style="width:${Math.max(0, 100 * c.hp / c.max)}%;background:${HPCOL[band(c)]}"></span></div>${hpHtml(c)}
+      ${active ? `<div class="acting">Acting · <span data-timer class="${stage(ms)}">${fmtT(ms)}</span></div>` : ""}
+      ${isNext ? `<span class="np">NEXT PLAYER</span>` : ""}${eyeHtml(c)}`,
+    place(pos) {
+      const a = Math.abs(pos), s = Math.sign(pos);
+      const sc = pos === 0 ? 1.18 : Math.max(.5, .86 - (a - 1) * .1);
+      const x = pos === 0 ? 0 : s * (128 + (a - 1) * 66);
+      const o = pos === 0 ? 1 : Math.max(0, (pos > 0 ? 1 : .5) - (a - 1) * .14);
+      return { w: 150, x, o, z: 20 - a, tf: `translateX(${x}px) rotateY(${pos === 0 ? 0 : s * 24}deg) scale(${sc})` };
+    },
+  },
+  c: {
+    name: "Queue",
+    top: () => `<span>${roundText()}</span><span class="sp"></span>${nextLine()}${controls(false)}`,
+    card(c, active, isNext) {
+      const ring = `<div class="ring" style="--f:${Math.max(0, 100 * c.hp / c.max)};--c:${HPCOL[band(c)]}">${discHtml(c)}${roleHtml(c)}</div>`;
+      if (active) {
+        return `${ring}<div class="info"><span class="nm" title="${c.name}">${c.name}</span>
+          <span class="sub">${hpHtml(c)}${timerLine()}${eyeHtml(c)}</span></div>`;
+      }
+      return `${ring}<div class="tip">${c.name} · HP ${c.hp}/${c.max}${c.hidden ? " · hidden" : ""}</div>${isNext ? `<span class="np">NEXT</span>` : ""}`;
+    },
+    place(pos, b, host) {
+      const x = pos <= 0 ? (pos === 0 ? 0 : -60) : 224 + 14 + (pos - 1) * 56 + b * 30;
+      const o = pos < 0 ? 0 : x > host.clientWidth - 70 ? 0 : 1;
+      return { w: pos === 0 ? 224 : 48, x, ml: 0, o, z: 20 - Math.abs(pos), tf: `translateX(${x}px)` };
+    },
+  },
+};
+
+/* ---------- rendering ---------- */
+function apply(el, p) {
+  el.style.transform = p.tf;
+  el.style.opacity = p.o;
+  el.style.zIndex = p.z;
+  el.style.width = `${p.w}px`;
+  el.style.marginLeft = `${p.ml ?? -p.w / 2}px`;
+  el.style.pointerEvents = p.o <= .01 ? "none" : "";
+}
+
+function mount() {
+  car.className = `car v-${current}`;
+  car.innerHTML = '<div class="top"></div><div class="vp"></div><div class="dock"></div>';
+  cards.clear();
+  sync();
+}
+
+function sync() {
+  const v = V[current];
+  const vp = car.querySelector(".vp");
+  car.querySelector(".top").innerHTML = v.top();
+  car.querySelector(".dock").innerHTML = v.dock ? v.dock() : "";
+  const np = nextPc();
+  const seen = new Set();
+  for (let t = Math.max(0, T - 6); t <= T + n + 3; t++) {
+    seen.add(t);
+    const c = CAST[t % n];
+    let el = cards.get(t);
+    const fresh = !el;
+    if (fresh) {
+      el = document.createElement("div");
+      vp.appendChild(el);
+      cards.set(t, el);
+    }
+    const isNext = !!np && t === np.t;
+    el.className = `card${t === T ? " active" : ""}${t < T ? " acted" : ""}${c.hp <= 0 ? " dead" : ""}${c.hidden ? " hid" : ""}${isNext ? " nextpc" : ""}${t % n === 0 ? " first" : ""}`;
+    el.dataset.id = c.id;
+    el.dataset.rn = Math.floor(t / n) + 1;
+    el.style.setProperty("--tc", TEAM[c.team]);
+    el.innerHTML = v.card(c, t === T, isNext);
+    const place = v.place(t - T, Math.floor(t / n) - Math.floor(T / n), car);
+    if (fresh) { el.style.transition = "none"; }
+    apply(el, place);
+    if (fresh) { el.offsetWidth; el.style.transition = ""; }
+  }
+  for (const [t, el] of cards) {
+    if (!seen.has(t)) { el.remove(); cards.delete(t); }
+  }
+  const actor = CAST[T % n];
+  document.querySelectorAll(".tok").forEach(el => {
+    const c = CAST.find(x => x.id === el.dataset.id);
+    el.classList.toggle("act", c.id === actor.id);
+    el.classList.toggle("dead", c.hp <= 0);
+  });
+  q("#state").textContent = `turn count T=${T} · round ${round()} · acting: ${actor.name} (${T % n + 1}/${n})`;
+}
+
+/* ---------- actions ---------- */
+function go(nextT) {
+  T = Math.max(0, nextT);
+  ms = 0;
+  sync();
+}
+document.addEventListener("click", e => {
+  const hp = e.target.closest("[data-hp]");
+  if (hp) {
+    const c = CAST.find(x => x.id === hp.dataset.hp);
+    c.hp = Math.max(0, Math.min(c.max, c.hp + (e.shiftKey ? 5 : -5)));
+    sync();
+    return;
+  }
+  const eye = e.target.closest("[data-eye]");
+  if (eye) {
+    const c = CAST.find(x => x.id === eye.dataset.eye);
+    c.hidden = !c.hidden;
+    sync();
+    return;
+  }
+  const act = e.target.closest("[data-act]")?.dataset.act;
+  if (act === "next") { go(T + 1); }
+  if (act === "prev") { go(T - 1); }
+  if (act === "nextround") { go(round() * n); }
+  if (act === "prevround") { go((round() - 2) * n); }
+  const step = e.target.closest("[data-var]")?.dataset.var;
+  if (step) { cycle(Number(step)); }
+});
+document.addEventListener("keydown", e => {
+  if (e.target.closest("input,textarea,[contenteditable]")) { return; }
+  if (e.key === "ArrowLeft") { cycle(-1); }
+  if (e.key === "ArrowRight") { cycle(1); }
+  if (e.key === "n" || e.key === "N") { go(T + 1); }
+  if (e.key === "p" || e.key === "P") { go(T - 1); }
+});
+document.addEventListener("mouseover", e => {
+  const id = e.target.closest?.(".card")?.dataset.id;
+  document.querySelectorAll(".tok").forEach(el => el.classList.toggle("hl", el.dataset.id === id));
+});
+
+/* ---------- variant switching ---------- */
+const KEYS = Object.keys(V);
+function setVariant(k) {
+  current = k;
+  try {
+    const u = new URL(location.href);
+    u.searchParams.set("variant", k);
+    history.replaceState(null, "", u);
+  } catch { /* file:// in some browsers; the bar still works */ }
+  q("#vlabel").textContent = `${k.toUpperCase()} (${V[k].name})`;
+  mount();
+}
+function cycle(step) { setVariant(KEYS[(KEYS.indexOf(current) + step + KEYS.length) % KEYS.length]); }
+
+/* ---------- timer ---------- */
+setInterval(() => {
+  if (!q("#pause").checked) { ms += 250 * (q("#fast").checked ? 10 : 1); }
+  document.querySelectorAll("[data-timer]").forEach(el => {
+    el.textContent = fmtT(ms);
+    el.classList.remove("tm-yellow", "tm-orange");
+    if (stage(ms)) { el.classList.add(stage(ms)); }
+  });
+}, 250);
+
+/* ---------- boot ---------- */
+q("#tokens").innerHTML = CAST.map(c => `<div class="tok ${c.team}" data-id="${c.id}" style="left:${c.pos[0]}%;top:${c.pos[1]}%;--h:${c.hue}" title="${c.name}">${ini(c)}</div>`).join("");
+const wanted = new URLSearchParams(location.search).get("variant");
+setVariant(KEYS.includes(wanted) ? wanted : "a");
+</script>
+</html>

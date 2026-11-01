@@ -1,14 +1,17 @@
 import { getTokenHoverDisplayData } from "./token-hover-display-data.js";
+import { hideTokenRing, renderTokenRing, repositionTokenRing } from "./token-ring.js";
 
 const DISPLAY_ID = "dnd4e-token-hover-display";
 const DISPLAY_TEMPLATE = "modules/dnd4e-health-display/scripts/health-display/health-display.hbs";
 const STYLESHEET_ID = "dnd4e-health-display-styles";
 const STYLESHEET_PATH = "modules/dnd4e-health-display/styles/health-display.css";
 const EFFECT_DESCRIPTIONS_SETTING = "shiftEffectDescriptions";
+const TOKEN_RING_SETTING = "tokenRingDisplay";
 
 let hoveredToken = null;
 let renderSequence = 0;
 let shiftHeld = false;
+let ringRepositionFrame = null;
 
 /** Register settings used by the token hover display. */
 export function registerHealthDisplaySettings() {
@@ -22,6 +25,15 @@ export function registerHealthDisplaySettings() {
 		onChange: refreshHoveredToken,
 	});
 
+	game.settings.register("dnd4e-health-display", TOKEN_RING_SETTING, {
+		name: "Token ring hover display (experimental)",
+		hint: "Replaces the panel above the map with a health ring drawn around the hovered token and a compact effect list beside it. Conditions show a title; other effects add their description underneath. The effect-label setting and Shift do not apply to it.",
+		scope: "client",
+		config: true,
+		type: Boolean,
+		default: false,
+		onChange: refreshHoveredToken,
+	});
 }
 
 /** Register the token hover display and the hooks which keep it current. */
@@ -43,6 +55,8 @@ export function registerHealthDisplay() {
 	Hooks.on("updateCombatant", refreshForCombat);
 	Hooks.on("deleteCombatant", refreshForCombat);
 	Hooks.on("canvasTearDown", hideDisplay);
+	Hooks.on("canvasPan", scheduleRingReposition);
+	Hooks.on("refreshToken", scheduleRingReposition);
 	window.addEventListener("keydown", onModifierChange);
 	window.addEventListener("keyup", onModifierChange);
 	window.addEventListener("blur", clearModifiers);
@@ -124,6 +138,18 @@ async function renderDisplay(token) {
 	}
 
 	const sequence = ++renderSequence;
+
+	if (isRingMode()) {
+		ensureDisplay().hidden = true;
+		await renderTokenRing(
+			token,
+			getTokenHoverDisplayData(token, { useEffectDescriptions: false }),
+			() => sequence !== renderSequence || hoveredToken?.id !== token.id,
+		);
+		return;
+	}
+
+	hideTokenRing();
 	const render = foundry.applications?.handlebars?.renderTemplate ?? globalThis.renderTemplate;
 	const html = await render(DISPLAY_TEMPLATE, getTokenHoverDisplayData(token, {
 		useEffectDescriptions: shouldShowDescriptions(),
@@ -136,6 +162,30 @@ async function renderDisplay(token) {
 	const display = ensureDisplay();
 	display.innerHTML = html;
 	display.hidden = false;
+}
+
+/**
+ * Whether the optional token-ring display replaces the panel.
+ *
+ * @returns {boolean}
+ */
+function isRingMode() {
+	return game.settings.get("dnd4e-health-display", TOKEN_RING_SETTING);
+}
+
+/** Keep the ring on the hovered token while the canvas pans, zooms or the token moves. */
+function scheduleRingReposition() {
+	if (!hoveredToken || ringRepositionFrame !== null || !isRingMode()) {
+		return;
+	}
+
+	ringRepositionFrame = requestAnimationFrame(() => {
+		ringRepositionFrame = null;
+
+		if (hoveredToken && repositionTokenRing(hoveredToken)) {
+			void renderDisplay(hoveredToken);
+		}
+	});
 }
 
 /**
@@ -243,4 +293,5 @@ function hideDisplay() {
 	hoveredToken = null;
 	renderSequence += 1;
 	ensureDisplay().hidden = true;
+	hideTokenRing();
 }

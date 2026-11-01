@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prototype 6 - Ring + readout</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Signika:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="common.css">
+<!--
+THROWAWAY PROTOTYPE - hybrid of 1 (token ring) and 4 (effect readout), compact first.
+Question: can the ring carry HP + identity while a one-line-per-effect strip carries "how does it end", with no boxed card over the map?
+- Ring: segmented HP arc with bloodied notch + name plate underneath (role icon, name, state word when it is not Healthy/Alive, turns until acting).
+- Strip: hangs off the right of the ring (flips left near the edge), joined by a short stub. One 22px row per effect:
+  icon, name, ending ("SAVE", "EoT Vorhaal", "SoT Tilda", infinity for encounter, dash for open-ended).
+  Sorted soonest first; amber when it ends this or next turn. 8 effects = ~190px tall. More than 10 collapse to "+N more".
+- Custom effects (anything that is not a standard 4e condition) get their description on a second line under the title; conditions stay one line.
+  The "Description under custom effects" aid toggle compares against the one-line version (Shift then swaps names for descriptions).
+- No effect badges on the rim, no initiative track, no footer. Marking not shown (arrows cover it).
+-->
+<style>
+.ring{position:absolute;pointer-events:none;z-index:30;animation:ringIn .16s ease-out}
+@keyframes ringIn{from{opacity:0;transform:scale(.92)}}
+.ring svg{position:absolute;inset:0;overflow:visible}
+.ring .under{fill:none;stroke:#07070a;stroke-width:11;stroke-opacity:.82}
+.ring .empty{fill:none;stroke:#3a3433;stroke-width:6}
+.ring .fill{fill:none;stroke:url(#hpGrad);stroke-width:6;stroke-dasharray:1;stroke-dashoffset:0;animation:draw .4s ease-out}
+@keyframes draw{from{stroke-dashoffset:1}}
+.ring .outline{fill:none;stroke-width:1.5;stroke-opacity:.9}
+.ring .notch{stroke:#f3e6c8;stroke-width:2;stroke-linecap:round}
+.plate{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:6px;white-space:nowrap;padding:3px 12px 4px;
+  border-radius:999px;background:#08080ad9;border:1px solid #997456b3;box-shadow:0 3px 8px #000b;font:700 15px var(--font);letter-spacing:.02em;text-shadow:0 1px 2px #000}
+.plate .role{font-size:11px}
+.plate .hour{font-size:11px;color:var(--gold);display:inline-flex;gap:3px;align-items:center}
+.plate .st{font:800 9px var(--font);letter-spacing:.1em;text-transform:uppercase;color:#f1b9b9}
+
+.stub{position:absolute;height:2px;background:var(--rc);opacity:.85}
+.fl{position:absolute;min-width:260px;max-width:380px;padding:4px 7px 4px 6px;background:#08080adf;border:1px solid #997456aa;border-left:3px solid var(--rc);
+  border-radius:4px 9px 9px 4px;box-shadow:0 6px 16px #000b;animation:flIn .16s ease-out .05s backwards}
+.fl.flip{border-left:1px solid #997456aa;border-right:3px solid var(--rc);border-radius:9px 4px 4px 9px}
+@keyframes flIn{from{opacity:0;transform:translateX(-5px)}}
+.fl.flip{animation-name:flInL}
+@keyframes flInL{from{opacity:0;transform:translateX(5px)}}
+.fr{display:grid;grid-template-columns:18px 1fr auto;gap:0 7px;min-height:22px;align-items:center}
+.fr.d{grid-template-areas:"i n e" ". d d";padding:3px 0 4px;align-items:start}
+.fr.d .fi{grid-area:i;margin-top:2px}.fr.d .fn{grid-area:n;align-self:center}.fr.d .fe{grid-area:e;align-self:center}
+.fd{grid-area:d;font:400 11px/1.3 var(--font);color:#bdb092;white-space:normal}
+.fr + .fr{border-top:1px solid #ffffff0d}
+.fi{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:9px;background:radial-gradient(circle at 35% 30%,#2b2625,#0b0a0b);border:1px solid #b08a63}
+.fn{font:600 12.5px var(--font);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fe{font:700 10px var(--font);letter-spacing:.06em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
+.fe .sv{color:#8fc2e6}
+.fr.soon .fe{color:#f0b455}.fr.soon .fi{border-color:#f0b455;color:#f0b455}
+.fr.more{display:block;height:auto;padding:2px 0 0 25px;font:700 10px var(--font);letter-spacing:.06em;color:var(--dim)}
+.hint{position:fixed;left:16px;bottom:16px;z-index:100;max-width:380px;color:#cfc3a8;font:13px/1.4 var(--font);background:#000a;padding:8px 12px;border-radius:8px}
+</style>
+<body>
+<div class="hint"><b>6 - Ring + readout.</b> Hover Gorrak (8 effects), Hana (6) or Kess (2). Amber rows end this or next turn - press <kbd>Next turn</kbd> to watch them reorder. Custom effects show a description line (toggle it in the bar above to compare). Try Tilda, Vorhaal, Gorrak (8 effects, one custom). <kbd>E</kbd> adds an effect.</div>
+<svg width="0" height="0" style="position:absolute"><defs>
+	<linearGradient id="hpGrad" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox"><stop offset="0" stop-color="#e2545e"/><stop offset=".55" stop-color="#9a1a28"/><stop offset="1" stop-color="#6a0d16"/></linearGradient>
+</defs></svg>
+<script src="common.js"></script>
+<script>
+const P = Proto;
+let ringEl = null;
+let shift = false;
+let descs = true;
+const MAX_ROWS = 10;
+
+const polar = (cx, cy, r, deg) => [cx + r * Math.cos(deg * Math.PI / 180), cy + r * Math.sin(deg * Math.PI / 180)];
+const arc = (cx, cy, r, a0, a1) => {
+	const [x0, y0] = polar(cx, cy, r, a0);
+	const [x1, y1] = polar(cx, cy, r, a1);
+	return `M${x0.toFixed(2)} ${y0.toFixed(2)}A${r} ${r} 0 ${a1 - a0 > 180 ? 1 : 0} 1 ${x1.toFixed(2)} ${y1.toFixed(2)}`;
+};
+/** Soonest ending first; encounter-long, then open-ended last. */
+function effectRows(c) {
+	return c.effects.map((e) => ({ e, r: P.resolveEnd(c, e) })).sort((a, b) => {
+		const rank = (x) => (x.r.dist === null ? 1000 + (x.r.kind === "encounter" ? 0 : 1) : x.r.dist);
+		return rank(a) - rank(b);
+	});
+}
+function ending(r) {
+	switch (r.kind) {
+		case "save": return `<span class="sv">Save</span>`;
+		case "encounter": return `<i class="fa-solid fa-infinity"></i>`;
+		case "none": return "—";
+		default: return `${r.when === "start" ? "SoT" : "EoT"} ${r.who.short}`;
+	}
+}
+
+function showRing(c, el) {
+	hideRing();
+	const d = P.getData(c);
+	const board = scene.board;
+	const br = board.getBoundingClientRect();
+	const tr = el.getBoundingClientRect();
+	const px = tr.width;
+	const pad = 24;
+	const W = px + pad * 2;
+	const cx = W / 2;
+	const r = px / 2 + 5;
+	const START = 125;
+	const SWEEP = 290;
+	const GAP = d.n > 1 ? 4 : 0;
+	const seg = SWEEP / d.n;
+	const color = P.ROLE_COLOR[d.role?.key] ?? "#997456";
+	let svg = "";
+	for (let i = 0; i < d.n; i++) {
+		const a0 = START + i * seg + GAP / 2;
+		const a1 = START + (i + 1) * seg - GAP / 2;
+		svg += `<path class="under" d="${arc(cx, cx, r, a0, a1)}"/>`;
+		svg += `<path class="${d.segments[i] ? "fill" : "empty"}" pathLength="1" d="${arc(cx, cx, r, a0, a1)}" style="animation-delay:${i * 60}ms"/>`;
+	}
+	svg += `<path class="outline" d="${arc(cx, cx, r + 6.5, START, START + SWEEP)}" stroke="${color}"/>`;
+	if (d.n > 1) {
+		const mid = START + SWEEP / 2;
+		const [x0, y0] = polar(cx, cx, r - 5, mid);
+		const [x1, y1] = polar(cx, cx, r + 9, mid);
+		svg += `<line class="notch" x1="${x0}" y1="${y0}" x2="${x1}" y2="${y1}"/>`;
+	}
+	const turn = d.turn ? `<span class="hour" title="${d.turn.label}"><i class="fa-solid fa-hourglass-half"></i>${d.turn.count === 0 ? "now" : d.turn.count}</span>` : "";
+	const role = d.role?.icon ? `<span class="role" style="color:${color}"><i class="${d.role.icon}"></i></span>` : "";
+	const st = ["Healthy", "Alive"].includes(d.healthState) ? "" : `<span class="st">${d.healthState}</span>`;
+	const plate = `<div class="plate" style="top:${pad + px + 4}px;border-color:${color}cc;${d.role ? `box-shadow:0 3px 8px #000b,0 0 10px ${color}55` : ""}">${role}<span style="${d.defeated ? "text-decoration:line-through" : ""}">${c.name}</span>${st}${turn}</div>`;
+
+	ringEl = document.createElement("div");
+	ringEl.className = "ring";
+	ringEl.style.cssText = `left:${tr.left - br.left - pad}px;top:${tr.top - br.top - pad}px;width:${W}px;height:${W}px;--rc:${color}`;
+	ringEl.innerHTML = `<svg viewBox="0 0 ${W} ${W}">${svg}</svg>${plate}`;
+	board.appendChild(ringEl);
+
+	// effect strip
+	const rows = effectRows(c);
+	if (!rows.length) {
+		return;
+	}
+	const shown = rows.length > MAX_ROWS ? rows.slice(0, MAX_ROWS - 1) : rows;
+	const html = shown.map(({ e, r }) => {
+		const soon = r.dist !== null && r.dist <= 1;
+		const og = e.ongoing ? ` style="color:#ffb27a"` : "";
+		const under = descs && !e.condition && e.desc;
+		const title = !descs && shift ? (e.desc ?? e.name) : e.name;
+		return `<div class="fr${soon ? " soon" : ""}${under ? " d" : ""}"><span class="fi"><i class="${e.icon}"></i></span><span class="fn"${og}>${title}</span><span class="fe">${ending(r)}</span>${under ? `<span class="fd">${e.desc}</span>` : ""}</div>`;
+	}).join("") + (rows.length > shown.length ? `<div class="fr more">+${rows.length - shown.length} more</div>` : "");
+	const fl = document.createElement("div");
+	fl.className = "fl";
+	fl.innerHTML = html;
+	ringEl.appendChild(fl);
+	const lw = fl.offsetWidth;
+	const lh = fl.offsetHeight;
+	const gap = 16;
+	const edge = r + 8;
+	const flip = tr.right + edge - px / 2 + gap + lw > innerWidth - 8;
+	let top = cx - lh / 2;
+	const viewTop = tr.top - pad + top;
+	const clamped = Math.max(48, Math.min(viewTop, innerHeight - lh - 56));
+	top += clamped - viewTop;
+	const stub = document.createElement("div");
+	stub.className = "stub";
+	stub.style.width = `${gap}px`;
+	stub.style.top = `${cx - 1}px`;
+	if (flip) {
+		fl.classList.add("flip");
+		fl.style.left = `${cx - edge - gap - lw}px`;
+		stub.style.left = `${cx - edge - gap}px`;
+	} else {
+		fl.style.left = `${cx + edge + gap}px`;
+		stub.style.left = `${cx + edge}px`;
+	}
+	fl.style.top = `${top}px`;
+	ringEl.appendChild(stub);
+}
+function hideRing() {
+	ringEl?.remove();
+	ringEl = null;
+}
+const redraw = () => {
+	if (P.state.hoverId) {
+		showRing(P.byId(P.state.hoverId), scene.els.get(P.state.hoverId));
+	}
+};
+const scene = P.mount({
+	aids: `<label><input type="checkbox" id="descs" checked> Description under custom effects</label>`,
+	onAids: (bar) => bar.querySelector("#descs").onchange = (ev) => {
+		descs = ev.target.checked;
+		redraw();
+	},
+	onHover: (c, el, ev) => {
+		shift = ev.shiftKey;
+		showRing(c, el);
+	},
+	onLeave: hideRing,
+	onChange: redraw,
+});
+addEventListener("keydown", (ev) => {
+	if (ev.key === "Shift" && !shift) {
+		shift = true;
+		redraw();
+	}
+});
+addEventListener("keyup", (ev) => {
+	if (ev.key === "Shift") {
+		shift = false;
+		redraw();
+	}
+});
+P.nav("6-ring-readout.prototype.html");
+</script>
+</body>
+</html>

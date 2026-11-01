@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prototype 1 - Token ring</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Signika:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="common.css">
+<!--
+THROWAWAY PROTOTYPE - idea 1: token-ring HUD.
+Question: can hover info live ON the token (arc + rim badges + small plate) instead of a box floating over the map?
+- Segmented HP arc (290 deg, gap at the bottom for the plate), notch at the bloodied mark, drains clockwise.
+- Effects orbit the rim: right side first, then the left (10 max, then "+N"). Hold Shift to unfold their names (same Shift behaviour as today).
+- Name plate with role icon + turns-until-acting underneath. Role colours the arc outline and plate.
+-->
+<style>
+.ring{position:absolute;pointer-events:none;z-index:30;animation:ringIn .16s ease-out}
+@keyframes ringIn{from{opacity:0;transform:scale(.88)}}
+.ring svg{position:absolute;inset:0;overflow:visible}
+.ring .under{fill:none;stroke:#07070a;stroke-width:11;stroke-opacity:.82}
+.ring .empty{fill:none;stroke:#3a3433;stroke-width:6}
+.ring .fill{fill:none;stroke:url(#hpGrad);stroke-width:6;stroke-dasharray:1;stroke-dashoffset:0;animation:draw .45s ease-out}
+@keyframes draw{from{stroke-dashoffset:1}}
+.ring .outline{fill:none;stroke-width:1.5;stroke-opacity:.9}
+.ring .notch{stroke:#f3e6c8;stroke-width:2;stroke-linecap:round}
+.ring .badge{position:absolute;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;display:grid;place-items:center;
+  background:radial-gradient(circle at 35% 30%,#2b2625,#0b0a0b);border:1.5px solid #b08a63;box-shadow:0 2px 5px #000c;font-size:12px;color:#f5eee5;
+  animation:pop .25s ease-out backwards}
+@keyframes pop{from{transform:scale(0)}}
+.ring .badge .lab{position:absolute;left:calc(100% + 6px);top:50%;transform:translateY(-50%);white-space:nowrap;padding:2px 8px;border-radius:5px;
+  background:#08080ad9;border:1px solid #997456aa;font:600 12px var(--font);color:var(--gold);letter-spacing:.02em}
+.ring .badge .lab.left{left:auto;right:calc(100% + 6px)}
+.ring .badge .lab small{color:var(--dim);font-weight:400;font-size:10px}
+.ring .more{font:700 10px var(--font)}
+.plate{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:6px;white-space:nowrap;padding:3px 12px 4px;
+  border-radius:999px;background:#08080ad9;border:1px solid #997456b3;box-shadow:0 3px 8px #000b;font:700 15px var(--font);letter-spacing:.02em;
+  text-shadow:0 1px 2px #000}
+.plate .role{font-size:11px}
+.plate .hour{font-size:11px;color:var(--gold);display:inline-flex;gap:3px;align-items:center}
+.plate .st{font:800 9px var(--font);letter-spacing:.1em;text-transform:uppercase;color:#e9b3b3;margin-left:2px}
+.hint{position:fixed;left:16px;bottom:16px;z-index:100;max-width:360px;color:#cfc3a8;font:13px/1.4 var(--font);background:#000a;padding:8px 12px;border-radius:8px}
+</style>
+<body>
+<div class="hint"><b>1 - Token ring.</b> Hover a token. Hold <kbd>Shift</kbd> to unfold effect names. Nothing covers neighbouring tokens; Gorrak has 8 effects and Hana 6 (badges spill onto the left rim); the goblins cluster tightly.</div>
+<svg width="0" height="0" style="position:absolute"><defs>
+	<linearGradient id="hpGrad" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox"><stop offset="0" stop-color="#e2545e"/><stop offset=".55" stop-color="#9a1a28"/><stop offset="1" stop-color="#6a0d16"/></linearGradient>
+</defs></svg>
+<script src="common.js"></script>
+<script>
+const P = Proto;
+let ringEl = null;
+let shift = false;
+
+const polar = (cx, cy, r, deg) => [cx + r * Math.cos(deg * Math.PI / 180), cy + r * Math.sin(deg * Math.PI / 180)];
+const arc = (cx, cy, r, a0, a1) => {
+	const [x0, y0] = polar(cx, cy, r, a0);
+	const [x1, y1] = polar(cx, cy, r, a1);
+	return `M${x0.toFixed(2)} ${y0.toFixed(2)}A${r} ${r} 0 ${a1 - a0 > 180 ? 1 : 0} 1 ${x1.toFixed(2)} ${y1.toFixed(2)}`;
+};
+
+function showRing(c, el) {
+	hideRing();
+	const d = P.getData(c);
+	const board = scene.board;
+	const br = board.getBoundingClientRect();
+	const tr = el.getBoundingClientRect();
+	const px = tr.width;
+	const pad = 70;
+	const W = px + pad * 2;
+	const cx = W / 2;
+	const r = px / 2 + 5;
+	const START = 125;
+	const SWEEP = 290;
+	const GAP = d.n > 1 ? 4 : 0;
+	const seg = SWEEP / d.n;
+	const color = P.ROLE_COLOR[d.role?.key] ?? "#997456";
+	let svg = "";
+	for (let i = 0; i < d.n; i++) {
+		const a0 = START + i * seg + GAP / 2;
+		const a1 = START + (i + 1) * seg - GAP / 2;
+		svg += `<path class="under" d="${arc(cx, cx, r, a0, a1)}" stroke-linecap="butt"/>`;
+		svg += `<path class="${d.segments[i] ? "fill" : "empty"}" pathLength="1" d="${arc(cx, cx, r, a0, a1)}" style="animation-delay:${i * 60}ms"/>`;
+	}
+	svg += `<path class="outline" d="${arc(cx, cx, r + 6.5, START, START + SWEEP)}" stroke="${color}"/>`;
+	if (d.n > 1) {
+		const mid = START + SWEEP / 2;
+		const [x0, y0] = polar(cx, cx, r - 5, mid);
+		const [x1, y1] = polar(cx, cx, r + 9, mid);
+		svg += `<line class="notch" x1="${x0}" y1="${y0}" x2="${x1}" y2="${y1}"/>`;
+	}
+	// effect badges: right rim first (top to bottom), then the left rim. Up to 10, then "+N".
+	const fxs = c.effects;
+	const SLOTS = [[-62, 1], [-37, 1], [-12, 1], [13, 1], [38, 1], [-118, -1], [-143, -1], [-168, -1], [167, -1], [142, -1]];
+	const capacity = SLOTS.length;
+	const shown = fxs.length > capacity ? fxs.slice(0, capacity - 1) : fxs;
+	const orbit = r + 24;
+	let badges = shown.map((e, k) => {
+		const [angle, side] = SLOTS[k];
+		const [bx, by] = polar(cx, cx, orbit, angle);
+		const res = P.resolveEnd(c, e);
+		const lab = shift ? `<span class="lab ${side < 0 ? "left" : ""}">${e.desc ?? e.name} <small>${res.text}</small></span>` : "";
+		return `<span class="badge" style="left:${bx}px;top:${by}px;animation-delay:${k * 40}ms"><i class="${e.icon}"></i>${lab}</span>`;
+	}).join("");
+	if (fxs.length > capacity) {
+		const [bx, by] = polar(cx, cx, orbit, SLOTS[capacity - 1][0]);
+		badges += `<span class="badge more" style="left:${bx}px;top:${by}px">+${fxs.length - shown.length}</span>`;
+	}
+	const turn = d.turn ? `<span class="hour" title="${d.turn.label}"><i class="fa-solid fa-hourglass-half"></i>${d.turn.count === 0 ? "now" : d.turn.count}</span>` : "";
+	const role = d.role?.icon ? `<span class="role" style="color:${color}"><i class="${d.role.icon}"></i></span>` : "";
+	const plate = `<div class="plate" style="top:${pad + px + 4}px;border-color:${color}cc;${d.role ? `box-shadow:0 3px 8px #000b,0 0 10px ${color}55` : ""}">${role}<span style="${d.defeated ? "text-decoration:line-through" : ""}">${c.name}</span>${turn}</div>`;
+	ringEl = document.createElement("div");
+	ringEl.className = "ring";
+	ringEl.style.cssText = `left:${tr.left - br.left - pad}px;top:${tr.top - br.top - pad}px;width:${W}px;height:${W}px`;
+	ringEl.innerHTML = `<svg viewBox="0 0 ${W} ${W}">${svg}</svg>${badges}${plate}`;
+	board.appendChild(ringEl);
+}
+function hideRing() {
+	ringEl?.remove();
+	ringEl = null;
+}
+const refreshRing = () => {
+	if (P.state.hoverId) {
+		showRing(P.byId(P.state.hoverId), scene.els.get(P.state.hoverId));
+	}
+};
+const scene = P.mount({
+	onHover: (c, el, ev) => {
+		shift = ev.shiftKey;
+		showRing(c, el);
+	},
+	onLeave: hideRing,
+	onChange: refreshRing,
+});
+addEventListener("keydown", (ev) => {
+	if (ev.key === "Shift" && !shift) {
+		shift = true;
+		refreshRing();
+	}
+});
+addEventListener("keyup", (ev) => {
+	if (ev.key === "Shift") {
+		shift = false;
+		refreshRing();
+	}
+});
+P.nav("1-token-ring.prototype.html");
+</script>
+</body>
+</html>
