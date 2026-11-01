@@ -3,7 +3,7 @@ import { settings } from "../config.mjs";
 import { openTestWorld } from "../helpers/session.mjs";
 
 test("module integration suites pass in the real Foundry runtime", async ({ page }, testInfo) => {
-  test.setTimeout(360000);
+  test.setTimeout(600000);
   const diagnostics = { pageErrors: [], consoleErrors: [] };
   page.on("pageerror", error => diagnostics.pageErrors.push(error.stack ?? error.message));
   page.on("console", message => {

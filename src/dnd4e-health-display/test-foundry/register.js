@@ -5,6 +5,7 @@ import { registerTargetAutomationTests } from "./target-automation.js";
 import { getNpcPowerHints } from "../scripts/actor-display/npc-power-hints.js";
 import { registerActorHudTests } from "./actor-hud.js";
 import { registerMultiAttackTests } from "./multi-attack.js";
+import { registerCompactTrackerTests } from "./compact-tracker.js";
 
 /** Register live document, native damage, and Handlebars integration tests. */
 export function registerTests(quench, { assertTestWorld, TestDocuments }) {
@@ -105,5 +106,5 @@ export function registerTests(quench, { assertTestWorld, TestDocuments }) {
       });
     });
   }, { displayName: "INFO DISPLAYS: Live health and template integration", preSelected: false });
-  return [key, registerTargetAutomationTests(quench), registerActorHudTests(quench), registerDamageConfirmationTests(quench), registerMultiAttackTests(quench)];
+  return [key, registerTargetAutomationTests(quench), registerActorHudTests(quench), registerDamageConfirmationTests(quench), registerMultiAttackTests(quench), registerCompactTrackerTests(quench)];
 }

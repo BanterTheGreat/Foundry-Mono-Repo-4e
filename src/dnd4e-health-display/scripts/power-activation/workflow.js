@@ -58,5 +58,11 @@ export class ActivationWorkflow {
 			throw new Error(`Invalid activation transition: ${this.state} → ${next}`);
 		}
 		this.#state = next;
+		this.announce();
+	}
+
+	/** Tell other features, such as the compact tracker's turn timer, that this activation changed or closed. */
+	announce() {
+		globalThis.Hooks?.callAll?.("dnd4e-health-display.activation", this);
 	}
 }

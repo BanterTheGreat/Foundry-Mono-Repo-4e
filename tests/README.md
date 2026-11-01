@@ -27,6 +27,18 @@ node --test src/dnd4e-health-display/test/combat-ledger.test.js src/dnd4e-health
 
 After reload, untick "Enable Combat Ledger" and/or "Enable Battle Momentum" in module settings, reload again, and confirm the matching combat tracker buttons are gone and the console is clean. With only the Ledger off, the momentum button should still appear.
 
+Compact combat tracker (pure logic, turn timer and pause rules, and the tracker wiring against hand-made DOM nodes):
+
+```sh
+node --test src/dnd4e-health-display/test/compact-tracker-data.test.js src/dnd4e-health-display/test/turn-timer.test.js src/dnd4e-health-display/test/compact-tracker.test.js
+```
+
+The Quench batch **INFO DISPLAYS: Compact combat tracker** covers the same feature in Foundry's real tracker, including real
+layout, drag events and a real Target Automation session; it runs with `npm run test:foundry` or from Quench's UI (see
+[tests/foundry/README.md](foundry/README.md#compact-combat-tracker-coverage)).
+
+The Node tests cannot show real styling. After reload, enable **Compact combat tracker** in module settings and check, as GM: rows have no portraits and show role icons and coloured current/max HP; before Begin, editing an initiative re-sorts the list; after Begin, dragging a row between two others keeps the highlighted turn on the same combatant. Open Select Targets for the acting player's token and confirm the timer reads "Paused · Target Automation", then roll with Dice So Nice on and confirm "Paused · Dice So Nice". As a player, confirm no drag handles, no timer and no enemy HP. Disable the setting and confirm the stock tracker returns without a reload. Check the browser console.
+
 Run only the power activation tests, including automatic target selection, target focusing, and attack variant buttons:
 
 ```sh

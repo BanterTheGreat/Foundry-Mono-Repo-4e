@@ -109,6 +109,35 @@ causing a compendium-configuration permission error. The browser scenario record
 all errors, but permits this exact error and stack only on player startup/reload.
 Other errors, including this error during defense processing, fail the scenario.
 
+## Compact combat tracker coverage
+
+The `dnd4e-health-display.compact-tracker` Quench batch (**INFO DISPLAYS: Compact combat tracker**, 46 tests) drives
+Foundry's real CombatTracker with a real Combat, combatants, actors and tokens built on the Target Automation sandbox
+scene plus a second player character. It turns the **Compact combat tracker** setting on for the run and restores it,
+the sidebar tab, targets and the viewed scene afterwards, then deletes only its own documents.
+
+Coverage: the setting (world scope, off by default, stock tracker untouched while off, applied and removed
+immediately, also in the pop-out); one-line rows (no portraits, role / name / HP / eye on one line, aligned names,
+real computed styles); role icons and their colours; HP text in green, yellow, orange and red, probed on both sides of
+every 75 / 50 / 25 percent boundary, with live refresh; team stripes; Hide Token; the Ledger, Momentum and Battle
+Briefing buttons coexisting; the Battle Briefing title (present, absent, added later, HTML-escaped); the round and turn
+subtitle; the first-player and next-player lines including the wrap into the next round; editable initiative before
+combat and the Roll Initiative button for someone who joins unrolled; dragging (midpoint initiative, the acting
+combatant staying acting with no turn change announced, tied combatants split exactly where dropped, repeated tiny gaps,
+releasing over the header or footer, edge auto-scroll, surviving a re-render mid-drag, foreign drags ignored, a no-op
+drop); the turn timer (counting, per-turn restart, yellow at 1:00 and orange at 2:00, freezing for a real Target
+Automation session and for Dice So Nice, Target Automation taking precedence, ignoring someone else's session); and
+the player view (no timer, grips, drags or initiative editing; HP only where observable).
+
+Notes for maintainers: Foundry switches the sidebar to Chat when combat starts, which collapses every row to zero size,
+so the fixture re-shows the Combat tab before anything is measured or aimed. Drags are synthetic `DragEvent`s with a real
+`DataTransfer`. The timer's minutes are reached by briefly offsetting `Date.now`. The player view stubs
+`game.user.isGM` for one render, after a settle delay, because Aura Effects' `deleteCombat` hook keeps running
+asynchronously and crashes while `game.users.activeGM` is null; each test's last act is to clear targets and let two
+animation frames pass so scene-elevation-region's `targetToken` callback never runs against deleted tokens. Not covered
+here: the player-to-GM socket relay of Target Automation (covered by the Node suite), real Dice So Nice animations (the
+test fires its public hooks), and a physical mouse drag.
+
 ## Target Automation coverage
 
 The Target Automation batch builds a temporary square-grid scene with friendly,

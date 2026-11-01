@@ -24,8 +24,11 @@ import { registerCombatLedger, registerLedgerSettings } from "./scripts/combat-l
 
 import { registerBattleMomentum, registerMomentumSettings } from "./scripts/battle-momentum/battle-momentum.js";
 
+import { registerCompactTracker, registerCompactTrackerSettings } from "./scripts/compact-tracker/compact-tracker.js";
+
 Hooks.once("init", () => {
 	registerMomentumSettings();
+	registerCompactTrackerSettings();
 	registerPowerActivationSettings();
 	registerNegotiationSettings();
 	registerHealthDisplaySettings();
@@ -38,6 +41,7 @@ Hooks.once("init", () => {
 Hooks.once("ready", () => {
 	registerCombatLedger();
 	registerBattleMomentum();
+	registerCompactTracker();
 	void registerPowerActivation();
 	registerNegotiation();
 	registerHealthDisplay();

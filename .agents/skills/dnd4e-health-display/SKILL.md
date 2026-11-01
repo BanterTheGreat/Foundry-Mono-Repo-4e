@@ -18,6 +18,7 @@ Foundry VTT v14 module for the DnD4e system that provides two independent inform
 - `scripts/mark-display/mark-display.js` owns the canvas overlay that connects DnD4e markers to their marked tokens.
 - `scripts/power-activation/power-activation.js` owns `ActivationSession` (canvas input, targeting, native-dialog handoff, resource processing and cleanup) and `TargetingPanel` (the independent Select Targets `ApplicationV2`).
 - `scripts/power-activation/workflow.js` owns the activation states, legal transitions and derived presentation. `panel.hbs` is the panel shell; `panel-targeting.hbs`, `panel-results.hbs` and `panel-damage.hbs` are partials preloaded through `TargetingPanel.PARTS.body.templates`.
+- `scripts/compact-tracker/` is the optional compact combat tracker (world setting `compactTracker`, off by default). `compact-tracker-data.js` holds the pure rules (HP colour bands, role icon, initiative-between-neighbours and `planReorder`, next player, timer text and stages) and builds the HTML fragments; `turn-timer.js` holds `TurnTimer` and `PauseRegistry`; `compact-tracker.js` enhances Foundry's own tracker DOM on `renderCombatTracker` (it never replaces the templates, so the Ledger, Momentum, Battle Briefing and negotiation buttons keep working), binds drag-to-reorder, and runs the GM-only timer.
 - `styles/` contains one stylesheet per display module.
 - `PoC/actor-hud-ui-prototype/` contains throwaway visual explorations. Treat these as design references, not production code.
 
@@ -33,6 +34,12 @@ Foundry VTT v14 module for the DnD4e system that provides two independent inform
 - Actor-display tabs are module-owned buttons and state, rather than Foundry's tab-group controller. Powers and skills roll through DnD4e actor APIs; feats and items roll or open their sheets; equipment toggles update the embedded item.
 - Item tooltips load only on first hover. Auto-generated power cards receive compact custom formatting; custom-authored powers, feats, and inventory use `dnd4e.compatibility.tah.TokenBarHooks.generateItemTooltip`. Cache both `data-tooltip-html` and `data-tooltip-class`, since Foundry reads those attributes on later hovers.
 - The manifest retains the `dnd4e-health-display` package ID so existing installations and client settings continue working under the new title.
+
+## Compact combat tracker
+
+- Reordering writes initiative, because Foundry derives turn order from it. Tied combatants (monsters often share a roll) cannot be split by nudging one neighbour, since Foundry breaks exact ties by id; `planReorder` renumbers the whole tied run in `1e-8` steps instead. Drag handlers live on the tracker root (not the list, which is rebuilt on render), the list auto-scrolls near its edges, and HP-driven re-renders are held back while a drag is active. Do not pass `combatTurn`: Foundry v14's `Combatant._preUpdateOperation` already keeps the acting combatant acting and suppresses turn events, and an explicit `combatTurn` skips that.
+- DnD4e initiatives are decimals with a random four-digit tiebreaker, so the native tracker shows them as read-only text. Before combat the tracker swaps in a native `.initiative-input`, whose existing change handler does the update.
+- The turn timer is GM-client state. Target Automation sessions announce themselves through the `dnd4e-health-display.activation` hook (fired by `ActivationWorkflow.announce()` on every transition and on creation); players relay it to GMs over the module socket as `compactTrackerTargeting`, and the GM only honours online owners of the token. Dice So Nice is read from its own `diceSoNiceRollStart` and `diceSoNiceRollComplete` hooks on the GM client. A pause only counts for the acting combatant's token, and Target Automation outranks Dice So Nice.
 
 ## Select Targets workflow
 

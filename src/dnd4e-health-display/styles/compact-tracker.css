@@ -1,0 +1,276 @@
+/* Compact combat tracker. Everything is scoped to the root class the module adds while its setting is on. */
+.dnd4e-compact-tracker {
+	--compact-ink: #eee4cc;
+	--compact-dim: #b7a98a;
+	--compact-brass: #80683e;
+	--compact-gold: #e5cc8e;
+	--compact-line: #493c26;
+	--team: #8d867c;
+}
+
+/* Header: Battle Briefing title, then the round tracker as its subtitle. */
+.dnd4e-compact-tracker .encounter-name {
+	display: none;
+}
+
+.dnd4e-compact-tracker .dnd4e-compact-tracker__title {
+	margin: 0.2rem 0.5rem 0;
+	padding: 0;
+	border: 0;
+	font: 1.05rem/1.2 var(--font-h1, Georgia, serif);
+	color: var(--compact-gold);
+	text-align: center;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.dnd4e-compact-tracker .encounter-controls .encounter-title {
+	font-size: 0.68rem;
+	font-weight: 600;
+	letter-spacing: 0.07em;
+	text-transform: uppercase;
+	color: var(--compact-dim);
+}
+
+/* Rows: one dense line each, with a small gap between them. */
+.dnd4e-compact-tracker ol.combat-tracker {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	padding: 6px;
+}
+
+.dnd4e-compact-tracker .combatant {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 7px;
+	min-height: 26px;
+	height: auto;
+	padding: 3px 6px 3px 4px;
+	border: 0;
+	border-left: 3px solid var(--team);
+	border-radius: 3px 5px 5px 3px;
+	background: linear-gradient(90deg, #211e18, #171612);
+	box-shadow: inset 0 1px #ffffff08;
+	color: var(--compact-ink);
+}
+
+.dnd4e-compact-tracker .combatant[data-team="pc"] { --team: #6fa3b5; }
+.dnd4e-compact-tracker .combatant[data-team="friendly"] { --team: #8fbf8a; }
+.dnd4e-compact-tracker .combatant[data-team="enemy"] { --team: #c0645e; }
+
+.dnd4e-compact-tracker .combatant.active {
+	background: linear-gradient(90deg, #54401f, #2a2114);
+	box-shadow: inset 0 1px #ffffff12, 0 0 0 1px var(--compact-brass);
+}
+
+.dnd4e-compact-tracker .combatant.hide {
+	opacity: 0.5;
+}
+
+.dnd4e-compact-tracker .combatant.defeated .name {
+	text-decoration: line-through;
+	color: var(--compact-dim);
+}
+
+/* No portraits, effect icons, native resource text or pointer helpers in this layout. */
+.dnd4e-compact-tracker .combatant .token-image,
+.dnd4e-compact-tracker .combatant .token-effects,
+.dnd4e-compact-tracker .combatant .token-resource,
+.dnd4e-compact-tracker .combatant [data-action="pingCombatant"],
+.dnd4e-compact-tracker .combatant [data-action="panToCombatant"] {
+	display: none;
+}
+
+/*
+ * Foundry stacks the name above its controls in a column. Dissolve that wrapper so everything is one flex
+ * line in this order: grip, role icon, name, HP, initiative, controls.
+ */
+.dnd4e-compact-tracker .combatant .token-name {
+	display: contents;
+}
+
+.dnd4e-compact-tracker .combatant > :is(.dnd4e-compact-tracker__grip) { order: 0; }
+.dnd4e-compact-tracker .combatant > .dnd4e-compact-tracker__role { order: 1; }
+.dnd4e-compact-tracker .combatant .name { order: 2; }
+.dnd4e-compact-tracker .combatant > .dnd4e-compact-tracker__hp { order: 3; }
+.dnd4e-compact-tracker .combatant > .token-initiative { order: 4; }
+.dnd4e-compact-tracker .combatant .combatant-controls { order: 5; }
+
+.dnd4e-compact-tracker .combatant .name {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	text-align: left;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-weight: 400;
+}
+
+.dnd4e-compact-tracker .combatant .combatant-controls {
+	flex: none;
+	display: flex;
+	gap: 2px;
+	margin: 0;
+}
+
+.dnd4e-compact-tracker__grip {
+	flex: none;
+	width: 8px;
+	color: #7d6c49;
+	font-size: 11px;
+	line-height: 1;
+	text-align: center;
+}
+
+/* Defeat is a rare action; keep it out of the way until the row is hovered or focused. */
+.dnd4e-compact-tracker .combatant [data-action="toggleDefeated"] {
+	display: none;
+}
+
+.dnd4e-compact-tracker .combatant:hover [data-action="toggleDefeated"],
+.dnd4e-compact-tracker .combatant:focus-within [data-action="toggleDefeated"],
+.dnd4e-compact-tracker .combatant [data-action="toggleDefeated"].active {
+	display: inline-flex;
+}
+
+/* Role icon, with the same colours as the token-hover health display. */
+.dnd4e-compact-tracker__role {
+	flex: none;
+	width: 14px;
+	text-align: center;
+	font-size: 12px;
+	line-height: 1;
+	cursor: help;
+}
+
+.dnd4e-compact-tracker__role.is-solo { color: #ff8d83; }
+.dnd4e-compact-tracker__role.is-leader { color: #f1ce70; }
+.dnd4e-compact-tracker__role.is-elite { color: #c58aff; }
+.dnd4e-compact-tracker__role.is-minion { color: #8d867c; }
+
+/* Hit points as numbers: green, yellow, orange, red. */
+.dnd4e-compact-tracker__hp {
+	flex: none;
+	min-width: 52px;
+	text-align: right;
+	font-size: 0.75rem;
+	font-variant-numeric: tabular-nums;
+	color: var(--compact-dim);
+}
+
+.dnd4e-compact-tracker__hp b { font-weight: 700; }
+.dnd4e-compact-tracker__hp.is-green b { color: #8fd18a; }
+.dnd4e-compact-tracker__hp.is-yellow b { color: #e8d36a; }
+.dnd4e-compact-tracker__hp.is-orange b { color: #f0953f; }
+.dnd4e-compact-tracker__hp.is-red b { color: #ee6a5f; }
+
+/* Initiative: an editable number before combat, then gone (the roll button stays for unrolled combatants). */
+.dnd4e-compact-tracker .combatant .token-initiative {
+	flex: none;
+	width: auto;
+	min-width: 0;
+}
+
+.dnd4e-compact-tracker .combatant .token-initiative .initiative-input {
+	width: 46px;
+	text-align: center;
+}
+
+/* Foundry sizes the roll button as a percentage of its column, which has no width here; give it its own. */
+.dnd4e-compact-tracker .combatant .token-initiative button {
+	width: 24px;
+	height: 24px;
+}
+
+.dnd4e-compact-tracker.is-started .combatant .token-initiative > :is(input, span) {
+	display: none;
+}
+
+/* Drag to reorder. */
+.dnd4e-compact-tracker.is-draggable .combatant {
+	cursor: grab;
+}
+
+.dnd4e-compact-tracker .combatant.is-dragging {
+	opacity: 0.3;
+}
+
+.dnd4e-compact-tracker .combatant.drop-before::before,
+.dnd4e-compact-tracker .combatant.drop-after::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	height: 3px;
+	background: var(--compact-gold);
+	box-shadow: 0 0 6px var(--compact-gold);
+	z-index: 2;
+}
+
+.dnd4e-compact-tracker .combatant.drop-before::before { top: -3px; }
+.dnd4e-compact-tracker .combatant.drop-after::after { bottom: -3px; }
+
+/* Footer: next player and the GM's turn timer, above the native turn controls. */
+.dnd4e-compact-tracker__info {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	padding: 5px 9px;
+	border-top: 1px solid var(--compact-line);
+	font-size: 0.72rem;
+	color: var(--compact-dim);
+}
+
+.dnd4e-compact-tracker__next {
+	display: flex;
+	justify-content: space-between;
+	gap: 8px;
+	align-items: baseline;
+	padding-bottom: 4px;
+	border-bottom: 1px solid var(--compact-line);
+	font-size: 0.8rem;
+	color: var(--compact-ink);
+}
+
+.dnd4e-compact-tracker__next .when {
+	color: var(--compact-gold);
+	font-variant-numeric: tabular-nums;
+}
+
+.dnd4e-compact-tracker__timer {
+	display: flex;
+	justify-content: space-between;
+	gap: 8px;
+	align-items: baseline;
+	--timer: var(--compact-ink);
+}
+
+.dnd4e-compact-tracker__timer.is-yellow { --timer: #e8d36a; }
+.dnd4e-compact-tracker__timer.is-orange { --timer: #f0953f; }
+
+.dnd4e-compact-tracker__timer .label {
+	font-size: 0.6rem;
+	letter-spacing: 0.09em;
+	text-transform: uppercase;
+	color: #8f8062;
+}
+
+.dnd4e-compact-tracker__timer .time {
+	font-size: 0.82rem;
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+	color: var(--timer);
+}
+
+.dnd4e-compact-tracker__timer.is-paused .time {
+	opacity: 0.7;
+}
+
+.dnd4e-compact-tracker__timer .why {
+	margin-right: 6px;
+	font-style: italic;
+	color: var(--compact-gold);
+}

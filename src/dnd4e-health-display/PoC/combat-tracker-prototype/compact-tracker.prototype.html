@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Compact combat tracker prototype</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<!--
+THROWAWAY PROTOTYPE. Sample data only; no Foundry access, no persistence.
+Layout A (single-line list) was chosen from the first round of variants. Decisions baked in:
+  - Header: Battle Briefing title (if one is linked), then the round tracker as subtitle.
+  - HP as "current/max" text, coloured green / yellow / orange / red by fraction remaining.
+  - Hide Token (eye) button always visible.
+  - Before combat starts: initiative number shown and editable; no dragging.
+  - After combat starts: number hidden (tooltip only); drag a row between two others and it gets an
+    initiative midway between them.
+Footer: a permanent "Next player: <name> - in N turns" line plus the turn timer below it.
+Tick "Briefing linked" in the page to compare with/without a Battle Briefing title.
+Turn timer: counts up per turn, resets on Next turn, neutral < 1:00, yellow from 1:00, orange from 2:00. It freezes (shown as "Paused · reason") while the acting player is in Target Automation or while Dice So Nice is animating - use the side-panel checkboxes to simulate both.
+Prototype aids (not part of the design): click an HP number for -5, Shift+click for +5.
+-->
+<style>
+*{box-sizing:border-box}
+:root{--ink:#eee4cc;--dim:#b7a98a;--line:#493c26;--brass:#80683e;--gold:#e5cc8e;--bg:#111112;--panel:#191816;
+  --pc:#6fa3b5;--enemy:#c0645e;--friend:#8fbf8a;--hp-green:#8fd18a;--hp-yellow:#e8d36a;--hp-orange:#f0953f;--hp-red:#ee6a5f}
+body{margin:0;background:#26231d;color:var(--ink);font:12px/1.4 Arial,sans-serif;min-height:100vh;padding-bottom:70px}
+button{font:inherit;color:inherit;background:#211e18;border:1px solid #655433;border-radius:4px;padding:3px 9px;cursor:pointer}
+button:hover{border-color:var(--gold)}
+button:focus-visible,input:focus-visible,.row:focus-visible{outline:2px solid #e9dfce;outline-offset:2px}
+input{font:inherit;color:var(--ink);background:#0c0c0d;border:1px solid #655433;border-radius:3px}
+.stage{display:flex;gap:18px;padding:16px;align-items:flex-start;flex-wrap:wrap}
+.canvas{flex:1 1 300px;min-height:420px;border:1px dashed #5a4d36;border-radius:6px;background:repeating-linear-gradient(45deg,#1b1915,#1b1915 14px,#1f1c17 14px,#1f1c17 28px);padding:10px;color:var(--dim)}
+.sidebar{width:300px;background:var(--bg);border:1px solid var(--brass);border-radius:6px;box-shadow:0 10px 26px #0006;overflow:hidden}
+/* header */
+.head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 9px;border-bottom:1px solid var(--line);background:linear-gradient(110deg,#30291c,#151411)}
+.titles{min-width:0}
+.title{font:14px/1.2 Georgia,serif;color:var(--gold);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.subtitle{font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--dim)}
+.subtitle b{color:var(--ink);font-weight:600}
+.head.untitled .subtitle{font:14px Georgia,serif;letter-spacing:0;text-transform:none;color:var(--gold)}
+.btns{display:flex;gap:4px;flex:none}
+/* rows */
+.list{padding:6px;position:relative}
+.row{position:relative;display:flex;align-items:center;gap:7px;padding:3px 6px 3px 4px;border-left:3px solid var(--tc);border-radius:3px 5px 5px 3px;background:linear-gradient(90deg,#211e18,#171612);box-shadow:inset 0 1px #ffffff08;min-height:26px}
+.row + .row{margin-top:3px}
+.row[draggable=true]{cursor:grab}
+.row.active{background:linear-gradient(90deg,#54401f,#2a2114);box-shadow:inset 0 1px #ffffff12,0 0 0 1px #80683e}
+.row.hidden-token{opacity:.5}
+.row.defeated .name{text-decoration:line-through;color:var(--dim)}
+.row.dragging{opacity:.3}
+.row.drop-before::before,.row.drop-after::after{content:'';position:absolute;left:0;right:0;height:3px;background:var(--gold);box-shadow:0 0 6px var(--gold);z-index:2}
+.row.drop-before::before{top:-2px}
+.row.drop-after::after{bottom:-2px}
+.grip{color:#7d6c49;width:8px;font-size:11px;line-height:1;user-select:none}
+.name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.role{flex:none;width:14px;text-align:center;font-size:12px;line-height:1;cursor:help}
+.role.solo{color:#ff8d83}.role.leader{color:#f1ce70}.role.elite{color:#c58aff}.role.minion{color:#8d867c;font-size:12px}
+.hpn{flex:none;min-width:52px;text-align:right;font:700 12px Arial;font-variant-numeric:tabular-nums;background:transparent;border:0;padding:0 2px;color:var(--c)}
+.hpn small{font-weight:400;color:var(--dim);font-size:10px}
+.hp-green{--c:var(--hp-green)}.hp-yellow{--c:var(--hp-yellow)}.hp-orange{--c:var(--hp-orange)}.hp-red{--c:var(--hp-red)}
+.init{width:46px;text-align:center;padding:1px 2px}
+.eye{padding:0 5px;line-height:18px;font-size:11px;background:transparent;border-color:transparent;color:var(--dim)}
+.eye:hover{color:var(--gold);border-color:#655433}
+.eye[aria-pressed=true]{color:#c0645e}
+/* footer */
+.foot{border-top:1px solid var(--line);background:linear-gradient(0deg,#1b1812,#141412);padding:6px 9px;font-size:11px;color:var(--dim);display:flex;flex-direction:column;gap:3px}
+.foot .lab{font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:#8f8062}
+.foot .pc{color:var(--pc)}
+.foot .nextp{display:flex;justify-content:space-between;gap:8px;align-items:baseline;font-size:12px;color:var(--ink);padding-bottom:4px;margin-bottom:2px;border-bottom:1px solid var(--line)}
+.foot .nextp .pc{font-weight:700}
+.foot .nextp .when{color:var(--gold);font-variant-numeric:tabular-nums}
+.foot .timer{display:flex;justify-content:space-between;gap:8px;align-items:baseline;--c:var(--ink)}
+.foot .timer .t{font:700 13px Arial;font-variant-numeric:tabular-nums;color:var(--c)}
+.foot .timer .why{color:var(--gold);font-style:italic;margin-right:6px}
+.foot .timer.paused .t{opacity:.7}
+.foot .timer.hp-yellow{--c:var(--hp-yellow)}.foot .timer.hp-orange{--c:var(--hp-orange)}
+/* state panel */
+.state{flex:1 1 280px;max-width:420px;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:10px 12px}
+.state h3{margin:0 0 6px;font:14px Georgia,serif;color:var(--gold)}
+.state table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+.state td,.state th{padding:2px 6px;border-bottom:1px solid #2f2a20;text-align:left}
+.state th{font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--dim)}
+.state label{display:block;margin-bottom:8px;color:var(--ink)}
+.legend{display:flex;gap:10px;align-items:center;margin-top:8px;font-size:11px;flex-wrap:wrap}
+.log{margin-top:8px;color:var(--dim);font-size:11px;min-height:3em}
+.log b{color:var(--ink)}
+</style>
+<body>
+<div class="stage">
+  <div id="host"></div>
+  <div class="canvas">Scene canvas (mock)</div>
+  <div class="state">
+    <h3>State</h3>
+    <label><input type="checkbox" id="briefing" checked> Battle Briefing linked to this combat</label>
+    <label><input type="checkbox" id="simAuto"> Simulate: acting player is in Target Automation</label>
+    <label><input type="checkbox" id="simDice"> Simulate: waiting for Dice So Nice</label>
+    <label><input type="checkbox" id="fast"> Fast-forward turn timer ×10 (to see the colours)</label>
+    <div id="state"></div>
+    <div class="legend">
+      <span class="role solo"><i class="fa-solid fa-skull"></i></span> Solo <span class="role leader"><i class="fa-solid fa-star"></i></span> Leader <span class="role elite"><i class="fa-solid fa-diamond"></i></span> Elite <span class="role minion"><i class="fa-solid fa-chess-pawn"></i></span> Minion &nbsp;(one icon each, Solo > Leader > Elite > Minion)
+    </div>
+    <div class="legend">
+      <span class="hp-green" style="color:var(--c)">&#9632; &gt;75%</span>
+      <span class="hp-yellow" style="color:var(--c)">&#9632; 51–75%</span>
+      <span class="hp-orange" style="color:var(--c)">&#9632; 26–50% (bloodied)</span>
+      <span class="hp-red" style="color:var(--c)">&#9632; &le;25%</span>
+    </div>
+    <div class="log" id="log"></div>
+  </div>
+</div>
+
+<script>
+const SHOW_INIT_AFTER_START = false;
+const BRIEFING = { title: "Ambush at Gnoll Ford" };
+
+/* ---------- pure logic (kept free of DOM so it can be unit-checked) ---------- */
+const round2 = n => Math.round(n * 100) / 100;
+const fmt = n => n == null ? "—" : String(round2(n));
+/** Initiative-descending order; unrolled (null) last; ties keep creation order. */
+function sortedCombatants(list) {
+  return list.map((c, i) => [c, i]).sort(([a, i], [b, j]) =>
+    (b.init ?? -Infinity) - (a.init ?? -Infinity) || i - j).map(([c]) => c);
+}
+/**
+ * Initiative for a combatant dropped between `upper` (acts earlier) and `lower` (acts later).
+ * Returns { value, nudges: [{ id, value }], note } - ties force the upper neighbour up a hair.
+ */
+function initBetween(upper, lower) {
+  if (upper && lower) {
+    if (upper.init - lower.init >= 0.02) {
+      return { value: round2((upper.init + lower.init) / 2), nudges: [], note: `midway between ${fmt(upper.init)} and ${fmt(lower.init)}` };
+    }
+    const raised = round2(lower.init + 0.02);
+    return { value: round2(lower.init + 0.01), nudges: [{ id: upper.id, value: raised }],
+      note: `neighbours tied/too close (${fmt(upper.init)} / ${fmt(lower.init)}); ${upper.name} nudged to ${fmt(raised)}` };
+  }
+  if (upper) {
+    return { value: round2(upper.init - 1), nudges: [], note: `last: 1 below ${fmt(upper.init)}` };
+  }
+  if (lower) {
+    return { value: round2(lower.init + 1), nudges: [], note: `first: 1 above ${fmt(lower.init)}` };
+  }
+  return { value: 0, nudges: [], note: "only combatant" };
+}
+/** Move `id` to index `index` of the order without it; returns what changed. */
+function moveCombatant(list, id, index) {
+  const moving = list.find(c => c.id === id);
+  const rest = sortedCombatants(list).filter(c => c.id !== id);
+  const result = initBetween(rest[index - 1], rest[index]);
+  for (const nudge of result.nudges) {
+    list.find(c => c.id === nudge.id).init = nudge.value;
+  }
+  moving.init = result.value;
+  return { ...result, name: moving.name };
+}
+/** Turn timer colour: neutral under 1 minute, yellow from 1:00, orange from 2:00. */
+function timerClass(ms) {
+  return ms >= 120000 ? "hp-orange" : ms >= 60000 ? "hp-yellow" : "";
+}
+function formatTimer(ms) {
+  const s = Math.floor(ms / 1000);
+  return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+}
+/** Green >75%, yellow 51-75%, orange 26-50% (bloodied in 4e), red <=25%. */
+function hpClass(hp, max) {
+  const f = max ? hp / max : 0;
+  return f > .75 ? "hp-green" : f > .5 ? "hp-yellow" : f > .25 ? "hp-orange" : "hp-red";
+}
+
+/* ---------- sample state ---------- */
+const fresh = () => ({
+  started: false, round: 0, turnCount: 0, activeId: null, startedAt: null, turnMs: 0,
+  list: [
+    { id: "a", name: "Kessa (Rogue)", team: "pc", hp: 38, max: 44, init: 21, hidden: false },
+    { id: "b", name: "Brother Alden", team: "pc", hp: 52, max: 52, init: 12, hidden: false, leader: true },
+    { id: "c", name: "Mirelle", team: "pc", hp: 26, max: 40, init: 17, hidden: false },
+    { id: "d", name: "Gorm (Dwarf Fighter)", team: "friend", hp: 60, max: 60, init: 9, hidden: false },
+    { id: "e", name: "Gnoll Marauder 1", team: "enemy", hp: 55, max: 55, init: 17, hidden: false },
+    { id: "f", name: "Gnoll Marauder 2", team: "enemy", hp: 22, max: 55, init: 14, hidden: false },
+    { id: "g", name: "Gnoll Huntmaster", team: "enemy", hp: 70, max: 70, init: null, hidden: true, tier: "elite", leader: true },
+    { id: "h", name: "Hyena", team: "enemy", hp: 1, max: 1, init: 6, hidden: false, tier: "minion" },
+    { id: "i", name: "Hyena", team: "enemy", hp: 1, max: 1, init: 6, hidden: false, tier: "minion" },
+    { id: "j", name: "Gnoll Warlord", team: "enemy", hp: 160, max: 210, init: 11, hidden: false, tier: "solo" },
+    { id: "k", name: "Gnoll Bonecrusher", team: "enemy", hp: 96, max: 150, init: 15, hidden: false, tier: "elite" },
+  ],
+});
+let state = fresh();
+let logText = "";
+
+const COLORS = { pc: "var(--pc)", friend: "var(--friend)", enemy: "var(--enemy)" };
+const order = () => sortedCombatants(state.list);
+const short = n => n.replace(/\(.*\)/, "").trim();
+/** Same icons, colours and priority as the token-hover health display: Solo > Leader > Elite > Minion. Minion has no icon there; the tracker gives it a chess pawn. */
+const ROLES = {
+  solo: ["fa-solid fa-skull", "Solo"],
+  leader: ["fa-solid fa-star", "Leader"],
+  elite: ["fa-solid fa-diamond", "Elite"],
+  minion: ["fa-solid fa-chess-pawn", "Minion"],
+};
+const roleKey = c => c.tier === "solo" ? "solo" : c.leader ? "leader" : c.tier === "elite" ? "elite" : c.tier === "minion" ? "minion" : null;
+/** Fixed-width slot before the name so names stay aligned whether or not a role icon is present. */
+const roleIcon = c => {
+  const key = roleKey(c);
+  return `<span class="role ${key ?? ""}"${key ? ` title="${ROLES[key][1]}" aria-label="${ROLES[key][1]}"` : ` aria-hidden="true"`}>${key ? `<i class="${ROLES[key][0]}" aria-hidden="true"></i>` : ""}</span>`;
+};
+const tip = c => `${c.name} · HP ${c.hp}/${c.max} · Initiative ${fmt(c.init)}${c.hidden ? " · hidden from players" : ""}`;
+const canDrag = () => state.started;
+const showInit = () => !state.started || SHOW_INIT_AFTER_START;
+const briefingOn = () => document.getElementById("briefing").checked;
+
+
+/* ---------- rendering ---------- */
+const eyeBtn = c => `<button class="eye" data-eye="${c.id}" aria-pressed="${c.hidden}" title="${c.hidden ? "Show token to players" : "Hide token from players"}" aria-label="${c.hidden ? "Show" : "Hide"} ${c.name}">${c.hidden ? "&#10006;" : "&#9673;"}</button>`;
+const initInput = c => `<input class="init" type="number" step="any" data-init="${c.id}" value="${c.init ?? ""}" placeholder="—" aria-label="Initiative for ${c.name}">`;
+
+function header() {
+  const hasTitle = briefingOn();
+  const rows = order();
+  const active = rows.findIndex(c => c.id === state.activeId);
+  const subtitle = state.started
+    ? `Round <b>${state.round}</b> · Turn <b>${active + 1}</b> of ${rows.length}`
+    : "Not started";
+  const buttons = state.started
+    ? `<button data-act="next">Next turn</button><button data-act="end">End</button>`
+    : `<button data-act="roll" title="Roll for anyone without initiative">Roll empty</button><button data-act="begin">Begin</button>`;
+  return `<div class="head ${hasTitle ? "" : "untitled"}"><div class="titles">
+      ${hasTitle ? `<div class="title" title="From the linked Battle Briefing">${BRIEFING.title}</div>` : ""}
+      <div class="subtitle">${subtitle}</div></div><span class="btns">${buttons}</span></div>`;
+}
+
+function row(c) {
+  const dead = c.hp <= 0;
+  return `<div class="row ${c.id === state.activeId ? "active" : ""} ${c.hidden ? "hidden-token" : ""} ${dead ? "defeated" : ""}" style="--tc:${COLORS[c.team]}" data-id="${c.id}" draggable="${canDrag()}" tabindex="0" title="${tip(c)}">
+    <span class="grip" aria-hidden="true">${canDrag() ? "&#8942;" : ""}</span>
+    ${roleIcon(c)}<span class="name">${c.name}</span>
+    <button class="hpn ${hpClass(c.hp, c.max)}" data-hp="${c.id}" title="Prototype aid: click −5, Shift+click +5" aria-label="HP ${c.hp} of ${c.max}">${c.hp}<small>/${c.max}</small></button>
+    ${showInit() ? initInput(c) : ""}
+    ${eyeBtn(c)}
+  </div>`;
+}
+
+/** Turns from the active combatant until the next player character acts (wraps into the next round). */
+function nextPlayer(rows, activeId) {
+  const start = Math.max(0, rows.findIndex(c => c.id === activeId));
+  for (let step = 1; step <= rows.length; step++) {
+    const c = rows[(start + step) % rows.length];
+    if (c.team === "pc") { return { c, turns: step }; }
+  }
+  return null;
+}
+function nextPlayerLine() {
+  const rows = order();
+  if (!state.started) {
+    const i = rows.findIndex(c => c.team === "pc");
+    return i < 0 ? "" : `<div class="nextp"><span>First player: <span class="pc">${short(rows[i].name)}</span></span><span class="when">turn ${i + 1}</span></div>`;
+  }
+  const next = nextPlayer(rows, state.activeId);
+  if (!next) { return ""; }
+  const when = next.turns === 1 ? "next" : `in ${next.turns} turns`;
+  return `<div class="nextp"><span>Next player: <span class="pc">${short(next.c.name)}</span></span><span class="when">${when}</span></div>`;
+}
+/** Why the turn timer is frozen right now (empty = running). Target Automation takes precedence over Dice So Nice. */
+function pauseReasons() {
+  // Order matters: callers show only the first reason.
+  return [document.getElementById("simAuto").checked && "Target Automation", document.getElementById("simDice").checked && "Dice So Nice"].filter(Boolean);
+}
+function timerHtml() {
+  if (!state.started) { return `<span class="lab">Turn timer</span><span class="t">starts with combat</span>`; }
+  const reasons = pauseReasons();
+  return `<span class="lab">Turn timer</span><span>${reasons.length ? `<span class="why">&#9208; Paused · ${reasons[0]}</span>` : ""}<span class="t">${formatTimer(state.turnMs)}</span></span>`;
+}
+function timerLine() {
+  return `<div class="timer ${timerClass(state.turnMs)} ${state.started && pauseReasons().length ? "paused" : ""}" id="turntimer">${timerHtml()}</div>`;
+}
+/** Accumulate only while running, so a pause never loses or invents time. */
+let lastTick = Date.now();
+setInterval(() => {
+  const now = Date.now();
+  if (state.started && !pauseReasons().length) {
+    state.turnMs += (now - lastTick) * (document.getElementById("fast").checked ? 10 : 1);
+  }
+  lastTick = now;
+  const el = document.getElementById("turntimer");
+  if (el) {
+    el.className = `timer ${timerClass(state.turnMs)} ${state.started && pauseReasons().length ? "paused" : ""}`;
+    el.innerHTML = timerHtml();
+  }
+}, 250);
+
+function render() {
+  const rows = order();
+  document.getElementById("host").innerHTML = `<div class="sidebar">${header()}<div class="list" data-axis="y">${rows.map(row).join("")}</div><div class="foot">${nextPlayerLine()}${timerLine()}</div></div>`;
+  renderState();
+}
+
+function renderState() {
+  document.getElementById("state").innerHTML = `<p style="margin:0 0 6px;color:var(--dim)">${state.started ? `Combat started · round ${state.round}` : "Combat not started · initiative editable, dragging off"}</p>
+    <table><tr><th>#</th><th>Combatant</th><th>Init</th><th>HP</th></tr>
+    ${order().map((c, i) => `<tr><td>${i + 1}</td><td>${c.id === state.activeId ? "&#9654; " : ""}${c.name}${c.hidden ? " (hidden)" : ""}</td><td>${fmt(c.init)}</td><td>${c.hp}/${c.max}</td></tr>`).join("")}</table>`;
+  document.getElementById("log").innerHTML = logText;
+}
+
+/* ---------- actions ---------- */
+function act(name) {
+  if (name === "roll") {
+    for (const c of state.list) {
+      if (c.init == null) { c.init = 1 + Math.floor(Math.random() * 20); }
+    }
+    logText = "Rolled for everyone without initiative.";
+  } else if (name === "begin") {
+    for (const c of state.list) {
+      if (c.init == null) { c.init = 0; }
+    }
+    state.started = true; state.round = 1; state.turnCount = 1; state.startedAt = Date.now(); state.turnMs = 0; state.activeId = order()[0].id;
+    logText = "Combat started. Initiative numbers are now hidden; drag a row between two others to re-slot it.";
+  } else if (name === "next") {
+    const rows = order(); const i = rows.findIndex(c => c.id === state.activeId);
+    if (i === rows.length - 1) { state.round++; }
+    state.activeId = rows[(i + 1) % rows.length].id; state.turnCount++; state.turnMs = 0;
+    logText = "";
+  } else if (name === "end") {
+    const keep = state.list.map(c => ({ ...c }));
+    state = { ...fresh(), list: keep }; logText = "Combat ended; initiative kept for the next start.";
+  }
+  render();
+}
+
+document.addEventListener("click", e => {
+  const eye = e.target.closest("[data-eye]");
+  if (eye) {
+    const c = state.list.find(x => x.id === eye.dataset.eye);
+    c.hidden = !c.hidden; logText = `<b>${c.name}</b> ${c.hidden ? "hidden from" : "shown to"} players.`; render(); return;
+  }
+  const hp = e.target.closest("[data-hp]");
+  if (hp) {
+    const c = state.list.find(x => x.id === hp.dataset.hp);
+    c.hp = Math.max(0, Math.min(c.max, c.hp + (e.shiftKey ? 5 : -5)));
+    logText = `<b>${c.name}</b> HP ${c.hp}/${c.max}${c.hp <= 0 ? " — defeated" : ""}.`; render(); return;
+  }
+  const button = e.target.closest("[data-act]");
+  if (button) { act(button.dataset.act); }
+});
+document.addEventListener("change", e => {
+  if (e.target.id === "briefing" || e.target.id === "simAuto" || e.target.id === "simDice") { render(); return; }
+  const input = e.target.closest("[data-init]");
+  if (input) {
+    const c = state.list.find(x => x.id === input.dataset.init);
+    c.init = input.value === "" ? null : Number(input.value);
+    logText = `<b>${c.name}</b> initiative set to ${fmt(c.init)}.`; render();
+  }
+});
+
+/* ---------- drag between neighbours ---------- */
+let dragId = null;
+let dropIndex = null;
+document.addEventListener("dragstart", e => {
+  const item = e.target.closest?.(".row");
+  if (!item || !canDrag()) { e.preventDefault(); return; }
+  dragId = item.dataset.id;
+  e.dataTransfer.effectAllowed = "move";
+  e.dataTransfer.setData("text/plain", dragId);
+  requestAnimationFrame(() => item.classList.add("dragging"));
+});
+document.addEventListener("dragover", e => {
+  const container = e.target.closest?.("[data-axis]");
+  if (!dragId || !container) { return; }
+  e.preventDefault();
+  const items = [...container.querySelectorAll(".row")].filter(el => el.dataset.id !== dragId);
+  dropIndex = items.filter(el => {
+    const r = el.getBoundingClientRect();
+    return e.clientY > r.top + r.height / 2;
+  }).length;
+  document.querySelectorAll(".drop-before,.drop-after").forEach(el => el.classList.remove("drop-before", "drop-after"));
+  if (dropIndex < items.length) { items[dropIndex].classList.add("drop-before"); }
+  else if (items.length) { items[items.length - 1].classList.add("drop-after"); }
+});
+document.addEventListener("drop", e => {
+  if (!dragId || dropIndex == null) { return; }
+  e.preventDefault();
+  const result = moveCombatant(state.list, dragId, dropIndex);
+  logText = `<b>${result.name}</b> → initiative <b>${fmt(result.value)}</b> (${result.note}).`;
+  dragId = dropIndex = null;
+  render(); // the active turn follows the combatant (by id), not the slot
+});
+document.addEventListener("dragend", () => {
+  dragId = dropIndex = null;
+  document.querySelectorAll(".dragging,.drop-before,.drop-after").forEach(el => el.classList.remove("dragging", "drop-before", "drop-after"));
+});
+
+render();
+</script>
+</html>

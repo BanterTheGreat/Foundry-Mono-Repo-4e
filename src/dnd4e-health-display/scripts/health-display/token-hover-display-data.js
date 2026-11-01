@@ -136,7 +136,7 @@ function getTurnDistance(token) {
  * @param {Actor} actor The displayed actor.
  * @returns {{key: string, label: string, icon?: string}|null}
  */
-function getSpecialRole(actor) {
+export function getSpecialRole(actor) {
 	const role = actor.system?.details?.role ?? {};
 
 	if (role.secondary === "solo" || role.primary === "solo") {

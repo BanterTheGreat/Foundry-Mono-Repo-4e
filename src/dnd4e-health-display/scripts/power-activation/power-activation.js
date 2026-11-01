@@ -165,6 +165,7 @@ export async function useAbility(item, sourceToken, groupTokens = null) {
 		const range = await resolveRange(item);
 		const card = await renderPowerCard(item, utils);
 		session = new ActivationSession(item, sourceToken, range, card, count, attackers);
+		session.announce();
 		await session.start();
 	} catch (error) {
 		ui.notifications.error(error.message);
