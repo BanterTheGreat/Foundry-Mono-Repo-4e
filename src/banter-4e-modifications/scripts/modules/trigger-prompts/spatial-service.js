@@ -78,6 +78,29 @@ export class SpatialService {
     return false;
   }
 
+  /** Check every entered grid position, including the destination but excluding the origin. */
+  doesPathEnterRange(path, mover, candidate, range) {
+    if (!Number.isFinite(range) || range < 0) {
+      return false;
+    }
+    for (let index = 1; index < path.length; index += 1) {
+      const start = path[index - 1];
+      const end = path[index];
+      const length = Math.max(Math.abs(end.x - start.x), Math.abs(end.y - start.y));
+      if (length === 0) {
+        continue;
+      }
+      const steps = Math.max(1, Math.ceil(length / this.gridSize));
+      for (let step = 1; step <= steps; step += 1) {
+        const position = { x: start.x + (end.x - start.x) * step / steps, y: start.y + (end.y - start.y) * step / steps };
+        if (this.distanceSquares(mover, candidate, position) <= range + 1e-6) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   /**
    * Yields positions along a path, from the origin up to but not including the
    * final destination.

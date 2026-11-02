@@ -1,4 +1,4 @@
-/* ---------- Token hover display: ring, name tag and effect list ---------- */
+/* ---------- Token hover display: name tag and effect list ---------- */
 
 #dnd4e-token-ring-display {
 	position: fixed;
@@ -22,19 +22,6 @@
 .dnd4e-token-ring__frame.is-leader { --ring-accent: #caa03f; }
 .dnd4e-token-ring__frame.is-elite { --ring-accent: #975bc9; }
 .dnd4e-token-ring__frame.is-minion { --ring-accent: #7d7870; }
-
-.dnd4e-token-ring__svg {
-	position: absolute;
-	inset: 0;
-	overflow: visible;
-}
-
-.dnd4e-token-ring__hover-ring {
-	fill: none;
-	stroke: var(--ring-accent);
-	stroke-opacity: 0.8;
-	stroke-width: 2;
-}
 
 .dnd4e-token-ring__tag {
 	position: absolute;

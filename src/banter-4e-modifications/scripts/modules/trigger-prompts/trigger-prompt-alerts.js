@@ -1,8 +1,10 @@
+import { PowerChatCards } from "../chat-rolls/power-chat-cards.js";
 import { TRIGGER_PROMPT_FLAG, TRIGGER_PROMPT_TIMEOUT_MS } from "./constants.js";
 
 /** Recipient-local views of pending chat prompts; all mutations still use the chat claim protocol. */
 export class TriggerPromptAlerts {
   #alerts = new Map();
+  #dismissed = new Set();
 
   /** @param {(message: ChatMessage, html: HTMLElement) => void} bindControls */
   constructor(bindControls) {
@@ -20,7 +22,7 @@ export class TriggerPromptAlerts {
       this.remove(message.id);
       return;
     }
-    if (this.#alerts.has(message.id)) {
+    if (this.#alerts.has(message.id) || this.#dismissed.has(message.id)) {
       return;
     }
     const escape = foundry.utils.escapeHTML;
@@ -39,11 +41,15 @@ export class TriggerPromptAlerts {
     alert.className = "banter-trigger-alert";
     alert.dataset.messageId = message.id;
     alert.setAttribute("aria-label", `${actor.name}: ${prompt.label ?? "Trigger available"}`);
-    alert.innerHTML = `<div class="banter-trigger-alert__copy" role="status"><div class="banter-trigger-alert__label">${escape(actor.name)} · ${escape(prompt.label ?? "Trigger available")}</div><div class="banter-trigger-alert__cause">${escape(prompt.detail ?? "A configured trigger occurred.")}</div></div><div class="banter-trigger-alert__actions">${items.map(item => `<button type="button" data-trigger-prompt-action="use" data-item-id="${escape(item.id)}">${escape(item.name)}</button>`).join("")}<button type="button" data-trigger-prompt-action="dismiss">Ignore</button></div><div class="banter-trigger-alert__track" role="progressbar" aria-label="Response time remaining" aria-valuemin="0" aria-valuemax="10"><div class="banter-trigger-alert__drain"></div></div><div class="banter-trigger-alert__tooltip" role="tooltip" hidden></div>`;
+    const duration = prompt.automatic ? 6000 : TRIGGER_PROMPT_TIMEOUT_MS;
+    const actions = prompt.automatic
+      ? `${items.map(item => `<button type="button" disabled data-item-id="${escape(item.id)}" aria-label="${escape(item.name)}: Already used" title="Already used"><i class="fa-solid fa-check" aria-hidden="true"></i> ${escape(item.name)}</button>`).join("")}<button type="button" data-dismiss-automatic>Dismiss</button>`
+      : `${items.map(item => `<button type="button" data-trigger-prompt-action="use" data-item-id="${escape(item.id)}">${escape(item.name)}</button>`).join("")}<button type="button" data-trigger-prompt-action="dismiss">Ignore</button>`;
+    alert.innerHTML = `<div class="banter-trigger-alert__copy" role="status"><div class="banter-trigger-alert__label">${escape(actor.name)} · ${escape(prompt.label ?? "Trigger available")}</div><div class="banter-trigger-alert__cause">${escape(prompt.detail ?? "A configured trigger occurred.")}</div></div><div class="banter-trigger-alert__actions">${actions}</div><div class="banter-trigger-alert__track" role="progressbar" aria-label="Response time remaining" aria-valuemin="0" aria-valuemax="${duration / 1000}"><div class="banter-trigger-alert__drain"></div></div><div class="banter-trigger-alert__tooltip" role="tooltip" hidden></div>`;
     const remaining = Math.max(0, prompt.expiresAt - Date.now());
     const bar = alert.querySelector(".banter-trigger-alert__drain");
-    bar.style.animationDuration = `${TRIGGER_PROMPT_TIMEOUT_MS}ms`;
-    bar.style.animationDelay = `-${TRIGGER_PROMPT_TIMEOUT_MS - Math.min(remaining, TRIGGER_PROMPT_TIMEOUT_MS)}ms`;
+    bar.style.animationDuration = `${duration}ms`;
+    bar.style.animationDelay = `-${duration - Math.min(remaining, duration)}ms`;
     const tooltip = alert.querySelector("[role=tooltip]");
     tooltip.id = `banter-trigger-power-${message.id}`;
     let hoveredItem = null;
@@ -66,7 +72,15 @@ export class TriggerPromptAlerts {
         console.warn("Banter | Could not prepare trigger power tooltip", error);
       }
     };
-    alert.addEventListener("mouseenter", () => showTooltip(items[0]));
+    if (items.length === 1) {
+      alert.addEventListener("mouseenter", () => showTooltip(items[0]));
+    } else {
+      alert.addEventListener("mouseover", event => {
+        if (!event.target.closest("[data-item-id], [role=tooltip]")) {
+          hideTooltip();
+        }
+      });
+    }
     alert.addEventListener("mouseleave", () => {
       if (!alert.contains(document.activeElement)) {
         hideTooltip();
@@ -96,7 +110,14 @@ export class TriggerPromptAlerts {
     stack.append(alert);
     const timer = setTimeout(() => this.remove(message.id), remaining);
     this.#alerts.set(message.id, { element: alert, timer });
-    this.bindControls(message, alert);
+    if (prompt.automatic) {
+      alert.querySelector("[data-dismiss-automatic]").addEventListener("click", () => {
+        this.#dismissed.add(message.id);
+        this.remove(message.id);
+      });
+    } else {
+      this.bindControls(message, alert);
+    }
   }
 
   /** Remove a local view and its timer when the shared prompt changes or expires. */
@@ -114,6 +135,17 @@ export class TriggerPromptAlerts {
     }
   }
 
+  /** Render the same range icon, title and usage badge as a power chat card. */
+  static powerHeader(item) {
+    const escape = foundry.utils.escapeHTML;
+    const system = item.system ?? {};
+    const usage = ["atwill", "encounter", "daily"].includes(system.useType) ? system.useType : "other";
+    const label = { atwill: "At-Will", encounter: "Encounter", daily: "Daily" }[usage]
+      ?? (["feat", "feature"].includes(item.type) ? "Feat" : "Power");
+    const range = PowerChatCards.rangeIcon({ flags: { dnd4e: { itemData: { system } } } }, { dataset: {} });
+    return `<div class="banter-power banter-power--${usage} banter-trigger-tooltip-header"><header class="banter-power__header"><h3 class="banter-power__heading"><i class="banter-power__range-icon fa-solid ${range.icon}" role="img" aria-label="${range.label}" title="${range.label}"></i>${escape(item.name)}</h3><div class="banter-power__usage">${label}</div></header></div>`;
+  }
+
   /**
    * Read the assigned power's rules, enriching links and formulas with its actor's roll data.
    * @param {Item} item
@@ -121,7 +153,12 @@ export class TriggerPromptAlerts {
    * @returns {Promise<string>}
    */
   static async powerDetails(item, actor) {
-    const escape = foundry.utils.escapeHTML;
+    const header = TriggerPromptAlerts.powerHeader(item);
+    if (globalThis.game?.modules?.get("dnd4e-health-display")?.active) {
+      const { generateInlinePowerDetails } = await import("../../../../dnd4e-health-display/scripts/actor-display/actor-display-tooltips.js");
+      const { html } = await generateInlinePowerDetails(actor, item);
+      return `${header}<div class="dnd4e-info-tooltip">${html || "<p>No rules text available.</p>"}</div>`;
+    }
     const system = item.system ?? {};
     const rules = [
       ["", system.description?.chat || system.description?.value],
@@ -142,6 +179,7 @@ export class TriggerPromptAlerts {
     const enriched = await foundry.applications.ux.TextEditor.implementation.enrichHTML(content, {
       secrets: false, async: true, relativeTo: item, rollData: actor.getRollData(),
     });
-    return `<strong>${escape(item.name)}</strong>${enriched || "<p>No rules text available.</p>"}`;
+    return `${header}${enriched || "<p>No rules text available.</p>"}`;
   }
 }
+

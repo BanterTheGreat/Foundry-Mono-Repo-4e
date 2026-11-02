@@ -12,11 +12,14 @@ export const ASSIGNMENT_SOURCE = Object.freeze({
 });
 
 /**
- * Reads and writes the trigger assignments stored on a power.
+ * Reads and writes the trigger assignments stored on a power or feat.
  *
  * Assignments are a flag on the Item, so they travel with the power when it is
  * duplicated, dragged to another actor, or imported from a compendium. The flag
- * holds `{version, assignments: [{triggerId, parameters, source}]}`. The list
+ * holds `{version, limit, automatic, assignments: [{triggerId, parameters, source}]}`.
+ * The optional shared `limit` defaults to none; assignment parameters include
+ * rangeSquares, nonMinion, meleeOnly and adjacentOnly. Runtime usage is kept
+ * separately under `trigger-prompt-usage`, so saving configuration preserves it. The list
  * is an array because Foundry replaces arrays but merges objects, and a saved
  * list must be able to drop an assignment.
  */
@@ -51,8 +54,19 @@ export class ItemTriggerAssignments {
    * @param {Array<{triggerId: string, parameters: object, source: string}>} assignments
    * @returns {Promise<void>}
    */
-  static async write(item, assignments) {
-    await item.setFlag(MODULE_NAME, TRIGGER_CONFIGURATION_FLAG, { version: 1, assignments });
+  static async write(item, assignments, limit = ItemTriggerAssignments.limit(item), automatic = ItemTriggerAssignments.automatic(item)) {
+    await item.setFlag(MODULE_NAME, TRIGGER_CONFIGURATION_FLAG, { version: 1, assignments, limit, automatic: automatic === true });
+  }
+
+  /** Whether this item's triggers grant a mandatory benefit without activation. */
+  static automatic(item) {
+    return item.flags?.[MODULE_NAME]?.[TRIGGER_CONFIGURATION_FLAG]?.automatic === true;
+  }
+
+  /** Read the shared item limit, keeping pre-limit assignments unrestricted. */
+  static limit(item) {
+    const limit = item.flags?.[MODULE_NAME]?.[TRIGGER_CONFIGURATION_FLAG]?.limit;
+    return ["turn", "firstEncounter", "day"].includes(limit) ? limit : "none";
   }
 
   /**

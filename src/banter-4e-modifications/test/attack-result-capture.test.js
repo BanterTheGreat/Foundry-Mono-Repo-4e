@@ -25,6 +25,8 @@ test("AttackResultCapture retains nonmatching messages and returns target and na
   assert.deepEqual({ ...result, attackId: undefined }, {
     attackId: undefined,
     itemName: "Bite",
+    itemUuid: null,
+    isOpportunity: false,
     attackRange: "weapon",
     attackerActorId: "wolf-token-actor",
     attackerTokenId: "wolf-token",
@@ -97,4 +99,30 @@ test("a capture whose message never arrives is forgotten", () => {
   } finally {
     mock.timers.reset();
   }
+});
+
+
+test("persisted native variance supplies the actual opportunity mode missing from the system's hook item", () => {
+  for (const isOpp of [true, false]) {
+    const pending = new AttackResultCapture();
+    capture(pending, "Bite", "wolf-token");
+    const result = pending.consume({ ...message("Bite", "wolf-token"), flags: { dnd4e: { variance: { isOpp } } } });
+    assert.equal(result.isOpportunity, isOpp);
+  }
+});
+
+
+test("automation's resolved weapon mode distinguishes a ranged or thrown weapon from generic Weapon range", () => {
+  const pending = new AttackResultCapture();
+  capture(pending, "Throw", "hero", "weapon");
+  const result = pending.consume({ ...message("Throw", "hero"), flags: { "dnd4e-health-display": { attackResults: { triggerMetadata: { attackRange: "ranged" } } } } });
+  assert.equal(result.attackRange, "ranged");
+});
+
+
+test("automation keeps the owning caster as attacker when the native speaker is a companion origin", () => {
+  const pending = new AttackResultCapture();
+  capture(pending, "Spirit Strike", "spirit", "melee");
+  const result = pending.consume({ ...message("Spirit Strike", "spirit"), flags: { "dnd4e-health-display": { attackResults: { casterId: "hero", sceneId: "scene" } } } });
+  assert.equal(result.attackerTokenId, "hero");
 });

@@ -1,3 +1,4 @@
+import { matchesTriggerFilters } from "./trigger-filters.js";
 import { MODULE_NAME } from "../../shared/globals.js";
 import { Logger } from "../../shared/logger.js";
 import { ABILITY_SELECTION, TRIGGER_CONFIGURATION_FLAG, TRIGGER_ID, TRIGGER_PROMPT_UI } from "./constants.js";
@@ -61,7 +62,7 @@ export class ActorTriggerConfiguration {
    *   Assignments enriched with their power document.
    */
   static configuredAssignments(actor) {
-    const powers = ActorTriggerConfiguration.#itemsOf(actor).filter(item => item.type === "power");
+    const powers = ActorTriggerConfiguration.#itemsOf(actor).filter(item => ["power", "feat", "feature"].includes(item.type));
     const assignments = [];
     const configuredItemIds = new Set();
     for (const item of powers) {
@@ -179,6 +180,7 @@ export class ActorTriggerConfiguration {
    */
   static showActorDialog(actor) {
     const checked = ActorTriggerConfiguration.isOpportunityAttackPromptEnabled(actor) ? "checked" : "";
+    const turnChecked = ActorTriggerConfiguration.#readConfiguration(actor).opportunityAttack.oncePerTurn !== false ? "checked" : "";
     const opportunityPowers = ActorTriggerConfiguration.#itemsOf(actor).filter(item => ActorTriggerConfiguration.#isOpportunityAttackPower(actor, item));
     const opportunitySummary = opportunityPowers.length
       ? `<ul>${opportunityPowers.map(item => `<li>${foundry.utils.escapeHTML(item.name)}</li>`).join("")}</ul>`
@@ -192,10 +194,12 @@ export class ActorTriggerConfiguration {
       <section class="trigger-prompts-config__row">
         <div class="trigger-prompts-config__details"><strong>Opportunity Attacks</strong><p class="hint">Offer every power marked by DnD4e as an opportunity attack, plus Basic Attacks for NPCs.</p>${opportunitySummary}</div>
         <label><input type="checkbox" name="opportunityAttack.enabled" ${checked}> Enabled</label>
+        <label><input type="checkbox" name="opportunityAttack.oncePerTurn" ${turnChecked}> Once per turn</label>
+        <p class="hint">One prompt per enemy per turn, including ignored prompts. Shift movement does not provoke.</p>
       </section>
       ${actorLevelRows}
-      <h3>Power trigger assignments</h3>
-      <div class="trigger-prompts-config__summary">${summary || `<p class="hint">No powers have trigger assignments.</p>`}</div>
+      <h3>Power and feat trigger assignments</h3>
+      <div class="trigger-prompts-config__summary">${summary || `<p class="hint">No powers or feats have trigger assignments.</p>`}</div>
     </div>`;
     new foundry.applications.api.DialogV2({
       window: { title: `${actor.name}: Trigger prompts` },
@@ -249,7 +253,7 @@ export class ActorTriggerConfiguration {
     };
     await actor.setFlag(MODULE_NAME, TRIGGER_CONFIGURATION_FLAG, {
       ...configuration,
-      opportunityAttack: { enabled: data.has("opportunityAttack.enabled") },
+      opportunityAttack: { enabled: data.has("opportunityAttack.enabled"), oncePerTurn: data.has("opportunityAttack.oncePerTurn") },
       actorLevelTriggers,
     });
   }
@@ -263,6 +267,18 @@ export class ActorTriggerConfiguration {
    * @returns {boolean}
    */
   static #isAssignmentEligibleForEvent(assignment, trigger, promptContext) {
+    const parameters = assignment.parameters ?? {};
+    if (!matchesTriggerFilters(parameters, promptContext)) {
+      return false;
+    }
+    if (trigger.pathEntersRange && !promptContext.entersRange?.(parameters.rangeSquares ?? trigger.defaultRangeSquares)) {
+      return false;
+    }
+    if (parameters.nonMinion && promptContext.isMinion !== false
+      || parameters.meleeOnly && promptContext.isMelee !== true
+      || parameters.adjacentOnly && promptContext.adjacent !== true) {
+      return false;
+    }
     if (trigger.defaultRangeSquares === undefined || !Number.isFinite(promptContext.distanceSquares)) {
       return true;
     }
@@ -364,7 +380,7 @@ export class ActorTriggerConfiguration {
     const stored = actor.getFlag?.(MODULE_NAME, TRIGGER_CONFIGURATION_FLAG) ?? {};
     if (Array.isArray(stored.assignments)) {
       return {
-        opportunityAttack: { enabled: stored.opportunityAttack?.enabled !== false },
+        opportunityAttack: { enabled: stored.opportunityAttack?.enabled ?? actor.type !== "NPC", oncePerTurn: stored.opportunityAttack?.oncePerTurn !== false },
         actorLevelTriggers: stored.actorLevelTriggers ?? {},
         assignments: stored.assignments,
       };
@@ -390,6 +406,6 @@ export class ActorTriggerConfiguration {
         assignments.push({ itemId: item.id, triggerId: trigger.id, parameters: trigger.defaultRangeSquares === undefined ? {} : { rangeSquares: entry.rangeSquares ?? trigger.defaultRangeSquares } });
       }
     }
-    return { opportunityAttack: { enabled: stored[TRIGGER_ID.OPPORTUNITY_ATTACK]?.enabled !== false }, actorLevelTriggers: {}, assignments };
+    return { opportunityAttack: { enabled: stored[TRIGGER_ID.OPPORTUNITY_ATTACK]?.enabled ?? actor.type !== "NPC" }, actorLevelTriggers: {}, assignments };
   }
 }

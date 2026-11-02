@@ -1,6 +1,8 @@
 import { Logger } from "../../shared/logger.js";
 import { TriggerPromptAlerts } from "./trigger-prompt-alerts.js";
-import { TRIGGER_PROMPT_ACTION, TRIGGER_PROMPT_FLAG, TRIGGER_PROMPT_TIMEOUT_MS, TRIGGER_PROMPT_UI, TRIGGER_SOCKET_ACTION } from "./constants.js";
+import { TriggerItemLimits } from "./trigger-item-limits.js";
+import { ItemTriggerAssignments } from "./item-trigger-assignments.js";
+import { TRIGGER_ID, TRIGGER_PROMPT_ACTION, TRIGGER_PROMPT_FLAG, TRIGGER_PROMPT_TIMEOUT_MS, TRIGGER_PROMPT_UI, TRIGGER_SOCKET_ACTION } from "./constants.js";
 
 /** Extra time a claim is honored after the deadline, to absorb network delay. */
 const CLAIM_GRACE_MS = 1500;
@@ -23,6 +25,7 @@ export class TriggerPromptChat {
    */
   constructor(socket) {
     this.socket = socket;
+    this.limits = new TriggerItemLimits(socket);
     this.alerts = new TriggerPromptAlerts((message, html) => this.bindPromptCard(message, html, false));
   }
 
@@ -48,14 +51,46 @@ export class TriggerPromptChat {
    * @returns {Promise<void>}
    */
   async createPromptCard({ trigger, actor, assignments, context: promptContext, recipientIds }) {
-    const choices = assignments.filter(assignment => assignment.item);
+    let opportunityTicket = null;
+    const choices = [];
+    const seen = new Set();
+    for (const assignment of assignments.filter(candidate => candidate.item)) {
+      if (seen.has(assignment.item.id)) {
+        continue;
+      }
+      seen.add(assignment.item.id);
+      const ticket = await this.limits.request(assignment.item, "offer", null, promptContext.combatId);
+      if (ticket) {
+        if (trigger.id !== TRIGGER_ID.OPPORTUNITY_ATTACK && ItemTriggerAssignments.automatic(assignment.item)) {
+          if (await this.limits.request(assignment.item, "claim", ticket)) {
+            await this.#announceAutomaticBenefit({ trigger, actor, assignment, promptContext, recipientIds });
+          }
+        } else {
+          choices.push({ ...assignment, limitTicket: ticket.unrestricted ? null : ticket });
+        }
+      }
+    }
+    if (assignments.some(assignment => assignment.item) && !choices.length) {
+      return;
+    }
+    if (trigger.id === TRIGGER_ID.OPPORTUNITY_ATTACK) {
+      if (!choices.length) {
+        return;
+      }
+      opportunityTicket = await this.limits.request(choices[0].item, "opportunityOffer", { sourceKey: promptContext.sourceKey, combatId: promptContext.combatId });
+      if (!opportunityTicket) {
+        await this.#releaseChoices({ actorId: actor.id, actorUuid: actor.uuid, choices });
+        return;
+      }
+    }
     const buttons = choices
       .map(assignment => `<button data-trigger-prompt-action="${TRIGGER_PROMPT_ACTION.USE}" data-item-id="${assignment.item.id}">${foundry.utils.escapeHTML(assignment.item.name)}</button>`).join("");
-    const expiresAt = Date.now() + TRIGGER_PROMPT_TIMEOUT_MS;
+    const expiresAt = Math.min(Date.now() + TRIGGER_PROMPT_TIMEOUT_MS,
+      ...choices.filter(choice => choice.limitTicket).map(choice => choice.limitTicket.expiresAt));
     const message = await ChatMessage.create({
       whisper: recipientIds,
       flavor: `<b>${foundry.utils.escapeHTML(trigger.label)}</b>`,
-      content: `<p>${foundry.utils.escapeHTML(promptContext.detail)}</p><div class="${TRIGGER_PROMPT_UI.PROMPT_ACTIONS_CLASS}">${buttons}<button data-trigger-prompt-action="${TRIGGER_PROMPT_ACTION.DISMISS}">${TRIGGER_PROMPT_UI.DISMISS_LABEL} (10)</button></div>`,
+      content: `<p>${foundry.utils.escapeHTML(promptContext.detail)}</p><div class="${TRIGGER_PROMPT_UI.PROMPT_ACTIONS_CLASS}">${buttons}<button data-trigger-prompt-action="${TRIGGER_PROMPT_ACTION.DISMISS}">${TRIGGER_PROMPT_UI.DISMISS_LABEL} (${TRIGGER_PROMPT_TIMEOUT_MS / 1000})</button></div>`,
       flags: {
         [TRIGGER_PROMPT_FLAG]: {
           triggerId: trigger.id,
@@ -63,7 +98,8 @@ export class TriggerPromptChat {
           detail: promptContext.detail,
           actorId: actor.id,
           actorUuid: actor.uuid ?? null,
-          choices: choices.map(assignment => ({ assignmentId: assignment.id, itemId: assignment.item.id })),
+          ...(opportunityTicket ? { opportunityTicket } : {}),
+          choices: choices.map(assignment => ({ assignmentId: assignment.id, itemId: assignment.item.id, ...(assignment.limitTicket ? { limitTicket: assignment.limitTicket } : {}) })),
           recipientIds,
           used: false,
           expiresAt,
@@ -72,6 +108,46 @@ export class TriggerPromptChat {
     });
     setTimeout(() => this.expirePrompt(message.id)
       .catch(error => Logger.error("Failed to expire trigger prompt", { messageId: message.id, error: error.message })), TRIGGER_PROMPT_TIMEOUT_MS + CLAIM_GRACE_MS);
+  }
+
+  /** Post one durable public announcement with a recipient-only, short-lived alert. */
+  async #announceAutomaticBenefit({ trigger, actor, assignment, promptContext, recipientIds }) {
+    const escape = foundry.utils.escapeHTML;
+    const item = assignment.item;
+    // DnD4e 0.9.3 Item#toChat neither returns its message nor accepts flags.
+    // Reuse its native rendering contract so the announcement can carry the
+    // trigger's alert metadata without a second message or item activation.
+    const rules = ["feat", "feature"].includes(item.type)
+      ? (await foundry.applications.handlebars.renderTemplate("systems/dnd4e/templates/chat/item-card.hbs", {
+        actor,
+        tokenId: actor.token?.uuid ?? null,
+        item,
+        system: await item.getChatData(),
+        labels: item.labels,
+        hasAttack: item.hasAttack,
+        isHealing: item.isHealing,
+        isPower: false,
+        hasDamage: item.hasDamage,
+        hasHealing: item.hasHealing,
+        hasEffect: item.hasEffect,
+        cardData: null,
+        hasSave: item.hasSave,
+        hasAreaTarget: item.hasAreaTarget,
+        isRoll: false,
+      })).replace("ability-usage--", "ability-usage--other")
+      : await TriggerPromptAlerts.powerDetails(item, actor);
+    await ChatMessage.create({
+      whisper: [],
+      speaker: { actor: actor.id, alias: actor.name },
+      flavor: `<b>Automatic benefit triggered: ${escape(assignment.item.name)}</b>`,
+      content: `<p>${escape(actor.name)}: ${escape(promptContext.detail)}</p>${rules}`,
+      flags: { core: { canPopout: true }, [TRIGGER_PROMPT_FLAG]: {
+        automatic: true, triggerId: trigger.id, label: "Automatic benefit triggered",
+        detail: promptContext.detail, actorId: actor.id, actorUuid: actor.uuid ?? null,
+        choices: [{ itemId: assignment.item.id }], recipientIds, used: false,
+        expiresAt: Date.now() + 6000,
+      } },
+    });
   }
 
   /**
@@ -85,6 +161,12 @@ export class TriggerPromptChat {
   bindPromptCard(message, html, showAlert = true) {
     const prompt = message.flags?.[TRIGGER_PROMPT_FLAG];
     if (!prompt) {
+      return;
+    }
+    if (prompt.automatic) {
+      if (showAlert) {
+        this.alerts.show(message);
+      }
       return;
     }
     if (showAlert) {
@@ -136,10 +218,26 @@ export class TriggerPromptChat {
       const message = game.messages.get(messageId);
       const prompt = message?.flags?.[TRIGGER_PROMPT_FLAG];
       const allowedItemIds = prompt?.choices?.map(choice => choice.itemId) ?? [prompt?.itemId];
-      if (!prompt || prompt.used || TriggerPromptChat.isExpired(prompt, CLAIM_GRACE_MS) || !allowedItemIds.includes(itemId)) {
+      if (!prompt || prompt.automatic || prompt.used || TriggerPromptChat.isExpired(prompt, CLAIM_GRACE_MS) || !allowedItemIds.includes(itemId)) {
         return null;
       }
+      const ticket = prompt.choices?.find(choice => choice.itemId === itemId)?.limitTicket;
+      if (prompt.opportunityTicket) {
+        const actor = (prompt.actorUuid && globalThis.fromUuidSync?.(prompt.actorUuid)) || game.actors.get(prompt.actorId);
+        const item = actor?.items.get(itemId);
+        if (!item || !await this.limits.request(item, "opportunityClaim", { ...prompt.opportunityTicket, itemTicket: ticket })) {
+          return null;
+        }
+      }
+      if (ticket && !prompt.opportunityTicket) {
+        const actor = (prompt.actorUuid && globalThis.fromUuidSync?.(prompt.actorUuid)) || game.actors.get(prompt.actorId);
+        const item = actor?.items.get(itemId);
+        if (!item || !await this.limits.request(item, "claim", ticket)) {
+          return null;
+        }
+      }
       await message.update({ [`flags.${TRIGGER_PROMPT_FLAG}.used`]: true });
+      await this.#releaseChoices(prompt);
       return { ...prompt, itemId };
     });
   }
@@ -154,10 +252,11 @@ export class TriggerPromptChat {
   async dismissPrompt(messageId) {
     return this.#serialize(async () => {
       const message = game.messages.get(messageId);
-      if (!message?.flags?.[TRIGGER_PROMPT_FLAG] || message.flags[TRIGGER_PROMPT_FLAG].used) {
+      if (!message?.flags?.[TRIGGER_PROMPT_FLAG] || message.flags[TRIGGER_PROMPT_FLAG].automatic || message.flags[TRIGGER_PROMPT_FLAG].used) {
         return false;
       }
       await message.delete();
+      await this.#releaseChoices(message.flags[TRIGGER_PROMPT_FLAG]);
       return true;
     });
   }
@@ -174,12 +273,28 @@ export class TriggerPromptChat {
     return this.#serialize(async () => {
       const message = game.messages.get(messageId);
       const prompt = message?.flags?.[TRIGGER_PROMPT_FLAG];
-      if (!prompt || prompt.used || !TriggerPromptChat.isExpired(prompt, CLAIM_GRACE_MS)) {
+      if (!prompt || prompt.automatic || prompt.used || !TriggerPromptChat.isExpired(prompt, CLAIM_GRACE_MS)) {
         return false;
       }
       await message.delete();
+      await this.#releaseChoices(prompt);
       return true;
     });
+  }
+
+  /** Release unused item reservations when their prompt is answered or removed. */
+  async #releaseChoices(prompt) {
+    const limited = prompt.choices?.filter(choice => choice.limitTicket) ?? [];
+    if (!limited.length) {
+      return;
+    }
+    const actor = (prompt.actorUuid && globalThis.fromUuidSync?.(prompt.actorUuid)) || game.actors.get(prompt.actorId);
+    for (const choice of limited) {
+      const item = actor?.items.get(choice.itemId);
+      if (item) {
+        await this.limits.request(item, "release", choice.limitTicket);
+      }
+    }
   }
 
   /**
@@ -215,6 +330,10 @@ export class TriggerPromptChat {
     this.alerts.remove(message.id);
     const actor = (prompt.actorUuid && globalThis.fromUuidSync?.(prompt.actorUuid)) || game.actors.get(prompt.actorId);
     const item = actor?.items.get(prompt.itemId);
+    if (["feat", "feature"].includes(item?.type)) {
+      await item.toChat();
+      return;
+    }
     if (!item?.roll) {
       Logger.warn("Selected trigger prompt item cannot create a chat card", { messageId: message.id, actorId: prompt.actorId, itemId: prompt.itemId });
       return;

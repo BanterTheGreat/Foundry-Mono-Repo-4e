@@ -1,3 +1,4 @@
+import { attackTypeOf } from "./trigger-filters.js";
 import { Logger } from "../../shared/logger.js";
 
 /**
@@ -9,6 +10,7 @@ import { Logger } from "../../shared/logger.js";
  * (`{sceneId, tokenId}`) rather than documents so it can be logged and tested.
  */
 export const COMBAT_EVENT_TYPE = Object.freeze({
+  ATTACK_TARGETED: "attack-targeted",
   ATTACK_RESOLVED: "attack-resolved",
   MOVEMENT_COMMITTED: "movement-committed",
   HP_CHANGED: "hp-changed",
@@ -16,9 +18,8 @@ export const COMBAT_EVENT_TYPE = Object.freeze({
 });
 
 /**
- * How a token moved. Recorded on every movement event so later triggers can
- * tell a walk from a shift or a forced move, but no trigger reads it yet:
- * every move is currently treated as a walk.
+ * How a token moved. Shift movement does not provoke opportunity attacks.
+ * Mixed native paths additionally carry their non-Shift opportunity segments.
  */
 export const MOVEMENT_TYPE = Object.freeze({
   WALK: "walk",
@@ -48,7 +49,7 @@ function createEvent(type, fields) {
  * @returns {object}
  *   `isMelee` is derived from `attackRange`; `defenseType` is lower-cased.
  */
-export function createAttackResolvedEvent({ attackId = null, attacker, target, outcome, defenseType = null, attackRange = null, natural = null, total = null }) {
+export function createAttackResolvedEvent({ attackId = null, attacker, target, outcome, defenseType = null, attackRange = null, natural = null, total = null, isOpportunity = false, itemUuid = null }) {
   return createEvent(COMBAT_EVENT_TYPE.ATTACK_RESOLVED, {
     attackId,
     attacker,
@@ -56,37 +57,61 @@ export function createAttackResolvedEvent({ attackId = null, attacker, target, o
     outcome,
     defenseType: typeof defenseType === "string" ? defenseType.toLowerCase() : null,
     attackRange,
+    attackType: attackTypeOf(attackRange),
+    isOpportunity,
+    itemUuid,
     isMelee: isMeleeRange(attackRange),
     natural,
     total,
   });
 }
 
+/** Describe target selection separately from the later, possibly reviewed verdict. */
+export function createAttackTargetedEvents(capture) {
+  const targetIds = capture.targets.map(target => target.tokenId);
+  return capture.targets.map(target => ({
+    ...createAttackResolvedEvent({
+      attacker: { sceneId: capture.sceneId, tokenId: capture.attackerTokenId },
+      target: { sceneId: target.sceneId, tokenId: target.tokenId },
+      attackRange: capture.attackRange, defenseType: target.defenseType,
+      isOpportunity: capture.isOpportunity, itemUuid: capture.itemUuid,
+    }),
+    type: COMBAT_EVENT_TYPE.ATTACK_TARGETED, targetIds,
+  }));
+}
+
 /**
  * Describes a committed token move as the path it travelled.
  *
- * @param {{sceneId: string, tokenId: string, path: Array<{x: number, y: number}>, movementType?: string}} fields
+ * @param {{sceneId: string, tokenId: string, path: Array<{x: number, y: number}>, movementType?: string, opportunityPaths?: Array<Array<{x: number, y: number}>>}} fields
  *   `path` holds token top-left positions from the origin to the destination.
  * @returns {object}
  */
-export function createMovementCommittedEvent({ sceneId, tokenId, path, movementType = MOVEMENT_TYPE.WALK }) {
-  return createEvent(COMBAT_EVENT_TYPE.MOVEMENT_COMMITTED, { mover: { sceneId, tokenId }, path, movementType });
+export function createMovementCommittedEvent({ sceneId, tokenId, path, movementType = MOVEMENT_TYPE.WALK, opportunityPaths }) {
+  return createEvent(COMBAT_EVENT_TYPE.MOVEMENT_COMMITTED, { mover: { sceneId, tokenId }, path, movementType, ...(opportunityPaths ? { opportunityPaths } : {}) });
 }
 
 /**
  * Describes a hit-point change on one token.
  *
- * @param {{sceneId: string, tokenId: string, oldHp: number, newHp: number, bloodiedThreshold: number}} fields
+ * @param {{sceneId: string, tokenId: string, oldHp: number, newHp: number, bloodiedThreshold: number, attacker?: {sceneId: string, tokenId: string}|null}} fields
  * @returns {object}
- *   `becameBloodied` is true when the change crossed the bloodied threshold.
+ *   Threshold flags describe crossings, not a creature already below them.
+ *   `attacker` is set only when a damage receipt identifies the source.
  */
-export function createHpChangedEvent({ sceneId, tokenId, oldHp, newHp, bloodiedThreshold }) {
+export function createHpChangedEvent({ sceneId, tokenId, oldHp, newHp, bloodiedThreshold, attacker = null, attackRange = null, damageTypes = [], damageTaken = oldHp - newHp }) {
   return createEvent(COMBAT_EVENT_TYPE.HP_CHANGED, {
     subject: { sceneId, tokenId },
     oldHp,
     newHp,
+    damageTaken: Math.max(0, damageTaken),
+    damageTypes,
+    attackType: attackTypeOf(attackRange),
     bloodiedThreshold,
     becameBloodied: oldHp > bloodiedThreshold && newHp <= bloodiedThreshold,
+    reducedToZero: oldHp > 0 && newHp <= 0,
+    attacker,
+    isMelee: isMeleeRange(attackRange),
   });
 }
 
@@ -124,6 +149,8 @@ export function createAttackEventsFromCapture(capturedAttack) {
       outcome,
       defenseType: targetData.defenseType,
       attackRange: capturedAttack.attackRange,
+      isOpportunity: capturedAttack.isOpportunity,
+      itemUuid: capturedAttack.itemUuid,
       natural: capturedAttack.natural,
       total: capturedAttack.total,
     }));
@@ -145,6 +172,7 @@ export function createAttackEventFromDefense(defenseContext, outcome) {
     outcome,
     defenseType: defenseContext.defenseType,
     attackRange: defenseContext.attackRange,
+    isOpportunity: defenseContext.isOpportunity,
   });
 }
 
@@ -158,11 +186,13 @@ export function createAttackEventFromDefense(defenseContext, outcome) {
  */
 export function getEventRoles(event) {
   switch (event.type) {
+    case COMBAT_EVENT_TYPE.ATTACK_TARGETED:
     case COMBAT_EVENT_TYPE.ATTACK_RESOLVED:
       return { attacker: event.attacker, target: event.target };
     case COMBAT_EVENT_TYPE.MOVEMENT_COMMITTED:
       return { mover: event.mover };
     case COMBAT_EVENT_TYPE.HP_CHANGED:
+      return { subject: event.subject, ...(event.attacker ? { attacker: event.attacker } : {}) };
     case COMBAT_EVENT_TYPE.SAVE_RESOLVED:
       return { subject: event.subject };
     default:
@@ -199,7 +229,15 @@ export function determineAttackOutcome(capturedAttack, targetData) {
  */
 export function isMeleeRange(attackRange) {
   const range = typeof attackRange === "string" ? attackRange.trim().toLowerCase() : "";
-  return range === "weapon" || range === "melee" || /^melee\s+\d+$/.test(range);
+  return ["weapon", "melee", "touch", "reach"].includes(range) || /^melee\s+\d+$/.test(range);
+}
+
+/** Resolve weapon attacks without classifying an explicitly ranged weapon as melee. */
+export function attackRangeOf(item) {
+  const system = item.system ?? item.data?.data ?? item;
+  const range = item.rangeType ?? system.rangeType ?? system.attack?.range;
+  const value = typeof range === "string" ? range : range?.value ?? null;
+  return value === "weapon" && system.weaponType === "ranged" ? "range" : value;
 }
 
 /**

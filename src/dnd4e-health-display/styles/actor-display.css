@@ -258,7 +258,7 @@ body.dnd4e-horizontal-hud-active #players {
 
 /* Power tooltips use Foundry's shared tooltip container, so scope every card treatment to the
    module class rather than changing tooltips supplied by the system or another module. */
-#tooltip.dnd4e-info-tooltip {
+:is(#tooltip.dnd4e-info-tooltip, .banter-trigger-alert__tooltip .dnd4e-info-tooltip) {
 	width: min(31rem, calc(100vw - 2rem));
 	max-height: min(38rem, calc(100vh - 2rem));
 	padding: 0;
@@ -307,7 +307,7 @@ body.dnd4e-horizontal-hud-active #players {
 	background: linear-gradient(90deg, rgb(196 146 81 / 45%), rgb(196 146 81 / 8%));
 }
 
-#tooltip.dnd4e-info-tooltip .flavour {
+:is(#tooltip.dnd4e-info-tooltip, .banter-trigger-alert__tooltip .dnd4e-info-tooltip) .flavour {
 	margin: 0;
 	padding: 0.58rem 0.72rem;
 	border-bottom: 1px solid rgb(201 149 80 / 36%);
@@ -319,50 +319,50 @@ body.dnd4e-horizontal-hud-active #players {
 	line-height: 1.35;
 }
 
-#tooltip.dnd4e-info-tooltip .flavour > * {
+:is(#tooltip.dnd4e-info-tooltip, .banter-trigger-alert__tooltip .dnd4e-info-tooltip) .flavour > * {
 	margin: 0;
 	font: inherit;
 }
 
-#tooltip.dnd4e-info-tooltip .main-block,
-#tooltip.dnd4e-info-tooltip .item-card,
-#tooltip.dnd4e-info-tooltip .chat-card {
+:is(#tooltip.dnd4e-info-tooltip, .banter-trigger-alert__tooltip .dnd4e-info-tooltip) .main-block,
+:is(#tooltip.dnd4e-info-tooltip, .banter-trigger-alert__tooltip .dnd4e-info-tooltip) .item-card,
+:is(#tooltip.dnd4e-info-tooltip, .banter-trigger-alert__tooltip .dnd4e-info-tooltip) .chat-card {
 	padding: 0.45rem 0.7rem 0.65rem;
 }
 
-#tooltip.dnd4e-info-tooltip .main-block > *,
-#tooltip.dnd4e-info-tooltip .attack-block > * {
+:is(#tooltip.dnd4e-info-tooltip, .banter-trigger-alert__tooltip .dnd4e-info-tooltip) .main-block > *,
+:is(#tooltip.dnd4e-info-tooltip, .banter-trigger-alert__tooltip .dnd4e-info-tooltip) .attack-block > * {
 	margin: 0;
 	padding: 0.35rem 0.1rem;
 	border-bottom: 1px solid rgb(196 146 81 / 18%);
 }
 
-#tooltip.dnd4e-info-tooltip .main-block > :last-child,
-#tooltip.dnd4e-info-tooltip .attack-block > :last-child {
+:is(#tooltip.dnd4e-info-tooltip, .banter-trigger-alert__tooltip .dnd4e-info-tooltip) .main-block > :last-child,
+:is(#tooltip.dnd4e-info-tooltip, .banter-trigger-alert__tooltip .dnd4e-info-tooltip) .attack-block > :last-child {
 	border-bottom: 0;
 }
 
-#tooltip.dnd4e-info-tooltip b,
-#tooltip.dnd4e-info-tooltip strong,
-#tooltip.dnd4e-info-tooltip h1,
-#tooltip.dnd4e-info-tooltip h2,
-#tooltip.dnd4e-info-tooltip h3,
-#tooltip.dnd4e-info-tooltip h4 {
+:is(#tooltip.dnd4e-info-tooltip, .banter-trigger-alert__tooltip .dnd4e-info-tooltip) b,
+:is(#tooltip.dnd4e-info-tooltip, .banter-trigger-alert__tooltip .dnd4e-info-tooltip) strong,
+:is(#tooltip.dnd4e-info-tooltip, .banter-trigger-alert__tooltip .dnd4e-info-tooltip) h1,
+:is(#tooltip.dnd4e-info-tooltip, .banter-trigger-alert__tooltip .dnd4e-info-tooltip) h2,
+:is(#tooltip.dnd4e-info-tooltip, .banter-trigger-alert__tooltip .dnd4e-info-tooltip) h3,
+:is(#tooltip.dnd4e-info-tooltip, .banter-trigger-alert__tooltip .dnd4e-info-tooltip) h4 {
 	color: #ffe0a3;
 }
 
-#tooltip.dnd4e-info-tooltip a {
+:is(#tooltip.dnd4e-info-tooltip, .banter-trigger-alert__tooltip .dnd4e-info-tooltip) a {
 	color: #f0c879;
 }
 
-#tooltip.dnd4e-info-tooltip table {
+:is(#tooltip.dnd4e-info-tooltip, .banter-trigger-alert__tooltip .dnd4e-info-tooltip) table {
 	width: 100%;
 	border-color: rgb(196 146 81 / 35%);
 	background: rgb(0 0 0 / 18%);
 }
 
-#tooltip.dnd4e-info-tooltip th,
-#tooltip.dnd4e-info-tooltip td {
+:is(#tooltip.dnd4e-info-tooltip, .banter-trigger-alert__tooltip .dnd4e-info-tooltip) th,
+:is(#tooltip.dnd4e-info-tooltip, .banter-trigger-alert__tooltip .dnd4e-info-tooltip) td {
 	padding: 0.25rem 0.35rem;
 	border-color: rgb(196 146 81 / 24%);
 }

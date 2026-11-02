@@ -3,7 +3,7 @@ import { TRIGGER_PROMPT_UI } from "./constants.js";
 
 /**
  * Adapts legacy and ApplicationV2 item-sheet hooks to the per-power trigger
- * dialog. Assignments are stored on the power itself, so there is nothing to
+ * dialog. Assignments are stored on the item itself, so there is nothing to
  * clean up when a power is deleted.
  */
 export class PowerTriggerConfiguration {
@@ -36,13 +36,13 @@ export class PowerTriggerConfiguration {
   }
 
   /**
-   * Checks that the user can configure a DnD4e power, whether it belongs to an
+   * Checks that the user can configure a DnD4e power or feat, whether it belongs to an
    * actor or stands alone in the world.
    *
    * @param {Item} item
    * @returns {boolean}
    */
   static #canConfigure(item) {
-    return item?.documentName === "Item" && item.type === "power" && (game.user.isGM || item.isOwner);
+    return item?.documentName === "Item" && ["power", "feat", "feature"].includes(item.type) && (game.user.isGM || item.isOwner);
   }
 }

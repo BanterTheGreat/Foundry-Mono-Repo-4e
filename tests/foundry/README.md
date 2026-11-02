@@ -1,5 +1,39 @@
 # Real Foundry integration tests
 
+The Opportunity attack cases in `banter-4e-modifications.trigger-prompts` cover native
+Shift versus Walk movement, repeated movement after Ignore, refresh on the next turn,
+and one claimed opportunity attack across an actor's choices. Node tests additionally
+cover simultaneous offers/claims, persisted enemy history, stale turn tickets,
+initiative reordering, the optional once-per-turn override, and mixed Walk/Shift paths.
+
+The **BANTER: Trigger restrictions and shared limits** Quench batch
+(`banter-4e-modifications.trigger-limits`) covers native bloodying damage attribution;
+non-minion, melee and adjacency restrictions; ally defeats; one allowance across bloodied
+and defeat assignments; duplicate claims; Ignore; first occurrence per encounter;
+persisted state with a replacement handler; the same feat in a new combat; stale turn
+prompts; Short Rest versus the real Extended Rest; and saving the configuration in the
+real feat dialog. Its browser wrapper checks document counts and unhandled errors.
+
+```sh
+npx playwright test --config tests/foundry/playwright.config.mjs trigger-prompts.spec.mjs --grep "trigger restrictions"
+```
+
+The **BANTER: Defeat triggers and feat prompts** Quench batch
+(`banter-4e-modifications.defeat-triggers`) exercises real HP updates and native damage application:
+recorded killer attribution (including group receipts, negative HP and off-turn kills), manual HP edits,
+positive-to-zero crossings, friendly/distant casualties, healing, repeated damage below zero,
+and diagonal adjacency to a large token. Real feat sheets expose Triggers and save both assignments;
+clicking a prompted feat in the floating alert posts its native chat card once without calling Item.roll or changing its item data.
+The dedicated browser wrapper also checks world document counts and browser errors.
+
+```sh
+npx playwright test --config tests/foundry/playwright.config.mjs trigger-prompts.spec.mjs --grep "defeat triggers"
+```
+
+Before live runs, inspect existing combats, connected users, running tests, open workflows and
+leftover fixtures. Ask the user to end active/started combat or clear other observed interference,
+then re-probe before creating test documents.
+
 `trigger-alerts.spec.mjs` exercises compact floating prompts with real Foundry messages and assigned powers, without switching scenes or starting combat. It checks that synchronization records stay hidden in chat, plus the cause, native DnD4e power rules on hover/focus, direct claimed use, Ignore/deletion, used-state synchronization, recipient privacy, expiry and a draining animation aligned to an already-running deadline. Fixtures are marked and cleaned up; actor/message counts must match afterwards.
 
 The development-only `foundry-test-harness` module loads each module's
@@ -198,3 +232,13 @@ intercepted with its own DC and resolves on its own message. The Playwright scen
 `multi-attack-defense.spec.mjs` needs the non-GM test player and checks that the player gets
 one dialog for all attacks, rolls each defense, and that a reload does not reopen it.
 Run the Quench batches with `npm run test:foundry -- integration.spec.mjs`.
+
+## Expanded trigger coverage
+
+`banter-4e-modifications.expanded-triggers` (**BANTER: Expanded triggers and Target Automation**) exercises opportunity-hit positives and exclusions; confirmation and duplicate updates; full-roster mark exclusions; range entry; successful saves and allied failed saves; ranged AC/Reflex filters; shared filters on existing triggers; companion-owner routing with no companion combatant; typed temporary-HP damage; and saving filters/companion selections in the real Triggers dialog. Messages seeded at the automation review boundary use real native roll serialization and document updates.
+
+The browser case `confirmed native Target Automation delivers combat trigger prompts and typed damage` in `target-automation.spec.mjs` exercises the complete production Opportunity Attack workflow from both the caster and a companion origin, including the native form, deferred prompts, confirmation, companion/mark routing, typed damage application and bloodied transitions. All native/automation attack-result definitions additionally share a Node parity matrix. Neither test claims that an interrupt pauses the underlying native attack; targeted prompts observe the system's attack hook.
+
+The expanded Quench batch has also been checked with three isolated browser-response faults: inverted opportunity mode, disabled successful-save completion, and disabled companion routing. Four corresponding tests fail under those faults; fixture counts are unchanged. The faults affect only that browser's served responses and never change the deployed module files.
+
+The `automatic-benefit.spec.mjs` scenario covers the explicit mandatory checkbox, immediate public announcement with native DnD4e feat-card markup and rules, six-second recipient alert without Use/Ignore, persistent chat after expiry/local dismissal, shared daily allowance consumption, duplicate suppression, and optional prompt privacy. It enters at `createPromptCard` and does not exercise combat detection. Run only in the designated test world after preflight; this scenario has not yet been run against Foundry (the campaign world was active during implementation).

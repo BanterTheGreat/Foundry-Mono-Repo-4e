@@ -1,3 +1,6 @@
+import { renameWorldPowers } from "./world-power-name-api.js";
+import { localizeItemPowers } from "./localize-item-powers-api.js";
+import { triggerAutomation } from "./trigger-automation-api.js";
 import { addElevationRegions } from "./elevation-region-api.js";
 import { editSceneRegions } from "./scene-region-api.js";
 import { targetAutomation } from "./target-automation-api.js";
@@ -111,6 +114,16 @@ function connect() {
         } };
         let result;
         switch (request.operation) {
+          case "rename_world_powers":
+            result = await renameWorldPowers(request.args, connectionOptions);
+            break;
+          case "localize_item_powers":
+            result = await localizeItemPowers(request.args, connectionOptions);
+            break;
+          case "get_trigger_automation":
+          case "edit_trigger_automation":
+            result = await triggerAutomation(request.args, request.operation === "edit_trigger_automation", connectionOptions);
+            break;
           case "get_target_automation":
           case "edit_target_automation":
             result = await targetAutomation(request.args, request.operation === "edit_target_automation", connectionOptions);

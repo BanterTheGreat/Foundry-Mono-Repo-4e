@@ -1,0 +1,224 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\Imre\\Documents\\Workspace\\Foundry Mono Repo 4e\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--config",
+      "tests/foundry/playwright.config.mjs",
+      "trigger-prompts.spec.mjs",
+      "--grep",
+      "trigger restrictions"
+    ],
+    "configFile": "C:\\Users\\Imre\\Documents\\Workspace\\Foundry Mono Repo 4e\\tests\\foundry\\playwright.config.mjs",
+    "rootDir": "C:/Users/Imre/Documents/Workspace/Foundry Mono Repo 4e/tests/foundry/scenarios",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/Imre/Documents/Workspace/Foundry Mono Repo 4e/output/foundry-test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/Imre/Documents/Workspace/Foundry Mono Repo 4e/tests/foundry/scenarios",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\Users\\Imre\\Documents\\Workspace\\Foundry Mono Repo 4e\\output\\foundry-test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "C:\\Users\\Imre\\Documents\\Workspace\\Foundry Mono Repo 4e\\tests\\foundry\\scenarios",
+        "snapshotDir": "C:\\Users\\Imre\\Documents\\Workspace\\Foundry Mono Repo 4e\\tests\\foundry\\scenarios",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 180000,
+        "use": {
+          "baseURL": "http://localhost:30000/",
+          "browserName": "chromium",
+          "launchOptions": {
+            "args": [
+              "--enable-gpu",
+              "--ignore-gpu-blocklist",
+              "--use-angle=d3d11"
+            ]
+          },
+          "viewport": {
+            "width": 1920,
+            "height": 1080
+          },
+          "trace": "retain-on-failure",
+          "screenshot": "only-on-failure"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "html",
+        {
+          "outputFolder": "../../output/foundry-test-report",
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "../../output/foundry-test-results/playwright.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "trigger-prompts.spec.mjs",
+      "file": "trigger-prompts.spec.mjs",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "trigger restrictions and shared limits work in the real Foundry runtime",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 36450,
+                  "error": {
+                    "message": "Error: [\n  {\n    \"title\": \"tracer: attributes a native bloodying hit and excludes minions with a positive control\",\n    \"fullTitle\": \"banter-4e-modifications.trigger-limits_root Trigger restrictions and shared limits tracer: attributes a native bloodying hit and excludes minions with a positive control\",\n    \"file\": null,\n    \"duration\": 1455,\n    \"currentRetry\": 0,\n    \"err\": {\n      \"stack\": \"AssertionError: a minion does not qualify: expected [ ChatMessage4e{ …(25) } ] to have a length of +0 but got 1\\n    at i.<anonymous> (modules/banter-4e-modifications/test-foundry/trigger-limits.js:75:16)\",\n      \"message\": \"a minion does not qualify: expected [ ChatMessage4e{ …(25) } ] to have a length of +0 but got 1\",\n      \"actual\": \"1\",\n      \"expected\": \"0\",\n      \"showDiff\": true\n    }\n  },\n  {\n    \"title\": \"melee and adjacency restrictions reject ranged hits and reach beyond adjacency\",\n    \"fullTitle\": \"banter-4e-modifications.trigger-limits_root Trigger restrictions and shared limits melee and adjacency restrictions reject ranged hits and reach beyond adjacency\",\n    \"file\": null,\n    \"duration\": 1175,\n    \"currentRetry\": 0,\n    \"err\": {\n      \"stack\": \"AssertionError: ranged damage does not qualify: expected [ ChatMessage4e{ …(25) } ] to have a length of +0 but got 1\\n    at i.<anonymous> (modules/banter-4e-modifications/test-foundry/trigger-limits.js:87:16)\",\n      \"message\": \"ranged damage does not qualify: expected [ ChatMessage4e{ …(25) } ] to have a length of +0 but got 1\",\n      \"actual\": \"1\",\n      \"expected\": \"0\",\n      \"showDiff\": true\n    }\n  }\n]\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m2\u001b[39m",
+                    "stack": "Error: [\n  {\n    \"title\": \"tracer: attributes a native bloodying hit and excludes minions with a positive control\",\n    \"fullTitle\": \"banter-4e-modifications.trigger-limits_root Trigger restrictions and shared limits tracer: attributes a native bloodying hit and excludes minions with a positive control\",\n    \"file\": null,\n    \"duration\": 1455,\n    \"currentRetry\": 0,\n    \"err\": {\n      \"stack\": \"AssertionError: a minion does not qualify: expected [ ChatMessage4e{ …(25) } ] to have a length of +0 but got 1\\n    at i.<anonymous> (modules/banter-4e-modifications/test-foundry/trigger-limits.js:75:16)\",\n      \"message\": \"a minion does not qualify: expected [ ChatMessage4e{ …(25) } ] to have a length of +0 but got 1\",\n      \"actual\": \"1\",\n      \"expected\": \"0\",\n      \"showDiff\": true\n    }\n  },\n  {\n    \"title\": \"melee and adjacency restrictions reject ranged hits and reach beyond adjacency\",\n    \"fullTitle\": \"banter-4e-modifications.trigger-limits_root Trigger restrictions and shared limits melee and adjacency restrictions reject ranged hits and reach beyond adjacency\",\n    \"file\": null,\n    \"duration\": 1175,\n    \"currentRetry\": 0,\n    \"err\": {\n      \"stack\": \"AssertionError: ranged damage does not qualify: expected [ ChatMessage4e{ …(25) } ] to have a length of +0 but got 1\\n    at i.<anonymous> (modules/banter-4e-modifications/test-foundry/trigger-limits.js:87:16)\",\n      \"message\": \"ranged damage does not qualify: expected [ ChatMessage4e{ …(25) } ] to have a length of +0 but got 1\",\n      \"actual\": \"1\",\n      \"expected\": \"0\",\n      \"showDiff\": true\n    }\n  }\n]\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m2\u001b[39m\n    at C:\\Users\\Imre\\Documents\\Workspace\\Foundry Mono Repo 4e\\tests\\foundry\\scenarios\\trigger-prompts.spec.mjs:61:93",
+                    "location": {
+                      "file": "C:\\Users\\Imre\\Documents\\Workspace\\Foundry Mono Repo 4e\\tests\\foundry\\scenarios\\trigger-prompts.spec.mjs",
+                      "column": 93,
+                      "line": 61
+                    },
+                    "snippet": "  59 |       expect(diagnostics.pageErrors, \"Uncaught browser errors\").toEqual([]);\n  60 |       expect(await page.evaluate(worldCounts), \"The batch must leave the world exactly as it found it\").toEqual(countsBefore);\n> 61 |       expect(result.report.stats.failures, JSON.stringify(result.report.failures, null, 2)).toBe(0);\n     |                                                                                             ^\n  62 |       expect(result.report.stats.pending, \"Trigger-prompt tests must not silently skip\").toBe(0);\n  63 |     } finally {\n  64 |       await testInfo.attach(\"browser-diagnostics\", { body: JSON.stringify(diagnostics, null, 2), contentType: \"application/json\" });"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\Imre\\Documents\\Workspace\\Foundry Mono Repo 4e\\tests\\foundry\\scenarios\\trigger-prompts.spec.mjs",
+                        "column": 93,
+                        "line": 61
+                      },
+                      "message": "Error: [\n  {\n    \"title\": \"tracer: attributes a native bloodying hit and excludes minions with a positive control\",\n    \"fullTitle\": \"banter-4e-modifications.trigger-limits_root Trigger restrictions and shared limits tracer: attributes a native bloodying hit and excludes minions with a positive control\",\n    \"file\": null,\n    \"duration\": 1455,\n    \"currentRetry\": 0,\n    \"err\": {\n      \"stack\": \"AssertionError: a minion does not qualify: expected [ ChatMessage4e{ …(25) } ] to have a length of +0 but got 1\\n    at i.<anonymous> (modules/banter-4e-modifications/test-foundry/trigger-limits.js:75:16)\",\n      \"message\": \"a minion does not qualify: expected [ ChatMessage4e{ …(25) } ] to have a length of +0 but got 1\",\n      \"actual\": \"1\",\n      \"expected\": \"0\",\n      \"showDiff\": true\n    }\n  },\n  {\n    \"title\": \"melee and adjacency restrictions reject ranged hits and reach beyond adjacency\",\n    \"fullTitle\": \"banter-4e-modifications.trigger-limits_root Trigger restrictions and shared limits melee and adjacency restrictions reject ranged hits and reach beyond adjacency\",\n    \"file\": null,\n    \"duration\": 1175,\n    \"currentRetry\": 0,\n    \"err\": {\n      \"stack\": \"AssertionError: ranged damage does not qualify: expected [ ChatMessage4e{ …(25) } ] to have a length of +0 but got 1\\n    at i.<anonymous> (modules/banter-4e-modifications/test-foundry/trigger-limits.js:87:16)\",\n      \"message\": \"ranged damage does not qualify: expected [ ChatMessage4e{ …(25) } ] to have a length of +0 but got 1\",\n      \"actual\": \"1\",\n      \"expected\": \"0\",\n      \"showDiff\": true\n    }\n  }\n]\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m2\u001b[39m\n\n  59 |       expect(diagnostics.pageErrors, \"Uncaught browser errors\").toEqual([]);\n  60 |       expect(await page.evaluate(worldCounts), \"The batch must leave the world exactly as it found it\").toEqual(countsBefore);\n> 61 |       expect(result.report.stats.failures, JSON.stringify(result.report.failures, null, 2)).toBe(0);\n     |                                                                                             ^\n  62 |       expect(result.report.stats.pending, \"Trigger-prompt tests must not silently skip\").toBe(0);\n  63 |     } finally {\n  64 |       await testInfo.attach(\"browser-diagnostics\", { body: JSON.stringify(diagnostics, null, 2), contentType: \"application/json\" });\n    at C:\\Users\\Imre\\Documents\\Workspace\\Foundry Mono Repo 4e\\tests\\foundry\\scenarios\\trigger-prompts.spec.mjs:61:93"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-01T23:28:51.852Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "quench-report",
+                      "contentType": "application/json",
+                      "body": "ewogICJlbnZpcm9ubWVudCI6IHsKICAgICJ3b3JsZElkIjogIjRlLXRlc3QtcmVhbG0iLAogICAgImZvdW5kcnkiOiAiMTQuMzY3IiwKICAgICJzeXN0ZW0iOiAiMC45LjMiLAogICAgIm1vZHVsZXMiOiB7CiAgICAgICJiYW50ZXItNGUtbW9kaWZpY2F0aW9ucyI6ICIyLjAiLAogICAgICAiZG5kNGUtaGVhbHRoLWRpc3BsYXkiOiAiMS4xLjAiLAogICAgICAicXVlbmNoIjogIjAuMTAuMCIsCiAgICAgICJmb3VuZHJ5LXRlc3QtaGFybmVzcyI6ICIwLjEuMCIKICAgIH0KICB9LAogICJiYXRjaEtleXMiOiBbCiAgICAiYmFudGVyLTRlLW1vZGlmaWNhdGlvbnMudHJpZ2dlci1saW1pdHMiCiAgXSwKICAicmVwb3J0IjogewogICAgInN0YXRzIjogewogICAgICAic3VpdGVzIjogMiwKICAgICAgInRlc3RzIjogOSwKICAgICAgInBhc3NlcyI6IDcsCiAgICAgICJwZW5kaW5nIjogMCwKICAgICAgImZhaWx1cmVzIjogMiwKICAgICAgInN0YXJ0IjogIjIwMjYtMTEtMDFUMjM6Mjk6MDQuMDk0WiIsCiAgICAgICJlbmQiOiAiMjAyNi0xMS0wMVQyMzoyOToyNy4xMTFaIiwKICAgICAgImR1cmF0aW9uIjogMjMwMTcKICAgIH0sCiAgICAidGVzdHMiOiBbCiAgICAgIHsKICAgICAgICAidGl0bGUiOiAidHJhY2VyOiBhdHRyaWJ1dGVzIGEgbmF0aXZlIGJsb29keWluZyBoaXQgYW5kIGV4Y2x1ZGVzIG1pbmlvbnMgd2l0aCBhIHBvc2l0aXZlIGNvbnRyb2wiLAogICAgICAgICJmdWxsVGl0bGUiOiAiYmFudGVyLTRlLW1vZGlmaWNhdGlvbnMudHJpZ2dlci1saW1pdHNfcm9vdCBUcmlnZ2VyIHJlc3RyaWN0aW9ucyBhbmQgc2hhcmVkIGxpbWl0cyB0cmFjZXI6IGF0dHJpYnV0ZXMgYSBuYXRpdmUgYmxvb2R5aW5nIGhpdCBhbmQgZXhjbHVkZXMgbWluaW9ucyB3aXRoIGEgcG9zaXRpdmUgY29udHJvbCIsCiAgICAgICAgImZpbGUiOiBudWxsLAogICAgICAgICJkdXJhdGlvbiI6IDE0NTUsCiAgICAgICAgImN1cnJlbnRSZXRyeSI6IDAsCiAgICAgICAgImVyciI6IHsKICAgICAgICAgICJzdGFjayI6ICJBc3NlcnRpb25FcnJvcjogYSBtaW5pb24gZG9lcyBub3QgcXVhbGlmeTogZXhwZWN0ZWQgWyBDaGF0TWVzc2FnZTRleyDigKYoMjUpIH0gXSB0byBoYXZlIGEgbGVuZ3RoIG9mICswIGJ1dCBnb3QgMVxuICAgIGF0IGkuPGFub255bW91cz4gKG1vZHVsZXMvYmFudGVyLTRlLW1vZGlmaWNhdGlvbnMvdGVzdC1mb3VuZHJ5L3RyaWdnZXItbGltaXRzLmpzOjc1OjE2KSIsCiAgICAgICAgICAibWVzc2FnZSI6ICJhIG1pbmlvbiBkb2VzIG5vdCBxdWFsaWZ5OiBleHBlY3RlZCBbIENoYXRNZXNzYWdlNGV7IOKApigyNSkgfSBdIHRvIGhhdmUgYSBsZW5ndGggb2YgKzAgYnV0IGdvdCAxIiwKICAgICAgICAgICJhY3R1YWwiOiAiMSIsCiAgICAgICAgICAiZXhwZWN0ZWQiOiAiMCIsCiAgICAgICAgICAic2hvd0RpZmYiOiB0cnVlCiAgICAgICAgfQogICAgICB9LAogICAgICB7CiAgICAgICAgInRpdGxlIjogIm1lbGVlIGFuZCBhZGphY2VuY3kgcmVzdHJpY3Rpb25zIHJlamVjdCByYW5nZWQgaGl0cyBhbmQgcmVhY2ggYmV5b25kIGFkamFjZW5jeSIsCiAgICAgICAgImZ1bGxUaXRsZSI6ICJiYW50ZXItNGUtbW9kaWZpY2F0aW9ucy50cmlnZ2VyLWxpbWl0c19yb290IFRyaWdnZXIgcmVzdHJpY3Rpb25zIGFuZCBzaGFyZWQgbGltaXRzIG1lbGVlIGFuZCBhZGphY2VuY3kgcmVzdHJpY3Rpb25zIHJlamVjdCByYW5nZWQgaGl0cyBhbmQgcmVhY2ggYmV5b25kIGFkamFjZW5jeSIsCiAgICAgICAgImZpbGUiOiBudWxsLAogICAgICAgICJkdXJhdGlvbiI6IDExNzUsCiAgICAgICAgImN1cnJlbnRSZXRyeSI6IDAsCiAgICAgICAgImVyciI6IHsKICAgICAgICAgICJzdGFjayI6ICJBc3NlcnRpb25FcnJvcjogcmFuZ2VkIGRhbWFnZSBkb2VzIG5vdCBxdWFsaWZ5OiBleHBlY3RlZCBbIENoYXRNZXNzYWdlNGV7IOKApigyNSkgfSBdIHRvIGhhdmUgYSBsZW5ndGggb2YgKzAgYnV0IGdvdCAxXG4gICAgYXQgaS48YW5vbnltb3VzPiAobW9kdWxlcy9iYW50ZXItNGUtbW9kaWZpY2F0aW9ucy90ZXN0LWZvdW5kcnkvdHJpZ2dlci1saW1pdHMuanM6ODc6MTYpIiwKICAgICAgICAgICJtZXNzYWdlIjogInJhbmdlZCBkYW1hZ2UgZG9lcyBub3QgcXVhbGlmeTogZXhwZWN0ZWQgWyBDaGF0TWVzc2FnZTRleyDigKYoMjUpIH0gXSB0byBoYXZlIGEgbGVuZ3RoIG9mICswIGJ1dCBnb3QgMSIsCiAgICAgICAgICAiYWN0dWFsIjogIjEiLAogICAgICAgICAgImV4cGVjdGVkIjogIjAiLAogICAgICAgICAgInNob3dEaWZmIjogdHJ1ZQogICAgICAgIH0KICAgICAgfSwKICAgICAgewogICAgICAgICJ0aXRsZSI6ICJhbGx5IGRlZmVhdCBpbmNsdWRlcyBhbm90aGVyIGFsbHksIGV4Y2x1ZGVzIHNlbGYgYW5kIGVuZW1pZXMsIGFuZCBmaXJlcyBvbmx5IG9uIGNyb3NzaW5nIHplcm8iLAogICAgICAgICJmdWxsVGl0bGUiOiAiYmFudGVyLTRlLW1vZGlmaWNhdGlvbnMudHJpZ2dlci1saW1pdHNfcm9vdCBUcmlnZ2VyIHJlc3RyaWN0aW9ucyBhbmQgc2hhcmVkIGxpbWl0cyBhbGx5IGRlZmVhdCBpbmNsdWRlcyBhbm90aGVyIGFsbHksIGV4Y2x1ZGVzIHNlbGYgYW5kIGVuZW1pZXMsIGFuZCBmaXJlcyBvbmx5IG9uIGNyb3NzaW5nIHplcm8iLAogICAgICAgICJmaWxlIjogbnVsbCwKICAgICAgICAiZHVyYXRpb24iOiAyMTQ2LAogICAgICAgICJjdXJyZW50UmV0cnkiOiAwLAogICAgICAgICJzcGVlZCI6ICJzbG93IiwKICAgICAgICAiZXJyIjoge30KICAgICAgfSwKICAgICAgewogICAgICAgICJ0aXRsZSI6ICJvbmUgaXRlbSBzaGFyZXMgaXRzIHR1cm4gYWxsb3dhbmNlIGFjcm9zcyBibG9vZGllZCBhbmQgZGVmZWF0IHRyaWdnZXJzIGFuZCBjb25jdXJyZW50IGNsYWltcyIsCiAgICAgICAgImZ1bGxUaXRsZSI6ICJiYW50ZXItNGUtbW9kaWZpY2F0aW9ucy50cmlnZ2VyLWxpbWl0c19yb290IFRyaWdnZXIgcmVzdHJpY3Rpb25zIGFuZCBzaGFyZWQgbGltaXRzIG9uZSBpdGVtIHNoYXJlcyBpdHMgdHVybiBhbGxvd2FuY2UgYWNyb3NzIGJsb29kaWVkIGFuZCBkZWZlYXQgdHJpZ2dlcnMgYW5kIGNvbmN1cnJlbnQgY2xhaW1zIiwKICAgICAgICAiZmlsZSI6IG51bGwsCiAgICAgICAgImR1cmF0aW9uIjogMjc1NCwKICAgICAgICAiY3VycmVudFJldHJ5IjogMCwKICAgICAgICAic3BlZWQiOiAic2xvdyIsCiAgICAgICAgImVyciI6IHt9CiAgICAgIH0sCiAgICAgIHsKICAgICAgICAidGl0bGUiOiAiaWdub3JpbmcgYSB0dXJuLWxpbWl0ZWQgcHJvbXB0IHJlbGVhc2VzIGl0LCBhbmQgYSBuZXcgaGFuZGxlciByZXRhaW5zIGZpcnN0LWVuY291bnRlciBzdGF0ZSIsCiAgICAgICAgImZ1bGxUaXRsZSI6ICJiYW50ZXItNGUtbW9kaWZpY2F0aW9ucy50cmlnZ2VyLWxpbWl0c19yb290IFRyaWdnZXIgcmVzdHJpY3Rpb25zIGFuZCBzaGFyZWQgbGltaXRzIGlnbm9yaW5nIGEgdHVybi1saW1pdGVkIHByb21wdCByZWxlYXNlcyBpdCwgYW5kIGEgbmV3IGhhbmRsZXIgcmV0YWlucyBmaXJzdC1lbmNvdW50ZXIgc3RhdGUiLAogICAgICAgICJmaWxlIjogbnVsbCwKICAgICAgICAiZHVyYXRpb24iOiAyMzQzLAogICAgICAgICJjdXJyZW50UmV0cnkiOiAwLAogICAgICAgICJzcGVlZCI6ICJzbG93IiwKICAgICAgICAiZXJyIjoge30KICAgICAgfSwKICAgICAgewogICAgICAgICJ0aXRsZSI6ICJkYWlseSB1c2FnZSBzdXJ2aXZlcyBTaG9ydCBSZXN0IGFuZCByZWZyZXNoZXMgdGhyb3VnaCB0aGUgcmVhbCBFeHRlbmRlZCBSZXN0IG1ldGhvZCIsCiAgICAgICAgImZ1bGxUaXRsZSI6ICJiYW50ZXItNGUtbW9kaWZpY2F0aW9ucy50cmlnZ2VyLWxpbWl0c19yb290IFRyaWdnZXIgcmVzdHJpY3Rpb25zIGFuZCBzaGFyZWQgbGltaXRzIGRhaWx5IHVzYWdlIHN1cnZpdmVzIFNob3J0IFJlc3QgYW5kIHJlZnJlc2hlcyB0aHJvdWdoIHRoZSByZWFsIEV4dGVuZGVkIFJlc3QgbWV0aG9kIiwKICAgICAgICAiZmlsZSI6IG51bGwsCiAgICAgICAgImR1cmF0aW9uIjogMTgwNCwKICAgICAgICAiY3VycmVudFJldHJ5IjogMCwKICAgICAgICAic3BlZWQiOiAic2xvdyIsCiAgICAgICAgImVyciI6IHt9CiAgICAgIH0sCiAgICAgIHsKICAgICAgICAidGl0bGUiOiAiZmlyc3QtZW5jb3VudGVyIHVzYWdlIHJlZnJlc2hlcyBmb3IgdGhlIHNhbWUgZmVhdCBkb2N1bWVudCBpbiBhIG5ldyBjb21iYXQiLAogICAgICAgICJmdWxsVGl0bGUiOiAiYmFudGVyLTRlLW1vZGlmaWNhdGlvbnMudHJpZ2dlci1saW1pdHNfcm9vdCBUcmlnZ2VyIHJlc3RyaWN0aW9ucyBhbmQgc2hhcmVkIGxpbWl0cyBmaXJzdC1lbmNvdW50ZXIgdXNhZ2UgcmVmcmVzaGVzIGZvciB0aGUgc2FtZSBmZWF0IGRvY3VtZW50IGluIGEgbmV3IGNvbWJhdCIsCiAgICAgICAgImZpbGUiOiBudWxsLAogICAgICAgICJkdXJhdGlvbiI6IDE4OTIsCiAgICAgICAgImN1cnJlbnRSZXRyeSI6IDAsCiAgICAgICAgInNwZWVkIjogInNsb3ciLAogICAgICAgICJlcnIiOiB7fQogICAgICB9LAogICAgICB7CiAgICAgICAgInRpdGxlIjogImEgcHJvbXB0IGZyb20gdGhlIHByZXZpb3VzIHR1cm4gY2Fubm90IGNsYWltIHRoZSByZWZyZXNoZWQgYWxsb3dhbmNlIiwKICAgICAgICAiZnVsbFRpdGxlIjogImJhbnRlci00ZS1tb2RpZmljYXRpb25zLnRyaWdnZXItbGltaXRzX3Jvb3QgVHJpZ2dlciByZXN0cmljdGlvbnMgYW5kIHNoYXJlZCBsaW1pdHMgYSBwcm9tcHQgZnJvbSB0aGUgcHJldmlvdXMgdHVybiBjYW5ub3QgY2xhaW0gdGhlIHJlZnJlc2hlZCBhbGxvd2FuY2UiLAogICAgICAgICJmaWxlIjogbnVsbCwKICAgICAgICAiZHVyYXRpb24iOiAxMDk3LAogICAgICAgICJjdXJyZW50UmV0cnkiOiAwLAogICAgICAgICJzcGVlZCI6ICJzbG93IiwKICAgICAgICAiZXJyIjoge30KICAgICAgfSwKICAgICAgewogICAgICAgICJ0aXRsZSI6ICJ0aGUgZmVhdCBkaWFsb2cgcGVyc2lzdHMgYWxsIHJlc3RyaWN0aW9ucyBhbmQgaXRzIHNoYXJlZCBsaW1pdCIsCiAgICAgICAgImZ1bGxUaXRsZSI6ICJiYW50ZXItNGUtbW9kaWZpY2F0aW9ucy50cmlnZ2VyLWxpbWl0c19yb290IFRyaWdnZXIgcmVzdHJpY3Rpb25zIGFuZCBzaGFyZWQgbGltaXRzIHRoZSBmZWF0IGRpYWxvZyBwZXJzaXN0cyBhbGwgcmVzdHJpY3Rpb25zIGFuZCBpdHMgc2hhcmVkIGxpbWl0IiwKICAgICAgICAiZmlsZSI6IG51bGwsCiAgICAgICAgImR1cmF0aW9uIjogNTczLAogICAgICAgICJjdXJyZW50UmV0cnkiOiAwLAogICAgICAgICJzcGVlZCI6ICJzbG93IiwKICAgICAgICAiZXJyIjoge30KICAgICAgfQogICAgXSwKICAgICJwZW5kaW5nIjogW10sCiAgICAiZmFpbHVyZXMiOiBbCiAgICAgIHsKICAgICAgICAidGl0bGUiOiAidHJhY2VyOiBhdHRyaWJ1dGVzIGEgbmF0aXZlIGJsb29keWluZyBoaXQgYW5kIGV4Y2x1ZGVzIG1pbmlvbnMgd2l0aCBhIHBvc2l0aXZlIGNvbnRyb2wiLAogICAgICAgICJmdWxsVGl0bGUiOiAiYmFudGVyLTRlLW1vZGlmaWNhdGlvbnMudHJpZ2dlci1saW1pdHNfcm9vdCBUcmlnZ2VyIHJlc3RyaWN0aW9ucyBhbmQgc2hhcmVkIGxpbWl0cyB0cmFjZXI6IGF0dHJpYnV0ZXMgYSBuYXRpdmUgYmxvb2R5aW5nIGhpdCBhbmQgZXhjbHVkZXMgbWluaW9ucyB3aXRoIGEgcG9zaXRpdmUgY29udHJvbCIsCiAgICAgICAgImZpbGUiOiBudWxsLAogICAgICAgICJkdXJhdGlvbiI6IDE0NTUsCiAgICAgICAgImN1cnJlbnRSZXRyeSI6IDAsCiAgICAgICAgImVyciI6IHsKICAgICAgICAgICJzdGFjayI6ICJBc3NlcnRpb25FcnJvcjogYSBtaW5pb24gZG9lcyBub3QgcXVhbGlmeTogZXhwZWN0ZWQgWyBDaGF0TWVzc2FnZTRleyDigKYoMjUpIH0gXSB0byBoYXZlIGEgbGVuZ3RoIG9mICswIGJ1dCBnb3QgMVxuICAgIGF0IGkuPGFub255bW91cz4gKG1vZHVsZXMvYmFudGVyLTRlLW1vZGlmaWNhdGlvbnMvdGVzdC1mb3VuZHJ5L3RyaWdnZXItbGltaXRzLmpzOjc1OjE2KSIsCiAgICAgICAgICAibWVzc2FnZSI6ICJhIG1pbmlvbiBkb2VzIG5vdCBxdWFsaWZ5OiBleHBlY3RlZCBbIENoYXRNZXNzYWdlNGV7IOKApigyNSkgfSBdIHRvIGhhdmUgYSBsZW5ndGggb2YgKzAgYnV0IGdvdCAxIiwKICAgICAgICAgICJhY3R1YWwiOiAiMSIsCiAgICAgICAgICAiZXhwZWN0ZWQiOiAiMCIsCiAgICAgICAgICAic2hvd0RpZmYiOiB0cnVlCiAgICAgICAgfQogICAgICB9LAogICAgICB7CiAgICAgICAgInRpdGxlIjogIm1lbGVlIGFuZCBhZGphY2VuY3kgcmVzdHJpY3Rpb25zIHJlamVjdCByYW5nZWQgaGl0cyBhbmQgcmVhY2ggYmV5b25kIGFkamFjZW5jeSIsCiAgICAgICAgImZ1bGxUaXRsZSI6ICJiYW50ZXItNGUtbW9kaWZpY2F0aW9ucy50cmlnZ2VyLWxpbWl0c19yb290IFRyaWdnZXIgcmVzdHJpY3Rpb25zIGFuZCBzaGFyZWQgbGltaXRzIG1lbGVlIGFuZCBhZGphY2VuY3kgcmVzdHJpY3Rpb25zIHJlamVjdCByYW5nZWQgaGl0cyBhbmQgcmVhY2ggYmV5b25kIGFkamFjZW5jeSIsCiAgICAgICAgImZpbGUiOiBudWxsLAogICAgICAgICJkdXJhdGlvbiI6IDExNzUsCiAgICAgICAgImN1cnJlbnRSZXRyeSI6IDAsCiAgICAgICAgImVyciI6IHsKICAgICAgICAgICJzdGFjayI6ICJBc3NlcnRpb25FcnJvcjogcmFuZ2VkIGRhbWFnZSBkb2VzIG5vdCBxdWFsaWZ5OiBleHBlY3RlZCBbIENoYXRNZXNzYWdlNGV7IOKApigyNSkgfSBdIHRvIGhhdmUgYSBsZW5ndGggb2YgKzAgYnV0IGdvdCAxXG4gICAgYXQgaS48YW5vbnltb3VzPiAobW9kdWxlcy9iYW50ZXItNGUtbW9kaWZpY2F0aW9ucy90ZXN0LWZvdW5kcnkvdHJpZ2dlci1saW1pdHMuanM6ODc6MTYpIiwKICAgICAgICAgICJtZXNzYWdlIjogInJhbmdlZCBkYW1hZ2UgZG9lcyBub3QgcXVhbGlmeTogZXhwZWN0ZWQgWyBDaGF0TWVzc2FnZTRleyDigKYoMjUpIH0gXSB0byBoYXZlIGEgbGVuZ3RoIG9mICswIGJ1dCBnb3QgMSIsCiAgICAgICAgICAiYWN0dWFsIjogIjEiLAogICAgICAgICAgImV4cGVjdGVkIjogIjAiLAogICAgICAgICAgInNob3dEaWZmIjogdHJ1ZQogICAgICAgIH0KICAgICAgfQogICAgXSwKICAgICJwYXNzZXMiOiBbCiAgICAgIHsKICAgICAgICAidGl0bGUiOiAiYWxseSBkZWZlYXQgaW5jbHVkZXMgYW5vdGhlciBhbGx5LCBleGNsdWRlcyBzZWxmIGFuZCBlbmVtaWVzLCBhbmQgZmlyZXMgb25seSBvbiBjcm9zc2luZyB6ZXJvIiwKICAgICAgICAiZnVsbFRpdGxlIjogImJhbnRlci00ZS1tb2RpZmljYXRpb25zLnRyaWdnZXItbGltaXRzX3Jvb3QgVHJpZ2dlciByZXN0cmljdGlvbnMgYW5kIHNoYXJlZCBsaW1pdHMgYWxseSBkZWZlYXQgaW5jbHVkZXMgYW5vdGhlciBhbGx5LCBleGNsdWRlcyBzZWxmIGFuZCBlbmVtaWVzLCBhbmQgZmlyZXMgb25seSBvbiBjcm9zc2luZyB6ZXJvIiwKICAgICAgICAiZmlsZSI6IG51bGwsCiAgICAgICAgImR1cmF0aW9uIjogMjE0NiwKICAgICAgICAiY3VycmVudFJldHJ5IjogMCwKICAgICAgICAic3BlZWQiOiAic2xvdyIsCiAgICAgICAgImVyciI6IHt9CiAgICAgIH0sCiAgICAgIHsKICAgICAgICAidGl0bGUiOiAib25lIGl0ZW0gc2hhcmVzIGl0cyB0dXJuIGFsbG93YW5jZSBhY3Jvc3MgYmxvb2RpZWQgYW5kIGRlZmVhdCB0cmlnZ2VycyBhbmQgY29uY3VycmVudCBjbGFpbXMiLAogICAgICAgICJmdWxsVGl0bGUiOiAiYmFudGVyLTRlLW1vZGlmaWNhdGlvbnMudHJpZ2dlci1saW1pdHNfcm9vdCBUcmlnZ2VyIHJlc3RyaWN0aW9ucyBhbmQgc2hhcmVkIGxpbWl0cyBvbmUgaXRlbSBzaGFyZXMgaXRzIHR1cm4gYWxsb3dhbmNlIGFjcm9zcyBibG9vZGllZCBhbmQgZGVmZWF0IHRyaWdnZXJzIGFuZCBjb25jdXJyZW50IGNsYWltcyIsCiAgICAgICAgImZpbGUiOiBudWxsLAogICAgICAgICJkdXJhdGlvbiI6IDI3NTQsCiAgICAgICAgImN1cnJlbnRSZXRyeSI6IDAsCiAgICAgICAgInNwZWVkIjogInNsb3ciLAogICAgICAgICJlcnIiOiB7fQogICAgICB9LAogICAgICB7CiAgICAgICAgInRpdGxlIjogImlnbm9yaW5nIGEgdHVybi1saW1pdGVkIHByb21wdCByZWxlYXNlcyBpdCwgYW5kIGEgbmV3IGhhbmRsZXIgcmV0YWlucyBmaXJzdC1lbmNvdW50ZXIgc3RhdGUiLAogICAgICAgICJmdWxsVGl0bGUiOiAiYmFudGVyLTRlLW1vZGlmaWNhdGlvbnMudHJpZ2dlci1saW1pdHNfcm9vdCBUcmlnZ2VyIHJlc3RyaWN0aW9ucyBhbmQgc2hhcmVkIGxpbWl0cyBpZ25vcmluZyBhIHR1cm4tbGltaXRlZCBwcm9tcHQgcmVsZWFzZXMgaXQsIGFuZCBhIG5ldyBoYW5kbGVyIHJldGFpbnMgZmlyc3QtZW5jb3VudGVyIHN0YXRlIiwKICAgICAgICAiZmlsZSI6IG51bGwsCiAgICAgICAgImR1cmF0aW9uIjogMjM0MywKICAgICAgICAiY3VycmVudFJldHJ5IjogMCwKICAgICAgICAic3BlZWQiOiAic2xvdyIsCiAgICAgICAgImVyciI6IHt9CiAgICAgIH0sCiAgICAgIHsKICAgICAgICAidGl0bGUiOiAiZGFpbHkgdXNhZ2Ugc3Vydml2ZXMgU2hvcnQgUmVzdCBhbmQgcmVmcmVzaGVzIHRocm91Z2ggdGhlIHJlYWwgRXh0ZW5kZWQgUmVzdCBtZXRob2QiLAogICAgICAgICJmdWxsVGl0bGUiOiAiYmFudGVyLTRlLW1vZGlmaWNhdGlvbnMudHJpZ2dlci1saW1pdHNfcm9vdCBUcmlnZ2VyIHJlc3RyaWN0aW9ucyBhbmQgc2hhcmVkIGxpbWl0cyBkYWlseSB1c2FnZSBzdXJ2aXZlcyBTaG9ydCBSZXN0IGFuZCByZWZyZXNoZXMgdGhyb3VnaCB0aGUgcmVhbCBFeHRlbmRlZCBSZXN0IG1ldGhvZCIsCiAgICAgICAgImZpbGUiOiBudWxsLAogICAgICAgICJkdXJhdGlvbiI6IDE4MDQsCiAgICAgICAgImN1cnJlbnRSZXRyeSI6IDAsCiAgICAgICAgInNwZWVkIjogInNsb3ciLAogICAgICAgICJlcnIiOiB7fQogICAgICB9LAogICAgICB7CiAgICAgICAgInRpdGxlIjogImZpcnN0LWVuY291bnRlciB1c2FnZSByZWZyZXNoZXMgZm9yIHRoZSBzYW1lIGZlYXQgZG9jdW1lbnQgaW4gYSBuZXcgY29tYmF0IiwKICAgICAgICAiZnVsbFRpdGxlIjogImJhbnRlci00ZS1tb2RpZmljYXRpb25zLnRyaWdnZXItbGltaXRzX3Jvb3QgVHJpZ2dlciByZXN0cmljdGlvbnMgYW5kIHNoYXJlZCBsaW1pdHMgZmlyc3QtZW5jb3VudGVyIHVzYWdlIHJlZnJlc2hlcyBmb3IgdGhlIHNhbWUgZmVhdCBkb2N1bWVudCBpbiBhIG5ldyBjb21iYXQiLAogICAgICAgICJmaWxlIjogbnVsbCwKICAgICAgICAiZHVyYXRpb24iOiAxODkyLAogICAgICAgICJjdXJyZW50UmV0cnkiOiAwLAogICAgICAgICJzcGVlZCI6ICJzbG93IiwKICAgICAgICAiZXJyIjoge30KICAgICAgfSwKICAgICAgewogICAgICAgICJ0aXRsZSI6ICJhIHByb21wdCBmcm9tIHRoZSBwcmV2aW91cyB0dXJuIGNhbm5vdCBjbGFpbSB0aGUgcmVmcmVzaGVkIGFsbG93YW5jZSIsCiAgICAgICAgImZ1bGxUaXRsZSI6ICJiYW50ZXItNGUtbW9kaWZpY2F0aW9ucy50cmlnZ2VyLWxpbWl0c19yb290IFRyaWdnZXIgcmVzdHJpY3Rpb25zIGFuZCBzaGFyZWQgbGltaXRzIGEgcHJvbXB0IGZyb20gdGhlIHByZXZpb3VzIHR1cm4gY2Fubm90IGNsYWltIHRoZSByZWZyZXNoZWQgYWxsb3dhbmNlIiwKICAgICAgICAiZmlsZSI6IG51bGwsCiAgICAgICAgImR1cmF0aW9uIjogMTA5NywKICAgICAgICAiY3VycmVudFJldHJ5IjogMCwKICAgICAgICAic3BlZWQiOiAic2xvdyIsCiAgICAgICAgImVyciI6IHt9CiAgICAgIH0sCiAgICAgIHsKICAgICAgICAidGl0bGUiOiAidGhlIGZlYXQgZGlhbG9nIHBlcnNpc3RzIGFsbCByZXN0cmljdGlvbnMgYW5kIGl0cyBzaGFyZWQgbGltaXQiLAogICAgICAgICJmdWxsVGl0bGUiOiAiYmFudGVyLTRlLW1vZGlmaWNhdGlvbnMudHJpZ2dlci1saW1pdHNfcm9vdCBUcmlnZ2VyIHJlc3RyaWN0aW9ucyBhbmQgc2hhcmVkIGxpbWl0cyB0aGUgZmVhdCBkaWFsb2cgcGVyc2lzdHMgYWxsIHJlc3RyaWN0aW9ucyBhbmQgaXRzIHNoYXJlZCBsaW1pdCIsCiAgICAgICAgImZpbGUiOiBudWxsLAogICAgICAgICJkdXJhdGlvbiI6IDU3MywKICAgICAgICAiY3VycmVudFJldHJ5IjogMCwKICAgICAgICAic3BlZWQiOiAic2xvdyIsCiAgICAgICAgImVyciI6IHt9CiAgICAgIH0KICAgIF0KICB9Cn0="
+                    },
+                    {
+                      "name": "stray-errors-by-test",
+                      "contentType": "application/json",
+                      "body": "W10="
+                    },
+                    {
+                      "name": "browser-diagnostics",
+                      "contentType": "application/json",
+                      "body": "ewogICJwYWdlRXJyb3JzIjogW10sCiAgImNvbnNvbGVFcnJvcnMiOiBbCiAgICAiQXNzZXJ0aW9uRXJyb3I6IGEgbWluaW9uIGRvZXMgbm90IHF1YWxpZnk6IGV4cGVjdGVkIFsgQ2hhdE1lc3NhZ2U0ZXsg4oCmKDI1KSB9IF0gdG8gaGF2ZSBhIGxlbmd0aCBvZiArMCBidXQgZ290IDFcbiAgICBhdCBpLjxhbm9ueW1vdXM+IChtb2R1bGVzL2JhbnRlci00ZS1tb2RpZmljYXRpb25zL3Rlc3QtZm91bmRyeS90cmlnZ2VyLWxpbWl0cy5qczo3NToxNikiLAogICAgIkFzc2VydGlvbkVycm9yOiByYW5nZWQgZGFtYWdlIGRvZXMgbm90IHF1YWxpZnk6IGV4cGVjdGVkIFsgQ2hhdE1lc3NhZ2U0ZXsg4oCmKDI1KSB9IF0gdG8gaGF2ZSBhIGxlbmd0aCBvZiArMCBidXQgZ290IDFcbiAgICBhdCBpLjxhbm9ueW1vdXM+IChtb2R1bGVzL2JhbnRlci00ZS1tb2RpZmljYXRpb25zL3Rlc3QtZm91bmRyeS90cmlnZ2VyLWxpbWl0cy5qczo4NzoxNikiCiAgXQp9"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\Imre\\Documents\\Workspace\\Foundry Mono Repo 4e\\output\\foundry-test-results\\trigger-prompts-trigger-re-8a996-in-the-real-Foundry-runtime\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\Imre\\Documents\\Workspace\\Foundry Mono Repo 4e\\output\\foundry-test-results\\trigger-prompts-trigger-re-8a996-in-the-real-Foundry-runtime\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\Imre\\Documents\\Workspace\\Foundry Mono Repo 4e\\output\\foundry-test-results\\trigger-prompts-trigger-re-8a996-in-the-real-Foundry-runtime\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\Imre\\Documents\\Workspace\\Foundry Mono Repo 4e\\tests\\foundry\\scenarios\\trigger-prompts.spec.mjs",
+                    "column": 93,
+                    "line": 61
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "c5964c1aa6e74adf42f3-1deea79125b49c2e2ab1",
+          "file": "trigger-prompts.spec.mjs",
+          "line": 19,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-01T23:28:51.385Z",
+    "duration": 38934.39,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

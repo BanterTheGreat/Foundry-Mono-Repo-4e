@@ -200,7 +200,8 @@ export async function applyTargetDamage(message, key) {
 		}
 		const path = `flags.${MODULE_ID}.damageApplications.${key}`;
 		const health = projectDamage(prepared.actor, prepared.amount);
-		await message.update({ [path]: { state: "applying", amount: prepared.amount, health, gmId: game.user.id } });
+		const damageTypes = [...new Set(typedTargetDamage(message, target).flatMap(([amount, flavor]) => amount > 0 ? String(flavor).toLowerCase().split(/[^a-z]+/).filter(Boolean) : []))];
+		await message.update({ [path]: { state: "applying", amount: prepared.amount, health, damageTypes, gmId: game.user.id } });
 		try {
 			if (prepared.amount > 0) {
 				await prepared.actor.applyDamage(prepared.amount);
@@ -209,7 +210,7 @@ export async function applyTargetDamage(message, key) {
 					throw new Error("Damage was changed or prevented by another module. Check this token's HP manually.");
 				}
 			}
-			await message.update({ [path]: { state: "applied", amount: prepared.amount, health, gmId: game.user.id } });
+			await message.update({ [path]: { state: "applied", amount: prepared.amount, health, damageTypes, gmId: game.user.id } });
 		} catch (error) {
 			// Keep the persisted claim: an interrupted update must never deal damage twice.
 			throw new Error(`${prepared.name}: ${error.message} Check HP before applying anything manually.`);

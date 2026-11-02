@@ -1086,11 +1086,14 @@ class ActivationSession extends ActivationWorkflow {
 				// Each creature rolls through its own copy of the power against its assigned targets.
 				this.currentUnit = unit;
 				this.syncTargets(unit.targets);
+				const triggerRange = this.attackerRanges?.get(unit.caster.id) ?? this.range;
 				const options = {
 					variance: this.variance, event: { shiftKey, clientY: 160 }, powerActivationSession: this.id, powerActivationUnit: unit.id,
 					flags: { dnd4e: { variance: this.variance }, [MODULE_ID]: { attackResults: {
 						sessionId: this.id, pending: true, sceneId: canvas.scene.id, targetIds: unit.targets.map(token => token.id),
 						itemUuid: unit.item.uuid, casterId: unit.caster.id, effectsManaged: true,
+						triggerMetadata: { attackRange: triggerRange.shape ?? triggerRange.mode ?? unit.item.system.rangeType,
+							defenseType: unit.item.system.attack?.def, isOpportunity: this.variance.isOpp ?? unit.item.system.attack?.isOpp === true },
 						...(this.units.length > 1 ? { groupSize: this.units.length, attackIndex: index } : {}),
 					} } },
 				};

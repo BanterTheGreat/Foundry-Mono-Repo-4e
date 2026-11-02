@@ -31,7 +31,10 @@ export class CombatTriggerDispatcher {
    * @returns {Promise<void>}
    */
   async handle(event) {
-    const combat = game.combat;
+    const sceneId = event.attacker?.sceneId ?? event.subject?.sceneId ?? event.mover?.sceneId;
+    // Native pre-create hooks can run while Foundry temporarily has no viewed
+    // combat. The event names its scene; never borrow another scene's encounter.
+    const combat = game.combat ?? game.combats?.find(candidate => candidate.started && candidate.scene?.id === sceneId);
     if (!combat?.started) {
       return;
     }
@@ -44,7 +47,7 @@ export class CombatTriggerDispatcher {
     for (const trigger of findTriggersForEvent(event.type)) {
       try {
         for (const promptContext of evaluateTriggerDefinition(trigger, event, services)) {
-          await this.#createPrompt(trigger, promptContext);
+          await this.#createPrompt(trigger, { ...promptContext, combatId: combat.id });
         }
       } catch (error) {
         Logger.error("Trigger evaluation failed", { triggerId: trigger.id, eventType: event.type, error: error.message });

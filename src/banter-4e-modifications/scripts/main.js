@@ -2,6 +2,7 @@ import { Dnd4eSystemCustomizations } from "./modules/dnd4e-system-customizations
 import { PlayerDefense } from "./modules/player-defense/player-defense.js";
 import { SocketHelper } from "./modules/player-defense/socket-helper.js";
 import { TriggerPrompts } from "./modules/trigger-prompts/trigger-prompts.js";
+import { TriggerItemLimits } from "./modules/trigger-prompts/trigger-item-limits.js";
 import { PowerTriggerConfiguration } from "./modules/trigger-prompts/power-trigger-configuration.js";
 import { OpportunityAttackChatActions } from "./modules/opportunity-attack-chat/opportunity-attack-chat-actions.js";
 import { TargetingWarning } from "./modules/targeting-warning/targeting-warning.js";
@@ -73,6 +74,7 @@ Hooks.once("socketlib.ready", () => {
   socket.register("resolveDefenseTarget", SocketHelper.resolveDefenseTarget);
   // Trigger prompts are kept by their author, so these run on that client, not a GM.
   socket.register(TRIGGER_SOCKET_ACTION.CLAIM_PROMPT, TriggerPrompts.claimPromptFromSocket);
+  socket.register(TRIGGER_SOCKET_ACTION.ITEM_LIMIT, TriggerPrompts.itemLimitFromSocket);
   socket.register(TRIGGER_SOCKET_ACTION.DISMISS_PROMPT, TriggerPrompts.dismissPromptFromSocket);
 });
 
@@ -86,6 +88,7 @@ Hooks.on("ready", () => game.SocketHelper = new SocketHelper());
 Hooks.on("ready", () => {
   if (game.settings.get(MODULE_NAME, ENABLE_TRIGGER_PROMPTS)) {
     game.TriggerPrompts = new TriggerPrompts(socket);
+    TriggerItemLimits.registerRest();
     game.TriggerPrompts.onReady().catch(error => Logger.error("Trigger prompt startup failed", { error: error.message }));
   }
 });
@@ -130,6 +133,7 @@ Hooks.on("i18nInit", () => {
     Hooks.on("dnd4e.rollAttack", TriggerPrompts.onDnd4eRollAttack);
     Hooks.on("preCreateChatMessage", TriggerPrompts.onPreCreateRollMessage);
     Hooks.on("createChatMessage", TriggerPrompts.onCreateRollMessage);
+    Hooks.on("updateChatMessage", TriggerPrompts.onAutomationMessage);
     Hooks.on("moveToken", TriggerPrompts.onMoveToken);
     Hooks.on("updateActor", TriggerPrompts.onUpdateActor);
     Hooks.on("getActorSheetHeaderButtons", TriggerPrompts.onGetActorSheetHeaderButtons);

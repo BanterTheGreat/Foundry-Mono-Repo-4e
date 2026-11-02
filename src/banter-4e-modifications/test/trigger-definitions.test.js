@@ -35,6 +35,46 @@ const attack = (outcome, fields = {}) => createAttackResolvedEvent({
 const evaluate = (triggerId, event, overrides = {}) => evaluateTriggerDefinition(findTriggerById(triggerId), event, { ...services, ...overrides });
 const actorIds = prompts => prompts.map(prompt => prompt.actor.id);
 
+test("you bloody an enemy requires the attacker's own hostile threshold crossing", () => {
+  const event = createHpChangedEvent({ sceneId, tokenId: enemy.id, oldHp: 30, newHp: 20, bloodiedThreshold: 20, attacker: { sceneId, tokenId: target.id } });
+  assert.deepEqual(actorIds(evaluate(TRIGGER_ID.YOU_BLOODY_ENEMY, event)), [target.actor.id]);
+  assert.deepEqual(evaluate(TRIGGER_ID.YOU_BLOODY_ENEMY, { ...event, attacker: null }), []);
+  assert.deepEqual(evaluate(TRIGGER_ID.YOU_BLOODY_ENEMY, { ...event, becameBloodied: false }), []);
+  assert.deepEqual(evaluate(TRIGGER_ID.YOU_BLOODY_ENEMY, { ...event, attacker: { sceneId, tokenId: enemy.id } }), []);
+});
+
+test("ally defeat prompts other allied actors and rejects self, enemies and repeated damage", () => {
+  const event = createHpChangedEvent({ sceneId, tokenId: target.id, oldHp: 5, newHp: 0, bloodiedThreshold: 20 });
+  assert.deepEqual(actorIds(evaluate(TRIGGER_ID.ALLY_REDUCED_TO_ZERO, event)), [ally.actor.id]);
+  assert.deepEqual(actorIds(evaluate(TRIGGER_ID.ALLY_REDUCED_TO_ZERO, { ...event, newHp: -5 })), [ally.actor.id]);
+  assert.deepEqual(evaluate(TRIGGER_ID.ALLY_REDUCED_TO_ZERO, { ...event, reducedToZero: false }), []);
+});
+
+test("reducing an enemy to zero prompts only its recorded attacker on a positive-to-zero crossing", () => {
+  const hp = (oldHp, newHp, attacker = { sceneId, tokenId: target.id }) => createHpChangedEvent({
+    sceneId, tokenId: enemy.id, oldHp, newHp, bloodiedThreshold: 10, attacker,
+  });
+  for (const newHp of [0, -5]) {
+    assert.deepEqual(actorIds(evaluate(TRIGGER_ID.YOU_REDUCE_ENEMY_TO_ZERO, hp(5, newHp))), [target.actor.id]);
+  }
+  for (const [oldHp, newHp] of [[0, -5], [-5, -10], [5, 1], [-5, 5]]) {
+    assert.deepEqual(evaluate(TRIGGER_ID.YOU_REDUCE_ENEMY_TO_ZERO, hp(oldHp, newHp)), []);
+  }
+  assert.deepEqual(evaluate(TRIGGER_ID.YOU_REDUCE_ENEMY_TO_ZERO, hp(5, 0, null)), []);
+  assert.deepEqual(evaluate(TRIGGER_ID.YOU_REDUCE_ENEMY_TO_ZERO, hp(5, 0, { sceneId, tokenId: enemy.id })), []);
+});
+
+test("adjacent enemy defeat prompts hostile neighbours regardless of the damage source", () => {
+  const event = createHpChangedEvent({ sceneId, tokenId: enemy.id, oldHp: 5, newHp: -2, bloodiedThreshold: 10 });
+  const adjacent = { distanceSquares: (left, right) => left === target ? 1 : 2 };
+  assert.deepEqual(actorIds(evaluate(TRIGGER_ID.ADJACENT_ENEMY_REDUCED_TO_ZERO, event, adjacent)), [target.actor.id]);
+  assert.deepEqual(actorIds(evaluate(TRIGGER_ID.ADJACENT_ENEMY_REDUCED_TO_ZERO, { ...event, attacker: { sceneId, tokenId: "gone" } }, adjacent)), [target.actor.id]);
+  assert.deepEqual(evaluate(TRIGGER_ID.ADJACENT_ENEMY_REDUCED_TO_ZERO, event, { distanceSquares: () => 2 }), []);
+  assert.deepEqual(evaluate(TRIGGER_ID.ADJACENT_ENEMY_REDUCED_TO_ZERO, event, { distanceSquares: () => 0 }), []);
+  assert.deepEqual(evaluate(TRIGGER_ID.ADJACENT_ENEMY_REDUCED_TO_ZERO, { ...event, reducedToZero: false }, adjacent), []);
+  assert.deepEqual(evaluate(TRIGGER_ID.ADJACENT_ENEMY_REDUCED_TO_ZERO, event, { ...adjacent, areHostile: () => false }), []);
+});
+
 test("every definition listens for one known event type and rejects an unrelated event", () => {
   for (const trigger of TRIGGERS) {
     assert.ok(findTriggersForEvent(trigger.on).includes(trigger), trigger.id);
@@ -59,7 +99,7 @@ test("opportunity attack identifies a hostile combatant whose path passes adjace
   const prompts = evaluate(TRIGGER_ID.OPPORTUNITY_ATTACK, event);
 
   assert.deepEqual(actorIds(prompts), ["target-actor", "ally-actor"]);
-  assert.equal(prompts[0].detail, "Badger moved adjacent to Rogal.");
+  assert.equal(prompts[0].detail, "Badger moved while adjacent to Rogal.");
   assert.deepEqual(evaluate(TRIGGER_ID.OPPORTUNITY_ATTACK, event, { doesPathPassAdjacent: () => false }), []);
 });
 
@@ -167,10 +207,21 @@ test("a recipient with no actor is skipped", () => {
   assert.deepEqual(prompts, []);
 });
 
-test("the movement type recorded on an event does not change evaluation", () => {
+test("walking and forced movement retain the existing opportunity evaluation", () => {
   const path = [{ x: 0, y: 0 }, { x: 100, y: 0 }];
   const walked = evaluate(TRIGGER_ID.OPPORTUNITY_ATTACK, createMovementCommittedEvent({ sceneId, tokenId: enemy.id, path, movementType: "walk" }));
   const forced = evaluate(TRIGGER_ID.OPPORTUNITY_ATTACK, createMovementCommittedEvent({ sceneId, tokenId: enemy.id, path, movementType: "forced" }));
 
   assert.deepEqual(actorIds(forced), actorIds(walked));
+});
+
+test("Shift suppresses opportunity attacks and mixed moves check only non-Shift segments", () => {
+  const path = [{ x: 0, y: 0 }, { x: 100, y: 0 }];
+  const event = createMovementCommittedEvent({ sceneId, tokenId: enemy.id, path });
+  const walking = evaluate(TRIGGER_ID.OPPORTUNITY_ATTACK, event);
+  assert.ok(walking.length > 0);
+  assert.match(walking[0].detail, /moved while adjacent to/);
+  assert.deepEqual(evaluate(TRIGGER_ID.OPPORTUNITY_ATTACK, { ...event, movementType: "shift" }), []);
+  assert.deepEqual(evaluate(TRIGGER_ID.OPPORTUNITY_ATTACK, { ...event, opportunityPaths: [] }), []);
+  assert.deepEqual(actorIds(evaluate(TRIGGER_ID.OPPORTUNITY_ATTACK, { ...event, opportunityPaths: [path] })), actorIds(walking));
 });

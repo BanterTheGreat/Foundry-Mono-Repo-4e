@@ -780,3 +780,60 @@ power swaps without retaining old weapon-dice counts or Reliable/Invigorating fl
 Reload Foundry and restart the shared companion/MCP clients together.
 
 Encounter handoff creates a title-and-enemy-roster preset for loading, then adds or updates one chapter in the exact-name **Encounters** Journal (created if missing). Chapters contain the full GM write-up with actor links, without monster stat blocks. Protocol **v36** requires reloading Foundry and restarting companion/MCP clients together.
+
+## Trigger Automations
+
+`get_trigger_automation({uuid})` reads a world Actor or a world/actor-owned power,
+feat or feature, returning stored configuration, the installed Banter trigger
+catalog, filter choices and global enablement. Actor reads include their Items.
+Read `get_document` with `source:true` before editing.
+
+`edit_trigger_automation` accepts `items:[{uuid,assignments?,limit?,automatic?}]`.
+Assignments replace the full list; `[]` clears it. Each entry has `triggerId`,
+optional `parameters` (rangeSquares, nonMinion, meleeOnly, adjacentOnly,
+attackTypes, defenseTypes, damageTypes, companionActorUuid), and optional
+`source` (`manual` or `text`). Use discovered trigger IDs and filter values.
+Companion triggers require an existing world Actor UUID. Limits are `none`,
+`turn`, `firstEncounter`, or `day`, shared across the item's assignments.
+`automatic:true` uses Banter's mandatory benefit behavior without activation.
+
+Optional Actor `uuid`, `opportunityAttack:{enabled?,oncePerTurn?}` and
+`reminders:[{triggerId,enabled}]` edit actor options. Legacy actor assignments
+must first be migrated using the actor Triggers dialog. Omitted fields,
+unrelated flags, macros and runtime usage remain intact. One active-GM review
+shows the exact changes; cancel/expiry saves nothing and stale source or session
+prevents writing. Allow 180 seconds. Inspect source after incomplete/uncertain
+results before retrying. The tools configure triggers without changing global
+settings, executing scripts or activating powers.
+
+Protocol v37 requires reloading Foundry and restarting the shared companion/MCP
+clients together to discover the new tools.
+
+## Localize equipment Item Powers
+
+Read each selected PC equipment Item and its linked powers with `get_document source:true`.
+Call `localize_item_powers` with `items: ["Actor.<id>.Item.<id>"]`, optional `summary`,
+and optional `folder` (default `Equipment/Item Powers`). The active GM reviews the
+power sources and link replacements for up to 120 seconds; allow 180 seconds for the tool.
+Only compendium links are replaced. World links and actor-owned concrete powers are
+preserved. Source power data, effects, flags and macros are copied without executing
+macros; document identity, ownership, sort and folder are set for the new world Item.
+Copies carry a source marker and are reused across equipment and partial-save retries,
+including local edits to those copies. Existing managed copies retain their folder;
+the folder argument controls new copies only. Title matches alone are never reused.
+Cancellation saves nothing. Stale equipment, powers or GM session invalidate review.
+Inspect `applied` and `copies` receipts and read equipment after `incomplete` or timeout,
+then retry the same selections. This operation is not atomic and never deletes saved copies.
+Protocol v38 requires reloading Foundry and restarting the companion/MCP clients together.
+
+## Rename world powers
+
+Use `rename_world_powers` with `powers: [{uuid: "Item.<id>", name: "Deathburst Armor"}]`
+and optional `summary`, after reading each power with `get_document source:true`.
+The active GM reviews all names for up to 120 seconds (allow 180 seconds for the tool).
+Only names change; equipment links, UUIDs, usage and mechanics remain intact.
+Names are trimmed, nonblank and at most 200 characters. Up to 100 distinct world
+power Items are supported; embedded Items, equipment and compendiums are excluded.
+Cancel saves nothing and stale source/session invalidates approval. After an
+incomplete or uncertain result, inspect source and retry the same absolute names.
+Protocol v39 requires reloading Foundry and restarting companion/MCP clients together.

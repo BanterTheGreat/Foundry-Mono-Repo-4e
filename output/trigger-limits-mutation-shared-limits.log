@@ -1,0 +1,99 @@
+
+Running 1 test using 1 worker
+
+  x  1 tests\foundry\scenarios\trigger-prompts.spec.mjs:19:3 › trigger restrictions and shared limits work in the real Foundry runtime (33.7s)
+
+
+  1) tests\foundry\scenarios\trigger-prompts.spec.mjs:19:3 › trigger restrictions and shared limits work in the real Foundry runtime 
+
+    Error: [
+      {
+        "title": "one item shares its turn allowance across bloodied and defeat triggers and concurrent claims",
+        "fullTitle": "banter-4e-modifications.trigger-limits_root Trigger restrictions and shared limits one item shares its turn allowance across bloodied and defeat triggers and concurrent claims",
+        "file": null,
+        "duration": 2411,
+        "currentRetry": 0,
+        "err": {
+          "stack": "AssertionError: another threshold in the same turn is suppressed: expected [ ChatMessage4e{ …(26) }, …(1) ] to have a length of 1 but got 2\n    at i.<anonymous> (modules/banter-4e-modifications/test-foundry/trigger-limits.js:125:16)",
+          "message": "another threshold in the same turn is suppressed: expected [ ChatMessage4e{ …(26) }, …(1) ] to have a length of 1 but got 2",
+          "actual": "2",
+          "expected": "1",
+          "showDiff": true
+        }
+      },
+      {
+        "title": "ignoring a turn-limited prompt releases it, and a new handler retains first-encounter state",
+        "fullTitle": "banter-4e-modifications.trigger-limits_root Trigger restrictions and shared limits ignoring a turn-limited prompt releases it, and a new handler retains first-encounter state",
+        "file": null,
+        "duration": 2408,
+        "currentRetry": 0,
+        "err": {
+          "stack": "AssertionError: the ignored first occurrence remains the first for this encounter: expected [ ChatMessage4e{ …(25) } ] to have a length of +0 but got 1\n    at i.<anonymous> (modules/banter-4e-modifications/test-foundry/trigger-limits.js:151:16)",
+          "message": "the ignored first occurrence remains the first for this encounter: expected [ ChatMessage4e{ …(25) } ] to have a length of +0 but got 1",
+          "actual": "1",
+          "expected": "0",
+          "showDiff": true
+        }
+      },
+      {
+        "title": "daily usage survives Short Rest and refreshes through the real Extended Rest method",
+        "fullTitle": "banter-4e-modifications.trigger-limits_root Trigger restrictions and shared limits daily usage survives Short Rest and refreshes through the real Extended Rest method",
+        "file": null,
+        "duration": 1486,
+        "currentRetry": 0,
+        "err": {
+          "stack": "AssertionError: Short Rest does not refresh daily usage: expected [ ChatMessage4e{ …(26) }, …(1) ] to have a length of 1 but got 2\n    at i.<anonymous> (modules/banter-4e-modifications/test-foundry/trigger-limits.js:163:16)",
+          "message": "Short Rest does not refresh daily usage: expected [ ChatMessage4e{ …(26) }, …(1) ] to have a length of 1 but got 2",
+          "actual": "2",
+          "expected": "1",
+          "showDiff": true
+        }
+      },
+      {
+        "title": "first-encounter usage refreshes for the same feat document in a new combat",
+        "fullTitle": "banter-4e-modifications.trigger-limits_root Trigger restrictions and shared limits first-encounter usage refreshes for the same feat document in a new combat",
+        "file": null,
+        "duration": 1608,
+        "currentRetry": 0,
+        "err": {
+          "stack": "AssertionError: expected [ ChatMessage4e{ …(26) }, …(1) ] to have a length of 1 but got 2\n    at i.<anonymous> (modules/banter-4e-modifications/test-foundry/trigger-limits.js:178:16)",
+          "message": "expected [ ChatMessage4e{ …(26) }, …(1) ] to have a length of 1 but got 2",
+          "actual": "2",
+          "expected": "1",
+          "showDiff": true
+        }
+      }
+    ]
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 0
+    Received: 4
+
+      59 |       expect(diagnostics.pageErrors, "Uncaught browser errors").toEqual([]);
+      60 |       expect(await page.evaluate(worldCounts), "The batch must leave the world exactly as it found it").toEqual(countsBefore);
+    > 61 |       expect(result.report.stats.failures, JSON.stringify(result.report.failures, null, 2)).toBe(0);
+         |                                                                                             ^
+      62 |       expect(result.report.stats.pending, "Trigger-prompt tests must not silently skip").toBe(0);
+      63 |     } finally {
+      64 |       await testInfo.attach("browser-diagnostics", { body: JSON.stringify(diagnostics, null, 2), contentType: "application/json" });
+        at C:\Users\Imre\Documents\Workspace\Foundry Mono Repo 4e\tests\foundry\scenarios\trigger-prompts.spec.mjs:61:93
+
+    attachment #4: screenshot (image/png) ──────────────────────────────────────────────────────────
+    output\foundry-test-results\trigger-prompts-trigger-re-8a996-in-the-real-Foundry-runtime\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: output\foundry-test-results\trigger-prompts-trigger-re-8a996-in-the-real-Foundry-runtime\error-context.md
+
+    attachment #6: trace (application/zip) ─────────────────────────────────────────────────────────
+    output\foundry-test-results\trigger-prompts-trigger-re-8a996-in-the-real-Foundry-runtime\trace.zip
+    Usage:
+
+        npx playwright show-trace output\foundry-test-results\trigger-prompts-trigger-re-8a996-in-the-real-Foundry-runtime\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests\foundry\scenarios\trigger-prompts.spec.mjs:19:3 › trigger restrictions and shared limits work in the real Foundry runtime 
+(node:35068) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)

@@ -6,6 +6,17 @@
  * in document flags.
  */
 export const TRIGGER_ID = Object.freeze({
+  YOU_HIT_WITH_OPPORTUNITY_ATTACK: "you-hit-with-opportunity-attack",
+  MARKED_ENEMY_ATTACKS_OTHER: "marked-enemy-attacks-other",
+  ENEMY_ENTERS_RANGE: "enemy-enters-range",
+  YOU_TAKE_DAMAGE: "you-take-damage",
+  YOU_MAKE_SAVING_THROW: "you-make-saving-throw",
+  YOU_OR_ALLY_FAILS_SAVE: "you-or-ally-fails-save",
+  RANGED_AC_REFLEX_HITS_YOU: "ranged-ac-reflex-hits-you",
+  COMPANION_TARGETED: "companion-targeted",
+  COMPANION_HIT: "companion-hit",
+  YOU_BLOODY_ENEMY: "you-bloody-enemy",
+  ALLY_REDUCED_TO_ZERO: "ally-reduced-to-zero",
   OPPORTUNITY_ATTACK: "opportunity-attack",
   ENEMY_MISSES_YOU: "enemy-misses-you",
   ENEMY_MISSES_ALLY: "enemy-misses-ally",
@@ -15,6 +26,8 @@ export const TRIGGER_ID = Object.freeze({
   MARKED_ENEMY_HITS_ALLY: "marked-enemy-hits-ally",
   MARKED_CREATURE_BLOODIED: "marked-creature-bloodied",
   YOU_BECOME_BLOODIED: "you-become-bloodied",
+  YOU_REDUCE_ENEMY_TO_ZERO: "you-reduce-enemy-to-zero",
+  ADJACENT_ENEMY_REDUCED_TO_ZERO: "adjacent-enemy-reduced-to-zero",
   YOU_ARE_HIT_BY_MELEE_ATTACK: "you-are-hit-by-melee-attack",
   MARKED_CREATURE_SHIFTS_ADJACENT: "marked-creature-moves-adjacent",
   FAILS_SAVING_THROW: "fails-saving-throw",
@@ -34,17 +47,17 @@ export const TRIGGER_PROMPT_FLAG = "triggerPrompts";
  */
 export const TRIGGER_CONFIGURATION_FLAG = "trigger-prompts";
 /** Time for which a recipient may select one power from a prompt. */
-export const TRIGGER_PROMPT_TIMEOUT_MS = 10_000;
+export const TRIGGER_PROMPT_TIMEOUT_MS = 20_000;
 
 /**
  * SocketLib handler names used by the trigger-prompt submodule.
  *
  * Events are evaluated on the client that caused them, so no evaluation
- * message crosses the socket. The two remaining handlers run on the prompt's
- * author, who keeps the prompt message and is the only client (besides a GM)
- * Foundry lets modify it.
+ * message crosses the socket. Prompt mutations run on their author. Shared item
+ * allowances run on the active GM, or a stable online actor owner without a GM.
  */
 export const TRIGGER_SOCKET_ACTION = Object.freeze({
+  ITEM_LIMIT: "triggerItemLimit",
   CLAIM_PROMPT: "claimTriggerPrompt",
   DISMISS_PROMPT: "dismissTriggerPrompt",
 });

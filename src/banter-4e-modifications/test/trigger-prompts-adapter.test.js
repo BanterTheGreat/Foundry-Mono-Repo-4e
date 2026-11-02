@@ -13,7 +13,7 @@ function setUp({ userId = "player", combat, extra = {} } = {}) {
   const triggerPrompts = new TriggerPrompts(socket);
   globalThis.game.TriggerPrompts = triggerPrompts;
   const events = [];
-  triggerPrompts.events.subscribe(event => { events.push(event); });
+  triggerPrompts.events.subscribe(event => { if (event.type !== COMBAT_EVENT_TYPE.ATTACK_TARGETED) { events.push(event); } });
   return { triggerPrompts, events };
 }
 
@@ -94,7 +94,7 @@ test("a failed rolling saving throw without a roll flag is reported", async () =
   assert.equal(events.length, 1);
 });
 
-test("successful saves, death saves, and other users' messages are not reported", async () => {
+test("successful saves are reported, death saves and other users' messages are excluded", async () => {
   const { events } = setUp();
   const save = overrides => ({
     id: "save", author: { id: "player" }, flavor: "Saving Throw (DC 10)", speaker: { scene: "scene", actor: "hero", token: "hero-token" },
@@ -105,7 +105,8 @@ test("successful saves, death saves, and other users' messages are not reported"
   await TriggerPrompts.onCreateRollMessage(save({ flavor: "Death Saving Throw (DC 10)" }));
   await TriggerPrompts.onCreateRollMessage(save({ author: { id: "someone-else" } }));
 
-  assert.deepEqual(events, []);
+  assert.equal(events.length, 1);
+  assert.equal(events[0].outcome, "success");
 });
 
 /** A committed move shaped like Foundry v14's TokenMovementOperation. */
@@ -157,7 +158,7 @@ test("undoing a move is not a new move", async () => {
   assert.deepEqual(events, []);
 });
 
-test("every other movement method is reported alike while movement types are not yet distinguished", async () => {
+test("movement methods without a Shift action retain walking behavior", async () => {
   const { events } = setUp();
 
   for (const method of ["dragging", "keyboard", "api", "hud"]) {
@@ -165,6 +166,21 @@ test("every other movement method is reported alike while movement types are not
   }
 
   assert.deepEqual(events.map(event => event.movementType), Array(4).fill(MOVEMENT_TYPE.WALK));
+});
+
+test("native waypoint actions exclude Shift segments while retaining the full mixed path", async () => {
+  const { events } = setUp();
+  await TriggerPrompts.onMoveToken(runner, movement({ x: 0, y: 0 }, [{ x: 100, y: 0, action: "shift" }]), {}, { id: "player" });
+  assert.equal(events[0].movementType, MOVEMENT_TYPE.SHIFT);
+  assert.deepEqual(events[0].opportunityPaths, []);
+  await TriggerPrompts.onMoveToken(runner, movement({ x: 0, y: 0 }, [
+    { x: 100, y: 0, action: "shift" }, { x: 200, y: 0, action: "walk" }, { x: 300, y: 0, action: "shift" },
+  ]), {}, { id: "player" });
+  assert.equal(events[1].movementType, MOVEMENT_TYPE.WALK);
+  assert.equal(events[1].path.length, 4);
+  assert.deepEqual(events[1].opportunityPaths, [[{ x: 100, y: 0 }, { x: 200, y: 0 }]]);
+  await TriggerPrompts.onMoveToken({ ...runner, movementAction: "shift" }, movement({ x: 0, y: 0 }, [{ x: 100, y: 0 }]), {}, { id: "player" });
+  assert.equal(events[2].movementType, MOVEMENT_TYPE.SHIFT);
 });
 
 const combatWith = (...combatants) => ({ started: true, combatants });
@@ -194,6 +210,23 @@ test("the bloodied threshold falls back to half of maximum HP", async () => {
 
   assert.equal(events[0].bloodiedThreshold, 15);
   assert.equal(events[0].becameBloodied, true);
+});
+
+test("a lethal HP update carries the matching receipt's attacker and manual changes do not guess", async () => {
+  const actor = { uuid: "Actor.enemy", system: { attributes: { hp: { value: -2, max: 30 } }, details: {} } };
+  const { events } = setUp({ combat: combatWith({ sceneId: "scene", tokenId: "enemy", actor }), extra: {
+    messages: new Map([["damage", { flags: { "dnd4e-health-display": {
+      damageApplication: { sceneId: "scene" }, attackResults: { casterId: "hero" },
+      damageApplications: { enemy: { state: "applying", health: { before: 8, after: -2 } } },
+    } } }]]),
+  } });
+  await TriggerPrompts.onUpdateActor(actor, {}, { dnd4e: { hp: { hp: 8 } } }, "player");
+  assert.equal(events[0].reducedToZero, true);
+  assert.deepEqual(events[0].attacker, { sceneId: "scene", tokenId: "hero" });
+  game.messages.clear();
+  await TriggerPrompts.onUpdateActor(actor, {}, { dnd4e: { hp: { hp: 8 } } }, "player");
+  assert.equal(events[1].reducedToZero, true);
+  assert.equal(events[1].attacker, null);
 });
 
 test("HP updates from other users, outside combat, or without a change are not reported", async () => {
@@ -277,4 +310,56 @@ test("socket entry points hand claims and dismissals to this client's prompt cha
 
   assert.deepEqual(await TriggerPrompts.claimPromptFromSocket("prompt", "item"), { claimed: ["prompt", "item"] });
   assert.equal(await TriggerPrompts.dismissPromptFromSocket("prompt"), true);
+});
+
+
+test("Target Automation waits for confirmation and delivers each target once on the confirming client", async () => {
+  const { events } = setUp();
+  const message = { id: "automated", flags: { "dnd4e-health-display": { attackResults: {
+    sessionId: "session", sceneId: "scene", casterId: "enemy", targetIds: ["hero"], pending: true,
+    triggerMetadata: { attackRange: "range", defenseType: "ref", isOpportunity: true },
+  } } }, rolls: [{ options: { multirollData: { targetID: "hero", hitstate: "hit" } } }] };
+  await TriggerPrompts.onAutomationMessage(message, { "flags.dnd4e-health-display.attackResults.pending": false }, {}, "player");
+  assert.equal(events.length, 0);
+  message.flags["dnd4e-health-display"].attackResults.pending = false;
+  await TriggerPrompts.onAutomationMessage(message, { "flags.dnd4e-health-display.attackResults.pending": false }, {}, "other");
+  assert.equal(events.length, 0);
+  await TriggerPrompts.onAutomationMessage(message, { "flags.dnd4e-health-display.attackResults.pending": false }, {}, "player");
+  await TriggerPrompts.onAutomationMessage(message, { "flags.dnd4e-health-display.attackResults.pending": false }, {}, "player");
+  assert.equal(events.length, 1);
+  assert.equal(events[0].isOpportunity, true);
+  assert.equal(events[0].attackType, "ranged");
+});
+
+test("targeted events preserve the complete roster and effective native opportunity mode", async () => {
+  const { triggerPrompts } = setUp();
+  const targeted = [];
+  triggerPrompts.events.subscribe(event => { if (event.type === COMBAT_EVENT_TYPE.ATTACK_TARGETED) { targeted.push(event); } });
+  TriggerPrompts.onDnd4eRollAttack({ name: "Strike", rangeType: "weapon", isOpp: true }, { targets: [{ id: "hero" }, { id: "ally" }] }, { token: "enemy" });
+  TriggerPrompts.onPreCreateRollMessage(attackMessage({ flavor: "Strike", speaker: { token: "enemy" } }));
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(targeted.length, 2);
+  assert.deepEqual(targeted[0].targetIds, ["hero", "ally"]);
+  assert.equal(targeted[0].isOpportunity, true);
+});
+
+test("damage to temporary HP alone reports positive damage without a bloodied transition", async () => {
+  const actor = { uuid: "Actor.hero", system: { attributes: { hp: { value: 40, max: 40 }, temphp: { value: 5 } } } };
+  const { events } = setUp({ combat: { started: true, combatants: [{ actor, sceneId: "scene", tokenId: "hero" }] } });
+  // Only observe the hook adapter, independently of live document resolution.
+  game.TriggerPrompts.dispatcher.handle = async () => {};
+  await TriggerPrompts.onUpdateActor(actor, {}, { dnd4e: { hp: { hp: 40, temp: 10 } } }, "player");
+  assert.equal(events.length, 1);
+  assert.equal(events[0].damageTaken, 5);
+  assert.equal(events[0].becameBloodied, false);
+});
+
+
+test("unrelated updates to confirmed automation messages do not replay results after a handler reload", async () => {
+  const { events } = setUp();
+  const message = { id: "old", flags: { "dnd4e-health-display": { attackResults: { sessionId: "old-session", pending: false, sceneId: "scene", casterId: "enemy", targetIds: ["hero"] } } }, rolls: [{ options: { multirollData: { targetID: "hero", hitstate: "hit" } } }] };
+  await TriggerPrompts.onAutomationMessage(message, { content: "Updated" }, {}, "player");
+  assert.equal(events.length, 0);
+  await TriggerPrompts.onAutomationMessage(message, { flags: { "dnd4e-health-display": { attackResults: { pending: false } } } }, {}, "player");
+  assert.equal(events.length, 1);
 });

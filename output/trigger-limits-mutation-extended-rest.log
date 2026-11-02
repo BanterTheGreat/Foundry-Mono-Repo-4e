@@ -1,0 +1,54 @@
+
+Running 1 test using 1 worker
+
+  x  1 tests\foundry\scenarios\trigger-prompts.spec.mjs:19:3 › trigger restrictions and shared limits work in the real Foundry runtime (45.8s)
+
+
+  1) tests\foundry\scenarios\trigger-prompts.spec.mjs:19:3 › trigger restrictions and shared limits work in the real Foundry runtime 
+
+    Error: [
+      {
+        "title": "daily usage survives Short Rest and refreshes through the real Extended Rest method",
+        "fullTitle": "banter-4e-modifications.trigger-limits_root Trigger restrictions and shared limits daily usage survives Short Rest and refreshes through the real Extended Rest method",
+        "file": null,
+        "duration": 11715,
+        "currentRetry": 0,
+        "err": {
+          "stack": "Error: Timed out waiting for the post-Extended-Rest daily prompt.\n    at waitForFact (modules/banter-4e-modifications/test-foundry/trigger-prompt-fixture.js:21:9)\n    at async i.<anonymous> (modules/banter-4e-modifications/test-foundry/trigger-limits.js:167:9)",
+          "message": "Timed out waiting for the post-Extended-Rest daily prompt."
+        }
+      }
+    ]
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 0
+    Received: 1
+
+      59 |       expect(diagnostics.pageErrors, "Uncaught browser errors").toEqual([]);
+      60 |       expect(await page.evaluate(worldCounts), "The batch must leave the world exactly as it found it").toEqual(countsBefore);
+    > 61 |       expect(result.report.stats.failures, JSON.stringify(result.report.failures, null, 2)).toBe(0);
+         |                                                                                             ^
+      62 |       expect(result.report.stats.pending, "Trigger-prompt tests must not silently skip").toBe(0);
+      63 |     } finally {
+      64 |       await testInfo.attach("browser-diagnostics", { body: JSON.stringify(diagnostics, null, 2), contentType: "application/json" });
+        at C:\Users\Imre\Documents\Workspace\Foundry Mono Repo 4e\tests\foundry\scenarios\trigger-prompts.spec.mjs:61:93
+
+    attachment #4: screenshot (image/png) ──────────────────────────────────────────────────────────
+    output\foundry-test-results\trigger-prompts-trigger-re-8a996-in-the-real-Foundry-runtime\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: output\foundry-test-results\trigger-prompts-trigger-re-8a996-in-the-real-Foundry-runtime\error-context.md
+
+    attachment #6: trace (application/zip) ─────────────────────────────────────────────────────────
+    output\foundry-test-results\trigger-prompts-trigger-re-8a996-in-the-real-Foundry-runtime\trace.zip
+    Usage:
+
+        npx playwright show-trace output\foundry-test-results\trigger-prompts-trigger-re-8a996-in-the-real-Foundry-runtime\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests\foundry\scenarios\trigger-prompts.spec.mjs:19:3 › trigger restrictions and shared limits work in the real Foundry runtime 
+(node:13804) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)

@@ -1,0 +1,224 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\Imre\\Documents\\Workspace\\Foundry Mono Repo 4e\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--config",
+      "tests/foundry/playwright.config.mjs",
+      "trigger-prompts.spec.mjs",
+      "--grep",
+      "defeat triggers"
+    ],
+    "configFile": "C:\\Users\\Imre\\Documents\\Workspace\\Foundry Mono Repo 4e\\tests\\foundry\\playwright.config.mjs",
+    "rootDir": "C:/Users/Imre/Documents/Workspace/Foundry Mono Repo 4e/tests/foundry/scenarios",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/Imre/Documents/Workspace/Foundry Mono Repo 4e/output/foundry-test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/Imre/Documents/Workspace/Foundry Mono Repo 4e/tests/foundry/scenarios",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\Users\\Imre\\Documents\\Workspace\\Foundry Mono Repo 4e\\output\\foundry-test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "C:\\Users\\Imre\\Documents\\Workspace\\Foundry Mono Repo 4e\\tests\\foundry\\scenarios",
+        "snapshotDir": "C:\\Users\\Imre\\Documents\\Workspace\\Foundry Mono Repo 4e\\tests\\foundry\\scenarios",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 180000,
+        "use": {
+          "baseURL": "http://localhost:30000/",
+          "browserName": "chromium",
+          "launchOptions": {
+            "args": [
+              "--enable-gpu",
+              "--ignore-gpu-blocklist",
+              "--use-angle=d3d11"
+            ]
+          },
+          "viewport": {
+            "width": 1920,
+            "height": 1080
+          },
+          "trace": "retain-on-failure",
+          "screenshot": "only-on-failure"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "html",
+        {
+          "outputFolder": "../../output/foundry-test-report",
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "../../output/foundry-test-results/playwright.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "trigger-prompts.spec.mjs",
+      "file": "trigger-prompts.spec.mjs",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "defeat triggers and feat prompts work in the real Foundry runtime",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 900000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 23815,
+                  "error": {
+                    "message": "Error: [\n  {\n    \"title\": \"prompts adjacent hostile observers on manual defeat, including diagonal large-token adjacency\",\n    \"fullTitle\": \"banter-4e-modifications.defeat-triggers_root Defeat triggers and feats in Foundry prompts adjacent hostile observers on manual defeat, including diagonal large-token adjacency\",\n    \"file\": null,\n    \"duration\": 1375,\n    \"currentRetry\": 0,\n    \"err\": {\n      \"stack\": \"AssertionError: expected [ …(2) ] to deeply equal [ Array(1) ]\\n    at i.<anonymous> (modules/banter-4e-modifications/test-foundry/defeat-triggers.js:94:16)\",\n      \"message\": \"expected [ …(2) ] to deeply equal [ Array(1) ]\",\n      \"actual\": \"[\\n  \\\"far:adjacent-enemy-reduced-to-zero\\\"\\n  \\\"hero:adjacent-enemy-reduced-to-zero\\\"\\n]\",\n      \"expected\": \"[\\n  \\\"hero:adjacent-enemy-reduced-to-zero\\\"\\n]\",\n      \"showDiff\": true,\n      \"operator\": \"deepStrictEqual\"\n    }\n  },\n  {\n    \"title\": \"ignores nonlethal damage and distant defeats, then prompts for an adjacent defeat\",\n    \"fullTitle\": \"banter-4e-modifications.defeat-triggers_root Defeat triggers and feats in Foundry ignores nonlethal damage and distant defeats, then prompts for an adjacent defeat\",\n    \"file\": null,\n    \"duration\": 1186,\n    \"currentRetry\": 0,\n    \"err\": {\n      \"stack\": \"AssertionError: expected [ Array(1) ] to deeply equal []\\n    at i.<anonymous> (modules/banter-4e-modifications/test-foundry/defeat-triggers.js:106:16)\",\n      \"message\": \"expected [ Array(1) ] to deeply equal []\",\n      \"actual\": \"[\\n  \\\"hero:adjacent-enemy-reduced-to-zero\\\"\\n]\",\n      \"expected\": \"[]\",\n      \"showDiff\": true,\n      \"operator\": \"deepStrictEqual\"\n    }\n  }\n]\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m2\u001b[39m",
+                    "stack": "Error: [\n  {\n    \"title\": \"prompts adjacent hostile observers on manual defeat, including diagonal large-token adjacency\",\n    \"fullTitle\": \"banter-4e-modifications.defeat-triggers_root Defeat triggers and feats in Foundry prompts adjacent hostile observers on manual defeat, including diagonal large-token adjacency\",\n    \"file\": null,\n    \"duration\": 1375,\n    \"currentRetry\": 0,\n    \"err\": {\n      \"stack\": \"AssertionError: expected [ …(2) ] to deeply equal [ Array(1) ]\\n    at i.<anonymous> (modules/banter-4e-modifications/test-foundry/defeat-triggers.js:94:16)\",\n      \"message\": \"expected [ …(2) ] to deeply equal [ Array(1) ]\",\n      \"actual\": \"[\\n  \\\"far:adjacent-enemy-reduced-to-zero\\\"\\n  \\\"hero:adjacent-enemy-reduced-to-zero\\\"\\n]\",\n      \"expected\": \"[\\n  \\\"hero:adjacent-enemy-reduced-to-zero\\\"\\n]\",\n      \"showDiff\": true,\n      \"operator\": \"deepStrictEqual\"\n    }\n  },\n  {\n    \"title\": \"ignores nonlethal damage and distant defeats, then prompts for an adjacent defeat\",\n    \"fullTitle\": \"banter-4e-modifications.defeat-triggers_root Defeat triggers and feats in Foundry ignores nonlethal damage and distant defeats, then prompts for an adjacent defeat\",\n    \"file\": null,\n    \"duration\": 1186,\n    \"currentRetry\": 0,\n    \"err\": {\n      \"stack\": \"AssertionError: expected [ Array(1) ] to deeply equal []\\n    at i.<anonymous> (modules/banter-4e-modifications/test-foundry/defeat-triggers.js:106:16)\",\n      \"message\": \"expected [ Array(1) ] to deeply equal []\",\n      \"actual\": \"[\\n  \\\"hero:adjacent-enemy-reduced-to-zero\\\"\\n]\",\n      \"expected\": \"[]\",\n      \"showDiff\": true,\n      \"operator\": \"deepStrictEqual\"\n    }\n  }\n]\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m2\u001b[39m\n    at C:\\Users\\Imre\\Documents\\Workspace\\Foundry Mono Repo 4e\\tests\\foundry\\scenarios\\trigger-prompts.spec.mjs:60:91",
+                    "location": {
+                      "file": "C:\\Users\\Imre\\Documents\\Workspace\\Foundry Mono Repo 4e\\tests\\foundry\\scenarios\\trigger-prompts.spec.mjs",
+                      "column": 91,
+                      "line": 60
+                    },
+                    "snippet": "  58 |       expect(diagnostics.pageErrors, \"Uncaught browser errors\").toEqual([]);\n  59 |       expect(await page.evaluate(worldCounts), \"The batch must leave the world exactly as it found it\").toEqual(countsBefore);\n> 60 |       expect(result.report.stats.failures, JSON.stringify(result.report.failures, null, 2)).toBe(0);\n     |                                                                                           ^\n  61 |       expect(result.report.stats.pending, \"Trigger-prompt tests must not silently skip\").toBe(0);\n  62 |     } finally {\n  63 |       await testInfo.attach(\"browser-diagnostics\", { body: JSON.stringify(diagnostics, null, 2), contentType: \"application/json\" });"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\Imre\\Documents\\Workspace\\Foundry Mono Repo 4e\\tests\\foundry\\scenarios\\trigger-prompts.spec.mjs",
+                        "column": 91,
+                        "line": 60
+                      },
+                      "message": "Error: [\n  {\n    \"title\": \"prompts adjacent hostile observers on manual defeat, including diagonal large-token adjacency\",\n    \"fullTitle\": \"banter-4e-modifications.defeat-triggers_root Defeat triggers and feats in Foundry prompts adjacent hostile observers on manual defeat, including diagonal large-token adjacency\",\n    \"file\": null,\n    \"duration\": 1375,\n    \"currentRetry\": 0,\n    \"err\": {\n      \"stack\": \"AssertionError: expected [ …(2) ] to deeply equal [ Array(1) ]\\n    at i.<anonymous> (modules/banter-4e-modifications/test-foundry/defeat-triggers.js:94:16)\",\n      \"message\": \"expected [ …(2) ] to deeply equal [ Array(1) ]\",\n      \"actual\": \"[\\n  \\\"far:adjacent-enemy-reduced-to-zero\\\"\\n  \\\"hero:adjacent-enemy-reduced-to-zero\\\"\\n]\",\n      \"expected\": \"[\\n  \\\"hero:adjacent-enemy-reduced-to-zero\\\"\\n]\",\n      \"showDiff\": true,\n      \"operator\": \"deepStrictEqual\"\n    }\n  },\n  {\n    \"title\": \"ignores nonlethal damage and distant defeats, then prompts for an adjacent defeat\",\n    \"fullTitle\": \"banter-4e-modifications.defeat-triggers_root Defeat triggers and feats in Foundry ignores nonlethal damage and distant defeats, then prompts for an adjacent defeat\",\n    \"file\": null,\n    \"duration\": 1186,\n    \"currentRetry\": 0,\n    \"err\": {\n      \"stack\": \"AssertionError: expected [ Array(1) ] to deeply equal []\\n    at i.<anonymous> (modules/banter-4e-modifications/test-foundry/defeat-triggers.js:106:16)\",\n      \"message\": \"expected [ Array(1) ] to deeply equal []\",\n      \"actual\": \"[\\n  \\\"hero:adjacent-enemy-reduced-to-zero\\\"\\n]\",\n      \"expected\": \"[]\",\n      \"showDiff\": true,\n      \"operator\": \"deepStrictEqual\"\n    }\n  }\n]\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m2\u001b[39m\n\n  58 |       expect(diagnostics.pageErrors, \"Uncaught browser errors\").toEqual([]);\n  59 |       expect(await page.evaluate(worldCounts), \"The batch must leave the world exactly as it found it\").toEqual(countsBefore);\n> 60 |       expect(result.report.stats.failures, JSON.stringify(result.report.failures, null, 2)).toBe(0);\n     |                                                                                           ^\n  61 |       expect(result.report.stats.pending, \"Trigger-prompt tests must not silently skip\").toBe(0);\n  62 |     } finally {\n  63 |       await testInfo.attach(\"browser-diagnostics\", { body: JSON.stringify(diagnostics, null, 2), contentType: \"application/json\" });\n    at C:\\Users\\Imre\\Documents\\Workspace\\Foundry Mono Repo 4e\\tests\\foundry\\scenarios\\trigger-prompts.spec.mjs:60:91"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-01T22:47:22.171Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "quench-report",
+                      "contentType": "application/json",
+                      "body": "ewogICJlbnZpcm9ubWVudCI6IHsKICAgICJ3b3JsZElkIjogIjRlLXRlc3QtcmVhbG0iLAogICAgImZvdW5kcnkiOiAiMTQuMzY3IiwKICAgICJzeXN0ZW0iOiAiMC45LjMiLAogICAgIm1vZHVsZXMiOiB7CiAgICAgICJiYW50ZXItNGUtbW9kaWZpY2F0aW9ucyI6ICIyLjAiLAogICAgICAiZG5kNGUtaGVhbHRoLWRpc3BsYXkiOiAiMS4xLjAiLAogICAgICAicXVlbmNoIjogIjAuMTAuMCIsCiAgICAgICJmb3VuZHJ5LXRlc3QtaGFybmVzcyI6ICIwLjEuMCIKICAgIH0KICB9LAogICJiYXRjaEtleXMiOiBbCiAgICAiYmFudGVyLTRlLW1vZGlmaWNhdGlvbnMuZGVmZWF0LXRyaWdnZXJzIgogIF0sCiAgInJlcG9ydCI6IHsKICAgICJzdGF0cyI6IHsKICAgICAgInN1aXRlcyI6IDIsCiAgICAgICJ0ZXN0cyI6IDYsCiAgICAgICJwYXNzZXMiOiA0LAogICAgICAicGVuZGluZyI6IDAsCiAgICAgICJmYWlsdXJlcyI6IDIsCiAgICAgICJzdGFydCI6ICIyMDI2LTExLTAxVDIyOjQ3OjMwLjUxOFoiLAogICAgICAiZW5kIjogIjIwMjYtMTEtMDFUMjI6NDc6NDQuNDc2WiIsCiAgICAgICJkdXJhdGlvbiI6IDEzOTU4CiAgICB9LAogICAgInRlc3RzIjogWwogICAgICB7CiAgICAgICAgInRpdGxlIjogInByb21wdHMgdGhlIHJlY29yZGVkIGtpbGxlciwgbm90IG90aGVyIGFjdG9ycyBvciB0aGUgYWN0aXZlIHR1cm4ncyBhY3RvciIsCiAgICAgICAgImZ1bGxUaXRsZSI6ICJiYW50ZXItNGUtbW9kaWZpY2F0aW9ucy5kZWZlYXQtdHJpZ2dlcnNfcm9vdCBEZWZlYXQgdHJpZ2dlcnMgYW5kIGZlYXRzIGluIEZvdW5kcnkgcHJvbXB0cyB0aGUgcmVjb3JkZWQga2lsbGVyLCBub3Qgb3RoZXIgYWN0b3JzIG9yIHRoZSBhY3RpdmUgdHVybidzIGFjdG9yIiwKICAgICAgICAiZmlsZSI6IG51bGwsCiAgICAgICAgImR1cmF0aW9uIjogMTUyNSwKICAgICAgICAiY3VycmVudFJldHJ5IjogMCwKICAgICAgICAic3BlZWQiOiAic2xvdyIsCiAgICAgICAgImVyciI6IHt9CiAgICAgIH0sCiAgICAgIHsKICAgICAgICAidGl0bGUiOiAiZG9lcyBub3QgYXR0cmlidXRlIG1hbnVhbCBlZGl0cywgZnJpZW5kbHkgZGVmZWF0cywgaGVhbGluZyBvciBmdXJ0aGVyIGRhbWFnZSBiZWxvdyB6ZXJvIiwKICAgICAgICAiZnVsbFRpdGxlIjogImJhbnRlci00ZS1tb2RpZmljYXRpb25zLmRlZmVhdC10cmlnZ2Vyc19yb290IERlZmVhdCB0cmlnZ2VycyBhbmQgZmVhdHMgaW4gRm91bmRyeSBkb2VzIG5vdCBhdHRyaWJ1dGUgbWFudWFsIGVkaXRzLCBmcmllbmRseSBkZWZlYXRzLCBoZWFsaW5nIG9yIGZ1cnRoZXIgZGFtYWdlIGJlbG93IHplcm8iLAogICAgICAgICJmaWxlIjogbnVsbCwKICAgICAgICAiZHVyYXRpb24iOiAyMzc4LAogICAgICAgICJjdXJyZW50UmV0cnkiOiAwLAogICAgICAgICJzcGVlZCI6ICJzbG93IiwKICAgICAgICAiZXJyIjoge30KICAgICAgfSwKICAgICAgewogICAgICAgICJ0aXRsZSI6ICJwcm9tcHRzIGFkamFjZW50IGhvc3RpbGUgb2JzZXJ2ZXJzIG9uIG1hbnVhbCBkZWZlYXQsIGluY2x1ZGluZyBkaWFnb25hbCBsYXJnZS10b2tlbiBhZGphY2VuY3kiLAogICAgICAgICJmdWxsVGl0bGUiOiAiYmFudGVyLTRlLW1vZGlmaWNhdGlvbnMuZGVmZWF0LXRyaWdnZXJzX3Jvb3QgRGVmZWF0IHRyaWdnZXJzIGFuZCBmZWF0cyBpbiBGb3VuZHJ5IHByb21wdHMgYWRqYWNlbnQgaG9zdGlsZSBvYnNlcnZlcnMgb24gbWFudWFsIGRlZmVhdCwgaW5jbHVkaW5nIGRpYWdvbmFsIGxhcmdlLXRva2VuIGFkamFjZW5jeSIsCiAgICAgICAgImZpbGUiOiBudWxsLAogICAgICAgICJkdXJhdGlvbiI6IDEzNzUsCiAgICAgICAgImN1cnJlbnRSZXRyeSI6IDAsCiAgICAgICAgImVyciI6IHsKICAgICAgICAgICJzdGFjayI6ICJBc3NlcnRpb25FcnJvcjogZXhwZWN0ZWQgWyDigKYoMikgXSB0byBkZWVwbHkgZXF1YWwgWyBBcnJheSgxKSBdXG4gICAgYXQgaS48YW5vbnltb3VzPiAobW9kdWxlcy9iYW50ZXItNGUtbW9kaWZpY2F0aW9ucy90ZXN0LWZvdW5kcnkvZGVmZWF0LXRyaWdnZXJzLmpzOjk0OjE2KSIsCiAgICAgICAgICAibWVzc2FnZSI6ICJleHBlY3RlZCBbIOKApigyKSBdIHRvIGRlZXBseSBlcXVhbCBbIEFycmF5KDEpIF0iLAogICAgICAgICAgImFjdHVhbCI6ICJbXG4gIFwiZmFyOmFkamFjZW50LWVuZW15LXJlZHVjZWQtdG8temVyb1wiXG4gIFwiaGVybzphZGphY2VudC1lbmVteS1yZWR1Y2VkLXRvLXplcm9cIlxuXSIsCiAgICAgICAgICAiZXhwZWN0ZWQiOiAiW1xuICBcImhlcm86YWRqYWNlbnQtZW5lbXktcmVkdWNlZC10by16ZXJvXCJcbl0iLAogICAgICAgICAgInNob3dEaWZmIjogdHJ1ZSwKICAgICAgICAgICJvcGVyYXRvciI6ICJkZWVwU3RyaWN0RXF1YWwiCiAgICAgICAgfQogICAgICB9LAogICAgICB7CiAgICAgICAgInRpdGxlIjogImlnbm9yZXMgbm9ubGV0aGFsIGRhbWFnZSBhbmQgZGlzdGFudCBkZWZlYXRzLCB0aGVuIHByb21wdHMgZm9yIGFuIGFkamFjZW50IGRlZmVhdCIsCiAgICAgICAgImZ1bGxUaXRsZSI6ICJiYW50ZXItNGUtbW9kaWZpY2F0aW9ucy5kZWZlYXQtdHJpZ2dlcnNfcm9vdCBEZWZlYXQgdHJpZ2dlcnMgYW5kIGZlYXRzIGluIEZvdW5kcnkgaWdub3JlcyBub25sZXRoYWwgZGFtYWdlIGFuZCBkaXN0YW50IGRlZmVhdHMsIHRoZW4gcHJvbXB0cyBmb3IgYW4gYWRqYWNlbnQgZGVmZWF0IiwKICAgICAgICAiZmlsZSI6IG51bGwsCiAgICAgICAgImR1cmF0aW9uIjogMTE4NiwKICAgICAgICAiY3VycmVudFJldHJ5IjogMCwKICAgICAgICAiZXJyIjogewogICAgICAgICAgInN0YWNrIjogIkFzc2VydGlvbkVycm9yOiBleHBlY3RlZCBbIEFycmF5KDEpIF0gdG8gZGVlcGx5IGVxdWFsIFtdXG4gICAgYXQgaS48YW5vbnltb3VzPiAobW9kdWxlcy9iYW50ZXItNGUtbW9kaWZpY2F0aW9ucy90ZXN0LWZvdW5kcnkvZGVmZWF0LXRyaWdnZXJzLmpzOjEwNjoxNikiLAogICAgICAgICAgIm1lc3NhZ2UiOiAiZXhwZWN0ZWQgWyBBcnJheSgxKSBdIHRvIGRlZXBseSBlcXVhbCBbXSIsCiAgICAgICAgICAiYWN0dWFsIjogIltcbiAgXCJoZXJvOmFkamFjZW50LWVuZW15LXJlZHVjZWQtdG8temVyb1wiXG5dIiwKICAgICAgICAgICJleHBlY3RlZCI6ICJbXSIsCiAgICAgICAgICAic2hvd0RpZmYiOiB0cnVlLAogICAgICAgICAgIm9wZXJhdG9yIjogImRlZXBTdHJpY3RFcXVhbCIKICAgICAgICB9CiAgICAgIH0sCiAgICAgIHsKICAgICAgICAidGl0bGUiOiAic2F2ZXMgYm90aCBkZWZlYXQgYXNzaWdubWVudHMgdGhyb3VnaCBhIHJlYWwgZmVhdCdzIFRyaWdnZXJzIHNoZWV0IGNvbnRyb2wiLAogICAgICAgICJmdWxsVGl0bGUiOiAiYmFudGVyLTRlLW1vZGlmaWNhdGlvbnMuZGVmZWF0LXRyaWdnZXJzX3Jvb3QgRGVmZWF0IHRyaWdnZXJzIGFuZCBmZWF0cyBpbiBGb3VuZHJ5IHNhdmVzIGJvdGggZGVmZWF0IGFzc2lnbm1lbnRzIHRocm91Z2ggYSByZWFsIGZlYXQncyBUcmlnZ2VycyBzaGVldCBjb250cm9sIiwKICAgICAgICAiZmlsZSI6IG51bGwsCiAgICAgICAgImR1cmF0aW9uIjogNTI5LAogICAgICAgICJjdXJyZW50UmV0cnkiOiAwLAogICAgICAgICJzcGVlZCI6ICJzbG93IiwKICAgICAgICAiZXJyIjoge30KICAgICAgfSwKICAgICAgewogICAgICAgICJ0aXRsZSI6ICJvZmZlcnMgYW4gYXNzaWduZWQgZmVhdCBhbmQgcG9zdHMgaXRzIG5hdGl2ZSBjYXJkIG9uY2Ugd2hlbiB0aGUgcHJvbXB0IGJ1dHRvbiBpcyBjbGlja2VkIiwKICAgICAgICAiZnVsbFRpdGxlIjogImJhbnRlci00ZS1tb2RpZmljYXRpb25zLmRlZmVhdC10cmlnZ2Vyc19yb290IERlZmVhdCB0cmlnZ2VycyBhbmQgZmVhdHMgaW4gRm91bmRyeSBvZmZlcnMgYW4gYXNzaWduZWQgZmVhdCBhbmQgcG9zdHMgaXRzIG5hdGl2ZSBjYXJkIG9uY2Ugd2hlbiB0aGUgcHJvbXB0IGJ1dHRvbiBpcyBjbGlja2VkIiwKICAgICAgICAiZmlsZSI6IG51bGwsCiAgICAgICAgImR1cmF0aW9uIjogMTI1NiwKICAgICAgICAiY3VycmVudFJldHJ5IjogMCwKICAgICAgICAic3BlZWQiOiAic2xvdyIsCiAgICAgICAgImVyciI6IHt9CiAgICAgIH0KICAgIF0sCiAgICAicGVuZGluZyI6IFtdLAogICAgImZhaWx1cmVzIjogWwogICAgICB7CiAgICAgICAgInRpdGxlIjogInByb21wdHMgYWRqYWNlbnQgaG9zdGlsZSBvYnNlcnZlcnMgb24gbWFudWFsIGRlZmVhdCwgaW5jbHVkaW5nIGRpYWdvbmFsIGxhcmdlLXRva2VuIGFkamFjZW5jeSIsCiAgICAgICAgImZ1bGxUaXRsZSI6ICJiYW50ZXItNGUtbW9kaWZpY2F0aW9ucy5kZWZlYXQtdHJpZ2dlcnNfcm9vdCBEZWZlYXQgdHJpZ2dlcnMgYW5kIGZlYXRzIGluIEZvdW5kcnkgcHJvbXB0cyBhZGphY2VudCBob3N0aWxlIG9ic2VydmVycyBvbiBtYW51YWwgZGVmZWF0LCBpbmNsdWRpbmcgZGlhZ29uYWwgbGFyZ2UtdG9rZW4gYWRqYWNlbmN5IiwKICAgICAgICAiZmlsZSI6IG51bGwsCiAgICAgICAgImR1cmF0aW9uIjogMTM3NSwKICAgICAgICAiY3VycmVudFJldHJ5IjogMCwKICAgICAgICAiZXJyIjogewogICAgICAgICAgInN0YWNrIjogIkFzc2VydGlvbkVycm9yOiBleHBlY3RlZCBbIOKApigyKSBdIHRvIGRlZXBseSBlcXVhbCBbIEFycmF5KDEpIF1cbiAgICBhdCBpLjxhbm9ueW1vdXM+IChtb2R1bGVzL2JhbnRlci00ZS1tb2RpZmljYXRpb25zL3Rlc3QtZm91bmRyeS9kZWZlYXQtdHJpZ2dlcnMuanM6OTQ6MTYpIiwKICAgICAgICAgICJtZXNzYWdlIjogImV4cGVjdGVkIFsg4oCmKDIpIF0gdG8gZGVlcGx5IGVxdWFsIFsgQXJyYXkoMSkgXSIsCiAgICAgICAgICAiYWN0dWFsIjogIltcbiAgXCJmYXI6YWRqYWNlbnQtZW5lbXktcmVkdWNlZC10by16ZXJvXCJcbiAgXCJoZXJvOmFkamFjZW50LWVuZW15LXJlZHVjZWQtdG8temVyb1wiXG5dIiwKICAgICAgICAgICJleHBlY3RlZCI6ICJbXG4gIFwiaGVybzphZGphY2VudC1lbmVteS1yZWR1Y2VkLXRvLXplcm9cIlxuXSIsCiAgICAgICAgICAic2hvd0RpZmYiOiB0cnVlLAogICAgICAgICAgIm9wZXJhdG9yIjogImRlZXBTdHJpY3RFcXVhbCIKICAgICAgICB9CiAgICAgIH0sCiAgICAgIHsKICAgICAgICAidGl0bGUiOiAiaWdub3JlcyBub25sZXRoYWwgZGFtYWdlIGFuZCBkaXN0YW50IGRlZmVhdHMsIHRoZW4gcHJvbXB0cyBmb3IgYW4gYWRqYWNlbnQgZGVmZWF0IiwKICAgICAgICAiZnVsbFRpdGxlIjogImJhbnRlci00ZS1tb2RpZmljYXRpb25zLmRlZmVhdC10cmlnZ2Vyc19yb290IERlZmVhdCB0cmlnZ2VycyBhbmQgZmVhdHMgaW4gRm91bmRyeSBpZ25vcmVzIG5vbmxldGhhbCBkYW1hZ2UgYW5kIGRpc3RhbnQgZGVmZWF0cywgdGhlbiBwcm9tcHRzIGZvciBhbiBhZGphY2VudCBkZWZlYXQiLAogICAgICAgICJmaWxlIjogbnVsbCwKICAgICAgICAiZHVyYXRpb24iOiAxMTg2LAogICAgICAgICJjdXJyZW50UmV0cnkiOiAwLAogICAgICAgICJlcnIiOiB7CiAgICAgICAgICAic3RhY2siOiAiQXNzZXJ0aW9uRXJyb3I6IGV4cGVjdGVkIFsgQXJyYXkoMSkgXSB0byBkZWVwbHkgZXF1YWwgW11cbiAgICBhdCBpLjxhbm9ueW1vdXM+IChtb2R1bGVzL2JhbnRlci00ZS1tb2RpZmljYXRpb25zL3Rlc3QtZm91bmRyeS9kZWZlYXQtdHJpZ2dlcnMuanM6MTA2OjE2KSIsCiAgICAgICAgICAibWVzc2FnZSI6ICJleHBlY3RlZCBbIEFycmF5KDEpIF0gdG8gZGVlcGx5IGVxdWFsIFtdIiwKICAgICAgICAgICJhY3R1YWwiOiAiW1xuICBcImhlcm86YWRqYWNlbnQtZW5lbXktcmVkdWNlZC10by16ZXJvXCJcbl0iLAogICAgICAgICAgImV4cGVjdGVkIjogIltdIiwKICAgICAgICAgICJzaG93RGlmZiI6IHRydWUsCiAgICAgICAgICAib3BlcmF0b3IiOiAiZGVlcFN0cmljdEVxdWFsIgogICAgICAgIH0KICAgICAgfQogICAgXSwKICAgICJwYXNzZXMiOiBbCiAgICAgIHsKICAgICAgICAidGl0bGUiOiAicHJvbXB0cyB0aGUgcmVjb3JkZWQga2lsbGVyLCBub3Qgb3RoZXIgYWN0b3JzIG9yIHRoZSBhY3RpdmUgdHVybidzIGFjdG9yIiwKICAgICAgICAiZnVsbFRpdGxlIjogImJhbnRlci00ZS1tb2RpZmljYXRpb25zLmRlZmVhdC10cmlnZ2Vyc19yb290IERlZmVhdCB0cmlnZ2VycyBhbmQgZmVhdHMgaW4gRm91bmRyeSBwcm9tcHRzIHRoZSByZWNvcmRlZCBraWxsZXIsIG5vdCBvdGhlciBhY3RvcnMgb3IgdGhlIGFjdGl2ZSB0dXJuJ3MgYWN0b3IiLAogICAgICAgICJmaWxlIjogbnVsbCwKICAgICAgICAiZHVyYXRpb24iOiAxNTI1LAogICAgICAgICJjdXJyZW50UmV0cnkiOiAwLAogICAgICAgICJzcGVlZCI6ICJzbG93IiwKICAgICAgICAiZXJyIjoge30KICAgICAgfSwKICAgICAgewogICAgICAgICJ0aXRsZSI6ICJkb2VzIG5vdCBhdHRyaWJ1dGUgbWFudWFsIGVkaXRzLCBmcmllbmRseSBkZWZlYXRzLCBoZWFsaW5nIG9yIGZ1cnRoZXIgZGFtYWdlIGJlbG93IHplcm8iLAogICAgICAgICJmdWxsVGl0bGUiOiAiYmFudGVyLTRlLW1vZGlmaWNhdGlvbnMuZGVmZWF0LXRyaWdnZXJzX3Jvb3QgRGVmZWF0IHRyaWdnZXJzIGFuZCBmZWF0cyBpbiBGb3VuZHJ5IGRvZXMgbm90IGF0dHJpYnV0ZSBtYW51YWwgZWRpdHMsIGZyaWVuZGx5IGRlZmVhdHMsIGhlYWxpbmcgb3IgZnVydGhlciBkYW1hZ2UgYmVsb3cgemVybyIsCiAgICAgICAgImZpbGUiOiBudWxsLAogICAgICAgICJkdXJhdGlvbiI6IDIzNzgsCiAgICAgICAgImN1cnJlbnRSZXRyeSI6IDAsCiAgICAgICAgInNwZWVkIjogInNsb3ciLAogICAgICAgICJlcnIiOiB7fQogICAgICB9LAogICAgICB7CiAgICAgICAgInRpdGxlIjogInNhdmVzIGJvdGggZGVmZWF0IGFzc2lnbm1lbnRzIHRocm91Z2ggYSByZWFsIGZlYXQncyBUcmlnZ2VycyBzaGVldCBjb250cm9sIiwKICAgICAgICAiZnVsbFRpdGxlIjogImJhbnRlci00ZS1tb2RpZmljYXRpb25zLmRlZmVhdC10cmlnZ2Vyc19yb290IERlZmVhdCB0cmlnZ2VycyBhbmQgZmVhdHMgaW4gRm91bmRyeSBzYXZlcyBib3RoIGRlZmVhdCBhc3NpZ25tZW50cyB0aHJvdWdoIGEgcmVhbCBmZWF0J3MgVHJpZ2dlcnMgc2hlZXQgY29udHJvbCIsCiAgICAgICAgImZpbGUiOiBudWxsLAogICAgICAgICJkdXJhdGlvbiI6IDUyOSwKICAgICAgICAiY3VycmVudFJldHJ5IjogMCwKICAgICAgICAic3BlZWQiOiAic2xvdyIsCiAgICAgICAgImVyciI6IHt9CiAgICAgIH0sCiAgICAgIHsKICAgICAgICAidGl0bGUiOiAib2ZmZXJzIGFuIGFzc2lnbmVkIGZlYXQgYW5kIHBvc3RzIGl0cyBuYXRpdmUgY2FyZCBvbmNlIHdoZW4gdGhlIHByb21wdCBidXR0b24gaXMgY2xpY2tlZCIsCiAgICAgICAgImZ1bGxUaXRsZSI6ICJiYW50ZXItNGUtbW9kaWZpY2F0aW9ucy5kZWZlYXQtdHJpZ2dlcnNfcm9vdCBEZWZlYXQgdHJpZ2dlcnMgYW5kIGZlYXRzIGluIEZvdW5kcnkgb2ZmZXJzIGFuIGFzc2lnbmVkIGZlYXQgYW5kIHBvc3RzIGl0cyBuYXRpdmUgY2FyZCBvbmNlIHdoZW4gdGhlIHByb21wdCBidXR0b24gaXMgY2xpY2tlZCIsCiAgICAgICAgImZpbGUiOiBudWxsLAogICAgICAgICJkdXJhdGlvbiI6IDEyNTYsCiAgICAgICAgImN1cnJlbnRSZXRyeSI6IDAsCiAgICAgICAgInNwZWVkIjogInNsb3ciLAogICAgICAgICJlcnIiOiB7fQogICAgICB9CiAgICBdCiAgfQp9"
+                    },
+                    {
+                      "name": "stray-errors-by-test",
+                      "contentType": "application/json",
+                      "body": "W10="
+                    },
+                    {
+                      "name": "browser-diagnostics",
+                      "contentType": "application/json",
+                      "body": "ewogICJwYWdlRXJyb3JzIjogW10sCiAgImNvbnNvbGVFcnJvcnMiOiBbCiAgICAiQXNzZXJ0aW9uRXJyb3I6IGV4cGVjdGVkIFsg4oCmKDIpIF0gdG8gZGVlcGx5IGVxdWFsIFsgQXJyYXkoMSkgXVxuICAgIGF0IGkuPGFub255bW91cz4gKG1vZHVsZXMvYmFudGVyLTRlLW1vZGlmaWNhdGlvbnMvdGVzdC1mb3VuZHJ5L2RlZmVhdC10cmlnZ2Vycy5qczo5NDoxNikiLAogICAgIkFzc2VydGlvbkVycm9yOiBleHBlY3RlZCBbIEFycmF5KDEpIF0gdG8gZGVlcGx5IGVxdWFsIFtdXG4gICAgYXQgaS48YW5vbnltb3VzPiAobW9kdWxlcy9iYW50ZXItNGUtbW9kaWZpY2F0aW9ucy90ZXN0LWZvdW5kcnkvZGVmZWF0LXRyaWdnZXJzLmpzOjEwNjoxNikiCiAgXQp9"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\Imre\\Documents\\Workspace\\Foundry Mono Repo 4e\\output\\foundry-test-results\\trigger-prompts-defeat-tri-160cc-in-the-real-Foundry-runtime\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\Imre\\Documents\\Workspace\\Foundry Mono Repo 4e\\output\\foundry-test-results\\trigger-prompts-defeat-tri-160cc-in-the-real-Foundry-runtime\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\Imre\\Documents\\Workspace\\Foundry Mono Repo 4e\\output\\foundry-test-results\\trigger-prompts-defeat-tri-160cc-in-the-real-Foundry-runtime\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\Imre\\Documents\\Workspace\\Foundry Mono Repo 4e\\tests\\foundry\\scenarios\\trigger-prompts.spec.mjs",
+                    "column": 91,
+                    "line": 60
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "c5964c1aa6e74adf42f3-12f9b865230367f7e6e3",
+          "file": "trigger-prompts.spec.mjs",
+          "line": 18,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-01T22:47:21.650Z",
+    "duration": 25712.312,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

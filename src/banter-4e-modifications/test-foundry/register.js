@@ -1,5 +1,8 @@
+import { registerExpandedTriggerTests } from "./expanded-triggers.js";
 import { registerActiveDefenseTests } from "./active-defense.js";
 import { registerTriggerPromptTests } from "./trigger-prompts.js";
+import { registerDefeatTriggerTests } from "./defeat-triggers.js";
+import { registerTriggerLimitTests } from "./trigger-limits.js";
 
 /** Register integration tests against the actual post-init DnD4e configuration. */
 export function registerTests(quench, { assertTestWorld, TestDocuments }) {
@@ -36,5 +39,5 @@ export function registerTests(quench, { assertTestWorld, TestDocuments }) {
       });
     });
   }, { displayName: "BANTER: Live initialization and actor schema", preSelected: false });
-  return [key, registerActiveDefenseTests(quench), registerTriggerPromptTests(quench)];
+  return [key, registerExpandedTriggerTests(quench), registerActiveDefenseTests(quench), registerTriggerPromptTests(quench), registerDefeatTriggerTests(quench), registerTriggerLimitTests(quench)];
 }

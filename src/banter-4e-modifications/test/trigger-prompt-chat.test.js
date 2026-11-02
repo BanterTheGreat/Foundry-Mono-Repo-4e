@@ -56,6 +56,35 @@ function setUp({ user = { id: "player", isGM: false }, users = [], messages = []
 
 test.afterEach(() => mock.timers.reset());
 
+test("opportunity prompts store one actor ticket for all choices and require it on claim", async () => {
+  const chat = setUp();
+  const created = [];
+  const operations = [];
+  const opportunityTicket = { scope: "combat:1:enemy", sourceKey: "scene:enemy", combatId: "combat" };
+  const item = { id: "strike", name: "Strike" };
+  const actor = { id: "hero", items: new Map([[item.id, item]]) };
+  game.actors.set(actor.id, actor);
+  globalThis.foundry = { utils: { escapeHTML: String } };
+  globalThis.ChatMessage = { create: async data => { created.push(data); return { id: "offer" }; } };
+  chat.limits.request = async (power, operation, ticket) => {
+    operations.push({ operation, ticket });
+    if (operation === "offer") {
+      return { unrestricted: true };
+    }
+    return operation === "opportunityOffer" ? opportunityTicket : true;
+  };
+  await chat.createPromptCard({ trigger: { id: "opportunity-attack", label: "Opportunity attack" }, actor,
+    assignments: [{ id: "choice", item, itemId: item.id }], context: { detail: "Enemy moved", ...opportunityTicket }, recipientIds: ["player"] });
+  assert.equal(created.length, 1);
+  assert.deepEqual(created[0].flags.triggerPrompts.opportunityTicket, opportunityTicket);
+  const message = createMessage("offer", { ...created[0].flags.triggerPrompts });
+  game.messages.set(message.id, message);
+  assert.ok(await chat.claimPrompt(message.id, item.id));
+  assert.deepEqual(operations.map(entry => entry.operation), ["offer", "opportunityOffer", "opportunityClaim"]);
+  assert.equal(operations.at(-1).ticket.sourceKey, "scene:enemy");
+  assert.equal(await chat.claimPrompt(message.id, item.id), null);
+});
+
 test("selecting a prompted power enables DnD4e use consumption", async () => {
   const usePowerCalls = [];
   const item = { id: "reaction", type: "power", roll: async () => {} };
@@ -75,6 +104,18 @@ test("selecting a prompted power enables DnD4e use consumption", async () => {
   await card.click(TRIGGER_PROMPT_ACTION.USE, "reaction");
 
   assert.deepEqual(usePowerCalls, [[item, { configureDialog: true }]]);
+});
+
+test("selecting a prompted feat only posts it to chat, without rolling or using a power", async () => {
+  let posted = 0;
+  const item = { id: "reaction", type: "feature", toChat: async () => { posted += 1; }, roll: () => assert.fail("must not roll") };
+  const promptChat = setUp({ socket: { executeAsUser: async () => ({ actorId: "hero", itemId: item.id }) } });
+  game.actors.set("hero", { items: new Map([[item.id, item]]), usePower: () => assert.fail("must not usePower") });
+  game.modules = new Map([["dnd4e-health-display", { powerActivation: { useAbility: () => assert.fail("must not automate") } }]]);
+  const card = createCard();
+  promptChat.bindPromptCard(createMessage("prompt", {}), card);
+  await card.click(TRIGGER_PROMPT_ACTION.USE, item.id);
+  assert.equal(posted, 1);
 });
 
 test("a recipient who is the prompt's author claims it locally without the socket", async () => {
@@ -219,11 +260,13 @@ test("the Ignore button counts down and the controls go when the time runs out",
   const dismiss = card.buttons.at(-1);
 
   promptChat.bindPromptCard(createMessage("prompt", {}), card);
-  assert.equal(dismiss.textContent, "Ignore (10)");
+  assert.equal(dismiss.textContent, "Ignore (20)");
   mock.timers.tick(4000);
-  assert.equal(dismiss.textContent, "Ignore (6)");
+  assert.equal(dismiss.textContent, "Ignore (16)");
   assert.ok(card.buttons.every(button => !button.removed));
   mock.timers.tick(6000);
+  assert.ok(card.buttons.every(button => !button.removed), "the prompt remains usable after 10 seconds");
+  mock.timers.tick(10000);
 
   assert.ok(card.buttons.every(button => button.removed));
 });
@@ -361,3 +404,108 @@ test("creating a prompt stores a deadline, the recipients, and the actor, and sc
   await new Promise(resolve => setImmediate(resolve));
   assert.equal(globalThis.game.messages.get("new-prompt").deleted, true);
 });
+
+test("a limited prompt's visible deadline cannot outlast its item reservation", async () => {
+  const promptChat = setUp();
+  const created = [];
+  globalThis.foundry = { utils: { escapeHTML: text => String(text) } };
+  globalThis.ChatMessage = { create: async data => { created.push(data); return { id: "limited" }; } };
+  promptChat.limits.request = async () => ({ id: "ticket", limit: "turn", scope: "turn", expiresAt: NOW + 18000 });
+  await promptChat.createPromptCard({
+    trigger: { id: "enemy-hits-you", label: "Enemy hits you" }, actor: { id: "hero" },
+    assignments: [{ id: "a", item: { id: "feat", name: "Limited feat" } }],
+    context: { detail: "Hit" }, recipientIds: ["player"],
+  });
+  assert.equal(created[0].flags[TRIGGER_PROMPT_FLAG].expiresAt, NOW + 18000);
+  assert.equal(created[0].flags[TRIGGER_PROMPT_FLAG].choices[0].limitTicket.id, "ticket");
+});
+
+// Automatic benefits share detection and allowances, but never require activation.
+test("automatic benefits post publicly, spend on trigger and leave optional choices private", async () => {
+  const chat = setUp();
+  const { ItemTriggerAssignments } = await import('../scripts/modules/trigger-prompts/item-trigger-assignments.js');
+  const { TriggerPromptAlerts } = await import('../scripts/modules/trigger-prompts/trigger-prompt-alerts.js');
+  const automatic = { id: 'mandatory', name: 'Mandatory benefit', flags: {} };
+  await ItemTriggerAssignments.write({ ...automatic, setFlag: async (module, key, value) => { automatic.flags[module] = { [key]: value }; } }, [], 'turn', true);
+  const optional = { id: 'optional', name: 'Optional response' };
+  const messages = [], operations = [];
+  globalThis.foundry = { utils: { escapeHTML: text => text.replaceAll('<', '&lt;') } };
+  globalThis.ChatMessage = { create: async data => { messages.push(data); return { id: String(messages.length) }; } };
+  mock.method(TriggerPromptAlerts, 'powerDetails', async () => '<p>Gain the benefit.</p>');
+  chat.limits.request = async (item, operation) => {
+    operations.push([item.id, operation]);
+    return operation === 'offer' ? { id: item.id, expiresAt: NOW + 20000 } : true;
+  };
+  await chat.createPromptCard({ trigger: { id: 'test', label: 'Enemy drops' }, actor: { id: 'hero', name: 'Hero <test>' }, assignments: [{ item: automatic }, { item: automatic }, { item: optional }], context: { detail: 'Enemy dropped.' }, recipientIds: ['player'] });
+  assert.equal(messages.length, 2);
+  assert.deepEqual(messages[0].whisper, []);
+  assert.match(messages[0].content, /Hero &lt;test>.*Enemy dropped/);
+  assert.match(messages[0].content, /Gain the benefit/);
+  assert.equal(messages[0].flags[TRIGGER_PROMPT_FLAG].automatic, true);
+  assert.doesNotMatch(messages[0].content, /data-trigger-prompt-action/);
+  assert.deepEqual(messages[1].whisper, ['player']);
+  assert.deepEqual(messages[1].flags[TRIGGER_PROMPT_FLAG].choices.map(c => c.itemId), ['optional']);
+  assert.deepEqual(operations, [['mandatory', 'offer'], ['mandatory', 'claim'], ['optional', 'offer']]);
+  mock.restoreAll();
+});
+
+test("automatic announcements remain visible and cannot be claimed, dismissed or expired", async () => {
+  const message = createMessage('automatic', { automatic: true, expiresAt: NOW - 10000 });
+  const chat = setUp({ messages: [message] });
+  const card = createCard();
+  chat.bindPromptCard(message, card);
+  assert.equal(card.classes.has(TRIGGER_PROMPT_UI.PROMPT_HIDDEN_CLASS), false);
+  assert.equal(card.listeners.size, 0);
+  assert.equal(await chat.claimPrompt(message.id, 'reaction'), null);
+  assert.equal(await chat.dismissPrompt(message.id), false);
+  assert.equal(await chat.expirePrompt(message.id), false);
+  await chat.sweepExpiredPrompts();
+  assert.equal(message.deleted, false);
+});
+
+test("an exhausted automatic benefit creates neither a public post nor a prompt", async () => {
+  const chat = setUp();
+  chat.limits.request = async () => null;
+  globalThis.ChatMessage = { create: () => assert.fail('must not post') };
+  await chat.createPromptCard({ trigger: {}, actor: {}, assignments: [{ item: { id: 'spent' } }], context: {}, recipientIds: ['player'] });
+});
+
+for (const type of ['feat', 'feature']) {
+  test(`automatic ${type} announcements use the native item card rendering contract`, async () => {
+    const chat = setUp();
+    const messages = [], renders = [];
+    const item = {
+      id: 'feat', name: 'Orc Resilience', type, labels: { feat: 'Feat' },
+      flags: { 'banter-4e-modifications': { 'trigger-prompts': { automatic: true } } },
+      getChatData: async () => ({ description: { value: 'Gain 5 temporary HP.' } }),
+      roll: () => assert.fail('must not activate the item again'),
+      toChat: () => assert.fail('must not post a second message'),
+    };
+    const actor = { id: 'hero', name: 'Hero', token: { uuid: 'Scene.test.Token.hero' } };
+    globalThis.foundry = {
+      utils: { escapeHTML: text => text },
+      applications: { handlebars: { renderTemplate: async (template, data) => {
+        renders.push({ template, data });
+        return '<div class="dnd4e chat-card ability-usage--"><img src="feat.webp">Native feat rules</div>';
+      } } },
+    };
+    globalThis.ChatMessage = { create: async data => { messages.push(data); return { id: 'native' }; } };
+    chat.limits.request = async () => ({ unrestricted: true });
+    await chat.createPromptCard({ trigger: { id: 'bloodied', label: 'Bloodied' }, actor,
+      assignments: [{ item }], context: { detail: 'Hero became bloodied.' }, recipientIds: ['player'] });
+    assert.equal(renders.length, 1);
+    assert.equal(renders[0].template, 'systems/dnd4e/templates/chat/item-card.hbs');
+    assert.equal(renders[0].data.item, item);
+    assert.equal(renders[0].data.actor, actor);
+    assert.equal(renders[0].data.tokenId, actor.token.uuid);
+    assert.equal(renders[0].data.isRoll, false);
+    assert.equal(renders[0].data.isPower, false);
+    assert.deepEqual(renders[0].data.system, await item.getChatData());
+    assert.equal(messages.length, 1);
+    assert.match(messages[0].content, /Hero became bloodied.*dnd4e chat-card ability-usage--other/);
+    assert.match(messages[0].content, /feat.webp.*Native feat rules/);
+    assert.deepEqual(messages[0].whisper, []);
+    assert.equal(messages[0].flags.core.canPopout, true);
+    assert.equal(messages[0].flags[TRIGGER_PROMPT_FLAG].automatic, true);
+  });
+}

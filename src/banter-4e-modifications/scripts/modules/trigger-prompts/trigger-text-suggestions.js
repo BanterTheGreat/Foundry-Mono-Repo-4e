@@ -1,3 +1,4 @@
+import { ATTACK_TYPES, DAMAGE_TYPES } from "./trigger-filters.js";
 import { TRIGGERS } from "./trigger-definitions.js";
 
 /**
@@ -81,7 +82,9 @@ export function suggestTriggersFromText(triggerText) {
         label: trigger.label,
         matchedText: match[0],
         assignable: !trigger.actorLevel,
-        parameters: range ? { rangeSquares: Number(range[1]) } : {},
+        parameters: { ...(range ? { rangeSquares: Number(range[1]) } : {}), ...(/\bnon-minion\b/.test(match[0]) ? { nonMinion: true } : {}),
+          ...((trigger.companion || trigger.on.startsWith("attack-")) && ATTACK_TYPES.some(type => new RegExp(`\\b${type}\\b`).test(text)) ? { attackTypes: ATTACK_TYPES.filter(type => new RegExp(`\\b${type}\\b`).test(text)) } : {}),
+          ...(trigger.damageRequired && DAMAGE_TYPES.some(type => new RegExp(`\\b${type}\\b`).test(text)) ? { damageTypes: DAMAGE_TYPES.filter(type => new RegExp(`\\b${type}\\b`).test(text)) } : {}), },
         uncheckedText: findUncheckedText(trigger, text, match, range),
       };
     });

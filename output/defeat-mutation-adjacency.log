@@ -1,0 +1,73 @@
+
+Running 1 test using 1 worker
+
+  x  1 tests\foundry\scenarios\trigger-prompts.spec.mjs:18:1 › defeat triggers and feat prompts work in the real Foundry runtime (23.8s)
+
+
+  1) tests\foundry\scenarios\trigger-prompts.spec.mjs:18:1 › defeat triggers and feat prompts work in the real Foundry runtime 
+
+    Error: [
+      {
+        "title": "prompts adjacent hostile observers on manual defeat, including diagonal large-token adjacency",
+        "fullTitle": "banter-4e-modifications.defeat-triggers_root Defeat triggers and feats in Foundry prompts adjacent hostile observers on manual defeat, including diagonal large-token adjacency",
+        "file": null,
+        "duration": 1375,
+        "currentRetry": 0,
+        "err": {
+          "stack": "AssertionError: expected [ …(2) ] to deeply equal [ Array(1) ]\n    at i.<anonymous> (modules/banter-4e-modifications/test-foundry/defeat-triggers.js:94:16)",
+          "message": "expected [ …(2) ] to deeply equal [ Array(1) ]",
+          "actual": "[\n  \"far:adjacent-enemy-reduced-to-zero\"\n  \"hero:adjacent-enemy-reduced-to-zero\"\n]",
+          "expected": "[\n  \"hero:adjacent-enemy-reduced-to-zero\"\n]",
+          "showDiff": true,
+          "operator": "deepStrictEqual"
+        }
+      },
+      {
+        "title": "ignores nonlethal damage and distant defeats, then prompts for an adjacent defeat",
+        "fullTitle": "banter-4e-modifications.defeat-triggers_root Defeat triggers and feats in Foundry ignores nonlethal damage and distant defeats, then prompts for an adjacent defeat",
+        "file": null,
+        "duration": 1186,
+        "currentRetry": 0,
+        "err": {
+          "stack": "AssertionError: expected [ Array(1) ] to deeply equal []\n    at i.<anonymous> (modules/banter-4e-modifications/test-foundry/defeat-triggers.js:106:16)",
+          "message": "expected [ Array(1) ] to deeply equal []",
+          "actual": "[\n  \"hero:adjacent-enemy-reduced-to-zero\"\n]",
+          "expected": "[]",
+          "showDiff": true,
+          "operator": "deepStrictEqual"
+        }
+      }
+    ]
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 0
+    Received: 2
+
+      58 |       expect(diagnostics.pageErrors, "Uncaught browser errors").toEqual([]);
+      59 |       expect(await page.evaluate(worldCounts), "The batch must leave the world exactly as it found it").toEqual(countsBefore);
+    > 60 |       expect(result.report.stats.failures, JSON.stringify(result.report.failures, null, 2)).toBe(0);
+         |                                                                                           ^
+      61 |       expect(result.report.stats.pending, "Trigger-prompt tests must not silently skip").toBe(0);
+      62 |     } finally {
+      63 |       await testInfo.attach("browser-diagnostics", { body: JSON.stringify(diagnostics, null, 2), contentType: "application/json" });
+        at C:\Users\Imre\Documents\Workspace\Foundry Mono Repo 4e\tests\foundry\scenarios\trigger-prompts.spec.mjs:60:91
+
+    attachment #4: screenshot (image/png) ──────────────────────────────────────────────────────────
+    output\foundry-test-results\trigger-prompts-defeat-tri-160cc-in-the-real-Foundry-runtime\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: output\foundry-test-results\trigger-prompts-defeat-tri-160cc-in-the-real-Foundry-runtime\error-context.md
+
+    attachment #6: trace (application/zip) ─────────────────────────────────────────────────────────
+    output\foundry-test-results\trigger-prompts-defeat-tri-160cc-in-the-real-Foundry-runtime\trace.zip
+    Usage:
+
+        npx playwright show-trace output\foundry-test-results\trigger-prompts-defeat-tri-160cc-in-the-real-Foundry-runtime\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests\foundry\scenarios\trigger-prompts.spec.mjs:18:1 › defeat triggers and feat prompts work in the real Foundry runtime 
+(node:25092) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)

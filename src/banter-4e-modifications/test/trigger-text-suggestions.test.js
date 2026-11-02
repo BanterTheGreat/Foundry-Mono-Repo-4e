@@ -5,6 +5,18 @@ import { normalizeTriggerText, suggestTriggersFromText } from "../scripts/module
 
 const ids = text => suggestTriggersFromText(text).map(suggestion => suggestion.triggerId);
 
+test("new bloodied and ally-defeat suggestions retain an explicit non-minion restriction", () => {
+  const [bloodied] = suggestTriggersFromText("You bloody a non-minion enemy");
+  assert.equal(bloodied.triggerId, TRIGGER_ID.YOU_BLOODY_ENEMY);
+  assert.deepEqual(bloodied.parameters, { nonMinion: true });
+  assert.deepEqual(ids("An ally is reduced to 0 hit points or below"), [TRIGGER_ID.ALLY_REDUCED_TO_ZERO]);
+});
+
+test("defeat trigger wording suggests the matching trigger", () => {
+  assert.deepEqual(ids("You reduce an enemy to 0 HP"), [TRIGGER_ID.YOU_REDUCE_ENEMY_TO_ZERO]);
+  assert.deepEqual(ids("An enemy adjacent to you is reduced to 0 hit points or fewer"), [TRIGGER_ID.ADJACENT_ENEMY_REDUCED_TO_ZERO]);
+});
+
 test("normalizing strips markup, the Trigger label, punctuation, and case", () => {
   assert.equal(normalizeTriggerText("<b>Trigger:</b> An Enemy’s   hit. "), "an enemy's hit");
   assert.equal(normalizeTriggerText(null), "");
@@ -13,7 +25,7 @@ test("normalizing strips markup, the Trigger label, punctuation, and case", () =
 test("text that names no known trigger suggests nothing", () => {
   assert.deepEqual(suggestTriggersFromText(""), []);
   assert.deepEqual(suggestTriggersFromText("You roll initiative"), []);
-  assert.deepEqual(suggestTriggersFromText("You take damage from an attack"), []);
+  assert.deepEqual(ids("You take damage from an attack"), [TRIGGER_ID.YOU_TAKE_DAMAGE]);
 });
 
 test("plain wording maps to one trigger with nothing left unchecked", () => {
@@ -74,7 +86,7 @@ test("an alternative the trigger cannot express is not silently dropped", () => 
 });
 
 test("being bloodied as a state is not a transition", () => {
-  assert.deepEqual(ids("You take damage from an enemy's attack while you are bloodied"), []);
+  assert.deepEqual(ids("You take damage from an enemy's attack while you are bloodied"), [TRIGGER_ID.YOU_TAKE_DAMAGE]);
   assert.deepEqual(ids("You are hit and damaged by an enemy's attack while you are bloodied."), []);
   assert.deepEqual(ids("You miss with an at-will attack power while you are bloodied."), [TRIGGER_ID.YOU_MISS]);
 });

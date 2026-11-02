@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { PowerTriggerDialog } from "../scripts/modules/trigger-prompts/power-trigger-dialog.js";
+import { PowerTriggerConfiguration } from "../scripts/modules/trigger-prompts/power-trigger-configuration.js";
 import { TRIGGER_ID } from "../scripts/modules/trigger-prompts/constants.js";
 import { findTriggerById } from "../scripts/modules/trigger-prompts/trigger-definitions.js";
 import { suggestTriggersFromText } from "../scripts/modules/trigger-prompts/trigger-text-suggestions.js";
@@ -20,6 +21,45 @@ function createForm(assigned = []) {
   return { elements };
 }
 const checkedIds = form => Object.entries(form.elements).filter(([name, control]) => name.endsWith(".enabled") && control.checked).map(([name]) => name.replace(".enabled", ""));
+
+test("configuration saves restrictions and a shared limit without changing older assignments", () => {
+  const data = new FormData();
+  const id = TRIGGER_ID.YOU_BLOODY_ENEMY;
+  for (const field of ["enabled", "nonMinion", "meleeOnly", "adjacentOnly"]) {
+    data.append(`${id}.${field}`, "on");
+  }
+  data.append("sharedLimit", "turn");
+  assert.deepEqual(PowerTriggerDialog.readAssignments(data)[0].parameters, { nonMinion: true, meleeOnly: true, adjacentOnly: true });
+  assert.equal(PowerTriggerDialog.readLimit(data), "turn");
+  data.set("sharedLimit", "invalid");
+  assert.equal(PowerTriggerDialog.readLimit(data), "none");
+  assert.match(PowerTriggerDialog.renderLimit({ flags: {} }), /First time per encounter/);
+  assert.match(PowerTriggerDialog.renderLimit({ flags: {} }), /Extended Rest/);
+});
+
+test("owned feats expose Triggers on legacy and V2 sheets and open an assignable dialog", () => {
+  globalThis.game = { user: { isGM: false } };
+  const feat = { documentName: "Item", type: "feature", isOwner: true, name: "Defeat feat", flags: {} };
+  const buttons = [];
+  const controls = [];
+  PowerTriggerConfiguration.onGetItemSheetHeaderButtons({ item: feat }, buttons);
+  PowerTriggerConfiguration.onGetHeaderControlsApplicationV2({ document: feat }, controls);
+  assert.equal(buttons[0].label, "Triggers");
+  assert.equal(controls[0].label, "Triggers");
+  let options;
+  foundry.applications = { api: { DialogV2: class {
+    constructor(config) { options = config; }
+    addEventListener() {}
+    render() {}
+  } } };
+  buttons[0].onclick();
+  assert.match(options.content, /Optional feat triggers post the feat to chat/);
+  assert.match(options.content, new RegExp(`${TRIGGER_ID.YOU_REDUCE_ENEMY_TO_ZERO}.enabled`));
+  assert.match(options.content, new RegExp(`${TRIGGER_ID.ADJACENT_ENEMY_REDUCED_TO_ZERO}.enabled`));
+  const denied = [];
+  PowerTriggerConfiguration.onGetItemSheetHeaderButtons({ item: { ...feat, isOwner: false } }, denied);
+  assert.equal(denied.length, 0);
+});
 
 test("opportunity attacks and actor-level reminders are not assignable to a power", () => {
   const ids = PowerTriggerDialog.assignableTriggers().map(trigger => trigger.id);
@@ -147,7 +187,28 @@ test("an assignment row shows its source badge only for text-derived assignments
   const trigger = findTriggerById(TRIGGER_ID.YOU_MISS);
 
   assert.match(PowerTriggerDialog.renderAssignmentRow(trigger, { parameters: {}, source: "text" }), /from trigger text/);
-  assert.doesNotMatch(PowerTriggerDialog.renderAssignmentRow(trigger, { parameters: {}, source: "manual" }), /from trigger text/);
+  assert.match(PowerTriggerDialog.renderAssignmentRow(trigger, { parameters: {}, source: "manual" }), /__badge" hidden/);
   assert.doesNotMatch(PowerTriggerDialog.renderAssignmentRow(trigger, undefined), /checked/);
   assert.match(PowerTriggerDialog.renderAssignmentRow(trigger, { parameters: {}, source: "manual" }), /checked/);
+});
+
+
+test("only the selected editor is shown and unassigned conditions start hidden", () => {
+  const row = PowerTriggerDialog.renderAssignmentRow(findTriggerById(TRIGGER_ID.ENEMY_HITS_YOU));
+  assert.match(row, /data-trigger-panel="enemy-hits-you" hidden/);
+  assert.match(row, /__conditions" hidden/);
+  assert.match(row, /name=".*nonMinion"/);
+  assert.doesNotMatch(row, /<details/);
+});
+
+test("catalog categories distinguish companion events from other attack events", () => {
+  for (const [id, category] of [
+    [TRIGGER_ID.ENEMY_HITS_YOU, "Attacks"],
+    [TRIGGER_ID.COMPANION_HIT, "Companion"],
+    [TRIGGER_ID.YOU_TAKE_DAMAGE, "HP & damage"],
+    [TRIGGER_ID.ENEMY_ENTERS_RANGE, "Movement"],
+    [TRIGGER_ID.YOU_MAKE_SAVING_THROW, "Saving throws"],
+  ]) {
+    assert.equal(PowerTriggerDialog.triggerCategory(findTriggerById(id)), category);
+  }
 });

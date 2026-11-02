@@ -1,0 +1,58 @@
+
+Running 1 test using 1 worker
+
+  x  1 tests\foundry\scenarios\trigger-prompts.spec.mjs:18:3 › defeat triggers and feat prompts work in the real Foundry runtime (25.1s)
+
+
+  1) tests\foundry\scenarios\trigger-prompts.spec.mjs:18:3 › defeat triggers and feat prompts work in the real Foundry runtime 
+
+    Error: [
+      {
+        "title": "offers an assigned feat and posts its native card once when the prompt button is clicked",
+        "fullTitle": "banter-4e-modifications.defeat-triggers_root Defeat triggers and feats in Foundry offers an assigned feat and posts its native card once when the prompt button is clicked",
+        "file": null,
+        "duration": 1248,
+        "currentRetry": 0,
+        "err": {
+          "stack": "AssertionError: posting a feat never calls Item.roll: expected 1 to equal +0\n    at i.<anonymous> (modules/banter-4e-modifications/test-foundry/defeat-triggers.js:163:16)",
+          "message": "posting a feat never calls Item.roll: expected 1 to equal +0",
+          "actual": "1",
+          "expected": "0",
+          "showDiff": true,
+          "operator": "strictEqual"
+        }
+      }
+    ]
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 0
+    Received: 1
+
+      58 |       expect(diagnostics.pageErrors, "Uncaught browser errors").toEqual([]);
+      59 |       expect(await page.evaluate(worldCounts), "The batch must leave the world exactly as it found it").toEqual(countsBefore);
+    > 60 |       expect(result.report.stats.failures, JSON.stringify(result.report.failures, null, 2)).toBe(0);
+         |                                                                                             ^
+      61 |       expect(result.report.stats.pending, "Trigger-prompt tests must not silently skip").toBe(0);
+      62 |     } finally {
+      63 |       await testInfo.attach("browser-diagnostics", { body: JSON.stringify(diagnostics, null, 2), contentType: "application/json" });
+        at C:\Users\Imre\Documents\Workspace\Foundry Mono Repo 4e\tests\foundry\scenarios\trigger-prompts.spec.mjs:60:93
+
+    attachment #4: screenshot (image/png) ──────────────────────────────────────────────────────────
+    output\foundry-test-results\trigger-prompts-defeat-tri-160cc-in-the-real-Foundry-runtime\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: output\foundry-test-results\trigger-prompts-defeat-tri-160cc-in-the-real-Foundry-runtime\error-context.md
+
+    attachment #6: trace (application/zip) ─────────────────────────────────────────────────────────
+    output\foundry-test-results\trigger-prompts-defeat-tri-160cc-in-the-real-Foundry-runtime\trace.zip
+    Usage:
+
+        npx playwright show-trace output\foundry-test-results\trigger-prompts-defeat-tri-160cc-in-the-real-Foundry-runtime\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests\foundry\scenarios\trigger-prompts.spec.mjs:18:3 › defeat triggers and feat prompts work in the real Foundry runtime 
+(node:20636) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)

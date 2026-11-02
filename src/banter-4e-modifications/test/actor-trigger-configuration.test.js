@@ -19,6 +19,26 @@ function power(id, assignments, extra = {}) {
 }
 const assign = (triggerId, parameters = {}, source = "manual") => ({ triggerId, parameters, source });
 
+test("non-minion, melee and adjacency restrictions must all be satisfied", () => {
+  const restrictions = { nonMinion: true, meleeOnly: true, adjacentOnly: true };
+  const feat = power("restricted", [assign(TRIGGER_ID.YOU_BLOODY_ENEMY, restrictions)], { type: "feature" });
+  const hero = actor([feat]);
+  const trigger = findTriggerById(TRIGGER_ID.YOU_BLOODY_ENEMY);
+  const eligible = { isMinion: false, isMelee: true, adjacent: true };
+  assert.equal(ActorTriggerConfiguration.eligibleAssignmentsFor(hero, trigger, eligible).length, 1);
+  for (const context of [{ ...eligible, isMinion: true }, { ...eligible, isMelee: false }, { ...eligible, adjacent: false }, {}]) {
+    assert.deepEqual(ActorTriggerConfiguration.eligibleAssignmentsFor(hero, trigger, context), []);
+  }
+});
+
+test("feats retain item assignments and are offered for defeat triggers", async () => {
+  const feat = power("feat", undefined, { type: "feature" });
+  await ItemTriggerAssignments.write(feat, [assign(TRIGGER_ID.YOU_REDUCE_ENEMY_TO_ZERO)]);
+  const hero = actor([feat]);
+  assert.deepEqual(ActorTriggerConfiguration.eligibleAssignmentsFor(hero, findTriggerById(TRIGGER_ID.YOU_REDUCE_ENEMY_TO_ZERO)).map(entry => entry.itemId), [feat.id]);
+  assert.deepEqual(ActorTriggerConfiguration.eligibleAssignmentsFor(hero, findTriggerById(TRIGGER_ID.ADJACENT_ENEMY_REDUCED_TO_ZERO)), []);
+});
+
 /** An actor with an optional actor-flag; its items are a Map, like a Foundry Collection. */
 function actor(items, actorFlag, extra = {}) {
   const stored = { value: actorFlag };
@@ -108,12 +128,29 @@ test("Opportunity attack prompts include explicitly marked and variant-mode powe
 
 test("NPC Basic Attacks count as opportunity attacks, and the actor option can switch them off", () => {
   const basic = { id: "basic", type: "power", system: { attack: { isBasic: true } } };
-  const npc = { type: "NPC", items: [basic], getFlag: () => ({ assignments: [] }) };
+  const npc = { type: "NPC", items: [basic], getFlag: () => ({ assignments: [], opportunityAttack: { enabled: true } }) };
   const disabled = { type: "NPC", items: [basic], getFlag: () => ({ assignments: [], opportunityAttack: { enabled: false } }) };
   const trigger = findTriggerById(TRIGGER_ID.OPPORTUNITY_ATTACK);
 
   assert.deepEqual(ActorTriggerConfiguration.eligibleAssignmentsFor(npc, trigger).map(assignment => assignment.itemId), ["basic"]);
   assert.deepEqual(ActorTriggerConfiguration.eligibleAssignmentsFor(disabled, trigger), []);
+});
+
+test("opportunity prompts default off for NPCs and on for PCs across configuration formats", () => {
+  for (const stored of [undefined, {}, { assignments: [] }]) {
+    for (const type of ["NPC", "Player Character"]) {
+      const creature = { type, getFlag: () => stored };
+      assert.equal(ActorTriggerConfiguration.isOpportunityAttackPromptEnabled(creature), type !== "NPC");
+    }
+  }
+  for (const enabled of [true, false]) {
+    for (const stored of [
+      { assignments: [], opportunityAttack: { enabled } },
+      { [TRIGGER_ID.OPPORTUNITY_ATTACK]: { enabled } },
+    ]) {
+      assert.equal(ActorTriggerConfiguration.isOpportunityAttackPromptEnabled({ type: "NPC", getFlag: () => stored }), enabled);
+    }
+  }
 });
 
 test("an actor-level reminder is on only when the actor enabled it", () => {
@@ -173,7 +210,7 @@ test("migration moves actor-flag assignments onto their powers and clears the fl
   ]);
   assert.deepEqual(ItemTriggerAssignments.read(parry).assignments.map(assignment => assignment.triggerId), [TRIGGER_ID.ENEMY_MISSES_YOU]);
   assert.deepEqual(hero.stored.value.assignments, []);
-  assert.deepEqual(hero.stored.value.opportunityAttack, { enabled: false });
+  assert.deepEqual(hero.stored.value.opportunityAttack, { enabled: false, oncePerTurn: true });
   assert.deepEqual(hero.stored.value.actorLevelTriggers, { [TRIGGER_ID.MARKED_ENEMY_HITS_ALLY]: { enabled: true } });
 });
 
@@ -229,4 +266,16 @@ test("the trigger text is read from either DnD4e shape", () => {
   assert.equal(ItemTriggerAssignments.getTriggerText({ system: { trigger: "An enemy hits you" } }), "An enemy hits you");
   assert.equal(ItemTriggerAssignments.getTriggerText({ system: { trigger: { value: "You miss" } } }), "You miss");
   assert.equal(ItemTriggerAssignments.getTriggerText({ system: {} }), "");
+});
+
+test("automatic benefits are explicit, survive configuration writes, and can be switched off", async () => {
+  const item = power('mandatory', undefined);
+  assert.equal(ItemTriggerAssignments.automatic(item), false);
+  await ItemTriggerAssignments.write(item, [], 'day', true);
+  assert.equal(ItemTriggerAssignments.automatic(item), true);
+  await ItemTriggerAssignments.write(item, []);
+  assert.equal(ItemTriggerAssignments.automatic(item), true);
+  assert.equal(ItemTriggerAssignments.limit(item), 'day');
+  await ItemTriggerAssignments.write(item, [], 'day', false);
+  assert.equal(ItemTriggerAssignments.automatic(item), false);
 });

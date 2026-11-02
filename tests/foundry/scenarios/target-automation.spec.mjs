@@ -20,6 +20,9 @@ async function prepare(page) {
   await page.evaluate(async () => {
     const { TargetAutomationFixture } = await import(new URL(
       "modules/dnd4e-health-display/test-foundry/target-automation-fixture.js", document.baseURI).href);
+    window.targetAutomationMessageIds = game.messages.map(message => message.id);
+    window.targetAutomationCounts = { actors: game.actors.size, scenes: game.scenes.size, combats: game.combats.size, messages: game.messages.size,
+      tokens: game.scenes.reduce((total, scene) => total + scene.tokens.size, 0) };
     window.targetAutomationFixture = new TargetAutomationFixture();
     await window.targetAutomationFixture.setup();
     window.originalTargetDice = CONFIG.Dice.randomUniform;
@@ -56,6 +59,17 @@ test.afterEach(async ({ page }, testInfo) => {
     const diagnostics = browserDiagnostics.get(page);
     await testInfo.attach("browser-diagnostics", { body: JSON.stringify(diagnostics, null, 2), contentType: "application/json" });
     expect(diagnostics.pageErrors, "No uncaught errors, including setup and cleanup").toEqual([]);
+    if (testInfo.title.includes("combat trigger prompts")) {
+      await page.evaluate(async () => {
+        const before = new Set(window.targetAutomationMessageIds);
+        for (const message of game.messages.filter(entry => !before.has(entry.id) && entry.author?.id === game.user.id)) {
+          await message.delete({ notify: false });
+        }
+      });
+      const counts = await page.evaluate(() => ({ actors: game.actors.size, scenes: game.scenes.size, combats: game.combats.size, messages: game.messages.size,
+        tokens: game.scenes.reduce((total, scene) => total + scene.tokens.size, 0) }));
+      expect(counts, "Trigger workflow restores document counts").toEqual(await page.evaluate(() => window.targetAutomationCounts));
+    }
   }
 });
 
@@ -255,4 +269,78 @@ for (const variant of ["charge", "opportunity", "regular"]) {
     }
     await expect(panel.locator('[data-action="focusTarget"]')).toHaveCount(1);
   });
+}
+
+
+for (const origin of ["caster", "companion"]) {
+  test(`confirmed native Target Automation delivers combat trigger prompts and typed damage${origin === "companion" ? " through a companion origin" : ""}`, async ({ page }) => {
+    await page.evaluate(async origin => {
+      if (game.combats.some(combat => combat.active || combat.started)) {
+        throw new Error("End existing combats before running trigger integration tests.");
+      }
+      const fixture = window.targetAutomationFixture;
+      const { TRIGGER_ID: ID } = await import("/modules/banter-4e-modifications/scripts/modules/trigger-prompts/constants.js");
+      const assign = async (actor, ids, parameters = {}) => {
+        await actor.createEmbeddedDocuments("Item", ids.map(triggerId => ({
+          name: `Trigger ${triggerId}`, type: "feature", system: { description: { value: "Integration trigger" } },
+          flags: { "banter-4e-modifications": { "trigger-prompts": { version: 1, assignments: [{ triggerId, parameters }] } } },
+        })));
+      };
+      await assign(fixture.actors.caster, [ID.YOU_HIT_WITH_OPPORTUNITY_ATTACK, ID.YOU_BLOODY_ENEMY]);
+      await assign(fixture.actors.enemy, [ID.ENEMY_HITS_YOU, ID.YOU_ARE_HIT_BY_MELEE_ATTACK, ID.YOU_BECOME_BLOODIED]);
+      await assign(fixture.actors.enemy, [ID.YOU_TAKE_DAMAGE], { damageTypes: ["physical"] });
+      await assign(fixture.actors.ally, [ID.COMPANION_TARGETED, ID.COMPANION_HIT], { companionActorUuid: fixture.actors.enemy.uuid });
+      await assign(fixture.actors.ally, [ID.MARKED_ENEMY_ATTACKS_OTHER]);
+      await fixture.tokens.ally.document.update({ disposition: -1 });
+      await fixture.actors.caster.update({ "system.marker": fixture.actors.ally.uuid });
+      await fixture.actors.enemy.update({ "system.attributes.hp.value": 21, "system.attributes.temphp.value": 0 });
+      window.triggerAutomationCutoff = Date.now();
+      const combat = await Combat.create({ scene: fixture.scene.id, flags: { "foundry-test-harness": { runId: fixture.documents.runId } } });
+      window.triggerAutomationCombat = combat;
+      await combat.createEmbeddedDocuments("Combatant", ["caster", "enemy", "ally"].map((key, index) => ({
+        actorId: fixture.actors[key].id, tokenId: fixture.tokens[key].id, sceneId: fixture.scene.id, initiative: 20 - index,
+      })));
+      await combat.startCombat();
+      await fixture.open({ system: { rangeType: "melee", rangePower: origin === "companion" ? "5" : "1", attack: { isAttack: true, canOpp: true, formula: "100" },
+        hit: { isDamage: true, formula: "7", critFormula: "14" } },
+        config: origin === "companion" ? { originMode: "custom", originActors: [fixture.actors.companion.uuid], allowCaster: false } : {},
+        targets: ["enemy"] });
+    }, origin);
+    try {
+      const panel = page.locator(".power-targeting");
+      await panel.locator('[data-action="attack"][data-variant="opportunity"]').click();
+      await expect(page.locator(".application.roll-dialogue")).toBeVisible();
+      await submitNativeAttack(page);
+      await expect.poll(() => page.evaluate(() => window.targetAutomationFixture.activation.state), { timeout: 45000 }).toBe("reviewingResults");
+      expect(await page.evaluate(() => game.messages.filter(m => m.flags.triggerPrompts?.triggerId === "you-hit-with-opportunity-attack").length)).toBe(0);
+      await panel.locator('[data-action="confirmResults"]').click();
+      await expect.poll(() => page.evaluate(() => window.targetAutomationFixture.activation.state), { timeout: 45000 }).toBe("reviewingDamage");
+      await panel.locator('[data-action="confirmDamage"]').click();
+      await expect.poll(() => page.evaluate(() => window.targetAutomationFixture.activation.state), { timeout: 45000 }).toBe("complete");
+      await page.evaluate(async () => {
+        const fixture = window.targetAutomationFixture;
+        const { applyTargetDamage } = await import("/modules/dnd4e-health-display/scripts/power-activation/damage-application-data.js");
+        await applyTargetDamage(fixture.activation.attackMessages[0], fixture.tokens.enemy.id);
+      });
+      const expected = ["you-hit-with-opportunity-attack", "you-bloody-enemy", "enemy-hits-you", "you-are-hit-by-melee-attack", "you-become-bloodied", "you-take-damage", "companion-targeted", "companion-hit", "marked-enemy-attacks-other"].sort();
+      await expect.poll(() => page.evaluate(() => game.messages.filter(m => m.timestamp >= window.triggerAutomationCutoff && m.flags.triggerPrompts)
+        .map(m => m.flags.triggerPrompts.triggerId).sort()), { timeout: 15000 }).toEqual(expected);
+      const metadata = await page.evaluate(() => window.targetAutomationFixture.activation.attackMessages[0].flags["dnd4e-health-display"].attackResults.triggerMetadata);
+      expect(metadata.isOpportunity).toBe(true);
+      expect(metadata.attackRange).toBe("melee");
+      await panel.locator('[data-action="complete"]').click();
+    } finally {
+      await page.evaluate(async () => {
+        await window.triggerAutomationCombat?.delete();
+        await new Promise(resolve => setTimeout(resolve, 700));
+        const cutoff = window.triggerAutomationCutoff ?? Date.now();
+        const messages = game.messages.filter(m => m.author?.id === game.user.id && m.timestamp >= cutoff);
+        for (const message of messages) {
+          await message.delete({ notify: false });
+        }
+        delete window.triggerAutomationCombat;
+      });
+    }
+  });
+
 }

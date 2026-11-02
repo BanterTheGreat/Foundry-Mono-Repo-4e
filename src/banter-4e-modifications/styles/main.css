@@ -323,6 +323,13 @@
     width: 100%;
 }
 
+.trigger-prompts-config__restrictions {
+    grid-column: 1 / -1;
+    display: grid;
+    gap: 0.2rem;
+    font-size: var(--font-size-12);
+}
+
 .trigger-prompts-config__range {
     grid-column: 2;
     display: flex;
@@ -397,7 +404,7 @@
 #banter-trigger-alerts {
     position: fixed;
     z-index: 10000;
-    bottom: 90px;
+    bottom: 150px;
     left: 50%;
     transform: translateX(-50%);
     width: min(720px, calc(100vw - 40px));
@@ -441,7 +448,8 @@
     font: 11px/1.3 Arial, sans-serif;
     overflow-wrap: anywhere;
 }
-.banter-trigger-alert__actions button:hover { background: #ffffff0d; }
+.banter-trigger-alert__actions button:enabled:hover { background: #ffffff0d; }
+.banter-trigger-alert__actions button:disabled { opacity: 0.7; cursor: default; }
 .banter-trigger-alert__actions button:focus-visible { outline: 2px solid #e9dfce; outline-offset: 2px; }
 .banter-trigger-alert__track { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; overflow: hidden; border-radius: 0 0 6px 6px; background: #493c26; }
 .banter-trigger-alert__drain { height: 100%; background: #e5cc8e; transform-origin: left; animation: banter-trigger-drain 10s linear forwards; }
@@ -554,4 +562,238 @@
   --badge-fill: #552d2b;
   color: #ffe4dd;
   box-shadow: 0 0 8px #f56c6255, inset 0 0 8px #f56c6212;
+}
+
+/* The HUD renderer owns the rules card's typography and spacing. */
+.banter-trigger-alert__tooltip:has(> .dnd4e-info-tooltip) { padding: 0; background: transparent; border: 0; width: min(31rem, 100%); }
+.banter-trigger-alert__tooltip > .dnd4e-info-tooltip { margin: 0; width: 100%; max-height: none; }
+.banter-trigger-alert__tooltip:has(> .dnd4e-info-tooltip) > strong { margin: 0; padding: 8px 12px; background: #151410; }
+
+.banter-trigger-alert__tooltip > .banter-trigger-tooltip-header { margin: 0; }
+.banter-trigger-tooltip-header .banter-power__heading { overflow-wrap: anywhere; }
+.banter-trigger-alert__tooltip:has(> .banter-trigger-tooltip-header) { padding: 0; }
+
+.banter-trigger-tooltip-header.banter-power--other { --banter-power-ink: #e5cc8e; }
+
+/* Power/feat trigger catalog and a single conditions editor. */
+.trigger-prompts-picker__split {
+    display: grid;
+    grid-template-columns: minmax(220px, 0.85fr) minmax(0, 1.15fr);
+    height: min(390px, 43vh);
+    min-height: 200px;
+    gap: 0.65rem;
+}
+
+.trigger-prompts-picker__catalog,
+.trigger-prompts-picker__editor {
+    min-width: 0;
+    padding: 0.75rem;
+}
+
+.trigger-prompts-picker__catalog {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-height: 0;
+}
+
+.trigger-prompts-picker__catalog > label {
+    display: grid;
+    gap: 0.2rem;
+    font-size: var(--font-size-12);
+}
+
+.trigger-prompts-picker__choices,
+.trigger-prompts-picker__editor {
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+}
+
+.trigger-prompts-picker__choice {
+    display: flex;
+    width: 100%;
+    height: auto;
+    min-height: 2.25rem;
+    text-align: left;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem;
+    margin: 0;
+    border: 0;
+    border-bottom: 1px solid var(--color-border-light-2);
+    border-radius: 0;
+    white-space: normal;
+    font-size: var(--font-size-12);
+}
+
+.trigger-prompts-picker__choice [data-assignment-marker] {
+    flex: 0 0 0.8rem;
+}
+
+.trigger-prompts-picker__choice[aria-pressed="true"] {
+    background: var(--color-bg-option);
+    box-shadow: inset 3px 0 var(--color-border-highlight);
+}
+
+.trigger-prompts-picker__panel h3 {
+    margin: 0 0 0.5rem;
+}
+
+.trigger-prompts-picker__panel > label {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin: 0.75rem 0;
+}
+
+.trigger-prompts-picker__conditions .trigger-prompts-config__range {
+    margin-bottom: 0.5rem;
+}
+
+.trigger-prompts-picker__conditions fieldset {
+    margin: 0.4rem 0;
+    min-width: 0;
+}
+
+.trigger-prompts-picker__conditions fieldset label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    margin-right: 0.5rem;
+}
+
+.trigger-prompts-picker [hidden] {
+    display: none !important;
+}
+
+.trigger-prompts-picker .trigger-prompts-suggestions__panel {
+    max-height: 110px;
+    overflow-y: auto;
+}
+
+@media (max-width: 600px) {
+    .trigger-prompts-picker__split {
+        grid-template-columns: minmax(140px, 0.8fr) minmax(0, 1.2fr);
+    }
+}
+
+/* Explicit surfaces and ink remain legible when Foundry theme variables differ. */
+.trigger-prompts-picker__catalog,
+.trigger-prompts-picker__editor,
+.trigger-prompts-picker__settings {
+    background: #151410;
+    color: #eee4cc;
+    border: 1px solid #655433;
+    border-radius: 5px;
+}
+
+.trigger-prompts-picker .trigger-prompts-picker__heading {
+    margin: 0 0 0.6rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #655433;
+    color: #cbb278;
+    font: 600 11px/1.3 Arial, sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.trigger-prompts-picker__choices {
+    min-height: 0;
+    flex: 1;
+    border: 1px solid #493c26;
+    border-radius: 3px;
+    background: #0d0c09;
+}
+
+.trigger-prompts-picker .trigger-prompts-picker__choice {
+    background: #0d0c09;
+    color: #e0d5be;
+    border-bottom: 1px solid #493c26;
+    font: 400 13px/1.35 Arial, sans-serif;
+    padding: 0.65rem 0.5rem;
+}
+
+.trigger-prompts-picker .trigger-prompts-picker__choice:hover {
+    background: #282419;
+}
+
+.trigger-prompts-picker .trigger-prompts-picker__choice[aria-pressed="true"] {
+    background: #443721;
+    color: #fff0ca;
+    box-shadow: inset 4px 0 #e5c578;
+    font-weight: 700;
+}
+
+.trigger-prompts-picker .trigger-prompts-picker__choice:focus-visible {
+    outline: 2px solid #e9dfce;
+    outline-offset: -2px;
+}
+
+/* Foundry does not consistently provide the sr-only utility in every theme. */
+.trigger-prompts-picker [data-assignment-status] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.trigger-prompts-picker [data-assignment-marker] {
+    color: #e5c578;
+}
+
+.trigger-prompts-picker .trigger-prompts-picker__panel h3 {
+    font: 600 18px/1.25 Georgia, serif;
+    color: #fff0d0;
+}
+
+.trigger-prompts-picker .hint {
+    color: #bfb39d;
+    font: 400 12px/1.45 Arial, sans-serif;
+}
+
+.trigger-prompts-picker__panel > label {
+    padding: 0.6rem;
+    border: 1px solid #655433;
+    border-radius: 3px;
+    background: #242017;
+}
+
+.trigger-prompts-picker__conditions {
+    padding-top: 0.6rem;
+    border-top: 1px solid #493c26;
+}
+
+.trigger-prompts-picker__settings {
+    padding: 0.75rem;
+}
+
+.trigger-prompts-picker__setting + .trigger-prompts-picker__setting {
+    margin-top: 0.65rem;
+    padding-top: 0.65rem;
+    border-top: 1px solid #493c26;
+}
+
+.trigger-prompts-picker__setting > label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 600;
+}
+
+.trigger-prompts-picker__setting select {
+    flex: 1;
+    min-width: 0;
+}
+
+.trigger-prompts-picker__setting .hint {
+    margin: 0.4rem 0 0;
+}
+
+.trigger-prompts-picker__count {
+    margin: 0;
 }

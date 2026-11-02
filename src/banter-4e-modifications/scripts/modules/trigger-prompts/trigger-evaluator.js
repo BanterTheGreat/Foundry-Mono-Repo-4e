@@ -21,11 +21,24 @@ export function evaluateTriggerDefinition(definition, event, services) {
     return [];
   }
 
+  if (definition.damageRequired && !(event.damageTaken > 0)) {
+    return [];
+  }
   const roles = {};
   const roleReferences = getEventRoles(event);
   const references = Object.values(roleReferences);
+  const requiredRoles = new Set([
+    ...(definition.companion ? ["target"] : []),
+    definition.source, definition.recipients.role, definition.recipients.markOwnerOf,
+    ...(definition.recipients.exclude ?? []), ...(definition.rangeBetween ?? []), ...(definition.adjacent ?? []),
+    ...(definition.relations ?? []).flatMap(({ left, right }) => [left, right]),
+    definition.pathAdjacent?.mover, definition.pathAdjacent?.to,
+  ]);
   for (const [role, reference] of Object.entries(roleReferences)) {
-    const token = services.resolveToken(reference);
+    if (!requiredRoles.has(role)) {
+      continue;
+    }
+    const token = services.resolveToken(reference, definition.companion === true && role === "target");
     if (!token) {
       return [];
     }
@@ -38,17 +51,39 @@ export function evaluateTriggerDefinition(definition, event, services) {
       continue;
     }
     const candidateRoles = { ...roles, recipient };
+    if (definition.excludesTargetedRecipient && (event.targetIds?.includes(recipient.id) || event.targetIds?.[0] !== event.target?.tokenId)) {
+      continue;
+    }
+    if (definition.adjacent) {
+      const distance = services.distanceSquares(candidateRoles[definition.adjacent[0]], candidateRoles[definition.adjacent[1]]);
+      if (!(distance > 0 && distance <= 1 + 1e-6)) {
+        continue;
+      }
+    }
     if (!satisfiesRelations(definition.relations, candidateRoles, services)) {
       continue;
     }
-    if (definition.pathAdjacent && !services.doesPathPassAdjacent(event.path, candidateRoles[definition.pathAdjacent.mover], candidateRoles[definition.pathAdjacent.to])) {
+    if (definition.pathAdjacent && !(event.opportunityPaths ?? [event.path]).some(path => services.doesPathPassAdjacent(path, candidateRoles[definition.pathAdjacent.mover], candidateRoles[definition.pathAdjacent.to]))) {
       continue;
     }
 
     const context = {
       actor: recipient.actor,
+      attackType: event.attackType,
+      defenseType: event.defenseType,
+      damageTypes: event.damageTypes ?? [],
+      requiresCompanion: definition.companion === true,
+      companionActorUuid: definition.companion ? `Actor.${roles.target?.actor?.id}` : null,
+      ...(definition.pathEntersRange ? { entersRange: range => services.doesPathEnterRange(event.path, roles.mover, recipient, range) } : {}),
       sourceName: candidateRoles[definition.source].name,
+      sourceKey: `${candidateRoles[definition.source].parent?.id ?? references[0]?.sceneId}:${candidateRoles[definition.source].id}`,
       detail: renderDetail(definition.detail, candidateRoles, event),
+      isMelee: event.isMelee === true,
+      isMinion: String(candidateRoles[definition.source].actor?.system?.details?.role?.secondary ?? "").toLowerCase() === "minion",
+      adjacent: (() => {
+        const distance = services.distanceSquares(recipient, candidateRoles[definition.source]);
+        return distance > 0 && distance <= 1 + 1e-6;
+      })(),
     };
     if (definition.rangeBetween) {
       const [from, to] = definition.rangeBetween;
@@ -82,7 +117,7 @@ function matchesEventFields(where, event) {
  */
 function selectRecipients(recipients, roles, sceneId, services) {
   if (recipients.role) {
-    return [roles[recipients.role]];
+    return roles[recipients.role] ? [roles[recipients.role]] : [];
   }
   if (recipients.markOwnerOf) {
     const owner = services.markOwner(roles[recipients.markOwnerOf]);

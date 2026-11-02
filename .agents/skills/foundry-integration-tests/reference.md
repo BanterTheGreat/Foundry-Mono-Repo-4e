@@ -15,6 +15,7 @@
 - Subset of batches from a page: `await game.modules.get("foundry-test-harness").api.run(["banter-4e-modifications.trigger-prompts"])`.
 - Node suite for a module: `npm test --prefix src/banter-4e-modifications`.
 - Reports: `output/foundry-test-results/` (JSON, traces, screenshots) and `output/foundry-test-report/`. Do not pass `--reporter=...` on the command line; it drops the JSON reporter. The Quench report is a base64 `body` on the `quench-report` attachment in `playwright.json`.
+- For iteration, decode that attachment and print failed test names, errors and stats. Load full logs or source only around the failing boundary; preserve a useful report before another run overwrites it.
 
 ## Unattended runs
 
@@ -28,5 +29,6 @@
 ## Diagnostics worth keeping
 
 - Record unhandled rejections per running test (`beforeEach` stores the title; a `window` listener stamps each rejection with it), then fail the spec on any. This attributes a stray error to its test.
-- On failure, attach a per-client trace of the module's own events (hook, dispatch, card, create duration) and a heartbeat that logs main-thread stalls.
+- On an event-workflow failure, instrument one tracer across capture, dispatch, eligibility and prompt/mutation creation. Record scene/combat IDs, owning actor versus origin token, selected variant, full target roster and pending/confirmed state at the relevant boundaries. Attach that trace to the failing case so another browser launch is not needed for each missing field. A seeded-message test cannot establish what the native hook actually supplies.
+- For a suspected stall, add a heartbeat before interpreting a timeout as a logic failure.
 - For a stall, attach the CDP profiler (`context.newCDPSession(page)`, `Profiler.start`/`stop`) and rank functions by self time.

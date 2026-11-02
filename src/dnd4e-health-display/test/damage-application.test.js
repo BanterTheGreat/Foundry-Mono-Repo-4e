@@ -306,3 +306,18 @@ test("each attacker's damage uses its own roll and is mitigated and applied sepa
 	await applyTargetDamage(f.message, "a:target");
 	assert.deepEqual(f.changes, [13, 7], "an applied hit is never applied twice");
 });
+
+
+test("damage receipts snapshot the confirmed typed terms before mutating HP", async () => {
+  const f = fixture();
+  f.damage.rolls[0] = { total: 18, terms: [{ total: 18, flavor: "fire,cold" }], options: {} };
+  const original = f.actor.applyDamage;
+  f.actor.applyDamage = async function (amount) {
+    const receipt = f.message.flags[MODULE_ID].damageApplications.target;
+    assert.equal(receipt.state, "applying");
+    assert.deepEqual(receipt.damageTypes, ["fire", "cold"]);
+    await original.call(this, amount);
+  };
+  await applyTargetDamage(f.message, "target");
+  assert.deepEqual(f.message.flags[MODULE_ID].damageApplications.target.damageTypes, ["fire", "cold"]);
+});

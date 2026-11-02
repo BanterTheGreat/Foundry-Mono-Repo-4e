@@ -196,3 +196,18 @@ test("a failure delivering one prompt does not stop later triggers for the same 
 
   assert.deepEqual(promptCards.map(card => card.trigger.id), [TRIGGER_ID.YOU_ARE_HIT_BY_MELEE_ATTACK]);
 });
+
+
+test("native attack dispatch finds only a started encounter on its recorded scene when the viewed combat is transiently null", async () => {
+  const hero = token("hero", actor("hero", [power("retaliate", TRIGGER_ID.ENEMY_HITS_YOU)]), 1, 1);
+  const enemy = token("enemy", actor("enemy"), -1, 0);
+  const { dispatcher, promptCards } = setUpWorld([enemy, hero]);
+  const combat = { ...game.combat, scene: { id: "scene" } };
+  game.combats = [combat];
+  game.combat = null;
+  await dispatcher.handle(hit(enemy, hero));
+  assert.equal(promptCards.length, 1);
+  game.combats = [{ ...combat, scene: { id: "different" } }];
+  await dispatcher.handle(hit(enemy, hero));
+  assert.equal(promptCards.length, 1);
+});

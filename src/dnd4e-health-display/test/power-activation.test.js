@@ -700,6 +700,7 @@ test("submission commits once even when the native submit callback runs twice", 
 		assert.deepEqual(JSON.parse(JSON.stringify(options.flags[MODULE_ID].attackResults)), {
 			sessionId: "session", pending: true, sceneId: "scene", targetIds: ["target"],
 			itemUuid: f.item.uuid, casterId: f.attacker.id, effectsManaged: true,
+            triggerMetadata: { attackRange: f.item.system.rangeType, isOpportunity: false },
 		});
 		const app = { rollConfig: { options }, callbackFn: async () => { rolls++; return { total: 20 }; }, close: async () => {} };
 		f.activation.bindAttackDialog(app);
@@ -2111,6 +2112,7 @@ for (const [variant, variance] of [["charge", { isCharge: true }], ["opportunity
 		f.item.rollAttack = async options => {
 			opened = true;
 			assert.deepEqual(JSON.parse(JSON.stringify(options.variance)), variance);
+            assert.equal(options.flags[MODULE_ID].attackResults.triggerMetadata.isOpportunity, variant === "opportunity");
 			return null;
 		};
 		await f.activation.attack();
@@ -2233,6 +2235,7 @@ for (const [id, variance] of [["charge", { isCharge: true }], ["opportunity", { 
 		f.item.rollAttack = async options => {
 			opened++;
 			assert.deepEqual(JSON.parse(JSON.stringify(options.variance)), variance);
+            assert.equal(options.flags[MODULE_ID].attackResults.triggerMetadata.isOpportunity, variant === "opportunity");
 			return null;
 		};
 		const panel = { session: f.activation };

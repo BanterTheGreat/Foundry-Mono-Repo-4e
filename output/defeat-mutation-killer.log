@@ -1,0 +1,65 @@
+
+Running 1 test using 1 worker
+
+  x  1 tests\foundry\scenarios\trigger-prompts.spec.mjs:18:1 › defeat triggers and feat prompts work in the real Foundry runtime (40.4s)
+
+
+  1) tests\foundry\scenarios\trigger-prompts.spec.mjs:18:1 › defeat triggers and feat prompts work in the real Foundry runtime 
+
+    Error: [
+      {
+        "title": "prompts the recorded killer, not other actors or the active turn's actor",
+        "fullTitle": "banter-4e-modifications.defeat-triggers_root Defeat triggers and feats in Foundry prompts the recorded killer, not other actors or the active turn's actor",
+        "file": null,
+        "duration": 8951,
+        "currentRetry": 0,
+        "err": {
+          "stack": "Error: Timed out waiting for a you-reduce-enemy-to-zero prompt for killer.\n    at waitForFact (modules/banter-4e-modifications/test-foundry/trigger-prompt-fixture.js:21:9)\n    at async i.<anonymous> (modules/banter-4e-modifications/test-foundry/defeat-triggers.js:65:9)",
+          "message": "Timed out waiting for a you-reduce-enemy-to-zero prompt for killer."
+        }
+      },
+      {
+        "title": "does not attribute manual edits, friendly defeats, healing or further damage below zero",
+        "fullTitle": "banter-4e-modifications.defeat-triggers_root Defeat triggers and feats in Foundry does not attribute manual edits, friendly defeats, healing or further damage below zero",
+        "file": null,
+        "duration": 9795,
+        "currentRetry": 0,
+        "err": {
+          "stack": "Error: Timed out waiting for a you-reduce-enemy-to-zero prompt for hero.\n    at waitForFact (modules/banter-4e-modifications/test-foundry/trigger-prompt-fixture.js:21:9)\n    at async i.<anonymous> (modules/banter-4e-modifications/test-foundry/defeat-triggers.js:79:9)",
+          "message": "Timed out waiting for a you-reduce-enemy-to-zero prompt for hero."
+        }
+      }
+    ]
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 0
+    Received: 2
+
+      53 |     await testInfo.attach("quench-report", { body: JSON.stringify(result, null, 2), contentType: "application/json" });
+      54 |     expect(result.report.stats.tests, "An empty run must fail").toBeGreaterThan(batch.minimum);
+    > 55 |     const stray = await page.evaluate(() => window.triggerPromptStrayErrors ?? []);
+         |                                                                                    ^
+      56 |     await testInfo.attach("stray-errors-by-test", { body: JSON.stringify(stray, null, 2), contentType: "application/json" });
+      57 |     expect(stray, "Unhandled rejections during the batch, by test").toEqual([]);
+      58 |     expect(diagnostics.pageErrors, "Uncaught browser errors").toEqual([]);
+        at C:\Users\Imre\Documents\Workspace\Foundry Mono Repo 4e\tests\foundry\scenarios\trigger-prompts.spec.mjs:55:91
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    output\foundry-test-results\trigger-prompts-defeat-tri-160cc-in-the-real-Foundry-runtime\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: output\foundry-test-results\trigger-prompts-defeat-tri-160cc-in-the-real-Foundry-runtime\error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    output\foundry-test-results\trigger-prompts-defeat-tri-160cc-in-the-real-Foundry-runtime\trace.zip
+    Usage:
+
+        npx playwright show-trace output\foundry-test-results\trigger-prompts-defeat-tri-160cc-in-the-real-Foundry-runtime\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests\foundry\scenarios\trigger-prompts.spec.mjs:18:1 › defeat triggers and feat prompts work in the real Foundry runtime 
+(node:13556) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)

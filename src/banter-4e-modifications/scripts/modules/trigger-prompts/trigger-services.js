@@ -27,7 +27,13 @@ export function createTriggerServices({ combat, scenes, getGridSize }) {
    * Finds the combatant token a reference names, falling back to the first
    * combatant of the referenced actor when the exact token is unknown.
    */
-  const resolveToken = reference => {
+  const resolveToken = (reference, allowNonCombatant = false) => {
+    if (allowNonCombatant && (reference.sceneId === combat.scene?.id || combat.combatants.some(entry => entry.sceneId === reference.sceneId))) {
+      const token = findSceneToken(reference.sceneId, reference.tokenId);
+      if (token) {
+        return token;
+      }
+    }
     const exact = reference.sceneId && reference.tokenId ? findCombatantByToken(reference.sceneId, reference.tokenId) : null;
     const combatant = exact ?? (reference.actorId ? combat.combatants.find(candidate => candidate.actor?.id === reference.actorId) : null);
     return combatant ? findSceneToken(combatant.sceneId, combatant.tokenId) : null;
@@ -49,6 +55,7 @@ export function createTriggerServices({ combat, scenes, getGridSize }) {
     areHostile: (left, right) => left.disposition !== right.disposition,
     areAllied: (left, right) => left.disposition === right.disposition,
     distanceSquares: (left, right) => spatialFor(left).distanceSquares(left, right),
+    doesPathEnterRange: (path, mover, candidate, range) => spatialFor(mover).doesPathEnterRange(path, mover, candidate, range),
     doesPathPassAdjacent: (path, mover, candidate) => spatialFor(mover).doesPathPassAdjacent(path, mover, candidate),
   };
 }

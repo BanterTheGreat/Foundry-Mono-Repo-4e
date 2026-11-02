@@ -2,6 +2,12 @@
 
 ## 0.4.0
 
+- Rename world power Items through a GM-reviewed name-only operation, preserving equipment links and mechanics with stale-source checks and retryable partial-save receipts. Protocol v39 requires reloading Foundry and restarting companion/MCP clients together.
+
+- Localize equipment-linked compendium powers into world Item folders and relink selected PCs' equipment after GM review, preserving full power data and reusing managed copies across partial-save retries. Protocol v38 requires reloading Foundry and restarting companion/MCP clients together.
+
+- Discover and configure Banter Trigger Automations through dedicated read and GM-reviewed edit tools, including item filters, companions, shared limits, automatic benefits and actor options. Preserve usage, reject stale approvals and report partial saves. Protocol v37 requires reloading Foundry and restarting companion/MCP clients together.
+
 - Battle Briefings retain their title and combatants without a description field. Encounter handoff stores full GM write-ups in Encounters Journal chapters with actor links instead of stat blocks. Protocol v36 requires reloading Foundry and restarting companion/MCP clients together.
 
 - Read scene Regions (shapes, behaviors, Elevation, grid conversion data) with `get_scene_regions`, and rename, recolor, reshape, change Elevation behavior settings or delete existing Regions with GM-reviewed `edit_scene_regions`. Reject stale scenes and report partial saves. Protocol v35 requires reloading Foundry and restarting the companion/MCP clients together.

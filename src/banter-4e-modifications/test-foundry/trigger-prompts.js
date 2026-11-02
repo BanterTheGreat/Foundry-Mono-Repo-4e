@@ -64,6 +64,42 @@ export function registerTriggerPromptTests(quench) {
         const guard = (extra = {}) => ({ key: "guard", col: 10, row: 5, powers: [powerData("Test Opportunity Strike", { opportunity: true })], ...extra });
         const runner = { key: "runner", col: 5, row: 5, disposition: -1 };
 
+        it("does not provoke on Shift, then provokes on Walk over the same path", async function () {
+          await world.encounter([guard(), runner]);
+          const { token } = world.get("runner");
+          await token.update({ movementAction: "shift" });
+          await world.move("runner", 15, 5);
+          await assertPrompts([], "native Shift movement must not provoke");
+          await token.update({ movementAction: "walk" });
+          await world.move("runner", 5, 5);
+          await world.waitForPrompt("guard", TRIGGER_ID.OPPORTUNITY_ATTACK);
+          await assertPrompts(["guard:opportunity-attack"]);
+        });
+
+        it("offers once per enemy even after Ignore and refreshes on the next turn", async function () {
+          await world.encounter([guard(), runner]);
+          await world.move("runner", 15, 5);
+          const message = await world.waitForPrompt("guard", TRIGGER_ID.OPPORTUNITY_ATTACK);
+          await game.TriggerPrompts.promptChat.dismissPrompt(message.id);
+          await world.move("runner", 5, 5);
+          await assertPrompts([], "moving back after Ignore must not repeat the prompt");
+          await world.combat.nextTurn();
+          await world.move("runner", 15, 5);
+          await world.waitForPrompt("guard", TRIGGER_ID.OPPORTUNITY_ATTACK);
+          await assertPrompts(["guard:opportunity-attack"]);
+        });
+
+        it("one claimed choice spends the actor's opportunity attack for the turn", async function () {
+          await world.encounter([guard(), runner, { key: "other", col: 5, row: 6, disposition: -1 }]);
+          await world.move("runner", 15, 5);
+          const message = await world.waitForPrompt("guard", TRIGGER_ID.OPPORTUNITY_ATTACK);
+          const chat = game.TriggerPrompts.promptChat;
+          const claim = await chat.claimPrompt(message.id, message.flags.triggerPrompts.choices[0].itemId);
+          assert.ok(claim, "first opportunity attack may be claimed");
+          await world.move("other", 15, 6);
+          await assertPrompts(["guard:opportunity-attack"], "other enemies cannot grant another attack this turn");
+        });
+
         it("prompts a guard when a hostile creature moves past it", async function () {
           await world.encounter([guard(), runner]);
           await world.move("runner", 15, 5);
@@ -71,7 +107,7 @@ export function registerTriggerPromptTests(quench) {
           const prompt = message.flags.triggerPrompts;
           assert.deepEqual(prompt.choices.map(choice => choice.itemId), [world.powerId("guard", "Test Opportunity Strike")]);
           assert.include(prompt.recipientIds, game.user.id);
-          assert.include(message.content, "runner moved adjacent to guard.");
+          assert.include(message.content, "runner moved while adjacent to guard.");
           await assertPrompts(["guard:opportunity-attack"]);
         });
 

@@ -1,10 +1,18 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { readFileSync } from "node:fs";
 import { registerHealthDisplay } from "../scripts/health-display/health-display.js";
 
 const RING_ID = "dnd4e-token-ring-display";
 const OLD_PANEL_ID = "dnd4e-token-hover-display";
 const RING_TEMPLATE = "modules/dnd4e-health-display/scripts/health-display/token-ring.hbs";
+
+test("the hover display keeps health and name without a circle around the token", () => {
+	const template = readFileSync(new URL("../scripts/health-display/token-ring.hbs", import.meta.url), "utf8");
+	assert.doesNotMatch(template, /<circle\b|dnd4e-token-ring__hover-ring/);
+	assert.match(template, /dnd4e-token-ring__gems/);
+	assert.match(template, /dnd4e-token-ring__name/);
+});
 
 /** A bare element: just the properties and queries the display code touches. */
 function element(id = "") {

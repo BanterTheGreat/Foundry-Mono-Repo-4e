@@ -31,7 +31,7 @@ test("compact trigger alerts show causes, power tooltips and deadline-based drai
         const message = await docs.createMessage({ content: "Test private trigger", whisper: [game.user.id], flags: { triggerPrompts: {
           actorId: actor.id, actorUuid: actor.uuid, label: "Enemy misses you", detail: "Goblin skirmisher missed you.",
           choices: actor.items.map(item => ({ itemId: item.id })), recipientIds: [game.user.id], used: false,
-          expiresAt: Date.now() + 10000, ...overrides,
+          expiresAt: Date.now() + 20000, ...overrides,
         } } });
         return message.id;
       };

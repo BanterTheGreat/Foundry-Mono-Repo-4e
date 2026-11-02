@@ -1,10 +1,13 @@
+import { confirmedAutomationEvents } from "./automation-events.js";
 import { TRIGGER_PROMPT_UI } from "./constants.js";
 import { ActorTriggerConfiguration } from "./actor-trigger-configuration.js";
+import { findHpDamage } from "./hp-damage-source.js";
 import { AttackResultCapture } from "./attack-result-capture.js";
 import {
   CombatEventBus,
   MOVEMENT_TYPE,
   createAttackEventFromDefense,
+  createAttackTargetedEvents,
   createAttackEventsFromCapture,
   createHpChangedEvent,
   createMovementCommittedEvent,
@@ -29,9 +32,11 @@ export class TriggerPrompts {
    */
   constructor(socket) {
     this.socket = socket;
+    this.confirmedAttacks = new Set();
     this.attackCapture = new AttackResultCapture();
     this.events = new CombatEventBus();
     this.promptChat = new TriggerPromptChat(socket);
+    this.limits = this.promptChat.limits;
     this.dispatcher = new CombatTriggerDispatcher(this.promptChat);
     this.events.subscribe(event => this.dispatcher.handle(event));
   }
@@ -75,27 +80,54 @@ export class TriggerPrompts {
    */
   static onPreCreateRollMessage(message) {
     const attack = game.TriggerPrompts?.attackCapture.consume(message);
-    if (attack) {
-      game.TriggerPrompts.events.emitAll(createAttackEventsFromCapture(attack));
+    if (!attack) {
+      return;
     }
+    const automated = Boolean(message.flags?.["dnd4e-health-display"]?.attackResults?.sessionId);
+    if (automated) {
+      TriggerPrompts.#snapshotAutomationAttack(message, attack);
+    }
+    game.TriggerPrompts.events.emitAll([
+      ...createAttackTargetedEvents(attack),
+      ...(automated ? [] : createAttackEventsFromCapture(attack)),
+    ]);
   }
 
   /**
    * Waits for the rolling client's Dice So Nice animation, when present, then
-   * reports a failed saving throw. The author check keeps every other client
+   * reports a completed saving throw. The author check keeps every other client
    * from reporting the same message.
    *
    * @param {ChatMessage} message
    * @returns {Promise<void>}
    */
   static async onCreateRollMessage(message) {
+    await TriggerPrompts.onAutomationMessage(message, null, {}, message.author?.id);
     if (message.author?.id !== game.user?.id) {
       return;
     }
-    const savingThrow = TriggerPrompts.#captureSavingThrowFailure(message);
+    const savingThrow = TriggerPrompts.#captureSavingThrow(message);
     if (savingThrow) {
       await TriggerPrompts.#waitForDiceSoNiceAnimation(message.id);
       await game.TriggerPrompts?.events.emit(createSaveResolvedEvent(savingThrow));
+    }
+  }
+
+  /** Report each confirmed automation target once, on the client that confirmed it. */
+  static async onAutomationMessage(message, changes, options, userId) {
+    const prompts = game.TriggerPrompts;
+    const confirmation = changes?.flags?.["dnd4e-health-display"]?.attackResults?.pending
+      ?? changes?.["flags.dnd4e-health-display.attackResults.pending"];
+    if (!prompts || userId !== game.user.id || changes !== null && confirmation !== false) {
+      return;
+    }
+    for (const event of confirmedAutomationEvents(message)) {
+      const key = `${message.id}:${event.target.tokenId}`;
+      if (prompts.confirmedAttacks.has(key)) {
+        continue;
+      }
+      prompts.confirmedAttacks.add(key);
+      await prompts.events.emit(event);
     }
   }
 
@@ -121,11 +153,27 @@ export class TriggerPrompts {
     if (path.length < 2) {
       return;
     }
+    // Foundry v14 stores the action from the previous point on each waypoint.
+    // Preserve the full path for other triggers, but exclude Shift segments
+    // from opportunity attacks, including mixed Walk/Shift movement.
+    const opportunityPaths = [];
+    let previous = movement.origin;
+    for (const waypoint of movement.passed?.waypoints ?? []) {
+      const action = String(waypoint.action ?? document.movementAction ?? "walk").toLowerCase();
+      if (action !== "shift") {
+        const segment = TriggerPrompts.#buildMovementPath({ origin: previous, passed: { waypoints: [waypoint] } });
+        if (segment.length > 1) {
+          opportunityPaths.push(segment);
+        }
+      }
+      previous = waypoint;
+    }
     await triggerPrompts.events.emit(createMovementCommittedEvent({
       sceneId: document.parent.id,
       tokenId: document.id,
       path,
-      movementType: TriggerPrompts.#classifyMovementType(movement),
+      movementType: opportunityPaths.length ? MOVEMENT_TYPE.WALK : MOVEMENT_TYPE.SHIFT,
+      opportunityPaths,
     }));
   }
 
@@ -147,13 +195,22 @@ export class TriggerPrompts {
     }
     const oldHp = options.dnd4e?.hp?.hp;
     const newHp = actor.system.attributes?.hp?.value;
-    if (!Number.isFinite(oldHp) || !Number.isFinite(newHp) || oldHp === newHp) {
+    const oldTemp = options.dnd4e?.hp?.temp;
+    const newTemp = Number(actor.system.attributes?.temphp?.value ?? 0);
+    if (!Number.isFinite(oldHp) || !Number.isFinite(newHp) || oldHp === newHp && !(Number(oldTemp) > newTemp)) {
       return;
     }
     const bloodiedThreshold = actor.system.details?.bloodied ?? actor.system.attributes?.hp?.max / 2;
     const events = game.combat.combatants
       .filter(combatant => combatant.actor?.uuid === actor.uuid)
-      .map(combatant => createHpChangedEvent({ sceneId: combatant.sceneId, tokenId: combatant.tokenId, oldHp, newHp, bloodiedThreshold }));
+      .map(combatant => {
+        const change = { sceneId: combatant.sceneId, tokenId: combatant.tokenId, oldHp, newHp, bloodiedThreshold };
+        const damage = findHpDamage(game.messages?.values?.() ?? [], change);
+        return createHpChangedEvent({ ...change, attacker: damage?.attacker, attackRange: damage?.attackRange,
+          damageTypes: damage?.damageTypes,
+          damageTaken: damage?.amount ?? Math.max(0, oldHp - newHp) + Math.max(0, Number(oldTemp ?? newTemp) - newTemp),
+        });
+      });
     await triggerPrompts.events.emitAll(events);
   }
 
@@ -216,6 +273,11 @@ export class TriggerPrompts {
     return game.TriggerPrompts?.promptChat.claimPrompt(messageId, itemId) ?? null;
   }
 
+  /** Item allowance operations run on the chosen GM/owner authority. */
+  static async itemLimitFromSocket(request) {
+    return game.TriggerPrompts?.limits.handle(request) ?? null;
+  }
+
   /**
    * SocketLib entry point: dismisses a prompt this client authored.
    *
@@ -245,20 +307,23 @@ export class TriggerPrompts {
    *   The attack message Player Defense is replacing.
    */
   clearPendingAttackContext(message) {
-    this.attackCapture.discard(message);
+    const attack = message ? this.attackCapture.consume(message) : null;
+    if (attack) {
+      if (message.flags?.["dnd4e-health-display"]?.attackResults?.sessionId) {
+        TriggerPrompts.#snapshotAutomationAttack(message, attack);
+      }
+      this.events.emitAll(createAttackTargetedEvents(attack));
+    } else {
+      this.attackCapture.discard(message);
+    }
   }
 
-  /**
-   * Classifies how a token moved. Every move is currently a walk: the table
-   * does not use shifts, forced movement, or teleports yet. The classification
-   * is recorded on each event for later triggers, and none reads it today.
-   *
-   * @param {TokenMovementOperation} movement
-   * @returns {string}
-   *   A {@link MOVEMENT_TYPE} value.
-   */
-  static #classifyMovementType(movement) {
-    return MOVEMENT_TYPE.WALK;
+  /** Snapshot the actual rolled power and each defense chosen in the native attack form. */
+  static #snapshotAutomationAttack(message, attack) {
+    message.updateSource?.({ "flags.dnd4e-health-display.attackResults.triggerMetadata": {
+      attackRange: attack.attackRange, isOpportunity: attack.isOpportunity,
+      defenseTypes: Object.fromEntries(attack.targets.map(target => [target.tokenId, target.defenseType])),
+    } });
   }
 
   /**
@@ -283,12 +348,12 @@ export class TriggerPrompts {
   }
 
   /**
-   * Extracts a failed, non-death saving throw from DnD4e's chat-roll data.
+   * Extracts a completed, non-death saving throw from DnD4e's chat-roll data.
    *
    * @param {ChatMessage} message
-   * @returns {{actorId: string|null, sceneId: string|null, tokenId: string|null, outcome: "fail"}|null}
+   * @returns {{actorId: string|null, sceneId: string|null, tokenId: string|null, outcome: "success"|"fail"}|null}
    */
-  static #captureSavingThrowFailure(message) {
+  static #captureSavingThrow(message) {
     const rollData = message.flags?.dnd4e?.roll;
     // DnD4e 0.9.3's Actor#rollSave builds an intended roll flag but does not
     // pass it through d20Roll to the ChatMessage. Its localized flavor and
@@ -300,14 +365,14 @@ export class TriggerPrompts {
     }
     const roll = message.rolls[0];
     const target = roll.dice?.find(die => die.faces === 20)?.options?.target;
-    if (!Number.isFinite(target) || roll.total >= target) {
+    if (!Number.isFinite(target) || !Number.isFinite(roll.total)) {
       return null;
     }
     return {
       actorId: rollData?.actorId ?? message.speaker?.actor ?? null,
       sceneId: message.speaker?.scene ?? null,
       tokenId: message.speaker?.token ?? null,
-      outcome: "fail",
+      outcome: roll.total < target ? "fail" : "success",
     };
   }
 

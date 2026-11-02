@@ -1,6 +1,43 @@
 # Running tests yourself
 
-Compact floating trigger alerts (hidden chat records, cause text, actual power tooltips, Target Automation handoff with native-use fallback, Ignore, privacy, duplicate renders and draining deadline timer):
+Expanded trigger families, shared attack/defense/damage filters, explicit companion bindings and Target Automation confirmation:
+
+```sh
+npm test --prefix src/banter-4e-modifications
+node --test src/dnd4e-health-display/test/*.test.js
+npx playwright test --config tests/foundry/playwright.config.mjs trigger-prompts.spec.mjs --grep "expanded triggers"
+npx playwright test --config tests/foundry/playwright.config.mjs target-automation.spec.mjs --grep "combat trigger prompts"
+```
+
+Deploy first with `npm run test:foundry:deploy`. In each power or feat's Triggers dialog, choose the trigger and optional filters. For companion events, explicitly select the companion actor; it need not have an initiative slot. Damage-type filters require recorded typed damage from Target Automation. Attack prompts use confirmed automation verdicts, including opportunity variants, instead of preliminary results. These are prompts; interrupts do not pause the native roll.
+
+
+Trigger restrictions and shared item limits (non-minions, melee, adjacency, your bloodying hits, ally defeats, shared turn usage, first occurrence per encounter, and daily refresh on Extended Rest):
+
+```sh
+npm test --prefix src/banter-4e-modifications
+npx playwright test --config tests/foundry/playwright.config.mjs trigger-prompts.spec.mjs --grep "trigger restrictions"
+```
+
+Configure these on a power or feat's **Triggers** dialog. Restrictions are per assignment; the shared limit applies across every assignment on that item. Turn/day limits are spent when a prompt is selected; Ignore leaves them available. **First time per encounter** offers only the first qualifying occurrence, even if ignored. Daily usage refreshes through **Extended Rest**, not Short Rest or a calendar date change. Recorded damage is required to identify who bloodied an enemy and whether HP loss came from a melee attack.
+
+Defeat triggers and feat assignments/chat posting (HP crossings, hostility, adjacency, recorded damage attribution, text suggestions and sheet controls):
+
+```sh
+node --test src/banter-4e-modifications/test/trigger-definitions.test.js src/banter-4e-modifications/test/hp-damage-source.test.js src/banter-4e-modifications/test/trigger-prompts-adapter.test.js src/banter-4e-modifications/test/actor-trigger-configuration.test.js src/banter-4e-modifications/test/power-trigger-dialog.test.js src/banter-4e-modifications/test/trigger-prompt-chat.test.js src/banter-4e-modifications/test/trigger-text-suggestions.test.js
+```
+
+Live Quench coverage (**BANTER: Defeat triggers and feat prompts**), including native HP hooks, feat sheet configuration and claimed chat posting:
+
+```sh
+npx playwright test --config tests/foundry/playwright.config.mjs trigger-prompts.spec.mjs --grep "defeat triggers"
+```
+
+After reload, assign either defeat trigger to a power or feat using its sheet's Triggers control. Apply lethal damage through the damage panel: the recorded attacker and hostile adjacent combatants should receive their assigned prompts. Manual HP edits can prompt adjacent combatants but do not guess an attacker. Selecting a feat posts its card without rolling, spending resources or starting Target Automation. Check the browser console.
+
+NPC opportunity-prompt defaults and saved overrides: `node --test src/banter-4e-modifications/test/actor-trigger-configuration.test.js`.
+
+Compact floating trigger alerts (hidden chat records, cause text, actual power tooltips, Target Automation handoff with native-use fallback, Ignore, privacy, duplicate renders and the 20-second deadline timer):
 
 ```sh
 node --test src/banter-4e-modifications/test/trigger-prompt-alerts.test.js src/banter-4e-modifications/test/trigger-prompt-chat.test.js
@@ -54,7 +91,7 @@ Token hover display (ring, gems, the stepped name tag outline, effect endings an
 node --test src/dnd4e-health-display/test/token-ring-data.test.js src/dnd4e-health-display/test/token-hover-effects.test.js src/dnd4e-health-display/test/token-ring.test.js
 ```
 
-The Node tests cannot show real rendering. After reload, hover tokens: a thin ring should circle the token, the slim, see-through name tag should hang from its lower rim with the diamond gems on the rim and the name below (a coloured border only for Solo, Leader, Elite and Minion creatures, none for ordinary ones), and the effect list should sit beside it; nothing should appear at the top of the screen. Check a PC, an elite or solo, a minion, a bloodied creature and a defeated NPC (no state word anywhere); a creature with 8+ effects; custom effects (description line) versus conditions (one line); amber "ending soon" rows after advancing the turn; a token near the right, top and bottom screen edges; pan, zoom and dragging the hovered token; and the browser console.
+The Node tests cannot show real rendering. After reload, hover tokens: no extra circle should surround the token; the slim, see-through name tag should hang from its lower rim with the diamond gems on the rim and the name below (a coloured border only for Solo, Leader, Elite and Minion creatures, none for ordinary ones), and the effect list should sit beside it; nothing should appear at the top of the screen. Check a PC, an elite or solo, a minion, a bloodied creature and a defeated NPC (no state word anywhere); a creature with 8+ effects; custom effects (description line) versus conditions (one line); amber "ending soon" rows after advancing the turn; a token near the right, top and bottom screen edges; pan, zoom and dragging the hovered token; and the browser console.
 
 Run only the power activation tests, including automatic target selection, target focusing, and attack variant buttons:
 
@@ -194,3 +231,51 @@ intercepted with its own DC and resolves on its own message. The Playwright scen
 `multi-attack-defense.spec.mjs` needs the non-GM test player and checks that the player gets
 one dialog for all attacks, rolls each defense, and that a reload does not reopen it.
 Run the Quench batches with `npm run test:foundry -- integration.spec.mjs`.
+
+Power/feat trigger catalog and editor (categories, assignment indicators, preserved form values): `node --test src/banter-4e-modifications/test/power-trigger-dialog.test.js`.
+
+Automatic benefit announcements: `npm test --prefix src/banter-4e-modifications` covers native feat/feature item-card rendering, public versus private routing, immediate usage claims, duplicate item assignments, exhausted limits, and persistent non-claimable announcements. Live rendering: `npx playwright test --config tests/foundry/playwright.config.mjs automatic-benefit.spec.mjs` (designated test world required).
+
+The trigger catalog browser regression runs in `npm test --prefix src/banter-4e-modifications`, or alone with `node --test src/banter-4e-modifications/test/power-trigger-picker.test.js`. Install root dependencies and Chromium first (`npm install`, `npx playwright install chromium`). It exercises the production dialog with native form controls and a DialogV2 shell, covering pane borders, selected-row contrast, visually hidden accessibility labels, navigation, category/search empty states, assignment indicators, suggestion undo, and submission of hidden assignments, filters, automatic benefit and shared limit. It does not require a live Foundry server.
+
+## Opportunity Attack prompt regression checks
+
+Run `node --test src/banter-4e-modifications/test/trigger-item-limits.test.js src/banter-4e-modifications/test/trigger-prompts-adapter.test.js src/banter-4e-modifications/test/trigger-definitions.test.js src/banter-4e-modifications/test/trigger-prompt-chat.test.js`
+for shared turn usage, per-enemy prompt history, Shift exclusion and prompt claims.
+Live movement checks are part of the trigger-prompts Quench batch; see `tests/foundry/README.md`.
+
+Foundry MCP Trigger Automation discovery, validation, confirmed saves, cancellation,
+stale source/session rejection, usage preservation and partial-write receipts:
+
+```powershell
+node --test src/foundry-mcp/test/trigger-automation.test.js
+npm test --prefix src/foundry-mcp
+```
+
+After deploying, manually reload Foundry and restart MCP clients (protocol v37).
+Read `get_trigger_automation`, review an `edit_trigger_automation` request, and
+verify its fields in the Triggers dialog and check the browser console.
+
+Foundry MCP equipment power localization (copy/relink, deduplication, retry recovery,
+cancellation, source/session guards, preserved data and rejected destinations):
+
+```powershell
+node --test src/foundry-mcp/test/localize-item-powers.test.js src/foundry-mcp/test/mcp.test.js
+npm test --prefix src/foundry-mcp
+```
+
+Live verification is pending: reload Foundry and restart MCP clients for protocol v38,
+check the browser console, cancel one review, then approve and inspect world power
+copies plus the equipment links. Retry to confirm no duplicate copies.
+
+Foundry MCP world-power name-only edits (preserved data, cancellation, stale source,
+session loss, unsupported destinations, concurrent review and partial-save retries):
+
+```powershell
+node --test src/foundry-mcp/test/world-power-name.test.js src/foundry-mcp/test/mcp.test.js
+npm test --prefix src/foundry-mcp
+```
+
+After deploying protocol v39, reload Foundry and restart MCP clients. Check the
+browser console, cancel then approve a rename batch, verify equipment links remain
+valid, and retry to confirm no changes. Live verification is pending.

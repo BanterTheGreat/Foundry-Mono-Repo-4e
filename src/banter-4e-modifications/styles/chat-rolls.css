@@ -367,13 +367,16 @@
   background: linear-gradient(90deg, var(--banter-power-tint), #1c1a19 88%);
 }
 .chat-message.message > .message-content:has(> .banter-power:only-child) { border: 0; }
-.dnd4e.chat-card.item-card.banter-power--atwill {
+.dnd4e.chat-card.item-card.banter-power--atwill,
+.banter-trigger-tooltip-header.banter-power--atwill {
   --banter-power-ink: #5cb35a;
 }
-.dnd4e.chat-card.item-card.banter-power--encounter {
+.dnd4e.chat-card.item-card.banter-power--encounter,
+.banter-trigger-tooltip-header.banter-power--encounter {
   --banter-power-ink: #d1594a;
 }
-.dnd4e.chat-card.item-card.banter-power--daily {
+.dnd4e.chat-card.item-card.banter-power--daily,
+.banter-trigger-tooltip-header.banter-power--daily {
   --banter-power-ink: #a768c9;
 }
 .banter-power .banter-power__header {

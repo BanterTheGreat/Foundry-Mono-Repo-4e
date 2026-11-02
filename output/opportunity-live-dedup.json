@@ -1,0 +1,844 @@
+{
+  "environment": {
+    "worldId": "4e-test-realm",
+    "foundry": "14.367",
+    "system": "0.9.3",
+    "modules": {
+      "banter-4e-modifications": "2.0",
+      "dnd4e-health-display": "1.1.0",
+      "quench": "0.10.0",
+      "foundry-test-harness": "0.1.0"
+    }
+  },
+  "batchKeys": [
+    "banter-4e-modifications.trigger-prompts"
+  ],
+  "report": {
+    "stats": {
+      "suites": 19,
+      "tests": 56,
+      "passes": 2,
+      "pending": 53,
+      "failures": 1,
+      "start": "2026-11-02T12:12:16.873Z",
+      "end": "2026-11-02T12:12:36.960Z",
+      "duration": 20087
+    },
+    "tests": [
+      {
+        "title": "does not provoke on Shift, then provokes on Walk over the same path",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Opportunity attack does not provoke on Shift, then provokes on Walk over the same path",
+        "file": null,
+        "duration": 3934,
+        "currentRetry": 0,
+        "speed": "slow",
+        "err": {}
+      },
+      {
+        "title": "offers once per enemy even after Ignore and refreshes on the next turn",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Opportunity attack offers once per enemy even after Ignore and refreshes on the next turn",
+        "file": null,
+        "duration": 2586,
+        "currentRetry": 0,
+        "err": {
+          "stack": "AssertionError: moving back after Ignore must not repeat the prompt: expected [ 'guard:opportunity-attack' ] to deeply equal []\n    at assertPrompts (modules/banter-4e-modifications/test-foundry/trigger-prompts.js:56:16)\n    at async i.<anonymous> (modules/banter-4e-modifications/test-foundry/trigger-prompts.js:85:11)",
+          "message": "moving back after Ignore must not repeat the prompt: expected [ 'guard:opportunity-attack' ] to deeply equal []",
+          "actual": "[\n  \"guard:opportunity-attack\"\n]",
+          "expected": "[]",
+          "showDiff": true,
+          "operator": "deepStrictEqual"
+        }
+      },
+      {
+        "title": "one claimed choice spends the actor's opportunity attack for the turn",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Opportunity attack one claimed choice spends the actor's opportunity attack for the turn",
+        "file": null,
+        "duration": 3475,
+        "currentRetry": 0,
+        "speed": "slow",
+        "err": {}
+      },
+      {
+        "title": "prompts a guard when a hostile creature moves past it",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Opportunity attack prompts a guard when a hostile creature moves past it",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt when the move only ends beside the guard",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Opportunity attack does not prompt when the move only ends beside the guard",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt when the move never comes near",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Opportunity attack does not prompt when the move never comes near",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt for a friendly creature passing by",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Opportunity attack does not prompt for a friendly creature passing by",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "respects the actor's opportunity-attack option",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Opportunity attack respects the actor's opportunity-attack option",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "measures a large guard from its whole footprint",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Opportunity attack measures a large guard from its whole footprint",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "prompts the missed creature",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Enemy misses you prompts the missed creature",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt on a hit",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Enemy misses you does not prompt on a hit",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "treats a natural 1 as a miss and a natural 20 as a hit regardless of the total",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Enemy misses you treats a natural 1 as a miss and a natural 20 as a hit regardless of the total",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt for a friendly attacker",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Enemy misses you does not prompt for a friendly attacker",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "outside a started combat nothing prompts",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Enemy misses you outside a started combat nothing prompts",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "prompts allies within their range, not those beyond it",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Enemy misses you or an ally prompts allies within their range, not those beyond it",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "also prompts the missed creature itself",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Enemy misses you or an ally also prompts the missed creature itself",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt on a hit",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Enemy misses you or an ally does not prompt on a hit",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "prompts the creature that was hit",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Enemy hits you prompts the creature that was hit",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt on a miss",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Enemy hits you does not prompt on a miss",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "honours the assigned range from the attacker",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Enemy hits you honours the assigned range from the attacker",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not offer a limited-use power that has no uses left",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Enemy hits you does not offer a limited-use power that has no uses left",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "prompts for AC and Reflex but not for Fortitude or Will",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry An attack against AC or Reflex misses you prompts for AC and Reflex but not for Fortitude or Will",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "prompts the attacker who missed a hostile creature",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry You miss prompts the attacker who missed a hostile creature",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt on a hit or when the target is an ally",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry You miss does not prompt on a hit or when the target is an ally",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "prompts only for the targets that were missed in a multi-target attack",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry You miss prompts only for the targets that were missed in a multi-target attack",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "reminds the mark owner when its marked enemy hits an ally",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry A creature you marked hits an ally reminds the mark owner when its marked enemy hits an ally",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt for an enemy the actor has not marked, or a miss, or a hit on the owner",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry A creature you marked hits an ally does not prompt for an enemy the actor has not marked, or a miss, or a hit on the owner",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt unless the actor turned the reminder on",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry A creature you marked hits an ally does not prompt unless the actor turned the reminder on",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "prompts the mark owner when the marked creature drops to bloodied",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry A creature you marked becomes bloodied prompts the mark owner when the marked creature drops to bloodied",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt above the bloodied line, for an unmarked creature, or once already bloodied",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry A creature you marked becomes bloodied does not prompt above the bloodied line, for an unmarked creature, or once already bloodied",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "prompts when the creature's own HP crosses the bloodied line",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry You become bloodied prompts when the creature's own HP crosses the bloodied line",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt above the line, on healing, or when already bloodied",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry You become bloodied does not prompt above the line, on healing, or when already bloodied",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "prompts for a weapon (melee) hit but not a ranged one",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry You are hit by a melee attack prompts for a weapon (melee) hit but not a ranged one",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt on a melee miss",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry You are hit by a melee attack does not prompt on a melee miss",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "prompts the mark owner when the marked creature moves away from beside them",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry An adjacent creature you marked moves prompts the mark owner when the marked creature moves away from beside them",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt when it never starts or passes adjacent, or for an unmarked creature",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry An adjacent creature you marked moves does not prompt when it never starts or passes adjacent, or for an unmarked creature",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "prompts after a real failed save",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Fails a saving throw prompts after a real failed save",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt after a successful save",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Fails a saving throw does not prompt after a successful save",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "keeps simultaneous attacks apart and credits each result to its own attacker",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Event handling keeps simultaneous attacks apart and credits each result to its own attacker",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "delivers one prompt per eligible creature and trigger for a single event",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Event handling delivers one prompt per eligible creature and trigger for a single event",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "is whispered to this GM with a ten second stored deadline",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Prompt cards is whispered to this GM with a ten second stored deadline",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "is claimed exactly once, persisting through a real message update",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Prompt cards is claimed exactly once, persisting through a real message update",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "refuses a claim for a power the prompt never offered",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Prompt cards refuses a claim for a power the prompt never offered",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "is deleted when dismissed, but a claimed prompt cannot be dismissed",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Prompt cards is deleted when dismissed, but a claimed prompt cannot be dismissed",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "removes itself after its deadline without any user action",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Prompt cards removes itself after its deadline without any user action",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "is swept at startup once expired",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Prompt cards is swept at startup once expired",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "hides the chat record and renders its floating power button",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Prompt cards hides the chat record and renders its floating power button",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "prompts for a resolved miss exactly as a rolled attack would",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Outcomes handed over by Player Defense or Target Automation prompts for a resolved miss exactly as a rolled attack would",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "prompts for a resolved hit, including its melee and defense details",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Outcomes handed over by Player Defense or Target Automation prompts for a resolved hit, including its melee and defense details",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "replaces the whole assignment list on save, as a real flag array",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Configuration stored on powers replaces the whole assignment list on save, as a real flag array",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "keeps its assignments when the power is copied to another actor or the world",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Configuration stored on powers keeps its assignments when the power is copied to another actor or the world",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "moves assignments from an actor flag onto the powers once, preserving actor options",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Configuration stored on powers moves assignments from an actor flag onto the powers once, preserving actor options",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "adds the Triggers control to a power's sheet for a user who owns it",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Configuration stored on powers adds the Triggers control to a power's sheet for a user who owns it",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "starts off, then shows and ticks suggestions only on request, and stores nothing until Save",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Suggesting triggers from a power's trigger text starts off, then shows and ticks suggestions only on request, and stores nothing until Save",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "copies a distance from the text into the range field",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Suggesting triggers from a power's trigger text copies a distance from the text into the range field",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "says so when nothing in the text is recognised",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Suggesting triggers from a power's trigger text says so when nothing in the text is recognised",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      }
+    ],
+    "pending": [
+      {
+        "title": "prompts a guard when a hostile creature moves past it",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Opportunity attack prompts a guard when a hostile creature moves past it",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt when the move only ends beside the guard",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Opportunity attack does not prompt when the move only ends beside the guard",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt when the move never comes near",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Opportunity attack does not prompt when the move never comes near",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt for a friendly creature passing by",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Opportunity attack does not prompt for a friendly creature passing by",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "respects the actor's opportunity-attack option",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Opportunity attack respects the actor's opportunity-attack option",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "measures a large guard from its whole footprint",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Opportunity attack measures a large guard from its whole footprint",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "prompts the missed creature",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Enemy misses you prompts the missed creature",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt on a hit",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Enemy misses you does not prompt on a hit",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "treats a natural 1 as a miss and a natural 20 as a hit regardless of the total",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Enemy misses you treats a natural 1 as a miss and a natural 20 as a hit regardless of the total",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt for a friendly attacker",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Enemy misses you does not prompt for a friendly attacker",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "outside a started combat nothing prompts",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Enemy misses you outside a started combat nothing prompts",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "prompts allies within their range, not those beyond it",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Enemy misses you or an ally prompts allies within their range, not those beyond it",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "also prompts the missed creature itself",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Enemy misses you or an ally also prompts the missed creature itself",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt on a hit",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Enemy misses you or an ally does not prompt on a hit",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "prompts the creature that was hit",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Enemy hits you prompts the creature that was hit",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt on a miss",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Enemy hits you does not prompt on a miss",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "honours the assigned range from the attacker",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Enemy hits you honours the assigned range from the attacker",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not offer a limited-use power that has no uses left",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Enemy hits you does not offer a limited-use power that has no uses left",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "prompts for AC and Reflex but not for Fortitude or Will",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry An attack against AC or Reflex misses you prompts for AC and Reflex but not for Fortitude or Will",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "prompts the attacker who missed a hostile creature",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry You miss prompts the attacker who missed a hostile creature",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt on a hit or when the target is an ally",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry You miss does not prompt on a hit or when the target is an ally",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "prompts only for the targets that were missed in a multi-target attack",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry You miss prompts only for the targets that were missed in a multi-target attack",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "reminds the mark owner when its marked enemy hits an ally",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry A creature you marked hits an ally reminds the mark owner when its marked enemy hits an ally",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt for an enemy the actor has not marked, or a miss, or a hit on the owner",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry A creature you marked hits an ally does not prompt for an enemy the actor has not marked, or a miss, or a hit on the owner",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt unless the actor turned the reminder on",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry A creature you marked hits an ally does not prompt unless the actor turned the reminder on",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "prompts the mark owner when the marked creature drops to bloodied",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry A creature you marked becomes bloodied prompts the mark owner when the marked creature drops to bloodied",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt above the bloodied line, for an unmarked creature, or once already bloodied",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry A creature you marked becomes bloodied does not prompt above the bloodied line, for an unmarked creature, or once already bloodied",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "prompts when the creature's own HP crosses the bloodied line",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry You become bloodied prompts when the creature's own HP crosses the bloodied line",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt above the line, on healing, or when already bloodied",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry You become bloodied does not prompt above the line, on healing, or when already bloodied",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "prompts for a weapon (melee) hit but not a ranged one",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry You are hit by a melee attack prompts for a weapon (melee) hit but not a ranged one",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt on a melee miss",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry You are hit by a melee attack does not prompt on a melee miss",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "prompts the mark owner when the marked creature moves away from beside them",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry An adjacent creature you marked moves prompts the mark owner when the marked creature moves away from beside them",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt when it never starts or passes adjacent, or for an unmarked creature",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry An adjacent creature you marked moves does not prompt when it never starts or passes adjacent, or for an unmarked creature",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "prompts after a real failed save",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Fails a saving throw prompts after a real failed save",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "does not prompt after a successful save",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Fails a saving throw does not prompt after a successful save",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "keeps simultaneous attacks apart and credits each result to its own attacker",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Event handling keeps simultaneous attacks apart and credits each result to its own attacker",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "delivers one prompt per eligible creature and trigger for a single event",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Event handling delivers one prompt per eligible creature and trigger for a single event",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "is whispered to this GM with a ten second stored deadline",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Prompt cards is whispered to this GM with a ten second stored deadline",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "is claimed exactly once, persisting through a real message update",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Prompt cards is claimed exactly once, persisting through a real message update",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "refuses a claim for a power the prompt never offered",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Prompt cards refuses a claim for a power the prompt never offered",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "is deleted when dismissed, but a claimed prompt cannot be dismissed",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Prompt cards is deleted when dismissed, but a claimed prompt cannot be dismissed",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "removes itself after its deadline without any user action",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Prompt cards removes itself after its deadline without any user action",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "is swept at startup once expired",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Prompt cards is swept at startup once expired",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "hides the chat record and renders its floating power button",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Prompt cards hides the chat record and renders its floating power button",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "prompts for a resolved miss exactly as a rolled attack would",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Outcomes handed over by Player Defense or Target Automation prompts for a resolved miss exactly as a rolled attack would",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "prompts for a resolved hit, including its melee and defense details",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Outcomes handed over by Player Defense or Target Automation prompts for a resolved hit, including its melee and defense details",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "replaces the whole assignment list on save, as a real flag array",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Configuration stored on powers replaces the whole assignment list on save, as a real flag array",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "keeps its assignments when the power is copied to another actor or the world",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Configuration stored on powers keeps its assignments when the power is copied to another actor or the world",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "moves assignments from an actor flag onto the powers once, preserving actor options",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Configuration stored on powers moves assignments from an actor flag onto the powers once, preserving actor options",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "adds the Triggers control to a power's sheet for a user who owns it",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Configuration stored on powers adds the Triggers control to a power's sheet for a user who owns it",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "starts off, then shows and ticks suggestions only on request, and stores nothing until Save",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Suggesting triggers from a power's trigger text starts off, then shows and ticks suggestions only on request, and stores nothing until Save",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "copies a distance from the text into the range field",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Suggesting triggers from a power's trigger text copies a distance from the text into the range field",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      },
+      {
+        "title": "says so when nothing in the text is recognised",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Suggesting triggers from a power's trigger text says so when nothing in the text is recognised",
+        "file": null,
+        "currentRetry": 0,
+        "err": {}
+      }
+    ],
+    "failures": [
+      {
+        "title": "offers once per enemy even after Ignore and refreshes on the next turn",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Opportunity attack offers once per enemy even after Ignore and refreshes on the next turn",
+        "file": null,
+        "duration": 2586,
+        "currentRetry": 0,
+        "err": {
+          "stack": "AssertionError: moving back after Ignore must not repeat the prompt: expected [ 'guard:opportunity-attack' ] to deeply equal []\n    at assertPrompts (modules/banter-4e-modifications/test-foundry/trigger-prompts.js:56:16)\n    at async i.<anonymous> (modules/banter-4e-modifications/test-foundry/trigger-prompts.js:85:11)",
+          "message": "moving back after Ignore must not repeat the prompt: expected [ 'guard:opportunity-attack' ] to deeply equal []",
+          "actual": "[\n  \"guard:opportunity-attack\"\n]",
+          "expected": "[]",
+          "showDiff": true,
+          "operator": "deepStrictEqual"
+        }
+      }
+    ],
+    "passes": [
+      {
+        "title": "does not provoke on Shift, then provokes on Walk over the same path",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Opportunity attack does not provoke on Shift, then provokes on Walk over the same path",
+        "file": null,
+        "duration": 3934,
+        "currentRetry": 0,
+        "speed": "slow",
+        "err": {}
+      },
+      {
+        "title": "one claimed choice spends the actor's opportunity attack for the turn",
+        "fullTitle": "banter-4e-modifications.trigger-prompts_root Trigger prompts in Foundry Opportunity attack one claimed choice spends the actor's opportunity attack for the turn",
+        "file": null,
+        "duration": 3475,
+        "currentRetry": 0,
+        "speed": "slow",
+        "err": {}
+      }
+    ]
+  }
+}

@@ -1,3 +1,5 @@
+import { attackRangeOf } from "./combat-events.js";
+
 /** Longest an unmatched capture is kept before being forgotten. */
 const CAPTURE_LIFETIME_MS = 60_000;
 
@@ -19,16 +21,18 @@ export class AttackResultCapture {
    * Records the portion of the DnD4e attack hook needed to resolve each target.
    *
    * @param {{item: Item, target: object, speaker: object, sceneId: string|null}} attack
-   * @returns {void}
+   * @returns {object} Captured attack with the complete target roster.
    */
   capture({ item, target, speaker, sceneId }) {
     this.#sequence += 1;
     this.#pruneExpired();
-    this.#pending.push({
+    const capture = {
       attackId: `attack-${Date.now().toString(36)}-${this.#sequence}`,
       createdAt: Date.now(),
       itemName: item.name,
-      attackRange: AttackResultCapture.#getAttackRange(item),
+      attackRange: attackRangeOf(item),
+      itemUuid: item.uuid ?? null,
+      isOpportunity: (item.isOpp ?? item.system?.attack?.isOpp ?? item.attack?.isOpp) === true,
       attackerActorId: speaker.actor,
       attackerTokenId: speaker.token ?? null,
       sceneId,
@@ -40,7 +44,9 @@ export class AttackResultCapture {
         defenseType: target.targDefArray?.[index] ?? null,
         missed: target.targetMissed?.some(missedToken => missedToken.id === token.id) ?? false,
       })),
-    });
+    };
+    this.#pending.push(capture);
+    return capture;
   }
 
   /**
@@ -62,7 +68,19 @@ export class AttackResultCapture {
     const [attack] = this.#pending.splice(index, 1);
     const roll = message.rolls[0];
     const { createdAt, ...completed } = attack;
-    return { ...completed, total: roll.total, natural: AttackResultCapture.#getNaturalD20Result(roll) };
+    const automation = message.flags?.["dnd4e-health-display"]?.attackResults;
+    const range = automation?.triggerMetadata?.attackRange;
+    return {
+      ...completed,
+      // The speaker can be a companion origin; the automation roster names
+      // the actor making the attack and owning its triggers.
+      attackerTokenId: automation?.casterId ?? completed.attackerTokenId,
+      sceneId: automation?.sceneId ?? completed.sceneId,
+      attackRange: completed.attackRange === "weapon" && range ? range : completed.attackRange,
+      isOpportunity: message.flags?.dnd4e?.variance?.isOpp ?? automation?.triggerMetadata?.isOpportunity ?? completed.isOpportunity,
+      total: roll.total,
+      natural: AttackResultCapture.#getNaturalD20Result(roll),
+    };
   }
 
   /**
@@ -119,16 +137,4 @@ export class AttackResultCapture {
     return die?.results?.find(result => result.active !== false)?.result ?? null;
   }
 
-  /**
-   * Reads the legacy DnD4e attack-range field from either supported item shape.
-   *
-   * @param {Item} item
-   * @returns {string|null}
-   */
-  static #getAttackRange(item) {
-    const system = item.system ?? item.data?.data ?? {};
-    const attack = system.attack ?? {};
-    const range = item.rangeType ?? system.rangeType ?? attack.range;
-    return typeof range === "string" ? range : typeof range?.value === "string" ? range.value : null;
-  }
 }

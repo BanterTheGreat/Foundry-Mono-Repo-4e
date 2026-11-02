@@ -12,7 +12,7 @@ test("a resolved normal defense hit rolls the attacking power's damage once", as
     sceneId: "scene",
     itemId: "bite",
     itemName: "Bite",
-    attackRange: "weapon",
+    attackRange: "weapon", isOpportunity: undefined,
     hasDamage: true,
     hasMissDamage: false,
     damageRolled: { normal: false, critical: false, miss: false },
@@ -45,7 +45,7 @@ test("a resolved normal defense hit rolls the attacking power's damage once", as
   assert.deepEqual(damageCalls, [{ fastForward: true }]);
   assert.deepEqual(activeDefenseOutcomes, [{
     context: {
-      attackerActorId: "badger", attackerTokenId: "badger-token", sceneId: "scene", targetActorId: "rogal", targetTokenId: "rogal-token", targetSceneId: "scene", defenseType: "AC", attackRange: "weapon",
+      attackerActorId: "badger", attackerTokenId: "badger-token", sceneId: "scene", targetActorId: "rogal", targetTokenId: "rogal-token", targetSceneId: "scene", defenseType: "AC", attackRange: "weapon", isOpportunity: undefined,
     },
     outcome: "hit",
   }]);

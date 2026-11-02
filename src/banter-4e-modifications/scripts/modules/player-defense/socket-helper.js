@@ -191,6 +191,7 @@ export class SocketHelper {
                 targetSceneId: target.sceneId,
                 defenseType: target.defenseStat,
                 attackRange: defense.attackRange,
+                isOpportunity: defense.isOpportunity,
             }, toTriggerAttackOutcome(outcome));
 
             for (const group of damageGroups) {

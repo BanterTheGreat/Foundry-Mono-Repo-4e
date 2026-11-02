@@ -1,4 +1,5 @@
 import { SocketHelper } from "./socket-helper.js";
+import { attackRangeOf } from "../trigger-prompts/combat-events.js";
 import { Logger } from "../../shared/logger.js";
 import { createDefenseDialogPayload, createGroupedDefenseDialogPayload } from "./player-defense-workflow.js";
 import { PlayerDefenseEffects } from "./player-defense-effects.js";
@@ -158,7 +159,8 @@ export class PlayerDefense {
           sceneId: attackContext.sceneId,
           itemId: item.id ?? item._id,
           itemName: item.name,
-          attackRange: typeof item.rangeType === "string" ? item.rangeType : typeof system.rangeType === "string" ? system.rangeType : typeof attack.range === "string" ? attack.range : attack.range?.value ?? null,
+          attackRange: attackRangeOf(item),
+          isOpportunity: message?.flags?.dnd4e?.variance?.isOpp ?? item.system?.attack?.isOpp === true,
           hasDamage,
           hasMissDamage,
           missDamage: {
