@@ -31,7 +31,7 @@ test("AttackResultCapture retains nonmatching messages and returns target and na
     attackerActorId: "wolf-token-actor",
     attackerTokenId: "wolf-token",
     sceneId: "scene",
-    targets: [{ actorId: "hero", tokenId: "target", sceneId: "scene", defense: 24, defenseType: "ac", missed: false }],
+    targets: [{ actorId: "hero", tokenId: "target", sceneId: "scene", defense: 24, defenseType: "ac", missed: false, isCritical: false }],
     total: 25,
     natural: 20,
   });
@@ -125,4 +125,15 @@ test("automation keeps the owning caster as attacker when the native speaker is 
   capture(pending, "Spirit Strike", "spirit", "melee");
   const result = pending.consume({ ...message("Spirit Strike", "spirit"), flags: { "dnd4e-health-display": { attackResults: { casterId: "hero", sceneId: "scene" } } } });
   assert.equal(result.attackerTokenId, "hero");
+});
+
+test("native critical verdicts survive capture per target without guessing from natural 20", () => {
+  const recorder = new AttackResultCapture();
+  capture(recorder, "Bite", "wolf-token");
+  const chat = message("Bite attack", "wolf-token");
+  chat.rolls[0].options = { multirollData: { targetID: "target", critstate: "critical" } };
+  assert.equal(recorder.consume(chat).targets[0].isCritical, true);
+  capture(recorder, "Bite", "wolf-token");
+  chat.rolls[0].options.multirollData.critstate = "";
+  assert.equal(recorder.consume(chat).targets[0].isCritical, false);
 });

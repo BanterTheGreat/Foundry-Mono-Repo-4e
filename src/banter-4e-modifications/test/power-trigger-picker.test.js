@@ -66,6 +66,7 @@ test("trigger picker preserves edits across selection, filtering and suggestions
     await field("enemy-hits-you.enabled").check();
     await field("enemy-hits-you.rangeSquares").fill("7");
     await field("enemy-hits-you.nonMinion").check();
+    await field("enemy-hits-you.criticalOnly").check();
     await field("enemy-hits-you.attackTypes").first().check();
     await choose("you-miss");
     await field("you-miss.enabled").check();
@@ -97,7 +98,7 @@ test("trigger picker preserves edits across selection, filtering and suggestions
       return { assignments: picker.readAssignments(data), limit: picker.readLimit(data), automatic: data.has("automaticBenefit") };
     });
     assert.equal(saved.assignments.length, 2);
-    assert.deepEqual(saved.assignments.find(a => a.triggerId === "enemy-hits-you").parameters, { rangeSquares: 7, attackTypes: ["melee"], nonMinion: true });
+    assert.deepEqual(saved.assignments.find(a => a.triggerId === "enemy-hits-you").parameters, { rangeSquares: 7, attackTypes: ["melee"], nonMinion: true, criticalOnly: true });
     assert.equal(saved.limit, "turn");
     assert.equal(saved.automatic, true);
     assert.deepEqual(errors, []);

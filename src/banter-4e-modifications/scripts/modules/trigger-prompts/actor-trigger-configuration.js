@@ -107,6 +107,11 @@ export class ActorTriggerConfiguration {
     return ActorTriggerConfiguration.#readConfiguration(actor).opportunityAttack.enabled;
   }
 
+  /** Whether this actor automatically marks non-friendly attack targets. */
+  static isCombatChallengeEnabled(actor) {
+    return actor.getFlag?.(MODULE_NAME, TRIGGER_CONFIGURATION_FLAG)?.classFeatures?.combatChallenge === true;
+  }
+
   /**
    * Determines whether this actor should receive a no-power reminder prompt.
    *
@@ -190,7 +195,7 @@ export class ActorTriggerConfiguration {
     const summary = TRIGGERS.filter(trigger => trigger.id !== TRIGGER_ID.OPPORTUNITY_ATTACK)
       .map(trigger => ActorTriggerConfiguration.#renderTriggerSummary(actor, trigger)).filter(Boolean).join("");
     // DialogV2 already wraps its content in a form; a nested <form> is dropped by the HTML parser.
-    const content = `<div class="${TRIGGER_PROMPT_UI.CONFIG_CLASS}">
+    const content = `<div class="${TRIGGER_PROMPT_UI.CONFIG_CLASS} trigger-prompts-config--actor">
       <section class="trigger-prompts-config__row">
         <div class="trigger-prompts-config__details"><strong>Opportunity Attacks</strong><p class="hint">Offer every power marked by DnD4e as an opportunity attack, plus Basic Attacks for NPCs.</p>${opportunitySummary}</div>
         <label><input type="checkbox" name="opportunityAttack.enabled" ${checked}> Enabled</label>
@@ -198,6 +203,11 @@ export class ActorTriggerConfiguration {
         <p class="hint">One prompt per enemy per turn, including ignored prompts. Shift movement does not provoke.</p>
       </section>
       ${actorLevelRows}
+      <h3>Class Features</h3>
+      <section class="trigger-prompts-config__row">
+        <div class="trigger-prompts-config__details"><strong>Combat Challenge</strong><p class="hint">Automatically mark every non-friendly creature you attack in combat, hit or miss, until the end of your next turn. Replaces an existing mark. Target Automation applies marks when attack results are confirmed. Requires a connected GM.</p></div>
+        <label><input type="checkbox" name="classFeatures.combatChallenge" ${ActorTriggerConfiguration.isCombatChallengeEnabled(actor) ? "checked" : ""}> Enabled</label>
+      </section>
       <h3>Power and feat trigger assignments</h3>
       <div class="trigger-prompts-config__summary">${summary || `<p class="hint">No powers or feats have trigger assignments.</p>`}</div>
     </div>`;
@@ -255,6 +265,8 @@ export class ActorTriggerConfiguration {
       ...configuration,
       opportunityAttack: { enabled: data.has("opportunityAttack.enabled"), oncePerTurn: data.has("opportunityAttack.oncePerTurn") },
       actorLevelTriggers,
+      classFeatures: { ...actor.getFlag?.(MODULE_NAME, TRIGGER_CONFIGURATION_FLAG)?.classFeatures,
+        combatChallenge: data.has("classFeatures.combatChallenge") },
     });
   }
 
@@ -383,6 +395,7 @@ export class ActorTriggerConfiguration {
         opportunityAttack: { enabled: stored.opportunityAttack?.enabled ?? actor.type !== "NPC", oncePerTurn: stored.opportunityAttack?.oncePerTurn !== false },
         actorLevelTriggers: stored.actorLevelTriggers ?? {},
         assignments: stored.assignments,
+        classFeatures: stored.classFeatures ?? {},
       };
     }
     const assignments = [];
@@ -406,6 +419,6 @@ export class ActorTriggerConfiguration {
         assignments.push({ itemId: item.id, triggerId: trigger.id, parameters: trigger.defaultRangeSquares === undefined ? {} : { rangeSquares: entry.rangeSquares ?? trigger.defaultRangeSquares } });
       }
     }
-    return { opportunityAttack: { enabled: stored[TRIGGER_ID.OPPORTUNITY_ATTACK]?.enabled ?? actor.type !== "NPC" }, actorLevelTriggers: {}, assignments };
+    return { opportunityAttack: { enabled: stored[TRIGGER_ID.OPPORTUNITY_ATTACK]?.enabled ?? actor.type !== "NPC" }, actorLevelTriggers: {}, assignments, classFeatures: stored.classFeatures ?? {} };
   }
 }

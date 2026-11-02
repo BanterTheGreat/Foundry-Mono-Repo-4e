@@ -1,5 +1,14 @@
 # Running tests yourself
 
+Combat Challenge actor toggle, native multi-target misses, native marker/expiry, off-turn refresh, friendly exclusions, Target Automation confirmation and player-to-GM marking:
+
+```sh
+npm test --prefix src/banter-4e-modifications
+npx playwright test --config tests/foundry/playwright.config.mjs combat-challenge.spec.mjs
+```
+
+Deploy first with `npm run copy-module -- banter-4e-modifications`. In the actor sheet's **Trigger prompts** menu, find **Class Features → Combat Challenge → Enabled**. The world setting **Enable trigger prompts** must be on (reload after enabling it). The actor option is off by default and applies immediately after Save. Live tests require the designated test world, an idle GM test session and the passwordless `Player` test account.
+
 Expanded trigger families, shared attack/defense/damage filters, explicit companion bindings and Target Automation confirmation:
 
 ```sh
@@ -279,3 +288,5 @@ npm test --prefix src/foundry-mcp
 After deploying protocol v39, reload Foundry and restart MCP clients. Check the
 browser console, cancel then approve a rename batch, verify equipment links remain
 valid, and retry to confirm no changes. Live verification is pending.
+
+The banter module suite also covers You hit an enemy and the Critical hit only filter.

@@ -1,4 +1,5 @@
 import { confirmedAutomationEvents } from "./automation-events.js";
+import { CombatChallenge } from "./combat-challenge.js";
 import { TRIGGER_PROMPT_UI } from "./constants.js";
 import { ActorTriggerConfiguration } from "./actor-trigger-configuration.js";
 import { findHpDamage } from "./hp-damage-source.js";
@@ -78,7 +79,7 @@ export class TriggerPrompts {
    *
    * @param {ChatMessage} message
    */
-  static onPreCreateRollMessage(message) {
+  static async onPreCreateRollMessage(message) {
     const attack = game.TriggerPrompts?.attackCapture.consume(message);
     if (!attack) {
       return;
@@ -87,10 +88,13 @@ export class TriggerPrompts {
     if (automated) {
       TriggerPrompts.#snapshotAutomationAttack(message, attack);
     }
-    game.TriggerPrompts.events.emitAll([
+    await game.TriggerPrompts.events.emitAll([
       ...createAttackTargetedEvents(attack),
       ...(automated ? [] : createAttackEventsFromCapture(attack)),
     ]);
+    if (!automated) {
+      await CombatChallenge.handleCapture(attack, game.TriggerPrompts.socket);
+    }
   }
 
   /**
@@ -129,6 +133,7 @@ export class TriggerPrompts {
       prompts.confirmedAttacks.add(key);
       await prompts.events.emit(event);
     }
+    await CombatChallenge.handleAutomation(message, prompts.socket);
   }
 
   /**
@@ -296,7 +301,9 @@ export class TriggerPrompts {
    * @returns {Promise<void>}
    */
   async handleActiveDefenseOutcome(defenseContext, outcome) {
-    await this.events.emit(createAttackEventFromDefense(defenseContext, outcome));
+    const event = createAttackEventFromDefense(defenseContext, outcome);
+    await this.events.emit(event);
+    await CombatChallenge.handle(event, this.socket);
   }
 
   /**

@@ -72,6 +72,10 @@ export class AttackResultCapture {
     const range = automation?.triggerMetadata?.attackRange;
     return {
       ...completed,
+      targets: completed.targets.map(target => {
+        const verdict = message.rolls.find(candidate => candidate.options?.multirollData?.targetID === target.tokenId)?.options.multirollData;
+        return { ...target, isCritical: verdict?.critstate === "critical" };
+      }),
       // The speaker can be a companion origin; the automation roster names
       // the actor making the attack and owning its triggers.
       attackerTokenId: automation?.casterId ?? completed.attackerTokenId,

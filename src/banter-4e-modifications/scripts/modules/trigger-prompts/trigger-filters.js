@@ -23,6 +23,9 @@ export function attackTypeOf(range) {
 
 /** Optional filters fail closed when an event has no corresponding metadata. */
 export function matchesTriggerFilters(parameters, context) {
+  if (parameters.criticalOnly && context.isCritical !== true) {
+    return false;
+  }
   for (const [key, values, actual] of [
     ["attackTypes", ATTACK_TYPES, [context.attackType]],
     ["defenseTypes", DEFENSE_TYPES, [context.defenseType]],

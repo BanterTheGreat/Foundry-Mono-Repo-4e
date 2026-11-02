@@ -179,6 +179,14 @@ test fires its public hooks), and a physical mouse drag.
 
 ## Target Automation coverage
 
+`combat-challenge.spec.mjs` checks the actor's **Class Features → Combat Challenge** checkbox (off by default, saved on the actor), a real native multi-target missed attack, hostile/neutral marks and friendly exclusion, marker attribution, native expiry at the end of the fighter's next turn, off-turn refresh, automation confirmation/removal/duplicate-update boundaries, disabling the option, and SocketLib marking from a player client. It restores document counts and the viewed scene. The automation and player cases seed native-shaped messages; the first tracer uses the real attack dialog and roll. All test creatures are temporary PCs to avoid Player Defense interception. The test world must be idle before setup.
+
+Verified in the test world. Setting `COMBAT_CHALLENGE_FAULT=friendly` injects a browser-only response fault that removes the friendly exclusion; the native-attack exclusion assertion fails under that fault. The unmodified scenario and expanded trigger batch pass. The multi-target tracer also caught a missing combat start on a later mark; production now supplies the validated combat explicitly through Foundry's native effect-start API.
+
+```sh
+npx playwright test --config tests/foundry/playwright.config.mjs combat-challenge.spec.mjs
+```
+
 The Target Automation batch builds a temporary square-grid scene with friendly,
 hostile, neutral, large, elevated, and slowed creatures, plus a companion origin.
 It restores the prior scene, controlled tokens, targets, and automation setting
@@ -242,3 +250,5 @@ The browser case `confirmed native Target Automation delivers combat trigger pro
 The expanded Quench batch has also been checked with three isolated browser-response faults: inverted opportunity mode, disabled successful-save completion, and disabled companion routing. Four corresponding tests fail under those faults; fixture counts are unchanged. The faults affect only that browser's served responses and never change the deployed module files.
 
 The `automatic-benefit.spec.mjs` scenario covers the explicit mandatory checkbox, immediate public announcement with native DnD4e feat-card markup and rules, six-second recipient alert without Use/Ignore, persistent chat after expiry/local dismissal, shared daily allowance consumption, duplicate suppression, and optional prompt privacy. It enters at `createPromptCard` and does not exercise combat detection. Run only in the designated test world after preflight; this scenario has not yet been run against Foundry (the campaign world was active during implementation).
+
+The expanded-trigger Quench batch also checks You hit an enemy from native attack hooks and Critical hit only against ordinary, missed, pending, and confirmed critical automation results.

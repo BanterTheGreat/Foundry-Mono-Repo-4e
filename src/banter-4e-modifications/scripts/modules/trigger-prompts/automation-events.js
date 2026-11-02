@@ -22,6 +22,7 @@ export function confirmedAutomationEvents(message) {
       attacker: { sceneId: attack.sceneId, tokenId: attack.casterId },
       target: { sceneId: attack.sceneId, tokenId: target.tokenId },
       outcome: ["hit", "critical"].includes(target.outcome) ? "hit" : "miss",
+      isCritical: target.outcome === "critical",
       attackRange: attack.triggerMetadata?.attackRange,
       defenseType: attack.triggerMetadata?.defenseTypes?.[target.tokenId] ?? attack.triggerMetadata?.defenseType,
       isOpportunity: attack.triggerMetadata?.isOpportunity,

@@ -50,6 +50,16 @@ function define(definition) {
 /** @type {ReadonlyArray<object>} */
 export const TRIGGERS = Object.freeze([
   define({
+    id: TRIGGER_ID.YOU_HIT_ENEMY,
+    label: "You hit an enemy",
+    description: "Your attack hits an enemy. Enable Critical hit only to require a confirmed critical hit.",
+    on: COMBAT_EVENT_TYPE.ATTACK_RESOLVED, where: { outcome: "hit" },
+    recipients: { role: "attacker" },
+    relations: [{ left: "attacker", relation: "hostile", right: "target" }],
+    source: "target", detail: "{attacker} hit {target}.",
+    text: { patterns: [/\byou hit an? (?:enemy|creature|target)\b/] },
+  }),
+  define({
     id: TRIGGER_ID.YOU_HIT_WITH_OPPORTUNITY_ATTACK,
     label: "You hit with an opportunity attack",
     description: "Your opportunity attack hits an enemy.",
@@ -57,7 +67,7 @@ export const TRIGGERS = Object.freeze([
     recipients: { role: "attacker" },
     relations: [{ left: "attacker", relation: "hostile", right: "target" }],
     source: "target", detail: "{attacker} hit {target} with an opportunity attack.",
-    text: { patterns: [/\byou hit (?:an? (?:enemy|creature|target) )?with an opportunity attack\b/] },
+    text: { patterns: [/\byou hit (?:an? (?:enemy|creature|target) )?with an opportunity attack\b/], supersedes: [TRIGGER_ID.YOU_HIT_ENEMY] },
   }),
   define({
     id: TRIGGER_ID.MARKED_ENEMY_ATTACKS_OTHER,

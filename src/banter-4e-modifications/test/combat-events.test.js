@@ -127,3 +127,14 @@ test("the event bus delivers each event to every subscriber in order and survive
 
   assert.deepEqual(calls, [["first", 1], ["third", 1], ["first", 2], ["third", 2], ["first", 3]]);
 });
+
+test("captured critical verdicts remain per-target and never turn a miss into a critical hit", () => {
+  const events = createAttackEventsFromCapture(capturedAttack({ targets: [
+    { tokenId: "critical", defense: 20, isCritical: true },
+    { tokenId: "normal", defense: 20, isCritical: false },
+    { tokenId: "miss", defense: 30, isCritical: true },
+  ] }));
+  assert.deepEqual(events.map(event => [event.target.tokenId, event.outcome, event.isCritical]), [
+    ["critical", "hit", true], ["normal", "hit", false], ["miss", "miss", false],
+  ]);
+});

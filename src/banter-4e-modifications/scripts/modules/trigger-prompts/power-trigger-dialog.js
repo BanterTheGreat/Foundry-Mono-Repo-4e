@@ -180,7 +180,8 @@ export class PowerTriggerDialog {
       options.push([selected, `Missing companion (${selected})`]);
     }
     const companion = trigger.companion ? `<label>Companion <select name="${trigger.id}.companionActorUuid"><option value="">Choose a companion</option>${options.map(([uuid, name]) => `<option value="${escape(uuid)}"${uuid === selected ? " selected" : ""}>${escape(name)}</option>`).join("")}</select></label>` : "";
-    return attack + defense + damage + companion;
+    const critical = trigger.on === "attack-resolved" ? `<label><input type="checkbox" name="${trigger.id}.criticalOnly"${parameters.criticalOnly ? " checked" : ""}> Critical hit only</label>` : "";
+    return attack + defense + damage + companion + critical;
   }
 
   /**
@@ -289,7 +290,7 @@ export class PowerTriggerDialog {
             ...(trigger.defaultRangeSquares === undefined ? {} : { rangeSquares: range === null || range === "" || !Number.isFinite(parsedRange) ? trigger.defaultRangeSquares : Math.max(0, parsedRange) }),
             ...Object.fromEntries([["attackTypes", ATTACK_TYPES], ["defenseTypes", DEFENSE_TYPES], ["damageTypes", DAMAGE_TYPES]].map(([key, allowed]) => [key, data.getAll(`${trigger.id}.${key}`).filter(value => allowed.includes(value))]).filter(([, values]) => values.length)),
             ...(trigger.companion && data.get(`${trigger.id}.companionActorUuid`) ? { companionActorUuid: String(data.get(`${trigger.id}.companionActorUuid`)) } : {}),
-            ...Object.fromEntries(["nonMinion", "meleeOnly", "adjacentOnly"].filter(key => data.has(`${trigger.id}.${key}`)).map(key => [key, true])),
+            ...Object.fromEntries(["nonMinion", "meleeOnly", "adjacentOnly", "criticalOnly"].filter(key => data.has(`${trigger.id}.${key}`)).map(key => [key, true])),
           },
           source: data.get(`${trigger.id}.source`) === ASSIGNMENT_SOURCE.TEXT ? ASSIGNMENT_SOURCE.TEXT : ASSIGNMENT_SOURCE.MANUAL,
         };

@@ -26,12 +26,12 @@ export function registerExpandedTriggerTests(quench) {
       after(async function () { await world?.close(); });
 
       /** Create a real native-shaped message at the automation review boundary. */
-      async function automated(attackerKey, targetKeys, { outcome = "hit", range = "range", defense = "ac", opportunity = false, pending = true } = {}) {
+      async function automated(attackerKey, targetKeys, { outcome = "hit", range = "range", defense = "ac", opportunity = false, critical = false, pending = true } = {}) {
         const source = world.get(attackerKey);
         const rolls = [];
         for (const targetKey of targetKeys) {
           const roll = await new Roll("20").evaluate();
-          roll.options.multirollData = { targetID: world.get(targetKey).token.id, hitstate: outcome, critstate: "" };
+          roll.options.multirollData = { targetID: world.get(targetKey).token.id, hitstate: outcome, critstate: critical ? "critical" : "" };
           rolls.push(roll);
         }
         return world.encounterDocuments.createMessage({
@@ -44,6 +44,25 @@ export function registerExpandedTriggerTests(quench) {
           } } },
         });
       }
+
+      it("you hit an enemy accepts native hits; critical-only waits for a confirmed critical verdict", async function () {
+        await world.encounter([hero([reaction(ID.YOU_HIT_ENEMY)]), enemy]);
+        await world.attack("hero", ["enemy"]);
+        await world.waitForPrompt("hero", ID.YOU_HIT_ENEMY);
+        await clear();
+        await world.get("hero").actor.items.find(item => item.name === "Reaction").setFlag(MODULE, "trigger-prompts", {
+          version: 1, assignments: [{ triggerId: ID.YOU_HIT_ENEMY, parameters: { criticalOnly: true } }],
+        });
+        await world.attack("hero", ["enemy"]);
+        await automated("hero", ["enemy"], { pending: false });
+        await automated("hero", ["enemy"], { pending: false, outcome: "miss" });
+        const critical = await automated("hero", ["enemy"], { critical: true });
+        await settle();
+        assert.equal(count(), 0);
+        await critical.update({ [`flags.${DISPLAY}.attackResults.pending`]: false });
+        await world.waitForPrompt("hero", ID.YOU_HIT_ENEMY);
+        assert.equal(count(), 1);
+      });
 
       it("tracer: opportunity hit waits for automation confirmation and fires exactly once", async function () {
         await world.encounter([hero([reaction(ID.YOU_HIT_WITH_OPPORTUNITY_ATTACK)]), enemy]);

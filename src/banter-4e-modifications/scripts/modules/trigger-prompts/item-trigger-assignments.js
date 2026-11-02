@@ -18,7 +18,7 @@ export const ASSIGNMENT_SOURCE = Object.freeze({
  * duplicated, dragged to another actor, or imported from a compendium. The flag
  * holds `{version, limit, automatic, assignments: [{triggerId, parameters, source}]}`.
  * The optional shared `limit` defaults to none; assignment parameters include
- * rangeSquares, nonMinion, meleeOnly and adjacentOnly. Runtime usage is kept
+ * rangeSquares, nonMinion, meleeOnly, adjacentOnly and criticalOnly. Runtime usage is kept
  * separately under `trigger-prompt-usage`, so saving configuration preserves it. The list
  * is an array because Foundry replaces arrays but merges objects, and a saved
  * list must be able to drop an assignment.

@@ -6,6 +6,7 @@
  * in document flags.
  */
 export const TRIGGER_ID = Object.freeze({
+  YOU_HIT_ENEMY: "you-hit-enemy",
   YOU_HIT_WITH_OPPORTUNITY_ATTACK: "you-hit-with-opportunity-attack",
   MARKED_ENEMY_ATTACKS_OTHER: "marked-enemy-attacks-other",
   ENEMY_ENTERS_RANGE: "enemy-enters-range",

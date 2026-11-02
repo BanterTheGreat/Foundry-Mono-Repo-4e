@@ -19,6 +19,17 @@ function power(id, assignments, extra = {}) {
 }
 const assign = (triggerId, parameters = {}, source = "manual") => ({ triggerId, parameters, source });
 
+test("Combat Challenge is actor scoped, off by default, and preserved by migration", async () => {
+  assert.equal(ActorTriggerConfiguration.isCombatChallengeEnabled(actor([])), false);
+  const strike = power("strike");
+  const hero = actor([strike], { classFeatures: { combatChallenge: true }, assignments: [
+    { itemId: "strike", triggerId: TRIGGER_ID.YOU_MISS, parameters: {} },
+  ] });
+  await ActorTriggerConfiguration.migrateLegacyAssignments(hero);
+  assert.equal(ActorTriggerConfiguration.isCombatChallengeEnabled(hero), true);
+  assert.equal(ActorTriggerConfiguration.isCombatChallengeEnabled(actor([])), false);
+});
+
 test("non-minion, melee and adjacency restrictions must all be satisfied", () => {
   const restrictions = { nonMinion: true, meleeOnly: true, adjacentOnly: true };
   const feat = power("restricted", [assign(TRIGGER_ID.YOU_BLOODY_ENEMY, restrictions)], { type: "feature" });

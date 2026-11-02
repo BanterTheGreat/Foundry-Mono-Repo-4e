@@ -2,6 +2,7 @@ import { Dnd4eSystemCustomizations } from "./modules/dnd4e-system-customizations
 import { PlayerDefense } from "./modules/player-defense/player-defense.js";
 import { SocketHelper } from "./modules/player-defense/socket-helper.js";
 import { TriggerPrompts } from "./modules/trigger-prompts/trigger-prompts.js";
+import { CombatChallenge, COMBAT_CHALLENGE_SOCKET } from "./modules/trigger-prompts/combat-challenge.js";
 import { TriggerItemLimits } from "./modules/trigger-prompts/trigger-item-limits.js";
 import { PowerTriggerConfiguration } from "./modules/trigger-prompts/power-trigger-configuration.js";
 import { OpportunityAttackChatActions } from "./modules/opportunity-attack-chat/opportunity-attack-chat-actions.js";
@@ -72,6 +73,7 @@ Hooks.once("socketlib.ready", () => {
   socket.register("updateMessage", SocketHelper.updateMessage);
   socket.register("attemptDefenseDialog", SocketHelper.attemptDefenseDialog);
   socket.register("resolveDefenseTarget", SocketHelper.resolveDefenseTarget);
+  socket.register(COMBAT_CHALLENGE_SOCKET, CombatChallenge.apply);
   // Trigger prompts are kept by their author, so these run on that client, not a GM.
   socket.register(TRIGGER_SOCKET_ACTION.CLAIM_PROMPT, TriggerPrompts.claimPromptFromSocket);
   socket.register(TRIGGER_SOCKET_ACTION.ITEM_LIMIT, TriggerPrompts.itemLimitFromSocket);

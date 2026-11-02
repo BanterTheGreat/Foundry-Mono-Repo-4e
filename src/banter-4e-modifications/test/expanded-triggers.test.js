@@ -127,3 +127,34 @@ test("dialog round-trips validated filters, range and companion binding", () => 
   assert.deepEqual(suggestTriggersFromText("You take acid, cold, fire, or lightning damage.")[0].parameters.damageTypes, ["acid", "cold", "fire", "lightning"]);
   assert.equal(suggestTriggersFromText("An enemy enters a square within 2 squares of you")[0].parameters.rangeSquares, 2);
 });
+
+test("you hit an enemy prompts the attacker for ordinary and critical hits, excluding misses and allies", () => {
+  for (const isCritical of [false, true]) {
+    const [context] = evaluate(ID.YOU_HIT_ENEMY, attack({ isCritical }));
+    assert.equal(context.actor.id, "hero");
+    assert.equal(matchesTriggerFilters({}, context), true);
+    assert.equal(matchesTriggerFilters({ criticalOnly: true }, context), isCritical);
+  }
+  assert.equal(evaluate(ID.YOU_HIT_ENEMY, attack({ outcome: "miss", isCritical: true })).length, 0);
+  assert.equal(evaluate(ID.YOU_HIT_ENEMY, attack({ target: ref(ally) })).length, 0);
+  assert.equal(matchesTriggerFilters({ criticalOnly: true }, {}), false);
+});
+
+test("critical filtering uses confirmed per-target automation verdicts and survives assignment saving", () => {
+  const message = { id: "crit", flags: { "dnd4e-health-display": { attackResults: {
+    sessionId: "crit", sceneId: "scene", casterId: "hero", targetIds: ["enemy"], pending: true,
+  } } }, rolls: [{ options: { multirollData: { targetID: "enemy", hitstate: "hit", critstate: "critical" } } }] };
+  assert.deepEqual(confirmedAutomationEvents(message), []);
+  message.flags["dnd4e-health-display"].attackResults.pending = false;
+  const [event] = confirmedAutomationEvents(message);
+  assert.equal(event.isCritical, true);
+  assert.equal(matchesTriggerFilters({ criticalOnly: true }, evaluate(ID.YOU_HIT_ENEMY, event)[0]), true);
+  message.rolls[0].options.multirollData.critstate = "";
+  assert.equal(confirmedAutomationEvents(message)[0].isCritical, false);
+  const data = new FormData();
+  data.set(`${ID.YOU_HIT_ENEMY}.enabled`, "on");
+  data.set(`${ID.YOU_HIT_ENEMY}.criticalOnly`, "on");
+  assert.deepEqual(PowerTriggerDialog.readAssignments(data)[0].parameters, { criticalOnly: true });
+  data.delete(`${ID.YOU_HIT_ENEMY}.criticalOnly`);
+  assert.deepEqual(PowerTriggerDialog.readAssignments(data)[0].parameters, {});
+});

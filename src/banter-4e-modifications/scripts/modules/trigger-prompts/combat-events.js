@@ -45,11 +45,12 @@ function createEvent(type, fields) {
 /**
  * Describes one attack resolved against one target.
  *
- * @param {{attackId?: string|null, attacker: {sceneId: string, tokenId: string}, target: {sceneId: string, tokenId: string}, outcome: "hit"|"miss", defenseType?: string|null, attackRange?: string|null, natural?: number|null, total?: number|null}} fields
+ * @param {{attackId?: string|null, attacker: {sceneId: string, tokenId: string}, target: {sceneId: string, tokenId: string}, outcome: "hit"|"miss", defenseType?: string|null, attackRange?: string|null, natural?: number|null, total?: number|null, isCritical?: boolean}} fields
  * @returns {object}
  *   `isMelee` is derived from `attackRange`; `defenseType` is lower-cased.
+ *   `isCritical` uses the recorded per-target verdict, never the natural roll alone.
  */
-export function createAttackResolvedEvent({ attackId = null, attacker, target, outcome, defenseType = null, attackRange = null, natural = null, total = null, isOpportunity = false, itemUuid = null }) {
+export function createAttackResolvedEvent({ attackId = null, attacker, target, outcome, defenseType = null, attackRange = null, natural = null, total = null, isOpportunity = false, itemUuid = null, isCritical = false }) {
   return createEvent(COMBAT_EVENT_TYPE.ATTACK_RESOLVED, {
     attackId,
     attacker,
@@ -59,6 +60,7 @@ export function createAttackResolvedEvent({ attackId = null, attacker, target, o
     attackRange,
     attackType: attackTypeOf(attackRange),
     isOpportunity,
+    isCritical: outcome === "hit" && isCritical === true,
     itemUuid,
     isMelee: isMeleeRange(attackRange),
     natural,
@@ -147,6 +149,7 @@ export function createAttackEventsFromCapture(capturedAttack) {
       attacker,
       target: { sceneId: targetData.sceneId, tokenId: targetData.tokenId },
       outcome,
+      isCritical: targetData.isCritical === true,
       defenseType: targetData.defenseType,
       attackRange: capturedAttack.attackRange,
       isOpportunity: capturedAttack.isOpportunity,

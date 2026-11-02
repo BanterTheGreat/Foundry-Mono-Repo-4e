@@ -291,6 +291,14 @@
     gap: 0.5rem;
 }
 
+.trigger-prompts-config--actor {
+    max-height: 65vh;
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+    padding-right: 0.5rem;
+}
+
 .trigger-prompts-config__row {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(260px, 0.9fr);
