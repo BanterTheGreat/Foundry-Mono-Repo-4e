@@ -252,3 +252,5 @@ The expanded Quench batch has also been checked with three isolated browser-resp
 The `automatic-benefit.spec.mjs` scenario covers the explicit mandatory checkbox, immediate public announcement with native DnD4e feat-card markup and rules, six-second recipient alert without Use/Ignore, persistent chat after expiry/local dismissal, shared daily allowance consumption, duplicate suppression, and optional prompt privacy. It enters at `createPromptCard` and does not exercise combat detection. Run only in the designated test world after preflight; this scenario has not yet been run against Foundry (the campaign world was active during implementation).
 
 The expanded-trigger Quench batch also checks You hit an enemy from native attack hooks and Critical hit only against ordinary, missed, pending, and confirmed critical automation results.
+
+The Actor HUD batch also covers Wizard daily/utility preparation through real buttons: native prepared flags, separate lists, limit blocking, unpreparing, and scroll retention in the list capped at the same height as Extras.

@@ -1076,3 +1076,51 @@ body.dnd4e-horizontal-hud-active #players {
 .dnd4e-actor-display__categories .dnd4e-horizontal-actor-display__end-turn:hover:not(:disabled) {
 	transform: translate(-50%, -1px);
 }
+
+/* Extras keeps all actions visible in compact, two-column groups. */
+.dnd4e-actor-display__popup.is-extras { width: min(345px, 100%); }
+.dnd4e-actor-display__extras-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 6px 10px;
+}
+.dnd4e-actor-display .is-extras .dnd4e-horizontal-actor-display__group,
+.dnd4e-actor-display .is-extras .dnd4e-horizontal-actor-display__group + .dnd4e-horizontal-actor-display__group {
+	margin-top: 0;
+	border-top: 1px solid #655433;
+}
+.dnd4e-actor-display .is-extras .dnd4e-horizontal-actor-display__group:nth-child(-n + 2) {
+	border-top: 0;
+}
+.dnd4e-actor-display .is-extras h4 { margin: 5px 3px 7px; }
+.dnd4e-actor-display .is-extras .dnd4e-actor-display__extra-actions {
+	flex-direction: column;
+	gap: 4px;
+}
+.dnd4e-actor-display .is-extras button[data-hud-entry] {
+	flex: none;
+	justify-content: flex-start;
+	min-height: 32px;
+	margin-bottom: 0;
+	padding: 6px 8px;
+	font-size: 11px;
+}
+
+/* Spellbook preparation shares the normal power rows and tooltip anchors. */
+.dnd4e-actor-display__popup.is-preparation {
+	left: auto;
+	right: 0;
+}
+.dnd4e-actor-display__popup.is-preparation .dnd4e-actor-display__list {
+	overflow-y: auto;
+	overflow-anchor: none;
+}
+.dnd4e-actor-display__popup.is-preparation .dnd4e-actor-display__power {
+	height: 34px;
+	min-height: 34px;
+}
+.dnd4e-actor-display__prepare-toggle[aria-pressed="true"] {
+	color: #f1d7a1;
+	border-color: #bb9654;
+	background: #443825;
+}

@@ -634,6 +634,8 @@ function getHorizontalActions(actor) {
 	const save = Number(actor.system?.details?.saves?.value) || 0;
 	const isDying = (Number(actor.system?.attributes?.hp?.value) || 0) <= 0;
 	return {
+		preparation: actor.type === "Player Character" && String(actor.system?.details?.class ?? "").trim().toLowerCase() === "wizard"
+			? [{ command: "prepareDailies", label: "Prepare Dailies" }, { command: "prepareUtilities", label: "Prepare Utilities" }] : [],
 		ap: { value: apValue, disabled: apValue <= 0 },
 		save: [
 			{ command: "savingThrow", label: "Saving Throw", detail: formatModifier(save) },
@@ -654,4 +656,37 @@ function getHorizontalActions(actor) {
 function formatModifier(value) {
 	const number = Number(value) || 0;
 	return number >= 0 ? `+${number}` : String(number);
+}
+
+/**
+ * Build a Wizard preparation menu using the normal power presentation, including unprepared powers.
+ * Limits follow Modern 4e's Wizard powers prepared per day table.
+ * @param {Actor} actor The displayed actor.
+ * @param {string} kind Either daily or utility.
+ * @returns {Promise<object|null>}
+ */
+export async function getSpellbookPreparation(actor, kind) {
+	if (actor?.type !== "Player Character" || String(actor.system?.details?.class ?? "").trim().toLowerCase() !== "wizard"
+		|| !["daily", "utility"].includes(kind)) {
+		return null;
+	}
+	const level = Number(actor.system?.details?.level) || 1;
+	const limit = kind === "daily" ? (level < 5 ? 2 : 3)
+		: level < 2 ? 0 : level < 6 ? 1 : level < 10 ? 2 : level < 16 ? 3 : level < 22 ? 4 : 5;
+	const items = Array.from(actor.items ?? []).filter(item => item.type === "power"
+		&& item.system?.powerType === "class"
+		&& Number(item.system?.level) > 0 && Number(item.system.level) <= level
+		&& (kind === "utility" ? item.system.powerSubtype === "utility"
+			: item.system.powerSubtype === "attack" && item.system.useType === "daily"))
+		.sort((left, right) => getPowerOrder(left) - getPowerOrder(right) || left.name.localeCompare(right.name));
+	const count = items.filter(item => item.system.prepared !== false).length;
+	return {
+		name: kind === "daily" ? "Prepare Dailies" : "Prepare Utilities",
+		kind, limit, count,
+		powers: await Promise.all(items.map(async item => ({
+			...await mapPower(item, actor, new Set()),
+			prepared: item.system.prepared !== false,
+			preparationDisabled: item.system.prepared === false && count >= limit,
+		}))),
+	};
 }

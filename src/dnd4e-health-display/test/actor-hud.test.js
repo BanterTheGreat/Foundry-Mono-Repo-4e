@@ -426,3 +426,139 @@ test("group HUD templates hide Temp HP and everything except the Sheet menu", ()
 	assert.match(template, /<\/div>\s*{{\/unless}}\s*<\/nav>/);
 	assert.ok(template.indexOf('data-display-tab="sheet"') < template.indexOf("{{#unless isGroup}}"));
 });
+
+
+test("Extras preparation menus are exclusive to Wizard PCs", () => {
+	for (const [type, className, visible] of [
+		["Player Character", "Wizard", true],
+		["Player Character", " wizard ", true],
+		["Player Character", "Fighter", false],
+		["Player Character", "Hybrid Wizard", false],
+		["Player Character", undefined, false],
+		["NPC", "Wizard", false],
+	]) {
+		const actions = presentation.getHorizontalActions({ type, system: { details: { class: className } } });
+		assert.equal(actions.preparation.length, visible ? 2 : 0);
+		if (visible) {
+			assert.equal(actions.preparation[0].label, "Prepare Dailies");
+			assert.equal(actions.preparation[1].label, "Prepare Utilities");
+		}
+	}
+});
+
+
+/** Create a class power with the DnD4e 0.9.3 preparation fields. */
+function spell(id, fields = {}) {
+	return { id, name: id, type: "power", system: {
+		powerType: "class", powerSubtype: "attack", useType: "daily", level: 1,
+		prepared: false, ...fields,
+	} };
+}
+
+/** Supply only globals needed by normal PC power mapping. */
+function preparationActor(level, items = []) {
+	presentation.game = { settings: { get: () => false } };
+	presentation.TARGET_AUTOMATION_SETTING = "targetAutomation";
+	return { type: "Player Character", system: { details: { class: "Wizard", level } }, items };
+}
+
+test("Wizard preparation limits match every Modern 4e level", async () => {
+	for (let level = 1; level <= 30; level++) {
+		const actor = preparationActor(level);
+		const daily = await presentation.getSpellbookPreparation(actor, "daily");
+		const utility = await presentation.getSpellbookPreparation(actor, "utility");
+		assert.equal(daily.limit, level < 5 ? 2 : 3);
+		assert.equal(utility.limit, [2, 6, 10, 16, 22].filter(threshold => level >= threshold).length);
+	}
+});
+
+test("preparation includes unprepared class spells, separates utilities, excludes non-spellbook powers", async () => {
+	const actor = preparationActor(10, [
+		spell("Daily", { prepared: true }), spell("Reserve"),
+		spell("Utility", { powerSubtype: "utility", useType: "encounter" }),
+		spell("Cantrip", { level: 0, powerSubtype: "utility" }),
+		spell("Future", { level: 15 }), spell("Racial", { powerType: "race" }),
+		spell("Path", { powerType: "paragon" }), spell("Encounter", { useType: "encounter" }),
+	]);
+	const daily = await presentation.getSpellbookPreparation(actor, "daily");
+	assert.deepEqual(Array.from(daily.powers, p => p.id), ["Daily", "Reserve"]);
+	assert.equal(daily.count, 1);
+	assert.equal(daily.powers[0].prepared, true);
+	assert.equal(daily.powers[1].prepared, false);
+	assert.equal(daily.powers[0].usageClass, "is-daily");
+	const utility = await presentation.getSpellbookPreparation(actor, "utility");
+	assert.deepEqual(Array.from(utility.powers, p => p.id), ["Utility"]);
+	actor.system.details.class = "Fighter";
+	assert.equal(await presentation.getSpellbookPreparation(actor, "daily"), null);
+});
+
+test("at and above the preparation limit, removing remains available and adding is blocked", async () => {
+	const actor = preparationActor(1, [spell("A", { prepared: true }), spell("B", { prepared: true }), spell("C")]);
+	let menu = await presentation.getSpellbookPreparation(actor, "daily");
+	assert.equal(menu.powers.find(p => p.id === "C").preparationDisabled, true);
+	assert.equal(menu.powers.find(p => p.id === "A").preparationDisabled, false);
+	actor.items[0].system.prepared = false;
+	menu = await presentation.getSpellbookPreparation(actor, "daily");
+	assert.equal(menu.powers.find(p => p.id === "C").preparationDisabled, false);
+});
+
+test("preparation writes the native prepared flag, prevents concurrent clicks and retains scroll state", async () => {
+	const { ActorDisplay } = loadController({}, { getSpellbookPreparation: presentation.getSpellbookPreparation });
+	const display = Object.create(ActorDisplay.prototype);
+	const item = spell("Reserve");
+	let release;
+	item.update = async update => { await new Promise(resolve => { release = resolve; }); Object.assign(item.system, { prepared: update["system.prepared"] }); };
+	const actor = preparationActor(10, [item]);
+	actor.items.get = id => actor.items.find(item => item.id === id);
+	display.token = { actor };
+	display.activeTab = "prepareDailies";
+	display.savedScrollTop = 102;
+	let renders = 0;
+	display.render = async () => { renders++; };
+	const pending = display.onTogglePreparation({}, { dataset: { itemId: item.id } });
+	await new Promise(resolve => setImmediate(resolve));
+	await display.onTogglePreparation({}, { dataset: { itemId: item.id } });
+	assert.equal(display.preparationPending, true);
+	release();
+	await pending;
+	assert.equal(item.system.prepared, true);
+	assert.equal(display.savedScrollTop, 102);
+	assert.equal(display.activeTab, "prepareDailies");
+	assert.equal(renders, 1);
+	assert.equal(display.preparationPending, false);
+});
+
+
+test("preparation controller rejects unavailable powers and over-limit additions", async () => {
+	const { ActorDisplay } = loadController({}, { getSpellbookPreparation: presentation.getSpellbookPreparation });
+	const display = Object.create(ActorDisplay.prototype);
+	const items = [spell("A", { prepared: true }), spell("B", { prepared: true }), spell("C")];
+	let writes = 0;
+	items.forEach(item => { item.update = async () => { writes++; }; });
+	const actor = preparationActor(1, items);
+	actor.items.get = id => items.find(item => item.id === id);
+	display.token = { actor };
+	display.activeTab = "prepareDailies";
+	display.render = async () => {};
+	await display.onTogglePreparation({}, { dataset: { itemId: "C" } });
+	await display.onTogglePreparation({}, { dataset: { itemId: "missing" } });
+	assert.equal(writes, 0);
+	await display.onTogglePreparation({}, { dataset: { itemId: "A" } });
+	assert.equal(writes, 1, "unpreparing remains allowed at the limit");
+});
+
+
+test("preparation rows show the NPC action label on the right", async () => {
+	const power = { id: "spell", name: "Spell" };
+	const { ActorDisplay } = loadController({ powerCategories: [] }, {
+		getSpellbookPreparation: async () => ({ name: "Prepare Utilities", powers: [power] }),
+		getNpcPowerHints: item => ({ actionLabel: item.system.actionType === "interrupt" ? "Interrupt" : "Other" }),
+	});
+	const display = Object.create(ActorDisplay.prototype);
+	display.token = { actor: { items: new Map([["spell", { system: { actionType: "interrupt" } }]]) } };
+	display.activeTab = "prepareUtilities";
+	const context = await display._prepareContext({});
+	assert.equal(context.selectedCategory.powers[0].actionLabel, "Interrupt");
+	const template = readFileSync(new URL("../scripts/actor-display/actor-display.hbs", import.meta.url), "utf8");
+	assert.match(template, /{{#if @root.isPreparation}}\s*<span class="dnd4e-actor-display__npc-power-action">{{actionLabel}}<\/span>/);
+});

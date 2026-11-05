@@ -1,12 +1,15 @@
 <div class="dnd4e-actor-display__dock">
 	{{#if selectedCategory}}
-	<section class="dnd4e-actor-display__popup {{#if isNpcSheet}}is-npc-sheet {{#unless npcFeatures.length}}is-powers-only{{/unless}}{{/if}}" aria-label="{{selectedCategory.name}}">
-		<header><h3>{{selectedCategory.name}}{{#unless isNpcSheet}} powers{{/unless}}</h3><span>{{name}}</span><button type="button" data-action="closePowers" title="Close powers" aria-label="Close powers"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></header>
+	<section class="dnd4e-actor-display__popup {{#if isPreparation}}is-preparation {{/if}}{{#if isNpcSheet}}is-npc-sheet {{#unless npcFeatures.length}}is-powers-only{{/unless}}{{/if}}" aria-label="{{selectedCategory.name}}">
+		<header><h3>{{selectedCategory.name}}{{#unless isNpcSheet}}{{#unless isPreparation}} powers{{/unless}}{{/unless}}</h3><span>{{#if isPreparation}}{{selectedCategory.count}} / {{selectedCategory.limit}} prepared{{else}}{{name}}{{/if}}</span><button type="button" data-action="closePowers" title="Close powers" aria-label="Close powers"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></header>
 		<div class="dnd4e-actor-display__list">
 			{{#if isNpcSheet}}<div class="dnd4e-actor-display__sheet-columns {{#unless npcFeatures.length}}is-powers-only{{/unless}}"><section aria-label="Powers">{{/if}}
 			{{#each selectedCategory.powers}}
 			{{#if npcPowerGroup}}<h4 class="dnd4e-actor-display__npc-power-group">{{npcPowerGroup}}</h4>{{/if}}
 			<div class="dnd4e-actor-display__power {{usageClass}} {{#if depleted}}is-depleted{{/if}}" tabindex="0" data-item-id="{{id}}" data-item-tooltip data-tooltip-direction="RIGHT" data-power-usage="{{usageClass}}">
+				{{#if @root.isPreparation}}
+				<button type="button" class="dnd4e-actor-display__prepare-toggle" data-action="togglePreparation" data-item-id="{{id}}" aria-pressed="{{#if prepared}}true{{else}}false{{/if}}" aria-label="{{#if prepared}}Unprepare{{else}}Prepare{{/if}} {{name}}" title="{{#if prepared}}Unprepare{{else}}{{#if preparationDisabled}}Preparation limit reached{{else}}Prepare{{/if}}{{/if}}" {{#if preparationDisabled}}disabled{{/if}}><i class="fa-{{#if prepared}}solid fa-square-check{{else}}regular fa-square{{/if}}" aria-hidden="true"></i></button>
+				{{/if}}
 				{{#if @root.isNpcSheet}}
 				<div class="dnd4e-actor-display__npc-power-copy">
 					<i class="{{icon}}" role="img" aria-label="{{rangeLabel}}" title="{{rangeLabel}}"></i>
@@ -24,11 +27,16 @@
 					<i class="{{icon}}" role="img" aria-label="{{rangeLabel}}" title="{{rangeLabel}}"></i><strong>{{name}}</strong>
 				</span>
 				{{/if}}
+				{{#if @root.isPreparation}}
+				<span class="dnd4e-actor-display__npc-power-action">{{actionLabel}}</span>
+				{{/if}}
+				{{#unless @root.isPreparation}}
 				{{#if depleted}}<small>Spent</small><button type="button" data-action="refreshPower" data-item-id="{{id}}" title="Refresh power" aria-label="Refresh {{name}}"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i></button>{{/if}}
 				<button type="button" data-action="chatPower" data-item-id="{{id}}" title="Send to Chat" aria-label="Send {{name}} to Chat"><i class="fa-solid fa-comment" aria-hidden="true"></i></button>
 				{{#if canTargetAutomation}}
 				<button type="button" data-action="power" data-item-id="{{id}}" {{#if depleted}}disabled{{/if}} title="Use Power" aria-label="Use {{name}}"><i class="fa-solid fa-crosshairs" aria-hidden="true"></i></button>
 				{{/if}}
+				{{/unless}}
 			</div>
 			{{else}}
 			<p class="dnd4e-actor-display__empty">No powers in this category.</p>
@@ -47,7 +55,7 @@
 	</section>
 	{{/if}}
 	{{#if selectedMenu}}
-	<section class="dnd4e-actor-display__popup is-character-menu" aria-label="{{selectedMenu.name}}">
+	<section class="dnd4e-actor-display__popup is-character-menu {{#if isExtras}}is-extras{{/if}}" aria-label="{{selectedMenu.name}}">
 		<header><h3>{{selectedMenu.name}}</h3><span>{{name}}</span><button type="button" data-action="closePowers" aria-label="Close menu"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></header>
 		{{#unless isExtras}}
 		<div class="dnd4e-actor-display__search"><input type="search" data-hud-search value="{{hudSearchQuery}}" placeholder="Search {{selectedMenu.name}}" aria-label="Search {{selectedMenu.name}}"></div>
@@ -93,6 +101,7 @@
 						{{/if}}
 
 		{{#if isExtras}}
+		<div class="dnd4e-actor-display__extras-grid">
 		<section class="dnd4e-horizontal-actor-display__group"><h4>Healing</h4>
 		<div class="dnd4e-actor-display__extra-actions">{{#each horizontalActions.heal}}<button type="button" data-hud-entry="{{label}}" data-action="quick" data-command="{{command}}" {{#if disabled}}disabled{{/if}}>{{label}}</button>{{/each}}</div>
 		</section>
@@ -102,6 +111,12 @@
 		<section class="dnd4e-horizontal-actor-display__group"><h4>Rests</h4>
 		<div class="dnd4e-actor-display__extra-actions">{{#each horizontalActions.rest}}<button type="button" data-hud-entry="{{label}}" data-action="quick" data-command="{{command}}">{{label}}</button>{{/each}}</div>
 		</section>
+		{{#if horizontalActions.preparation.length}}
+		<section class="dnd4e-horizontal-actor-display__group"><h4>Preparation</h4>
+		<div class="dnd4e-actor-display__extra-actions">{{#each horizontalActions.preparation}}<button type="button" data-hud-entry="{{label}}" data-action="prepareSpellbook" data-command="{{command}}">{{label}}</button>{{/each}}</div>
+		</section>
+		{{/if}}
+		</div>
 		{{/if}}
 		{{#unless isExtras}}<p data-hud-search-empty hidden>No matching entries.</p>{{/unless}}
 		</div>

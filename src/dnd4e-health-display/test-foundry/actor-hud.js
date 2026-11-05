@@ -94,6 +94,49 @@ export function registerActorHudTests(quench) {
         await fixture.cancel();
       });
 
+      it("prepares Wizard spells with native flags, level limits and stable scrolling", async function () {
+        const previous = { class: actor.system.details.class, level: actor.system.details.level };
+        let spells = [];
+        try {
+          await actor.update({ "system.details.class": "Wizard", "system.details.level": 10 });
+          spells = await actor.createEmbeddedDocuments("Item", ["attack", "utility"].flatMap(powerSubtype =>
+            Array.from({ length: 9 }, (_, index) => foundry.utils.mergeObject(foundry.utils.deepClone(basePower), {
+              name: `Spellbook ${powerSubtype} ${index}`, system: {
+                powerType: "class", powerSubtype, level: 1, useType: "daily", prepared: false,
+              },
+            }))));
+          await hud.render({ force: true });
+          await click('[data-display-tab="extras"]');
+          assert.equal(hud.element.querySelectorAll('[data-action="prepareSpellbook"]').length, 2);
+          await click('[data-command="prepareDailies"]');
+          assert.equal(hud.element.querySelectorAll('[data-action="togglePreparation"]').length, 9);
+          const daily = spells.filter(item => item.system.powerSubtype === "attack");
+          const list = hud.element.querySelector(".dnd4e-actor-display__list");
+          list.scrollTop = list.scrollHeight;
+          const top = list.scrollTop;
+          assert.isAbove(top, 0, "overflowing powers scroll");
+          await click(`[data-action="togglePreparation"][data-item-id="${daily[8].id}"]`);
+          await waitForFact(() => actor.items.get(daily[8].id).system.prepared, "native prepared flag");
+          assert.equal(hud.element.querySelector(".dnd4e-actor-display__list").scrollTop, top);
+          await click(`[data-action="togglePreparation"][data-item-id="${daily[7].id}"]`);
+          await click(`[data-action="togglePreparation"][data-item-id="${daily[6].id}"]`);
+          assert.isTrue(hud.element.querySelector(`[data-action="togglePreparation"][data-item-id="${daily[0].id}"]`).disabled);
+          await click(`[data-action="togglePreparation"][data-item-id="${daily[8].id}"]`);
+          assert.isFalse(hud.element.querySelector(`[data-action="togglePreparation"][data-item-id="${daily[0].id}"]`).disabled);
+          await click('[data-display-tab="extras"]');
+          await click('[data-command="prepareUtilities"]');
+          assert.equal(hud.element.querySelectorAll('[data-action="togglePreparation"]').length, 9);
+          assert.include(hud.element.querySelector("header").textContent, "0 / 3 prepared");
+          const utility = spells.find(item => item.system.powerSubtype === "utility");
+          await click(`[data-action="togglePreparation"][data-item-id="${utility.id}"]`);
+          assert.isTrue(actor.items.get(utility.id).system.prepared);
+          assert.isTrue(actor.items.get(daily[6].id).system.prepared, "utilities leave daily choices intact");
+        } finally {
+          await actor.deleteEmbeddedDocuments("Item", spells.map(item => item.id));
+          await actor.update({ "system.details.class": previous.class, "system.details.level": previous.level });
+        }
+      });
+
       for (const [category, action] of [["standard", "standard"], ["minor", "minor"], ["reaction", "reaction"], ["other", "move"]]) {
         it(`opens, closes and renders the PC ${category} power group`, async function () {
           const selector = `[data-power-category="${category}"]`;

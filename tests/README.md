@@ -185,7 +185,7 @@ Actor HUD live coverage is registered as `dnd4e-health-display.actor-hud` in Que
 (**INFO DISPLAYS: Actor HUD tabs and controls**). It covers all PC power groups,
 Feats, Skills, Items and Extras, plus the NPC-only Sheet with basic attacks and
 trait disclosures. It also exercises search, menu dismissal, token switching,
-equipment toggles, resource edits, native sheets/dialogs, skill rolls, power
+equipment toggles, Wizard preparation flags/limits and scroll retention, resource edits, native sheets/dialogs, skill rolls, power
 refresh/chat and entry into Target Automation using real HUD buttons.
 
 After configuring the designated test world as described in that guide, run:
@@ -295,4 +295,10 @@ Damage-only Target Automation (no attack roll): the health-display Node suite co
 
 ```sh
 node --test src/dnd4e-health-display/test/power-activation.test.js src/dnd4e-health-display/test/damage-application.test.js
+```
+
+Wizard spellbook limits, eligibility and native prepared-flag changes also have Node coverage:
+
+```sh
+node --test src/dnd4e-health-display/test/actor-hud.test.js
 ```

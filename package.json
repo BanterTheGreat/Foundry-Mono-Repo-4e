@@ -17,7 +17,8 @@
     "test:foundry:report": "playwright show-report output/foundry-test-report",
     "test:foundry:deploy": "npm run copy-module -- foundry-test-harness banter-4e-modifications dnd4e-health-display",
     "prototype:triggers": "powershell -NoProfile -Command Start-Process src/banter-4e-modifications/prototypes/trigger-menu.prototype.html",
-    "prototype:damage": "open src/dnd4e-health-display/PoC/target-flow-prototype/confirm-damage-review.prototype.html"
+    "prototype:damage": "open src/dnd4e-health-display/PoC/target-flow-prototype/confirm-damage-review.prototype.html",
+    "prototype:extras": "open src/dnd4e-health-display/PoC/actor-hud-ui-prototype/extras.prototype.html"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1"

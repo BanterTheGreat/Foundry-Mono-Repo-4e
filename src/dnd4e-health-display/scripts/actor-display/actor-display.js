@@ -1,6 +1,6 @@
 import { bindPowerHitChanceHover } from "./power-hit-chance-hover.js";
 import { bindPowerRangeHover } from "../power-activation/power-range-hover.js";
-import { getActorDisplayData, getGroupHealthBars } from "./actor-display-data.js";
+import { getActorDisplayData, getGroupHealthBars, getSpellbookPreparation } from "./actor-display-data.js";
 import { getNpcPowerHints, formatPowerHitChances } from "./npc-power-hints.js";
 import { initializeActorDisplayTooltips, generateSystemTooltip } from "./actor-display-tooltips.js";
 import { useAbility, showPowerInChat, isPowerActivationActive } from "../power-activation/power-activation.js";
@@ -751,6 +751,8 @@ class ActorDisplay extends ActorDisplayBase {
 			selectPowerCategory: ActorDisplay.prototype.onSelectPowerCategory,
 			closePowers: ActorDisplay.prototype.onClosePowers,
 			selectMenu: ActorDisplay.prototype.onSelectMenu,
+			prepareSpellbook: ActorDisplay.prototype.onPrepareSpellbook,
+			togglePreparation: ActorDisplay.prototype.onTogglePreparation,
 			openFeatSheet: ActorDisplay.prototype.onOpenFeatSheet,
 			skill: ActorDisplay.prototype.onSkill,
 			feature: { handler: ActorDisplay.prototype.onFeature, buttons: [0, 2] },
@@ -806,8 +808,16 @@ class ActorDisplay extends ActorDisplayBase {
 				feature.html = await generateSystemTooltip(this.actor, this.actor.items.get(feature.id));
 			}));
 		}
-		const selected = isNpcSheet ? { name: "Sheet", powers: groups.flatMap((group) => group.powers) }
-			: groups.find((group) => group.key === this.activePowerCategory);
+		const preparationKind = this.activeTab === "prepareDailies" ? "daily"
+			: this.activeTab === "prepareUtilities" ? "utility" : null;
+		const preparation = preparationKind ? await getSpellbookPreparation(this.actor, preparationKind) : null;
+		if (preparation) {
+			for (const power of preparation.powers) {
+				power.actionLabel = getNpcPowerHints(this.actor.items.get(power.id), this.token).actionLabel;
+			}
+		}
+		const selected = preparation ?? (isNpcSheet ? { name: "Sheet", powers: groups.flatMap((group) => group.powers) }
+			: groups.find((group) => group.key === this.activePowerCategory));
 		if (isNpcSheet) {
 			selected.powers = await Promise.all(selected.powers.map(async power => {
 				const item = this.actor.items.get(power.id);
@@ -839,8 +849,9 @@ class ActorDisplay extends ActorDisplayBase {
 		return { ...context, isNpc, isNpcSheet, npcFeatures, categories: (isNpc ? [] : groups).map((group) => ({
 			...group, active: group === selected,
 		})), selectedCategory: selected,
+			isPreparation: Boolean(preparation),
 			hudSearchQuery: this.hudSearchQuery,
-			selectedMenu: this.activeTab && !isNpcSheet ? { name: this.activeTab === "extras" ? "Extras" : context.activeTabLabel } : null,
+			selectedMenu: this.activeTab && !isNpcSheet && !preparation ? { name: this.activeTab === "extras" ? "Extras" : context.activeTabLabel } : null,
 			isExtras: this.activeTab === "extras",
 			sheetMenu: isNpc ? { active: isNpcSheet } : null,
 			menus: [...(isNpc ? [] : [{ key: "features", name: "Feats" }]), { key: "skills", name: "Skills" },
@@ -904,6 +915,40 @@ class ActorDisplay extends ActorDisplayBase {
 		this.hotbarFrame = window.requestAnimationFrame(follow);
 	}
 
+
+	/** Open the corresponding spellbook list without changing any power's preparation. */
+	onPrepareSpellbook(event, target) {
+		this.onSelectMenu(event, { dataset: { displayTab: target.dataset.command } });
+	}
+
+	/**
+	 * Toggle one eligible power, enforcing the level limit and retaining the list's scroll position.
+	 * @param {PointerEvent} event The triggering click.
+	 * @param {HTMLElement} target The preparation button.
+	 */
+	async onTogglePreparation(event, target) {
+		if (this.preparationPending) {
+			return;
+		}
+		const actor = this.actor;
+		const kind = this.activeTab === "prepareDailies" ? "daily"
+			: this.activeTab === "prepareUtilities" ? "utility" : null;
+		this.preparationPending = true;
+		try {
+			const menu = await getSpellbookPreparation(actor, kind);
+			const power = menu?.powers.find(item => item.id === target.dataset.itemId);
+			if (!power || power.preparationDisabled) {
+				return;
+			}
+			await actor.items.get(power.id).update({ "system.prepared": !power.prepared });
+			// Document hooks may also render; the base renderer captures and restores scrollTop.
+			if (this.actor === actor) {
+				await this.render();
+			}
+		} finally {
+			this.preparationPending = false;
+		}
+	}
 
 	/** Toggle a character menu in the shared macro-bar popup. */
 	onSelectMenu(event, target) {
