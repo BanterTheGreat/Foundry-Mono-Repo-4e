@@ -48,7 +48,7 @@ export const TRIGGER_PROMPT_FLAG = "triggerPrompts";
  */
 export const TRIGGER_CONFIGURATION_FLAG = "trigger-prompts";
 /** Time for which a recipient may select one power from a prompt. */
-export const TRIGGER_PROMPT_TIMEOUT_MS = 20_000;
+export const TRIGGER_PROMPT_TIMEOUT_MS = 25_000;
 
 /**
  * SocketLib handler names used by the trigger-prompt submodule.

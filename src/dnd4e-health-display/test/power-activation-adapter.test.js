@@ -63,6 +63,21 @@ test("summon mode resolves Range without requiring an area or a weapon", async (
 	await assert.rejects(adapter.resolveRange(item), /whole-square Range/);
 });
 
+test("close burst summons use the burst area as placement range", async () => {
+	const adapter = loadAdapter();
+	const item = { actor: {}, getRollData: () => ({ item: {} }),
+		getFlag: () => ({ placementMode: "summon" }),
+		system: { rangeType: "closeBurst", rangePower: "0", area: "20" } };
+	const range = await adapter.resolveRange(item);
+	assert.equal(range.shape, "summon");
+	assert.equal(range.normal, 20);
+	assert.equal(range.maximum, 20);
+	for (const area of ["invalid", "-1", "1.5"]) {
+		item.system.area = area;
+		await assert.rejects(adapter.resolveRange(item), /whole-square Range/);
+	}
+});
+
 /** Exercise the real version adapter against controlled system resolver/formula boundaries. */
 function loadAdapter(weapon = null, combat = null, evaluateFormula = formula => formula === "@reach" ? 3 : Number(formula)) {
 	const source = readFileSync(new URL("../scripts/power-activation/system-adapter.js", import.meta.url), "utf8")
@@ -231,9 +246,16 @@ test("informational card rendering uses a read-only native template and never th
 	const messages = [];
 	const item = {
 		actor: { uuid: "Actor.a" }, system: { autoGenChatPowerCard: true, useType: "daily" }, uuid: "Actor.a.Item.p",
-		hasAttack: true,
+		hasAttack: true, effects: [{ name: "Slowed" }],
 		getChatData: async () => ({}), getRollData: () => ({}), toObject: () => ({ name: "Power" }),
 		roll: () => assert.fail("Preview must not execute Item.roll"),
+	};
+	const removed = [];
+	const classesRemoved = [];
+	const effects = { classList: { remove: name => classesRemoved.push(name) }, style: { removeProperty: name => removed.push(name) } };
+	const tray = {
+		classList: { remove: (...names) => classesRemoved.push(...names) },
+		querySelector: selector => selector === ".effects" ? effects : { remove: () => removed.push("caret") },
 	};
 	const context = vm.createContext({
 		MODULE_ID, FLAG, AREA_TYPES, automationConfig: item => automationConfig({ getFlag: () => ({}), ...item }),
@@ -242,21 +264,30 @@ test("informational card rendering uses a read-only native template and never th
 			handlebars: { renderTemplate: async (path, data) => { templateContext = data; return "card"; } },
 			ux: { TextEditor: { implementation: { enrichHTML: async html => html } } },
 		} },
-		document: { createElement: () => ({ innerHTML: "", querySelectorAll: () => [] }) },
+		document: { createElement: () => ({ innerHTML: "", querySelectorAll: selector => {
+			if (selector === ".effects-tray") {
+				return [tray];
+			}
+			assert.equal(selector, ".card-buttons, [data-action]");
+			return [{ remove: () => removed.push("actions") }];
+		} }) },
 		game: { user: { id: "author" }, modules: { get: () => ({ active: false }) }, settings: { get: () => "self" } },
 		CONST: { CHAT_MESSAGE_STYLES: { OTHER: 0 } },
 		ChatMessage: { getSpeaker: () => ({}), create: async data => { messages.push(data); return { id: "card" }; } },
 	});
 	vm.runInContext(`${source}\nglobalThis.api = { renderPowerCard, createPowerMessage };`, context);
 	const html = await context.api.renderPowerCard(item, { preparePowerCardData: () => "rules" });
+	assert.deepEqual(removed, ["actions", "caret", "height"]);
+	assert.deepEqual(classesRemoved, ["collapsible", "collapsed", "collapsible-content"]);
 	assert.equal(templateContext.isRoll, false);
-	assert.equal(templateContext.effects, false);
+	assert.equal(templateContext.effects, item.effects);
 	assert.equal(templateContext.hasAttack, false);
 	const message = await context.api.createPowerMessage(item, html, "session");
 	assert.equal(message.id, "card");
 	assert.equal(messages[0].flags["dnd4e-health-display"].powerActivation.provisional, true);
 	assert.equal(messages[0].whisper[0], "author");
 	await context.api.renderPowerCard(item, { preparePowerCardData: () => "rules" }, { showActions: true });
+	assert.deepEqual(removed, ["actions", "caret", "height"], "completed cards retain their native controls");
 	assert.equal(templateContext.isRoll, true);
 	assert.equal(templateContext.hasAttack, true);
 });
@@ -306,4 +337,40 @@ test("range formulas receive the selected native attack variance", async () => {
 		getRollData: ({ variance }) => ({ item: {}, ...variance }) };
 	assert.equal((await adapter.resolveRange(item, { isCharge: true })).maximum, 3);
 	assert.equal((await adapter.resolveRange(item)).maximum, 1);
+});
+
+
+test("automation effect trays are visible only to GM viewers on every chat render", () => {
+	const source = readFileSync(new URL("../scripts/power-activation/cards.js", import.meta.url), "utf8")
+		.replace(/^import .*;\r?\n/gm, "").replace(/^export /gm, "");
+	let render;
+	let removed = 0;
+	const user = { isGM: false };
+	const context = vm.createContext({
+		MODULE_ID: "dnd4e-health-display", game: { user },
+		Hooks: { on(name, callback) { assert.equal(name, "renderChatMessageHTML"); render = callback; } },
+	});
+	vm.runInContext(`${source}\nregisterPowerCardVisibility();`, context);
+	const element = { querySelectorAll(selector) {
+		assert.equal(selector, ".effects-tray");
+		return [{ remove() { removed++; } }];
+	} };
+	for (const provisional of [true, false]) {
+		const message = { getFlag(module, key) {
+			assert.equal(module, "dnd4e-health-display");
+			assert.equal(key, "powerActivation");
+			return { provisional };
+		} };
+		user.isGM = false;
+		render(message, element);
+		render(message, element);
+		const playerRemovals = removed;
+		user.isGM = true;
+		render(message, element);
+		assert.equal(removed, playerRemovals, "GM retains the tray");
+	}
+	assert.equal(removed, 4, "players lose provisional and completed trays, including rerenders");
+	user.isGM = false;
+	render({ getFlag: () => undefined }, element);
+	assert.equal(removed, 4, "unrelated native cards remain unchanged");
 });

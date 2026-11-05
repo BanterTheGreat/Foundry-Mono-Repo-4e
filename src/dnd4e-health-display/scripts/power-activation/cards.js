@@ -78,14 +78,22 @@ export async function renderPowerCard(item, utils, { showActions = false, varian
 	const html = await foundry.applications.handlebars.renderTemplate("systems/dnd4e/templates/chat/item-card.hbs", {
 		actor: item.actor, item, system, labels: item.labels, cardData,
 		tokenId: item.actor?.token?.uuid ?? null,
-		isPower: true, isRoll: showActions, effects: showActions ? item.effects : false,
+		isPower: true, isRoll: showActions, effects: item.effects,
 		hasAttack: showActions && item.hasAttack, hasDamage: showActions && item.hasDamage, hasHealing: showActions && item.hasHealing,
 		hasEffect: showActions && item.hasEffect, hasSave: showActions && item.hasSave, hasAreaTarget: showActions && item.hasAreaTarget,
 	});
 	const root = document.createElement("div");
 	root.innerHTML = html.replace("ability-usage--", `ability-usage--${item.system.useType}`);
 	if (!showActions) {
-		root.querySelectorAll(".card-buttons, .effects-tray, [data-action]").forEach(node => node.remove());
+		root.querySelectorAll(".card-buttons, [data-action]").forEach(node => node.remove());
+		// Keep effect descriptions visible without native apply or collapse controls.
+		for (const tray of root.querySelectorAll(".effects-tray")) {
+			tray.classList.remove("collapsible", "collapsed");
+			tray.querySelector(".fa-caret-down")?.remove();
+			const effects = tray.querySelector(".effects");
+			effects?.classList.remove("collapsible-content");
+			effects?.style.removeProperty("height");
+		}
 	}
 	// Optional shared visual formatter; never copy live chat DOM or its listeners.
 	if (game.modules.get("banter-4e-modifications")?.active) {
@@ -114,4 +122,16 @@ export async function createPowerMessage(item, html, sessionId = null) {
 		data.whisper = [game.user.id];
 	}
 	return ChatMessage.create(data);
+}
+
+/**
+ * Filter shared automation cards for the viewing user, regardless of their author.
+ */
+export function registerPowerCardVisibility() {
+	Hooks.on("renderChatMessageHTML", (message, element) => {
+		if (game.user.isGM || !message.getFlag(MODULE_ID, "powerActivation")) {
+			return;
+		}
+		element.querySelectorAll(".effects-tray").forEach(tray => tray.remove());
+	});
 }

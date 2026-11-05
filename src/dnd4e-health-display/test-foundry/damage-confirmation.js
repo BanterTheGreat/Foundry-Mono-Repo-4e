@@ -67,7 +67,7 @@ export function registerDamageConfirmationTests(quench) {
       });
 
       for (const outcome of ["hit", "miss"]) {
-        it(`NPC → PC ${outcome} applies directly with no approval popup and no duplicate damage`, async function () {
+        it(`NPC → PC ${outcome} confirms chat damage without changing health or opening approval`, async function () {
           const { session, target, attack } = await openDamageReview(fixture, true, outcome);
           const hp = target.actor.system.attributes.hp.value;
           const temp = Number(target.actor.system.attributes.temphp.value);
@@ -75,17 +75,21 @@ export function registerDamageConfirmationTests(quench) {
           assert.exists(button, "the production Apply Damage action is available");
           button.click();
           button.click();
-          await waitForFact(() => session.state === "complete", "direct damage confirmation");
-          const receipt = attack.flags[MODULE].damageApplications?.[target.id];
-          assert.equal(receipt?.state, "applied");
-          assert.equal(receipt.amount, outcome === "hit" ? 12 : 0);
-          assert.equal(target.actor.system.attributes.hp.value, outcome === "hit" ? hp - Math.max(0, 12 - temp) : hp);
-          assert.equal(Number(target.actor.system.attributes.temphp.value), outcome === "hit" ? Math.max(0, temp - 12) : temp);
-          assert.lengthOf(reviewRenders, 0, "no transient approval dialog was rendered");
-          await applyTargetDamage(attack, target.id);
-          assert.equal(target.actor.system.attributes.hp.value, receipt.health.after, "persisted receipt prevents repeat application");
-          assert.equal(Number(target.actor.system.attributes.temphp.value), receipt.health.tempAfter);
-          assert.equal(attack.flags[MODULE].damageApplication.dismissed, true);
+          await waitForFact(() => session.state === "complete", "manual PC damage confirmation");
+          assert.equal(attack.flags[MODULE].damageApplications?.[target.id], undefined);
+          assert.equal(attack.flags[MODULE].targetDamageReview.pending, false);
+          assert.equal(target.actor.system.attributes.hp.value, hp);
+          assert.equal(Number(target.actor.system.attributes.temphp.value), temp);
+          assert.lengthOf(reviewRenders, 0, "no approval dialog was rendered");
+          let rejected = false;
+          try {
+            await applyTargetDamage(attack, target.id);
+          } catch (error) {
+            rejected = /no longer has confirmed damage/.test(error.message);
+          }
+          assert.isTrue(rejected, "PC targets cannot be applied through the GM damage path");
+          assert.equal(target.actor.system.attributes.hp.value, hp);
+          assert.equal(Number(target.actor.system.attributes.temphp.value), temp);
         });
       }
 
@@ -105,6 +109,6 @@ export function registerDamageConfirmationTests(quench) {
         assert.equal(target.actor.system.attributes.hp.value, hp - Math.max(0, 12 - temp));
       });
     });
-  }, { displayName: "INFO DISPLAYS: GM direct damage and approval", preSelected: false });
+  }, { displayName: "INFO DISPLAYS: Manual PC damage and NPC approval", preSelected: false });
   return key;
 }

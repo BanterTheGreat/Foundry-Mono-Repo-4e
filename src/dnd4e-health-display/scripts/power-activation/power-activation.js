@@ -14,7 +14,7 @@ import { sharedAreaPreview } from "./shared-area-preview.js";
 import { AREA_TYPES, areaRectangle, intersectsArea, closeBlastOrigin, areaTargetAllowed, areaRangeOrigin, wallGeometryProblems, hasLineOfEffect } from "./area-geometry.js";
 import { MODULE_ID, SETTING, automationConfig, powerOriginRules, selectionProblems, targetCountProblems, squareDistance, targetFilterProblems } from "./rules.js";
 import { registerActorOrigins } from "./actor-origins.js";
-import { renderPowerCard, createPowerMessage, postAttackRules, preAttackRules } from "./cards.js";
+import { registerPowerCardVisibility, renderPowerCard, createPowerMessage, postAttackRules, preAttackRules } from "./cards.js";
 import { loadSystem, resolveRange, registerAutomationTab, commitCardCosts, commitPowerUse, rollFromOrigin } from "./system-adapter.js";
 import { supportsGroupAttack, resolveDemands, groupCountProblems, assignAttackers, snapshotFormFields, diffFormFields, applyFormChanges } from "./multi-attack.js";
 import { rollDamageAndWait, adjustDamageMessage, damageMessageTotal, damageCalculation, damageRollBreakdown, targetDamageTotal, registerDamageReview } from "./damage-roll.js";
@@ -42,6 +42,7 @@ export async function registerPowerActivation() {
 	if (game.system.id !== "dnd4e") {
 		return;
 	}
+	registerPowerCardVisibility();
 	registerSummonSocket();
 	registerAttackEffects();
 	CoverPreview.register();
@@ -1067,7 +1068,10 @@ class ActivationSession extends ActivationWorkflow {
 			if (!this.item.hasAttack) {
 				await this.submitUtility();
 				if (this.committed) {
-					if (this.healingOnly) {
+					if (this.item.hasDamage && this.targets.length) {
+						await this.prepareUtilityDamage();
+						await this.rollDamage({}, true);
+					} else if (this.healingOnly) {
 						await this.rollHealing();
 					} else {
 						await this.complete();
@@ -1150,6 +1154,16 @@ class ActivationSession extends ActivationWorkflow {
 			}
 			this.refresh();
 		}
+	}
+
+	/** Retain damage targets without inventing an attack roll or firing attack triggers. */
+	async prepareUtilityDamage() {
+		await this.message.update({ [`flags.${MODULE_ID}.damageTargets`]: {
+			sessionId: this.id, sceneId: canvas.scene.id, itemUuid: this.item.uuid,
+			casterId: this.caster.id, targetIds: this.targets.map(token => token.id), pending: false,
+		} });
+		this.attackMessages = [this.message];
+		await this.complete({ keepOpen: true });
 	}
 
 	/** Healing automation currently supports powers without attacks or damage. */
@@ -1458,7 +1472,7 @@ class ActivationSession extends ActivationWorkflow {
 			ui.notifications.warn("The ability finished, but its power card could not be finalized. Check chat before reloading.");
 		} finally {
 			if (keepOpen && !this.finished) {
-				this.transition(this.healingOnly ? "rollingHealing" : "preparingResults");
+				this.transition(this.healingOnly ? "rollingHealing" : !this.item.hasAttack && this.item.hasDamage ? "readyForDamage" : "preparingResults");
 				this.listeners.abort();
 				sharedAreaPreview.clear();
 				CoverPreview.setContext(null);
@@ -1493,7 +1507,7 @@ class ActivationSession extends ActivationWorkflow {
 
 	/** Defense requests belong to persisted session targets, never current selection. */
 	hasPendingDefenses() {
-		return this.attackMessages.some(message => messageAttackResults(message, canvas.scene?.id, { waitForDefenseAnimation: true })
+		return this.attackMessages.some(message => messageAttackResults(message, canvas.scene?.id, { waitForDefenseAnimation: true, includeDamageTargets: true })
 			.some(result => result.outcome === "pending"));
 	}
 
@@ -1507,7 +1521,7 @@ class ActivationSession extends ActivationWorkflow {
 		if (this.state !== "reviewingResults") {
 			return;
 		}
-		const results = this.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id, { waitForDefenseAnimation: true }));
+		const results = this.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id, { waitForDefenseAnimation: true, includeDamageTargets: true }));
 		if (this.targets.length > 0 && results.length > 0
 			&& this.targets.every(token => results.some(result => result.tokenId === token.id))
 			&& results.every(result => ["critical", "fumble"].includes(result.outcome))) {
@@ -1529,7 +1543,7 @@ class ActivationSession extends ActivationWorkflow {
 			}
 			this.transition("readyForDamage");
 			await this.rollDamage({}, true);
-			const outcomes = this.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id, { waitForDefenseAnimation: true }));
+			const outcomes = this.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id, { waitForDefenseAnimation: true, includeDamageTargets: true }));
 			if (outcomes.length && outcomes.every(result => ["miss", "fumble"].includes(result.outcome))
 				&& !this.requiredDamageTypes?.length && !this.damageMessages.length) {
 				await this.confirmDamage();
@@ -1632,7 +1646,7 @@ class ActivationSession extends ActivationWorkflow {
 		if (!["readyForDamage", "reviewingDamage"].includes(this.state) || !this.item.hasDamage || !this.targets.length) {
 			return;
 		}
-		const allOutcomes = this.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id, { waitForDefenseAnimation: true }));
+		const allOutcomes = this.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id, { waitForDefenseAnimation: true, includeDamageTargets: true }));
 		// Each attacking creature rolls its own damage for its own hits, crits and misses.
 		const plans = (this.units ?? [this.unitFor()]).map(unit => {
 			const outcomes = this.isGroup ? allOutcomes.filter(result => result.attackerId === unit.id) : allOutcomes;
@@ -1716,7 +1730,7 @@ class ActivationSession extends ActivationWorkflow {
 			return;
 		}
 		const tokenId = target.dataset.resultKey ?? target.dataset.tokenId;
-		const result = this.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id, { waitForDefenseAnimation: true }))
+		const result = this.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id, { waitForDefenseAnimation: true, includeDamageTargets: true }))
 			.find(entry => entry.key === tokenId);
 		if (!result || targetDamageTotal(this.damageFor(result.attackerId), result.outcome, this.sharedMissDamage, 0, this.requiredDamageTypes) === null) {
 			return;
@@ -1757,7 +1771,7 @@ class ActivationSession extends ActivationWorkflow {
 	 */
 	async persistTargetDamage(pending) {
 		for (const message of this.attackMessages) {
-			const targets = messageAttackResults(message, canvas.scene?.id, { waitForDefenseAnimation: true }).map(result => {
+			const targets = messageAttackResults(message, canvas.scene?.id, { waitForDefenseAnimation: true, includeDamageTargets: true }).map(result => {
 				const modifier = this.targetDamageModifiers.get(result.key);
 				return { tokenId: result.tokenId, key: result.key, attackerId: result.attackerId, outcome: result.outcome,
 					modifierFormula: modifier?.formula ?? "", modifierTotal: modifier?.total ?? 0,
@@ -1967,7 +1981,7 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 		if (activation.view.screen === "results") {
 			this.resolutionRules ??= postAttackRules(activation.card);
 			const reviewingDamage = ["readyForDamage", "reviewingDamage", "updatingDamage", "retryingDamage"].includes(activation.state);
-			const rolledResults = activation.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id, { waitForDefenseAnimation: true })
+			const rolledResults = activation.attackMessages.flatMap(message => messageAttackResults(message, canvas.scene?.id, { waitForDefenseAnimation: true, includeDamageTargets: true })
 				.map(result => ({ ...result, message })));
 			const results = activation.targets.flatMap(token => rolledResults.filter(result => result.tokenId === token.id))
 				.map(({ message, ...result }) => {
@@ -1979,8 +1993,8 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 					return { ...result, fixedOutcome: ["critical", "fumble"].includes(result.outcome) || Boolean(result.defense && [1, 20].includes(defenseTarget?.natural)),
 						canAdjust: ["reviewingResults", "awaitingDefenses"].includes(activation.state) && result.outcome !== "pending" && !["critical", "fumble"].includes(result.outcome)
 							&& (!result.defense || (game.user.isGM && ![1, 20].includes(defenseTarget?.natural))),
-						messageId: message.id, rollIndex: message.rolls.findIndex(roll => roll.options?.multirollData?.targetID === result.tokenId),
-						modifier: (result.defense ? defenseTarget?.postDefenseModifier : null) ?? message.rolls.find(roll => roll.options?.multirollData?.targetID === result.tokenId)?.options.postAttackModifier ?? 0,
+						messageId: message.id, rollIndex: (message.rolls ?? []).findIndex(roll => roll.options?.multirollData?.targetID === result.tokenId),
+						modifier: (result.defense ? defenseTarget?.postDefenseModifier : null) ?? (message.rolls ?? []).find(roll => roll.options?.multirollData?.targetID === result.tokenId)?.options.postAttackModifier ?? 0,
 						canFocus: Boolean(activation.focusableTarget(result.tokenId)),
 						name: token?.visible ? token.name : "Unavailable target", img: token?.visible ? token.document.texture?.src : null,
 						attackerName: activation.isGroup ? (attacker?.name ?? "Attacker") : "",
@@ -2034,12 +2048,12 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 				reviewing: activation.view.reviewing,
 				awaitingDefenses: activation.hasPendingDefenses(),
 				hasDamage: Boolean(activation.item.hasDamage),
-				resolved: true, noTargets: !activation.targets.length, powerName: activation.item.name, card: activation.card,
+				resolved: true, damageOnly: !activation.item.hasAttack, noTargets: !activation.targets.length, powerName: activation.item.name, card: activation.card,
 				resolutionRules: this.resolutionRules,
 				beforeAttackRules: this.beforeAttackRules,
 				damageResults, damageCards,
 				targetsExpanded: activation.view.reviewing || Boolean(this.targetsExpanded),
-				outcomeSummary: [outcomeCounts.normal ? `${outcomeCounts.normal} Hit` : "", outcomeCounts.crit ? `${outcomeCounts.crit} Crit` : "", outcomeCounts.miss ? `${outcomeCounts.miss} Miss` : ""].filter(Boolean).join(" · "),
+				outcomeSummary: !activation.item.hasAttack ? `${results.length} targets` : [outcomeCounts.normal ? `${outcomeCounts.normal} Hit` : "", outcomeCounts.crit ? `${outcomeCounts.crit} Crit` : "", outcomeCounts.miss ? `${outcomeCounts.miss} Miss` : ""].filter(Boolean).join(" · "),
 				modifiedTargets: results.filter(result => activation.targetDamageModifiers.get(result.key)?.formula).length,
 				zeroMiss: !activation.sharedMissDamage && outcomeCounts.miss > 0 && !activation.item.system.miss?.formula?.trim(),
 				reviewingDamage,

@@ -83,6 +83,15 @@ export class TriggerPromptChat {
         return;
       }
     }
+    // Player-owned actors keep response prompts with their players, even offline.
+    const playerOwners = game.users.filter(user => !user.isGM && actor.testUserPermission?.(user, "OWNER"));
+    if (playerOwners.length) {
+      recipientIds = recipientIds.filter(id => playerOwners.some(user => user.id === id));
+    }
+    if (!recipientIds.length) {
+      await this.#releaseChoices({ actorId: actor.id, actorUuid: actor.uuid, choices });
+      return;
+    }
     const buttons = choices
       .map(assignment => `<button data-trigger-prompt-action="${TRIGGER_PROMPT_ACTION.USE}" data-item-id="${assignment.item.id}">${foundry.utils.escapeHTML(assignment.item.name)}</button>`).join("");
     const expiresAt = Math.min(Date.now() + TRIGGER_PROMPT_TIMEOUT_MS,

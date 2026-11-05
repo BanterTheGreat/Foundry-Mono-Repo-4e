@@ -3,7 +3,7 @@ import { MODULE_ID } from "./rules.js";
 const queues = new Map();
 
 /**
- * Persist confirmed damage, applying GM-controlled NPC damage to PCs without another dialog.
+ * Persist confirmed damage for chat and GM review of non-PC targets.
  * Only message IDs cross this seam; the GM reads the confirmed target receipts and rolls.
  */
 export async function requestDamageApplication(session) {
@@ -11,27 +11,17 @@ export async function requestDamageApplication(session) {
 		return;
 	}
 	const message = session.attackMessages[0];
-	const directTargets = game.user.isGM && game.users.activeGM?.id === game.user.id && session.item.actor?.type === "NPC"
-		? session.attackMessages.flatMap(entry => entry.flags?.[MODULE_ID]?.targetDamageReview?.targets ?? [])
-			.filter(target => game.scenes.get(canvas.scene.id)?.tokens.get(target.tokenId)?.actor?.type === "Player Character")
-		: [];
 	await message.update({ [`flags.${MODULE_ID}.damageApplication`]: {
 		sessionId: session.id, sceneId: canvas.scene.id, itemUuid: session.item.uuid,
 		// A multi-attack's creatures each use their own copy of the power.
-		itemUuids: [...new Set(session.attackMessages.map(entry => entry.flags?.[MODULE_ID]?.attackResults?.itemUuid).filter(Boolean))],
-		dismissed: directTargets.length > 0,
+		itemUuids: [...new Set(session.attackMessages.map(entry => (entry.flags?.[MODULE_ID]?.attackResults ?? entry.flags?.[MODULE_ID]?.damageTargets)?.itemUuid).filter(Boolean))],
+		dismissed: false,
 		name: session.item.name, actorName: session.item.actor.name,
 		messageIds: session.attackMessages.map(message => message.id),
 		damageMessageIds: session.damageMessages.map(message => message.id),
 		sharedMiss: Boolean(session.sharedMissDamage), requiredDamageTypes: session.requiredDamageTypes ?? [],
 	} });
-	for (const target of directTargets) {
-		await applyTargetDamage(message, target.key ?? target.tokenId);
-	}
-	if (directTargets.length && damageApplicationTargets(message).some(target =>
-		message.flags[MODULE_ID].damageApplications?.[target.key]?.state !== "applied")) {
-		await message.update({ [`flags.${MODULE_ID}.damageApplication.dismissed`]: false });
-	}
+
 }
 
 /**
@@ -47,7 +37,7 @@ export function damageApplicationTargets(message) {
 	const targets = new Map();
 	for (const id of request.messageIds) {
 		const source = game.messages.get(id);
-		const attack = source?.flags?.[MODULE_ID]?.attackResults;
+		const attack = source?.flags?.[MODULE_ID]?.attackResults ?? source?.flags?.[MODULE_ID]?.damageTargets;
 		const review = source?.flags?.[MODULE_ID]?.targetDamageReview;
 		if (!source || source.author?.id !== message.author?.id || attack?.sessionId !== request.sessionId
 			|| attack.sceneId !== request.sceneId || !(request.itemUuids ?? [request.itemUuid]).includes(attack.itemUuid)
@@ -62,7 +52,9 @@ export function damageApplicationTargets(message) {
 			}
 		}
 	}
-	return [...targets.values()];
+	// PCs apply their own confirmed chat damage; exclude them from every GM application path.
+	return [...targets.values()].filter(target =>
+		game.scenes.get(request.sceneId)?.tokens.get(target.tokenId)?.actor?.type !== "Player Character");
 }
 
 /**

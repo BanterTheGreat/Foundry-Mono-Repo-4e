@@ -27,6 +27,12 @@ export class TriggerPromptAlerts {
     }
     const escape = foundry.utils.escapeHTML;
     const actor = (prompt.actorUuid && globalThis.fromUuidSync?.(prompt.actorUuid)) || game.actors.get(prompt.actorId);
+    // GMs read automatic benefits in public chat; a floating copy is redundant.
+    // Also suppress legacy response prompts whose recipients included every GM.
+    if (game.user.isGM && (prompt.automatic || game.users?.some(user => !user.isGM && actor?.testUserPermission?.(user, "OWNER")))) {
+      this.remove(message.id);
+      return;
+    }
     const items = (prompt.choices ?? [{ itemId: prompt.itemId }]).map(choice => actor?.items.get(choice.itemId)).filter(Boolean);
     if (!items.length) {
       return;

@@ -2589,3 +2589,55 @@ test("a group cannot confirm damage until every attacker that needs a roll has o
 	assert.equal(display.canConfirmDamage, false);
 	assert.equal(display.pendingDamage, true);
 });
+
+test("damage-only powers continue from target selection to normal damage review", async () => {
+	const f = fixture();
+	f.item.hasAttack = false;
+	f.item.hasDamage = true;
+	f.activation.targets = [f.target];
+	const carrier = { id: "utility", visible: true, isContentVisible: true, rolls: [], flags: {},
+		async update(data) {
+			for (const [path, value] of Object.entries(data)) {
+				const keys = path.split(".");
+				let entry = this;
+				for (const key of keys.slice(0, -1)) {
+					entry = entry[key] ??= {};
+				}
+				entry[keys.at(-1)] = value;
+			}
+		} };
+	f.activation.message = carrier;
+	f.messages.set(carrier.id, carrier);
+	let rolls = 0;
+	f.context.publishDamageChat = async () => {};
+	f.context.rollDamageAndWait = async (item, event, cls, review) => {
+		rolls++;
+		assert.equal(review.type, "normal");
+		if (rolls === 1) {
+			return null;
+		}
+		return { message: { id: "damage", rolls: [{ total: 7 }],
+			flags: { [MODULE_ID]: { damageReview: review } }, async update() {} } };
+	};
+	await f.activation.attack();
+	assert.equal(f.activation.state, "readyForDamage", "cancelled damage can be retried");
+	assert.equal(f.activation.damageMissing(), true);
+	await f.activation.rollDamage({}, true);
+	assert.equal(f.activation.state, "reviewingDamage");
+	assert.equal(rolls, 2);
+	const panel = new f.context.api.TargetingPanel(f.activation);
+	const view = await panel._prepareContext();
+	assert.equal(view.results[0].label, "DAMAGE");
+	assert.equal(view.results[0].damageTotal, 7);
+	assert.equal(f.consumed(), 1);
+	assert.equal(carrier.flags[MODULE_ID].attackResults, undefined, "no fabricated attack event");
+	assert.deepEqual(messageAttackResults(carrier, "scene"), [], "attack overlays ignore damage-only targets");
+	assert.equal(carrier.flags[MODULE_ID].targetDamageReview.targets[0].total, 7);
+	assert.equal(carrier.flags[MODULE_ID].targetDamageReview.pending, true);
+	let requests = 0;
+	f.context.requestDamageApplication = async () => { requests++; };
+	await f.activation.confirmDamage();
+	assert.equal(f.activation.state, "complete");
+	assert.equal(carrier.flags[MODULE_ID].targetDamageReview.pending, false);
+	assert.equal(requests, 1);
+});

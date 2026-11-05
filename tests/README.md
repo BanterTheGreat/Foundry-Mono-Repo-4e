@@ -46,7 +46,7 @@ After reload, assign either defeat trigger to a power or feat using its sheet's 
 
 NPC opportunity-prompt defaults and saved overrides: `node --test src/banter-4e-modifications/test/actor-trigger-configuration.test.js`.
 
-Compact floating trigger alerts (hidden chat records, cause text, actual power tooltips, Target Automation handoff with native-use fallback, Ignore, privacy, duplicate renders and the 20-second deadline timer):
+Compact floating trigger alerts (hidden chat records, cause text, actual power tooltips, Target Automation handoff with native-use fallback, Ignore, privacy, duplicate renders and the 25-second deadline timer):
 
 ```sh
 node --test src/banter-4e-modifications/test/trigger-prompt-alerts.test.js src/banter-4e-modifications/test/trigger-prompt-chat.test.js
@@ -222,10 +222,10 @@ npm run test:foundry -- target-automation.spec.mjs --grep "target portraits|atta
 
 During initial targeting, eligible attacks offer separate Normal attack, Charge attack, and Opportunity attack buttons. PC and NPC powers marked Basic Attack always offer Charge, even with the Charge variant checkbox off; chat-card variants use the same rule. Normal attack appears on the right with two buttons and in the middle with three; a lone attack button retains the Attack! label. Each button opens the matching native dialog; cancelling spends no use. Click a target portrait to pan to its token; hover or keyboard focus outlines it. These controls remain available in result review.
 
-The Quench batch `dnd4e-health-display.damage-confirmation` (**INFO DISPLAYS: GM direct damage and approval**)
+The Quench batch `dnd4e-health-display.damage-confirmation` (**INFO DISPLAYS: Manual PC damage and NPC approval**)
 clicks the production Apply Damage button against real actors and messages. It verifies
-NPC-to-PC hits and zero-damage misses apply without an approval popup, repeated clicks
-and receipts cannot apply twice, and PC-to-NPC damage waits for GM approval.
+NPC-to-PC hits and zero-damage misses confirm in chat without changing HP or temporary HP,
+repeated clicks cannot apply PC damage, and PC-to-NPC damage waits for GM approval.
 Run it with `npm run test:foundry -- integration.spec.mjs`.
 
 The `dnd4e-health-display.multi-attack` Quench batch (**INFO DISPLAYS: Multi-creature attacks**)
@@ -290,3 +290,9 @@ browser console, cancel then approve a rename batch, verify equipment links rema
 valid, and retry to confirm no changes. Live verification is pending.
 
 The banter module suite also covers You hit an enemy and the Critical hit only filter.
+
+Damage-only Target Automation (no attack roll): the health-display Node suite covers direct damage review, cancellation/retry without repeated costs, confirmed chat receipts, and PC/manual versus NPC/GM application.
+
+```sh
+node --test src/dnd4e-health-display/test/power-activation.test.js src/dnd4e-health-display/test/damage-application.test.js
+```

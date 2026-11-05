@@ -11,14 +11,18 @@ const CHANNEL = `module.${MODULE_ID}`;
  * verdict in roll.options.multirollData. Never infer targets from current selection.
  * The persisted attackResults flag includes {sessionId, sceneId, targetIds: string[], pending,
  * itemUuid, casterId, effectsManaged}; effect reconciliation reads only this session’s messages.
+ * Damage review opts into damageTargets; attack overlays and consumers exclude them by default.
  */
-export function messageAttackResults(message, sceneId, { waitForDefenseAnimation = false } = {}) {
-	const context = message.flags?.[MODULE_ID]?.attackResults;
+export function messageAttackResults(message, sceneId, { waitForDefenseAnimation = false, includeDamageTargets = false } = {}) {
+	const context = message.flags?.[MODULE_ID]?.attackResults ?? (includeDamageTargets ? message.flags?.[MODULE_ID]?.damageTargets : null);
 	if (!message.visible || !message.isContentVisible || !context?.sessionId
 		|| context.sceneId !== sceneId || !Array.isArray(context.targetIds)) {
 		return [];
 	}
 	const identify = tokenId => ({ tokenId, messageId: message.id, attackerId: context.casterId, key: resultKey(context, tokenId) });
+	if (message.flags?.[MODULE_ID]?.damageTargets && !message.flags?.[MODULE_ID]?.attackResults) {
+		return context.targetIds.map(tokenId => ({ ...identify(tokenId), total: null, outcome: "hit", label: "DAMAGE" }));
+	}
 	const native = (message.rolls ?? []).flatMap(roll => {
 		const attack = roll.options?.multirollData;
 		if (!attack?.targetID || !context.targetIds.includes(attack.targetID) || !Number.isFinite(roll.total)) {

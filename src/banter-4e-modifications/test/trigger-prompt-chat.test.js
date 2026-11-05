@@ -260,13 +260,15 @@ test("the Ignore button counts down and the controls go when the time runs out",
   const dismiss = card.buttons.at(-1);
 
   promptChat.bindPromptCard(createMessage("prompt", {}), card);
-  assert.equal(dismiss.textContent, "Ignore (20)");
+  assert.equal(dismiss.textContent, "Ignore (25)");
   mock.timers.tick(4000);
-  assert.equal(dismiss.textContent, "Ignore (16)");
+  assert.equal(dismiss.textContent, "Ignore (21)");
   assert.ok(card.buttons.every(button => !button.removed));
   mock.timers.tick(6000);
   assert.ok(card.buttons.every(button => !button.removed), "the prompt remains usable after 10 seconds");
   mock.timers.tick(10000);
+  assert.ok(card.buttons.every(button => !button.removed), "the prompt remains usable after 20 seconds");
+  mock.timers.tick(5000);
 
   assert.ok(card.buttons.every(button => button.removed));
 });
@@ -422,7 +424,7 @@ test("a limited prompt's visible deadline cannot outlast its item reservation", 
 
 // Automatic benefits share detection and allowances, but never require activation.
 test("automatic benefits post publicly, spend on trigger and leave optional choices private", async () => {
-  const chat = setUp();
+  const chat = setUp({ users: [{ id: 'gm', isGM: true }, { id: 'player', isGM: false }] });
   const { ItemTriggerAssignments } = await import('../scripts/modules/trigger-prompts/item-trigger-assignments.js');
   const { TriggerPromptAlerts } = await import('../scripts/modules/trigger-prompts/trigger-prompt-alerts.js');
   const automatic = { id: 'mandatory', name: 'Mandatory benefit', flags: {} };
@@ -436,7 +438,7 @@ test("automatic benefits post publicly, spend on trigger and leave optional choi
     operations.push([item.id, operation]);
     return operation === 'offer' ? { id: item.id, expiresAt: NOW + 20000 } : true;
   };
-  await chat.createPromptCard({ trigger: { id: 'test', label: 'Enemy drops' }, actor: { id: 'hero', name: 'Hero <test>' }, assignments: [{ item: automatic }, { item: automatic }, { item: optional }], context: { detail: 'Enemy dropped.' }, recipientIds: ['player'] });
+  await chat.createPromptCard({ trigger: { id: 'test', label: 'Enemy drops' }, actor: { id: 'hero', name: 'Hero <test>', testUserPermission: user => user.id === 'player' }, assignments: [{ item: automatic }, { item: automatic }, { item: optional }], context: { detail: 'Enemy dropped.' }, recipientIds: ['player', 'gm'] });
   assert.equal(messages.length, 2);
   assert.deepEqual(messages[0].whisper, []);
   assert.match(messages[0].content, /Hero &lt;test>.*Enemy dropped/);
@@ -507,5 +509,26 @@ for (const type of ['feat', 'feature']) {
     assert.deepEqual(messages[0].whisper, []);
     assert.equal(messages[0].flags.core.canPopout, true);
     assert.equal(messages[0].flags[TRIGGER_PROMPT_FLAG].automatic, true);
+  });
+}
+
+for (const online of [true, false]) {
+  test(`player response prompts exclude GMs with player online=${online}`, async () => {
+    const chat = setUp({ users: [{ id: "gm", isGM: true, active: true }, { id: "player", isGM: false, active: online }] });
+    const created = [];
+    globalThis.foundry = { utils: { escapeHTML: String } };
+    globalThis.ChatMessage = { create: async data => { created.push(data); return { id: "new" }; } };
+    chat.limits.request = async () => ({ unrestricted: true });
+    await chat.createPromptCard({
+      trigger: { id: "test", label: "Test" },
+      actor: { id: "hero", testUserPermission: user => user.id === "player" },
+      assignments: [{ item: { id: "reaction", name: "Reaction" } }],
+      context: { detail: "Hit" }, recipientIds: online ? ["gm", "player"] : ["gm"],
+    });
+    assert.equal(created.length, online ? 1 : 0);
+    if (online) {
+      assert.deepEqual(created[0].whisper, ["player"]);
+      assert.deepEqual(created[0].flags[TRIGGER_PROMPT_FLAG].recipientIds, ["player"]);
+    }
   });
 }

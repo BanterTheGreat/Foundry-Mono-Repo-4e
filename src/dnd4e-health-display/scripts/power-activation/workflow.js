@@ -2,7 +2,7 @@
 const STATES = {
 	targeting: { screen: "targeting", next: ["attackDialog", "updatingVariant"] },
 	updatingVariant: { screen: "targeting", busy: true, status: "Updating attack mode…", next: ["targeting"] },
-	attackDialog: { screen: "targeting", busy: true, status: "Attack dialog open", next: ["targeting", "rollingAttack", "preparingResults", "rollingHealing"] },
+	attackDialog: { screen: "targeting", busy: true, status: "Attack dialog open", next: ["targeting", "rollingAttack", "preparingResults", "rollingHealing", "readyForDamage"] },
 	rollingAttack: { screen: "targeting", busy: true, status: "Rolling attack dice…", next: ["preparingResults"] },
 	preparingResults: { screen: "results", reviewing: true, busy: true, status: "Preparing attack results…", next: ["reviewingResults", "awaitingDefenses"] },
 	awaitingDefenses: { screen: "results", reviewing: true, status: "Awaiting player defenses", next: ["reviewingResults", "updatingResults"] },

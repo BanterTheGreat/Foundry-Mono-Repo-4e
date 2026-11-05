@@ -76,7 +76,7 @@ export const TRIGGERS = Object.freeze([
     on: COMBAT_EVENT_TYPE.ATTACK_TARGETED,
     recipients: { markOwnerOf: "attacker" }, excludesTargetedRecipient: true,
     relations: [{ left: "recipient", relation: "hostile", right: "attacker" }],
-    source: "attacker", detail: "{attacker}, marked by {recipient}, attacked without targeting {recipient}.",
+    source: "attacker", detail: "{attacker} violated {recipient}'s mark",
     text: { patterns: [/\b(?:enemy|creature) (?:marked by you|you have marked).*?makes an attack that does not include you as a target\b/] },
   }),
   define({

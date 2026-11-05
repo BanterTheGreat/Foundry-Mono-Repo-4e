@@ -185,7 +185,7 @@ test("unrestricted items remain backwards compatible and get no usage flag", asy
   const { limits, item } = setup("none");
   assert.deepEqual(await limits.request(item, "offer"), { unrestricted: true });
   assert.equal(item.getFlag(MODULE, "trigger-prompt-usage"), undefined);
-  assert.equal(TRIGGER_PROMPT_TIMEOUT_MS, 20000);
+  assert.equal(TRIGGER_PROMPT_TIMEOUT_MS, 25000);
 });
 
 

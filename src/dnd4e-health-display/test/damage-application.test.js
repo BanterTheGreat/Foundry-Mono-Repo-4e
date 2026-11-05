@@ -230,7 +230,7 @@ test("missing required backing rolls block application rather than bypassing typ
 	assert.deepEqual(f.changes, []);
 });
 
-test("GM-only NPC attack on a PC applies damage directly without opening review", async () => {
+test("GM NPC attack on PCs keeps confirmed chat receipts without changing health or opening review", async () => {
 	const f = panelFixture();
 	f.actor.type = "Player Character";
 	f.message.author = game.user;
@@ -241,22 +241,23 @@ test("GM-only NPC attack on a PC applies damage directly without opening review"
 		attackMessages: [f.message], damageMessages: [f.damage] });
 	f.recover();
 	assert.equal(f.rendered.length, 0);
-	assert.deepEqual(f.changes, [13]);
-	assert.equal(f.message.flags[MODULE_ID].damageApplications.target.state, "applied");
-	await applyTargetDamage(f.message, "target");
-	assert.deepEqual(f.changes, [13]);
+	assert.deepEqual(f.changes, []);
+	assert.equal(f.message.flags[MODULE_ID].damageApplications?.target, undefined);
+	await assert.rejects(applyTargetDamage(f.message, "target"), /no longer has confirmed damage/);
+	assert.deepEqual(f.changes, []);
 });
 
-test("mixed NPC targets apply PC damage directly and retain review for NPC targets", async () => {
+test("mixed targets keep PC damage manual and retain review for NPC targets", async () => {
 	const f = panelFixture();
 	f.actor.type = "Player Character";
 	f.tokens.get("miss").actor = { ...f.actor, type: "NPC" };
 	await requestDamageApplication({ id: "session", item: { name: "Claw", uuid: f.request.itemUuid,
 		hasDamage: true, actor: { type: "NPC", name: "Beast" } },
 		attackMessages: [f.message], damageMessages: [f.damage] });
-	assert.deepEqual(f.changes, [13]);
-	assert.equal(f.message.flags[MODULE_ID].damageApplications.target.state, "applied");
-	assert.equal(f.message.flags[MODULE_ID].damageApplications.miss, undefined);
+	assert.deepEqual(f.changes, []);
+	assert.equal(f.message.flags[MODULE_ID].damageApplications?.target, undefined);
+	assert.equal(f.message.flags[MODULE_ID].damageApplications?.miss, undefined);
+	assert.deepEqual(damageApplicationTargets(f.message).map(target => target.tokenId), ["miss"]);
 	f.recover();
 	assert.equal(f.rendered.length, 1);
 });
@@ -321,3 +322,20 @@ test("damage receipts snapshot the confirmed typed terms before mutating HP", as
   await applyTargetDamage(f.message, "target");
   assert.deepEqual(f.message.flags[MODULE_ID].damageApplications.target.damageTypes, ["fire", "cold"]);
 });
+
+for (const pc of [true, false]) {
+	test(`damage-only confirmed receipts preserve application policy for PC=${pc}`, async () => {
+		const f = fixture();
+		f.actor.type = pc ? "Player Character" : "NPC";
+		f.message.flags[MODULE_ID].damageTargets = f.message.flags[MODULE_ID].attackResults;
+		delete f.message.flags[MODULE_ID].attackResults;
+		assert.equal(damageApplicationTargets(f.message).length, pc ? 0 : 2);
+		if (pc) {
+			await assert.rejects(applyTargetDamage(f.message, "target"), /no longer has confirmed damage/);
+			assert.deepEqual(f.changes, []);
+		} else {
+			await applyTargetDamage(f.message, "target");
+			assert.deepEqual(f.changes, [13]);
+		}
+	});
+}

@@ -30,6 +30,8 @@ test("multiple choices show only the hovered or focused option; a single choice 
   const prompt = { actorId: "actor", recipientIds: ["player"], expiresAt: Date.now() + 10000 };
   try {
     alerts.show({ id: "multi", flags: { triggerPrompts: { ...prompt, choices: buttons.map(button => ({ itemId: button.dataset.itemId })) } } });
+    alerts.show({ id: "multi", flags: { triggerPrompts: { ...prompt, choices: buttons.map(button => ({ itemId: button.dataset.itemId })) } } });
+    assert.equal(stack.children.length, 1, "repeated delivery/render mounts only one alert");
     assert.equal(alert.listeners.mouseenter, undefined);
     assert.deepEqual(shown, []);
     await buttons[1].listeners.mouseenter();
@@ -154,3 +156,18 @@ test("trigger tooltip headers share chat classes, range icons and readable usage
   }
   assert.match(TriggerPromptAlerts.powerHeader({ name: "Feat", type: "feat" }), /banter-power__usage">Feat/);
 });
+
+for (const automatic of [true, false]) {
+  test(`GM has no floating copy of player prompt automatic=${automatic}`, () => {
+    globalThis.game = {
+      user: { id: "gm", isGM: true }, users: [{ id: "player", isGM: false }],
+      actors: new Map([["hero", { testUserPermission: () => true }]]),
+    };
+    const alerts = new TriggerPromptAlerts(() => assert.fail("No controls should be bound"));
+    const message = { id: "prompt", flags: { triggerPrompts: {
+      automatic, actorId: "hero", recipientIds: ["gm", "player"], expiresAt: Date.now() + 6000,
+    } } };
+    alerts.show(message);
+    alerts.show(message);
+  });
+}

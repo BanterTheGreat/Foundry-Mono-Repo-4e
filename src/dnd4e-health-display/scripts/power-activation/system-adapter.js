@@ -41,7 +41,9 @@ export async function resolveRange(item, variance = {}) {
 	// The native evaluator expects formula variables, not an Actor document.
 	const rollData = item.getRollData({ variance });
 	if (automationConfig(item).placementMode === "summon") {
-		const distance = Number(utils.evaluateFormula(item.system.rangePower, rollData, { strict: true, contextName: "summon range" }));
+		// Close bursts store their distance in Area; Range is normally zero.
+		const formula = item.system.rangeType === "closeBurst" ? item.system.area : item.system.rangePower;
+		const distance = Number(utils.evaluateFormula(formula, rollData, { strict: true, contextName: "summon range" }));
 		if (!Number.isInteger(distance) || distance < 0) {
 			throw new Error("Summoning requires a nonnegative whole-square Range.");
 		}
