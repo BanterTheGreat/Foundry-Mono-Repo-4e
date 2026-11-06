@@ -83,8 +83,8 @@ export class TriggerPromptChat {
         return;
       }
     }
-    // Player-owned actors keep response prompts with their players, even offline.
-    const playerOwners = game.users.filter(user => !user.isGM && actor.testUserPermission?.(user, "OWNER"));
+    // Connected player owners handle response prompts; otherwise keep GM recipients.
+    const playerOwners = game.users.filter(user => user.active && !user.isGM && actor.testUserPermission?.(user, "OWNER"));
     if (playerOwners.length) {
       recipientIds = recipientIds.filter(id => playerOwners.some(user => user.id === id));
     }

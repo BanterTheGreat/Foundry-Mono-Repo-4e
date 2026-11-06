@@ -424,7 +424,7 @@ test("a limited prompt's visible deadline cannot outlast its item reservation", 
 
 // Automatic benefits share detection and allowances, but never require activation.
 test("automatic benefits post publicly, spend on trigger and leave optional choices private", async () => {
-  const chat = setUp({ users: [{ id: 'gm', isGM: true }, { id: 'player', isGM: false }] });
+  const chat = setUp({ users: [{ id: 'gm', isGM: true }, { id: 'player', isGM: false, active: true }] });
   const { ItemTriggerAssignments } = await import('../scripts/modules/trigger-prompts/item-trigger-assignments.js');
   const { TriggerPromptAlerts } = await import('../scripts/modules/trigger-prompts/trigger-prompt-alerts.js');
   const automatic = { id: 'mandatory', name: 'Mandatory benefit', flags: {} };
@@ -513,7 +513,7 @@ for (const type of ['feat', 'feature']) {
 }
 
 for (const online of [true, false]) {
-  test(`player response prompts exclude GMs with player online=${online}`, async () => {
+  test(`player response prompts route to the player when online and fall back to GMs when offline (online=${online})`, async () => {
     const chat = setUp({ users: [{ id: "gm", isGM: true, active: true }, { id: "player", isGM: false, active: online }] });
     const created = [];
     globalThis.foundry = { utils: { escapeHTML: String } };
@@ -525,10 +525,9 @@ for (const online of [true, false]) {
       assignments: [{ item: { id: "reaction", name: "Reaction" } }],
       context: { detail: "Hit" }, recipientIds: online ? ["gm", "player"] : ["gm"],
     });
-    assert.equal(created.length, online ? 1 : 0);
-    if (online) {
-      assert.deepEqual(created[0].whisper, ["player"]);
-      assert.deepEqual(created[0].flags[TRIGGER_PROMPT_FLAG].recipientIds, ["player"]);
-    }
+    assert.equal(created.length, 1);
+    const expectedRecipients = online ? ["player"] : ["gm"];
+    assert.deepEqual(created[0].whisper, expectedRecipients);
+    assert.deepEqual(created[0].flags[TRIGGER_PROMPT_FLAG].recipientIds, expectedRecipients);
   });
 }

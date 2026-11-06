@@ -31,10 +31,13 @@ On **Windows**, the book directory is:
 C:\Users\Imre\Documents\Tabletop\4E\Zeitgeist 4e
 ```
 
-This path is Windows-only. On **Mac**, first ask the user where the books are
-stored; wait for that location before attempting a lookup. Use their answer
-for the current task and add the confirmed Mac location to this skill for
-future use, preserving the Windows location. On other platforms, or if the
+On **Mac**, the confirmed book directory is:
+
+```text
+/Users/imre/Library/CloudStorage/Dropbox/Tabletop RPG/Zeitgeist 4e
+```
+
+On other platforms, or if the
 configured directory is missing, ask for the book directory rather than
 guessing a translated path.
 

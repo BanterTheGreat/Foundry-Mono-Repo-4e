@@ -90,10 +90,11 @@ export async function renderTargetDamage(message, root, ChatRolls) {
       : `Apply ${layer.outcome} damage to your assigned character. Can be applied again.`;
     button.setAttribute('aria-label', button.title);
     button.type = 'button';
+    button.disabled = Boolean(data.pending) && !game.user.isGM;
     button.addEventListener('click', async event => {
       event.preventDefault();
       event.stopPropagation();
-      if (button.disabled || applying.has(`${message.id}:${layer.outcome}`) || message.isContentVisible === false) {
+      if ((message.flags?.[MODULE]?.damageChat?.pending && !game.user.isGM) || button.disabled || applying.has(`${message.id}:${layer.outcome}`) || message.isContentVisible === false) {
         return;
       }
       const selected = canvas.tokens.controlled ?? [];
