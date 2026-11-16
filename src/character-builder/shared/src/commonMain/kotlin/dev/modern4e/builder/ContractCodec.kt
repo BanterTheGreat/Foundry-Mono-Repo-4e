@@ -9,21 +9,33 @@ object ContractCodec {
 
     /** Emit decisions without resolving or dropping missing selections. */
     fun encode(document: CharacterDocument): String {
-        require(document.formatVersion == 1)
+        val errors = CharacterValidation.validate(json.encodeToJsonElement(document))
+        require(errors.isEmpty()) { errors.joinToString("; ") { it.message } }
         return json.encodeToString(document)
+    }
+
+    /** Structured export failure for adapters; no timestamps or decisions are regenerated. */
+    fun encodeChecked(document: CharacterDocument): ContractResult<String> {
+        val errors = CharacterValidation.validate(json.encodeToJsonElement(document))
+        return if (errors.isEmpty()) {
+            ContractResult.Available(json.encodeToString(document))
+        } else {
+            ContractResult.Unavailable(errors)
+        }
     }
 
     /** Reject incompatible formats without IO or mutation of existing saves. */
     fun decode(text: String): ContractResult<CharacterDocument> {
         return try {
-            val version = json.parseToJsonElement(text).jsonObject["formatVersion"]?.jsonPrimitive?.intOrNull
-            if (version != 1) {
-                ContractResult.Unavailable(listOf(Diagnostic("character.format", DiagnosticKind.INCOMPATIBLE_FORMAT, "Unsupported or missing character format version: $version")))
+            val tree = json.parseToJsonElement(text)
+            val errors = CharacterValidation.duplicateFields(text) + CharacterValidation.validate(tree)
+            if (errors.isNotEmpty()) {
+                ContractResult.Unavailable(errors)
             } else {
-                ContractResult.Available(json.decodeFromString<CharacterDocument>(text))
+                ContractResult.Available(json.decodeFromJsonElement<CharacterDocument>(tree))
             }
         } catch (error: IllegalArgumentException) {
-            ContractResult.Unavailable(listOf(Diagnostic("character.malformed", DiagnosticKind.INCOMPATIBLE_FORMAT, error.message ?: "Malformed character document")))
+            ContractResult.Unavailable(listOf(Diagnostic("character.malformed", DiagnosticKind.INCOMPATIBLE_FORMAT, "Malformed character document: check JSON syntax, levels (1–30, unique and no higher than the character), nonnegative slot ordinals, positive equipment quantities and modifier qualifiers. ${error.message.orEmpty()}")))
         }
     }
 

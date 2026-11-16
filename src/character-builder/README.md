@@ -1,6 +1,6 @@
 # Modern 4e Character Builder
 
-Foundation for issue #4 and shared contracts for issue #5. This standalone project has no Foundry manifest and must never be deployed to Foundry. Shared character and content contracts are implemented. Character creation, rules execution, persistence adapters, production content packages and offline provisioning are not implemented.
+Foundation for issue #4, shared contracts for issue #5 and portable character codec for issue #6. This standalone project has no Foundry manifest and must never be deployed to Foundry. Shared character/content contracts and validated portable JSON exchange are implemented. Character creation, rules execution, persistence adapters, production content packages and offline provisioning are not implemented.
 
 ## Layout and boundaries
 
@@ -65,7 +65,7 @@ The active class reference assigns 4 main-ability points and 5 non-main points, 
 
 The fixed vocabulary comprises entry/proficiency grants; entry, proficiency and main-ability choices; minimum-level, selected-entry, direct ability-point and proficiency prerequisites; explicit unadapted prerequisites; typed integer ADD/SET/MINIMUM modifiers; and level-specific class grants, choices and modifiers. Targets enumerate supported statistics, with explicit ability or skill qualifiers where required. Bonus types are fixed data. No expression evaluator or executable extension exists. Engine implementations must surface unadapted prerequisites as incomplete automation, and must never interpret source score thresholds using vanilla math. Coverage is supported/partial/unimplemented with limitations. These DTOs define vocabulary, not a claim that the engine evaluates it yet.
 
-`ContractCodec` strictly encodes/decodes character v1. Missing/future versions, unknown fields and unknown mechanic variants are rejected; unresolved selections are valid portable data. No import writes to storage. Unsupported future formats require an explicit future codec, never silent migration. Content remains bundled separately; portable characters carry neither entry descriptions nor calculated statistics.
+`ContractCodec` strictly encodes/decodes character v1. Missing/future versions, unknown fields and unknown mechanic variants are rejected; unresolved selections are valid portable data. No import writes to storage. Unsupported future formats require an explicit future codec, never silent migration. Content remains bundled separately; portable characters carry neither entry descriptions nor calculated statistics. See the portable codec policy below for validation and web APIs.
 
 Fingerprints are `sha256-v1:` plus lowercase SHA-256 of UTF-8 canonical JSON for the **whole serialized entry**, including presentation and coverage. All v1 default fields are emitted, object keys are recursively sorted lexicographically by UTF-16 code units, arrays retain order, strings use kotlinx.serialization JSON escaping, and integer values use JSON decimal encoding. Package ID/revision are outside the entry digest and retained separately. The prefix versions this algorithm. Fingerprints detect changes; they provide no historical pinning or signature/authenticity guarantee. Fixtures include an independently generated digest. Presentation-only edits also count as changed definitions.
 
@@ -73,7 +73,22 @@ Fingerprints are `sha256-v1:` plus lowercase SHA-256 of UTF-8 canonical JSON for
 
 `ContentSource` lists bundled manifests and loads logical index/chunk IDs. `CharacterStore` distinguishes CREATE (fail if the ID exists) from REPLACE_WITH_RECOVERY (fail if it does not); replacement must preserve a recovery document before atomically publishing the new one. `SaveReceipt.recoveryId` identifies a recovery copy retrievable through `load`; failed recovery/write operations return unavailable and leave the prior save intact. `delete` returns whether a character existed. Implementations must report IO errors, not success. `FileExchange` receives/delivers JSON without performing storage or rules work; cancellation is an available null receive result. These are interfaces only; adapter behavioral tests belong with their implementations.
 
-The proof Fighter and small whole-entry override are contract fixtures, not production content or full Fighter automation. No UI workflow, catalog resolver, rules evaluator or storage adapter is added by this contract milestone. The existing JS smoke boundary is unchanged; future web operations should expose plain JSON/data through a small adapter rather than exporting Kotlin collections directly.
+The proof Fighter and small whole-entry override are contract fixtures, not production content or full Fighter automation. No UI workflow, catalog resolver, rules evaluator or storage adapter is added by these milestones. The JS smoke boundary remains available; character exchange uses the JSON wrappers below rather than exposing Kotlin collections.
+
+## Portable codec policy (#6)
+
+Android calls `ContractCodec.decode(text)` and `encodeChecked(document)` directly. Both return `ContractResult`; unavailable results carry `INCOMPATIBLE_FORMAT` diagnostics and no value. `encode(document)` remains a convenience for validated callers and throws `IllegalArgumentException` on invalid metadata. Adapters must check availability before saving or reporting export success. The codec has no storage dependency and cannot overwrite a save.
+
+Web imports generated `decodeCharacterJson(text)` and `encodeCharacterJson(documentJson)` from `@modern4e/shared`. Each returns a JSON string containing `{ type: "available", value, diagnostics }` or `{ type: "unavailable", diagnostics }`. Decode's value is the character object; encode's value is the portable JSON string. Parse the envelope with `JSON.parse`. Concrete result serializers preserve the value type on the Kotlin/JS boundary.
+
+- `formatVersion` must be the JSON integer `1`, explicitly present. It is independent of opaque content revisions; no content lookup, pinning or migration occurs.
+- Required fields and nested JSON types are checked, including enum names and integer map values. Numeric strings, unquoted strings, fractional/out-of-range integers and explicit nulls for non-null fields are rejected. Diagnostics identify field paths; constructor invariant failures return a malformed-document diagnostic describing the constraints.
+- Omitted optional fields use declared DTO defaults and exports emit those defaults. Unknown fields anywhere, including additional content/derived totals, are rejected rather than silently discarded. Duplicate members, including escaped spellings of the same key, are also rejected. Configuration maps retain their arbitrary string keys and values.
+- IDs, source/choice/instance IDs, supplier IDs, fingerprints and revisions must be nonblank strings. They are otherwise opaque; unknown content and fingerprint algorithms remain portable. Slot ordinals, unique level records, level ranges and equipment quantities retain the contract's structural constraints.
+- `savedAt` must be a calendar-valid RFC 3339 timestamp with four-digit year, seconds 00–59, optional fractional seconds and an explicit `Z` or numeric timezone offset. Leap-second timestamps are not supported. Encoding never generates a timestamp, ID or revision.
+- All stored decisions, ordered packages, source slots, advancements, both replacement kinds, unresolved selections, equipment configuration and manual adjustments survive semantic round trips. Whitespace and JSON object-key order are not preserved. Content availability, ability budgets and choice eligibility are engine concerns; mechanically invalid characters remain exportable when their document structure is valid.
+
+Validation on 2026-11-16: shared JVM/JS tests and JS production distribution, Android debug assembly, compiled web boundary tests and TypeScript/Vite production build. This change has no UI; emulator instrumentation and browser visual checks are not required or rerun. Existing Gradle configuration and Kotlin source-map warnings remain. See `tests/README.md` for the commands.
 
 ## Validation recorded for contracts (#5)
 
