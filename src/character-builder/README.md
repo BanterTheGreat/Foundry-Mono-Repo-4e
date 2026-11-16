@@ -105,3 +105,41 @@ The existing configuration-time Gradle/npm resolution warning remains. This mile
 ## Codec review fixes
 
 Validation: `:shared:jvmTest :shared:jsNodeTest :shared:jsBrowserProductionLibraryDistribution :android:assembleDebug` passed (21 shared tests per target). `npm test --prefix web` passed 7 tests against the rebuilt Kotlin distribution; `npm run build --prefix web` and `git diff --check` passed. Regression coverage includes malformed number tokens, all unescaped string control characters, invalid escapes, every identifier occurrence in the golden character and unrestricted configuration text.
+
+## Shared catalog
+
+`ContentCatalog.open(source, standardPackageId, character.packages)` creates independent
+catalogs for each character. The standard package is first, followed by enabled packages
+in saved order; repeated package IDs are rejected. Dependencies must be explicitly enabled
+and match the exact installed revision declared by the manifest. Character last-seen revisions
+are acknowledgment history, not pins: current installed definitions are used.
+
+`search` filters winning IDs/titles and optional categories without requesting chunks.
+`lookup` loads the winning whole definition and returns supplier revision, codec fingerprint,
+and incomplete-automation diagnostics. An ordinary miss is an available null.
+`resolveReferences` resolves presentation reference IDs through the same catalog.
+
+`resolve(savedSelection)` requires the expected supplier to remain usable and index the saved
+entry ID, preventing silent fallback when custom content disappears. A deliberate package
+switch is explicit (`deliberatePackageSwitch = true`). Resolved selections expose
+`acknowledgmentRequired` when the supplier or fingerprint changed; this is not an invalid-choice
+verdict. Neither operation modifies the saved selection or acknowledgment baseline.
+
+Missing/unusable packages produce diagnostics and are excluded (including dependent packages),
+so unrelated definitions stay accessible. Missing standard content, ambiguous manifests/indexes
+and index IO failures prevent catalog construction. Chunk errors fail the requested detail
+without fallback. Adapters must return structured IO failures via `ContractResult`.
+The catalog reads metadata once per construction, loads chunks on demand without caching,
+and should be recreated after installed content changes. There is no platform IO, UI,
+character calculation, package import, historical pinning or automated migration here.
+
+Catalog validation (2026-11-16, JDK 21 and installed Android SDK):
+`./gradlew.bat :shared:jvmTest :shared:jsNodeTest :shared:jsBrowserProductionLibraryDistribution :shared:compileDebugKotlinAndroid`
+passed: 32 tests on each of JVM and Node/JS (11 catalog tests per target), production JS
+library generation and Android shared Kotlin compilation. `git diff --check` passed.
+Set `ANDROID_HOME=C:\Users\Imre\AppData\Local\Android\Sdk` and
+`GRADLE_USER_HOME=C:\Users\Imre\.gradle` for this Windows installation.
+Existing Gradle configuration-time npm resolution warnings remain. No UI or emulator tests
+were rerun because this change adds shared catalog logic only. Generated pipeline packages
+from issue #7 are not available in this worktree; the existing v1 JSON fixtures exercise the
+same unchanged manifest/index/chunk contracts directly.

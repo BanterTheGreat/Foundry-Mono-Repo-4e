@@ -426,3 +426,12 @@ On Linux/macOS substitute `bash ./gradlew` for `.\gradlew.bat`. These tests do n
 The shared JVM/JS tasks also run the checked-in `shared/fixtures/` contract goldens: character/package round trips, unresolved selections and retraining, source/ordinal slot identity, Modern 4e skill mappings, incompatible/malformed formats, unavailable diagnostics, and canonical SHA-256 fingerprints against an independently generated digest and standard hash vectors. Gradle embeds the same fixture bytes in both test targets; no platform filesystem access is needed in common tests.
 
 `CharacterCodecTest` additionally checks repeated semantic round trips (including Unicode, metadata, Modern 4e choices and unresolved content), required/defaulted fields, unknown/duplicate fields, strict scalar types and enums/maps, blank IDs, timestamps, invalid contract structure and checked export failures. Mechanical allocation legality remains engine work and does not block exchange. Web tests exercise `decodeCharacterJson`/`encodeCharacterJson` against the actual generated Kotlin distribution, including successful value serialization and structured failure envelopes. No storage or Foundry runtime is involved.
+
+`ContentCatalogTest` runs under the same `:shared:jvmTest :shared:jsNodeTest` commands.
+It uses the existing JSON manifest/index/chunk fixtures through an in-memory `ContentSource`,
+with no package conversion or platform IO. Coverage includes character-local package order,
+whole-entry overrides, lazy metadata search, provenance/fingerprints, saved supplier/entry
+failures versus ordinary misses, deliberate switches, changed definitions, dependency revisions,
+disabled dependencies/cycles, duplicate metadata/configurations, invalid chunks, IO failures,
+internal references and unadapted-prerequisite diagnostics. Catalog behavior is shared Kotlin;
+there is no catalog UI or rules execution in this ticket.
