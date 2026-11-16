@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class CharacterDocument(
     val formatVersion: Int = 1,
-    val id: String,
+    @OpaqueIdentifier val id: String,
     val savedAt: String,
     val identity: CharacterIdentity,
     val packages: List<PackageRevision>,
@@ -27,20 +27,20 @@ data class CharacterDocument(
 data class CharacterIdentity(val name: String, val player: String = "", val notes: String = "")
 
 @Serializable
-data class PackageRevision(val packageId: String, val revision: String)
+data class PackageRevision(@OpaqueIdentifier val packageId: String, @OpaqueIdentifier val revision: String)
 
 /** The fingerprint is an acknowledgment baseline, never a historical rules pin. */
 @Serializable
 data class SavedSelection(
-    val entryId: String,
+    @OpaqueIdentifier val entryId: String,
     val savedTitle: String,
-    val supplierPackageId: String,
-    val acknowledgedFingerprint: String,
+    @OpaqueIdentifier val supplierPackageId: String,
+    @OpaqueIdentifier val acknowledgedFingerprint: String,
 )
 
 /** Opaque, persistent source-instance ID distinguishes two grants of the same entry. */
 @Serializable
-data class ChoiceSlotId(val sourceInstanceId: String, val choiceId: String, val ordinal: Int) {
+data class ChoiceSlotId(@OpaqueIdentifier val sourceInstanceId: String, @OpaqueIdentifier val choiceId: String, val ordinal: Int) {
     init {
         require(sourceInstanceId.isNotBlank() && choiceId.isNotBlank() && ordinal >= 0)
     }
@@ -48,7 +48,7 @@ data class ChoiceSlotId(val sourceInstanceId: String, val choiceId: String, val 
 
 @Serializable
 /** instanceId identifies this occurrence when it becomes the source of child grants. */
-data class EntryChoice(val instanceId: String, val slot: ChoiceSlotId, val selection: SavedSelection)
+data class EntryChoice(@OpaqueIdentifier val instanceId: String, val slot: ChoiceSlotId, val selection: SavedSelection)
 
 @Serializable
 data class AbilityAllocation(
@@ -100,7 +100,7 @@ enum class ReplacementKind { PROGRESSION, RETRAINING }
 
 @Serializable
 data class EquipmentSelection(
-    val instanceId: String,
+    @OpaqueIdentifier val instanceId: String,
     val selection: SavedSelection,
     val quantity: Int = 1,
     val equipped: Boolean = false,
@@ -112,4 +112,4 @@ data class EquipmentSelection(
 }
 
 @Serializable
-data class ManualAdjustment(val id: String, val modifier: TypedModifier, val reason: String = "")
+data class ManualAdjustment(@OpaqueIdentifier val id: String, val modifier: TypedModifier, val reason: String = "")

@@ -84,7 +84,8 @@ Web imports generated `decodeCharacterJson(text)` and `encodeCharacterJson(docum
 - `formatVersion` must be the JSON integer `1`, explicitly present. It is independent of opaque content revisions; no content lookup, pinning or migration occurs.
 - Required fields and nested JSON types are checked, including enum names and integer map values. Numeric strings, unquoted strings, fractional/out-of-range integers and explicit nulls for non-null fields are rejected. Diagnostics identify field paths; constructor invariant failures return a malformed-document diagnostic describing the constraints.
 - Omitted optional fields use declared DTO defaults and exports emit those defaults. Unknown fields anywhere, including additional content/derived totals, are rejected rather than silently discarded. Duplicate members, including escaped spellings of the same key, are also rejected. Configuration maps retain their arbitrary string keys and values.
-- IDs, source/choice/instance IDs, supplier IDs, fingerprints and revisions must be nonblank strings. They are otherwise opaque; unknown content and fingerprint algorithms remain portable. Slot ordinals, unique level records, level ranges and equipment quantities retain the contract's structural constraints.
+- JSON lexemes are checked before tree decoding: leading-zero or malformed numbers, invalid escapes, unescaped string controls and non-JSON whitespace are rejected with offset diagnostics.
+- IDs, source/choice/instance IDs, supplier IDs, fingerprints and revisions use explicit `@OpaqueIdentifier` model annotations rather than a field-name whitelist and must be nonblank strings. They are otherwise opaque; unknown content and fingerprint algorithms remain portable. Slot ordinals, unique level records, level ranges and equipment quantities retain the contract's structural constraints.
 - `savedAt` must be a calendar-valid RFC 3339 timestamp with four-digit year, seconds 00–59, optional fractional seconds and an explicit `Z` or numeric timezone offset. Leap-second timestamps are not supported. Encoding never generates a timestamp, ID or revision.
 - All stored decisions, ordered packages, source slots, advancements, both replacement kinds, unresolved selections, equipment configuration and manual adjustments survive semantic round trips. Whitespace and JSON object-key order are not preserved. Content availability, ability budgets and choice eligibility are engine concerns; mechanically invalid characters remain exportable when their document structure is valid.
 
@@ -100,3 +101,7 @@ Local Windows validation on 2026-11-16, using the foundation's installed toolcha
 - `git diff --check`: passed.
 
 The existing configuration-time Gradle/npm resolution warning remains. This milestone did not change either UI; emulator instrumentation and visual review were not rerun. CI has not been run for these changes. Storage adapter behavior, catalog resolution and rule evaluation remain later-ticket work; the contract fixtures do not prove those behaviors.
+
+## Codec review fixes
+
+Validation: `:shared:jvmTest :shared:jsNodeTest :shared:jsBrowserProductionLibraryDistribution :android:assembleDebug` passed (21 shared tests per target). `npm test --prefix web` passed 7 tests against the rebuilt Kotlin distribution; `npm run build --prefix web` and `git diff --check` passed. Regression coverage includes malformed number tokens, all unescaped string control characters, invalid escapes, every identifier occurrence in the golden character and unrestricted configuration text.

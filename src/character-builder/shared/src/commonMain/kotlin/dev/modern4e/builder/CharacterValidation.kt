@@ -78,7 +78,7 @@ internal object CharacterValidation {
                             }
                         } else {
                             check(child, descriptor.getElementDescriptor(index), "$path.$name")
-                            if (name in identifierFields && child is JsonPrimitive && child.isString && child.content.isBlank()) {
+                            if (descriptor.getElementAnnotations(index).any { it is OpaqueIdentifier } && child is JsonPrimitive && child.isString && child.content.isBlank()) {
                                 error("identifier", "$path.$name", "Must be a nonblank opaque identifier or revision.")
                             }
                         }
@@ -132,12 +132,6 @@ internal object CharacterValidation {
         }
         return errors
     }
-
-    /** IDs and revisions are opaque: do not require installed content or a fingerprint algorithm. */
-    private val identifierFields = setOf(
-        "id", "instanceId", "entryId", "supplierPackageId", "packageId", "revision",
-        "acknowledgedFingerprint", "sourceInstanceId", "choiceId",
-    )
 
     /** Calendar-valid RFC 3339 subset: four-digit years, seconds 00–59, and explicit offset. */
     private fun validTimestamp(value: String): Boolean {

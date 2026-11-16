@@ -32,4 +32,23 @@ describe("compiled character codec boundary", () => {
     expect(result.diagnostics.some((diagnostic: { message: string }) =>
       diagnostic.message.includes("$.abilities.points.STRENGTH"))).toBe(true);
   });
+
+  it("rejects invalid JSON syntax through both exchange operations", () => {
+    const source = JSON.stringify(JSON.parse(characterJson));
+    const malformed = [
+      source.replace('"formatVersion":1', '"formatVersion":01'),
+      source.replace('"level":4', '"level":04'),
+      source.replace('"Ada"', '"Ada\nName"'),
+      source.replace('"Ada"', '"Ada\tName"'),
+    ];
+    for (const text of malformed) {
+      expect(() => JSON.parse(text)).toThrow();
+      for (const operation of [decodeCharacterJson, encodeCharacterJson]) {
+        const result = JSON.parse(operation(text));
+        expect(result.type).toBe("unavailable");
+        expect(result.diagnostics[0].code).toBe("character.malformed");
+        expect(result.diagnostics[0].message).toContain("JSON offset");
+      }
+    }
+  });
 });

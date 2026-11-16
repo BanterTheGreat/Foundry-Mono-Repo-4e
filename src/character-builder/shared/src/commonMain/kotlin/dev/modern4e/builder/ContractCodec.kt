@@ -27,6 +27,7 @@ object ContractCodec {
     /** Reject incompatible formats without IO or mutation of existing saves. */
     fun decode(text: String): ContractResult<CharacterDocument> {
         return try {
+            JsonSyntax.validate(text)
             val tree = json.parseToJsonElement(text)
             val errors = CharacterValidation.duplicateFields(text) + CharacterValidation.validate(tree)
             if (errors.isNotEmpty()) {

@@ -130,6 +130,59 @@ class CharacterCodecTest {
     }
 
     @Test
+    fun invalidJsonLexemesReturnStructuredErrors() {
+        val source = golden.toString()
+        val malformed = listOf("01", "-01", "+1", "1.", ".1", "1e", "NaN").map {
+            source.replace("\"formatVersion\":1", "\"formatVersion\":$it")
+        } + (0..31).map { control ->
+            source.replace("\"Ada\"", "\"Ada${control.toChar()}Name\"")
+        } + listOf(
+            source.replace("\"Ada\"", "\"bad\\x20escape\""),
+            source.replace("\"Ada\"", "\"bad\\u00xzescape\""),
+            "\u00a0$source",
+        )
+        for (text in malformed) {
+            val result = assertIs<ContractResult.Unavailable>(ContractCodec.decode(text), text)
+            assertTrue(result.diagnostics.any { it.code == "character.malformed" && "JSON offset" in it.message })
+        }
+        val escaped = document().copy(identity = CharacterIdentity("\u0000\t\n\r\"\\/\u00e9"))
+        assertEquals(escaped, assertIs<ContractResult.Available<CharacterDocument>>(
+            ContractCodec.decode(ContractCodec.encode(escaped))).value)
+    }
+
+    @Test
+    fun opaqueConstraintsCoverEveryIdentifierOccurrenceWithoutConstrainingFreeText() {
+        val identifiers = setOf("id", "instanceId", "entryId", "supplierPackageId", "packageId",
+            "revision", "acknowledgedFingerprint", "sourceInstanceId", "choiceId")
+        var checked = 0
+        fun visit(value: JsonElement, replace: (JsonElement) -> JsonElement, path: String) {
+            when (value) {
+                is JsonObject -> for ((key, child) in value) {
+                    val replaceChild = { replacement: JsonElement -> replace(JsonObject(value + (key to replacement))) }
+                    if (key in identifiers) {
+                        reject(replaceChild(JsonPrimitive("  ")), "$path.$key")
+                        checked++
+                    } else {
+                        visit(child, replaceChild, "$path.$key")
+                    }
+                }
+                is JsonArray -> value.forEachIndexed { index, child ->
+                    visit(child, { replacement -> replace(JsonArray(value.mapIndexed { i, item ->
+                        if (i == index) replacement else item
+                    })) }, "$path[$index]")
+                }
+                else -> Unit
+            }
+        }
+        visit(golden, { it }, "$")
+        assertTrue(checked > 30)
+        val freeText = document().copy(identity = CharacterIdentity("", "", ""), equipment =
+            document().equipment.map { it.copy(configuration = mapOf("id" to "", "revision" to "")) })
+        assertEquals(freeText, assertIs<ContractResult.Available<CharacterDocument>>(
+            ContractCodec.decode(ContractCodec.encode(freeText))).value)
+    }
+
+    @Test
     fun malformedStructureAndContractInvariantsReturnErrors() {
         for (source in listOf("{", "[]", "null", "true", "", golden.toString() + " trailing")) {
             assertIs<ContractResult.Unavailable>(ContractCodec.decode(source))
