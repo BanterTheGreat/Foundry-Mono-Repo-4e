@@ -14,6 +14,10 @@ Both applications work offline after their application resources and content are
 
 The product is purely a character builder. Session state such as current HP, expended powers, and conditions is outside the scope.
 
+Ability allocation, ability advancement, skills, and proficiency implement only Modern 4e for now. Vanilla 4e ability scores and skill calculations are deferred. This is the shared engine's baseline, not an optional package or selectable rules profile. Published content remains source material and must be adapted where it depends on those systems.
+
+The portable document stores direct ability-point allocations, main-ability choices, advancement choices, and proficiency choices with their granting sources. Do not derive these from synthetic vanilla scores. Read the active rulebook helpers and creation, advancement, background, skill-check, and balance-change chapters for current rules; do not copy numeric rules from stale summaries. Unsupported or ambiguous imported prerequisites remain explicitly incomplete until adapted.
+
 The progression model accommodates levels 1–30, multiclassing, paragon paths, epic destinies, themes, backgrounds, and equipment. Implementation can start with a small set of classes. Hybrids are out of scope.
 
 ## Technology and sharing strategy
@@ -93,7 +97,7 @@ HTML descriptions can be retained. Android may use a controlled WebView to displ
 
 The developer authors secondary content packages. Standard content and supported custom packages ship with both applications initially. User package-file import is deferred.
 
-Each package has a stable ID, revision, declared dependencies, and entries. Each character records its own ordered list of enabled packages. Standard 4e and Modern 4e characters can coexist in the same application.
+Each package has a stable ID, revision, declared dependencies, and entries. Each character records its own ordered list of enabled packages. Characters with different content packages can coexist, but all use Modern 4e abilities and skills. Standard source content does not enable vanilla ability or skill behavior.
 
 Resolution starts with standard content and applies enabled packages in order. The last definition of an entry ID wins. Initially an override replaces the whole entry; fields are not automatically merged across definitions.
 
@@ -184,12 +188,13 @@ The central acceptance condition is equivalent results from the same character a
 
 ## Initial proof of architecture
 
-The proposed first implementation slice loads standard content plus one override, builds a character through the shared core, exercises level progression and a manual adjustment, and exchanges the character JSON between web and Android.
+The first implementation slice uses one class with Modern 4e ability allocation and skill proficiency, plus one small content override. It builds a character through the shared core, exercises level progression and a manual adjustment, and exchanges the character JSON between web and Android. Include background-granted and free proficiency choices and explained ability/skill contributions in both interfaces. A provisional Fighter fixture must adapt its ability and skill mechanics to this baseline.
 
 This is a suggested validation milestone, not an implemented feature or a tracked issue list. Track implementation work through GitHub Issues under the repository conventions.
 
 ## Deferred scope
 
+- Vanilla 4e ability scores and skill rules, dual rules profiles, and conversion between vanilla and Modern 4e ability/skill models.
 - Hybrids.
 - Play companion and session-state tracking.
 - Backend services, accounts, and cloud synchronization.
