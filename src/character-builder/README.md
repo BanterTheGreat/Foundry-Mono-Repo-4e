@@ -145,3 +145,17 @@ Existing Gradle configuration-time npm resolution warnings remain. No UI or emul
 were rerun because this change adds shared catalog logic only. Generated pipeline packages
 from issue #7 are not available in this worktree; the existing v1 JSON fixtures exercise the
 same unchanged manifest/index/chunk contracts directly.
+
+## Combined content pipeline and catalog validation (#7/#8)
+
+The generated proof assets now run through `ContentCatalog` unchanged in
+`ProductionCatalogTest` on JVM and JavaScript. The test verifies lazy metadata
+search, whole-entry override mechanics, supplier/fingerprint changes, explicit
+incomplete automation, missing-supplier protection and deliberate switching.
+
+On 2026-11-16 the combined shared JVM/JS suites, JS production library distribution
+and Android shared compilation passed. The Python production suite passed all 14
+tests, and `content/build.py --check` verified all eight generated assets.
+Proof mechanics remain partial; provisional thresholds/overrides are engineering
+fixtures rather than approved rulebook additions. No UI or emulator tests were
+needed for these shared logic and build-time pipeline changes.
