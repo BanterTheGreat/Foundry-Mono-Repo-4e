@@ -17,6 +17,8 @@ Pinned Gradle 8.11.1 (wrapper with distribution SHA-256), Kotlin/Compose compile
 
 ## Build and test
 
+Build-time package generation and validation live in [content/README.md](content/README.md). The checked-in representative assets use existing v1 contracts unchanged and are tested on JVM/JS. Full compendium extraction remains explicitly unimplemented automation; the authored proof is partial Modern 4e content.
+
 From this directory in PowerShell:
 
 ```powershell

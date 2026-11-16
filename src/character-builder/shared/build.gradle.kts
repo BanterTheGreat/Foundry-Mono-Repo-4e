@@ -48,3 +48,23 @@ val generateContractFixtures by tasks.registering {
 }
 kotlin.sourceSets.commonTest { kotlin.srcDir(generateContractFixtures) }
 
+// Production fixtures remain separate from hand-authored contract goldens.
+val generateProductionFixtures by tasks.registering {
+    val fixtures = layout.projectDirectory.dir("../content/generated")
+    val output = layout.buildDirectory.dir("generated/productionFixtures")
+    inputs.dir(fixtures)
+    outputs.dir(output)
+    doLast {
+        val target = output.get().file("ProductionFixtures.kt").asFile
+        target.parentFile.mkdirs()
+        val entries = fixtures.asFile.walkTopDown().filter { it.isFile && it.extension == "json" }
+            .sortedBy { it.relativeTo(fixtures.asFile).invariantSeparatorsPath }.joinToString(",\n") {
+                val name = it.relativeTo(fixtures.asFile).invariantSeparatorsPath
+                val escaped = it.readText().replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n").replace("\r", "\\r").replace("$", "\\$")
+                "    \"$name\" to \"$escaped\""
+            }
+        target.writeText("package dev.modern4e.builder\ninternal val productionFixtures = mapOf(\n$entries\n)\n")
+    }
+}
+kotlin.sourceSets.commonTest { kotlin.srcDir(generateProductionFixtures) }
+

@@ -409,6 +409,16 @@ Summon automation Node coverage includes separate square selection, per-power ma
 
 ## Character Builder foundation, contracts and portable codec
 
+Build-time compendium production (Python 3.9+, standard library; run from repository root):
+
+```powershell
+python -X utf8 src/character-builder/content/build.py
+python -X utf8 src/character-builder/content/build.py --check
+python -X utf8 -m unittest discover -s src/character-builder/content -p 'test_*.py' -v
+```
+
+See [content production](../src/character-builder/content/README.md) for full extraction and asset layout. Tests cover malformed/non-executable JSONP, exact HTML/identity preservation, authored Modern 4e mechanics, explicit incomplete coverage, duplicate IDs, invalid vocabulary/ranges/targets, dependency cycles/revisions, mechanical references, category expansion and deterministic regeneration. `ProductionPackageTest` runs with the JVM/JS commands below and consumes the exact generated proof manifests/indexes/chunks using unchanged shared contracts. Production tooling is separate from runtime catalog logic.
+
 See [the standalone build guide](../src/character-builder/README.md) for toolchains and SDK setup. From `src/character-builder/`:
 
 ```powershell
