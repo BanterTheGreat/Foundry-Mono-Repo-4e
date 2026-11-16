@@ -1,8 +1,9 @@
 # Feature Inventory
 
-## Character Builder (foundation preview)
+## Character Builder (foundation and contract preview)
 
-- Standalone `src/character-builder/` Kotlin Multiplatform core, React/TypeScript web shell and native Compose Android shell. Both display the same deterministic smoke fixture; the web uses a generated plain-data JS/TypeScript boundary. No character creation, rules, storage, content or offline provisioning yet.
+- Standalone `src/character-builder/` Kotlin Multiplatform core, React/TypeScript web shell and native Compose Android shell. Both display the same deterministic smoke fixture; the web uses a generated plain-data JS/TypeScript boundary. Versioned shared character/content contracts and a strict character codec now preserve Modern 4e ability points, sourced proficiency choices, unresolved entries, retraining, equipment and manual adjustments. Package contracts include indexes/chunks, closed mechanical data, coverage, deterministic SHA-256 definition fingerprints and structured unavailable results. Content/storage/file exchange interfaces are defined; adapters, character creation, rules execution and offline provisioning remain unimplemented.
+- Checked-in character, proof Fighter and small override contract fixtures run identically on JVM/JS, including serialization, choice-slot identity, missing-content preservation and fingerprints. The proof is partial contract data, not an automated playable class.
 - Automated common JVM/JS fixture tests, compiled JS boundary/web rendering tests, and Android Compose instrumentation smoke test. CI builds both shells and runs an emulator check.
 - Manual check: open the web shell and launch the Android debug app; both should display `Shared core is ready.` and `shared-core-v1`. Foundation validation status is documented in the project README.
 

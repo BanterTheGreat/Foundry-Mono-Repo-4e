@@ -1,0 +1,181 @@
+{
+  "formatVersion": 1,
+  "id": "character.contract-proof",
+  "savedAt": "2026-11-16T20:00:00Z",
+  "identity": {
+    "name": "Ada",
+    "player": "",
+    "notes": ""
+  },
+  "packages": [
+    {
+      "packageId": "modern4e.proof",
+      "revision": "1"
+    },
+    {
+      "packageId": "modern4e.override",
+      "revision": "1"
+    }
+  ],
+  "level": 4,
+  "abilities": {
+    "source": {
+      "sourceInstanceId": "class-instance",
+      "choiceId": "main",
+      "ordinal": 0
+    },
+    "mainAbility": "STRENGTH",
+    "points": {
+      "STRENGTH": 4,
+      "DEXTERITY": 2,
+      "CONSTITUTION": 2,
+      "INTELLIGENCE": 1,
+      "WISDOM": 0,
+      "CHARISMA": 0
+    }
+  },
+  "levels": [
+    {
+      "level": 1,
+      "entries": [
+        {
+          "slot": {
+            "sourceInstanceId": "creation",
+            "choiceId": "class",
+            "ordinal": 0
+          },
+          "selection": {
+            "entryId": "class.fighter",
+            "savedTitle": "Fighter",
+            "supplierPackageId": "modern4e.proof",
+            "acknowledgedFingerprint": "sha256-v1:e9d4076703b2753b5a5a266ad6427495ca96e4dfd02a48fa5ae72821f27dea60"
+          },
+          "instanceId": "class-instance"
+        },
+        {
+          "slot": {
+            "sourceInstanceId": "creation",
+            "choiceId": "feat",
+            "ordinal": 0
+          },
+          "selection": {
+            "entryId": "feat.unavailable",
+            "savedTitle": "Lost Custom Feat",
+            "supplierPackageId": "missing.custom",
+            "acknowledgedFingerprint": "sha256-v1:unresolved-baseline"
+          },
+          "instanceId": "feat-instance"
+        }
+      ],
+      "proficiencies": [
+        {
+          "slot": {
+            "sourceInstanceId": "background.environment.urban",
+            "choiceId": "skill",
+            "ordinal": 0
+          },
+          "skill": "SOCIETY"
+        },
+        {
+          "slot": {
+            "sourceInstanceId": "background.upbringing.labor",
+            "choiceId": "skill",
+            "ordinal": 0
+          },
+          "skill": "CRAFTING"
+        },
+        {
+          "slot": {
+            "sourceInstanceId": "creation",
+            "choiceId": "free-skill",
+            "ordinal": 0
+          },
+          "skill": "MEDICINE"
+        },
+        {
+          "slot": {
+            "sourceInstanceId": "creation",
+            "choiceId": "free-skill",
+            "ordinal": 1
+          },
+          "skill": "RELIGION"
+        }
+      ],
+      "abilityAdvancements": [],
+      "replacements": []
+    },
+    {
+      "level": 4,
+      "entries": [],
+      "proficiencies": [],
+      "abilityAdvancements": [
+        {
+          "slot": {
+            "sourceInstanceId": "advancement.4",
+            "choiceId": "non-main",
+            "ordinal": 0
+          },
+          "increases": {
+            "CONSTITUTION": 1
+          }
+        }
+      ],
+      "replacements": [
+        {
+          "replaces": {
+            "sourceInstanceId": "creation",
+            "choiceId": "feat",
+            "ordinal": 0
+          },
+          "replacement": {
+            "slot": {
+              "sourceInstanceId": "retraining.4",
+              "choiceId": "feat",
+              "ordinal": 0
+            },
+            "selection": {
+              "entryId": "feat.unavailable",
+              "savedTitle": "Lost Custom Feat",
+              "supplierPackageId": "missing.custom",
+              "acknowledgedFingerprint": "sha256-v1:unresolved-baseline"
+            },
+            "instanceId": "retrained-feat-instance"
+          },
+          "kind": "RETRAINING"
+        }
+      ]
+    }
+  ],
+  "equipment": [
+    {
+      "instanceId": "sword.1",
+      "selection": {
+        "entryId": "item.sword",
+        "savedTitle": "Sword",
+        "supplierPackageId": "modern4e.proof",
+        "acknowledgedFingerprint": "unresolved"
+      },
+      "quantity": 1,
+      "equipped": true,
+      "configuration": {
+        "hand": "main"
+      }
+    }
+  ],
+  "manualAdjustments": [
+    {
+      "id": "manual.1",
+      "modifier": {
+        "target": {
+          "statistic": "WILL",
+          "ability": null,
+          "skill": null
+        },
+        "operation": "ADD",
+        "value": 1,
+        "bonusType": "UNTYPED"
+      },
+      "reason": ""
+    }
+  ]
+}

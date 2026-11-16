@@ -1,0 +1,63 @@
+{
+  "id": "classes",
+  "entries": [
+    {
+      "id": "class.fighter",
+      "category": "CLASS",
+      "presentation": {
+        "title": "Fighter",
+        "description": "Contract proof only; Modern 4e adaptation.",
+        "publications": [],
+        "references": []
+      },
+      "mechanics": {
+        "prerequisites": [],
+        "grants": [],
+        "choices": [
+          {
+            "type": "mainAbility",
+            "id": "main",
+            "abilities": [
+              "STRENGTH"
+            ]
+          },
+          {
+            "type": "proficiencies",
+            "id": "class-skill",
+            "count": 1,
+            "skills": [
+              "ATHLETICS",
+              "ENDURANCE"
+            ]
+          }
+        ],
+        "modifiers": [],
+        "progression": [
+          {
+            "level": 1,
+            "grants": [],
+            "choices": [],
+            "modifiers": [
+              {
+                "target": {
+                  "statistic": "HIT_POINTS",
+                  "ability": null,
+                  "skill": null
+                },
+                "operation": "SET",
+                "value": 15,
+                "bonusType": "UNTYPED"
+              }
+            ]
+          }
+        ]
+      },
+      "coverage": {
+        "status": "PARTIAL",
+        "limitations": [
+          "Contract proof; remaining Fighter features and progression are not automated."
+        ]
+      }
+    }
+  ]
+}

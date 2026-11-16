@@ -407,7 +407,7 @@ Uses Power trigger: `node --test src/banter-4e-modifications/test/uses-power.tes
 
 Summon automation Node coverage includes separate square selection, per-power maximums, removal, range, duplicate rejection, batch creation, ownership and footprint validation.
 
-## Character Builder foundation
+## Character Builder foundation and contracts
 
 See [the standalone build guide](../src/character-builder/README.md) for toolchains and SDK setup. From `src/character-builder/`:
 
@@ -422,3 +422,5 @@ npm run build --prefix web
 ```
 
 On Linux/macOS substitute `bash ./gradlew` for `.\gradlew.bat`. These tests do not require Foundry and this project is never copied into Foundry.
+
+The shared JVM/JS tasks also run the checked-in `shared/fixtures/` contract goldens: character/package round trips, unresolved selections and retraining, source/ordinal slot identity, Modern 4e skill mappings, incompatible/malformed formats, unavailable diagnostics, and canonical SHA-256 fingerprints against an independently generated digest and standard hash vectors. Gradle embeds the same fixture bytes in both test targets; no platform filesystem access is needed in common tests.
