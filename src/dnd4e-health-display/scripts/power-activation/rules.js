@@ -15,6 +15,7 @@ export function automationConfig(item) {
 		includeCaster: config.includeCaster === true,
 		targetCondition: typeof config.targetCondition === "string" ? config.targetCondition : "",
 		targetAdjacent: ["allies", "enemies"].includes(config.targetAdjacent) ? config.targetAdjacent : "",
+		summonMax: Number(config.summonMax ?? 1),
 		summonActor: typeof config.summonActor === "string" ? config.summonActor : "",
 		placementMode: config.placementMode === "summon" ? "summon" : "targets",
 		originActors: Array.isArray(config.originActors) ? config.originActors.filter(uuid => typeof uuid === "string") : [],

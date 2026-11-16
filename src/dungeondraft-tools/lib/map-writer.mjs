@@ -28,16 +28,19 @@ const poolBytes = (bytes) => `PoolByteArray( ${bytes.join(', ')} )`;
  *
  * The scene is `{ world: {cols, rows, size}, terrain: {textures}, patterns?, walls?, paths, objects }`; `patterns` and `walls`
  * may be absent for an outdoor map. Every texture reference is `{pack, rel}` and is checked against the packs.
+ * Explicit multilevel input is `{ world, levels: [{ label, scene, splat }, ...] }`.
+ * Levels share world dimensions, a texture manifest and a node ID counter. Counts aggregate all levels.
  *
  * @param {object} scene The composed scene.
  * @param {object} options
  * @param {number} options.seed Seed recorded in the map's `msi` block.
- * @param {number[]} options.splat Terrain weights: RGBA8 per 64-px texel, row-major (`cols * 4 * rows * 4 * 4` bytes).
+ * @param {number[]} [options.splat] Single-level terrain weights: RGBA8 per 64-px texel, row-major (`cols * 4 * rows * 4 * 4` bytes).
  * @param {number} options.cameraZoom Editor camera zoom the map opens at.
  * @param {Date} [options.now] Creation time written to the header (injectable for reproducible output).
+ * @param {number} [options.currentLevel=0] Index of the level selected when opening the map.
  * @returns {{map: object, usedPacks: Set<string>, counts: {patterns: number, walls: number, portals: number, paths: number, objects: number}}}
  */
-export function serialiseMap(scene, { seed, splat, cameraZoom, now = new Date() }) {
+export function serialiseMap(scene, { seed, splat, cameraZoom, now = new Date(), currentLevel = 0 }) {
   const { cols: COLS, rows: ROWS, size: S } = scene.world;
   const usedPacks = new Set();
   /** res:// path for a texture reference ({pack, rel}), verified to exist; remembers the pack for the manifest. */
@@ -45,109 +48,139 @@ export function serialiseMap(scene, { seed, splat, cameraZoom, now = new Date() 
   let nextId = 1;
   const nodeId = () => (nextId++).toString(16);
 
-  const patterns = (scene.patterns ?? []).map((p) => ({
-    position: vec(0, 0),
-    shape_rotation: 0,
-    scale: vec(1, 1),
-    points: poolVec(p.points),
-    layer: p.layer,
-    color: 'ffffffff',
-    outline: false,
-    texture: res(p),
-    rotation: 0,
-    node_id: nodeId(),
-  }));
+  const entries = scene.levels ?? [{ label: 'Ground', scene, splat }];
+  if (!Array.isArray(entries) || entries.length === 0) {
+    throw new Error('levels must be a nonempty array');
+  }
+  if (!Number.isInteger(currentLevel) || currentLevel < 0 || currentLevel >= entries.length) {
+    throw new Error('currentLevel must select an existing level');
+  }
+  const levels = {};
+  const counts = { patterns: 0, walls: 0, portals: 0, paths: 0, objects: 0 };
+  /** Serialise one level using the map-wide texture manifest and node counter. */
+  function serialiseLevel({ scene, label, splat }) {
+    if (scene.world.cols !== COLS || scene.world.rows !== ROWS || scene.world.size !== S) {
+      throw new Error('Every level must share the map dimensions and square size');
+    }
+    if (typeof label !== 'string' || !label.trim()) {
+      throw new Error('Every level needs a nonempty label');
+    }
+    const expected = COLS * ROWS * 64;
+    if (!splat || splat.length !== expected) {
+      throw new Error(`Level ${label}: expected ${expected} terrain weights`);
+    }
 
-  const walls = (scene.walls ?? []).map((w) => {
-    const id = nodeId();
-    const portals = w.openings.map((o) => {
-      const at = locateOnPolyline(w.points, w.loop, o.x, o.y);
-      if (!at || at.dist > 1) { throw new Error(`Opening (${o.x}, ${o.y}) is not on ${w.id === undefined ? 'its wall' : `wall ${w.id}`}`); }
-      return { at, o };
-    }).sort((a, b) => a.at.index + a.at.t - (b.at.index + b.at.t)).map(({ at, o }) => ({
-      position: vec(o.x, o.y),
-      rotation: +Math.atan2(at.direction[1], at.direction[0]).toFixed(6),
+    const patterns = (scene.patterns ?? []).map((p) => ({
+      position: vec(0, 0),
+      shape_rotation: 0,
       scale: vec(1, 1),
-      direction: vec(at.direction[0], at.direction[1]),
-      texture: res(o),
-      radius: S / 2,
-      point_index: at.index,
-      wall_id: id,
-      wall_distance: +(at.index + at.t).toFixed(6),
-      closed: o.closed,
+      points: poolVec(p.points),
+      layer: p.layer,
+      color: 'ffffffff',
+      outline: false,
+      texture: res(p),
+      rotation: 0,
       node_id: nodeId(),
     }));
-    return { points: poolVec(w.points), texture: res(w), color: 'ffffffff', loop: w.loop, type: 1, joint: 0, normalize_uv: true, shadow: false, node_id: id, portals };
-  });
 
-  const paths = scene.paths.map((p) => {
-    const [ox, oy] = p.points[0];
-    return {
-      position: vec(ox, oy),
-      rotation: 0,
-      scale: vec(1, 1),
-      edit_points: poolVec(p.points.map(([x, y]) => [+(x - ox).toFixed(2), +(y - oy).toFixed(2)])),
-      smoothness: p.points.length > 2 ? 1 : 0, // a two-point path follows its line exactly
-      texture: res(p),
-      width: p.width,
-      layer: p.layer,
-      fade_in: false,
-      fade_out: false,
-      grow: false,
-      shrink: false,
-      block_light: false,
-      loop: false,
-      node_id: nodeId(),
+    const walls = (scene.walls ?? []).map((w) => {
+      const id = nodeId();
+      const portals = w.openings.map((o) => {
+        const at = locateOnPolyline(w.points, w.loop, o.x, o.y);
+        if (!at || at.dist > 1) { throw new Error(`Opening (${o.x}, ${o.y}) is not on ${w.id === undefined ? 'its wall' : `wall ${w.id}`}`); }
+        return { at, o };
+      }).sort((a, b) => a.at.index + a.at.t - (b.at.index + b.at.t)).map(({ at, o }) => ({
+        position: vec(o.x, o.y),
+        rotation: +Math.atan2(at.direction[1], at.direction[0]).toFixed(6),
+        scale: vec(1, 1),
+        direction: vec(at.direction[0], at.direction[1]),
+        texture: res(o),
+        radius: S / 2,
+        point_index: at.index,
+        wall_id: id,
+        wall_distance: +(at.index + at.t).toFixed(6),
+        closed: o.closed,
+        node_id: nodeId(),
+      }));
+      return { points: poolVec(w.points), texture: res(w), color: 'ffffffff', loop: w.loop, type: 1, joint: 0, normalize_uv: true, shadow: false, node_id: id, portals };
+    });
+
+    const paths = scene.paths.map((p) => {
+      const [ox, oy] = p.points[0];
+      return {
+        position: vec(ox, oy),
+        rotation: 0,
+        scale: vec(1, 1),
+        edit_points: poolVec(p.points.map(([x, y]) => [+(x - ox).toFixed(2), +(y - oy).toFixed(2)])),
+        smoothness: p.points.length > 2 ? 1 : 0, // a two-point path follows its line exactly
+        texture: res(p),
+        width: p.width,
+        layer: p.layer,
+        fade_in: false,
+        fade_out: false,
+        grow: false,
+        shrink: false,
+        block_light: false,
+        loop: false,
+        node_id: nodeId(),
+      };
+    });
+
+    const terrain = {
+      enabled: scene.terrain.enabled ?? true,
+      expand_slots: false,
+      smooth_blending: false,
+      texture_1: scene.terrain.textures[0] ? res(scene.terrain.textures[0]) : BUILT_IN_TERRAIN[0],
+      texture_2: scene.terrain.textures[1] ? res(scene.terrain.textures[1]) : BUILT_IN_TERRAIN[1],
+      texture_3: scene.terrain.textures[2] ? res(scene.terrain.textures[2]) : BUILT_IN_TERRAIN[2],
+      texture_4: scene.terrain.textures[3] ? res(scene.terrain.textures[3]) : BUILT_IN_TERRAIN[3],
+      splat: poolBytes(splat),
     };
-  });
 
-  const terrain = {
-    enabled: true,
-    expand_slots: false,
-    smooth_blending: false,
-    texture_1: scene.terrain.textures[0] ? res(scene.terrain.textures[0]) : BUILT_IN_TERRAIN[0],
-    texture_2: scene.terrain.textures[1] ? res(scene.terrain.textures[1]) : BUILT_IN_TERRAIN[1],
-    texture_3: scene.terrain.textures[2] ? res(scene.terrain.textures[2]) : BUILT_IN_TERRAIN[2],
-    texture_4: scene.terrain.textures[3] ? res(scene.terrain.textures[3]) : BUILT_IN_TERRAIN[3],
-    splat: poolBytes(splat),
-  };
+    // rule 2: no object shadows
+    const objects = scene.objects.map((o) => ({
+      position: vec(o.x, o.y),
+      rotation: o.rot,
+      scale: vec(o.scale, o.scale),
+      mirror: o.mirror,
+      texture: res(o),
+      layer: o.layer,
+      shadow: false,
+      block_light: false,
+      node_id: nodeId(),
+    }));
 
-  // rule 2: no object shadows
-  const objects = scene.objects.map((o) => ({
-    position: vec(o.x, o.y),
-    rotation: o.rot,
-    scale: vec(o.scale, o.scale),
-    mirror: o.mirror,
-    texture: res(o),
-    layer: o.layer,
-    shadow: false,
-    block_light: false,
-    node_id: nodeId(),
-  }));
-
-  const zeros = (len) => poolBytes(new Array(len).fill(0)); // rule 6: no cave data
-  const caveLen = Math.floor(2 * COLS * ROWS + 1.5 * (COLS + ROWS) + 2);
+    const zeros = (len) => poolBytes(new Array(len).fill(0)); // rule 6: no cave data
+    const caveLen = Math.floor(2 * COLS * ROWS + 1.5 * (COLS + ROWS) + 2);
+    const level = {
+      label,
+      environment: { baked_lighting: true, ambient_light: 'ffffffff' },
+      layers: { 100: 'User Layer 1', 200: 'User Layer 2', 300: 'User Layer 3', 400: 'User Layer 4', 700: 'Above Walls', 900: 'Above Roofs', 1100: 'Above Lights', '-400': 'Below Ground', '-100': 'Below Water' },
+      shapes: { polygons: [], walls: [] }, // rule 6: no building tool
+      tiles: { cells: `PoolIntArray( ${new Array(COLS * ROWS).fill(-1).join(', ')} )`, colors: new Array(COLS * ROWS).fill('ffffffff'), lookup: {} },
+      patterns,
+      walls,
+      portals: [],
+      cave: { bitmap: zeros(caveLen), ground_color: 'ff7f7e71', wall_color: 'ff7f7e71', entrance_bitmap: zeros(caveLen), texture: 'res://textures/caves/colorable/floor.png' },
+      terrain,
+      water: { disable_border: false },
+      materials: {},
+      paths,
+      objects,
+      lights: [],
+      roofs: { shade: true, shade_contrast: 0.5, sun_direction: 45, roofs: [] },
+      texts: [],
+      texts_vis: true,
+    };
+    counts.patterns += patterns.length;
+    counts.walls += walls.length;
+    counts.portals += walls.reduce((sum, wall) => sum + wall.portals.length, 0);
+    counts.paths += paths.length;
+    counts.objects += objects.length;
+    return level;
+  }
+  entries.forEach((entry, index) => { levels[index] = serialiseLevel(entry); });
   const W = COLS * S, H = ROWS * S;
-  const level = {
-    label: 'Ground',
-    environment: { baked_lighting: true, ambient_light: 'ffffffff' },
-    layers: { 100: 'User Layer 1', 200: 'User Layer 2', 300: 'User Layer 3', 400: 'User Layer 4', 700: 'Above Walls', 900: 'Above Roofs', 1100: 'Above Lights', '-400': 'Below Ground', '-100': 'Below Water' },
-    shapes: { polygons: [], walls: [] }, // rule 6: no building tool
-    tiles: { cells: `PoolIntArray( ${new Array(COLS * ROWS).fill(-1).join(', ')} )`, colors: new Array(COLS * ROWS).fill('ffffffff'), lookup: {} },
-    patterns,
-    walls,
-    portals: [],
-    cave: { bitmap: zeros(caveLen), ground_color: 'ff7f7e71', wall_color: 'ff7f7e71', entrance_bitmap: zeros(caveLen), texture: 'res://textures/caves/colorable/floor.png' },
-    terrain,
-    water: { disable_border: false },
-    materials: {},
-    paths,
-    objects,
-    lights: [],
-    roofs: { shade: true, shade_contrast: 0.5, sun_direction: 45, roofs: [] },
-    texts: [],
-    texts_vis: true,
-  };
   const map = {
     header: {
       creation_build: '1.2.0.1 opulent kirin',
@@ -155,7 +188,7 @@ export function serialiseMap(scene, { seed, splat, cameraZoom, now = new Date() 
       uses_default_assets: false,
       asset_manifest: [...usedPacks].sort().map((name) => packs().byName.get(name).meta),
       editor_state: {
-        current_level: 0,
+        current_level: currentLevel,
         camera_position: vec(W / 2, H / 2),
         camera_zoom: cameraZoom,
         guide_position: 'null',
@@ -191,11 +224,10 @@ export function serialiseMap(scene, { seed, splat, cameraZoom, now = new Date() 
       object_shadow: false, // rule 2
       trace_image_visible: false,
       embedded: {},
-      levels: { 0: level },
+      levels,
     },
   };
-  const portalCount = walls.reduce((a, w) => a + w.portals.length, 0);
-  return { map, usedPacks, counts: { patterns: patterns.length, walls: walls.length, portals: portalCount, paths: paths.length, objects: objects.length } };
+  return { map, usedPacks, counts };
 }
 
 /**

@@ -45,6 +45,30 @@ export function registerExpandedTriggerTests(quench) {
         });
       }
 
+      it("Uses Power observes native utility activation and usage/action mismatches", async function () {
+        const activation = powerData("Utility");
+        activation.system = { ...activation.system, rangeType: "personal", useType: "daily", actionType: "minor", attack: { isAttack: false }, autoGenChatPowerCard: false };
+        await world.encounter([hero([reaction(ID.USES_POWER, { usageTypes: ["daily"], powerActions: ["minor"] }), activation]), enemy]);
+        const actor = world.get("hero").actor;
+        const power = actor.items.find(item => item.name === "Utility");
+        await actor.usePower(power, { configureDialog: false });
+        await world.waitForPrompt("hero", ID.USES_POWER);
+        await settle();
+        assert.equal(count(), 1, "one native activation produces one prompt");
+        await clear();
+        await power.update({ "system.useType": "atwill" });
+        await actor.usePower(power, { configureDialog: false });
+        await settle();
+        assert.equal(count(), 0, "usage mismatch");
+        await power.update({ "system.useType": "daily", "system.actionType": "standard" });
+        await actor.usePower(power, { configureDialog: false });
+        await settle();
+        assert.equal(count(), 0, "action mismatch");
+        await power.update({ "system.actionType": "minor" });
+        await actor.usePower(power, { configureDialog: false });
+        await world.waitForPrompt("hero", ID.USES_POWER);
+      });
+
       it("you hit an enemy accepts native hits; critical-only waits for a confirmed critical verdict", async function () {
         await world.encounter([hero([reaction(ID.YOU_HIT_ENEMY)]), enemy]);
         await world.attack("hero", ["enemy"]);

@@ -3,6 +3,9 @@ export const ATTACK_TYPES = ["melee", "ranged", "close", "area"];
 export const DEFENSE_TYPES = ["ac", "fort", "ref", "wil"];
 export const DAMAGE_TYPES = ["acid", "cold", "fire", "force", "lightning", "necrotic", "physical", "poison", "psychic", "radiant", "thunder"];
 
+export const USAGE_TYPES = ["atwill", "encounter", "daily", "recharge", "item", "other"];
+export const POWER_ACTIONS = ["standard", "move", "minor", "free", "reaction", "interrupt", "opportunity", "none"];
+
 /** Classify the effective power range, including the native weapon range. */
 export function attackTypeOf(range) {
   const value = String(range ?? "").toLowerCase();
@@ -27,6 +30,8 @@ export function matchesTriggerFilters(parameters, context) {
     return false;
   }
   for (const [key, values, actual] of [
+    ["usageTypes", USAGE_TYPES, [context.usageType]],
+    ["powerActions", POWER_ACTIONS, [context.powerAction]],
     ["attackTypes", ATTACK_TYPES, [context.attackType]],
     ["defenseTypes", DEFENSE_TYPES, [context.defenseType]],
     ["damageTypes", DAMAGE_TYPES, context.damageTypes ?? []],

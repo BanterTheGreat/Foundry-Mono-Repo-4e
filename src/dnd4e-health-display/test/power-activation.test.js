@@ -832,6 +832,7 @@ test("summon confirmation uses the actor prototype once and rejects permission o
 	f.item.getFlag = () => ({ enabled: true, placementMode: "summon", summonActor: "Actor.summon" });
 	f.activation.range = { shape: "summon", area: 1, maximum: 5 };
 	f.activation.origin = { x: 200, y: 100 };
+	f.activation.summonCells = [f.activation.origin];
 	f.activation.placementLocked = true;
 	f.context.canvas.dimensions = { sceneRect: { x: 0, y: 0, width: 1000, height: 1000 } };
 	let permitted = true;
@@ -841,7 +842,7 @@ test("summon confirmation uses the actor prototype once and rejects permission o
 	f.context.fromUuid = async () => ({ documentName: "Actor", isOwner: true,
 		getTokenDocument: async data => ({ toObject: () => ({ ...data, actorId: "summon", width: 2, height: 1 }) }) });
 	f.context.canvas.scene = { async createEmbeddedDocuments(type, data) { creations++; received = data[0]; assert.equal(type, "Token"); return data; } };
-	f.activation.summonCreator = () => f.context.canvas.scene.createEmbeddedDocuments("Token", [f.activation.summonData]);
+	f.activation.summonCreator = () => f.context.canvas.scene.createEmbeddedDocuments("Token", f.activation.summonDataList);
 	await f.activation.prepareSummon();
 	assert.equal(creations, 0);
 	await f.activation.placeSummon();
@@ -853,6 +854,7 @@ test("summon confirmation uses the actor prototype once and rejects permission o
 	await assert.rejects(f.activation.prepareSummon(), /GM must be logged in/);
 	permitted = true;
 	f.activation.origin.x = 900;
+	f.activation.range.maximum = 20;
 	await assert.rejects(f.activation.prepareSummon(), /footprint/);
 });
 
@@ -2640,4 +2642,75 @@ test("damage-only powers continue from target selection to normal damage review"
 	assert.equal(f.activation.state, "complete");
 	assert.equal(carrier.flags[MODULE_ID].targetDamageReview.pending, false);
 	assert.equal(requests, 1);
+});
+
+
+test("summon squares toggle independently and enforce maximum, distinct placement and range", () => {
+	const f = fixture();
+	f.item.hasAttack = false;
+	f.item.getFlag = () => ({ enabled: true, placementMode: "summon", summonActor: "Actor.summon", summonMax: 2 });
+	f.activation.range = { shape: "summon", area: 1, maximum: 5 };
+	for (const x of [100, 200, 300]) {
+		f.activation.origin = { x, y: 100 };
+		f.activation.toggleSummonSquare();
+	}
+	assert.equal(f.activation.summonCells.length, 2);
+	f.activation.origin = { x: 100, y: 100 };
+	f.activation.toggleSummonSquare();
+	assert.equal(f.activation.summonCells.length, 1);
+	f.activation.origin = { x: 9000, y: 100 };
+	f.activation.toggleSummonSquare();
+	assert.equal(f.activation.summonCells.length, 1);
+	assert.equal(f.activation.summonProblems([{ x: 100, y: 100 }, { x: 100, y: 100 }]).length, 1);
+	assert.equal(f.activation.summonProblems([]).length, 1);
+});
+
+
+test("summon canvas clicks select multiple anchors without locking and cancellation creates nothing", async () => {
+	const f = fixture();
+	const listeners = new Map();
+	f.item.hasAttack = false;
+	f.item.getFlag = () => ({ enabled: true, placementMode: "summon", summonActor: "Actor.summon", summonMax: 2 });
+	f.context.canvas.app.view = {
+		getBoundingClientRect: () => ({ left: 0, top: 0 }),
+		addEventListener: (name, callback) => listeners.set(name, callback),
+	};
+	f.context.canvas.stage.toLocal = point => point;
+	f.context.PIXI.Point = class { constructor(x, y) { Object.assign(this, { x, y }); } };
+	f.context.canvas.dimensions = { sceneRect: { x: 0, y: 0, width: 2000, height: 2000 } };
+	f.context.canvas.scene = { tokenVision: false };
+	f.activation.range = { shape: "summon", area: 1, normal: 5, maximum: 5, mode: "area" };
+	await f.activation.start();
+	const click = x => listeners.get("click")({ clientX: x, clientY: 120, button: 0, preventDefault() {}, stopImmediatePropagation() {} });
+	click(120);
+	click(220);
+	assert.equal(f.activation.summonCells.length, 2);
+	assert.equal(f.activation.placementLocked, false);
+	click(120);
+	assert.equal(f.activation.summonCells.length, 1);
+	f.context.api.TargetingPanel.DEFAULT_OPTIONS.actions.reposition.call({ session: f.activation });
+	assert.equal(f.activation.summonCells.length, 0);
+	click(120);
+	await f.activation.cancel();
+	assert.equal(f.activation.summonAttempted, undefined);
+	assert.equal(f.item.system.uses.value, 2);
+});
+
+test("multiple summon prototypes are prepared at separate anchors and validation cannot override the maximum", async () => {
+	const f = fixture();
+	f.item.hasAttack = false;
+	let maximum = 2;
+	f.item.getFlag = () => ({ enabled: true, placementMode: "summon", summonActor: "Actor.summon", summonMax: maximum });
+	f.activation.range = { shape: "summon", area: 1, maximum: 5 };
+	f.activation.summonCells = [{ x: 100, y: 100 }, { x: 300, y: 100 }];
+	f.context.canvas.dimensions = { sceneRect: { x: 0, y: 0, width: 1000, height: 1000 } };
+	f.context.fromUuid = async () => ({ documentName: "Actor", isOwner: true,
+		getTokenDocument: async data => ({ toObject: () => ({ ...data, width: 1, height: 1 }) }) });
+	await f.activation.prepareSummon();
+	assert.deepEqual(Array.from(f.activation.summonDataList, data => data.x), [100, 300]);
+	maximum = 1;
+	assert.equal(await f.activation.confirmProblems(), false);
+	assert.equal(f.confirmations.length, 0);
+	maximum = 1.5;
+	await assert.rejects(f.activation.prepareSummon(), /positive whole/);
 });

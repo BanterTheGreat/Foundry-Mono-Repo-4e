@@ -1,0 +1,36 @@
+CAULDRON HILL COMPLEX V2 - ALL AREAS 1-26
+
+174 x 96 five-foot squares. Player PNG: 11136 x 6144 at 64 px/square.
+Source: ZEITGEIST Act One, Book 5 Part 3, printed pp. 405-410.
+The original version is retained separately.
+
+Area 6 connects directly to Area 5: staging platform at 0 ft, witchoil
+sump 150 ft below. Two freight elevators (Area 7) connect this view to
+the separate Area 8 bridge view at +100 ft. Both views show the same
+upright 300-ft colossus at different cross-sections. Borne is represented
+schematically by metal-pattern plates, head apertures and gear joints.
+
+The upper view includes a retractable bridge, central split, two control
+cabins, safety rails, barrel positions, restraint chains and service crane.
+Its catwalk connects to the relocated VIP checkpoint. The drop from the
+bridge to the sump is 250 ft. The speckled black sump represents witchoil
+with trapped spirits. The lake dock inset is -300 ft, reached by Area 3's
+cargo lift. Insets form an atlas of the complex at different elevations.
+
+Barracks subdivisions, dock footprint, furnishings and some chamber
+geometry are adapted from the schematic overview and prose.
+
+Native map: cauldron-hill-complex-v2.dungeondraft_map
+Player image: cauldron-hill-complex-v2.png
+Numbered overview: gm-reference.png
+Inventory and secret doors: room-key.json
+
+Uses installed Crosshead packs and Baileywiki circular shadows.
+All doorways use invisible Interior:empty portals; add door art manually.
+Object and wall shadows are off; wall shadow paths remain manual.
+The PNG is the repository renderer's approximation, not an in-app export.
+Open the native map to check pattern scale, portal cuts and path rendering.
+
+Rebuild / test from repository root:
+node output/maps/cauldron-hill-complex-v2/build.mjs
+node --test output/maps/cauldron-hill-complex-v2/verify.test.mjs

@@ -132,6 +132,7 @@ Hooks.on("i18nInit", () => {
 
 Hooks.on("i18nInit", () => {
   if (game.settings.get(MODULE_NAME, ENABLE_TRIGGER_PROMPTS)) {
+    Hooks.on("dnd4e.usePower", TriggerPrompts.onDnd4eUsePower);
     Hooks.on("dnd4e.rollAttack", TriggerPrompts.onDnd4eRollAttack);
     Hooks.on("preCreateChatMessage", TriggerPrompts.onPreCreateRollMessage);
     Hooks.on("createChatMessage", TriggerPrompts.onCreateRollMessage);

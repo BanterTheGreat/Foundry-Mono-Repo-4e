@@ -35,6 +35,33 @@ test('serialisation is deterministic for a fixed scene and creation time', { ski
   }
 });
 
+test('explicit levels share a manifest and unique IDs, including wall portals', { skip }, () => {
+  const fixtures = Object.values(maps);
+  const { scene, splat } = fixtures[0];
+  const other = fixtures.find((m) => m.scene.world.cols === scene.world.cols && m.scene.world.rows === scene.world.rows) ?? fixtures[0];
+  const options = { seed: 1, cameraZoom: 2, now: NOW };
+  const built = serialiseMap({ world: scene.world, levels: [
+    { label: 'First', scene, splat },
+    { label: 'Second', scene: other.scene, splat: other.splat },
+  ] }, options);
+  const ids = Object.values(built.map.world.levels).flatMap((lv) => [...lv.patterns, ...lv.walls, ...lv.walls.flatMap((w) => w.portals), ...lv.paths, ...lv.objects]).map((e) => parseInt(e.node_id, 16));
+  assert.ok(ids.length > 0);
+  assert.equal(new Set(ids).size, ids.length);
+  assert.ok(parseInt(built.map.world.next_node_id, 16) > Math.max(...ids));
+  const first = build(fixtures[0]);
+  const second = build(other);
+  assert.deepEqual(built.usedPacks, new Set([...first.usedPacks, ...second.usedPacks]));
+  assert.equal(built.map.header.asset_manifest.length, built.usedPacks.size);
+  for (const key of Object.keys(built.counts)) {
+    assert.equal(built.counts[key], first.counts[key] + second.counts[key]);
+  }
+  for (const lv of Object.values(built.map.world.levels)) {
+    for (const wall of lv.walls) {
+      assert.ok(wall.portals.every((p) => p.wall_id === wall.node_id));
+    }
+  }
+});
+
 test('every node id is unique and next_node_id is past the highest', { skip }, () => {
   for (const m of Object.values(maps)) {
     const { map } = build(m);

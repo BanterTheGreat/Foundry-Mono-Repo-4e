@@ -14,12 +14,15 @@
 	<fieldset class="power-automation__group">
 		<legend>Targets</legend>
 		{{#if automationView.summon}}
+		<label>Maximum summoned creatures
+			<input type="number" name="flags.dnd4e-health-display.targetAutomation.summonMax" value="{{automation.summonMax}}" min="1" step="1" required {{#unless editable}}disabled{{/unless}}>
+		</label>
 		<div data-automation-actor="summonActor">
 			<strong>Summoned actor</strong>
 			<p class="power-automation__hint">Drag an actor here.</p>
 			{{#if summonActor}}<p class="power-automation__actor">{{summonActor.name}} <button type="button" data-automation-remove="summonActor" {{#unless editable}}disabled{{/unless}}>Remove</button></p>{{/if}}
 		</div>
-		<p class="power-automation__hint">Select one square within the power's Range. Its top-left corner anchors the actor's prototype token. The token is created only on confirmation; ownership of the summoned actor and a logged-in GM are required. The GM creates the token.</p>
+		<p class="power-automation__hint">Select one or more squares, up to the maximum, within the power's Range. Each square's top-left corner anchors a copy of the actor's prototype token. Tokens are created only on confirmation; ownership of the summoned actor and a logged-in GM are required. The GM creates the tokens.</p>
 		{{else}}
 		{{#if automationView.area}}
 		<label>Target selection

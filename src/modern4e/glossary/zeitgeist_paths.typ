@@ -2,8 +2,9 @@
 #import "../helpers/powers.typ" as powers;
 
 // Source: Zeitgeist Player's Guide, The Investigation Begins, pp. 22–33.
-#let pathPower(title: str, path: str, level: int, type: powers.powerType.encounter, action: powers.actionType.standard, traits: none, range: [See effect], target: none, trigger: none, defense: none, rows: ()) = powers.power(
+#let pathPower(title: str, path: str, level: int, description: none, type: powers.powerType.encounter, action: powers.actionType.standard, traits: none, range: [See effect], target: none, trigger: none, defense: none, rows: ()) = powers.power(
   title: title,
+  description: description,
   bonusTitle: path + " " + str(level),
   type: type,
   action: action,
@@ -83,6 +84,7 @@
 
     #colbreak()
     #pathPower(
+      description: "The blinding glow of a star manifests where you point, emitting waves of planar energy.",
       title: "Heavenly Flare", path: "Applied Astronomist", level: 11,
       traits: "Primal, Implement, Radiant", range: [Area burst 1 within 10],
       target: [Creatures in burst], defense: powers.defense.fortitude,
@@ -103,12 +105,14 @@
     - *Nem:* Ongoing 10 necrotic damage (save ends).
 
     #pathPower(
+      description: "You bring a portion of this world coterminous with another.",
       title: "Straddling Realities", path: "Applied Astronomist", level: 12,
       type: powers.powerType.daily, traits: "Primal", range: [Area burst 3 within 10],
       rows: ([*Effect:* Choose a plane you are connected to today. Create a zone in the area until the encounter ends, using its planar zone effect on the following page.],),
     )
 
     #pathPower(
+      description: "A huge flash of light heralds the arrival of a new, otherworldly landscape.",
       title: "Cataclysmic Conjunction", path: "Applied Astronomist", level: 20,
       type: powers.powerType.daily, traits: "Primal, Implement, Radiant",
       range: [Area burst 3 within 10], target: [Creatures in burst], defense: powers.defense.fortitude,
@@ -169,11 +173,13 @@
 
     #colbreak()
     #pathPower(
+      description: "With a brief utterance, you declare whether an attack hits.",
       title: "Make It So", path: "Logos", level: 11, traits: "Psionic",
       rows: ([*Effect:* Choose a creature that can hear you. Decide whether its next attack roll hits or misses.],),
     )
 
     #pathPower(
+      description: "Until you see a place, that location could contain anything. You use that uncertainty to declare one of its traits.",
       title: "Inexplicable Narration", path: "Logos", level: 12,
       type: powers.powerType.daily, traits: "Psionic",
       rows: (
@@ -183,6 +189,7 @@
     )
 
     #pathPower(
+      description: "The creature’s will is not its own. It does precisely what you say.",
       title: "Revoke Agency", path: "Logos", level: 20,
       type: powers.powerType.daily, traits: "Psionic, Implement", range: [Ranged 10],
       target: [One creature that can hear you], defense: powers.defense.will,
@@ -216,6 +223,7 @@
 
     #colbreak()
     #pathPower(
+      description: "You load a glowing cartridge into your blaster, choose a setting, and fire an energy pulse.",
       title: "Beam Shot", path: "Mad Shootist", level: 11, traits: "Arcane, Weapon",
       range: [Ranged weapon], defense: powers.defense.ac,
       rows: (
@@ -227,12 +235,14 @@
     )
 
     #pathPower(
+      description: "An electrical grapple flies from your blaster’s barrel and connects with the ceiling. You leap and swing to safety.",
       title: "Mobility Shot", path: "Mad Shootist", level: 12,
       action: powers.actionType.move, traits: "Arcane", range: [Anchor within 6 squares],
       rows: ([*Effect:* Fire a grapple beam at a solid anchor at least 1 square across. Pull yourself there and hang, or swing from it to travel potentially 12 squares as part of this action. Keep it engaged as long as desired; after release it needs 5 minutes to recharge. You cannot fire the blaster while it is engaged. The GM may allow clever Acrobatics uses. It cannot attach to creatures or pull objects toward you.],),
     )
 
     #pathPower(
+      description: "You overcharge your blaster, gaining immense power for a short period of time.",
       title: "Hyper Beam", path: "Mad Shootist", level: 20,
       type: powers.powerType.daily, action: powers.actionType.minor,
       traits: "Arcane, Force, Weapon",
@@ -259,6 +269,7 @@
     When you have no physical cover or concealment, gain cover against non-melee attacks.
 
     #pathPower(
+      description: "The face of a long-dead friend flickers into view just in time for his body to once again save an ally from an attack.",
       title: "Remembrance of the Human Shield", path: "Monument of War", level: 12,
       type: powers.powerType.daily, action: powers.actionType.immediateInterrupt,
       traits: "Psionic", trigger: [A melee or ranged attack hits you or an ally you can see.],
@@ -267,6 +278,7 @@
 
     #colbreak()
     #pathPower(
+      description: "For a moment your mind flashes back to when you were caught in an artillery barrage, and suddenly cannons strike nearby you.",
       title: "Shell Shock", path: "Monument of War", level: 11,
       traits: "Psionic, Implement", range: [Area burst 3 within 3],
       target: [Creatures in burst], defense: powers.defense.reflex,
@@ -279,6 +291,7 @@
     )
 
     #pathPower(
+      description: "You focus your memories on the most violent engagement you ever endured, and once again the cannons of your allied warships pound the battlefield around you.",
       title: "Cannon Overture", path: "Monument of War", level: 20,
       type: powers.powerType.daily, traits: "Psionic, Implement", range: [Area burst 3 within 10],
       target: [Creatures in burst], defense: powers.defense.reflex,
@@ -312,6 +325,7 @@
 
     #colbreak()
     #pathPower(
+      description: "You’ll let him finish, but you’ve got to show off really quick.",
       title: "One-Upmanship", path: "Notorious Celebrity", level: 11,
       action: powers.actionType.immediateInterrupt, traits: "Arcane",
       trigger: [An enemy hits you or an ally with an attack.],
@@ -319,6 +333,7 @@
     )
 
     #pathPower(
+      description: "With a snap of your fingers, an illusory crowd appears to cheer you on.",
       title: "Summon Audience", path: "Notorious Celebrity", level: 12,
       type: powers.powerType.daily, action: powers.actionType.minor, traits: "Arcane",
       range: [Eight unoccupied spaces within 10 squares],
@@ -326,6 +341,7 @@
     )
 
     #pathPower(
+      description: "You and your posse strike at once, overwhelming your enemies with an intimidating show of force.",
       title: "Shock and Awe", path: "Notorious Celebrity", level: 20,
       type: powers.powerType.daily, traits: "Arcane",
       rows: ([*Effect:* Use a level 1 at-will attack power. Each posse member can then make a basic attack. Enemies hit by any of these attacks take –2 to attack rolls until the end of your next turn.],),
@@ -384,6 +400,7 @@
 
     #colbreak()
     #pathPower(
+      description: "You can read your enemy like a book. His style is transparent to you, though defeating him is not certain.",
       title: "Decipher Technique", path: "Polyhistor", level: 12,
       type: powers.powerType.daily, traits: "Martial",
       rows: ([*Effect:* Choose a visible enemy you have hit or that has hit you. Learn its defenses, traits, and powers. The GM should normally show its statblock, except for secret information. Add two martial dice to your pool.],),
@@ -393,6 +410,7 @@
     Your martial dice reset to *five* at the start of an encounter, and your maximum pool becomes *twelve*.
 
     #pathPower(
+      description: "You combine all your knowledge of combat for one spectacular display.",
       title: "Masterstroke", path: "Polyhistor", level: 20,
       type: powers.powerType.daily, traits: "Martial",
       rows: ([*Effect:* Gain *seven martial dice*, usable before the start of your next turn and exempt from your pool limit. Until then, you can use martial dice for options from any elementary stance. Make a basic attack.],),
@@ -453,6 +471,7 @@
 
     #colbreak()
     #pathPower(
+      description: "Steam bursts from the joints in your suit’s arm as it punches with the power of a piston. It then takes a moment for the pressure in your arm joints to return to normal.",
       title: "Power Fist", path: "Steamsuit Pilot", level: 11,
       traits: "Arcane, Implement", range: [Melee 1; melee 2 in a Large suit], defense: powers.defense.reflex,
       rows: (
@@ -462,6 +481,7 @@
     )
 
     #pathPower(
+      description: "You overheat the engine and put all the power into movement; maybe it won’t explode.",
       title: "Redline Rush", path: "Steamsuit Pilot", level: 12,
       action: powers.actionType.move, traits: "Arcane",
       rows: ([*Effect:* Move twice your speed, gaining +5 to Acrobatics and Athletics checks during the movement. You are immobilized (save ends).],),
@@ -471,6 +491,7 @@
     As a standard action, collapse the suit into a palm-sized, five-pound mechanical object. As a standard action, restore it; it may form around you and activate its engine as part of that action.
 
     #pathPower(
+      description: "Your overload your armor’s arcane boiler, priming it for a devastating blast of steam and arcane energy that will leave you temporarily immobilized.",
       title: "Steam Blast", path: "Steamsuit Pilot", level: 20,
       type: powers.powerType.daily, traits: "Arcane, Fire, Force, Implement",
       rows: (
@@ -502,6 +523,7 @@
 
     #colbreak()
     #pathPower(
+      description: "With a wave of your hand you direct a part of the city to surge, strike an enemy, and either knock him aside or trap him in a maw of bricks and cobblestones.",
       title: "The City Comes Alive", path: "Urban Empath", level: 11,
       traits: "Psionic, Implement", range: [Area burst 2 within 20],
       target: [Enemies in burst], defense: powers.defense.reflex,
@@ -512,12 +534,14 @@
     )
 
     #pathPower(
+      description: "You cock your head and listen. For a moment, you know everything that the city sees and hears.",
       title: "The City Whispers", path: "Urban Empath", level: 12,
       type: powers.powerType.daily, action: powers.actionType.minor, traits: "Psionic",
       rows: ([*Effect:* In an urban setting, learn the general state of all publicly accessible places within 3 miles, plus disturbances in private places visible or audible from public areas. Choose a creature or small group identifiable by physical means: learn whether it is in the area and where, or when it entered a private area. Gain perfect intuitive knowledge of publicly traversable terrain for navigation. Outside an urban setting this awareness extends 150 feet.],),
     )
 
     #pathPower(
+      description: "In your time of dire need, the walls, streets, and gates move at your command.",
       title: "The City Marches to War", path: "Urban Empath", level: 20,
       type: powers.powerType.daily, traits: "Psionic", range: [Area burst 5 within 20],
       rows: (
@@ -544,6 +568,7 @@
     When you start a turn dying, you may spend *two healing surges* to regain HP equal to *one surge*, regaining consciousness. This counts as a failed death saving throw. Use at most *twice per encounter*.
 
     #pathPower(
+      description: "You enforce your faith upon your enemy, then grant him the vivid memory of Srasama’s demise, which wounded all those who followed her.",
       title: "Vision of the Fall", path: "Vekeshi Excoriant", level: 11,
       traits: "Divine, Fire, Implement, Radiant", range: [Ranged 10],
       target: [One creature], defense: powers.defense.will,
@@ -552,12 +577,14 @@
 
     #colbreak()
     #pathPower(
+      description: "Three spectral figures appear, representing the three aspects of Srasama. Maiden, mother, and crone touch your allies and grant their blessings.",
       title: "Triune Blessing", path: "Vekeshi Excoriant", level: 12,
       type: powers.powerType.daily, action: powers.actionType.minor, traits: "Divine",
       rows: ([*Effect:* Grant three blessings, each to yourself or a visible ally: make a saving throw with +2; spend a healing surge to heal; gain +2 to attack rolls until the start of your next turn. Divide the blessings or give several to the same recipient.],),
     )
 
     #pathPower(
+      description: "A towering, flaming image of the fallen goddess steps into existence. Her features shift by the moment, from youthful warrior, to mature healer, to withered and skeletal sorceress. She strides toward your enemies, six burning swords in her six hands.",
       title: "Aspect of Srasama", path: "Vekeshi Excoriant", level: 20,
       type: powers.powerType.daily, traits: "Divine, Fear, Fire, Implement, Radiant, Summoning",
       range: [Summoning range unspecified in source; GM ruling required],

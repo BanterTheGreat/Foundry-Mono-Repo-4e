@@ -50,6 +50,14 @@ function define(definition) {
 /** @type {ReadonlyArray<object>} */
 export const TRIGGERS = Object.freeze([
   define({
+    id: TRIGGER_ID.USES_POWER,
+    label: "Uses Power",
+    description: "You use a power. Optionally require its usage type and action. Fires once per activation, including powers without attacks.",
+    on: COMBAT_EVENT_TYPE.POWER_USED,
+    recipients: { role: "subject" },
+    source: "subject", detail: "{subject} used a power.",
+  }),
+  define({
     id: TRIGGER_ID.YOU_HIT_ENEMY,
     label: "You hit an enemy",
     description: "Your attack hits an enemy. Enable Critical hit only to require a confirmed critical hit.",

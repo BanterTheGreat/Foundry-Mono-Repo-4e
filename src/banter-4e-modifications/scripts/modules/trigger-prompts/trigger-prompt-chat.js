@@ -148,8 +148,8 @@ export class TriggerPromptChat {
     await ChatMessage.create({
       whisper: [],
       speaker: { actor: actor.id, alias: actor.name },
-      flavor: `<b>Automatic benefit triggered: ${escape(assignment.item.name)}</b>`,
-      content: `<p>${escape(actor.name)}: ${escape(promptContext.detail)}</p>${rules}`,
+      flavor: `<b>${escape(promptContext.detail)}</b>`,
+      content: rules,
       flags: { core: { canPopout: true }, [TRIGGER_PROMPT_FLAG]: {
         automatic: true, triggerId: trigger.id, label: "Automatic benefit triggered",
         detail: promptContext.detail, actorId: actor.id, actorUuid: actor.uuid ?? null,

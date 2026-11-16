@@ -5,6 +5,7 @@ export const TRIGGER_MODULE = "banter-4e-modifications";
 export const TRIGGER_FLAG = "trigger-prompts";
 export const TRIGGER_PARAMETERS = {
   rangeSquares: "integer", nonMinion: "boolean", meleeOnly: "boolean", adjacentOnly: "boolean",
+  usageTypes: ["string"], powerActions: ["string"],
   attackTypes: ["string"], defenseTypes: ["string"], damageTypes: ["string"], companionActorUuid: "string"
 };
 export const TRIGGER_EDIT_SCHEMA = {

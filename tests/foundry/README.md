@@ -254,3 +254,5 @@ The `automatic-benefit.spec.mjs` scenario covers the explicit mandatory checkbox
 The expanded-trigger Quench batch also checks You hit an enemy from native attack hooks and Critical hit only against ordinary, missed, pending, and confirmed critical automation results.
 
 The Actor HUD batch also covers Wizard daily/utility preparation through real buttons: native prepared flags, separate lists, limit blocking, unpreparing, and scroll retention in the list capped at the same height as Extras.
+
+The expanded triggers batch covers native actor.usePower for a non-attack daily/minor power, once per activation, and independent usage/action mismatches with a matching positive control.

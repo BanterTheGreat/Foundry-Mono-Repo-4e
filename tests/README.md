@@ -1,5 +1,84 @@
 # Running tests yourself
 
+Dungeondraft tooling, including explicit multilevel generation, validation, and level previews:
+
+```sh
+npm run test:dungeondraft
+```
+
+Preview an explicitly requested level with any map's preview entry script:
+
+```sh
+node src/dungeondraft-tools/maps/dockyard-warehouse/preview-dungeondraft-map.mjs path/to/map.dungeondraft_map --level 1 --pps 64
+```
+
+Level 0 keeps `<map>-preview.png`; other levels use `<map>-level-<index>-preview.png` unless `--out` is supplied.
+
+Cauldron Hill complete Dungeondraft artifact (room inventory, connected doors, floor coverage, native format and mapping rules):
+
+The expanded version with Borne's chamber, lifts and bridge:
+
+The detailed revision adds room dressing, industrial networks and Borne machinery:
+
+Focused golem-room revision (includes berth, fuel, winch, collar and bridge-drive checks):
+
+Revision without golem depictions and with solid prototype hallway flooring:
+
+Solid-floor checkpoint hall revision:
+
+Revised servicing-bay and spare-component assets:
+
+Cafeteria spacing revision:
+
+Wall-lantern layering revision:
+
+```sh
+node output/maps/cauldron-hill-complex-v9/build.mjs
+node --test output/maps/cauldron-hill-complex-v9/verify.test.mjs
+```
+
+```sh
+node output/maps/cauldron-hill-complex-v8/build.mjs
+node --test output/maps/cauldron-hill-complex-v8/verify.test.mjs
+```
+
+```sh
+node output/maps/cauldron-hill-complex-v7/build.mjs
+node --test output/maps/cauldron-hill-complex-v7/verify.test.mjs
+```
+
+```sh
+node output/maps/cauldron-hill-complex-v6/build.mjs
+node --test output/maps/cauldron-hill-complex-v6/verify.test.mjs
+```
+
+```sh
+node output/maps/cauldron-hill-complex-v5/build.mjs
+node --test output/maps/cauldron-hill-complex-v5/verify.test.mjs
+```
+
+```sh
+node output/maps/cauldron-hill-complex-v4/build.mjs
+node --test output/maps/cauldron-hill-complex-v4/verify.test.mjs
+```
+
+```sh
+node output/maps/cauldron-hill-complex-v3/build.mjs
+node --test output/maps/cauldron-hill-complex-v3/verify.test.mjs
+```
+
+```sh
+node output/maps/cauldron-hill-complex-v2/build.mjs
+node --test output/maps/cauldron-hill-complex-v2/verify.test.mjs
+```
+
+```sh
+node output/maps/cauldron-hill-complex/build.mjs
+node --test output/maps/cauldron-hill-complex/verify.test.mjs
+```
+
+Requires the local Crosshead asset index and reference Dungeondraft map. Manually open the generated `.dungeondraft_map` to check pattern scale and portal rendering; place door art and wall shadows by hand. This artifact is not deployed to Foundry.
+
 Combat Challenge actor toggle, native multi-target misses, native marker/expiry, off-turn refresh, friendly exclusions, Target Automation confirmation and player-to-GM marking:
 
 ```sh
@@ -302,3 +381,8 @@ Wizard spellbook limits, eligibility and native prepared-flag changes also have 
 ```sh
 node --test src/dnd4e-health-display/test/actor-hud.test.js
 ```
+
+Uses Power trigger: `node --test src/banter-4e-modifications/test/uses-power.test.js`. Live: `npx playwright test --config tests/foundry/playwright.config.mjs trigger-prompts.spec.mjs --grep "expanded triggers"`.
+`node --test src/foundry-mcp/test/trigger-automation.test.js` covers MCP trigger discovery and confirmed Uses Power assignment/filter creation, invalid filters, retries and cancellation.
+
+Summon automation Node coverage includes separate square selection, per-power maximums, removal, range, duplicate rejection, batch creation, ownership and footprint validation.

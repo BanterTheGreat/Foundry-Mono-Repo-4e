@@ -13,6 +13,7 @@ import {
   createHpChangedEvent,
   createMovementCommittedEvent,
   createSaveResolvedEvent,
+  createPowerUsedEvent,
 } from "./combat-events.js";
 import { CombatTriggerDispatcher } from "./combat-trigger-dispatcher.js";
 import { TriggerPromptChat } from "./trigger-prompt-chat.js";
@@ -59,13 +60,19 @@ export class TriggerPrompts {
   }
 
   /**
-   * Captures DnD4e's attack metadata before the corresponding chat message is
-   * created. The subsequent message hook adds the final roll total.
-   *
+   * Reports the native activation once on the using client, after resource checks.
    * @param {Item} item
-   * @param {object} target
-   * @param {object} speaker
+   * @param {object} speaker Native speaker for the owning actor and token.
+   * @returns {Promise<void>}
    */
+  static async onDnd4eUsePower(item, speaker) {
+    if (item?.type !== "power" || !speaker) {
+      return;
+    }
+    await game.TriggerPrompts?.events.emit(createPowerUsedEvent(item, speaker));
+  }
+
+  /** Capture the native attack separately from the power activation. */
   static onDnd4eRollAttack(item, target, speaker) {
     if (!game.TriggerPrompts) {
       return;

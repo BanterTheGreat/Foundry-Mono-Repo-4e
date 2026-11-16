@@ -3,6 +3,8 @@
 // textures, and node ids. Each map's verify-dungeondraft-map.mjs adds what is specific to that map (its grid geometry, walls,
 // terrain, clutter density and shadow placement), re-derived from the encounter on purpose and never from structure.mjs, so a
 // mistake in the structure shows up as a mismatch.
+// Multilevel checks inspect every level. Array-size and shadow helpers retain their level-0 return values for existing callers;
+// map-specific geometry checks should be run separately for each requested level. Assets and node IDs are checked map-wide.
 //
 // Every check takes `ok(condition, message)` first, from createChecker(), so a failure is counted and printed, not thrown.
 import fs from 'node:fs';
@@ -66,6 +68,10 @@ function compareKeys(ok, a, b, where, optional = []) {
  * @param {object} ref A real map from the same Dungeondraft build.
  */
 export function checkStructure(ok, map, ref) {
+  if (Object.keys(map.world.levels).length > 1) {
+    const results = Object.entries(map.world.levels).map(([id, level]) => checkStructure((condition, message) => ok(condition, `level ${id}: ${message}`), { ...map, world: { ...map.world, levels: { 0: level } } }, ref));
+    return results[0];
+  }
   const lv = map.world.levels['0'], rlv = ref.world.levels['0'];
   compareKeys(ok, map, ref, 'root', ['mod']);
   compareKeys(ok, map.header, ref.header, 'header');
@@ -93,6 +99,10 @@ export function checkStructure(ok, map, ref) {
  * @returns {{W: number, H: number, caveLen: number, splat: number[]}} The map size, the cave bitmap length and the terrain weights.
  */
 export function checkArraySizes(ok, map) {
+  if (Object.keys(map.world.levels).length > 1) {
+    const results = Object.entries(map.world.levels).map(([id, level]) => checkArraySizes((condition, message) => ok(condition, `level ${id}: ${message}`), { ...map, world: { ...map.world, levels: { 0: level } } }));
+    return results[0];
+  }
   const lv = map.world.levels['0'];
   const W = map.world.width, H = map.world.height;
   ok(poolLen(lv.tiles.cells) === W * H && lv.tiles.colors.length === W * H, 'tiles size');
@@ -111,7 +121,7 @@ export function checkAssets(ok, map) {
   const lv = map.world.levels['0'];
   const { byId } = packs();
   const texts = [];
-  (function collect(o) { if (Array.isArray(o)) { o.forEach(collect); } else if (o && typeof o === 'object') { Object.values(o).forEach(collect); } else if (typeof o === 'string' && o.startsWith('res://packs/')) { texts.push(o); } })(lv);
+  (function collect(o) { if (Array.isArray(o)) { o.forEach(collect); } else if (o && typeof o === 'object') { Object.values(o).forEach(collect); } else if (typeof o === 'string' && o.startsWith('res://packs/')) { texts.push(o); } })(map.world.levels);
   const idsUsed = new Set(texts.map((t) => t.split('/')[3]));
   for (const t of new Set(texts)) { ok(byId.get(t.split('/')[3])?.entries.has(t), `missing asset ${t}`); }
   const manifestIds = new Set(map.header.asset_manifest.map((m) => m.id));
@@ -122,6 +132,10 @@ export function checkAssets(ok, map) {
 
 /** Colorable textures are drawn as raw red unless tinted with custom_color. */
 export function checkColorable(ok, map) {
+  if (Object.keys(map.world.levels).length > 1) {
+    const results = Object.entries(map.world.levels).map(([id, level]) => checkColorable((condition, message) => ok(condition, `level ${id}: ${message}`), { ...map, world: { ...map.world, levels: { 0: level } } }));
+    return results[0];
+  }
   const lv = map.world.levels['0'];
   const { byId } = packs();
   const colorable = new Set(loadRows().filter((r) => r.colorable === 'y').map((r) => `${r.pack}|${r.rel}`));
@@ -138,6 +152,10 @@ export function checkColorable(ok, map) {
  * @param {number} caveLen Expected cave bitmap length, from checkArraySizes().
  */
 export function checkMappingRules(ok, map, { S, caveLen }) {
+  if (Object.keys(map.world.levels).length > 1) {
+    const results = Object.entries(map.world.levels).map(([id, level]) => checkMappingRules((condition, message) => ok(condition, `level ${id}: ${message}`), { ...map, world: { ...map.world, levels: { 0: level } } }, { S, caveLen }));
+    return results[0];
+  }
   const lv = map.world.levels['0'];
   const { propObjects } = splitObjects(lv);
   const scales = propObjects.map((o) => vec(o.scale));
@@ -160,6 +178,10 @@ export function checkMappingRules(ok, map, { S, caveLen }) {
  * @returns {{shadowPaths: object[], shadowObjects: object[]}}
  */
 export function checkShadowTextures(ok, map, { pathLayer, onlyShadowPaths = true }) {
+  if (Object.keys(map.world.levels).length > 1) {
+    const results = Object.entries(map.world.levels).map(([id, level]) => checkShadowTextures((condition, message) => ok(condition, `level ${id}: ${message}`), { ...map, world: { ...map.world, levels: { 0: level } } }, { pathLayer, onlyShadowPaths }));
+    return results[0];
+  }
   const lv = map.world.levels['0'];
   const shadowPaths = lv.paths.filter((p) => isShadowTexture(p.texture));
   const { shadowObjects } = splitObjects(lv);
@@ -180,10 +202,10 @@ export function checkNodes(ok, map, { S, margin }) {
   const lv = map.world.levels['0'];
   const W = map.world.width, H = map.world.height;
   const ids = [];
-  (function collect(o) { if (Array.isArray(o)) { o.forEach(collect); } else if (o && typeof o === 'object') { if (typeof o.node_id === 'string') { ids.push(o.node_id); } Object.values(o).forEach(collect); } })(lv);
+  (function collect(o) { if (Array.isArray(o)) { o.forEach(collect); } else if (o && typeof o === 'object') { if (typeof o.node_id === 'string') { ids.push(o.node_id); } Object.values(o).forEach(collect); } })(map.world.levels);
   ok(new Set(ids).size === ids.length, 'duplicate node_id values');
   ok(parseInt(map.world.next_node_id, 16) > Math.max(...ids.map((x) => parseInt(x, 16))), 'next_node_id not beyond the largest node id');
-  ok(lv.objects.every((o) => { const [x, y] = vec(o.position); return x > -margin && y > -margin && x < W * S + margin && y < H * S + margin; }), 'object far outside the map');
+  ok(Object.values(map.world.levels).flatMap((level) => level.objects).every((o) => { const [x, y] = vec(o.position); return x > -margin && y > -margin && x < W * S + margin && y < H * S + margin; }), 'object far outside the map');
 }
 
 /**
@@ -192,6 +214,10 @@ export function checkNodes(ok, map, { S, margin }) {
  * @returns {number} How many walls run into a later-or-same wall wrongly (0 when the order is right).
  */
 export function checkWallOrder(ok, map) {
+  if (Object.keys(map.world.levels).length > 1) {
+    const results = Object.entries(map.world.levels).map(([id, level]) => checkWallOrder((condition, message) => ok(condition, `level ${id}: ${message}`), { ...map, world: { ...map.world, levels: { 0: level } } }));
+    return results.reduce((sum, value) => sum + value, 0);
+  }
   const walls = map.world.levels['0'].walls.map((w) => ({ id: w.node_id, loop: w.loop, run: (() => { const P = pool(w.points); return w.loop ? [...P, P[0]] : P; })() }));
   const dist = (p, run) => { let best = Infinity; for (let i = 0; i + 1 < run.length; i++) { const [a, b] = [run[i], run[i + 1]], len2 = (b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2; const t = len2 ? Math.max(0, Math.min(1, ((p[0] - a[0]) * (b[0] - a[0]) + (p[1] - a[1]) * (b[1] - a[1])) / len2)) : 0; best = Math.min(best, Math.hypot(a[0] + t * (b[0] - a[0]) - p[0], a[1] + t * (b[1] - a[1]) - p[1])); } return best; };
   let wrong = 0;

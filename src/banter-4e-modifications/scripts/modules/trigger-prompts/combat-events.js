@@ -10,12 +10,28 @@ import { Logger } from "../../shared/logger.js";
  * (`{sceneId, tokenId}`) rather than documents so it can be logged and tested.
  */
 export const COMBAT_EVENT_TYPE = Object.freeze({
+  POWER_USED: "power-used",
   ATTACK_TARGETED: "attack-targeted",
   ATTACK_RESOLVED: "attack-resolved",
   MOVEMENT_COMMITTED: "movement-committed",
   HP_CHANGED: "hp-changed",
   SAVE_RESOLVED: "save-resolved",
 });
+
+/**
+ * Snapshot one native power activation, independently of its attack targets.
+ * @param {Item} item
+ * @param {object} speaker Native DnD4e speaker identifying the owning actor/token.
+ * @returns {object}
+ */
+export function createPowerUsedEvent(item, speaker) {
+  return createEvent(COMBAT_EVENT_TYPE.POWER_USED, {
+    subject: { sceneId: speaker.scene ?? null, tokenId: speaker.token ?? null, actorId: speaker.actor ?? item.actor?.id },
+    usageType: item.system?.useType ?? null,
+    powerAction: item.system?.actionType ?? null,
+    itemUuid: item.uuid,
+  });
+}
 
 /**
  * How a token moved. Shift movement does not provoke opportunity attacks.
@@ -196,6 +212,7 @@ export function getEventRoles(event) {
       return { mover: event.mover };
     case COMBAT_EVENT_TYPE.HP_CHANGED:
       return { subject: event.subject, ...(event.attacker ? { attacker: event.attacker } : {}) };
+    case COMBAT_EVENT_TYPE.POWER_USED:
     case COMBAT_EVENT_TYPE.SAVE_RESOLVED:
       return { subject: event.subject };
     default:

@@ -106,3 +106,48 @@ test("actor reminders use only installed actor-level IDs", async () => {
   assert.equal((await triggerAutomation({ uuid: "Actor.hero", reminders: [{ triggerId: trigger.id, enabled: true }] }, true, deps)).status, "updated");
   await assert.rejects(triggerAutomation({ uuid: "Actor.hero", reminders: [{ triggerId: "you-miss", enabled: true }] }, true, deps));
 });
+
+test("discover and add Uses Power with usage/action filters, including unrestricted groups", async () => {
+  const deps = fixture();
+  const discovered = await triggerAutomation({ uuid: "Item.power" }, false, deps);
+  assert.ok(discovered.catalog.some(trigger => trigger.id === "uses-power"));
+  assert.deepEqual(discovered.filters.usageTypes, filters.USAGE_TYPES);
+  assert.deepEqual(discovered.filters.powerActions, filters.POWER_ACTIONS);
+  for (const parameters of [
+    { usageTypes: ["daily", "encounter"], powerActions: ["minor"] },
+    { usageTypes: [], powerActions: [] },
+    {}
+  ]) {
+    const proposal = { items: [{ uuid: "Item.power", assignments: [{ triggerId: "uses-power", parameters }] }] };
+    validateTriggerAutomation(proposal, true);
+    let report;
+    deps.confirm = async value => { report = value; return true; };
+    assert.equal((await triggerAutomation(proposal, true, deps)).status, "updated");
+    assert.ok(report.changes.some(change => change.path.endsWith("assignments")));
+    const saved = (await triggerAutomation({ uuid: "Item.power" }, false, deps)).stored.assignments;
+    assert.deepEqual(saved, [{ triggerId: "uses-power", parameters, source: "manual" }]);
+    assert.equal((await triggerAutomation(proposal, true, { ...deps, confirm: () => assert.fail("unchanged retry") })).status, "unchanged");
+  }
+});
+
+test("Uses Power rejects unknown, duplicate and malformed filters before confirmation", async () => {
+  for (const parameters of [
+    { usageTypes: ["bogus"] }, { powerActions: ["bogus"] },
+    { usageTypes: ["daily", "daily"] }, { powerActions: ["minor", "minor"] },
+    { usageTypes: "daily" }, { powerActions: [1] }
+  ]) {
+    const deps = fixture();
+    deps.confirm = () => assert.fail("invalid filters must not prompt");
+    await assert.rejects(triggerAutomation({ items: [{ uuid: "Item.power", assignments: [{ triggerId: "uses-power", parameters }] }] }, true, deps));
+    assert.equal(deps.calls.length, 0);
+  }
+});
+
+test("Uses Power filter edits preserve source when cancelled", async () => {
+  const deps = fixture();
+  const before = deps.item.toObject();
+  deps.confirm = async () => false;
+  const result = await triggerAutomation({ items: [{ uuid: "Item.power", assignments: [{ triggerId: "uses-power", parameters: { usageTypes: ["daily"], powerActions: ["minor"] } }] }] }, true, deps);
+  assert.equal(result.status, "cancelled");
+  assert.deepEqual(deps.item.toObject(), before);
+});

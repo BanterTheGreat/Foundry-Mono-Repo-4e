@@ -35,7 +35,7 @@ test("MCP handshake exposes reads and NPC creation, validates arguments, and rep
   const localizationCalls = calls.length;
   assert.equal((await client.callTool({ name: "localize_item_powers", arguments: { ...localization, flags: {} } })).isError, true);
   assert.equal(calls.length, localizationCalls);
-  const triggerEdit = { items: [{ uuid: "Item.power", assignments: [], limit: "day" }] };
+  const triggerEdit = { items: [{ uuid: "Item.power", assignments: [{ triggerId: "uses-power", parameters: { usageTypes: ["daily"], powerActions: ["minor"] } }], limit: "day" }] };
   assert.notEqual((await client.callTool({ name: "edit_trigger_automation", arguments: triggerEdit })).isError, true);
   assert.deepEqual(calls.at(-1), { operation: "edit_trigger_automation", args: triggerEdit });
   const reminder = { uuid: "Actor.hero", system: { actionpoints: { custom: "" } }, deleteFeatures: ["oldFeat"] };

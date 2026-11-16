@@ -69,6 +69,8 @@ export function evaluateTriggerDefinition(definition, event, services) {
 
     const context = {
       actor: recipient.actor,
+      usageType: event.usageType,
+      powerAction: event.powerAction,
       attackType: event.attackType,
       isCritical: event.isCritical,
       defenseType: event.defenseType,

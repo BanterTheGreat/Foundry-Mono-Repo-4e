@@ -47,23 +47,33 @@ export async function createSummonForUser(request) {
 		|| !config.enabled || config.placementMode !== "summon" || item.hasAttack) {
 		throw new Error("The summoning power is unavailable or not owned by the requesting user.");
 	}
+	const cells = request.cells ?? [{ x: request.x, y: request.y }];
+	if (!Number.isInteger(config.summonMax) || config.summonMax < 1 || !Array.isArray(cells)
+		|| !cells.length || cells.length > config.summonMax
+		|| cells.some(cell => !cell || ![cell.x, cell.y].every(Number.isFinite))
+		|| new Set(cells.map(cell => `${cell.x}:${cell.y}`)).size !== cells.length) {
+		throw new Error("Select distinct summon squares within the configured maximum.");
+	}
 	const actor = config.summonActor ? await fromUuid(config.summonActor) : null;
 	const source = scene.tokens.get(request.sourceId);
 	const caster = scene.tokens.get(request.casterId);
 	if (!actor || actor.documentName !== "Actor" || actor.pack || !actor.testUserPermission(user, "OWNER")
-		|| !source || !caster || !caster.actor?.testUserPermission(user, "OWNER")
-		|| ![request.x, request.y].every(Number.isFinite)) {
+		|| !source || !caster || !caster.actor?.testUserPermission(user, "OWNER")) {
 		throw new Error("Summoning requires an owned world actor and valid scene tokens and placement.");
 	}
-	const document = await actor.getTokenDocument({ x: request.x, y: request.y,
-		elevation: source.elevation, disposition: caster.disposition });
-	const data = document.toObject();
-	const map = scene.dimensions.sceneRect;
-	if (data.x < map.x || data.y < map.y || data.x + data.width * scene.grid.size > map.x + map.width
-		|| data.y + data.height * scene.grid.size > map.y + map.height) {
-		throw new Error("The summoned token's footprint must fit on the scene.");
+	const tokenData = [];
+	for (const cell of cells) {
+		const document = await actor.getTokenDocument({ x: cell.x, y: cell.y,
+			elevation: source.elevation, disposition: caster.disposition });
+		const data = document.toObject();
+		const map = scene.dimensions.sceneRect;
+		if (data.x < map.x || data.y < map.y || data.x + data.width * scene.grid.size > map.x + map.width
+			|| data.y + data.height * scene.grid.size > map.y + map.height) {
+			throw new Error("The summoned token's footprint must fit on the scene.");
+		}
+		tokenData.push(data);
 	}
-	const tokens = await scene.createEmbeddedDocuments("Token", [data]);
+	const tokens = await scene.createEmbeddedDocuments("Token", tokenData);
 	if (!tokens.length) {
 		throw new Error("Token creation was prevented.");
 	}
@@ -77,7 +87,7 @@ export async function requestSummon(activation) {
 	}
 	const request = { type: "summonRequest", requestId: activation.id, userId: game.user.id, gmId: gm.id,
 		itemUuid: activation.item.uuid, sceneId: canvas.scene.id, sourceId: activation.source.id,
-		casterId: activation.caster.id, x: activation.origin.x, y: activation.origin.y };
+		casterId: activation.caster.id, cells: activation.summonCells.map(cell => ({ x: cell.x, y: cell.y })) };
 	if (gm.id === game.user.id) {
 		return createSummonForUser(request);
 	}

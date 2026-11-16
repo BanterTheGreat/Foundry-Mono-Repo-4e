@@ -63,6 +63,8 @@ The available operations enforce the boundary. Creation supports a new world `NP
 
 ### Adding NPC powers
 
+When asked to add an NPC to a Foundry world, follow the [NPC skill's required power automation workflow](../dnd4e-npc-actors/SKILL.md#required-power-automation): immediately configure supported Triggers, Target Automation and Active Effects for its powers after creation. Report unsupported parts and their reasons, complete supported parts, and continue with other powers without waiting for a separate request.
+
 Use `edit_npc_actor.addPowers: [{key, name, img?, system}]` to create new embedded
 powers directly on an existing world NPC. Read actor source first and use the
 NPC skill's power fields. Keep each semantic key stable on identical retries;

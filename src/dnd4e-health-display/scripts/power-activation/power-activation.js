@@ -219,6 +219,7 @@ class ActivationSession extends ActivationWorkflow {
 		this.listeners = new AbortController();
 		this.placementLocked = range.shape === "closeBurst";
 		this.wallCells = [];
+		this.summonCells = [];
 		this.attackMessages = [];
 		this.damageMessages = [];
 		this.damageModifierDrafts = new Map();
@@ -428,6 +429,7 @@ class ActivationSession extends ActivationWorkflow {
 		this.source = token;
 		this.origin = null;
 		this.wallCells = [];
+		this.summonCells = [];
 		this.wallHover = null;
 		this.placementLocked = this.range.shape === "closeBurst";
 		this.targets = [];
@@ -455,15 +457,55 @@ class ActivationSession extends ActivationWorkflow {
 		if (!summonGM()) {
 			throw new Error("A GM must be logged in to place a summoned creature.");
 		}
-		const document = await actor.getTokenDocument({ x: this.origin.x, y: this.origin.y,
-			elevation: this.source.document.elevation, disposition: this.caster.document.disposition });
-		const data = document.toObject();
-		const map = canvas.dimensions.sceneRect;
-		if (data.x < map.x || data.y < map.y || data.x + data.width * canvas.grid.size > map.x + map.width
-			|| data.y + data.height * canvas.grid.size > map.y + map.height) {
-			throw new Error("The summoned token's footprint must fit on the scene.");
+		const problems = this.summonProblems();
+		if (problems.length) {
+			throw new Error(problems.join(" "));
 		}
-		this.summonData = data;
+		this.summonDataList = [];
+		for (const cell of this.summonCells) {
+			const document = await actor.getTokenDocument({ x: cell.x, y: cell.y,
+				elevation: this.source.document.elevation, disposition: this.caster.document.disposition });
+			const data = document.toObject();
+			const map = canvas.dimensions.sceneRect;
+			if (data.x < map.x || data.y < map.y || data.x + data.width * canvas.grid.size > map.x + map.width
+				|| data.y + data.height * canvas.grid.size > map.y + map.height) {
+				throw new Error("The summoned token's footprint must fit on the scene.");
+			}
+			this.summonDataList.push(data);
+		}
+	}
+
+	/** Validate the whole summon selection before any resources or tokens are committed. */
+	summonProblems(cells = this.summonCells) {
+		const maximum = automationConfig(this.item).summonMax;
+		if (!Number.isInteger(maximum) || maximum < 1) {
+			return ["Set a positive whole maximum summoned creatures in the Automation tab."];
+		}
+		if (!cells.length || cells.length > maximum) {
+			return [`Select 1 to ${maximum} summon squares.`];
+		}
+		const size = canvas.grid.size;
+		if (new Set(cells.map(cell => `${cell.x}:${cell.y}`)).size !== cells.length) {
+			return ["Choose distinct summon squares."];
+		}
+		return [...this.lineOfEffectProblems(cells), ...cells.flatMap(cell => squareDistance(this.source,
+			{ ...cell, w: size, h: size }, size) > this.range.maximum ? ["A summon square is outside range."] : [])];
+	}
+
+	/** Toggle separate summon anchors without locking the remaining canvas selection. */
+	toggleSummonSquare() {
+		if (this.state !== "targeting" || !this.origin) {
+			return;
+		}
+		const existing = this.summonCells.findIndex(cell => cell.x === this.origin.x && cell.y === this.origin.y);
+		const cells = existing < 0 ? [...this.summonCells, { ...this.origin }] : this.summonCells.filter((cell, index) => index !== existing);
+		const problems = existing < 0 ? this.summonProblems(cells) : [];
+		if (problems.length) {
+			ui.notifications.warn(problems.join(" "));
+			return;
+		}
+		this.summonCells = cells;
+		this.refresh();
 	}
 
 	/** Create once after confirmation; a failed creation must not skip use bookkeeping. */
@@ -596,6 +638,10 @@ class ActivationSession extends ActivationWorkflow {
 				}
 				if (name === "click") {
 					move(event);
+					if (this.range.shape === "summon") {
+						this.toggleSummonSquare();
+						return;
+					}
 					if (this.lineOfEffectProblems().length) {
 						ui.notifications.warn(this.lineOfEffectProblems().join(" "));
 						return;
@@ -623,7 +669,7 @@ class ActivationSession extends ActivationWorkflow {
 		}
 		const size = canvas.grid.size;
 		const origin = areaRangeOrigin(this.source, this.range, this.origin, size);
-		const destinations = cells ?? (this.range.shape === "wall" ? this.wallCells
+		const destinations = cells ?? (this.range.shape === "summon" && this.summonCells.length ? this.summonCells : this.range.shape === "wall" ? this.wallCells
 			: this.range.shape === "closeBlast" ? this.areaRectangles() : origin ? [origin] : []);
 		const walls = (canvas.walls?.placeables ?? []).map(wall => wall.document)
 			.filter(wall => wall.move !== CONST.WALL_MOVEMENT_TYPES.NONE && wall.ds !== CONST.WALL_DOOR_STATES.OPEN)
@@ -737,6 +783,9 @@ class ActivationSession extends ActivationWorkflow {
 
 	/** Validate area membership rather than distance from caster to individual targets. */
 	areaProblems(targets = this.targets, checkCount = true) {
+		if (this.range.shape === "summon") {
+			return this.summonProblems();
+		}
 		const problems = this.lineOfEffectProblems();
 		const config = automationConfig(this.item);
 		const origin = areaRangeOrigin(this.source, this.range, this.origin, canvas.grid.size);
@@ -933,6 +982,11 @@ class ActivationSession extends ActivationWorkflow {
 					}
 					return;
 				}
+				if (this.range.shape === "summon") {
+					for (const cell of this.summonCells) {
+						this.graphics.lineStyle(2, 0xf5d787).beginFill(0xf5d787, .25).drawRect(cell.x, cell.y, canvas.grid.size, canvas.grid.size).endFill();
+					}
+				}
 				const bounds = this.areaBounds();
 				if (bounds) {
 					this.graphics.lineStyle(2, 0xf5d787).beginFill(0xf5d787, .18).drawRect(bounds.x, bounds.y, bounds.w, bounds.h);
@@ -972,7 +1026,7 @@ class ActivationSession extends ActivationWorkflow {
 
 	/** Allow explicit player overrides for range/count warnings. */
 	async confirmProblems() {
-		const blocked = [...this.lineOfEffectProblems(), ...this.filterProblems()];
+		const blocked = [...(this.range.shape === "summon" ? this.summonProblems() : []), ...this.lineOfEffectProblems(), ...this.filterProblems()];
 		if (blocked.length) {
 			ui.notifications.warn(blocked.join(" "));
 			return false;
@@ -992,7 +1046,7 @@ class ActivationSession extends ActivationWorkflow {
 
 	/** Snapshot factors that affect native target tabs and automatically computed bonuses. */
 	contextKey() {
-		return JSON.stringify([this.caster.document.toObject(), this.variant, this.range, this.origin, this.wallCells, automationConfig(this.item), this.item.toObject(), this.item.actor.toObject(), this.source.document.toObject(), this.targets.map(token => [token.id, token.document.toObject(), token.actor?.toObject()]), this.filterProblems(),
+		return JSON.stringify([this.caster.document.toObject(), this.variant, this.range, this.origin, this.wallCells, this.summonCells, automationConfig(this.item), this.item.toObject(), this.item.actor.toObject(), this.source.document.toObject(), this.targets.map(token => [token.id, token.document.toObject(), token.actor?.toObject()]), this.filterProblems(),
 			this.isGroup ? [this.attackers.map(token => [token.id, token.document.toObject(), token.actor?.toObject(), this.itemFor(token).toObject()]), [...this.demands()]] : null]);
 	}
 
@@ -1023,7 +1077,7 @@ class ActivationSession extends ActivationWorkflow {
 			ui.notifications.warn(this.wallProblems().join(" "));
 			return;
 		}
-		if (this.range.shape && this.range.shape !== "wall" && !this.placementLocked) {
+		if (this.range.shape && !["wall", "summon"].includes(this.range.shape) && !this.placementLocked) {
 			ui.notifications.warn("Place and lock the area before using this ability.");
 			return;
 		}
@@ -1881,6 +1935,7 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 			clearWall() { this.session.editWall(true); },
 			reposition() {
 				if (this.session.state === "targeting") {
+					this.session.summonCells = [];
 					this.session.placementLocked = this.session.range.shape === "closeBurst";
 					this.session.selectAreaTargets();
 					this.session.refresh();
@@ -2109,7 +2164,7 @@ class TargetingPanel extends HandlebarsApplicationMixin(ApplicationV2) {
 			originChoices: activation.isGroup ? [] : activation.originChoices().map(token => ({ id: token.id, name: token.name, selected: token === activation.source })),
 			isGroup: activation.isGroup, attackerCount: activation.attackers.length,
 			groupSummary: activation.isGroup ? `${activation.attackers.length} attackers · ${[...demands.values()].reduce((sum, value) => sum + value, 0)} of ${activation.slots} attacks assigned` : "",
-			summon: activation.range.shape === "summon",
+			summon: activation.range.shape === "summon", summonCount: activation.summonCells.length, summonMax: automationConfig(activation.item).summonMax,
 			wall: activation.range.shape === "wall", wallCount: activation.wallCells.length, wallHint: activation.wallHint,
 			area: Boolean(activation.range.shape), movableArea: activation.range.shape && activation.range.shape !== "closeBurst" && activation.range.shape !== "wall",
 			areaLabel: { closeBurst: "Close burst", closeBlast: "Close blast", rangeBurst: "Area burst", rangeBlast: "Area blast", wall: "Area wall", summon: "Summon square" }[activation.range.shape],

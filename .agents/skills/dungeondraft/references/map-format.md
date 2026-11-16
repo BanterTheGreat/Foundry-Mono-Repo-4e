@@ -21,7 +21,13 @@ Keys in order: `format` (3), `width`, `height`, `next_node_id` (hex string beyon
 
 Object shadows are always off (mapping rule 2): `object_shadow` false and every object's `shadow` false. `wall_shadow` is false too, as in the user's recent maps. How the world flags interact with per-object `shadow` is unverified.
 
-## levels["0"]
+## Levels
+
+`world.levels` is an object keyed by numeric strings (`"0"`, `"1"`, ...). Each value has the complete level schema below. Labels are independent of IDs: level 0 need not be Ground. Dimensions, grid, asset manifest and `next_node_id` are shared; allocate entity IDs across all levels. `header.editor_state.current_level` is the numeric selected level ID.
+
+Verified in the user-supplied `Subway Big.dungeondraft_map` (build 1.2.0.1): level `"0"` is **Carriages**, terrain disabled, with 1 pattern, 1 wall, 5 paths and 24 objects; level `"1"` is **Ground**, terrain enabled, with 26 patterns, 6 walls, 42 paths and 26 objects. Both retain full terrain/tile/cave arrays on the shared 78 x 15 canvas. There is no special export-only level type. IDs do not overlap between levels, with one world-wide next counter.
+
+## Level schema
 
 Keys in order: `label` ("Ground"), `environment` (`baked_lighting` true, `ambient_light` "ffffffff"), `layers`, `shapes` (`polygons`, `walls`, both []), `tiles`, `patterns`, `walls`, `portals` ([]; real portals live inside their wall), `cave`, `terrain`, `water`, `materials` ({}), `paths`, `objects`, `lights`, `roofs`, `texts`, `texts_vis` (true).
 

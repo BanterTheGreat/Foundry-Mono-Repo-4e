@@ -1,4 +1,4 @@
-import { ATTACK_TYPES, DEFENSE_TYPES, DAMAGE_TYPES } from "./trigger-filters.js";
+import { ATTACK_TYPES, DEFENSE_TYPES, DAMAGE_TYPES, USAGE_TYPES, POWER_ACTIONS } from "./trigger-filters.js";
 import { TRIGGER_ID, TRIGGER_PROMPT_UI } from "./constants.js";
 import { ActorTriggerConfiguration } from "./actor-trigger-configuration.js";
 import { ASSIGNMENT_SOURCE, ItemTriggerAssignments } from "./item-trigger-assignments.js";
@@ -35,7 +35,7 @@ export class PowerTriggerDialog {
     const dialog = new foundry.applications.api.DialogV2({
       window: { title: `${item.name}: Trigger prompts` },
       // DialogV2 already wraps its content in a form; a nested <form> is dropped by the HTML parser.
-      content: `<div class="${TRIGGER_PROMPT_UI.CONFIG_CLASS} trigger-prompts-picker">${item.type !== "power" ? "<p class=\"hint\">Optional feat triggers post the feat to chat when selected. Mandatory benefits are announced automatically when the checkbox below is enabled.</p>" : PowerTriggerDialog.renderSuggestionPanel(triggerText, suggestions)}<div class="trigger-prompts-picker__split"><aside class="trigger-prompts-picker__catalog" aria-label="Trigger catalog"><h2 class="trigger-prompts-picker__heading">Triggers</h2><label>Find a trigger <input type="search" class="trigger-prompts-config__search" placeholder="Search triggers"></label><label>Category <select class="trigger-prompts-picker__category">${["All", "Attacks", "HP & damage", "Saving throws", "Movement", "Companion"].map(category => `<option>${category}</option>`).join("")}</select></label><div class="trigger-prompts-picker__choices">${catalog}</div><p class="hint trigger-prompts-config__empty" hidden>No matching triggers.</p></aside><div class="trigger-prompts-picker__editor" aria-label="Trigger conditions"><h2 class="trigger-prompts-picker__heading">Selected trigger</h2>${rows}<p class="hint trigger-prompts-picker__no-selection" hidden>Search or choose a category to find a trigger.</p></div></div><p class="hint trigger-prompts-picker__count" aria-live="polite"></p>${PowerTriggerDialog.renderLimit(item)}</div>`,
+      content: `<div class="${TRIGGER_PROMPT_UI.CONFIG_CLASS} trigger-prompts-picker">${item.type !== "power" ? "<p class=\"hint\">Optional feat triggers post the feat to chat when selected. Mandatory benefits are announced automatically when the checkbox below is enabled.</p>" : PowerTriggerDialog.renderSuggestionPanel(triggerText, suggestions)}<div class="trigger-prompts-picker__split"><aside class="trigger-prompts-picker__catalog" aria-label="Trigger catalog"><h2 class="trigger-prompts-picker__heading">Triggers</h2><label>Find a trigger <input type="search" class="trigger-prompts-config__search" placeholder="Search triggers"></label><label>Category <select class="trigger-prompts-picker__category">${["All", "Powers", "Attacks", "HP & damage", "Saving throws", "Movement", "Companion"].map(category => `<option>${category}</option>`).join("")}</select></label><div class="trigger-prompts-picker__choices">${catalog}</div><p class="hint trigger-prompts-config__empty" hidden>No matching triggers.</p></aside><div class="trigger-prompts-picker__editor" aria-label="Trigger conditions"><h2 class="trigger-prompts-picker__heading">Selected trigger</h2>${rows}<p class="hint trigger-prompts-picker__no-selection" hidden>Search or choose a category to find a trigger.</p></div></div><p class="hint trigger-prompts-picker__count" aria-live="polite"></p>${PowerTriggerDialog.renderLimit(item)}</div>`,
       position: { width: 760 },
       buttons: [{
         action: "save",
@@ -63,7 +63,7 @@ export class PowerTriggerDialog {
     if (trigger.on.startsWith("attack-")) {
       return "Attacks";
     }
-    return { "hp-changed": "HP & damage", "save-resolved": "Saving throws", "movement-committed": "Movement" }[trigger.on];
+    return { "power-used": "Powers", "hp-changed": "HP & damage", "save-resolved": "Saving throws", "movement-committed": "Movement" }[trigger.on];
   }
 
   /**
@@ -169,7 +169,7 @@ export class PowerTriggerDialog {
   /** Render shared filters and an explicit companion binding. */
   static renderFilters(trigger, parameters) {
     const escape = value => foundry.utils.escapeHTML(String(value));
-    const group = (key, label, values) => `<fieldset><legend>${label} (any if none selected)</legend>${values.map(value => `<label><input type="checkbox" name="${trigger.id}.${key}" value="${value}"${parameters[key]?.includes(value) ? " checked" : ""}> ${value.toUpperCase()}</label>`).join("")}</fieldset>`;
+    const group = (key, label, values) => `<fieldset><legend>${label} (any if none selected)</legend>${values.map(value => `<label><input type="checkbox" name="${trigger.id}.${key}" value="${value}"${parameters[key]?.includes(value) ? " checked" : ""}> ${({ atwill: "At-Will", reaction: "Immediate Reaction", interrupt: "Immediate Interrupt", none: "No Action" })[value] ?? value.toUpperCase()}</label>`).join("")}</fieldset>`;
     const attack = trigger.on.startsWith("attack-") || trigger.on === "hp-changed" ? group("attackTypes", "Attack type", ATTACK_TYPES) : "";
     const defense = trigger.on.startsWith("attack-") ? group("defenseTypes", "Attacked defense", DEFENSE_TYPES) : "";
     const damage = trigger.damageRequired ? group("damageTypes", "Damage type", DAMAGE_TYPES) : "";
@@ -181,7 +181,8 @@ export class PowerTriggerDialog {
     }
     const companion = trigger.companion ? `<label>Companion <select name="${trigger.id}.companionActorUuid"><option value="">Choose a companion</option>${options.map(([uuid, name]) => `<option value="${escape(uuid)}"${uuid === selected ? " selected" : ""}>${escape(name)}</option>`).join("")}</select></label>` : "";
     const critical = trigger.on === "attack-resolved" ? `<label><input type="checkbox" name="${trigger.id}.criticalOnly"${parameters.criticalOnly ? " checked" : ""}> Critical hit only</label>` : "";
-    return attack + defense + damage + companion + critical;
+    const power = trigger.on === "power-used" ? group("usageTypes", "Usage Type", USAGE_TYPES) + group("powerActions", "Power Action", POWER_ACTIONS) : "";
+    return power + attack + defense + damage + companion + critical;
   }
 
   /**
@@ -288,7 +289,7 @@ export class PowerTriggerDialog {
           triggerId: trigger.id,
           parameters: {
             ...(trigger.defaultRangeSquares === undefined ? {} : { rangeSquares: range === null || range === "" || !Number.isFinite(parsedRange) ? trigger.defaultRangeSquares : Math.max(0, parsedRange) }),
-            ...Object.fromEntries([["attackTypes", ATTACK_TYPES], ["defenseTypes", DEFENSE_TYPES], ["damageTypes", DAMAGE_TYPES]].map(([key, allowed]) => [key, data.getAll(`${trigger.id}.${key}`).filter(value => allowed.includes(value))]).filter(([, values]) => values.length)),
+            ...Object.fromEntries([["usageTypes", USAGE_TYPES], ["powerActions", POWER_ACTIONS], ["attackTypes", ATTACK_TYPES], ["defenseTypes", DEFENSE_TYPES], ["damageTypes", DAMAGE_TYPES]].map(([key, allowed]) => [key, data.getAll(`${trigger.id}.${key}`).filter(value => allowed.includes(value))]).filter(([, values]) => values.length)),
             ...(trigger.companion && data.get(`${trigger.id}.companionActorUuid`) ? { companionActorUuid: String(data.get(`${trigger.id}.companionActorUuid`)) } : {}),
             ...Object.fromEntries(["nonMinion", "meleeOnly", "adjacentOnly", "criticalOnly"].filter(key => data.has(`${trigger.id}.${key}`)).map(key => [key, true])),
           },

@@ -791,8 +791,18 @@ Read `get_document` with `source:true` before editing.
 `edit_trigger_automation` accepts `items:[{uuid,assignments?,limit?,automatic?}]`.
 Assignments replace the full list; `[]` clears it. Each entry has `triggerId`,
 optional `parameters` (rangeSquares, nonMinion, meleeOnly, adjacentOnly,
-attackTypes, defenseTypes, damageTypes, companionActorUuid), and optional
+attackTypes, defenseTypes, damageTypes, companionActorUuid, usageTypes, powerActions), and optional
 `source` (`manual` or `text`). Use discovered trigger IDs and filter values.
+For **Uses Power**, use `triggerId: "uses-power"` with optional `usageTypes`
+(atwill, encounter, daily, recharge, item, other) and `powerActions`
+(standard, move, minor, free, reaction, interrupt, opportunity, none).
+Read the installed filter choices first. Multiple values match any within a group;
+both groups must match when selected. Omitted or empty groups allow any.
+For example, an assignment for daily minor-action powers is:
+`{triggerId: "uses-power", parameters: {usageTypes: ["daily"], powerActions: ["minor"]}}`.
+Reload Foundry and restart the MCP companion/client after installing the update
+so browser validation and the advertised tool schema both include these fields.
+
 Companion triggers require an existing world Actor UUID. Limits are `none`,
 `turn`, `firstEncounter`, or `day`, shared across the item's assignments.
 `automatic:true` uses Banter's mandatory benefit behavior without activation.

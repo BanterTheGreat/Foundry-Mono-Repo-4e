@@ -39,13 +39,17 @@ function clipRect(k, a, ang, t0, t1, th) {
 /**
  * Render a map file to a PNG.
  * @param {string} mapFile Path of the `.dungeondraft_map`.
- * @param {{pps?: number, out?: string}} [options] `pps` is pixels per square (256 is native size); `out` defaults to `<map>-preview.png`.
+ * @param {{pps?: number, out?: string, level?: number|string}} [options] `level` defaults to 0; other levels default to `<map>-level-<id>-preview.png`.
  * @returns {{file: string, width: number, height: number}} The PNG written and its size.
  */
-export function renderMapPreview(mapFile, { pps = 64, out } = {}) {
-  const OUT = path.resolve(out ?? mapFile.replace(/\.dungeondraft_map$/, '-preview.png'));
+export function renderMapPreview(mapFile, { pps = 64, out, level = 0 } = {}) {
+  const suffix = String(level) === '0' ? '-preview.png' : `-level-${level}-preview.png`;
+  const OUT = path.resolve(out ?? mapFile.replace(/\.dungeondraft_map$/, suffix));
   const map = JSON.parse(fs.readFileSync(mapFile, 'utf8'));
-  const lv = map.world.levels['0'];
+  const lv = map.world.levels[String(level)];
+  if (!lv) {
+    throw new Error(`Unknown map level: ${level}`);
+  }
   const k = pps / 256;
   const W = Math.round(map.world.width * pps), H = Math.round(map.world.height * pps);
 
@@ -54,7 +58,7 @@ export function renderMapPreview(mapFile, { pps = 64, out } = {}) {
   const cv = new Canvas(W, H, [60, 60, 60]);
 
   // terrain: each 64-px texel painted from its slot weights
-  {
+  if (lv.terrain.enabled) {
     const v = lv.terrain.splat.replace(/^Pool\w+\(/, '').replace(/\)$/, '').split(',').map(Number);
     const slots = [1, 2, 3, 4].map((i) => (lv.terrain[`texture_${i}`].startsWith('res://packs/') ? tex(lv.terrain[`texture_${i}`]) : null)); // built-in slots are unused here
     const TW = map.world.width * 4;
@@ -133,10 +137,10 @@ export function renderMapPreview(mapFile, { pps = 64, out } = {}) {
 }
 
 /**
- * Entry-script body: `node preview-dungeondraft-map.mjs [map] [--pps 64] [--out file.png]`.
+ * Entry-script body: `node preview-dungeondraft-map.mjs [map] [--pps 64] [--out file.png] [--level 0]`.
  * @param {string} defaultMap Map rendered when no path is given.
  */
 export function previewCli(defaultMap) {
-  const { file, width, height } = renderMapPreview(cliMapPath(defaultMap), { pps: Number(cliArg('--pps', 64)), out: cliArg('--out') });
+  const { file, width, height } = renderMapPreview(cliMapPath(defaultMap), { pps: Number(cliArg('--pps', 64)), out: cliArg('--out'), level: cliArg('--level', 0) });
   console.log('wrote', file, `${width}x${height}`);
 }

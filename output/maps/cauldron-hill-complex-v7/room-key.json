@@ -1,0 +1,2277 @@
+{
+  "source": "ZEITGEIST Act One, Adventure Five, Part Three, printed pp. 405–410; overview p. 408",
+  "scale": "5 feet per square",
+  "omitted": [],
+  "elevation": "VIP wing +100 ft; staging 0 ft; bridge and VIP +100 ft; sump -150 ft; lake dock -300 ft",
+  "rooms": [
+    {
+      "id": "approach",
+      "name": "Three front-door rail approaches (continue off map)",
+      "x": 2,
+      "y": 69,
+      "w": 12,
+      "h": 2,
+      "kind": "rail",
+      "floor": "metal",
+      "area": "approach"
+    },
+    {
+      "id": "canal-approach",
+      "name": "Canal approach",
+      "x": 6,
+      "y": 61,
+      "w": 2,
+      "h": 8,
+      "kind": "rail",
+      "floor": "metal",
+      "area": "canal-approach"
+    },
+    {
+      "id": "south-approach",
+      "name": "South Nettles approach",
+      "x": 6,
+      "y": 71,
+      "w": 2,
+      "h": 9,
+      "kind": "rail",
+      "floor": "metal",
+      "area": "south-approach"
+    },
+    {
+      "id": "1",
+      "name": "Checkpoint One: oil-fire killing corridor",
+      "x": 14,
+      "y": 68,
+      "w": 16,
+      "h": 4,
+      "kind": "checkpoint",
+      "floor": "metal",
+      "area": "1"
+    },
+    {
+      "id": "1N",
+      "name": "Checkpoint One: northern secret observation room",
+      "x": 14,
+      "y": 64,
+      "w": 6,
+      "h": 4,
+      "kind": "guard",
+      "floor": "metal",
+      "area": "1"
+    },
+    {
+      "id": "1S",
+      "name": "Checkpoint One: southern secret observation room",
+      "x": 14,
+      "y": 72,
+      "w": 6,
+      "h": 4,
+      "kind": "guard",
+      "floor": "metal",
+      "area": "1"
+    },
+    {
+      "id": "2-circulation",
+      "name": "Barracks circulation",
+      "x": 30,
+      "y": 50,
+      "w": 36,
+      "h": 42,
+      "kind": "corridor",
+      "floor": "stone",
+      "area": "2"
+    },
+    {
+      "id": "2-bunk-50-0",
+      "name": "North dormitory 1",
+      "x": 30,
+      "y": 50,
+      "w": 6,
+      "h": 6,
+      "kind": "bunk",
+      "floor": "wood",
+      "area": "2"
+    },
+    {
+      "id": "2-bunk-50-1",
+      "name": "North dormitory 2",
+      "x": 36,
+      "y": 50,
+      "w": 6,
+      "h": 6,
+      "kind": "bunk",
+      "floor": "wood",
+      "area": "2"
+    },
+    {
+      "id": "2-bunk-50-2",
+      "name": "North dormitory 3",
+      "x": 42,
+      "y": 50,
+      "w": 6,
+      "h": 6,
+      "kind": "bunk",
+      "floor": "wood",
+      "area": "2"
+    },
+    {
+      "id": "2-bunk-50-3",
+      "name": "North dormitory 4",
+      "x": 48,
+      "y": 50,
+      "w": 6,
+      "h": 6,
+      "kind": "bunk",
+      "floor": "wood",
+      "area": "2"
+    },
+    {
+      "id": "2-bunk-50-4",
+      "name": "North dormitory 5",
+      "x": 54,
+      "y": 50,
+      "w": 6,
+      "h": 6,
+      "kind": "bunk",
+      "floor": "wood",
+      "area": "2"
+    },
+    {
+      "id": "2-bunk-50-5",
+      "name": "North dormitory 6",
+      "x": 60,
+      "y": 50,
+      "w": 6,
+      "h": 6,
+      "kind": "bunk",
+      "floor": "wood",
+      "area": "2"
+    },
+    {
+      "id": "2-bunk-86-0",
+      "name": "South dormitory 1",
+      "x": 30,
+      "y": 86,
+      "w": 6,
+      "h": 6,
+      "kind": "bunk",
+      "floor": "wood",
+      "area": "2"
+    },
+    {
+      "id": "2-bunk-86-1",
+      "name": "South dormitory 2",
+      "x": 36,
+      "y": 86,
+      "w": 6,
+      "h": 6,
+      "kind": "bunk",
+      "floor": "wood",
+      "area": "2"
+    },
+    {
+      "id": "2-bunk-86-2",
+      "name": "South dormitory 3",
+      "x": 42,
+      "y": 86,
+      "w": 6,
+      "h": 6,
+      "kind": "bunk",
+      "floor": "wood",
+      "area": "2"
+    },
+    {
+      "id": "2-bunk-86-3",
+      "name": "South dormitory 4",
+      "x": 48,
+      "y": 86,
+      "w": 6,
+      "h": 6,
+      "kind": "bunk",
+      "floor": "wood",
+      "area": "2"
+    },
+    {
+      "id": "2-bunk-86-4",
+      "name": "South dormitory 5",
+      "x": 54,
+      "y": 86,
+      "w": 6,
+      "h": 6,
+      "kind": "bunk",
+      "floor": "wood",
+      "area": "2"
+    },
+    {
+      "id": "2-bunk-86-5",
+      "name": "South dormitory 6",
+      "x": 60,
+      "y": 86,
+      "w": 6,
+      "h": 6,
+      "kind": "bunk",
+      "floor": "wood",
+      "area": "2"
+    },
+    {
+      "id": "2-mess",
+      "name": "Commissary / engineers mess",
+      "x": 36,
+      "y": 64,
+      "w": 24,
+      "h": 16,
+      "kind": "mess",
+      "floor": "wood",
+      "area": "2"
+    },
+    {
+      "id": "2-n-0",
+      "name": "Dry goods and food stores",
+      "x": 36,
+      "y": 58,
+      "w": 8,
+      "h": 6,
+      "kind": "store",
+      "floor": "wood",
+      "area": "2"
+    },
+    {
+      "id": "2-n-1",
+      "name": "Large barracks kitchen",
+      "x": 44,
+      "y": 58,
+      "w": 8,
+      "h": 6,
+      "kind": "kitchen",
+      "floor": "stone",
+      "area": "2"
+    },
+    {
+      "id": "2-n-2",
+      "name": "Logistics and requisitions office",
+      "x": 52,
+      "y": 58,
+      "w": 8,
+      "h": 6,
+      "kind": "office",
+      "floor": "wood",
+      "area": "2"
+    },
+    {
+      "id": "2-s-0",
+      "name": "Equipment supply",
+      "x": 36,
+      "y": 80,
+      "w": 8,
+      "h": 4,
+      "kind": "store",
+      "floor": "wood",
+      "area": "2"
+    },
+    {
+      "id": "2-s-1",
+      "name": "Engineering papers and plans",
+      "x": 44,
+      "y": 80,
+      "w": 8,
+      "h": 4,
+      "kind": "office",
+      "floor": "wood",
+      "area": "2"
+    },
+    {
+      "id": "2-s-2",
+      "name": "Linen and reserve supplies",
+      "x": 52,
+      "y": 80,
+      "w": 8,
+      "h": 4,
+      "kind": "store",
+      "floor": "wood",
+      "area": "2"
+    },
+    {
+      "id": "2-exit",
+      "name": "Barracks east connection",
+      "x": 66,
+      "y": 69,
+      "w": 10,
+      "h": 2,
+      "kind": "corridor",
+      "floor": "stone",
+      "area": "2"
+    },
+    {
+      "id": "3",
+      "name": "Checkpoint Two / former heavy-component staging hall",
+      "x": 76,
+      "y": 64,
+      "w": 26,
+      "h": 10,
+      "kind": "hall",
+      "floor": "stone",
+      "area": "3"
+    },
+    {
+      "id": "3N",
+      "name": "Checkpoint Two northern secret guard booth",
+      "x": 72,
+      "y": 64,
+      "w": 4,
+      "h": 4,
+      "kind": "guard",
+      "floor": "stone",
+      "area": "3"
+    },
+    {
+      "id": "3S",
+      "name": "Checkpoint Two southern secret guard booth",
+      "x": 72,
+      "y": 70,
+      "w": 4,
+      "h": 4,
+      "kind": "guard",
+      "floor": "stone",
+      "area": "3"
+    },
+    {
+      "id": "3-lift",
+      "name": "Hydraulic cargo lift: 300 feet down to Parity Lake",
+      "x": 102,
+      "y": 64,
+      "w": 8,
+      "h": 10,
+      "kind": "lift",
+      "floor": "wood",
+      "area": "3"
+    },
+    {
+      "id": "5-vestibule",
+      "name": "Golem airlock southern vestibule",
+      "x": 81,
+      "y": 60,
+      "w": 6,
+      "h": 4,
+      "kind": "corridor",
+      "floor": "stone",
+      "area": "5"
+    },
+    {
+      "id": "5",
+      "name": "Prototype Golem Guardpost",
+      "x": 81,
+      "y": 42,
+      "w": 6,
+      "h": 18,
+      "kind": "airlock",
+      "floor": "stone",
+      "area": "5"
+    },
+    {
+      "id": "5W",
+      "name": "Guardpost west control alcove",
+      "x": 79,
+      "y": 42,
+      "w": 2,
+      "h": 4,
+      "kind": "control",
+      "floor": "stone",
+      "area": "5"
+    },
+    {
+      "id": "5E",
+      "name": "Guardpost east control alcove",
+      "x": 87,
+      "y": 42,
+      "w": 2,
+      "h": 4,
+      "kind": "control",
+      "floor": "stone",
+      "area": "5"
+    },
+    {
+      "id": "5-north",
+      "name": "North double-door vestibule: to colossus staging platform",
+      "x": 81,
+      "y": 38,
+      "w": 6,
+      "h": 4,
+      "kind": "corridor",
+      "floor": "stone",
+      "area": "5"
+    },
+    {
+      "id": "9a",
+      "name": "Service bypass north from barracks",
+      "x": 68,
+      "y": 48,
+      "w": 1,
+      "h": 14,
+      "kind": "service",
+      "floor": "metal",
+      "area": "9"
+    },
+    {
+      "id": "9a-link",
+      "name": "Barracks north access hatch",
+      "x": 66,
+      "y": 61,
+      "w": 2,
+      "h": 1,
+      "kind": "service",
+      "floor": "metal",
+      "area": "9"
+    },
+    {
+      "id": "9a-top",
+      "name": "North utility run to colossus chamber",
+      "x": 60,
+      "y": 47,
+      "w": 9,
+      "h": 1,
+      "kind": "service",
+      "floor": "metal",
+      "area": "9"
+    },
+    {
+      "id": "9b",
+      "name": "South service bypass from barracks to checkpoint / upper shaft",
+      "x": 66,
+      "y": 78,
+      "w": 31,
+      "h": 1,
+      "kind": "service",
+      "floor": "metal",
+      "area": "9"
+    },
+    {
+      "id": "9b-rise",
+      "name": "Service bypass to checkpoint",
+      "x": 96,
+      "y": 74,
+      "w": 1,
+      "h": 4,
+      "kind": "service",
+      "floor": "metal",
+      "area": "9"
+    },
+    {
+      "id": "9b-upper",
+      "name": "Service shaft to upper facility (+100 ft)",
+      "x": 96,
+      "y": 56,
+      "w": 1,
+      "h": 8,
+      "kind": "service",
+      "floor": "metal",
+      "area": "9"
+    },
+    {
+      "id": "4NW",
+      "name": "Utility access: pumps, steam engine and surface vent",
+      "x": 26,
+      "y": 58,
+      "w": 4,
+      "h": 6,
+      "kind": "utility",
+      "floor": "metal",
+      "area": "4"
+    },
+    {
+      "id": "4SW",
+      "name": "Utility access: pumps, steam engine and surface vent",
+      "x": 26,
+      "y": 80,
+      "w": 4,
+      "h": 6,
+      "kind": "utility",
+      "floor": "metal",
+      "area": "4"
+    },
+    {
+      "id": "4E",
+      "name": "Utility access: pumps, steam engine and surface vent",
+      "x": 102,
+      "y": 74,
+      "w": 8,
+      "h": 4,
+      "kind": "utility",
+      "floor": "metal",
+      "area": "4"
+    },
+    {
+      "id": "4C",
+      "name": "Utility access: pumps, steam engine and surface vent",
+      "x": 56,
+      "y": 42,
+      "w": 4,
+      "h": 6,
+      "kind": "utility",
+      "floor": "metal",
+      "area": "4"
+    },
+    {
+      "id": "vip-west-gallery",
+      "name": "VIP western gallery (+100 ft)",
+      "x": 126,
+      "y": 7,
+      "w": 2,
+      "h": 18,
+      "kind": "corridor",
+      "floor": "wood",
+      "area": "10"
+    },
+    {
+      "id": "vip-central-gallery",
+      "name": "VIP middle gallery",
+      "x": 140,
+      "y": 7,
+      "w": 2,
+      "h": 18,
+      "kind": "corridor",
+      "floor": "wood",
+      "area": "10"
+    },
+    {
+      "id": "vip-east-gallery",
+      "name": "VIP eastern gallery",
+      "x": 154,
+      "y": 7,
+      "w": 2,
+      "h": 18,
+      "kind": "corridor",
+      "floor": "wood",
+      "area": "10"
+    },
+    {
+      "id": "vip-north-gallery",
+      "name": "Laboratory gallery",
+      "x": 126,
+      "y": 7,
+      "w": 30,
+      "h": 2,
+      "kind": "corridor",
+      "floor": "wood",
+      "area": "10"
+    },
+    {
+      "id": "13",
+      "name": "Hybridization Laboratory",
+      "x": 126,
+      "y": 1,
+      "w": 14,
+      "h": 6,
+      "kind": "bio",
+      "floor": "stone",
+      "area": "13"
+    },
+    {
+      "id": "14",
+      "name": "Golem Laboratory",
+      "x": 142,
+      "y": 1,
+      "w": 14,
+      "h": 6,
+      "kind": "golem-lab",
+      "floor": "stone",
+      "area": "14"
+    },
+    {
+      "id": "15",
+      "name": "Obscurati slayers lodging",
+      "x": 128,
+      "y": 9,
+      "w": 6,
+      "h": 5,
+      "kind": "lodging",
+      "floor": "wood",
+      "area": "15"
+    },
+    {
+      "id": "16",
+      "name": "Leone Quital lodging",
+      "x": 134,
+      "y": 9,
+      "w": 6,
+      "h": 5,
+      "kind": "leone",
+      "floor": "wood",
+      "area": "16"
+    },
+    {
+      "id": "21",
+      "name": "Researcher lodging",
+      "x": 142,
+      "y": 9,
+      "w": 6,
+      "h": 5,
+      "kind": "lodging",
+      "floor": "wood",
+      "area": "21"
+    },
+    {
+      "id": "22",
+      "name": "Obscurati slayers lodging",
+      "x": 148,
+      "y": 9,
+      "w": 6,
+      "h": 5,
+      "kind": "lodging",
+      "floor": "wood",
+      "area": "22"
+    },
+    {
+      "id": "17",
+      "name": "Obscurati slayers lodging",
+      "x": 128,
+      "y": 14,
+      "w": 6,
+      "h": 5,
+      "kind": "lodging",
+      "floor": "wood",
+      "area": "17"
+    },
+    {
+      "id": "18",
+      "name": "Tinker Oddcog (vacated) lodging",
+      "x": 134,
+      "y": 14,
+      "w": 6,
+      "h": 5,
+      "kind": "tinker",
+      "floor": "wood",
+      "area": "18"
+    },
+    {
+      "id": "23",
+      "name": "Researcher lodging",
+      "x": 142,
+      "y": 14,
+      "w": 6,
+      "h": 5,
+      "kind": "lodging",
+      "floor": "wood",
+      "area": "23"
+    },
+    {
+      "id": "24",
+      "name": "Obscurati slayers lodging",
+      "x": 148,
+      "y": 14,
+      "w": 6,
+      "h": 5,
+      "kind": "lodging",
+      "floor": "wood",
+      "area": "24"
+    },
+    {
+      "id": "19",
+      "name": "Obscurati slayers lodging",
+      "x": 128,
+      "y": 19,
+      "w": 6,
+      "h": 5,
+      "kind": "lodging",
+      "floor": "wood",
+      "area": "19"
+    },
+    {
+      "id": "20",
+      "name": "Grappa / Kasvarina lodging",
+      "x": 134,
+      "y": 19,
+      "w": 6,
+      "h": 5,
+      "kind": "kasvarina",
+      "floor": "wood",
+      "area": "20"
+    },
+    {
+      "id": "25",
+      "name": "Researcher lodging",
+      "x": 142,
+      "y": 19,
+      "w": 6,
+      "h": 5,
+      "kind": "lodging",
+      "floor": "wood",
+      "area": "25"
+    },
+    {
+      "id": "26",
+      "name": "Obscurati slayers lodging",
+      "x": 148,
+      "y": 19,
+      "w": 6,
+      "h": 5,
+      "kind": "lodging",
+      "floor": "wood",
+      "area": "26"
+    },
+    {
+      "id": "vip-south-gallery",
+      "name": "VIP south gallery",
+      "x": 126,
+      "y": 24,
+      "w": 30,
+      "h": 1,
+      "kind": "corridor",
+      "floor": "wood",
+      "area": "10"
+    },
+    {
+      "id": "10",
+      "name": "Dignitary Checkpoint (+100 ft)",
+      "x": 122,
+      "y": 25,
+      "w": 12,
+      "h": 8,
+      "kind": "vip-guard",
+      "floor": "wood",
+      "area": "10"
+    },
+    {
+      "id": "11",
+      "name": "VIP Dining Hall",
+      "x": 134,
+      "y": 25,
+      "w": 18,
+      "h": 8,
+      "kind": "dining",
+      "floor": "wood",
+      "area": "11"
+    },
+    {
+      "id": "12",
+      "name": "VIP Kitchen",
+      "x": 152,
+      "y": 25,
+      "w": 8,
+      "h": 8,
+      "kind": "kitchen",
+      "floor": "stone",
+      "area": "12"
+    },
+    {
+      "id": "12-locker",
+      "name": "Chilled meat locker and utility hatch",
+      "x": 160,
+      "y": 25,
+      "w": 4,
+      "h": 8,
+      "kind": "locker",
+      "floor": "stone",
+      "area": "12"
+    },
+    {
+      "id": "4VIP",
+      "name": "Upper utility plant and surface shaft",
+      "x": 164,
+      "y": 25,
+      "w": 4,
+      "h": 6,
+      "kind": "utility",
+      "floor": "metal",
+      "area": "4"
+    },
+    {
+      "id": "9VIP",
+      "name": "Upper service run (+100 ft); ladder down at west end",
+      "x": 124,
+      "y": 36,
+      "w": 39,
+      "h": 1,
+      "kind": "service",
+      "floor": "metal",
+      "area": "9"
+    },
+    {
+      "id": "9VIP-rise",
+      "name": "Kitchen service bypass",
+      "x": 162,
+      "y": 33,
+      "w": 1,
+      "h": 3,
+      "kind": "service",
+      "floor": "metal",
+      "area": "9"
+    },
+    {
+      "id": "9VIP-west",
+      "name": "Upper shaft access",
+      "x": 124,
+      "y": 33,
+      "w": 1,
+      "h": 3,
+      "kind": "service",
+      "floor": "metal",
+      "area": "9"
+    },
+    {
+      "id": "dock-channel",
+      "name": "Parity Lake water tunnel (-300 ft; 30 ft wide, 10 ft deep)",
+      "x": 4,
+      "y": 20,
+      "w": 24,
+      "h": 6,
+      "kind": "water",
+      "floor": "water",
+      "area": "dock"
+    },
+    {
+      "id": "dock-basin",
+      "name": "Delivery boat berth",
+      "x": 28,
+      "y": 16,
+      "w": 12,
+      "h": 14,
+      "kind": "water",
+      "floor": "water",
+      "area": "dock"
+    },
+    {
+      "id": "dock-quay",
+      "name": "Cargo unloading quay",
+      "x": 40,
+      "y": 16,
+      "w": 4,
+      "h": 14,
+      "kind": "quay",
+      "floor": "stone",
+      "area": "dock"
+    },
+    {
+      "id": "dock-lift",
+      "name": "Lower landing of hydraulic cargo lift (-300 ft)",
+      "x": 44,
+      "y": 18,
+      "w": 8,
+      "h": 10,
+      "kind": "lift",
+      "floor": "wood",
+      "area": "dock"
+    },
+    {
+      "id": "dock-guard",
+      "name": "Lake entrance guard station",
+      "x": 28,
+      "y": 12,
+      "w": 6,
+      "h": 4,
+      "kind": "guard",
+      "floor": "metal",
+      "area": "dock"
+    },
+    {
+      "id": "dock-machine",
+      "name": "Hydraulic lake-door machinery",
+      "x": 34,
+      "y": 12,
+      "w": 6,
+      "h": 4,
+      "kind": "utility",
+      "floor": "metal",
+      "area": "dock"
+    },
+    {
+      "id": "dock-north-quay",
+      "name": "Narrow walkway outside guard and machinery rooms",
+      "x": 28,
+      "y": 16,
+      "w": 12,
+      "h": 2,
+      "kind": "quay",
+      "floor": "stone",
+      "area": "dock"
+    },
+    {
+      "id": "6-pit",
+      "name": "Colossus shaft: witchoil sump 150 ft below staging",
+      "x": 64,
+      "y": 6,
+      "w": 40,
+      "h": 32,
+      "kind": "pit",
+      "floor": "pit",
+      "area": "6"
+    },
+    {
+      "id": "6",
+      "name": "Staging platform (0 ft)",
+      "x": 64,
+      "y": 28,
+      "w": 40,
+      "h": 10,
+      "kind": "deck",
+      "floor": "metal",
+      "area": "6"
+    },
+    {
+      "id": "6-tongue",
+      "name": "Staging platform central projection",
+      "x": 74,
+      "y": 22,
+      "w": 20,
+      "h": 6,
+      "kind": "deck",
+      "floor": "metal",
+      "area": "6"
+    },
+    {
+      "id": "6-west",
+      "name": "West lift catwalk",
+      "x": 64,
+      "y": 18,
+      "w": 2,
+      "h": 10,
+      "kind": "deck",
+      "floor": "metal",
+      "area": "6"
+    },
+    {
+      "id": "6-east",
+      "name": "East lift catwalk",
+      "x": 102,
+      "y": 18,
+      "w": 2,
+      "h": 10,
+      "kind": "deck",
+      "floor": "metal",
+      "area": "6"
+    },
+    {
+      "id": "7W",
+      "name": "West freight elevator: starts at staging level",
+      "x": 66,
+      "y": 18,
+      "w": 6,
+      "h": 6,
+      "kind": "freight",
+      "floor": "metal",
+      "area": "7"
+    },
+    {
+      "id": "7E",
+      "name": "East freight elevator: starts at VIP level",
+      "x": 96,
+      "y": 18,
+      "w": 6,
+      "h": 6,
+      "kind": "freight",
+      "floor": "metal",
+      "area": "7"
+    },
+    {
+      "id": "8-pit",
+      "name": "Upper chamber open shaft: 250-ft drop to sump",
+      "x": 112,
+      "y": 44,
+      "w": 40,
+      "h": 36,
+      "kind": "pit",
+      "floor": "pit",
+      "area": "8"
+    },
+    {
+      "id": "8",
+      "name": "Retractable construction bridge (+100 ft)",
+      "x": 112,
+      "y": 66,
+      "w": 40,
+      "h": 6,
+      "kind": "bridge",
+      "floor": "metal",
+      "area": "8"
+    },
+    {
+      "id": "7W-upper",
+      "name": "West freight lift upper landing",
+      "x": 112,
+      "y": 72,
+      "w": 6,
+      "h": 6,
+      "kind": "freight",
+      "floor": "metal",
+      "area": "7"
+    },
+    {
+      "id": "7E-upper",
+      "name": "East freight lift upper landing",
+      "x": 146,
+      "y": 72,
+      "w": 6,
+      "h": 6,
+      "kind": "freight",
+      "floor": "metal",
+      "area": "7"
+    },
+    {
+      "id": "8-west-cab",
+      "name": "West drawbridge control cabin",
+      "x": 112,
+      "y": 62,
+      "w": 4,
+      "h": 4,
+      "kind": "control",
+      "floor": "metal",
+      "area": "8"
+    },
+    {
+      "id": "8-east-cab",
+      "name": "East drawbridge control cabin",
+      "x": 148,
+      "y": 62,
+      "w": 4,
+      "h": 4,
+      "kind": "control",
+      "floor": "metal",
+      "area": "8"
+    },
+    {
+      "id": "8-gallery",
+      "name": "Gear-toothed crane access gallery",
+      "x": 112,
+      "y": 44,
+      "w": 40,
+      "h": 2,
+      "kind": "deck",
+      "floor": "metal",
+      "area": "8"
+    },
+    {
+      "id": "8-west-walk",
+      "name": "Upper perimeter walkway",
+      "x": 112,
+      "y": 46,
+      "w": 2,
+      "h": 16,
+      "kind": "deck",
+      "floor": "metal",
+      "area": "8"
+    },
+    {
+      "id": "8-east-walk",
+      "name": "Upper perimeter walkway",
+      "x": 150,
+      "y": 46,
+      "w": 2,
+      "h": 16,
+      "kind": "deck",
+      "floor": "metal",
+      "area": "8"
+    },
+    {
+      "id": "8-vip-link",
+      "name": "Upper catwalk to dignitary checkpoint",
+      "x": 120,
+      "y": 27,
+      "w": 2,
+      "h": 39,
+      "kind": "deck",
+      "floor": "metal",
+      "area": "8"
+    },
+    {
+      "id": "9a-chamber",
+      "name": "Service bypass into staging platform",
+      "x": 64,
+      "y": 38,
+      "w": 1,
+      "h": 9,
+      "kind": "service",
+      "floor": "metal",
+      "area": "9"
+    },
+    {
+      "id": "9b-chamber",
+      "name": "East service bypass into staging platform",
+      "x": 96,
+      "y": 38,
+      "w": 1,
+      "h": 18,
+      "kind": "service",
+      "floor": "metal",
+      "area": "9"
+    }
+  ],
+  "doors": [
+    {
+      "x": 14,
+      "y": 69,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 14,
+      "y": 70,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 30,
+      "y": 69,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 30,
+      "y": 70,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 17,
+      "y": 68,
+      "axis": "h",
+      "secret": true,
+      "external": false
+    },
+    {
+      "x": 17,
+      "y": 72,
+      "axis": "h",
+      "secret": true,
+      "external": false
+    },
+    {
+      "x": 2,
+      "y": 69,
+      "axis": "v",
+      "secret": false,
+      "external": true
+    },
+    {
+      "x": 2,
+      "y": 70,
+      "axis": "v",
+      "secret": false,
+      "external": true
+    },
+    {
+      "x": 6,
+      "y": 61,
+      "axis": "h",
+      "secret": false,
+      "external": true
+    },
+    {
+      "x": 7,
+      "y": 61,
+      "axis": "h",
+      "secret": false,
+      "external": true
+    },
+    {
+      "x": 6,
+      "y": 80,
+      "axis": "h",
+      "secret": false,
+      "external": true
+    },
+    {
+      "x": 7,
+      "y": 80,
+      "axis": "h",
+      "secret": false,
+      "external": true
+    },
+    {
+      "x": 32,
+      "y": 56,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 38,
+      "y": 56,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 44,
+      "y": 56,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 50,
+      "y": 56,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 56,
+      "y": 56,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 62,
+      "y": 56,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 32,
+      "y": 86,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 38,
+      "y": 86,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 44,
+      "y": 86,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 50,
+      "y": 86,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 56,
+      "y": 86,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 62,
+      "y": 86,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 36,
+      "y": 69,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 36,
+      "y": 70,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 60,
+      "y": 69,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 60,
+      "y": 70,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 39,
+      "y": 58,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 39,
+      "y": 64,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 47,
+      "y": 58,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 47,
+      "y": 64,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 55,
+      "y": 58,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 55,
+      "y": 64,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 39,
+      "y": 80,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 39,
+      "y": 84,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 47,
+      "y": 80,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 47,
+      "y": 84,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 55,
+      "y": 80,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 55,
+      "y": 84,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 66,
+      "y": 69,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 66,
+      "y": 70,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 76,
+      "y": 69,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 76,
+      "y": 70,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 76,
+      "y": 65,
+      "axis": "v",
+      "secret": true,
+      "external": false
+    },
+    {
+      "x": 76,
+      "y": 72,
+      "axis": "v",
+      "secret": true,
+      "external": false
+    },
+    {
+      "x": 102,
+      "y": 67,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 102,
+      "y": 68,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 102,
+      "y": 69,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 102,
+      "y": 70,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 81,
+      "y": 64,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 82,
+      "y": 64,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 83,
+      "y": 64,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 84,
+      "y": 64,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 85,
+      "y": 64,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 86,
+      "y": 64,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 81,
+      "y": 43,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 81,
+      "y": 44,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 87,
+      "y": 43,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 87,
+      "y": 44,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 81,
+      "y": 60,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 82,
+      "y": 60,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 83,
+      "y": 60,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 84,
+      "y": 60,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 85,
+      "y": 60,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 86,
+      "y": 60,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 81,
+      "y": 42,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 82,
+      "y": 42,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 83,
+      "y": 42,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 84,
+      "y": 42,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 85,
+      "y": 42,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 86,
+      "y": 42,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 81,
+      "y": 38,
+      "axis": "h",
+      "secret": false,
+      "external": true
+    },
+    {
+      "x": 82,
+      "y": 38,
+      "axis": "h",
+      "secret": false,
+      "external": true
+    },
+    {
+      "x": 83,
+      "y": 38,
+      "axis": "h",
+      "secret": false,
+      "external": true
+    },
+    {
+      "x": 84,
+      "y": 38,
+      "axis": "h",
+      "secret": false,
+      "external": true
+    },
+    {
+      "x": 85,
+      "y": 38,
+      "axis": "h",
+      "secret": false,
+      "external": true
+    },
+    {
+      "x": 86,
+      "y": 38,
+      "axis": "h",
+      "secret": false,
+      "external": true
+    },
+    {
+      "x": 66,
+      "y": 61,
+      "axis": "v",
+      "secret": true,
+      "external": false
+    },
+    {
+      "x": 68,
+      "y": 61,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 68,
+      "y": 48,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 60,
+      "y": 47,
+      "axis": "v",
+      "secret": true,
+      "external": false
+    },
+    {
+      "x": 66,
+      "y": 78,
+      "axis": "v",
+      "secret": true,
+      "external": false
+    },
+    {
+      "x": 96,
+      "y": 78,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 96,
+      "y": 74,
+      "axis": "h",
+      "secret": true,
+      "external": false
+    },
+    {
+      "x": 96,
+      "y": 64,
+      "axis": "h",
+      "secret": true,
+      "external": false
+    },
+    {
+      "x": 96,
+      "y": 56,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 30,
+      "y": 60,
+      "axis": "v",
+      "secret": true,
+      "external": false
+    },
+    {
+      "x": 30,
+      "y": 82,
+      "axis": "v",
+      "secret": true,
+      "external": false
+    },
+    {
+      "x": 105,
+      "y": 74,
+      "axis": "h",
+      "secret": true,
+      "external": false
+    },
+    {
+      "x": 127,
+      "y": 7,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 128,
+      "y": 7,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 153,
+      "y": 7,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 154,
+      "y": 7,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 128,
+      "y": 11,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 140,
+      "y": 11,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 142,
+      "y": 11,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 154,
+      "y": 11,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 128,
+      "y": 16,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 140,
+      "y": 16,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 142,
+      "y": 16,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 154,
+      "y": 16,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 128,
+      "y": 21,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 140,
+      "y": 21,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 142,
+      "y": 21,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 154,
+      "y": 21,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 122,
+      "y": 27,
+      "axis": "v",
+      "secret": false,
+      "external": true
+    },
+    {
+      "x": 122,
+      "y": 28,
+      "axis": "v",
+      "secret": false,
+      "external": true
+    },
+    {
+      "x": 128,
+      "y": 25,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 129,
+      "y": 25,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 142,
+      "y": 25,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 143,
+      "y": 25,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 154,
+      "y": 25,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 134,
+      "y": 28,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 134,
+      "y": 29,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 152,
+      "y": 28,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 152,
+      "y": 29,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 160,
+      "y": 28,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 164,
+      "y": 27,
+      "axis": "v",
+      "secret": true,
+      "external": false
+    },
+    {
+      "x": 162,
+      "y": 33,
+      "axis": "h",
+      "secret": true,
+      "external": false
+    },
+    {
+      "x": 162,
+      "y": 36,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 124,
+      "y": 36,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 124,
+      "y": 33,
+      "axis": "h",
+      "secret": true,
+      "external": false
+    },
+    {
+      "x": 4,
+      "y": 20,
+      "axis": "v",
+      "secret": false,
+      "external": true
+    },
+    {
+      "x": 4,
+      "y": 21,
+      "axis": "v",
+      "secret": false,
+      "external": true
+    },
+    {
+      "x": 4,
+      "y": 22,
+      "axis": "v",
+      "secret": false,
+      "external": true
+    },
+    {
+      "x": 4,
+      "y": 23,
+      "axis": "v",
+      "secret": false,
+      "external": true
+    },
+    {
+      "x": 4,
+      "y": 24,
+      "axis": "v",
+      "secret": false,
+      "external": true
+    },
+    {
+      "x": 4,
+      "y": 25,
+      "axis": "v",
+      "secret": false,
+      "external": true
+    },
+    {
+      "x": 18,
+      "y": 20,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 18,
+      "y": 21,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 18,
+      "y": 22,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 18,
+      "y": 23,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 18,
+      "y": 24,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 18,
+      "y": 25,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 40,
+      "y": 20,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 40,
+      "y": 21,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 40,
+      "y": 22,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 40,
+      "y": 23,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 40,
+      "y": 24,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 40,
+      "y": 25,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 44,
+      "y": 21,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 44,
+      "y": 22,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 44,
+      "y": 23,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 44,
+      "y": 24,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 30,
+      "y": 16,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 37,
+      "y": 16,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 40,
+      "y": 16,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 40,
+      "y": 17,
+      "axis": "v",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 113,
+      "y": 66,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 114,
+      "y": 66,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 149,
+      "y": 66,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 150,
+      "y": 66,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 112,
+      "y": 62,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 113,
+      "y": 62,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 150,
+      "y": 62,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 151,
+      "y": 62,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 64,
+      "y": 38,
+      "axis": "h",
+      "secret": true,
+      "external": false
+    },
+    {
+      "x": 64,
+      "y": 47,
+      "axis": "h",
+      "secret": false,
+      "external": false
+    },
+    {
+      "x": 96,
+      "y": 38,
+      "axis": "h",
+      "secret": true,
+      "external": false
+    }
+  ],
+  "stats": {
+    "rooms": 99,
+    "beds": 102,
+    "lamps": 1027,
+    "placedClutter": 228,
+    "keptClutter": 165,
+    "details": {
+      "desk-papers": 69,
+      "library": 120,
+      "personal-belongings": 54,
+      "meal": 72,
+      "off-duty-reading": 11,
+      "stocked-shelf": 39,
+      "food-prep": 8,
+      "specimen-bench": 12,
+      "lab-shelf": 48,
+      "machine-bench": 10,
+      "wall-manifold": 318,
+      "wall-fastener": 136,
+      "security-console": 7,
+      "floor-detail": 58,
+      "security-equipment": 2,
+      "personal-storage": 36,
+      "supply-stock": 11,
+      "kitchen-stock": 1,
+      "lift-guide": 12,
+      "lift-control": 6,
+      "control-panel": 9,
+      "service-main": 11,
+      "utility-pipe": 12,
+      "valve-bank": 10,
+      "pressure-console": 5,
+      "lab-service": 2,
+      "forge-station": 2,
+      "wall-decor": 12,
+      "leone-hospitality": 2,
+      "tinker-prototypes": 3,
+      "kitchen-wallware": 1,
+      "maintenance-station": 2,
+      "maintenance-tools": 4,
+      "maintenance-stock": 3,
+      "dock-cargo": 3,
+      "borne-armour": 0,
+      "borne-jaw": 0,
+      "borne-gearing": 0,
+      "borne-conduit": 0,
+      "placedFloor": 58,
+      "keptFloor": 42,
+      "totalAdded": 772
+    },
+    "golemDetails": {
+      "objects": 82,
+      "bays": 3,
+      "reservoirs": 4,
+      "winches": 4
+    },
+    "golemDepiction": false
+  }
+}

@@ -1,0 +1,49 @@
+CAULDRON HILL COMPLEX — ZEITGEIST BOOK 5, PART 3
+
+Files
+  cauldron-hill-complex.dungeondraft_map — editable native map
+  cauldron-hill-complex.png — 7168 x 6144, 64 pixels per five-foot square
+  gm-reference.png — numbered overview with elevation / transfer notes
+  room-key.json — complete room inventory, coordinates, secret openings
+
+Scope
+  Source: ZEITGEIST Act One, Adventure Five, printed pp. 405–410;
+  complex overview on printed p. 408 (PDF page 417).
+  Areas 6, 7 and 8 (Borne's chamber, freight elevators and construction
+  bridge) are omitted. Area 5, the prototype golem guardpost, remains.
+  All twelve lodgings (15–26), both labs, five utility plants and the
+  one-square-wide service bypasses are retained.
+
+Scale and levels
+  Native canvas: 112 x 96 five-foot squares, 560 x 480 feet.
+  Lower complex at bottom; VIP wing at top right is +100 ft.
+  Parity Lake dock at top left is -300 ft. Its lift matches area 3's lift.
+  The sections are an atlas on a single canvas, not adjacent rooms.
+  Cross between them by the matching lift/shaft or the omitted chamber.
+  The three approach tunnels continue off map; their half-mile lengths
+  and exterior gatehouses are not reproduced.
+
+Adaptation
+  The book's overview uses ten-foot squares and is schematic. This map
+  retains its room ordering and circulation at five-foot tactical scale;
+  barracks subdivisions, furniture, dock footprint and some corridor
+  dimensions are interpreted for play rather than a pixel-for-pixel trace.
+  The former heavy-component hall remains mostly empty, as described.
+  No creatures or tokens are baked into the art.
+
+Open in Dungeondraft
+  Uses your installed Crosshead packs plus Baileywiki circular shadows.
+  Object and wall shadows are off. No generated wall-shadow paths.
+  Every doorway uses the invisible Interior:empty portal; add visible
+  doors / frames manually. Secret doors are listed in room-key.json.
+  Check floor-pattern scale and portal cuts on opening. The supplied PNG
+  is the repository renderer's approximation, not an in-app export.
+  The application has not been launched or controlled for validation.
+
+Rebuild / verify (repository root)
+  node output/maps/cauldron-hill-complex/build.mjs
+  node --test output/maps/cauldron-hill-complex/verify.test.mjs
+
+Automated checks pass for inventory, all rooms reachable from their own
+section entrance, exact floor coverage, asset manifests, native format,
+wall alignment/order, prop scale, clutter calibration and shadow rules.

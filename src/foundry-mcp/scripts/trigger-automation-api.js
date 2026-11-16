@@ -51,7 +51,7 @@ export async function triggerAutomation(args, editing = false, {
   if (!editing) {
     const document = resolve(game, args.uuid);
     return { ...read(document), catalog, moduleEnabled: game.settings.get(TRIGGER_MODULE, "enable-trigger-prompts"),
-      filters: { attackTypes: registry.ATTACK_TYPES, defenseTypes: registry.DEFENSE_TYPES, damageTypes: registry.DAMAGE_TYPES },
+      filters: { usageTypes: registry.USAGE_TYPES, powerActions: registry.POWER_ACTIONS, attackTypes: registry.ATTACK_TYPES, defenseTypes: registry.DEFENSE_TYPES, damageTypes: registry.DAMAGE_TYPES },
       ...(document.documentName === "Actor" ? { items: [...document.items.values()]
         .filter(item => ["power", "feat", "feature"].includes(item.type)).map(read) } : {}) };
   }
@@ -97,7 +97,7 @@ export async function triggerAutomation(args, editing = false, {
           throw new Error("Choose an item trigger from get_trigger_automation; opportunity attacks use actor options.");
         }
         const parameters = assignment.parameters ?? {};
-        for (const [key, values] of [["attackTypes", registry.ATTACK_TYPES], ["defenseTypes", registry.DEFENSE_TYPES], ["damageTypes", registry.DAMAGE_TYPES]]) {
+        for (const [key, values] of [["usageTypes", registry.USAGE_TYPES ?? []], ["powerActions", registry.POWER_ACTIONS ?? []], ["attackTypes", registry.ATTACK_TYPES], ["defenseTypes", registry.DEFENSE_TYPES], ["damageTypes", registry.DAMAGE_TYPES]]) {
           if (parameters[key]?.some(value => !values.includes(value)) || new Set(parameters[key] ?? []).size !== (parameters[key]?.length ?? 0)) {
             throw new Error(`Invalid ${key} filter.`);
           }

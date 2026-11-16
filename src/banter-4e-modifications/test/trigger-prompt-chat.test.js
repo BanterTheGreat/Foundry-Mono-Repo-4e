@@ -441,7 +441,8 @@ test("automatic benefits post publicly, spend on trigger and leave optional choi
   await chat.createPromptCard({ trigger: { id: 'test', label: 'Enemy drops' }, actor: { id: 'hero', name: 'Hero <test>', testUserPermission: user => user.id === 'player' }, assignments: [{ item: automatic }, { item: automatic }, { item: optional }], context: { detail: 'Enemy dropped.' }, recipientIds: ['player', 'gm'] });
   assert.equal(messages.length, 2);
   assert.deepEqual(messages[0].whisper, []);
-  assert.match(messages[0].content, /Hero &lt;test>.*Enemy dropped/);
+  assert.equal(messages[0].flavor, "<b>Enemy dropped.</b>");
+  assert.doesNotMatch(messages[0].content, /Enemy dropped|Hero|Automatic benefit triggered/);
   assert.match(messages[0].content, /Gain the benefit/);
   assert.equal(messages[0].flags[TRIGGER_PROMPT_FLAG].automatic, true);
   assert.doesNotMatch(messages[0].content, /data-trigger-prompt-action/);
@@ -485,7 +486,7 @@ for (const type of ['feat', 'feature']) {
     };
     const actor = { id: 'hero', name: 'Hero', token: { uuid: 'Scene.test.Token.hero' } };
     globalThis.foundry = {
-      utils: { escapeHTML: text => text },
+      utils: { escapeHTML: text => text.replaceAll('<', '&lt;') },
       applications: { handlebars: { renderTemplate: async (template, data) => {
         renders.push({ template, data });
         return '<div class="dnd4e chat-card ability-usage--"><img src="feat.webp">Native feat rules</div>';
@@ -494,7 +495,7 @@ for (const type of ['feat', 'feature']) {
     globalThis.ChatMessage = { create: async data => { messages.push(data); return { id: 'native' }; } };
     chat.limits.request = async () => ({ unrestricted: true });
     await chat.createPromptCard({ trigger: { id: 'bloodied', label: 'Bloodied' }, actor,
-      assignments: [{ item }], context: { detail: 'Hero became bloodied.' }, recipientIds: ['player'] });
+      assignments: [{ item }], context: { detail: 'Hero <test> used a power.' }, recipientIds: ['player'] });
     assert.equal(renders.length, 1);
     assert.equal(renders[0].template, 'systems/dnd4e/templates/chat/item-card.hbs');
     assert.equal(renders[0].data.item, item);
@@ -504,7 +505,9 @@ for (const type of ['feat', 'feature']) {
     assert.equal(renders[0].data.isPower, false);
     assert.deepEqual(renders[0].data.system, await item.getChatData());
     assert.equal(messages.length, 1);
-    assert.match(messages[0].content, /Hero became bloodied.*dnd4e chat-card ability-usage--other/);
+    assert.equal(messages[0].flavor, "<b>Hero &lt;test> used a power.</b>");
+    assert.doesNotMatch(messages[0].content, /used a power|Hero|Automatic benefit triggered/);
+    assert.match(messages[0].content, /dnd4e chat-card ability-usage--other/);
     assert.match(messages[0].content, /feat.webp.*Native feat rules/);
     assert.deepEqual(messages[0].whisper, []);
     assert.equal(messages[0].flags.core.canPopout, true);

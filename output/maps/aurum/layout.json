@@ -1,0 +1,27 @@
+{
+  "columns": 34,
+  "rows": 26,
+  "rooms": [
+    {"id":"banquet", "bounds":[1,1,17,14], "floor":"Interior:wood_5a:patterns"},
+    {"id":"arrival", "bounds":[1,14,17,17], "floor":"Team:ch_marble:patterns"},
+    {"id":"mingling", "bounds":[1,17,11,25], "floor":"Interior:wood_5a:patterns"},
+    {"id":"conference", "bounds":[11,17,17,25], "floor":"Interior:wood_1a:patterns"},
+    {"id":"gallery", "bounds":[17,8,24,13], "floor":"Team:ch_marble:patterns"},
+    {"id":"reception", "bounds":[24,1,33,14], "floor":"Team:ch_marble:patterns"},
+    {"id":"east-foyer", "bounds":[24,14,33,18], "floor":"Buildings:Marble_Green:patterns"},
+    {"id":"sitting", "bounds":[24,18,33,25], "floor":"Team:ch_marble:patterns"}
+  ],
+  "walls": [
+    {"points":[[3,14],[3,17]], "openings":[[3,15.5]], "rank":0},
+    {"points":[[26,14],[26,18]], "openings":[[26,16.5]], "rank":0},
+    {"points":[[1,14],[17,14]], "openings":[[8.5,14],[9.5,14]], "rank":0},
+    {"points":[[1,17],[17,17]], "openings":[[5.5,17],[6.5,17],[13.5,17],[14.5,17]], "rank":0},
+    {"points":[[11,17],[11,25]], "openings":[], "rank":0},
+    {"points":[[24,14],[33,14]], "openings":[[28.5,14],[29.5,14]], "rank":0},
+    {"points":[[24,18],[33,18]], "openings":[[28.5,18],[29.5,18]], "rank":0},
+    {"points":[[17,8],[24,8]], "openings":[], "rank":1},
+    {"points":[[17,13],[24,13]], "openings":[], "rank":1},
+    {"points":[[1,1],[17,1],[17,25],[1,25]], "openings":[[17,10.5],[17,11.5]], "rank":2, "loop":true},
+    {"points":[[24,1],[33,1],[33,25],[24,25]], "openings":[[24,10.5],[24,11.5]], "rank":2, "loop":true}
+  ]
+}

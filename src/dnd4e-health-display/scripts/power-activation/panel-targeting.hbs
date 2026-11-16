@@ -4,9 +4,9 @@
 	{{/unless}}
 	<div class="power-targeting__placement {{#unless area}}power-targeting__placement--direct{{/unless}}">
 		{{#if summon}}
-		<p class="power-targeting__range">Summon square · Range {{range}}</p>
-		<p>{{#if placementLocked}}Placement locked. Confirm to summon the configured actor.{{else}}Select a square on the canvas, then confirm to summon.{{/if}}</p>
-		<div class="power-targeting__controls"><button type="button" data-action="reposition" {{#if busy}}disabled{{/if}}>Reposition</button></div>
+		<p class="power-targeting__range">Summon squares &middot; {{summonCount}} / {{summonMax}} &middot; Range {{range}}</p>
+		<p>Click squares to add or remove creatures, then confirm to summon all selected copies.</p>
+		<div class="power-targeting__controls"><button type="button" data-action="reposition" {{#if busy}}disabled{{/if}}>Clear squares</button></div>
 		{{else}}
 		{{#if wall}}
 		<p><strong>{{wallCount}} / {{areaSize}} squares</strong></p>
