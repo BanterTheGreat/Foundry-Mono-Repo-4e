@@ -407,7 +407,7 @@ Uses Power trigger: `node --test src/banter-4e-modifications/test/uses-power.tes
 
 Summon automation Node coverage includes separate square selection, per-power maximums, removal, range, duplicate rejection, batch creation, ownership and footprint validation.
 
-## Character Builder foundation, contracts and portable codec
+## Character Builder shared core and content production
 
 Build-time compendium production (Python 3.9+, standard library; run from repository root):
 
@@ -445,3 +445,7 @@ failures versus ordinary misses, deliberate switches, changed definitions, depen
 disabled dependencies/cycles, duplicate metadata/configurations, invalid chunks, IO failures,
 internal references and unadapted-prerequisite diagnostics. Catalog behavior is shared Kotlin;
 there is no catalog UI or rules execution in this ticket.
+
+`CharacterImportTest` runs under the same shared JVM/JS commands. It exercises complete format validation before storage access, collision details/timestamps, explicit import/replace/copy/cancel actions, fresh IDs, atomic compare-and-recovery saves, stale previews, discoverable backups, safe restoration and read/recovery/save failures using a failing in-memory adapter. Platform adapters must satisfy the documented `CharacterStore` contract; file chooser UI and real IndexedDB/Android persistence belong to later tickets.
+
+`RulesEngineTest` and `EngineModifiersTest` use the same shared JVM/JS tasks. They cover current Modern 4e allocation budgets/caps/tradeoff, all skill mappings, explained proficiency sources, duplicate proficiency handling, grants/choices, eligibility and unsupported prerequisites, missing definitions/cycles, level-2 content, typed/untyped stacking, penalties, explicit base/floor operations, manual labels and unavailable/overflow results. Run unfiltered `:shared:jvmTest :shared:jsNodeTest` for cross-platform verification; Gradle `--tests` filtering may silently select zero Node/JS tests.

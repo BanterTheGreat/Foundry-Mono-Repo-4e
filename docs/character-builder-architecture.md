@@ -1,6 +1,6 @@
 # 4e Character Builder Architecture
 
-Status: agreed design; the shared-core and application-shell foundation is implemented in `src/character-builder/`. Character rules, content and workflows remain unimplemented.
+Status: agreed design; the shared core and application shells live in `src/character-builder/`. Contracts, portable exchange, content production/catalog resolution and import/recovery coordination are implemented. See the project README and FEATURES.md for current engine coverage and remaining application workflows.
 
 This document records the architecture agreed in the character-builder design discussion. It preserves the decisions for future implementation; it is not an implementation checklist.
 

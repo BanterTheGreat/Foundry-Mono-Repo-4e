@@ -40,18 +40,31 @@ interface ContentSource {
     suspend fun loadChunk(packageId: String, chunkId: String): ContractResult<EntryChunk>
 }
 
-/** Replacement must atomically retain a recovery copy before reporting success. */
+/**
+ * CREATE fails if the ID exists. Replacement compares the complete expected document,
+ * durably retains its recovery copy, then atomically publishes the incoming document.
+ * Any failure leaves the prior live document unchanged. Recovery copies are separate
+ * from ordinary characters; IDs returned in receipts are used with loadRecovery.
+ * Reads return detached snapshots with immutable collections. Methods return errors
+ * through ContractResult rather than throwing. REPLACE_WITH_RECOVERY requires a
+ * non-null expected document; compare and publication form one atomic operation.
+ */
 interface CharacterStore {
     suspend fun list(): ContractResult<List<CharacterSummary>>
     suspend fun load(id: String): ContractResult<CharacterDocument>
-    suspend fun save(document: CharacterDocument, mode: SaveMode): ContractResult<SaveReceipt>
+    suspend fun save(document: CharacterDocument, mode: SaveMode, expected: CharacterDocument? = null): ContractResult<SaveReceipt>
     suspend fun delete(id: String): ContractResult<Boolean>
+    suspend fun listRecovery(characterId: String): ContractResult<List<RecoverySummary>>
+    suspend fun loadRecovery(recoveryId: String): ContractResult<CharacterDocument>
 }
 
 @Serializable
 enum class SaveMode { CREATE, REPLACE_WITH_RECOVERY }
 @Serializable
 data class SaveReceipt(val characterId: String, val recoveryId: String? = null)
+/** savedAt describes the recovered document, not a fabricated backup timestamp. */
+@Serializable
+data class RecoverySummary(val recoveryId: String, val character: CharacterSummary)
 @Serializable
 data class ExchangeFile(val name: String, val json: String)
 
