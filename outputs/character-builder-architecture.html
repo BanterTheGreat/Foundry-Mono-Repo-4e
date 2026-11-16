@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+body{margin:0;font-family:var(--font-sans);color:var(--foreground);font-size:14px;line-height:1.5}*{box-sizing:border-box}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}button{font:inherit;color:var(--foreground);background:var(--secondary);border:1px solid var(--border);border-radius:var(--radius);padding:9px 14px;cursor:pointer}button[aria-selected=true]{background:var(--primary);color:var(--primary-foreground)}
+[hidden]{display:none!important}.row{display:grid;grid-template-columns:1fr 1fr;gap:16px}.node{padding:16px;border-radius:var(--radius);background:var(--card);border:1px solid var(--border)}.node b{display:block;font-weight:600}.sub{color:var(--muted-foreground);margin-top:4px}.tag{font-size:12px;letter-spacing:.07em;text-transform:uppercase;margin-bottom:6px;color:var(--muted-foreground)}.platform{border-top:3px solid var(--chart-1)}.shared{border-top:3px solid var(--chart-2)}.data{border-top:3px solid var(--chart-3)}.arrow{text-align:center;padding:9px 0;color:var(--muted-foreground)}.arrow span{display:block;color:var(--foreground);font-size:20px;line-height:1}.group{border:1px dashed var(--border);border-radius:var(--radius);padding:16px}.group>.tag{margin-bottom:12px}.core-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.core-grid .node{padding:12px}.legend{display:flex;gap:16px;flex-wrap:wrap;color:var(--muted-foreground);font-size:12px;margin:0 0 16px}.legend i{display:inline-block;width:14px;height:3px;vertical-align:middle;margin-right:5px}.label{margin:0 0 8px;font-weight:600}.note{margin-top:12px;color:var(--muted-foreground)}.connector{display:flex;align-items:center;justify-content:center;gap:10px;margin:14px 0}.connector:before,.connector:after{content:"";height:1px;background:var(--border);flex:1}.mono{font-family:var(--font-mono);font-size:13px}.branches{display:grid;grid-template-columns:1fr 1fr;gap:16px}.small{font-size:12px}h2{font-size:16px;margin:0;font-weight:600}
+@media(max-width:480px){.row,.core-grid,.branches{grid-template-columns:1fr}.node{padding:12px}.group{padding:12px}nav{gap:6px}button{padding:9px 10px}}
+</style></head><body>
+<nav role="tablist" aria-label="Architecture views">
+<button role="tab" id="t-overview" aria-controls="overview" aria-selected="true">Architecture</button>
+<button role="tab" id="t-content" aria-controls="content" aria-selected="false">Content &amp; overrides</button>
+<button role="tab" id="t-sharing" aria-controls="sharing" aria-selected="false">Character sharing</button>
+</nav>
+<section id="overview" role="tabpanel" aria-labelledby="t-overview">
+<div class="legend"><span><i style="background:var(--chart-1)"></i>Platform-specific</span><span><i style="background:var(--chart-2)"></i>Shared implementation</span><span><i style="background:var(--chart-3)"></i>Portable data</span></div>
+<div class="row">
+<div class="node platform"><div class="tag">PC · browser</div><b>React + TypeScript UI</b><div class="sub">Desktop editing and browsing</div></div>
+<div class="node platform"><div class="tag">Android · native</div><b>Kotlin + Compose UI</b><div class="sub">Android editing and browsing</div></div>
+</div>
+<div class="row"><div class="arrow">Kotlin/JS interface<span>↕</span></div><div class="arrow">Direct Kotlin interface<span>↕</span></div></div>
+<div class="group">
+<div class="tag">Shared Kotlin Multiplatform core · runs locally in each app</div>
+<div class="node shared"><b>Builder operations &amp; character model</b><div class="sub">Selections by level · retraining · equipment · manual adjustments</div></div>
+<div class="arrow"><span>↕</span></div>
+<div class="core-grid">
+<div class="node shared"><b>Rules engine &amp; validation</b><div class="sub">Calculations · eligibility · grants<br>Explanations · unsupported mechanics</div></div>
+<div class="node shared"><b>Content catalog &amp; resolver</b><div class="sub">Search · ordered overrides<br>Entry provenance · missing content</div></div>
+<div class="node shared"><b>Character file codec</b><div class="sub">Shared JSON format<br>Import/export · change detection</div></div>
+<div class="node shared"><b>Storage interfaces</b><div class="sub mono">ContentSource<br>CharacterStore</div></div>
+</div>
+</div>
+<div class="arrow">Platform adapters implement the storage interfaces<span>↕</span></div>
+<div class="row">
+<div class="node platform"><b>Web adapters</b><div class="sub">Content: bundled static JSON<br>Characters: IndexedDB<br>Exchange: file picker / download</div></div>
+<div class="node platform"><b>Android adapters</b><div class="sub">Content: bundled JSON assets<br>Characters: private JSON files<br>Exchange: Android file handling</div></div>
+</div>
+<div class="connector">Same formats · different storage mechanisms</div>
+<div class="node data"><b>Content packages + portable character JSON</b><div class="sub">No server required. The core never depends on browser or Android storage APIs.</div></div>
+</section>
+<section id="content" role="tabpanel" aria-labelledby="t-content" hidden>
+<div class="row">
+<div class="node data"><div class="tag">Existing source</div><b>Offline compendium</b><div class="sub">JSONP files · metadata<br>HTML descriptions · stable IDs</div></div>
+<div class="node data"><div class="tag">Developer-authored</div><b>Mechanics + custom packages</b><div class="sub">Structured effects and choices<br>Modern 4e replacements by ID</div></div>
+</div>
+<div class="arrow">Build-time conversion and validation<span>↓</span></div>
+<div class="node shared"><b>Content build pipeline</b><div class="sub">Normalize entries · validate definitions · generate search metadata<br>Produce the same package files for both applications</div></div>
+<div class="arrow"><span>↓</span></div>
+<div class="node data"><b>Bundled JSON packages</b><div class="sub">Manifest + metadata indexes + entry chunks<br>Standard 4e and custom packages ship with each app</div></div>
+<div class="arrow">Load through ContentSource<span>↓</span></div>
+<div class="group">
+<div class="tag">Runtime · resolved separately for each character</div>
+<div class="node shared"><b>Character's enabled package order</b><div class="sub">Standard 4e → Modern 4e → any later enabled package</div></div>
+<div class="arrow">For an entry ID, the last definition wins<span>↓</span></div>
+<div class="node shared"><b>Effective content catalog</b><div class="sub">Whole-entry replacement · original ID preserved<br>Track supplying package + definition fingerprint</div></div>
+</div>
+<div class="arrow"><span>↓</span></div>
+<div class="branches">
+<div class="node"><b>Definition changed</b><div class="sub">Notify the user; continue with current rules. Preserve selections and report invalid choices.</div></div>
+<div class="node"><b>Custom definition missing</b><div class="sub">Show saved title + warning. Lock entry details; affected calculations remain unavailable.</div></div>
+</div>
+<p class="note">Packages describe supported mechanics. New engine capabilities require an application update.</p>
+</section>
+<section id="sharing" role="tabpanel" aria-labelledby="t-sharing" hidden>
+<div class="node platform"><div class="tag">Example: start on PC</div><b>Web builder saves the character locally</b><div class="sub">IndexedDB stores the shared character document</div></div>
+<div class="arrow">Shared serializer exports<span>↓</span></div>
+<div class="node data"><div class="tag">Portable file · no compendium content embedded</div><b>character.json</b><div class="sub">Character ID + format version<br>Enabled packages and their order<br>Choices by level + retraining + equipment<br>Entry IDs + saved titles + supplying packages + fingerprints<br>Manual adjustments</div></div>
+<div class="arrow">Transfer the file by any normal means<span>↓</span></div>
+<div class="node shared"><b>Shared importer checks the document</b><div class="sub">Recognized format? Existing character ID?<br>If already present: replace with recovery copy, or import as a new character</div></div>
+<div class="arrow">Resolve selections against Android's bundled packages<span>↓</span></div>
+<div class="branches">
+<div class="node shared"><b>Content available</b><div class="sub">Recalculate using current definitions. Notify about changed entries.</div></div>
+<div class="node"><b>Content unavailable</b><div class="sub">Keep saved titles and selections. Show warnings and lock missing entry details.</div></div>
+</div>
+<div class="arrow">Shared validation reports the character's status<span>↓</span></div>
+<div class="node platform"><div class="tag">Continue on Android</div><b>Native builder displays and saves the result</b><div class="sub">Private JSON storage · edits through the same shared core</div></div>
+<div class="connector">Export from Android → import on PC works the same way</div>
+<p class="note">File exchange is explicit. There is no cloud sync or automatic merging.</p>
+</section>
+<script>
+const buttons=Array.from(document.querySelectorAll('[role="tab"]'));
+function activate(button){buttons.forEach(b=>{const on=b===button;b.setAttribute('aria-selected',String(on));document.getElementById(b.getAttribute('aria-controls')).hidden=!on;});}
+buttons.forEach((button,index)=>{button.addEventListener('click',()=>activate(button));button.addEventListener('keydown',event=>{if(event.key==='ArrowRight'||event.key==='ArrowLeft'){event.preventDefault();const next=buttons[(index+(event.key==='ArrowRight'?1:-1)+buttons.length)%buttons.length];activate(next);next.focus();}});});
+</script></body></html>

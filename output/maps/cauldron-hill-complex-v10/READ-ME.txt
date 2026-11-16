@@ -1,0 +1,42 @@
+CAULDRON HILL COMPLEX V10 - FOUR DUNGEONDRAFT LEVELS
+
+0  Ground - Lower Facility
+   Checkpoints, barracks/cafeteria, prototype guardpost, Borne staging
+   platform, lower freight lift landings, utility rooms and service runs.
+1  Lake Entrance (-300 ft)
+   Water tunnel, berth, quays, guard room, hydraulic plant and cargo lift.
+2  Upper Borne Chamber (+100 ft)
+   Bridge, both upper freight landings, control cabins, crane galleries,
+   restraint winches and the catwalk leading to the VIP checkpoint.
+3  VIP Suites (+100 ft)
+   Checkpoint, dining room, kitchen/locker, laboratories, twelve lodgings,
+   upper utility plant and adjacent service passages.
+
+The original v9 coordinates and 174 x 96 five-foot canvas are retained.
+Switch levels in Dungeondraft; the sections are no longer all on Ground.
+The upper chamber and VIP suite levels are separate as requested despite
+sharing the same elevation. Their transfer doorway is retained on both.
+Cargo and freight elevator landings retain the earlier atlas coordinates.
+No golem artwork is included. Solid floors, cafeteria spacing, replacement
+machinery and the lantern layer (300, beneath walls) are preserved.
+
+Native map: cauldron-hill-complex-v10.dungeondraft_map
+Separate 64-pixel-per-square images:
+  ground.png
+  lake-entrance.png
+  upper-borne-chamber.png
+  vip-suites.png
+room-key.json identifies every room's level and original coordinates.
+
+Source: ZEITGEIST Book 5 Part 3, with the existing map adaptations.
+Uses the installed Crosshead packs and Baileywiki circular shadows.
+Door artwork and wall-shadow paths remain manual. The supplied PNGs are
+the repository renderer's approximation; opening in Dungeondraft remains
+the final native rendering check.
+
+Rebuild / verify / render (repository root):
+node output/maps/cauldron-hill-complex-v10/build.mjs
+node --test output/maps/cauldron-hill-complex-v10/verify.test.mjs
+node output/maps/cauldron-hill-complex-v10/render.mjs
+
+Uses v9's scene generator as its source; older revisions are unchanged.

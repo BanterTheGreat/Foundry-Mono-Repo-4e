@@ -1,0 +1,38 @@
+CAULDRON HILL COMPLEX V11 - COMPACT FOUR-LEVEL MAP
+
+Shared native canvas: 112 x 90 five-foot squares (formerly 174 x 96).
+This removes about 40% of the canvas area. Ground determines the minimum
+shared canvas size; Dungeondraft does not give each level its own size.
+Smaller floors are centred. Walls, props, doors and terrain move together;
+room dimensions and all internal distances remain unchanged.
+
+Levels:
+0 Ground - Lower Facility
+1 Lake Entrance (-300 ft)
+2 Upper Borne Chamber (+100 ft)
+3 VIP Suites (+100 ft)
+
+Separate PNGs are tightly cropped around each level, including a border:
+ground.png                 112 x 90 squares, 7168 x 5760 pixels
+lake-entrance.png           56 x 24 squares, 3584 x 1536 pixels
+upper-borne-chamber.png     48 x 60 squares, 3072 x 3840 pixels
+vip-suites.png              52 x 44 squares, 3328 x 2816 pixels
+All use 64 pixels per five-foot square. PNG crop origins are recorded in
+room-key.json; the crop origins differ from native world coordinates.
+
+The native map contains all four levels. Previous versions are unchanged.
+No golem artwork; solid floors, cafeteria spacing, replacement assets,
+and wall lanterns below walls are retained from v10.
+
+Texture tiles and four-square floor lattices are not stretched;
+the map is repositioned, not scaled. Native rendering remains a manual
+opening check. The PNGs use the repository's approximate renderer.
+Requires installed Crosshead packs and Baileywiki circular shadows.
+Door art and wall-shadow paths remain manual.
+
+Rebuild / test / render from repository root:
+node output/maps/cauldron-hill-complex-v11/build.mjs
+node --test output/maps/cauldron-hill-complex-v11/verify.test.mjs
+node output/maps/cauldron-hill-complex-v11/render.mjs
+
+The generator uses the v10 level split as its source.

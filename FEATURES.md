@@ -2,6 +2,10 @@
 
 ## Dungeondraft map artifacts
 
+- Cauldron Hill complex v11: `output/maps/cauldron-hill-complex-v11/`, reduces the shared four-level canvas from 174 x 96 to 112 x 90 squares and centres each level without scaling rooms or changing internal geometry. PNGs have separate tight crops. Tests compare every entity against its translated v10 counterpart and check room bounds, sprite clipping, terrain preservation and native multilevel rules.
+
+- Cauldron Hill complex v10: `output/maps/cauldron-hill-complex-v10/`, uses four native levels: Ground, Lake Entrance, Upper Borne Chamber and VIP Suites. Preserves v9 entity coordinates, props, floor scales and lantern layering; splits shared walls/doorways safely and isolates terrain per level. Tests cover room ownership, lossless object/floor migration, wall coverage, portals, terrain and the multilevel format. Native rendering remains a manual check.
+
 - Cauldron Hill complex v9: `output/maps/cauldron-hill-complex-v9/`, moves wall lanterns to layer 300 beneath walls. Tests verify the layer and preserve every v8 object placement and other property. Previous maps remain intact.
 
 - Cauldron Hill complex v8: `output/maps/cauldron-hill-complex-v8/`, redistributes the cafeteria's 21 tables evenly across seven columns and three rows, with wider, consistent aisles. Includes table-position assertions; prior revisions remain intact.

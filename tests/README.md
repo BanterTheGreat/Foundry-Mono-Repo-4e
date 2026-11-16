@@ -32,6 +32,26 @@ Cafeteria spacing revision:
 
 Wall-lantern layering revision:
 
+Native four-level Cauldron Hill revision:
+
+Compact four-level revision, with translated-layout and crop checks:
+
+```sh
+node output/maps/cauldron-hill-complex-v11/build.mjs
+node --test output/maps/cauldron-hill-complex-v11/verify.test.mjs
+node output/maps/cauldron-hill-complex-v11/render.mjs
+```
+
+The native map uses a shared 112 x 90 canvas; PNGs are cropped independently around each level. `render.mjs 16` makes small previews.
+
+```sh
+node output/maps/cauldron-hill-complex-v10/build.mjs
+node --test output/maps/cauldron-hill-complex-v10/verify.test.mjs
+node output/maps/cauldron-hill-complex-v10/render.mjs
+```
+
+Levels are Ground (0), Lake Entrance (1), Upper Borne Chamber (2) and VIP Suites (3). `render.mjs 16` makes small previews; the default writes one 64-pixel-per-square PNG per level. Open the native map and switch among all four levels for the final application check.
+
 ```sh
 node output/maps/cauldron-hill-complex-v9/build.mjs
 node --test output/maps/cauldron-hill-complex-v9/verify.test.mjs
