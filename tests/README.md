@@ -406,3 +406,19 @@ Uses Power trigger: `node --test src/banter-4e-modifications/test/uses-power.tes
 `node --test src/foundry-mcp/test/trigger-automation.test.js` covers MCP trigger discovery and confirmed Uses Power assignment/filter creation, invalid filters, retries and cancellation.
 
 Summon automation Node coverage includes separate square selection, per-power maximums, removal, range, duplicate rejection, batch creation, ownership and footprint validation.
+
+## Character Builder foundation
+
+See [the standalone build guide](../src/character-builder/README.md) for toolchains and SDK setup. From `src/character-builder/`:
+
+```powershell
+.\gradlew.bat :shared:jvmTest :shared:jsNodeTest :shared:jsBrowserProductionLibraryDistribution
+npm ci --prefix web
+npm test --prefix web
+npm run build --prefix web
+.\gradlew.bat :android:assembleDebug :android:assembleDebugAndroidTest
+# Requires a running Android emulator or connected device:
+.\gradlew.bat :android:connectedDebugAndroidTest
+```
+
+On Linux/macOS substitute `bash ./gradlew` for `.\gradlew.bat`. These tests do not require Foundry and this project is never copied into Foundry.

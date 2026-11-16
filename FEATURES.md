@@ -1,5 +1,11 @@
 # Feature Inventory
 
+## Character Builder (foundation preview)
+
+- Standalone `src/character-builder/` Kotlin Multiplatform core, React/TypeScript web shell and native Compose Android shell. Both display the same deterministic smoke fixture; the web uses a generated plain-data JS/TypeScript boundary. No character creation, rules, storage, content or offline provisioning yet.
+- Automated common JVM/JS fixture tests, compiled JS boundary/web rendering tests, and Android Compose instrumentation smoke test. CI builds both shells and runs an emulator check.
+- Manual check: open the web shell and launch the Android debug app; both should display `Shared core is ready.` and `shared-core-v1`. Foundation validation status is documented in the project README.
+
 ## Dungeondraft map artifacts
 
 - Cauldron Hill complex v11: `output/maps/cauldron-hill-complex-v11/`, reduces the shared four-level canvas from 174 x 96 to 112 x 90 squares and centres each level without scaling rooms or changing internal geometry. PNGs have separate tight crops. Tests compare every entity against its translated v10 counterpart and check room bounds, sprite clipping, terrain preservation and native multilevel rules.

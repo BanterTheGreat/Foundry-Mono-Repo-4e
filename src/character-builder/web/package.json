@@ -1,0 +1,27 @@
+{
+  "name": "@modern4e/builder-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.14.0 <25"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "react": "19.0.0",
+    "react-dom": "19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.0.10",
+    "@types/react-dom": "19.0.4",
+    "@vitejs/plugin-react": "6.3.0",
+    "typescript": "5.8.2",
+    "vite": "8.3.8",
+    "vitest": "5.1.0"
+  },
+  "packageManager": "npm@11.13.0"
+}

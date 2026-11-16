@@ -1,6 +1,6 @@
 # 4e Character Builder Architecture
 
-Status: agreed design; not yet implemented.
+Status: agreed design; the shared-core and application-shell foundation is implemented in `src/character-builder/`. Character rules, content and workflows remain unimplemented.
 
 This document records the architecture agreed in the character-builder design discussion. It preserves the decisions for future implementation; it is not an implementation checklist.
 

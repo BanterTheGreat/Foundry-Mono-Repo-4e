@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "ES2022", "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext", "moduleResolution": "Bundler", "jsx": "react-jsx",
+    "strict": true, "noEmit": true, "skipLibCheck": true,
+    "paths": { "@modern4e/shared": ["../shared/build/dist/js/productionLibrary/character-builder-shared.d.ts"] }
+  },
+  "include": ["src"]
+}
