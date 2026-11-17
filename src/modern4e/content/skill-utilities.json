@@ -1,884 +1,3684 @@
 {
+  "schemaVersion": 2,
   "powers": [
     {
-      "id": "cleric-6-theologian-s-knowledge",
+      "id": "modern4e.power.utility-skill-cleric-6-theologian-s-knowledge",
       "title": "Theologian’s Knowledge",
-      "level": 6,
-      "source": null,
-      "type": "Encounter",
       "description": "You recall knowledge from your days of religious schooling, studying dusty tomes, old myths, and religious tradition.",
-      "traits": "Non-Combat, Gathering Information",
-      "action": "Free Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Religion.",
-        "Trigger: You are making a knowledge check (that is not a Monster Knowledge check).",
-        "Effect: You may roll with Religion instead of the original skill and use that for the result of the triggering knowledge check. If it is related to your deity, you get a +2 bonus (DM has the final say on whether the knowledge relates to your deity)."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 6
+          },
+          {
+            "type": "proficiency",
+            "skill": "RELIGION"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "cleric-6-theologian-s-knowledge",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "GATHERING_INFORMATION"
       ],
-      "pages": [
-        17
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Religion."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You may roll with Religion instead of the original skill and use that for the result of the triggering knowledge check. If it is related to your deity, you get a +2 bonus (DM has the final say on whether the knowledge relates to your deity)."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "You are making a knowledge check (that is not a Monster Knowledge check)."
+        }
       ],
-      "originalClass": "Cleric",
-      "skill": "Religion"
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "Religion | Level 6",
+      "flavor": "You recall knowledge from your days of religious schooling, studying dusty tomes, old myths, and religious tradition.",
+      "note": "Source pages: 17. Original source class: Cleric. This does not define local access."
     },
     {
-      "id": "fighter-2-up-we-go-fighter",
+      "id": "modern4e.power.utility-skill-fighter-2-up-we-go-fighter",
       "title": "Up We Go (Fighter)",
-      "level": 2,
-      "source": null,
-      "type": "At-Will",
       "description": "You take a brief breath and then pick up your ally like a sack of flour. Others are amazed by the fact that they don't even slow you down.",
-      "traits": "Non-Combat",
-      "action": "Minor Action",
-      "range": "Melee Touch",
-      "rows": [
-        "Prerequisite: You must be proficient in Athletics.",
-        "Target: One willing or unconscious creature of medium size or less, of reasonable weight and size that is not encumbered",
-        "Effect: Pick up the target. While you are carrying this creature, they do not count towards your encumberance or speed. You can only pick up one creature at a time this way and it uses one of your hands."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 2
+          },
+          {
+            "type": "proficiency",
+            "skill": "ATHLETICS"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "fighter-2-up-we-go-fighter",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT"
       ],
-      "pages": [
-        27
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One willing or unconscious creature of medium size or less, of reasonable weight and size that is not encumbered"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Athletics."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Pick up the target. While you are carrying this creature, they do not count towards your encumberance or speed. You can only pick up one creature at a time this way and it uses one of your hands."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee Touch"
+          },
+          "targets": "targets"
+        }
       ],
-      "originalClass": "Fighter",
-      "skill": "Athletics"
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "Athletics | Level 2",
+      "flavor": "You take a brief breath and then pick up your ally like a sack of flour. Others are amazed by the fact that they don't even slow you down.",
+      "note": "Source pages: 27. Original source class: Fighter. This does not define local access."
     },
     {
-      "id": "fighter-6-double-fireman-carry",
+      "id": "modern4e.power.utility-skill-fighter-6-double-fireman-carry",
       "title": "Double Fireman Carry",
-      "level": 6,
-      "source": null,
-      "type": "At-Will",
       "description": "You pick up two allies and put one over each shoulder.",
-      "traits": "Non-Combat",
-      "action": "Minor Action",
-      "range": "Melee Touch",
-      "rows": [
-        "Prerequisite: You must be proficient in Athletics.",
-        "Target: One or two willing or unconscious creatures of medium size or less, of reasonable weight and size that is not encumbered.",
-        "Effect: Pick up the target. If they are encumbered, you count as encumbered while carrying them. Otherwise, while you are carrying this creature, they do not count towards your encumberance or speed. You can carry up to two creatures at a time this way and each on e uses one of your hands.",
-        "Special : Reasonable weight and size is usp to the DM based on character and level. But a good rule of thumb is 400 pounds or less, increasing 100 pounds every level 5 levels."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 6
+          },
+          {
+            "type": "proficiency",
+            "skill": "ATHLETICS"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "fighter-6-double-fireman-carry",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT"
       ],
-      "pages": [
-        30
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One or two willing or unconscious creatures of medium size or less, of reasonable weight and size that is not encumbered."
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Athletics."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Pick up the target. If they are encumbered, you count as encumbered while carrying them. Otherwise, while you are carrying this creature, they do not count towards your encumberance or speed. You can carry up to two creatures at a time this way and each on e uses one of your hands."
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Special",
+              "text": "Reasonable weight and size is usp to the DM based on character and level. But a good rule of thumb is 400 pounds or less, increasing 100 pounds every level 5 levels."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee Touch"
+          },
+          "targets": "targets"
+        }
       ],
-      "originalClass": "Fighter",
-      "skill": "Athletics"
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "Athletics | Level 6",
+      "flavor": "You pick up two allies and put one over each shoulder.",
+      "note": "Source pages: 30. Original source class: Fighter. This does not define local access."
     },
     {
-      "id": "fighter-6-rush-of-adrenaline",
+      "id": "modern4e.power.utility-skill-fighter-6-rush-of-adrenaline",
       "title": "Rush of Adrenaline",
-      "level": 6,
-      "source": null,
-      "type": "Encounter",
       "description": "You gain a rush of adrenaline, pushing you to incredible feats of speed and athleticism.",
-      "traits": "Non-Combat",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Athletics.",
-        "Effect: When used during combat, you gain a bonus to your speed and Athletics checks equal to your Dexterity +1 (minimum bonus of 1) until the end of your next turn.",
-        "Sustain Minor: The bonus persists until the end of your next turn. This power can only be sustained during a skill challenge that involves a chase, race, or similar scenario."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 6
+          },
+          {
+            "type": "proficiency",
+            "skill": "ATHLETICS"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "fighter-6-rush-of-adrenaline",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT"
       ],
-      "pages": [
-        31
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Athletics."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "When used during combat, you gain a bonus to your speed and Athletics checks equal to your Dexterity +1 (minimum bonus of 1) until the end of your next turn."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Sustain Minor",
+              "text": "The bonus persists until the end of your next turn. This power can only be sustained during a skill challenge that involves a chase, race, or similar scenario."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
       ],
-      "originalClass": "Fighter",
-      "skill": "Athletics"
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "Athletics | Level 6",
+      "flavor": "You gain a rush of adrenaline, pushing you to incredible feats of speed and athleticism.",
+      "note": "Source pages: 31. Original source class: Fighter. This does not define local access."
     },
     {
-      "id": "fighter-6-shield-slide",
+      "id": "modern4e.power.utility-skill-fighter-6-shield-slide",
       "title": "Shield Slide",
-      "level": 6,
-      "source": null,
-      "type": "At-Will",
       "description": "You see an incline and use this opportunity to slide down the hill lik a board.",
-      "traits": "Non-Combat, Weapon",
-      "action": "Free Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Acrobatics.",
-        "Requirement: You must be wielding a shield.",
-        "Effect: You may slide downhill of the ground you are on. You shift up to your speed downhill, but you must end your movement at the end of the ramp, stairs, or incline you are going down. You may also choose to jump at the end of your shift. You gain a +1 bonus for each square you shifted and it counts as a running jump."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 6
+          },
+          {
+            "type": "proficiency",
+            "skill": "ACROBATICS"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "fighter-6-shield-slide",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "WEAPON"
       ],
-      "pages": [
-        31
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Acrobatics."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You may slide downhill of the ground you are on. You shift up to your speed downhill, but you must end your movement at the end of the ramp, stairs, or incline you are going down. You may also choose to jump at the end of your shift. You gain a +1 bonus for each square you shifted and it counts as a running jump."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "requirement": "You must be wielding a shield."
+        }
       ],
-      "originalClass": "Fighter",
-      "skill": "Acrobatics"
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "Acrobatics | Level 6",
+      "flavor": "You see an incline and use this opportunity to slide down the hill lik a board.",
+      "note": "Source pages: 31. Original source class: Fighter. This does not define local access."
     },
     {
-      "id": "fighter-6-size-up",
+      "id": "modern4e.power.utility-skill-fighter-6-size-up",
       "title": "Size Up",
-      "level": 6,
-      "source": null,
-      "type": "Encounter",
       "description": "You observe an enemy's stance, scars, weapons, and everything el about them to get a judge on their capabilities .",
-      "traits": "Non-Combat, Gathering Information",
-      "action": "Minor Action",
-      "range": "Close Burst 20",
-      "rows": [
-        "Prerequisite: You must be proficient in Insight.",
-        "Target: One humanoid creature within the burst.",
-        "Effect: Roll an Insight check vs the Will of the target. If you spend at least 10 minutes interacting with the target or observing an ally interact with them outside combat, you gain a +5 bonus to your Insight check. If used in combat, after they have attacked you or you have attacked them, you gain a +2 bonus to the check. Depending on the result, you may learn some of the following characteristics of your choice based on the table below: Insight Check Result Characteristics Learned 1 - 9 No effect 10 - 19 Learn 1 20 – 29 Learn 2 30 - 39 Learn 3 * 40 or higher Learn 3** The characteristics you canl earn are one of the following: + One of the target’s defenses: (AC, Fort, Ref, or Will) + Target’s current or maximum hit points + Target’s fighting style (i.e. monster role) or general lore + Learn one ability (*can only be picked if you roll 30 or above) + Learn a vulnerability or resistance (*can only be picked if you roll 30 or above) + Instead of learning a characteristic, you may gain combat advantage against the target until the end of your first turn, the next time you are in a combat encounter against them before the end of your next extended rest. (** can only be picked if you roll 40 or above)"
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 6
+          },
+          {
+            "type": "proficiency",
+            "skill": "INSIGHT"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "fighter-6-size-up",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "GATHERING_INFORMATION"
       ],
-      "pages": [
-        31
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One humanoid creature within the burst."
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Insight."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Roll an Insight check vs the Will of the target. If you spend at least 10 minutes interacting with the target or observing an ally interact with them outside combat, you gain a +5 bonus to your Insight check. If used in combat, after they have attacked you or you have attacked them, you gain a +2 bonus to the check. Depending on the result, you may learn some of the following characteristics of your choice based on the table below: Insight Check Result Characteristics Learned 1 - 9 No effect 10 - 19 Learn 1 20 – 29 Learn 2 30 - 39 Learn 3 * 40 or higher Learn 3** The characteristics you canl earn are one of the following: + One of the target’s defenses: (AC, Fort, Ref, or Will) + Target’s current or maximum hit points + Target’s fighting style (i.e. monster role) or general lore + Learn one ability (*can only be picked if you roll 30 or above) + Learn a vulnerability or resistance (*can only be picked if you roll 30 or above) + Instead of learning a characteristic, you may gain combat advantage against the target until the end of your first turn, the next time you are in a combat encounter against them before the end of your next extended rest. (** can only be picked if you roll 40 or above)"
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close Burst 20"
+          },
+          "targets": "targets"
+        }
       ],
-      "originalClass": "Fighter",
-      "skill": "Insight"
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "Insight | Level 6",
+      "flavor": "You observe an enemy's stance, scars, weapons, and everything el about them to get a judge on their capabilities .",
+      "note": "Source pages: 31. Original source class: Fighter. This does not define local access."
     },
     {
-      "id": "fighter-6-whispered-threat",
+      "id": "modern4e.power.utility-skill-fighter-6-whispered-threat",
       "title": "Whispered Threat",
-      "level": 6,
-      "source": null,
-      "type": "Encounter",
       "description": "Your threat seems even scarier when whispered in the ear of the enemy you are grappled.",
-      "traits": "Non-Combat, Social",
-      "action": "Free Action",
-      "range": "Melee Touch",
-      "rows": [
-        "Prerequisite: You must be proficient in Intimidate.",
-        "Requirement : You must have a creature grabbed.",
-        "Effect: Until the end of your next turn, you get a +5 bonus to your next Intimidate check against a creature you have grabbed. If you succeed, you may choose to make it so no one else is aware of this interaction."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 6
+          },
+          {
+            "type": "proficiency",
+            "skill": "INTIMIDATE"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "fighter-6-whispered-threat",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "SOCIAL"
       ],
-      "pages": [
-        32
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Intimidate."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn, you get a +5 bonus to your next Intimidate check against a creature you have grabbed. If you succeed, you may choose to make it so no one else is aware of this interaction."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee Touch"
+          },
+          "requirement": "You must have a creature grabbed."
+        }
       ],
-      "originalClass": "Fighter",
-      "skill": "Intimidate"
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "Intimidate | Level 6",
+      "flavor": "Your threat seems even scarier when whispered in the ear of the enemy you are grappled.",
+      "note": "Source pages: 32. Original source class: Fighter. This does not define local access."
     },
     {
-      "id": "fighter-10-forger-s-rest",
+      "id": "modern4e.power.utility-skill-fighter-10-forger-s-rest",
       "title": "Forger’s Rest",
-      "level": 10,
-      "source": null,
-      "type": "Daily",
       "description": "You find working on your amor a restful activity, and can spend some of your downtime honing them while still getting the benefit of a rest.",
-      "traits": "Non-Combat, Creation, Rest",
-      "action": "Standard Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Crafting.",
-        "Requirement : You must be taking a short or extended rest. .",
-        "Target: One armor or shield.",
-        "Effect: Until your next short or extended rest, the target armor or shield gains a +1 bonus to AC. If you target a shield, it also gains a +1 bonus to Reflex. If you target an armor, choose a physical activity (ex: climbing, swimming, balancing, jumping, etc). It gets one less armor check penalty when doing that specific activity."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 10
+          },
+          {
+            "type": "proficiency",
+            "skill": "CRAFTING"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "fighter-10-forger-s-rest",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "CREATION",
+        "REST"
       ],
-      "pages": [
-        35
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One armor or shield."
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Crafting."
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until your next short or extended rest, the target armor or shield gains a +1 bonus to AC. If you target a shield, it also gains a +1 bonus to Reflex. If you target an armor, choose a physical activity (ex: climbing, swimming, balancing, jumping, etc). It gets one less armor check penalty when doing that specific activity."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "requirement": "You must be taking a short or extended rest. .",
+          "targets": "targets"
+        }
       ],
-      "originalClass": "Fighter",
-      "skill": "Crafting"
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "Crafting | Level 10",
+      "flavor": "You find working on your amor a restful activity, and can spend some of your downtime honing them while still getting the benefit of a rest.",
+      "note": "Source pages: 35. Original source class: Fighter. This does not define local access."
     },
     {
-      "id": "fighter-10-honing-rest",
+      "id": "modern4e.power.utility-skill-fighter-10-honing-rest",
       "title": "Honing Rest",
-      "level": 10,
-      "source": null,
-      "type": "Daily",
       "description": "You find working on your weapons a restful activity, and can spend some of your downtime honing them while still getting the benefit of a rest.",
-      "traits": "Non-Combat, Creation, Rest",
-      "action": "Standard Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Crafting.",
-        "Requirement: You must be taking a short or extended rest..",
-        "Target: One weapon for you and each ally who is resting with you.",
-        "Effect: Until your next short or extended rest, the target weapon gains the brutal 1 weapon property. If you targeted only one weapon, it gets brutal 2 instead."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 10
+          },
+          {
+            "type": "proficiency",
+            "skill": "CRAFTING"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "fighter-10-honing-rest",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "CREATION",
+        "REST"
       ],
-      "pages": [
-        35
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One weapon for you and each ally who is resting with you."
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Crafting."
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until your next short or extended rest, the target weapon gains the brutal 1 weapon property. If you targeted only one weapon, it gets brutal 2 instead."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "requirement": "You must be taking a short or extended rest..",
+          "targets": "targets"
+        }
       ],
-      "originalClass": "Fighter",
-      "skill": "Crafting"
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "Crafting | Level 10",
+      "flavor": "You find working on your weapons a restful activity, and can spend some of your downtime honing them while still getting the benefit of a rest.",
+      "note": "Source pages: 35. Original source class: Fighter. This does not define local access."
     },
     {
-      "id": "fighter-10-iron-breaker-s-arms",
+      "id": "modern4e.power.utility-skill-fighter-10-iron-breaker-s-arms",
       "title": "Iron Breaker ’s Arms",
-      "level": 10,
-      "source": null,
-      "type": "Encounter",
       "description": "You raise your mighty weapon and smash the contraption shattering it into a thousand pieces.",
-      "traits": "Non-Combat, Exploration, Weapon",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Athletics.",
-        "Requirement: You must be taking a short or extended rest",
-        "Target: One weapon for you and each ally who is resting with you.",
-        "Effect: Until the end of your next turn, you gain a +5 bonus to Strength checks to break objects, and you deal double damage against objects.",
-        "Weapon : If you’re wielding an axe, hammer, or mace, increase the bonus to a +10, and ignore up to 10 damage resistance the object may have to physical damage from your weapons."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 10
+          },
+          {
+            "type": "proficiency",
+            "skill": "ATHLETICS"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "fighter-10-iron-breaker-s-arms",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "EXPLORATION",
+        "WEAPON"
       ],
-      "pages": [
-        35
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One weapon for you and each ally who is resting with you."
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Athletics."
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn, you gain a +5 bonus to Strength checks to break objects, and you deal double damage against objects."
+            },
+            {
+              "id": "rule-5",
+              "type": "effect",
+              "label": "Weapon",
+              "text": "If you’re wielding an axe, hammer, or mace, increase the bonus to a +10, and ignore up to 10 damage resistance the object may have to physical damage from your weapons."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "requirement": "You must be taking a short or extended rest",
+          "targets": "targets"
+        }
       ],
-      "originalClass": "Fighter",
-      "skill": "Athletics"
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "Athletics | Level 10",
+      "flavor": "You raise your mighty weapon and smash the contraption shattering it into a thousand pieces.",
+      "note": "Source pages: 35. Original source class: Fighter. This does not define local access."
     },
     {
-      "id": "paladin-2-fiend-hunter-s-knowledge",
+      "id": "modern4e.power.utility-skill-paladin-2-fiend-hunter-s-knowledge",
       "title": "Fiend Hunter’s Knowledge",
-      "level": 2,
-      "source": null,
-      "type": "Encounter",
       "description": "Your experience in hunting evil creatures comes in handy.",
-      "traits": "Non-Combat, Gathering Knowledge",
-      "action": "Free Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Religion.",
-        "Trigger : You are making a monster knowledge check .",
-        "Effect: You may roll the triggering roll with Religion instead of the original skill check and use that for the result of the knowledge check. It must be an undead, demon, devil, or a creature related to your deity (as ruled by the DM)."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 2
+          },
+          {
+            "type": "proficiency",
+            "skill": "RELIGION"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "paladin-2-fiend-hunter-s-knowledge",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "GATHERING_KNOWLEDGE"
       ],
-      "pages": [
-        46
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Religion."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You may roll the triggering roll with Religion instead of the original skill check and use that for the result of the knowledge check. It must be an undead, demon, devil, or a creature related to your deity (as ruled by the DM)."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "You are making a monster knowledge check ."
+        }
       ],
-      "originalClass": "Paladin",
-      "skill": "Religion"
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "Religion | Level 2",
+      "flavor": "Your experience in hunting evil creatures comes in handy.",
+      "note": "Source pages: 46. Original source class: Paladin. This does not define local access."
     },
     {
-      "id": "paladin-2-up-we-go-paladin",
+      "id": "modern4e.power.utility-skill-paladin-2-up-we-go-paladin",
       "title": "Up We Go (Paladin)",
-      "level": 2,
-      "source": null,
-      "type": "At-Will",
       "description": "You take a brief breath and then pick up your ally like a sack of flour. Others are amazed by the fact that they don't even slow you down.",
-      "traits": "Non-Combat",
-      "action": "Minor Action",
-      "range": "Melee Touch",
-      "rows": [
-        "Prerequisite: You must be proficient in Athletics.",
-        "Target: One willing or unconscious creature of medium size or less, of reasonable weight and size that is not encumbered",
-        "Effect: Pick up the target. While you are carrying this creature, they do not count towards your encumberance or speed. You can only pick up one creature at a time this way and it uses one of your hands."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 2
+          },
+          {
+            "type": "proficiency",
+            "skill": "ATHLETICS"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "paladin-2-up-we-go-paladin",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT"
       ],
-      "pages": [
-        46
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One willing or unconscious creature of medium size or less, of reasonable weight and size that is not encumbered"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Athletics."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Pick up the target. While you are carrying this creature, they do not count towards your encumberance or speed. You can only pick up one creature at a time this way and it uses one of your hands."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee Touch"
+          },
+          "targets": "targets"
+        }
       ],
-      "originalClass": "Paladin",
-      "skill": "Athletics"
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "Athletics | Level 2",
+      "flavor": "You take a brief breath and then pick up your ally like a sack of flour. Others are amazed by the fact that they don't even slow you down.",
+      "note": "Source pages: 46. Original source class: Paladin. This does not define local access."
     },
     {
-      "id": "paladin-6-encouraging-push-beyond-limits",
+      "id": "modern4e.power.utility-skill-paladin-6-encouraging-push-beyond-limits",
       "title": "Encouraging Push Beyond Limits",
-      "level": 6,
-      "source": null,
-      "type": "Daily",
       "description": "You motivate an ally to go beyond their limits with a bit of help fro divine magic.",
-      "traits": "Non-Combat, Exploration, Travel",
-      "action": "Free Action",
-      "range": "Melee Touch",
-      "rows": [
-        "Prerequisite: You must be proficient in Endurance.",
-        "Trigger : An ally would lose a healing surge to take damage from failing a skill check or skill challenge, or forcing themselves beyond an out -of-combat limit (for example, overland travel at a faster pace beyond 1 hour).",
-        "Target: The triggering ally.",
-        "Effect: The target does not lose a healing surge or take damage, but continues on as if they had spent a healing surge."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 6
+          },
+          {
+            "type": "proficiency",
+            "skill": "ENDURANCE"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "paladin-6-encouraging-push-beyond-limits",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "EXPLORATION",
+        "TRAVEL"
       ],
-      "pages": [
-        48
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "The triggering ally."
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Endurance."
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target does not lose a healing surge or take damage, but continues on as if they had spent a healing surge."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee Touch"
+          },
+          "trigger": "An ally would lose a healing surge to take damage from failing a skill check or skill challenge, or forcing themselves beyond an out -of-combat limit (for example, overland travel at a faster pace beyond 1 hour).",
+          "targets": "targets"
+        }
       ],
-      "originalClass": "Paladin",
-      "skill": "Endurance"
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "Endurance | Level 6",
+      "flavor": "You motivate an ally to go beyond their limits with a bit of help fro divine magic.",
+      "note": "Source pages: 48. Original source class: Paladin. This does not define local access."
     },
     {
-      "id": "paladin-6-guardian-of-the-sleeping",
+      "id": "modern4e.power.utility-skill-paladin-6-guardian-of-the-sleeping",
       "title": "Guardian of the Sleeping",
-      "level": 6,
-      "source": null,
-      "type": "Daily",
       "description": "Your allies can feel safe as you watch over them while they rest.",
-      "traits": "Non-Combat, Warding, Rest",
-      "action": "Standard Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Endurance.",
-        "Requirement : You must be doing an extended rest.",
-        "Target: The triggering ally.",
-        "Effect: You remain aware and alert while taking an extended rest while still gaining the full benefits. You gain a +3 bonus to Perception checks during this extended rest, and you gain a +3 bonus to Intimidate checks to appear both awake and scary to ward threats from the campsite or rest spot. You do not regain this power at the end of an extended rest unless you make a Hard DC Endurance check with a -5 penalty. After every extended rest you make, you get an increasing, stacking +5 bonus to this check."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 6
+          },
+          {
+            "type": "proficiency",
+            "skill": "ENDURANCE"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "paladin-6-guardian-of-the-sleeping",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "WARDING",
+        "REST"
       ],
-      "pages": [
-        48
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "The triggering ally."
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Endurance."
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You remain aware and alert while taking an extended rest while still gaining the full benefits. You gain a +3 bonus to Perception checks during this extended rest, and you gain a +3 bonus to Intimidate checks to appear both awake and scary to ward threats from the campsite or rest spot. You do not regain this power at the end of an extended rest unless you make a Hard DC Endurance check with a -5 penalty. After every extended rest you make, you get an increasing, stacking +5 bonus to this check."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "requirement": "You must be doing an extended rest.",
+          "targets": "targets"
+        }
       ],
-      "originalClass": "Paladin",
-      "skill": "Endurance"
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "Endurance | Level 6",
+      "flavor": "Your allies can feel safe as you watch over them while they rest.",
+      "note": "Source pages: 48. Original source class: Paladin. This does not define local access."
     },
     {
-      "id": "paladin-10-inspirational-follow-up",
+      "id": "modern4e.power.utility-skill-paladin-10-inspirational-follow-up",
       "title": "Inspirational Follow -Up",
-      "level": 10,
-      "source": null,
-      "type": "Encounter",
       "description": "You take the lead on a task, inspiring those behind you.",
-      "traits": "Non-Combat",
-      "action": "No Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Diplomacy.",
-        "Trigger: You succeed on a skill check during a skill challenge or group skill check.",
-        "Effect: The next ally who rolls the skill check gets a +3 bonus. In addition, another player may roll the skill check even if they normally couldn't. (For example, some skill challenges restrict how many times a skill can be done in a row, or can be done in total.)"
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 10
+          },
+          {
+            "type": "proficiency",
+            "skill": "DIPLOMACY"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "paladin-10-inspirational-follow-up",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT"
       ],
-      "pages": [
-        50
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "NO_ACTION",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Diplomacy."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The next ally who rolls the skill check gets a +3 bonus. In addition, another player may roll the skill check even if they normally couldn't. (For example, some skill challenges restrict how many times a skill can be done in a row, or can be done in total.)"
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "You succeed on a skill check during a skill challenge or group skill check."
+        }
       ],
-      "originalClass": "Paladin",
-      "skill": "Diplomacy"
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "Diplomacy | Level 10",
+      "flavor": "You take the lead on a task, inspiring those behind you.",
+      "note": "Source pages: 50. Original source class: Paladin. This does not define local access."
     },
     {
-      "id": "ranger-2-favored-terrain",
+      "id": "modern4e.power.utility-skill-ranger-2-favored-terrain",
       "title": "Favored Terrain",
-      "level": 2,
-      "source": null,
-      "type": "At-Will",
       "description": "You are a specialist in one type of terrain. You can spend a lifetime there, surviving only on the flora and fauna, familiar to all the challenges and roughages of navigating there.",
-      "traits": "Non-Combat, Gathering Information, Wilderness, Urban",
-      "action": "Free Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Nature.",
-        "Special: The first time you use this power, you may select a type of terrain to be your favored terrain. You may choose from arctic, coast, desert, forest, grassland, mountain, swamp, or underground (or the Underdark). Alternatively, you may select up to two specif ic cities, towns, or villages. You can only change your favored terrain whenever you gain a level, or, if the DM allows it, at narratively significant moments of the story.",
-        "Effect: Choose one of the following bonuses to gain. You must be in your chosen favored terrain to gain the benefits. + You gain a +2 bonus to your next Nature, Insight, Society, or Perception check relating to the local area's terrain, plants, fungi, or creatures that reside in that type of terrain. You must be proficient in that skill to gain the bonus. + If you succeeded on a check to forage for food or water, you gain twice that amount of food or water. This power can only be used once per turn.",
-        "Special: You may select this same power again even if you have already learned it to select another type of favored foe(s)."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 2
+          },
+          {
+            "type": "proficiency",
+            "skill": "NATURE"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "ranger-2-favored-terrain",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "GATHERING_INFORMATION",
+        "WILDERNESS",
+        "URBAN"
       ],
-      "pages": [
-        58
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Nature."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Special",
+              "text": "The first time you use this power, you may select a type of terrain to be your favored terrain. You may choose from arctic, coast, desert, forest, grassland, mountain, swamp, or underground (or the Underdark). Alternatively, you may select up to two specif ic cities, towns, or villages. You can only change your favored terrain whenever you gain a level, or, if the DM allows it, at narratively significant moments of the story."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Choose one of the following bonuses to gain. You must be in your chosen favored terrain to gain the benefits. + You gain a +2 bonus to your next Nature, Insight, Society, or Perception check relating to the local area's terrain, plants, fungi, or creatures that reside in that type of terrain. You must be proficient in that skill to gain the bonus. + If you succeeded on a check to forage for food or water, you gain twice that amount of food or water. This power can only be used once per turn."
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Special",
+              "text": "You may select this same power again even if you have already learned it to select another type of favored foe(s)."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
       ],
-      "originalClass": "Ranger",
-      "skill": "Nature"
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "Nature | Level 2",
+      "flavor": "You are a specialist in one type of terrain. You can spend a lifetime there, surviving only on the flora and fauna, familiar to all the challenges and roughages of navigating there.",
+      "note": "Source pages: 58. Original source class: Ranger. This does not define local access."
     },
     {
-      "id": "ranger-2-forage-for-magical-herbs",
+      "id": "modern4e.power.utility-skill-ranger-2-forage-for-magical-herbs",
       "title": "Forage for Magical Herbs",
-      "level": 2,
-      "source": null,
-      "type": "Daily",
       "description": "You search the area for rare herbs you can utilize for rituals .",
-      "traits": "Non-Combat, Ritual, Wilderness, Creation",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Nature.",
-        "Requirement : You are in the wilderness above or below ground.",
-        "Cast Time : 1 hour.",
-        "Effect: Roll a Nature check to forage. The check is modified by the environment as with normal foraging rolls. If you succeed, instead of finding food, you find 2x your skil check's worth of gold in Rare Herbs that can be used as components for Na ture rituals started by you or an ally until your next extended rest or in the next 24 hours (whichever is sooner). You may convert up to half of what you find into alchemical reagents, mystic salves, or sanctified incense (for Arcana, Medicine, or Religion ri tuals). At level 11, it increases to 10x your check's result. At level 20, it increases to 20x your check's result."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 2
+          },
+          {
+            "type": "proficiency",
+            "skill": "NATURE"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "ranger-2-forage-for-magical-herbs",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "RITUAL",
+        "WILDERNESS",
+        "CREATION"
       ],
-      "pages": [
-        59
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Nature."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Cast Time",
+              "text": "1 hour."
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Roll a Nature check to forage. The check is modified by the environment as with normal foraging rolls. If you succeed, instead of finding food, you find 2x your skil check's worth of gold in Rare Herbs that can be used as components for Na ture rituals started by you or an ally until your next extended rest or in the next 24 hours (whichever is sooner). You may convert up to half of what you find into alchemical reagents, mystic salves, or sanctified incense (for Arcana, Medicine, or Religion ri tuals). At level 11, it increases to 10x your check's result. At level 20, it increases to 20x your check's result."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "requirement": "You are in the wilderness above or below ground."
+        }
       ],
-      "originalClass": "Ranger",
-      "skill": "Nature"
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "Nature | Level 2",
+      "flavor": "You search the area for rare herbs you can utilize for rituals .",
+      "note": "Source pages: 59. Original source class: Ranger. This does not define local access."
     },
     {
-      "id": "ranger-2-harvesting-useful-monster-parts",
+      "id": "modern4e.power.utility-skill-ranger-2-harvesting-useful-monster-parts",
       "title": "Harvesting Useful Monster Parts",
-      "level": 2,
-      "source": null,
-      "type": "Daily",
       "description": "You carve up a monster to find in order to appropriate claws, teeth fangs, scales, sinew, and more to other uses.",
-      "traits": "Non-Combat, Wilderness, Creation",
-      "action": "Minor Action",
-      "range": "Melee Weapon",
-      "rows": [
-        "Prerequisite: You must be proficient in Nature.",
-        "Target: One dead non -humanoid corpse.",
-        "Cast Time: 10 minutes",
-        "Effect: You create a single non -living, non-magical object from the target corpse. The corpse is destroyed as a result. The object is a single weapon, a set of 10 ammunition, or item from \"Adventuring Gear\" page 222 of the Player's Handbook that can be reasonably made from the creature's corpse (with the DM having the final word on whether such a chosen item is reasonable). Without proper preservation, the object lasts only until the end of your next extended rest. It can be integrated into the crafting of a more p ermanent, but still non-magical, item by someone with crafting abilities, but it costs as much as the item you want to make with a 20% discount. At the DM's discrention, you can also create some other non-magical object no longer than one a Medium creature can carry."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 2
+          },
+          {
+            "type": "proficiency",
+            "skill": "NATURE"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "ranger-2-harvesting-useful-monster-parts",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "WILDERNESS",
+        "CREATION"
       ],
-      "pages": [
-        59
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One dead non -humanoid corpse."
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Nature."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Cast Time",
+              "text": "10 minutes"
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You create a single non -living, non-magical object from the target corpse. The corpse is destroyed as a result. The object is a single weapon, a set of 10 ammunition, or item from \"Adventuring Gear\" page 222 of the Player's Handbook that can be reasonably made from the creature's corpse (with the DM having the final word on whether such a chosen item is reasonable). Without proper preservation, the object lasts only until the end of your next extended rest. It can be integrated into the crafting of a more p ermanent, but still non-magical, item by someone with crafting abilities, but it costs as much as the item you want to make with a 20% discount. At the DM's discrention, you can also create some other non-magical object no longer than one a Medium creature can carry."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee Weapon"
+          },
+          "targets": "targets"
+        }
       ],
-      "originalClass": "Ranger",
-      "skill": "Nature"
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "Nature | Level 2",
+      "flavor": "You carve up a monster to find in order to appropriate claws, teeth fangs, scales, sinew, and more to other uses.",
+      "note": "Source pages: 59. Original source class: Ranger. This does not define local access."
     },
     {
-      "id": "ranger-6-favored-terrain-s-deft-exploration",
+      "id": "modern4e.power.utility-skill-ranger-6-favored-terrain-s-deft-exploration",
       "title": "Favored Terrain’s Deft Exploration",
-      "level": 6,
-      "source": null,
-      "type": "Daily",
       "description": "You can move through your favored terrain with ease and when guiding your party through it, travel becomes a breeze.",
-      "traits": "Non-Combat, Travel, Wilderness",
-      "action": "Standard Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Nature.",
-        "Prerequisite: You have the Favored Terrain skill utility power (level 2).",
-        "Target: You and each ally in the party within sight and speech range.",
-        "Effect: Until the end of your next extended rest, predominantly difficult terrain means your overland exploration speed is multiplied by 0.75x (instead of 0.5x). Also, your party is not slowed by widespread difficult terrain at all during overland exploration. Finally, you and your allies also gain a +2 bonus to initiative for the first combat encounter that occurs for the duration of this power when doing overland exploration in your favored terrain."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 6
+          },
+          {
+            "type": "proficiency",
+            "skill": "NATURE"
+          },
+          {
+            "type": "unresolved",
+            "text": "You have the Favored Terrain skill utility power (level 2).",
+            "reason": "Utility prerequisite requires manual resolution."
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "ranger-6-favored-terrain-s-deft-exploration",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "TRAVEL",
+        "WILDERNESS"
       ],
-      "pages": [
-        62
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You and each ally in the party within sight and speech range."
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Nature."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You have the Favored Terrain skill utility power (level 2)."
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next extended rest, predominantly difficult terrain means your overland exploration speed is multiplied by 0.75x (instead of 0.5x). Also, your party is not slowed by widespread difficult terrain at all during overland exploration. Finally, you and your allies also gain a +2 bonus to initiative for the first combat encounter that occurs for the duration of this power when doing overland exploration in your favored terrain."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "targets": "targets"
+        }
       ],
-      "originalClass": "Ranger",
-      "skill": "Nature"
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "Nature | Level 6",
+      "flavor": "You can move through your favored terrain with ease and when guiding your party through it, travel becomes a breeze.",
+      "note": "Source pages: 62. Original source class: Ranger. This does not define local access."
     },
     {
-      "id": "ranger-6-foraging-for-healing-herbs",
+      "id": "modern4e.power.utility-skill-ranger-6-foraging-for-healing-herbs",
       "title": "Foraging for Healing Herbs",
-      "level": 6,
-      "source": null,
-      "type": "Daily",
       "description": "You search for herbs or fungi native to the area with medicinal properties.",
-      "traits": "Non-Combat, Wilderness, Creation",
-      "action": "Standard Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Nature.",
-        "Cast Time : 1 hour",
-        "Effect: Roll a Nature check to forage (based on your current environment). The check is modified by the environment, like normal foraging rolls. If you succeed, instead of finding food, you may choose a single result from the table below as long a s you reached that DC or higher. If you find herbs, they are a consumable item that only lasts until your next extended rest. DC Possible Forage Result 1-9 You find nothing. 10 -14 You find a single person's worth of food or water for the day (or a source of water). 15 -19 You find herbs that can be expended to gain temporary hit points equal to the user's healing surge value during a short or extended rest. 20 or higher You find herbs that can be expended to regain a Ranger healing power the user has. It is a minor action to consume these."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 6
+          },
+          {
+            "type": "proficiency",
+            "skill": "NATURE"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "ranger-6-foraging-for-healing-herbs",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "WILDERNESS",
+        "CREATION"
       ],
-      "pages": [
-        62
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Nature."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Cast Time",
+              "text": "1 hour"
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Roll a Nature check to forage (based on your current environment). The check is modified by the environment, like normal foraging rolls. If you succeed, instead of finding food, you may choose a single result from the table below as long a s you reached that DC or higher. If you find herbs, they are a consumable item that only lasts until your next extended rest. DC Possible Forage Result 1-9 You find nothing. 10 -14 You find a single person's worth of food or water for the day (or a source of water). 15 -19 You find herbs that can be expended to gain temporary hit points equal to the user's healing surge value during a short or extended rest. 20 or higher You find herbs that can be expended to regain a Ranger healing power the user has. It is a minor action to consume these."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
       ],
-      "originalClass": "Ranger",
-      "skill": "Nature"
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "Nature | Level 6",
+      "flavor": "You search for herbs or fungi native to the area with medicinal properties.",
+      "note": "Source pages: 62. Original source class: Ranger. This does not define local access."
     },
     {
-      "id": "ranger-6-harvesting-magical-monster-reagents",
+      "id": "modern4e.power.utility-skill-ranger-6-harvesting-magical-monster-reagents",
       "title": "Harvesting Magical Monster Reagents",
-      "level": 6,
-      "source": null,
-      "type": "Daily",
       "description": "You find the parts of the monster normally reserved for magic potions or spell components.",
-      "traits": "Non-Combat, Wilderness, Ritual, Creation",
-      "action": "Standard Action",
-      "range": "Melee Weapon",
-      "rows": [
-        "Prerequisite: You must be proficient in Nature.",
-        "Cast Time : 10 minutes.",
-        "Target: One dead non -humanoid and non -animate creature corpse.",
-        "Effect: Roll a monster knowledge check against a monderate DC of the target's level with a bonus equal to the highest of your Dexterity or Strength. If you succeed, instead of gaining knowledge, you tear apart the creature's corpse and gain your check res ult's worth of gold in Alchemical Reagents that can be used for Arcana rituals or alcehmical item creations, as long as they are started before the end of you rnext extended rest or in the next 24 hours (whichever is sooner). Double the amount gained if th e creature is a magical beast. These components cannot be sold for gold. For certain creature, you may instead convert half or all of the gained components into Mystic Salve or Sanctified Incense components instead (for Medicine or Religion rituals). (The DM may decide that creatures associated with healing , such as pheonix or un icorn, is needed for the former; or that creatures associated with religion, such as pegasi, undead monsters, demons, or devils, are required for the latter.) This can only be used once per target. The creature cannot be raised from the dead after this power has been used on them. At level 11, it increases to 5x your check result. At level 20, it increases to 10x your check result."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 6
+          },
+          {
+            "type": "proficiency",
+            "skill": "NATURE"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "ranger-6-harvesting-magical-monster-reagents",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "WILDERNESS",
+        "RITUAL",
+        "CREATION"
       ],
-      "pages": [
-        63
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One dead non -humanoid and non -animate creature corpse."
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Nature."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Cast Time",
+              "text": "10 minutes."
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Roll a monster knowledge check against a monderate DC of the target's level with a bonus equal to the highest of your Dexterity or Strength. If you succeed, instead of gaining knowledge, you tear apart the creature's corpse and gain your check res ult's worth of gold in Alchemical Reagents that can be used for Arcana rituals or alcehmical item creations, as long as they are started before the end of you rnext extended rest or in the next 24 hours (whichever is sooner). Double the amount gained if th e creature is a magical beast. These components cannot be sold for gold. For certain creature, you may instead convert half or all of the gained components into Mystic Salve or Sanctified Incense components instead (for Medicine or Religion rituals). (The DM may decide that creatures associated with healing , such as pheonix or un icorn, is needed for the former; or that creatures associated with religion, such as pegasi, undead monsters, demons, or devils, are required for the latter.) This can only be used once per target. The creature cannot be raised from the dead after this power has been used on them. At level 11, it increases to 5x your check result. At level 20, it increases to 10x your check result."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee Weapon"
+          },
+          "targets": "targets"
+        }
       ],
-      "originalClass": "Ranger",
-      "skill": "Nature"
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "Nature | Level 6",
+      "flavor": "You find the parts of the monster normally reserved for magic potions or spell components.",
+      "note": "Source pages: 63. Original source class: Ranger. This does not define local access."
     },
     {
-      "id": "ranger-10-foraging-for-poison-herbs",
+      "id": "modern4e.power.utility-skill-ranger-10-foraging-for-poison-herbs",
       "title": "Foraging for Poison Herbs",
-      "level": 10,
-      "source": null,
-      "type": "Daily",
       "description": "You search for herbs or fungi native to the area with medicinal properties.",
-      "traits": "Non-Combat, Wilderness, Creation",
-      "action": "Standard Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Nature.",
-        "Cast Time: 1 hour",
-        "Effect: Roll a Nature check to forage. The check is modified by the environment like normal foraging rolls. If you succeed, instead of finding food, you may choose a single result from the table below as long as you reached that DC or higher. If y ou find poison, it is a consumable item that only lasts until your next extended rest. While these don't normally end to saving throws. If the victim takes something that grants them a saving throw to poison effects specifically, they may attempt to end th e effects of these poisons with that. DC Possible Forage Result Less than 15 You find nothing. 15 You find a poison that causes unattractive splotches when applied topically or consumed via food or drink. They must make an easy DC Endurance check based on your level. If they fail, they get itching splotches on their skin that give a -2 peanlty to Diplo macy and Bluff checks for 2 days. The penalty increases to a -4 after one day unless they stopped themselves from itching by making a Hard DC Endurance check or resisting an attack against their Will equal to your level + 5. 20 You find a poison that when consumed via food or drink, causes the imbiber to vomit over the course of 1 hour or if combat begins. They get a - 5 penalty to Perception checks during this time and can't benefit from short or extended rests. If combat begins after that before they've had a chance to really rest, they will be out of healing surges during that combat and be unable to heal. Dilutes in any food bigger than a large stew cauldron or water bigger than a barrel, but can take out about a small camp's worth of people. 25 You find a poison that when consumed via food or drink, causes the imbiber to take a -2 penalty to all attack rolls, skill checks, ability checks, and defenses. A Normal DC Endurance check based on your level is required to overcome it. They make a check every hour. If they don't succeed, they lose a healing surge. Dilutes in anything bigger than a meal or water containe r for one person. 30 or higher You find a poison that when consumed via food or drink , causes the imbiber to feel a little ill. Adrenaline can overcome it but everyday tasks become difficult. They get a -2 penalty to all skill checks and ability checks. A DC 20 Endurance check is required to overcome it. They make a check every hour, unless combat begins in, in which case they make a saving at the end of every one of their turns, until combat ends again. It can affect a wide area and a little goes a logn way, allowing it to affect whole villages, small towns, military camps, etc. It dilutes in anything bigger than well or river, or a whole farm field."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 10
+          },
+          {
+            "type": "proficiency",
+            "skill": "NATURE"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "ranger-10-foraging-for-poison-herbs",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "WILDERNESS",
+        "CREATION"
       ],
-      "pages": [
-        66
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Nature."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Cast Time",
+              "text": "1 hour"
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Roll a Nature check to forage. The check is modified by the environment like normal foraging rolls. If you succeed, instead of finding food, you may choose a single result from the table below as long as you reached that DC or higher. If y ou find poison, it is a consumable item that only lasts until your next extended rest. While these don't normally end to saving throws. If the victim takes something that grants them a saving throw to poison effects specifically, they may attempt to end th e effects of these poisons with that. DC Possible Forage Result Less than 15 You find nothing. 15 You find a poison that causes unattractive splotches when applied topically or consumed via food or drink. They must make an easy DC Endurance check based on your level. If they fail, they get itching splotches on their skin that give a -2 peanlty to Diplo macy and Bluff checks for 2 days. The penalty increases to a -4 after one day unless they stopped themselves from itching by making a Hard DC Endurance check or resisting an attack against their Will equal to your level + 5. 20 You find a poison that when consumed via food or drink, causes the imbiber to vomit over the course of 1 hour or if combat begins. They get a - 5 penalty to Perception checks during this time and can't benefit from short or extended rests. If combat begins after that before they've had a chance to really rest, they will be out of healing surges during that combat and be unable to heal. Dilutes in any food bigger than a large stew cauldron or water bigger than a barrel, but can take out about a small camp's worth of people. 25 You find a poison that when consumed via food or drink, causes the imbiber to take a -2 penalty to all attack rolls, skill checks, ability checks, and defenses. A Normal DC Endurance check based on your level is required to overcome it. They make a check every hour. If they don't succeed, they lose a healing surge. Dilutes in anything bigger than a meal or water containe r for one person. 30 or higher You find a poison that when consumed via food or drink , causes the imbiber to feel a little ill. Adrenaline can overcome it but everyday tasks become difficult. They get a -2 penalty to all skill checks and ability checks. A DC 20 Endurance check is required to overcome it. They make a check every hour, unless combat begins in, in which case they make a saving at the end of every one of their turns, until combat ends again. It can affect a wide area and a little goes a logn way, allowing it to affect whole villages, small towns, military camps, etc. It dilutes in anything bigger than well or river, or a whole farm field."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
       ],
-      "originalClass": "Ranger",
-      "skill": "Nature"
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "Nature | Level 10",
+      "flavor": "You search for herbs or fungi native to the area with medicinal properties.",
+      "note": "Source pages: 66. Original source class: Ranger. This does not define local access."
     },
     {
-      "id": "ranger-10-harvesting-rare-monster-parts",
+      "id": "modern4e.power.utility-skill-ranger-10-harvesting-rare-monster-parts",
       "title": "Harvesting Rare Monster Parts",
-      "level": 10,
-      "source": null,
-      "type": "Daily",
       "description": "You begin to carve up the monster, taking the sharpest fangs, the hardest scales, or the most pliable sinew to help you with your journey.",
-      "traits": "Non-Combat, Wilderness, Creation",
-      "action": "Standard Action",
-      "range": "Melee Weapon",
-      "rows": [
-        "Prerequisite: You must be proficient in Nature.",
-        "Cast Time: 10 minutes.",
-        "Target: One dead non -humanoid and non -animate creature corpse.",
-        "Effect: You create a single object from the target corpse. The corpse is destroyed as a result. The object is a single weapon, a set of 10 ammunition, armor, shield, a consumable/combustible item, or other equipment that can be reasonably made from the creature's corpse (the DM has the final word on this). It can be magical, but generally it's just an enhanced version of a mundane item with an enhancement bonus depending on the level the target was when alive, rather than containing a specific magical enchantment. Without proper preservation, the object lasts only until the end of your next extended rest. It can be made into a permanent item by someone with crafting abilities. Doing so costs as much as the item you are trying to make with a 10% discount. It can't b e disenchanted until it's been made into a permanent item. You can also integrate it into the crafting of another magic item. Doing so either gives the crafter a 10% discount on that magic item, or at the DM's discretion they may choose to allow the crafted item to gain a new property based on the monster it was h arvested from instead (or in addition to the discount). This is usually only the case for particularly interesting parts craft from particularly rare or interesting monsters. Monster Level Enhancement Extra Critical Bonus Damage 4 +1 +1d6 6 +2 +2d6 11 +3 +3d6 16 +4 +4d6 21 +5 +5d6 26 +6 +6d6 31 +7 +7d6"
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 10
+          },
+          {
+            "type": "proficiency",
+            "skill": "NATURE"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "ranger-10-harvesting-rare-monster-parts",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "WILDERNESS",
+        "CREATION"
       ],
-      "pages": [
-        67
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One dead non -humanoid and non -animate creature corpse."
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Nature."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Cast Time",
+              "text": "10 minutes."
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You create a single object from the target corpse. The corpse is destroyed as a result. The object is a single weapon, a set of 10 ammunition, armor, shield, a consumable/combustible item, or other equipment that can be reasonably made from the creature's corpse (the DM has the final word on this). It can be magical, but generally it's just an enhanced version of a mundane item with an enhancement bonus depending on the level the target was when alive, rather than containing a specific magical enchantment. Without proper preservation, the object lasts only until the end of your next extended rest. It can be made into a permanent item by someone with crafting abilities. Doing so costs as much as the item you are trying to make with a 10% discount. It can't b e disenchanted until it's been made into a permanent item. You can also integrate it into the crafting of another magic item. Doing so either gives the crafter a 10% discount on that magic item, or at the DM's discretion they may choose to allow the crafted item to gain a new property based on the monster it was h arvested from instead (or in addition to the discount). This is usually only the case for particularly interesting parts craft from particularly rare or interesting monsters. Monster Level Enhancement Extra Critical Bonus Damage 4 +1 +1d6 6 +2 +2d6 11 +3 +3d6 16 +4 +4d6 21 +5 +5d6 26 +6 +6d6 31 +7 +7d6"
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee Weapon"
+          },
+          "targets": "targets"
+        }
       ],
-      "originalClass": "Ranger",
-      "skill": "Nature"
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "Nature | Level 10",
+      "flavor": "You begin to carve up the monster, taking the sharpest fangs, the hardest scales, or the most pliable sinew to help you with your journey.",
+      "note": "Source pages: 67. Original source class: Ranger. This does not define local access."
     },
     {
-      "id": "rogue-6-evasive-trap-sense",
+      "id": "modern4e.power.utility-skill-rogue-6-evasive-trap-sense",
       "title": "Evasive Trap Sense",
-      "level": 6,
-      "source": null,
-      "type": "Encounter",
       "description": "Some instinct screams “move!” —and you do, ducking the trap before it fully bites.",
-      "traits": "Non-Combat, Exploration",
-      "action": "Free Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Acrobatics.",
-        "Trigger: You are hit by a trap or hazard attack.",
-        "Target: The triggering trap or hazard.",
-        "Effect: The target rerolls its attack against you. You gain a +4 bonus to all your defenses against that specific attack."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 6
+          },
+          {
+            "type": "proficiency",
+            "skill": "ACROBATICS"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "rogue-6-evasive-trap-sense",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "EXPLORATION"
       ],
-      "pages": [
-        79
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "The triggering trap or hazard."
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Acrobatics."
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target rerolls its attack against you. You gain a +4 bonus to all your defenses against that specific attack."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "You are hit by a trap or hazard attack.",
+          "targets": "targets"
+        }
       ],
-      "originalClass": "Rogue",
-      "skill": "Acrobatics"
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "Acrobatics | Level 6",
+      "flavor": "Some instinct screams “move!” —and you do, ducking the trap before it fully bites.",
+      "note": "Source pages: 79. Original source class: Rogue. This does not define local access."
     },
     {
-      "id": "rogue-6-i-know-a-guy-who-knows-a-guy",
+      "id": "modern4e.power.utility-skill-rogue-6-i-know-a-guy-who-knows-a-guy",
       "title": "I Know a Guy Who Knows a Guy",
-      "level": 6,
-      "source": null,
-      "type": "Encounter",
       "description": "You may not know how to do the thing, but you know someone who does. “Translating an ancient text? No idea. But a professo at the local university probably could, and I know how to get there.”",
-      "traits": "Non-Combat, Gathering Information, Urban",
-      "action": "Standard Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Society.",
-        "Effect: Make a Society check with a +3 bonus to find a type of person who can get you a piece of information. If you succeed, you also learn their general or usual location and how to get there."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 6
+          },
+          {
+            "type": "proficiency",
+            "skill": "SOCIETY"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "rogue-6-i-know-a-guy-who-knows-a-guy",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "GATHERING_INFORMATION",
+        "URBAN"
       ],
-      "pages": [
-        79
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Society."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Make a Society check with a +3 bonus to find a type of person who can get you a piece of information. If you succeed, you also learn their general or usual location and how to get there."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
       ],
-      "originalClass": "Rogue",
-      "skill": "Society"
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "Society | Level 6",
+      "flavor": "You may not know how to do the thing, but you know someone who does. “Translating an ancient text? No idea. But a professo at the local university probably could, and I know how to get there.”",
+      "note": "Source pages: 79. Original source class: Rogue. This does not define local access."
     },
     {
-      "id": "rogue-6-modify-item-quality-appearance",
+      "id": "modern4e.power.utility-skill-rogue-6-modify-item-quality-appearance",
       "title": "Modify Item Quality Appearance",
-      "level": 6,
-      "source": null,
-      "type": "At-Will",
       "description": "You make something look more decrepit, new, or mundane than it actually is.",
-      "traits": "Non-Combat, Deception, Restoration",
-      "action": "Standard Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Bluff.",
-        "Requirement: You must be wielding a Disguise Kit, a Forgery Kit, or a kit relevant to the item you are modifying (such as Blacksmith’s Tools if modifying a weapon or armor, or Carpenter’s Tools if modifying something wooden).",
-        "Effect: Choose one of the following effects:",
-        "New: Make the target object seem new and unblemished, masking any flaws, age, breakage, or imperfections. Using a broken object for its purpose reveals its true state. Creatures familiar with that type of object can attempt a saving throw when they first inter act with the object to overcome the disguise, and every hour thereafter that they continue to interact with it.",
-        "Decrepit: Make the target object seem like a worthless, aged, useless, rusting, or otherwise decrepit version of itself. Using an object that seems broken for its purpose reveals its true state. Creatures familiar with that type of object can attempt a saving throw when they first interact with the object to overcome the disguise, and every hour thereafter that they continue to interact with it.",
-        "Mundane: Make an object that is especially interesting or blemished appear like a mundane, unremarkable version of itself; a magical longsword seems ordinary, a broken spear looks like every other on the rack, a long-unused throne seems standard. Interacting with the object directly reveals its true state immediately if it is magical; otherwise the user gets a saving throw to discover the disguise."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 6
+          },
+          {
+            "type": "proficiency",
+            "skill": "BLUFF"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "rogue-6-modify-item-quality-appearance",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "DECEPTION",
+        "RESTORATION"
       ],
-      "pages": [
-        79
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Bluff."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Choose one of the following effects:"
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "New",
+              "text": "Make the target object seem new and unblemished, masking any flaws, age, breakage, or imperfections. Using a broken object for its purpose reveals its true state. Creatures familiar with that type of object can attempt a saving throw when they first inter act with the object to overcome the disguise, and every hour thereafter that they continue to interact with it."
+            },
+            {
+              "id": "rule-5",
+              "type": "effect",
+              "label": "Decrepit",
+              "text": "Make the target object seem like a worthless, aged, useless, rusting, or otherwise decrepit version of itself. Using an object that seems broken for its purpose reveals its true state. Creatures familiar with that type of object can attempt a saving throw when they first interact with the object to overcome the disguise, and every hour thereafter that they continue to interact with it."
+            },
+            {
+              "id": "rule-6",
+              "type": "effect",
+              "label": "Mundane",
+              "text": "Make an object that is especially interesting or blemished appear like a mundane, unremarkable version of itself; a magical longsword seems ordinary, a broken spear looks like every other on the rack, a long-unused throne seems standard. Interacting with the object directly reveals its true state immediately if it is magical; otherwise the user gets a saving throw to discover the disguise."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "requirement": "You must be wielding a Disguise Kit, a Forgery Kit, or a kit relevant to the item you are modifying (such as Blacksmith’s Tools if modifying a weapon or armor, or Carpenter’s Tools if modifying something wooden)."
+        }
       ],
-      "originalClass": "Rogue",
-      "skill": "Bluff"
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "Bluff | Level 6",
+      "flavor": "You make something look more decrepit, new, or mundane than it actually is.",
+      "note": "Source pages: 79. Original source class: Rogue. This does not define local access."
     },
     {
-      "id": "rogue-6-must-have-been-the-wind",
+      "id": "modern4e.power.utility-skill-rogue-6-must-have-been-the-wind",
       "title": "Must Have Been the Wind",
-      "level": 6,
-      "source": null,
-      "type": "Daily",
       "description": "You mess up and make a sound, but on their way to check on yo others simply find a cat, a window someone must have left open or something else innocuous.",
-      "traits": "Non-Combat, Deception, Exploration",
-      "action": "Immediate Reaction",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Stealth.",
-        "Requirement: You are out of combat.",
-        "Trigger: You fail a Stealth check against creatures that are not aware of you, can’t see you, and whose line of sight you are not within.",
-        "Effect: You may reroll the Stealth check. You must use the second result. If the roll succeeds in hiding you, you may then immediately move up to your speed + 2 to another location that you can hide behind or in. You are hidden during and after this move."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 6
+          },
+          {
+            "type": "proficiency",
+            "skill": "STEALTH"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "rogue-6-must-have-been-the-wind",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "DECEPTION",
+        "EXPLORATION"
       ],
-      "pages": [
-        79
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Stealth."
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You may reroll the Stealth check. You must use the second result. If the roll succeeds in hiding you, you may then immediately move up to your speed + 2 to another location that you can hide behind or in. You are hidden during and after this move."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "requirement": "You are out of combat.",
+          "trigger": "You fail a Stealth check against creatures that are not aware of you, can’t see you, and whose line of sight you are not within."
+        }
       ],
-      "originalClass": "Rogue",
-      "skill": "Stealth"
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "Stealth | Level 6",
+      "flavor": "You mess up and make a sound, but on their way to check on yo others simply find a cat, a window someone must have left open or something else innocuous.",
+      "note": "Source pages: 79. Original source class: Rogue. This does not define local access."
     },
     {
-      "id": "rogue-6-secret-speech-rogue",
+      "id": "modern4e.power.utility-skill-rogue-6-secret-speech-rogue",
       "title": "Secret Speech (Rogue)",
-      "level": 6,
-      "source": null,
-      "type": "Encounter",
       "description": "With pre-established codewords, you and your crew are able to have an entirely different conversation than the one the people around you hear.",
-      "traits": "Non-Combat, Deception, Social",
-      "action": "Standard Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Bluff.",
-        "Effect: Until the end of the encounter, you can send secret messages embedded in normal speech to allies in the nearby area who can hear you and understand your language. You must have had at least one long rest with an ally for them to understand you. Delivering a secret message generally takes twice as long as the message would otherwise take to relay. If an enemy becomes aware you are sending secret messages in your normal speech, they can try to figure it out with an Insight check vs. DC 10 + your current bonu s to Bluff checks."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 6
+          },
+          {
+            "type": "proficiency",
+            "skill": "BLUFF"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "rogue-6-secret-speech-rogue",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "DECEPTION",
+        "SOCIAL"
       ],
-      "pages": [
-        80
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Bluff."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, you can send secret messages embedded in normal speech to allies in the nearby area who can hear you and understand your language. You must have had at least one long rest with an ally for them to understand you. Delivering a secret message generally takes twice as long as the message would otherwise take to relay. If an enemy becomes aware you are sending secret messages in your normal speech, they can try to figure it out with an Insight check vs. DC 10 + your current bonu s to Bluff checks."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
       ],
-      "originalClass": "Rogue",
-      "skill": "Bluff"
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "Bluff | Level 6",
+      "flavor": "With pre-established codewords, you and your crew are able to have an entirely different conversation than the one the people around you hear.",
+      "note": "Source pages: 80. Original source class: Rogue. This does not define local access."
     },
     {
-      "id": "rogue-6-threats-come-true",
+      "id": "modern4e.power.utility-skill-rogue-6-threats-come-true",
       "title": "Threats Come True",
-      "level": 6,
-      "source": null,
-      "type": "Daily",
       "description": "Like a proper thug, you are not only good at making threats, bu you are good at realizing them.",
-      "traits": "Non-Combat, Social",
-      "action": "No Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Intimidate.",
-        "Requirement: You are not in combat.",
-        "Trigger: You succeeded on an Intimidate check against a creature or group of creatures you’ve been talking to for at least 1 minute.",
-        "Effect: If you roll initiative to enter a combat encounter against any of the triggering creatures before your next extended rest, all of the triggering creatures that are in that encounter as an enemy are rattled until the end of their first turn. Ruthless Ruffian: Targeted enemies also take a -2 penalty to their initiative check."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 6
+          },
+          {
+            "type": "proficiency",
+            "skill": "INTIMIDATE"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "rogue-6-threats-come-true",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "SOCIAL"
       ],
-      "pages": [
-        80
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "NO_ACTION",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Intimidate."
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "If you roll initiative to enter a combat encounter against any of the triggering creatures before your next extended rest, all of the triggering creatures that are in that encounter as an enemy are rattled until the end of their first turn. Ruthless Ruffian: Targeted enemies also take a -2 penalty to their initiative check."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "requirement": "You are not in combat.",
+          "trigger": "You succeeded on an Intimidate check against a creature or group of creatures you’ve been talking to for at least 1 minute."
+        }
       ],
-      "originalClass": "Rogue",
-      "skill": "Intimidate"
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "Intimidate | Level 6",
+      "flavor": "Like a proper thug, you are not only good at making threats, bu you are good at realizing them.",
+      "note": "Source pages: 80. Original source class: Rogue. This does not define local access."
     },
     {
-      "id": "rogue-6-underworld-contact",
+      "id": "modern4e.power.utility-skill-rogue-6-underworld-contact",
       "title": "Underworld Contact",
-      "level": 6,
-      "source": null,
-      "type": "Daily",
       "description": "Everyone you ever ran with left a door cracked open somewhere You still know which ones to knock on.",
-      "traits": "Non-Combat, Gathering Information, Urban, Social",
-      "action": "Standard Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Society.",
-        "Effect: Make a Society check with a bonus equal to the higher of your Intelligence or +2 to reach out to an old contact in the area. Depending on the result, you find them if able, or you easily learn whether they’ve moved on from the area. A result b elow 10 means you can’t find or access them this time. When you use this power, determine whether you are asking for a favor or for knowledge; it must relate to their purview.",
-        "Favor: A favor may require persuasion depending on your past. Diplomacy and similar social rolls to convince them gain a modifier based on the Social Mod of the check result (in addition to DM modifiers for the favor’s nature and size). You may raise their Influ ence / Access one row, but the Social Mod worsens by a further - 2 (you did not part on good terms). The DM may let this improve during play by doing favors for the NPC.",
-        "Knowledge: Roll a knowledge check using your own stats to see if the contact can answer your question; if they can, gain a bonus to your next knowledge check while talking to them, as long as it is information they would reasonably know (often set by the Influence / Access column). Check Knowledge Social Result Bonus Influence / Access Mod 10 +0 Very low (common -3 pickpocket, beggar, slave, or ordinary citizen out of the game) 15 +1 Low (guild thief or -2 low-level goon, mundane but useful job like dock worker or tavern waitress) 20 +2 Med-Low (busy +0 shopkeep, maid or butler at an important place, city guard, second -story thief, lockpicker, or an unnoticed sneaky child) 25 +3 Med-High +0 (professional spy and information dealer, trusted guild member, smuggler, fence, someone with a basic network, poison crafter) 30 +4 High (well - +1 connected information dealer, guard to a very important place, local mob boss or smaller guild leader) 35 +5 Very high (mob boss +2 whose power crosses cities and planes, chief of security for a noble’s estate, extremely professional spy or assassin)",
-        "Special: The first time you use this power, while in a populated settlement, choose a contact. The contact must be related to your past as an adventurer . Once chosen, you cannot change it until that contact is removed from the story in a way you could not reach them again (dies, sent to another plane, imprisoned, etc) or you retrain this power. You may choose this power again even if you already know it, to gain access to another contact. Underworld Contact Inspiration/Examples What does it mean that the contact relates to your past as a rogue? Here are some examples of some contacts for the Underworld Contact rogue power: a comrade from a guild (thieves’ or assassins’), a fence, a smuggler, an old boss, a former henchman, a corr upt guard who was on the take, an upright guard who used to arrest you but recognized your potential, a fellow wandering hobo or beggar, etc."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 6
+          },
+          {
+            "type": "proficiency",
+            "skill": "SOCIETY"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "rogue-6-underworld-contact",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "GATHERING_INFORMATION",
+        "URBAN",
+        "SOCIAL"
       ],
-      "pages": [
-        81
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Society."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Make a Society check with a bonus equal to the higher of your Intelligence or +2 to reach out to an old contact in the area. Depending on the result, you find them if able, or you easily learn whether they’ve moved on from the area. A result b elow 10 means you can’t find or access them this time. When you use this power, determine whether you are asking for a favor or for knowledge; it must relate to their purview."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Favor",
+              "text": "A favor may require persuasion depending on your past. Diplomacy and similar social rolls to convince them gain a modifier based on the Social Mod of the check result (in addition to DM modifiers for the favor’s nature and size). You may raise their Influ ence / Access one row, but the Social Mod worsens by a further - 2 (you did not part on good terms). The DM may let this improve during play by doing favors for the NPC."
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Knowledge",
+              "text": "Roll a knowledge check using your own stats to see if the contact can answer your question; if they can, gain a bonus to your next knowledge check while talking to them, as long as it is information they would reasonably know (often set by the Influence / Access column). Check Knowledge Social Result Bonus Influence / Access Mod 10 +0 Very low (common -3 pickpocket, beggar, slave, or ordinary citizen out of the game) 15 +1 Low (guild thief or -2 low-level goon, mundane but useful job like dock worker or tavern waitress) 20 +2 Med-Low (busy +0 shopkeep, maid or butler at an important place, city guard, second -story thief, lockpicker, or an unnoticed sneaky child) 25 +3 Med-High +0 (professional spy and information dealer, trusted guild member, smuggler, fence, someone with a basic network, poison crafter) 30 +4 High (well - +1 connected information dealer, guard to a very important place, local mob boss or smaller guild leader) 35 +5 Very high (mob boss +2 whose power crosses cities and planes, chief of security for a noble’s estate, extremely professional spy or assassin)"
+            },
+            {
+              "id": "rule-5",
+              "type": "effect",
+              "label": "Special",
+              "text": "The first time you use this power, while in a populated settlement, choose a contact. The contact must be related to your past as an adventurer . Once chosen, you cannot change it until that contact is removed from the story in a way you could not reach them again (dies, sent to another plane, imprisoned, etc) or you retrain this power. You may choose this power again even if you already know it, to gain access to another contact. Underworld Contact Inspiration/Examples What does it mean that the contact relates to your past as a rogue? Here are some examples of some contacts for the Underworld Contact rogue power: a comrade from a guild (thieves’ or assassins’), a fence, a smuggler, an old boss, a former henchman, a corr upt guard who was on the take, an upright guard who used to arrest you but recognized your potential, a fellow wandering hobo or beggar, etc."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
       ],
-      "originalClass": "Rogue",
-      "skill": "Society"
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "Society | Level 6",
+      "flavor": "Everyone you ever ran with left a door cracked open somewhere You still know which ones to knock on.",
+      "note": "Source pages: 81. Original source class: Rogue. This does not define local access."
     },
     {
-      "id": "rogue-10-sabotage-trap",
+      "id": "modern4e.power.utility-skill-rogue-10-sabotage-trap",
       "title": "Sabotage Trap",
-      "level": 10,
-      "source": null,
-      "type": "Encounter",
       "description": "A few simple modifications is all it takes to cause an enemy to stumble into the same trap they set up. “Something has change they think, as they hear the familiar click before the blade come swinging down.",
-      "traits": "Non-Combat, Exploration, Destruction",
-      "action": "Standard Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Thievery.",
-        "Requirement: You must have a trap -making kit.",
-        "Target: One trap or hazard.",
-        "Effect: Make a Thievery check against the DC to disable the target trap or hazard, or against a DC of your level + 10 if it does not have one. If you succeed and the target trap or hazard does not trigger on or target enemies, a specific creature, or a type of creature, you change it so that it now does, and so that it does not target you or your allies. If it is a trap, you may also change the type of damage it deals from one type to another. If you fail, you gain a +2 bonus to the next skill check you make to tr y to disable that trap or hazard."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 10
+          },
+          {
+            "type": "proficiency",
+            "skill": "THIEVERY"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "rogue-10-sabotage-trap",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "EXPLORATION",
+        "DESTRUCTION"
       ],
-      "pages": [
-        83
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One trap or hazard."
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Thievery."
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Make a Thievery check against the DC to disable the target trap or hazard, or against a DC of your level + 10 if it does not have one. If you succeed and the target trap or hazard does not trigger on or target enemies, a specific creature, or a type of creature, you change it so that it now does, and so that it does not target you or your allies. If it is a trap, you may also change the type of damage it deals from one type to another. If you fail, you gain a +2 bonus to the next skill check you make to tr y to disable that trap or hazard."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "requirement": "You must have a trap -making kit.",
+          "targets": "targets"
+        }
       ],
-      "originalClass": "Rogue",
-      "skill": "Thievery"
-    },
-    {
-      "id": "warlord-2-bird-calls",
-      "title": "Bird Calls",
-      "level": 2,
-      "source": null,
-      "type": "Daily",
-      "description": "A whistle here, a warble there — a private language hidden in the ordinary sounds of the wild.",
-      "traits": "Non-Combat, Wilderness, Rest",
-      "action": "Standard Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Nature.",
-        "Requirement: You must currently be taking a short or extended rest in an area with local wildlife that makes sounds.",
-        "Effect: You establish a set of signals that you and any allies resting with you understand. Choose up to 10 different signals and the message or phrase they are trying to communicate. They sound exactly like the local wildlife. You can make such sounds without mak ing a check, and they can be heard up to 1000 feet away. After hearing it, an ally can make a Normal DC Nature or Perception check to determine your general distance away and direction. Your allies that were resting with you when you used this power must m ake a Nature check based on your level - Easy if the area has a lot of low level wildlife, or a Medium Nature check if it has barely any or only high level wildlife - in order to gain access to the same calls. You and your allies can use these calls to mak e these signals until the next time you use this power, although they are only useful while near the current environment. Per the DM's prerogative, dense, forested areas, noisy wind, or other similar areas that can shorten sound may shorten the distance it can be heard up to half. Optimal conditions, such as an open area with soft wind to carry sound, or an echoing space, may increase the distance the calls can be heard up to 1 mile. Bird Call Signal Examples Some example signals you and your allies might establish: “Danger”, “Help!”, “Come back quick!”, “Run away!”, “All clear”, “Enemy spotted, move in”, “Enemy spotted, hide.”"
-      ],
-      "pages": [
-        91
-      ],
-      "originalClass": "Warlord",
-      "skill": "Nature"
-    },
-    {
-      "id": "warlord-2-intimidating-stunt",
-      "title": "Intimidating Stunt",
-      "level": 2,
-      "source": null,
-      "type": "Encounter",
-      "description": "You stun and terrify onlookers with your risky and brave maneuvers.",
-      "traits": "Non-Combat, Social, Physical",
-      "action": "Free Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Intimidate.",
-        "Trigger: You succeed a Medium or Hard skill check that involves Strength or Dexterity, or use such a skill check to bypass difficult or hindering terrain, or a similar danger.",
-        "Effect: You may make an immediate Intimidate check with a +2 bonus (even if it would normally take a standard action)."
-      ],
-      "pages": [
-        91
-      ],
-      "originalClass": "Warlord",
-      "skill": "Intimidate"
-    },
-    {
-      "id": "warlord-2-running-cadence",
-      "title": "Running Cadence",
-      "level": 2,
-      "source": null,
-      "type": "Daily",
-      "description": "You set a marching chant that keeps everyone's feet moving lon after they'd normally drop.",
-      "traits": "Non-Combat, Travel",
-      "action": "Standard Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Endurance.",
-        "Effect: You and your allies may make a DC 20 Endurance check to continue traveling overland at a fast pace beyond 1 hour. If you fail, you must spend a healing surge or take damage equal to your level as normal. The DC increases by 5 every hour after that. In addi tion, if you or an ally would take damage from this, they take only half the damage instead."
-      ],
-      "pages": [
-        92
-      ],
-      "originalClass": "Warlord",
-      "skill": "Endurance"
-    },
-    {
-      "id": "warlord-6-delegate-skill-challenge",
-      "title": "Delegate Skill Challenge",
-      "level": 6,
-      "source": null,
-      "type": "Daily",
-      "description": "You ask an ally to take the lead during their moment of expertis to quickly and smoothly accomplish your whole team's goals.",
-      "traits": "Non-Combat, Social, Physical",
-      "action": "No Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Diplomacy.",
-        "Trigger: It is your turn to take an action during a skill challenge.",
-        "Effect: You may have an ally make an action during the skill challenge instead. This doesn't count as their action for the round. They get a +1 bonus to any skill checks they make during that action. When Delegating Matters This power earns its keep at tables where a skill challenge runs in rounds and every player is expected to act before the next round begins — handing your action to an ally is a real concession of the spotlight. If your skill challenges are looser, with pl ayers contributing whenever they have an idea, it does much less work."
-      ],
-      "pages": [
-        96
-      ],
-      "originalClass": "Warlord",
-      "skill": "Diplomacy"
-    },
-    {
-      "id": "warlord-6-forced-march-cadence",
-      "title": "Forced March Cadence",
-      "level": 6,
-      "source": null,
-      "type": "Daily",
-      "description": "You sing a song while marching along to force your allies to kee going when they would normally tire out. “I don’t know what I’v been told!”",
-      "traits": "Non-Combat, Travel",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Endurance.",
-        "Effect: Until the end of the day, you and your allies gain a +5 bonus to Endurance checks to walk or run for long periods of time. In addition, the DC does not increase by 5 after the first hour when walking beyond 10 hours in a day. You and your allies’ encumbran ce carrying capacity doubles during this time."
-      ],
-      "pages": [
-        96
-      ],
-      "originalClass": "Warlord",
-      "skill": "Endurance"
-    },
-    {
-      "id": "warlord-6-friendly-advice",
-      "title": "Friendly Advice",
-      "level": 6,
-      "source": null,
-      "type": "Daily",
-      "description": "A word in the right ear at the right moment — you’ve always known how to steer a friend true.",
-      "traits": "Non-Combat, Social",
-      "action": "Immediate Reaction",
-      "range": "Ranged 5",
-      "rows": [
-        "Prerequisite: You must be proficient in Diplomacy.",
-        "Trigger: An ally within range that you can see or hear makes a skill check using a skill in which you have a positive bonus. This must be used before you know the result.",
-        "Effect: Grant the ally the ability to reroll the skill check, with a power bonus equal to the higher of your Intelligence or Wisdom if you are proficient in that skill. If you are not proficient in that skill, they get a power bonus equal to your Charisma modif ier - 2."
-      ],
-      "pages": [
-        96
-      ],
-      "originalClass": "Warlord",
-      "skill": "Diplomacy"
-    },
-    {
-      "id": "warlord-6-i-got-a-bad-feeling-about-this",
-      "title": "I Got a Bad Feeling About This",
-      "level": 6,
-      "source": null,
-      "type": "Daily",
-      "description": "When all else fails, you know to listen to your gut.",
-      "traits": "Non-Combat, Divination",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Insight.",
-        "Effect: You can ask the DM one question about the current situation or an action you or the party is about to take. The DM can only respond with “You have a good feeling about this,” “You have a bad feeling about this,” or “You have mixed feelings about this.” If it’s the last answer, the DM should at least give some sort of ratio of good to bad feelings.",
-        "Special: You may use this power twice before each extended rest. Reading the Gut Answer this power from what the character could plausibly sense — the tension in a room, the wrongness of a too -quiet road — rather than from what the party hasn’t discovered yet. A bad feeling flags danger, not its source. When the answer is mixed, a roug h ratio (“mostly good, but something here is off”) gives the party something to act on without handing them the plot."
-      ],
-      "pages": [
-        97
-      ],
-      "originalClass": "Warlord",
-      "skill": "Insight"
-    },
-    {
-      "id": "warlord-6-quickly-know-your-enemy",
-      "title": "Quickly Know Your Enemy",
-      "level": 6,
-      "source": null,
-      "type": "Encounter",
-      "description": "Ten minutes watching a foe move, breathe, and bluster tells you most of what you need to know about them.",
-      "traits": "Non-Combat, Gathering Information",
-      "action": "Standard Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Insight.",
-        "Cast Time: 10 minutes",
-        "Effect: Choose one creature you observed or interacted with, outside of combat, for the power’s cast time. You learn certain information about its capabilities compared to your own: the DM tells you whether the creature is your equal, superior, or inferior with regard to one of the following of your choice — Strength, Dexterity, Constitution, Wisdom, Intelligence, Charisma, Armor Class, Fortitude, Reflex, or current hit points."
-      ],
-      "pages": [
-        98
-      ],
-      "originalClass": "Warlord",
-      "skill": "Insight"
-    },
-    {
-      "id": "warlord-10-trap-instincts",
-      "title": "Trap Instincts",
       "level": 10,
-      "source": null,
-      "type": "Encounter",
-      "description": "Experience has taught you the sound, feel, or look of a trap that has been triggered, and at this point your muscles jump into action before you can even think about it.",
-      "traits": "Non-Combat, Exploration",
-      "action": "Immediate Interrupt",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Acrobatics.",
-        "Trigger: A trap or hazard is triggered that attacks an ally.",
-        "Target: One ally attacked by the trap or hazard who is adjacent to you after the shift",
-        "Effect: Shift 3 squares. You and the target each gain a +3 bonus to AC or Reflex (your choice; the same defense for both) against the triggering attack, and you both fall prone. If you are holding a shield, the bonus is +4 instead, it applies to all of your defens es, and neither of you falls prone."
-      ],
-      "pages": [
-        100
-      ],
-      "originalClass": "Warlord",
-      "skill": "Acrobatics"
+      "powerKind": "UTILITY",
+      "subtitle": "Thievery | Level 10",
+      "flavor": "A few simple modifications is all it takes to cause an enemy to stumble into the same trap they set up. “Something has change they think, as they hear the familiar click before the blade come swinging down.",
+      "note": "Source pages: 83. Original source class: Rogue. This does not define local access."
     },
     {
-      "id": "wizard-6-aid-with-ritual",
-      "title": "Aid With Ritual",
+      "id": "modern4e.power.utility-skill-warlord-2-bird-calls",
+      "title": "Bird Calls",
+      "description": "A whistle here, a warble there — a private language hidden in the ordinary sounds of the wild.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 2
+          },
+          {
+            "type": "proficiency",
+            "skill": "NATURE"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "warlord-2-bird-calls",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "WILDERNESS",
+        "REST"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Nature."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You establish a set of signals that you and any allies resting with you understand. Choose up to 10 different signals and the message or phrase they are trying to communicate. They sound exactly like the local wildlife. You can make such sounds without mak ing a check, and they can be heard up to 1000 feet away. After hearing it, an ally can make a Normal DC Nature or Perception check to determine your general distance away and direction. Your allies that were resting with you when you used this power must m ake a Nature check based on your level - Easy if the area has a lot of low level wildlife, or a Medium Nature check if it has barely any or only high level wildlife - in order to gain access to the same calls. You and your allies can use these calls to mak e these signals until the next time you use this power, although they are only useful while near the current environment. Per the DM's prerogative, dense, forested areas, noisy wind, or other similar areas that can shorten sound may shorten the distance it can be heard up to half. Optimal conditions, such as an open area with soft wind to carry sound, or an echoing space, may increase the distance the calls can be heard up to 1 mile. Bird Call Signal Examples Some example signals you and your allies might establish: “Danger”, “Help!”, “Come back quick!”, “Run away!”, “All clear”, “Enemy spotted, move in”, “Enemy spotted, hide.”"
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "requirement": "You must currently be taking a short or extended rest in an area with local wildlife that makes sounds."
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "Nature | Level 2",
+      "flavor": "A whistle here, a warble there — a private language hidden in the ordinary sounds of the wild.",
+      "note": "Source pages: 91. Original source class: Warlord. This does not define local access."
+    },
+    {
+      "id": "modern4e.power.utility-skill-warlord-2-intimidating-stunt",
+      "title": "Intimidating Stunt",
+      "description": "You stun and terrify onlookers with your risky and brave maneuvers.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 2
+          },
+          {
+            "type": "proficiency",
+            "skill": "INTIMIDATE"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "warlord-2-intimidating-stunt",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "SOCIAL",
+        "PHYSICAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Intimidate."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You may make an immediate Intimidate check with a +2 bonus (even if it would normally take a standard action)."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "You succeed a Medium or Hard skill check that involves Strength or Dexterity, or use such a skill check to bypass difficult or hindering terrain, or a similar danger."
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "Intimidate | Level 2",
+      "flavor": "You stun and terrify onlookers with your risky and brave maneuvers.",
+      "note": "Source pages: 91. Original source class: Warlord. This does not define local access."
+    },
+    {
+      "id": "modern4e.power.utility-skill-warlord-2-running-cadence",
+      "title": "Running Cadence",
+      "description": "You set a marching chant that keeps everyone's feet moving lon after they'd normally drop.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 2
+          },
+          {
+            "type": "proficiency",
+            "skill": "ENDURANCE"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "warlord-2-running-cadence",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "TRAVEL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Endurance."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You and your allies may make a DC 20 Endurance check to continue traveling overland at a fast pace beyond 1 hour. If you fail, you must spend a healing surge or take damage equal to your level as normal. The DC increases by 5 every hour after that. In addi tion, if you or an ally would take damage from this, they take only half the damage instead."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "Endurance | Level 2",
+      "flavor": "You set a marching chant that keeps everyone's feet moving lon after they'd normally drop.",
+      "note": "Source pages: 92. Original source class: Warlord. This does not define local access."
+    },
+    {
+      "id": "modern4e.power.utility-skill-warlord-6-delegate-skill-challenge",
+      "title": "Delegate Skill Challenge",
+      "description": "You ask an ally to take the lead during their moment of expertis to quickly and smoothly accomplish your whole team's goals.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 6
+          },
+          {
+            "type": "proficiency",
+            "skill": "DIPLOMACY"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "warlord-6-delegate-skill-challenge",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "SOCIAL",
+        "PHYSICAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "NO_ACTION",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Diplomacy."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You may have an ally make an action during the skill challenge instead. This doesn't count as their action for the round. They get a +1 bonus to any skill checks they make during that action. When Delegating Matters This power earns its keep at tables where a skill challenge runs in rounds and every player is expected to act before the next round begins — handing your action to an ally is a real concession of the spotlight. If your skill challenges are looser, with pl ayers contributing whenever they have an idea, it does much less work."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "It is your turn to take an action during a skill challenge."
+        }
+      ],
       "level": 6,
-      "source": null,
-      "type": "Encounter",
+      "powerKind": "UTILITY",
+      "subtitle": "Diplomacy | Level 6",
+      "flavor": "You ask an ally to take the lead during their moment of expertis to quickly and smoothly accomplish your whole team's goals.",
+      "note": "Source pages: 96. Original source class: Warlord. This does not define local access."
+    },
+    {
+      "id": "modern4e.power.utility-skill-warlord-6-forced-march-cadence",
+      "title": "Forced March Cadence",
+      "description": "You sing a song while marching along to force your allies to kee going when they would normally tire out. “I don’t know what I’v been told!”",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 6
+          },
+          {
+            "type": "proficiency",
+            "skill": "ENDURANCE"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "warlord-6-forced-march-cadence",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "TRAVEL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Endurance."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the day, you and your allies gain a +5 bonus to Endurance checks to walk or run for long periods of time. In addition, the DC does not increase by 5 after the first hour when walking beyond 10 hours in a day. You and your allies’ encumbran ce carrying capacity doubles during this time."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "Endurance | Level 6",
+      "flavor": "You sing a song while marching along to force your allies to kee going when they would normally tire out. “I don’t know what I’v been told!”",
+      "note": "Source pages: 96. Original source class: Warlord. This does not define local access."
+    },
+    {
+      "id": "modern4e.power.utility-skill-warlord-6-friendly-advice",
+      "title": "Friendly Advice",
+      "description": "A word in the right ear at the right moment — you’ve always known how to steer a friend true.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 6
+          },
+          {
+            "type": "proficiency",
+            "skill": "DIPLOMACY"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "warlord-6-friendly-advice",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "SOCIAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Diplomacy."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Grant the ally the ability to reroll the skill check, with a power bonus equal to the higher of your Intelligence or Wisdom if you are proficient in that skill. If you are not proficient in that skill, they get a power bonus equal to your Charisma modif ier - 2."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          },
+          "trigger": "An ally within range that you can see or hear makes a skill check using a skill in which you have a positive bonus. This must be used before you know the result."
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "Diplomacy | Level 6",
+      "flavor": "A word in the right ear at the right moment — you’ve always known how to steer a friend true.",
+      "note": "Source pages: 96. Original source class: Warlord. This does not define local access."
+    },
+    {
+      "id": "modern4e.power.utility-skill-warlord-6-i-got-a-bad-feeling-about-this",
+      "title": "I Got a Bad Feeling About This",
+      "description": "When all else fails, you know to listen to your gut.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 6
+          },
+          {
+            "type": "proficiency",
+            "skill": "INSIGHT"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "warlord-6-i-got-a-bad-feeling-about-this",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "DIVINATION"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Insight."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You can ask the DM one question about the current situation or an action you or the party is about to take. The DM can only respond with “You have a good feeling about this,” “You have a bad feeling about this,” or “You have mixed feelings about this.” If it’s the last answer, the DM should at least give some sort of ratio of good to bad feelings."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Special",
+              "text": "You may use this power twice before each extended rest. Reading the Gut Answer this power from what the character could plausibly sense — the tension in a room, the wrongness of a too -quiet road — rather than from what the party hasn’t discovered yet. A bad feeling flags danger, not its source. When the answer is mixed, a roug h ratio (“mostly good, but something here is off”) gives the party something to act on without handing them the plot."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "Insight | Level 6",
+      "flavor": "When all else fails, you know to listen to your gut.",
+      "note": "Source pages: 97. Original source class: Warlord. This does not define local access."
+    },
+    {
+      "id": "modern4e.power.utility-skill-warlord-6-quickly-know-your-enemy",
+      "title": "Quickly Know Your Enemy",
+      "description": "Ten minutes watching a foe move, breathe, and bluster tells you most of what you need to know about them.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 6
+          },
+          {
+            "type": "proficiency",
+            "skill": "INSIGHT"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "warlord-6-quickly-know-your-enemy",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "GATHERING_INFORMATION"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Insight."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Cast Time",
+              "text": "10 minutes"
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Choose one creature you observed or interacted with, outside of combat, for the power’s cast time. You learn certain information about its capabilities compared to your own: the DM tells you whether the creature is your equal, superior, or inferior with regard to one of the following of your choice — Strength, Dexterity, Constitution, Wisdom, Intelligence, Charisma, Armor Class, Fortitude, Reflex, or current hit points."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "Insight | Level 6",
+      "flavor": "Ten minutes watching a foe move, breathe, and bluster tells you most of what you need to know about them.",
+      "note": "Source pages: 98. Original source class: Warlord. This does not define local access."
+    },
+    {
+      "id": "modern4e.power.utility-skill-warlord-10-trap-instincts",
+      "title": "Trap Instincts",
+      "description": "Experience has taught you the sound, feel, or look of a trap that has been triggered, and at this point your muscles jump into action before you can even think about it.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 10
+          },
+          {
+            "type": "proficiency",
+            "skill": "ACROBATICS"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "warlord-10-trap-instincts",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "EXPLORATION"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One ally attacked by the trap or hazard who is adjacent to you after the shift"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Acrobatics."
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Shift 3 squares. You and the target each gain a +3 bonus to AC or Reflex (your choice; the same defense for both) against the triggering attack, and you both fall prone. If you are holding a shield, the bonus is +4 instead, it applies to all of your defens es, and neither of you falls prone."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "A trap or hazard is triggered that attacks an ally.",
+          "targets": "targets"
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "Acrobatics | Level 10",
+      "flavor": "Experience has taught you the sound, feel, or look of a trap that has been triggered, and at this point your muscles jump into action before you can even think about it.",
+      "note": "Source pages: 100. Original source class: Warlord. This does not define local access."
+    },
+    {
+      "id": "modern4e.power.utility-skill-wizard-6-aid-with-ritual",
+      "title": "Aid With Ritual",
       "description": "While you may not know the exact ritual, you know the base theory well enough, and can provide help making it more efficie as long as you're told vague instructions about where to draw t chalk or where to place the candles.",
-      "traits": "Non-Combat, Ritual",
-      "action": "Standard Action",
-      "range": "Ranged 5",
-      "rows": [
-        "Prerequisite: You must be proficient in Arcana.",
-        "Requirement: An ally is performing a ritual.",
-        "Effect: Choose one benefit: the ritual costs 25% fewer components, or it takes 25% less time to perform. This counts as you assisting with the ritual. You cannot assist the ritual in any other way."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 6
+          },
+          {
+            "type": "proficiency",
+            "skill": "ARCANA"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "wizard-6-aid-with-ritual",
+        "publication": "Modern 4e utility adaptation"
+      },
+      "keywords": [
+        "NON_COMBAT",
+        "RITUAL"
       ],
-      "pages": [
-        134
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Arcana."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Choose one benefit: the ritual costs 25% fewer components, or it takes 25% less time to perform. This counts as you assisting with the ritual. You cannot assist the ritual in any other way."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          },
+          "requirement": "An ally is performing a ritual."
+        }
       ],
-      "originalClass": "Wizard",
-      "skill": "Arcana"
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "Arcana | Level 6",
+      "flavor": "While you may not know the exact ritual, you know the base theory well enough, and can provide help making it more efficie as long as you're told vague instructions about where to draw t chalk or where to place the candles.",
+      "note": "Source pages: 134. Original source class: Wizard. This does not define local access."
     }
   ]
 }

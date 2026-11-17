@@ -34,6 +34,23 @@ access/levels, pre-attack movement and distinct secondary attack geometry.
 Printed-content comparisons exclude changing page headers/footers and page
 reference numbers, while retaining numerical rules and damage text.
 
+Shared utility authoring (1,081 definitions, including 71 withheld entries):
+
+```sh
+python3 src/modern4e/scripts/utility_content.py
+python3 src/modern4e/scripts/utility_content.py --output /tmp/modern4e-utilities.json
+python3 src/modern4e/scripts/utility_content.py --output /tmp/modern4e-utilities.json --check
+python3 -m unittest discover -s src/modern4e/scripts -p test_utility_content.py -v
+npm run typst:compile
+```
+
+Tests cover pre-migration presentation hashes for every card, class/source variant
+identity, access/proficiency/level conditions, pick types, withheld review status,
+malformed inventories/powers, deterministic export and safe importer destinations.
+With Typst available, they render every available section and reject the withheld
+section. Runtime effects and builder package integration remain unimplemented.
+See the [utility contract](../src/modern4e/content/utilities/README.md).
+
 Shared Modern 4e equipment catalog, migration goldens, builder export and actual Typst table rendering:
 
 ```sh

@@ -1,502 +1,2118 @@
 {
+  "schemaVersion": 2,
   "powers": [
     {
-      "id": "power6991",
+      "id": "modern4e.power.utility-class-avenger-power6991",
       "title": "Avenger's Resolve",
-      "className": "Avenger",
-      "level": 2,
-      "type": "Encounter",
       "description": "For a few moments, your faith infuses you with supernatural toughness.",
-      "traits": "Divine",
-      "action": "Immediate Interrupt",
-      "range": "Personal",
-      "rows": [
-        "Trigger: An enemy other than your oath of enmity target hits you",
-        "Effect: You gain resist 5 to all damage until the end of your next turn."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power6991",
+        "publication": "Published in Divine Power, page(s) 8."
+      },
+      "keywords": [
+        "DIVINE"
       ],
-      "source": "Published in Divine Power, page(s) 8.",
-      "link": "https://iws.mx/dnd/?view=power6991"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You gain resist 5 to all damage until the end of your next turn."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "An enemy other than your oath of enmity target hits you"
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "For a few moments, your faith infuses you with supernatural toughness."
     },
     {
-      "id": "power5336",
+      "id": "modern4e.power.utility-class-avenger-power5336",
       "title": "Blessing of Vengeance",
-      "className": "Avenger",
-      "level": 2,
-      "type": "Daily",
       "description": "With the death of your foe, your god grants you a boon.",
-      "traits": "Divine",
-      "action": "Free Action",
-      "range": "Personal",
-      "rows": [
-        "Trigger: Your oath of enmity target drops to 0 hit points",
-        "Effect: You gain temporary hit points equal to your healing surge value."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5336",
+        "publication": "Published in Player's Handbook 2, page(s) 36."
+      },
+      "keywords": [
+        "DIVINE"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 36.",
-      "link": "https://iws.mx/dnd/?view=power5336"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You gain temporary hit points equal to your healing surge value."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "Your oath of enmity target drops to 0 hit points"
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "With the death of your foe, your god grants you a boon."
     },
     {
-      "id": "power5337",
+      "id": "modern4e.power.utility-class-avenger-power5337",
       "title": "Distracting Flare",
-      "className": "Avenger",
-      "level": 2,
-      "type": "Encounter",
       "description": "Divine light surrounds you, providing a distraction while you slip away unseen.",
-      "traits": "Divine",
-      "action": "Move Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: You become invisible and move your speed. You are invisible until the end of the movement."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5337",
+        "publication": "Published in Player's Handbook 2, page(s) 36."
+      },
+      "keywords": [
+        "DIVINE"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 36.",
-      "link": "https://iws.mx/dnd/?view=power5337"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MOVE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You become invisible and move your speed. You are invisible until the end of the movement."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "Divine light surrounds you, providing a distraction while you slip away unseen."
     },
     {
-      "id": "power6992",
+      "id": "modern4e.power.utility-class-avenger-power6992",
       "title": "Enduring Spirit",
-      "className": "Avenger",
-      "level": 2,
-      "type": "Encounter",
       "description": "The strength of your spirit shines most brightly in adversity.",
-      "traits": "Divine",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Requirement: You must be bloodied.",
-        "Effect: You gain a +4 bonus to all defenses until the end of your next turn."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power6992",
+        "publication": "Published in Divine Power, page(s) 8."
+      },
+      "keywords": [
+        "DIVINE"
       ],
-      "source": "Published in Divine Power, page(s) 8.",
-      "link": "https://iws.mx/dnd/?view=power6992"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You gain a +4 bonus to all defenses until the end of your next turn."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "requirement": "You must be bloodied."
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "The strength of your spirit shines most brightly in adversity."
     },
     {
-      "id": "power12456",
+      "id": "modern4e.power.utility-class-avenger-power12456",
       "title": "Holy Blessing",
-      "className": "Avenger",
-      "level": 2,
-      "type": "Encounter",
       "description": "Kissing your holy symbol, you momentarily consider your next prey and how best to attack it.",
-      "traits": "Divine",
-      "action": "Free Action",
-      "range": "Close burst 10",
-      "rows": [
-        "Trigger: Your oath of enmity target drops to 0 hit points",
-        "Target: One other enemy within range.",
-        "Effect: You use oath of enmity on the target. Until the end of your next turn, the target grants combat advantage to you."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12456",
+        "publication": "Published in Dragon Magazine 386, page(s) 75."
+      },
+      "keywords": [
+        "DIVINE"
       ],
-      "source": "Published in Dragon Magazine 386, page(s) 75.",
-      "link": "https://iws.mx/dnd/?view=power12456"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One other enemy within range."
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You use oath of enmity on the target. Until the end of your next turn, the target grants combat advantage to you."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 10"
+          },
+          "trigger": "Your oath of enmity target drops to 0 hit points",
+          "targets": "targets"
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "Kissing your holy symbol, you momentarily consider your next prey and how best to attack it."
     },
     {
-      "id": "power6993",
+      "id": "modern4e.power.utility-class-avenger-power6993",
       "title": "Loyal Sanction",
-      "className": "Avenger",
-      "level": 2,
-      "type": "Encounter",
       "description": "You bless your comrade's efforts to aid you in the defeat of your chosen foe.",
-      "traits": "Divine",
-      "action": "Minor Action",
-      "range": "Close burst 5",
-      "rows": [
-        "Target: One ally in the burst",
-        "Effect: Until the end of your next turn, the target gains a power bonus to damage rolls against your oath of enmity target equal to your Wisdom."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power6993",
+        "publication": "Published in Divine Power, page(s) 8."
+      },
+      "keywords": [
+        "DIVINE"
       ],
-      "source": "Published in Divine Power, page(s) 8.",
-      "link": "https://iws.mx/dnd/?view=power6993"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One ally in the burst"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn, the target gains a power bonus to damage rolls against your oath of enmity target equal to your Wisdom."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 5"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "You bless your comrade's efforts to aid you in the defeat of your chosen foe."
     },
     {
-      "id": "power5338",
+      "id": "modern4e.power.utility-class-avenger-power5338",
       "title": "Refocus Enmity",
-      "className": "Avenger",
-      "level": 2,
-      "type": "Encounter",
       "description": "After searching your soul, you realize who your true foe is and swear an oath against it.",
-      "traits": "Divine",
-      "action": "Minor Action",
-      "range": "Close burst 10",
-      "rows": [
-        "Target: One creature you can see in the burst",
-        "Effect: The target becomes the target of your oath of enmity, replacing the current target."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5338",
+        "publication": "Published in Player's Handbook 2, page(s) 36."
+      },
+      "keywords": [
+        "DIVINE"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 36.",
-      "link": "https://iws.mx/dnd/?view=power5338"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One creature you can see in the burst"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target becomes the target of your oath of enmity, replacing the current target."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 10"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "After searching your soul, you realize who your true foe is and swear an oath against it."
     },
     {
-      "id": "power2928",
+      "id": "modern4e.power.utility-class-avenger-power2928",
       "title": "Resonant Escape",
-      "className": "Avenger",
-      "level": 2,
-      "type": "Encounter",
       "description": "A quick prayer as you dodge calls forth divine power, which carries you a short distance away.",
-      "traits": "Divine, Teleportation",
-      "action": "Immediate Reaction",
-      "range": "Personal",
-      "rows": [
-        "Trigger: An enemy hits or misses you with a melee attack",
-        "Effect: You teleport 3 squares."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2928",
+        "publication": "Published in Player's Handbook 2, page(s) 36."
+      },
+      "keywords": [
+        "DIVINE",
+        "TELEPORTATION"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 36.",
-      "link": "https://iws.mx/dnd/?view=power2928"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You teleport 3 squares."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "An enemy hits or misses you with a melee attack"
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "A quick prayer as you dodge calls forth divine power, which carries you a short distance away."
     },
     {
-      "id": "power6994",
+      "id": "modern4e.power.utility-class-avenger-power6994",
       "title": "Righteous Pursuit",
-      "className": "Avenger",
-      "level": 2,
-      "type": "Encounter",
       "description": "Try as your enemy might, there's no escaping your wrath.",
-      "traits": "Divine",
-      "action": "Immediate Reaction",
-      "range": "Personal",
-      "rows": [
-        "Trigger: Your oath of enmity target ends its turn in a square not adjacent to you",
-        "Effect: You shift a number of squares equal to your Wisdom and must end this movement as close to your oath of enmity target as possible."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power6994",
+        "publication": "Published in Divine Power, page(s) 8."
+      },
+      "keywords": [
+        "DIVINE"
       ],
-      "source": "Published in Divine Power, page(s) 8.",
-      "link": "https://iws.mx/dnd/?view=power6994"
-    },
-    {
-      "id": "power6995",
-      "title": "Silver Shadow",
-      "className": "Avenger",
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You shift a number of squares equal to your Wisdom and must end this movement as close to your oath of enmity target as possible."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "Your oath of enmity target ends its turn in a square not adjacent to you"
+        }
+      ],
       "level": 2,
-      "type": "Daily",
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "Try as your enemy might, there's no escaping your wrath."
+    },
+    {
+      "id": "modern4e.power.utility-class-avenger-power6995",
+      "title": "Silver Shadow",
       "description": "You cloak yourself in astral mist, which guards you from harm.",
-      "traits": "Divine",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: You gain temporary hit points equal to 5 + your level. You also gain concealment, which lasts until you have no temporary hit points."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power6995",
+        "publication": "Published in Divine Power, page(s) 8."
+      },
+      "keywords": [
+        "DIVINE"
       ],
-      "source": "Published in Divine Power, page(s) 8.",
-      "link": "https://iws.mx/dnd/?view=power6995"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You gain temporary hit points equal to 5 + your level. You also gain concealment, which lasts until you have no temporary hit points."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "You cloak yourself in astral mist, which guards you from harm."
     },
     {
-      "id": "power3656",
+      "id": "modern4e.power.utility-class-avenger-power3656",
       "title": "Aspect of Agility",
-      "className": "Avenger",
-      "level": 6,
-      "type": "Encounter",
       "description": "You move with the speed of the west wind, leaving your foes with little chance of striking you.",
-      "traits": "Divine",
-      "action": "Move Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: You shift 5 squares, and you gain a +2 bonus to AC and Reflex until the end of your next turn."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3656",
+        "publication": "Published in Player's Handbook 2, page(s) 37."
+      },
+      "keywords": [
+        "DIVINE"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 37.",
-      "link": "https://iws.mx/dnd/?view=power3656"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MOVE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You shift 5 squares, and you gain a +2 bonus to AC and Reflex until the end of your next turn."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "You move with the speed of the west wind, leaving your foes with little chance of striking you."
     },
     {
-      "id": "power7006",
+      "id": "modern4e.power.utility-class-avenger-power7006",
       "title": "Aspect of Majesty",
-      "className": "Avenger",
-      "level": 6,
-      "type": "Daily",
       "description": "Your faith fills you with courage and mystically extends the reach of your attacks.",
-      "traits": "Divine, Stance",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: Until the stance ends, you gain a +1 bonus to Will, and your melee reach increases by 1."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7006",
+        "publication": "Published in Divine Power, page(s) 10."
+      },
+      "keywords": [
+        "DIVINE",
+        "STANCE"
       ],
-      "source": "Published in Divine Power, page(s) 10.",
-      "link": "https://iws.mx/dnd/?view=power7006"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the stance ends, you gain a +1 bonus to Will, and your melee reach increases by 1."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "Your faith fills you with courage and mystically extends the reach of your attacks."
     },
     {
-      "id": "power12295",
+      "id": "modern4e.power.utility-class-avenger-power12295",
       "title": "Cloaked Steps",
-      "className": "Avenger",
-      "level": 6,
-      "type": "Daily",
       "description": "Shadows cling to you whenever you move, like a lover's embrace.",
-      "traits": "Divine, Stance",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: Until the stance ends, if you move more than 2 squares on your turn, you gain concealment until the start of your next turn."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12295",
+        "publication": "Published in Dragon Magazine 386, page(s) 71."
+      },
+      "keywords": [
+        "DIVINE",
+        "STANCE"
       ],
-      "source": "Published in Dragon Magazine 386, page(s) 71.",
-      "link": "https://iws.mx/dnd/?view=power12295"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the stance ends, if you move more than 2 squares on your turn, you gain concealment until the start of your next turn."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "Shadows cling to you whenever you move, like a lover's embrace."
     },
     {
-      "id": "power7698",
+      "id": "modern4e.power.utility-class-avenger-power7698",
       "title": "Fortifying Chant",
-      "className": "Avenger",
-      "level": 6,
-      "type": "Daily",
       "description": "You recite holy verses, armoring yourself with the strength of your faith.",
-      "traits": "Divine, Stance",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: Until the stance ends, you gain a +1 bonus to AC and Fortitude. In addition, whenever you reduce your oath of enmity target to 0 hit points, this bonus increases to +4 until the end of your next turn."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7698",
+        "publication": "Published in Divine Power, page(s) 10."
+      },
+      "keywords": [
+        "DIVINE",
+        "STANCE"
       ],
-      "source": "Published in Divine Power, page(s) 10.",
-      "link": "https://iws.mx/dnd/?view=power7698"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the stance ends, you gain a +1 bonus to AC and Fortitude. In addition, whenever you reduce your oath of enmity target to 0 hit points, this bonus increases to +4 until the end of your next turn."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "You recite holy verses, armoring yourself with the strength of your faith."
     },
     {
-      "id": "power7007",
+      "id": "modern4e.power.utility-class-avenger-power7007",
       "title": "Harsh Lesson",
-      "className": "Avenger",
-      "level": 6,
-      "type": "Encounter",
       "description": "You seek penance in the hope that your faults might be corrected.",
-      "traits": "Divine",
-      "action": "Free Action",
-      "range": "Personal",
-      "rows": [
-        "Trigger: You miss every target with an avenger attack power",
-        "Effect: You take 5 damage, and you gain a +2 power bonus to attack rolls until the end of your next turn."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7007",
+        "publication": "Published in Divine Power, page(s) 10."
+      },
+      "keywords": [
+        "DIVINE"
       ],
-      "source": "Published in Divine Power, page(s) 10.",
-      "link": "https://iws.mx/dnd/?view=power7007"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You take 5 damage, and you gain a +2 power bonus to attack rolls until the end of your next turn."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "You miss every target with an avenger attack power"
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "You seek penance in the hope that your faults might be corrected."
     },
     {
-      "id": "power2933",
+      "id": "modern4e.power.utility-class-avenger-power2933",
       "title": "Oath of Enduring Wrath",
-      "className": "Avenger",
-      "level": 6,
-      "type": "Daily",
       "description": "You swear to defeat your enemies, and your god grants you the perseverance to overcome any hindrance.",
-      "traits": "Divine",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: You gain a +2 power bonus to saving throws until the end of the encounter."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2933",
+        "publication": "Published in Player's Handbook 2, page(s) 37."
+      },
+      "keywords": [
+        "DIVINE"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 37.",
-      "link": "https://iws.mx/dnd/?view=power2933"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You gain a +2 power bonus to saving throws until the end of the encounter."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "You swear to defeat your enemies, and your god grants you the perseverance to overcome any hindrance."
     },
     {
-      "id": "power3657",
+      "id": "modern4e.power.utility-class-avenger-power3657",
       "title": "Oath of the Relentless Hunter",
-      "className": "Avenger",
-      "level": 6,
-      "type": "Daily",
       "description": "You touch an enemy and swear an oath to hunt it to the end of the world. With this oath, you can always find your foe.",
-      "traits": "Divine",
-      "action": "Minor Action",
-      "range": "Melee touch",
-      "rows": [
-        "Target: One creature",
-        "Effect: Until you use this power on a different target, you can take a standard action to determine the distance and the direction to the target. The distance and the direction are based on a straight line between you and the target, ignoring any barriers. If the target is on a different plane from you, you know which plane but gain no other information."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3657",
+        "publication": "Published in Player's Handbook 2, page(s) 37."
+      },
+      "keywords": [
+        "DIVINE"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 37.",
-      "link": "https://iws.mx/dnd/?view=power3657"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until you use this power on a different target, you can take a standard action to determine the distance and the direction to the target. The distance and the direction are based on a straight line between you and the target, ignoring any barriers. If the target is on a different plane from you, you know which plane but gain no other information."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee touch"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "You touch an enemy and swear an oath to hunt it to the end of the world. With this oath, you can always find your foe."
     },
     {
-      "id": "power12457",
+      "id": "modern4e.power.utility-class-avenger-power12457",
       "title": "Prayer of Sacrifice",
-      "className": "Avenger",
-      "level": 6,
-      "type": "Daily",
       "description": "You are unwilling to fail your god and make a personal sacrifice to help ensure your success with the task at hand.",
-      "traits": "Divine, Stance",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: You enter the sacrificial prayer stance. Until the stance ends, when you miss all targets with an encounter attack power, you can choose to take 10 damage that cannot be reduced or negated by any means. If you do so, you regain the use of the encounter attack power."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12457",
+        "publication": "Published in Dragon Magazine 386, page(s) 75."
+      },
+      "keywords": [
+        "DIVINE",
+        "STANCE"
       ],
-      "source": "Published in Dragon Magazine 386, page(s) 75.",
-      "link": "https://iws.mx/dnd/?view=power12457"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You enter the sacrificial prayer stance. Until the stance ends, when you miss all targets with an encounter attack power, you can choose to take 10 damage that cannot be reduced or negated by any means. If you do so, you regain the use of the encounter attack power."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "You are unwilling to fail your god and make a personal sacrifice to help ensure your success with the task at hand."
     },
     {
-      "id": "power6934",
+      "id": "modern4e.power.utility-class-avenger-power6934",
       "title": "Soul Seeker",
-      "className": "Avenger",
-      "level": 6,
-      "type": "Daily",
       "description": "You call forth a spirit of necromantic hunger, allowing it to harvest the life force of your enemies.",
-      "traits": "Conjuration, Divine, Healing",
-      "action": "Minor Action",
-      "range": "Ranged 10",
-      "rows": [
-        "Effect: A soul-consuming spirit from the land of the dead appears in an unoccupied square within range. The soul seeker counts as an ally for the purpose of flanking. Whenever you reduce an enemy that is adjacent to the soul seeker to 0 hit points or fewer, you heal a number of hit points equal to your Wisdom. If you reduce the target of your oath of enmity to 0 hit points or fewer, you can use your oath of enmity power as a free action against a target adjacent to your soul seeker.",
-        "Sustain Minor: The soul seeker persists and you can move it 5 squares. The soul seeker ignores difficult terrain. The soul seeker vanishes at the end of your turn if it is out of your line of sight."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power6934",
+        "publication": "Published in Dragon Magazine 372, page(s) 21."
+      },
+      "keywords": [
+        "CONJURATION",
+        "DIVINE",
+        "HEALING"
       ],
-      "source": "Published in Dragon Magazine 372, page(s) 21.",
-      "link": "https://iws.mx/dnd/?view=power6934"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "A soul-consuming spirit from the land of the dead appears in an unoccupied square within range. The soul seeker counts as an ally for the purpose of flanking. Whenever you reduce an enemy that is adjacent to the soul seeker to 0 hit points or fewer, you heal a number of hit points equal to your Wisdom. If you reduce the target of your oath of enmity to 0 hit points or fewer, you can use your oath of enmity power as a free action against a target adjacent to your soul seeker."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Sustain Minor",
+              "text": "The soul seeker persists and you can move it 5 squares. The soul seeker ignores difficult terrain. The soul seeker vanishes at the end of your turn if it is out of your line of sight."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          }
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "You call forth a spirit of necromantic hunger, allowing it to harvest the life force of your enemies."
     },
     {
-      "id": "power7008",
+      "id": "modern4e.power.utility-class-avenger-power7008",
       "title": "Step of Fate",
-      "className": "Avenger",
-      "level": 6,
-      "type": "Daily",
       "description": "Your world is in motion with your sworn enemy as its center.",
-      "traits": "Divine, Stance",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: Until the stance ends, you can use a free action to shift 1 square as the first action on each of your turns. You can't end this movement farther away from your oath of enmity target than you started."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7008",
+        "publication": "Published in Divine Power, page(s) 10."
+      },
+      "keywords": [
+        "DIVINE",
+        "STANCE"
       ],
-      "source": "Published in Divine Power, page(s) 10.",
-      "link": "https://iws.mx/dnd/?view=power7008"
-    },
-    {
-      "id": "power5341",
-      "title": "Wrath of the Divine",
-      "className": "Avenger",
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the stance ends, you can use a free action to shift 1 square as the first action on each of your turns. You can't end this movement farther away from your oath of enmity target than you started."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
       "level": 6,
-      "type": "Daily",
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "Your world is in motion with your sworn enemy as its center."
+    },
+    {
+      "id": "modern4e.power.utility-class-avenger-power5341",
+      "title": "Wrath of the Divine",
       "description": "Suffering a foe's lucky attack, you call on your god to visit your pain upon the one you have sworn to kill.",
-      "traits": "Divine, Radiant",
-      "action": "Immediate Reaction",
-      "range": "Close burst 10",
-      "rows": [
-        "Trigger: An enemy scores a critical hit against you",
-        "Target: Your oath of enmity target in the burst",
-        "Effect: The target takes radiant damage equal to the critical hit's damage."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5341",
+        "publication": "Published in Player's Handbook 2, page(s) 38."
+      },
+      "keywords": [
+        "DIVINE",
+        "RADIANT"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 38.",
-      "link": "https://iws.mx/dnd/?view=power5341"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Your oath of enmity target in the burst"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target takes radiant damage equal to the critical hit's damage."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 10"
+          },
+          "trigger": "An enemy scores a critical hit against you",
+          "targets": "targets"
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "Suffering a foe's lucky attack, you call on your god to visit your pain upon the one you have sworn to kill."
     },
     {
-      "id": "power5342",
+      "id": "modern4e.power.utility-class-avenger-power5342",
       "title": "Avenger's Readiness",
-      "className": "Avenger",
-      "level": 10,
-      "type": "Daily",
       "description": "As your opponents prepare to strike, you make a sudden move to spoil their plans.",
-      "traits": "Divine",
-      "action": "No Action",
-      "range": "Personal",
-      "rows": [
-        "Trigger: You roll initiative at the beginning of an encounter",
-        "Effect: You gain a +5 power bonus to the initiative check. You shift 3 squares as a free action when the first creature in the initiative order starts its turn, even if you're surprised."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5342",
+        "publication": "Published in Player's Handbook 2, page(s) 39."
+      },
+      "keywords": [
+        "DIVINE"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 39.",
-      "link": "https://iws.mx/dnd/?view=power5342"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "NO_ACTION",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You gain a +5 power bonus to the initiative check. You shift 3 squares as a free action when the first creature in the initiative order starts its turn, even if you're surprised."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "You roll initiative at the beginning of an encounter"
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "As your opponents prepare to strike, you make a sudden move to spoil their plans."
     },
     {
-      "id": "power5343",
+      "id": "modern4e.power.utility-class-avenger-power5343",
       "title": "Channel Endurance",
-      "className": "Avenger",
-      "level": 10,
-      "type": "Encounter",
       "description": "You focus your inner strength and tap into your god's power to forestall an injury.",
-      "traits": "Divine",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: You gain resist 5 to all damage until the end of your next turn."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5343",
+        "publication": "Published in Player's Handbook 2, page(s) 39."
+      },
+      "keywords": [
+        "DIVINE"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 39.",
-      "link": "https://iws.mx/dnd/?view=power5343"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You gain resist 5 to all damage until the end of your next turn."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "You focus your inner strength and tap into your god's power to forestall an injury."
     },
     {
-      "id": "power10084",
+      "id": "modern4e.power.utility-class-avenger-power10084",
       "title": "Decaying Presence",
-      "className": "Avenger",
-      "level": 10,
-      "type": "Daily",
       "description": "Your presence decays your enemy's defenses, allowing your prayers to strike without interference.",
-      "traits": "Divine",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: Choose one resistance to a damage type possessed by your oath of enmity target. Until you reduce your oath of enmity target to 0 hit points, any enemy adjacent to you does not benefit from any resistance to this damage type."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10084",
+        "publication": "Published in Dragon Magazine 380, page(s) 60."
+      },
+      "keywords": [
+        "DIVINE"
       ],
-      "source": "Published in Dragon Magazine 380, page(s) 60.",
-      "link": "https://iws.mx/dnd/?view=power10084"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Choose one resistance to a damage type possessed by your oath of enmity target. Until you reduce your oath of enmity target to 0 hit points, any enemy adjacent to you does not benefit from any resistance to this damage type."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "Your presence decays your enemy's defenses, allowing your prayers to strike without interference."
     },
     {
-      "id": "power7019",
+      "id": "modern4e.power.utility-class-avenger-power7019",
       "title": "Ever Onward",
-      "className": "Avenger",
-      "level": 10,
-      "type": "Daily",
       "description": "You breathe the words of a restorative prayer. New vigor and swiftness course through you.",
-      "traits": "Divine, Healing",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: You can spend a healing surge. In addition, you gain a +2 power bonus to speed until the end of the encounter."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7019",
+        "publication": "Published in Divine Power, page(s) 12."
+      },
+      "keywords": [
+        "DIVINE",
+        "HEALING"
       ],
-      "source": "Published in Divine Power, page(s) 12.",
-      "link": "https://iws.mx/dnd/?view=power7019"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You can spend a healing surge. In addition, you gain a +2 power bonus to speed until the end of the encounter."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "You breathe the words of a restorative prayer. New vigor and swiftness course through you."
     },
     {
-      "id": "power3658",
+      "id": "modern4e.power.utility-class-avenger-power3658",
       "title": "Eye of Justice",
-      "className": "Avenger",
-      "level": 10,
-      "type": "Encounter",
       "description": "Your eyes glow with divine energy, allowing you to spot foes no matter how well they hide.",
-      "traits": "Divine",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: Until the end of your next turn, you can see invisible creatures within 5 squares of you."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3658",
+        "publication": "Published in Player's Handbook 2, page(s) 39."
+      },
+      "keywords": [
+        "DIVINE"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 39.",
-      "link": "https://iws.mx/dnd/?view=power3658"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn, you can see invisible creatures within 5 squares of you."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "Your eyes glow with divine energy, allowing you to spot foes no matter how well they hide."
     },
     {
-      "id": "power7020",
+      "id": "modern4e.power.utility-class-avenger-power7020",
       "title": "Leading Step",
-      "className": "Avenger",
-      "level": 10,
-      "type": "Encounter",
       "description": "After your enemy strikes, you teleport away. An instant later, you bring the enemy after you.",
-      "traits": "Divine, Teleportation",
-      "action": "Immediate Reaction",
-      "range": "Melee 1",
-      "rows": [
-        "Trigger: An enemy adjacent to you damages you",
-        "Target: The triggering enemy",
-        "Effect: You teleport 5 squares and then teleport the target to a square adjacent to you."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7020",
+        "publication": "Published in Divine Power, page(s) 12."
+      },
+      "keywords": [
+        "DIVINE",
+        "TELEPORTATION"
       ],
-      "source": "Published in Divine Power, page(s) 12.",
-      "link": "https://iws.mx/dnd/?view=power7020"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "The triggering enemy"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You teleport 5 squares and then teleport the target to a square adjacent to you."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee 1"
+          },
+          "trigger": "An enemy adjacent to you damages you",
+          "targets": "targets"
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "After your enemy strikes, you teleport away. An instant later, you bring the enemy after you."
     },
     {
-      "id": "power2938",
+      "id": "modern4e.power.utility-class-avenger-power2938",
       "title": "River of Life",
-      "className": "Avenger",
-      "level": 10,
-      "type": "Daily",
       "description": "Divine power flows through you, allowing you to shrug off injury after injury.",
-      "traits": "Divine, Healing",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: You gain regeneration 5 until the end of the encounter."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2938",
+        "publication": "Published in Player's Handbook 2, page(s) 39."
+      },
+      "keywords": [
+        "DIVINE",
+        "HEALING"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 39.",
-      "link": "https://iws.mx/dnd/?view=power2938"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You gain regeneration 5 until the end of the encounter."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "Divine power flows through you, allowing you to shrug off injury after injury."
     },
     {
-      "id": "power7021",
+      "id": "modern4e.power.utility-class-avenger-power7021",
       "title": "Shielding Symbol",
-      "className": "Avenger",
-      "level": 10,
-      "type": "Encounter",
       "description": "You channel divine power through your holy symbol to shield yourself.",
-      "traits": "Divine, Implement",
-      "action": "Immediate Interrupt",
-      "range": "Personal",
-      "rows": [
-        "Trigger: You are hit by an attack",
-        "Effect: Make a Wisdom attack using your implement. The result is your defense against the triggering attack."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7021",
+        "publication": "Published in Divine Power, page(s) 12."
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT"
       ],
-      "source": "Published in Divine Power, page(s) 12.",
-      "link": "https://iws.mx/dnd/?view=power7021"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Make a Wisdom attack using your implement. The result is your defense against the triggering attack."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "You are hit by an attack"
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "You channel divine power through your holy symbol to shield yourself."
     },
     {
-      "id": "power7022",
+      "id": "modern4e.power.utility-class-avenger-power7022",
       "title": "Wings of Vengeance",
-      "className": "Avenger",
-      "level": 10,
-      "type": "Encounter",
       "description": "Ephemeral wings carry you across the battlefield to strike where you are most needed.",
-      "traits": "Divine",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: Until the end of your next turn, you gain a fly speed of 7, and you can hover."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7022",
+        "publication": "Published in Divine Power, page(s) 12."
+      },
+      "keywords": [
+        "DIVINE"
       ],
-      "source": "Published in Divine Power, page(s) 12.",
-      "link": "https://iws.mx/dnd/?view=power7022"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn, you gain a fly speed of 7, and you can hover."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "Ephemeral wings carry you across the battlefield to strike where you are most needed."
     }
   ]
 }

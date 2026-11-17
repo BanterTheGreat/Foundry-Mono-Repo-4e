@@ -1,572 +1,2382 @@
 {
+  "schemaVersion": 2,
   "powers": [
     {
-      "id": "power12277",
+      "id": "modern4e.power.utility-class-barbarian-power12277",
       "title": "Bloodthirsty Resurgence",
-      "className": "Barbarian",
-      "level": 2,
-      "type": "Encounter",
       "description": "When you call upon your hidden reserves, you evoke the same new will in your allies.",
-      "traits": "Primal",
-      "action": "Free Action",
-      "range": "Close burst 2",
-      "rows": [
-        "Trigger: You spend a healing surge",
-        "Target: Each ally in the burst that can see you",
-        "Effect: The target gains temporary hit points equal to your Charisma."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12277",
+        "publication": "Published in Dragon Magazine 386, page(s) 50."
+      },
+      "keywords": [
+        "PRIMAL"
       ],
-      "source": "Published in Dragon Magazine 386, page(s) 50.",
-      "link": "https://iws.mx/dnd/?view=power12277"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Each ally in the burst that can see you"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target gains temporary hit points equal to your Charisma."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 2"
+          },
+          "trigger": "You spend a healing surge",
+          "targets": "targets"
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "When you call upon your hidden reserves, you evoke the same new will in your allies."
     },
     {
-      "id": "power4885",
+      "id": "modern4e.power.utility-class-barbarian-power4885",
       "title": "Bounding Stride",
-      "className": "Barbarian",
-      "level": 2,
-      "type": "Encounter",
       "description": "You lope across the battlefield, your wounds fueling your stride.",
-      "traits": "Primal",
-      "action": "Move Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: You move your speed + 2, or your speed + 6 if you are bloodied."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4885",
+        "publication": "Published in Primal Power, page(s) 12."
+      },
+      "keywords": [
+        "PRIMAL"
       ],
-      "source": "Published in Primal Power, page(s) 12.",
-      "link": "https://iws.mx/dnd/?view=power4885"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MOVE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You move your speed + 2, or your speed + 6 if you are bloodied."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "You lope across the battlefield, your wounds fueling your stride."
     },
     {
-      "id": "power4937",
+      "id": "modern4e.power.utility-class-barbarian-power4937",
       "title": "Combat Sprint",
-      "className": "Barbarian",
-      "level": 2,
-      "type": "Encounter",
       "description": "Having saved a bit of strength for just this moment, you burst across the battlefield.",
-      "traits": "Primal",
-      "action": "Move Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: You move your speed + 4. You gain a +4 bonus to all defenses against any opportunity attack you provoke with this movement."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4937",
+        "publication": "Published in Player's Handbook 2, page(s) 52."
+      },
+      "keywords": [
+        "PRIMAL"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 52.",
-      "link": "https://iws.mx/dnd/?view=power4937"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MOVE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You move your speed + 4. You gain a +4 bonus to all defenses against any opportunity attack you provoke with this movement."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "Having saved a bit of strength for just this moment, you burst across the battlefield."
     },
     {
-      "id": "power4915",
+      "id": "modern4e.power.utility-class-barbarian-power4915",
       "title": "Feral Rejuvenation",
-      "className": "Barbarian",
-      "level": 2,
-      "type": "Daily",
       "description": "You call on the spirits to stitch your wounds, proudly displaying the blood you have spilled in their names.",
-      "traits": "Healing, Primal",
-      "action": "Free Action",
-      "range": "Personal",
-      "rows": [
-        "Trigger: Your attack damages an enemy",
-        "Effect: You spend a healing surge. If the triggering attack reduced an enemy to 0 hit points, you regain additional hit points equal to one-half your level + your Charisma."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4915",
+        "publication": "Published in Primal Power, page(s) 12."
+      },
+      "keywords": [
+        "HEALING",
+        "PRIMAL"
       ],
-      "source": "Published in Primal Power, page(s) 12.",
-      "link": "https://iws.mx/dnd/?view=power4915"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You spend a healing surge. If the triggering attack reduced an enemy to 0 hit points, you regain additional hit points equal to one-half your level + your Charisma."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "Your attack damages an enemy"
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "You call on the spirits to stitch your wounds, proudly displaying the blood you have spilled in their names."
     },
     {
-      "id": "power14416",
+      "id": "modern4e.power.utility-class-barbarian-power14416",
       "title": "Ignore Pain",
-      "className": "Barbarian",
-      "level": 2,
-      "type": "Daily",
       "description": "When your enemies hurt you, the strength of your rage allows you to shove the pain aside for a time.",
-      "traits": "Primal",
-      "action": "Immediate Reaction",
-      "range": "Personal",
-      "rows": [
-        "Trigger: You take damage.",
-        "Effect: You gain temporary hit points equal to the triggering damage."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14416",
+        "publication": "Published in Heroes of the Feywild, page(s) 47."
+      },
+      "keywords": [
+        "PRIMAL"
       ],
-      "source": "Published in Heroes of the Feywild, page(s) 47.",
-      "link": "https://iws.mx/dnd/?view=power14416"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You gain temporary hit points equal to the triggering damage."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "You take damage."
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "When your enemies hurt you, the strength of your rage allows you to shove the pain aside for a time."
     },
     {
-      "id": "power14417",
+      "id": "modern4e.power.utility-class-barbarian-power14417",
       "title": "Nomad's Rush",
-      "className": "Barbarian",
-      "level": 2,
-      "type": "Encounter",
       "description": "Your training allows you to spot rough terrain with ease—and dash over it without a second thought.",
-      "traits": "Martial",
-      "action": "Move Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: You move up to your speed + 4. During this move, you ignore difficult terrain."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14417",
+        "publication": "Published in Heroes of the Feywild, page(s) 47."
+      },
+      "keywords": [
+        "MARTIAL"
       ],
-      "source": "Published in Heroes of the Feywild, page(s) 47.",
-      "link": "https://iws.mx/dnd/?view=power14417"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MOVE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You move up to your speed + 4. During this move, you ignore difficult terrain."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "Your training allows you to spot rough terrain with ease—and dash over it without a second thought."
     },
     {
-      "id": "power4827",
+      "id": "modern4e.power.utility-class-barbarian-power4827",
       "title": "Primal Vitality",
-      "className": "Barbarian",
-      "level": 2,
-      "type": "Daily",
       "description": "Drawing strength from the ground beneath your feet, you push away the pain of minor wounds.",
-      "traits": "Primal",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: You gain temporary hit points equal to one-half your level + your Constitution. If you are raging, the number of temporary hit points you gain equals one-half your level + twice your Constitution."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4827",
+        "publication": "Published in Player's Handbook 2, page(s) 52."
+      },
+      "keywords": [
+        "PRIMAL"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 52.",
-      "link": "https://iws.mx/dnd/?view=power4827"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You gain temporary hit points equal to one-half your level + your Constitution. If you are raging, the number of temporary hit points you gain equals one-half your level + twice your Constitution."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "Drawing strength from the ground beneath your feet, you push away the pain of minor wounds."
     },
     {
-      "id": "power9565",
+      "id": "modern4e.power.utility-class-barbarian-power9565",
       "title": "Savage Comeback",
-      "className": "Barbarian",
-      "level": 2,
-      "type": "Daily",
       "description": "An enemy tried to hinder you, but you break free, ignoring the injury you suffer in the process.",
-      "traits": "Primal",
-      "action": "No Action",
-      "range": "Personal",
-      "rows": [
-        "Trigger: You are conscious and fail a saving throw",
-        "Effect: You take 2d6 damage and succeed on the saving throw."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power9565",
+        "publication": "Published in Primal Power, page(s) 13."
+      },
+      "keywords": [
+        "PRIMAL"
       ],
-      "source": "Published in Primal Power, page(s) 13.",
-      "link": "https://iws.mx/dnd/?view=power9565"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "NO_ACTION",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You take 2d6 damage and succeed on the saving throw."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "You are conscious and fail a saving throw"
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "An enemy tried to hinder you, but you break free, ignoring the injury you suffer in the process."
     },
     {
-      "id": "power5244",
+      "id": "modern4e.power.utility-class-barbarian-power5244",
       "title": "Savage Growl",
-      "className": "Barbarian",
-      "level": 2,
-      "type": "Encounter",
       "description": "If the blow you just delivered wasn't enough to get your foe's attention, your menacing growl cannot be ignored.",
-      "traits": "Primal",
-      "action": "Free Action",
-      "range": "Personal",
-      "rows": [
-        "Trigger: You hit an enemy and don't reduce it to 0 hit points",
-        "Target: The enemy you hit",
-        "Effect: You mark the target until the end of your next turn. Until the mark ends, you and the target deal 1d8 extra damage against each other."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5244",
+        "publication": "Published in Primal Power, page(s) 13."
+      },
+      "keywords": [
+        "PRIMAL"
       ],
-      "source": "Published in Primal Power, page(s) 13.",
-      "link": "https://iws.mx/dnd/?view=power5244"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "The enemy you hit"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You mark the target until the end of your next turn. Until the mark ends, you and the target deal 1d8 extra damage against each other."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "You hit an enemy and don't reduce it to 0 hit points",
+          "targets": "targets"
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "If the blow you just delivered wasn't enough to get your foe's attention, your menacing growl cannot be ignored."
     },
     {
-      "id": "power1145",
+      "id": "modern4e.power.utility-class-barbarian-power1145",
       "title": "Shrug It Off",
-      "className": "Barbarian",
-      "level": 2,
-      "type": "Encounter",
       "description": "With a brutal shake of your head, you slough off a hindrance before it can affect you.",
-      "traits": "Primal",
-      "action": "Immediate Reaction",
-      "range": "Personal",
-      "rows": [
-        "Trigger: You are subjected to an effect that a save can end",
-        "Effect: You make a saving throw against the triggering effect. If you succeed, you shift 1 square as a free action."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power1145",
+        "publication": "Published in Primal Power, page(s) 13."
+      },
+      "keywords": [
+        "PRIMAL"
       ],
-      "source": "Published in Primal Power, page(s) 13.",
-      "link": "https://iws.mx/dnd/?view=power1145"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You make a saving throw against the triggering effect. If you succeed, you shift 1 square as a free action."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "You are subjected to an effect that a save can end"
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "With a brutal shake of your head, you slough off a hindrance before it can affect you."
     },
     {
-      "id": "power4938",
+      "id": "modern4e.power.utility-class-barbarian-power4938",
       "title": "Stonebreaker",
-      "className": "Barbarian",
-      "level": 2,
-      "type": "Encounter",
       "description": "Without hesitation, you smash through the door.",
-      "traits": "Primal",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: Until the end of your next turn, you gain a +5 bonus to Strength checks to break objects, and you deal double damage against objects."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4938",
+        "publication": "Published in Player's Handbook 2, page(s) 52."
+      },
+      "keywords": [
+        "PRIMAL"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 52.",
-      "link": "https://iws.mx/dnd/?view=power4938"
-    },
-    {
-      "id": "power376",
-      "title": "Tiger's Leap",
-      "className": "Barbarian",
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn, you gain a +5 bonus to Strength checks to break objects, and you deal double damage against objects."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
       "level": 2,
-      "type": "Encounter",
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "Without hesitation, you smash through the door."
+    },
+    {
+      "id": "modern4e.power.utility-class-barbarian-power376",
+      "title": "Tiger's Leap",
       "description": "With a surge of strength and will, you leap a great distance without a running start.",
-      "traits": "Primal",
-      "action": "Move Action",
-      "range": "Personal",
-      "rows": [
-        "Prerequisite: You must be proficient in Athletics.",
-        "Effect: You make an Athletics check to jump with a +5 power bonus. You are considered to have a running start and can move as far as the check allows."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 2
+          },
+          {
+            "type": "proficiency",
+            "skill": "ATHLETICS"
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power376",
+        "publication": "Published in Player's Handbook 2, page(s) 52."
+      },
+      "keywords": [
+        "PRIMAL"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 52.",
-      "link": "https://iws.mx/dnd/?view=power376"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MOVE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Prerequisite",
+              "text": "You must be proficient in Athletics."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You make an Athletics check to jump with a +5 power bonus. You are considered to have a running start and can move as far as the check allows."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "With a surge of strength and will, you leap a great distance without a running start."
     },
     {
-      "id": "power4912",
+      "id": "modern4e.power.utility-class-barbarian-power4912",
       "title": "Climber's Claws",
-      "className": "Barbarian",
-      "level": 6,
-      "type": "Encounter",
       "description": "Thick claws spring from your hands, allowing you to scale surfaces quickly.",
-      "traits": "Primal",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: Until the end of your next turn, you gain a climb speed equal to your speed."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4912",
+        "publication": "Published in Primal Power, page(s) 14."
+      },
+      "keywords": [
+        "PRIMAL"
       ],
-      "source": "Published in Primal Power, page(s) 14.",
-      "link": "https://iws.mx/dnd/?view=power4912"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn, you gain a climb speed equal to your speed."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "Thick claws spring from your hands, allowing you to scale surfaces quickly."
     },
     {
-      "id": "power4945",
+      "id": "modern4e.power.utility-class-barbarian-power4945",
       "title": "Combat Surge",
-      "className": "Barbarian",
-      "level": 6,
-      "type": "Daily",
       "description": "As your attack goes awry, you react from the heat of your rage, without pause or thought, reversing your weapon and striking again.",
-      "traits": "Primal",
-      "action": "Free Action",
-      "range": "Personal",
-      "rows": [
-        "Trigger: You miss with an attack",
-        "Requirement: You must be raging.",
-        "Effect: You reroll the attack."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4945",
+        "publication": "Published in Player's Handbook 2, page(s) 54."
+      },
+      "keywords": [
+        "PRIMAL"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 54.",
-      "link": "https://iws.mx/dnd/?view=power4945"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You reroll the attack."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "You miss with an attack",
+          "requirement": "You must be raging."
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "As your attack goes awry, you react from the heat of your rage, without pause or thought, reversing your weapon and striking again."
     },
     {
-      "id": "power14422",
+      "id": "modern4e.power.utility-class-barbarian-power14422",
       "title": "Cull Weakness",
-      "className": "Barbarian",
-      "level": 6,
-      "type": "Daily",
       "description": "Only the strong survive, and you let your enemies know that you are a survivor as you strike down the weakest among them with ease. The others quail before you as their wounds mount.",
-      "traits": "Primal, Stance",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: You assume the cull weakness stance. Until the stance ends, bloodied enemies grant combat advantage to you, and you gain a +4 power bonus to damage rolls against them."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14422",
+        "publication": "Published in Heroes of the Feywild, page(s) 48."
+      },
+      "keywords": [
+        "PRIMAL",
+        "STANCE"
       ],
-      "source": "Published in Heroes of the Feywild, page(s) 48.",
-      "link": "https://iws.mx/dnd/?view=power14422"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You assume the cull weakness stance. Until the stance ends, bloodied enemies grant combat advantage to you, and you gain a +4 power bonus to damage rolls against them."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "Only the strong survive, and you let your enemies know that you are a survivor as you strike down the weakest among them with ease. The others quail before you as their wounds mount."
     },
     {
-      "id": "power5501",
+      "id": "modern4e.power.utility-class-barbarian-power5501",
       "title": "Indomitable Shift",
-      "className": "Barbarian",
-      "level": 6,
-      "type": "Daily",
       "description": "You pound across the battlefield, leaving no opening as you move and drawing strength from the numbers arrayed against you.",
-      "traits": "Primal",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: You shift a number of squares equal to your Constitution. You gain 1d10 temporary hit points plus 1 additional temporary hit point for each enemy within 2 squares of you."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5501",
+        "publication": "Published in Player's Handbook 2, page(s) 54."
+      },
+      "keywords": [
+        "PRIMAL"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 54.",
-      "link": "https://iws.mx/dnd/?view=power5501"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You shift a number of squares equal to your Constitution. You gain 1d10 temporary hit points plus 1 additional temporary hit point for each enemy within 2 squares of you."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "You pound across the battlefield, leaving no opening as you move and drawing strength from the numbers arrayed against you."
     },
     {
-      "id": "power4834",
+      "id": "modern4e.power.utility-class-barbarian-power4834",
       "title": "Instinctive Charge",
-      "className": "Barbarian",
-      "level": 6,
-      "type": "Daily",
       "description": "Instinctively aware of danger, you are poised to fight as soon as the battle begins.",
-      "traits": "Primal",
-      "action": "No Action",
-      "range": "Personal",
-      "rows": [
-        "Trigger: You roll initiative at the beginning of an encounter",
-        "Effect: You gain a +5 power bonus to your initiative. You also gain a +2 power bonus to your first attack roll during the encounter."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4834",
+        "publication": "Published in Player's Handbook 2, page(s) 54."
+      },
+      "keywords": [
+        "PRIMAL"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 54.",
-      "link": "https://iws.mx/dnd/?view=power4834"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "NO_ACTION",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You gain a +5 power bonus to your initiative. You also gain a +2 power bonus to your first attack roll during the encounter."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "You roll initiative at the beginning of an encounter"
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "Instinctively aware of danger, you are poised to fight as soon as the battle begins."
     },
     {
-      "id": "power7412",
+      "id": "modern4e.power.utility-class-barbarian-power7412",
       "title": "Laugh it Off",
-      "className": "Barbarian",
-      "level": 6,
-      "type": "Encounter",
       "description": "You laugh at your foe's attack, making even its mightiest effort seem pointless against your boundless endurance.",
-      "traits": "Primal",
-      "action": "Immediate Interrupt",
-      "range": "Personal",
-      "rows": [
-        "Trigger: You are hit by an enemy's attack.",
-        "Effect: Reduce the triggering attack's damage by an amount equal to your Constitution. You gain a +2 power bonus to your next attack roll and damage roll against the triggering enemy made before the end of your next turn."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7412",
+        "publication": "Published in PH Heroes: Series 1."
+      },
+      "keywords": [
+        "PRIMAL"
       ],
-      "source": "Published in PH Heroes: Series 1.",
-      "link": "https://iws.mx/dnd/?view=power7412"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Reduce the triggering attack's damage by an amount equal to your Constitution. You gain a +2 power bonus to your next attack roll and damage roll against the triggering enemy made before the end of your next turn."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "You are hit by an enemy's attack."
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "You laugh at your foe's attack, making even its mightiest effort seem pointless against your boundless endurance."
     },
     {
-      "id": "power4946",
+      "id": "modern4e.power.utility-class-barbarian-power4946",
       "title": "Loss of Will",
-      "className": "Barbarian",
-      "level": 6,
-      "type": "Encounter",
       "description": "As you turn aside your foe's attack, you stare into its eyes. Your enemy now knows that the battle is in your favor.",
-      "traits": "Primal",
-      "action": "Immediate Reaction",
-      "range": "Personal",
-      "rows": [
-        "Trigger: An enemy misses you with you an attack",
-        "Target: The triggering enemy",
-        "Effect: Until the end of the target's next turn, the target takes a penalty to attack rolls against you equal to your Charisma."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4946",
+        "publication": "Published in Player's Handbook 2, page(s) 54."
+      },
+      "keywords": [
+        "PRIMAL"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 54.",
-      "link": "https://iws.mx/dnd/?view=power4946"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "The triggering enemy"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the target's next turn, the target takes a penalty to attack rolls against you equal to your Charisma."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "An enemy misses you with you an attack",
+          "targets": "targets"
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "As you turn aside your foe's attack, you stare into its eyes. Your enemy now knows that the battle is in your favor."
     },
     {
-      "id": "power4887",
+      "id": "modern4e.power.utility-class-barbarian-power4887",
       "title": "Primal Charge",
-      "className": "Barbarian",
-      "level": 6,
-      "type": "Encounter",
       "description": "You thunder across the battlefield in a blur of steel and speed.",
-      "traits": "Primal",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: Until the end of your next turn, you gain a +4 power bonus to speed when charging."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4887",
+        "publication": "Published in Primal Power, page(s) 14."
+      },
+      "keywords": [
+        "PRIMAL"
       ],
-      "source": "Published in Primal Power, page(s) 14.",
-      "link": "https://iws.mx/dnd/?view=power4887"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn, you gain a +4 power bonus to speed when charging."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "You thunder across the battlefield in a blur of steel and speed."
     },
     {
-      "id": "power9572",
+      "id": "modern4e.power.utility-class-barbarian-power9572",
       "title": "Relentless Surge",
-      "className": "Barbarian",
-      "level": 6,
-      "type": "Encounter",
       "description": "With a deep breath, you draw vigor from within yourself.",
-      "traits": "Primal",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: You gain 5 + your Constitution temporary hit points."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power9572",
+        "publication": "Published in Primal Power, page(s) 14."
+      },
+      "keywords": [
+        "PRIMAL"
       ],
-      "source": "Published in Primal Power, page(s) 14.",
-      "link": "https://iws.mx/dnd/?view=power9572"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You gain 5 + your Constitution temporary hit points."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "With a deep breath, you draw vigor from within yourself."
     },
     {
-      "id": "power4911",
+      "id": "modern4e.power.utility-class-barbarian-power4911",
       "title": "Run Rampant",
-      "className": "Barbarian",
-      "level": 6,
-      "type": "Encounter",
       "description": "With bestial might, you break free and step forward, eager for battle again.",
-      "traits": "Primal",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: You make either an escape attempt or a saving throw against an effect that immobilizes, restrains, or slows you. You gain a bonus to the roll equal to your Strength."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4911",
+        "publication": "Published in Primal Power, page(s) 15."
+      },
+      "keywords": [
+        "PRIMAL"
       ],
-      "source": "Published in Primal Power, page(s) 15.",
-      "link": "https://iws.mx/dnd/?view=power4911"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You make either an escape attempt or a saving throw against an effect that immobilizes, restrains, or slows you. You gain a bonus to the roll equal to your Strength."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "With bestial might, you break free and step forward, eager for battle again."
     },
     {
-      "id": "power4886",
+      "id": "modern4e.power.utility-class-barbarian-power4886",
       "title": "Snarling Defiance",
-      "className": "Barbarian",
-      "level": 6,
-      "type": "Daily",
       "description": "Your blood flows, and your response is a feral snarl as you prepare to make the offender pay.",
-      "traits": "Primal",
-      "action": "Immediate Interrupt",
-      "range": "Personal",
-      "rows": [
-        "Trigger: You are hit and damaged by an attack",
-        "Effect: You take half damage from the attack and gain a +2 power bonus to attack rolls against the attacker until the end of your next turn."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4886",
+        "publication": "Published in Primal Power, page(s) 15."
+      },
+      "keywords": [
+        "PRIMAL"
       ],
-      "source": "Published in Primal Power, page(s) 15.",
-      "link": "https://iws.mx/dnd/?view=power4886"
-    },
-    {
-      "id": "power14423",
-      "title": "Wilderness Step",
-      "className": "Barbarian",
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You take half damage from the attack and gain a +2 power bonus to attack rolls against the attacker until the end of your next turn."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "You are hit and damaged by an attack"
+        }
+      ],
       "level": 6,
-      "type": "Encounter",
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "Your blood flows, and your response is a feral snarl as you prepare to make the offender pay."
+    },
+    {
+      "id": "modern4e.power.utility-class-barbarian-power14423",
+      "title": "Wilderness Step",
       "description": "Your skill in traversing the wilderness allows you to bypass hindering effects that would delay others.",
-      "traits": "Martial",
-      "action": "Free Action",
-      "range": "Personal",
-      "rows": [
-        "Trigger: You start your turn subject to an immobilized, restrained, or slowed condition that a save can end.",
-        "Effect: You make a saving throw with a +2 power bonus against one triggering condition."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14423",
+        "publication": "Published in Heroes of the Feywild, page(s) 48."
+      },
+      "keywords": [
+        "MARTIAL"
       ],
-      "source": "Published in Heroes of the Feywild, page(s) 48.",
-      "link": "https://iws.mx/dnd/?view=power14423"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You make a saving throw with a +2 power bonus against one triggering condition."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "You start your turn subject to an immobilized, restrained, or slowed condition that a save can end."
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "Your skill in traversing the wilderness allows you to bypass hindering effects that would delay others."
     },
     {
-      "id": "power4913",
+      "id": "modern4e.power.utility-class-barbarian-power4913",
       "title": "Barbaric Instinct",
-      "className": "Barbarian",
-      "level": 10,
-      "type": "Daily",
       "description": "Submerging conscious thought, you cut through the fog that threatens to envelop your mind.",
-      "traits": "Primal",
-      "action": "Immediate Interrupt",
-      "range": "Personal",
-      "rows": [
-        "Trigger: You are subjected to a dazing or a stunning effect",
-        "Effect: If the effect would have dazed you, you aren't dazed. If the effect would have stunned you, you are dazed instead."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4913",
+        "publication": "Published in Primal Power, page(s) 16."
+      },
+      "keywords": [
+        "PRIMAL"
       ],
-      "source": "Published in Primal Power, page(s) 16.",
-      "link": "https://iws.mx/dnd/?view=power4913"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "If the effect would have dazed you, you aren't dazed. If the effect would have stunned you, you are dazed instead."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "You are subjected to a dazing or a stunning effect"
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "Submerging conscious thought, you cut through the fog that threatens to envelop your mind."
     },
     {
-      "id": "power9579",
+      "id": "modern4e.power.utility-class-barbarian-power9579",
       "title": "Barbaric Offering",
-      "className": "Barbarian",
-      "level": 10,
-      "type": "Encounter",
       "description": "You ruin your foe, and the spirit of triumph steels you against a hindrance.",
-      "traits": "Primal",
-      "action": "Free Action",
-      "range": "Personal",
-      "rows": [
-        "Trigger: You bloody an enemy or reduce it to 0 hit points",
-        "Effect: You make a saving throw against one effect that a save can end, with a bonus equal to your Charisma (minimum +1)."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power9579",
+        "publication": "Published in Primal Power, page(s) 16."
+      },
+      "keywords": [
+        "PRIMAL"
       ],
-      "source": "Published in Primal Power, page(s) 16.",
-      "link": "https://iws.mx/dnd/?view=power9579"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You make a saving throw against one effect that a save can end, with a bonus equal to your Charisma (minimum +1)."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "You bloody an enemy or reduce it to 0 hit points"
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "You ruin your foe, and the spirit of triumph steels you against a hindrance."
     },
     {
-      "id": "power4951",
+      "id": "modern4e.power.utility-class-barbarian-power4951",
       "title": "Deny Death",
-      "className": "Barbarian",
-      "level": 10,
-      "type": "Daily",
       "description": "The darkness will not swallow you until you have finished what you set out to do.",
-      "traits": "Primal",
-      "action": "Immediate Interrupt",
-      "range": "Personal",
-      "rows": [
-        "Trigger: You drop to 0 hit points or fewer and don't die",
-        "Effect: You are dying but don't fall unconscious because of that condition. At the end of your next turn, you fall unconscious if you are still dying."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4951",
+        "publication": "Published in Player's Handbook 2, page(s) 55."
+      },
+      "keywords": [
+        "PRIMAL"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 55.",
-      "link": "https://iws.mx/dnd/?view=power4951"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You are dying but don't fall unconscious because of that condition. At the end of your next turn, you fall unconscious if you are still dying."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "You drop to 0 hit points or fewer and don't die"
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "The darkness will not swallow you until you have finished what you set out to do."
     },
     {
-      "id": "power9580",
+      "id": "modern4e.power.utility-class-barbarian-power9580",
       "title": "Enraged Surge",
-      "className": "Barbarian",
-      "level": 10,
-      "type": "Encounter",
       "description": "Your errant blow fuels your anger, empowering your strikes for a few moments.",
-      "traits": "Primal",
-      "action": "Free Action",
-      "range": "Personal",
-      "rows": [
-        "Trigger: You miss with an attack while raging",
-        "Effect: You gain a +2 power bonus to melee attack rolls and melee damage rolls until the end of your next turn."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power9580",
+        "publication": "Published in Primal Power, page(s) 17."
+      },
+      "keywords": [
+        "PRIMAL"
       ],
-      "source": "Published in Primal Power, page(s) 17.",
-      "link": "https://iws.mx/dnd/?view=power9580"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You gain a +2 power bonus to melee attack rolls and melee damage rolls until the end of your next turn."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "You miss with an attack while raging"
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "Your errant blow fuels your anger, empowering your strikes for a few moments."
     },
     {
-      "id": "power4952",
+      "id": "modern4e.power.utility-class-barbarian-power4952",
       "title": "Heart Strike",
-      "className": "Barbarian",
-      "level": 10,
-      "type": "Daily",
       "description": "You put the weight of your spirit behind every swing of your weapon.",
-      "traits": "Primal, Stance",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: Until the stance ends, whenever you hit with an at-will attack power, the attack deals extra damage equal to your Charisma."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4952",
+        "publication": "Published in Player's Handbook 2, page(s) 56."
+      },
+      "keywords": [
+        "PRIMAL",
+        "STANCE"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 56.",
-      "link": "https://iws.mx/dnd/?view=power4952"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the stance ends, whenever you hit with an at-will attack power, the attack deals extra damage equal to your Charisma."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "You put the weight of your spirit behind every swing of your weapon."
     },
     {
-      "id": "power4917",
+      "id": "modern4e.power.utility-class-barbarian-power4917",
       "title": "Howl of the Alpha Wolf",
-      "className": "Barbarian",
-      "level": 10,
-      "type": "Encounter",
       "description": "You snarl nearly incomprehensible orders to your allies, and they hasten to obey.",
-      "traits": "Primal",
-      "action": "Move Action",
-      "range": "Close burst 5",
-      "rows": [
-        "Target: One ally in the burst, or each ally in the burst if you have reduced an enemy to 0 hit points during this turn",
-        "Effect: You slide each target 2 squares. You then shift 3 squares."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4917",
+        "publication": "Published in Primal Power, page(s) 17."
+      },
+      "keywords": [
+        "PRIMAL"
       ],
-      "source": "Published in Primal Power, page(s) 17.",
-      "link": "https://iws.mx/dnd/?view=power4917"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MOVE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One ally in the burst, or each ally in the burst if you have reduced an enemy to 0 hit points during this turn"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You slide each target 2 squares. You then shift 3 squares."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 5"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "You snarl nearly incomprehensible orders to your allies, and they hasten to obey."
     },
     {
-      "id": "power4839",
+      "id": "modern4e.power.utility-class-barbarian-power4839",
       "title": "Mountain Roots",
-      "className": "Barbarian",
-      "level": 10,
-      "type": "Daily",
       "description": "You sink your spirit into the earth to stand your ground.",
-      "traits": "Primal, Stance",
-      "action": "Immediate Interrupt",
-      "range": "Personal",
-      "rows": [
-        "Trigger: You are pulled, pushed, or slid",
-        "Effect: You negate the forced movement. Until the stance ends, you can negate forced movement against you."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4839",
+        "publication": "Published in Player's Handbook 2, page(s) 56."
+      },
+      "keywords": [
+        "PRIMAL",
+        "STANCE"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 56.",
-      "link": "https://iws.mx/dnd/?view=power4839"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You negate the forced movement. Until the stance ends, you can negate forced movement against you."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "You are pulled, pushed, or slid"
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "You sink your spirit into the earth to stand your ground."
     },
     {
-      "id": "power14429",
+      "id": "modern4e.power.utility-class-barbarian-power14429",
       "title": "Surge of Fury",
-      "className": "Barbarian",
-      "level": 10,
-      "type": "Daily",
       "description": "You release a howl that blocks out the whispers of your enemies and fills you with a fury that gives you a clarity of purpose.",
-      "traits": "Primal",
-      "action": "No Action",
-      "range": "Personal",
-      "rows": [
-        "Trigger: You start your turn subject to a dazing or dominating effect.",
-        "Effect: You end the triggering effect. Until the end of your next turn you are immune to effects that daze or dominate you."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14429",
+        "publication": "Published in Heroes of the Feywild, page(s) 49."
+      },
+      "keywords": [
+        "PRIMAL"
       ],
-      "source": "Published in Heroes of the Feywild, page(s) 49.",
-      "link": "https://iws.mx/dnd/?view=power14429"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "NO_ACTION",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You end the triggering effect. Until the end of your next turn you are immune to effects that daze or dominate you."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "You start your turn subject to a dazing or dominating effect."
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "You release a howl that blocks out the whispers of your enemies and fills you with a fury that gives you a clarity of purpose."
     },
     {
-      "id": "power4889",
+      "id": "modern4e.power.utility-class-barbarian-power4889",
       "title": "Totemic Scarification",
-      "className": "Barbarian",
-      "level": 10,
-      "type": "Daily",
       "description": "As you set aside caution for relentlessness, glowing totemic symbols begin carving themselves across your skin.",
-      "traits": "Primal, Stance",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: Until the stance ends, you take a –2 penalty to all defenses but gain a +1 bonus to attack rolls."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4889",
+        "publication": "Published in Primal Power, page(s) 17."
+      },
+      "keywords": [
+        "PRIMAL",
+        "STANCE"
       ],
-      "source": "Published in Primal Power, page(s) 17.",
-      "link": "https://iws.mx/dnd/?view=power4889"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the stance ends, you take a –2 penalty to all defenses but gain a +1 bonus to attack rolls."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "As you set aside caution for relentlessness, glowing totemic symbols begin carving themselves across your skin."
     },
     {
-      "id": "power4840",
+      "id": "modern4e.power.utility-class-barbarian-power4840",
       "title": "Wellspring of Renewal",
-      "className": "Barbarian",
-      "level": 10,
-      "type": "Encounter",
       "description": "You draw on a fount of primal energy to renew your strength and your focus.",
-      "traits": "Primal",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: You gain temporary hit points equal to one-half your level + your Constitution. In addition, if you are marked, that condition ends."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.barbarian"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4840",
+        "publication": "Published in Player's Handbook 2, page(s) 56."
+      },
+      "keywords": [
+        "PRIMAL"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 56.",
-      "link": "https://iws.mx/dnd/?view=power4840"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You gain temporary hit points equal to one-half your level + your Constitution. In addition, if you are marked, that condition ends."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "You draw on a fount of primal energy to renew your strength and your focus."
     }
   ]
 }

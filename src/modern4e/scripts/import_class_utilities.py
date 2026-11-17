@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Build heroic class utility cards from the offline snapshot."""
+import argparse
 import json
 import re
 from pathlib import Path
@@ -79,6 +80,14 @@ def extract(row, html):
 
 
 def main():
+  parser = argparse.ArgumentParser(description=__doc__)
+  parser.add_argument("--output", type=Path, required=True,
+                      help="Scratch directory for legacy reference cards; never authoring sources")
+  args = parser.parse_args()
+  output_dir = args.output.resolve()
+  if output_dir.is_relative_to((ROOT / "content").resolve()):
+    parser.error("Legacy imports cannot overwrite authoritative utility content")
+  output_dir.mkdir(parents=True, exist_ok=True)
   listing = compendium.payload(compendium.DATA / 'power/_listing.js')
   classes = {path.stem.capitalize() for path in (ROOT / 'classes').glob('*.typ')} - {'Root'}
   rows = [dict(zip(listing[-2], row)) for row in listing[-1]]
@@ -99,8 +108,8 @@ def main():
       included.append(card)
   for class_name in sorted(classes):
     cards = sorted((card for card in included if card['className'] == class_name), key=lambda card: (card['level'], card['title']))
-    (ROOT / 'content/class-utilities' / (class_name.lower() + '.json')).write_text(json.dumps({'powers': cards}, indent=2, ensure_ascii=False) + '\n')
-  (ROOT / 'content/class-utilities/deferred.json').write_text(json.dumps({'powers': deferred}, indent=2, ensure_ascii=False) + '\n')
+    (output_dir / (class_name.lower() + '.json')).write_text(json.dumps({'powers': cards}, indent=2, ensure_ascii=False) + '\n')
+  (output_dir / 'deferred.json').write_text(json.dumps({'powers': deferred}, indent=2, ensure_ascii=False) + '\n')
   assert len({card['id'] for card in included + deferred}) == len(rows)
   print(f'{len(rows)} total: {len(included)} placed, {len(deferred)} deferred')
 

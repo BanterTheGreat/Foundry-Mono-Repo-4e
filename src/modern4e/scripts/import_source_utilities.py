@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Adapt new non-combat PDF additions into shared power-source utility cards."""
+import argparse
 import json
 import re
 from collections import Counter
@@ -90,6 +91,14 @@ def adapt(value):
 
 
 def main():
+  parser = argparse.ArgumentParser(description=__doc__)
+  parser.add_argument("--output", type=Path, required=True,
+                      help="Scratch directory for legacy reference cards; never authoring sources")
+  args = parser.parse_args()
+  output_dir = args.output.resolve()
+  if output_dir.is_relative_to((ROOT / "content").resolve()):
+    parser.error("Legacy imports cannot overwrite authoritative utility content")
+  output_dir.mkdir(parents=True, exist_ok=True)
   source = json.loads(SOURCE.read_text())
   cards = []
   for entry in source['powers']:
@@ -134,7 +143,7 @@ def main():
                         traits=', '.join([power_source] + keywords), action=action,
                         range=adapt(range_text), rows=[adapt(row.strip()) for row in rows if row.strip()],
                         pages=definition['pages'], originalClass=entry['class']))
-  output = ROOT / 'content/power-source-utilities.json'
+  output = output_dir / 'power-source-utilities.json'
   migrations = json.loads((ROOT / 'content/skill-utility-migrations.json').read_text())['moves']
   skill_cards = []
   source_cards = []
@@ -164,7 +173,7 @@ def main():
   assert max(Counter(card['originalClass'] for card in additions).values(), default=0) <= 3
   cards.extend(additions)
   assert len({card['id'] for card in cards}) == len(cards)
-  (ROOT / 'content/skill-utilities.json').write_text(
+  (output_dir / 'skill-utilities.json').write_text(
       json.dumps({'powers': skill_cards}, indent=2, ensure_ascii=False) + '\n')
   output.write_text(json.dumps({'powers': cards}, indent=2, ensure_ascii=False) + '\n')
   print(f'{len(skill_cards)} migrated skill cards')

@@ -1,10 +1,10 @@
 #import "../../helpers/theme.typ" as theme;
-#import "../../helpers/powers.typ" as powers;
-#import "./power-source-utilities.typ": ruleLine;
+#import "../../helpers/power_content.typ": powerCard;
+#import "../../helpers/utility_content.typ": utilityEntries;
 #import "./utility-charisma.typ": charismaLevel2NonCombat;
 
 #let skillUtilities() = {
-  let entries = json("../../content/skill-utilities.json").powers
+  let entries = utilityEntries("skill")
   pagebreak()
   theme.subPageTitle(title: "General Non-Combat Utility Powers")
   parbreak()
@@ -14,18 +14,8 @@
     heading("Skill Level " + str(level), level: 2)
     columns(2, gutter: 5mm)[
       #if level == 2 { charismaLevel2NonCombat() }
-      #for entry in entries.filter(entry => entry.level == level).sorted(key: entry => entry.skill + entry.title) {
-        let rows = entry.rows.map(ruleLine)
-        powers.power(
-          title: entry.title,
-          bonusTitle: entry.skill + " | Level " + str(entry.level),
-          description: entry.description,
-          type: entry.type,
-          traits: entry.traits,
-          action: entry.action,
-          range: [#entry.range],
-          additionalRows: rows,
-        )
+      #for entry in entries.filter(entry => entry.level == level) {
+        powerCard(entry)
       }
     ]
   }

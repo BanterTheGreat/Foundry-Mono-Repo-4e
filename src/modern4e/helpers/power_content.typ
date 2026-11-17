@@ -3,7 +3,11 @@
 #import "powers.typ" as cards;
 #import "class_text.typ": classText;
 
-#let display(value) = value.split("_").map(word => upper(word.first()) + lower(word.slice(1))).join(" ")
+#let display(value) = {
+  if value == "NON_COMBAT" { "Non-Combat" } else {
+    value.split("_").map(word => upper(word.first()) + lower(word.slice(1))).join(" ")
+  }
+}
 #let scaled(value, prefix: "") = {
   if type(value) == str { lower(value) } else {
     str(value.base) + if "byLevel" in value {
@@ -23,7 +27,7 @@
 }
 
 #let blockContent(value) = {
-  [*#value.label:* #classText(value.text)]
+  if value.label == "Rule" { classText(value.text) } else { [*#value.label:* #classText(value.text)] }
   for scale in value.at("scaling", default: ()) [
     #linebreak()
     *Level #scale.atLevel:* #classText(scale.text)

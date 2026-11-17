@@ -1,599 +1,2610 @@
 {
+  "schemaVersion": 2,
   "powers": [
     {
-      "id": "power14457",
+      "id": "modern4e.power.utility-class-bard-power14457",
       "title": "Bardic Lore",
-      "className": "Bard",
-      "level": 2,
-      "type": "Daily",
       "description": "Using your magic to sharpen your memory, you recall an important piece of information that you picked up in a story or a song you heard in your travels.",
-      "traits": "Arcane",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: You use Arcana, Nature, Society, Nature, or Religion to make a knowledge check, but instead of rolling a d20, resolve the check as if you had rolled a 20."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14457",
+        "publication": "Published in Heroes of the Feywild, page(s) 60."
+      },
+      "keywords": [
+        "ARCANE"
       ],
-      "source": "Published in Heroes of the Feywild, page(s) 60.",
-      "link": "https://iws.mx/dnd/?view=power14457"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You use Arcana, Nature, Society, Nature, or Religion to make a knowledge check, but instead of rolling a d20, resolve the check as if you had rolled a 20."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "Using your magic to sharpen your memory, you recall an important piece of information that you picked up in a story or a song you heard in your travels."
     },
     {
-      "id": "power12512",
+      "id": "modern4e.power.utility-class-bard-power12512",
       "title": "Beguiling Ballad",
-      "className": "Bard",
-      "level": 2,
-      "type": "Daily",
       "description": "Just as your foe thinks victory is assured, you weave a curtain of fey magic that makes it think its enemy was never there.",
-      "traits": "Arcane, Illusion, Teleportation",
-      "action": "Immediate Reaction",
-      "range": "Close burst 10",
-      "rows": [
-        "Trigger: An enemy in the burst hits an ally",
-        "Target: The triggering enemy",
-        "Effect: The target cannot see the triggering ally (save ends). The triggering ally can teleport 5 squares as a free action."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12512",
+        "publication": "Published in Dragon Magazine 387, page(s) 25."
+      },
+      "keywords": [
+        "ARCANE",
+        "ILLUSION",
+        "TELEPORTATION"
       ],
-      "source": "Published in Dragon Magazine 387, page(s) 25.",
-      "link": "https://iws.mx/dnd/?view=power12512"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "The triggering enemy"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target cannot see the triggering ally (save ends). The triggering ally can teleport 5 squares as a free action."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 10"
+          },
+          "trigger": "An enemy in the burst hits an ally",
+          "targets": "targets"
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "Just as your foe thinks victory is assured, you weave a curtain of fey magic that makes it think its enemy was never there."
     },
     {
-      "id": "power3116",
+      "id": "modern4e.power.utility-class-bard-power3116",
       "title": "Canon of Avoidance",
-      "className": "Bard",
-      "level": 2,
-      "type": "Daily",
       "description": "Your song of protection trips from ally to ally, cloaking each one in a magical shield.",
-      "traits": "Arcane",
-      "action": "Standard Action",
-      "range": "Ranged 10",
-      "rows": [
-        "Target: One ally",
-        "Effect: The target gains a +2 power bonus to all defenses until the end of your next turn.",
-        "Sustain Minor: The effect persists. When you sustain the effect, you can transfer it to another ally within 10 squares of you."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3116",
+        "publication": "Published in Arcane Power, page(s) 8."
+      },
+      "keywords": [
+        "ARCANE"
       ],
-      "source": "Published in Arcane Power, page(s) 8.",
-      "link": "https://iws.mx/dnd/?view=power3116"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One ally"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target gains a +2 power bonus to all defenses until the end of your next turn."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Sustain Minor",
+              "text": "The effect persists. When you sustain the effect, you can transfer it to another ally within 10 squares of you."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "Your song of protection trips from ally to ally, cloaking each one in a magical shield."
     },
     {
-      "id": "power3117",
+      "id": "modern4e.power.utility-class-bard-power3117",
       "title": "Clockwork Precision",
-      "className": "Bard",
-      "level": 2,
-      "type": "Daily",
       "description": "You hum a simple tune of unity, allowing you and your allies to better work together.",
-      "traits": "Arcane",
-      "action": "Standard Action",
-      "range": "Close burst 10",
-      "rows": [
-        "Target: You and each ally in the burst",
-        "Effect: Until the end of the encounter, each target gains a +2 bonus to skill checks made to aid another. When a target aids attack, aids defense, or successfully aids another, he or she grants a +3 bonus instead of a +2 bonus to the roll."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3117",
+        "publication": "Published in Arcane Power, page(s) 8."
+      },
+      "keywords": [
+        "ARCANE"
       ],
-      "source": "Published in Arcane Power, page(s) 8.",
-      "link": "https://iws.mx/dnd/?view=power3117"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You and each ally in the burst"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, each target gains a +2 bonus to skill checks made to aid another. When a target aids attack, aids defense, or successfully aids another, he or she grants a +3 bonus instead of a +2 bonus to the roll."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 10"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "You hum a simple tune of unity, allowing you and your allies to better work together."
     },
     {
-      "id": "power2991",
+      "id": "modern4e.power.utility-class-bard-power2991",
       "title": "Concerted Effort",
-      "className": "Bard",
-      "level": 2,
-      "type": "Daily",
       "description": "Your magic hums around your allies, growing in power as they redouble their efforts toward the task at hand.",
-      "traits": "Arcane",
-      "action": "Standard Action",
-      "range": "Close burst 10",
-      "rows": [
-        "Target: You and each ally in the burst",
-        "Effect: Until the end of your next turn, each target gains a +1 power bonus to attack rolls. Whenever a target hits with at least one attack during his or her turn, the bonus increases by 1 for each target whose turn has not yet started."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2991",
+        "publication": "Published in Arcane Power, page(s) 8."
+      },
+      "keywords": [
+        "ARCANE"
       ],
-      "source": "Published in Arcane Power, page(s) 8.",
-      "link": "https://iws.mx/dnd/?view=power2991"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You and each ally in the burst"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn, each target gains a +1 power bonus to attack rolls. Whenever a target hits with at least one attack during his or her turn, the bonus increases by 1 for each target whose turn has not yet started."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 10"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "Your magic hums around your allies, growing in power as they redouble their efforts toward the task at hand."
     },
     {
-      "id": "power2360",
+      "id": "modern4e.power.utility-class-bard-power2360",
       "title": "Hunter's Tune",
-      "className": "Bard",
-      "level": 2,
-      "type": "Daily",
       "description": "You shape the flow of sound, containing it and creating an area of silence.",
-      "traits": "Arcane",
-      "action": "Minor Action",
-      "range": "Ranged 10",
-      "rows": [
-        "Target: One ally",
-        "Effect: Until the end of your next turn, the target gains a +5 power bonus to Stealth checks and doesn't take a penalty to Stealth checks for moving more than 2 squares or running.",
-        "Sustain Minor: The effect persists if the target is within range."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2360",
+        "publication": "Published in Player's Handbook 2, page(s) 70."
+      },
+      "keywords": [
+        "ARCANE"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 70.",
-      "link": "https://iws.mx/dnd/?view=power2360"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One ally"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn, the target gains a +5 power bonus to Stealth checks and doesn't take a penalty to Stealth checks for moving more than 2 squares or running."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Sustain Minor",
+              "text": "The effect persists if the target is within range."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "You shape the flow of sound, containing it and creating an area of silence."
     },
     {
-      "id": "power4990",
+      "id": "modern4e.power.utility-class-bard-power4990",
       "title": "Inspire Competence",
-      "className": "Bard",
-      "level": 2,
-      "type": "Encounter",
       "description": "Your magic channels the skill of ancient experts to help with the task at hand.",
-      "traits": "Arcane",
-      "action": "Minor Action",
-      "range": "Close burst 5",
-      "rows": [
-        "Target: You and each ally in the burst",
-        "Effect: Choose a skill. Until the end of the encounter, each target gains a +2 power bonus to his or her next check using that skill."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4990",
+        "publication": "Published in Player's Handbook 2, page(s) 70."
+      },
+      "keywords": [
+        "ARCANE"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 70.",
-      "link": "https://iws.mx/dnd/?view=power4990"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You and each ally in the burst"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Choose a skill. Until the end of the encounter, each target gains a +2 power bonus to his or her next check using that skill."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 5"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "Your magic channels the skill of ancient experts to help with the task at hand."
     },
     {
-      "id": "power6610",
+      "id": "modern4e.power.utility-class-bard-power6610",
       "title": "Moment of Escape",
-      "className": "Bard",
-      "level": 2,
-      "type": "Encounter",
       "description": "You distract your enemies with a quick refrain, giving your embattled ally a chance to get away.",
-      "traits": "Arcane",
-      "action": "Move Action",
-      "range": "Ranged 10",
-      "rows": [
-        "Target: One ally",
-        "Effect: You slide the target 4 squares."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power6610",
+        "publication": "Published in Arcane Power, page(s) 8."
+      },
+      "keywords": [
+        "ARCANE"
       ],
-      "source": "Published in Arcane Power, page(s) 8.",
-      "link": "https://iws.mx/dnd/?view=power6610"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MOVE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One ally"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You slide the target 4 squares."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "You distract your enemies with a quick refrain, giving your embattled ally a chance to get away."
     },
     {
-      "id": "power2359",
+      "id": "modern4e.power.utility-class-bard-power2359",
       "title": "Song of Courage",
-      "className": "Bard",
-      "level": 2,
-      "type": "Daily",
       "description": "Your magic creates shouts of encouragement, making it seem as though an entire army were cheering on your allies.",
-      "traits": "Arcane, Zone",
-      "action": "Minor Action",
-      "range": "Close burst 5",
-      "rows": [
-        "Effect: The burst creates a zone of inspirational shouts that lasts until the end of your next turn. When you move, the zone moves with you, remaining centered on you. While within the zone, any ally gains a +1 power bonus to attack rolls.",
-        "Sustain Minor: The zone persists."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2359",
+        "publication": "Published in Player's Handbook 2, page(s) 70."
+      },
+      "keywords": [
+        "ARCANE",
+        "ZONE"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 70.",
-      "link": "https://iws.mx/dnd/?view=power2359"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The burst creates a zone of inspirational shouts that lasts until the end of your next turn. When you move, the zone moves with you, remaining centered on you. While within the zone, any ally gains a +1 power bonus to attack rolls."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Sustain Minor",
+              "text": "The zone persists."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 5"
+          }
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "Your magic creates shouts of encouragement, making it seem as though an entire army were cheering on your allies."
     },
     {
-      "id": "power2358",
+      "id": "modern4e.power.utility-class-bard-power2358",
       "title": "Song of Defense",
-      "className": "Bard",
-      "level": 2,
-      "type": "Daily",
       "description": "You intone a few notes from a battle hymn, and your magic bolsters your allies' ability to parry attacks.",
-      "traits": "Arcane, Zone",
-      "action": "Minor Action",
-      "range": "Close burst 5",
-      "rows": [
-        "Effect: The burst creates a zone of bolstering song that lasts until the end of your next turn. When you move, the zone moves with you, remaining centered on you. While within the zone, any ally gains a +1 power bonus to AC.",
-        "Sustain Minor: The zone persists."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2358",
+        "publication": "Published in Player's Handbook 2, page(s) 70."
+      },
+      "keywords": [
+        "ARCANE",
+        "ZONE"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 70.",
-      "link": "https://iws.mx/dnd/?view=power2358"
-    },
-    {
-      "id": "power2990",
-      "title": "Words of Protective Fate",
-      "className": "Bard",
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The burst creates a zone of bolstering song that lasts until the end of your next turn. When you move, the zone moves with you, remaining centered on you. While within the zone, any ally gains a +1 power bonus to AC."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Sustain Minor",
+              "text": "The zone persists."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 5"
+          }
+        }
+      ],
       "level": 2,
-      "type": "Daily",
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "You intone a few notes from a battle hymn, and your magic bolsters your allies' ability to parry attacks."
+    },
+    {
+      "id": "modern4e.power.utility-class-bard-power2990",
+      "title": "Words of Protective Fate",
       "description": "Your voice shields your allies against misfortune, turning otherwise deadly blows into less damaging strikes.",
-      "traits": "Arcane",
-      "action": "Minor Action",
-      "range": "Close burst 10",
-      "rows": [
-        "Target: You and each ally in the burst",
-        "Effect: Until the end of the encounter, whenever a critical hit is scored on the target, you roll a d20. If you roll a 10 or higher, the attack hits but is not a critical hit."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2990",
+        "publication": "Published in Arcane Power, page(s) 8."
+      },
+      "keywords": [
+        "ARCANE"
       ],
-      "source": "Published in Arcane Power, page(s) 8.",
-      "link": "https://iws.mx/dnd/?view=power2990"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You and each ally in the burst"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, whenever a critical hit is scored on the target, you roll a d20. If you roll a 10 or higher, the attack hits but is not a critical hit."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 10"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "Your voice shields your allies against misfortune, turning otherwise deadly blows into less damaging strikes."
     },
     {
-      "id": "power2372",
+      "id": "modern4e.power.utility-class-bard-power2372",
       "title": "Allegro",
-      "className": "Bard",
-      "level": 6,
-      "type": "Daily",
       "description": "You drum out a hasty rhythm that infuses you and your comrades with magical speed.",
-      "traits": "Arcane",
-      "action": "Minor Action",
-      "range": "Close burst 10",
-      "rows": [
-        "Target: You and each ally in the burst",
-        "Effect: You slide each target 2 squares."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2372",
+        "publication": "Published in Player's Handbook 2, page(s) 71."
+      },
+      "keywords": [
+        "ARCANE"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 71.",
-      "link": "https://iws.mx/dnd/?view=power2372"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You and each ally in the burst"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You slide each target 2 squares."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 10"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "You drum out a hasty rhythm that infuses you and your comrades with magical speed."
     },
     {
-      "id": "power5689",
+      "id": "modern4e.power.utility-class-bard-power5689",
       "title": "Chord of Resilience",
-      "className": "Bard",
-      "level": 6,
-      "type": "Encounter",
       "description": "With notes of steel and stone, you preserve your ally from harm.",
-      "traits": "Arcane",
-      "action": "Immediate Interrupt",
-      "range": "Ranged 10",
-      "rows": [
-        "Trigger: An attack hits an ally",
-        "Target: The ally who was hit",
-        "Effect: The damage the target takes is reduced by an amount equal to 5 + your Charisma."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5689",
+        "publication": "Published in Arcane Power, page(s) 9."
+      },
+      "keywords": [
+        "ARCANE"
       ],
-      "source": "Published in Arcane Power, page(s) 9.",
-      "link": "https://iws.mx/dnd/?view=power5689"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "The ally who was hit"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The damage the target takes is reduced by an amount equal to 5 + your Charisma."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "trigger": "An attack hits an ally",
+          "targets": "targets"
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "With notes of steel and stone, you preserve your ally from harm."
     },
     {
-      "id": "power5690",
+      "id": "modern4e.power.utility-class-bard-power5690",
       "title": "Dramatic Shift",
-      "className": "Bard",
-      "level": 6,
-      "type": "Encounter",
       "description": "You recite your allies' glorious tale, helping to set them in position for triumph.",
-      "traits": "Arcane",
-      "action": "Minor Action",
-      "range": "Close burst 5",
-      "rows": [
-        "Target: You and each ally in the burst",
-        "Effect: Until the end of your next turn, each target can shift as a minor action."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5690",
+        "publication": "Published in Arcane Power, page(s) 9."
+      },
+      "keywords": [
+        "ARCANE"
       ],
-      "source": "Published in Arcane Power, page(s) 9.",
-      "link": "https://iws.mx/dnd/?view=power5690"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You and each ally in the burst"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn, each target can shift as a minor action."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 5"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "You recite your allies' glorious tale, helping to set them in position for triumph."
     },
     {
-      "id": "power12515",
+      "id": "modern4e.power.utility-class-bard-power12515",
       "title": "Echoing Steps",
-      "className": "Bard",
-      "level": 6,
-      "type": "Daily",
       "description": "Your incantation pulls its subject into the Feywild long enough to move freely. Arcane reverberations enable shorter return trips.",
-      "traits": "Arcane, Teleportation",
-      "action": "Minor Action",
-      "range": "Ranged 10",
-      "rows": [
-        "Target: You or one ally",
-        "Effect: The target can teleport 6 squares as a free action. Until the end of the encounter, the target can teleport 1 square as a minor action."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12515",
+        "publication": "Published in Dragon Magazine 387, page(s) 26."
+      },
+      "keywords": [
+        "ARCANE",
+        "TELEPORTATION"
       ],
-      "source": "Published in Dragon Magazine 387, page(s) 26.",
-      "link": "https://iws.mx/dnd/?view=power12515"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You or one ally"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target can teleport 6 squares as a free action. Until the end of the encounter, the target can teleport 1 square as a minor action."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "Your incantation pulls its subject into the Feywild long enough to move freely. Arcane reverberations enable shorter return trips."
     },
     {
-      "id": "power2993",
+      "id": "modern4e.power.utility-class-bard-power2993",
       "title": "Glimpse the Future",
-      "className": "Bard",
-      "level": 6,
-      "type": "Daily",
       "description": "Just as you uphold the examples of the past, so too do you draw on the future to inspire your companions.",
-      "traits": "Arcane",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: Roll a d20 three times and keep the highest roll. Once before the end of the encounter, you can use this roll to replace a d20 roll of an ally within 10 squares of you."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2993",
+        "publication": "Published in Arcane Power, page(s) 10."
+      },
+      "keywords": [
+        "ARCANE"
       ],
-      "source": "Published in Arcane Power, page(s) 10.",
-      "link": "https://iws.mx/dnd/?view=power2993"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Roll a d20 three times and keep the highest roll. Once before the end of the encounter, you can use this roll to replace a d20 roll of an ally within 10 squares of you."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "Just as you uphold the examples of the past, so too do you draw on the future to inspire your companions."
     },
     {
-      "id": "power2374",
+      "id": "modern4e.power.utility-class-bard-power2374",
       "title": "Ode to Sacrifice",
-      "className": "Bard",
-      "level": 6,
-      "type": "Encounter",
       "description": "Like many heroes who prove their worth by shouldering the burdens of others, you take a harmful effect from an ally.",
-      "traits": "Arcane",
-      "action": "Minor Action",
-      "range": "Close burst 5",
-      "rows": [
-        "Target: One ally in the burst",
-        "Effect: You transfer one effect on the target that a save can end to yourself or to another ally in the burst. The new subject of the effect gains a power bonus to saving throws against that effect equal to your Constitution."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2374",
+        "publication": "Published in Player's Handbook 2, page(s) 71."
+      },
+      "keywords": [
+        "ARCANE"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 71.",
-      "link": "https://iws.mx/dnd/?view=power2374"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One ally in the burst"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You transfer one effect on the target that a save can end to yourself or to another ally in the burst. The new subject of the effect gains a power bonus to saving throws against that effect equal to your Constitution."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 5"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "Like many heroes who prove their worth by shouldering the burdens of others, you take a harmful effect from an ally."
     },
     {
-      "id": "power14464",
+      "id": "modern4e.power.utility-class-bard-power14464",
       "title": "Reactive Wards",
-      "className": "Bard",
-      "level": 6,
-      "type": "Encounter",
       "description": "You quickly inscribe a runic shape into the air, a ward against further harm, and then cast it on one of your allies.",
-      "traits": "Arcane",
-      "action": "Minor Action",
-      "range": "Ranged 10",
-      "rows": [
-        "Target: You or one ally",
-        "Effect: The target makes a saving throw against an effect that a save can end, with a +2 power bonus to the saving throw. If the saving throw fails, the target gains temporary hit points equal to your Charisma."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14464",
+        "publication": "Published in Heroes of the Feywild, page(s) 62."
+      },
+      "keywords": [
+        "ARCANE"
       ],
-      "source": "Published in Heroes of the Feywild, page(s) 62.",
-      "link": "https://iws.mx/dnd/?view=power14464"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You or one ally"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target makes a saving throw against an effect that a save can end, with a +2 power bonus to the saving throw. If the saving throw fails, the target gains temporary hit points equal to your Charisma."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "You quickly inscribe a runic shape into the air, a ward against further harm, and then cast it on one of your allies."
     },
     {
-      "id": "power14465",
+      "id": "modern4e.power.utility-class-bard-power14465",
       "title": "Revitalizing Incantation",
-      "className": "Bard",
-      "level": 6,
-      "type": "Encounter",
       "description": "You whisper a few phrases in a secret language, urging your ally's body to mend itself.",
-      "traits": "Arcane, Healing",
-      "action": "Minor Action",
-      "range": "Ranged 5",
-      "rows": [
-        "Target: You or one ally",
-        "Effect: The target can spend a healing surge. Additionally, the target gains temporary hit points equal to his or her healing surge value."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14465",
+        "publication": "Published in Heroes of the Feywild, page(s) 62."
+      },
+      "keywords": [
+        "ARCANE",
+        "HEALING"
       ],
-      "source": "Published in Heroes of the Feywild, page(s) 62.",
-      "link": "https://iws.mx/dnd/?view=power14465"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You or one ally"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target can spend a healing surge. Additionally, the target gains temporary hit points equal to his or her healing surge value."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "You whisper a few phrases in a secret language, urging your ally's body to mend itself."
     },
     {
-      "id": "power2373",
+      "id": "modern4e.power.utility-class-bard-power2373",
       "title": "Song of Conquest",
-      "className": "Bard",
-      "level": 6,
-      "type": "Encounter",
       "description": "Your arcane song bolsters your allies, so they fight your foes with renewed vigor.",
-      "traits": "Arcane",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: Until the end of your next turn, any ally within 5 squares of you who hits an enemy gains temporary hit points equal to 3 + your Constitution."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2373",
+        "publication": "Published in Player's Handbook 2, page(s) 71."
+      },
+      "keywords": [
+        "ARCANE"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 71.",
-      "link": "https://iws.mx/dnd/?view=power2373"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn, any ally within 5 squares of you who hits an enemy gains temporary hit points equal to 3 + your Constitution."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "Your arcane song bolsters your allies, so they fight your foes with renewed vigor."
     },
     {
-      "id": "power5692",
+      "id": "modern4e.power.utility-class-bard-power5692",
       "title": "Song of Speed",
-      "className": "Bard",
-      "level": 6,
-      "type": "Encounter",
       "description": "With a rousing refrain, you imbue an ally or yourself with superior speed and agility.",
-      "traits": "Arcane",
-      "action": "Minor Action",
-      "range": "Ranged 10",
-      "rows": [
-        "Target: You or an ally",
-        "Effect: Until the end of your next turn, the target gains a +4 power bonus to speed and can shift 1 extra square whenever he or she shifts."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5692",
+        "publication": "Published in Arcane Power, page(s) 10."
+      },
+      "keywords": [
+        "ARCANE"
       ],
-      "source": "Published in Arcane Power, page(s) 10.",
-      "link": "https://iws.mx/dnd/?view=power5692"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You or an ally"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn, the target gains a +4 power bonus to speed and can shift 1 extra square whenever he or she shifts."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "With a rousing refrain, you imbue an ally or yourself with superior speed and agility."
     },
     {
-      "id": "power3121",
+      "id": "modern4e.power.utility-class-bard-power3121",
       "title": "Synchronicity",
-      "className": "Bard",
-      "level": 6,
-      "type": "Daily",
       "description": "A single chord is all it takes to spur your allies forward.",
-      "traits": "Arcane",
-      "action": "No Action",
-      "range": "Close burst 10",
-      "rows": [
-        "Target: You and each ally in the burst",
-        "Trigger: You roll initiative",
-        "Effect: Each target gains a +5 bonus to initiative during this encounter."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power3121",
+        "publication": "Published in Arcane Power, page(s) 10."
+      },
+      "keywords": [
+        "ARCANE"
       ],
-      "source": "Published in Arcane Power, page(s) 10.",
-      "link": "https://iws.mx/dnd/?view=power3121"
-    },
-    {
-      "id": "power2361",
-      "title": "Trickster's Healing",
-      "className": "Bard",
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "NO_ACTION",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You and each ally in the burst"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Each target gains a +5 bonus to initiative during this encounter."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 10"
+          },
+          "targets": "targets",
+          "trigger": "You roll initiative"
+        }
+      ],
       "level": 6,
-      "type": "Daily",
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "A single chord is all it takes to spur your allies forward."
+    },
+    {
+      "id": "modern4e.power.utility-class-bard-power2361",
+      "title": "Trickster's Healing",
       "description": "Your magic turns an enemy's blunder into an opportunity for your allies to overcome their wounds.",
-      "traits": "Arcane, Healing",
-      "action": "Immediate Reaction",
-      "range": "Close burst 10",
-      "rows": [
-        "Trigger: An attack misses an ally within 10 squares of you",
-        "Target: Each ally in the burst missed by the triggering attack",
-        "Effect: Each target regains hit points equal to one-half your level + your Intelligence."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2361",
+        "publication": "Published in Player's Handbook 2, page(s) 71."
+      },
+      "keywords": [
+        "ARCANE",
+        "HEALING"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 71.",
-      "link": "https://iws.mx/dnd/?view=power2361"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Each ally in the burst missed by the triggering attack"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Each target regains hit points equal to one-half your level + your Intelligence."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 10"
+          },
+          "trigger": "An attack misses an ally within 10 squares of you",
+          "targets": "targets"
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "Your magic turns an enemy's blunder into an opportunity for your allies to overcome their wounds."
     },
     {
-      "id": "power2828",
+      "id": "modern4e.power.utility-class-bard-power2828",
       "title": "Break Enchantment",
-      "className": "Bard",
-      "level": 10,
-      "type": "Daily",
       "description": "Your arcane poem frees your allies' minds.",
-      "traits": "Arcane, Implement",
-      "action": "Minor Action",
-      "range": "Area burst 1 within 10 squares",
-      "rows": [
-        "Target: Each ally in the burst",
-        "Effect: The target rolls a saving throw. If the saving throw is against a charm, a fear, or an illusion effect, the target gains a bonus to the saving throw equal to your Charisma."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2828",
+        "publication": "Published in Arcane Power, page(s) 11."
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT"
       ],
-      "source": "Published in Arcane Power, page(s) 11.",
-      "link": "https://iws.mx/dnd/?view=power2828"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Each ally in the burst"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target rolls a saving throw. If the saving throw is against a charm, a fear, or an illusion effect, the target gains a bonus to the saving throw equal to your Charisma."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 1 within 10 squares"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "Your arcane poem frees your allies' minds."
     },
     {
-      "id": "power5698",
+      "id": "modern4e.power.utility-class-bard-power5698",
       "title": "Chant of Accuracy",
-      "className": "Bard",
-      "level": 10,
-      "type": "Daily",
       "description": "You recite the legend of the arrow that found the single gap in a foe's armor, inspiring your companions to strike true.",
-      "traits": "Arcane",
-      "action": "Minor Action",
-      "range": "Close burst 10",
-      "rows": [
-        "Target: You and each ally in the burst",
-        "Effect: Each target gains a +2 power bonus to attack rolls until the end of your next turn."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5698",
+        "publication": "Published in Arcane Power, page(s) 11."
+      },
+      "keywords": [
+        "ARCANE"
       ],
-      "source": "Published in Arcane Power, page(s) 11.",
-      "link": "https://iws.mx/dnd/?view=power5698"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You and each ally in the burst"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Each target gains a +2 power bonus to attack rolls until the end of your next turn."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 10"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "You recite the legend of the arrow that found the single gap in a foe's armor, inspiring your companions to strike true."
     },
     {
-      "id": "power14471",
+      "id": "modern4e.power.utility-class-bard-power14471",
       "title": "Enchantment Ward",
-      "className": "Bard",
-      "level": 10,
-      "type": "Daily",
       "description": "You place wards on an ally well in advance, allowing him or her to resist harmful effects before they can take hold.",
-      "traits": "Arcane",
-      "action": "Minor Action",
-      "range": "Ranged 10",
-      "rows": [
-        "Target: You or one ally",
-        "Effect: The first time before an extended rest that the target is subjected to an effect that a save can end, the target can make a saving throw to end that effect, with a +3 power bonus to the saving throw. If the effect has the arcane, charm, fear, or illusion keywords, the bonus instead equals your Charisma.",
-        "Special: If the target is still under the effect of this power when he or she is subjected to an effect that can normally be removed only by the Remove Affliction ritual, that effect and this power both end."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14471",
+        "publication": "Published in Heroes of the Feywild, page(s) 63."
+      },
+      "keywords": [
+        "ARCANE"
       ],
-      "source": "Published in Heroes of the Feywild, page(s) 63.",
-      "link": "https://iws.mx/dnd/?view=power14471"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You or one ally"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The first time before an extended rest that the target is subjected to an effect that a save can end, the target can make a saving throw to end that effect, with a +3 power bonus to the saving throw. If the effect has the arcane, charm, fear, or illusion keywords, the bonus instead equals your Charisma."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Special",
+              "text": "If the target is still under the effect of this power when he or she is subjected to an effect that can normally be removed only by the Remove Affliction ritual, that effect and this power both end."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "You place wards on an ally well in advance, allowing him or her to resist harmful effects before they can take hold."
     },
     {
-      "id": "power2384",
+      "id": "modern4e.power.utility-class-bard-power2384",
       "title": "Idyll of Calm",
-      "className": "Bard",
-      "level": 10,
-      "type": "Daily",
       "description": "You hum a soft song that cools your allies' tempers and helps them focus.",
-      "traits": "Arcane, Zone",
-      "action": "Minor Action",
-      "range": "Close burst 5",
-      "rows": [
-        "Effect: The burst creates a zone of calm that lasts until the end of the encounter. When you move, the zone moves with you, remaining centered on you. Each ally within the zone gains a +2 power bonus to Will, and any penalty to attack rolls that such an ally takes is lessened by 2."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2384",
+        "publication": "Published in Arcane Power, page(s) 11."
+      },
+      "keywords": [
+        "ARCANE",
+        "ZONE"
       ],
-      "source": "Published in Arcane Power, page(s) 11.",
-      "link": "https://iws.mx/dnd/?view=power2384"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The burst creates a zone of calm that lasts until the end of the encounter. When you move, the zone moves with you, remaining centered on you. Each ally within the zone gains a +2 power bonus to Will, and any penalty to attack rolls that such an ally takes is lessened by 2."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 5"
+          }
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "You hum a soft song that cools your allies' tempers and helps them focus."
     },
     {
-      "id": "power2829",
+      "id": "modern4e.power.utility-class-bard-power2829",
       "title": "Illuminating Stars",
-      "className": "Bard",
-      "level": 10,
-      "type": "Daily",
       "description": "You invoke the light of the full moon and the guiding star of the north, revealing hidden foes to your allies.",
-      "traits": "Arcane",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: Until the end of the encounter, you and any allies within 5 squares of you gain a +5 power bonus to Insight checks and Perception checks."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2829",
+        "publication": "Published in Arcane Power, page(s) 11."
+      },
+      "keywords": [
+        "ARCANE"
       ],
-      "source": "Published in Arcane Power, page(s) 11.",
-      "link": "https://iws.mx/dnd/?view=power2829"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, you and any allies within 5 squares of you gain a +5 power bonus to Insight checks and Perception checks."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "You invoke the light of the full moon and the guiding star of the north, revealing hidden foes to your allies."
     },
     {
-      "id": "power2386",
+      "id": "modern4e.power.utility-class-bard-power2386",
       "title": "Illusory Erasure",
-      "className": "Bard",
-      "level": 10,
-      "type": "Encounter",
       "description": "Your magic song makes an ally abruptly disappear, giving him or her a chance to sneak up on foes.",
-      "traits": "Arcane, Illusion",
-      "action": "Minor Action",
-      "range": "Ranged 10",
-      "rows": [
-        "Target: One ally",
-        "Effect: The target becomes invisible until the end of your next turn, and you slide the target 2 squares."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2386",
+        "publication": "Published in Player's Handbook 2, page(s) 72."
+      },
+      "keywords": [
+        "ARCANE",
+        "ILLUSION"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 72.",
-      "link": "https://iws.mx/dnd/?view=power2386"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One ally"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target becomes invisible until the end of your next turn, and you slide the target 2 squares."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "Your magic song makes an ally abruptly disappear, giving him or her a chance to sneak up on foes."
     },
     {
-      "id": "power5699",
+      "id": "modern4e.power.utility-class-bard-power5699",
       "title": "Mantle of Unity",
-      "className": "Bard",
-      "level": 10,
-      "type": "Encounter",
       "description": "A swelling chorus of confidence enfolds your allies, so that the strengths of each mask another's weakness.",
-      "traits": "Arcane",
-      "action": "Minor Action",
-      "range": "Close burst 5",
-      "rows": [
-        "Target: You and each ally in the burst",
-        "Effect: Determine the highest AC, Fortitude, Reflex, and Will among all the targets, not including any temporary bonuses or penalties. Until the end of your next turn, use these values for the corresponding defenses of all the targets."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5699",
+        "publication": "Published in Arcane Power, page(s) 11."
+      },
+      "keywords": [
+        "ARCANE"
       ],
-      "source": "Published in Arcane Power, page(s) 11.",
-      "link": "https://iws.mx/dnd/?view=power5699"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You and each ally in the burst"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Determine the highest AC, Fortitude, Reflex, and Will among all the targets, not including any temporary bonuses or penalties. Until the end of your next turn, use these values for the corresponding defenses of all the targets."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 5"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "A swelling chorus of confidence enfolds your allies, so that the strengths of each mask another's weakness."
     },
     {
-      "id": "power11111",
+      "id": "modern4e.power.utility-class-bard-power11111",
       "title": "Perfect Pitch",
-      "className": "Bard",
-      "level": 10,
-      "type": "Daily",
       "description": "With elegant poise, you focus your arcane power to aid attacks and healing.",
-      "traits": "Arcane",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: Until the end of the encounter, you gain a +2 power bonus to damage rolls with your bard attack powers, and when you or an ally regains hit points from one of your bard or bard paragon path healing powers, that character regains additional hit points equal to your Charisma."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11111",
+        "publication": "Published in Dragon Magazine 383, page(s) 54."
+      },
+      "keywords": [
+        "ARCANE"
       ],
-      "source": "Published in Dragon Magazine 383, page(s) 54.",
-      "link": "https://iws.mx/dnd/?view=power11111"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, you gain a +2 power bonus to damage rolls with your bard attack powers, and when you or an ally regains hit points from one of your bard or bard paragon path healing powers, that character regains additional hit points equal to your Charisma."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "With elegant poise, you focus your arcane power to aid attacks and healing."
     },
     {
-      "id": "power2996",
+      "id": "modern4e.power.utility-class-bard-power2996",
       "title": "Savior's Song",
-      "className": "Bard",
-      "level": 10,
-      "type": "Daily",
       "description": "You inspire determination and focus in your allies with hopeful verses of battles won despite daunting odds.",
-      "traits": "Arcane",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: Until the end of the encounter, each ally who ends his or her turn within 5 squares of you can reroll one saving throw that he or she fails during that turn."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2996",
+        "publication": "Published in Arcane Power, page(s) 11."
+      },
+      "keywords": [
+        "ARCANE"
       ],
-      "source": "Published in Arcane Power, page(s) 11.",
-      "link": "https://iws.mx/dnd/?view=power2996"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, each ally who ends his or her turn within 5 squares of you can reroll one saving throw that he or she fails during that turn."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "You inspire determination and focus in your allies with hopeful verses of battles won despite daunting odds."
     },
     {
-      "id": "power2388",
+      "id": "modern4e.power.utility-class-bard-power2388",
       "title": "Song of Recovery",
-      "className": "Bard",
-      "level": 10,
-      "type": "Encounter",
       "description": "You instill a sense of perseverance in your allies with an inspiring song.",
-      "traits": "Arcane",
-      "action": "Minor Action",
-      "range": "Personal",
-      "rows": [
-        "Effect: Until the end of your next turn, any ally within 5 squares of you gains a +2 power bonus to saving throws."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2388",
+        "publication": "Published in Player's Handbook 2, page(s) 72."
+      },
+      "keywords": [
+        "ARCANE"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 72.",
-      "link": "https://iws.mx/dnd/?view=power2388"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn, any ally within 5 squares of you gains a +2 power bonus to saving throws."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "You instill a sense of perseverance in your allies with an inspiring song."
     },
     {
-      "id": "power2385",
+      "id": "modern4e.power.utility-class-bard-power2385",
       "title": "Veil",
-      "className": "Bard",
-      "level": 10,
-      "type": "Daily",
       "description": "You mask the appearance of your party, sculpting an illusory disguise.",
-      "traits": "Arcane, Illusion",
-      "action": "Minor Action",
-      "range": "Close burst 10",
-      "rows": [
-        "Target: You and each ally in the burst",
-        "Effect: You transform the auditory, tactile, and visual qualities of the targets' bodies and equipment. Each target assumes the appearance of a humanoid of the same size, even the appearance of a specific individual you have seen. The illusion lasts for 1 hour, or you can end it as a minor action. A creature can recognize a target's form as illusory with an Insight check opposed by that target's Bluff check with a +5 power bonus."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power2385",
+        "publication": "Published in Player's Handbook 2, page(s) 73."
+      },
+      "keywords": [
+        "ARCANE",
+        "ILLUSION"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 73.",
-      "link": "https://iws.mx/dnd/?view=power2385"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You and each ally in the burst"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You transform the auditory, tactile, and visual qualities of the targets' bodies and equipment. Each target assumes the appearance of a humanoid of the same size, even the appearance of a specific individual you have seen. The illusion lasts for 1 hour, or you can end it as a minor action. A creature can recognize a target's form as illusory with an Insight check opposed by that target's Bluff check with a +5 power bonus."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 10"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "You mask the appearance of your party, sculpting an illusory disguise."
     },
     {
-      "id": "power5002",
+      "id": "modern4e.power.utility-class-bard-power5002",
       "title": "Word of Life",
-      "className": "Bard",
-      "level": 10,
-      "type": "Daily",
       "description": "A single word is sufficient to save an ally from death's grasp while punishing the foe who dealt the deadly blow.",
-      "traits": "Arcane, Healing",
-      "action": "Immediate Reaction",
-      "range": "Close burst 20",
-      "rows": [
-        "Trigger: An enemy attack reduces an ally within 20 squares of you to 0 hit points or fewer",
-        "Target: The triggering ally in the burst",
-        "Effect: The target can spend a healing surge. In addition, the attacking enemy takes a -5 penalty to all defenses until the end of your next turn."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power5002",
+        "publication": "Published in Player's Handbook 2, page(s) 73."
+      },
+      "keywords": [
+        "ARCANE",
+        "HEALING"
       ],
-      "source": "Published in Player's Handbook 2, page(s) 73.",
-      "link": "https://iws.mx/dnd/?view=power5002"
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "The triggering ally in the burst"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target can spend a healing surge. In addition, the attacking enemy takes a -5 penalty to all defenses until the end of your next turn."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 20"
+          },
+          "trigger": "An enemy attack reduces an ally within 20 squares of you to 0 hit points or fewer",
+          "targets": "targets"
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "A single word is sufficient to save an ally from death's grasp while punishing the foe who dealt the deadly blow."
     }
   ]
 }
