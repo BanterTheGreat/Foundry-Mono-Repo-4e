@@ -6,7 +6,12 @@ Standalone Modern 4e builder with a shared Kotlin core, web shell and Android sh
 
 - `shared/`: Kotlin Multiplatform library with common implementation/tests, JVM test target, Android library and a small Kotlin/JS adapter. No platform IO or UI in common code.
 - `web/`: React/TypeScript desktop shell. Imports the generated ES module and TypeScript declarations, not a handwritten substitute.
-- `android/`: native Compose application calling common Kotlin directly.
+- `android/`: native Compose application calling common Kotlin directly. The Android Kotlin package keeps `MainActivity` as adapter wiring, `BuilderSession` as the retained workflow ViewModel, and `BuilderApp` as the app shell (initial refresh, coroutine dispatch, navigation, header and tabs).
+  - `ui/screens/`: Home, Library, Import, character pager and Overview presentation.
+  - `ui/dialogs/`: workflow modal orchestration and identity editor.
+  - `ui/components/`: shared folio controls, icons, modal container and controlled native rich text.
+  - `ui/theme/`: printed-rulebook palette and Material 3 theme.
+  - Platform adapters and the tested scrollbar/date helpers stay beside the app shell. Screens observe the existing session; shared Kotlin owns rules and persistence contracts. Routes still use the existing string-based navigation.
 - Root Gradle wrapper/settings: standalone build; not part of the Foundry tooling.
 
 The smoke fixture remains an engineering check. Shared contracts are defined in `shared/src/commonMain/kotlin/dev/modern4e/builder/`; checked-in JSON goldens live in `shared/fixtures/`. The implementation baseline is Modern 4e abilities and proficiencies only.
