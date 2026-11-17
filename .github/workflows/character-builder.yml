@@ -1,9 +1,9 @@
 name: Character Builder
 on:
   push:
-    paths: ["src/character-builder/**", "src/modern4e/content/feat*", "src/modern4e/content/classes/**", "src/modern4e/classes/fighter.typ", "src/modern4e/helpers/class*.typ", "src/modern4e/scripts/class_content.py", "src/modern4e/content/feats/**", "src/modern4e/scripts/feats.py", "src/modern4e/scripts/entry_selection.py", "src/modern4e/helpers/feat_requirements.typ", "src/modern4e/helpers/feat_selection.typ", "src/modern4e/helpers/theme.typ", ".github/workflows/character-builder.yml"]
+    paths: ["src/character-builder/**", "src/modern4e/content/feat*", "src/modern4e/content/classes/**", "src/modern4e/content/equipment/**", "src/modern4e/glossary/equipment.typ", "src/modern4e/helpers/equipment.typ", "src/modern4e/scripts/equipment_content.py", "src/modern4e/classes/fighter.typ", "src/modern4e/helpers/class*.typ", "src/modern4e/scripts/class_content.py", "src/modern4e/content/feats/**", "src/modern4e/scripts/feats.py", "src/modern4e/scripts/entry_selection.py", "src/modern4e/helpers/feat_requirements.typ", "src/modern4e/helpers/feat_selection.typ", "src/modern4e/helpers/theme.typ", ".github/workflows/character-builder.yml"]
   pull_request:
-    paths: ["src/character-builder/**", "src/modern4e/content/feat*", "src/modern4e/content/classes/**", "src/modern4e/classes/fighter.typ", "src/modern4e/helpers/class*.typ", "src/modern4e/scripts/class_content.py", "src/modern4e/content/feats/**", "src/modern4e/scripts/feats.py", "src/modern4e/scripts/entry_selection.py", "src/modern4e/helpers/feat_requirements.typ", "src/modern4e/helpers/feat_selection.typ", "src/modern4e/helpers/theme.typ", ".github/workflows/character-builder.yml"]
+    paths: ["src/character-builder/**", "src/modern4e/content/feat*", "src/modern4e/content/classes/**", "src/modern4e/content/equipment/**", "src/modern4e/glossary/equipment.typ", "src/modern4e/helpers/equipment.typ", "src/modern4e/scripts/equipment_content.py", "src/modern4e/classes/fighter.typ", "src/modern4e/helpers/class*.typ", "src/modern4e/scripts/class_content.py", "src/modern4e/content/feats/**", "src/modern4e/scripts/feats.py", "src/modern4e/scripts/entry_selection.py", "src/modern4e/helpers/feat_requirements.typ", "src/modern4e/helpers/feat_selection.typ", "src/modern4e/helpers/theme.typ", ".github/workflows/character-builder.yml"]
 permissions:
   contents: read
 jobs:
@@ -18,6 +18,8 @@ jobs:
       - run: python src/character-builder/content/build.py --modern-feats
       - run: python src/character-builder/content/build.py --modern-feats --check
       - run: python src/modern4e/scripts/class_content.py
+      - run: python src/character-builder/content/build.py --modern-equipment
+      - run: python src/character-builder/content/build.py --modern-equipment --check
   build:
     runs-on: ubuntu-latest
     defaults:

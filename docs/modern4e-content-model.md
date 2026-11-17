@@ -94,6 +94,14 @@ progression rule. They are not automatically properties of every candidate entry
 
 ## Shared authoring and consumers
 
+Equipment now follows this direction through the
+[equipment authoring contract](../src/modern4e/content/equipment/README.md):
+persisted item IDs, presentation, typed weapon/armor/shield profiles, shared
+property rules, category-level armor rules and explicit runtime coverage.
+Printed section order is separate from identity. Typst consumes the JSON directly;
+`build.py --modern-equipment` exports it for builder compilation. This authoring
+slice does not extend Kotlin v1 runtime contracts or enable equipment calculations.
+
 Author the rules once in structured JSON for both Typst and the Character Builder.
 Typst owns layout and renders prerequisite text from the structured conditions.
 The content compiler validates and exports the same identities, conditions and

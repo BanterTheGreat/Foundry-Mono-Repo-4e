@@ -1,0 +1,2071 @@
+{
+  "schemaVersion": 1,
+  "sections": [
+    {
+      "id": "improvised-one-handed-melee-weapons",
+      "title": "Improvised One-Handed Melee Weapons",
+      "kind": "WEAPON",
+      "entryIds": [
+        "modern4e.weapon.unarmed-attack"
+      ]
+    },
+    {
+      "id": "simple-one-handed-melee-weapons",
+      "title": "Simple One-Handed Melee Weapons",
+      "kind": "WEAPON",
+      "entryIds": [
+        "modern4e.weapon.club",
+        "modern4e.weapon.dagger",
+        "modern4e.weapon.handaxe",
+        "modern4e.weapon.javelin",
+        "modern4e.weapon.mace",
+        "modern4e.weapon.sickle"
+      ]
+    },
+    {
+      "id": "simple-two-handed-melee-weapons",
+      "title": "Simple Two-Handed Melee Weapons",
+      "kind": "WEAPON",
+      "entryIds": [
+        "modern4e.weapon.greatclub",
+        "modern4e.weapon.quarterstaff",
+        "modern4e.weapon.spear"
+      ]
+    },
+    {
+      "id": "simple-one-handed-ranged-weapons",
+      "title": "Simple One-Handed Ranged Weapons",
+      "kind": "WEAPON",
+      "entryIds": [
+        "modern4e.weapon.pistol"
+      ]
+    },
+    {
+      "id": "simple-two-handed-ranged-weapons",
+      "title": "Simple Two-Handed Ranged Weapons",
+      "kind": "WEAPON",
+      "entryIds": [
+        "modern4e.weapon.sling",
+        "modern4e.weapon.light-crossbow",
+        "modern4e.weapon.carbine",
+        "modern4e.weapon.shotgun"
+      ]
+    },
+    {
+      "id": "military-one-handed-melee-weapons",
+      "title": "Military One-Handed Melee Weapons",
+      "kind": "WEAPON",
+      "entryIds": [
+        "modern4e.weapon.battleaxe",
+        "modern4e.weapon.flail",
+        "modern4e.weapon.longsword",
+        "modern4e.weapon.pick",
+        "modern4e.weapon.rapier",
+        "modern4e.weapon.scimitar",
+        "modern4e.weapon.shortsword",
+        "modern4e.weapon.warhammer"
+      ]
+    },
+    {
+      "id": "military-one-handed-ranged-weapons",
+      "title": "Military One-Handed Ranged Weapons",
+      "kind": "WEAPON",
+      "entryIds": [
+        "modern4e.weapon.throwing-hammer",
+        "modern4e.weapon.throwing-shield"
+      ]
+    },
+    {
+      "id": "military-two-handed-melee-weapons",
+      "title": "Military Two-Handed Melee Weapons",
+      "kind": "WEAPON",
+      "entryIds": [
+        "modern4e.weapon.glaive",
+        "modern4e.weapon.greataxe",
+        "modern4e.weapon.greatsword",
+        "modern4e.weapon.halberd",
+        "modern4e.weapon.longspear",
+        "modern4e.weapon.maul",
+        "modern4e.weapon.warpick"
+      ]
+    },
+    {
+      "id": "military-two-handed-ranged-weapons",
+      "title": "Military Two-Handed Ranged Weapons",
+      "kind": "WEAPON",
+      "entryIds": [
+        "modern4e.weapon.composite-bow",
+        "modern4e.weapon.greatbow",
+        "modern4e.weapon.heavy-crossbow",
+        "modern4e.weapon.sling-staff"
+      ]
+    },
+    {
+      "id": "superior-one-handed-melee-weapons",
+      "title": "Superior One-Handed Melee Weapons",
+      "kind": "WEAPON",
+      "entryIds": [
+        "modern4e.weapon.bastard-sword",
+        "modern4e.weapon.double-bladed-dagger",
+        "modern4e.weapon.parrying-dagger"
+      ]
+    },
+    {
+      "id": "superior-two-handed-melee-weapons",
+      "title": "Superior Two-Handed Melee Weapons",
+      "kind": "WEAPON",
+      "entryIds": [
+        "modern4e.weapon.fullblade",
+        "modern4e.weapon.execution-axe",
+        "modern4e.weapon.spiked-chain"
+      ]
+    },
+    {
+      "id": "superior-ranged-weapons",
+      "title": "Superior Ranged Weapons",
+      "kind": "WEAPON",
+      "entryIds": [
+        "modern4e.weapon.recurve-bow",
+        "modern4e.weapon.repeating-heavy-crossbow",
+        "modern4e.weapon.musket"
+      ]
+    },
+    {
+      "id": "light-armor",
+      "title": "Light Armor",
+      "kind": "ARMOR",
+      "entryIds": [
+        "modern4e.armor.cloth",
+        "modern4e.armor.leather",
+        "modern4e.armor.hide"
+      ]
+    },
+    {
+      "id": "heavy-armor",
+      "title": "Heavy Armor",
+      "kind": "ARMOR",
+      "entryIds": [
+        "modern4e.armor.chainmail",
+        "modern4e.armor.scale",
+        "modern4e.armor.plate"
+      ]
+    },
+    {
+      "id": "shields",
+      "title": "Shields",
+      "kind": "SHIELD",
+      "entryIds": [
+        "modern4e.shield.light-shield",
+        "modern4e.shield.heavy-shield"
+      ]
+    }
+  ],
+  "properties": [
+    {
+      "id": "BALANCED",
+      "title": "Balanced",
+      "description": "A balanced weapon is particularly easy to maneuver under pressure. A proficient character wielding only weapons with the balanced property reduces their armor check penalty to skill and ability checks by 2 while in combat, and when you replace the ability score for the melee basic attack power or ranged basic attack power using a balanced weapon, you may use the full replacement ability score, rather than half, for the associated damage roll.",
+      "printRule": true
+    },
+    {
+      "id": "BRUTAL",
+      "title": "Brutal",
+      "description": "A brutal weapon's minimum damage is higher than that of a normal weapon. When rolling the damage from a weapon attack made with a brutal weapon, reroll any damage die that displays a value of 2 or lower until it shows 3 or greater, then use the new value.",
+      "printRule": true
+    },
+    {
+      "id": "DEFENSIVE",
+      "title": "Defensive",
+      "description": "A defensive weapon grants you a +1 bonus to AC while you wield at least one defensive weapon you are proficient with. Multiple defensive weapons do not stack.",
+      "printRule": true
+    },
+    {
+      "id": "IMPLEMENT",
+      "title": "Implement",
+      "description": "A weapon with the Implement property may be used as an implement, even if they are held in only one hand.",
+      "printRule": true
+    },
+    {
+      "id": "SEVERE",
+      "title": "Severe",
+      "description": "A severe weapon's maximum damage is higher than that of a normal weapon.\nWhen rolling the damage from a weapon attack made with a severe weapon, whenever you roll a die that displays its maximum value, that die explodes: roll a second damage die of the same size, and add these dice to the original roll as extra damage.",
+      "printRule": true
+    },
+    {
+      "id": "HIGH_CRIT",
+      "title": "High Crit",
+      "description": "A high crit weapon deals more damage when you score a critical hit with it.\nA critical hit with a weapon attack deals maximum rolled damage and an extra [W] based on level:\n- 1[W] at 1st–5th levels\n- 2[W] at 6th–10th levels\n- 3[W] at 11th–15th levels\n- 4[W] at 16th–20th levels\n- 5[W] at 21st–25th levels\n- 6[W] at 26th–30th levels\nThis extra damage is in addition to any critical damage the weapon supplies if it is a magic weapon.",
+      "printRule": true
+    },
+    {
+      "id": "INNOCUOUS",
+      "title": "Innocuous",
+      "description": "Weapons with the innocuous keyword easily pass as peaceful tools.\nA character visibly carrying only an innocuous weapon adds its proficiency bonus to any check made to pretend they are not armed.",
+      "printRule": true
+    },
+    {
+      "id": "THROWN",
+      "title": "Thrown",
+      "description": "A thrown weapon may be used to make ranged attacks without penalty.\nYou hurl most thrown weapons from your hand, rather than using the weapon to loose a projectile.\n\nA thrown weapon with a specified load speed is instead a launcher that can be used with enchanted ammunition if desired-- the launcher is not thrown at the target.",
+      "printRule": true
+    },
+    {
+      "id": "VERSATILE",
+      "title": "Versatile",
+      "description": "Versatile weapons are one-handed but deal bonus damage and qualify as a two-handed weapon for power riders and requirements when supported with a second hand.\nThis bonus is equal to:\n- +1 to each `[W]` die at levels 1–10\n- +2 at levels 11–20\n- +3 at levels 21–30\n\nThe versatile bonus may be gained by supporting the weapon with an off-hand occupied by a light shield or weapon in the unarmed group, but no bonuses from the item equipped in the off-hand apply to the attack, and the unarmed weapon cannot be used to attack until the grip is released.\nChanging grip is a free action.",
+      "printRule": true
+    },
+    {
+      "id": "OFF_HAND",
+      "title": "Off-hand",
+      "description": "",
+      "printRule": false
+    },
+    {
+      "id": "REACH",
+      "title": "Reach",
+      "description": "",
+      "printRule": false
+    },
+    {
+      "id": "RANGED",
+      "title": "Ranged",
+      "description": "",
+      "printRule": false
+    },
+    {
+      "id": "LOAD",
+      "title": "Load",
+      "description": "",
+      "printRule": false
+    }
+  ],
+  "armorRules": {
+    "lightArmorAbilities": [
+      "INTELLIGENCE",
+      "DEXTERITY"
+    ],
+    "lightArmorAbilityOperation": "HIGHEST",
+    "armorCheckAbilities": [
+      "STRENGTH",
+      "DEXTERITY",
+      "CONSTITUTION"
+    ],
+    "armorCheckDescription": "The penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty."
+  },
+  "equipment": [
+    {
+      "id": "modern4e.weapon.unarmed-attack",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Unarmed Attack",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "IMPROVISED",
+        "attackCategory": "MELEE",
+        "handsRequired": 1,
+        "groups": [
+          "UNARMED"
+        ],
+        "proficiencyBonus": null,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 4
+        },
+        "properties": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "The source leaves the proficiency bonus blank; null is not an assumed zero."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.club",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Club",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "SIMPLE",
+        "attackCategory": "MELEE",
+        "handsRequired": 1,
+        "groups": [
+          "CLUB"
+        ],
+        "proficiencyBonus": 2,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 6
+        },
+        "properties": [
+          {
+            "id": "OFF_HAND"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.dagger",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Dagger",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "SIMPLE",
+        "attackCategory": "MELEE",
+        "handsRequired": 1,
+        "groups": [
+          "LIGHT_BLADE"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 4
+        },
+        "properties": [
+          {
+            "id": "OFF_HAND"
+          },
+          {
+            "id": "THROWN"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "The source lists Thrown without a normal/long range."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.handaxe",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Handaxe",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "SIMPLE",
+        "attackCategory": "MELEE",
+        "handsRequired": 1,
+        "groups": [
+          "AXE"
+        ],
+        "proficiencyBonus": 2,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 6
+        },
+        "properties": [
+          {
+            "id": "THROWN",
+            "range": {
+              "normal": 5,
+              "long": 10
+            }
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.javelin",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Javelin",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "SIMPLE",
+        "attackCategory": "MELEE",
+        "handsRequired": 1,
+        "groups": [
+          "SPEAR"
+        ],
+        "proficiencyBonus": 2,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 6
+        },
+        "properties": [
+          {
+            "id": "THROWN",
+            "range": {
+              "normal": 5,
+              "long": 10
+            }
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.mace",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Mace",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "SIMPLE",
+        "attackCategory": "MELEE",
+        "handsRequired": 1,
+        "groups": [
+          "HAMMER"
+        ],
+        "proficiencyBonus": 2,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 8
+        },
+        "properties": [
+          {
+            "id": "IMPLEMENT"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.sickle",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Sickle",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "SIMPLE",
+        "attackCategory": "MELEE",
+        "handsRequired": 1,
+        "groups": [
+          "LIGHT_BLADE"
+        ],
+        "proficiencyBonus": 2,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 6
+        },
+        "properties": [
+          {
+            "id": "OFF_HAND"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.greatclub",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Greatclub",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "SIMPLE",
+        "attackCategory": "MELEE",
+        "handsRequired": 2,
+        "groups": [
+          "CLUB"
+        ],
+        "proficiencyBonus": 2,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 10
+        },
+        "properties": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.quarterstaff",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Quarterstaff",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "SIMPLE",
+        "attackCategory": "MELEE",
+        "handsRequired": 2,
+        "groups": [
+          "STAFF"
+        ],
+        "proficiencyBonus": 2,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 8
+        },
+        "properties": [
+          {
+            "id": "VERSATILE"
+          },
+          {
+            "id": "IMPLEMENT"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "The source places this versatile weapon in a two-handed section; that classification is preserved pending clarification."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.spear",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Spear",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "SIMPLE",
+        "attackCategory": "MELEE",
+        "handsRequired": 2,
+        "groups": [
+          "SPEAR"
+        ],
+        "proficiencyBonus": 2,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 8
+        },
+        "properties": [
+          {
+            "id": "THROWN",
+            "range": {
+              "normal": 5,
+              "long": 10
+            }
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.pistol",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Pistol",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "SIMPLE",
+        "attackCategory": "RANGED",
+        "handsRequired": 1,
+        "groups": [
+          "FIREARM"
+        ],
+        "proficiencyBonus": 2,
+        "damage": {
+          "diceCount": 2,
+          "dieSize": 4
+        },
+        "properties": [
+          {
+            "id": "LOAD",
+            "action": "STANDARD"
+          },
+          {
+            "id": "RANGED",
+            "range": {
+              "normal": 10,
+              "long": 20
+            }
+          },
+          {
+            "id": "BRUTAL",
+            "value": 2
+          },
+          {
+            "id": "HIGH_CRIT"
+          },
+          {
+            "id": "OFF_HAND"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.sling",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Sling",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "SIMPLE",
+        "attackCategory": "RANGED",
+        "handsRequired": 2,
+        "groups": [
+          "SLING"
+        ],
+        "proficiencyBonus": 2,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 6
+        },
+        "properties": [
+          {
+            "id": "RANGED",
+            "range": {
+              "normal": 20,
+              "long": 40
+            }
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.light-crossbow",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Light Crossbow",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "SIMPLE",
+        "attackCategory": "RANGED",
+        "handsRequired": 2,
+        "groups": [
+          "CROSSBOW"
+        ],
+        "proficiencyBonus": 2,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 8
+        },
+        "properties": [
+          {
+            "id": "LOAD",
+            "action": "MINOR"
+          },
+          {
+            "id": "RANGED",
+            "range": {
+              "normal": 15,
+              "long": 30
+            }
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.carbine",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Carbine",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "SIMPLE",
+        "attackCategory": "RANGED",
+        "handsRequired": 2,
+        "groups": [
+          "FIREARM"
+        ],
+        "proficiencyBonus": 2,
+        "damage": {
+          "diceCount": 2,
+          "dieSize": 6
+        },
+        "properties": [
+          {
+            "id": "LOAD",
+            "action": "STANDARD"
+          },
+          {
+            "id": "RANGED",
+            "range": {
+              "normal": 15,
+              "long": 30
+            }
+          },
+          {
+            "id": "BRUTAL",
+            "value": 2
+          },
+          {
+            "id": "HIGH_CRIT"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.shotgun",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Shotgun",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "SIMPLE",
+        "attackCategory": "RANGED",
+        "handsRequired": 2,
+        "groups": [
+          "FIREARM"
+        ],
+        "proficiencyBonus": 2,
+        "damage": {
+          "diceCount": 2,
+          "dieSize": 8
+        },
+        "properties": [
+          {
+            "id": "LOAD",
+            "action": "STANDARD"
+          },
+          {
+            "id": "RANGED",
+            "range": {
+              "normal": 3,
+              "long": 6
+            }
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.battleaxe",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Battleaxe",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "MILITARY",
+        "attackCategory": "MELEE",
+        "handsRequired": 1,
+        "groups": [
+          "AXE"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 10
+        },
+        "properties": [
+          {
+            "id": "VERSATILE"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.flail",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Flail",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "MILITARY",
+        "attackCategory": "MELEE",
+        "handsRequired": 1,
+        "groups": [
+          "FLAIL"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 8
+        },
+        "properties": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.longsword",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Longsword",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "MILITARY",
+        "attackCategory": "MELEE",
+        "handsRequired": 1,
+        "groups": [
+          "HEAVY_BLADE"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 8
+        },
+        "properties": [
+          {
+            "id": "VERSATILE"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.pick",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Pick",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "MILITARY",
+        "attackCategory": "MELEE",
+        "handsRequired": 1,
+        "groups": [
+          "HAMMER"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 8
+        },
+        "properties": [
+          {
+            "id": "BRUTAL"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.rapier",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Rapier",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "MILITARY",
+        "attackCategory": "MELEE",
+        "handsRequired": 1,
+        "groups": [
+          "LIGHT_BLADE"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 8
+        },
+        "properties": [
+          {
+            "id": "HIGH_CRIT"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.scimitar",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Scimitar",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "MILITARY",
+        "attackCategory": "MELEE",
+        "handsRequired": 1,
+        "groups": [
+          "HEAVY_BLADE"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 8
+        },
+        "properties": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.shortsword",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Shortsword",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "MILITARY",
+        "attackCategory": "MELEE",
+        "handsRequired": 1,
+        "groups": [
+          "LIGHT_BLADE"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 6
+        },
+        "properties": [
+          {
+            "id": "OFF_HAND"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.warhammer",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Warhammer",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "MILITARY",
+        "attackCategory": "MELEE",
+        "handsRequired": 1,
+        "groups": [
+          "HAMMER"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 10
+        },
+        "properties": [
+          {
+            "id": "VERSATILE"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.throwing-hammer",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Throwing Hammer",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "MILITARY",
+        "attackCategory": "RANGED",
+        "handsRequired": 1,
+        "groups": [
+          "HAMMER"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 6
+        },
+        "properties": [
+          {
+            "id": "THROWN",
+            "range": {
+              "normal": 5,
+              "long": 10
+            }
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.throwing-shield",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Throwing Shield",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "MILITARY",
+        "attackCategory": "RANGED",
+        "handsRequired": 1,
+        "groups": [
+          "SHIELD"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 6
+        },
+        "properties": [
+          {
+            "id": "THROWN",
+            "range": {
+              "normal": 5,
+              "long": 10
+            }
+          },
+          {
+            "id": "DEFENSIVE"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.glaive",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Glaive",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "MILITARY",
+        "attackCategory": "MELEE",
+        "handsRequired": 2,
+        "groups": [
+          "HEAVY_BLADE"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 10
+        },
+        "properties": [
+          {
+            "id": "REACH"
+          },
+          {
+            "id": "VERSATILE"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "The source places this versatile weapon in a two-handed section; that classification is preserved pending clarification."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.greataxe",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Greataxe",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "MILITARY",
+        "attackCategory": "MELEE",
+        "handsRequired": 2,
+        "groups": [
+          "AXE"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 12
+        },
+        "properties": [
+          {
+            "id": "BRUTAL"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.greatsword",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Greatsword",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "MILITARY",
+        "attackCategory": "MELEE",
+        "handsRequired": 2,
+        "groups": [
+          "HEAVY_BLADE"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 10
+        },
+        "properties": [
+          {
+            "id": "HIGH_CRIT"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.halberd",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Halberd",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "MILITARY",
+        "attackCategory": "MELEE",
+        "handsRequired": 2,
+        "groups": [
+          "POLEARM"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 10
+        },
+        "properties": [
+          {
+            "id": "REACH"
+          },
+          {
+            "id": "SEVERE"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.longspear",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Longspear",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "MILITARY",
+        "attackCategory": "MELEE",
+        "handsRequired": 2,
+        "groups": [
+          "SPEAR"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 10
+        },
+        "properties": [
+          {
+            "id": "REACH"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.maul",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Maul",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "MILITARY",
+        "attackCategory": "MELEE",
+        "handsRequired": 2,
+        "groups": [
+          "HAMMER"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 2,
+          "dieSize": 6
+        },
+        "properties": [
+          {
+            "id": "BRUTAL"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.warpick",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Warpick",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "MILITARY",
+        "attackCategory": "MELEE",
+        "handsRequired": 2,
+        "groups": [
+          "HAMMER"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 12
+        },
+        "properties": [
+          {
+            "id": "SEVERE"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.composite-bow",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Composite Bow",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "MILITARY",
+        "attackCategory": "RANGED",
+        "handsRequired": 2,
+        "groups": [
+          "BOW"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 8
+        },
+        "properties": [
+          {
+            "id": "LOAD",
+            "action": "FREE"
+          },
+          {
+            "id": "RANGED",
+            "range": {
+              "normal": 20,
+              "long": 40
+            }
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.greatbow",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Greatbow",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "MILITARY",
+        "attackCategory": "RANGED",
+        "handsRequired": 2,
+        "groups": [
+          "BOW"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 10
+        },
+        "properties": [
+          {
+            "id": "LOAD",
+            "action": "MINOR"
+          },
+          {
+            "id": "RANGED",
+            "range": {
+              "normal": 25,
+              "long": 50
+            }
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.heavy-crossbow",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Heavy Crossbow",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "MILITARY",
+        "attackCategory": "RANGED",
+        "handsRequired": 2,
+        "groups": [
+          "CROSSBOW"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 10
+        },
+        "properties": [
+          {
+            "id": "LOAD",
+            "action": "MINOR"
+          },
+          {
+            "id": "RANGED",
+            "range": {
+              "normal": 20,
+              "long": 40
+            }
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.sling-staff",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Sling Staff",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "MILITARY",
+        "attackCategory": "RANGED",
+        "handsRequired": 2,
+        "groups": [
+          "SLING"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 10
+        },
+        "properties": [
+          {
+            "id": "RANGED",
+            "range": {
+              "normal": 15,
+              "long": 30
+            }
+          },
+          {
+            "id": "VERSATILE"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "The source places this versatile weapon in a two-handed section; that classification is preserved pending clarification."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.bastard-sword",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Bastard Sword",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "SUPERIOR",
+        "attackCategory": "MELEE",
+        "handsRequired": 1,
+        "groups": [
+          "HEAVY_BLADE"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 10
+        },
+        "properties": [
+          {
+            "id": "VERSATILE"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.double-bladed-dagger",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Double-Bladed Dagger",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "SUPERIOR",
+        "attackCategory": "MELEE",
+        "handsRequired": 1,
+        "groups": [
+          "LIGHT_BLADE"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 8
+        },
+        "properties": [
+          {
+            "id": "OFF_HAND"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.parrying-dagger",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Parrying Dagger",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "SUPERIOR",
+        "attackCategory": "MELEE",
+        "handsRequired": 1,
+        "groups": [
+          "LIGHT_BLADE"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 6
+        },
+        "properties": [
+          {
+            "id": "DEFENSIVE"
+          },
+          {
+            "id": "OFF_HAND"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.fullblade",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Fullblade",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "SUPERIOR",
+        "attackCategory": "MELEE",
+        "handsRequired": 2,
+        "groups": [
+          "HEAVY_BLADE"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 12
+        },
+        "properties": [
+          {
+            "id": "BRUTAL"
+          },
+          {
+            "id": "SEVERE"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.execution-axe",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Execution Axe",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "SUPERIOR",
+        "attackCategory": "MELEE",
+        "handsRequired": 2,
+        "groups": [
+          "AXE"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 12
+        },
+        "properties": [
+          {
+            "id": "HIGH_CRIT"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.spiked-chain",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Spiked Chain",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "SUPERIOR",
+        "attackCategory": "MELEE",
+        "handsRequired": 2,
+        "groups": [
+          "FLAIL"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 2,
+          "dieSize": 4
+        },
+        "properties": [
+          {
+            "id": "REACH"
+          },
+          {
+            "id": "VERSATILE"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "The source places this versatile weapon in a two-handed section; that classification is preserved pending clarification."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.recurve-bow",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Recurve Bow",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "SUPERIOR",
+        "attackCategory": "RANGED",
+        "handsRequired": null,
+        "groups": [
+          "BOW"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 8
+        },
+        "properties": [
+          {
+            "id": "RANGED",
+            "range": {
+              "normal": 25,
+              "long": 50
+            }
+          },
+          {
+            "id": "LOAD",
+            "action": "FREE"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "The Superior Ranged Weapons section does not specify required hands."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.repeating-heavy-crossbow",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Repeating Heavy Crossbow",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "SUPERIOR",
+        "attackCategory": "RANGED",
+        "handsRequired": null,
+        "groups": [
+          "CROSSBOW"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 1,
+          "dieSize": 10
+        },
+        "properties": [
+          {
+            "id": "LOAD",
+            "action": "FREE"
+          },
+          {
+            "id": "RANGED",
+            "range": {
+              "normal": 25,
+              "long": 50
+            }
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "The Superior Ranged Weapons section does not specify required hands."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.weapon.musket",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Musket",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "WEAPON",
+        "proficiencyCategory": "SUPERIOR",
+        "attackCategory": "RANGED",
+        "handsRequired": null,
+        "groups": [
+          "FIREARM"
+        ],
+        "proficiencyBonus": 3,
+        "damage": {
+          "diceCount": 2,
+          "dieSize": 8
+        },
+        "properties": [
+          {
+            "id": "LOAD",
+            "action": "STANDARD"
+          },
+          {
+            "id": "RANGED",
+            "range": {
+              "normal": 20,
+              "long": 40
+            }
+          },
+          {
+            "id": "BRUTAL",
+            "value": 2
+          },
+          {
+            "id": "HIGH_CRIT"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "The Superior Ranged Weapons section does not specify required hands."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.armor.cloth",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Cloth",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "ARMOR",
+        "proficiencyKey": "CLOTH",
+        "speedModifier": 0,
+        "armorCheckModifier": 0,
+        "armorCategory": "LIGHT",
+        "armorBonus": 0
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.armor.leather",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Leather",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "ARMOR",
+        "proficiencyKey": "LEATHER",
+        "speedModifier": 0,
+        "armorCheckModifier": 0,
+        "armorCategory": "LIGHT",
+        "armorBonus": 2
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.armor.hide",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Hide",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "ARMOR",
+        "proficiencyKey": "HIDE",
+        "speedModifier": 0,
+        "armorCheckModifier": 0,
+        "armorCategory": "LIGHT",
+        "armorBonus": 3
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.armor.chainmail",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Chainmail",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "ARMOR",
+        "proficiencyKey": "CHAINMAIL",
+        "speedModifier": -1,
+        "armorCheckModifier": 0,
+        "armorCategory": "HEAVY",
+        "armorBonus": 6
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.armor.scale",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Scale",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "ARMOR",
+        "proficiencyKey": "SCALE",
+        "speedModifier": -1,
+        "armorCheckModifier": 0,
+        "armorCategory": "HEAVY",
+        "armorBonus": 7
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.armor.plate",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Plate",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "ARMOR",
+        "proficiencyKey": "PLATE",
+        "speedModifier": -1,
+        "armorCheckModifier": -1,
+        "armorCategory": "HEAVY",
+        "armorBonus": 9
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.shield.light-shield",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Light Shield",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "SHIELD",
+        "proficiencyKey": "LIGHT_SHIELD",
+        "speedModifier": 0,
+        "armorCheckModifier": 0,
+        "handsOccupied": 1,
+        "shieldBonus": 1
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.shield.heavy-shield",
+      "category": "ITEM",
+      "presentation": {
+        "title": "Heavy Shield",
+        "description": ""
+      },
+      "equipment": {
+        "kind": "SHIELD",
+        "proficiencyKey": "HEAVY_SHIELD",
+        "speedModifier": 0,
+        "armorCheckModifier": -1,
+        "handsOccupied": 1,
+        "shieldBonus": 2
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime."
+        ]
+      }
+    }
+  ]
+}

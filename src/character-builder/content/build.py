@@ -318,15 +318,25 @@ def main():
     mode.add_argument("--config", type=Path, default=Path(__file__).with_name("proof.json"))
     parser.add_argument("--snapshot", type=Path, default=SNAPSHOT)
     mode.add_argument("--modern-feats", action="store_true", help="compile the shared Modern 4e feat authoring catalog (not a v1 runtime package)")
+    mode.add_argument("--modern-equipment", action="store_true", help="compile shared equipment authoring data (not a v1 runtime package)")
     parser.add_argument("--output", type=Path)
     parser.add_argument("--check", action="store_true", help="validate and compare without writing")
     args = parser.parse_args()
     if args.output is None:
-        args.output = Path(__file__).with_name("modern-feats-generated" if args.modern_feats else "generated")
-    if args.modern_feats:
+        directory = "modern-equipment-generated" if args.modern_equipment else "modern-feats-generated" if args.modern_feats else "generated"
+        args.output = Path(__file__).with_name(directory)
+    if args.modern_feats or args.modern_equipment:
         require(not args.output.resolve().is_relative_to((ROOT / "src/modern4e/content").resolve()), args.output, "output must not overwrite shared authoring content")
+    if args.modern_equipment:
+        require(not args.output.resolve().is_relative_to((ROOT / "src/modern4e").resolve()), args.output, "output must not overwrite rulebook authoring sources")
     require(not args.output.resolve().is_relative_to(args.snapshot.resolve()), args.output, "output must not overwrite source snapshot")
-    assets = modern_feats() if args.modern_feats else build(args.config, args.snapshot)
+    if args.modern_equipment:
+        spec = importlib.util.spec_from_file_location("equipment_content", ROOT / "src/modern4e/scripts/equipment_content.py")
+        equipment = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(equipment)
+        assets = {"modern4e.equipment-authoring/catalog.json": equipment.catalog()}
+    else:
+        assets = modern_feats() if args.modern_feats else build(args.config, args.snapshot)
     for name in assets:
         require(not (args.output / name).resolve().is_relative_to(args.snapshot.resolve()), args.output / name, "generated asset would overwrite source snapshot")
     if args.output.exists():

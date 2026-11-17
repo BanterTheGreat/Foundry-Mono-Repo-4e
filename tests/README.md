@@ -1,5 +1,17 @@
 # Running tests yourself
 
+Shared Modern 4e equipment catalog, migration goldens, builder export and actual Typst table rendering:
+
+```sh
+python3 -m unittest discover -s src/character-builder/content -p 'test_modern_equipment.py' -v
+python3 src/character-builder/content/build.py --modern-equipment
+python3 src/character-builder/content/build.py --modern-equipment --check
+npm run typst:compile
+```
+
+The renderer test requires Typst on PATH or `TYPST_BIN`. This authoring export
+does not enable equipment combat calculations in the current builder runtime.
+
 Modern 4e feat JSON, complete rulebook references, and safe Typst rendering (the renderer check requires Typst on PATH or `TYPST_BIN`):
 
 ```sh

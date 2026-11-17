@@ -1,5 +1,14 @@
 # Build-time content production
 
+## Shared equipment authoring
+
+The authoritative [equipment catalog](../../modern4e/content/equipment/README.md)
+supplies all Modern 4e weapon/armor/shield tables and property rules to Typst.
+`python3 src/character-builder/content/build.py --modern-equipment` exports those
+same structured profiles for builder compilation; append `--check` to verify
+the deterministic output. This is an authoring catalog, not a v1 runtime package;
+equipment combat automation and saved-ID migration remain unimplemented.
+
 The [shared Modern 4e content model](../../../docs/modern4e-content-model.md)
 records the reusable entry base for feats and future powers, classes, ancestries
 and other categories, including the distinction between implemented fields and

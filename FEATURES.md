@@ -2,6 +2,8 @@
 
 ## Character Builder (shared core preview)
 
+- Shared equipment authoring: all 45 Modern 4e weapons, six armor types, two shields and nine printed property rules live in validated JSON. Typst builds its equipment tables and property explanations from that catalog; `content/build.py --modern-equipment` exports the same structured profiles, stable IDs and printed ordering for builder compilation. Light-armor ability rules are shared, with no per-item `acAbility`. Missing ranges/hand requirements and contradictory source classifications stay explicit; runtime combat automation and v1 package adoption remain unimplemented.
+
 - Shared class authoring (#30/#31): Fighter’s full flavor, statistics, proficiencies, nine features, three granted powers and two explanatory rules live in validated JSON and render its Typst chapter. Initial power counts are shared advancement data; class-independent entry choices, collection/preparation shapes and selection modifiers have exceptional-class schema fixtures. Deterministic authoring export preserves explicit unsupported coverage; runtime interpretation, remaining classes and production package conversion remain #32–#35. Existing feat/path data is unchanged by the class migration. See [class contract](src/modern4e/content/classes/README.md).
 
 - Feat selection authoring (#29): feat JSON/catalog schema v2 explicitly stores occurrence limits and separate granted choices. Armor Proficiency, Weapon Proficiency, Skill Training, Linguist and Adaptable Breath have validated advancement/distinct-choice constraints, character/entry/power scopes and exhaustion policies; Typst and the authoring export generate identical repetition text. Weapon pools preserve the superior-weapon/simple-and-military-bundle alternative. Language/weapon option catalogs remain pending, and v1 runtime enforcement remains unimplemented. Class JSON/progression is unaffected. See [selection contract](docs/modern4e-selection-rules.md).
@@ -331,3 +333,7 @@ Check each item after enabling its module (and, where noted, its setting).
 - Manual Progression check: change each origin, confirm its stale skill clears, select one background skill and exactly two free skills, inspect live modifiers, exercise allocation limits, open feat tabs/filter, cancel/save/reopen, inspect upcoming levels and confirm unsupported progression stays visibly incomplete. No UI tests were performed for this change, as requested.
 
 - [ ] Modern 4e ancestry JSON (#36) — attributes, traits, power cards and alternatives render from the catalog; check Dragonborn/Elf choices, Dwarf speed 5, language counts, power scaling, illustrations and following feat-page breaks. Revenant stays excluded from the current book.
+
+- [x] Modern 4e Fighter JSON (#30/#31) — full introduction, class reference, both independent build choices, weapon mastery, granted power cards and common traits render without overflow; following feat/path sections retain their placement. Development book remains 272 pages; runtime class automation remains pending.
+
+- [x] Modern 4e shared equipment JSON — checked all weapon tables, property columns and armor/shield tables on development pages 175–178; values, section order and page breaks are preserved. Runtime combat automation remains unimplemented; source gaps remain in coverage notes.
