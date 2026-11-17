@@ -47,6 +47,22 @@ object Progression {
         else -> label
     }
 
+    /** Whether a stepper can move this ability by one point. */
+    fun canAdjustAbility(allocation: AbilityAllocation, ability: Ability, delta: Int): Boolean {
+        if (ability == allocation.mainAbility || delta !in listOf(-1, 1)) {
+            return false
+        }
+        val next = (allocation.points[ability] ?: 0) + delta
+        if (next !in -1..3) {
+            return false
+        }
+        val points = allocation.points + (ability to next)
+        val values = Ability.entries.filter { it != allocation.mainAbility }.map { points[it] ?: 0 }
+        val negatives = values.count { it < 0 }
+        val boosted = values.count { it > 2 }
+        return negatives <= 1 && boosted <= 1 && (boosted == 0 || negatives == 1)
+    }
+
     fun validAllocation(allocation: AbilityAllocation): Boolean {
         val values = Ability.entries.filter { it != allocation.mainAbility }.map { allocation.points[it] ?: 0 }
         return allocation.points[allocation.mainAbility] == 4 && values.sum() == 5 &&

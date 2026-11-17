@@ -38,4 +38,23 @@ class ProgressionTest {
         assertNull(Progression.skillContributorLabel("Proficiency"))
         assertEquals("Manual Adjustment", Progression.skillContributorLabel("Manual Adjustment"))
     }
+    @Test fun steppersEnforceSinglePairedTradeoff() {
+        val base = AbilityAllocation(ChoiceSlotId("fighter", "main", 0), Ability.STRENGTH,
+            mapOf(Ability.STRENGTH to 4, Ability.DEXTERITY to 2, Ability.CONSTITUTION to 2))
+        assertFalse(Progression.canAdjustAbility(base, Ability.DEXTERITY, 1))
+        assertTrue(Progression.canAdjustAbility(base, Ability.CHARISMA, -1))
+        val negative = base.copy(points = base.points + (Ability.CHARISMA to -1))
+        assertFalse(Progression.canAdjustAbility(negative, Ability.WISDOM, -1))
+        assertTrue(Progression.canAdjustAbility(negative, Ability.DEXTERITY, 1))
+        val paired = negative.copy(points = negative.points + (Ability.DEXTERITY to 3))
+        assertFalse(Progression.canAdjustAbility(paired, Ability.CONSTITUTION, 1))
+        assertFalse(Progression.canAdjustAbility(paired, Ability.CHARISMA, 1))
+        assertTrue(Progression.canAdjustAbility(paired, Ability.DEXTERITY, -1))
+        assertTrue(Progression.canAdjustAbility(negative, Ability.CHARISMA, 1))
+        assertFalse(Progression.canAdjustAbility(paired, Ability.DEXTERITY, 1))
+        assertFalse(Progression.canAdjustAbility(negative, Ability.CHARISMA, -1))
+        assertFalse(Progression.canAdjustAbility(base, Ability.STRENGTH, -1))
+        assertFalse(Progression.canAdjustAbility(base, Ability.STRENGTH, 1))
+        assertTrue(Progression.canAdjustAbility(base, Ability.WISDOM, 1))
+    }
 }

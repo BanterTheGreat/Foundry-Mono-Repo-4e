@@ -191,9 +191,8 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
                         Ability.entries.forEach { ability ->
                             Row(Modifier.fillMaxWidth().padding(vertical = 2.dp), verticalAlignment = Alignment.CenterVertically) {
                                 Text(ability.name.readable(), Modifier.weight(1f), fontFamily = FontFamily.Serif)
-                                val fixed = ability == document.abilities.mainAbility
                                 val value = points[ability] ?: 0
-                                OutlinedButton(enabled = !fixed && value > -1, modifier = Modifier.size(48.dp),
+                                OutlinedButton(enabled = Progression.canAdjustAbility(allocation, ability, -1), modifier = Modifier.size(48.dp),
                                     shape = RoundedCornerShape(3.dp), contentPadding = PaddingValues(0.dp), onClick = {
                                     points = points + (ability to value - 1)
                                     edit = BuilderEdit.Allocation(document.abilities.copy(points = points))
@@ -201,7 +200,7 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
                                 Box(Modifier.width(48.dp), contentAlignment = Alignment.Center) {
                                     Text(value.toString(), color = Accent, fontFamily = FontFamily.Serif, fontSize = 24.sp)
                                 }
-                                OutlinedButton(enabled = !fixed && value < 3, modifier = Modifier.size(48.dp),
+                                OutlinedButton(enabled = Progression.canAdjustAbility(allocation, ability, 1), modifier = Modifier.size(48.dp),
                                     shape = RoundedCornerShape(3.dp), contentPadding = PaddingValues(0.dp), onClick = {
                                     points = points + (ability to value + 1)
                                     edit = BuilderEdit.Allocation(document.abilities.copy(points = points))

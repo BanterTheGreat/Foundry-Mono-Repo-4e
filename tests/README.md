@@ -625,4 +625,4 @@ npm run typst:compile
 
 Covers all 13 ancestry page consumers, catalog/reference integrity, invalid data and choices, local rules and scaling, and actual Typst renderer output (requires Typst). See [ancestry authoring](../src/modern4e/content/ancestries/README.md). Manually inspect ancestry cards, columns and feat-page breaks after rendering changes; Revenant remains catalogued but excluded from the current book.
 
-Android Progression presentation helpers: `ProgressionTest` covers remaining allocation points (fixed main, unassigned abilities, tradeoffs and overspending) and compact skill source labels. Run `.\gradlew.bat :android:testDebugUnitTest` from `src/character-builder/`.
+Android Progression presentation helpers: `ProgressionTest` covers remaining allocation points (fixed main, unassigned abilities, tradeoffs and overspending) and compact skill source labels. Stepper regression coverage verifies single-negative/single-3 limits, the required -1 before raising to 3, removing the tradeoff in order, fixed main ability and min/max bounds. Run `.\gradlew.bat :android:testDebugUnitTest` from `src/character-builder/`.
