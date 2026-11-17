@@ -194,9 +194,7 @@ verification or a real document-provider picker check.
 
 Validation on 2026-11-17: `:android:testDebugUnitTest` passed five API 34
 Robolectric tests; `:shared:jvmTest`, `:android:assembleDebug` and
-`:android:assembleDebugAndroidTest` passed. The real-device instrumentation suite
-and system document-picker interaction were not run: device discovery reports
-missing Android SDK Command-line Tools (latest). Reopen tests recreate adapter
+`:android:assembleDebugAndroidTest` passed. The five instrumentation tests subsequently passed on the Android 15 ARM64 emulator after installing command-line tools into the SDK root. System document-picker interaction remains unverified. Reopen tests recreate adapter
 instances; process interruption is simulated by an abandoned staging file, not an
 OS process kill. Existing SDK XML/Gradle tooling warnings remain.
 
@@ -245,3 +243,9 @@ GitHub CI itself has not been run here. Local validation used JDK 21, Node 24.19
 and an isolated `YARN_CACHE_FOLDER` after a parallel cache extraction conflict.
 Existing Kotlin npm configuration and source-map warnings remain. Android and
 Foundry runtime tests were not needed for these web-only adapters.
+
+## Combined ticket validation (2026-11-17, macOS)
+
+Integrated #10/#13/#14/#15: 74 shared tests per JVM/JS target, 16 Python tests, 7 web unit tests, 9 Chromium adapter tests, 5 Android Robolectric tests and 5 Android 15 ARM64 emulator instrumentation tests passed. Shared production JS distribution, web production build and Android debug assembly passed. Generated content/sample checks passed. Android package inventory tests now include both original proof packages and both Fighter packages.
+
+The strict Kotlin Yarn lock check passed without a lockfile change after refreshing installation with `YARN_CACHE_FOLDER=/private/tmp/character-builder-yarn-integration bash ./gradlew :kotlinNpmInstall --rerun-tasks`; the same cache was used for subsequent Gradle checks. No task exclusions or web dependency workarounds were needed for combined validation. System document-picker interaction remains unverified; application builder UI and offline caching are subsequent tickets.
