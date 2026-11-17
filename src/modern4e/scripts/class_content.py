@@ -234,7 +234,7 @@ def catalog(content=CONTENT):
             continue
         optional = ["source", "note", "grants", "choices", "selectionModifiers", "collections"]
         extra = {"CLASS": ["flavor", "role", "powerSources", "abilities", "proficiencies", "statistics", "ruleIds"], "FEATURE": [], "POWER": ["usage", "action", "keywords", "range", "rows"], "RULE": []}[entry["category"]]
-        more = {"CLASS": [], "FEATURE": ["weaponAbilities", "sections"], "POWER": ["trigger", "target", "requirement", "attack", "flavor", "level", "powerKind"], "RULE": []}[entry["category"]]
+        more = {"CLASS": [], "FEATURE": ["weaponAbilities", "sections", "conditionalModifiers"], "POWER": ["trigger", "target", "requirement", "attack", "flavor", "level", "powerKind"], "RULE": []}[entry["category"]]
         fields(entry, ["id", "category", "title", "description", "access", "prerequisites", "selection", "coverage"] + extra, optional + more, loc)
         for name in ("title", "description", "source", "note"):
             if name in entry:
@@ -273,6 +273,19 @@ def catalog(content=CONTENT):
             collections[c["id"]] = c
         if entry["category"] == "CLASS":
             validate_class(entry, entries, references, loc)
+        if "conditionalModifiers" in entry:
+            array(entry["conditionalModifiers"], loc + ".conditionalModifiers", True)
+        contexts = set()
+        for benefit in entry.get("conditionalModifiers", []):
+            fields(benefit, ["condition", "modifier"], [], loc + ".conditionalModifiers")
+            enum(benefit["condition"], ["ONE_HANDED_WEAPON", "TWO_HANDED_WEAPON"], loc)
+            require(benefit["condition"] not in contexts, loc, "duplicate conditional modifier context")
+            contexts.add(benefit["condition"])
+            modifier = benefit["modifier"]
+            fields(modifier, ["target", "operation", "value", "bonusType"], [], loc)
+            require(modifier["target"] == {"statistic": "ATTACK"}, loc, "conditional talent target must be ATTACK")
+            require(modifier["operation"] == "ADD" and modifier["bonusType"] == "UNTYPED", loc, "unsupported conditional operation")
+            integer(modifier["value"], loc, 1)
         if "weaponAbilities" in entry:
             array(entry["weaponAbilities"], loc, True)
             groups = []

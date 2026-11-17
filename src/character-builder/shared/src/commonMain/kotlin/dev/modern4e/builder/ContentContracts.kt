@@ -1,7 +1,10 @@
+@file:OptIn(kotlinx.serialization.ExperimentalSerializationApi::class)
+
 package dev.modern4e.builder
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.EncodeDefault
 
 @Serializable
 data class PackageManifest(
@@ -30,6 +33,7 @@ data class ContentEntry(
     val presentation: Presentation,
     val mechanics: Mechanics,
     val coverage: Coverage,
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val sharedData: kotlinx.serialization.json.JsonObject? = null,
 )
 
 @Serializable
@@ -57,10 +61,29 @@ data class Mechanics(
     val choices: List<ChoiceDefinition> = emptyList(),
     val modifiers: List<TypedModifier> = emptyList(),
     val progression: List<ClassProgression> = emptyList(),
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val version: Int = 1,
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val access: Prerequisite? = null,
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val classProfile: ClassProfile? = null,
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val conditionalModifiers: List<ConditionalModifier> = emptyList(),
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val unsupported: List<String> = emptyList(),
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val maximumSelections: Int? = null,
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val weaponAbilities: Map<WeaponGroup, Ability> = emptyMap(),
 )
 
 @Serializable
 sealed class Prerequisite {
+    @Serializable @SerialName("always")
+    data object Always : Prerequisite()
+    @Serializable @SerialName("allOf")
+    data class AllOf(val conditions: List<Prerequisite>) : Prerequisite()
+    @Serializable @SerialName("anyOf")
+    data class AnyOf(val conditions: List<Prerequisite>) : Prerequisite()
+    @Serializable @SerialName("classPowerSource")
+    data class ClassPowerSource(val powerSource: String) : Prerequisite()
+    @Serializable @SerialName("equipmentProficiency")
+    data class EquipmentProficiency(val equipment: String) : Prerequisite()
+    @Serializable @SerialName("unresolved")
+    data class Unresolved(val text: String, val reason: String) : Prerequisite()
     @Serializable @SerialName("level")
     data class Level(val minimum: Int) : Prerequisite()
     @Serializable @SerialName("entry")
@@ -77,7 +100,12 @@ sealed class Prerequisite {
 @Serializable
 sealed class Grant {
     @Serializable @SerialName("entry")
-    data class Entry(val grantId: String, val entryId: String) : Grant()
+    data class Entry(val grantId: String, val entryId: String,
+        @EncodeDefault(EncodeDefault.Mode.NEVER) val atLevel: Int = 1) : Grant() {
+        init {
+            require(atLevel in 1..30)
+        }
+    }
     @Serializable @SerialName("proficiency")
     data class Proficiency(val grantId: String, val skill: Skill) : Grant()
 }
@@ -85,7 +113,13 @@ sealed class Grant {
 @Serializable
 sealed class ChoiceDefinition {
     @Serializable @SerialName("entries")
-    data class Entries(val id: String, val count: Int, val entryIds: List<String>) : ChoiceDefinition()
+    data class Entries(val id: String, val count: Int, val entryIds: List<String>,
+        @EncodeDefault(EncodeDefault.Mode.NEVER) val atLevel: Int = 1,
+        @EncodeDefault(EncodeDefault.Mode.NEVER) val distinct: Boolean = false) : ChoiceDefinition() {
+        init {
+            require(atLevel in 1..30)
+        }
+    }
     @Serializable @SerialName("proficiencies")
     data class Proficiencies(val id: String, val count: Int, val skills: List<Skill>) : ChoiceDefinition()
     @Serializable @SerialName("mainAbility")

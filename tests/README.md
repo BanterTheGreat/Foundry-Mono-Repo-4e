@@ -479,6 +479,25 @@ Summon automation Node coverage includes separate square selection, per-power ma
 
 ## Character Builder shared core and content production
 
+Shared class runtime (#33), from the repository root:
+
+```powershell
+python -X utf8 src/character-builder/content/build.py --modern-classes-runtime
+python -X utf8 src/character-builder/content/build.py --modern-classes-runtime --check
+python -X utf8 -m unittest discover -s src/character-builder/content -p test_class_runtime.py -v
+```
+
+From `src/character-builder/`, run `./gradlew.bat :shared:jvmTest
+:shared:jsNodeTest :shared:jsBrowserProductionLibraryDistribution`, then
+`npm test --prefix web` and `npm run build --prefix web`. The shared tests load
+the Python-compiled Fighter golden on both targets, covering class formulas and
+recalculation, both independent feature choices, multiple/repeated automatic
+powers, acquisition gates, structured eligibility, cycles/duplicates/conflicts,
+missing dependencies, editing/class changes, reconciliation and portable reopen.
+The web test verifies the compiled JSON calculation API against the same data.
+General progression/collections and production bundle adoption remain #34/#35;
+tests do not imply combat automation or legacy character migration.
+
 Shared class authoring / Fighter migration (#30/#31), from the repository root:
 
 ```sh

@@ -1,0 +1,1247 @@
+{
+  "entries": [
+    {
+      "category": "CLASS",
+      "coverage": {
+        "limitations": [
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "PARTIAL"
+      },
+      "id": "modern4e.class.fighter",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "classProfile": {
+          "mainAbilities": [
+            "STRENGTH"
+          ],
+          "powerSources": [
+            "MARTIAL"
+          ],
+          "proficiencies": {
+            "armor": [
+              "LIGHT",
+              "CHAINMAIL",
+              "SCALE"
+            ],
+            "implements": [],
+            "shields": [
+              "LIGHT_SHIELD",
+              "HEAVY_SHIELD"
+            ],
+            "weapons": [
+              "SIMPLE_MELEE",
+              "SIMPLE_RANGED",
+              "MILITARY_MELEE",
+              "MILITARY_RANGED"
+            ]
+          },
+          "role": "DEFENDER",
+          "secondaryAbilities": [
+            "CONSTITUTION",
+            "DEXTERITY",
+            "WISDOM"
+          ],
+          "statistics": {
+            "FORTITUDE": {
+              "abilities": {
+                "CONSTITUTION": 1,
+                "STRENGTH": 1
+              },
+              "base": 13
+            },
+            "HEALING_SURGES": {
+              "abilities": {
+                "CONSTITUTION": 1
+              },
+              "base": 9,
+              "perLevel": 0
+            },
+            "HIT_POINTS": {
+              "abilities": {
+                "CONSTITUTION": 2
+              },
+              "base": 18,
+              "perLevel": 7
+            },
+            "REFLEX": {
+              "abilities": {
+                "DEXTERITY": 1,
+                "INTELLIGENCE": 1
+              },
+              "base": 11
+            },
+            "WILL": {
+              "abilities": {
+                "CHARISMA": 1,
+                "WISDOM": 1
+              },
+              "base": 11
+            }
+          }
+        },
+        "conditionalModifiers": [],
+        "grants": [
+          {
+            "atLevel": 1,
+            "entryId": "modern4e.feature.combat-challenge",
+            "grantId": "combat-challenge",
+            "type": "entry"
+          },
+          {
+            "atLevel": 1,
+            "entryId": "modern4e.feature.melee-weapon-mastery",
+            "grantId": "melee-weapon-mastery",
+            "type": "entry"
+          },
+          {
+            "atLevel": 1,
+            "entryId": "modern4e.feature.fighter-reactivity",
+            "grantId": "fighter-reactivity",
+            "type": "entry"
+          },
+          {
+            "atLevel": 1,
+            "entryId": "modern4e.feature.fighter-specialization",
+            "grantId": "fighter-specialization",
+            "type": "entry"
+          }
+        ],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Fighter is a Strength-based Martial Defender. Use tactical cunning and battle prowess to contain the enemy and protect your allies. \"Stickiest\" Defender; hard for enemies to escape you. Variety of build options based on preferred weapon loadout. High damage for a Defender and king of the opportunity attack.",
+        "title": "Fighter"
+      },
+      "sharedData": {
+        "abilities": {
+          "main": [
+            "STRENGTH"
+          ],
+          "secondary": [
+            "CONSTITUTION",
+            "DEXTERITY",
+            "WISDOM"
+          ]
+        },
+        "access": {
+          "type": "always"
+        },
+        "category": "CLASS",
+        "coverage": {
+          "limitations": [
+            "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Fighter is a Strength-based Martial Defender. Use tactical cunning and battle prowess to contain the enemy and protect your allies. \"Stickiest\" Defender; hard for enemies to escape you. Variety of build options based on preferred weapon loadout. High damage for a Defender and king of the opportunity attack.",
+        "flavor": {
+          "gameplay": "Fighter is a Strength-based *Martial Defender*. Use tactical cunning and battle prowess to contain the enemy and protect your allies. \"Stickiest\" Defender; hard for enemies to escape you. Variety of build options based on preferred weapon loadout. High damage for a Defender and king of the opportunity attack.",
+          "introduction": [
+            "Fighters crash into the teeth of enemy forces, armed with cold steel and grim purpose. They are the mercenaries loitering in taverns between expeditions, the guards who cast a watchful eye over their charges, the weapon masters who elevate fighting styles to lethal arts. The fighter is a fearless warrior, ready to meet any challenge.",
+            "Fighters can be found just about anywhere and among any sort of people. A few are gallant warriors fighting for noble causes, while others are calculating mercenaries who draw their weapons only when the pay is right. All fighters, however, are adventurers, ready to face any challenge, to go where glory, plunder, or honor leads them.",
+            "Specialized combat maneuvers, or exploits, combined with a dedicated focus on a fighting style set fighters apart from other warriors. A fighter can slam his or her weapon through one enemy to crunch into another or carve a bloody path through enemies in a whirlwind of destruction. Weapons are crucial too, since fighters know how to coax every advantage they can from their tools, and those who use axes fight differently from those who favor heavy blades."
+          ],
+          "quote": "You’ll have to deal with me first, dragon!"
+        },
+        "grants": [
+          {
+            "atLevel": 1,
+            "entryId": "modern4e.feature.combat-challenge",
+            "id": "combat-challenge"
+          },
+          {
+            "atLevel": 1,
+            "entryId": "modern4e.feature.melee-weapon-mastery",
+            "id": "melee-weapon-mastery"
+          },
+          {
+            "atLevel": 1,
+            "entryId": "modern4e.feature.fighter-reactivity",
+            "id": "fighter-reactivity"
+          },
+          {
+            "atLevel": 1,
+            "entryId": "modern4e.feature.fighter-specialization",
+            "id": "fighter-specialization"
+          }
+        ],
+        "id": "modern4e.class.fighter",
+        "powerSources": [
+          "MARTIAL"
+        ],
+        "prerequisites": {
+          "type": "always"
+        },
+        "proficiencies": {
+          "armor": [
+            "LIGHT",
+            "CHAINMAIL",
+            "SCALE"
+          ],
+          "implements": [],
+          "shields": [
+            "LIGHT_SHIELD",
+            "HEAVY_SHIELD"
+          ],
+          "weapons": [
+            "SIMPLE_MELEE",
+            "SIMPLE_RANGED",
+            "MILITARY_MELEE",
+            "MILITARY_RANGED"
+          ]
+        },
+        "role": "DEFENDER",
+        "ruleIds": [
+          "modern4e.rule.reliable",
+          "modern4e.rule.invigorating"
+        ],
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "statistics": {
+          "defenses": {
+            "FORTITUDE": 13,
+            "REFLEX": 11,
+            "WILL": 11
+          },
+          "healingSurges": {
+            "base": 9,
+            "constitutionMultiplier": 1
+          },
+          "health": {
+            "base": 18,
+            "constitutionMultiplier": 2,
+            "perLevel": 7
+          }
+        },
+        "title": "Fighter"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "PARTIAL"
+      },
+      "id": "modern4e.feature.battlerager-vigor",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Whenever you hit an enemy with a melee or a close attack, you gain temporary hit points equal to your *Constitution*, plus any temporary hit points normally granted by the power. You gain the hit points only after the attack is resolved.\n\nIf you use an invigorating Fighter attack power and miss every target with it, you gain temporary hit points equal to your *Constitution*. When wearing light armor or chainmail, you gain a +2 bonus to damage rolls with melee and close weapon attacks whenever you have temporary hit points.",
+        "title": "Battlerager Vigor"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "category": "FEATURE",
+        "coverage": {
+          "limitations": [
+            "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Whenever you hit an enemy with a melee or a close attack, you gain temporary hit points equal to your *Constitution*, plus any temporary hit points normally granted by the power. You gain the hit points only after the attack is resolved.\n\nIf you use an invigorating Fighter attack power and miss every target with it, you gain temporary hit points equal to your *Constitution*. When wearing light armor or chainmail, you gain a +2 bonus to damage rolls with melee and close weapon attacks whenever you have temporary hit points.",
+        "id": "modern4e.feature.battlerager-vigor",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Battlerager Vigor"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "PARTIAL"
+      },
+      "id": "modern4e.feature.combat-challenge",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [
+          {
+            "atLevel": 1,
+            "entryId": "modern4e.power.combat-challenge",
+            "grantId": "combat-challenge",
+            "type": "entry"
+          }
+        ],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "In combat, it’s dangerous to ignore The Fighter. Every time you attack an enemy, you can choose to *mark* that target. The mark lasts until the end of your next turn.\n\nAdditionally, you gain the Combat Challenge power:",
+        "title": "Combat Challenge"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "category": "FEATURE",
+        "coverage": {
+          "limitations": [
+            "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "In combat, it’s dangerous to ignore The Fighter. Every time you attack an enemy, you can choose to *mark* that target. The mark lasts until the end of your next turn.\n\nAdditionally, you gain the Combat Challenge power:",
+        "grants": [
+          {
+            "atLevel": 1,
+            "entryId": "modern4e.power.combat-challenge",
+            "id": "combat-challenge"
+          }
+        ],
+        "id": "modern4e.feature.combat-challenge",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Combat Challenge"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "PARTIAL"
+      },
+      "id": "modern4e.feature.combat-reactivity",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [
+          {
+            "atLevel": 1,
+            "entryId": "modern4e.power.combat-reactivity",
+            "grantId": "combat-reactivity",
+            "type": "entry"
+          },
+          {
+            "atLevel": 1,
+            "entryId": "modern4e.power.combat-reactivity-followup",
+            "grantId": "combat-reactivity-followup",
+            "type": "entry"
+          }
+        ],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You gain the Combat Reactivity and Combat Reactivity Followup powers.",
+        "title": "Combat Reactivity"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "category": "FEATURE",
+        "coverage": {
+          "limitations": [
+            "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You gain the Combat Reactivity and Combat Reactivity Followup powers.",
+        "grants": [
+          {
+            "atLevel": 1,
+            "entryId": "modern4e.power.combat-reactivity",
+            "id": "combat-reactivity"
+          },
+          {
+            "atLevel": 1,
+            "entryId": "modern4e.power.combat-reactivity-followup",
+            "id": "combat-reactivity-followup"
+          }
+        ],
+        "id": "modern4e.feature.combat-reactivity",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Combat Reactivity"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [
+          "Whether Wisdom or Dexterity is a saved choice, a per-attack choice or the higher value is unresolved; preserve the original wording.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "PARTIAL"
+      },
+      "id": "modern4e.feature.combat-superiority",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You gain a bonus to opportunity attacks equal to either your *Wisdom* or *Dexterity*. An enemy struck by your opportunity attack stops moving, if a move provoked the attack. If it still has actions remaining, it can use them to resume moving.",
+        "title": "Combat Superiority"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "category": "FEATURE",
+        "coverage": {
+          "limitations": [
+            "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration.",
+            "Whether Wisdom or Dexterity is a saved choice, a per-attack choice or the higher value is unresolved; preserve the original wording."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You gain a bonus to opportunity attacks equal to either your *Wisdom* or *Dexterity*. An enemy struck by your opportunity attack stops moving, if a move provoked the attack. If it still has actions remaining, it can use them to resume moving.",
+        "id": "modern4e.feature.combat-superiority",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Combat Superiority"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "PARTIAL"
+      },
+      "id": "modern4e.feature.fighter-reactivity",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [
+          {
+            "atLevel": 1,
+            "count": 1,
+            "distinct": false,
+            "entryIds": [
+              "modern4e.feature.combat-reactivity",
+              "modern4e.feature.combat-superiority"
+            ],
+            "id": "modern4e.choice.fighter-reactivity",
+            "type": "entries"
+          }
+        ],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "As a Fighter, you are quick to strike down those who try to escape your reach. Choose one of the options below.",
+        "title": "Reactivity"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "category": "FEATURE",
+        "choices": [
+          {
+            "atLevel": 1,
+            "constraints": [],
+            "count": 1,
+            "id": "modern4e.choice.fighter-reactivity",
+            "kind": "ENTRY",
+            "source": {
+              "entryIds": [
+                "modern4e.feature.combat-reactivity",
+                "modern4e.feature.combat-superiority"
+              ],
+              "type": "entries"
+            },
+            "title": "Reactivity"
+          }
+        ],
+        "coverage": {
+          "limitations": [
+            "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "As a Fighter, you are quick to strike down those who try to escape your reach. Choose one of the options below.",
+        "id": "modern4e.feature.fighter-reactivity",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Reactivity"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "PARTIAL"
+      },
+      "id": "modern4e.feature.fighter-specialization",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [
+          {
+            "atLevel": 1,
+            "count": 1,
+            "distinct": false,
+            "entryIds": [
+              "modern4e.feature.one-handed-weapon-talent",
+              "modern4e.feature.two-handed-weapon-talent",
+              "modern4e.feature.battlerager-vigor"
+            ],
+            "id": "modern4e.choice.fighter-specialization",
+            "type": "entries"
+          }
+        ],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "As a Fighter, you specialise in a specific way of fighting. Choose one of the options below.",
+        "title": "Fighter Specialization"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "category": "FEATURE",
+        "choices": [
+          {
+            "atLevel": 1,
+            "constraints": [],
+            "count": 1,
+            "id": "modern4e.choice.fighter-specialization",
+            "kind": "ENTRY",
+            "source": {
+              "entryIds": [
+                "modern4e.feature.one-handed-weapon-talent",
+                "modern4e.feature.two-handed-weapon-talent",
+                "modern4e.feature.battlerager-vigor"
+              ],
+              "type": "entries"
+            },
+            "title": "Fighter Specialization"
+          }
+        ],
+        "coverage": {
+          "limitations": [
+            "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "As a Fighter, you specialise in a specific way of fighting. Choose one of the options below.",
+        "id": "modern4e.feature.fighter-specialization",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Fighter Specialization"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "PARTIAL"
+      },
+      "id": "modern4e.feature.melee-weapon-mastery",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {
+          "AXE": "CONSTITUTION",
+          "FLAIL": "DEXTERITY",
+          "HAMMER": "CONSTITUTION",
+          "HEAVY_BLADE": "DEXTERITY",
+          "LIGHT_BLADE": "DEXTERITY",
+          "MACE": "CONSTITUTION",
+          "PICK": "CONSTITUTION",
+          "POLEARM": "WISDOM",
+          "SPEAR": "DEXTERITY",
+          "STAFF": "CONSTITUTION"
+        }
+      },
+      "presentation": {
+        "description": "Various Fighter powers come with bonuses if you have certain weapon types equipped. See the table below.",
+        "title": "Melee Weapon Mastery"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "category": "FEATURE",
+        "coverage": {
+          "limitations": [
+            "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Various Fighter powers come with bonuses if you have certain weapon types equipped. See the table below.",
+        "id": "modern4e.feature.melee-weapon-mastery",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Melee Weapon Mastery",
+        "weaponAbilities": [
+          {
+            "ability": "CONSTITUTION",
+            "weaponGroup": "AXE"
+          },
+          {
+            "ability": "DEXTERITY",
+            "weaponGroup": "FLAIL"
+          },
+          {
+            "ability": "CONSTITUTION",
+            "weaponGroup": "HAMMER"
+          },
+          {
+            "ability": "DEXTERITY",
+            "weaponGroup": "HEAVY_BLADE"
+          },
+          {
+            "ability": "DEXTERITY",
+            "weaponGroup": "LIGHT_BLADE"
+          },
+          {
+            "ability": "CONSTITUTION",
+            "weaponGroup": "MACE"
+          },
+          {
+            "ability": "CONSTITUTION",
+            "weaponGroup": "PICK"
+          },
+          {
+            "ability": "WISDOM",
+            "weaponGroup": "POLEARM"
+          },
+          {
+            "ability": "DEXTERITY",
+            "weaponGroup": "SPEAR"
+          },
+          {
+            "ability": "CONSTITUTION",
+            "weaponGroup": "STAFF"
+          }
+        ]
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "PARTIAL"
+      },
+      "id": "modern4e.feature.one-handed-weapon-talent",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "conditionalModifiers": [
+          {
+            "condition": "ONE_HANDED_WEAPON",
+            "modifier": {
+              "bonusType": "UNTYPED",
+              "operation": "ADD",
+              "target": {
+                "statistic": "ATTACK"
+              },
+              "value": 1
+            }
+          }
+        ],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You gain a +1 bonus to weapon attack rolls with one-handed weapons.",
+        "title": "One-Handed Weapon Talent"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "category": "FEATURE",
+        "conditionalModifiers": [
+          {
+            "condition": "ONE_HANDED_WEAPON",
+            "modifier": {
+              "bonusType": "UNTYPED",
+              "operation": "ADD",
+              "target": {
+                "statistic": "ATTACK"
+              },
+              "value": 1
+            }
+          }
+        ],
+        "coverage": {
+          "limitations": [
+            "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You gain a +1 bonus to weapon attack rolls with one-handed weapons.",
+        "id": "modern4e.feature.one-handed-weapon-talent",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "One-Handed Weapon Talent"
+      }
+    },
+    {
+      "category": "FEATURE",
+      "coverage": {
+        "limitations": [
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "PARTIAL"
+      },
+      "id": "modern4e.feature.two-handed-weapon-talent",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "conditionalModifiers": [
+          {
+            "condition": "TWO_HANDED_WEAPON",
+            "modifier": {
+              "bonusType": "UNTYPED",
+              "operation": "ADD",
+              "target": {
+                "statistic": "ATTACK"
+              },
+              "value": 1
+            }
+          }
+        ],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You gain a +1 bonus to weapon attack rolls with two-handed weapons.",
+        "title": "Two-Handed Weapon Talent"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "category": "FEATURE",
+        "conditionalModifiers": [
+          {
+            "condition": "TWO_HANDED_WEAPON",
+            "modifier": {
+              "bonusType": "UNTYPED",
+              "operation": "ADD",
+              "target": {
+                "statistic": "ATTACK"
+              },
+              "value": 1
+            }
+          }
+        ],
+        "coverage": {
+          "limitations": [
+            "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You gain a +1 bonus to weapon attack rolls with two-handed weapons.",
+        "id": "modern4e.feature.two-handed-weapon-talent",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Two-Handed Weapon Talent"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.combat-challenge",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You can make a melee basic attack against that enemy",
+        "title": "Combat Challenge"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_INTERRUPT",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The Fighter."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "You can make a melee basic attack against that enemy",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "distance": {
+                "base": 1
+              },
+              "origin": "self",
+              "type": "MELEE"
+            },
+            "trigger": "An enemy marked by you is adjacent to you and shifts or makes an attack that does not include you as a target.",
+            "usage": {
+              "costs": [],
+              "frequency": "AT_WILL",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You can make a melee basic attack against that enemy",
+        "id": "modern4e.power.combat-challenge",
+        "keywords": [
+          "MARTIAL",
+          "WEAPON"
+        ],
+        "prerequisites": {
+          "type": "always"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "modern4e.class.fighter",
+          "publication": "Modern4e local Fighter rules"
+        },
+        "title": "Combat Challenge"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.combat-reactivity",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "After the triggering enemy completes the action, you shift a number of squares equal to your *Dexterity*. You must end the shift closer to the target than you were when you began the shift. Then, make the following attack",
+        "title": "Combat Reactivity"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "activations": [
+          {
+            "action": "OPPORTUNITY",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The Fighter."
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "After the triggering enemy completes the action, you shift a number of squares equal to your *Dexterity*. You must end the shift closer to the target than you were when you began the shift. Then, make the following attack",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "distance": "WEAPON",
+              "origin": "self",
+              "type": "MELEE"
+            },
+            "trigger": "An enemy adjacent to you takes an action that provokes an opportunity attack.",
+            "usage": {
+              "costs": [],
+              "frequency": "AT_WILL",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "After the triggering enemy completes the action, you shift a number of squares equal to your *Dexterity*. You must end the shift closer to the target than you were when you began the shift. Then, make the following attack",
+        "id": "modern4e.power.combat-reactivity",
+        "keywords": [
+          "MARTIAL",
+          "WEAPON"
+        ],
+        "prerequisites": {
+          "type": "always"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "modern4e.class.fighter",
+          "publication": "Modern4e local Fighter rules"
+        },
+        "title": "Combat Reactivity"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.combat-reactivity-followup",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "1[W] + *Strength* damage, and you knock the target prone.",
+        "title": "Combat Reactivity Followup"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "activations": [
+          {
+            "action": "NO_ACTION",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The Fighter."
+              },
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "The triggering enemy"
+              }
+            },
+            "blocks": [
+              {
+                "actor": "self",
+                "comparisons": [
+                  {
+                    "defense": "AC",
+                    "id": "defense",
+                    "outcomes": {
+                      "hit": [
+                        {
+                          "id": "row-1",
+                          "label": "Hit",
+                          "scaling": [
+                            {
+                              "atLevel": 21,
+                              "text": "2[W] + *Strength* damage."
+                            }
+                          ],
+                          "text": "1[W] + *Strength* damage, and you knock the target prone.",
+                          "type": "effect"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "attack",
+                "label": "Attack",
+                "range": {
+                  "distance": "WEAPON",
+                  "origin": "self",
+                  "type": "MELEE"
+                },
+                "roll": {
+                  "count": 1,
+                  "sharing": "PER_TARGET",
+                  "statistic": {
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
+                  }
+                },
+                "targets": "targets",
+                "text": "Strength vs. AC",
+                "type": "attack"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "distance": "WEAPON",
+              "origin": "self",
+              "type": "MELEE"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "AT_WILL",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "1[W] + *Strength* damage, and you knock the target prone.",
+        "id": "modern4e.power.combat-reactivity-followup",
+        "keywords": [
+          "MARTIAL",
+          "WEAPON"
+        ],
+        "prerequisites": {
+          "type": "always"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "modern4e.class.fighter",
+          "publication": "Modern4e local Fighter rules"
+        },
+        "title": "Combat Reactivity Followup"
+      }
+    }
+  ],
+  "id": "entries"
+}

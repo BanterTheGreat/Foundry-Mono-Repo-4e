@@ -3,7 +3,7 @@ package dev.modern4e.builder
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.*
 
-/** Strict v1 codec: incompatible data is rejected before any storage operation. */
+/** Strict character-v1 / package-v1-v2 codec; incompatible data never reaches storage. */
 object ContractCodec {
     val json = Json { encodeDefaults = true }
 
@@ -44,7 +44,7 @@ object ContractCodec {
     fun decodeManifest(text: String): ContractResult<PackageManifest> {
         return try {
             val version = json.parseToJsonElement(text).jsonObject["formatVersion"]?.jsonPrimitive?.intOrNull
-            if (version != 1) {
+            if (version !in 1..2) {
                 ContractResult.Unavailable(listOf(Diagnostic("package.format", DiagnosticKind.INCOMPATIBLE_FORMAT, "Unsupported or missing package format version: $version")))
             } else {
                 ContractResult.Available(json.decodeFromString<PackageManifest>(text))

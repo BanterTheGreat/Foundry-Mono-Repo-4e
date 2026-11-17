@@ -27,7 +27,7 @@ class ContractTest {
             val source = contractFixtures.getValue(name)
             val manifest = assertIs<ContractResult.Available<PackageManifest>>(ContractCodec.decodeManifest(source)).value
             assertEquals(json.parseToJsonElement(source), json.encodeToJsonElement(manifest))
-            assertIs<ContractResult.Unavailable>(ContractCodec.decodeManifest(source.replace("\"formatVersion\": 1", "\"formatVersion\": 2")))
+            assertIs<ContractResult.Unavailable>(ContractCodec.decodeManifest(source.replace("\"formatVersion\": 1", "\"formatVersion\": 3")))
         }
         for (name in listOf("chunk.json", "override-chunk.json")) {
             val source = contractFixtures.getValue(name)

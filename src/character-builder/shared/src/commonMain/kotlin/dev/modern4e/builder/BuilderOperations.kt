@@ -69,7 +69,9 @@ class BuilderOperations(private val catalog: ContentCatalog) {
             val candidate = putEntry(document, level, EntryChoice(instance, slot, saved(definition)))
             val evaluated = evaluate(candidate)
             val diagnostics = evaluated.rules.diagnostics.filter { it.slot == slot && it.entryId == id }
-            val status = when {
+            val status = if (definition.entry.mechanics.version >= 2) {
+                evaluated.rules.entryEligibility[instance]?.status ?: Eligibility.UNRESOLVED
+            } else when {
                 diagnostics.any { it.kind == DiagnosticKind.INVALID_SELECTION } -> Eligibility.INELIGIBLE
                 diagnostics.any { it.kind == DiagnosticKind.UNRESOLVED_CONTENT } -> Eligibility.UNRESOLVED
                 diagnostics.any { it.kind == DiagnosticKind.INCOMPLETE_AUTOMATION } -> Eligibility.INCOMPLETE

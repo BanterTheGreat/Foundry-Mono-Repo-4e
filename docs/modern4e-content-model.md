@@ -149,8 +149,14 @@ modifiers can change counts and constrain a selection set (Druid), and separate
 owned collections model learned/stored/prepared choices (Wizard).
 
 `scripts/class_content.py` validates and exports a deterministic authoring catalog,
-not an enabled runtime package. Exceptional-class fixtures establish data shapes;
-engine interpretation and runtime package adoption remain separate work. The
+not an enabled runtime package. The separate Character Builder
+`content/build.py --modern-classes-runtime` maps this catalog to package/mechanics
+v2: class formulas, explicit acquisition and finite feature-owned choices are
+evaluated by shared Kotlin (#33). Full authored entries and unsupported mechanics
+remain preserved with explicit coverage. Production bundle adoption is #35;
+general progression/query pools/collections remain #34.
+Exceptional-class fixtures establish data shapes;
+general progression and production runtime package adoption remain separate work. The
 96 revised Barbarian selectable attacks also use the ordered power contract;
 other selectable class catalogs remain linked source material. Existing feat
 data and its contracts remain independently

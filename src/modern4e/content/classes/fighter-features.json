@@ -243,7 +243,20 @@
         "limitations": [
           "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
         ]
-      }
+      },
+      "conditionalModifiers": [
+        {
+          "condition": "ONE_HANDED_WEAPON",
+          "modifier": {
+            "target": {
+              "statistic": "ATTACK"
+            },
+            "operation": "ADD",
+            "value": 1,
+            "bonusType": "UNTYPED"
+          }
+        }
+      ]
     },
     {
       "id": "modern4e.feature.two-handed-weapon-talent",
@@ -264,7 +277,20 @@
         "limitations": [
           "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
         ]
-      }
+      },
+      "conditionalModifiers": [
+        {
+          "condition": "TWO_HANDED_WEAPON",
+          "modifier": {
+            "target": {
+              "statistic": "ATTACK"
+            },
+            "operation": "ADD",
+            "value": 1,
+            "bonusType": "UNTYPED"
+          }
+        }
+      ]
     },
     {
       "id": "modern4e.feature.battlerager-vigor",

@@ -1,4 +1,62 @@
-# Shared proof rules engine
+# Shared rules engine
+
+## Shared class runtime (#33)
+
+Package manifests accept versions 1 and 2; mechanics v2 adds class profiles,
+structured access/conditions, acquisition levels, explicit selection maxima,
+weapon-to-ability mappings and conditional modifiers. New optional fields omit
+their defaults, preserving legacy v1 serialization and `sha256-v1` fingerprints.
+The fingerprint algorithm includes every populated v2 field and preserved shared
+authoring data. Character documents remain v1: no ID mapping or migration occurs.
+
+`classProfile` supplies role, class power sources, direct main/secondary abilities,
+equipment proficiencies and closed linear formulas over level/direct abilities.
+The main-ability slot is `(class instance, "main", 0)`. Class HP, surges and three
+non-AC defenses use these formulas and return an explanation of every term.
+Missing/invalid dependencies, conflicting class profiles and integer overflow
+produce unavailable values. Armor class, attacks and damage do not gain invented
+bases. Allocation remains main 4/non-main budget 5/cap 2 with the optional trade.
+
+Entry grants and finite entry choices activate at their absolute `atLevel`,
+independently of entry prerequisites. Automatically acquired entries are not
+validated as player selections and never consume selectable power slots.
+Repeated grants retain distinct deterministic instances, even when an entry has
+a selection maximum of one. Player entry decisions enforce the explicit maximum
+and a choice's `distinct` constraint. Class/feature edits retain orphan decisions.
+
+Access and prerequisites share recursive `allOf`/`anyOf` evaluation across
+categories. Supported leaves include level, entry, direct ability, proficiency,
+class power source and equipment proficiency. Sources qualify through active
+classes, not known powers. Unsupported size/selected queries compile to explicit
+unresolved conditions with the source data preserved. No branch may prove its
+prerequisite from its own benefit chain; ambiguous/historical evaluation remains
+incomplete. In v2 eligibility and automation coverage are separate facts: an
+eligible feature may still have incomplete combat effects. Legacy v1 retains its
+existing conservative coverage gate.
+
+`EngineResult.entryEligibility` contains selected occurrence eligibility;
+`conditionalModifiers` contains sourced, unevaluated context-dependent benefits.
+Fighter weapon talents use `ONE_HANDED_WEAPON` / `TWO_HANDED_WEAPON` and never add
+to unconditional attack totals. Combat Superiority's Wisdom/Dexterity ambiguity
+and Battlerager's temporary-HP/session effects stay explicit limitations. No power
+execution is claimed. `weaponAbilities` preserves the shared mastery table.
+
+Android calls `RulesEngine` / `BuilderOperations` directly. The compiled web
+`WebContentCatalog.evaluate(characterJson)` uses its opened shared catalog and
+returns JSON with statistic/calculation pairs, contributors/modifier explanations,
+entries, choices, proficiency sources, coverage, diagnostics, conditional benefits
+and occurrence eligibility. No platform math is required.
+
+Explicit v2 class acquisition/formulas can evaluate characters above level 2,
+with a general-progression diagnostic. Ability advancement/replacements still
+block totals; general progression, query pools, dynamic counts and collections
+remain #34. Production bundle adoption is #35. These limits do not remove data.
+
+`SharedClassTest` consumes the exact compiled Fighter golden on JVM/JS; the web
+boundary test consumes the same content. It covers all six independent build
+combinations, three granted powers, formula goldens/recalculation, level gates,
+cycles, duplicates/conflicts/missing content, repeated grants, forced invalid
+decisions, class changes, editing, reconciliation and portable reopen.
 
 `RulesEngine.evaluate(document, content)` is a pure function. `RulesContent` holds
 resolved definitions and exact saved-selection resolution results. The separate
@@ -67,8 +125,8 @@ without pretending they are legal.
 
 ## Eligibility limits
 
-Supported prerequisites are minimum level, selected entry, direct ability points,
-and proficiency. Candidates expose `ELIGIBLE`, `INELIGIBLE`, `INCOMPLETE`, or
+Legacy v1 prerequisites are minimum level, selected entry, direct ability points,
+and proficiency; v2 also supports the grouped access vocabulary described above. Candidates expose `ELIGIBLE`, `INELIGIBLE`, `INCOMPLETE`, or
 `UNRESOLVED`; interfaces offer `ELIGIBLE` by default and retain the others for
 diagnostics/explicit selection. Missing prerequisite definitions are unresolved;
 an available required entry that is not selected is provably ineligible.
@@ -81,9 +139,10 @@ prerequisites on earlier-level decisions as incomplete when evaluating a later
 level, because historical independent calculations are not implemented. An
 earlier decision's explicit level prerequisite uses its selection level, not the
 character's current level. These limits are explicit; this engine does not claim
-full historical eligibility, retraining, or arbitrary progression. Documents above
-level 2, ability advancements and replacements remain preserved but return
-incomplete automation and unavailable totals until the progression milestone.
+full historical eligibility, retraining, or arbitrary progression. Legacy documents
+above level 2 and documents with ability advancements/replacements remain preserved
+but have unavailable totals. Explicit v2 class formulas/acquisition can evaluate
+later levels with the general-progression limitation described above.
 
 ## Modifier semantics
 
@@ -125,4 +184,4 @@ JavaScript, covering the baseline allocation/tradeoff, changed main abilities,
 all skill mappings, background/free/granted proficiency, typed and named-source
 stacking, penalties, SET/MINIMUM, diagnostics, missing/cyclic grants, repeated
 choices, eligibility limits, catalog supplier protection and unavailable values.
-No character UI or general combat/statistic formulas are implemented by this ticket.
+No character UI or combat execution is implemented. V2 class formulas are described above.

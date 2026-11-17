@@ -1,5 +1,13 @@
 # Shared builder operations
 
+Shared class v2 definitions expose their main ability at `(class instance,
+"main", 0)` and feature-owned choices under deterministic grant instances.
+Options use shared occurrence eligibility separately from combat coverage;
+incomplete combat automation does not by itself make a v2 feature ineligible.
+Class/feature replacement retains the edited occurrence ID and every dependent
+decision, reporting newly orphaned choices. No legacy-to-modern ID mapping is
+implicit. See [ENGINE.md](ENGINE.md) for class formulas and conditional benefits.
+
 `BuilderOperations(catalog)` uses the character's existing package-order catalog.
 `create` takes caller-generated character ID, RFC 3339 saved timestamp, identity,
 package revisions, direct point allocation and level 1 or 2. It fills empty level

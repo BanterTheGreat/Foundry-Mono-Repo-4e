@@ -5,8 +5,10 @@ Controllers and six Strikers. The catalog contains 170 features, 82 granted
 powers, 96 selectable revised Barbarian attack powers and six explanatory rules.
 Typst renders them directly;
 `class_content.py` exports the same data for future Character Builder compilation.
-This is **an authoring catalog, not a v1 runtime package**. Engine interpretation,
-full progression and production pipeline replacement remain #33–#35. No class
+This is **an authoring catalog, not a v1 runtime package**. The separate
+`character-builder/content/build.py --modern-classes-runtime` compiler maps it
+to runtime package/mechanics v2 (#33). Full progression and production bundle
+replacement remain #34/#35. No class
 chapter keeps a second editable rules definition in Typst. Feats and paragon-path
 catalogs retain their existing contracts.
 
@@ -41,7 +43,8 @@ Every entry requires `id`, `title`, `description`, `access`, `prerequisites`,
 `selection` and `coverage`; optional `source` and `note` retain provenance.
 Authored category comes from the envelope; the normalized export adds `category`.
 The exported kind is `modern4e.class-authoring`, with schema version 2. There is
-no implicit mapping to the builder's v1 mechanics or published `class3` identity.
+no implicit mapping to published `class3` identity; the explicit v2 compiler
+retains authored IDs and complete entries in runtime `sharedData`.
 
 Access/prerequisites reuse the existing closed shared condition tree validated
 by `scripts/feats.py`: `always`, `entry`, `level`, `abilityPoints`, `proficiency`,
@@ -61,8 +64,9 @@ maximum of one; that is authored data, not a category-wide default.
 Coverage requires `status` (`SUPPORTED`, `PARTIAL`, `UNIMPLEMENTED`) and
 `limitations`. Incomplete states require nonblank reasons. Pending references,
 unresolved conditions and query pools cannot claim supported automation.
-Fighter entries deliberately declare **UNIMPLEMENTED runtime coverage** even
-though their content is fully rendered. Combat Superiority preserves the original
+Fighter authoring entries declare **UNIMPLEMENTED runtime coverage**; the v2
+compiler marks known static acquisition/statistics as partial and preserves
+explicit combat limitations. Combat Superiority preserves the original
 Wisdom/Dexterity wording and explicitly records its unresolved interpretation.
 
 ## Class data
@@ -169,6 +173,14 @@ or proficiency benefits described in feature prose are inferred as automation.
 
 Rules are independently identified explanatory entries. Reliable and Invigorating
 are referenced by Fighter. Layout and table headings belong to the renderer.
+
+Fighter weapon talents additionally author `conditionalModifiers`: each has a
+closed `condition` (`ONE_HANDED_WEAPON` or `TWO_HANDED_WEAPON`) and an explicit
+untyped positive ADD modifier targeting ATTACK. The builder returns these as
+context-dependent benefits, separate from unconditional totals and selection
+eligibility. Arbitrary conditions/operations/scripts are rejected. The mastery
+weapon/ability table also compiles to typed runtime metadata. Temporary HP,
+movement stopping and power execution remain session/combat limitations.
 
 ## Granted choices and collections
 

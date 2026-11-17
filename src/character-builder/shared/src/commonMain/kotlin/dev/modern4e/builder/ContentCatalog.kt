@@ -2,6 +2,7 @@ package dev.modern4e.builder
 
 /** Metadata has no description or fingerprint: those require loading the current definition. */
 data class CatalogEntry(val metadata: EntryMetadata, val supplier: PackageRevision)
+@kotlinx.serialization.Serializable
 data class ResolvedEntry(val entry: ContentEntry, val supplier: PackageRevision, val fingerprint: String, val acknowledgmentRequired: Boolean = false)
 
 /** A catalog is a snapshot of one character's package order. Create a new one after package updates. */
@@ -103,7 +104,7 @@ class ContentCatalog private constructor(
             fun check(id: String, visiting: Set<String> = emptySet()): Boolean {
                 usable[id]?.let { return it }
                 val manifest = installed[id]
-                val valid = manifest != null && id in requested && id !in visiting && manifest.formatVersion == 1 &&
+                val valid = manifest != null && id in requested && id !in visiting && manifest.formatVersion in 1..2 &&
                     manifest.dependencies.all { dependency ->
                         installed[dependency.packageId]?.revision == dependency.revision && check(dependency.packageId, visiting + id)
                     }

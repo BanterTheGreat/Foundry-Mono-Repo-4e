@@ -142,4 +142,30 @@ class WebContentCatalog(private val call: (String, String) -> Promise<String>) {
             }, result.diagnostics))
         }
     }
+
+    /** Shared calculations only; browser code receives explanations, eligibility and coverage. */
+    fun evaluate(characterJson: String): Promise<String> = asyncJson {
+        when (val document = ContractCodec.decode(characterJson)) {
+            is ContractResult.Unavailable -> resultJson<JsonElement>(document)
+            is ContractResult.Available -> {
+                val rules = RulesEngine.evaluate(document.value, RulesContent.load(document.value, requireNotNull(catalog)))
+                resultJson(ContractResult.Available(buildJsonObject {
+                    put("statistics", JsonArray(rules.statistics.map { (target, calculation) -> buildJsonObject {
+                        put("target", ContractCodec.json.encodeToJsonElement(target))
+                        put("calculation", buildJsonObject {
+                            put("value", ContractCodec.json.parseToJsonElement(resultJson(calculation.value)))
+                            put("modifiers", ContractCodec.json.encodeToJsonElement(calculation.modifiers))
+                        })
+                    } }))
+                    put("entries", ContractCodec.json.encodeToJsonElement(rules.entries))
+                    put("choices", ContractCodec.json.encodeToJsonElement(rules.choices))
+                    put("proficiencies", ContractCodec.json.encodeToJsonElement(rules.proficiencies))
+                    put("coverage", ContractCodec.json.encodeToJsonElement(rules.coverage))
+                    put("diagnostics", ContractCodec.json.encodeToJsonElement(rules.diagnostics))
+                    put("conditionalModifiers", ContractCodec.json.encodeToJsonElement(rules.conditionalModifiers))
+                    put("entryEligibility", ContractCodec.json.encodeToJsonElement(rules.entryEligibility))
+                }))
+            }
+        }
+    }
 }

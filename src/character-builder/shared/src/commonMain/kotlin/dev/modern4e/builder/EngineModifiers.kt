@@ -1,6 +1,7 @@
 package dev.modern4e.builder
 
 /** A source key is a named game element, not an occurrence or display label. */
+@kotlinx.serialization.Serializable
 data class ModifierContribution(
     val modifier: TypedModifier,
     val label: String,
@@ -9,6 +10,7 @@ data class ModifierContribution(
 )
 
 /** Includes suppressed contributions so explanations can account for every modifier. */
+@kotlinx.serialization.Serializable
 data class ModifierExplanation(val contribution: ModifierContribution, val applied: Boolean)
 
 data class StatisticCalculation(

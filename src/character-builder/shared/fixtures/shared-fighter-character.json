@@ -1,0 +1,112 @@
+{
+  "formatVersion": 1,
+  "id": "shared-fighter",
+  "savedAt": "2026-11-17T22:00:00Z",
+  "identity": {
+    "name": "Fighter"
+  },
+  "packages": [
+    {
+      "packageId": "modern4e.classes",
+      "revision": "1"
+    }
+  ],
+  "level": 1,
+  "abilities": {
+    "source": {
+      "sourceInstanceId": "fighter",
+      "choiceId": "main",
+      "ordinal": 0
+    },
+    "mainAbility": "STRENGTH",
+    "points": {
+      "STRENGTH": 4,
+      "CONSTITUTION": 2,
+      "DEXTERITY": 2,
+      "INTELLIGENCE": 1
+    }
+  },
+  "levels": [
+    {
+      "level": 1,
+      "entries": [
+        {
+          "instanceId": "fighter",
+          "slot": {
+            "sourceInstanceId": "creation",
+            "choiceId": "class",
+            "ordinal": 0
+          },
+          "selection": {
+            "entryId": "modern4e.class.fighter",
+            "savedTitle": "modern4e.class.fighter",
+            "supplierPackageId": "modern4e.classes",
+            "acknowledgedFingerprint": "unacknowledged"
+          }
+        },
+        {
+          "instanceId": "reactivity",
+          "slot": {
+            "sourceInstanceId": "grant:7:fighter:18:fighter-reactivity",
+            "choiceId": "modern4e.choice.fighter-reactivity",
+            "ordinal": 0
+          },
+          "selection": {
+            "entryId": "modern4e.feature.combat-reactivity",
+            "savedTitle": "modern4e.feature.combat-reactivity",
+            "supplierPackageId": "modern4e.classes",
+            "acknowledgedFingerprint": "unacknowledged"
+          }
+        },
+        {
+          "instanceId": "specialization",
+          "slot": {
+            "sourceInstanceId": "grant:7:fighter:22:fighter-specialization",
+            "choiceId": "modern4e.choice.fighter-specialization",
+            "ordinal": 0
+          },
+          "selection": {
+            "entryId": "modern4e.feature.one-handed-weapon-talent",
+            "savedTitle": "modern4e.feature.one-handed-weapon-talent",
+            "supplierPackageId": "modern4e.classes",
+            "acknowledgedFingerprint": "unacknowledged"
+          }
+        }
+      ],
+      "proficiencies": [
+        {
+          "slot": {
+            "sourceInstanceId": "background.environment.urban",
+            "choiceId": "skill",
+            "ordinal": 0
+          },
+          "skill": "SOCIETY"
+        },
+        {
+          "slot": {
+            "sourceInstanceId": "background.upbringing.labor",
+            "choiceId": "skill",
+            "ordinal": 0
+          },
+          "skill": "CRAFTING"
+        },
+        {
+          "slot": {
+            "sourceInstanceId": "creation",
+            "choiceId": "free-skill",
+            "ordinal": 0
+          },
+          "skill": "MEDICINE"
+        },
+        {
+          "slot": {
+            "sourceInstanceId": "creation",
+            "choiceId": "free-skill",
+            "ordinal": 1
+          },
+          "skill": "RELIGION"
+        }
+      ]
+    }
+  ]
+}

@@ -14,7 +14,7 @@ Standalone Modern 4e builder with a shared Kotlin core, web shell and Android sh
   - Platform adapters and the tested scrollbar/date helpers stay beside the app shell. Screens observe the existing session; shared Kotlin owns rules and persistence contracts. Routes still use the existing string-based navigation.
 - Root Gradle wrapper/settings: standalone build; not part of the Foundry tooling.
 
-The smoke fixture remains an engineering check. Shared contracts are defined in `shared/src/commonMain/kotlin/dev/modern4e/builder/`; checked-in JSON goldens live in `shared/fixtures/`. The implementation baseline is Modern 4e abilities and proficiencies only.
+The smoke fixture remains an engineering check. Shared contracts are defined in `shared/src/commonMain/kotlin/dev/modern4e/builder/`; checked-in JSON goldens live in `shared/fixtures/`. The Modern 4e baseline includes abilities/proficiencies and v2 shared class formulas, acquisition and finite nested choices. See [shared/ENGINE.md](shared/ENGINE.md); full progression and production class bundle adoption remain #34/#35.
 
 ## Toolchains
 

@@ -1,5 +1,37 @@
 # Build-time content production
 
+## Shared class runtime package (#33)
+
+```powershell
+python -X utf8 src/character-builder/content/build.py --modern-classes-runtime
+python -X utf8 src/character-builder/content/build.py --modern-classes-runtime --check
+python -X utf8 -m unittest discover -s src/character-builder/content -p test_class_runtime.py -v
+```
+
+This validates the authoritative Modern 4e class catalog and emits an ignored
+`modern-classes-runtime-generated/modern4e.classes/` package: manifest format 2,
+index and chunk, with mechanics v2. The shared catalog/codec loads this package.
+The default proof build and installed web/Android bundles remain independent;
+their production replacement is #35. No compendium class data supplies these
+definitions, and no legacy `class3`/feature/power IDs are rewritten.
+
+`class_runtime.py` maps class metadata/proficiencies, direct main abilities,
+local formula terms, automatic acquisition and finite feature-owned choices.
+Structured access/prerequisite groups retain their meaning. It preserves complete
+authoring entries (including flavor, ordered powers, source notes and unsupported
+choices) in `sharedData`, included in definition fingerprints. Unsupported
+condition queries become explicit unresolved conditions; dynamic counts, choice
+queries/collections and selection modifiers remain explicit #34 diagnostics.
+Combat/session effects remain partial/unimplemented coverage. Conditional weapon
+talents and weapon-ability mappings are authored data, not inferred from prose.
+
+The compiler tests compare the Fighter subset to the exact common Kotlin golden
+`shared/fixtures/shared-fighter-chunk.json`, require deterministic regeneration,
+and check changed formulas, missing references, unsupported content and the closed
+conditional vocabulary. If intentionally changing the runtime mapping or Fighter
+authoring, regenerate this golden with `class_runtime.build(class_ids=[
+"modern4e.class.fighter"])["modern4e.classes/entries.json"]` and review its diff.
+
 ## Shared equipment authoring
 
 The authoritative [equipment catalog](../../modern4e/content/equipment/README.md)
@@ -112,4 +144,4 @@ the class inventory and normalized export are schema v2. The separate
 `modern4e.class-authoring` catalog, not a v1 runtime package. See the
 [class contract](../../modern4e/content/classes/README.md) for commands and exact
 coverage. This does not change the existing compendium proof pipeline or platform
-bundles; production class sourcing from these JSONs is #35, engine support #33/#34.
+bundles; production bundle adoption is #35; the v2 engine/compiler above implements #33, while general progression/collections remain #34.
