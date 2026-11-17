@@ -1,0 +1,1077 @@
+{
+  "schemaVersion": 1,
+  "id": "modern4e.creation-and-advancement.standard",
+  "title": "Character Creation & Advancement",
+  "creationIntroduction": "Creating a character involves 7 steps:",
+  "steps": [
+    {
+      "id": "modern4e.creation.ancestry",
+      "title": "Choose an Ancestry",
+      "description": "Choose a ancestry from Ancestries, this will give you 2 passive abilities and an encounter power.",
+      "required": true
+    },
+    {
+      "id": "modern4e.creation.background",
+      "title": "Create a Background",
+      "description": "Create a background by selecting an environment and an upbringing, and mark down the skills chosen.",
+      "required": true
+    },
+    {
+      "id": "modern4e.creation.class",
+      "title": "Choose a Class",
+      "description": "Choose a class, this will decide your main playstyle during combat. Make sure you write down any choices you make during class selection, such as powers selected.",
+      "required": true
+    },
+    {
+      "id": "modern4e.creation.equipment",
+      "title": "Gather your Equipment",
+      "description": "Choose your starting equipment from Equipment. Make sure to write down any choices you make during equipment selection, such as weapon types. You may select one or two weapons, an armor type, a shield and an implement you are proficent in.",
+      "required": true
+    },
+    {
+      "id": "modern4e.creation.skills",
+      "title": "Select 2 Skills",
+      "description": "Choose 2 skills to become proficient in, these are the skills your character picked up between the time of their background and becoming an adventurer.",
+      "required": true
+    },
+    {
+      "id": "modern4e.creation.theme",
+      "title": "Choose a Theme",
+      "description": "Themes are a kind of subtrack you can pick which come with some benefits. You may choose one.",
+      "required": false
+    },
+    {
+      "id": "modern4e.creation.feat",
+      "title": "Choose a Feat",
+      "description": "You may choose 1 Feat from either your ancestry, class or the general Feats list.",
+      "required": true
+    }
+  ],
+  "creationRules": {
+    "freeSkillProficiencies": 2,
+    "startingFeats": 1,
+    "themeOptional": true,
+    "equipment": {
+      "weaponMinimum": 1,
+      "weaponMaximum": 2,
+      "armor": 1,
+      "shield": 1,
+      "implement": 1,
+      "requiresProficiency": true
+    }
+  },
+  "advancementTitle": "Character Advancement",
+  "advancementIntroduction": "When your character levels up, you gain new features & abilities. This table shows what you gain each level.",
+  "coverage": {
+    "status": "PARTIAL",
+    "limitations": [
+      "Levels 11-30 preserve the provisional source table and are not verified progression rules.",
+      "Runtime interpretation, class overrides and catalog eligibility remain separate builder work.",
+      "Retraining is not specified by this chapter; no retraining defaults are inferred.",
+      "Utility totals preserve the printed table; separate combat/non-combat utility acquisition remains unresolved."
+    ]
+  },
+  "levels": [
+    {
+      "level": 1,
+      "status": "AUTHORED",
+      "abilityIncrease": {
+        "type": "CLASS",
+        "amount": 0
+      },
+      "events": [
+        {
+          "operation": "GRANT_FEATURES",
+          "target": "class features",
+          "id": "modern4e.advancement.level-1.event-1",
+          "category": "FEATURE",
+          "owner": "CLASS"
+        },
+        {
+          "operation": "GRANT_FEATURES",
+          "target": "racial traits",
+          "id": "modern4e.advancement.level-1.event-2",
+          "category": "FEATURE",
+          "owner": "ANCESTRY"
+        },
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "feat",
+          "id": "modern4e.advancement.level-1.event-3",
+          "category": "FEAT",
+          "owner": "CHARACTER"
+        },
+        {
+          "operation": "GAIN",
+          "count": 2,
+          "target": "at-will attack powers",
+          "id": "modern4e.advancement.level-1.event-4",
+          "category": "POWER",
+          "owner": "CLASS",
+          "powerKind": "ATTACK",
+          "usage": "AT_WILL",
+          "maximumEntryLevel": 1
+        },
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "encounter attack power",
+          "id": "modern4e.advancement.level-1.event-5",
+          "category": "POWER",
+          "owner": "CLASS",
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER",
+          "maximumEntryLevel": 1
+        },
+        {
+          "operation": "GAIN",
+          "count": 2,
+          "target": "daily attack powers",
+          "id": "modern4e.advancement.level-1.event-6",
+          "category": "POWER",
+          "owner": "CLASS",
+          "powerKind": "ATTACK",
+          "usage": "DAILY",
+          "maximumEntryLevel": 1
+        }
+      ],
+      "featTotal": 1,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 1,
+        "daily": 2,
+        "utility": 0
+      }
+    },
+    {
+      "level": 2,
+      "status": "AUTHORED",
+      "abilityIncrease": {
+        "type": "NONE",
+        "amount": 0
+      },
+      "events": [
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "utility power",
+          "id": "modern4e.advancement.level-2.event-1",
+          "category": "POWER",
+          "owner": "CLASS",
+          "powerKind": "UTILITY",
+          "usage": "UNRESOLVED",
+          "maximumEntryLevel": 2
+        },
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "feat",
+          "id": "modern4e.advancement.level-2.event-2",
+          "category": "FEAT",
+          "owner": "CHARACTER"
+        }
+      ],
+      "featTotal": 2,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 1,
+        "daily": 2,
+        "utility": 1
+      }
+    },
+    {
+      "level": 3,
+      "status": "AUTHORED",
+      "abilityIncrease": {
+        "type": "NONE",
+        "amount": 0
+      },
+      "events": [
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "encounter attack power",
+          "id": "modern4e.advancement.level-3.event-1",
+          "category": "POWER",
+          "owner": "CLASS",
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER",
+          "maximumEntryLevel": 3
+        }
+      ],
+      "featTotal": 2,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 2,
+        "daily": 2,
+        "utility": 1
+      }
+    },
+    {
+      "level": 4,
+      "status": "AUTHORED",
+      "abilityIncrease": {
+        "type": "NON_MAIN",
+        "amount": 1
+      },
+      "events": [
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "feat",
+          "id": "modern4e.advancement.level-4.event-1",
+          "category": "FEAT",
+          "owner": "CHARACTER"
+        }
+      ],
+      "featTotal": 3,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 2,
+        "daily": 2,
+        "utility": 1
+      }
+    },
+    {
+      "level": 5,
+      "status": "AUTHORED",
+      "abilityIncrease": {
+        "type": "NONE",
+        "amount": 0
+      },
+      "events": [
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "daily attack power",
+          "id": "modern4e.advancement.level-5.event-1",
+          "category": "POWER",
+          "owner": "CLASS",
+          "powerKind": "ATTACK",
+          "usage": "DAILY",
+          "maximumEntryLevel": 5
+        }
+      ],
+      "featTotal": 3,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 2,
+        "daily": 3,
+        "utility": 1
+      }
+    },
+    {
+      "level": 6,
+      "status": "AUTHORED",
+      "abilityIncrease": {
+        "type": "NONE",
+        "amount": 0
+      },
+      "events": [
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "utility power",
+          "id": "modern4e.advancement.level-6.event-1",
+          "category": "POWER",
+          "owner": "CLASS",
+          "powerKind": "UTILITY",
+          "usage": "UNRESOLVED",
+          "maximumEntryLevel": 6
+        },
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "feat",
+          "id": "modern4e.advancement.level-6.event-2",
+          "category": "FEAT",
+          "owner": "CHARACTER"
+        }
+      ],
+      "featTotal": 4,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 2,
+        "daily": 3,
+        "utility": 2
+      }
+    },
+    {
+      "level": 7,
+      "status": "AUTHORED",
+      "abilityIncrease": {
+        "type": "NONE",
+        "amount": 0
+      },
+      "events": [
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "encounter attack power",
+          "id": "modern4e.advancement.level-7.event-1",
+          "category": "POWER",
+          "owner": "CLASS",
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER",
+          "maximumEntryLevel": 7
+        }
+      ],
+      "featTotal": 4,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 3,
+        "daily": 3,
+        "utility": 2
+      }
+    },
+    {
+      "level": 8,
+      "status": "AUTHORED",
+      "abilityIncrease": {
+        "type": "MAIN",
+        "amount": 1
+      },
+      "events": [
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "feat",
+          "id": "modern4e.advancement.level-8.event-1",
+          "category": "FEAT",
+          "owner": "CHARACTER"
+        }
+      ],
+      "featTotal": 5,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 3,
+        "daily": 3,
+        "utility": 2
+      }
+    },
+    {
+      "level": 9,
+      "status": "AUTHORED",
+      "abilityIncrease": {
+        "type": "NONE",
+        "amount": 0
+      },
+      "events": [
+        {
+          "operation": "REPLACE",
+          "count": 1,
+          "target": "daily attack power",
+          "id": "modern4e.advancement.level-9.event-1",
+          "category": "POWER",
+          "owner": "CLASS",
+          "powerKind": "ATTACK",
+          "usage": "DAILY",
+          "maximumEntryLevel": 9
+        }
+      ],
+      "featTotal": 5,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 3,
+        "daily": 3,
+        "utility": 2
+      }
+    },
+    {
+      "level": 10,
+      "status": "AUTHORED",
+      "abilityIncrease": {
+        "type": "NONE",
+        "amount": 0
+      },
+      "events": [
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "utility power",
+          "id": "modern4e.advancement.level-10.event-1",
+          "category": "POWER",
+          "owner": "CLASS",
+          "powerKind": "UTILITY",
+          "usage": "UNRESOLVED",
+          "maximumEntryLevel": 10
+        },
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "feat",
+          "id": "modern4e.advancement.level-10.event-2",
+          "category": "FEAT",
+          "owner": "CHARACTER"
+        }
+      ],
+      "featTotal": 6,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 3,
+        "daily": 3,
+        "utility": 3
+      }
+    },
+    {
+      "level": 11,
+      "status": "PROVISIONAL",
+      "abilityIncrease": {
+        "type": "NONE",
+        "amount": 0
+      },
+      "events": [
+        {
+          "operation": "GRANT_FEATURES",
+          "target": "paragon path features",
+          "id": "modern4e.advancement.level-11.event-1",
+          "category": "FEATURE",
+          "owner": "PARAGON_PATH"
+        },
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "paragon path encounter attack power",
+          "id": "modern4e.advancement.level-11.event-2",
+          "category": "POWER",
+          "owner": "PARAGON_PATH",
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER",
+          "maximumEntryLevel": 11
+        },
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "feat",
+          "id": "modern4e.advancement.level-11.event-3",
+          "category": "FEAT",
+          "owner": "CHARACTER"
+        }
+      ],
+      "featTotal": 7,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 4,
+        "daily": 3,
+        "utility": 3
+      }
+    },
+    {
+      "level": 12,
+      "status": "PROVISIONAL",
+      "abilityIncrease": {
+        "type": "NON_MAIN",
+        "amount": 1
+      },
+      "events": [
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "paragon path utility power",
+          "id": "modern4e.advancement.level-12.event-1",
+          "category": "POWER",
+          "owner": "PARAGON_PATH",
+          "powerKind": "UTILITY",
+          "usage": "UNRESOLVED",
+          "maximumEntryLevel": 12
+        },
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "feat",
+          "id": "modern4e.advancement.level-12.event-2",
+          "category": "FEAT",
+          "owner": "CHARACTER"
+        }
+      ],
+      "featTotal": 8,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 4,
+        "daily": 3,
+        "utility": 4
+      }
+    },
+    {
+      "level": 13,
+      "status": "PROVISIONAL",
+      "abilityIncrease": {
+        "type": "NONE",
+        "amount": 0
+      },
+      "events": [
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "encounter attack power",
+          "id": "modern4e.advancement.level-13.event-1",
+          "category": "POWER",
+          "owner": "CLASS",
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER",
+          "maximumEntryLevel": 13
+        }
+      ],
+      "featTotal": 8,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 5,
+        "daily": 3,
+        "utility": 4
+      }
+    },
+    {
+      "level": 14,
+      "status": "PROVISIONAL",
+      "abilityIncrease": {
+        "type": "NONE",
+        "amount": 0
+      },
+      "events": [
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "feat",
+          "id": "modern4e.advancement.level-14.event-1",
+          "category": "FEAT",
+          "owner": "CHARACTER"
+        }
+      ],
+      "featTotal": 9,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 5,
+        "daily": 3,
+        "utility": 4
+      }
+    },
+    {
+      "level": 15,
+      "status": "PROVISIONAL",
+      "abilityIncrease": {
+        "type": "NONE",
+        "amount": 0
+      },
+      "events": [
+        {
+          "operation": "REPLACE",
+          "count": 1,
+          "target": "daily attack power",
+          "id": "modern4e.advancement.level-15.event-1",
+          "category": "POWER",
+          "owner": "CLASS",
+          "powerKind": "ATTACK",
+          "usage": "DAILY",
+          "maximumEntryLevel": 15
+        }
+      ],
+      "featTotal": 9,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 5,
+        "daily": 3,
+        "utility": 4
+      }
+    },
+    {
+      "level": 16,
+      "status": "PROVISIONAL",
+      "abilityIncrease": {
+        "type": "ALL",
+        "amount": 1
+      },
+      "events": [
+        {
+          "operation": "GRANT_FEATURES",
+          "target": "paragon path feature",
+          "id": "modern4e.advancement.level-16.event-1",
+          "category": "FEATURE",
+          "owner": "PARAGON_PATH"
+        },
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "feat",
+          "id": "modern4e.advancement.level-16.event-2",
+          "category": "FEAT",
+          "owner": "CHARACTER"
+        }
+      ],
+      "featTotal": 10,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 5,
+        "daily": 3,
+        "utility": 4
+      }
+    },
+    {
+      "level": 17,
+      "status": "PROVISIONAL",
+      "abilityIncrease": {
+        "type": "NONE",
+        "amount": 0
+      },
+      "events": [
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "utility power",
+          "id": "modern4e.advancement.level-17.event-1",
+          "category": "POWER",
+          "owner": "CLASS",
+          "powerKind": "UTILITY",
+          "usage": "UNRESOLVED",
+          "maximumEntryLevel": 17
+        },
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "encounter power",
+          "id": "modern4e.advancement.level-17.event-2",
+          "category": "POWER",
+          "owner": "CLASS",
+          "powerKind": "UNRESOLVED",
+          "usage": "ENCOUNTER",
+          "maximumEntryLevel": 17
+        },
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "feat",
+          "id": "modern4e.advancement.level-17.event-3",
+          "category": "FEAT",
+          "owner": "CHARACTER"
+        }
+      ],
+      "featTotal": 11,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 6,
+        "daily": 3,
+        "utility": 5
+      }
+    },
+    {
+      "level": 18,
+      "status": "PROVISIONAL",
+      "abilityIncrease": {
+        "type": "NONE",
+        "amount": 0
+      },
+      "events": [
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "feat",
+          "id": "modern4e.advancement.level-18.event-1",
+          "category": "FEAT",
+          "owner": "CHARACTER"
+        }
+      ],
+      "featTotal": 12,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 6,
+        "daily": 3,
+        "utility": 5
+      }
+    },
+    {
+      "level": 19,
+      "status": "PROVISIONAL",
+      "abilityIncrease": {
+        "type": "NONE",
+        "amount": 0
+      },
+      "events": [
+        {
+          "operation": "REPLACE",
+          "count": 1,
+          "target": "daily attack power",
+          "id": "modern4e.advancement.level-19.event-1",
+          "category": "POWER",
+          "owner": "CLASS",
+          "powerKind": "ATTACK",
+          "usage": "DAILY",
+          "maximumEntryLevel": 19
+        }
+      ],
+      "featTotal": 12,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 6,
+        "daily": 3,
+        "utility": 5
+      }
+    },
+    {
+      "level": 20,
+      "status": "PROVISIONAL",
+      "abilityIncrease": {
+        "type": "MAIN",
+        "amount": 1
+      },
+      "events": [
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "paragon path daily attack power",
+          "id": "modern4e.advancement.level-20.event-1",
+          "category": "POWER",
+          "owner": "PARAGON_PATH",
+          "powerKind": "ATTACK",
+          "usage": "DAILY",
+          "maximumEntryLevel": 20
+        },
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "feat",
+          "id": "modern4e.advancement.level-20.event-2",
+          "category": "FEAT",
+          "owner": "CHARACTER"
+        }
+      ],
+      "featTotal": 13,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 6,
+        "daily": 4,
+        "utility": 5
+      }
+    },
+    {
+      "level": 21,
+      "status": "PROVISIONAL",
+      "abilityIncrease": {
+        "type": "NONE",
+        "amount": 0
+      },
+      "events": [
+        {
+          "operation": "GRANT_FEATURES",
+          "target": "epic destiny feature",
+          "id": "modern4e.advancement.level-21.event-1",
+          "category": "FEATURE",
+          "owner": "EPIC_DESTINY"
+        },
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "feat",
+          "id": "modern4e.advancement.level-21.event-2",
+          "category": "FEAT",
+          "owner": "CHARACTER"
+        }
+      ],
+      "featTotal": 14,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 6,
+        "daily": 4,
+        "utility": 5
+      }
+    },
+    {
+      "level": 22,
+      "status": "PROVISIONAL",
+      "abilityIncrease": {
+        "type": "NONE",
+        "amount": 0
+      },
+      "events": [
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "utility power",
+          "id": "modern4e.advancement.level-22.event-1",
+          "category": "POWER",
+          "owner": "CLASS",
+          "powerKind": "UTILITY",
+          "usage": "UNRESOLVED",
+          "maximumEntryLevel": 22
+        },
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "feat",
+          "id": "modern4e.advancement.level-22.event-2",
+          "category": "FEAT",
+          "owner": "CHARACTER"
+        }
+      ],
+      "featTotal": 15,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 6,
+        "daily": 4,
+        "utility": 6
+      }
+    },
+    {
+      "level": 23,
+      "status": "PROVISIONAL",
+      "abilityIncrease": {
+        "type": "NONE",
+        "amount": 0
+      },
+      "events": [
+        {
+          "operation": "REPLACE",
+          "count": 1,
+          "target": "encounter attack power",
+          "id": "modern4e.advancement.level-23.event-1",
+          "category": "POWER",
+          "owner": "CLASS",
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER",
+          "maximumEntryLevel": 23
+        }
+      ],
+      "featTotal": 15,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 6,
+        "daily": 4,
+        "utility": 6
+      }
+    },
+    {
+      "level": 24,
+      "status": "PROVISIONAL",
+      "abilityIncrease": {
+        "type": "NON_MAIN",
+        "amount": 1
+      },
+      "events": [
+        {
+          "operation": "GRANT_FEATURES",
+          "target": "epic destiny feature",
+          "id": "modern4e.advancement.level-24.event-1",
+          "category": "FEATURE",
+          "owner": "EPIC_DESTINY"
+        },
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "feat",
+          "id": "modern4e.advancement.level-24.event-2",
+          "category": "FEAT",
+          "owner": "CHARACTER"
+        }
+      ],
+      "featTotal": 16,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 6,
+        "daily": 4,
+        "utility": 6
+      }
+    },
+    {
+      "level": 25,
+      "status": "PROVISIONAL",
+      "abilityIncrease": {
+        "type": "NONE",
+        "amount": 0
+      },
+      "events": [
+        {
+          "operation": "REPLACE",
+          "count": 1,
+          "target": "daily attack power",
+          "id": "modern4e.advancement.level-25.event-1",
+          "category": "POWER",
+          "owner": "CLASS",
+          "powerKind": "ATTACK",
+          "usage": "DAILY",
+          "maximumEntryLevel": 25
+        }
+      ],
+      "featTotal": 16,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 6,
+        "daily": 4,
+        "utility": 6
+      }
+    },
+    {
+      "level": 26,
+      "status": "PROVISIONAL",
+      "abilityIncrease": {
+        "type": "NONE",
+        "amount": 0
+      },
+      "events": [
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "epic destiny utility power",
+          "id": "modern4e.advancement.level-26.event-1",
+          "category": "POWER",
+          "owner": "EPIC_DESTINY",
+          "powerKind": "UTILITY",
+          "usage": "UNRESOLVED",
+          "maximumEntryLevel": 26
+        },
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "feat",
+          "id": "modern4e.advancement.level-26.event-2",
+          "category": "FEAT",
+          "owner": "CHARACTER"
+        }
+      ],
+      "featTotal": 17,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 6,
+        "daily": 4,
+        "utility": 7
+      }
+    },
+    {
+      "level": 27,
+      "status": "PROVISIONAL",
+      "abilityIncrease": {
+        "type": "NONE",
+        "amount": 0
+      },
+      "events": [
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "encounter attack power",
+          "id": "modern4e.advancement.level-27.event-1",
+          "category": "POWER",
+          "owner": "CLASS",
+          "powerKind": "ATTACK",
+          "usage": "ENCOUNTER",
+          "maximumEntryLevel": 27
+        }
+      ],
+      "featTotal": 17,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 7,
+        "daily": 4,
+        "utility": 7
+      }
+    },
+    {
+      "level": 28,
+      "status": "PROVISIONAL",
+      "abilityIncrease": {
+        "type": "MAIN",
+        "amount": 1
+      },
+      "events": [
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "feat",
+          "id": "modern4e.advancement.level-28.event-1",
+          "category": "FEAT",
+          "owner": "CHARACTER"
+        }
+      ],
+      "featTotal": 18,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 7,
+        "daily": 4,
+        "utility": 7
+      }
+    },
+    {
+      "level": 29,
+      "status": "PROVISIONAL",
+      "abilityIncrease": {
+        "type": "NONE",
+        "amount": 0
+      },
+      "events": [
+        {
+          "operation": "REPLACE",
+          "count": 1,
+          "target": "daily attack power",
+          "id": "modern4e.advancement.level-29.event-1",
+          "category": "POWER",
+          "owner": "CLASS",
+          "powerKind": "ATTACK",
+          "usage": "DAILY",
+          "maximumEntryLevel": 29
+        }
+      ],
+      "featTotal": 18,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 7,
+        "daily": 4,
+        "utility": 7
+      }
+    },
+    {
+      "level": 30,
+      "status": "PROVISIONAL",
+      "abilityIncrease": {
+        "type": "NONE",
+        "amount": 0
+      },
+      "events": [
+        {
+          "operation": "GRANT_FEATURES",
+          "target": "epic destiny feature",
+          "id": "modern4e.advancement.level-30.event-1",
+          "category": "FEATURE",
+          "owner": "EPIC_DESTINY"
+        },
+        {
+          "operation": "GAIN",
+          "count": 1,
+          "target": "feat",
+          "id": "modern4e.advancement.level-30.event-2",
+          "category": "FEAT",
+          "owner": "CHARACTER"
+        }
+      ],
+      "featTotal": 19,
+      "powerTotals": {
+        "atWill": 2,
+        "encounter": 7,
+        "daily": 4,
+        "utility": 7
+      }
+    }
+  ],
+  "initialPowerChoices": "modern4e.advancement.standard",
+  "abilityAllocation": {
+    "mainPoints": 4,
+    "nonMainBudget": 5,
+    "nonMainMinimum": 0,
+    "nonMainMaximum": 2,
+    "tradeoff": {
+      "maximumPairs": 1,
+      "loweredValue": -1,
+      "increase": 1,
+      "raisedMaximum": 3
+    }
+  },
+  "techniqueAcquisition": {
+    "firstLevel": 2,
+    "everyLevels": 2,
+    "count": 1,
+    "optional": true,
+    "maximumEntryLevel": "CHARACTER_LEVEL",
+    "requiresMatchingPowerSource": [
+      "ARCANE",
+      "PRIMAL",
+      "DIVINE"
+    ],
+    "description": "At level 2 and every other even level after, you may gain a technique. This technique has to be of your level or lower."
+  }
+}

@@ -353,3 +353,12 @@ Check each item after enabling its module (and, where noted, its setting).
 - [x] Modern 4e shared equipment JSON — checked all weapon tables, property columns and armor/shield tables on development pages 175–178; values, section order and page breaks are preserved. Runtime combat automation remains unimplemented; source gaps remain in coverage notes.
 
 - [x] Modern 4e utility JSON — inspected development pages 210, 217 and 227 plus a standalone Fighter utility page: combat/non-combat skill and source cards, target/trigger lines, columns and page breaks fit. Automated rendering covers all available sections and rejects withheld utilities; presentation hashes cover every card. Alfa Slab One is unavailable locally, so typography uses a fallback. Runtime effects and builder package integration remain unimplemented.
+- Shared creation and advancement authoring: seven creation steps, starting
+  choices/equipment rules, universal ability allocation, optional even-level
+  technique acquisition and all 30 printed advancement rows live in validated
+  JSON. Typst renders the chapter and reads allocation values in class reference
+  panels from that source. Existing level-one class choice IDs remain intact;
+  deterministic export and source-parity tests cover gains, replacements and
+  cumulative totals. Levels 11–30 remain provisional. Utility pick splits and
+  retraining stay unresolved; builder runtime progression is not implemented by
+  this authoring migration. See [creation contract](src/modern4e/content/creation/README.md).

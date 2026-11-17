@@ -674,3 +674,19 @@ pages in `src/modern4e/inDev.pdf` after compiling. See
 [path authoring](../src/modern4e/content/paths/README.md).
 
 Android Progression presentation helpers: `ProgressionTest` covers remaining allocation points (fixed main, unassigned abilities, tradeoffs and overspending) and compact skill source labels. Stepper regression coverage verifies single-negative/single-3 limits, the required -1 before raising to 3, removing the tradeoff in order, fixed main ability and min/max bounds. Run `.\gradlew.bat :android:testDebugUnitTest` from `src/character-builder/`.
+### Modern 4e creation and advancement authoring
+
+```sh
+python -X utf8 src/modern4e/scripts/creation_content.py
+python -X utf8 -m unittest discover -s src/modern4e/scripts -p test_creation_content.py -v
+node --test scripts/test/modern4e-creation.test.mjs
+npm run typst:compile
+```
+
+Also runs through root `npm test`. Covers all seven source creation steps and all
+30 progression rows, gain/replacement totals, initial class-choice agreement,
+provisional higher levels, paired allocation tradeoffs, malformed authoring,
+duplicate JSON keys and deterministic export/source protection. Actual Typst
+renderer tests require `typst` on PATH or `TYPST_BIN`; inspect the creation table,
+class reference panels and technique introduction after rendering changes. See
+[authoring contract](../src/modern4e/content/creation/README.md).

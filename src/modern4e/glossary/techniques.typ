@@ -1,3 +1,4 @@
+#import "../helpers/creation_content.typ" as creation;
 #import "../helpers/theme.typ" as theme;
 #import "../helpers/techniques.typ": techniqueEntry;
 
@@ -12,7 +13,7 @@
         Techniques are various manouvers and rituals your character is able to perform which provide various boosts and benefits.
 
         = Gaining Techniques
-        At level 2 and every other even level after, you may gain a technique. This technique has to be of your level or lower.
+        #creation.rules.techniqueAcquisition.description
 
         = Learning additional Techniques
         To learn additional techniques, you must train for at least 8 hours with a character who has mastered it and is at least 6 levels higher than the minimum level to use the technique; or train for at least 1 week with a character who has mastered it, regardless of their level; or to study a manual or other text that describes the technique for 8 hours. You must also meet the technique’s level requirement.

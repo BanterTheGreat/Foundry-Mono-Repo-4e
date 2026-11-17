@@ -1,0 +1,258 @@
+{
+  "steps": [
+    {
+      "id": "modern4e.creation.ancestry",
+      "title": "Choose an Ancestry",
+      "description": "Choose a ancestry from Ancestries, this will give you 2 passive abilities and an encounter power.",
+      "required": true
+    },
+    {
+      "id": "modern4e.creation.background",
+      "title": "Create a Background",
+      "description": "Create a background by selecting an environment and an upbringing, and mark down the skills chosen.",
+      "required": true
+    },
+    {
+      "id": "modern4e.creation.class",
+      "title": "Choose a Class",
+      "description": "Choose a class, this will decide your main playstyle during combat. Make sure you write down any choices you make during class selection, such as powers selected.",
+      "required": true
+    },
+    {
+      "id": "modern4e.creation.equipment",
+      "title": "Gather your Equipment",
+      "description": "Choose your starting equipment from Equipment. Make sure to write down any choices you make during equipment selection, such as weapon types. You may select one or two weapons, an armor type, a shield and an implement you are proficent in.",
+      "required": true
+    },
+    {
+      "id": "modern4e.creation.skills",
+      "title": "Select 2 Skills",
+      "description": "Choose 2 skills to become proficient in, these are the skills your character picked up between the time of their background and becoming an adventurer.",
+      "required": true
+    },
+    {
+      "id": "modern4e.creation.theme",
+      "title": "Choose a Theme",
+      "description": "Themes are a kind of subtrack you can pick which come with some benefits. You may choose one.",
+      "required": false
+    },
+    {
+      "id": "modern4e.creation.feat",
+      "title": "Choose a Feat",
+      "description": "You may choose 1 Feat from either your ancestry, class or the general Feats list.",
+      "required": true
+    }
+  ],
+  "rows": [
+    {
+      "level": 1,
+      "ability": "See class",
+      "features": "class features; racial traits; gain 1 feat; gain 2 at-will attack powers; gain 1 encounter attack power; gain 2 daily attack powers",
+      "feats": 1,
+      "totals": "2/1/2/0"
+    },
+    {
+      "level": 2,
+      "ability": "—",
+      "features": "gain 1 utility power; gain 1 feat",
+      "feats": 2,
+      "totals": "2/1/2/1"
+    },
+    {
+      "level": 3,
+      "ability": "—",
+      "features": "gain 1 encounter attack power",
+      "feats": 2,
+      "totals": "2/2/2/1"
+    },
+    {
+      "level": 4,
+      "ability": "+1 to non-main",
+      "features": "gain 1 feat;",
+      "feats": 3,
+      "totals": "2/2/2/1"
+    },
+    {
+      "level": 5,
+      "ability": "—",
+      "features": "gain 1 daily attack power",
+      "feats": 3,
+      "totals": "2/2/3/1"
+    },
+    {
+      "level": 6,
+      "ability": "—",
+      "features": "gain 1 utility power; gain 1 feat",
+      "feats": 4,
+      "totals": "2/2/3/2"
+    },
+    {
+      "level": 7,
+      "ability": "—",
+      "features": "gain 1 encounter attack power",
+      "feats": 4,
+      "totals": "2/3/3/2"
+    },
+    {
+      "level": 8,
+      "ability": "+1 to main",
+      "features": "gain 1 feat;",
+      "feats": 5,
+      "totals": "2/3/3/2"
+    },
+    {
+      "level": 9,
+      "ability": "—",
+      "features": "replace 1 daily attack power",
+      "feats": 5,
+      "totals": "2/3/3/2"
+    },
+    {
+      "level": 10,
+      "ability": "—",
+      "features": "gain 1 utility power; gain 1 feat",
+      "feats": 6,
+      "totals": "2/3/3/3"
+    },
+    {
+      "level": 11,
+      "ability": "—",
+      "features": "paragon path features; gain 1 paragon path encounter attack power; gain 1 feat",
+      "feats": 7,
+      "totals": "2/4/3/3"
+    },
+    {
+      "level": 12,
+      "ability": "+1 to non-main",
+      "features": "gain 1 paragon path utility power; gain 1 feat",
+      "feats": 8,
+      "totals": "2/4/3/4"
+    },
+    {
+      "level": 13,
+      "ability": "—",
+      "features": "gain 1 encounter attack power",
+      "feats": 8,
+      "totals": "2/5/3/4"
+    },
+    {
+      "level": 14,
+      "ability": "—",
+      "features": "gain 1 feat",
+      "feats": 9,
+      "totals": "2/5/3/4"
+    },
+    {
+      "level": 15,
+      "ability": "—",
+      "features": "replace 1 daily attack power",
+      "feats": 9,
+      "totals": "2/5/3/4"
+    },
+    {
+      "level": 16,
+      "ability": "+1 to all",
+      "features": "paragon path feature; gain 1 feat",
+      "feats": 10,
+      "totals": "2/5/3/4"
+    },
+    {
+      "level": 17,
+      "ability": "—",
+      "features": "gain 1 utility power; gain 1 encounter power; gain 1 feat",
+      "feats": 11,
+      "totals": "2/6/3/5"
+    },
+    {
+      "level": 18,
+      "ability": "—",
+      "features": "gain 1 feat",
+      "feats": 12,
+      "totals": "2/6/3/5"
+    },
+    {
+      "level": 19,
+      "ability": "—",
+      "features": "replace 1 daily attack power",
+      "feats": 12,
+      "totals": "2/6/3/5"
+    },
+    {
+      "level": 20,
+      "ability": "+1 to main",
+      "features": "gain 1 paragon path daily attack power; gain 1 feat",
+      "feats": 13,
+      "totals": "2/6/4/5"
+    },
+    {
+      "level": 21,
+      "ability": "—",
+      "features": "epic destiny feature; gain 1 feat",
+      "feats": 14,
+      "totals": "2/6/4/5"
+    },
+    {
+      "level": 22,
+      "ability": "—",
+      "features": "gain 1 utility power; gain 1 feat",
+      "feats": 15,
+      "totals": "2/6/4/6"
+    },
+    {
+      "level": 23,
+      "ability": "—",
+      "features": "replace 1 encounter attack power",
+      "feats": 15,
+      "totals": "2/6/4/6"
+    },
+    {
+      "level": 24,
+      "ability": "+1 to non-main",
+      "features": "epic destiny feature; gain 1 feat",
+      "feats": 16,
+      "totals": "2/6/4/6"
+    },
+    {
+      "level": 25,
+      "ability": "—",
+      "features": "replace 1 daily attack power",
+      "feats": 16,
+      "totals": "2/6/4/6"
+    },
+    {
+      "level": 26,
+      "ability": "—",
+      "features": "gain 1 epic destiny utility power; gain 1 feat",
+      "feats": 17,
+      "totals": "2/6/4/7"
+    },
+    {
+      "level": 27,
+      "ability": "—",
+      "features": "gain 1 encounter attack power",
+      "feats": 17,
+      "totals": "2/7/4/7"
+    },
+    {
+      "level": 28,
+      "ability": "+1 to main",
+      "features": "gain 1 feat",
+      "feats": 18,
+      "totals": "2/7/4/7"
+    },
+    {
+      "level": 29,
+      "ability": "—",
+      "features": "replace 1 daily attack power",
+      "feats": 18,
+      "totals": "2/7/4/7"
+    },
+    {
+      "level": 30,
+      "ability": "—",
+      "features": "epic destiny feature; gain 1 feat",
+      "feats": 19,
+      "totals": "2/7/4/7"
+    }
+  ]
+}

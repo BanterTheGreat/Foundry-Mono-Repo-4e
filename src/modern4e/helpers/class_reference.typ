@@ -1,3 +1,4 @@
+#import "creation_content.typ" as creation;
 #import "shared.typ";
 #import "theme.typ";
 #import "state.typ" as state;
@@ -101,11 +102,11 @@
         }
         stack(spacing: 3pt, ..choices)
         v(6pt)
-        text(size: 11pt)[Your choice starts at *4 points.*]
+        text(size: 11pt)[Your choice starts at *#creation.rules.abilityAllocation.mainPoints points.*]
       } else {
         text(size: 17pt, weight: "bold", mainAbilities)
         linebreak()
-        text(size: 14pt)[starts at *4 points.*]
+        text(size: 14pt)[starts at *#creation.rules.abilityAllocation.mainPoints points.*]
       }
     ]
     #text(size: 8.5pt, fill: bannerMuted)[
@@ -128,11 +129,11 @@
           #text(size: 7pt, weight: "bold", fill: white)[REQUIRED]
         ]
         #v(4pt)
-        #text(size: 12pt, weight: "bold")[Assign 5 Points]
+        #text(size: 12pt, weight: "bold")[Assign #creation.rules.abilityAllocation.nonMainBudget Points]
         #v(4pt)
-        Distribute *5 points* across non-main abilities.
+        Distribute *#creation.rules.abilityAllocation.nonMainBudget points* across non-main abilities.
         #linebreak()
-        Maximum *2 points* per ability.
+        Maximum *#creation.rules.abilityAllocation.nonMainMaximum points* per ability.
 
         #line(length: 100%, stroke: 0.4pt + theme.tableDivider)
         #v(2pt)
