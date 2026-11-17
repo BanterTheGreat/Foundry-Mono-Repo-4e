@@ -1,0 +1,205 @@
+{
+  "schemaVersion": 1,
+  "features": [
+    {
+      "id": "modern4e.feature.bard-majestic-word",
+      "title": "Majestic Word",
+      "description": "With a mere word or phrase, you inspire your allies to greater feats of heroism.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "bard-majestic-word",
+          "entryId": "modern4e.power.bard-majestic-word",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "With a mere word or phrase, you inspire your allies to greater feats of heroism."
+        },
+        {
+          "type": "grant",
+          "grantId": "bard-majestic-word"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.virtue-of-cunning",
+      "title": "Virtue of Cunning",
+      "description": "Once per round, when an enemy attack misses an ally within a number of squares of you equal to 5 + your *Intelligence*, you can slide that ally 1 square as a free action.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "Once per round, when an enemy attack misses an ally within a number of squares of you equal to 5 + your *Intelligence*, you can slide that ally 1 square as a free action."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.virtue-of-prescience",
+      "title": "Virtue of Prescience",
+      "description": "Once per encounter as an immediate interrupt, when an enemy hits one ally within 5 squares of you, you grant that ally a power bonus equal to your *Wisdom* to the defense targeted by the triggering enemy until the end of that enemy's turn.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "Once per encounter as an immediate interrupt, when an enemy hits one ally within 5 squares of you, you grant that ally a power bonus equal to your *Wisdom* to the defense targeted by the triggering enemy until the end of that enemy's turn."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.virtue-of-valor",
+      "title": "Virtue of Valor",
+      "description": "Once per round, when any ally within 5 squares of you reduces an enemy to 0 hit points or bloodies an enemy, you can grant temporary hit points to that ally as a free action. The number of temporary hit points equals 1 + your *Constitution* at 1st level, 3 + your *Constitution* at 11th level, and 5 + your *Constitution* at 21st level.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "Once per round, when any ally within 5 squares of you reduces an enemy to 0 hit points or bloodies an enemy, you can grant temporary hit points to that ally as a free action. The number of temporary hit points equals 1 + your *Constitution* at 1st level, 3 + your *Constitution* at 11th level, and 5 + your *Constitution* at 21st level."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.bard-virtuosic-virtue",
+      "title": "Virtuosic Virtue",
+      "description": "You inspire your allies to heroic deeds with your music and words. Choose one of the following virtues.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "choices": [
+        {
+          "id": "modern4e.choice.bard-virtuosic-virtue",
+          "title": "Virtuosic Virtue",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 1,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.virtue-of-cunning",
+              "modern4e.feature.virtue-of-prescience",
+              "modern4e.feature.virtue-of-valor"
+            ]
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You inspire your allies to heroic deeds with your music and words. Choose one of the following virtues."
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.bard-virtuosic-virtue"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.bard-techniques",
+      "title": "Techniques",
+      "description": "You master two level 1 techniques, one of these must have the bard trait.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented.",
+          "Technique acquisition remains literal rules text pending the technique catalog; no technique choices or mastery are automatically applied."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "You master two level 1 techniques, one of these must have the bard trait."
+        }
+      ]
+    }
+  ]
+}

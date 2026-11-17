@@ -4,41 +4,11 @@
 
 #let defaultImage = "../images/classes_parent.jpg";
 
-#let artificerQuote = [I see the secret patterns of magic, and through the
-  items I carry, I can use that magic to protect you,
-  heal you . . . or make you explode.];
+#let artificerQuote = classText(catalog.entry("modern4e.class.artificer").flavor.quote);
 
-#let artificerInfo = [
-  Artificers treat mastery of magic like a technical skill.
-  They see patterns in energy and matter, and they
-  understand how to manipulate the flow of magic in
-  and around objects and creatures. Artificers channel
-  energy into items using magical components,
-  diagrams, and complex chains of sigils. Their skills let
-  them assemble a magic device for any situation.
+#let artificerInfo = classText(catalog.entry("modern4e.class.artificer").flavor.introduction.join("\n\n"));
 
-  As an artificer, you might be a formal student of
-  magic who became interested in artifacts and arcane
-  items. Alternatively, you could be a tinkerer who
-  devised magic tools in a musty basement. Or perhaps
-  you are an explorer who found your knowledge in the
-  forgotten places of the world. Whatever the source of
-  your talents, a passion for the technical components
-  of magic drives you to perfect your art.
-
-  With a bandolier slung across your chest, you carry
-  an arsenal of alchemical compounds, magic implements,
-  mundane materials, and tools. Your weapons,
-  implements, and other gear are inscribed with runes
-  and mystic patterns. You mix reagents, drink potions,
-  and craft items. You use your knowledge to infuse
-  yourself and your allies with arcane power. And one
-  day, your magical skills will carry you into legend.
-]
-
-#let artificerRole = [
-  Artificer is an Intelligence-based *Arcane leader*. Enhance and heal through contraptions. Assemble a magic device for any situation.
-];
+#let artificerRole = classText(catalog.entry("modern4e.class.artificer").flavor.gameplay);
 
 #let artificerImage = defaultImage;
 
@@ -71,31 +41,19 @@
 
 #let barbarianImage = defaultImage;
 
-#let bardQuote = [The clash of blades, a note.
-  A battle fought, a verse.
-  The hero’s war, a song.];
+#let bardQuote = classText(catalog.entry("modern4e.class.bard").flavor.quote);
 
-#let bardInfo = [
-  Bards are artists first and foremost, and they practice magic just as they practice song, drama, or poetry. They have a clear sense of how people perceive reality, so they master charm magic and some illusions. Sagas of great heroes are part of a bard's repertoire, and most bards follow the example of many fables and become skilled in a variety of fields. A bard's artistic ability, knowledge of lore, and arcane might are widely respected, particularly among the world's rulers.
+#let bardInfo = classText(catalog.entry("modern4e.class.bard").flavor.introduction.join("\n\n"));
 
-  Art and magic share a sublime beauty, and, as a bard, you seek the place where the two meet. You might be a naturally talented wanderer who casts impressive spells almost instinctively, a student of a bardic college who learned ordered systems of magic and epic poetry, a warrior skald who mixes skill at arms with thundering music, a dashing performer known for putting on a good show even for your enemies, or a perfectionist who seeks the consummate formula that blends art and magic into a higher force.
-];
-
-#let bardRole = [
-  Bard is a Charisma-based *Arcane Leader*. Inspire allies and annoy enemies with song. Your spells inspire and invigorate your allies. Kings of teammate mobility.
-];
+#let bardRole = classText(catalog.entry("modern4e.class.bard").flavor.gameplay);
 
 #let bardImage = defaultImage;
 
-#let clericQuote = [Have courage, my friends! Pelor favors us today!];
+#let clericQuote = classText(catalog.entry("modern4e.class.cleric").flavor.quote);
 
-#let clericInfo = [
-  Schooled in religious traditions from childhood, clerics wield divine powers entrusted to them through ordination or investiture in the service of a deity. They are expected to further their deity's interests throughout their lives, aiding all who work in the deity's name (whether they realize it or not) and opposing any who seek to thwart the deity's will. Clerics try to sway the good people of the world to give honor and worship to the gods by setting an example of courage, understanding, patience, piety, and zeal. Sometimes this is best done through ministering to the needs of the common folk, sometimes by offering advice and counsel to those who hold power in the world, and sometimes by leading the way on bold adventures and inspiring quests. Whenever the faithful are in need, a cleric is called to act. Their true power lies in the divine magic they command—prayers to heal the injured, protect the weak, and chastise the wicked.
-];
+#let clericInfo = classText(catalog.entry("modern4e.class.cleric").flavor.introduction.join("\n\n"));
 
-#let clericRole = [
-  Cleric is a Wisdom or Strength based *Divine Leader*. Best healers. Variety of build options, can specialize in melee, ranged, or even pacifism.
-];
+#let clericRole = classText(catalog.entry("modern4e.class.cleric").flavor.gameplay);
 
 #let clericImage = defaultImage;
 
@@ -186,35 +144,19 @@
 
 #let rogueImage = defaultImage;
 
-#let runePriestQuote = [The divine runes of might are stronger than any
-steel, more dangerous than any spell.];
+#let runePriestQuote = classText(catalog.entry("modern4e.class.runepriest").flavor.quote);
 
-#let runePriestInfo = [
-  Isolated in sacred forges and holy libraries, runepriests seek to unlock the secrets of the runes of divine power. Legend holds that the gods crafted a set of powerful runes, each imbued with a core of divine power, to help create the world and give it order. During the long war against the primordials, many of these runes were lost. Even the gods only dimly recall the runes of power. Somewhere in the forgotten depths of a dungeon or the isolated corner of the planes, those ancient runes wait to be discovered. A runepriest can learn much in the peaceful halls of a temple, but sooner or later he or she must put on armor and go forth to find or create a new rune, and in so doing earn a name among the masters of rune magic.
+#let runePriestInfo = classText(catalog.entry("modern4e.class.runepriest").flavor.introduction.join("\n\n"));
 
-  You learned the art of rune smithing from your master. Perhaps you sweated over a forge deep within a dwarven stronghold, crafting weapons and armor for the faithful as part of your apprenticeship. Or you might have helped inscribe runes in the living wood of the forest, crafting signs to warn of approaching enemies. Along the way, you learned how to take inscribed runes and turn them into words and signs of power that you can incorporate into your prayers. But now, the time for learning is at an end. Now is the time for adventure.
-
-  Merge the runes of power with your weapons and armor. Call to the gods and channel their might against your enemies. The runes are your weapons, and the gods' foes await your judgment.
-];
-
-#let runePriestRole = [
-  Runepriest is a Strength-based *Divine Leader*. Use runic sigils, remnants from the creation of the world, to call upon the powers of the gods and manifest spectacular effects. Excellent buffer of allies. One of the tankier Leaders. Can flexibly choose one of two modes for each power, Destruction or Protection, each one having a different effect and activating a different ongoing passive.
-];
+#let runePriestRole = classText(catalog.entry("modern4e.class.runepriest").flavor.gameplay);
 
 #let runePriestImage = defaultImage;
 
-#let shamanQuote = [The spirits surround us, guide us, and hold all the
-  knowledge of the world.];
+#let shamanQuote = classText(catalog.entry("modern4e.class.shaman").flavor.quote);
 
-#let shamanInfo = [
-  Shamans command powerful spirit guides, and through them lead their allies. These nature spirits bolster their allies' attacks and offer protection and healing when needed. In a rite of passage or initiation, you pledged yourself to the spirits, to be their voice and hands in the world. Through ancient song and sacred ceremony, you have called a powerful spirit companion to your side. The primal spirits of nature affirm your will, guide the actions of your allies, and deal mighty attacks against your foes. You might be a venerable advisor to a tribal leader, a young traveler seeking to bring tales of a wider world back to your people, or a scholar devoted to the pursuit of nearly forgotten lore.
+#let shamanInfo = classText(catalog.entry("modern4e.class.shaman").flavor.introduction.join("\n\n"));
 
-  The spirits and voices of nature guide your every step. Their power flows through you, calling you to lead, to fight, and to triumph.
-];
-
-#let shamanRole = [
-  Shaman is a Wisdom-based *Primal Leader*. Your spirit companion acts almost as another member of the party, aiding your allies while letting you act on a wider range of the battle field than most other Leaders. Depending on the type of spirit companion you have, you may help your allies do extra damage, heal more, stop enemy movement, or grant extra attacks.
-];
+#let shamanRole = classText(catalog.entry("modern4e.class.shaman").flavor.gameplay);
 
 #let shamanImage = defaultImage;
 
@@ -282,21 +224,11 @@ steel, more dangerous than any spell.];
 
 #let warlockImage = defaultImage;
 
-#let warlordQuote = [Onward to victory! They cannot stand before us!];
+#let warlordQuote = classText(catalog.entry("modern4e.class.warlord").flavor.quote);
 
-#let warlordInfo = [
-  Warlords draw from their experience and passion to lend courage, skill, and hope to those under their command. A warlord forms the iron core of any unit of soldiers, uniting their purpose and bolstering their commitment to see the conflict to its conclusion.
+#let warlordInfo = classText(catalog.entry("modern4e.class.warlord").flavor.introduction.join("\n\n"));
 
-  A warlord's talents can come from many different aspects of personality or endeavor. Some depend on their bravado, goading their companions to take risks in order to reap great rewards. Others have keen insight into their enemies' minds. Some warlords specialize in hit-and-run tactics, and others are resourceful leaders who always have some trick up their sleeves. The most common warlords include those whose presence alone is enough to bind disparate heroes together and the tactical savants who spot weaknesses and exploit them.
-
-  Warlords develop specialized combat maneuvers called exploits. In their elementary form, they are strikes and commands designed to shift the battle toward a more favorable outcome. In addition to these exploits, warlords issue commands and orders that improve their allies' performance. Some of these commands can restore health and vigor, while others make allies more alert and ready for new challenges.
-
-  Most warlords have already had experience in the field, even if it came from leading a tiny expedition. Some are former military leaders who have relinquished their commands to seek their fortunes in the world. Others might have lost their units and be out for revenge against the enemy that brought them to ruin. Whatever the individual's triumphs or defeats were before becoming an adventurer, every warlord can lead, and lead well.
-];
-
-#let warlordRole = [
-  Warlord is an Intelligence-based *Martial Leader*. You rally your companions with a mixture of shouted commands and cunning stratagems, leading them to victory through superior tactics. The best Leaders for granting additional attacks to allies, but heals less than other Leaders.
-];
+#let warlordRole = classText(catalog.entry("modern4e.class.warlord").flavor.gameplay);
 
 #let warlordImage = defaultImage;
 

@@ -1,0 +1,484 @@
+{
+  "schemaVersion": 1,
+  "features": [
+    {
+      "id": "modern4e.feature.warlord-inspiring-word",
+      "title": "Inspiring Word",
+      "description": "Using the inspiring word power, warlords can grant their comrades additional resilience with nothing more than a shout of encouragement.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "warlord-inspiring-word",
+          "entryId": "modern4e.power.warlord-inspiring-word",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "Using the inspiring word power, warlords can grant their comrades additional resilience with nothing more than a shout of encouragement."
+        },
+        {
+          "type": "grant",
+          "grantId": "warlord-inspiring-word"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.warlord-from-the-back",
+      "title": "From The Back",
+      "description": "You gain proficiency with military ranged weapons.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "You gain proficiency with military ranged weapons."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.leading-the-charge",
+      "title": "Leading the Charge",
+      "description": "You gain proficiency with Chainmail and Light Shields.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "You gain proficiency with Chainmail and Light Shields."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.warlord-tactical-path",
+      "title": "Tactical Path",
+      "description": "The Warlord's path was decided long ago: either mastering precise volleys to command from afar or forging ahead to lead the charge with fearless resolve. Choose one of the options below:",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "choices": [
+        {
+          "id": "modern4e.choice.warlord-tactical-path",
+          "title": "Tactical Path",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 1,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.warlord-from-the-back",
+              "modern4e.feature.leading-the-charge"
+            ]
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "The Warlord's path was decided long ago: either mastering precise volleys to command from afar or forging ahead to lead the charge with fearless resolve. Choose one of the options below:"
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.warlord-tactical-path"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.battlefront-leader",
+      "title": "Battlefront Leader",
+      "description": "You gain proficiency with heavy shields, and you gain the battlefront shift power.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "warlord-battlefront-shift",
+          "entryId": "modern4e.power.warlord-battlefront-shift",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You gain proficiency with heavy shields, and you gain the battlefront shift power."
+        },
+        {
+          "type": "grant",
+          "grantId": "warlord-battlefront-shift"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.combat-leader",
+      "title": "Combat Leader",
+      "description": "You and each ally within 10 squares who can see and hear you gain a +2 power bonus to initiative.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "You and each ally within 10 squares who can see and hear you gain a +2 power bonus to initiative."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.warlord-leadership-style",
+      "title": "Leadership Style",
+      "description": "Every Warlord has his own brand of leadership, choose one of the options below:",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "choices": [
+        {
+          "id": "modern4e.choice.warlord-leadership-style",
+          "title": "Leadership Style",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 1,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.battlefront-leader",
+              "modern4e.feature.combat-leader"
+            ]
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "Every Warlord has his own brand of leadership, choose one of the options below:"
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.warlord-leadership-style"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.bravura-presence",
+      "title": "Bravura Presence",
+      "description": "When an ally who can see you spends an action point to take an extra action and uses the action to make an attack, the ally can choose to take advantage of this feature before the attack roll. If the ally chooses to do so and the attack hits, the ally can either make a basic attack or take a move action after the attack as a free action. If the attack misses, the ally grants combat advantage to all enemies until the end of his or her next turn.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "When an ally who can see you spends an action point to take an extra action and uses the action to make an attack, the ally can choose to take advantage of this feature before the attack roll. If the ally chooses to do so and the attack hits, the ally can either make a basic attack or take a move action after the attack as a free action. If the attack misses, the ally grants combat advantage to all enemies until the end of his or her next turn."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.warlord-insightful-presence",
+      "title": "Insightful Presence",
+      "description": "When any ally who can see you spends an action point to take an extra action, that ally gains a bonus to all defenses equal to half your *Intelligence* or *Charisma* until the start of his or her next turn.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "When any ally who can see you spends an action point to take an extra action, that ally gains a bonus to all defenses equal to half your *Intelligence* or *Charisma* until the start of his or her next turn."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.inspiring-presence",
+      "title": "Inspiring Presence",
+      "description": "When an ally who can see you spends an action point to take an extra action, that ally also regains hit points equal to one-half your level + your *Charisma*.\n\nIf the ally can see multiple warlord allies who have this class feature, the ally regains hit points from only one of them (the ally's choice).",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "When an ally who can see you spends an action point to take an extra action, that ally also regains hit points equal to one-half your level + your *Charisma*.\n\nIf the ally can see multiple warlord allies who have this class feature, the ally regains hit points from only one of them (the ally's choice)."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.warlord-resourceful-presence",
+      "title": "Resourceful Presence",
+      "description": "When an ally who can see you spends an action point to take an extra action and uses the action to make an attack, that attack gains a bonus to damage equal to one-half your level + your *Intelligence*. If the attack hits no target, the ally gains temporary hit points equal to one-half your level + your *Charisma*.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "When an ally who can see you spends an action point to take an extra action and uses the action to make an attack, that attack gains a bonus to damage equal to one-half your level + your *Intelligence*. If the attack hits no target, the ally gains temporary hit points equal to one-half your level + your *Charisma*."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.skirmishing-presence",
+      "title": "Skirmishing Presence",
+      "description": "When an ally who can see you spends an action point to make an attack, that ally can use a free action to shift a number of squares equal to your *Intelligence* or *Charisma* before or after the attack.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "When an ally who can see you spends an action point to make an attack, that ally can use a free action to shift a number of squares equal to your *Intelligence* or *Charisma* before or after the attack."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.tactical-presence",
+      "title": "Tactical Presence",
+      "description": "When an ally you can see spends an action point to make an attack, the ally gains a bonus to the first attack roll of that attack. The bonus equals half your *Intelligence*.\n\nIf multiple warlord allies who have this class feature can see the ally, he or she gains the bonus from only one of them (the ally's choice).",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "When an ally you can see spends an action point to make an attack, the ally gains a bonus to the first attack roll of that attack. The bonus equals half your *Intelligence*.\n\nIf multiple warlord allies who have this class feature can see the ally, he or she gains the bonus from only one of them (the ally's choice)."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.warlord-commanding-presence",
+      "title": "Commanding Presence",
+      "description": "Choose one of the following presence benefits below.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "choices": [
+        {
+          "id": "modern4e.choice.warlord-commanding-presence",
+          "title": "Commanding Presence",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 1,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.bravura-presence",
+              "modern4e.feature.warlord-insightful-presence",
+              "modern4e.feature.inspiring-presence",
+              "modern4e.feature.warlord-resourceful-presence",
+              "modern4e.feature.skirmishing-presence",
+              "modern4e.feature.tactical-presence"
+            ]
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "Choose one of the following presence benefits below."
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.warlord-commanding-presence"
+        }
+      ]
+    }
+  ]
+}

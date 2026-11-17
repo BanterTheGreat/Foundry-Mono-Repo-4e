@@ -103,8 +103,10 @@ See [FIGHTER-PROOF.md](FIGHTER-PROOF.md) for exact published sources, active Mod
 
 ## Shared class authoring (#30/#31)
 
-Fighter class, feature, granted-power and explanatory-rule definitions now live
-in `src/modern4e/content/classes/` and supply its Typst chapter. The separate
+Fighter and all six Leader class, feature and granted-power definitions now live
+in `src/modern4e/content/classes/` and supply their Typst chapters. Fighter's
+explanatory rules live there too. Powers use ordered activation/block data;
+the class inventory and normalized export are schema v2. The separate
 `python3 src/modern4e/scripts/class_content.py` validator/exporter emits a
 `modern4e.class-authoring` catalog, not a v1 runtime package. See the
 [class contract](../../modern4e/content/classes/README.md) for commands and exact

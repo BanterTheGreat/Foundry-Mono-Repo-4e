@@ -6,6 +6,14 @@ reuse across other entry types remain in [migration issue #29](https://github.co
 
 ## Shared entry base
 
+The [ordered power contract](modern4e-power-authoring.md) revises
+the power body around ordered blocks, attack groups, independent activations and
+explicit structural references. Sixteen published-reference fixtures and a strict
+read-only validator exercise the shape. Class catalog/export v2 and Typst now
+consume it for Fighter and the six Leaders; ancestry powers keep their own
+schema. Runtime combat interpretation remains unimplemented. Psionics and Monks
+remain outside its scope.
+
 Model Modern 4e content with a common entry base, extended by category-specific
 data. Reuse this model for feats, powers, classes, ancestries (published “races”),
 themes, backgrounds, features, items, paragon paths and epic destinies. Modern 4e
@@ -123,17 +131,23 @@ v1 runtime package. Runtime condition and selection-rule evaluation and
 category-specific mechanics remain separate implementation work.
 
 
-## Class authoring and Fighter migration (#30/#31)
+## Class authoring, Fighter and Leaders
 
 The [class authoring contract](../src/modern4e/content/classes/README.md) extends
 this base with full class flavor, role/sources, abilities, proficiencies, local
 statistics, automatic acquisition grants, independently identified features/powers
-and explanatory rules. Fighter renders directly from these JSON definitions.
+and explanatory rules. Fighter, Artificer, Bard, Cleric, Runepriest, Shaman and
+Warlord render directly from these JSON definitions, including their granted
+powers in the ordered format. Existing Fighter and 19 predeclared Leader
+feature/power identities are retained. Feature sections preserve prose/card/choice
+ordering; page and column layout remain in Typst.
 Shared initial power choices are separate from class entries; feature-owned
 modifiers can change counts and constrain a selection set (Druid), and separate
 owned collections model learned/stored/prepared choices (Wizard).
 
 `scripts/class_content.py` validates and exports a deterministic authoring catalog,
 not an enabled runtime package. Exceptional-class fixtures establish data shapes;
-other class migrations, engine interpretation and build pipeline adoption remain
-#32–#35. Existing feat data and its contracts remain independently owned.
+the other 12 class migrations, engine interpretation and runtime package adoption
+remain separate work. Existing feat data and its contracts remain independently
+owned; the feat registry's pending external-reference statuses do not yet resolve
+against class authoring definitions at runtime.

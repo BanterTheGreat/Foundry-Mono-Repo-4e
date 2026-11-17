@@ -31,7 +31,12 @@ test("feat catalog has complete prose entries and explicit prerequisites", () =>
         assert.equal(typeof feat[key], "string", `${filename}: ${key}`);
         assert.ok(feat[key].trim(), `${filename}: ${key}`);
       }
-      assert.ok(feat.requirements === null || typeof feat.requirements === "string", filename);
+      assert.equal(typeof feat.id, "string", filename);
+      assert.equal(typeof feat.access?.type, "string", filename);
+      assert.equal(typeof feat.prerequisites?.type, "string", filename);
+      assert.ok(!Object.hasOwn(feat, "requirements"), filename);
+      assert.ok(Object.hasOwn(feat.selection, "maximum"), filename);
+      assert.ok(Array.isArray(feat.selection.constraints), filename);
     }
   }
 });
@@ -85,5 +90,5 @@ test("Typst feat renderer preserves formatting, literal text, ranges and multicl
   assert.match(value.range, /Lucky Shot/);
   assert.doesNotMatch(value.range, /Student of the Cosmos|Unlucky Teleport/);
   assert.match(value.multiclass, /NOVICE POWER/);
-  assert.match(value.multiclass, /Level 3\+, any class-specific multiclass feat/);
+  assert.match(value.multiclass, /3rd level, Any class-specific multiclass feat, Any encounter power with a level/);
 });

@@ -2,6 +2,7 @@
 import copy
 import importlib.util
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -13,6 +14,7 @@ SPEC = importlib.util.spec_from_file_location("class_content", BOOK / "scripts/c
 classes = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(classes)
 FIXTURE = Path(__file__).with_name("fixtures") / "classes/exceptional-features.json"
+TYPST = os.environ.get("TYPST_BIN") or shutil.which("typst")
 
 
 class ModernClassesTest(unittest.TestCase):
@@ -67,7 +69,7 @@ class ModernClassesTest(unittest.TestCase):
         self.assertEqual([1, 1], [c["count"] for c in choices])
         powers = self.entries["modern4e.feature.combat-reactivity"]["grants"]
         self.assertEqual(["modern4e.power.combat-reactivity", "modern4e.power.combat-reactivity-followup"], [g["entryId"] for g in powers])
-        self.assertEqual(3, len([e for e in self.entries.values() if e["category"] == "POWER"]))
+        self.assertEqual(3, len([e for e in self.entries.values() if e["category"] == "POWER" and e["source"]["entryId"] == "modern4e.class.fighter"]))
         self.assertNotIn("choices", root)  # Shared power advancement is not duplicated per class.
         self.assertEqual([2, 1, 2], [c["count"] for c in self.catalog["advancement"]["powerChoices"]])
         self.assertEqual("PARTIAL", self.catalog["advancement"]["coverage"]["status"])
@@ -77,8 +79,10 @@ class ModernClassesTest(unittest.TestCase):
         self.assertEqual(10, len(rows))
         self.assertEqual("WISDOM", next(r["ability"] for r in rows if r["weaponGroup"] == "POLEARM"))
         power = self.entries["modern4e.power.combat-reactivity-followup"]
-        self.assertEqual({"ability": "STRENGTH", "defense": "AC"}, power["attack"])
-        self.assertEqual(21, power["rows"][0]["scaling"][0]["atLevel"])
+        attack = power["activations"][0]["blocks"][0]
+        self.assertEqual({"type": "ABILITY", "ability": "STRENGTH"}, attack["roll"]["statistic"])
+        self.assertEqual("AC", attack["comparisons"][0]["defense"])
+        self.assertEqual(21, attack["comparisons"][0]["outcomes"]["hit"][0]["scaling"][0]["atLevel"])
         self.assertTrue(any("unresolved" in gap for gap in self.catalog["limitations"]["modern4e.feature.combat-superiority"]))
         self.assertTrue(all(e["coverage"]["status"] == "UNIMPLEMENTED" for e in self.entries.values()))
 
@@ -86,7 +90,7 @@ class ModernClassesTest(unittest.TestCase):
         def edit(root):
             self.file_edit(root, "fighter.json", lambda d: d["classes"][0].update(title="Renamed Fighter"))
             (root / "fighter.json").rename(root / "renamed.json")
-            self.file_edit(root, "catalog.json", lambda d: d["files"].update(classes=["renamed.json"]))
+            self.file_edit(root, "catalog.json", lambda d: d["files"].update(classes=["renamed.json" if name == "fighter.json" else name for name in d["files"]["classes"]]))
         catalog = self.edited(edit)
         entry = next(e for e in catalog["entries"] if e["id"] == "modern4e.class.fighter")
         self.assertEqual("Renamed Fighter", entry["title"])
@@ -118,8 +122,8 @@ class ModernClassesTest(unittest.TestCase):
             ("fighter-features.json", lambda d: d["features"][0].update(id="feat123"), "expected stable"),
             ("fighter-features.json", lambda d: d["features"].append(copy.deepcopy(d["features"][0])), "duplicate entry ID"),
             ("fighter-features.json", lambda d: d["features"][0]["grants"][0].update(atLevel=31), "expected integer"),
-            ("fighter-powers.json", lambda d: d["powers"][0].update(usage="ATWILL"), "unknown value"),
-            ("fighter-powers.json", lambda d: d["powers"][2]["rows"][0]["scaling"].append({"atLevel":21,"text":"Duplicate"}), "unique and ordered"),
+            ("fighter-powers.json", lambda d: d["powers"][0]["activations"][0]["usage"].update(frequency="ATWILL"), "unknown value"),
+            ("fighter-powers.json", lambda d: d["powers"][2]["activations"][0]["blocks"][0]["comparisons"][0]["outcomes"]["hit"][0]["scaling"].append({"atLevel":21,"text":"Duplicate"}), "unique and ascending"),
         ]
         for filename, change, message in cases:
             with self.subTest(filename=filename, message=message), self.assertRaisesRegex(ValueError, message):
@@ -193,7 +197,7 @@ class ModernClassesTest(unittest.TestCase):
         self.assertNotEqual(0,result.returncode)
         self.assertIn("must not overwrite",result.stderr)
 
-    @unittest.skipUnless(shutil.which("typst"), "Typst is not installed")
+    @unittest.skipUnless(TYPST, "Typst is not on this process PATH and TYPST_BIN is unset")
     def test_typst_reads_the_same_entries_and_shared_power_counts(self):
         with tempfile.TemporaryDirectory(dir=BOOK) as directory:
             path=Path(directory)/"class-query.typ"
@@ -201,11 +205,11 @@ class ModernClassesTest(unittest.TestCase):
 #metadata(c.entries)<classes>
 #metadata(c.initialPowerText(c.entry("modern4e.class.fighter")))<power-text>
 ''')
-            result=subprocess.run(["typst","query","--root",str(BOOK),str(path),"<classes>","--field","value","--one"],capture_output=True,text=True)
+            result=subprocess.run([TYPST,"query","--root",str(BOOK),str(path),"<classes>","--field","value","--one"],capture_output=True,text=True)
             self.assertEqual(0,result.returncode,result.stderr)
             actual=json.loads(result.stdout)
             self.assertEqual({key:{k:v for k,v in e.items() if k!="category"} for key,e in self.entries.items()},actual)
-            result=subprocess.run(["typst","query","--root",str(BOOK),str(path),"<power-text>","--field","value","--one"],capture_output=True,text=True)
+            result=subprocess.run([TYPST,"query","--root",str(BOOK),str(path),"<power-text>","--field","value","--one"],capture_output=True,text=True)
             self.assertEqual(0,result.returncode,result.stderr)
             self.assertIn("2 At-Will, 1 Encounter",result.stdout)
 

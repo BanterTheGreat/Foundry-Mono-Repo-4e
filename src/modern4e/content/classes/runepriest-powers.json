@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 2,
+  "powers": [
+    {
+      "id": "modern4e.power.runepriest-rune-of-mending",
+      "title": "Rune of Mending",
+      "description": "The target can spend a healing surge.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.runepriest",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "DIVINE",
+        "HEALING",
+        "RUNIC"
+      ],
+      "choices": [],
+      "flavor": "The healing rune flares with a cold blue fire as you trace it in the air. The rune then appears on your allies' armor.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 2,
+                  "byLevel": [
+                    {
+                      "atLevel": 16,
+                      "value": 3
+                    }
+                  ]
+                }
+              },
+              {
+                "period": "ROUND",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [
+              "The target may spend a healing surge as described by the Effect."
+            ],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You or one ally in the burst"
+            }
+          },
+          "range": {
+            "type": "CLOSE_BURST",
+            "origin": "self",
+            "size": {
+              "base": 5,
+              "byLevel": [
+                {
+                  "atLevel": 11,
+                  "value": 10
+                },
+                {
+                  "atLevel": 21,
+                  "value": 15
+                }
+              ]
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target can spend a healing surge.",
+              "scaling": [
+                {
+                  "atLevel": 6,
+                  "text": "1d6 additional hit points."
+                },
+                {
+                  "atLevel": 11,
+                  "text": "Close Burst 10 & 2d6 additional hit points."
+                },
+                {
+                  "atLevel": 16,
+                  "text": "Close Burst 10 & 3d6 additional hit points."
+                },
+                {
+                  "atLevel": 21,
+                  "text": "Close Burst 15 & 4d6 additional hit points."
+                },
+                {
+                  "atLevel": 26,
+                  "text": "Close Burst 15 & 5d6 additional hit points."
+                }
+              ]
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Rune of Destruction",
+              "text": "You and each ally in the burst gain a +2 power bonus to damage rolls (+4 power bonus at 11th level and +6 power bonus at 21st level) until the end of your next turn."
+            },
+            {
+              "id": "row-3",
+              "type": "effect",
+              "label": "Rune of Protection",
+              "text": "You and each ally in the burst gain a +1 bonus to all defenses until the end of your next turn."
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Special",
+              "text": "You can use this power twice per encounter, but only once per round. At 16th level, you can use this power three times per encounter."
+            }
+          ],
+          "targets": "targets",
+          "special": true
+        }
+      ]
+    }
+  ]
+}

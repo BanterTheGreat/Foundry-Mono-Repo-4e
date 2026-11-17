@@ -1,0 +1,2115 @@
+{
+  "schemaVersion": 1,
+  "kind": "modern4e.power-authoring-experimental",
+  "references": {},
+  "powers": [
+    {
+      "id": "fixture.power.rope-the-mark",
+      "title": "Rope the Mark",
+      "description": "Published structure fixture, not a playable Modern4e definition.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Partial structural annotations; full published rules preserved in source.rulesText. No combat execution or Modern4e conversion."
+        ]
+      },
+      "rulesProfile": "PUBLISHED_REFERENCE",
+      "source": {
+        "entryId": "power11800",
+        "publication": "Published in Dark Sun Campaign Setting, page(s) 45.",
+        "rulesText": "Rope the MarkShady Dealer Attack 11\nMaking yourself appear vulnerable lures your enemy into danger.\nEncounter   ✦     Charm, Martial\nStandard Action      Ranged 5\nEffect: Before the attack, you shift 1 square to a square with no adjacent enemies.\nTarget: One creature that can see and hear you\nAttack: Primary ability + 6 vs. Will\nLevel 21: Primary ability + 9 vs. Will\nHit: You pull the target 5 squares. Additionally, choose one of the following: Either you make an at-will melee attack with combat advantage against the target, or one or two of your allies can make ranged basic attacks against the target as free actions.\nPublished in Dark Sun Campaign Setting, page(s) 45."
+      },
+      "keywords": [],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Creatures selected under the printed targeting rules."
+            }
+          },
+          "blocks": [
+            {
+              "id": "advance",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Before the attack, shift 1 square to a square with no adjacent enemies."
+            },
+            {
+              "id": "strike",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Primary ability + 6 vs. Will",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "RANGED",
+                "distance": {
+                  "base": 5
+                },
+                "origin": "self"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "MAIN"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "ac",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "strike-ac-hit",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "You pull the target 5 squares. Additionally, choose one of the following: Either you make an at-will melee attack with combat advantage against the target, or one or two of your allies can make ranged basic attacks against the target as free actions."
+                      },
+                      {
+                        "id": "followup",
+                        "type": "choice",
+                        "label": "Choice",
+                        "text": "Choose one printed follow-up.",
+                        "options": [
+                          {
+                            "id": "own",
+                            "title": "Own attack",
+                            "blocks": [
+                              {
+                                "id": "own-attack",
+                                "type": "effect",
+                                "label": "Effect",
+                                "text": "Make an at-will melee attack with combat advantage."
+                              }
+                            ]
+                          },
+                          {
+                            "id": "allies",
+                            "title": "Allied attacks",
+                            "blocks": [
+                              {
+                                "id": "ally-attacks",
+                                "type": "effect",
+                                "label": "Effect",
+                                "text": "One or two allies make ranged basic attacks as free actions."
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture.power.hurl-the-spark",
+      "title": "Hurl the Spark",
+      "description": "Published structure fixture, not a playable Modern4e definition.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Partial structural annotations; full published rules preserved in source.rulesText. No combat execution or Modern4e conversion."
+        ]
+      },
+      "rulesProfile": "PUBLISHED_REFERENCE",
+      "source": {
+        "entryId": "power11000",
+        "publication": "Published in Martial Power 2, page(s) 96.",
+        "rulesText": "Hurl the SparkArcane Battlemaster Attack 20\nYou infuse your ammunition with elemental fire as you attack with it, and it explodes in flames upon impact.\nDaily   ✦     Arcane, Fire, Weapon\nStandard Action      Ranged weapon\nPrimary Target: One creature\nPrimary Attack: Strength vs. AC\nHit: 2[W] + Strength modifier fire damage, and ongoing 10 fire damage (save ends).\nMiss: Half damage.\nEffect: Make a secondary attack that is an area burst 1 centered on the primary target.\nSecondary Target: Each enemy in the burst\nSecondary Attack: Strength vs. Reflex\nHit: The secondary target takes ongoing 5 fire damage and grants combat advantage (save ends both).\nPublished in Martial Power 2, page(s) 96."
+      },
+      "keywords": [],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Primary attack: one creature. Secondary attack: each enemy in the burst."
+            },
+            "impact": {
+              "kind": "ORIGIN",
+              "text": "The primary target square.",
+              "fromAttack": {
+                "attackId": "primary",
+                "part": "TARGETS"
+              }
+            },
+            "secondary-targets": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the secondary burst."
+            }
+          },
+          "blocks": [
+            {
+              "id": "primary",
+              "type": "attack",
+              "label": "Primary Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "RANGED",
+                "distance": "WEAPON",
+                "origin": "self"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "ac",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "primary-ac-hit",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength modifier fire damage, and ongoing 10 fire damage (save ends)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "primary-ac-miss",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "followup",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Make the secondary attack regardless of the primary result."
+            },
+            {
+              "id": "secondary",
+              "type": "attack",
+              "label": "Secondary Attack",
+              "text": "Strength vs. Reflex",
+              "actor": "self",
+              "targets": "secondary-targets",
+              "range": {
+                "type": "AREA_BURST",
+                "size": {
+                  "base": 1
+                },
+                "origin": "impact"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "reflex",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "secondary-reflex-hit",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "The secondary target takes ongoing 5 fire damage and grants combat advantage (save ends both)."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture.power.prismatic-spray",
+      "title": "Prismatic Spray",
+      "description": "Published structure fixture, not a playable Modern4e definition.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Partial structural annotations; full published rules preserved in source.rulesText. No combat execution or Modern4e conversion."
+        ]
+      },
+      "rulesProfile": "PUBLISHED_REFERENCE",
+      "source": {
+        "entryId": "power1200",
+        "publication": "Published in Player's Handbook, page(s) 168, Class Compendium.",
+        "rulesText": "Prismatic SprayWizard Attack 25\nA dazzling spray of multicolored light springs from your hands, enveloping your enemies.\nDaily   ✦     Arcane, Evocation, Fire, Implement, Poison\nStandard Action      Close blast 5\nTarget: Each enemy in the blast\nAttack: Intelligence vs. Fortitude, Reflex, and Will. You make a single attack roll and use it against each defense.\nHit (Fortitude): The target is slowed and takes ongoing 15 poison damage (save ends both).\nHit (Reflex): 3d6 + Intelligence modifier fire damage, and ongoing 15 fire damage (save ends).\nHit (Will): The target is stunned (save ends).\nUpdate (1/25/2012)\nUpdated in Class Compendium.\nPublished in Player's Handbook, page(s) 168, Class Compendium."
+      },
+      "keywords": [],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Creatures selected under the printed targeting rules."
+            }
+          },
+          "blocks": [
+            {
+              "id": "strike",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence vs. Fortitude, Reflex, and Will. You make a single attack roll and use it against each defense.",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "CLOSE_BLAST",
+                "size": {
+                  "base": 5
+                },
+                "origin": "self"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "INTELLIGENCE"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "fortitude",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "strike-fortitude-hit",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "The target is slowed and takes ongoing 15 poison damage (save ends both)."
+                      }
+                    ]
+                  }
+                },
+                {
+                  "id": "reflex",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "strike-reflex-hit",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d6 + Intelligence modifier fire damage, and ongoing 15 fire damage (save ends)."
+                      }
+                    ]
+                  }
+                },
+                {
+                  "id": "will",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "strike-will-hit",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "The target is stunned (save ends)."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture.power.driving-assault",
+      "title": "Driving Assault",
+      "description": "Published structure fixture, not a playable Modern4e definition.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Partial structural annotations; full published rules preserved in source.rulesText. No combat execution or Modern4e conversion."
+        ]
+      },
+      "rulesProfile": "PUBLISHED_REFERENCE",
+      "source": {
+        "entryId": "power4480",
+        "publication": "Published in Martial Power, page(s) 76.",
+        "rulesText": "Driving AssaultRogue Attack 5\nThe force of your rapid attacks throws your enemy from its feet.\nDaily   ✦     Martial, Weapon\nStandard Action      Melee weapon\nRequirement: You must be wielding a light blade.\nTarget: One creature\nAttack: Dexterity vs. AC, two attacks\nHit: 1[W] + Dexterity modifier damage per attack, you push the target 1 square, and you can shift 1 square toward the target. If both attacks hit, you knock the target prone after the second push.\nMiss: Half damage per attack.\nPublished in Martial Power, page(s) 76."
+      },
+      "keywords": [],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Creatures selected under the printed targeting rules."
+            }
+          },
+          "blocks": [
+            {
+              "id": "strike",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Dexterity vs. AC, two attacks",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "MELEE",
+                "distance": "WEAPON",
+                "origin": "self"
+              },
+              "roll": {
+                "count": 2,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "DEXTERITY"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "ac",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "strike-ac-hit",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Dexterity modifier damage per attack, you push the target 1 square, and you can shift 1 square toward the target. If both attacks hit, you knock the target prone after the second push."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "strike-ac-miss",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage per attack."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "both-hit",
+              "type": "conditional",
+              "label": "Conditional",
+              "text": "After both pushes, apply the aggregate hit result.",
+              "when": {
+                "type": "ATTACK_RESULTS",
+                "text": "Both attacks hit.",
+                "attackId": "strike",
+                "outcome": "HIT",
+                "count": 2,
+                "comparisonId": "ac"
+              },
+              "blocks": [
+                {
+                  "id": "prone",
+                  "type": "effect",
+                  "label": "Effect",
+                  "text": "Knock the target prone."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture.power.distracting-team",
+      "title": "Distracting Team",
+      "description": "Published structure fixture, not a playable Modern4e definition.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Partial structural annotations; full published rules preserved in source.rulesText. No combat execution or Modern4e conversion."
+        ]
+      },
+      "rulesProfile": "PUBLISHED_REFERENCE",
+      "source": {
+        "entryId": "power10600",
+        "publication": "Published in Martial Power 2, page(s) 34.",
+        "rulesText": "Distracting TeamRanger Attack 1\nYou distract your foe while your beast companion moves in for the kill.\nDaily   ✦     Beast, Martial, Weapon\nStandard Action      Melee weapon (beast 1)\nTarget: One creature\nPrimary Attack: Strength vs. AC\nHit: 1[W] + Strength modifier damage. If this hit reduces the target to 0 hit points, this power is not expended.\nMiss: Half damage.\nEffect: Your beast companion moves its speed and makes a secondary attack against the target.\nSecondary Attack: Beast's attack bonus vs. AC\nHit: 2[B] + beast's Strength modifier damage, and your beast companion knocks the target prone.\nMiss: Half damage.\nPublished in Martial Power 2, page(s) 34."
+      },
+      "keywords": [],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": [
+              "If the primary hit reduces the target to 0 hit points, this power is not expended."
+            ]
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Creatures selected under the printed targeting rules."
+            },
+            "beast": {
+              "kind": "ENTITY",
+              "text": "Your beast companion."
+            }
+          },
+          "blocks": [
+            {
+              "id": "primary",
+              "type": "attack",
+              "label": "Primary Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "MELEE",
+                "distance": "WEAPON",
+                "origin": "self"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "ac",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "primary-ac-hit",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength modifier damage. If this hit reduces the target to 0 hit points, this power is not expended."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "primary-ac-miss",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "beast-move",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The beast moves its speed."
+            },
+            {
+              "id": "beast",
+              "type": "attack",
+              "label": "Secondary Attack",
+              "text": "Beast's attack bonus vs. AC",
+              "actor": "beast",
+              "targets": "targets",
+              "range": {
+                "type": "MELEE",
+                "distance": {
+                  "base": 1
+                },
+                "origin": "beast"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Beast's attack bonus; damage uses [B] and beast's Strength modifier."
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "ac",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "beast-ac-hit",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[B] + beast's Strength modifier damage, and your beast companion knocks the target prone."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "beast-ac-miss",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture.power.familiar-surge",
+      "title": "Familiar Surge",
+      "description": "Published structure fixture, not a playable Modern4e definition.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Partial structural annotations; full published rules preserved in source.rulesText. No combat execution or Modern4e conversion."
+        ]
+      },
+      "rulesProfile": "PUBLISHED_REFERENCE",
+      "source": {
+        "entryId": "power7420",
+        "publication": "Published in Dragon Magazine 374, page(s) 32.",
+        "rulesText": "Familiar SurgeFamiliar Keeper Attack 11\nPure magical essence explodes from your familiar, opening the path for future attacks against creatures caught in the arcane mists.\nEncounter   ✦     Arcane, Implement\nStandard Action      Close burst 1 or blast 3\nSpecial: Your familiar must be in active mode, and the origin square of the burst or blast is the familiar's square.\nTarget: Each creature in the burst or blast\nAttack: Intelligence, Wisdom, or Charisma vs. Reflex\nHit: 3d8 + Intelligence, Wisdom, or Charisma modifier damage. Until the end of your next turn, creatures adjacent to your familiar grant combat advantage to you and your allies.\nSpecial: When you gain this power, choose Intelligence, Wisdom, or Charisma as the ability score you use when making attack rolls and damage rolls with this power.\nPublished in Dragon Magazine 374, page(s) 32."
+      },
+      "keywords": [],
+      "choices": [
+        {
+          "id": "ability",
+          "timing": "ACQUISITION",
+          "options": [
+            "INTELLIGENCE",
+            "WISDOM",
+            "CHARISMA"
+          ]
+        }
+      ],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Creatures selected under the printed targeting rules."
+            },
+            "familiar": {
+              "kind": "ENTITY",
+              "text": "Your active familiar."
+            }
+          },
+          "blocks": [
+            {
+              "id": "strike",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Intelligence, Wisdom, or Charisma vs. Reflex",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "CHOICE",
+                "options": [
+                  {
+                    "type": "CLOSE_BURST",
+                    "size": {
+                      "base": 1
+                    },
+                    "origin": "familiar"
+                  },
+                  {
+                    "type": "CLOSE_BLAST",
+                    "size": {
+                      "base": 3
+                    },
+                    "origin": "familiar"
+                  }
+                ]
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "CHOICE",
+                  "choiceId": "ability"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "ac",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "strike-ac-hit",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d8 + Intelligence, Wisdom, or Charisma modifier damage. Until the end of your next turn, creatures adjacent to your familiar grant combat advantage to you and your allies."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "requirement": "Your familiar must be in active mode."
+        }
+      ]
+    },
+    {
+      "id": "fixture.power.inspiring-word",
+      "title": "Inspiring Word",
+      "description": "Published structure fixture, not a playable Modern4e definition.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Partial structural annotations; full published rules preserved in source.rulesText. No combat execution or Modern4e conversion."
+        ]
+      },
+      "rulesProfile": "PUBLISHED_REFERENCE",
+      "source": {
+        "entryId": "power1590",
+        "publication": "Published in Player's Handbook, page(s) 145, Class Compendium.",
+        "rulesText": "Inspiring WordWarlord Feature\nYou call out to a wounded ally and offer inspiring words of courage and determination that invigorates your comrade.\nEncounter (Special)   ✦     Healing, Martial\nMinor Action      Close burst 5 (10 at 11th level, 15 at 21st level)\nTarget: You or one ally in the burst\nEffect: The target can spend a healing surge and regain 1d6 additional hit points.\nLevel 6: 2d6 additional hit points.\nLevel 11: 3d6 additional hit points.\nLevel 16: 4d6 additional hit points.\nLevel 21: 5d6 additional hit points.\nLevel 26: 6d6 additional hit points.\nSpecial: You can use this power twice per encounter, but only once per round. At 16th level, you can use this power three times per encounter.\nPublished in Player's Handbook, page(s) 145, Class Compendium."
+      },
+      "keywords": [],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 2,
+                  "byLevel": [
+                    {
+                      "atLevel": 16,
+                      "value": 3
+                    }
+                  ]
+                }
+              },
+              {
+                "period": "ROUND",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [
+              "The target may spend a healing surge."
+            ],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You or one ally in the burst."
+            }
+          },
+          "blocks": [
+            {
+              "id": "heal",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Close burst 5 (10 at level 11, 15 at level 21). You or one ally may spend a healing surge and regain 1d6 additional hit points.",
+              "scaling": [
+                {
+                  "atLevel": 6,
+                  "text": "2d6 additional hit points."
+                },
+                {
+                  "atLevel": 11,
+                  "text": "3d6 additional hit points."
+                },
+                {
+                  "atLevel": 16,
+                  "text": "4d6 additional hit points."
+                },
+                {
+                  "atLevel": 21,
+                  "text": "5d6 additional hit points."
+                },
+                {
+                  "atLevel": 26,
+                  "text": "6d6 additional hit points."
+                }
+              ]
+            }
+          ],
+          "range": {
+            "type": "CLOSE_BURST",
+            "size": {
+              "base": 5,
+              "byLevel": [
+                {
+                  "atLevel": 11,
+                  "value": 10
+                },
+                {
+                  "atLevel": 21,
+                  "value": 15
+                }
+              ]
+            },
+            "origin": "self"
+          },
+          "targets": "targets"
+        }
+      ]
+    },
+    {
+      "id": "fixture.power.summon-savage-tiger",
+      "title": "Summon Savage Tiger",
+      "description": "Published structure fixture, not a playable Modern4e definition.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Partial structural annotations; full published rules preserved in source.rulesText. No combat execution or Modern4e conversion."
+        ]
+      },
+      "rulesProfile": "PUBLISHED_REFERENCE",
+      "source": {
+        "entryId": "power5380",
+        "publication": "Published in Primal Power, page(s) 46.",
+        "rulesText": "Summon Savage TigerDruid Attack 15\nSpeaking an ancient oath, you summon a great tiger to its feast.\nDaily   ✦     Implement, Primal, Summoning\nStandard Action      Ranged 5\nEffect: You summon a Large tiger in an unoccupied space within range. The tiger has speed 7. You can give the tiger the following special command. On the turn you summon the tiger, you give that command as part of using this power.\nStandard Action: Melee 1; targets one creature; Wisdom vs. Reflex; 2d8 + Wisdom modifier damage.\nInstinctive Effect: If you haven't given the tiger any commands by the end of your turn, it charges the nearest bloodied creature it can charge, using its attack as a melee basic attack. If it can't do that, it attacks an adjacent enemy if it can. Otherwise, it moves its speed to a square adjacent to an enemy.\nPublished in Primal Power, page(s) 46."
+      },
+      "keywords": [],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": [
+              "On the turn the tiger is summoned, its command is given as part of using this power."
+            ]
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Creatures selected under the printed targeting rules."
+            }
+          },
+          "blocks": [
+            {
+              "id": "tiger",
+              "type": "persistent",
+              "label": "Persistent",
+              "text": "Summon the printed Large tiger with speed 7.",
+              "duration": "As specified by Summoning rules.",
+              "blocks": [
+                {
+                  "id": "command-grant",
+                  "type": "grant",
+                  "label": "Grant",
+                  "text": "Grant the printed activation.",
+                  "activationId": "command",
+                  "duration": "While the parent effect is active."
+                },
+                {
+                  "id": "instinct",
+                  "type": "trigger",
+                  "label": "Trigger",
+                  "text": "Apply the printed instinctive behavior.",
+                  "event": "End of your turn if no commands were given.",
+                  "blocks": [
+                    {
+                      "id": "instinct-rule",
+                      "type": "effect",
+                      "label": "Effect",
+                      "text": "Charge the nearest bloodied creature; otherwise attack or move as printed."
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "range": {
+            "type": "RANGED",
+            "distance": {
+              "base": 5
+            },
+            "origin": "self"
+          }
+        },
+        {
+          "id": "command",
+          "availability": "GRANTED",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ENTITY",
+              "text": "The summoned tiger."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Creatures selected under the printed targeting rules."
+            }
+          },
+          "blocks": [
+            {
+              "id": "strike",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "MELEE",
+                "distance": {
+                  "base": 1
+                },
+                "origin": "self"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "The summoner's Wisdom vs. Reflex."
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "ac",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "strike-ac-hit",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d8 + Wisdom modifier damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture.power.memory-of-blades",
+      "title": "Memory of Blades",
+      "description": "Published structure fixture, not a playable Modern4e definition.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Partial structural annotations; full published rules preserved in source.rulesText. No combat execution or Modern4e conversion."
+        ]
+      },
+      "rulesProfile": "PUBLISHED_REFERENCE",
+      "source": {
+        "entryId": "power13661",
+        "publication": "Published in Heroes of the Forgotten Kingdoms, page(s) 220.",
+        "rulesText": "Memory of BladesWarlock Attack 19\nA weightless iron shield crafted from a dozen sword blades appears on your arm. At your command, it unleashes shards of force that slice through your enemies.\nDaily   ✦     Arcane\nMinor Action      Personal\nEffect: Until the end of the encounter, you gain a +3 shield bonus to AC and Reflex and can use the secondary power at will.\nMemory of Blades Secondary Power\nAt-Will ✦     Arcane, Force, Implement\nImmediate Reaction      Close blast 3\nRequirement: The power Memory of Blades must be active in order to use this power.\nTrigger: An enemy within 3 squares of you attacks you.\nTarget: Each creature in the blast, which must include the triggering enemy\nAttack: Charisma vs. Reflex\nHit: 10 force damage, and you push the target up to 2 squares.\nPublished in Heroes of the Forgotten Kingdoms, page(s) 220."
+      },
+      "keywords": [],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Creatures selected under the printed targeting rules."
+            }
+          },
+          "blocks": [
+            {
+              "id": "shield",
+              "type": "persistent",
+              "label": "Persistent",
+              "text": "Gain +3 shield bonus to AC and Reflex and the secondary power.",
+              "duration": "Until the end of the encounter.",
+              "blocks": [
+                {
+                  "id": "grant-reaction",
+                  "type": "grant",
+                  "label": "Grant",
+                  "text": "Grant the printed activation.",
+                  "activationId": "reaction",
+                  "duration": "While the parent effect is active."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "reaction",
+          "availability": "GRANTED",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Creatures selected under the printed targeting rules."
+            }
+          },
+          "blocks": [
+            {
+              "id": "strike",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Reflex",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "CLOSE_BLAST",
+                "size": {
+                  "base": 3
+                },
+                "origin": "self"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "reflex",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "strike-reflex-hit",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "10 force damage, and you push the target up to 2 squares."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "trigger": "An enemy within 3 squares attacks you.",
+          "requirement": "Memory of Blades must be active."
+        }
+      ]
+    },
+    {
+      "id": "fixture.power.frozen-heart",
+      "title": "Frozen Heart",
+      "description": "Published structure fixture, not a playable Modern4e definition.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Partial structural annotations; full published rules preserved in source.rulesText. No combat execution or Modern4e conversion."
+        ]
+      },
+      "rulesProfile": "PUBLISHED_REFERENCE",
+      "source": {
+        "entryId": "power7440",
+        "publication": "Published in Dragon Magazine 374, page(s) 64.",
+        "rulesText": "Frozen HeartLong Night Scion Attack 20\nYour deadly chill freezes the very blood of your foe.\nDaily   ✦     Arcane, Cold, Implement\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Charisma vs. Fortitude\nHit: 3d8 + Charisma modifier cold damage, and the target is dazed and slowed (save ends both). First Failed Saving Throw: The target is stunned instead of dazed and slowed (save ends).\nMiss: Half damage, and the target is slowed (save ends).\nPublished in Dragon Magazine 374, page(s) 64."
+      },
+      "keywords": [],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Creatures selected under the printed targeting rules."
+            }
+          },
+          "blocks": [
+            {
+              "id": "strike",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Fortitude",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "RANGED",
+                "distance": {
+                  "base": 10
+                },
+                "origin": "self"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "fortitude",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "strike-fortitude-hit",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d8 + Charisma modifier cold damage, and the target is dazed and slowed (save ends both). First Failed Saving Throw: The target is stunned instead of dazed and slowed (save ends)."
+                      },
+                      {
+                        "id": "initial",
+                        "type": "persistent",
+                        "label": "Persistent",
+                        "text": "Dazed and slowed; save ends both.",
+                        "duration": "One shared save ends both conditions.",
+                        "blocks": [
+                          {
+                            "id": "failed-save",
+                            "type": "trigger",
+                            "label": "Trigger",
+                            "text": "Replace the initial conditions.",
+                            "event": "First failed saving throw against this effect.",
+                            "blocks": [
+                              {
+                                "id": "stunned",
+                                "type": "effect",
+                                "label": "Effect",
+                                "text": "Stunned instead of dazed and slowed (save ends)."
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "strike-fortitude-miss",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and the target is slowed (save ends)."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture.power.oath-of-consuming-light",
+      "title": "Oath of Consuming Light",
+      "description": "Published structure fixture, not a playable Modern4e definition.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Partial structural annotations; full published rules preserved in source.rulesText. No combat execution or Modern4e conversion."
+        ]
+      },
+      "rulesProfile": "PUBLISHED_REFERENCE",
+      "source": {
+        "entryId": "power2920",
+        "publication": "Published in Player's Handbook 2, page(s) 37.",
+        "rulesText": "Oath of Consuming LightAvenger Attack 5\nYou place a burning mark of divine radiance on your foe as you swear an oath to destroy this creature. With every wound you inflict on the creature, the burning mark erupts in searing light.\nDaily   ✦     Divine, Implement, Radiant\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Wisdom vs. Reflex\nHit: 2d10 + Wisdom modifier radiant damage. Whenever you hit the target with a divine power, the target takes 1d6 extra radiant damage (save ends).\nAftereffect: Whenever you hit the target with a divine power, the target takes 1d4 extra radiant damage (save ends).\nMiss: Half damage. Whenever you hit the target with a divine power, the target takes 1d4 extra radiant damage (save ends).\nAddition (10/13/2009)\nOn the Hit line, add “modifier” between “Wisdom” and “radiant.”\nPublished in Player's Handbook 2, page(s) 37."
+      },
+      "keywords": [],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Creatures selected under the printed targeting rules."
+            }
+          },
+          "blocks": [
+            {
+              "id": "strike",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "RANGED",
+                "distance": {
+                  "base": 10
+                },
+                "origin": "self"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "reflex",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "strike-reflex-hit",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d10 + Wisdom modifier radiant damage. Whenever you hit the target with a divine power, the target takes 1d6 extra radiant damage (save ends)."
+                      },
+                      {
+                        "id": "radiance",
+                        "type": "persistent",
+                        "label": "Persistent",
+                        "text": "Extra damage when hit by your Divine powers.",
+                        "duration": "Save ends.",
+                        "blocks": [
+                          {
+                            "id": "aftereffect",
+                            "type": "trigger",
+                            "label": "Trigger",
+                            "text": "Apply the aftereffect.",
+                            "event": "The hit effect ends.",
+                            "blocks": [
+                              {
+                                "id": "lesser",
+                                "type": "effect",
+                                "label": "Aftereffect",
+                                "text": "Your Divine hits deal 1d4 extra radiant damage (save ends)."
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "strike-reflex-miss",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage. Whenever you hit the target with a divine power, the target takes 1d4 extra radiant damage (save ends)."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture.power.blade-barrier",
+      "title": "Blade Barrier",
+      "description": "Published structure fixture, not a playable Modern4e definition.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Partial structural annotations; full published rules preserved in source.rulesText. No combat execution or Modern4e conversion."
+        ]
+      },
+      "rulesProfile": "PUBLISHED_REFERENCE",
+      "source": {
+        "entryId": "power60",
+        "publication": "Published in Player's Handbook, page(s) 67, Class Compendium.",
+        "rulesText": "Blade BarrierCleric Attack 9\nA barrier of whirling blades appears, slashing at those who come too close or try to pass through.\nDaily   ✦     Conjuration, Divine, Implement\nStandard Action      Area wall 5 within 10 squares\nEffect: You conjure a wall of spinning astral blades that lasts until the end of your next turn. The wall can be up to 2 squares high. The wall's squares are difficult terrain. Any creature that enters the wall or starts its turn there takes 3d6 + Wisdom modifier damage, plus ongoing 5 damage (save ends). A creature can take this damage only once per turn.\nSustain Minor: The wall persists until the end of your next turn.\nUpdate (2/17/2012)\nChanged in December 2011 updates.\nPublished in Player's Handbook, page(s) 67, Class Compendium."
+      },
+      "keywords": [],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Creatures selected under the printed targeting rules."
+            }
+          },
+          "blocks": [
+            {
+              "id": "wall",
+              "type": "persistent",
+              "label": "Persistent",
+              "text": "Area wall 5 within 10 squares; up to 2 squares high; difficult terrain.",
+              "duration": "Until the end of your next turn; Sustain Minor extends it.",
+              "blocks": [
+                {
+                  "id": "wall-trigger",
+                  "type": "trigger",
+                  "label": "Trigger",
+                  "text": "Apply damage, at most once per turn per creature.",
+                  "event": "A creature enters the wall or starts its turn there.",
+                  "blocks": [
+                    {
+                      "id": "wall-damage",
+                      "type": "effect",
+                      "label": "Effect",
+                      "text": "3d6 + Wisdom modifier damage and ongoing 5 damage (save ends)."
+                    }
+                  ]
+                },
+                {
+                  "id": "sustain-grant",
+                  "type": "grant",
+                  "label": "Grant",
+                  "text": "Grant the printed activation.",
+                  "activationId": "sustain",
+                  "duration": "While the parent effect is active."
+                }
+              ]
+            }
+          ],
+          "range": {
+            "type": "WALL",
+            "size": {
+              "base": 5
+            },
+            "distance": {
+              "base": 10
+            },
+            "origin": "self"
+          }
+        },
+        {
+          "id": "sustain",
+          "availability": "GRANTED",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Creatures selected under the printed targeting rules."
+            }
+          },
+          "blocks": [
+            {
+              "id": "extend",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The wall persists until the end of your next turn."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture.power.rune-of-the-astral-phalanx",
+      "title": "Rune of the Astral Phalanx",
+      "description": "Published structure fixture, not a playable Modern4e definition.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Partial structural annotations; full published rules preserved in source.rulesText. No combat execution or Modern4e conversion."
+        ]
+      },
+      "rulesProfile": "PUBLISHED_REFERENCE",
+      "source": {
+        "entryId": "power11421",
+        "publication": "Published in Player's Handbook 3, page(s) 108.",
+        "rulesText": "Rune of the Astral PhalanxRunepriest Attack 17\nYou invoke a rune that marked the battle standards of the divine armies in the earliest days of creation and that bound angel, god, and mortal together in a unified fighting force.\nEncounter   ✦     Divine, Runic, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier damage, and each ally adjacent to the target can make a melee basic attack against it as a free action.\nRune of Destruction: Each ally gains a bonus to the melee basic attack's damage roll equal to your Wisdom modifier.\nRune of Protection: Each ally can shift a number of squares equal to your Wisdom modifier as a free action, instead of making the melee basic attack.\nPublished in Player's Handbook 3, page(s) 108."
+      },
+      "keywords": [],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Creatures selected under the printed targeting rules."
+            }
+          },
+          "blocks": [
+            {
+              "id": "strike",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "MELEE",
+                "distance": "WEAPON",
+                "origin": "self"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "ac",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "strike-ac-hit",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength modifier damage, and each ally adjacent to the target can make a melee basic attack against it as a free action."
+                      },
+                      {
+                        "id": "rune",
+                        "type": "conditional",
+                        "label": "Conditional",
+                        "text": "Modify granted allied actions according to rune state.",
+                        "when": {
+                          "type": "RULES_TEXT",
+                          "text": "Rune of Protection is active."
+                        },
+                        "blocks": [
+                          {
+                            "id": "replace",
+                            "type": "effect",
+                            "label": "Effect",
+                            "text": "Each ally may shift Wisdom squares instead of making the granted melee basic attack."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture.power.reality-distortion",
+      "title": "Reality Distortion",
+      "description": "Published structure fixture, not a playable Modern4e definition.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Partial structural annotations; full published rules preserved in source.rulesText. No combat execution or Modern4e conversion."
+        ]
+      },
+      "rulesProfile": "PUBLISHED_REFERENCE",
+      "source": {
+        "entryId": "power6600",
+        "publication": "Published in Dragon Magazine 372, page(s) 40.",
+        "rulesText": "Reality DistortionKeybearer Utility 26\nBy folding time and space, you create a rippling area of distortion with unpredictable effects.\nDaily   ✦     Zone\nStandard Action      Close burst 3\nTarget: Each enemy in the burst\nEffect: The burst creates a zone of bent space that lasts until the end of your next turn. While you remain within the zone, each turn, you gain an extra move action.\nWhenever a creature other than you starts its turn within the zone, roll 1d6 to determine what happens.\n1—The target blinks out of existence until the start of its next turn. When it reappears, it returns to the space it left or the closest available space.\n2—The target is dazed and immobilized until the start of its next turn.\n3—The target is slowed and weakened until the start of its next turn.\n4—The target gains vulnerable 15 to all attacks until the start of its next turn.\n5—The target grants combat advantage to all targets and takes a -5 penalty to all saving throws until the start of its next turn.\n6—The target blinks out of existence until the start of its next turn. When it reappears, it returns to the space it left or the closest available space.\nSustain Standard: The zone persists until the end of your next turn. When you move, the zone moves with you, keeping you at its center.\nPublished in Dragon Magazine 372, page(s) 40."
+      },
+      "keywords": [],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Creatures selected under the printed targeting rules."
+            }
+          },
+          "blocks": [
+            {
+              "id": "zone",
+              "type": "persistent",
+              "label": "Persistent",
+              "text": "Create the printed zone.",
+              "duration": "Until the end of your next turn; Sustain Standard extends it.",
+              "blocks": [
+                {
+                  "id": "zone-trigger",
+                  "type": "trigger",
+                  "label": "Trigger",
+                  "text": "Roll for the affected creature.",
+                  "event": "A creature other than you starts its turn in the zone.",
+                  "blocks": [
+                    {
+                      "id": "random",
+                      "type": "table",
+                      "label": "Table",
+                      "text": "Roll 1d6 and apply the matching printed result.",
+                      "die": 6,
+                      "results": [
+                        {
+                          "faces": [
+                            1
+                          ],
+                          "blocks": [
+                            {
+                              "id": "result-1",
+                              "type": "effect",
+                              "label": "Effect",
+                              "text": "The target blinks out of existence until the start of its next turn. When it reappears, it returns to the space it left or the closest available space."
+                            }
+                          ]
+                        },
+                        {
+                          "faces": [
+                            2
+                          ],
+                          "blocks": [
+                            {
+                              "id": "result-2",
+                              "type": "effect",
+                              "label": "Effect",
+                              "text": "The target is dazed and immobilized until the start of its next turn."
+                            }
+                          ]
+                        },
+                        {
+                          "faces": [
+                            3
+                          ],
+                          "blocks": [
+                            {
+                              "id": "result-3",
+                              "type": "effect",
+                              "label": "Effect",
+                              "text": "The target is slowed and weakened until the start of its next turn."
+                            }
+                          ]
+                        },
+                        {
+                          "faces": [
+                            4
+                          ],
+                          "blocks": [
+                            {
+                              "id": "result-4",
+                              "type": "effect",
+                              "label": "Effect",
+                              "text": "The target gains vulnerable 15 to all attacks until the start of its next turn."
+                            }
+                          ]
+                        },
+                        {
+                          "faces": [
+                            5
+                          ],
+                          "blocks": [
+                            {
+                              "id": "result-5",
+                              "type": "effect",
+                              "label": "Effect",
+                              "text": "The target grants combat advantage to all targets and takes a -5 penalty to all saving throws until the start of its next turn."
+                            }
+                          ]
+                        },
+                        {
+                          "faces": [
+                            6
+                          ],
+                          "blocks": [
+                            {
+                              "id": "result-6",
+                              "type": "effect",
+                              "label": "Effect",
+                              "text": "The target blinks out of existence until the start of its next turn. When it reappears, it returns to the space it left or the closest available space."
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "zone-sustain",
+                  "type": "grant",
+                  "label": "Grant",
+                  "text": "Grant the printed activation.",
+                  "activationId": "sustain",
+                  "duration": "While the parent effect is active."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sustain",
+          "availability": "GRANTED",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Creatures selected under the printed targeting rules."
+            }
+          },
+          "blocks": [
+            {
+              "id": "extend",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Extend the zone; it moves with you as printed."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture.power.fate-rolls-on",
+      "title": "Fate Rolls On",
+      "description": "Published structure fixture, not a playable Modern4e definition.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Partial structural annotations; full published rules preserved in source.rulesText. No combat execution or Modern4e conversion."
+        ]
+      },
+      "rulesProfile": "PUBLISHED_REFERENCE",
+      "source": {
+        "entryId": "power8180",
+        "publication": "Published in Divine Power, page(s) 112.",
+        "rulesText": "Fate Rolls OnFeat Utility\nIn your god's presence, what was mere luck becomes destiny.\nEncounter ✦     Divine\nImmediate Reaction      Ranged 5\nChannel Divinity: You can use only one channel divinity power per encounter\nTrigger: A creature within 5 squares of you makes a saving throw\nTarget: The triggering creature\nEffect: If the target failed the saving throw, it takes a -2 penalty to its next saving throw before the end of the encounter. If the target saved, it gains a +2 bonus to its next saving throw before the end of the encounter.\nPublished in Divine Power, page(s) 112."
+      },
+      "keywords": [],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                },
+                "poolId": "channel-divinity"
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Creatures selected under the printed targeting rules."
+            }
+          },
+          "blocks": [
+            {
+              "id": "save-result",
+              "type": "conditional",
+              "label": "Conditional",
+              "text": "Apply the saving throw modifier.",
+              "when": {
+                "type": "RULES_TEXT",
+                "text": "The triggering saving throw failed."
+              },
+              "blocks": [
+                {
+                  "id": "penalty",
+                  "type": "effect",
+                  "label": "Effect",
+                  "text": "-2 to the next saving throw before the end of the encounter."
+                }
+              ]
+            },
+            {
+              "id": "save-success",
+              "type": "conditional",
+              "label": "Effect",
+              "text": "Apply the successful-save benefit.",
+              "when": {
+                "type": "RULES_TEXT",
+                "text": "The triggering saving throw succeeded."
+              },
+              "blocks": [
+                {
+                  "id": "bonus",
+                  "type": "effect",
+                  "label": "Effect",
+                  "text": "+2 to its next saving throw before the end of the encounter."
+                }
+              ]
+            }
+          ],
+          "trigger": "A creature within 5 squares makes a saving throw."
+        }
+      ]
+    },
+    {
+      "id": "fixture.power.tempest-of-triumph",
+      "title": "Tempest of Triumph",
+      "description": "Published structure fixture, not a playable Modern4e definition.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Partial structural annotations; full published rules preserved in source.rulesText. No combat execution or Modern4e conversion."
+        ]
+      },
+      "rulesProfile": "PUBLISHED_REFERENCE",
+      "source": {
+        "entryId": "power4740",
+        "publication": "Published in Martial Power, page(s) 118.",
+        "rulesText": "Tempest of TriumphBattlelord of Kord Attack 11\nYour killing blow sets off a chain reaction of inspired attacks, potentially laying low all your foes.\nEncounter   ✦     Martial, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier + Charisma modifier damage. If this attack reduces the target to 0 hit points, an ally within 5 squares of you can make a basic attack against a different target as an immediate reaction, adding your Charisma modifier to the damage roll. If that ally's attack reduces its target to 0 hit points, a different ally within 5 squares of you gains the same benefit. Repeat until an attack fails to reduce a target to 0 hit points or until you run out of allies within 5 squares.\nPublished in Martial Power, page(s) 118."
+      },
+      "keywords": [],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Creatures selected under the printed targeting rules."
+            }
+          },
+          "blocks": [
+            {
+              "id": "strike",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "MELEE",
+                "distance": "WEAPON",
+                "origin": "self"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "ac",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "strike-ac-hit",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength modifier + Charisma modifier damage. If this attack reduces the target to 0 hit points, an ally within 5 squares of you can make a basic attack against a different target as an immediate reaction, adding your Charisma modifier to the damage roll. If that ally's attack reduces its target to 0 hit points, a different ally within 5 squares of you gains the same benefit. Repeat until an attack fails to reduce a target to 0 hit points or until you run out of allies within 5 squares."
+                      },
+                      {
+                        "id": "chain",
+                        "type": "repeat",
+                        "label": "Repeat",
+                        "text": "Repeat the chain using a different ally and target.",
+                        "blocks": [
+                          {
+                            "id": "allied-strike",
+                            "type": "effect",
+                            "label": "Effect",
+                            "text": "The next ally makes a basic attack as an immediate reaction."
+                          }
+                        ],
+                        "while": {
+                          "type": "RULES_TEXT",
+                          "text": "The attack reduced its target to 0 hit points and an unused eligible ally remains."
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "classes": [
+    {
+      "id": "modern4e.class.cleric",
+      "title": "Cleric",
+      "description": "Cleric is a Wisdom or Strength based Divine Leader. Best healers. Variety of build options, can specialize in melee, ranged, or even pacifism.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "flavor": {
+        "quote": "Have courage, my friends! Pelor favors us today!",
+        "introduction": [
+          "Schooled in religious traditions from childhood, clerics wield divine powers entrusted to them through ordination or investiture in the service of a deity. They are expected to further their deity's interests throughout their lives, aiding all who work in the deity's name (whether they realize it or not) and opposing any who seek to thwart the deity's will. Clerics try to sway the good people of the world to give honor and worship to the gods by setting an example of courage, understanding, patience, piety, and zeal. Sometimes this is best done through ministering to the needs of the common folk, sometimes by offering advice and counsel to those who hold power in the world, and sometimes by leading the way on bold adventures and inspiring quests. Whenever the faithful are in need, a cleric is called to act. Their true power lies in the divine magic they command—prayers to heal the injured, protect the weak, and chastise the wicked."
+        ],
+        "gameplay": "Cleric is a Wisdom or Strength based *Divine Leader*. Best healers. Variety of build options, can specialize in melee, ranged, or even pacifism."
+      },
+      "role": "LEADER",
+      "powerSources": [
+        "DIVINE"
+      ],
+      "ruleIds": [],
+      "grants": [
+        {
+          "id": "cleric-lore",
+          "entryId": "modern4e.feature.cleric-lore",
+          "atLevel": 1
+        },
+        {
+          "id": "cleric-healing-word",
+          "entryId": "modern4e.feature.cleric-healing-word",
+          "atLevel": 1
+        },
+        {
+          "id": "cleric-channel-divinity",
+          "entryId": "modern4e.feature.cleric-channel-divinity",
+          "atLevel": 1
+        },
+        {
+          "id": "cleric-divine-technique",
+          "entryId": "modern4e.feature.cleric-divine-technique",
+          "atLevel": 1
+        }
+      ],
+      "statistics": {
+        "defenses": {
+          "FORTITUDE": 11,
+          "REFLEX": 11,
+          "WILL": 13
+        },
+        "health": {
+          "base": 17,
+          "perLevel": 5,
+          "constitutionMultiplier": 2
+        },
+        "healingSurges": {
+          "base": 7,
+          "constitutionMultiplier": 1
+        }
+      },
+      "abilities": {
+        "main": [
+          "STRENGTH",
+          "WISDOM"
+        ],
+        "secondary": [
+          "INTELLIGENCE",
+          "CHARISMA"
+        ]
+      },
+      "proficiencies": {
+        "armor": [
+          "LIGHT",
+          "CHAINMAIL"
+        ],
+        "shields": [],
+        "weapons": [
+          "SIMPLE_MELEE",
+          "SIMPLE_RANGED"
+        ],
+        "implements": [
+          "HOLY_SYMBOL"
+        ]
+      }
+    }
+  ]
+}

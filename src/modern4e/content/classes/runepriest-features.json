@@ -1,0 +1,220 @@
+{
+  "schemaVersion": 1,
+  "features": [
+    {
+      "id": "modern4e.feature.runepriest-rune-master",
+      "title": "Rune Master",
+      "description": "Some of your powers have the runic keyword. When you are going to use a runic power, you first choose one of the runes noted in the power—either the rune of destruction or the rune of protection—and then use the power, applying the chosen rune's effects. The moment you choose the rune, you enter its rune state. You remain in that rune state until you enter another rune state or until the end of the encounter. Whenever you enter the rune state of the rune of destruction or the rune of protection, you gain an additional benefit. The benefit lasts while you're in the rune state.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "Some of your powers have the runic keyword. When you are going to use a runic power, you first choose one of the runes noted in the power—either the rune of destruction or the rune of protection—and then use the power, applying the chosen rune's effects. The moment you choose the rune, you enter its rune state. You remain in that rune state until you enter another rune state or until the end of the encounter. Whenever you enter the rune state of the rune of destruction or the rune of protection, you gain an additional benefit. The benefit lasts while you're in the rune state."
+        },
+        {
+          "type": "heading",
+          "title": "Rune of Destruction"
+        },
+        {
+          "type": "text",
+          "text": "Allies gain a +1 bonus to attack rolls against enemies that are adjacent to you or to any other runepriests who are in this rune state."
+        },
+        {
+          "type": "heading",
+          "title": "Rune of Protection"
+        },
+        {
+          "type": "text",
+          "text": "While adjacent to you, allies gain resist 2 to all damage. The resistance increases to 4 at 11th level and 6 at 21st level."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.runepriest-rune-of-mending",
+      "title": "Rune of Mending",
+      "description": "You gain the rune of mending power, This rune restores your allies’ health and grants them additional power based on your rune state.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "runepriest-rune-of-mending",
+          "entryId": "modern4e.power.runepriest-rune-of-mending",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You gain the rune of mending power, This rune restores your allies’ health and grants them additional power based on your rune state."
+        },
+        {
+          "type": "grant",
+          "grantId": "runepriest-rune-of-mending"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.defiant-word",
+      "title": "Defiant Word",
+      "description": "Whenever an enemy misses you with an attack, you gain a bonus to damage rolls against that enemy until the end of your next turn. The bonus equals your *Wisdom*, regardless of the number of times the enemy misses you in a round.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "Whenever an enemy misses you with an attack, you gain a bonus to damage rolls against that enemy until the end of your next turn. The bonus equals your *Wisdom*, regardless of the number of times the enemy misses you in a round."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.runepriest-serene-blade",
+      "title": "Serene Blade",
+      "description": "You gain proficiency with all one-handed and two-handed military heavy blades. While you are not wearing heavy armor, you can use your *Wisdom* to determine your AC. Once per round immediately after an enemy deals damage to you with an attack, you gain temporary hit points equal to your *Wisdom*. The number of temporary hit points increases to 5 + your *Wisdom* at 11th level and 10 + your *Wisdom* at 21st level.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "You gain proficiency with all one-handed and two-handed military heavy blades. While you are not wearing heavy armor, you can use your *Wisdom* to determine your AC. Once per round immediately after an enemy deals damage to you with an attack, you gain temporary hit points equal to your *Wisdom*. The number of temporary hit points increases to 5 + your *Wisdom* at 11th level and 10 + your *Wisdom* at 21st level."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.wrathful-hammer",
+      "title": "Wrathful Hammer",
+      "description": "You gain proficiency with military hammers and military maces. In addition, whenever an enemy deals damage to you with an attack, you gain a bonus to damage rolls against that enemy until the end of your next turn. The bonus equals your *Constitution*, regardless of the number of times the enemy damages you in a round.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "You gain proficiency with military hammers and military maces. In addition, whenever an enemy deals damage to you with an attack, you gain a bonus to damage rolls against that enemy until the end of your next turn. The bonus equals your *Constitution*, regardless of the number of times the enemy damages you in a round."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.runepriest-rune-artistry",
+      "title": "Rune Artistry",
+      "description": "Runescribes follow one of the major traditions of rune magic: the path of the Wrathful Hammer, the way of the Defiant Word or the tradition of the Serene Blade.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "choices": [
+        {
+          "id": "modern4e.choice.runepriest-rune-artistry",
+          "title": "Rune Artistry",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 1,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.defiant-word",
+              "modern4e.feature.runepriest-serene-blade",
+              "modern4e.feature.wrathful-hammer"
+            ]
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "Runescribes follow one of the major traditions of rune magic: the path of the Wrathful Hammer, the way of the Defiant Word or the tradition of the Serene Blade."
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.runepriest-rune-artistry"
+        }
+      ]
+    }
+  ]
+}

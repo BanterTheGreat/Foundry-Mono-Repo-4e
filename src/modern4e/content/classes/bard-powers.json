@@ -1,0 +1,136 @@
+{
+  "schemaVersion": 2,
+  "powers": [
+    {
+      "id": "modern4e.power.bard-majestic-word",
+      "title": "Majestic Word",
+      "description": "The target can spend a healing surge and regain additional hit points equal to your Charisma. You also slide the target 1 square.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.bard",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "ARCANE",
+        "HEALING"
+      ],
+      "choices": [],
+      "flavor": "You utter words laden with preternatural inspiration, restoring your ally's stamina and making wounds seem insignificant.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 2,
+                  "byLevel": [
+                    {
+                      "atLevel": 16,
+                      "value": 3
+                    }
+                  ]
+                }
+              },
+              {
+                "period": "ROUND",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [
+              "The target may spend a healing surge as described by the Effect."
+            ],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You or one ally in the burst"
+            }
+          },
+          "range": {
+            "type": "CLOSE_BURST",
+            "origin": "self",
+            "size": {
+              "base": 5,
+              "byLevel": [
+                {
+                  "atLevel": 11,
+                  "value": 10
+                },
+                {
+                  "atLevel": 21,
+                  "value": 15
+                }
+              ]
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target can spend a healing surge and regain additional hit points equal to your Charisma. You also slide the target 1 square.",
+              "scaling": [
+                {
+                  "atLevel": 6,
+                  "text": "1d6 + Charisma additional hit points."
+                },
+                {
+                  "atLevel": 11,
+                  "text": "Close Burst 10 & 2d6 + Charisma additional hit points."
+                },
+                {
+                  "atLevel": 16,
+                  "text": "Close Burst 10 & 3d6 + Charisma additional hit points."
+                },
+                {
+                  "atLevel": 21,
+                  "text": "Close Burst 15 & 4d6 + Charisma additional hit points."
+                },
+                {
+                  "atLevel": 26,
+                  "text": "Close Burst 15 & 5d6 + Charisma additional hit points."
+                }
+              ]
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Special",
+              "text": "You can use this power twice per encounter, but only once per round. At 16th level, you can use this power three times per encounter, but only once per round."
+            }
+          ],
+          "targets": "targets",
+          "special": true
+        }
+      ]
+    }
+  ]
+}

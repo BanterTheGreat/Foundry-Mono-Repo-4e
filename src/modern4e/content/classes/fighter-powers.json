@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "powers": [
     {
       "id": "modern4e.power.combat-challenge",
@@ -21,23 +21,51 @@
           "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
         ]
       },
-      "usage": "AT_WILL",
-      "action": "IMMEDIATE_INTERRUPT",
       "keywords": [
         "MARTIAL",
         "WEAPON"
       ],
-      "range": {
-        "type": "MELEE",
-        "distance": 1
-      },
-      "rows": [
+      "activations": [
         {
-          "label": "Effect",
-          "text": "You can make a melee basic attack against that enemy"
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The Fighter."
+            }
+          },
+          "range": {
+            "type": "MELEE",
+            "origin": "self",
+            "distance": {
+              "base": 1
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You can make a melee basic attack against that enemy"
+            }
+          ],
+          "trigger": "An enemy marked by you is adjacent to you and shifts or makes an attack that does not include you as a target."
         }
       ],
-      "trigger": "An enemy marked by you is adjacent to you and shifts or makes an attack that does not include you as a target."
+      "choices": [],
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.fighter",
+        "publication": "Modern4e local Fighter rules"
+      }
     },
     {
       "id": "modern4e.power.combat-reactivity",
@@ -59,23 +87,49 @@
           "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
         ]
       },
-      "usage": "AT_WILL",
-      "action": "OPPORTUNITY",
       "keywords": [
         "MARTIAL",
         "WEAPON"
       ],
-      "range": {
-        "type": "MELEE",
-        "distance": "WEAPON"
-      },
-      "rows": [
+      "activations": [
         {
-          "label": "Effect",
-          "text": "After the triggering enemy completes the action, you shift a number of squares equal to your *Dexterity*. You must end the shift closer to the target than you were when you began the shift. Then, make the following attack"
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "OPPORTUNITY",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The Fighter."
+            }
+          },
+          "range": {
+            "type": "MELEE",
+            "origin": "self",
+            "distance": "WEAPON"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "After the triggering enemy completes the action, you shift a number of squares equal to your *Dexterity*. You must end the shift closer to the target than you were when you began the shift. Then, make the following attack"
+            }
+          ],
+          "trigger": "An enemy adjacent to you takes an action that provokes an opportunity attack."
         }
       ],
-      "trigger": "An enemy adjacent to you takes an action that provokes an opportunity attack."
+      "choices": [],
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.fighter",
+        "publication": "Modern4e local Fighter rules"
+      }
     },
     {
       "id": "modern4e.power.combat-reactivity-followup",
@@ -97,32 +151,89 @@
           "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
         ]
       },
-      "usage": "AT_WILL",
-      "action": "NO_ACTION",
       "keywords": [
         "MARTIAL",
         "WEAPON"
       ],
-      "range": {
-        "type": "MELEE",
-        "distance": "WEAPON"
-      },
-      "rows": [
+      "activations": [
         {
-          "label": "Hit",
-          "text": "1[W] + *Strength* damage, and you knock the target prone.",
-          "scaling": [
-            {
-              "atLevel": 21,
-              "text": "2[W] + *Strength* damage."
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "NO_ACTION",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The Fighter."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "The triggering enemy"
             }
-          ]
+          },
+          "range": {
+            "type": "MELEE",
+            "origin": "self",
+            "distance": "WEAPON"
+          },
+          "blocks": [
+            {
+              "id": "attack",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "MELEE",
+                "origin": "self",
+                "distance": "WEAPON"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-1",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + *Strength* damage, and you knock the target prone.",
+                        "scaling": [
+                          {
+                            "atLevel": 21,
+                            "text": "2[W] + *Strength* damage."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets"
         }
       ],
-      "target": "The triggering enemy",
-      "attack": {
-        "ability": "STRENGTH",
-        "defense": "AC"
+      "choices": [],
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.fighter",
+        "publication": "Modern4e local Fighter rules"
       }
     }
   ]

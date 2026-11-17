@@ -1,0 +1,561 @@
+{
+  "schemaVersion": 1,
+  "features": [
+    {
+      "id": "modern4e.feature.elemental-spirit",
+      "title": "Elemental Spirit",
+      "description": "You draw on elemental spirits inhabiting the earth to give you strength and fuel the raw power of your evocations.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "shaman-spirits-wrath",
+          "entryId": "modern4e.power.shaman-spirits-wrath",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You draw on elemental spirits inhabiting the earth to give you strength and fuel the raw power of your evocations."
+        },
+        {
+          "type": "heading",
+          "title": "Spirit Boon"
+        },
+        {
+          "type": "text",
+          "text": "Your spirit companion has an aura 1, expanding to an aura 2 at 21st level. Your allies gain a +2 bonus to saving throws while within the aura. In addition, if your spirit companion is not present at the start of your turn, you can summon it once during that turn as a free action."
+        },
+        {
+          "type": "heading",
+          "title": "Spirit Attack"
+        },
+        {
+          "type": "text",
+          "text": "You gain the Spirit’s Wrath power"
+        },
+        {
+          "type": "grant",
+          "grantId": "shaman-spirits-wrath"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.shaman-companion-spirit",
+      "title": "Companion Spirit",
+      "description": "As part of your initiation as a shaman, you acquired a spirit companion, a primal spirit that accompanies and assists you.\n\nYou gain the Call Spirit Companion power, which allows you to call this spirit to your side. Your spirit companion must be present to use Shaman powers with the Spirit keyword.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "shaman-call-spirit-companion",
+          "entryId": "modern4e.power.shaman-call-spirit-companion",
+          "atLevel": 1
+        }
+      ],
+      "choices": [
+        {
+          "id": "modern4e.choice.shaman-companion-spirit",
+          "title": "Companion Spirit",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 1,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.elemental-spirit",
+              "modern4e.feature.stalker-spirit",
+              "modern4e.feature.watcher-spirit",
+              "modern4e.feature.world-speaker-spirit"
+            ]
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "As part of your initiation as a shaman, you acquired a spirit companion, a primal spirit that accompanies and assists you.\n\nYou gain the Call Spirit Companion power, which allows you to call this spirit to your side. Your spirit companion must be present to use Shaman powers with the Spirit keyword."
+        },
+        {
+          "type": "heading",
+          "title": "The Spirit Keyword"
+        },
+        {
+          "type": "text",
+          "text": "Spirit is an effect type. You can use a power with the Spirit keyword only if your spirit companion is present in the encounter. If a Spirit power includes “Spirit” in its range, you determine line of sight and line of effect from the spirit companion's space, which is the power's origin square, rather than your own."
+        },
+        {
+          "type": "grant",
+          "grantId": "shaman-call-spirit-companion"
+        },
+        {
+          "type": "text",
+          "text": "In addition, choose one of the following Companion Spirit options. Your choice provides your spirit companion with an aura and at-will opportunity action attack. Your choice also provides bonuses to certain Shaman powers, as detailed in those powers."
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.shaman-companion-spirit"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.stalker-spirit",
+      "title": "Stalker Spirit",
+      "description": "You call on the stealth and cunning of the panther or a similar stalking spirit to empower and position your allies.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "shaman-spirits-fangs",
+          "entryId": "modern4e.power.shaman-spirits-fangs",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You call on the stealth and cunning of the panther or a similar stalking spirit to empower and position your allies."
+        },
+        {
+          "type": "heading",
+          "title": "Spirit Boon"
+        },
+        {
+          "type": "text",
+          "text": "Your spirit companion has an aura 1, expanding to an aura 2 at 21st level. Your allies gains a bonus to damage rolls equal to your *Intelligence* against bloodied enemies within the aura."
+        },
+        {
+          "type": "heading",
+          "title": "Spirit Attack"
+        },
+        {
+          "type": "text",
+          "text": "You gain the Spirit’s Fangs power"
+        },
+        {
+          "type": "grant",
+          "grantId": "shaman-spirits-fangs"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.watcher-spirit",
+      "title": "Watcher Spirit",
+      "description": "You call on the swiftness and piercing vision of a hawk or similar bird spirit to incite and oversee your allies.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "shaman-spirits-prey",
+          "entryId": "modern4e.power.shaman-spirits-prey",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You call on the swiftness and piercing vision of a hawk or similar bird spirit to incite and oversee your allies."
+        },
+        {
+          "type": "heading",
+          "title": "Spirit Boon"
+        },
+        {
+          "type": "text",
+          "text": "Your spirit companion has an aura 1, expanding to an aura 2 at 21st level. Enemies within the aura do not benefit from partial concealment or cover, though they still benefit from total concealment or superior cover. In addition, your allies can treat any enemy within the aura as their nearest enemy."
+        },
+        {
+          "type": "heading",
+          "title": "Spirit Attack"
+        },
+        {
+          "type": "text",
+          "text": "You gain the Spirit's Prey power."
+        },
+        {
+          "type": "grant",
+          "grantId": "shaman-spirits-prey"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.world-speaker-spirit",
+      "title": "World Speaker Spirit",
+      "description": "You call on the wisdom and patience of a giant turtle or similar spirit of longevity to guide and protect your allies.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "shaman-worlds-speaker-command",
+          "entryId": "modern4e.power.shaman-worlds-speaker-command",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You call on the wisdom and patience of a giant turtle or similar spirit of longevity to guide and protect your allies."
+        },
+        {
+          "type": "heading",
+          "title": "Spirit Boon"
+        },
+        {
+          "type": "text",
+          "text": "Your spirit companion has an aura 1, expanding to an aura 2 at 21st level. Any ally who provokes an opportunity attack from an enemy within the aura gains a bonus equal to your *Constitution* to all defenses against that attack. In addition, you may use your *Constitution* in place of your *Dexterity* or *Intelligence* to determine your AC."
+        },
+        {
+          "type": "heading",
+          "title": "Spirit Attack"
+        },
+        {
+          "type": "text",
+          "text": "You gain the World Speaker's Command power."
+        },
+        {
+          "type": "grant",
+          "grantId": "shaman-worlds-speaker-command"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.shaman-healing-spirit",
+      "title": "Healing Spirit",
+      "description": "You gain the healing spirit power. Through this power, you grant your allies additional resilience with a short evocation of primal power.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "shaman-healing-spirit",
+          "entryId": "modern4e.power.shaman-healing-spirit",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You gain the healing spirit power. Through this power, you grant your allies additional resilience with a short evocation of primal power."
+        },
+        {
+          "type": "grant",
+          "grantId": "shaman-healing-spirit"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.shaman-air-spirit",
+      "title": "Air Spirit",
+      "description": "Air Spirit",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "shaman-air-spirit",
+          "entryId": "modern4e.power.shaman-air-spirit",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "grant",
+          "grantId": "shaman-air-spirit"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.shaman-call-the-spirits",
+      "title": "Call the Spirits",
+      "description": "Call the Spirits",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "shaman-call-the-spirits",
+          "entryId": "modern4e.power.shaman-call-the-spirits",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "grant",
+          "grantId": "shaman-call-the-spirits"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.shaman-senses-of-the-wild",
+      "title": "Senses of the Wild",
+      "description": "Senses of the Wild",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "shaman-senses-of-the-wild",
+          "entryId": "modern4e.power.shaman-senses-of-the-wild",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "grant",
+          "grantId": "shaman-senses-of-the-wild"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.shaman-verdant-touch",
+      "title": "Verdant Touch",
+      "description": "Verdant Touch",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "shaman-verdant-touch",
+          "entryId": "modern4e.power.shaman-verdant-touch",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "grant",
+          "grantId": "shaman-verdant-touch"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.shaman-vine-rope",
+      "title": "Vine Rope",
+      "description": "Vine Rope",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "shaman-vine-rope",
+          "entryId": "modern4e.power.shaman-vine-rope",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "grant",
+          "grantId": "shaman-vine-rope"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.shaman-primal-attunement",
+      "title": "Primal Attunement",
+      "description": "You are attuned to various parts of nature, choose 3 of the powers below.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "choices": [
+        {
+          "id": "modern4e.choice.shaman-primal-attunement",
+          "title": "Primal Attunement",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 3,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.shaman-air-spirit",
+              "modern4e.feature.shaman-call-the-spirits",
+              "modern4e.feature.shaman-senses-of-the-wild",
+              "modern4e.feature.shaman-verdant-touch",
+              "modern4e.feature.shaman-vine-rope"
+            ]
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You are attuned to various parts of nature, choose 3 of the powers below."
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.shaman-primal-attunement"
+        }
+      ]
+    }
+  ]
+}

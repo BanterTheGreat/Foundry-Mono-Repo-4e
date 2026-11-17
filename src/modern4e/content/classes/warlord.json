@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "classes": [
+    {
+      "id": "modern4e.class.warlord",
+      "title": "Warlord",
+      "description": "Warlord is an Intelligence-based Martial Leader. You rally your companions with a mixture of shouted commands and cunning stratagems, leading them to victory through superior tactics. The best Leaders for granting additional attacks to allies, but heals less than other Leaders.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented.",
+          "The original gameplay flavor calls Warlord Intelligence-based, while the local reference panel requires Strength. Both are preserved; the structured main ability follows the reference panel."
+        ]
+      },
+      "flavor": {
+        "quote": "Onward to victory! They cannot stand before us!",
+        "introduction": [
+          "Warlords draw from their experience and passion to lend courage, skill, and hope to those under their command. A warlord forms the iron core of any unit of soldiers, uniting their purpose and bolstering their commitment to see the conflict to its conclusion.",
+          "A warlord's talents can come from many different aspects of personality or endeavor. Some depend on their bravado, goading their companions to take risks in order to reap great rewards. Others have keen insight into their enemies' minds. Some warlords specialize in hit-and-run tactics, and others are resourceful leaders who always have some trick up their sleeves. The most common warlords include those whose presence alone is enough to bind disparate heroes together and the tactical savants who spot weaknesses and exploit them.",
+          "Warlords develop specialized combat maneuvers called exploits. In their elementary form, they are strikes and commands designed to shift the battle toward a more favorable outcome. In addition to these exploits, warlords issue commands and orders that improve their allies' performance. Some of these commands can restore health and vigor, while others make allies more alert and ready for new challenges.",
+          "Most warlords have already had experience in the field, even if it came from leading a tiny expedition. Some are former military leaders who have relinquished their commands to seek their fortunes in the world. Others might have lost their units and be out for revenge against the enemy that brought them to ruin. Whatever the individual's triumphs or defeats were before becoming an adventurer, every warlord can lead, and lead well."
+        ],
+        "gameplay": "Warlord is an Intelligence-based *Martial Leader*. You rally your companions with a mixture of shouted commands and cunning stratagems, leading them to victory through superior tactics. The best Leaders for granting additional attacks to allies, but heals less than other Leaders."
+      },
+      "role": "LEADER",
+      "powerSources": [
+        "MARTIAL"
+      ],
+      "ruleIds": [],
+      "grants": [
+        {
+          "id": "warlord-inspiring-word",
+          "entryId": "modern4e.feature.warlord-inspiring-word",
+          "atLevel": 1
+        },
+        {
+          "id": "warlord-tactical-path",
+          "entryId": "modern4e.feature.warlord-tactical-path",
+          "atLevel": 1
+        },
+        {
+          "id": "warlord-leadership-style",
+          "entryId": "modern4e.feature.warlord-leadership-style",
+          "atLevel": 1
+        },
+        {
+          "id": "warlord-commanding-presence",
+          "entryId": "modern4e.feature.warlord-commanding-presence",
+          "atLevel": 1
+        }
+      ],
+      "statistics": {
+        "defenses": {
+          "FORTITUDE": 12,
+          "REFLEX": 12,
+          "WILL": 11
+        },
+        "health": {
+          "base": 17,
+          "perLevel": 5,
+          "constitutionMultiplier": 2
+        },
+        "healingSurges": {
+          "base": 7,
+          "constitutionMultiplier": 1
+        }
+      },
+      "abilities": {
+        "main": [
+          "STRENGTH"
+        ],
+        "secondary": [
+          "INTELLIGENCE",
+          "CHARISMA"
+        ]
+      },
+      "proficiencies": {
+        "armor": [
+          "LIGHT"
+        ],
+        "shields": [],
+        "weapons": [
+          "SIMPLE_MELEE",
+          "MILITARY_MELEE",
+          "SIMPLE_RANGED"
+        ],
+        "implements": []
+      }
+    }
+  ]
+}

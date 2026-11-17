@@ -6,5 +6,9 @@
     }).join()
     if calc.odd(index) { strong(body) } else { body }
   }).join()
-  value.split("\n\n").map(inline).join(parbreak())
+  value.split("\n\n").map(part => {
+    if part.starts-with("- ") {
+      part.split("\n- ").map(item => list.item(inline(item.trim("- ", at: start)))).join()
+    } else { inline(part) }
+  }).join(parbreak())
 }

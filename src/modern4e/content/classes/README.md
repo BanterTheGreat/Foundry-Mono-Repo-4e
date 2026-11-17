@@ -1,18 +1,21 @@
-# Shared class authoring (schema v1)
+# Shared class authoring (catalog/export schema v2)
 
-Fighter is the first migrated class (#30/#31). Its class, nine features, three
-granted powers and two rules are authoritative here. Typst renders them directly;
+Fighter and all six Leaders (Artificer, Bard, Cleric, Runepriest, Shaman and
+Warlord) are authoritative here. The catalog contains seven classes, 60 features,
+26 granted powers and two Fighter rules. Typst renders them directly;
 `class_content.py` exports the same data for future Character Builder compilation.
 This is **an authoring catalog, not a v1 runtime package**. Engine interpretation,
-full progression and production pipeline replacement remain #33–#35. Other class
-chapters remain authoritative Typst until #32. No feat definitions are changed.
+full progression and production pipeline replacement remain #33–#35. The other
+12 class chapters remain authoritative Typst. No feat definitions are changed.
 
 ## Files and commands
 
 `catalog.json` inventories every entry file exactly once under `classes`,
-`features`, `powers` or `rules`. Each file has `schemaVersion: 1` and that envelope
-array. IDs are persisted, not computed during builds; moving/renaming entries does
-not change access or identity. Printed placement stays in `classes/fighter.typ`.
+`features`, `powers` or `rules`. Each file has a schema version and that envelope
+array; ordered power files use `schemaVersion: 2`, while class/feature/rule files
+remain version 1. The inventory and normalized export are version 2. IDs are
+persisted, not computed during builds; moving/renaming entries does
+not change access or identity. Printed placement stays in each class's `.typ` page.
 `advancement.json` holds common choices, independently of any class.
 
 From the repository root:
@@ -35,7 +38,7 @@ The CLI can validate a copied authoring directory using `--content`.
 Every entry requires `id`, `title`, `description`, `access`, `prerequisites`,
 `selection` and `coverage`; optional `source` and `note` retain provenance.
 Authored category comes from the envelope; the normalized export adds `category`.
-The exported kind is `modern4e.class-authoring`, with schema version 1. There is
+The exported kind is `modern4e.class-authoring`, with schema version 2. There is
 no implicit mapping to the builder's v1 mechanics or published `class3` identity.
 
 Access/prerequisites reuse the existing closed shared condition tree validated
@@ -89,15 +92,29 @@ table. Other benefits remain exact shared prose with explicit coverage until
 engine vocabulary is implemented; no unsupported text becomes an executable
 modifier. Stable grants/choice IDs are used as inputs to future occurrence IDs.
 
-Powers require `usage`, `action`, `keywords`, structured `range` and labeled
-`rows`. Optional fields include trigger, target, usage requirement, attack
-ability/defense, flavor, level and attack/utility kind. A row's optional ordered
-`scaling` array contains `{atLevel, text}` entries. Scaling text remains descriptive
-rather than pretending to be automated damage arithmetic. `description` provides
-catalog text; card text comes from the structured rows. A power's use requirement
-is distinct from its selection prerequisites. Granted powers do not consume the
-standard selectable attack-power slots. Normal selectable power pools are not
-migrated by this slice.
+Powers use the [ordered power contract](../../../../docs/modern4e-power-authoring.md):
+`rulesProfile`, provenance, keywords, local acquisition/activation choices and
+independent `activations` containing usage, bindings, range and ordered blocks.
+Attacks own their rolls, comparisons and scoped outcomes. Fighter's three IDs
+are preserved. Class validation reuses the power validator; local power choices
+are distinct from the class/feature ENTRY-choice vocabulary. A power's use
+requirement is distinct from its selection prerequisites. Granted powers do not
+consume the standard selectable attack-power slots. Normal selectable power
+pools are not migrated by this slice.
+
+Leader features optionally declare ordered `sections`: literal `text`, named
+`heading`, `grant` referencing a local `grantId`, or `choice` referencing a
+`choiceId`. Each grant/choice must appear exactly once. This preserves rules,
+subheadings and cards in source order without embedding Typst in JSON. Typst owns
+page/column splits, including Shaman's companion options and Cleric's Channel
+Divinity continuation. Class flavor adapters also read JSON, so banners have no
+second editable copy. The migration reuses 19 predeclared feat reference IDs.
+
+Cleric Healing Word's level-16 wording and Warlord's flavor/main-ability mismatch
+remain explicit coverage limitations. Technique acquisition remains prose pending
+the technique catalog. Shared healing pools, usage scaling and Channel Divinity
+limits are structured where the local source is unambiguous. No combat effects
+or proficiency benefits described in feature prose are inferred as automation.
 
 Rules are independently identified explanatory entries. Reliable and Invigorating
 are referenced by Fighter. Layout and table headings belong to the renderer.

@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "classes": [
+    {
+      "id": "modern4e.class.artificer",
+      "title": "Artificer",
+      "description": "Artificer is an Intelligence-based Arcane leader. Enhance and heal through contraptions. Assemble a magic device for any situation.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "flavor": {
+        "quote": "I see the secret patterns of magic, and through the items I carry, I can use that magic to protect you, heal you . . . or make you explode.",
+        "introduction": [
+          "Artificers treat mastery of magic like a technical skill. They see patterns in energy and matter, and they understand how to manipulate the flow of magic in and around objects and creatures. Artificers channel energy into items using magical components, diagrams, and complex chains of sigils. Their skills let them assemble a magic device for any situation.",
+          "As an artificer, you might be a formal student of magic who became interested in artifacts and arcane items. Alternatively, you could be a tinkerer who devised magic tools in a musty basement. Or perhaps you are an explorer who found your knowledge in the forgotten places of the world. Whatever the source of your talents, a passion for the technical components of magic drives you to perfect your art.",
+          "With a bandolier slung across your chest, you carry an arsenal of alchemical compounds, magic implements, mundane materials, and tools. Your weapons, implements, and other gear are inscribed with runes and mystic patterns. You mix reagents, drink potions, and craft items. You use your knowledge to infuse yourself and your allies with arcane power. And one day, your magical skills will carry you into legend."
+        ],
+        "gameplay": "Artificer is an Intelligence-based *Arcane leader*. Enhance and heal through contraptions. Assemble a magic device for any situation."
+      },
+      "role": "LEADER",
+      "powerSources": [
+        "ARCANE"
+      ],
+      "ruleIds": [],
+      "grants": [
+        {
+          "id": "artificer-arcane-empowerment",
+          "entryId": "modern4e.feature.artificer-arcane-empowerment",
+          "atLevel": 1
+        },
+        {
+          "id": "artificer-arcane-rejuvenation",
+          "entryId": "modern4e.feature.artificer-arcane-rejuvenation",
+          "atLevel": 1
+        },
+        {
+          "id": "artificer-healing-infusion",
+          "entryId": "modern4e.feature.artificer-healing-infusion",
+          "atLevel": 1
+        },
+        {
+          "id": "artificer-techniques",
+          "entryId": "modern4e.feature.artificer-techniques",
+          "atLevel": 1
+        }
+      ],
+      "statistics": {
+        "defenses": {
+          "FORTITUDE": 12,
+          "REFLEX": 11,
+          "WILL": 12
+        },
+        "health": {
+          "base": 17,
+          "perLevel": 5,
+          "constitutionMultiplier": 2
+        },
+        "healingSurges": {
+          "base": 6,
+          "constitutionMultiplier": 1
+        }
+      },
+      "abilities": {
+        "main": [
+          "INTELLIGENCE"
+        ],
+        "secondary": [
+          "WISDOM",
+          "CONSTITUTION"
+        ]
+      },
+      "proficiencies": {
+        "armor": [
+          "CLOTH",
+          "LEATHER"
+        ],
+        "shields": [],
+        "weapons": [
+          "SIMPLE_MELEE",
+          "SIMPLE_RANGED"
+        ],
+        "implements": [
+          "ROD",
+          "WAND",
+          "STAFF"
+        ]
+      }
+    }
+  ]
+}

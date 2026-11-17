@@ -1,105 +1,40 @@
 #import "../helpers/theme.typ" as theme;
+#import "../helpers/classes.typ" as classes;
+#import "../helpers/class_content.typ" as content;
 
-#import "../helpers/classes.typ": (
-  abilities, armorProf, bannerPage, classFeatures, classOverview, defensesAndHealth, implementProf, powerLinks, proficiencies, weaponProf,
-);
-
-#import "../helpers/powers.typ";
-
-#let className = "Artificer";
+#let classData = content.entry("modern4e.class.artificer");
+#let className = classData.title;
 
 #let artificerPage() = {
   return [
-    #bannerPage(
+    #classes.bannerPage(
       className: className,
+      flavorContent: (quote: content.classText(classData.flavor.quote), introduction: content.classText(classData.flavor.introduction.join("\n\n")), gameplay: content.classText(classData.flavor.gameplay)),
+      imagePath: "../images/classes_parent.jpg",
     );
 
-    #classOverview(
+    #classes.classOverview(
       className: className,
-      reference: [
-        #proficiencies(
-          armorProficiencies: (armorProf.cloth, armorProf.leather),
-          weaponProficiencies: (weaponProf.simpleMelee, weaponProf.simpleRanged),
-          implementProficiencies: (implementProf.rod, implementProf.wand, implementProf.staff),
-        );
-
-        #defensesAndHealth(fortitude: 12, will: 12, reflex: 11, health: 22, healthOnLevelUp: 5, healingSurges: 6)
-
-        #abilities(
-          mainAbilities: "Intelligence",
-          extraAbilities: ("Wisdom", "Constitution"),
-          class: className,
-        );
-      ],
+      reference: content.classReference(classData),
     )[
+      #content.feature("modern4e.feature.artificer-arcane-empowerment")
 
-      = Arcane Empowerment
-      Your study of magic has given you the ability to manipulate the arcane energy contained within items. You begin each day with the ability to empower a magic item, and you gain one additional arcane empowerment for each milestone you reach. You must spend a short rest with an item in order to empower it. You can empower an item in two ways.
+      #content.feature("modern4e.feature.artificer-arcane-rejuvenation")
 
-      == Augment Energy
-      You infuse a weapon or an implement with a reservoir of energy that lasts until the end of your next extended rest or until it is expended. The wielder of the implement or the weapon can use a free action after making an attack roll to expend the reservoir of energy to gain a +2 bonus to that attack roll. An implement or a weapon can be augmented only once per day in this way.
+      #content.feature("modern4e.feature.artificer-healing-infusion")
 
-      == Impart Energy
-      You recharge the daily power of a magic item. An item can be recharged only once per day in this way.
-
-      = Arcane Rejuvenation
-      Before combat, an arcane tinkerer spends time infusing his or her allies' magic items with curative energy. Whenever one of the artificer's allies uses a magic item's daily power, that ally absorbs the energy and gains temporary hit points equal to one-half your level + your *Intelligence*.
-
-      = Healing Infusion
-      You can create healing infusions for later use. At the end of an extended rest, you create two healing infusions that last until the end of your next extended rest. At 16th level, you instead create three healing infusions.
-
-      You determine the effect of a healing infusion at the time you use the power, not at the time you create it. When you use a Healing Infusion power, you expend one of the infusions you created during your last extended rest. During a short rest, you or an ally can spend a healing surge to replenish one of the infusions expended.
-
-      #powers.power(
-        title: "Healing Infusion: Curative Admixture",
-        description: "You use the magic of your infusion to heal the wounds of your target.",
-        type: powers.powerType.encounter,
-        range: "Close burst 5",
-        action: powers.actionType.minor,
-        target: "You or one ally in the burst",
-        isSpecial: true,
-        additionalRows: (
-          [*Effect:* The target regains hit points equal to its healing surge value + your Wisdom, and you expend an infusion crafted with your Healing Infusion class feature. #linebreak()
-
-            *Level 6:* The target regains an extra 2 hit points. #linebreak()
-            *Level 11:* Close Burst 10 & The target regains an extra 4 hit points. #linebreak()
-            *Level 16:* Close Burst 10 & The target regains an extra 6 hit points. #linebreak()
-            *Level 21:* Close Burst 15 & The target regains an extra 8 hit points. #linebreak()
-            *Level 26:* Close Burst 15 & The target regains an extra 10 hit points.
-          ],
-          [*Special:* You can use two Healing Infusion powers per encounter, but only one per round. At 16th level, you can use three Healing Infusion powers per encounter, but only one per round.],
-        ),
-        traits: "Arcane, Healing",
-      );
-
-      #powers.power(
-        title: "Healing Infusion: Resistive Formula",
-        description: "You channel the energy of your infusion into your target's armor, providing lasting protection.",
-        type: powers.powerType.encounter,
-        range: "Close burst 5",
-        action: powers.actionType.minor,
-        target: "You or one ally in the burst",
-        isSpecial: true,
-        additionalRows: (
-          [*Effect:* The target gains a +1 power bonus to AC until the end of the encounter, and you expend an infusion crafted with your Healing Infusion class feature. The target can end the bonus as a free action to gain temporary hit points equal to its healing surge value + your Constitution. #linebreak()
-
-            *Level 11:* Close Burst 10 & Temporary hit points equal to the target's healing surge value + twice your Constitution. #linebreak()
-            *Level 21:* Close Burst 15 & Temporary hit points equal to the target's healing surge value + three times your Constitution.
-          ],
-          [*Special:* You can use two Healing Infusion powers per encounter, but only one per round. At 16th level, you can use three Healing Infusion powers per encounter, but only one per round.],
-        ),
-        traits: "Arcane",
-      );
     ];
 
-    #classFeatures[
-      = Techniques
-      You master the Alchemical Creation and Brew Potion techniques and gain the Technique Master feat.
+    #classes.classFeatures[
+      #content.feature("modern4e.feature.artificer-techniques")
+
       = Powers
-      You may choose 2 At-Will, 1 Encounter and 2 Daily #className Powers.
+
+      #content.initialPowerText(classData)
 
 
-      #powerLinks(className: className);
+      #classes.powerLinks(className: className);
+
     ]
 
     #set page(columns: 1)

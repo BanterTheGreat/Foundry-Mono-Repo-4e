@@ -1,0 +1,258 @@
+{
+  "schemaVersion": 2,
+  "powers": [
+    {
+      "id": "modern4e.power.artificer-healing-infusion-curative-admixture",
+      "title": "Healing Infusion: Curative Admixture",
+      "description": "The target regains hit points equal to its healing surge value + your Wisdom, and you expend an infusion crafted with your Healing Infusion class feature.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.artificer",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "ARCANE",
+        "HEALING"
+      ],
+      "choices": [],
+      "flavor": "You use the magic of your infusion to heal the wounds of your target.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 2,
+                  "byLevel": [
+                    {
+                      "atLevel": 16,
+                      "value": 3
+                    }
+                  ]
+                },
+                "poolId": "modern4e.resource.artificer-healing-infusion"
+              },
+              {
+                "period": "ROUND",
+                "maximum": {
+                  "base": 1
+                },
+                "poolId": "modern4e.resource.artificer-healing-infusion"
+              }
+            ],
+            "costs": [
+              "Expend one infusion created by Healing Infusion."
+            ],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You or one ally in the burst"
+            }
+          },
+          "range": {
+            "type": "CLOSE_BURST",
+            "origin": "self",
+            "size": {
+              "base": 5,
+              "byLevel": [
+                {
+                  "atLevel": 11,
+                  "value": 10
+                },
+                {
+                  "atLevel": 21,
+                  "value": 15
+                }
+              ]
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target regains hit points equal to its healing surge value + your Wisdom, and you expend an infusion crafted with your Healing Infusion class feature.",
+              "scaling": [
+                {
+                  "atLevel": 6,
+                  "text": "The target regains an extra 2 hit points."
+                },
+                {
+                  "atLevel": 11,
+                  "text": "Close Burst 10 & The target regains an extra 4 hit points."
+                },
+                {
+                  "atLevel": 16,
+                  "text": "Close Burst 10 & The target regains an extra 6 hit points."
+                },
+                {
+                  "atLevel": 21,
+                  "text": "Close Burst 15 & The target regains an extra 8 hit points."
+                },
+                {
+                  "atLevel": 26,
+                  "text": "Close Burst 15 & The target regains an extra 10 hit points."
+                }
+              ]
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Special",
+              "text": "You can use two Healing Infusion powers per encounter, but only one per round. At 16th level, you can use three Healing Infusion powers per encounter, but only one per round."
+            }
+          ],
+          "targets": "targets",
+          "special": true
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.artificer-healing-infusion-resistive-formula",
+      "title": "Healing Infusion: Resistive Formula",
+      "description": "The target gains a +1 power bonus to AC until the end of the encounter, and you expend an infusion crafted with your Healing Infusion class feature. The target can end the bonus as a free action to gain temporary hit points equal to its healing surge value + your Constitution.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.artificer",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "ARCANE"
+      ],
+      "choices": [],
+      "flavor": "You channel the energy of your infusion into your target's armor, providing lasting protection.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 2,
+                  "byLevel": [
+                    {
+                      "atLevel": 16,
+                      "value": 3
+                    }
+                  ]
+                },
+                "poolId": "modern4e.resource.artificer-healing-infusion"
+              },
+              {
+                "period": "ROUND",
+                "maximum": {
+                  "base": 1
+                },
+                "poolId": "modern4e.resource.artificer-healing-infusion"
+              }
+            ],
+            "costs": [
+              "Expend one infusion created by Healing Infusion."
+            ],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You or one ally in the burst"
+            }
+          },
+          "range": {
+            "type": "CLOSE_BURST",
+            "origin": "self",
+            "size": {
+              "base": 5,
+              "byLevel": [
+                {
+                  "atLevel": 11,
+                  "value": 10
+                },
+                {
+                  "atLevel": 21,
+                  "value": 15
+                }
+              ]
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target gains a +1 power bonus to AC until the end of the encounter, and you expend an infusion crafted with your Healing Infusion class feature. The target can end the bonus as a free action to gain temporary hit points equal to its healing surge value + your Constitution.",
+              "scaling": [
+                {
+                  "atLevel": 11,
+                  "text": "Close Burst 10 & Temporary hit points equal to the target's healing surge value + twice your Constitution."
+                },
+                {
+                  "atLevel": 21,
+                  "text": "Close Burst 15 & Temporary hit points equal to the target's healing surge value + three times your Constitution."
+                }
+              ]
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Special",
+              "text": "You can use two Healing Infusion powers per encounter, but only one per round. At 16th level, you can use three Healing Infusion powers per encounter, but only one per round."
+            }
+          ],
+          "targets": "targets",
+          "special": true
+        }
+      ]
+    }
+  ]
+}

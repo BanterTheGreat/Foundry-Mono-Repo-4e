@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "classes": [
+    {
+      "id": "modern4e.class.shaman",
+      "title": "Shaman",
+      "description": "Shaman is a Wisdom-based Primal Leader. Your spirit companion acts almost as another member of the party, aiding your allies while letting you act on a wider range of the battle field than most other Leaders. Depending on the type of spirit companion you have, you may help your allies do extra damage, heal more, stop enemy movement, or grant extra attacks.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "flavor": {
+        "quote": "The spirits surround us, guide us, and hold all the knowledge of the world.",
+        "introduction": [
+          "Shamans command powerful spirit guides, and through them lead their allies. These nature spirits bolster their allies' attacks and offer protection and healing when needed. In a rite of passage or initiation, you pledged yourself to the spirits, to be their voice and hands in the world. Through ancient song and sacred ceremony, you have called a powerful spirit companion to your side. The primal spirits of nature affirm your will, guide the actions of your allies, and deal mighty attacks against your foes. You might be a venerable advisor to a tribal leader, a young traveler seeking to bring tales of a wider world back to your people, or a scholar devoted to the pursuit of nearly forgotten lore.",
+          "The spirits and voices of nature guide your every step. Their power flows through you, calling you to lead, to fight, and to triumph."
+        ],
+        "gameplay": "Shaman is a Wisdom-based *Primal Leader*. Your spirit companion acts almost as another member of the party, aiding your allies while letting you act on a wider range of the battle field than most other Leaders. Depending on the type of spirit companion you have, you may help your allies do extra damage, heal more, stop enemy movement, or grant extra attacks."
+      },
+      "role": "LEADER",
+      "powerSources": [
+        "PRIMAL"
+      ],
+      "ruleIds": [],
+      "grants": [
+        {
+          "id": "shaman-companion-spirit",
+          "entryId": "modern4e.feature.shaman-companion-spirit",
+          "atLevel": 1
+        },
+        {
+          "id": "shaman-healing-spirit",
+          "entryId": "modern4e.feature.shaman-healing-spirit",
+          "atLevel": 1
+        },
+        {
+          "id": "shaman-primal-attunement",
+          "entryId": "modern4e.feature.shaman-primal-attunement",
+          "atLevel": 1
+        }
+      ],
+      "statistics": {
+        "defenses": {
+          "FORTITUDE": 12,
+          "REFLEX": 11,
+          "WILL": 12
+        },
+        "health": {
+          "base": 17,
+          "perLevel": 5,
+          "constitutionMultiplier": 2
+        },
+        "healingSurges": {
+          "base": 7,
+          "constitutionMultiplier": 1
+        }
+      },
+      "abilities": {
+        "main": [
+          "WISDOM"
+        ],
+        "secondary": [
+          "CONSTITUTION",
+          "INTELLIGENCE"
+        ]
+      },
+      "proficiencies": {
+        "armor": [
+          "CLOTH",
+          "LEATHER"
+        ],
+        "shields": [],
+        "weapons": [
+          "SIMPLE_MELEE",
+          "SIMPLE_RANGED"
+        ],
+        "implements": [
+          "STAFF",
+          "TOTEM"
+        ]
+      }
+    }
+  ]
+}

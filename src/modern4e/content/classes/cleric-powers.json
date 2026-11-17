@@ -1,0 +1,663 @@
+{
+  "schemaVersion": 2,
+  "powers": [
+    {
+      "id": "modern4e.power.cleric-healing-word",
+      "title": "Healing Word",
+      "description": "The target can spend a healing surge and regain 1d6 additional hit points.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented.",
+          "The local Special row says three uses per round at level 16, conflicting with its earlier encounter/round limits. This wording is preserved without inventing a structured resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.cleric",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "HEALING"
+      ],
+      "choices": [],
+      "flavor": "You utter a soothing word that mends wounds of the body and spirit.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You or one ally in the burst"
+            }
+          },
+          "range": {
+            "type": "CLOSE_BURST",
+            "origin": "self",
+            "size": {
+              "base": 5,
+              "byLevel": [
+                {
+                  "atLevel": 11,
+                  "value": 10
+                },
+                {
+                  "atLevel": 21,
+                  "value": 15
+                }
+              ]
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target can spend a healing surge and regain 1d6 additional hit points.",
+              "scaling": [
+                {
+                  "atLevel": 6,
+                  "text": "2d6 additional hit points."
+                },
+                {
+                  "atLevel": 11,
+                  "text": "Close Burst 10 & 3d6 additional hit points."
+                },
+                {
+                  "atLevel": 16,
+                  "text": "Close Burst 10 & 4d6 additional hit points."
+                },
+                {
+                  "atLevel": 21,
+                  "text": "Close Burst 15 & 5d6 additional hit points."
+                },
+                {
+                  "atLevel": 26,
+                  "text": "Close Burst 15 & 6d6 additional hit points."
+                }
+              ]
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Special",
+              "text": "You can use this power twice per encounter, but only once per round. At 16th level, you can use this power three times per round."
+            }
+          ],
+          "targets": "targets",
+          "special": true
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.cleric-favor-of-the-gods",
+      "title": "Favor of the Gods",
+      "description": "The next time the target misses with an attack roll before the end of your next turn, it can reroll that attack roll. It must use the new result, even if it is lower.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.cleric",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "CHANNEL_DIVINITY",
+        "DIVINE"
+      ],
+      "choices": [],
+      "flavor": "When luck runs against you, you beseech the gods for aid to turn chance in your favor.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                },
+                "poolId": "modern4e.resource.channel-divinity"
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One creature in the burst"
+            }
+          },
+          "range": {
+            "type": "CLOSE_BURST",
+            "origin": "self",
+            "size": {
+              "base": 3
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The next time the target misses with an attack roll before the end of your next turn, it can reroll that attack roll. It must use the new result, even if it is lower."
+            }
+          ],
+          "targets": "targets"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.cleric-punish-the-profane",
+      "title": "Punish the Profane",
+      "description": "Make the secondary attack.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.cleric",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "CHANNEL_DIVINITY",
+        "DIVINE",
+        "RADIANT",
+        "WEAPON"
+      ],
+      "choices": [],
+      "flavor": "You channel divine energy into your weapon, causing it to release a burst of radiance when you strike an undead foe.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                },
+                "poolId": "modern4e.resource.channel-divinity"
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One undead creature"
+            }
+          },
+          "range": {
+            "type": "MELEE",
+            "origin": "self",
+            "distance": "WEAPON"
+          },
+          "blocks": [
+            {
+              "id": "attack",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "MELEE",
+                "origin": "self",
+                "distance": "WEAPON"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-1",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength radiant damage, and the target is immobilized until the end of your next turn.",
+                        "scaling": [
+                          {
+                            "atLevel": 11,
+                            "text": "3[W] damage."
+                          },
+                          {
+                            "atLevel": 21,
+                            "text": "4[W] damage."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Make the secondary attack."
+            },
+            {
+              "id": "row-3",
+              "type": "effect",
+              "label": "Channel Divinity",
+              "text": "You can use only one channel divinity power per encounter"
+            }
+          ],
+          "targets": "targets"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.cleric-punish-the-profane-secondary-attack",
+      "title": "Punish the Profane Secondary Attack",
+      "description": "Punish the Profane Secondary Attack",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.cleric",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "NO_ACTION",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Each undead enemy in the burst other than the primary target"
+            }
+          },
+          "range": {
+            "type": "CLOSE_BURST",
+            "origin": "self",
+            "size": {
+              "base": 3
+            }
+          },
+          "blocks": [
+            {
+              "id": "attack",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. Will",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "CLOSE_BURST",
+                "origin": "self",
+                "size": {
+                  "base": 3
+                }
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-1",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "Charisma radiant damage. In addition, you push the secondary target a number of squares up to 3 + your Charisma"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets",
+          "special": true
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.turn-undead",
+      "title": "Turn Undead",
+      "description": "You can use only one channel divinity power per encounter",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.cleric",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "CHANNEL_DIVINITY",
+        "DIVINE",
+        "IMPLEMENT",
+        "RADIANT"
+      ],
+      "choices": [],
+      "flavor": "You sear undead foes, push them back, and root them in place.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                },
+                "poolId": "modern4e.resource.channel-divinity"
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Each undead creature in burst"
+            }
+          },
+          "range": {
+            "type": "CLOSE_BURST",
+            "origin": "self",
+            "size": {
+              "base": 2,
+              "byLevel": [
+                {
+                  "atLevel": 11,
+                  "value": 3
+                },
+                {
+                  "atLevel": 21,
+                  "value": 5
+                }
+              ]
+            }
+          },
+          "blocks": [
+            {
+              "id": "attack",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Will",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "CLOSE_BURST",
+                "origin": "self",
+                "size": {
+                  "base": 2,
+                  "byLevel": [
+                    {
+                      "atLevel": 11,
+                      "value": 3
+                    },
+                    {
+                      "atLevel": 21,
+                      "value": 5
+                    }
+                  ]
+                }
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-1",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1d10 + Wisdom radiant damage, and you push the target a number of squares up to 3 + your Charisma. The target is immobilized until the end of your next turn.",
+                        "scaling": [
+                          {
+                            "atLevel": 11,
+                            "text": "2d10 + Wisdom radiant damage."
+                          },
+                          {
+                            "atLevel": 21,
+                            "text": "3d10 + Wisdom radiant damage."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Channel Divinity",
+              "text": "You can use only one channel divinity power per encounter"
+            }
+          ],
+          "targets": "targets"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.healers-mercy",
+      "title": "Healer's Mercy",
+      "description": "Each target can spend a healing surge. You are weakened until the end of your next turn.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.cleric",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "CHANNEL_DIVINITY",
+        "DIVINE",
+        "HEALING"
+      ],
+      "choices": [],
+      "flavor": "Strength flows out from you to your injured comrades, rekindling their resolve to see the battle to its end.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                },
+                "poolId": "modern4e.resource.channel-divinity"
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Each bloodied ally in the burst"
+            }
+          },
+          "range": {
+            "type": "CLOSE_BURST",
+            "origin": "self",
+            "size": {
+              "base": 5
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Each target can spend a healing surge. You are weakened until the end of your next turn."
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Channel Divinity",
+              "text": "You can use only one channel divinity power per encounter"
+            }
+          ],
+          "targets": "targets"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "classes": [
+    {
+      "id": "modern4e.class.bard",
+      "title": "Bard",
+      "description": "Bard is a Charisma-based Arcane Leader. Inspire allies and annoy enemies with song. Your spells inspire and invigorate your allies. Kings of teammate mobility.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "flavor": {
+        "quote": "The clash of blades, a note. A battle fought, a verse. The hero’s war, a song.",
+        "introduction": [
+          "Bards are artists first and foremost, and they practice magic just as they practice song, drama, or poetry. They have a clear sense of how people perceive reality, so they master charm magic and some illusions. Sagas of great heroes are part of a bard's repertoire, and most bards follow the example of many fables and become skilled in a variety of fields. A bard's artistic ability, knowledge of lore, and arcane might are widely respected, particularly among the world's rulers.",
+          "Art and magic share a sublime beauty, and, as a bard, you seek the place where the two meet. You might be a naturally talented wanderer who casts impressive spells almost instinctively, a student of a bardic college who learned ordered systems of magic and epic poetry, a warrior skald who mixes skill at arms with thundering music, a dashing performer known for putting on a good show even for your enemies, or a perfectionist who seeks the consummate formula that blends art and magic into a higher force."
+        ],
+        "gameplay": "Bard is a Charisma-based *Arcane Leader*. Inspire allies and annoy enemies with song. Your spells inspire and invigorate your allies. Kings of teammate mobility."
+      },
+      "role": "LEADER",
+      "powerSources": [
+        "ARCANE"
+      ],
+      "ruleIds": [],
+      "grants": [
+        {
+          "id": "bard-majestic-word",
+          "entryId": "modern4e.feature.bard-majestic-word",
+          "atLevel": 1
+        },
+        {
+          "id": "bard-virtuosic-virtue",
+          "entryId": "modern4e.feature.bard-virtuosic-virtue",
+          "atLevel": 1
+        },
+        {
+          "id": "bard-techniques",
+          "entryId": "modern4e.feature.bard-techniques",
+          "atLevel": 1
+        }
+      ],
+      "statistics": {
+        "defenses": {
+          "FORTITUDE": 11,
+          "REFLEX": 12,
+          "WILL": 12
+        },
+        "health": {
+          "base": 17,
+          "perLevel": 5,
+          "constitutionMultiplier": 2
+        },
+        "healingSurges": {
+          "base": 7,
+          "constitutionMultiplier": 1
+        }
+      },
+      "abilities": {
+        "main": [
+          "CHARISMA"
+        ],
+        "secondary": [
+          "CONSTITUTION",
+          "INTELLIGENCE"
+        ]
+      },
+      "proficiencies": {
+        "armor": [
+          "LIGHT",
+          "CHAINMAIL"
+        ],
+        "shields": [
+          "LIGHT_SHIELD"
+        ],
+        "weapons": [
+          "SIMPLE_MELEE",
+          "SIMPLE_RANGED",
+          "MILITARY_MELEE",
+          "MILITARY_RANGED"
+        ],
+        "implements": [
+          "WAND"
+        ]
+      }
+    }
+  ]
+}

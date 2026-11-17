@@ -1,0 +1,1017 @@
+{
+  "schemaVersion": 2,
+  "powers": [
+    {
+      "id": "modern4e.power.shaman-call-spirit-companion",
+      "title": "Call Spirit Companion",
+      "description": "You conjure your spirit companion in an unoccupied square in the burst. The spirit lasts until you fall unconscious or until you dismiss it as a minor action.\n\nThe spirit occupies 1 square. Enemies cannot move through its space, but allies can. When you take a move action, you can also move the spirit a number of squares equal to your speed.\n\nThe spirit can be targeted by melee or ranged attacks, although it lacks hit points. Whenever your spirit companion is targeted by a melee or ranged attack you make a saving throw, with a +2 bonus if the attacker is a minion. On a failure, the spirit disappears, and you take damage equal to 5 + one-half your level. Otherwise, the spirit is unaffected by the attack.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.shaman",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "CONJURATION",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "CLOSE_BURST",
+            "origin": "self",
+            "size": {
+              "base": 20,
+              "byLevel": [
+                {
+                  "atLevel": 21,
+                  "value": 50
+                }
+              ]
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You conjure your spirit companion in an unoccupied square in the burst. The spirit lasts until you fall unconscious or until you dismiss it as a minor action.\n\nThe spirit occupies 1 square. Enemies cannot move through its space, but allies can. When you take a move action, you can also move the spirit a number of squares equal to your speed.\n\nThe spirit can be targeted by melee or ranged attacks, although it lacks hit points. Whenever your spirit companion is targeted by a melee or ranged attack you make a saving throw, with a +2 bonus if the attacker is a minion. On a failure, the spirit disappears, and you take damage equal to 5 + one-half your level. Otherwise, the spirit is unaffected by the attack."
+            }
+          ],
+          "requirement": "Your spirit companion must not be present."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.shaman-spirits-wrath",
+      "title": "Spirit’s Wrath",
+      "description": "Spirit’s Wrath",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.shaman",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "ELEMENTAL",
+        "IMPLEMENT",
+        "PRIMAL",
+        "SPIRIT",
+        "VARIES"
+      ],
+      "choices": [],
+      "flavor": "Burning hatred drives your spirit to smash into your enemy.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "OPPORTUNITY",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "spirit": {
+              "kind": "ENTITY",
+              "text": "Your spirit companion; attacks use your Wisdom, with line of sight/effect from the spirit."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "The triggering enemy"
+            }
+          },
+          "range": {
+            "type": "MELEE",
+            "origin": "spirit",
+            "distance": {
+              "base": 1
+            }
+          },
+          "blocks": [
+            {
+              "id": "attack",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "MELEE",
+                "origin": "spirit",
+                "distance": {
+                  "base": 1
+                }
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-1",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1d6 + Wisdom acid, cold, fire, lightning, or thunder damage, and the target grants combat advantage until the end of your next turn.",
+                        "scaling": [
+                          {
+                            "atLevel": 21,
+                            "text": "2d6 + Wisdom damage."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets",
+          "trigger": "An enemy leaves a square adjacent to your spirit companion without shifting."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.shaman-spirits-fangs",
+      "title": "Spirit’s Fangs",
+      "description": "Spirit’s Fangs",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.shaman",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "IMPLEMENT",
+        "PRIMAL",
+        "SPIRIT"
+      ],
+      "choices": [],
+      "flavor": "When an enemy drops its guard, your spirit companion leaps on it, claws and fangs bared.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "OPPORTUNITY",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "spirit": {
+              "kind": "ENTITY",
+              "text": "Your spirit companion; attacks use your Wisdom, with line of sight/effect from the spirit."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "The triggering enemy"
+            }
+          },
+          "range": {
+            "type": "MELEE",
+            "origin": "spirit",
+            "distance": {
+              "base": 1
+            }
+          },
+          "blocks": [
+            {
+              "id": "attack",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Reflex",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "MELEE",
+                "origin": "spirit",
+                "distance": {
+                  "base": 1
+                }
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-1",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1d10 + Wisdom damage.",
+                        "scaling": [
+                          {
+                            "atLevel": 21,
+                            "text": "2d10 + Wisdom damage."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets",
+          "trigger": "An enemy leaves a square adjacent to your spirit companion without shifting."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.shaman-spirits-prey",
+      "title": "Spirit’s Prey",
+      "description": "One ally within 10 squares of your spirit companion can make a basic attack against the target as a free action. This basic attack deals extra damage equal to your *Dexterity*.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.shaman",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "PRIMAL",
+        "SPIRIT"
+      ],
+      "choices": [],
+      "flavor": "Your spirit companion lashes out at a moving foe, and an ally uses the distraction to fire on that enemy.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "OPPORTUNITY",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "spirit": {
+              "kind": "ENTITY",
+              "text": "Your spirit companion; attacks use your Wisdom, with line of sight/effect from the spirit."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "The triggering enemy"
+            }
+          },
+          "range": {
+            "type": "MELEE",
+            "origin": "spirit",
+            "distance": {
+              "base": 1
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "One ally within 10 squares of your spirit companion can make a basic attack against the target as a free action. This basic attack deals extra damage equal to your *Dexterity*.",
+              "scaling": [
+                {
+                  "atLevel": 21,
+                  "text": "One ally within 20 squares."
+                }
+              ]
+            }
+          ],
+          "targets": "targets",
+          "trigger": "An enemy leaves a square adjacent to your spirit companion without shifting."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.shaman-worlds-speaker-command",
+      "title": "World’s Speaker Command",
+      "description": "You can slide one other creature within 3 squares of your spirit companion 1 square.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.shaman",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "IMPLEMENT",
+        "PRIMAL",
+        "SPIRIT"
+      ],
+      "choices": [],
+      "flavor": "The voices and growls of primal spirits cascade on your foe, stopping it in its tracks.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "OPPORTUNITY",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "spirit": {
+              "kind": "ENTITY",
+              "text": "Your spirit companion; attacks use your Wisdom, with line of sight/effect from the spirit."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "The triggering enemy"
+            }
+          },
+          "range": {
+            "type": "MELEE",
+            "origin": "spirit",
+            "distance": {
+              "base": 1
+            }
+          },
+          "blocks": [
+            {
+              "id": "attack",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Will",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "MELEE",
+                "origin": "spirit",
+                "distance": {
+                  "base": 1
+                }
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-1",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "The target stops moving and must use a different action to resume moving."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You can slide one other creature within 3 squares of your spirit companion 1 square.",
+              "scaling": [
+                {
+                  "atLevel": 21,
+                  "text": "You can slide one other creature within 5 squares of your spirit companion up to 2 squares."
+                }
+              ]
+            }
+          ],
+          "targets": "targets",
+          "trigger": "An enemy leaves a square adjacent to your spirit companion without shifting."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.shaman-healing-spirit",
+      "title": "Healing Spirit",
+      "description": "The target can spend a healing surge. If the target does so, one ally adjacent to your spirit companion, other than the target, regains hit points equal to your Wisdom.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.shaman",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "HEALING",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 2,
+                  "byLevel": [
+                    {
+                      "atLevel": 16,
+                      "value": 3
+                    }
+                  ]
+                }
+              },
+              {
+                "period": "ROUND",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [
+              "The target may spend a healing surge as described by the Effect."
+            ],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You or one ally in the burst"
+            }
+          },
+          "range": {
+            "type": "CLOSE_BURST",
+            "origin": "self",
+            "size": {
+              "base": 5,
+              "byLevel": [
+                {
+                  "atLevel": 11,
+                  "value": 10
+                },
+                {
+                  "atLevel": 21,
+                  "value": 15
+                }
+              ]
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target can spend a healing surge. If the target does so, one ally adjacent to your spirit companion, other than the target, regains hit points equal to your Wisdom.",
+              "scaling": [
+                {
+                  "atLevel": 6,
+                  "text": "+1d6 hit points."
+                },
+                {
+                  "atLevel": 11,
+                  "text": "Close Burst 10 & 2d6 additional hit points."
+                },
+                {
+                  "atLevel": 16,
+                  "text": "Close Burst 10 & 3d6 additional hit points."
+                },
+                {
+                  "atLevel": 21,
+                  "text": "Close Burst 15 & one ally within 2 squares of your spirit companion other than the target regains Wisdom + 4d6 hit points."
+                },
+                {
+                  "atLevel": 26,
+                  "text": "Close Burst 15 & one ally within 2 squares of your spirit companion other than the target regains Wisdom + 5d6 hit points."
+                }
+              ]
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Special",
+              "text": "You can use this power twice per encounter, but only once per round. At 16th level, you can use this power three times per encounter, but only once per round."
+            }
+          ],
+          "targets": "targets",
+          "special": true
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.shaman-air-spirit",
+      "title": "Air Spirit",
+      "description": "You conjure an air spirit in an unoccupied square within range. The spirit lasts until the end of your next turn or until you use this power again. When the spirit appears, it can pick up or manipulate an object weighing 20 pounds or less.\n\nAs a minor action, you cause the spirit to pick up or manipulate a different object of the specified weight. As a move action, you move the spirit up to 5 squares. As a free action, you cause the spirit to drop an object it is holding.\n\nAs a minor action, you cause the spirit to shed bright light in a 4-square radius. You can extinguish this light as a free action.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.shaman",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "CONJURATION",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "flavor": "With a flick of your fingers, the air stirs before you to lift objects with ease.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "RANGED",
+            "origin": "self",
+            "distance": {
+              "base": 5,
+              "byLevel": [
+                {
+                  "atLevel": 21,
+                  "value": 10
+                }
+              ]
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You conjure an air spirit in an unoccupied square within range. The spirit lasts until the end of your next turn or until you use this power again. When the spirit appears, it can pick up or manipulate an object weighing 20 pounds or less.\n\nAs a minor action, you cause the spirit to pick up or manipulate a different object of the specified weight. As a move action, you move the spirit up to 5 squares. As a free action, you cause the spirit to drop an object it is holding.\n\nAs a minor action, you cause the spirit to shed bright light in a 4-square radius. You can extinguish this light as a free action."
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Sustain Minor",
+              "text": "The spirit persists until the end of your next turn."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.shaman-call-the-spirits",
+      "title": "Call the Spirits",
+      "description": "You use this power to produce one of the following effects:\n\n- Cause one candle, torch, lantern, or campfire in the burst to burn more brightly, increasing the radius of its illumination by 1. - Open or close a door in the burst that is not latched, locked, or stuck. - Create a light gust of wind that can blow small, unattended objects in the burst that weigh less than 1 pound to any other location in the burst. - Create sparks from your fingertips that can light one candle, torch, or campfire in the burst.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.shaman",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "PRIMAL"
+      ],
+      "choices": [],
+      "flavor": "The greatest of the primal spirits boast a level of power that you can only dream of one day gaining access to. However, even the least of the spirits can prove useful in your everyday life.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "CLOSE_BURST",
+            "origin": "self",
+            "size": {
+              "base": 5,
+              "byLevel": [
+                {
+                  "atLevel": 21,
+                  "value": 10
+                }
+              ]
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You use this power to produce one of the following effects:\n\n- Cause one candle, torch, lantern, or campfire in the burst to burn more brightly, increasing the radius of its illumination by 1.\n- Open or close a door in the burst that is not latched, locked, or stuck.\n- Create a light gust of wind that can blow small, unattended objects in the burst that weigh less than 1 pound to any other location in the burst.\n- Create sparks from your fingertips that can light one candle, torch, or campfire in the burst."
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Special",
+              "text": "Nothing you do with this power can deal damage or hinder another creature's actions. This power cannot duplicate the effect of any other power."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.shaman-senses-of-the-wild",
+      "title": "Senses of the Wild",
+      "description": "You use this power to produce one of the following effects:\n\n- Automatically detect the presence of a disease or a diseased plant or creature in the burst. - Detect the presence or absence of a type of mundane plant or animal of your choice in the burst. - Until the end of the current turn, gain a +5 power bonus to checks to detect poison or hazards that deal poison damage in the burst. - Sense the presence of corpses in the burst.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.shaman",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "PRIMAL"
+      ],
+      "choices": [],
+      "flavor": "You close your eyes, so that you might sense the upheavals in the balance of nature that otherwise cannot be seen.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "CLOSE_BURST",
+            "origin": "self",
+            "size": {
+              "base": 5,
+              "byLevel": [
+                {
+                  "atLevel": 21,
+                  "value": 10
+                }
+              ]
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You use this power to produce one of the following effects:\n\n- Automatically detect the presence of a disease or a diseased plant or creature in the burst.\n- Detect the presence or absence of a type of mundane plant or animal of your choice in the burst.\n- Until the end of the current turn, gain a +5 power bonus to checks to detect poison or hazards that deal poison damage in the burst.\n- Sense the presence of corpses in the burst."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.shaman-verdant-touch",
+      "title": "Verdant Touch",
+      "description": "You can turn difficult terrain in the burst into normal terrain until the end of your next turn, but only if the terrain is composed of grass, underbrush, vines, or similar growth and was not created by a power.\n\nYou can also use this power to cause plants in the burst to blossom with flowers and to cause small plants or grass in the burst to begin growing in barren terrain.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.shaman",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "PRIMAL"
+      ],
+      "choices": [],
+      "flavor": "You lay your hands on the flora that surrounds you, granting it a momentary semblance of life as it shifts and grows at your command.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "CLOSE_BURST",
+            "origin": "self",
+            "size": {
+              "base": 1,
+              "byLevel": [
+                {
+                  "atLevel": 11,
+                  "value": 2
+                },
+                {
+                  "atLevel": 21,
+                  "value": 3
+                }
+              ]
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You can turn difficult terrain in the burst into normal terrain until the end of your next turn, but only if the terrain is composed of grass, underbrush, vines, or similar growth and was not created by a power.\n\nYou can also use this power to cause plants in the burst to blossom with flowers and to cause small plants or grass in the burst to begin growing in barren terrain."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.shaman-vine-rope",
+      "title": "Vine Rope",
+      "description": "You draw a vine from the ground that is up to 50 feet in length. The vine functions as a silk rope and lasts until the end of the encounter or until you use this power again. You can cause the vine to vanish as a minor action.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.shaman",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "PRIMAL"
+      ],
+      "choices": [],
+      "flavor": "With a twist of your hands, you draw a fast-growing vine from the ground before you, then watch as it weaves itself into a resilient rope.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "PERSONAL"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You draw a vine from the ground that is up to 50 feet in length. The vine functions as a silk rope and lasts until the end of the encounter or until you use this power again. You can cause the vine to vanish as a minor action.",
+              "scaling": [
+                {
+                  "atLevel": 11,
+                  "text": "The vine is up to 500 feet in length."
+                },
+                {
+                  "atLevel": 21,
+                  "text": "The vine is up to 5000 feet in length."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

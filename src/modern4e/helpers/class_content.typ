@@ -3,6 +3,7 @@
 #import "class_reference.typ" as reference;
 #import "class_text.typ": classText;
 #import "powers.typ" as powers;
+#import "power_content.typ" as orderedPowers;
 
 #import "class_catalog.typ" as catalog;
 
@@ -41,38 +42,36 @@
   )
 }
 
-#let powerCard(power, fill: theme.rowStripes) = {
-  let range = power.range
-  let rangeText = if range.type == "PERSONAL" or range.type == "SPECIAL" {
-    display(range.type)
-  } else {
-    display(range.type) + " " + if type(range.distance) == str { lower(range.distance) } else { str(range.distance) }
-  }
-  let rows = power.rows.map(row => [
-    *#row.label:* #classText(row.text)
-    #for scale in row.at("scaling", default: ()) [
-      #linebreak()
-      *Level #scale.atLevel:* #classText(scale.text)
-    ]
-  ])
-  powers.power(
-    title: power.title,
-    description: power.at("flavor", default: none),
-    type: (AT_WILL: "At-Will", ENCOUNTER: "Encounter", DAILY: "Daily").at(power.usage),
-    action: powers.actionType.at((STANDARD: "standard", MOVE: "move", MINOR: "minor", FREE: "free", REACTION: "reaction", NO_ACTION: "noAction", IMMEDIATE_INTERRUPT: "immediateInterrupt", IMMEDIATE_REACTION: "immediateReaction", OPPORTUNITY: "opportunity").at(power.action)),
-    range: rangeText,
-    traits: power.keywords.map(display).join(", "),
-    trigger: power.at("trigger", default: none),
-    requirement: power.at("requirement", default: none),
-    target: power.at("target", default: none),
-    offenseStat: if "attack" in power { display(power.attack.ability) } else { none },
-    defenseStat: if "attack" in power { if power.attack.defense == "AC" { "AC" } else { display(power.attack.defense) } } else { none },
-    additionalRows: rows,
-    fill: fill,
-  )
-}
+#let powerCard = orderedPowers.powerCard
 
-#let featureBody(feature, fill: theme.rowStripes, showDescription: true) = {
+#let featureBody(feature, fill: theme.rowStripes, showDescription: true, sectionStart: 0, sectionEnd: none, optionStart: 0, optionEnd: none, onlyOptions: false) = {
+  let showOptions(choice) = {
+    let options = choice.source.entryIds
+    for id in options.slice(optionStart, if optionEnd == none { options.len() } else { optionEnd }) {
+      let option = entry(id)
+      theme.choiceBlock(title: option.title, body: featureBody(option, fill: theme.bgColor))
+    }
+  }
+  if onlyOptions {
+    for choice in feature.choices { showOptions(choice) }
+    return
+  }
+  if "sections" in feature {
+    let sections = feature.sections
+    for section in sections.slice(sectionStart, if sectionEnd == none { sections.len() } else { sectionEnd }) {
+      if section.type == "text" { classText(section.text); parbreak() }
+      else if section.type == "heading" { heading(section.title, level: 2) }
+      else if section.type == "grant" {
+        let grant = feature.grants.find(grant => grant.id == section.grantId)
+        let child = entry(grant.entryId)
+        if grant.entryId.starts-with("modern4e.power.") { powerCard(child, fill: fill) }
+        else { featureBody(child, fill: fill) }
+      } else if section.type == "choice" {
+        showOptions(feature.choices.find(choice => choice.id == section.choiceId))
+      }
+    }
+    return
+  }
   if showDescription {
     classText(feature.description)
     parbreak()
@@ -100,14 +99,18 @@
   }
 }
 
-#let feature(id) = {
+#let featureOptions(id, start: 0, end: none) = featureBody(entry(id), optionStart: start, optionEnd: end, onlyOptions: true)
+#let featureSections(id, start: 0, end: none, optionEnd: none, fill: theme.rowStripes) = featureBody(entry(id), sectionStart: start, sectionEnd: end, optionEnd: optionEnd, fill: fill)
+
+#let feature(id, sectionEnd: none, optionEnd: none) = {
   let value = entry(id)
   heading(value.title, level: 1)
   if "choices" in value {
     let count = value.choices.first().count
     theme.buildChoiceHeader(prompt: if count == 1 { [Choose One] } else { [Choose #count] })
   }
-  featureBody(value)
+  if "sections" in value { featureSections(id, end: sectionEnd, optionEnd: optionEnd) }
+  else { featureBody(value) }
 }
 
 #let initialPowerText(class) = {

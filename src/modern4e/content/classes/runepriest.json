@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "classes": [
+    {
+      "id": "modern4e.class.runepriest",
+      "title": "Runepriest",
+      "description": "Runepriest is a Strength-based Divine Leader. Use runic sigils, remnants from the creation of the world, to call upon the powers of the gods and manifest spectacular effects. Excellent buffer of allies. One of the tankier Leaders. Can flexibly choose one of two modes for each power, Destruction or Protection, each one having a different effect and activating a different ongoing passive.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "flavor": {
+        "quote": "The divine runes of might are stronger than any steel, more dangerous than any spell.",
+        "introduction": [
+          "Isolated in sacred forges and holy libraries, runepriests seek to unlock the secrets of the runes of divine power. Legend holds that the gods crafted a set of powerful runes, each imbued with a core of divine power, to help create the world and give it order. During the long war against the primordials, many of these runes were lost. Even the gods only dimly recall the runes of power. Somewhere in the forgotten depths of a dungeon or the isolated corner of the planes, those ancient runes wait to be discovered. A runepriest can learn much in the peaceful halls of a temple, but sooner or later he or she must put on armor and go forth to find or create a new rune, and in so doing earn a name among the masters of rune magic.",
+          "You learned the art of rune smithing from your master. Perhaps you sweated over a forge deep within a dwarven stronghold, crafting weapons and armor for the faithful as part of your apprenticeship. Or you might have helped inscribe runes in the living wood of the forest, crafting signs to warn of approaching enemies. Along the way, you learned how to take inscribed runes and turn them into words and signs of power that you can incorporate into your prayers. But now, the time for learning is at an end. Now is the time for adventure.",
+          "Merge the runes of power with your weapons and armor. Call to the gods and channel their might against your enemies. The runes are your weapons, and the gods' foes await your judgment."
+        ],
+        "gameplay": "Runepriest is a Strength-based *Divine Leader*. Use runic sigils, remnants from the creation of the world, to call upon the powers of the gods and manifest spectacular effects. Excellent buffer of allies. One of the tankier Leaders. Can flexibly choose one of two modes for each power, Destruction or Protection, each one having a different effect and activating a different ongoing passive."
+      },
+      "role": "LEADER",
+      "powerSources": [
+        "DIVINE"
+      ],
+      "ruleIds": [],
+      "grants": [
+        {
+          "id": "runepriest-rune-master",
+          "entryId": "modern4e.feature.runepriest-rune-master",
+          "atLevel": 1
+        },
+        {
+          "id": "runepriest-rune-of-mending",
+          "entryId": "modern4e.feature.runepriest-rune-of-mending",
+          "atLevel": 1
+        },
+        {
+          "id": "runepriest-rune-artistry",
+          "entryId": "modern4e.feature.runepriest-rune-artistry",
+          "atLevel": 1
+        }
+      ],
+      "statistics": {
+        "defenses": {
+          "FORTITUDE": 11,
+          "REFLEX": 11,
+          "WILL": 13
+        },
+        "health": {
+          "base": 17,
+          "perLevel": 5,
+          "constitutionMultiplier": 2
+        },
+        "healingSurges": {
+          "base": 7,
+          "constitutionMultiplier": 1
+        }
+      },
+      "abilities": {
+        "main": [
+          "STRENGTH"
+        ],
+        "secondary": [
+          "CONSTITUTION",
+          "WISDOM"
+        ]
+      },
+      "proficiencies": {
+        "armor": [
+          "LIGHT",
+          "CHAINMAIL",
+          "SCALE"
+        ],
+        "shields": [
+          "LIGHT_SHIELD"
+        ],
+        "weapons": [
+          "SIMPLE_MELEE",
+          "SIMPLE_RANGED"
+        ],
+        "implements": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,356 @@
+{
+  "schemaVersion": 1,
+  "features": [
+    {
+      "id": "modern4e.feature.healers-lore",
+      "title": "Healer’s Lore",
+      "description": "When you let a creature spend a healing surge to regain hit points with one of your cleric powers that has the healing keyword, add your *Wisdom* to the hit points the recipient regains.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "When you let a creature spend a healing surge to regain hit points with one of your cleric powers that has the healing keyword, add your *Wisdom* to the hit points the recipient regains."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.cleric-battlepriest-s-lore",
+      "title": "Battlepriest's Lore",
+      "description": "You gain a +2 shield bonus to AC, and you have proficiency with scale armor. In addition, whenever you use a cleric healing power to allow a target to spend a healing surge, that target gains a +2 bonus to attack rolls until the end of your turn.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "You gain a +2 shield bonus to AC, and you have proficiency with scale armor. In addition, whenever you use a cleric healing power to allow a target to spend a healing surge, that target gains a +2 bonus to attack rolls until the end of your turn."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.cleric-lore",
+      "title": "Lore",
+      "description": "Some Cleric's specialised in the text of renewal and soothing, while others specialised in conquest and warfare. Choose one of the options below.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "choices": [
+        {
+          "id": "modern4e.choice.cleric-lore",
+          "title": "Lore",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 1,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.healers-lore",
+              "modern4e.feature.cleric-battlepriest-s-lore"
+            ]
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "Some Cleric's specialised in the text of renewal and soothing, while others specialised in conquest and warfare. Choose one of the options below."
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.cleric-lore"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.cleric-healing-word",
+      "title": "Healing Word",
+      "description": "Using the healing word power, clerics can grant their comrades additional resilience with nothing more than a short prayer.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "cleric-healing-word",
+          "entryId": "modern4e.power.cleric-healing-word",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "Using the healing word power, clerics can grant their comrades additional resilience with nothing more than a short prayer."
+        },
+        {
+          "type": "grant",
+          "grantId": "cleric-healing-word"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.cleric-channel-divinity",
+      "title": "Channel Divinity",
+      "description": "Once per encounter you can invoke divine power, filling yourself with the strength of your patron deity. With the divine strength you invoke you can wield special powers. You can also learn other uses for this feature; for instance, the divinity feats grant characters with access to the Channel Divinity class feature the ability to use additional special powers. *Regardless of how many different uses for Channel Divinity you know, you can use only one such ability per encounter.* The special ability or power you invoke works just like your other powers. You gain the Favor of the Gods Channel Divinity power.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "cleric-favor-of-the-gods",
+          "entryId": "modern4e.power.cleric-favor-of-the-gods",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "Once per encounter you can invoke divine power, filling yourself with the strength of your patron deity. With the divine strength you invoke you can wield special powers. You can also learn other uses for this feature; for instance, the divinity feats grant characters with access to the Channel Divinity class feature the ability to use additional special powers. *Regardless of how many different uses for Channel Divinity you know, you can use only one such ability per encounter.* The special ability or power you invoke works just like your other powers. You gain the Favor of the Gods Channel Divinity power."
+        },
+        {
+          "type": "grant",
+          "grantId": "cleric-favor-of-the-gods"
+        },
+        {
+          "type": "text",
+          "text": "Additionally, choose one of the Channel Divinity powers below:"
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.cleric-channel-divinity"
+        }
+      ],
+      "choices": [
+        {
+          "id": "modern4e.choice.cleric-channel-divinity",
+          "title": "Channel Divinity",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 1,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.cleric-punish-the-profane",
+              "modern4e.feature.cleric-turn-undead",
+              "modern4e.feature.cleric-healer-s-mercy"
+            ]
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.cleric-punish-the-profane",
+      "title": "Punish the Profane",
+      "description": "Punish the Profane",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "cleric-punish-the-profane",
+          "entryId": "modern4e.power.cleric-punish-the-profane",
+          "atLevel": 1
+        },
+        {
+          "id": "cleric-punish-the-profane-secondary-attack",
+          "entryId": "modern4e.power.cleric-punish-the-profane-secondary-attack",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "grant",
+          "grantId": "cleric-punish-the-profane"
+        },
+        {
+          "type": "grant",
+          "grantId": "cleric-punish-the-profane-secondary-attack"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.cleric-turn-undead",
+      "title": "Turn undead",
+      "description": "Turn undead",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "cleric-turn-undead",
+          "entryId": "modern4e.power.turn-undead",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "grant",
+          "grantId": "cleric-turn-undead"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.cleric-healer-s-mercy",
+      "title": "Healer's Mercy",
+      "description": "Healer's Mercy",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "cleric-healer-s-mercy",
+          "entryId": "modern4e.power.healers-mercy",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "grant",
+          "grantId": "cleric-healer-s-mercy"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.cleric-divine-technique",
+      "title": "Divine Technique",
+      "description": "You may choose a level 1 or 2 Divine Technique, you master it.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented.",
+          "Technique acquisition remains literal rules text pending the technique catalog; no technique choices or mastery are automatically applied."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "You may choose a level 1 or 2 Divine Technique, you master it."
+        }
+      ]
+    }
+  ]
+}

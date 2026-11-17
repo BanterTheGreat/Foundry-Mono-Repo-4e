@@ -5,6 +5,7 @@ modules. Class-specific choice and power data extend that vocabulary, rather
 than inferring rules from titles, descriptions or printed placement.
 """
 import argparse
+from functools import lru_cache
 import importlib.util
 import json
 from pathlib import Path
@@ -21,7 +22,7 @@ SHIELDS = ["LIGHT_SHIELD", "HEAVY_SHIELD"]
 WEAPONS = "SIMPLE_MELEE SIMPLE_RANGED MILITARY_MELEE MILITARY_RANGED SUPERIOR_MELEE SUPERIOR_RANGED DAGGER QUARTERSTAFF HAND_CROSSBOW SHORT_SWORD SLING STAFF MILITARY_LIGHT_BLADE MILITARY_HEAVY_BLADE".split()
 IMPLEMENTS = "HOLY_SYMBOL ORB STAFF WAND TOME ROD DAGGER TOTEM LIGHT_BLADE HEAVY_BLADE".split()
 GROUPS = "AXE FLAIL HAMMER HEAVY_BLADE LIGHT_BLADE MACE PICK POLEARM SPEAR STAFF".split()
-KEYWORDS = shared.SOURCES + "WEAPON IMPLEMENT BEAST_FORM HEALING CONJURATION POLYMORPH SPIRIT ELEMENTAL VARIES ILLUSION SUMMONING RELIABLE INVIGORATING".split()
+KEYWORDS = shared.SOURCES + "WEAPON IMPLEMENT BEAST_FORM HEALING CONJURATION POLYMORPH SPIRIT ELEMENTAL VARIES ILLUSION SUMMONING RELIABLE INVIGORATING BARD".split()
 CATEGORIES = {"classes": "CLASS", "features": "FEATURE", "powers": "POWER", "rules": "RULE"}
 ACTIONS = "STANDARD MOVE MINOR FREE REACTION NO_ACTION IMMEDIATE_INTERRUPT IMMEDIATE_REACTION OPPORTUNITY".split()
 
@@ -174,7 +175,7 @@ def catalog(content=CONTENT):
     content = Path(content)
     inventory = shared.load_json(content / "catalog.json")
     fields(inventory, ["schemaVersion", "files", "references"], [], "catalog.json")
-    require(type(inventory["schemaVersion"]) is int and inventory["schemaVersion"] == 1, "catalog.json", "unsupported schema version")
+    require(type(inventory["schemaVersion"]) is int and inventory["schemaVersion"] == 2, "catalog.json", "unsupported schema version")
     fields(inventory["files"], list(CATEGORIES), [], "catalog.json.files")
     references = inventory["references"]
     require(isinstance(references, dict), "catalog.json.references", "expected object")
@@ -198,7 +199,8 @@ def catalog(content=CONTENT):
             paths.append(filename)
             data = shared.load_json(content / filename)
             fields(data, ["schemaVersion", envelope], [], filename)
-            require(type(data["schemaVersion"]) is int and data["schemaVersion"] == 1, filename, "unsupported schema version")
+            expected_version = 2 if envelope == "powers" else 1
+            require(type(data["schemaVersion"]) is int and data["schemaVersion"] == expected_version, filename, "unsupported schema version")
             array(data[envelope], filename, True)
             sections[filename] = []
             for i, entry in enumerate(data[envelope]):
@@ -227,9 +229,12 @@ def catalog(content=CONTENT):
     collections = {}
     for key, entry in entries.items():
         loc = locations[key]
+        if entry["category"] == "POWER":
+            validate_ordered_power(entry, entries, references)
+            continue
         optional = ["source", "note", "grants", "choices", "selectionModifiers", "collections"]
         extra = {"CLASS": ["flavor", "role", "powerSources", "abilities", "proficiencies", "statistics", "ruleIds"], "FEATURE": [], "POWER": ["usage", "action", "keywords", "range", "rows"], "RULE": []}[entry["category"]]
-        more = {"CLASS": [], "FEATURE": ["weaponAbilities"], "POWER": ["trigger", "target", "requirement", "attack", "flavor", "level", "powerKind"], "RULE": []}[entry["category"]]
+        more = {"CLASS": [], "FEATURE": ["weaponAbilities", "sections"], "POWER": ["trigger", "target", "requirement", "attack", "flavor", "level", "powerKind"], "RULE": []}[entry["category"]]
         fields(entry, ["id", "category", "title", "description", "access", "prerequisites", "selection", "coverage"] + extra, optional + more, loc)
         for name in ("title", "description", "source", "note"):
             if name in entry:
@@ -268,8 +273,6 @@ def catalog(content=CONTENT):
             collections[c["id"]] = c
         if entry["category"] == "CLASS":
             validate_class(entry, entries, references, loc)
-        elif entry["category"] == "POWER":
-            validate_power(entry, loc)
         if "weaponAbilities" in entry:
             array(entry["weaponAbilities"], loc, True)
             groups = []
@@ -279,6 +282,22 @@ def catalog(content=CONTENT):
                 enum(row["ability"], ABILITIES, loc)
                 groups.append(row["weaponGroup"])
             require(len(set(groups)) == len(groups), loc, "duplicate weapon group")
+        if "sections" in entry:
+            array(entry["sections"], loc, True)
+            linked_grants, linked_choices = [], []
+            for section in entry["sections"]:
+                require(isinstance(section, dict), loc, "expected feature section")
+                kind = section.get("type")
+                key = {"text": "text", "heading": "title", "grant": "grantId", "choice": "choiceId"}.get(kind)
+                require(key is not None, loc, "unknown feature section")
+                fields(section, ["type", key], [], loc)
+                string(section[key], loc)
+                if kind == "grant":
+                    linked_grants.append(section[key])
+                if kind == "choice":
+                    linked_choices.append(section[key])
+            require(sorted(linked_grants) == sorted(g["id"] for g in grants), loc, "sections must reference each grant exactly once")
+            require(sorted(linked_choices) == sorted(ch["id"] for ch in entry.get("choices", [])), loc, "sections must reference each choice exactly once")
     for ch in choices.values():
         for field in ("collection", "requiresCollection"):
             if field in ch:
@@ -301,7 +320,7 @@ def catalog(content=CONTENT):
                 enum(modifier["replacement"], ["FOLLOW_TARGET"], loc)
             constraints(modifier["constraints"], loc)
             validate_set_limits(modifier["constraints"], modifier["count"], choices[target]["source"], entries, references, loc)
-        for ch in entry.get("choices", []):
+        for ch in ([] if entry["category"] == "POWER" else entry.get("choices", [])):
             for field in ("collection", "requiresCollection"):
                 if field in ch:
                     require(ch[field] in collections, loc, "undeclared collection")
@@ -312,7 +331,7 @@ def catalog(content=CONTENT):
         for field in ("access", "prerequisites"):
             gaps += shared.unresolved_conditions(entry[field], references)
         targets = [g["entryId"] for g in entry.get("grants", [])] + entry.get("ruleIds", [])
-        for ch in entry.get("choices", []):
+        for ch in ([] if entry["category"] == "POWER" else entry.get("choices", [])):
             if ch["source"]["type"] == "entries":
                 targets += ch["source"]["entryIds"]
             else:
@@ -320,7 +339,24 @@ def catalog(content=CONTENT):
         gaps += [f"{target}: {references[target]['status']}" for target in targets if target in references]
         require(not gaps or entry["coverage"]["status"] != "SUPPORTED", locations[key], "unresolved or unimplemented content cannot claim SUPPORTED")
         limitations[key] = gaps
-    return {"schemaVersion": 1, "kind": "modern4e.class-authoring", "entries": [entries[k] for k in sorted(entries)], "references": references, "sections": sections, "advancement": advancement, "limitations": limitations}
+    return {"schemaVersion": 2, "kind": "modern4e.class-authoring", "entries": [entries[k] for k in sorted(entries)], "references": references, "sections": sections, "advancement": advancement, "limitations": limitations}
+
+
+def validate_ordered_power(entry, entries, references):
+    """Use the shared ordered-power validator without interpreting combat rules."""
+    module = ordered_power_validator()
+    authored = {key: value for key, value in entry.items() if key != "category"}
+    module.validate_power(authored, {**references, **entries})
+    require(authored["rulesProfile"] == "MODERN4E", entry["id"], "class catalog requires authored Modern4e rules")
+
+
+@lru_cache(maxsize=1)
+def ordered_power_validator():
+    """Load the power contract once; the import stays lazy to avoid a cycle."""
+    spec = importlib.util.spec_from_file_location("ordered_power_content", Path(__file__).with_name("power_content.py"))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 def validate_class(entry, entries, references, loc):
@@ -351,43 +387,6 @@ def validate_class(entry, entries, references, loc):
     require(len(set(entry["ruleIds"])) == len(entry["ruleIds"]), loc, "duplicate rule reference")
 
 
-def validate_power(entry, loc):
-    enum(entry["usage"], USAGES, loc)
-    enum(entry["action"], ACTIONS, loc)
-    values(entry["keywords"], KEYWORDS, loc)
-    fields(entry["range"], ["type", "distance"], [], loc)
-    enum(entry["range"]["type"], ["MELEE", "RANGED", "CLOSE_BURST", "CLOSE_BLAST", "AREA_BURST", "PERSONAL", "SPECIAL"], loc)
-    distance = entry["range"]["distance"]
-    if isinstance(distance, str):
-        enum(distance, ["WEAPON", "SPECIAL"], loc)
-    else:
-        integer(distance, loc)
-    for key in ("trigger", "target", "requirement", "flavor"):
-        if key in entry:
-            string(entry[key], loc)
-    if "level" in entry:
-        integer(entry["level"], loc, 1, 30)
-    if "powerKind" in entry:
-        enum(entry["powerKind"], ["ATTACK", "UTILITY"], loc)
-    if "attack" in entry:
-        fields(entry["attack"], ["ability", "defense"], [], loc)
-        enum(entry["attack"]["ability"], ABILITIES + ["MAIN"], loc)
-        enum(entry["attack"]["defense"], ["AC", "FORTITUDE", "REFLEX", "WILL"], loc)
-    array(entry["rows"], loc, True)
-    for row in entry["rows"]:
-        fields(row, ["label", "text"], ["scaling"], loc)
-        enum(row["label"], ["Effect", "Hit", "Miss", "Special", "Sustain Minor", "Sustain Move", "Sustain Standard"], loc)
-        string(row["text"], loc)
-        array(row.get("scaling", []), loc)
-        levels = []
-        for scale in row.get("scaling", []):
-            fields(scale, ["atLevel", "text"], [], loc)
-            integer(scale["atLevel"], loc, 2, 30)
-            string(scale["text"], loc)
-            levels.append(scale["atLevel"])
-        require(levels == sorted(set(levels)), loc, "scaling levels must be unique and ordered")
-
-
 def validate_graph(entries, locations):
     """Reject recursive acquisition, including cycles through selectable children."""
     done, visiting = set(), set()
@@ -398,7 +397,7 @@ def validate_graph(entries, locations):
         visiting.add(key)
         entry = entries[key]
         targets = [g["entryId"] for g in entry.get("grants", [])]
-        targets += [k for ch in entry.get("choices", []) if ch["source"]["type"] == "entries" for k in ch["source"]["entryIds"]]
+        targets += [k for ch in ([] if entry["category"] == "POWER" else entry.get("choices", [])) if ch["source"]["type"] == "entries" for k in ch["source"]["entryIds"]]
         for target in targets:
             visit(target)
         visiting.remove(key)
