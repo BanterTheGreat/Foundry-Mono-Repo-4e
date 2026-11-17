@@ -1,6 +1,6 @@
 # Modern 4e Character Builder
 
-Standalone Modern 4e builder with a shared Kotlin core, web shell and Android shell. This project has no Foundry manifest and must never be deployed to Foundry. Shared contracts, portable JSON exchange, content production/catalog resolution, the levels 1-2 proof rules engine and import/recovery coordination are implemented. Character editing/UI workflows, platform persistence adapters and offline provisioning remain later work.
+Standalone Modern 4e builder with a shared Kotlin core, web shell and Android shell. This project has no Foundry manifest and must never be deployed to Foundry. Shared contracts, portable JSON exchange, content production/catalog resolution, the levels 1-2 proof rules engine and import/recovery coordination are implemented. Web IndexedDB, bundled content and file exchange adapters are implemented. Character editing/UI workflows, Android persistence adapters and offline provisioning remain later work.
 
 ## Layout and boundaries
 
@@ -73,7 +73,7 @@ Fingerprints are `sha256-v1:` plus lowercase SHA-256 of UTF-8 canonical JSON for
 
 `ContractResult.Available` carries a value and optional diagnostics; `Unavailable` requires diagnostics and has no value. Missing dependencies must propagate unavailable dependent totals, never zero. Diagnostic kinds distinguish unresolved content, incomplete automation, invalid selections, incompatible format and IO failure. `CalculatedValue` and its contributors are derived result data, never fields of a saved character. Manual adjustment contributors must use the label **Manual Adjustment**; a reason is optional.
 
-`ContentSource` lists bundled manifests and loads logical index/chunk IDs. `CharacterStore` distinguishes CREATE (fail if the ID exists) from REPLACE_WITH_RECOVERY, which atomically compares the complete expected document, preserves a durable recovery copy and publishes the new document. Failed recovery/write operations leave the prior live save intact. `listRecovery` discovers backups and `loadRecovery` retrieves `SaveReceipt.recoveryId`; backups are separate from ordinary characters. Reads return detached immutable snapshots and IO failures use structured results. `FileExchange` receives/delivers JSON; cancellation is an available null receive result. Platform adapters remain unimplemented. See [shared import and recovery](shared/IMPORT.md) for coordination APIs, restoration and the tested store contract.
+`ContentSource` lists bundled manifests and loads logical index/chunk IDs. `CharacterStore` distinguishes CREATE (fail if the ID exists) from REPLACE_WITH_RECOVERY, which atomically compares the complete expected document, preserves a durable recovery copy and publishes the new document. Failed recovery/write operations leave the prior live save intact. `listRecovery` discovers backups and `loadRecovery` retrieves `SaveReceipt.recoveryId`; backups are separate from ordinary characters. Reads return detached immutable snapshots and IO failures use structured results. `FileExchange` receives/delivers JSON; cancellation is an available null receive result. The web adapters implement these contracts; Android adapters remain separate work. See [shared import and recovery](shared/IMPORT.md) for coordination APIs, restoration and the tested store contract.
 
 The proof Fighter and small whole-entry override remain partial engineering fixtures rather than full Fighter automation. [The levels 1–2 proof](content/FIGHTER-PROOF.md) now supplies four portable sample characters, a coverage manifest, hand-checked ability/skill goldens and identical web/Android static bundles; its separately named test override adds +1 Medicine at level 2. Content production and catalog resolution are implemented; playable UI workflows and platform storage adapters remain later milestones. The JS smoke boundary remains available; character exchange uses the JSON wrappers below rather than exposing Kotlin collections.
 
@@ -199,3 +199,49 @@ and system document-picker interaction were not run: device discovery reports
 missing Android SDK Command-line Tools (latest). Reopen tests recreate adapter
 instances; process interruption is simulated by an abandoned staging file, not an
 OS process kill. Existing SDK XML/Gradle tooling warnings remain.
+
+## Browser IO adapters (#13)
+
+`web/src/adapters/` is independent of the shell UI. `IndexedDbCharacterStore.call`
+and `BundledContentSource.call` supply JSON result-envelope callbacks to generated
+`WebCharacterImporter` and `WebContentCatalog`. The Kotlin bridge adapts these to
+the unchanged shared interfaces; import decisions and catalog rules remain Kotlin.
+For example, create `new WebCharacterImporter(store.call, () => crypto.randomUUID())`,
+then call `BrowserFileExchange.inspectSelection(importer)` and explicitly commit
+its returned preview token/action. `inspectRecovery` uses the same workflow.
+Successful commits consume their token; failed commits leave it available for retry.
+
+The store exposes typed list/load/save/delete/listRecovery/loadRecovery methods.
+Its `operation(name, payload)` transport exposes list/load/save/delete/listRecovery/
+loadRecovery with the shared DTO shapes. Save payloads contain `document`, `mode`
+and optional `expected`. CREATE never overwrites. REPLACE_WITH_RECOVERY checks the
+complete normalized expected document within the same readwrite transaction that
+adds the backup and publishes the replacement. Both stores use strict durability;
+success is reported only at transaction completion. Any abort rolls back both
+writes. Reads are detached IndexedDB structured clones. Delete removes only the
+live save; recoveries remain discoverable and loadable, including after reload.
+There is no automatic recovery pruning. Browser/site-data eviction or deliberate
+clearing can remove the database; export remains the portable backup facility.
+
+Errors use unavailable envelopes: `store.quota`, `store.database`, `store.exists`,
+`store.conflict`, `store.missing`, `store.recoveryMissing`, `content.load`, and
+`exchange.read/select/download`. File chooser cancellation is available null.
+`exportCharacter` validates/encodes through Kotlin before dispatching a JSON Blob
+download. Download success means dispatch to the browser, which does not expose a
+reliable completion signal for the user's disk write. Content URL lookup is limited
+to generated bundled assets, with separate non-inlined entry files loaded only on
+catalog lookup. No caching, service worker or UI workflows are added here.
+
+Run `npm exec --prefix web -- playwright install chromium` once, then
+`npm run test:browser --prefix web`. The Chromium harness verifies actual IndexedDB,
+file input and download behavior with the compiled shared importer/catalog/codec.
+
+Validation on 2026-11-17: shared JVM and Node/JS suites passed 67 tests each;
+`:shared:jsBrowserProductionLibraryDistribution`, all 7 web boundary tests,
+TypeScript/Vite production build and all 9 Chromium adapter tests passed. The
+production build has a separate `adapters` entry and emits all eight bundled JSON
+assets without adding builder UI. CI now installs Chromium and runs the same suite;
+GitHub CI itself has not been run here. Local validation used JDK 21, Node 24.19.0,
+and an isolated `YARN_CACHE_FOLDER` after a parallel cache extraction conflict.
+Existing Kotlin npm configuration and source-map warnings remain. Android and
+Foundry runtime tests were not needed for these web-only adapters.

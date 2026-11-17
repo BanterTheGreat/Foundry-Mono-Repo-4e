@@ -30,6 +30,8 @@ jobs:
       - run: npm ci --prefix web
       - run: npm test --prefix web
       - run: npm run build --prefix web
+      - run: npm exec --prefix web -- playwright install --with-deps chromium
+      - run: npm run test:browser --prefix web
       - uses: actions/upload-artifact@v4
         with:
           name: character-builder-debug

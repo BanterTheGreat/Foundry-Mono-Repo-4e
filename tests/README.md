@@ -447,7 +447,7 @@ disabled dependencies/cycles, duplicate metadata/configurations, invalid chunks,
 internal references and unadapted-prerequisite diagnostics. Catalog behavior is shared Kotlin;
 there is no catalog UI or rules execution in this ticket.
 
-`CharacterImportTest` runs under the same shared JVM/JS commands. It exercises complete format validation before storage access, collision details/timestamps, explicit import/replace/copy/cancel actions, fresh IDs, atomic compare-and-recovery saves, stale previews, discoverable backups, safe restoration and read/recovery/save failures using a failing in-memory adapter. Platform adapters must satisfy the documented `CharacterStore` contract; file chooser UI and real IndexedDB/Android persistence belong to later tickets.
+`CharacterImportTest` runs under the same shared JVM/JS commands. It exercises complete format validation before storage access, collision details/timestamps, explicit import/replace/copy/cancel actions, fresh IDs, atomic compare-and-recovery saves, stale previews, discoverable backups, safe restoration and read/recovery/save failures using a failing in-memory adapter. Platform adapters must satisfy the documented `CharacterStore` contract; the browser suite below verifies real IndexedDB and browser exchange; Android persistence remains separate.
 
 `RulesEngineTest` and `EngineModifiersTest` use the same shared JVM/JS tasks. They cover current Modern 4e allocation budgets/caps/tradeoff, all skill mappings, explained proficiency sources, duplicate proficiency handling, grants/choices, eligibility and unsupported prerequisites, missing definitions/cycles, level-2 content, typed/untyped stacking, penalties, explicit base/floor operations, manual labels and unavailable/overflow results. Run unfiltered `:shared:jvmTest :shared:jsNodeTest` for cross-platform verification; Gradle `--tests` filtering may silently select zero Node/JS tests.
 
@@ -470,3 +470,25 @@ persistence, collision actions, stale comparisons, recovery restoration/retentio
 failed and interrupted publication, malformed storage, permissions/cancellation,
 and generated asset loading. Instrumentation compilation alone is not device execution.
 Fighter proof #15: `FighterProofTest` runs the four bundled portable samples on both JVM and JS against hand-checked ability/skill goldens, level-2 override isolation, source fingerprints, incomplete prerequisites and missing-supplier behavior. The Python sample tests verify coverage completeness and byte-identical web/Android bundles. Regenerate with `python -X utf8 src/character-builder/content/samples.py` after package generation; see [recorded inputs and limitations](../src/character-builder/content/FIGHTER-PROOF.md).
+
+### Character Builder browser adapters (#13)
+
+After generating the shared JS distribution and installing web dependencies, from
+`src/character-builder/`:
+
+```sh
+npm exec --prefix web -- playwright install chromium
+npm run test:browser --prefix web
+```
+
+Playwright starts and stops its own Vite server on port 4173. The isolated test
+harness lives under `web/browser/` and is not part of the application UI. Tests run
+the documented shared store behavioral contract against real Chromium IndexedDB,
+including detached reads, complete-document conflicts, concurrent creates,
+transaction rollback after recovery/publication failures, reload persistence and
+retained recovery copies. The actual generated Kotlin importer runs collision,
+copy, cancellation and restoration workflows through that adapter. Browser file
+selection/downloads exercise the shared codec; content tests exercise the shared
+catalog over generated JSON assets and distinguish asset failures. Injected quota
+and database failures are deterministic fault tests, not attempts to fill the host
+browser's disk. No Foundry or Android emulator is required.
