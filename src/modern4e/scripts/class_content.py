@@ -74,7 +74,7 @@ def constraints(rules, where):
         loc = f"{where}[{i}]"
         require(isinstance(rule, dict), loc, "expected constraint object")
         kind = rule.get("type")
-        if kind == "distinct":
+        if kind in ("distinct", "notKnown"):
             fields(rule, ["type"], [], loc)
         elif kind == "keywordCount":
             fields(rule, ["type", "keyword", "minimum", "maximum"], [], loc)
@@ -118,12 +118,17 @@ def choice_count(value, where, minimum=1):
 
 
 def choice(value, entries, references, where):
-    fields(value, ["id", "title", "kind", "atLevel", "count", "source", "constraints"], ["collection", "requiresCollection"], where)
+    fields(value, ["id", "title", "kind", "atLevel", "count", "source", "constraints"], ["collection", "requiresCollection", "replacementLevels"], where)
     shared.identity(value["id"], "CHOICE", where)
     string(value["title"], where)
     enum(value["kind"], ["ENTRY"], where)
     integer(value["atLevel"], where, 1, 30)
     choice_count(value["count"], where)
+    if "replacementLevels" in value:
+        array(value["replacementLevels"], where, True)
+        for level in value["replacementLevels"]:
+            integer(level, where, 1, 30)
+        require(value["replacementLevels"] == sorted(set(value["replacementLevels"])), where, "replacement levels must be unique and ordered")
     source = value["source"]
     require(isinstance(source, dict), where, "expected choice source")
     if source.get("type") == "entries":

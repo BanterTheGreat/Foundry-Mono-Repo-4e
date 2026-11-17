@@ -10,11 +10,11 @@ import class_runtime
 
 class ClassRuntimeTest(unittest.TestCase):
     def test_fighter_exact_runtime_golden_and_independent_choices(self):
-        assets = class_runtime.build(class_ids=["modern4e.class.fighter"])
+        assets = class_runtime.build(class_ids=["modern4e.class.fighter"], include_advancement=False)
         chunk = assets["modern4e.classes/entries.json"]
         golden = Path(__file__).parents[1] / "shared/fixtures/shared-fighter-chunk.json"
         self.assertEqual(json.loads(golden.read_text(encoding="utf-8")), chunk)
-        self.assertEqual(assets, class_runtime.build(class_ids=["modern4e.class.fighter"]))
+        self.assertEqual(assets, class_runtime.build(class_ids=["modern4e.class.fighter"], include_advancement=False))
         entries = {e["id"]: e for e in chunk["entries"]}
         fighter = entries["modern4e.class.fighter"]
         self.assertEqual(4, len(fighter["mechanics"]["grants"]))
@@ -35,12 +35,47 @@ class ClassRuntimeTest(unittest.TestCase):
         self.assertEqual(node, class_runtime.condition(node))
         self.assertEqual("unresolved", class_runtime.condition({"type": "size", "size": "SMALL"})["type"])
 
-    def test_unsupported_collections_and_queries_remain_explicit_and_lossless(self):
+    def test_collections_queries_and_overrides_compile_losslessly(self):
         chunk = class_runtime.build()["modern4e.classes/entries.json"]
         wizard = next(e for e in chunk["entries"] if e["sharedData"].get("collections"))
-        self.assertTrue(wizard["mechanics"]["unsupported"])
+        self.assertEqual(wizard["sharedData"]["collections"], wizard["mechanics"]["collections"])
+        self.assertTrue(wizard["mechanics"]["choices"][0]["query"])
         self.assertIn("collections", wizard["sharedData"])
         self.assertNotEqual("SUPPORTED", wizard["coverage"]["status"])
+
+    def test_shared_slots_mirror_authoritative_gain_events_through_level_ten(self):
+        catalog = class_runtime.authoring.catalog()
+        creation = json.loads((class_runtime.authoring.CONTENT.parent / "creation/standard.json").read_text(encoding="utf-8"))
+        slots = catalog["advancement"]["powerChoices"]
+        expected = [(row["level"], event["count"], event["powerKind"], event["usage"])
+                    for row in creation["levels"][:10] for event in row["events"]
+                    if event.get("category") == "POWER" and event["operation"] == "GAIN"]
+        actual = [(choice["atLevel"], choice["count"], choice["source"]["filters"]["powerKind"],
+                   choice["source"]["filters"].get("usage", "UNRESOLVED")) for choice in slots]
+        self.assertEqual(expected, actual)
+        self.assertEqual(len(slots), len({choice["id"] for choice in slots}))
+        self.assertTrue(all(choice["atLevel"] <= 10 for choice in slots))
+
+    def test_wizard_acquisition_preparation_techniques_and_tome_have_separate_slots(self):
+        entries = {entry["id"]: entry for entry in class_runtime.build()["modern4e.classes/entries.json"]["entries"]}
+        book = entries["modern4e.feature.wizard-spellbook"]["mechanics"]
+        modifiers = {modifier["choiceId"]: modifier for modifier in book["selectionModifiers"]}
+        self.assertEqual(4, modifiers["modern4e.choice.class-attack-daily"]["count"])
+        self.assertEqual(2, modifiers["modern4e.choice.class-utility-2"]["count"])
+        self.assertEqual(2, modifiers["modern4e.choice.class-attack-daily-5"]["count"])
+        daily = next(choice for choice in book["choices"] if choice["id"].endswith("prepare-dailies"))
+        utility = next(choice for choice in book["choices"] if choice["id"].endswith("prepare-utilities"))
+        self.assertEqual([2, 3], [step["count"] for step in daily["countByLevel"]])
+        self.assertEqual([1, 2, 3, 4, 5], [step["count"] for step in utility["countByLevel"]])
+        self.assertEqual(daily["requiresCollection"], utility["requiresCollection"])
+        techniques = [choice for choice in book["choices"] if choice["query"]["category"] == "TECHNIQUE"]
+        self.assertEqual([1, 5, 11, 15, 21, 25], [choice["atLevel"] for choice in techniques])
+        self.assertEqual([3, 2, 2, 2, 2, 2], [choice["count"] for choice in techniques])
+        tome = entries["modern4e.feature.tome-of-readiness"]["mechanics"]["choices"][0]
+        self.assertEqual([{"type": "notKnown"}], tome["constraints"])
+        self.assertEqual([1, 3, 7], tome["replacementLevels"])
+        self.assertIn("runtimeReferences", entries["modern4e.class.wizard"]["sharedData"])
+        self.assertNotEqual("SUPPORTED", entries["modern4e.class.wizard"]["coverage"]["status"])
 
     def test_local_formula_changes_output_and_malformed_source_fails(self):
         with tempfile.TemporaryDirectory() as directory:

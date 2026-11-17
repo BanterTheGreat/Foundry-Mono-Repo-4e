@@ -7,8 +7,8 @@ Typst renders them directly;
 `class_content.py` exports the same data for future Character Builder compilation.
 This is **an authoring catalog, not a v1 runtime package**. The separate
 `character-builder/content/build.py --modern-classes-runtime` compiler maps it
-to runtime package/mechanics v2 (#33). Full progression and production bundle
-replacement remain #34/#35. No class
+to runtime package/mechanics v2 (#33). The normal production build now bundles this authoritative package (#35).
+Power advancement and collection enforcement are shared engine responsibilities (#34). No class
 chapter keeps a second editable rules definition in Typst. Feats and paragon-path
 catalogs retain their existing contracts.
 
@@ -131,9 +131,12 @@ retaining 15 predeclared feature/power IDs. Druid's Balance of Nature modifies
 the shared at-will slot to three selections with one-to-two BEAST_FORM powers.
 Wizard's Spellbook modifies initial learned dailies to four, routes them to an
 owned collection and grants a distinct preparation choice of two (three from
-level 5). Storage, preparation and replacement remain separate decisions; later
-utility acquisition/preparation and technique page accounting remain prose with
-explicit incomplete coverage. Cantrips choose four of nine options. Effect-only
+level 5). Storage, preparation and replacement remain separate decisions. Later daily
+and utility acquisitions through level 10 each learn two powers; daily and
+utility preparation have independent capacities and require owned spellbook
+entries. Additional technique choice occurrences are authored at 1, 5, 11, 15,
+21 and 25, but their query pools remain explicitly incomplete until an adapted
+magic-technique catalog exists. Page accounting remains incomplete. Cantrips choose four of nine options. Effect-only
 Invoker cards that specify Intelligence without a defense are retained without
 inventing an attack roll.
 
@@ -196,9 +199,12 @@ category and closed filters: usage, attack/utility kind, maximum power level
 access and prerequisites must still be evaluated independently. Finite option
 lists must be unique and large enough for the required count.
 
-Choice constraints currently support:
+Choice constraints support:
 
 - `{type: distinct}`: no repeated entry in that choice set.
+- `{type: notKnown}`: a stored option must differ from other known or automatically
+  granted powers, as used by Tome of Readiness. `replacementLevels` optionally
+  declares the permitted character levels for replacing that stored occurrence.
 - `{type: keywordCount, keyword: BEAST_FORM, minimum: 1, maximum: 2}`: bounds over
   matching powers in this choice set, checked again after replacement/retraining.
 
@@ -214,10 +220,13 @@ page accounting; page costs remain explicit prose/coverage for later migration.
 The three standard initial attack-power choices have stable IDs:
 `modern4e.choice.class-attack-at-will`, `...class-attack-encounter` and
 `...class-attack-daily`, with counts 2/1/2. Fighter's printed initial selection
-sentence comes from them. Only initial choices are structured in this slice;
-the original advancement table remains authoritative for later levels and is
-explicitly declared incomplete in this authoring export. It is not a second,
-claimed-complete level-30 progression system.
+sentence comes from them. The same shared file defines subsequent GAIN power slots at levels 2, 3, 5, 6,
+7, 9 and 10, cross-checked against the authoritative creation advancement table.
+Initial IDs are retained, and subsequent IDs persist independently of display
+labels. Later utility slots have no inferred usage restriction: the source table
+leaves usage unresolved, and only adapted candidates with explicit power facts
+can match. Levels 11?30 and general replacement/retraining allowances remain
+incomplete (#20); no complete level-30 engine is claimed.
 
 A feature's `selectionModifiers` targets an existing `choiceId` and declares a
 replacement `count` plus extra `constraints`. Constraints are additive to the
@@ -225,8 +234,11 @@ target's existing constraints (identical constraints are idempotent); unrelated
 slots and automatic powers are untouched. Modifiers are scoped to that active
 feature occurrence and the targeted choice. Conflicting count replacements from
 multiple active features must report a conflict, never depend on package/input
-order. Authoring rejects duplicate targets within one feature; engine application
-and simultaneous-feature conflict diagnostics belong to #34.
+order. Authoring rejects duplicate targets within one feature. Runtime applies finite
+feature choices before shared query slots, combines constraints idempotently,
+and reports differing count/collection replacements as incomplete conflicts.
+A conflict cannot produce an eligible candidate. Saved extra/invalid decisions
+remain in the document and receive diagnostics.
 
 A modifier can route learned selections into a `collection` and declare
 `replacement: FOLLOW_TARGET`: replacing/retraining a target selection also
@@ -249,3 +261,36 @@ choice IDs, recursive grant/choice paths and invalid collection/override targets
 `catalog.json.references` declares external references with category/title and
 PENDING_MIGRATION or UNAVAILABLE status; declarations are not definitions.
 The existing feat reference registry is left untouched by this migration.
+
+## Runtime query and diagnostic contract
+
+`PowerProfile` carries explicit acquisition level, usage, attack/utility kind and
+keywords; activation rules and benefit scaling remain independent. Query slots
+load adapted POWER definitions and evaluate access/prerequisites separately from
+whole-set validity. Unknown/non-power query vocabularies produce incomplete
+coverage and no fabricated eligible options. Missing dependencies remain saved.
+
+The shared `EngineResult.selectionSets` API returns required/selected/remaining
+counts and set diagnostics. A partial Druid set does not fail its Beast Form
+minimum while an unfinished ordinal can still satisfy it. Completed or
+impossible sets report bounds independently of candidate access. Unrelated
+bonus powers and recursive grants never consume these normal slots.
+
+`BuilderEdit.ReplacePower` records a replacement against the stable acquisition
+slot and retains the original decision/provenance. Both progression replacement
+and retraining replay the new occurrence, recalculate collection ownership and
+recheck composition/distinctness. Invalid replacements require explicit opt-in;
+saved invalid history remains exportable. General timing/allowance validation
+continues to report incomplete coverage under #20. Tome replacement levels are
+explicitly supported through level 10 (1, 3, 7).
+
+Run the common JVM/JS power-selection suite from `src/character-builder`:
+
+```sh
+./gradlew :shared:jvmTest :shared:jsNodeTest
+```
+
+Python compiler tests also cross-check all nine shared acquisition choices
+against authored GAIN events through level 10. The old #33 Fighter golden uses
+an explicit `include_advancement=False` proof compilation; production uses the
+default shared advancement.

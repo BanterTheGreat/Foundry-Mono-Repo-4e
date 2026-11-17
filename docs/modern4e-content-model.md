@@ -153,12 +153,23 @@ not an enabled runtime package. The separate Character Builder
 `content/build.py --modern-classes-runtime` maps this catalog to package/mechanics
 v2: class formulas, explicit acquisition and finite feature-owned choices are
 evaluated by shared Kotlin (#33). Full authored entries and unsupported mechanics
-remain preserved with explicit coverage. Production bundle adoption is #35;
-general progression/query pools/collections remain #34.
+remain preserved with explicit coverage. The normal production build bundles these authoritative definitions on web and
+Android (#35), retaining published proof classes only as explicit legacy fixtures.
+General progression/query pools/collections are shared engine responsibilities (#34).
 Exceptional-class fixtures establish data shapes;
-general progression and production runtime package adoption remain separate work. The
+general progression remains a shared engine concern. Production package adoption
+uses local IDs directly and preserves unresolved legacy selections. The
 96 revised Barbarian selectable attacks also use the ordered power contract;
 other selectable class catalogs remain linked source material. Existing feat
 data and its contracts remain independently
 owned; the feat registry's pending external-reference statuses do not yet resolve
 against class authoring definitions at runtime.
+
+The shared runtime power contract separates candidate eligibility (`PowerQuery`
+and `PowerProfile`) from collection validity (`SelectionSetResult`). Feature
+`SelectionModifier` counts must agree; additive constraints apply only to the
+targeted choice set. `PowerCollection` distinguishes learned, stored and prepared
+occurrences. Acquisitions mirror authored GAIN events through level 10; general
+retraining/progression timing and complete levels 1?30 remain incomplete (#20).
+Wizard preparation, extra unresolved technique choices and Tome distinctness use
+these shared data contracts rather than class-name branches.

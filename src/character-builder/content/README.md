@@ -1,5 +1,53 @@
 # Build-time content production
 
+## Production classes (#35)
+
+The normal build validates all authoritative Modern 4e class JSON and compiles
+`production-generated/modern4e.classes/` as a format-v2 runtime package. Its
+index exposes all 19 migrated classes under their persisted local IDs; complete
+flavor, statistics, feature grants, structured conditions and ordered powers
+remain in each definition's `sharedData`. The engine reports partial coverage,
+unavailable selectable pools and unsupported combat/later-level behavior.
+Published class HTML and mechanics never supply or fill these definitions.
+
+```powershell
+python -X utf8 src/character-builder/content/build.py
+python -X utf8 src/character-builder/content/build.py --check
+python -X utf8 src/character-builder/content/samples.py
+python -X utf8 src/character-builder/content/samples.py --check
+python -X utf8 -m unittest discover -s src/character-builder/content -p 'test_*.py' -v
+```
+
+The same build retains explicitly imported non-class categories from `proof.json`
+under their existing package/entry identities, at revision 2. It excludes every
+published class and the now-empty legacy class override package. Imported source
+powers remain distinct from the curated authoritative class pools: no name matching,
+ability conversion or implicit adaptation occurs. `--check` validates before
+comparing exact UTF-8 bytes, rejects extra stale chunks, and never publishes partial
+validation results. Change package revisions and regenerate fingerprints/samples
+deliberately when evolving contracts or content. Output is deterministic, without
+machine paths or timestamps.
+
+Android's content Sync and the web adapter both consume `production-generated`
+bytes directly; Android assembly and the web production build run the strict
+content check before bundling. JVM and JavaScript tests load those same generated
+bytes. The new-character template uses `modern4e.class.fighter` supplied by
+`modern4e.classes`; it starts with required choices incomplete rather than filling
+them with unadapted source powers. The template fingerprint is verified through
+the shared codec on both targets.
+
+`class3` remains a distinct published identity. Existing portable characters,
+supplier history and unresolved selections are preserved; installing the modern
+class package never rewrites them. No automatic adoption/migration exists. Any
+future adoption must present explicit mappings and a reconciliation preview.
+
+`generated/`, `shared/fixtures/sample-fighter-*` and the `proof/` platform assets
+are named legacy integration fixtures. Regenerate them explicitly with
+`build.py --config src/character-builder/content/proof.json`; they are not the
+production catalog or a fallback for missing/malformed local JSON. The offline
+compendium snapshot and explicit `--config full.json` export remain available.
+
+
 ## Shared class runtime package (#33)
 
 ```powershell
@@ -11,8 +59,7 @@ python -X utf8 -m unittest discover -s src/character-builder/content -p test_cla
 This validates the authoritative Modern 4e class catalog and emits an ignored
 `modern-classes-runtime-generated/modern4e.classes/` package: manifest format 2,
 index and chunk, with mechanics v2. The shared catalog/codec loads this package.
-The default proof build and installed web/Android bundles remain independent;
-their production replacement is #35. No compendium class data supplies these
+The normal production build includes this compiler output in the platform bundles. No compendium class data supplies these
 definitions, and no legacy `class3`/feature/power IDs are rewritten.
 
 `class_runtime.py` maps class metadata/proficiencies, direct main abilities,
@@ -20,8 +67,13 @@ local formula terms, automatic acquisition and finite feature-owned choices.
 Structured access/prerequisite groups retain their meaning. It preserves complete
 authoring entries (including flavor, ordered powers, source notes and unsupported
 choices) in `sharedData`, included in definition fingerprints. Unsupported
-condition queries become explicit unresolved conditions; dynamic counts, choice
-queries/collections and selection modifiers remain explicit #34 diagnostics.
+condition queries outside the implemented vocabulary become explicit unresolved
+conditions. Shared `PowerQuery`/`PowerProfile`, `SelectionModifier`,
+`SelectionSetResult` and `PowerCollection` contracts carry candidate filters, count
+overrides, additive constraints, remaining requirements and owned collections.
+Conflicting overrides report incomplete automation. Individual eligibility and
+whole-set validity remain separate. Stored/prepared occurrences do not consume
+normal learning slots or trigger duplicate-learning checks.
 Combat/session effects remain partial/unimplemented coverage. Conditional weapon
 talents and weapon-ability mappings are authored data, not inferred from prose.
 
@@ -31,6 +83,16 @@ and check changed formulas, missing references, unsupported content and the clos
 conditional vocabulary. If intentionally changing the runtime mapping or Fighter
 authoring, regenerate this golden with `class_runtime.build(class_ids=[
 "modern4e.class.fighter"])["modern4e.classes/entries.json"]` and review its diff.
+
+The shared acquisition slots mirror authored GAIN events through level 10. Wizard
+known/stored/prepared daily and utility choices have separate capacities; extra
+technique slots remain unresolved because an adapted technique catalog is absent.
+Tome of Readiness excludes known powers and exposes replacement levels 1/3/7.
+`ReplacePower` preserves the target occurrence and revalidates composition while
+replaying saved history. General retraining and progression timing remain
+incomplete under #20; builder creation/forward editing is still limited to levels
+1?2. Direct higher-level documents expose authored acquisition without claiming
+complete higher-level rules.
 
 ## Shared equipment authoring
 
@@ -82,12 +144,12 @@ descriptive effects are automated when compiling the future runtime package.
 Python 3.9+ (standard library only). Run from the monorepo root:
 
 ```powershell
-python -X utf8 src/character-builder/content/build.py
-python -X utf8 src/character-builder/content/build.py --check
+python -X utf8 src/character-builder/content/build.py --config src/character-builder/content/proof.json
+python -X utf8 src/character-builder/content/build.py --config src/character-builder/content/proof.json --check
 python -X utf8 -m unittest discover -s src/character-builder/content -p 'test_*.py' -v
 ```
 
-The default `proof.json` joins separately authored mechanics to the actual offline snapshot and regenerates fourteen checked-in `generated/` assets. No downloads, JavaScript execution, rulebook edits or Foundry deployment occur. `--check` validates input and compares exact generated bytes without writing. Python imports the existing compendium reader's JSONP parser; normalization of identifier keys, trailing commas and quoted strings is data parsing, not evaluation.
+The explicitly selected `--config src/character-builder/content/proof.json` joins separately authored mechanics to the actual offline snapshot and regenerates fourteen checked-in legacy `generated/` assets. No downloads, JavaScript execution, rulebook edits or Foundry deployment occur. `--check` validates input and compares exact generated bytes without writing. Python imports the existing compendium reader's JSONP parser; normalization of identifier keys, trailing commas and quoted strings is data parsing, not evaluation.
 
 To extract all source categories that fit the existing Kotlin contract:
 
@@ -101,7 +163,7 @@ The larger output is ignored. It is **source presentation with UNIMPLEMENTED mec
 
 ## Asset contract
 
-`generated/<packageId>/manifest.json` is a v1 `PackageManifest`. Load each logical index/chunk ID from `<packageId>/<id>.json` as `ContentIndex`/`EntryChunk`. Indexes contain only ID, normalized category, title and chunk ID; descriptions load lazily from chunks. Bundle identical UTF-8 JSON bytes in Android assets and web static assets without conversion or runtime Python. `ProductionPackageTest` embeds these exact files for JVM/JS tests using the existing `ContractCodec` and DTOs. No contracts or `ContentSource` API change. Runtime adapters and catalog resolution belong to the separate catalog work.
+`generated/<packageId>/manifest.json` is a legacy v1 `PackageManifest`; `production-generated/modern4e.classes/manifest.json` uses format v2. Load each logical index/chunk ID from `<packageId>/<id>.json` as `ContentIndex`/`EntryChunk`. Indexes contain only ID, normalized category, title and chunk ID; descriptions load lazily from chunks. Bundle identical UTF-8 JSON bytes in Android assets and web static assets without conversion or runtime Python. `ProductionPackageTest` embeds these exact files for JVM/JS tests using the existing `ContractCodec` and DTOs. No contracts or `ContentSource` API change. Runtime adapters and catalog resolution belong to the separate catalog work.
 
 HTML is preserved exactly, without sanitizing or rewriting. Publications retain decoded attribution text including page numbers, falling back to listing SourceBook if absent. Internal `?view=` links (including comma-separated IDs) become sorted references checked against **all** snapshot IDs, including categories not bundled. Such links do not imply runtime availability. External URLs remain in untouched HTML. The original entry URL is `https://iws.mx/dnd/?view=<id>`.
 
@@ -143,5 +205,5 @@ the class inventory and normalized export are schema v2. The separate
 `python3 src/modern4e/scripts/class_content.py` validator/exporter emits a
 `modern4e.class-authoring` catalog, not a v1 runtime package. See the
 [class contract](../../modern4e/content/classes/README.md) for commands and exact
-coverage. This does not change the existing compendium proof pipeline or platform
-bundles; production bundle adoption is #35; the v2 engine/compiler above implements #33, while general progression/collections remain #34.
+coverage. The explicit compendium proof pipeline is retained as a fixture; normal platform
+bundles now consume the authoritative class package (#35); the v2 engine/compiler above implements #33, while shared power choices/collections use #34; general retraining/progression timing remains incomplete (#20).

@@ -479,12 +479,16 @@ Summon automation Node coverage includes separate square selection, per-power ma
 
 ## Character Builder shared core and content production
 
-Shared class runtime (#33), from the repository root:
+Shared class runtime and authoritative production classes (#33–#35), from the repository root:
 
 ```powershell
 python -X utf8 src/character-builder/content/build.py --modern-classes-runtime
 python -X utf8 src/character-builder/content/build.py --modern-classes-runtime --check
 python -X utf8 -m unittest discover -s src/character-builder/content -p test_class_runtime.py -v
+python -X utf8 src/character-builder/content/build.py
+python -X utf8 src/character-builder/content/build.py --check
+python -X utf8 src/character-builder/content/samples.py --check
+python -X utf8 -m unittest discover -s src/character-builder/content -p test_production_classes.py -v
 ```
 
 From `src/character-builder/`, run `./gradlew.bat :shared:jvmTest
@@ -495,8 +499,28 @@ recalculation, both independent feature choices, multiple/repeated automatic
 powers, acquisition gates, structured eligibility, cycles/duplicates/conflicts,
 missing dependencies, editing/class changes, reconciliation and portable reopen.
 The web test verifies the compiled JSON calculation API against the same data.
-General progression/collections and production bundle adoption remain #34/#35;
-tests do not imply combat automation or legacy character migration.
+`PowerSelectionTest` covers generic power slots, feature overrides/conflicts,
+selection-set constraints, owned collections, replacement history and request-local
+chunk reuse with fresh content on subsequent evaluations. Compiler tests compare
+shared acquisition slots with authoritative GAIN events through level 10.
+`ProductionClassPackageTest`
+loads the exact generated production bytes on JVM and JavaScript, including the
+separate Modern Fighter sample and preserved legacy identity. Python production
+tests cover poisoned compendium classes, local edits, missing/malformed data,
+duplicate identities, explicit unsupported coverage and stale outputs. Tests do
+not imply combat automation, complete level 1–30 retraining or automatic legacy
+character migration.
+
+Normal generation writes `content/production-generated/`; web and Android bundle
+that shared directory. Named legacy proof fixtures are regenerated explicitly:
+
+```powershell
+python -X utf8 src/character-builder/content/build.py --config src/character-builder/content/proof.json
+python -X utf8 src/character-builder/content/build.py --config src/character-builder/content/proof.json --check
+```
+
+`samples.py` also generates/checks `sample-modern-fighter.json`; the four legacy
+proof samples keep their original class identities and provenance.
 
 Shared class authoring / Fighter migration (#30/#31), from the repository root:
 

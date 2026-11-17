@@ -132,6 +132,8 @@ def validate(data, initial=None):
     initial = initial if initial is not None else read(BOOK / 'content/classes/advancement.json')
     require(data['initialPowerChoices'] == initial['id'], 'Broken initial advancement reference')
     for choice in initial['powerChoices']:
+        if choice['atLevel'] != 1:
+            continue
         usage = choice['source']['filters']['usage']
         column = {'AT_WILL': 'atWill', 'ENCOUNTER': 'encounter', 'DAILY': 'daily'}[usage]
         require(choice['count'] == data['levels'][0]['powerTotals'][column], 'Initial class choices disagree')

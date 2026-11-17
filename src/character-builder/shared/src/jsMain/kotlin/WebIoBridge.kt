@@ -164,6 +164,7 @@ class WebContentCatalog(private val call: (String, String) -> Promise<String>) {
                     put("diagnostics", ContractCodec.json.encodeToJsonElement(rules.diagnostics))
                     put("conditionalModifiers", ContractCodec.json.encodeToJsonElement(rules.conditionalModifiers))
                     put("entryEligibility", ContractCodec.json.encodeToJsonElement(rules.entryEligibility))
+                    put("selectionSets", ContractCodec.json.encodeToJsonElement(rules.selectionSets))
                 }))
             }
         }

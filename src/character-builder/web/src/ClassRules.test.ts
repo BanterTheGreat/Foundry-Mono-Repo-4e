@@ -27,6 +27,8 @@ describe("compiled shared class engine boundary", () => {
     expect(hp.calculation.value.value.contributors.reduce((sum: number, term: { value: number }) => sum + term.value, 0)).toBe(29);
     expect(result.value.entries.filter((entry: { granted: boolean; definition: { entry: { category: string } } }) =>
       entry.granted && entry.definition.entry.category === "POWER")).toHaveLength(3);
+    expect(result.value.selectionSets).toHaveLength(2);
+    expect(result.value.selectionSets.every((set: { remaining: number }) => set.remaining === 0)).toBe(true);
     expect(result.value.conditionalModifiers[0].benefit.condition).toBe("ONE_HANDED_WEAPON");
     expect(result.value.diagnostics.some((diagnostic: { code: string }) => diagnostic.code === "engine.coverage")).toBe(true);
     expect(JSON.parse(await catalog.evaluate('{"formatVersion":99}')).type).toBe("unavailable");

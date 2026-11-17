@@ -18,11 +18,38 @@ class BuilderSessionTest {
     private lateinit var store: AndroidCharacterStore
     private fun sample(): CharacterDocument = (ContractCodec.decode(context.assets.open("proof/samples/sample-fighter-1-base.json")
         .bufferedReader().use { it.readText() }) as ContractResult.Available).value
-    private fun session(storage: CharacterStore = store, source: ContentSource = AndroidContentSource(context.assets)) =
+    /** Historical coordinator assertions use a named proof source, never the production catalog. */
+    private fun legacySource() = object : ContentSource {
+        private fun text(packageId: String, assetId: String) = context.assets.open("proof/$packageId/$assetId.json")
+            .bufferedReader(Charsets.UTF_8).use { it.readText() }
+        override suspend fun listPackages() = ContractResult.Available(listOf("modern4e.fighter-proof", "modern4e.fighter-proof.override").map {
+            (ContractCodec.decodeManifest(text(it, "manifest")) as ContractResult.Available).value
+        })
+        override suspend fun loadIndex(packageId: String, indexId: String) = ContractResult.Available(
+            ContractCodec.json.decodeFromString<ContentIndex>(text(packageId, indexId)))
+        override suspend fun loadChunk(packageId: String, chunkId: String) = ContractResult.Available(
+            ContractCodec.json.decodeFromString<EntryChunk>(text(packageId, chunkId)))
+    }
+    private fun session(storage: CharacterStore = store, source: ContentSource = legacySource()) =
         BuilderSession(storage, source, ::sample)
     @Before fun reset() {
         File(context.filesDir, "characters").deleteRecursively()
         store = AndroidCharacterStore(context)
+    }
+    @Test fun productionCreationUsesModernIdentityWithoutAdoptingLegacyDecisions() = runBlocking {
+        val model = BuilderSession(store, AndroidContentSource(context.assets)) {
+            (ContractCodec.decode(context.assets.open("samples/sample-modern-fighter.json")
+                .bufferedReader(Charsets.UTF_8).use { it.readText() }) as ContractResult.Available).value
+        }
+        model.create()
+        assertTrue(model.errors.isEmpty())
+        val document = model.current!!.document
+        val selected = document.levels.flatMap { it.entries }.single()
+        assertEquals("modern4e.class.fighter", selected.selection.entryId)
+        assertEquals("modern4e.classes", selected.selection.supplierPackageId)
+        assertTrue(model.current!!.rules.choices.any { it.slot.choiceId == "modern4e.choice.class-attack-at-will" })
+        assertEquals(document, (store.load(document.id) as ContractResult.Available).value)
+        assertTrue(sample().levels.first().entries.any { it.selection.entryId == "class3" })
     }
     @Test fun laterProgressionRemainsPortableAndExplicitlyIncomplete() = runBlocking {
         val document = sample().copy(id = "later-progression", level = 4)

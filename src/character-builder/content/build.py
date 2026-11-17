@@ -215,9 +215,20 @@ def modern_feats(content=ROOT / "src/modern4e/content"):
     return {"modern4e.feats/catalog.json": module.catalog(content)}
 
 
-def build(config_path, snapshot=SNAPSHOT):
+def build(config_path, snapshot=SNAPSHOT, *, exclude_classes=False):
     """Return relative asset paths and JSON values, validating everything before IO."""
     config = load_json(config_path)
+    if exclude_classes:
+        # Imported non-class content retains its explicit IDs and authored mechanics.
+        # Published class presentation/mechanics are never a production fallback.
+        for package in config["packages"]:
+            package["entries"] = [entry for entry in package["entries"]
+                                  if not re.fullmatch(r"class\d+", entry["id"])]
+            package["sourceCategories"] = [category for category in package.get("sourceCategories", []) if category != "class"]
+            package["revision"] = "2"
+            for dependency in package.get("dependencies", []):
+                dependency["revision"] = "2"
+        config["packages"] = [package for package in config["packages"] if package["entries"] or package["sourceCategories"]]
     object_fields(config, ["packages"], [], config_path)
     catalog = snapshot_catalog(snapshot)
     packages = {}
@@ -312,10 +323,19 @@ def serialize(value):
     return (json.dumps(value, ensure_ascii=False, sort_keys=True, indent=2) + "\n").encode("utf-8")
 
 
+def production(content=None, snapshot=SNAPSHOT):
+    """Compile authoritative classes first; retain explicitly imported other categories."""
+    import class_runtime
+    classes = class_runtime.build() if content is None else class_runtime.build(content)
+    imported = build(Path(__file__).with_name("proof.json"), snapshot, exclude_classes=True)
+    require(not classes.keys() & imported.keys(), "production", "duplicate package assets")
+    return imported | classes
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     mode = parser.add_mutually_exclusive_group()
-    mode.add_argument("--config", type=Path, default=Path(__file__).with_name("proof.json"))
+    mode.add_argument("--config", type=Path, help="explicit legacy/imported source fixture configuration")
     parser.add_argument("--snapshot", type=Path, default=SNAPSHOT)
     mode.add_argument("--modern-feats", action="store_true", help="compile the shared Modern 4e feat authoring catalog (not a v1 runtime package)")
     mode.add_argument("--modern-equipment", action="store_true", help="compile shared equipment authoring data (not a v1 runtime package)")
@@ -324,11 +344,11 @@ def main():
     parser.add_argument("--check", action="store_true", help="validate and compare without writing")
     args = parser.parse_args()
     if args.output is None:
-        directory = "modern-classes-runtime-generated" if args.modern_classes_runtime else "modern-equipment-generated" if args.modern_equipment else "modern-feats-generated" if args.modern_feats else "generated"
+        directory = "modern-classes-runtime-generated" if args.modern_classes_runtime else "modern-equipment-generated" if args.modern_equipment else "modern-feats-generated" if args.modern_feats else "generated" if args.config else "production-generated"
         args.output = Path(__file__).with_name(directory)
     if args.modern_feats or args.modern_equipment or args.modern_classes_runtime:
         require(not args.output.resolve().is_relative_to((ROOT / "src/modern4e/content").resolve()), args.output, "output must not overwrite shared authoring content")
-    if args.modern_equipment or args.modern_classes_runtime:
+    if args.modern_equipment or args.modern_classes_runtime or not args.config and not args.modern_feats:
         require(not args.output.resolve().is_relative_to((ROOT / "src/modern4e").resolve()), args.output, "output must not overwrite rulebook authoring sources")
     require(not args.output.resolve().is_relative_to(args.snapshot.resolve()), args.output, "output must not overwrite source snapshot")
     if args.modern_classes_runtime:
@@ -340,7 +360,7 @@ def main():
         spec.loader.exec_module(equipment)
         assets = {"modern4e.equipment-authoring/catalog.json": equipment.catalog()}
     else:
-        assets = modern_feats() if args.modern_feats else build(args.config, args.snapshot)
+        assets = modern_feats() if args.modern_feats else build(args.config, args.snapshot) if args.config else production(snapshot=args.snapshot)
     for name in assets:
         require(not (args.output / name).resolve().is_relative_to(args.snapshot.resolve()), args.output / name, "generated asset would overwrite source snapshot")
     if args.output.exists():

@@ -42,10 +42,11 @@ dependencies {
 
 // Copy generated packages byte-for-byte, without Android-specific conversion.
 val bundleContent by tasks.registering(Sync::class) {
-    from("../content/generated")
+    dependsOn(rootProject.tasks.named("validateProductionContent"))
+    from("../content/production-generated")
     into(layout.buildDirectory.dir("generated/bundledAssets/content"))
     doLast {
-        val packages = file("../content/generated").listFiles()!!.filter { it.isDirectory }.map { it.name }.sorted()
+        val packages = file("../content/production-generated").listFiles()!!.filter { it.isDirectory }.map { it.name }.sorted()
         layout.buildDirectory.file("generated/bundledAssets/content-packages.txt").get().asFile.writeText(packages.joinToString("\n"))
     }
 }

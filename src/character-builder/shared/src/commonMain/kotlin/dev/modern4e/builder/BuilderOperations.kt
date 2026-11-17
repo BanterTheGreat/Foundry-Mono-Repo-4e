@@ -10,6 +10,8 @@ sealed class BuilderEdit {
     data class Level(val value: Int) : BuilderEdit()
     data class Entry(val level: Int, val slot: ChoiceSlotId, val entryId: String, val instanceId: String,
         val acceptIneligible: Boolean = false) : BuilderEdit()
+    data class ReplacePower(val level: Int, val slot: ChoiceSlotId, val entryId: String,
+        val kind: ReplacementKind = ReplacementKind.RETRAINING, val acceptIneligible: Boolean = false) : BuilderEdit()
     data class RemoveEntry(val slot: ChoiceSlotId) : BuilderEdit()
     data class Proficiency(val level: Int, val value: ProficiencyChoice) : BuilderEdit()
     /** Changing background preserves its skill unless the caller explicitly supplies a replacement. */
@@ -53,7 +55,7 @@ class BuilderOperations(private val catalog: ContentCatalog) {
     /** Root and child entry options share engine eligibility. Unknown/ineligible options require explicit opt-in. */
     suspend fun options(document: CharacterDocument, level: Int, slot: ChoiceSlotId,
         includeIneligible: Boolean = false): List<BuilderOption> {
-        if (level !in 1..document.level || level > 2) {
+        if (level !in 1..document.level) {
             return emptyList()
         }
         val current = evaluate(document)
@@ -133,6 +135,37 @@ class BuilderOperations(private val catalog: ContentCatalog) {
                     return reject("Choice is ${option.eligibility}; explicitly accept it to retain its diagnostics.")
                 }
                 next = putEntry(document, edit.level, EntryChoice(instance, edit.slot, saved(option.entry)))
+            }
+            is BuilderEdit.ReplacePower -> {
+                if (edit.level !in 1..document.level) {
+                    return reject("Replacement level must be active.")
+                }
+                val state = evaluate(document)
+                val current = state.rules.entries.singleOrNull { it.slot == edit.slot && !it.granted }
+                    ?: return reject("Replace an active selected power occurrence.")
+                if (current.definition.entry.category != EntryCategory.POWER) {
+                    return reject("This operation replaces powers only.")
+                }
+                if (state.rules.choices.none { it.slot == edit.slot }) {
+                    return reject("Replacement source is unavailable.")
+                }
+                val definition = (catalog.lookup(edit.entryId) as? ContractResult.Available)?.value
+                    ?: return reject("Replacement content is unavailable.")
+                val change = Replacement(edit.slot, EntryChoice(current.instanceId, edit.slot, saved(definition)), edit.kind)
+                next = document.copy(levels = levels(document, edit.level).map { level ->
+                    if (level.level != edit.level) level else level.copy(replacements =
+                        level.replacements.filterNot { it.replaces == edit.slot } + change)
+                })
+                val evaluated = evaluate(next)
+                if (evaluated.rules.choices.singleOrNull { it.slot == edit.slot }?.entries?.none { it.entryId == edit.entryId } != false) {
+                    return reject("Replacement must belong to the source pool at its replacement level.")
+                }
+                val invalid = evaluated.rules.selectionSets.filter { it.sourceInstanceId == edit.slot.sourceInstanceId && it.choiceId == edit.slot.choiceId }
+                    .flatMap { it.diagnostics }.any { it.code != "engine.selectionRemaining" && it.kind == DiagnosticKind.INVALID_SELECTION }
+                val eligibility = evaluated.rules.entryEligibility[current.instanceId]?.status
+                if (!edit.acceptIneligible && (invalid || eligibility != Eligibility.ELIGIBLE)) {
+                    return reject("Replacement violates eligibility or selection-set requirements; explicitly accept to preserve it with diagnostics.")
+                }
             }
             is BuilderEdit.RemoveEntry -> next = document.copy(levels = document.levels.map { level ->
                 level.copy(entries = level.entries.filterNot { it.slot == edit.slot }) })

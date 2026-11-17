@@ -37,7 +37,7 @@ class ProductionTest(unittest.TestCase):
         self.assertEqual(self.assets, other)
         for name, value in self.assets.items():
             self.assertEqual((HERE / "generated" / name).read_bytes(), build.serialize(value))
-        result = subprocess.run([sys.executable, str(HERE / "build.py"), "--check"], capture_output=True, text=True)
+        result = subprocess.run([sys.executable, str(HERE / "build.py"), "--config", str(HERE / "proof.json"), "--check"], capture_output=True, text=True)
         self.assertEqual(0, result.returncode, result.stderr)
 
     def test_source_html_identity_publications_and_references_preserved(self):

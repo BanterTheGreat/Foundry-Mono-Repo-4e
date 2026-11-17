@@ -145,7 +145,7 @@ class BuilderSession(
     }
 
     private suspend fun open(document: CharacterDocument) {
-        val result = withContext(Dispatchers.IO) { ContentCatalog.open(source, "modern4e.fighter-proof", document.packages) }
+        val result = withContext(Dispatchers.IO) { ContentCatalog.open(source, if (document.packages.any { it.packageId == "modern4e.classes" }) "modern4e.classes" else "modern4e.fighter-proof", document.packages) }
         if (result is ContractResult.Unavailable && result.diagnostics.any { it.kind == DiagnosticKind.IO_FAILURE }) {
             errors = result.diagnostics
             return

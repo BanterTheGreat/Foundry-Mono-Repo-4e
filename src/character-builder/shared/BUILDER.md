@@ -35,7 +35,8 @@ IDs come from callers. Repeated choices use distinct ordinals and instances.
 
 `Level(2)` preserves all prior choices and exposes authored level-2 choices.
 Direct level-2 creation allows filling both levels. Deleveling and progression
-above level 2 are rejected. General advancement/retraining remains unsupported.
+above level 2 are rejected. General advancement and retraining allowances remain
+incomplete; explicit power replacement composition is supported as described below.
 
 `Background` selects environment/upbringing and one skill; changing its name
 preserves the old skill unless explicitly replaced, so a now-invalid skill stays
@@ -87,3 +88,26 @@ catalog cannot be loaded. Missing optional content still permits unrelated edits
 The existing engine conservatively marks totals unavailable where missing active
 mechanics could affect them; missing unequipped inventory does not block totals.
 These operations add no historical pinning, migrations, package import or UI.
+
+## Power replacement and selection-set queries
+
+`rules.selectionSets` exposes required/selected/remaining counts and whole-set
+diagnostics. Query choices offer explicit adapted power candidates; access and
+prerequisites use the shared engine. Choosing an individually eligible option
+can leave an incomplete set; the state exposes its remaining requirements.
+
+`BuilderEdit.ReplacePower(level, slot, entryId, kind, acceptIneligible)` records
+`PROGRESSION` or `RETRAINING` history against an active power acquisition slot.
+The original entry/provenance remains in the document, while evaluation replays
+the replacement with the original occurrence ID. This keeps owned spellbook
+collections synchronized and diagnoses stale preparations. The replacement must
+belong to the source pool; invalid eligibility or completed-set constraints are
+rejected unless `acceptIneligible` is explicit. Wire-valid invalid history remains
+exportable and can be inspected after reopen. No other choices are silently pruned.
+
+Tome-style sources enforce their authored replacement levels; general allowance
+and timing checks remain explicitly incomplete (#20). `options` can inspect
+active slots in direct higher-level documents, but this does not add full
+higher-level character creation or forward advancement. Shared power acquisition
+is supported through level 10; later provisional content and technique pools
+remain incomplete.

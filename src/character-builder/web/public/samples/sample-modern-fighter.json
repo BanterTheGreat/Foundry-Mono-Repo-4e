@@ -1,0 +1,59 @@
+{
+  "abilities": {
+    "mainAbility": "STRENGTH",
+    "points": {
+      "CHARISMA": 0,
+      "CONSTITUTION": 2,
+      "DEXTERITY": 2,
+      "INTELLIGENCE": 1,
+      "STRENGTH": 4,
+      "WISDOM": 0
+    },
+    "source": {
+      "choiceId": "main",
+      "ordinal": 0,
+      "sourceInstanceId": "fighter"
+    }
+  },
+  "equipment": [],
+  "formatVersion": 1,
+  "id": "modern4e-new-fighter",
+  "identity": {
+    "name": "New character"
+  },
+  "level": 1,
+  "levels": [
+    {
+      "entries": [
+        {
+          "instanceId": "fighter",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:b88ad792684fb88db009c0519b354415ae212c638989e58ff0c1c86e7387a23a",
+            "entryId": "modern4e.class.fighter",
+            "savedTitle": "Fighter",
+            "supplierPackageId": "modern4e.classes"
+          },
+          "slot": {
+            "choiceId": "class",
+            "ordinal": 0,
+            "sourceInstanceId": "creation"
+          }
+        }
+      ],
+      "level": 1,
+      "proficiencies": []
+    }
+  ],
+  "manualAdjustments": [],
+  "packages": [
+    {
+      "packageId": "modern4e.classes",
+      "revision": "1"
+    },
+    {
+      "packageId": "modern4e.fighter-proof",
+      "revision": "2"
+    }
+  ],
+  "savedAt": "2026-11-17T12:00:00Z"
+}

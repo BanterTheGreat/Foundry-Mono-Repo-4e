@@ -1,5 +1,5 @@
 import { available, failure } from "./contracts";
-const bundled = import.meta.glob("../../../content/generated/*/*.json", { eager: true, query: "?url&no-inline", import: "default" }) as Record<string, string>;
+const bundled = import.meta.glob("../../../content/production-generated/*/*.json", { eager: true, query: "?url&no-inline", import: "default" }) as Record<string, string>;
 
 /** Static asset IO only; shared ContentCatalog owns search and resolution. */
 export class BundledContentSource {
@@ -24,7 +24,7 @@ export class BundledContentSource {
         return JSON.stringify(failure("content.operation", "Unknown content operation."));
       }
       const [packageId, assetId] = JSON.parse(json);
-      return JSON.stringify(available(await load(`../../../content/generated/${packageId}/${assetId}.json`)));
+      return JSON.stringify(available(await load(`../../../content/production-generated/${packageId}/${assetId}.json`)));
     } catch (error) {
       return JSON.stringify(failure("content.load", error));
     }

@@ -71,7 +71,7 @@ class ModernClassesTest(unittest.TestCase):
         self.assertEqual(["modern4e.power.combat-reactivity", "modern4e.power.combat-reactivity-followup"], [g["entryId"] for g in powers])
         self.assertEqual(3, len([e for e in self.entries.values() if e["category"] == "POWER" and e["source"]["entryId"] == "modern4e.class.fighter"]))
         self.assertNotIn("choices", root)  # Shared power advancement is not duplicated per class.
-        self.assertEqual([2, 1, 2], [c["count"] for c in self.catalog["advancement"]["powerChoices"]])
+        self.assertEqual([2, 1, 2], [c["count"] for c in self.catalog["advancement"]["powerChoices"] if c["atLevel"] == 1])
         self.assertEqual("PARTIAL", self.catalog["advancement"]["coverage"]["status"])
 
     def test_weapon_mapping_scaling_and_unresolved_rule_survive_export(self):
@@ -188,7 +188,7 @@ class ModernClassesTest(unittest.TestCase):
             for extra in [[],["--check"]]:
                 result=subprocess.run(command+extra,capture_output=True,text=True)
                 self.assertEqual(0,result.returncode,result.stderr)
-            self.assertEqual(self.catalog,json.loads(output.read_text()))
+            self.assertEqual(self.catalog,json.loads(output.read_text(encoding="utf-8")))
             output.write_text("{}")
             result=subprocess.run(command+["--check"],capture_output=True,text=True)
             self.assertNotEqual(0,result.returncode)

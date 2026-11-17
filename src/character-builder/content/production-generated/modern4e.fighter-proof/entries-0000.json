@@ -1,0 +1,278 @@
+{
+  "entries": [
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Selection and source presentation only. Combat effects, equipment prerequisites, armor/shield penalties and attack/damage formulas are not automated; source ability modifiers are not converted."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "armor5",
+      "mechanics": {},
+      "presentation": {
+        "description": "<h1 class=player>Scale Armor</h1><br><b>Description</b>: Overlapping pieces of highly durable material, such as steel or even dragon scales, make up scale armor. Despite its heaviness, scale is surprisingly easy to wear; its straps and buckles make it adjustable and able to fit snugly on the body, allowing for flexibility and agility.<br>    Magic appears at higher item levels, and grants higher armor bonuses than its mundane counterparts. Scale armor grants +8 AC at levels 6-10, +9 AC at levels 11-15, +10 AC at levels 16-20, +11 AC at levels 21-25, and +13 AC at levels 26-30.<br><b>AC Bonus</b>: +7<br><b>Speed</b>: -1<br><b>Weight</b>: 45 lb.<br><b>Cost</b>: 45 gp.<br><b>Type</b>: Scale<br><p class=publishedIn>Published in Player's Handbook, page(s) 214, Heroes of the Fallen Lands, page(s) 325.</p>",
+        "publications": [
+          "Player's Handbook, page(s) 214, Heroes of the Fallen Lands, page(s) 325."
+        ],
+        "references": [],
+        "title": "Scale Armor"
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Selection and source presentation only. Combat effects, equipment prerequisites, armor/shield penalties and attack/damage formulas are not automated; source ability modifiers are not converted."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "armor8",
+      "mechanics": {},
+      "presentation": {
+        "description": "<h1 class=player>Heavy Shield</h1><br><b>Description</b>: While you're using a heavy shield, you can't use your shield hand for any other task, since you must use that hand to handle the shield.<br><b>Shield Bonus</b>: +2<br><b>Check</b>: -2<br><b>Weight</b>: 15 lb.<br><b>Cost</b>: 10 gp.<br><b>Type</b>: Heavy Shields<br><p class=publishedIn>Published in Player's Handbook, page(s) 214, Heroes of the Fallen Lands, page(s) 325.</p>",
+        "publications": [
+          "Player's Handbook, page(s) 214, Heroes of the Fallen Lands, page(s) 325."
+        ],
+        "references": [],
+        "title": "Heavy Shield"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Training is explicitly adapted to Modern 4e proficiency (+5 in the baseline engine). Choice uses the current 16 skills, including new Crafting (Intelligence), Medicine (Intelligence), Society (Intelligence), Nature and Wisdom-based Religion.",
+          "Dungeoneering is folded into Nature; History and Streetwise into Society; Heal into Medicine. No vanilla skill math is supplied.",
+          "Repeat selection and distinct chosen-skill constraints are not expressible in v1 mechanics."
+        ],
+        "status": "PARTIAL"
+      },
+      "id": "feat166",
+      "mechanics": {
+        "choices": [
+          {
+            "count": 1,
+            "id": "skill-training",
+            "skills": [
+              "ATHLETICS",
+              "ACROBATICS",
+              "STEALTH",
+              "THIEVERY",
+              "ENDURANCE",
+              "ARCANA",
+              "CRAFTING",
+              "SOCIETY",
+              "MEDICINE",
+              "INSIGHT",
+              "NATURE",
+              "PERCEPTION",
+              "RELIGION",
+              "BLUFF",
+              "DIPLOMACY",
+              "INTIMIDATE"
+            ],
+            "type": "proficiencies"
+          }
+        ]
+      },
+      "presentation": {
+        "description": "<h1 class=player>Skill Training</h1><p class=flavor><b>Benefit</b>: You gain training in one skill, which doesn't need to be on your class skills list.<br><b>Special</b>: You can take this feat more than once. Each time you select this feat, choose a different skill.<br></p><br>Update (8/5/2010)<br>Feat updated to match Essentials data.<br><br><p class=publishedIn>Published in Player's Handbook, page(s) 201, Heroes of the Fallen Lands, page(s) 317, Heroes of the Forgotten Kingdoms, page(s) 318.</p>",
+        "publications": [
+          "Player's Handbook, page(s) 201, Heroes of the Fallen Lands, page(s) 317, Heroes of the Forgotten Kingdoms, page(s) 318."
+        ],
+        "references": [],
+        "title": "Skill Training"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Power Attack prerequisite and combat benefits are not adapted; never interpret Str 15 as direct points or silently apply vanilla math."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "feat261",
+      "mechanics": {
+        "prerequisites": [
+          {
+            "sourceText": "Str 15 (published prerequisite; direct-point adaptation not authored)",
+            "type": "unadapted"
+          }
+        ]
+      },
+      "presentation": {
+        "description": "<h1 class=player>Power Attack</h1><p class=flavor><b>Heroic Tier</b><br><b>Prerequisite</b>: Str 15<br><b>Benefit</b>: When making a melee attack, you can take a -2 penalty to the attack roll. If the attack hits, you gain a +2 bonus to the damage roll (or a +3 bonus to the damage roll with a two-handed weapon).<br>    This extra damage increases by level, as shown on the table below, but the attack penalty remains the same.<br><br></p><table><tr><th>Level</th><th>Extra Damage (Two-Handed Weapon)</th><tr><td>1st–10th<td>+2 (+3)<tr><td>11th–20th<td>+4 (+6)<tr><td>21th–30th<td>+6 (+9)</table><br><p class=publishedIn>Published in Player's Handbook, page(s) 199.</p>",
+        "publications": [
+          "Player's Handbook, page(s) 199."
+        ],
+        "references": [],
+        "title": "Power Attack"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Selection and source presentation only. Combat effects, equipment prerequisites, armor/shield penalties and attack/damage formulas are not automated; source ability modifiers are not converted."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "power1000",
+      "mechanics": {},
+      "presentation": {
+        "description": "<h1 class=atwillpower>Tide of Iron<span class=level>Fighter Attack 1</span></h1><p class=flavor><i>After each swing, you use your shield to shove your foe backward, and then you surge ahead.</i></p><p class=powerstat><b>At-Will</b>   ✦     <b>Martial</b>, <b>Weapon</b><br><b>Standard Action</b>      <b>Melee</b> weapon</p><p class=flavor><b>Requirement</b>: You must be using a shield.</p><p class=powerstat><b>Target</b>: One creature</p><p class=powerstat><b>Attack</b>: Strength vs. AC</p><p class=flavor><b>Hit</b>: 1[W] + Strength modifier damage, and you can push the target 1 square if it is no larger than one size category larger than you. You can then shift 1 square into the space that the target left.<br>    Level 21: 2[W] + Strength modifier damage.</p><br><p class=publishedIn>Published in Player's Handbook, page(s) 77, Class Compendium.</p>",
+        "publications": [
+          "Player's Handbook, page(s) 77, Class Compendium."
+        ],
+        "references": [],
+        "title": "Tide of Iron"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Selection and source presentation only. Combat effects, equipment prerequisites, armor/shield penalties and attack/damage formulas are not automated; source ability modifiers are not converted."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "power1015",
+      "mechanics": {},
+      "presentation": {
+        "description": "<h1 class=encounterpower>Passing Attack<span class=level>Fighter Attack 1</span></h1><p class=flavor><i>You strike at one foe, allowing your momentum to carry you forward into a second strike against another enemy.</i></p><p class=powerstat><b>Encounter</b>   ✦     <b>Martial</b>, <b>Weapon</b><br><b>Standard Action</b>      <b>Melee</b> weapon</p><p class=powerstat><b>Primary Target</b>: One creature</p><p class=powerstat><b>Primary Attack</b>: Strength vs. AC</p><p class=flavor><b>Hit</b>: 1[W] + Strength modifier damage, and you can shift 1 square. Make the secondary attack.</p><p class=powerstat>  <b>Secondary Target</b>: One creature other than the primary target</p><p class=flavor>  <b>Secondary Attack</b>: Strength + 2 vs. AC</p><p class=powerstat>  <b>Hit</b>: 1[W] + Strength modifier damage.</p><br><p class=publishedIn>Published in Player's Handbook, page(s) 78, Class Compendium.</p>",
+        "publications": [
+          "Player's Handbook, page(s) 78, Class Compendium."
+        ],
+        "references": [],
+        "title": "Passing Attack"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Selection and source presentation only. Combat effects, equipment prerequisites, armor/shield penalties and attack/damage formulas are not automated; source ability modifiers are not converted."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "power1429",
+      "mechanics": {},
+      "presentation": {
+        "description": "<h1 class=dailypower>Villain's Menace<span class=level>Fighter Attack 1</span></h1><p class=flavor><i>Choosing a worthy foe, you wound it with a strong initial attack, and then continue to harry it for the rest of the battle.</i></p><p class=powerstat><b>Daily</b>   ✦     <b>Martial</b>, <b>Weapon</b><br><b>Standard Action</b>      <b>Melee</b> weapon</p><p class=powerstat><b>Target</b>: One creature</p><p class=powerstat><b>Attack</b>: Strength vs. AC</p><p class=flavor><b>Hit</b>: 2[W] + Strength modifier damage, and you gain a +2 power bonus to attack rolls and a +4 power bonus to damage rolls against the target until the end of the encounter.</p><p class=powerstat><b>Miss</b>: You gain a +1 power bonus to attack rolls and a +2 power bonus to damage rolls against the target until the end of the encounter.</p><br><p class=publishedIn>Published in Player's Handbook, page(s) 78, Class Compendium.</p>",
+        "publications": [
+          "Player's Handbook, page(s) 78, Class Compendium."
+        ],
+        "references": [],
+        "title": "Villain's Menace"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Selection and source presentation only. Combat effects, equipment prerequisites, armor/shield penalties and attack/damage formulas are not automated; source ability modifiers are not converted."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "power1522",
+      "mechanics": {},
+      "presentation": {
+        "description": "<h1 class=dailypower>Boundless Endurance<span class=level>Fighter Utility 2</span></h1><p class=flavor><i>You shake off the worst of your wounds.</i></p><p class=powerstat><b>Daily</b>   ✦     <b>Healing</b>, <b>Martial</b>, <b>Stance</b><br><b>Minor Action</b>      <b>Personal</b> </p><p class=flavor><b>Effect</b>: You assume the boundless endurance stance. Until the stance ends, you have regeneration while you are bloodied. The regeneration equals 2 + your Constitution modifier.</p><br><p class=publishedIn>Published in Player's Handbook, page(s) 78, Class Compendium.</p>",
+        "publications": [
+          "Player's Handbook, page(s) 78, Class Compendium."
+        ],
+        "references": [],
+        "title": "Boundless Endurance"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Selection and source presentation only. Combat effects, equipment prerequisites, armor/shield penalties and attack/damage formulas are not automated; source ability modifiers are not converted."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "power1524",
+      "mechanics": {},
+      "presentation": {
+        "description": "<h1 class=dailypower>Brute Strike<span class=level>Fighter Attack 1</span></h1><p class=flavor><i>You deliver a powerful blow that rends flesh and shatters bone.</i></p><p class=powerstat><b>Daily</b>   ✦     <b>Martial</b>, <b>Reliable</b>, <b>Weapon</b><br><b>Standard Action</b>      <b>Melee</b> weapon</p><p class=powerstat><b>Target</b>: One creature</p><p class=powerstat><b>Attack</b>: Strength vs. AC</p><p class=flavor><b>Hit</b>: 3[W] + Strength modifier damage.</p><br><p class=publishedIn>Published in Player's Handbook, page(s) 78, Class Compendium.</p>",
+        "publications": [
+          "Player's Handbook, page(s) 78, Class Compendium."
+        ],
+        "references": [],
+        "title": "Brute Strike"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Selection and source presentation only. Combat effects, equipment prerequisites, armor/shield penalties and attack/damage formulas are not automated; source ability modifiers are not converted."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "power992",
+      "mechanics": {},
+      "presentation": {
+        "description": "<h1 class=atwillpower>Cleave<span class=level>Fighter Attack 1</span></h1><p class=flavor><i>You hit one enemy, then cleave into another.</i></p><p class=powerstat><b>At-Will</b>   ✦     <b>Martial</b>, <b>Weapon</b><br><b>Standard Action</b>      <b>Melee</b> weapon</p><p class=powerstat><b>Targets</b>: One creature</p><p class=powerstat><b>Attack</b>: Strength vs. AC</p><p class=flavor><b>Hit</b>: 1[W] + Strength modifier damage, and an enemy adjacent to you other than the target takes damage equal to your Strength modifier.<br>    Level 21: 2[W] + Strength modifier damage.</p><br><p class=publishedIn>Published in Player's Handbook, page(s) 77, Class Compendium.</p>",
+        "publications": [
+          "Player's Handbook, page(s) 77, Class Compendium."
+        ],
+        "references": [],
+        "title": "Cleave"
+      }
+    },
+    {
+      "category": "ANCESTRY",
+      "coverage": {
+        "limitations": [
+          "Modern 4e Dwarf: speed 5 only. Sturdy (+1 surge, ignore armor speed penalties), Stand Your Ground and Dwarven Resilience are recorded in the sample notes, not automated. Published ability-score/skill bonuses are not applied."
+        ],
+        "status": "PARTIAL"
+      },
+      "id": "race2",
+      "mechanics": {
+        "modifiers": [
+          {
+            "operation": "SET",
+            "target": {
+              "statistic": "SPEED"
+            },
+            "value": 5
+          }
+        ]
+      },
+      "presentation": {
+        "description": "<h1 class=player>Dwarf</h1><i>Stout warriors, master artisans, lords of the mountain peaks</i><br><p class=flavor><b>RACIAL TRAITS</b></p><blockquote><b>Average Height</b>: 4' 3\" - 4' 9\"<br><b>Average Weight</b>: 160 - 220<br><br><b>Ability scores</b>: +2 Constitution, +2 Strength or +2 Wisdom<br><b>Size</b>: Medium<br><b>Speed</b>: 5 squares. <br><b>Vision</b>: Low-light<br><br><b>Languages</b>: Common, Dwarven<br><b>Skill Bonuses</b>: +2 Dungeoneering, +2 Endurance.<br><b>Cast-Iron Stomach</b>: You have a +5 racial bonus to saving throws against poison.<br><b>Dwarven Resilience</b>: You have the dwarven resilience power.<br><b>Dwarven Weapon Proficiency</b>: You gain proficiency with the throwing hammer and the warhammer.<br><b>Encumbered Speed</b>: You move at your normal speed even when it would be reduced by armor or a heavy load. Other effects that limit speed (such as difficult terrain or magic) affect you normally.<br><b>Stand Your Ground</b>: When an effect forces you to move—through a pull, a push, or a slide—you can move 1 square less than the effect specifies. This means an effect that normally pulls, pushes, or slides a target 1 square does not force you to move unless you want to.<br>    In addition, when an attack would knock you prone, you can make a saving throw to avoid falling prone.<br><br></blockquote><br><span class=power><h1 class=encounterpower>Dwarven Resilience<span class=level>Dwarf Racial Power</span></h1><p class=powerstat><b>Encounter</b><br><b>Minor Action</b>      <b>Personal</b> </p><p class=flavor><b>Effect</b>: You use your second wind.</p><br></span><h3>PHYSICAL QUALITIES</h3>Dwarves average about 4½ feet in height and are very broad, weighing as much as adult humans. Dwarves have the same variety of skin, eye, and hair colors as humans, although red hair is more common among them. Male dwarves are often bald and braid their long beards into elaborate patterns. Female dwarves braid their hair to show clan and ancestry. Dwarven attire and equipment, including weapons and shields, are decorated with bold geometric shapes, natural gems, and ancestral faces.<br>    Although they reach physical maturity at roughly the same age as humans, dwarves age more slowly and remain vigorous well past 150 years of age, often living to see 200.<br><br><h3>PLAYING A DWARF</h3>Proudly proclaiming they were made from the earth itself, dwarves share many qualities with the rock they love. They are strong, hardy, and dependable. They value their ancestral traditions, which they preserve as fiercely as they defend the carved structures of their mountain homes.<br>    Dwarves believe in the importance of clan ties and ancestry. They deeply respect their elders, and they honor long-dead clan founders and ancestral heroes. They place great value on wisdom and the experience of years, and most are polite to elders of any race.<br>    More so than most other races, dwarves seek guidance and protection from the gods. They look to the divine for strength, hope, and inspiration, or they seek to win the favor of cruel or destructive gods. Individual dwarves might be impious or openly heretical, but temples and shrines of some sort are found in almost every dwarven community. Dwarves revere Moradin as their creator, but individual dwarves honor those deities who hold sway over their vocations. Warriors pray to Bahamut or Kord, architects to Erathis, and merchants to Avandra or even to Tiamat, if a dwarf is consumed by greed.<br>    Dwarves never forget their enemies—either individuals who have wronged them or entire tribes of monsters that have done ill to their kind. Dwarves harbor a fierce hatred for the orcs that inhabit the same mountainous areas that dwarf clans favor, and that wreak periodic devastation on dwarf communities.<br>    To a dwarf, it is a gift and a mark of deep respect to stand beside an ally in battle, and a sign of deepest loyalty to shield that ally from enemy attack. Dwarven legends honor many heroes who gave their lives to save their clans or their friends.<br><br><b>Dwarf Characteristics</b>: Acquisitive, brave, hard-working, loyal, organized, stern, stubborn, tenacious, vengeful<br><br><b>Dwarf Male Names</b>: Adrik, Baern, Berend, Darrak, Eberk, Fargrim, Gardain, Harbek, Kildrak, Morgran, Orsik, Rangrim, Thoradin, Thorfin, Tordek, Travok, Vondal<br><b>Dwarf Female Names</b>: Artin, Bardryn, Diesa, Eldeth, Falkrunn, Gurdis, Helja, Kathra, Kristryd, Mardred, Riswynn, Torbera, Vistra<br><p class=publishedIn>Published in Player's Handbook, page(s) 36, Heroes of the Fallen Lands, page(s) 248.</p>",
+        "publications": [
+          "Player's Handbook, page(s) 36, Heroes of the Fallen Lands, page(s) 248."
+        ],
+        "references": [],
+        "title": "Dwarf"
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Selection and source presentation only. Combat effects, equipment prerequisites, armor/shield penalties and attack/damage formulas are not automated; source ability modifiers are not converted."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "weapon3610",
+      "mechanics": {},
+      "presentation": {
+        "description": "<h1 class=player>Longsword</h1><br>Military one-handed melee weapon<br>Cost: 15 gp<br><b>Damage</b>: 1d8<br>Proficient: +3<br>Weight: 4 lb.<br><br><b>Properties</b>: <br>Versatile (<i>Versatile weapons are one-handed, but you can use them two-handed. If you do, you deal an extra 1 point of damage when you roll damage for the weapon.<br>A Small character such as a halfling must use a versatile weapon two-handed, and doesn't deal extra damage.</i>).<br><br><b>Group</b>: <br>Heavy blade (<i>Blades are balanced edged weapons. Heavy blades share some of the precision of light blades and some of the mass of axes. Heavy blades are used primarily for slashing cuts rather than stabs and thrusts.</i>).<br><p class=publishedIn>Published in Player's Handbook, page(s) 218, Heroes of the Fallen Lands, page(s) 331, Heroes of the Forgotten Kingdoms, page(s) 334.</p>",
+        "publications": [
+          "Player's Handbook, page(s) 218, Heroes of the Fallen Lands, page(s) 331, Heroes of the Forgotten Kingdoms, page(s) 334."
+        ],
+        "references": [],
+        "title": "Longsword"
+      }
+    }
+  ],
+  "id": "entries-0000"
+}

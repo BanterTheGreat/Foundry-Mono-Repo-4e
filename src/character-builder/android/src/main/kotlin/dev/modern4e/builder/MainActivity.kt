@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 @Suppress("UNCHECKED_CAST")
                 return BuilderSession(AndroidCharacterStore(applicationContext), AndroidContentSource(assets)) {
-                    val json = assets.open("proof/samples/sample-fighter-1-base.json").bufferedReader().use { it.readText() }
+                    val json = assets.open("samples/sample-modern-fighter.json").bufferedReader().use { it.readText() }
                     (ContractCodec.decode(json) as ContractResult.Available).value
                 } as T
             }

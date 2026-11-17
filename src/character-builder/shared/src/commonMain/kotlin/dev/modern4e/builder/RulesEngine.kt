@@ -9,11 +9,18 @@ data class RulesContent(
     companion object {
         /** Loads selected definitions, grant dependencies and choice candidates; performs no character writes. */
         suspend fun load(document: CharacterDocument, catalog: ContentCatalog): RulesContent {
+            val reading = catalog.readSession()
+            var queryPowersLoaded = false
             val entries = linkedMapOf<String, ContractResult<ResolvedEntry>>()
             val selections = linkedMapOf<SavedSelection, ContractResult<ResolvedEntry>>()
             val pending = mutableListOf<String>()
             fun dependencies(entry: ContentEntry) {
                 val mechanics = entry.mechanics
+                if (!queryPowersLoaded && (mechanics.choices + mechanics.progression.flatMap { it.choices })
+                    .filterIsInstance<ChoiceDefinition.Entries>().any { it.query?.category == EntryCategory.POWER }) {
+                    pending += reading.search(category = EntryCategory.POWER).map { it.metadata.id }
+                    queryPowersLoaded = true
+                }
                 pending += (mechanics.grants + mechanics.progression.flatMap { it.grants })
                     .filterIsInstance<Grant.Entry>().map { it.entryId }
                 pending += (mechanics.choices + mechanics.progression.flatMap { it.choices })
@@ -25,7 +32,7 @@ data class RulesContent(
                 level.entries.map { it.selection } + level.replacements.map { it.replacement.selection }
             } + document.equipment.filter { it.equipped }.map { it.selection }
             for (selection in saved.distinct()) {
-                val resolved = catalog.resolve(selection)
+                val resolved = reading.resolve(selection)
                 selections[selection] = resolved
                 if (resolved is ContractResult.Available) {
                     dependencies(resolved.value.entry)
@@ -37,7 +44,7 @@ data class RulesContent(
                 if (id in entries) {
                     continue
                 }
-                val found = catalog.lookup(id)
+                val found = reading.lookup(id)
                 val resolved = when (found) {
                     is ContractResult.Unavailable -> found
                     is ContractResult.Available -> found.value?.let { ContractResult.Available(it, found.diagnostics) }
@@ -79,6 +86,7 @@ data class EngineResult(
     val diagnostics: List<Diagnostic>,
     val conditionalModifiers: List<ConditionalContribution> = emptyList(),
     val entryEligibility: Map<String, EntryEligibility> = emptyMap(),
+    val selectionSets: List<SelectionSetResult> = emptyList(),
 ) {
     fun ability(ability: Ability) = statistics.getValue(ModifierTarget(Statistic.ABILITY_POINTS, ability = ability)).value
     fun skill(skill: Skill) = statistics.getValue(ModifierTarget(Statistic.SKILL_CHECK, skill = skill)).value
@@ -120,8 +128,39 @@ private class Evaluation(private val document: CharacterDocument, private val co
     private val modifiers = mutableListOf<ModifierContribution>()
     private val proficiencies = linkedMapOf<Skill, MutableList<ChoiceSlotId>>()
     private val usedEntries = mutableSetOf<EntryChoice>()
+    private data class PendingChoice(val owner: EngineEntry, val choice: ChoiceDefinition, val ancestors: Set<String>)
+    private val pendingChoices = mutableListOf<PendingChoice>()
+    private val sets = mutableListOf<SelectionSetResult>()
     private val usedProficiencies = mutableSetOf<ProficiencyChoice>()
-    private val entryDecisions = document.levels.sortedBy { it.level }.flatMap { it.entries }
+    private val entryDecisions = effectiveDecisions()
+    private val decisionLevels = document.levels.sortedBy { it.level }.flatMap { level ->
+        level.entries.map { it.slot to level.level } + level.replacements.map { it.replaces to level.level }
+    }.toMap()
+
+    /** Replay a replacement against its stable acquisition occurrence, retaining saved history. */
+    private fun effectiveDecisions(): List<EntryChoice> {
+        val current = mutableListOf<EntryChoice>()
+        for (level in document.levels.sortedBy { it.level }) {
+            current += level.entries
+            for (change in level.replacements) {
+                val original = current.singleOrNull { it.slot == change.replaces }
+                val resolved = content.selections[change.replacement.selection] as? ContractResult.Available
+                val source = original?.let { content.selections[it.selection] as? ContractResult.Available }
+                if (original == null || change.replacement.slot != change.replaces ||
+                    source?.value?.entry?.category != EntryCategory.POWER || resolved?.value?.entry?.category != EntryCategory.POWER) {
+                    invalid("replacementTarget", "Replacement needs an existing power occurrence and the same persistent slot.",
+                        change.replaces, change.replacement.selection.entryId)
+                    continue
+                }
+                current.remove(original)
+                current += change.replacement.copy(instanceId = original.instanceId)
+                diagnostics += diagnostic("replacementTiming", DiagnosticKind.INCOMPLETE_AUTOMATION,
+                    "Replacement composition is checked; general progression/retraining timing and allowances remain unverified (#20).",
+                    change.replaces, change.replacement.selection.entryId)
+            }
+        }
+        return current
+    }
     private val proficiencyDecisions = document.levels.sortedBy { it.level }.flatMap { it.proficiencies }
     private val abilityValues = linkedMapOf<Ability, StatisticCalculation>()
     private val abilityFacts = linkedMapOf<Ability, StatisticCalculation>()
@@ -133,14 +172,14 @@ private class Evaluation(private val document: CharacterDocument, private val co
             invalid("duplicateSlot", "Multiple decisions occupy the same choice slot.", slot)
             blockers += diagnostics.last()
         }
-        if (document.level > 2 || document.levels.any { it.replacements.isNotEmpty() || it.abilityAdvancements.isNotEmpty() }) {
+        if (document.level > 2 || document.levels.any { it.abilityAdvancements.isNotEmpty() }) {
             diagnostics += diagnostic("progressionUnsupported", DiagnosticKind.INCOMPLETE_AUTOMATION,
                 "General progression above level 2, advancement and replacements require the progression milestone; explicit class acquisition and formulas still apply.")
             val sharedClass = entryDecisions.any { decision ->
                 val resolved = content.selections[decision.selection] as? ContractResult.Available
                 resolved?.value?.entry?.mechanics?.classProfile != null
             }
-            if (!sharedClass || document.levels.any { it.replacements.isNotEmpty() || it.abilityAdvancements.isNotEmpty() }) {
+            if (!sharedClass || document.levels.any { it.abilityAdvancements.isNotEmpty() }) {
                 blockers += diagnostics.last()
             }
         }
@@ -187,6 +226,13 @@ private class Evaluation(private val document: CharacterDocument, private val co
                 }
             }
         }
+        while (pendingChoices.isNotEmpty()) {
+            // Resolve finite feature choices before shared pools, so active feature exceptions apply.
+            val index = pendingChoices.indexOfFirst { (it.choice as? ChoiceDefinition.Entries)?.query == null }
+                .let { if (it < 0) 0 else it }
+            processChoice(pendingChoices.removeAt(index))
+        }
+        validateSelectionSets()
         for ((id, occurrences) in entries.groupBy { it.definition.entry.id }) {
             if (occurrences.map { it.definition.entry }.distinct().size > 1) {
                 val error = diagnostic("conflictingDefinitions", DiagnosticKind.UNRESOLVED_CONTENT,
@@ -262,7 +308,7 @@ private class Evaluation(private val document: CharacterDocument, private val co
             entries.associate { it.instanceId to it.definition.entry.coverage }, diagnostics.distinct(),
             entries.flatMap { occurrence -> occurrence.definition.entry.mechanics.conditionalModifiers.map {
                 ConditionalContribution(occurrence.instanceId, occurrence.slot, it)
-            } }, selectedEligibility)
+            } }, selectedEligibility, sets.toList())
     }
 
     /** A single active class establishes a base with every term visible in the breakdown. */
@@ -390,49 +436,170 @@ private class Evaluation(private val document: CharacterDocument, private val co
                 }
             }
         }
-        val choiceIds = sourceChoices.map { when (it) {
-            is ChoiceDefinition.Entries -> it.id; is ChoiceDefinition.Proficiencies -> it.id; is ChoiceDefinition.MainAbility -> it.id
-        } }
+        val owner = entries.first { it.instanceId == instance }
         for (choice in sourceChoices) {
-            val id = when (choice) { is ChoiceDefinition.Entries -> choice.id; is ChoiceDefinition.Proficiencies -> choice.id; is ChoiceDefinition.MainAbility -> choice.id }
-            val count = when (choice) { is ChoiceDefinition.Entries -> choice.count; is ChoiceDefinition.Proficiencies -> choice.count; is ChoiceDefinition.MainAbility -> 1 }
-            if (id.isBlank() || choiceIds.count { it == id } != 1 || count !in 1..100 ||
-                choice is ChoiceDefinition.Entries && (choice.entryIds.distinct().size != choice.entryIds.size ||
-                    choice.entryIds.any { it.isBlank() } || choice.distinct && count > choice.entryIds.size)) {
-                diagnostics += diagnostic("choiceDefinition", DiagnosticKind.INCOMPLETE_AUTOMATION,
-                    "Choice IDs must be unique and counts must be within 1–100.", slot, entry.id)
-                blockers += diagnostics.last()
-                continue
+            pendingChoices += PendingChoice(owner, choice, ancestors + entry.id)
+        }
+    }
+
+    private fun processChoice(pending: PendingChoice) {
+        val owner = pending.owner
+        val instance = owner.instanceId
+        var choice = pending.choice
+        val id = when (choice) { is ChoiceDefinition.Entries -> choice.id; is ChoiceDefinition.Proficiencies -> choice.id; is ChoiceDefinition.MainAbility -> choice.id }
+        if (choice is ChoiceDefinition.Entries) {
+            val changes = entries.flatMap { it.definition.entry.mechanics.selectionModifiers }.filter { it.choiceId == id }
+                .map { modifier -> modifier.copy(count = modifier.countByLevel.filter { it.atLevel <= document.level }
+                    .maxByOrNull { it.atLevel }?.count ?: modifier.count) }
+            if (changes.map { it.count }.distinct().size > 1 || changes.mapNotNull { it.collection }.distinct().size > 1) {
+                diagnostics += diagnostic("selectionOverrideConflict", DiagnosticKind.INCOMPLETE_AUTOMATION,
+                    "Active features disagree about count or collection for $id.", ChoiceSlotId(instance, id, 0))
+            } else {
+                choice = choice.copy(count = changes.firstOrNull()?.count ?: choice.countByLevel
+                    .filter { it.atLevel <= document.level }.maxByOrNull { it.atLevel }?.count ?: choice.count,
+                    constraints = (choice.constraints + changes.flatMap { it.constraints }).distinct(),
+                    collection = changes.firstNotNullOfOrNull { it.collection } ?: choice.collection)
             }
-            if (choice is ChoiceDefinition.Entries && choice.distinct) {
-                val selectedIds = entryDecisions.filter { it.slot.sourceInstanceId == instance && it.slot.choiceId == id }
-                    .map { it.selection.entryId }
-                if (selectedIds.distinct().size != selectedIds.size) {
-                    invalid("distinctChoice", "Choose different entries within this choice set.", ChoiceSlotId(instance, id, 0), entry.id)
+            val query = choice.query
+            if (query != null) {
+                if (query.category != EntryCategory.POWER) {
+                    diagnostics += diagnostic("queryCoverage", DiagnosticKind.INCOMPLETE_AUTOMATION,
+                        "${query.category} query requires an adapted fact catalog; no candidate eligibility is inferred.", ChoiceSlotId(instance, id, 0))
+                }
+                val replacementLevel = document.levels.filter { level -> level.replacements.any {
+                    it.replaces.sourceInstanceId == instance && it.replaces.choiceId == id
+                } }.maxOfOrNull { it.level }
+                val ceiling = if (query.characterLevel) document.level else maxOf(query.levelMaximum ?: choice.atLevel,
+                    replacementLevel ?: choice.atLevel)
+                val candidates = content.entries.values.filterIsInstance<ContractResult.Available<ResolvedEntry>>()
+                    .map { it.value.entry }.filter { candidate ->
+                        val profile = candidate.mechanics.powerProfile
+                        query.category == EntryCategory.POWER && candidate.category == query.category && profile != null && candidate.mechanics.access != null &&
+                            (query.usage == null || profile.usage == query.usage) &&
+                            (query.powerKind == null || profile.powerKind == query.powerKind) &&
+                            profile.level <= ceiling &&
+                            profile.keywords.containsAll(query.keywords)
+                    }.map { it.id }.sorted()
+                choice = choice.copy(entryIds = candidates, query = null)
+            }
+        }
+        val count = when (choice) { is ChoiceDefinition.Entries -> choice.count; is ChoiceDefinition.Proficiencies -> choice.count; is ChoiceDefinition.MainAbility -> 1 }
+        if (id.isBlank() || count !in 0..100 || choices.keys.any { it.sourceInstanceId == instance && it.choiceId == id } ||
+            choice is ChoiceDefinition.Entries && (choice.entryIds.distinct().size != choice.entryIds.size || choice.entryIds.any { it.isBlank() } ||
+                (pending.choice as? ChoiceDefinition.Entries)?.query == null && choice.distinct && count > choice.entryIds.size)) {
+            diagnostics += diagnostic("choiceDefinition", DiagnosticKind.INCOMPLETE_AUTOMATION,
+                "Choice IDs must be unique and counts must be within 0?100.", owner.slot, owner.definition.entry.id)
+            return
+        }
+        if (choice is ChoiceDefinition.Entries) {
+            effectiveSets += Triple(owner, choice, pending.ancestors)
+        }
+        for (ordinal in 0 until count) {
+            val slot = ChoiceSlotId(instance, id, ordinal)
+            val originalQuery = (pending.choice as? ChoiceDefinition.Entries)?.query
+            val slotChoice = if (choice is ChoiceDefinition.Entries && originalQuery != null && !originalQuery.characterLevel) {
+                val replacedAt = document.levels.filter { level -> level.replacements.any { it.replaces == slot } }.maxOfOrNull { it.level }
+                val maximum = replacedAt ?: originalQuery.levelMaximum ?: choice.atLevel
+                choice.copy(entryIds = choice.entryIds.filter { candidate ->
+                    val found = content.entries[candidate] as? ContractResult.Available
+                    found?.value?.entry?.mechanics?.powerProfile?.level?.let { it <= maximum } == true
+                })
+            } else choice
+            choices[slot] = slotChoice
+            if (choice is ChoiceDefinition.Entries) {
+                val decisions = entryDecisions.filter { it.slot == slot }
+                if (decisions.size != 1) {
+                    invalid("missingChoice", "Select exactly one entry for this slot.", slot, owner.definition.entry.id)
+                    blockers += diagnostics.last()
+                    continue
+                }
+                val decision = decisions.single()
+                usedEntries += decision
+                val definition = selected(decision)
+                if (decision.selection.entryId !in (slotChoice as ChoiceDefinition.Entries).entryIds) {
+                    invalid("choiceOption", "Selected entry is not an option for this slot.", slot, decision.selection.entryId)
+                }
+                // Preserve and diagnose invalid saved decisions; never silently drop an owned occurrence.
+                if (definition != null) {
+                    visit(definition, decision.instanceId, slot, false, pending.ancestors)
                 }
             }
-            for (ordinal in 0 until count) {
-                val choiceSlot = ChoiceSlotId(instance, id, ordinal)
-                choices[choiceSlot] = choice
-                if (choice is ChoiceDefinition.Entries) {
-                    val decisions = entryDecisions.filter { it.slot == choiceSlot }
-                    if (decisions.size != 1) {
-                        invalid("missingChoice", "Select exactly one entry for this slot.", choiceSlot, entry.id)
-                        blockers += diagnostics.last()
-                        continue
+        }
+    }
+
+    private val effectiveSets = mutableListOf<Triple<EngineEntry, ChoiceDefinition.Entries, Set<String>>>()
+
+    private fun validateSelectionSets() {
+        val collections = linkedMapOf<String, MutableList<EntryChoice>>()
+        for ((owner, choice) in effectiveSets) {
+            val selected = entryDecisions.filter { it.slot.sourceInstanceId == owner.instanceId && it.slot.choiceId == choice.id && it.slot.ordinal < choice.count }
+            choice.collection?.let { collections.getOrPut(it) { mutableListOf() }.addAll(selected) }
+        }
+        for ((owner, choice) in effectiveSets) {
+            val slot = ChoiceSlotId(owner.instanceId, choice.id, 0)
+            val selected = entryDecisions.filter { it.slot.sourceInstanceId == owner.instanceId && it.slot.choiceId == choice.id }
+            val errors = mutableListOf<Diagnostic>()
+            fun error(code: String, message: String, kind: DiagnosticKind = DiagnosticKind.INVALID_SELECTION) {
+                errors += diagnostic(code, kind, message, slot)
+            }
+            if (selected.size > choice.count) {
+                error("selectionCount", "This choice requires ${choice.count} entries; ${selected.size} are saved.")
+            }
+            val constraints = choice.constraints + if (choice.distinct) listOf(SelectionConstraint("distinct")) else emptyList()
+            for (constraint in constraints.distinct()) {
+                if (constraint.type == "distinct" && selected.map { it.selection.entryId }.distinct().size != selected.size) {
+                    error("distinctChoice", "Choose different entries within this choice set.")
+                }
+                if (constraint.type == "notKnown") {
+                    val known = entries.filter { other -> other.slot.sourceInstanceId != owner.instanceId || other.slot.choiceId != choice.id }
+                        .filter { (choices[it.slot] as? ChoiceDefinition.Entries)?.requiresCollection == null }
+                        .map { it.definition.entry.id }.toSet()
+                    if (selected.any { it.selection.entryId in known }) {
+                        error("alreadyKnown", "Stored power must differ from powers already known.")
                     }
-                    val decision = decisions.single()
-                    usedEntries += decision
-                    if (decision.selection.entryId !in choice.entryIds) {
-                        invalid("choiceOption", "Selected entry is not an option for this slot.", choiceSlot, decision.selection.entryId)
-                        continue
-                    }
-                    val definition = selected(decision)
-                    if (definition != null) {
-                        visit(definition, decision.instanceId, choiceSlot, false, ancestors + entry.id)
+                }
+                if (constraint.type == "keywordCount") {
+                    val profiles = selected.map { (content.selections[it.selection] as? ContractResult.Available)?.value?.entry?.mechanics?.powerProfile }
+                    if (profiles.any { it == null }) {
+                        error("constraintUnavailable", "Keyword bounds depend on unavailable power facts.", DiagnosticKind.INCOMPLETE_AUTOMATION)
+                    } else {
+                        val matching = profiles.count { constraint.keyword in it!!.keywords }
+                        val remaining = (choice.count - selected.size).coerceAtLeast(0)
+                        if (matching + remaining < constraint.minimum || constraint.maximum?.let { matching > it } == true) {
+                            error("keywordCount", "Choose ${constraint.minimum}?${constraint.maximum ?: choice.count} ${constraint.keyword} powers in this set; currently $matching.")
+                        }
                     }
                 }
             }
+            for (level in document.levels) {
+                if (choice.replacementLevels.isNotEmpty() && level.replacements.any {
+                    it.replaces.sourceInstanceId == owner.instanceId && it.replaces.choiceId == choice.id
+                } && level.level !in choice.replacementLevels) {
+                    error("replacementLevel", "This stored choice may only be replaced at levels ${choice.replacementLevels}.")
+                }
+            }
+            choice.requiresCollection?.let { required ->
+                val owned = collections[required].orEmpty().map { it.selection.entryId }.toSet()
+                for (decision in selected.filter { it.selection.entryId !in owned }) {
+                    errors += diagnostic("collectionOwnership", DiagnosticKind.INVALID_SELECTION,
+                        "Prepared/stored choice must belong to $required.", decision.slot, decision.selection.entryId)
+                }
+            }
+            choice.collection?.let { id ->
+                val definitions = entries.flatMap { it.definition.entry.mechanics.collections }.filter { it.id == id }
+                if (definitions.isEmpty() || definitions.map { it.capacity }.distinct().size != 1) {
+                    error("collectionDefinition", "Collection $id is missing or has conflicting capacities.", DiagnosticKind.INCOMPLETE_AUTOMATION)
+                } else if (collections[id].orEmpty().size > definitions.first().capacity) {
+                    error("collectionCapacity", "Collection $id exceeds capacity ${definitions.first().capacity}.")
+                }
+            }
+            if (selected.size < choice.count) {
+                errors += diagnostic("selectionRemaining", DiagnosticKind.INVALID_SELECTION,
+                    "${choice.count - selected.size} selections remain for this choice set.", slot)
+            }
+            diagnostics += errors
+            sets += SelectionSetResult(owner.instanceId, choice.id, choice.count, selected.size,
+                (choice.count - selected.size).coerceAtLeast(0), errors)
         }
     }
 
@@ -562,9 +729,35 @@ private class Evaluation(private val document: CharacterDocument, private val co
                 .filter { !any || it.status != Eligibility.INELIGIBLE || status == Eligibility.INELIGIBLE }
                 .flatMap { it.diagnostics })
         }
+        val sourceChoice = choices[slot] as? ChoiceDefinition.Entries
+        if (sourceChoice != null && entry.id !in sourceChoice.entryIds) {
+            return EntryEligibility(entry.id, Eligibility.INELIGIBLE, listOf(diagnostic("choiceOption",
+                DiagnosticKind.INVALID_SELECTION, "Entry does not belong to this acquisition pool.", slot, entry.id)))
+        }
+        if (diagnostics.any { it.code == "engine.selectionOverrideConflict" && it.slot?.sourceInstanceId == slot.sourceInstanceId && it.slot.choiceId == slot.choiceId }) {
+            return EntryEligibility(entry.id, Eligibility.INCOMPLETE, listOf(diagnostic("selectionOverrideConflict",
+                DiagnosticKind.INCOMPLETE_AUTOMATION, "Conflicting active overrides prevent establishing selection eligibility.", slot, entry.id)))
+        }
+        sourceChoice?.requiresCollection?.let { required ->
+            val owned = effectiveSets.filter { it.second.collection == required }.flatMap { (owner, choice) ->
+                entryDecisions.filter { it.slot.sourceInstanceId == owner.instanceId && it.slot.choiceId == choice.id && it.slot.ordinal < choice.count }
+            }.map { it.selection.entryId }
+            if (entry.id !in owned) {
+                return EntryEligibility(entry.id, Eligibility.INELIGIBLE, listOf(diagnostic("collectionOwnership",
+                    DiagnosticKind.INVALID_SELECTION, "Selection must already belong to $required.", slot, entry.id)))
+            }
+        }
+        if (sourceChoice?.constraints?.any { it.type == "notKnown" } == true && entries.any {
+            it.slot != slot && it.definition.entry.id == entry.id &&
+                (choices[it.slot] as? ChoiceDefinition.Entries)?.requiresCollection == null
+        }) {
+            return EntryEligibility(entry.id, Eligibility.INELIGIBLE, listOf(diagnostic("alreadyKnown",
+                DiagnosticKind.INVALID_SELECTION, "Stored power must differ from already known powers.", slot, entry.id)))
+        }
         val maximum = entry.mechanics.maximumSelections
-        if (maximum != null && (maximum < 1 || entries.count {
-            !it.granted && it.slot != slot && it.definition.entry.id == entry.id
+        if ((choices[slot] as? ChoiceDefinition.Entries)?.requiresCollection == null && maximum != null && (maximum < 1 || entries.count {
+            !it.granted && it.slot != slot && it.definition.entry.id == entry.id &&
+                (choices[it.slot] as? ChoiceDefinition.Entries)?.requiresCollection == null
         } >= maximum)) {
             return EntryEligibility(entry.id, Eligibility.INELIGIBLE, listOf(diagnostic("selectionMaximum",
                 DiagnosticKind.INVALID_SELECTION, "Entry selection maximum exceeded.", slot, entry.id)))
@@ -584,7 +777,7 @@ private class Evaluation(private val document: CharacterDocument, private val co
         var unresolved = false
         var incomplete = false
         var invalid = false
-        val selectionLevel = document.levels.firstOrNull { level -> level.entries.any { it.slot == slot } }?.level
+        val selectionLevel = decisionLevels[slot]
         val historical = selectionLevel != null && selectionLevel < document.level && prerequisite !is Prerequisite.Level && prerequisite !is Prerequisite.Always
         if (selfDependency(entry, prerequisite) || entry.mechanics.version >= 2 && dependentBenefit(entry, prerequisite) || historical) {
             incomplete = true

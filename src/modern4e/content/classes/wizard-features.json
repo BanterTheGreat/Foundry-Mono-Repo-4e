@@ -19,7 +19,7 @@
         "status": "UNIMPLEMENTED",
         "limitations": [
           "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented.",
-          "Initial daily acquisition/storage and daily preparation are structured. Later acquisition slots, utility preparation, technique page costs and extended-rest execution remain literal rules pending full progression; collection capacity counts entries, not technique page usage."
+          "Power acquisition through level 10 and daily/utility preparation capacities are structured. Technique choices remain unresolved until the magic-technique catalog is adapted; no arbitrary technique becomes eligible. Page costs, levels 11-30 acquisitions and extended-rest execution remain incomplete."
         ]
       },
       "sections": [
@@ -105,6 +105,34 @@
         {
           "type": "choice",
           "choiceId": "modern4e.choice.wizard-prepare-dailies"
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.wizard-prepare-utilities"
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.wizard-techniques-1"
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.wizard-techniques-5"
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.wizard-techniques-11"
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.wizard-techniques-15"
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.wizard-techniques-21"
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.wizard-techniques-25"
         }
       ],
       "collections": [
@@ -117,12 +145,61 @@
           "id": "modern4e.collection.wizard-prepared-daily",
           "title": "Prepared spells",
           "capacity": 3
+        },
+        {
+          "id": "modern4e.collection.wizard-prepared-utility",
+          "title": "Prepared utilities",
+          "capacity": 5
         }
       ],
       "selectionModifiers": [
         {
           "choiceId": "modern4e.choice.class-attack-daily",
           "count": 4,
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ],
+          "collection": "modern4e.collection.wizard-spellbook",
+          "replacement": "FOLLOW_TARGET"
+        },
+        {
+          "choiceId": "modern4e.choice.class-utility-2",
+          "count": 2,
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ],
+          "collection": "modern4e.collection.wizard-spellbook",
+          "replacement": "FOLLOW_TARGET"
+        },
+        {
+          "choiceId": "modern4e.choice.class-attack-daily-5",
+          "count": 2,
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ],
+          "collection": "modern4e.collection.wizard-spellbook",
+          "replacement": "FOLLOW_TARGET"
+        },
+        {
+          "choiceId": "modern4e.choice.class-utility-6",
+          "count": 2,
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ],
+          "collection": "modern4e.collection.wizard-spellbook",
+          "replacement": "FOLLOW_TARGET"
+        },
+        {
+          "choiceId": "modern4e.choice.class-utility-10",
+          "count": 2,
           "constraints": [
             {
               "type": "distinct"
@@ -167,6 +244,172 @@
           ],
           "collection": "modern4e.collection.wizard-prepared-daily",
           "requiresCollection": "modern4e.collection.wizard-spellbook"
+        },
+        {
+          "id": "modern4e.choice.wizard-prepare-utilities",
+          "title": "Prepare utility spells",
+          "kind": "ENTRY",
+          "atLevel": 2,
+          "count": {
+            "byLevel": [
+              {
+                "atLevel": 1,
+                "count": 1
+              },
+              {
+                "atLevel": 6,
+                "count": 2
+              },
+              {
+                "atLevel": 10,
+                "count": 3
+              },
+              {
+                "atLevel": 16,
+                "count": 4
+              },
+              {
+                "atLevel": 22,
+                "count": 5
+              }
+            ]
+          },
+          "source": {
+            "type": "query",
+            "category": "POWER",
+            "filters": {
+              "powerKind": "UTILITY",
+              "levelMaximum": "CHARACTER",
+              "access": "CHARACTER"
+            }
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ],
+          "collection": "modern4e.collection.wizard-prepared-utility",
+          "requiresCollection": "modern4e.collection.wizard-spellbook"
+        },
+        {
+          "id": "modern4e.choice.wizard-techniques-1",
+          "title": "Level 1 spellbook techniques",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 3,
+          "source": {
+            "type": "query",
+            "category": "TECHNIQUE",
+            "filters": {
+              "levelMaximum": 1,
+              "access": "CHARACTER"
+            }
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        },
+        {
+          "id": "modern4e.choice.wizard-techniques-5",
+          "title": "Level 5 spellbook techniques",
+          "kind": "ENTRY",
+          "atLevel": 5,
+          "count": 2,
+          "source": {
+            "type": "query",
+            "category": "TECHNIQUE",
+            "filters": {
+              "levelMaximum": 5,
+              "access": "CHARACTER"
+            }
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        },
+        {
+          "id": "modern4e.choice.wizard-techniques-11",
+          "title": "Level 11 spellbook techniques",
+          "kind": "ENTRY",
+          "atLevel": 11,
+          "count": 2,
+          "source": {
+            "type": "query",
+            "category": "TECHNIQUE",
+            "filters": {
+              "levelMaximum": 11,
+              "access": "CHARACTER"
+            }
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        },
+        {
+          "id": "modern4e.choice.wizard-techniques-15",
+          "title": "Level 15 spellbook techniques",
+          "kind": "ENTRY",
+          "atLevel": 15,
+          "count": 2,
+          "source": {
+            "type": "query",
+            "category": "TECHNIQUE",
+            "filters": {
+              "levelMaximum": 15,
+              "access": "CHARACTER"
+            }
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        },
+        {
+          "id": "modern4e.choice.wizard-techniques-21",
+          "title": "Level 21 spellbook techniques",
+          "kind": "ENTRY",
+          "atLevel": 21,
+          "count": 2,
+          "source": {
+            "type": "query",
+            "category": "TECHNIQUE",
+            "filters": {
+              "levelMaximum": 21,
+              "access": "CHARACTER"
+            }
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        },
+        {
+          "id": "modern4e.choice.wizard-techniques-25",
+          "title": "Level 25 spellbook techniques",
+          "kind": "ENTRY",
+          "atLevel": 25,
+          "count": 2,
+          "source": {
+            "type": "query",
+            "category": "TECHNIQUE",
+            "filters": {
+              "levelMaximum": 25,
+              "access": "CHARACTER"
+            }
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
         }
       ]
     },
@@ -367,13 +610,57 @@
         "status": "UNIMPLEMENTED",
         "limitations": [
           "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented.",
-          "The stored encounter-power substitution or technique acquisition remains literal rules pending its runtime/catalog implementation."
+          "Stored encounter selection, distinctness from known powers and replacement levels through level 10 are structured. Combat substitution, later acquisition and technique mastery remain incomplete."
         ]
       },
       "sections": [
         {
           "type": "text",
           "text": "When you select this form of implement mastery, choose a wizard encounter attack power of your level or lower that you don't already know. That power is now stored and available for your use at a later time.\n\nOnce per encounter as a free action, you can use the stored power by expending another unused wizard encounter attack power of its level or higher. You must still take the normal action required to use the stored power.\n\nEach time you reach a level that lets you choose an encounter power, you can replace the stored power with a new wizard encounter attack power of your level or lower that you do not already know.\n\nYou must wield a tome to benefit from this feature."
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.wizard-tome-readiness"
+        }
+      ],
+      "collections": [
+        {
+          "id": "modern4e.collection.wizard-tome-readiness",
+          "title": "Tome stored encounter power",
+          "capacity": 1
+        }
+      ],
+      "choices": [
+        {
+          "id": "modern4e.choice.wizard-tome-readiness",
+          "title": "Store an unknown encounter attack",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 1,
+          "source": {
+            "type": "query",
+            "category": "POWER",
+            "filters": {
+              "usage": "ENCOUNTER",
+              "powerKind": "ATTACK",
+              "levelMaximum": "CHARACTER",
+              "access": "CHARACTER"
+            }
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            },
+            {
+              "type": "notKnown"
+            }
+          ],
+          "collection": "modern4e.collection.wizard-tome-readiness",
+          "replacementLevels": [
+            1,
+            3,
+            7
+          ]
         }
       ]
     },

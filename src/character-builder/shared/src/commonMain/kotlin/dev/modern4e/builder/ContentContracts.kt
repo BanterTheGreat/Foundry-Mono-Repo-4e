@@ -37,7 +37,7 @@ data class ContentEntry(
 )
 
 @Serializable
-enum class EntryCategory { CLASS, ANCESTRY, BACKGROUND, THEME, FEAT, FEATURE, POWER, PARAGON_PATH, EPIC_DESTINY, ITEM }
+enum class EntryCategory { CLASS, ANCESTRY, BACKGROUND, THEME, FEAT, FEATURE, POWER, PARAGON_PATH, EPIC_DESTINY, ITEM, TECHNIQUE }
 
 @Serializable
 data class Presentation(
@@ -68,6 +68,9 @@ data class Mechanics(
     @EncodeDefault(EncodeDefault.Mode.NEVER) val unsupported: List<String> = emptyList(),
     @EncodeDefault(EncodeDefault.Mode.NEVER) val maximumSelections: Int? = null,
     @EncodeDefault(EncodeDefault.Mode.NEVER) val weaponAbilities: Map<WeaponGroup, Ability> = emptyMap(),
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val selectionModifiers: List<SelectionModifier> = emptyList(),
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val collections: List<PowerCollection> = emptyList(),
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val powerProfile: PowerProfile? = null,
 )
 
 @Serializable
@@ -113,11 +116,21 @@ sealed class Grant {
 @Serializable
 sealed class ChoiceDefinition {
     @Serializable @SerialName("entries")
-    data class Entries(val id: String, val count: Int, val entryIds: List<String>,
+    data class Entries(val id: String, val count: Int, val entryIds: List<String> = emptyList(),
         @EncodeDefault(EncodeDefault.Mode.NEVER) val atLevel: Int = 1,
-        @EncodeDefault(EncodeDefault.Mode.NEVER) val distinct: Boolean = false) : ChoiceDefinition() {
+        @EncodeDefault(EncodeDefault.Mode.NEVER) val distinct: Boolean = false,
+        @EncodeDefault(EncodeDefault.Mode.NEVER) val query: PowerQuery? = null,
+        @EncodeDefault(EncodeDefault.Mode.NEVER) val countByLevel: List<ChoiceCount> = emptyList(),
+        @EncodeDefault(EncodeDefault.Mode.NEVER) val constraints: List<SelectionConstraint> = emptyList(),
+        @EncodeDefault(EncodeDefault.Mode.NEVER) val collection: String? = null,
+        @EncodeDefault(EncodeDefault.Mode.NEVER) val requiresCollection: String? = null,
+        @EncodeDefault(EncodeDefault.Mode.NEVER) val replacementLevels: List<Int> = emptyList()) : ChoiceDefinition() {
         init {
             require(atLevel in 1..30)
+            require(query == null || entryIds.isEmpty())
+            require(countByLevel.isEmpty() || countByLevel.first().atLevel == 1 &&
+                countByLevel.map { it.atLevel } == countByLevel.map { it.atLevel }.distinct().sorted())
+            require(replacementLevels.all { it in 1..30 } && replacementLevels == replacementLevels.distinct().sorted())
         }
     }
     @Serializable @SerialName("proficiencies")

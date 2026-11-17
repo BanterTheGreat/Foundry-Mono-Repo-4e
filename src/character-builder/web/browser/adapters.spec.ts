@@ -148,7 +148,7 @@ test("bundled content uses shared metadata search and lazy chunks; missing asset
     const requests: string[] = [];
     const source = new w.BundledContentSource(async (...args: Parameters<typeof fetch>) => { requests.push(String(args[0])); return fetch(...args); });
     const catalog = new w.WebContentCatalog(source.call);
-    const opened = JSON.parse(await catalog.open("modern4e.proof", "[]"));
+    const opened = JSON.parse(await catalog.open("modern4e.classes", "[]"));
     const search = JSON.parse(catalog.search("fighter"));
     const before = [...requests];
     const detail = JSON.parse(await catalog.lookup(search.value[0].metadata.id));
@@ -162,7 +162,7 @@ test("bundled content uses shared metadata search and lazy chunks; missing asset
   expect(result.search.value.length).toBeGreaterThan(0);
   expect(result.before.some(url => url.includes("entries-"))).toBe(false);
   expect(result.after.length).toBe(result.before.length + 1);
-  expect(result.detail.value.supplier.packageId).toBe("modern4e.proof");
+  expect(result.detail.value.supplier.packageId).toBe("modern4e.classes");
   expect(result.missing.diagnostics[0].code).toBe("content.load");
   expect(result.failed.diagnostics[0].code).toBe("content.load");
 });

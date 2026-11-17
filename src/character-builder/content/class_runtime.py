@@ -1,6 +1,6 @@
 """Compile validated shared class data into the mechanics-v2 runtime contract.
 
-The package is an engine input for #33; production bundle adoption remains #35.
+The package supplies the shared engine and normal web/Android production bundles.
 Unsupported decisions/effects retain their complete authoring data and diagnostics.
 """
 import importlib.util
@@ -25,6 +25,39 @@ def condition(node):
             "reason": "Condition requires an additional runtime fact vocabulary."}
 
 
+def compile_choice(choice):
+    """Preserve acquisition, pool, collection and whole-set rules independently."""
+    count = choice["count"]
+    result = {"type": "entries", "id": choice["id"], "count": count if type(count) is int else count["byLevel"][0]["count"],
+              "atLevel": choice["atLevel"], "distinct": any(c["type"] == "distinct" for c in choice["constraints"])}
+    extra = [c for c in choice["constraints"] if c["type"] != "distinct"]
+    if extra:
+        result["constraints"] = extra
+    if type(count) is dict:
+        result["countByLevel"] = count["byLevel"]
+    for key in ("collection", "requiresCollection", "replacementLevels"):
+        if key in choice:
+            result[key] = choice[key]
+    source = choice["source"]
+    if source["type"] == "entries":
+        result["entryIds"] = source["entryIds"]
+    else:
+        filters = source["filters"]
+        query = {"category": source["category"]}
+        for key in ("usage", "powerKind", "keywords"):
+            if key in filters:
+                query[key] = filters[key]
+        maximum = filters.get("levelMaximum")
+        if type(maximum) is int:
+            query["levelMaximum"] = maximum
+        elif maximum == "CHARACTER":
+            query["characterLevel"] = True
+        elif maximum == "SLOT":
+            query["levelMaximum"] = choice["atLevel"]
+        result["query"] = query
+    return result
+
+
 def compile_entry(entry):
     """Map explicit authoring facts; preserve the source for unsupported consumers."""
     mechanics = {"version": 2, "access": condition(entry["access"]),
@@ -33,14 +66,23 @@ def compile_entry(entry):
                              "atLevel": g["atLevel"]} for g in entry.get("grants", [])],
                  "choices": [], "unsupported": [], "maximumSelections": entry["selection"]["maximum"]}
     for choice in entry.get("choices", []) if entry["category"] != "POWER" else []:
-        if (choice["source"]["type"] != "entries" or type(choice["count"]) is not int
-                or any(c["type"] != "distinct" for c in choice["constraints"])
-                or "collection" in choice or "requiresCollection" in choice):
-            mechanics["unsupported"].append(f"Choice {choice['id']} requires progression/collection support (#34).")
-            continue
-        mechanics["choices"].append({"type": "entries", "id": choice["id"], "count": choice["count"],
-                                     "entryIds": choice["source"]["entryIds"], "atLevel": choice["atLevel"],
-                                     "distinct": any(c["type"] == "distinct" for c in choice["constraints"])})
+        mechanics["choices"].append(compile_choice(choice))
+    for key in ("selectionModifiers", "collections"):
+        if entry.get(key):
+            mechanics[key] = entry[key]
+    if mechanics.get("selectionModifiers"):
+        mechanics["selectionModifiers"] = [{**modifier, "count": modifier["count"]["byLevel"][0]["count"],
+                                            "countByLevel": modifier["count"]["byLevel"]}
+                                           if type(modifier["count"]) is dict else modifier
+                                           for modifier in mechanics["selectionModifiers"]]
+    if entry["category"] == "POWER" and "level" in entry and "powerKind" in entry:
+        frequencies = {activation["usage"]["frequency"] for activation in entry["activations"]
+                       if activation["availability"] == "ENTRY"}
+        if len(frequencies) == 1 and next(iter(frequencies)) in ("AT_WILL", "ENCOUNTER", "DAILY"):
+            mechanics["powerProfile"] = {"level": entry["level"], "powerKind": entry["powerKind"],
+                                         "usage": next(iter(frequencies)), "keywords": entry["keywords"]}
+        else:
+            mechanics["unsupported"].append("Ambiguous selectable power usage; excluded from query pools.")
     if entry["category"] == "CLASS":
         stats = entry["statistics"]
         defense_abilities = {"FORTITUDE": ["STRENGTH", "CONSTITUTION"],
@@ -55,9 +97,6 @@ def compile_entry(entry):
                                      "mainAbilities": entry["abilities"]["main"],
                                      "secondaryAbilities": entry["abilities"]["secondary"],
                                      "proficiencies": entry["proficiencies"], "statistics": formulas}
-    for key in ("selectionModifiers", "collections"):
-        if entry.get(key):
-            mechanics["unsupported"].append(f"{key} requires progression/collection support (#34).")
     mechanics["conditionalModifiers"] = entry.get("conditionalModifiers", [])
     mechanics["weaponAbilities"] = {row["weaponGroup"]: row["ability"] for row in entry.get("weaponAbilities", [])}
     boilerplate = "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
@@ -71,7 +110,7 @@ def compile_entry(entry):
             "mechanics": mechanics, "coverage": coverage, "sharedData": entry}
 
 
-def build(content=authoring.CONTENT, class_ids=None):
+def build(content=authoring.CONTENT, class_ids=None, include_advancement=True):
     """Validate all sources before emitting a deterministic, independently loadable package."""
     catalog = authoring.catalog(content)
     source = {e["id"]: e for e in catalog["entries"]}
@@ -90,6 +129,12 @@ def build(content=authoring.CONTENT, class_ids=None):
                     ids.add(key)
                     pending.append(key)
     entries = [compile_entry(source[key]) for key in sorted(ids) if source[key]["category"] != "RULE"]
+    for entry in entries:
+        if entry["category"] == "CLASS" and include_advancement:
+            entry["sharedData"] = {**entry["sharedData"], "runtimeReferences": catalog["references"],
+                                   "runtimeAdvancementCoverage": catalog["advancement"]["coverage"]}
+        if entry["category"] == "CLASS" and include_advancement:
+            entry["mechanics"]["choices"] += [compile_choice(choice) for choice in catalog["advancement"]["powerChoices"]]
     package = "modern4e.classes"
     return {
         f"{package}/manifest.json": {"formatVersion": 2, "id": package, "revision": "1",

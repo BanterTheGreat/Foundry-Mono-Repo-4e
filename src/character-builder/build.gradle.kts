@@ -12,3 +12,9 @@ plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin> {
         version = "22.14.0"
     }
 }
+
+// Authoring validation and stale-byte detection precede platform publication.
+tasks.register<Exec>("validateProductionContent") {
+    workingDir(rootDir)
+    commandLine("python", "-X", "utf8", "content/build.py", "--check")
+}

@@ -95,7 +95,7 @@ class AndroidAdaptersJvmTest {
     @Test fun generatedPackagesLoadWithoutAndroidInterpretation() = run {
         val source = AndroidContentSource(context.assets)
         val manifests = value(source.listPackages())
-        assertEquals(setOf("modern4e.proof", "modern4e.proof.override", "modern4e.fighter-proof", "modern4e.fighter-proof.override"), manifests.map { it.id }.toSet())
+        assertEquals(setOf("modern4e.proof", "modern4e.proof.override", "modern4e.fighter-proof", "modern4e.classes"), manifests.map { it.id }.toSet())
         for (manifest in manifests) {
             for (index in manifest.indexes) {
                 assertTrue(value(source.loadIndex(manifest.id, index)).entries.isNotEmpty())

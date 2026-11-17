@@ -1,0 +1,68 @@
+{
+  "entries": [
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Provisional authored adaptation: source Str 13 prerequisite is replaced with a direct Strength 2-point requirement. This is a proof-package design choice, not a general conversion formula or an established rulebook ruling.",
+          "Warlord Heal/History training explicitly becomes Medicine/Society proficiency under the Modern 4e mapping.",
+          "Inspiring Word and multiclass restrictions are not automated."
+        ],
+        "status": "PARTIAL"
+      },
+      "id": "feat338",
+      "mechanics": {
+        "choices": [
+          {
+            "count": 1,
+            "id": "warlord-skill",
+            "skills": [
+              "ATHLETICS",
+              "DIPLOMACY",
+              "ENDURANCE",
+              "MEDICINE",
+              "SOCIETY",
+              "INTIMIDATE"
+            ],
+            "type": "proficiencies"
+          }
+        ],
+        "prerequisites": [
+          {
+            "ability": "STRENGTH",
+            "minimum": 2,
+            "type": "abilityPoints"
+          }
+        ]
+      },
+      "presentation": {
+        "description": "<h1 class=player>Student of Battle [Multiclass Warlord]</h1><p class=flavor><b>Prerequisite</b>: Str 13<br><b>Benefit</b>: You gain training in one skill from the warlord's class skill list.<br>    Once per day, you can use the warlord's inspiring word power.<br></p><p class=publishedIn>Published in Player's Handbook, page(s) 208.</p>",
+        "publications": [
+          "Player's Handbook, page(s) 208."
+        ],
+        "references": [],
+        "title": "Student of Battle"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Source presentation only; mechanics and prerequisites have not been adapted to Modern 4e."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "feat652",
+      "mechanics": {},
+      "presentation": {
+        "description": "<h1 class=player>Alchemist</h1><p class=flavor><b>Benefit</b>: You can make alchemical items of your level or lower. You must have the correct formula and training in an appropriate skill.<br><b>Special</b>: If you receive the Ritual Caster feat as a class feature, you can take the Alchemist feat instead.<br></p><p class=publishedIn>Published in Eberron Player's Guide, page(s) 87, Dragon Magazine 399, Adventurer's Vault, page(s) 21, Mordenkainen's Magnificent Emporium, page(s) 129.</p>",
+        "publications": [
+          "Eberron Player's Guide, page(s) 87, Dragon Magazine 399, Adventurer's Vault, page(s) 21, Mordenkainen's Magnificent Emporium, page(s) 129."
+        ],
+        "references": [],
+        "title": "Alchemist"
+      }
+    }
+  ],
+  "id": "entries-0001"
+}

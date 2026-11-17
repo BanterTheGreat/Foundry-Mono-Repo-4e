@@ -13,6 +13,20 @@ class ContentCatalog private constructor(
     private val definitions: Map<String, Map<String, EntryMetadata>>,
     val diagnostics: List<Diagnostic>,
 ) {
+    /** One evaluation shares decoded chunks; later evaluations still observe current source bytes. */
+    internal fun readSession(): ContentCatalog {
+        val chunks = mutableMapOf<Pair<String, String>, ContractResult<EntryChunk>>()
+        val sessionSource = object : ContentSource {
+            override suspend fun listPackages() = source.listPackages()
+            override suspend fun loadIndex(packageId: String, indexId: String) = source.loadIndex(packageId, indexId)
+            override suspend fun loadChunk(packageId: String, chunkId: String): ContractResult<EntryChunk> {
+                val key = packageId to chunkId
+                return chunks[key] ?: source.loadChunk(packageId, chunkId).also { chunks[key] = it }
+            }
+        }
+        return ContentCatalog(sessionSource, packages, entries, definitions, diagnostics)
+    }
+
     /** Search winning metadata only; never loads a chunk. Ordering is stable across platforms. */
     fun search(query: String = "", category: EntryCategory? = null): List<CatalogEntry> {
         val words = query.trim().lowercase().split(Regex("\\s+")).filter { it.isNotEmpty() }

@@ -1,3 +1,21 @@
+# Production content adoption (#35)
+
+Normal `content/build.py` validates and compiles all 19 authoritative Modern 4e
+classes with their shared features/powers into `content/production-generated`.
+Android and web bundle those exact bytes; their build checks fail on stale or
+invalid authoring output. Published compendium class HTML/mechanics never fill
+missing local definitions. Explicitly imported other categories retain their
+pipeline and IDs. See [content inputs and commands](content/README.md).
+
+New Android characters start from `sample-modern-fighter.json`, with a local
+`modern4e.class.fighter` selection and incomplete choices. Existing `class3`
+characters retain their supplier provenance and unresolved decisions. There is
+no silent conversion or automatic adoption. Legacy proof packages and samples
+remain named test fixtures and are generated with explicit `--config proof.json`.
+Runtime coverage remains partial; the package does not claim complete combat or
+level 1?30 automation. Historical validation notes below describe their original
+milestones and do not change the current production input contract.
+
 # Modern 4e Character Builder
 
 Standalone Modern 4e builder with a shared Kotlin core, web shell and Android shell. This project has no Foundry manifest and must never be deployed to Foundry. Shared contracts, portable JSON exchange, content production/catalog resolution, the levels 1-2 proof rules engine and import/recovery coordination are implemented. Web IndexedDB, bundled content and file exchange adapters are implemented. Android now includes native Home, character library/import/recovery and overview screens plus persistence adapters; full application workflows and web offline provisioning remain later work.
@@ -49,6 +67,16 @@ Start one Android API 34 emulator (or connect a device with API 26+) and run:
 The instrumentation test launches the real activity and checks both shared fixture fields. CI uses an API 34 x86_64 emulator on Linux with KVM. An APK compilation or JVM test alone does not prove this UI check passed.
 
 Shared tests check identical stable results and independent calls on JVM and JS. Web tests consume the actual compiled Kotlin module, verify a plain serializable JS object, independent results, and server-rendered shell output. No mocked Kotlin boundary is used.
+
+Validation for #34/#35 (2026-11-18, Windows/JDK 21): 109 shared tests per
+JVM/JS target, 32 Android unit tests, 8 web boundary tests and 9 Chromium adapter
+tests passed. Production JS distribution, web production build, Android debug app
+and instrumentation APK assembly passed. The content Python suite passed 102
+tests with six Typst-dependent skips; production, legacy fixture and sample checks
+passed. All 13 generated production package assets matched both Android bundled
+and web build bytes. Emulator/visual UI checks and Typst compilation were not run.
+Existing Gradle/npm resolution, Kotlin source-map and Vite bundle-size warnings
+remain. Foundry deployment does not apply.
 
 ## Validation recorded for the foundation
 

@@ -48,9 +48,11 @@ entries, choices, proficiency sources, coverage, diagnostics, conditional benefi
 and occurrence eligibility. No platform math is required.
 
 Explicit v2 class acquisition/formulas can evaluate characters above level 2,
-with a general-progression diagnostic. Ability advancement/replacements still
-block totals; general progression, query pools, dynamic counts and collections
-remain #34. Production bundle adoption is #35. These limits do not remove data.
+with a general-progression diagnostic. Ability advancement still blocks totals;
+power replacement replay validates composition without claiming complete
+progression/retraining timing. Shared acquisition through level 10, query pools,
+dynamic counts and collections are described below. General advancement and
+levels 11?30 remain #20. These limits do not remove data.
 
 `SharedClassTest` consumes the exact compiled Fighter golden on JVM/JS; the web
 boundary test consumes the same content. It covers all six independent build
@@ -140,8 +142,10 @@ level, because historical independent calculations are not implemented. An
 earlier decision's explicit level prerequisite uses its selection level, not the
 character's current level. These limits are explicit; this engine does not claim
 full historical eligibility, retraining, or arbitrary progression. Legacy documents
-above level 2 and documents with ability advancements/replacements remain preserved
-but have unavailable totals. Explicit v2 class formulas/acquisition can evaluate
+above level 2 and documents with ability advancements remain preserved but have
+unavailable totals. Power-only replacement history can replay supported acquisition
+occurrences with an explicit incomplete timing/allowance diagnostic; it does not
+make general retraining or later-level advancement complete. Explicit v2 class formulas/acquisition can evaluate
 later levels with the general-progression limitation described above.
 
 ## Modifier semantics
@@ -185,3 +189,43 @@ all skill mappings, background/free/granted proficiency, typed and named-source
 stacking, penalties, SET/MINIMUM, diagnostics, missing/cyclic grants, repeated
 choices, eligibility limits, catalog supplier protection and unavailable values.
 No character UI or combat execution is implemented. V2 class formulas are described above.
+
+## Shared power selections (#34)
+
+`Mechanics.powerProfile` records a selectable power's level, usage, attack/utility
+kind and keywords. `ChoiceDefinition.Entries` can use a closed `PowerQuery`, with
+level/category/usage/keyword filters and separately evaluated access/prerequisites.
+Powers without explicit adapted facts are excluded; unsupported technique/other
+queries produce no fabricated candidates and retain incomplete coverage.
+
+Shared choice IDs and acquisition levels come from class `advancement.json`.
+Nine slots match authored GAIN events through level 10. Each active feature may
+replace a target count and add idempotent distinct/keyword constraints. Finite
+feature choices resolve before shared pools. Differing count/collection overrides
+report `selectionOverrideConflict` and cannot establish eligible candidates.
+There is no class-name dispatch. Granted and nested powers use their own source
+occurrences and never consume normal slots.
+
+`EngineResult.selectionSets` reports source occurrence, choice ID, required,
+selected and remaining counts and whole-set diagnostics. Android receives it
+directly; `WebContentCatalog.evaluate` serializes the same API. Individual access
+eligibility remains separate from complete-set validity. Druid's three picks
+permit either one or two Beast Form powers, arbitrary order and unfinished
+intermediate sets; impossible or completed invalid combinations remain saved
+and diagnosed. Feature removal recalculates counts without deleting extra picks.
+
+`collections` declare owned lists and capacities; each choice's `collection` routes
+its current decisions there. `requiresCollection` verifies ownership independently
+for stored/prepared choices, which do not consume a second learning occurrence.
+Wizard daily/utility preparation has separate capacities and distinctness; replacing
+an acquisition updates ownership and exposes stale preparations. Tome uses
+`notKnown` plus explicit `replacementLevels`. Technique occurrence slots are
+preserved but remain unresolved until the adapted magic-technique pool exists;
+spellbook page costs and combat execution remain incomplete.
+
+Power-only `Replacement` histories replay by stable acquisition slot, preserve the
+original occurrence ID and old saved decisions, and recheck all set constraints.
+General progression/retraining timing and allowances remain incomplete under #20.
+`PowerSelectionTest` runs the same count/bounds/order, feature-removal/conflict,
+collection/preparation, Tome, unavailable-catalog, editing/retraining and portable
+reopen scenarios on JVM and JavaScript.

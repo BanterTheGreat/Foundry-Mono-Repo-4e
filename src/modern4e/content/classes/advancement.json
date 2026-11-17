@@ -4,7 +4,7 @@
   "coverage": {
     "status": "PARTIAL",
     "limitations": [
-      "This contract retains initial class attack-power choice IDs. Full literal creation and level progression are authored in content/creation/standard.json; runtime progression and class overrides remain unimplemented."
+      "Shared power acquisition is defined through level 10. Levels 11-30 and general progression/retraining allowances remain unverified (#20). Utility usage/access requires an explicitly adapted candidate profile; unadapted published powers are excluded."
     ]
   },
   "powerChoices": [
@@ -65,6 +65,135 @@
           "usage": "DAILY",
           "powerKind": "ATTACK",
           "levelMaximum": 1,
+          "access": "CHARACTER"
+        }
+      },
+      "constraints": [
+        {
+          "type": "distinct"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.choice.class-utility-2",
+      "title": "Level 2 utility",
+      "kind": "ENTRY",
+      "atLevel": 2,
+      "count": 1,
+      "source": {
+        "type": "query",
+        "category": "POWER",
+        "filters": {
+          "powerKind": "UTILITY",
+          "levelMaximum": 2,
+          "access": "CHARACTER"
+        }
+      },
+      "constraints": [
+        {
+          "type": "distinct"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.choice.class-attack-encounter-3",
+      "title": "Level 3 attack-encounter",
+      "kind": "ENTRY",
+      "atLevel": 3,
+      "count": 1,
+      "source": {
+        "type": "query",
+        "category": "POWER",
+        "filters": {
+          "powerKind": "ATTACK",
+          "levelMaximum": 3,
+          "access": "CHARACTER",
+          "usage": "ENCOUNTER"
+        }
+      },
+      "constraints": [
+        {
+          "type": "distinct"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.choice.class-attack-daily-5",
+      "title": "Level 5 attack-daily",
+      "kind": "ENTRY",
+      "atLevel": 5,
+      "count": 1,
+      "source": {
+        "type": "query",
+        "category": "POWER",
+        "filters": {
+          "powerKind": "ATTACK",
+          "levelMaximum": 5,
+          "access": "CHARACTER",
+          "usage": "DAILY"
+        }
+      },
+      "constraints": [
+        {
+          "type": "distinct"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.choice.class-utility-6",
+      "title": "Level 6 utility",
+      "kind": "ENTRY",
+      "atLevel": 6,
+      "count": 1,
+      "source": {
+        "type": "query",
+        "category": "POWER",
+        "filters": {
+          "powerKind": "UTILITY",
+          "levelMaximum": 6,
+          "access": "CHARACTER"
+        }
+      },
+      "constraints": [
+        {
+          "type": "distinct"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.choice.class-attack-encounter-7",
+      "title": "Level 7 attack-encounter",
+      "kind": "ENTRY",
+      "atLevel": 7,
+      "count": 1,
+      "source": {
+        "type": "query",
+        "category": "POWER",
+        "filters": {
+          "powerKind": "ATTACK",
+          "levelMaximum": 7,
+          "access": "CHARACTER",
+          "usage": "ENCOUNTER"
+        }
+      },
+      "constraints": [
+        {
+          "type": "distinct"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.choice.class-utility-10",
+      "title": "Level 10 utility",
+      "kind": "ENTRY",
+      "atLevel": 10,
+      "count": 1,
+      "source": {
+        "type": "query",
+        "category": "POWER",
+        "filters": {
+          "powerKind": "UTILITY",
+          "levelMaximum": 10,
           "access": "CHARACTER"
         }
       },

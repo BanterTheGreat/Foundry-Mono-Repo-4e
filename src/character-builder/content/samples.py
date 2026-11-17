@@ -70,6 +70,50 @@ def assets():
     return output
 
 
+def modern_sample():
+    """New-character template; legacy proof saves remain separate named fixtures."""
+    packages = build.production()
+    entry = copy.deepcopy(next(entry for entry in packages['modern4e.classes/entries.json']['entries']
+                               if entry['id'] == 'modern4e.class.fighter'))
+    entry['presentation'].update(publications=[], references=[])
+    mechanics = entry['mechanics']
+    for key in ('prerequisites', 'grants', 'choices', 'modifiers', 'progression'):
+        mechanics.setdefault(key, [])
+    for key in ('conditionalModifiers', 'unsupported', 'weaponAbilities', 'selectionModifiers', 'collections'):
+        if not mechanics.get(key):
+            mechanics.pop(key, None)
+    for grant in mechanics['grants']:
+        if grant.get('atLevel') == 1:
+            grant.pop('atLevel')
+    for choice in mechanics['choices']:
+        choice.setdefault('entryIds', [])
+        if choice.get('query'):
+            for key, default in dict(category='POWER', usage=None, powerKind=None, levelMaximum=None,
+                                     characterLevel=False, keywords=[]).items():
+                choice['query'].setdefault(key, default)
+        for key, default in {'atLevel': 1, 'distinct': False, 'countByLevel': [], 'constraints': [],
+                             'collection': None, 'requiresCollection': None, 'query': None}.items():
+            if choice.get(key, default) == default:
+                choice.pop(key, None)
+    for formula in mechanics['classProfile']['statistics'].values():
+        formula.setdefault('perLevel', 0)
+        formula.setdefault('abilities', {})
+    canonical = json.dumps(entry, ensure_ascii=False, sort_keys=True, separators=(',', ':'))
+    fingerprint = 'sha256-v1:' + hashlib.sha256(canonical.encode('utf-8')).hexdigest()
+    return dict(formatVersion=1, id='modern4e-new-fighter', savedAt='2026-11-17T12:00:00Z',
+                identity=dict(name='New character'), level=1,
+                packages=[dict(packageId='modern4e.classes', revision=packages['modern4e.classes/manifest.json']['revision']),
+                          dict(packageId=BASE, revision='2')],
+                abilities=dict(source=dict(sourceInstanceId='fighter', choiceId='main', ordinal=0),
+                               mainAbility='STRENGTH', points=dict(STRENGTH=4, DEXTERITY=2, CONSTITUTION=2,
+                                                                 INTELLIGENCE=1, WISDOM=0, CHARISMA=0)),
+                levels=[dict(level=1, entries=[dict(instanceId='fighter',
+                    slot=dict(sourceInstanceId='creation', choiceId='class', ordinal=0),
+                    selection=dict(entryId=entry['id'], savedTitle=entry['presentation']['title'],
+                                   supplierPackageId='modern4e.classes', acknowledgedFingerprint=fingerprint))],
+                             proficiencies=[])], equipment=[], manualAdjustments=[])
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--check', action='store_true')
@@ -80,7 +124,10 @@ def main():
     bundle.update({'samples/' + name: value for name, value in samples.items()})
     destinations = [(FIXTURES, samples),
         (HERE.parent / 'web/public/proof', bundle),
-        (HERE.parent / 'android/src/main/assets/proof', bundle)]
+        (HERE.parent / 'android/src/main/assets/proof', bundle),
+        (FIXTURES, {'sample-modern-fighter.json': modern_sample()}),
+        (HERE.parent / 'web/public/samples', {'sample-modern-fighter.json': modern_sample()}),
+        (HERE.parent / 'android/src/main/assets/samples', {'sample-modern-fighter.json': modern_sample()})]
     for root, values in destinations:
         for name, value in values.items():
             path = root / name
@@ -91,7 +138,7 @@ def main():
             else:
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_bytes(data)
-    print('Checked' if args.check else 'Generated', 'four portable samples, coverage and identical platform bundles')
+    print('Checked' if args.check else 'Generated', 'four legacy samples, a Modern 4e template, coverage and identical platform bundles')
 
 
 if __name__ == '__main__':

@@ -51,17 +51,23 @@ kotlin.sourceSets.commonTest { kotlin.srcDir(generateContractFixtures) }
 // Production fixtures remain separate from hand-authored contract goldens.
 val generateProductionFixtures by tasks.registering {
     val fixtures = layout.projectDirectory.dir("../content/generated")
+    val authoritative = layout.projectDirectory.dir("../content/production-generated")
     val output = layout.buildDirectory.dir("generated/productionFixtures")
     inputs.dir(fixtures)
+    inputs.dir(authoritative)
     outputs.dir(output)
     doLast {
         val target = output.get().file("ProductionFixtures.kt").asFile
         target.parentFile.mkdirs()
-        val entries = fixtures.asFile.walkTopDown().filter { it.isFile && it.extension == "json" }
-            .sortedBy { it.relativeTo(fixtures.asFile).invariantSeparatorsPath }.joinToString(",\n") {
-                val name = it.relativeTo(fixtures.asFile).invariantSeparatorsPath
-                val escaped = it.readText().replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n").replace("\r", "\\r").replace("$", "\\$")
-                "    \"$name\" to \"$escaped\""
+        val files = listOf(fixtures.asFile to "", authoritative.asFile to "authoritative/").flatMap { (root, prefix) ->
+            root.walkTopDown().filter { it.isFile && it.extension == "json" }.map { prefix + it.relativeTo(root).invariantSeparatorsPath to it }.toList()
+        }
+        val entries = files.sortedBy { it.first }.joinToString(",\n") { (name, file) ->
+                // Keep UTF-8 constant-pool strings below the JVM's 64 KiB limit.
+                val parts = file.readText().chunked(12000).joinToString(",") {
+                    "\"" + it.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n").replace("\r", "\\r").replace("$", "\\$") + "\""
+                }
+                "    \"$name\" to listOf($parts).joinToString(\"\")"
             }
         target.writeText("package dev.modern4e.builder\ninternal val productionFixtures = mapOf(\n$entries\n)\n")
     }
