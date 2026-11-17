@@ -165,3 +165,37 @@ needed for these shared logic and build-time pipeline changes.
 The pure `RulesEngine.evaluate` consumes a resolved `RulesContent` snapshot; `RulesContent.load` performs catalog IO separately. Evaluation preserves stored choices, exposes eligibility and stable slots, explains Modern 4e ability/skill totals and modifier stacking, and returns explicit invalid, incomplete or unresolved diagnostics. General progression, historical prerequisite reconstruction, playable UI workflows and full content automation remain later work. See [engine details](shared/ENGINE.md) and [import/recovery contracts](shared/IMPORT.md).
 
 Validation on 2026-11-16: unfiltered `:shared:jvmTest :shared:jsNodeTest` passed 67 tests per target (21 engine, 11 import, 35 existing), with zero failures/errors in the XML reports. `:shared:jsBrowserProductionLibraryDistribution :shared:compileDebugKotlinAndroid` passed; web tests passed all 7 tests and the TypeScript/Vite production build passed. Existing Gradle configuration-time npm and generated-library sourcemap warnings remain. No UI/emulator runtime checks were required for these shared-only changes; no playable UI or platform persistence adapter is claimed.
+
+## Android runtime adapters (#14)
+
+`AndroidCharacterStore(context)` implements the shared store with a private atomic
+JSON journal (`filesDir/characters/store.json`). A process monitor and file lock
+serialize compare-and-publish across instances/processes. The journal stores live
+portable JSON and recovery portable JSON together; backups survive live deletion.
+An interrupted write rolls back on reopen. Recovery storage currently has no
+pruning policy; the journal rewrites all documents on each mutation.
+
+`AndroidContentSource(context.assets)` reads generated package assets copied by
+Gradle without transformation. `AndroidDocumentPicker(activity)` must be created
+before the activity is STARTED; `AndroidFileExchange(resolver, picker)` implements
+SAF open/create without broad filesystem permissions. Register/launch pickers on
+the main thread and dispatch store/content/stream IO off the main thread. Feed
+received JSON into `CharacterImporter.inspect`, then its explicit commit actions.
+Open cancellation is available null; export cancellation is unavailable because
+the shared delivery contract has no cancelled-success value. Export validates
+JSON before opening its destination. External document-provider failures can
+leave a partial newly created export; private saved characters remain protected.
+UI/lifecycle presentation and builder wiring belong to #17.
+
+Run `bash ./gradlew :android:testDebugUnitTest` for API 34 Robolectric adapter
+checks and `bash ./gradlew :android:connectedDebugAndroidTest` for the real-device
+contract and existing Compose smoke test. JVM execution does not replace device
+verification or a real document-provider picker check.
+
+Validation on 2026-11-17: `:android:testDebugUnitTest` passed five API 34
+Robolectric tests; `:shared:jvmTest`, `:android:assembleDebug` and
+`:android:assembleDebugAndroidTest` passed. The real-device instrumentation suite
+and system document-picker interaction were not run: device discovery reports
+missing Android SDK Command-line Tools (latest). Reopen tests recreate adapter
+instances; process interruption is simulated by an abandoned staging file, not an
+OS process kill. Existing SDK XML/Gradle tooling warnings remain.

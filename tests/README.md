@@ -453,3 +453,18 @@ there is no catalog UI or rules execution in this ticket.
 Shared `BuilderOperationsTest` runs on JVM and JS with the commands above. It covers incremental/direct level-2 creation, repeated choice slots, stable IDs, eligible/forced choices, allocation limits, changed backgrounds, and edits/export with missing content. Operation contracts: [BUILDER.md](../src/character-builder/shared/BUILDER.md).
 
 On macOS/Linux, from `src/character-builder/`, run `bash gradlew :shared:jvmTest :shared:jsNodeTest :shared:jsBrowserDevelopmentLibraryDistribution` to test both targets and build the shared browser library.
+### Android adapters (#14)
+
+From `src/character-builder/`, with JDK 21 and SDK 34 configured:
+
+```sh
+bash ./gradlew :android:testDebugUnitTest :android:assembleDebug :android:assembleDebugAndroidTest :shared:jvmTest
+# With an API 34 emulator/device available:
+bash ./gradlew :android:connectedDebugAndroidTest
+```
+
+`AndroidAdaptersJvmTest` runs the Android file/content/exchange adapters under
+Robolectric API 34. `AndroidAdaptersTest` repeats the contract on device: reopen
+persistence, collision actions, stale comparisons, recovery restoration/retention,
+failed and interrupted publication, malformed storage, permissions/cancellation,
+and generated asset loading. Instrumentation compilation alone is not device execution.
