@@ -10,7 +10,7 @@ Standalone Modern 4e builder with a shared Kotlin core, web shell and Android sh
   - `ui/screens/`: Home, Library, Import, character pager and Overview presentation.
   - `ui/dialogs/`: workflow modal orchestration and identity editor.
   - `ui/components/`: shared folio controls, icons, modal container and controlled native rich text.
-  - `ui/theme/`: printed-rulebook palette and Material 3 theme.
+  - `ui/theme/`: printed-rulebook palette and Material 3 theme. Follow the [Android styling and theme rules](android/STYLE.md) for titles, typography, controls, navigation and feedback.
   - Platform adapters and the tested scrollbar/date helpers stay beside the app shell. Screens observe the existing session; shared Kotlin owns rules and persistence contracts. Routes still use the existing string-based navigation.
 - Root Gradle wrapper/settings: standalone build; not part of the Foundry tooling.
 

@@ -1,0 +1,192 @@
+<!doctype html>
+<!-- THROWAWAY: Three mobile Progression-tab screens in the saved Printed rulebook style.
+     Question: how should a player make the per-level choices (feats, powers, ability increases, power replacements)?
+     Native Android design study expressed as standalone HTML, not production web UI.
+     Open: open src/character-builder/android/prototypes/progression.prototype.html
+     Share variants with ?variant=A, B, C. Mock state only; no storage or rules engine.
+     Level schedule is transcribed from modern4e/glossary/creation_&_advancement.typ.
+     Option lists are illustrative, not validated eligible lists. -->
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Modern 4e · Progression prototype</title>
+<style>
+:root{--background:transparent;--foreground:#322b25;--muted:#71675c;--border:#c9bda7;--font-sans:Calibri,'Segoe UI',sans-serif;--paper:#f3eddf;--ink:#322b25;--dim:#71675c;--line:#c9bda7;--accent:#863f36;--wash:#e8ddcb}
+*{box-sizing:border-box}body{margin:0;padding-bottom:96px;font-family:var(--font-sans);color:var(--foreground)}button,input,textarea,select{font:inherit}button{cursor:pointer;color:inherit;touch-action:manipulation}button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.intro,.explanation,.state,.controls{max-width:410px;margin:12px auto;font-size:12px;line-height:1.5;color:var(--muted)}.intro b{letter-spacing:.1em;font-size:10px}.state{padding-top:10px;border-top:1px solid var(--border);font-size:11px}.state details{margin-top:6px}.state summary{display:block;min-height:0;font:11px var(--font-sans);cursor:pointer}.state pre{white-space:pre-wrap;margin:6px 0 0;font-size:10px}
+.controls{display:flex;align-items:center;gap:10px}.controls button{border:1px solid var(--line);background:var(--wash);width:34px;height:34px;border-radius:50%;font-size:18px}.controls strong{font:normal 18px Georgia,serif;color:var(--accent)}
+.phone{position:relative;max-width:410px;margin:auto;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 12px 35px #0002}
+.topbar{height:62px;display:grid;grid-template-columns:44px minmax(0,1fr) 44px;align-items:center;padding:0 12px;border-bottom:1px solid var(--line)}.character-name{font:normal 24px Georgia,serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:6px 10px}.icon{border:0;background:transparent;min-width:44px;min-height:44px;font-size:23px;padding:8px}
+.viewport{height:650px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--line) transparent;position:relative}.page{padding:22px 20px 28px}
+.eyebrow{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);font-weight:600}.profile-heading{font:normal 32px Georgia,serif;margin:8px 0 6px}.subtle{color:var(--dim);font-size:12px;line-height:1.6;margin:0}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:22px 0 8px}.section-head h2{font:normal 22px Georgia,serif;margin:0}.section-head small{color:var(--dim);font-size:10px;letter-spacing:.06em}
+.tag{font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--accent);white-space:nowrap}.tag.done{color:var(--dim)}
+.bottomnav{display:grid;grid-template-columns:repeat(3,1fr);padding:4px 12px 8px;border-top:1px solid var(--line);background:var(--paper)}.bottomnav button{position:relative;background:transparent;border:0;min-height:54px;color:var(--dim);font-size:11px}.bottomnav .nav-icon{position:relative;display:block;width:38px;margin:0 auto 4px;font:20px Georgia,serif}.bottomnav .badge{position:absolute;left:25px;top:-2px;display:grid;place-items:center;min-width:16px;height:16px;padding:0 4px;border-radius:20px;background:var(--accent);color:var(--paper);font:10px var(--font-sans)}.bottomnav button.active{color:var(--accent);font-weight:700}
+.switcher{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:20;display:flex;align-items:center;justify-content:space-between;gap:8px;width:min(360px,calc(100% - 24px));padding:7px;background:#282d35;color:white;border-radius:30px;box-shadow:0 4px 18px #0005;font:12px system-ui,sans-serif}.switcher button{border:0;background:#444b56;color:white;width:42px;height:42px;border-radius:50%;font-size:19px}.switcher small{display:block;font-size:10px;color:#c6ccd4;margin-top:4px}.switcher div{text-align:center}
+.overlay{position:absolute;inset:0;background:#322b2566;z-index:5;display:flex;align-items:end}.overlay[hidden]{display:none}.sheet{width:100%;max-height:92%;overflow:auto;background:var(--paper);border-radius:20px 20px 0 0;padding:12px 22px 22px;box-shadow:0 -10px 35px #0002}.handle{height:3px;width:36px;background:var(--line);margin:0 auto 10px}.sheet-head{display:flex;align-items:center;justify-content:space-between}.sheet h2{font:normal 28px Georgia,serif;margin:8px 0 4px}
+.dialog-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}.primary,.secondary{border:1px solid var(--accent);background:var(--accent);color:var(--paper);border-radius:3px;padding:12px 16px;min-height:46px;font-size:14px}.secondary{background:transparent;color:var(--accent)}.primary:disabled{opacity:.4;cursor:default}.secondary:disabled{opacity:.4;cursor:default}.link{border:0;background:transparent;color:var(--accent);font-size:12px;min-height:40px;padding:8px 0}
+.option{display:flex;align-items:flex-start;gap:10px;border-bottom:1px solid var(--line);padding:12px 0;font-size:14px;min-height:46px}.option input{accent-color:var(--accent);margin-top:3px}.option small{display:block;color:var(--dim);font-size:11px;margin-top:3px;line-height:1.4}.option.warn small{color:var(--accent)}.option.off{opacity:.5}.option span{display:block}.group-label{margin:18px 0 2px}.toggle{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--dim);margin-top:12px}.toggle input{accent-color:var(--accent)}
+.row{display:flex;align-items:center;justify-content:space-between;text-align:left;gap:12px;width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:12px 0;min-height:62px}.row .eyebrow{display:block}.row strong{display:block;font:normal 18px/1.25 Georgia,serif;margin-top:3px;overflow-wrap:anywhere}.row small{display:block;color:var(--dim);font-size:11px;margin-top:3px;line-height:1.4}.row .glyph{color:var(--accent);font-size:22px;min-width:24px;text-align:center}
+.row.pending strong{color:var(--accent);font-style:italic}.row.incomplete small{color:var(--accent)}.row.optional strong,.row.locked strong{color:var(--dim)}.row.locked{opacity:.65}.row.locked .glyph{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
+.auto{padding:10px 0;border-bottom:1px solid var(--line);font-size:12px;color:var(--dim);display:flex;gap:8px;line-height:1.5}.auto:before{content:'◆';color:var(--accent);font-size:8px;margin-top:5px}.auto b{color:var(--ink);font-weight:600}
+.replaced{opacity:.7}.replaced strong{text-decoration:line-through;text-decoration-color:var(--accent)}
+.empty{padding:26px 8px;text-align:center;color:var(--dim);font-size:13px}.empty strong{display:block;font:normal 22px Georgia,serif;color:var(--ink);margin-bottom:6px}
+.summary-card{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:16px 0 4px}.summary-card div{border:1px solid var(--line);border-top:2px solid var(--accent);text-align:center;padding:8px 2px}.summary-card strong{display:block;font:normal 22px Georgia,serif;color:var(--accent)}.summary-card small{font-size:9px;letter-spacing:.06em;color:var(--dim);text-transform:uppercase}
+
+/* A · Level ledger */
+.ledger-level{border-bottom:1px solid var(--line)}.ledger-head{display:flex;align-items:center;gap:14px;width:100%;min-height:68px;padding:10px 0;background:transparent;border:0;text-align:left}.ledger-head .numeral{font:normal 36px/1 Georgia,serif;color:var(--accent);min-width:46px;text-align:center}.ledger-head .gains{flex:1;min-width:0;font-size:12px;color:var(--dim);line-height:1.4}.ledger-head .gains b{display:block;font:normal 16px Georgia,serif;color:var(--ink)}.ledger-head .chev{color:var(--accent);font-size:18px;width:14px}
+.ledger-body{padding:0 0 12px 60px}.ledger-level.future .numeral{color:var(--dim)}.ledger-level.current{border-left:3px solid var(--accent);margin-left:-20px;padding-left:17px;background:var(--wash)}
+
+/* B · Level strip */
+.strip{position:sticky;top:0;z-index:2;background:var(--paper);border-bottom:1px solid var(--line);padding:12px 0 10px}.strip-head{display:flex;align-items:baseline;justify-content:space-between;padding:0 20px 8px}.strip-head h1{font:normal 24px Georgia,serif;margin:0}.strip-track{position:relative;display:flex;gap:6px;overflow-x:auto;padding:2px 20px 4px;scrollbar-width:none}.strip-track::-webkit-scrollbar{display:none}
+.chip{position:relative;flex:0 0 auto;width:44px;height:52px;border:1px solid var(--line);background:transparent;border-radius:3px;font:normal 18px Georgia,serif;color:var(--ink);padding:0}.chip i{position:absolute;left:50%;bottom:6px;width:6px;height:6px;margin-left:-3px;border-radius:50%;border:1px solid var(--dim)}.chip.pending i{background:var(--accent);border-color:var(--accent)}.chip.done i{background:var(--dim);border-color:var(--dim)}.chip.none i{border:0}.chip.future{color:var(--dim);border-style:dashed}.chip.sel{background:var(--accent);border-color:var(--accent);color:var(--paper)}.chip.sel i{background:var(--paper);border-color:var(--paper)}.chip.cur:before{content:'';position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:var(--accent)}.chip.sel.cur:before{background:var(--ink)}
+.level-title{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:6px 0 4px}.level-title h2{font:normal 44px/1 Georgia,serif;color:var(--accent);margin:0}.pager{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}.next-todo{display:block;width:100%;margin-top:12px;border:1px solid var(--line);border-left:3px solid var(--accent);background:var(--wash);padding:12px 14px;text-align:left;min-height:52px;font-size:13px}.next-todo b{display:block;font:normal 16px Georgia,serif;color:var(--accent)}
+
+/* C · Decision queue */
+.queue-card{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:1px solid var(--line);border-left:3px solid var(--accent);background:var(--wash);padding:12px 14px;margin-bottom:8px;min-height:64px}.queue-card .lv{font:normal 26px Georgia,serif;color:var(--accent);min-width:36px;text-align:center}.queue-card .lv small{display:block;font:9px var(--font-sans);letter-spacing:.1em;color:var(--dim)}.queue-card span.txt{flex:1;min-width:0;font-size:12px;color:var(--dim)}.queue-card span.txt b{display:block;font:normal 17px Georgia,serif;color:var(--ink)}.queue-card .go{color:var(--accent);font-size:12px}
+.chapter{border-bottom:1px solid var(--line)}.chapter summary{display:flex;align-items:center;gap:10px;list-style:none;min-height:56px;cursor:pointer;font:22px Georgia,serif}.chapter summary::-webkit-details-marker{display:none}.chapter summary:after{content:'+';margin-left:auto;color:var(--accent)}.chapter[open] summary:after{content:'−'}.chapter summary small{font:11px var(--font-sans);color:var(--dim);letter-spacing:.05em}.chapter .inner{padding-bottom:12px}
+.lvtag{display:inline-block;font:10px var(--font-sans);letter-spacing:.08em;color:var(--accent);margin-right:6px}.ability-table{width:100%;border-collapse:collapse;font-size:13px}.ability-table td,.ability-table th{padding:8px 4px;border-bottom:1px solid var(--line);text-align:center}.ability-table th{font-size:9px;letter-spacing:.1em;color:var(--dim);text-transform:uppercase;font-weight:600}.ability-table td:first-child,.ability-table th:first-child{text-align:left}.ability-table .total{font:normal 20px Georgia,serif;color:var(--accent)}.ability-table .up{color:var(--accent);font-weight:700}
+@media(max-width:380px){.page{padding:18px 15px 26px}.phone{border-radius:14px}.ledger-body{padding-left:0}}
+</style></head><body>
+<p class="intro"><b>MOBILE CHARACTER BUILDER · PROGRESSION PROTOTYPE</b><br>Make the choices each level grants: feats, powers, ability increases and optional power replacements. Tap a row to choose. Saves are simulated in memory; reload resets.</p>
+<div class="phone" id="phone"><header class="topbar"><button class="icon" aria-label="Character navigation">‹</button><span class="character-name">Mara Vey</span><span aria-hidden="true"></span></header><main class="viewport" id="screen"></main><nav class="bottomnav" id="navigation" aria-label="Character sections"></nav><div class="overlay" id="overlay" hidden><section class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title"><div class="handle"></div><div class="sheet-head"><span class="eyebrow" id="sheet-eyebrow"></span><button class="icon" data-action="close" aria-label="Close dialog">×</button></div><div id="sheet-content"></div></section></div></div>
+<p class="explanation" id="explanation"></p>
+<div class="controls"><span>Prototype control · character level</span><button id="lvl-down" aria-label="Lower character level">−</button><strong id="lvl-now"></strong><button id="lvl-up" aria-label="Raise character level">+</button></div>
+<div class="state" id="state" aria-live="polite"></div>
+<nav class="switcher" aria-label="Prototype variants"><button id="prev" aria-label="Previous screen approach">←</button><div id="variant-label"></div><button id="next" aria-label="Next screen approach">→</button></nav>
+<script>
+/* ---------- Rules data (schedule transcribed from the advancement table) ---------- */
+// ab: 'creation' | 'non-main' (player picks) | 'main' | 'all' (automatic). feat: count. pw: ['kind' or 'kind|Source']. rep: kind replaceable. auto: fixed features.
+const S={1:{ab:'creation',feat:1,pw:['at-will','at-will','encounter','daily','daily'],auto:['Class features','Dwarf racial traits']},2:{feat:1,pw:['utility']},3:{pw:['encounter']},4:{ab:'non-main',feat:1},5:{pw:['daily']},6:{feat:1,pw:['utility']},7:{pw:['encounter']},8:{ab:'main',feat:1},9:{rep:'daily'},10:{feat:1,pw:['utility']},
+11:{feat:1,pw:['encounter|Paragon path'],auto:['Paragon path features']},12:{ab:'non-main',feat:1,pw:['utility|Paragon path']},13:{pw:['encounter']},14:{feat:1},15:{rep:'daily'},16:{ab:'all',feat:1,auto:['Paragon path feature']},17:{feat:1,pw:['utility','encounter']},18:{feat:1},19:{rep:'daily'},20:{ab:'main',feat:1,pw:['daily|Paragon path']},
+21:{feat:1,auto:['Epic destiny feature']},22:{feat:1,pw:['utility']},23:{rep:'encounter'},24:{ab:'non-main',feat:1,auto:['Epic destiny feature']},25:{rep:'daily'},26:{feat:1,pw:['utility|Epic destiny']},27:{pw:['encounter']},28:{ab:'main',feat:1},29:{rep:'daily'},30:{feat:1,auto:['Epic destiny feature']}};
+const ABIL=['Strength','Dexterity','Constitution','Intelligence','Wisdom','Charisma'],MAIN='Strength',BASE={Strength:4,Dexterity:2,Constitution:2,Intelligence:1,Wisdom:0,Charisma:0};
+const KINDS=['at-will','encounter','daily','utility'];
+const POWERS={'at-will':[['Cleave',1],['Tide of Iron',1],['Reaping Strike',1],['Sure Strike',1]],encounter:[['Passing Attack',1],['Covering Attack',1],['Spinning Sweep',1],['Sweeping Blow',1],['Come and Get It',3],['Rain of Blows',3],['Hammer and Anvil',7],['Crushing Surge',13]],daily:[["Villain's Menace",1],['Brute Strike',1],['Comeback Strike',1],['Rain of Steel',1],['Thicket of Blades',5],['Rain of Fury',15]],utility:[['Boundless Endurance',2],['Lead the Attack',2],['Defensive Training',2],['Rally Cry',6],['Unyielding Stance',10],['Second Wind Surge',17],['Last Bastion',22]]};
+const FEATS=[{n:'Toughness',src:'General'},{n:'Skill Training',src:'General'},{n:'Weapon Focus',src:'General'},{n:'Improved Initiative',src:'General'},{n:'Iron Will',src:'General'},{n:'Dwarven Weapon Training',src:'Ancestry · Dwarf'},{n:'Combat Reactivity',src:'Class · Fighter'},
+{n:'Power Attack',src:'General',flag:'incomplete',why:'Source prerequisite “Str 15” is not adapted to Modern 4e. Selection is kept, automation is incomplete.'},{n:'Improved Power Attack',src:'General',requires:'Power Attack'},{n:'Greater Weapon Focus',src:'General',minLevel:11}];
+const cap=s=>s[0].toUpperCase()+s.slice(1),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const kindLabel=(k,src)=>(src?src+' ':'')+(k==='utility'?'utility power':k+' attack power');
+
+/* ---------- Slot table, built once from the schedule ---------- */
+const slots=[],autos=[];
+for(let L=1;L<=30;L++){const s=S[L];
+ if(s.ab==='non-main')slots.push({id:`L${L}-ab`,level:L,type:'ability',label:'Ability increase'});
+ if(s.ab==='main'||s.ab==='all'||s.ab==='creation')autos.push({level:L,ab:s.ab});
+ for(let i=0;i<(s.feat||0);i++)slots.push({id:`L${L}-feat${i}`,level:L,type:'feat',label:'Feat'});
+ (s.pw||[]).forEach((p,i)=>{const[k,src]=p.split('|');slots.push({id:`L${L}-pw${i}`,level:L,type:'power',kind:k,src,label:cap(kindLabel(k,src))});});
+ if(s.rep)slots.push({id:`L${L}-rep`,level:L,type:'replace',kind:s.rep,optional:true,label:`Replace a ${s.rep} attack power`});
+ (s.auto||[]).forEach(a=>autos.push({level:L,text:a}));}
+const at=L=>slots.filter(s=>s.level===L),slotById=id=>slots.find(s=>s.id===id);
+
+/* ---------- Prototype state (in memory) ---------- */
+const designs={A:{name:'Level ledger',description:'A · Every level as a ledger entry, newest first. Levels with pending choices are open; each row is one choice. Upcoming levels are a read-only preview.'},B:{name:'Level strip',description:'B · A strip of all 30 levels with progress dots. Work one level at a time, step with the footer, or jump to the next unresolved level.'},C:{name:'Decision queue',description:'C · Pending decisions first, across levels, then the build so far grouped by kind: abilities, feats and powers (A/E/D/U).'}};
+const keys=Object.keys(designs);let variant=new URLSearchParams(location.search).get('variant')||'A';if(!designs[variant])variant='A';
+let level=4,tab='Progression',selLevel=4,lastSaved='',draft=null,returnFocus,showIneligible=false,upcomingOpen=false;
+const choices={'L1-feat0':'Skill Training','L1-pw0':'Cleave','L1-pw1':'Tide of Iron','L1-pw2':'Passing Attack','L1-pw3':"Villain's Menace",'L1-pw4':'Brute Strike','L2-feat0':'Power Attack','L2-pw0':'Boundless Endurance'};
+const openLevels=new Set(),el=id=>document.getElementById(id);
+
+/* ---------- Derived values ---------- */
+function replacedMap(){const m={};slots.filter(s=>s.type==='replace'&&s.level<=level&&choices[s.id]).forEach(s=>{m[choices[s.id].old]={level:s.level,to:choices[s.id].to};});return m;}
+function info(s){const v=choices[s.id];if(s.level>level)return{st:'locked'};if(v==null)return{st:s.optional?'optional':'pending'};if(s.type==='feat'){const f=FEATS.find(x=>x.n===v);if(f&&f.flag==='incomplete')return{st:'incomplete',note:f.why};}return{st:'done'};}
+function valueText(s){const v=choices[s.id];if(v==null)return null;if(s.type==='ability')return v+' +1';if(s.type==='replace')return`${choices[v.old]} → ${v.to}`;return v;}
+function scores(upto){const r={...BASE};for(let L=1;L<=upto;L++){const s=S[L];if(s.ab==='main'||s.ab==='all')r[MAIN]++;if(s.ab==='all')ABIL.forEach(a=>{if(a!==MAIN)r[a]++;});if(s.ab==='non-main'){const c=choices[`L${L}-ab`];if(c)r[c]++;}}return r;}
+function levelState(L){const ss=at(L),pending=ss.filter(s=>info(s).st==='pending').length,choosable=ss.filter(s=>!s.optional).length,optional=ss.filter(s=>s.optional).length;return{pending,choosable,optional,st:L>level?'future':pending?'pending':choosable||optional?'done':'none'};}
+function pendingSlots(){return slots.filter(s=>info(s).st==='pending');}
+function gainsText(L){const parts=[],s=S[L];if(s.ab==='non-main')parts.push('+1 non-main ability');if(s.ab==='main')parts.push('+1 main ability');if(s.ab==='all')parts.push('+1 all abilities');if(s.feat)parts.push(s.feat+' feat');(s.pw||[]).forEach(p=>{const[k,src]=p.split('|');parts.push((src?src.split(' ')[0]+' ':'')+k+' power');});if(s.rep)parts.push(`replace a ${s.rep} power`);(s.auto||[]).forEach(a=>parts.push(a.toLowerCase()));return parts.join(' · ')||'No new choices';}
+function autoText(a){if(a.text)return`<b>${esc(a.text)}</b> arrive automatically.`;if(a.ab==='creation')return'<b>Ability scores</b> are set at creation on the Character tab.';const before=scores(a.level-1),after=scores(a.level);const ch=ABIL.filter(x=>after[x]!==before[x]).map(x=>`${x.slice(0,3)} ${before[x]}→${after[x]}`);return`<b>${a.ab==='all'?'+1 to all abilities':'+1 to your main ability'}</b> is automatic (${ch.join(', ')}).`;}
+function totals(){const t={'at-will':0,encounter:0,daily:0,utility:0};slots.filter(s=>s.type==='power'&&s.level<=level).forEach(s=>t[s.kind]++);return t;}
+
+/* ---------- Shared row renderers ---------- */
+function slotRow(s,opts={}){const i=info(s),val=valueText(s),rep=replacedMap()[s.id];
+ const glyph={pending:'+',done:'›',incomplete:'!',optional:'↻',locked:'Locked'}[i.st];
+ const prefix=opts.showLevel?`<span class="lvtag">LV ${s.level}</span>`:'';
+ const text=i.st==='locked'?'Reached at level '+s.level:val??(i.st==='optional'?'Not replaced':'Choose…');
+ const note=rep?`Replaced at level ${rep.level} by ${esc(rep.to)}`:i.note?esc(i.note):'';
+ const inner=`<span><span class="eyebrow">${prefix}${esc(s.label)}${s.optional?' · optional':''}</span><strong>${esc(text)}</strong>${note?`<small>${note}</small>`:''}</span><span class="glyph" aria-hidden="true">${glyph}</span>`;
+ if(i.st==='locked'||rep)return`<div class="row ${i.st} ${rep?'replaced':''}">${inner}</div>`;
+ return`<button class="row ${i.st}" data-action="slot" data-id="${s.id}" aria-label="${esc(s.label)}, level ${s.level}: ${esc(text)}">${inner}</button>`;}
+const autoRows=L=>autos.filter(a=>a.level===L).map(a=>`<div class="auto"><span>${autoText(a)}</span></div>`).join('');
+const levelBody=(L,opts)=>at(L).map(s=>slotRow(s,opts)).join('')+autoRows(L);
+function tagFor(L){const st=levelState(L);if(st.st==='future')return'<span class="tag done">Preview</span>';if(st.st==='pending')return`<span class="tag">${st.pending} to choose</span>`;if(st.st==='done')return`<span class="tag done">${st.choosable?'Complete':'Optional'}</span>`;return'<span class="tag done">Automatic</span>';}
+function header(){const n=pendingSlots().length;return`<div class="eyebrow">Your build</div><h1 class="profile-heading">Progression</h1><p class="subtle">Level ${level} · Fighter · ${n?`${n} choice${n>1?'s':''} remaining`:'all choices made'}</p>`;}
+function totalsCard(){const t=totals();return`<div class="summary-card" aria-label="Total powers">${KINDS.map(k=>`<div><strong>${t[k]}</strong><small>${k==='at-will'?'At-will':cap(k)}</small></div>`).join('')}</div>`;}
+
+/* ---------- A · Level ledger ---------- */
+function ledgerLevel(L){const isOpen=openLevels.has(L),cur=L===level,fut=L>level;
+ return`<div class="ledger-level ${cur?'current':''} ${fut?'future':''}"><button class="ledger-head" data-action="toggle" data-level="${L}" aria-expanded="${isOpen}"><span class="numeral">${L}</span><span class="gains"><b>${cur?'Current level':'Level '+L}</b>${esc(gainsText(L))}</span>${tagFor(L)}<span class="chev" aria-hidden="true">${isOpen?'−':'+'}</span></button>${isOpen?`<div class="ledger-body">${levelBody(L)}</div>`:''}</div>`;}
+function variantA(){const past=[],ahead=[];for(let L=level;L>=1;L--)past.push(L);for(let L=level+1;L<=30;L++)ahead.push(L);
+ return`<div class="page">${header()}${totalsCard()}<div class="section-head"><h2>Levels</h2><small>NEWEST FIRST</small></div>${past.map(ledgerLevel).join('')}${ahead.length?`<div class="section-head"><h2>Upcoming</h2><button class="link" data-action="upcoming" aria-expanded="${upcomingOpen}">${upcomingOpen?'Hide':'Show'} levels ${level+1}–30</button></div>${upcomingOpen?ahead.map(ledgerLevel).join(''):'<p class="subtle">Preview what future levels grant. Choices unlock when you reach them.</p>'}`:''}</div>`;}
+
+/* ---------- B · Level strip ---------- */
+function nextUnresolved(from){const p=pendingSlots().find(s=>s.level!==from);return p?p.level:null;}
+function variantB(){const L=selLevel,next=nextUnresolved(L),n=pendingSlots().length;
+ const chips=Array.from({length:30},(_,i)=>{const l=i+1,s=levelState(l);return`<button class="chip ${s.st} ${l===L?'sel':''} ${l===level?'cur':''}" data-action="select" data-level="${l}" aria-label="Level ${l}, ${s.st==='future'?'preview':s.st==='pending'?s.pending+' to choose':s.st==='done'?'complete':'automatic'}" aria-pressed="${l===L}">${l}<i></i></button>`;}).join('');
+ return`<div class="strip"><div class="strip-head"><h1>Progression</h1><span class="subtle">Level ${level} · ${n?n+' remaining':'complete'}</span></div><div class="strip-track" id="strip-track">${chips}</div></div>
+ <div class="page"><div class="level-title"><h2>Level ${L}</h2>${tagFor(L)}</div><p class="subtle">${L===level?'Your current level. ':L>level?'Preview only. ':''}Gains: ${esc(gainsText(L))}.</p>
+ <div style="margin-top:10px">${levelBody(L)}</div>
+ ${next?`<button class="next-todo" data-action="select" data-level="${next}"><b>Next unresolved: level ${next}</b>${esc(at(next).filter(s=>info(s).st==='pending').map(s=>s.label).join(' · '))}</button>`:n===0?`<p class="empty"><strong>All caught up</strong>Every choice up to level ${level} is made.</p>`:''}
+ <div class="pager"><button class="secondary" data-action="select" data-level="${Math.max(1,L-1)}" ${L===1?'disabled':''}>‹ Level ${Math.max(1,L-1)}</button><button class="secondary" data-action="select" data-level="${Math.min(30,L+1)}" ${L===30?'disabled':''}>Level ${Math.min(30,L+1)} ›</button></div></div>`;}
+
+/* ---------- C · Decision queue ---------- */
+function queueCard(s){return`<button class="queue-card" data-action="slot" data-id="${s.id}" aria-label="Level ${s.level}: choose ${esc(s.label)}"><span class="lv"><small>LV</small>${s.level}</span><span class="txt"><b>${esc(s.label)}</b>${s.type==='ability'?'Raise one non-main ability':s.type==='feat'?'Ancestry, class or general':'Pick from your class list'}</span><span class="go">Choose ›</span></button>`;}
+const chapter=(title,meta,body,openIt)=>`<details class="chapter" ${openIt?'open':''}><summary>${title}<small>${meta}</small></summary><div class="inner">${body}</div></details>`;
+function variantC(){const pend=pendingSlots(),t=totals();
+ const abSlots=slots.filter(s=>s.type==='ability'&&s.level<=level),feats=slots.filter(s=>s.type==='feat'&&s.level<=level),reps=slots.filter(s=>s.type==='replace'&&s.level<=level);
+ const start=scores(0),now=scores(level);
+ const abTable=`<table class="ability-table"><tr><th>Ability</th><th>Start</th><th>Level-ups</th><th>Now</th></tr>${ABIL.map(a=>`<tr><td>${a.slice(0,3).toUpperCase()}${a===MAIN?' · main':''}</td><td>${start[a]}</td><td class="${now[a]>start[a]?'up':''}">${now[a]>start[a]?'+'+(now[a]-start[a]):'—'}</td><td class="total">${now[a]}</td></tr>`).join('')}</table>${abSlots.map(s=>slotRow(s,{showLevel:true})).join('')}`;
+ const pw=KINDS.map(k=>{const ks=slots.filter(s=>s.type==='power'&&s.kind===k&&s.level<=level);return ks.length?`<div class="eyebrow group-label">${k==='at-will'?'At-will':cap(k)} · ${ks.filter(s=>choices[s.id]).length}/${ks.length}</div>${ks.map(s=>slotRow(s,{showLevel:true})).join('')}`:'';}).join('');
+ return`<div class="page">${header()}${totalsCard()}
+ <div class="section-head"><h2>To decide</h2><small>${pend.length} PENDING</small></div>${pend.length?pend.map(queueCard).join(''):`<div class="empty"><strong>All caught up</strong>Every choice up to level ${level} is made.</div>`}
+ <div class="section-head"><h2>Build so far</h2><small>BY KIND</small></div>
+ ${chapter('Abilities',`${abSlots.filter(s=>choices[s.id]).length}/${abSlots.length} chosen`,abTable,false)}
+ ${chapter('Feats',`${feats.filter(s=>choices[s.id]).length}/${feats.length}`,feats.map(s=>slotRow(s,{showLevel:true})).join(''),true)}
+ ${chapter('Powers',`A ${t['at-will']} · E ${t.encounter} · D ${t.daily} · U ${t.utility}`,pw,false)}
+ ${reps.length?chapter('Optional replacements',`${reps.filter(s=>choices[s.id]).length}/${reps.length} used`,reps.map(s=>slotRow(s,{showLevel:true})).join(''),false):''}
+ </div>`;}
+
+/* ---------- Other tabs (out of scope, minimal) ---------- */
+function validationTab(){const inc=slots.filter(s=>info(s).st==='incomplete');return`<div class="page"><div class="eyebrow">Rules engine</div><h1 class="profile-heading">Validation</h1>${inc.length?inc.map(s=>`<div class="auto" style="display:block"><b style="color:var(--accent)">Incomplete automation</b><br>Level ${s.level} · ${esc(choices[s.id])}: ${esc(info(s).note)}</div>`).join(''):'<p class="subtle">No reported diagnostics</p>'}<p class="subtle" style="margin-top:16px">Prototype stub. Only incomplete feat prerequisites are surfaced here.</p></div>`;}
+const characterTab=()=>'<div class="page"><div class="eyebrow">Out of scope</div><h1 class="profile-heading">Character</h1><p class="subtle">See main-character.prototype.html. This prototype covers the Progression tab only.</p></div>';
+
+/* ---------- Render ---------- */
+function render(){const scroll=el('screen').scrollTop,n=pendingSlots().length;
+ el('screen').innerHTML=tab==='Progression'?({A:variantA,B:variantB,C:variantC}[variant])():tab==='Validation'?validationTab():characterTab();
+ el('navigation').innerHTML=[['Character','♧'],['Progression','↗'],['Validation','✓']].map(([s,i])=>`<button data-action="tab" data-tab="${s}" class="${tab===s?'active':''}" aria-pressed="${tab===s}" ${s==='Progression'&&n?`aria-label="Progression, ${n} choices remaining"`:''}><span class="nav-icon"><span aria-hidden="true">${i}</span>${s==='Progression'&&n?`<span class="badge" aria-hidden="true">${n}</span>`:''}</span>${s}</button>`).join('');
+ el('variant-label').innerHTML=variant+' · '+designs[variant].name+'<small>Screen '+(keys.indexOf(variant)+1)+' of 3 · ← →</small>';el('explanation').textContent=designs[variant].description;el('lvl-now').textContent=level;
+ const t=totals(),c=scores(level);
+ el('state').innerHTML=`PROTOTYPE STATE · Level ${level} · ${n} pending · powers A${t['at-will']}/E${t.encounter}/D${t.daily}/U${t.utility} · ${ABIL.map(a=>a.slice(0,3)+' '+c[a]).join(' ')} · ${lastSaved?'Last saved: '+esc(lastSaved)+'.':'Sample character.'}<details><summary>Decisions (in memory)</summary><pre>${esc(JSON.stringify(choices,null,1))}</pre></details>`;
+ el('screen').scrollTop=scroll;const tr=el('strip-track'),sc=tr&&tr.querySelector('.sel');if(sc)tr.scrollLeft=sc.offsetLeft-tr.clientWidth/2+22;}
+
+/* ---------- Choice sheet ---------- */
+function openSheet(html,eyebrow){returnFocus=document.activeElement;el('sheet-content').innerHTML=html;el('sheet-eyebrow').textContent=eyebrow;el('overlay').hidden=false;el('overlay').querySelector('button').focus();['screen','navigation'].forEach(i=>el(i).inert=true);document.querySelector('.topbar').inert=true;}
+function closeSheet(){if(el('overlay').hidden)return;el('overlay').hidden=true;['screen','navigation'].forEach(i=>el(i).inert=false);document.querySelector('.topbar').inert=false;draft=null;if(returnFocus?.isConnected)returnFocus.focus();}
+function featStatus(f,s){const taken=slots.find(x=>x.type==='feat'&&x.id!==s.id&&choices[x.id]===f.n&&x.level<=level);if(taken)return{st:'no',why:`Already taken at level ${taken.level}`};if(f.minLevel&&f.minLevel>s.level)return{st:'no',why:`Requires level ${f.minLevel}`};if(f.requires&&!slots.some(x=>x.type==='feat'&&x.id!==s.id&&x.level<=s.level&&choices[x.id]===f.requires))return{st:'no',why:`Requires the ${f.requires} feat`};if(f.flag==='incomplete')return{st:'incomplete',why:f.why};return{st:'ok',why:''};}
+const opt=(name,value,checked,sub,cls,disabled,group)=>`<label class="option ${cls||''} ${disabled?'off':''}"><input type="radio" name="${group}" value="${esc(value)}" ${checked?'checked':''} ${disabled?'disabled':''}><span>${esc(name)}${sub?`<small>${esc(sub)}</small>`:''}</span></label>`;
+function sheetBody(s){const cur=choices[s.id];
+ if(s.type==='ability'){const sc=scores(s.level-1);return`<p class="subtle">Raise one non-main ability by 1. ${MAIN} is your main ability and rises automatically at levels 8, 20 and 28.</p>`+ABIL.filter(a=>a!==MAIN).map(a=>opt(a,a,draft.value===a,`${sc[a]} → ${sc[a]+1}`,'',false,'v')).join('');}
+ if(s.type==='feat'){const list=FEATS.map(f=>({f,...featStatus(f,s)})),ok=list.filter(x=>x.st!=='no'),no=list.filter(x=>x.st==='no');return`<p class="subtle">Illustrative options, not a validated eligible list.</p>`+ok.map(x=>opt(x.f.n,x.f.n,draft.value===x.f.n,x.f.src+(x.why?' · '+x.why:''),x.st==='incomplete'?'warn':'',false,'v')).join('')+(no.length?`<label class="toggle"><input type="checkbox" id="show-no" ${showIneligible?'checked':''}> Show ${no.length} ineligible</label>`:'')+(showIneligible?no.map(x=>opt(x.f.n,x.f.n,false,x.f.src+' · '+x.why,'',true,'v')).join(''):'');}
+ if(s.type==='power'){const pool=s.src?['A','B','C'].map(x=>[`${s.src} ${s.kind} option ${x}`,s.level]):POWERS[s.kind].filter(p=>p[1]<=s.level);const used=new Set(slots.filter(x=>x.type==='power'&&x.kind===s.kind&&x.id!==s.id&&choices[x.id]).map(x=>choices[x.id]));return`<p class="subtle">${cap(kindLabel(s.kind,s.src))} of level ${s.level} or lower. Illustrative class list.</p>`+pool.map(([n,l])=>opt(n,n,draft.value===n,`Level ${l}${used.has(n)?' · already chosen':''}`,'',used.has(n),'v')).join('');}
+ if(s.type==='replace'){const rm=replacedMap(),olds=slots.filter(x=>x.type==='power'&&x.kind===s.kind&&!x.src&&x.level<s.level&&choices[x.id]&&(!rm[x.id]||x.id===(cur&&cur.old)));const names=new Set(slots.filter(x=>x.type==='power'&&x.kind===s.kind&&choices[x.id]).map(x=>choices[x.id]));const pool=POWERS[s.kind].filter(p=>p[1]<=s.level);
+  return`<p class="subtle">Swap one ${s.kind} attack power you know for another of level ${s.level} or lower. The old power stays on record, marked as replaced.</p><div class="eyebrow group-label">Power to replace</div>${olds.length?olds.map(x=>opt(choices[x.id],x.id,draft.old===x.id,`Chosen at level ${x.level}`,'',false,'old')).join(''):'<p class="subtle">No eligible power yet.</p>'}<div class="eyebrow group-label">Replacement</div>${pool.map(([n,l])=>opt(n,n,draft.to===n,`Level ${l}${names.has(n)?' · already known':''}`,'',names.has(n)&&n!==draft.to,'to')).join('')}`;}}
+function canSave(){if(!draft)return false;return draft.slot.type==='replace'?!!(draft.old&&draft.to):!!draft.value;}
+const sheetActions=s=>`<div class="dialog-actions"><button class="secondary" data-action="close">Cancel</button><button class="primary" id="save" data-action="commit" ${canSave()?'':'disabled'}>Save</button></div>${choices[s.id]!=null?`<button class="link" data-action="clear">${s.type==='replace'?'Undo replacement':'Clear choice'}</button>`:''}`;
+function showSheet(){const s=draft.slot;openSheet(`<h2 id="sheet-title">${esc(s.label)}</h2><p class="eyebrow">Level ${s.level}</p>${sheetBody(s)}${sheetActions(s)}`,'Level '+s.level+' choice');}
+function beginSlot(id){const s=slotById(id),cur=choices[id];draft=s.type==='replace'?{slot:s,old:cur&&cur.old,to:cur&&cur.to}:{slot:s,value:cur};showIneligible=false;showSheet();}
+function commit(){if(!canSave())return;const s=draft.slot;choices[s.id]=s.type==='replace'?{old:draft.old,to:draft.to}:draft.value;lastSaved=`${s.label} (level ${s.level})`;closeSheet();render();}
+function clearChoice(){const s=draft.slot;delete choices[s.id];lastSaved=`cleared ${s.label} (level ${s.level})`;closeSheet();render();}
+
+/* ---------- Events ---------- */
+document.addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b)return;const a=b.dataset.action;
+ if(a==='close')closeSheet();else if(a==='commit')commit();else if(a==='clear')clearChoice();
+ else if(a==='slot')beginSlot(b.dataset.id);
+ else if(a==='toggle'){const L=+b.dataset.level;openLevels.has(L)?openLevels.delete(L):openLevels.add(L);render();}
+ else if(a==='upcoming'){upcomingOpen=!upcomingOpen;render();}
+ else if(a==='select'){selLevel=+b.dataset.level;render();el('screen').scrollTop=0;}
+ else if(a==='tab'){tab=b.dataset.tab;render();el('screen').scrollTop=0;}});
+document.addEventListener('change',e=>{if(!draft)return;const t=e.target;if(t.id==='show-no'){showIneligible=t.checked;showSheet();return;}if(t.name==='v')draft.value=t.value;else if(t.name==='old')draft.old=t.value;else if(t.name==='to')draft.to=t.value;else return;const sv=el('save');if(sv)sv.disabled=!canSave();});
+function resetOpen(){openLevels.clear();openLevels.add(level);pendingSlots().forEach(s=>openLevels.add(s.level));}
+function setLevel(l){closeSheet();level=Math.max(1,Math.min(30,l));selLevel=pendingSlots()[0]?.level??level;resetOpen();upcomingOpen=false;render();el('screen').scrollTop=0;}
+function cycle(d){closeSheet();variant=keys[(keys.indexOf(variant)+d+keys.length)%keys.length];tab='Progression';selLevel=pendingSlots()[0]?.level??level;resetOpen();const u=new URL(location.href);u.searchParams.set('variant',variant);try{history.replaceState(null,'',u);}catch{}render();el('screen').scrollTop=0;}
+el('prev').onclick=()=>cycle(-1);el('next').onclick=()=>cycle(1);el('lvl-down').onclick=()=>setLevel(level-1);el('lvl-up').onclick=()=>setLevel(level+1);el('overlay').onclick=e=>{if(e.target===el('overlay'))closeSheet();};
+document.addEventListener('keydown',e=>{if(!el('overlay').hidden){if(e.key==='Escape')closeSheet();if(e.key==='Tab'){const nodes=[...el('overlay').querySelectorAll('button,input:not(:disabled)')],first=nodes[0],last=nodes.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}return;}if(e.target.closest('input,textarea,select,[contenteditable]'))return;if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();cycle(e.key==='ArrowLeft'?-1:1);}});
+window.addEventListener('popstate',()=>{variant=new URLSearchParams(location.search).get('variant')||'A';if(!designs[variant])variant='A';closeSheet();render();});
+selLevel=pendingSlots()[0]?.level??level;resetOpen();render();
+</script></body></html>
