@@ -658,4 +658,19 @@ when Typst is outside PATH; renderer tests otherwise skip. Inspect theme cards,
 illustrations and columns in `src/modern4e/inDev.pdf` after compiling. See
 [theme authoring](../src/modern4e/content/themes/README.md).
 
+Zeitgeist paragon paths use the same ordered powers and are covered by:
+
+```sh
+python3 src/modern4e/scripts/path_content.py
+python3 -m unittest discover -s src/modern4e/scripts -p test_path_content.py
+```
+
+Path tests cover the nine paths, 32 features, 27 supplementary rule blocks and
+26 powers, the page consumers that render each exactly once, grant level and
+ownership integrity, typographic apostrophes, explicit source gaps, invalid
+references/levels/blocks, deterministic export and literal Typst rendering
+(requires Typst; set `TYPST_BIN` when it is outside PATH). Inspect the nine path
+pages in `src/modern4e/inDev.pdf` after compiling. See
+[path authoring](../src/modern4e/content/paths/README.md).
+
 Android Progression presentation helpers: `ProgressionTest` covers remaining allocation points (fixed main, unassigned abilities, tradeoffs and overspending) and compact skill source labels. Stepper regression coverage verifies single-negative/single-3 limits, the required -1 before raising to 3, removing the tradeoff in order, fixed main ability and min/max bounds. Run `.\gradlew.bat :android:testDebugUnitTest` from `src/character-builder/`.

@@ -1,0 +1,4848 @@
+{
+  "schemaVersion": 1,
+  "document": {
+    "title": "Zeitgeist Paragon Paths",
+    "introduction": "At level 11, you can choose one of these paths in place of a class paragon path if you meet its prerequisites. These paths grow out of the nine Zeitgeist themes, but your theme does not oblige you to choose its associated path. Each path also offers an alternative prerequisite for characters who join its tradition during play.\n\n  For these paths’ implement powers, you can use *any weapon or implement with which you are proficient* as an implement. Their attacks and damage use your *Main Ability points* where the source refers to a primary ability score or modifier. Skill training means proficiency; History is Society and Heal is Medicine. Ability-score prerequisites of 15 become *2 points*. Use the local skill-check formula and DC table except where a rule explicitly gives a fixed DC.\n\n  Powers below are granted at their listed levels. Other path features retain their listed timings, costs, and limitations. These imported paths include level 20 powers; the book’s warning that higher-level play is not fully verified still applies.",
+    "source": "Zeitgeist Player’s Guide: The Investigation Begins, pp. 22–33."
+  },
+  "paths": [
+    {
+      "id": "modern4e.path.applied-astronomist",
+      "title": "Applied Astronomist",
+      "description": "Skyseers can harness the distant planes’ subtle influence to change themselves, summon destructive energies, and reshape their surroundings. Hugo Theroby, the last skyseer to unlock these powers, died in 493. His unfinished Cloudwood observatory now shelters pixies with unusual magic.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "anyOf",
+            "conditions": [
+              {
+                "type": "entry",
+                "entryId": "modern4e.theme.skyseer"
+              },
+              {
+                "type": "allOf",
+                "conditions": [
+                  {
+                    "type": "proficiency",
+                    "skill": "ARCANA"
+                  },
+                  {
+                    "type": "proficiency",
+                    "skill": "NATURE"
+                  },
+                  {
+                    "type": "unresolved",
+                    "text": "Training by a skyseer.",
+                    "reason": "Narrative qualification requires GM confirmation."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented.",
+          "Alternative narrative qualification requires GM confirmation; the associated theme is an independent route."
+        ]
+      },
+      "themeId": "modern4e.theme.skyseer",
+      "prerequisiteText": "Skyseer theme, or proficiency in Arcana and Nature and training by a skyseer.",
+      "grants": [
+        {
+          "id": "heavenly-flare",
+          "entryId": "modern4e.power.path-heavenly-flare",
+          "atLevel": 11
+        },
+        {
+          "id": "stargazer",
+          "entryId": "modern4e.feature.applied-astronomist-stargazer",
+          "atLevel": 11
+        },
+        {
+          "id": "touching-the-wheel-of-heaven",
+          "entryId": "modern4e.feature.applied-astronomist-touching-the-wheel-of-heaven",
+          "atLevel": 11
+        },
+        {
+          "id": "walking-the-cosmos",
+          "entryId": "modern4e.feature.applied-astronomist-walking-the-cosmos",
+          "atLevel": 11
+        },
+        {
+          "id": "straddling-realities",
+          "entryId": "modern4e.power.path-straddling-realities",
+          "atLevel": 12
+        },
+        {
+          "id": "space-travel",
+          "entryId": "modern4e.feature.applied-astronomist-space-travel",
+          "atLevel": 16
+        },
+        {
+          "id": "cataclysmic-conjunction",
+          "entryId": "modern4e.power.path-cataclysmic-conjunction",
+          "atLevel": 20
+        }
+      ],
+      "ruleIds": [
+        "modern4e.rule.path-applied-astronomist-supplement-1",
+        "modern4e.rule.path-applied-astronomist-supplement-2",
+        "modern4e.rule.path-applied-astronomist-supplement-3",
+        "modern4e.rule.path-applied-astronomist-supplement-4",
+        "modern4e.rule.path-applied-astronomist-supplement-5",
+        "modern4e.rule.path-applied-astronomist-supplement-6",
+        "modern4e.rule.path-applied-astronomist-supplement-7",
+        "modern4e.rule.path-applied-astronomist-supplement-8",
+        "modern4e.rule.path-applied-astronomist-supplement-9",
+        "modern4e.rule.path-applied-astronomist-supplement-10",
+        "modern4e.rule.path-applied-astronomist-supplement-11"
+      ],
+      "flavor": "Skyseers can harness the distant planes’ subtle influence to change themselves, summon destructive energies, and reshape their surroundings. Hugo Theroby, the last skyseer to unlock these powers, died in 493. His unfinished Cloudwood observatory now shelters pixies with unusual magic."
+    },
+    {
+      "id": "modern4e.path.logos",
+      "title": "Logos",
+      "description": "Philosophy reshapes perceptions, making the same starving child seem a burden or an investment. Some philosophers go further: recognizing the instability of belief and perception, they change reality through speech alone. The Drakran von Copenhoff supposedly learned this power from William Miller’s heretical writings and nearly seized a nation by declaring that its leaders agreed with him.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "anyOf",
+            "conditions": [
+              {
+                "type": "entry",
+                "entryId": "modern4e.theme.eschatologist"
+              },
+              {
+                "type": "allOf",
+                "conditions": [
+                  {
+                    "type": "proficiency",
+                    "skill": "DIPLOMACY"
+                  },
+                  {
+                    "type": "proficiency",
+                    "skill": "SOCIETY"
+                  },
+                  {
+                    "type": "unresolved",
+                    "text": "Experience discussing philosophy.",
+                    "reason": "Narrative qualification requires GM confirmation."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented.",
+          "Alternative narrative qualification requires GM confirmation; the associated theme is an independent route."
+        ]
+      },
+      "themeId": "modern4e.theme.eschatologist",
+      "prerequisiteText": "Eschatologist theme, or proficiency in Diplomacy and Society and experience discussing philosophy.",
+      "grants": [
+        {
+          "id": "make-it-so",
+          "entryId": "modern4e.power.path-make-it-so",
+          "atLevel": 11
+        },
+        {
+          "id": "fiat",
+          "entryId": "modern4e.feature.logos-fiat",
+          "atLevel": 11
+        },
+        {
+          "id": "pathos-of-the-inanimate",
+          "entryId": "modern4e.feature.logos-pathos-of-the-inanimate",
+          "atLevel": 11
+        },
+        {
+          "id": "inexplicable-narration",
+          "entryId": "modern4e.power.path-inexplicable-narration",
+          "atLevel": 12
+        },
+        {
+          "id": "ethos-of-the-unwilling",
+          "entryId": "modern4e.feature.logos-ethos-of-the-unwilling",
+          "atLevel": 16
+        },
+        {
+          "id": "revoke-agency",
+          "entryId": "modern4e.power.path-revoke-agency",
+          "atLevel": 20
+        }
+      ],
+      "ruleIds": [],
+      "flavor": "Philosophy reshapes perceptions, making the same starving child seem a burden or an investment. Some philosophers go further: recognizing the instability of belief and perception, they change reality through speech alone. The Drakran von Copenhoff supposedly learned this power from William Miller’s heretical writings and nearly seized a nation by declaring that its leaders agreed with him."
+    },
+    {
+      "id": "modern4e.path.mad-shootist",
+      "title": "Mad Shootist",
+      "description": "Ordinary guns are passé. Your modular arcano-scientific blaster stores magic, fires elemental beams and explosive projectiles, and provides an ever-growing collection of improbable tools.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "anyOf",
+            "conditions": [
+              {
+                "type": "entry",
+                "entryId": "modern4e.theme.gunsmith"
+              },
+              {
+                "type": "allOf",
+                "conditions": [
+                  {
+                    "type": "proficiency",
+                    "skill": "ARCANA"
+                  },
+                  {
+                    "type": "unresolved",
+                    "text": "Training by a gunsmith.",
+                    "reason": "Narrative qualification requires GM confirmation."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented.",
+          "Alternative narrative qualification requires GM confirmation; the associated theme is an independent route."
+        ]
+      },
+      "themeId": "modern4e.theme.gunsmith",
+      "prerequisiteText": "Gunsmith theme, or proficiency in Arcana and training by a gunsmith.",
+      "grants": [
+        {
+          "id": "beam-shot",
+          "entryId": "modern4e.power.path-beam-shot",
+          "atLevel": 11
+        },
+        {
+          "id": "inventive-gunnery",
+          "entryId": "modern4e.feature.mad-shootist-inventive-gunnery",
+          "atLevel": 11
+        },
+        {
+          "id": "autofire",
+          "entryId": "modern4e.feature.mad-shootist-autofire",
+          "atLevel": 11
+        },
+        {
+          "id": "piercing-shot",
+          "entryId": "modern4e.feature.mad-shootist-piercing-shot",
+          "atLevel": 11
+        },
+        {
+          "id": "mobility-shot",
+          "entryId": "modern4e.power.path-mobility-shot",
+          "atLevel": 12
+        },
+        {
+          "id": "rocket-launcher",
+          "entryId": "modern4e.feature.mad-shootist-rocket-launcher",
+          "atLevel": 16
+        },
+        {
+          "id": "hyper-beam",
+          "entryId": "modern4e.power.path-hyper-beam",
+          "atLevel": 20
+        }
+      ],
+      "ruleIds": [],
+      "flavor": "Ordinary guns are passé. Your modular arcano-scientific blaster stores magic, fires elemental beams and explosive projectiles, and provides an ever-growing collection of improbable tools."
+    },
+    {
+      "id": "modern4e.path.monument-of-war",
+      "title": "Monument of War",
+      "description": "Public admiration turns famous veterans into living embodiments of their wars. You can manifest remembered cannon fire or the sacrifice of a fallen comrade. Such power may be haunted by dead friends or concealed wartime shame; others seek lost glory or another chance at an escaped enemy.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "anyOf",
+            "conditions": [
+              {
+                "type": "entry",
+                "entryId": "modern4e.theme.yerasol-veteran"
+              },
+              {
+                "type": "allOf",
+                "conditions": [
+                  {
+                    "type": "proficiency",
+                    "skill": "ARCANA"
+                  },
+                  {
+                    "type": "proficiency",
+                    "skill": "SOCIETY"
+                  },
+                  {
+                    "type": "unresolved",
+                    "text": "Veteran of another war.",
+                    "reason": "Narrative qualification requires GM confirmation."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented.",
+          "Alternative narrative qualification requires GM confirmation; the associated theme is an independent route."
+        ]
+      },
+      "themeId": "modern4e.theme.yerasol-veteran",
+      "prerequisiteText": "Yerasol Veteran theme, or veteran of another war and proficiency in Arcana and Society.",
+      "grants": [
+        {
+          "id": "shell-shock",
+          "entryId": "modern4e.power.path-shell-shock",
+          "atLevel": 11
+        },
+        {
+          "id": "instant-boot-camp",
+          "entryId": "modern4e.feature.monument-of-war-instant-boot-camp",
+          "atLevel": 11
+        },
+        {
+          "id": "fearless-mein",
+          "entryId": "modern4e.feature.monument-of-war-fearless-mein",
+          "atLevel": 11
+        },
+        {
+          "id": "remembrance-of-the-human-shield",
+          "entryId": "modern4e.power.path-remembrance-of-the-human-shield",
+          "atLevel": 12
+        },
+        {
+          "id": "do-you-want-to-live-forever",
+          "entryId": "modern4e.feature.monument-of-war-do-you-want-to-live-forever",
+          "atLevel": 16
+        },
+        {
+          "id": "cannon-overture",
+          "entryId": "modern4e.power.path-cannon-overture",
+          "atLevel": 20
+        }
+      ],
+      "ruleIds": [],
+      "flavor": "Public admiration turns famous veterans into living embodiments of their wars. You can manifest remembered cannon fire or the sacrifice of a fallen comrade. Such power may be haunted by dead friends or concealed wartime shame; others seek lost glory or another chance at an escaped enemy."
+    },
+    {
+      "id": "modern4e.path.notorious-celebrity",
+      "title": "Notorious Celebrity",
+      "description": "If devotion strengthens gods and approval strengthens kings, fame can empower an entertainer. You attract a loyal posse, demand attention, and turn spectators’ affection into supernatural influence. Such visibility can be awkward for a constable trying to travel incognito.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "anyOf",
+            "conditions": [
+              {
+                "type": "entry",
+                "entryId": "modern4e.theme.docker"
+              },
+              {
+                "type": "allOf",
+                "conditions": [
+                  {
+                    "type": "abilityPoints",
+                    "ability": "CHARISMA",
+                    "minimum": 2
+                  },
+                  {
+                    "type": "unresolved",
+                    "text": "A wildly popular entertainment career.",
+                    "reason": "Narrative qualification requires GM confirmation."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented.",
+          "Alternative narrative qualification requires GM confirmation; the associated theme is an independent route."
+        ]
+      },
+      "themeId": "modern4e.theme.docker",
+      "prerequisiteText": "Docker theme, or *2 Charisma points* and a wildly popular entertainment career.",
+      "grants": [
+        {
+          "id": "one-upmanship",
+          "entryId": "modern4e.power.path-one-upmanship",
+          "atLevel": 11
+        },
+        {
+          "id": "roll-with-a-posse",
+          "entryId": "modern4e.feature.notorious-celebrity-roll-with-a-posse",
+          "atLevel": 11
+        },
+        {
+          "id": "center-of-attention",
+          "entryId": "modern4e.feature.notorious-celebrity-center-of-attention",
+          "atLevel": 11
+        },
+        {
+          "id": "summon-audience",
+          "entryId": "modern4e.power.path-summon-audience",
+          "atLevel": 12
+        },
+        {
+          "id": "crowd-effect",
+          "entryId": "modern4e.feature.notorious-celebrity-crowd-effect",
+          "atLevel": 16
+        },
+        {
+          "id": "shock-and-awe",
+          "entryId": "modern4e.power.path-shock-and-awe",
+          "atLevel": 20
+        }
+      ],
+      "ruleIds": [
+        "modern4e.rule.path-notorious-celebrity-supplement-12",
+        "modern4e.rule.path-notorious-celebrity-supplement-13",
+        "modern4e.rule.path-notorious-celebrity-supplement-14",
+        "modern4e.rule.path-notorious-celebrity-supplement-15",
+        "modern4e.rule.path-notorious-celebrity-supplement-16",
+        "modern4e.rule.path-notorious-celebrity-supplement-17",
+        "modern4e.rule.path-notorious-celebrity-supplement-18"
+      ],
+      "flavor": "If devotion strengthens gods and approval strengthens kings, fame can empower an entertainer. You attract a loyal posse, demand attention, and turn spectators’ affection into supernatural influence. Such visibility can be awkward for a constable trying to travel incognito."
+    },
+    {
+      "id": "modern4e.path.polyhistor",
+      "title": "Polyhistor",
+      "description": "Ballistics, anatomy, motion, materials, psychology, and sociology all illuminate combat. A polyhistor combines these sciences into the right attack for each situation, pausing to observe enemies or regain composure when needed.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "anyOf",
+            "conditions": [
+              {
+                "type": "entry",
+                "entryId": "modern4e.theme.martial-scientist"
+              },
+              {
+                "type": "allOf",
+                "conditions": [
+                  {
+                    "type": "abilityPoints",
+                    "ability": "INTELLIGENCE",
+                    "minimum": 2
+                  },
+                  {
+                    "type": "proficiency",
+                    "skill": "MEDICINE"
+                  },
+                  {
+                    "type": "proficiency",
+                    "skill": "INSIGHT"
+                  },
+                  {
+                    "type": "proficiency",
+                    "skill": "SOCIETY"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "themeId": "modern4e.theme.martial-scientist",
+      "prerequisiteText": "Martial Scientist theme, or *2 Intelligence points* and proficiency in Medicine, Insight, and Society.",
+      "grants": [
+        {
+          "id": "elementary-stances",
+          "entryId": "modern4e.feature.polyhistor-elementary-stances",
+          "atLevel": 11
+        },
+        {
+          "id": "combat-focus",
+          "entryId": "modern4e.feature.polyhistor-combat-focus",
+          "atLevel": 11
+        },
+        {
+          "id": "two-targets",
+          "entryId": "modern4e.feature.polyhistor-two-targets",
+          "atLevel": 11
+        },
+        {
+          "id": "multiple-targets",
+          "entryId": "modern4e.feature.polyhistor-multiple-targets",
+          "atLevel": 11
+        },
+        {
+          "id": "perfect-aim",
+          "entryId": "modern4e.feature.polyhistor-perfect-aim",
+          "atLevel": 11
+        },
+        {
+          "id": "decipher-technique",
+          "entryId": "modern4e.power.path-decipher-technique",
+          "atLevel": 12
+        },
+        {
+          "id": "combat-transcendence",
+          "entryId": "modern4e.feature.polyhistor-combat-transcendence",
+          "atLevel": 16
+        },
+        {
+          "id": "masterstroke",
+          "entryId": "modern4e.power.path-masterstroke",
+          "atLevel": 20
+        }
+      ],
+      "ruleIds": [
+        "modern4e.rule.path-polyhistor-supplement-19",
+        "modern4e.rule.path-polyhistor-supplement-20",
+        "modern4e.rule.path-polyhistor-supplement-21",
+        "modern4e.rule.path-polyhistor-supplement-22",
+        "modern4e.rule.path-polyhistor-supplement-23",
+        "modern4e.rule.path-polyhistor-supplement-24",
+        "modern4e.rule.path-polyhistor-supplement-25",
+        "modern4e.rule.path-polyhistor-supplement-26",
+        "modern4e.rule.path-polyhistor-supplement-27"
+      ],
+      "flavor": "Ballistics, anatomy, motion, materials, psychology, and sociology all illuminate combat. A polyhistor combines these sciences into the right attack for each situation, pausing to observe enemies or regain composure when needed."
+    },
+    {
+      "id": "modern4e.path.steamsuit-pilot",
+      "title": "Steamsuit Pilot",
+      "description": "Scaling a fighting contraption into wearable armor takes ingenuity and a willingness to strap yourself into a hot metal machine powered by an arcane boiler. Every pilot’s suit has its own shape and quirks, from close-fitting elven plate to a mechanized gorilla. Every machine can break.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "anyOf",
+            "conditions": [
+              {
+                "type": "entry",
+                "entryId": "modern4e.theme.technologist"
+              },
+              {
+                "type": "allOf",
+                "conditions": [
+                  {
+                    "type": "proficiency",
+                    "skill": "ARCANA"
+                  },
+                  {
+                    "type": "unresolved",
+                    "text": "Training by a technologist.",
+                    "reason": "Narrative qualification requires GM confirmation."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented.",
+          "Alternative narrative qualification requires GM confirmation; the associated theme is an independent route."
+        ]
+      },
+      "themeId": "modern4e.theme.technologist",
+      "prerequisiteText": "Technologist theme, or training by a technologist and proficiency in Arcana.",
+      "grants": [
+        {
+          "id": "power-fist",
+          "entryId": "modern4e.power.path-power-fist",
+          "atLevel": 11
+        },
+        {
+          "id": "steam-steel",
+          "entryId": "modern4e.feature.steamsuit-pilot-steam-steel",
+          "atLevel": 11
+        },
+        {
+          "id": "defensive-shield",
+          "entryId": "modern4e.feature.steamsuit-pilot-defensive-shield",
+          "atLevel": 11
+        },
+        {
+          "id": "redline-rush",
+          "entryId": "modern4e.power.path-redline-rush",
+          "atLevel": 12
+        },
+        {
+          "id": "quick-don",
+          "entryId": "modern4e.feature.steamsuit-pilot-quick-don",
+          "atLevel": 16
+        },
+        {
+          "id": "steam-blast",
+          "entryId": "modern4e.power.path-steam-blast",
+          "atLevel": 20
+        }
+      ],
+      "ruleIds": [],
+      "flavor": "Scaling a fighting contraption into wearable armor takes ingenuity and a willingness to strap yourself into a hot metal machine powered by an arcane boiler. Every pilot’s suit has its own shape and quirks, from close-fitting elven plate to a mechanized gorilla. Every machine can break."
+    },
+    {
+      "id": "modern4e.path.urban-empath",
+      "title": "Urban Empath",
+      "description": "Cities have spirits as surely as the dead. You attune to their lingering thoughts and collective history, drawing sustenance, knowledge, and protection from streets and buildings. Your powers still work in the wilderness, but a crowded metropolis is your strongest ally.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "anyOf",
+            "conditions": [
+              {
+                "type": "entry",
+                "entryId": "modern4e.theme.spirit-medium"
+              },
+              {
+                "type": "allOf",
+                "conditions": [
+                  {
+                    "type": "proficiency",
+                    "skill": "DIPLOMACY"
+                  },
+                  {
+                    "type": "proficiency",
+                    "skill": "INSIGHT"
+                  },
+                  {
+                    "type": "unresolved",
+                    "text": "The ability to commune with nature.",
+                    "reason": "Narrative qualification requires GM confirmation."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented.",
+          "Alternative narrative qualification requires GM confirmation; the associated theme is an independent route."
+        ]
+      },
+      "themeId": "modern4e.theme.spirit-medium",
+      "prerequisiteText": "Spirit Medium theme, or the ability to commune with nature and proficiency in Diplomacy and Insight.",
+      "grants": [
+        {
+          "id": "the-city-comes-alive",
+          "entryId": "modern4e.power.path-the-city-comes-alive",
+          "atLevel": 11
+        },
+        {
+          "id": "every-building-a-welcoming-home",
+          "entryId": "modern4e.feature.urban-empath-every-building-a-welcoming-home",
+          "atLevel": 11
+        },
+        {
+          "id": "urban-bond",
+          "entryId": "modern4e.feature.urban-empath-urban-bond",
+          "atLevel": 11
+        },
+        {
+          "id": "the-city-whispers",
+          "entryId": "modern4e.power.path-the-city-whispers",
+          "atLevel": 12
+        },
+        {
+          "id": "every-window-an-eye",
+          "entryId": "modern4e.feature.urban-empath-every-window-an-eye",
+          "atLevel": 16
+        },
+        {
+          "id": "the-city-marches-to-war",
+          "entryId": "modern4e.power.path-the-city-marches-to-war",
+          "atLevel": 20
+        }
+      ],
+      "ruleIds": [],
+      "flavor": "Cities have spirits as surely as the dead. You attune to their lingering thoughts and collective history, drawing sustenance, knowledge, and protection from streets and buildings. Your powers still work in the wilderness, but a crowded metropolis is your strongest ally."
+    },
+    {
+      "id": "modern4e.path.vekeshi-excoriant",
+      "title": "Vekeshi Excoriant",
+      "description": "A few mystics retain a sliver of Srasama’s power through devotion or the collective memory of her death. They scar and cauterize their skin with symbols of Maiden, Mother, and Crone. Some lead local cells; others follow independent callings. All recite Vekesh’s teachings nightly, renewing their purpose to protect the weak and punish abusers.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "anyOf",
+            "conditions": [
+              {
+                "type": "entry",
+                "entryId": "modern4e.theme.vekeshi-mystic"
+              },
+              {
+                "type": "allOf",
+                "conditions": [
+                  {
+                    "type": "proficiency",
+                    "skill": "ARCANA"
+                  },
+                  {
+                    "type": "proficiency",
+                    "skill": "SOCIETY"
+                  },
+                  {
+                    "type": "unresolved",
+                    "text": "Induction into the mystics.",
+                    "reason": "Narrative qualification requires GM confirmation."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented.",
+          "Alternative narrative qualification requires GM confirmation; the associated theme is an independent route."
+        ]
+      },
+      "themeId": "modern4e.theme.vekeshi-mystic",
+      "prerequisiteText": "Vekeshi Mystic theme, or induction into the mystics and proficiency in Arcana and Society.",
+      "grants": [
+        {
+          "id": "vision-of-the-fall",
+          "entryId": "modern4e.power.path-vision-of-the-fall",
+          "atLevel": 11
+        },
+        {
+          "id": "dreadnought",
+          "entryId": "modern4e.feature.vekeshi-excoriant-dreadnought",
+          "atLevel": 11
+        },
+        {
+          "id": "threefold-presence",
+          "entryId": "modern4e.feature.vekeshi-excoriant-threefold-presence",
+          "atLevel": 11
+        },
+        {
+          "id": "triune-blessing",
+          "entryId": "modern4e.power.path-triune-blessing",
+          "atLevel": 12
+        },
+        {
+          "id": "live-for-vengeance",
+          "entryId": "modern4e.feature.vekeshi-excoriant-live-for-vengeance",
+          "atLevel": 16
+        },
+        {
+          "id": "aspect-of-srasama",
+          "entryId": "modern4e.power.path-aspect-of-srasama",
+          "atLevel": 20
+        }
+      ],
+      "ruleIds": [],
+      "flavor": "A few mystics retain a sliver of Srasama’s power through devotion or the collective memory of her death. They scar and cauterize their skin with symbols of Maiden, Mother, and Crone. Some lead local cells; others follow independent callings. All recite Vekesh’s teachings nightly, renewing their purpose to protect the weak and punish abusers."
+    }
+  ],
+  "features": [
+    {
+      "id": "modern4e.feature.applied-astronomist-stargazer",
+      "title": "Stargazer",
+      "description": "Gain darkvision. You cannot be blinded.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.applied-astronomist"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.applied-astronomist-touching-the-wheel-of-heaven",
+      "title": "Touching the Wheel of Heaven",
+      "description": "After an extended rest, if you spent an hour watching the night sky in the past day, roll 1d8 twice on the planar connections list, rerolling duplicates. You connect to those two planes until your next extended rest, to a maximum of 24 hours. Your connections determine the available effects of your path powers and Space Travel.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.applied-astronomist"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.applied-astronomist-walking-the-cosmos",
+      "title": "Walking the Cosmos",
+      "description": "When you spend an action point, the next power you use this turn has unlimited range. You must still see its target or origin square.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.applied-astronomist"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.applied-astronomist-space-travel",
+      "title": "Space Travel",
+      "description": "Gain both connected planes’ benefits:\n\n- *Jiese:* Shift 1 square as a minor action.\n- *Avilona:* Fly speed equal to walking speed, clumsy maneuverability.\n- *Av:* Climb speed equal to walking speed, with spider climb.\n- *Mavisha:* Swim speed equal to walking speed.\n- *Urim:* Ignore the first square of each forced movement; you may automatically resist teleportation.\n- *Apet:* Teleport 2 squares as a move action.\n- *Reida:* +2 speed.\n- *Nem:* Ignore difficult terrain, hovering slightly over small obstacles.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.applied-astronomist"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.logos-fiat",
+      "title": "Fiat",
+      "description": "When you spend an action point, instead of gaining an extra action, force a creature that can hear you to take an at-will standard or move action of your choice. It cannot directly damage itself, but you can place it in danger, including provoking opportunity attacks or standing under a precarious boulder.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.logos"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.logos-pathos-of-the-inanimate",
+      "title": "Pathos of the Inanimate",
+      "description": "By speech, manipulate unattended objects within 30 feet: move furniture, crack trees, open or close doors and locks, or fire guns. Move tiny things up to 30 feet as a free action, person-sized objects as a minor action, or objects filling up to a 10-foot square as a move action. Objects given a name cannot be affected; naming gives them a fragment of willpower.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.logos"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.logos-ethos-of-the-unwilling",
+      "title": "Ethos of the Unwilling",
+      "description": "Whenever you hit a creature with an attack, it takes a –2 penalty to its next attack roll.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.logos"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.mad-shootist-inventive-gunnery",
+      "title": "Inventive Gunnery",
+      "description": "Choose a firearm type and invent a blaster of that type. It fires ordinary ammunition or unlimited force blasts. Force blasts behave like ordinary rounds but deal force damage and require no reloading.\n\nYou can have only one active blaster. If someone else fires it, it pulses; unless you regain possession within three rounds it explodes: *close burst 3; implement attack, Main Ability vs. Reflex; hit: 6[W] damage; miss: half damage*. The source does not specify the explosion’s target selection; resolve this with the GM.\n\nIf destroyed, spend 1 hour repairing it or upgrading another firearm of any type into a new blaster. You can transfer enchantments between weapons during that hour.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.mad-shootist"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.mad-shootist-autofire",
+      "title": "Autofire",
+      "description": "When making a ranged attack with your blaster (not a close or area attack), you may fire a 10-round burst, normally using force blasts. Deal damage equal to the higher of your *Dexterity or Intelligence points* to each enemy in an *area burst 1 centered on the target*. Creatures with cover relative to you take no autofire damage.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.mad-shootist"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.mad-shootist-piercing-shot",
+      "title": "Piercing Shot",
+      "description": "When you spend an action point, your next blaster attack can attack each creature along a straight line from any part of your space through any part of the target’s space and up to three spaces beyond. You cannot fire the blaster again until the end of your next turn.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.mad-shootist"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.mad-shootist-rocket-launcher",
+      "title": "Rocket Launcher",
+      "description": "Create up to five rockets per day, with a maximum of five at any time. Creating more destabilizes them all into inertness. Rockets act as grenades with *range 20/40*. Loading one into the blaster takes a standard action.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.mad-shootist"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.monument-of-war-instant-boot-camp",
+      "title": "Instant Boot Camp",
+      "description": "When you spend an action point, you and every ally who can see or hear you gain proficiency in Athletics and all simple and military weapons until the end of your next turn. Those already proficient in Athletics treat a roll of 1–7 on an Athletics check as an 8. Each affected creature can immediately stand up or drop prone, then move 2 squares.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.monument-of-war"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.monument-of-war-fearless-mein",
+      "title": "Fearless Mein",
+      "description": "You and allies within 5 squares gain +4 to defenses against Fear attacks and +4 to saving throws against fear effects.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.monument-of-war"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.monument-of-war-do-you-want-to-live-forever",
+      "title": "Do You Want to Live Forever?",
+      "description": "When you have no physical cover or concealment, gain cover against non-melee attacks.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.monument-of-war"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.notorious-celebrity-roll-with-a-posse",
+      "title": "Roll with a Posse",
+      "description": "Gain four loyal followers with the statistics on the next page. They act only at your direction. When you spend a move action, each can also spend a move action. Use an opportunity action to have one make an opportunity attack against an enemy you both see. You can spend actions to direct one member to perform a specific task, such as opening a door. Otherwise they wait, reloading their pistols if needed when given no orders.\n\nWhen something damages a posse member, you may transfer that damage to yourself. If a source damages several simultaneously, protect all of them while taking the damage only once. If the same source also damages you, you can shield them without extra damage.\n\nA member reduced below 0 HP automatically stabilizes while you live. As a minor action, spend a healing surge to restore any number of visible posse members to 1 HP. Replace a dead member the next time you are somewhere you have fans.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.notorious-celebrity"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.notorious-celebrity-center-of-attention",
+      "title": "Center of Attention",
+      "description": "When you spend an action point, every enemy aware of you takes –2 to attacks against targets other than you until the end of your next turn.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.notorious-celebrity"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.notorious-celebrity-crowd-effect",
+      "title": "Crowd Effect",
+      "description": "While watched by at least eight noncombatants, gain +5 to death saving throws. Whenever you bloody or drop an enemy, gain 5 temporary HP.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.notorious-celebrity"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.polyhistor-elementary-stances",
+      "title": "Elementary Stances",
+      "description": "At the start of your turn, as a free action, switch to any of the five elementary stances on the next page. You can have one elementary stance and up to one stance from another source active simultaneously.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.polyhistor"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.polyhistor-combat-focus",
+      "title": "Combat Focus",
+      "description": "Instead of a path encounter attack power, start each encounter with *three martial dice (d6s)*. Spend them on the options below or your stance options. Taking total defense as a standard action adds *three dice* if an enemy is actively fighting within 10 squares. Your pool’s maximum is *ten*; it resets to three at each encounter’s start.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.polyhistor"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.polyhistor-two-targets",
+      "title": "Two Targets",
+      "description": "Once on your turn when making a basic attack, spend one die to make another basic attack against a different enemy. You may stow and draw weapons between them.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.polyhistor"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.polyhistor-multiple-targets",
+      "title": "Multiple Targets",
+      "description": "When making a melee basic attack on your turn, spend two dice to target every enemy in a close burst 1. For a ranged basic attack, spend two dice to target every enemy in an area burst 1 within range. Combine with Two Targets: two dice for the melee burst, one for an extra ranged basic attack after switching weapons, and two more for that attack to affect a ranged burst.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.polyhistor"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.polyhistor-perfect-aim",
+      "title": "Perfect Aim",
+      "description": "When you spend an action point, until your turn ends you can use *Precision*: after rolling a basic attack, spend any number of martial dice, roll them, and add their sum to the attack roll.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.polyhistor"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.polyhistor-combat-transcendence",
+      "title": "Combat Transcendence",
+      "description": "Your martial dice reset to *five* at the start of an encounter, and your maximum pool becomes *twelve*.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.polyhistor"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.steamsuit-pilot-steam-steel",
+      "title": "Steam & Steel",
+      "description": "Design a *Medium or Large suit*, no smaller than yourself. Only a creature of your size can pilot it. Entering or exiting takes a move action. A suit is inert without a pilot. Its lock opens with a key as a minor action, or a *DC 30 Thievery check* as a standard action. Lock it as a free action when entering.\n\nInside, your armor bonus becomes *+10*, increasing to *+11 at level 16, +12 at 21, and +14 at 26*. Apply the enhancement bonus of your worn armor or clothing under the local intrinsic-bonus rules. The suit is heavy armor, so you add neither Intelligence nor Dexterity to AC. It imposes no armor check penalty and needs no armor proficiency.\n\nActivate or deactivate the engine as a free action on your turn. While active, its magical link lets you move, sense, and attack as if it were your body. Suit weapons reproduce your carried weapons and their enchantments.\n\nA deactivated suit leaves you *immobilized, blinded, and helpless*. You can effectively only affect yourself or exit as a move action, except where Steam Blast explicitly gives its own disabled-suit rules.\n\n*Medium suit:* Speed 7; lifting and carrying capacity equivalent to the source’s Strength 60, including a 600-pound light load. This does not alter checks, attacks, or damage.\n\n*Large suit:* Speed 5; twice the Medium suit’s capacity (1,200-pound light load). Take –5 to checks needing mobility or fine control, including most Acrobatics, Athletics, and Thievery checks. Reduce each push, pull, or slide by 1 square.\n\n*Damage:* Whenever you take damage inside, make a saving throw. After three failed saves the suit is damaged: slowed and –2 to attack, ability, and skill checks. Repair it during a short rest to restore normal operation. A pilot other than the inventor takes –5 to these saves; three failures deactivate the suit instead.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.steamsuit-pilot"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.steamsuit-pilot-defensive-shield",
+      "title": "Defensive Shield (11)",
+      "description": "When you spend an action point, gain *resist 5 all* until the start of your next turn.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.steamsuit-pilot"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.steamsuit-pilot-quick-don",
+      "title": "Quick-Don",
+      "description": "As a standard action, collapse the suit into a palm-sized, five-pound mechanical object. As a standard action, restore it; it may form around you and activate its engine as part of that action.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.steamsuit-pilot"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.urban-empath-every-building-a-welcoming-home",
+      "title": "Every Building a Welcoming Home",
+      "description": "When you spend an action point, move through man-made structures as if phasing until the end of your next turn.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.urban-empath"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.urban-empath-urban-bond",
+      "title": "Urban Bond",
+      "description": "In an urban environment, generally a bounded area of at least 1,000 inhabitants per square mile, you need neither food nor drink and gain +5 to Acrobatics, Athletics, and Perception checks. These benefits generally extend to within 3 miles of the urban area’s boundary.\n\nThree times per day, spend 5 minutes communicating with buildings, roads, or other urban structures. Ask up to three questions about what they have witnessed or experienced, similarly to the _Object Reading_ ritual.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.urban-empath"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.urban-empath-every-window-an-eye",
+      "title": "Every Window an Eye",
+      "description": "In an urban environment, gain *tremorsense 20*. Sense the presence and location of creatures with total cover or concealment when man-made structures hide them. You can target Urban Empath powers through walls this way.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.urban-empath"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.vekeshi-excoriant-dreadnought",
+      "title": "Dreadnought",
+      "description": "Gain +2 to Will and saving throws against charm, fear, or illusion effects.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.vekeshi-excoriant"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.vekeshi-excoriant-threefold-presence",
+      "title": "Threefold Presence",
+      "description": "When you spend an action point, you may spend a move action this turn to move from your initial position to three locations as three versions of yourself. At the start of your next turn, choose one location to remain at; the other versions disappear. Until then, take actions and be affected as if at any of these locations. An effect hitting multiple versions affects you only once.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.vekeshi-excoriant"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.vekeshi-excoriant-live-for-vengeance",
+      "title": "Live for Vengeance",
+      "description": "When you start a turn dying, you may spend *two healing surges* to regain HP equal to *one surge*, regaining consciousness. This counts as a failed death saving throw. Use at most *twice per encounter*.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.vekeshi-excoriant"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      }
+    }
+  ],
+  "rules": [
+    {
+      "id": "modern4e.rule.path-applied-astronomist-supplement-1",
+      "title": "Applied Astronomist Supplement 1",
+      "description": "Supplementary rules for Applied Astronomist.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "heading",
+          "level": 1,
+          "title": "Planar Connections"
+        },
+        {
+          "type": "text",
+          "text": "+ *Jiese:* Fire.\n+ *Avilona:* Air.\n+ *Av:* Dreams.\n+ *Mavisha:* Water.\n+ *Urim:* Earth.\n+ *Apet:* Distance.\n+ *Reida:* Time.\n+ *Nem:* Ruin."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.rule.path-applied-astronomist-supplement-2",
+      "title": "Applied Astronomist Supplement 2",
+      "description": "Supplementary rules for Applied Astronomist.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "heading",
+          "level": 1,
+          "title": "Planar Attack Riders"
+        },
+        {
+          "type": "text",
+          "text": "- *Jiese:* Ongoing 10 fire damage (save ends).\n- *Avilona:* Deafened and slowed (save ends both).\n- *Av:* Dazed and insubstantial until the end of your next turn.\n- *Mavisha:* Slide 2 squares; ongoing 5 acid damage (save ends).\n- *Urim:* Cannot teleport (save ends); knocked prone.\n- *Apet:* Teleport the target 6 squares.\n- *Reida:* Stunned until the end of your next turn. While stunned, the target is immune to damage, forced movement, and status effects.\n- *Nem:* Ongoing 10 necrotic damage (save ends)."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.rule.path-applied-astronomist-supplement-3",
+      "title": "Applied Astronomist Supplement 3",
+      "description": "Supplementary rules for Applied Astronomist.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "These effects apply to *Straddling Realities* and *Cataclysmic Conjunction*."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.rule.path-applied-astronomist-supplement-4",
+      "title": "Applied Astronomist Supplement 4",
+      "description": "Supplementary rules for Applied Astronomist.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "heading",
+          "level": 1,
+          "title": "Jiese, Plane of Fire"
+        },
+        {
+          "type": "text",
+          "text": "As a minor action, create an object of solid firegem in an unoccupied space in the zone. It can have any rough shape, up to 3 squares across, is as durable as wood, and vanishes when the zone ends."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.rule.path-applied-astronomist-supplement-5",
+      "title": "Applied Astronomist Supplement 5",
+      "description": "Supplementary rules for Applied Astronomist.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "heading",
+          "level": 1,
+          "title": "Avilona, Plane of Air"
+        },
+        {
+          "type": "text",
+          "text": "Fill the zone with fog (concealment), winds up to 30 miles per hour (–2 penalty to ranged weapon attacks), or calm air (comfortable temperature and breathable air)."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.rule.path-applied-astronomist-supplement-6",
+      "title": "Applied Astronomist Supplement 6",
+      "description": "Supplementary rules for Applied Astronomist.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "heading",
+          "level": 1,
+          "title": "Av, Plane of Dreams"
+        },
+        {
+          "type": "text",
+          "text": "Enemies in the zone take a –2 penalty to Will; allies gain a +2 bonus to Will."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.rule.path-applied-astronomist-supplement-7",
+      "title": "Applied Astronomist Supplement 7",
+      "description": "Supplementary rules for Applied Astronomist.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "heading",
+          "level": 1,
+          "title": "Mavisha, Plane of Water"
+        },
+        {
+          "type": "text",
+          "text": "Fill the zone with water to your chosen depth, either calm (*Athletics DC 10* to swim) or choppy (*DC 20*)."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.rule.path-applied-astronomist-supplement-8",
+      "title": "Applied Astronomist Supplement 8",
+      "description": "Supplementary rules for Applied Astronomist.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "heading",
+          "level": 1,
+          "title": "Urim, Plane of Earth"
+        },
+        {
+          "type": "text",
+          "text": "As a minor action, roughly tunnel through up to three 5-foot cubes of earth or stone in the zone, or extrude an equal amount of stone from a rocky surface."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.rule.path-applied-astronomist-supplement-9",
+      "title": "Applied Astronomist Supplement 9",
+      "description": "Supplementary rules for Applied Astronomist.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "heading",
+          "level": 1,
+          "title": "Apet, the Distant Plane"
+        },
+        {
+          "type": "text",
+          "text": "Attacks originating inside the zone cannot affect targets outside, and vice versa. A creature can step across the boundary and attack; otherwise the distance is effectively infinite."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.rule.path-applied-astronomist-supplement-10",
+      "title": "Applied Astronomist Supplement 10",
+      "description": "Supplementary rules for Applied Astronomist.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "heading",
+          "level": 1,
+          "title": "Reida, Plane of Time"
+        },
+        {
+          "type": "text",
+          "text": "Creatures in the zone can take one extra minor action each turn."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.rule.path-applied-astronomist-supplement-11",
+      "title": "Applied Astronomist Supplement 11",
+      "description": "Supplementary rules for Applied Astronomist.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "heading",
+          "level": 1,
+          "title": "Nem, Plane of Ruin"
+        },
+        {
+          "type": "text",
+          "text": "Creatures starting their turn in the zone take 10 necrotic damage. Unattended objects in it suffer years of decay each round."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.rule.path-notorious-celebrity-supplement-12",
+      "title": "Notorious Celebrity Supplement 12",
+      "description": "Supplementary rules for Notorious Celebrity.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "heading",
+          "level": 1,
+          "title": "Posse Member"
+        },
+        {
+          "type": "text",
+          "text": "*Medium natural humanoid; minion soldier.* No XP award."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.rule.path-notorious-celebrity-supplement-13",
+      "title": "Notorious Celebrity Supplement 13",
+      "description": "Supplementary rules for Notorious Celebrity.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "*HP:* 1; missed attacks never damage a minion.\n\n*Defenses:* AC 14, Fortitude 12, Reflex 12, Will 12.\n\n*Initiative:* +2. *Perception:* +0. *Speed:* 6.\n\n*Ability points:* Strength 2, Constitution 1, Dexterity 2, Intelligence 1, Wisdom –1, Charisma 0.\n\n*Alignment:* Same as the celebrity. *Languages:* Various."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.rule.path-notorious-celebrity-supplement-14",
+      "title": "Notorious Celebrity Supplement 14",
+      "description": "Supplementary rules for Notorious Celebrity.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "heading",
+          "level": 2,
+          "title": "Bolstered by Celebrity"
+        },
+        {
+          "type": "text",
+          "text": "If a member has seen you within the past 5 minutes, it gains a bonus equal to *your level* to attacks and defenses, and a bonus equal to *half your level* to skill checks, ability checks, and damage rolls. Recalculate when you level up. These are the source’s companion bonuses, not player intrinsic bonuses."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.rule.path-notorious-celebrity-supplement-15",
+      "title": "Notorious Celebrity Supplement 15",
+      "description": "Supplementary rules for Notorious Celebrity.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "heading",
+          "level": 2,
+          "title": "Bodyguard"
+        },
+        {
+          "type": "text",
+          "text": "Allies adjacent to a posse member gain +2 to defenses."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.rule.path-notorious-celebrity-supplement-16",
+      "title": "Notorious Celebrity Supplement 16",
+      "description": "Supplementary rules for Notorious Celebrity.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "heading",
+          "level": 2,
+          "title": "Scrap and Slash"
+        },
+        {
+          "type": "text",
+          "text": "*At-Will, Basic, Weapon; standard action.*\n\n*Attack:* Melee 1, one creature; +5 vs. AC.\n\n*Hit:* 4 damage."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.rule.path-notorious-celebrity-supplement-17",
+      "title": "Notorious Celebrity Supplement 17",
+      "description": "Supplementary rules for Notorious Celebrity.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "heading",
+          "level": 2,
+          "title": "Bang Bang"
+        },
+        {
+          "type": "text",
+          "text": "*At-Will; standard action.*\n\n*Attack:* Ranged 10/20, one creature; +5 vs. AC.\n\n*Hit:* 4 damage, or 8 on a critical hit.\n\n*Load:* Standard action."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.rule.path-notorious-celebrity-supplement-18",
+      "title": "Notorious Celebrity Supplement 18",
+      "description": "Supplementary rules for Notorious Celebrity.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "Add Bolstered by Celebrity to these base statistics while it applies. Scrap and Slash is explicitly a basic attack; the source does not label Bang Bang as one."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.rule.path-polyhistor-supplement-19",
+      "title": "Polyhistor Supplement 19",
+      "description": "Supplementary rules for Polyhistor.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "heading",
+          "level": 1,
+          "title": "Alert Stance"
+        },
+        {
+          "type": "text",
+          "text": "*Warding Strike:* When a creature enters your melee weapon’s reach, spend one die as an immediate reaction to make a melee basic attack against it. If wielding a ranged weapon, when a creature enters a space within 5 squares without cover or concealment from you, spend one die as an immediate reaction to make a ranged basic attack against it."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.rule.path-polyhistor-supplement-20",
+      "title": "Polyhistor Supplement 20",
+      "description": "Supplementary rules for Polyhistor.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "heading",
+          "level": 1,
+          "title": "Brute Stance"
+        },
+        {
+          "type": "text",
+          "text": "*Damage:* When rolling damage for a basic attack, spend any number of dice, roll them, and add the sum to damage. Roll *d8s instead of d6s* if wielding a two-handed weapon or a weapon in each hand."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.rule.path-polyhistor-supplement-21",
+      "title": "Polyhistor Supplement 21",
+      "description": "Supplementary rules for Polyhistor.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "*Forced Movement:* On hitting an enemy with a melee basic attack, spend one die to push, pull, or slide it 2 squares."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.rule.path-polyhistor-supplement-22",
+      "title": "Polyhistor Supplement 22",
+      "description": "Supplementary rules for Polyhistor.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "heading",
+          "level": 1,
+          "title": "Close Stance"
+        },
+        {
+          "type": "text",
+          "text": "*Grab:* On hitting an adjacent enemy with a melee basic attack, spend one die to grab it, even without a free hand. If you have a free hand, the grab costs no die."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.rule.path-polyhistor-supplement-23",
+      "title": "Polyhistor Supplement 23",
+      "description": "Supplementary rules for Polyhistor.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "*Major Affliction:* On hitting a grabbed enemy with a melee basic attack, spend two dice to make it *blinded, dazed, immobilized, or weakened* until the end of your next turn."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.rule.path-polyhistor-supplement-24",
+      "title": "Polyhistor Supplement 24",
+      "description": "Supplementary rules for Polyhistor.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "*Minor Affliction:* On hitting a grabbed enemy with a melee basic attack, spend one die to make it *deafened, disarmed, prone, or slowed* until the end of your next turn."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.rule.path-polyhistor-supplement-25",
+      "title": "Polyhistor Supplement 25",
+      "description": "Supplementary rules for Polyhistor.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "heading",
+          "level": 1,
+          "title": "Defensive Stance"
+        },
+        {
+          "type": "text",
+          "text": "*Guard:* When an enemy hits you or an adjacent ally, as an immediate interrupt spend any number of dice, roll them, and add their sum to your or that ally’s defenses against the attack. If wielding a shield, add another +2 to the sum."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.rule.path-polyhistor-supplement-26",
+      "title": "Polyhistor Supplement 26",
+      "description": "Supplementary rules for Polyhistor.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "heading",
+          "level": 1,
+          "title": "Evasive Stance"
+        },
+        {
+          "type": "text",
+          "text": "*Evade:* When an enemy ends its movement close enough to attack you in melee, spend one die as an immediate reaction to move your speed."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.rule.path-polyhistor-supplement-27",
+      "title": "Polyhistor Supplement 27",
+      "description": "Supplementary rules for Polyhistor.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "*Skirmish:* Once on your turn when making a basic attack, spend one die to move your speed. With Two Targets, you can move between attacks. Combined with Multiple Targets for a melee attack, replace its close burst with a melee basic attack against each enemy you move adjacent to during this movement."
+        }
+      ]
+    }
+  ],
+  "powers": [
+    {
+      "id": "modern4e.power.path-heavenly-flare",
+      "title": "Heavenly Flare",
+      "description": "The blinding glow of a star manifests where you point, emitting waves of planar energy.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.applied-astronomist"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "flavor": "The blinding glow of a star manifests where you point, emitting waves of planar energy.",
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.path-heavenly-flare",
+        "publication": "Zeitgeist Player’s Guide: The Investigation Begins, pp. 22–33; Modern4e adaptation"
+      },
+      "level": 11,
+      "powerKind": "ATTACK",
+      "subtitle": "Applied Astronomist 11",
+      "keywords": [
+        "PRIMAL",
+        "IMPLEMENT",
+        "RADIANT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Creatures in burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 1 within 10"
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Special",
+              "text": "Choose one plane you are connected to today."
+            },
+            {
+              "id": "attack",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Main Ability vs. Fortitude",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 1 within 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "MAIN"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "rule-2",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1d10 radiant damage and that plane’s attack rider (below)."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.path-straddling-realities",
+      "title": "Straddling Realities",
+      "description": "You bring a portion of this world coterminous with another.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.applied-astronomist"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 12
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "flavor": "You bring a portion of this world coterminous with another.",
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.path-straddling-realities",
+        "publication": "Zeitgeist Player’s Guide: The Investigation Begins, pp. 22–33; Modern4e adaptation"
+      },
+      "level": 12,
+      "powerKind": "UTILITY",
+      "subtitle": "Applied Astronomist 12",
+      "keywords": [
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 3 within 10"
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Choose a plane you are connected to today. Create a zone in the area until the encounter ends, using its planar zone effect on the following page."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.path-cataclysmic-conjunction",
+      "title": "Cataclysmic Conjunction",
+      "description": "A huge flash of light heralds the arrival of a new, otherworldly landscape.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.applied-astronomist"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 20
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "flavor": "A huge flash of light heralds the arrival of a new, otherworldly landscape.",
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.path-cataclysmic-conjunction",
+        "publication": "Zeitgeist Player’s Guide: The Investigation Begins, pp. 22–33; Modern4e adaptation"
+      },
+      "level": 20,
+      "powerKind": "ATTACK",
+      "subtitle": "Applied Astronomist 20",
+      "keywords": [
+        "PRIMAL",
+        "IMPLEMENT",
+        "RADIANT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Creatures in burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 3 within 10"
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Special",
+              "text": "Choose a plane you are connected to today."
+            },
+            {
+              "id": "attack",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Main Ability vs. Fortitude",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 3 within 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "MAIN"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "rule-2",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d10 radiant damage and the chosen plane’s attack rider."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "rule-3",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The area becomes a zone until the encounter ends, with the chosen plane’s Straddling Realities effect."
+            }
+          ],
+          "targets": "targets"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.path-make-it-so",
+      "title": "Make It So",
+      "description": "With a brief utterance, you declare whether an attack hits.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.logos"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "flavor": "With a brief utterance, you declare whether an attack hits.",
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.path-make-it-so",
+        "publication": "Zeitgeist Player’s Guide: The Investigation Begins, pp. 22–33; Modern4e adaptation"
+      },
+      "level": 11,
+      "powerKind": "ATTACK",
+      "subtitle": "Logos 11",
+      "keywords": [
+        "PSIONIC"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "See effect"
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Choose a creature that can hear you. Decide whether its next attack roll hits or misses."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.path-inexplicable-narration",
+      "title": "Inexplicable Narration",
+      "description": "Until you see a place, that location could contain anything. You use that uncertainty to declare one of its traits.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.logos"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 12
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "flavor": "Until you see a place, that location could contain anything. You use that uncertainty to declare one of its traits.",
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.path-inexplicable-narration",
+        "publication": "Zeitgeist Player’s Guide: The Investigation Begins, pp. 22–33; Modern4e adaptation"
+      },
+      "level": 12,
+      "powerKind": "UTILITY",
+      "subtitle": "Logos 12",
+      "keywords": [
+        "PSIONIC"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "See effect"
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Choose an area no more than 10 squares across whose details you do not know, and describe it. If a creature enters it within 5 minutes, it permanently matches your description. You may declare mundane objects or minor terrain elements, but cannot cause damage, create creatures, or create objects of noteworthy value."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Rule",
+              "text": "Simple declarations generally work, such as unlocked doors and an obvious trap-disabling lever, or a hidden weapons chamber behind a wall. The GM may have drastic declarations fail, such as a ship’s hold full of lava or a conveniently placed note revealing a villain’s plans."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.path-revoke-agency",
+      "title": "Revoke Agency",
+      "description": "The creature’s will is not its own. It does precisely what you say.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.logos"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 20
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "flavor": "The creature’s will is not its own. It does precisely what you say.",
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.path-revoke-agency",
+        "publication": "Zeitgeist Player’s Guide: The Investigation Begins, pp. 22–33; Modern4e adaptation"
+      },
+      "level": 20,
+      "powerKind": "ATTACK",
+      "subtitle": "Logos 20",
+      "keywords": [
+        "PSIONIC",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One creature that can hear you"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "attack",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Main Ability vs. Will",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "MAIN"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "rule-1",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "Control the target’s actions (save ends). While controlled, it is stunned. Spend your own actions to make it take corresponding actions (standard for standard, and so on). You cannot make it take self-destructive actions."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "rule-2",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "The target is dominated until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.path-beam-shot",
+      "title": "Beam Shot",
+      "description": "You load a glowing cartridge into your blaster, choose a setting, and fire an energy pulse.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.mad-shootist"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "flavor": "You load a glowing cartridge into your blaster, choose a setting, and fire an energy pulse.",
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.path-beam-shot",
+        "publication": "Zeitgeist Player’s Guide: The Investigation Begins, pp. 22–33; Modern4e adaptation"
+      },
+      "level": 11,
+      "powerKind": "ATTACK",
+      "subtitle": "Mad Shootist 11",
+      "keywords": [
+        "ARCANE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Target selection unspecified in source; GM ruling required"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged weapon"
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Special",
+              "text": "Use your blaster. Choose one beam below; its hit effect applies. The source does not list a target count for this power; resolve this with the GM."
+            },
+            {
+              "id": "attack",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Main Ability vs. AC",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "MAIN"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "rule-2",
+                        "type": "effect",
+                        "label": "Freeze Ray",
+                        "text": "1[W] + Main Ability cold damage; restrained and vulnerable 10 to untyped damage (physical impacts that can break ice, rather than energy damage), save ends both."
+                      },
+                      {
+                        "id": "rule-3",
+                        "type": "effect",
+                        "label": "Shrink Ray",
+                        "text": "1[W] + Main Ability force damage; shrink three size categories and deal half damage with weapon attacks (save ends both). If smaller than Tiny, reach becomes 0, speed becomes 1, and weapon attacks deal one-quarter damage (save ends all)."
+                      },
+                      {
+                        "id": "rule-4",
+                        "type": "effect",
+                        "label": "Wave Beam",
+                        "text": "3[W] + Main Ability force damage; ignores cover."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.path-mobility-shot",
+      "title": "Mobility Shot",
+      "description": "An electrical grapple flies from your blaster’s barrel and connects with the ceiling. You leap and swing to safety.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.mad-shootist"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 12
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "flavor": "An electrical grapple flies from your blaster’s barrel and connects with the ceiling. You leap and swing to safety.",
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.path-mobility-shot",
+        "publication": "Zeitgeist Player’s Guide: The Investigation Begins, pp. 22–33; Modern4e adaptation"
+      },
+      "level": 12,
+      "powerKind": "UTILITY",
+      "subtitle": "Mad Shootist 12",
+      "keywords": [
+        "ARCANE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MOVE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Anchor within 6 squares"
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Fire a grapple beam at a solid anchor at least 1 square across. Pull yourself there and hang, or swing from it to travel potentially 12 squares as part of this action. Keep it engaged as long as desired; after release it needs 5 minutes to recharge. You cannot fire the blaster while it is engaged. The GM may allow clever Acrobatics uses. It cannot attach to creatures or pull objects toward you."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.path-hyper-beam",
+      "title": "Hyper Beam",
+      "description": "You overcharge your blaster, gaining immense power for a short period of time.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.mad-shootist"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 20
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "flavor": "You overcharge your blaster, gaining immense power for a short period of time.",
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.path-hyper-beam",
+        "publication": "Zeitgeist Player’s Guide: The Investigation Begins, pp. 22–33; Modern4e adaptation"
+      },
+      "level": 20,
+      "powerKind": "ATTACK",
+      "subtitle": "Mad Shootist 20",
+      "keywords": [
+        "ARCANE",
+        "FORCE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "See effect"
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the encounter ends, you can make this attack with your blaster: *ranged weapon; one creature; Main Ability vs. AC*. The source does not state the action required for each attack; resolve this with the GM."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Hit",
+              "text": "The first attack deals *3[W] + Main Ability force damage*; the second deals *4[W] + Main Ability damage*; the third deals *5[W] + Main Ability damage*. At the end of the turn on which you make the third attack, the blaster explodes as described in Inventive Gunnery."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.path-remembrance-of-the-human-shield",
+      "title": "Remembrance of the Human Shield",
+      "description": "The face of a long-dead friend flickers into view just in time for his body to once again save an ally from an attack.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.monument-of-war"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 12
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "flavor": "The face of a long-dead friend flickers into view just in time for his body to once again save an ally from an attack.",
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.path-remembrance-of-the-human-shield",
+        "publication": "Zeitgeist Player’s Guide: The Investigation Begins, pp. 22–33; Modern4e adaptation"
+      },
+      "level": 12,
+      "powerKind": "UTILITY",
+      "subtitle": "Monument of War 12",
+      "keywords": [
+        "PSIONIC"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "See effect"
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The attack instead hits a psychic manifestation of a fallen ally. The manifestation is destroyed instantly; the original target is unaffected."
+            }
+          ],
+          "trigger": "A melee or ranged attack hits you or an ally you can see."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.path-shell-shock",
+      "title": "Shell Shock",
+      "description": "For a moment your mind flashes back to when you were caught in an artillery barrage, and suddenly cannons strike nearby you.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.monument-of-war"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "flavor": "For a moment your mind flashes back to when you were caught in an artillery barrage, and suddenly cannons strike nearby you.",
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.path-shell-shock",
+        "publication": "Zeitgeist Player’s Guide: The Investigation Begins, pp. 22–33; Modern4e adaptation"
+      },
+      "level": 11,
+      "powerKind": "ATTACK",
+      "subtitle": "Monument of War 11",
+      "keywords": [
+        "PSIONIC",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Creatures in burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 3 within 3"
+          },
+          "blocks": [
+            {
+              "id": "attack",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Main Ability vs. Reflex",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 3 within 3"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "MAIN"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "rule-1",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d10 + Main Ability damage; push 1 square and knock prone."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "rule-2",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Dust and smoke grant concealment in the area until the end of your next turn. The origin square is cracked and caved in 3 feet deep by an artillery shell."
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Special",
+              "text": "Does not provoke opportunity attacks. You must include yourself in the area, but can benefit from cover relative to the origin."
+            }
+          ],
+          "targets": "targets"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.path-cannon-overture",
+      "title": "Cannon Overture",
+      "description": "You focus your memories on the most violent engagement you ever endured, and once again the cannons of your allied warships pound the battlefield around you.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.monument-of-war"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 20
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "flavor": "You focus your memories on the most violent engagement you ever endured, and once again the cannons of your allied warships pound the battlefield around you.",
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.path-cannon-overture",
+        "publication": "Zeitgeist Player’s Guide: The Investigation Begins, pp. 22–33; Modern4e adaptation"
+      },
+      "level": 20,
+      "powerKind": "ATTACK",
+      "subtitle": "Monument of War 20",
+      "keywords": [
+        "PSIONIC",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Creatures in burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 3 within 10"
+          },
+          "blocks": [
+            {
+              "id": "attack",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Main Ability vs. Reflex",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 3 within 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "MAIN"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "rule-1",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d10 + Main Ability damage; push 1 square and knock prone."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "rule-2",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Dust and smoke grant concealment in the area until the end of your next turn. The origin square is cracked and caved in 3 feet deep by an artillery shell."
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Sustain Standard",
+              "text": "Repeat the attack, choosing a new origin at least 5 squares from every previous origin."
+            }
+          ],
+          "targets": "targets"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.path-one-upmanship",
+      "title": "One-Upmanship",
+      "description": "You’ll let him finish, but you’ve got to show off really quick.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.notorious-celebrity"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "flavor": "You’ll let him finish, but you’ve got to show off really quick.",
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.path-one-upmanship",
+        "publication": "Zeitgeist Player’s Guide: The Investigation Begins, pp. 22–33; Modern4e adaptation"
+      },
+      "level": 11,
+      "powerKind": "ATTACK",
+      "subtitle": "Notorious Celebrity 11",
+      "keywords": [
+        "ARCANE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "See effect"
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Use an at-will or encounter attack power you know as an immediate interrupt. If the triggering attack was a critical hit, you may instead use a daily power you know. Gain +2 to attack rolls against the triggering enemy with that power."
+            }
+          ],
+          "trigger": "An enemy hits you or an ally with an attack."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.path-summon-audience",
+      "title": "Summon Audience",
+      "description": "With a snap of your fingers, an illusory crowd appears to cheer you on.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.notorious-celebrity"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 12
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "flavor": "With a snap of your fingers, an illusory crowd appears to cheer you on.",
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.path-summon-audience",
+        "publication": "Zeitgeist Player’s Guide: The Investigation Begins, pp. 22–33; Modern4e adaptation"
+      },
+      "level": 12,
+      "powerKind": "UTILITY",
+      "subtitle": "Notorious Celebrity 12",
+      "keywords": [
+        "ARCANE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Eight unoccupied spaces within 10 squares"
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Create eight stationary, damage-immune illusory people until the encounter ends or you dismiss them. You and allies can freely move and attack through their spaces. They are difficult terrain for enemies and provide cover against enemies’ ranged attacks. They count as real onlookers for Crowd Effect and Docker’s Audience Participation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.path-shock-and-awe",
+      "title": "Shock and Awe",
+      "description": "You and your posse strike at once, overwhelming your enemies with an intimidating show of force.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.notorious-celebrity"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 20
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "flavor": "You and your posse strike at once, overwhelming your enemies with an intimidating show of force.",
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.path-shock-and-awe",
+        "publication": "Zeitgeist Player’s Guide: The Investigation Begins, pp. 22–33; Modern4e adaptation"
+      },
+      "level": 20,
+      "powerKind": "ATTACK",
+      "subtitle": "Notorious Celebrity 20",
+      "keywords": [
+        "ARCANE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "See effect"
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Use a level 1 at-will attack power. Each posse member can then make a basic attack. Enemies hit by any of these attacks take –2 to attack rolls until the end of your next turn."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.path-decipher-technique",
+      "title": "Decipher Technique",
+      "description": "You can read your enemy like a book. His style is transparent to you, though defeating him is not certain.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.polyhistor"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 12
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "flavor": "You can read your enemy like a book. His style is transparent to you, though defeating him is not certain.",
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.path-decipher-technique",
+        "publication": "Zeitgeist Player’s Guide: The Investigation Begins, pp. 22–33; Modern4e adaptation"
+      },
+      "level": 12,
+      "powerKind": "UTILITY",
+      "subtitle": "Polyhistor 12",
+      "keywords": [
+        "MARTIAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "See effect"
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Choose a visible enemy you have hit or that has hit you. Learn its defenses, traits, and powers. The GM should normally show its statblock, except for secret information. Add two martial dice to your pool."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.path-masterstroke",
+      "title": "Masterstroke",
+      "description": "You combine all your knowledge of combat for one spectacular display.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.polyhistor"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 20
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "flavor": "You combine all your knowledge of combat for one spectacular display.",
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.path-masterstroke",
+        "publication": "Zeitgeist Player’s Guide: The Investigation Begins, pp. 22–33; Modern4e adaptation"
+      },
+      "level": 20,
+      "powerKind": "ATTACK",
+      "subtitle": "Polyhistor 20",
+      "keywords": [
+        "MARTIAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "See effect"
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Gain *seven martial dice*, usable before the start of your next turn and exempt from your pool limit. Until then, you can use martial dice for options from any elementary stance. Make a basic attack."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.path-power-fist",
+      "title": "Power Fist",
+      "description": "Steam bursts from the joints in your suit’s arm as it punches with the power of a piston. It then takes a moment for the pressure in your arm joints to return to normal.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.steamsuit-pilot"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "flavor": "Steam bursts from the joints in your suit’s arm as it punches with the power of a piston. It then takes a moment for the pressure in your arm joints to return to normal.",
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.path-power-fist",
+        "publication": "Zeitgeist Player’s Guide: The Investigation Begins, pp. 22–33; Modern4e adaptation"
+      },
+      "level": 11,
+      "powerKind": "ATTACK",
+      "subtitle": "Steamsuit Pilot 11",
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Target selection unspecified in source; GM ruling required"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee 1; melee 2 in a Large suit"
+          },
+          "blocks": [
+            {
+              "id": "attack",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Main Ability vs. Reflex",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee 1; melee 2 in a Large suit"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "MAIN"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "rule-1",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "4d10 + Main Ability damage; push 5 squares and knock prone."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You are weakened (save ends)."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.path-redline-rush",
+      "title": "Redline Rush",
+      "description": "You overheat the engine and put all the power into movement; maybe it won’t explode.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.steamsuit-pilot"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 12
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "flavor": "You overheat the engine and put all the power into movement; maybe it won’t explode.",
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.path-redline-rush",
+        "publication": "Zeitgeist Player’s Guide: The Investigation Begins, pp. 22–33; Modern4e adaptation"
+      },
+      "level": 12,
+      "powerKind": "UTILITY",
+      "subtitle": "Steamsuit Pilot 12",
+      "keywords": [
+        "ARCANE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MOVE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "See effect"
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Move twice your speed, gaining +5 to Acrobatics and Athletics checks during the movement. You are immobilized (save ends)."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.path-steam-blast",
+      "title": "Steam Blast",
+      "description": "Your overload your armor’s arcane boiler, priming it for a devastating blast of steam and arcane energy that will leave you temporarily immobilized.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.steamsuit-pilot"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 20
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "flavor": "Your overload your armor’s arcane boiler, priming it for a devastating blast of steam and arcane energy that will leave you temporarily immobilized.",
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.path-steam-blast",
+        "publication": "Zeitgeist Player’s Guide: The Investigation Begins, pp. 22–33; Modern4e adaptation"
+      },
+      "level": 20,
+      "powerKind": "ATTACK",
+      "subtitle": "Steamsuit Pilot 20",
+      "keywords": [
+        "ARCANE",
+        "FIRE",
+        "FORCE",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "See effect"
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Gain aura 1. Every creature starting its turn in the aura, including you, takes 10 fire damage. At the start of your turn, before taking this damage, you may make the following attack as a free action, ending the aura."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Attack",
+              "text": "Ranged 20; one creature; Main Ability vs. Reflex."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Hit",
+              "text": "6d12 + Main Ability fire and force damage; blinded (save ends)."
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Miss",
+              "text": "Half damage."
+            },
+            {
+              "id": "rule-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Each creature adjacent to the target takes 10 fire and force damage. Your suit deactivates. For this power’s disabled state, you are slowed, grant combat advantage, and take –2 to attack rolls. As a standard action, make a saving throw; success reactivates the suit."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.path-the-city-comes-alive",
+      "title": "The City Comes Alive",
+      "description": "With a wave of your hand you direct a part of the city to surge, strike an enemy, and either knock him aside or trap him in a maw of bricks and cobblestones.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.urban-empath"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "flavor": "With a wave of your hand you direct a part of the city to surge, strike an enemy, and either knock him aside or trap him in a maw of bricks and cobblestones.",
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.path-the-city-comes-alive",
+        "publication": "Zeitgeist Player’s Guide: The Investigation Begins, pp. 22–33; Modern4e adaptation"
+      },
+      "level": 11,
+      "powerKind": "ATTACK",
+      "subtitle": "Urban Empath 11",
+      "keywords": [
+        "PSIONIC",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Enemies in burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 2 within 20"
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Special",
+              "text": "Outside an urban setting, area burst 1 within 10 instead."
+            },
+            {
+              "id": "attack",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Main Ability vs. Reflex",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Area burst 2 within 20"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "MAIN"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "rule-2",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d6 + Main Ability damage. In an urban environment, also either slide the target 3 squares or restrain it (save ends)."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.path-the-city-whispers",
+      "title": "The City Whispers",
+      "description": "You cock your head and listen. For a moment, you know everything that the city sees and hears.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.urban-empath"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 12
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "flavor": "You cock your head and listen. For a moment, you know everything that the city sees and hears.",
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.path-the-city-whispers",
+        "publication": "Zeitgeist Player’s Guide: The Investigation Begins, pp. 22–33; Modern4e adaptation"
+      },
+      "level": 12,
+      "powerKind": "UTILITY",
+      "subtitle": "Urban Empath 12",
+      "keywords": [
+        "PSIONIC"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "See effect"
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "In an urban setting, learn the general state of all publicly accessible places within 3 miles, plus disturbances in private places visible or audible from public areas. Choose a creature or small group identifiable by physical means: learn whether it is in the area and where, or when it entered a private area. Gain perfect intuitive knowledge of publicly traversable terrain for navigation. Outside an urban setting this awareness extends 150 feet."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.path-the-city-marches-to-war",
+      "title": "The City Marches to War",
+      "description": "In your time of dire need, the walls, streets, and gates move at your command.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.urban-empath"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 20
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "flavor": "In your time of dire need, the walls, streets, and gates move at your command.",
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.path-the-city-marches-to-war",
+        "publication": "Zeitgeist Player’s Guide: The Investigation Begins, pp. 22–33; Modern4e adaptation"
+      },
+      "level": 20,
+      "powerKind": "ATTACK",
+      "subtitle": "Urban Empath 20",
+      "keywords": [
+        "PSIONIC"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 5 within 20"
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Special",
+              "text": "Outside an urban setting, area burst 2 within 10 instead."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Create a zone until the encounter ends. As a move action, move its origin 6 squares. An enemy starting its turn in it takes 10 damage."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Rule",
+              "text": "Once per round as a minor action, move up to six 5-foot cubes of terrain in the zone up to 6 squares, extrude them from an existing wall or floor, or withdraw them into one. Moving terrain enters only unoccupied spaces and generally uses the area’s prevailing building materials."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.path-vision-of-the-fall",
+      "title": "Vision of the Fall",
+      "description": "You enforce your faith upon your enemy, then grant him the vivid memory of Srasama’s demise, which wounded all those who followed her.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.vekeshi-excoriant"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "flavor": "You enforce your faith upon your enemy, then grant him the vivid memory of Srasama’s demise, which wounded all those who followed her.",
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.path-vision-of-the-fall",
+        "publication": "Zeitgeist Player’s Guide: The Investigation Begins, pp. 22–33; Modern4e adaptation"
+      },
+      "level": 11,
+      "powerKind": "ATTACK",
+      "subtitle": "Vekeshi Excoriant 11",
+      "keywords": [
+        "DIVINE",
+        "FIRE",
+        "IMPLEMENT",
+        "RADIANT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "blocks": [
+            {
+              "id": "attack",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Main Ability vs. Will",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Ranged 10"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "MAIN"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "rule-1",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2d8 + Main Ability fire and radiant damage. Each ally of the target you can see takes fire and radiant damage equal to your Main Ability points."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.path-triune-blessing",
+      "title": "Triune Blessing",
+      "description": "Three spectral figures appear, representing the three aspects of Srasama. Maiden, mother, and crone touch your allies and grant their blessings.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.vekeshi-excoriant"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 12
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "flavor": "Three spectral figures appear, representing the three aspects of Srasama. Maiden, mother, and crone touch your allies and grant their blessings.",
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.path-triune-blessing",
+        "publication": "Zeitgeist Player’s Guide: The Investigation Begins, pp. 22–33; Modern4e adaptation"
+      },
+      "level": 12,
+      "powerKind": "UTILITY",
+      "subtitle": "Vekeshi Excoriant 12",
+      "keywords": [
+        "DIVINE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "See effect"
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Grant three blessings, each to yourself or a visible ally: make a saving throw with +2; spend a healing surge to heal; gain +2 to attack rolls until the start of your next turn. Divide the blessings or give several to the same recipient."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.path-aspect-of-srasama",
+      "title": "Aspect of Srasama",
+      "description": "A towering, flaming image of the fallen goddess steps into existence. Her features shift by the moment, from youthful warrior, to mature healer, to withered and skeletal sorceress. She strides toward your enemies, six burning swords in her six hands.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.path.vekeshi-excoriant"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 20
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Authoring and printed rules only; runtime path effects and progression are unimplemented."
+        ]
+      },
+      "flavor": "A towering, flaming image of the fallen goddess steps into existence. Her features shift by the moment, from youthful warrior, to mature healer, to withered and skeletal sorceress. She strides toward your enemies, six burning swords in her six hands.",
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.path-aspect-of-srasama",
+        "publication": "Zeitgeist Player’s Guide: The Investigation Begins, pp. 22–33; Modern4e adaptation"
+      },
+      "level": 20,
+      "powerKind": "ATTACK",
+      "subtitle": "Vekeshi Excoriant 20",
+      "keywords": [
+        "DIVINE",
+        "FEAR",
+        "FIRE",
+        "IMPLEMENT",
+        "RADIANT",
+        "SUMMONING"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Summoning range unspecified in source; GM ruling required"
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Summon a *Large Aspect of Srasama* in unoccupied squares within range. It has *speed 7*. Enemies within 5 squares that are not immune to fear take –2 to attacks that do not include the aspect as a target."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Standard Action",
+              "text": "Melee 2; make six attacks, divided as you choose among targets within range. It can attack during its movement. *Main Ability vs. Reflex; hit: 1d6 fire and radiant damage.*"
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Standard Action",
+              "text": "Ranged 10; one creature; *Main Ability vs. Fortitude; hit: 2d6 + Main Ability fire damage and ongoing 10 fire damage (save ends).*"
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Instinctive Effect",
+              "text": "If you have given it no commands by the end of your turn, each ally within 5 squares of it, including you, gains 6 temporary HP."
+            },
+            {
+              "id": "rule-5",
+              "type": "effect",
+              "label": "Rule",
+              "text": "Use the normal summoning rules for statistics and commands not specified here."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
