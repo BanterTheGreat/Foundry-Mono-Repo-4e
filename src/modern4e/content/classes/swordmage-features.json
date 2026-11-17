@@ -1,0 +1,226 @@
+{
+  "schemaVersion": 1,
+  "features": [
+    {
+      "id": "modern4e.feature.swordmage-swordbond",
+      "title": "Swordbond",
+      "description": "By spending 1 hour of meditation with a chosen light or heavy blade, you forge a special bond with the weapon. As a standard action, you can call your bonded weapon to your hand from up to 10 squares away.\n\nYou can forge a bond with a different blade using the same meditation process (for instance, if you acquire a new blade that has magical abilities). If you forge a bond with a different blade, the old bond dissipates.\n\nIf your bonded weapon is broken or damaged, you can spend 1 hour of meditation to recreate the weapon from a fragment. (This process automatically destroys any other fragments of the weapon in existence, so you can't use it to create multiple copies of a broken weapon.)",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "By spending 1 hour of meditation with a chosen light or heavy blade, you forge a special bond with the weapon. As a standard action, you can call your bonded weapon to your hand from up to 10 squares away.\n\nYou can forge a bond with a different blade using the same meditation process (for instance, if you acquire a new blade that has magical abilities). If you forge a bond with a different blade, the old bond dissipates.\n\nIf your bonded weapon is broken or damaged, you can spend 1 hour of meditation to recreate the weapon from a fragment. (This process automatically destroys any other fragments of the weapon in existence, so you can't use it to create multiple copies of a broken weapon.)"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.swordmage-spellwarden-warden",
+      "title": "Spellwarden Warden",
+      "description": "While you are conscious and wielding either a light blade or a heavy blade, you maintain a field of magical force around you. This field provides a +1 bonus to AC, or a +3 bonus if you are wielding a blade in one hand and have your other hand free (not carrying a shield, an off-hand weapon, a two-handed weapon, or anything else).",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "While you are conscious and wielding either a light blade or a heavy blade, you maintain a field of magical force around you. This field provides a +1 bonus to AC, or a +3 bonus if you are wielding a blade in one hand and have your other hand free (not carrying a shield, an off-hand weapon, a two-handed weapon, or anything else)."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.swordmage-aegis-of-assault",
+      "title": "Aegis of Assault",
+      "description": "You can use the Aegis of assault power to teleport to the side of the attacker and respond with an attack of your own.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "swordmage-aegis-of-assault",
+          "entryId": "modern4e.power.aegis-of-assault",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You can use the Aegis of assault power to teleport to the side of the attacker and respond with an attack of your own."
+        },
+        {
+          "type": "grant",
+          "grantId": "swordmage-aegis-of-assault"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.swordmage-aegis-of-ensnarement",
+      "title": "Aegis of Ensnarement",
+      "description": "You can use the Aegis of ensnarement power to teleport a marked creature to any space adjacent to you.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "swordmage-aegis-of-ensnarement",
+          "entryId": "modern4e.power.aegis-of-ensnarement",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You can use the Aegis of ensnarement power to teleport a marked creature to any space adjacent to you."
+        },
+        {
+          "type": "grant",
+          "grantId": "swordmage-aegis-of-ensnarement"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.swordmage-spellwarden-aegis",
+      "title": "Spellwarden Aegis",
+      "description": "You can place a magical warding upon a foe, allowing you to respond to the foe's attacks against your allies with a counterassault or a timely protection. Choose one Aegis and gain its benefit.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "choices": [
+        {
+          "id": "modern4e.choice.swordmage-spellwarden-aegis",
+          "title": "Spellwarden Aegis",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 1,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.swordmage-aegis-of-assault",
+              "modern4e.feature.swordmage-aegis-of-ensnarement",
+              "modern4e.feature.swordmage-aegis-of-shielding"
+            ]
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You can place a magical warding upon a foe, allowing you to respond to the foe's attacks against your allies with a counterassault or a timely protection. Choose one Aegis and gain its benefit."
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.swordmage-spellwarden-aegis"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.swordmage-aegis-of-shielding",
+      "title": "Aegis of Shielding",
+      "description": "You can use the Aegis of shielding power to reduce the damage dealt to an ally by an attack.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "swordmage-aegis-of-shielding",
+          "entryId": "modern4e.power.aegis-of-shielding",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You can use the Aegis of shielding power to reduce the damage dealt to an ally by an attack."
+        },
+        {
+          "type": "grant",
+          "grantId": "swordmage-aegis-of-shielding"
+        }
+      ]
+    }
+  ]
+}

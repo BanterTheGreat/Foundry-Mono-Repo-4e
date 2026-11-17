@@ -46,6 +46,7 @@
 
 #let featureBody(feature, fill: theme.rowStripes, showDescription: true, sectionStart: 0, sectionEnd: none, optionStart: 0, optionEnd: none, onlyOptions: false) = {
   let showOptions(choice) = {
+    if choice.source.type != "entries" { return }
     let options = choice.source.entryIds
     for id in options.slice(optionStart, if optionEnd == none { options.len() } else { optionEnd }) {
       let option = entry(id)
@@ -61,6 +62,14 @@
     for section in sections.slice(sectionStart, if sectionEnd == none { sections.len() } else { sectionEnd }) {
       if section.type == "text" { classText(section.text); parbreak() }
       else if section.type == "heading" { heading(section.title, level: 2) }
+      else if section.type == "table" {
+        block(breakable: false)[
+          *#section.title*
+          #table(columns: (1fr,) * section.columns.len(), stroke: theme.tableDivider, align: left, fill: theme.defaultTableStyle(), inset: 8pt,
+            ..section.columns.map(column => strong(classText(column))),
+            ..section.rows.flatten().map(classText))
+        ]
+      }
       else if section.type == "grant" {
         let grant = feature.grants.find(grant => grant.id == section.grantId)
         let child = entry(grant.entryId)
@@ -105,7 +114,7 @@
 #let feature(id, sectionEnd: none, optionEnd: none) = {
   let value = entry(id)
   heading(value.title, level: 1)
-  if "choices" in value {
+  if "choices" in value and value.choices.any(choice => choice.source.type == "entries") {
     let count = value.choices.first().count
     theme.buildChoiceHeader(prompt: if count == 1 { [Choose One] } else { [Choose #count] })
   }

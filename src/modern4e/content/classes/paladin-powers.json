@@ -1,0 +1,923 @@
+{
+  "schemaVersion": 2,
+  "powers": [
+    {
+      "id": "modern4e.power.paladin-defender-aura",
+      "title": "Defender Aura",
+      "description": "You activate an aura 2 that lasts until you end it as a minor action or until you fall unconscious. While in the aura, any enemy takes a -2 penalty to attack rolls when it makes an attack that does not include either you or an ally who has this aura active. Marked enemies are not subject to this aura.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.paladin",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "AURA"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "PERSONAL"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You activate an aura 2 that lasts until you end it as a minor action or until you fall unconscious. While in the aura, any enemy takes a -2 penalty to attack rolls when it makes an attack that does not include either you or an ally who has this aura active. Marked enemies are not subject to this aura.",
+              "scaling": [
+                {
+                  "atLevel": 11,
+                  "text": "Aura 3."
+                },
+                {
+                  "atLevel": 21,
+                  "text": "Aura 5."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.paladin-righteous-radiance",
+      "title": "Righteous Radiance",
+      "description": "The target takes radiant damage equal to 3 + your *Strength*, plus extra radiant damage equal to your *Charisma* if the target is adjacent to you.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.paladin",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "DIVINE",
+        "RADIANT"
+      ],
+      "choices": [],
+      "flavor": "You exact divine punishment on any foe that ignores your presence.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "OPPORTUNITY",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "The triggering enemy"
+            }
+          },
+          "range": {
+            "type": "PERSONAL"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target takes radiant damage equal to 3 + your *Strength*, plus extra radiant damage equal to your *Charisma* if the target is adjacent to you.",
+              "scaling": [
+                {
+                  "atLevel": 11,
+                  "text": "6 + *Strength* radiant damage."
+                },
+                {
+                  "atLevel": 21,
+                  "text": "9 + *Strength* radiant damage."
+                }
+              ]
+            }
+          ],
+          "targets": "targets",
+          "trigger": "An enemy subject to your defender aura either shifts or makes an attack that targets an ally of yours but not you or an ally who has an active defender aura."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.divine-challenge",
+      "title": "Divine Challenge",
+      "description": "You mark each target until you use this power again. The mark also ends at the end of your turn if you did not engage at least one of the targets—meaning you neither attacked a marked target during your turn nor ended your turn adjacent to any of them.\n\nUntil the mark ends, each target takes radiant damage the first time each round it targets any of your allies with an attack that does not include you. The damage equals 3 + your *Charisma* radiant damage, and the first time each round you deal this damage, you also deal extra radiant damage equal to your *Strength*.\n\nLevel 11: 6 + your *Charisma* radiant damage.\n\nLevel 21: 9 + your *Charisma* radiant damage.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.paladin",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "DIVINE",
+        "RADIANT"
+      ],
+      "choices": [],
+      "flavor": "You boldly confront a squadron of enemies, searing it with divine light if it ignores your challenge.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the blast."
+            }
+          },
+          "range": {
+            "type": "CLOSE_BLAST",
+            "origin": "self",
+            "size": {
+              "base": 3,
+              "byLevel": [
+                {
+                  "atLevel": 11,
+                  "value": 4
+                },
+                {
+                  "atLevel": 21,
+                  "value": 5
+                }
+              ]
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You mark each target until you use this power again. The mark also ends at the end of your turn if you did not engage at least one of the targets—meaning you neither attacked a marked target during your turn nor ended your turn adjacent to any of them.\n\nUntil the mark ends, each target takes radiant damage the first time each round it targets any of your allies with an attack that does not include you. The damage equals 3 + your *Charisma* radiant damage, and the first time each round you deal this damage, you also deal extra radiant damage equal to your *Strength*.\n\nLevel 11: 6 + your *Charisma* radiant damage.\n\nLevel 21: 9 + your *Charisma* radiant damage."
+            }
+          ],
+          "targets": "targets"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.divine-mettle",
+      "title": "Divine Mettle",
+      "description": "The target makes a saving throw with a power bonus equal to your *Charisma*.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.paladin",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "CHANNEL_DIVINITY",
+        "DIVINE"
+      ],
+      "choices": [],
+      "flavor": "Your unswerving faith in your deity empowers a nearby creature to resist a debilitating affliction.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                },
+                "poolId": "modern4e.resource.channel-divinity"
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One ally in the burst"
+            }
+          },
+          "range": {
+            "type": "CLOSE_BURST",
+            "origin": "self",
+            "size": {
+              "base": 5,
+              "byLevel": [
+                {
+                  "atLevel": 11,
+                  "value": 10
+                },
+                {
+                  "atLevel": 21,
+                  "value": 15
+                }
+              ]
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target makes a saving throw with a power bonus equal to your *Charisma*."
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Special",
+              "text": "You can use only one Channel Divinity power per encounter."
+            }
+          ],
+          "targets": "targets",
+          "special": true
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.divine-strength",
+      "title": "Divine Strength",
+      "description": "The next attack power you use this turn deals extra damage equal to your *Strength* plus half your level.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.paladin",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "CHANNEL_DIVINITY",
+        "DIVINE"
+      ],
+      "choices": [],
+      "flavor": "You petition your deity for the divine strength to lay low your enemies.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                },
+                "poolId": "modern4e.resource.channel-divinity"
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "PERSONAL"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The next attack power you use this turn deals extra damage equal to your *Strength* plus half your level."
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Special",
+              "text": "You can use only one Channel Divinity power per encounter."
+            }
+          ],
+          "special": true
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.paladin-righteous-shield",
+      "title": "Righteous Shield",
+      "description": "You take the damage instead of the target. This damage ignores your immunities and resistances. You gain a +2 power bonus to attack rolls until the end of your next turn.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.paladin",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "CHANNEL_DIVINITY",
+        "DIVINE"
+      ],
+      "choices": [],
+      "flavor": "You form golden energy around an ally, absorbing an attack against your friend and transferring the damage to yourself. As the magic fades, you become charged with righteous fury that fuels your attacks.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                },
+                "poolId": "modern4e.resource.channel-divinity"
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "The triggering ally in the burst"
+            }
+          },
+          "range": {
+            "type": "CLOSE_BURST",
+            "origin": "self",
+            "size": {
+              "base": 3,
+              "byLevel": [
+                {
+                  "atLevel": 11,
+                  "value": 5
+                },
+                {
+                  "atLevel": 21,
+                  "value": 10
+                }
+              ]
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You take the damage instead of the target. This damage ignores your immunities and resistances. You gain a +2 power bonus to attack rolls until the end of your next turn."
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Special",
+              "text": "You can use only one Channel Divinity power per encounter."
+            }
+          ],
+          "targets": "targets",
+          "trigger": "An ally within the burst is damaged.",
+          "special": true
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.paladin-smite-the-condemned",
+      "title": "Smite the Condemned",
+      "description": "You can use only one Channel Divinity power per encounter.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.paladin",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "CHANNEL_DIVINITY",
+        "DOGMATIC",
+        "DIVINE",
+        "RADIANT",
+        "WEAPON"
+      ],
+      "choices": [],
+      "flavor": "You scorch a profane foe with your weapon, driving it back and then binding it in place.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                },
+                "poolId": "modern4e.resource.channel-divinity"
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "MELEE",
+            "origin": "self",
+            "distance": "WEAPON"
+          },
+          "blocks": [
+            {
+              "id": "attack",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength or Charisma vs. Will",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "MELEE",
+                "origin": "self",
+                "distance": "WEAPON"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Strength or Charisma"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-1",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength or Charisma radiant damage, and you push the target up to 2 squares. The target is immobilized until the end of your next turn.",
+                        "scaling": [
+                          {
+                            "atLevel": 5,
+                            "text": "One or two creatures. 3[W] + Strength or Charisma radiant damage, and you push the target up to 2 squares. The target is immobilized until the end of your next turn."
+                          },
+                          {
+                            "atLevel": 9,
+                            "text": "One or two creatures. 4[W] + Strength or Charisma radiant damage, and you push the target up to 2 squares. The target is immobilized (save ends)."
+                          },
+                          {
+                            "atLevel": 15,
+                            "text": "One, two, or three creatures. 5[W] + Strength or Charisma radiant damage, and you push the target up to 3 squares. The target is immobilized (save ends)."
+                          },
+                          {
+                            "atLevel": 19,
+                            "text": "One, two, or three creatures. 6[W] + Strength or Charisma radiant damage, and you push the target up to 3 squares. The target is restrained (save ends)."
+                          },
+                          {
+                            "atLevel": 25,
+                            "text": "One, two, or three creatures. 7[W] + Strength or Charisma radiant damage, and you push the target up to 4 squares. The target is restrained and cannot teleport (save ends both)."
+                          },
+                          {
+                            "atLevel": 29,
+                            "text": "One, two, or three creatures. 8[W] + Strength or Charisma radiant damage, and you push the target up to 4 squares. The target is restrained and cannot teleport (save ends both)."
+                          }
+                        ]
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-2",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-3",
+              "type": "effect",
+              "label": "Special",
+              "text": "You can use only one Channel Divinity power per encounter."
+            }
+          ],
+          "targets": "targets",
+          "special": true
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.ardent-vow",
+      "title": "Ardent Vow",
+      "description": "You willingly lose a healing surge, regaining no hit points. Until the end of the encounter, you deal extra damage to the target equal to your *Wisdom* plus half your level. Each time you attack the target, it is subject to your divine sanction until the end of your next turn.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented.",
+          "The Wisdom-based daily usage formula is preserved as literal rules; only the unambiguous once-per-round cap is structured."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.paladin",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "DIVINE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [
+              {
+                "period": "ROUND",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [
+              "Lose one of your healing surges without regaining hit points."
+            ],
+            "rules": [
+              "Uses per day equal Wisdom (minimum 1), as printed in the Special row."
+            ]
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "CLOSE_BURST",
+            "origin": "self",
+            "size": {
+              "base": 5
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You willingly lose a healing surge, regaining no hit points. Until the end of the encounter, you deal extra damage to the target equal to your *Wisdom* plus half your level. Each time you attack the target, it is subject to your divine sanction until the end of your next turn."
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Special",
+              "text": "You can use this power a number of times per day equal to your *Wisdom* (minimum 1), but only once per round."
+            }
+          ],
+          "targets": "targets",
+          "requirement": "You must have at least one healing surge remaining.",
+          "special": true
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.lay-on-hands",
+      "title": "Lay On Hands",
+      "description": "You willingly lose a healing surge, regaining no hit points. The target regains hit points as if it had spent a healing surge.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented.",
+          "The Wisdom-based daily usage formula is preserved as literal rules; only the unambiguous once-per-round cap is structured."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.paladin",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "DIVINE",
+        "HEALING"
+      ],
+      "choices": [],
+      "flavor": "Your divine touch instantly heals wounds.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [
+              {
+                "period": "ROUND",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [
+              "Lose one of your healing surges without regaining hit points."
+            ],
+            "rules": [
+              "Uses per day equal Wisdom (minimum 1), as printed in the Special row."
+            ]
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "MELEE",
+            "distance": "TOUCH",
+            "origin": "self"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You willingly lose a healing surge, regaining no hit points. The target regains hit points as if it had spent a healing surge."
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Special",
+              "text": "You can use this power a number of times per day equal to your *Wisdom* (minimum 1), but only once per round."
+            }
+          ],
+          "targets": "targets",
+          "requirement": "You must have at least one healing surge remaining.",
+          "special": true
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.virtues-touch",
+      "title": "Virtue's Touch",
+      "description": "You willingly lose a healing surge, regaining no hit points. You remove one condition from the target: blinded, dazed, deafened, slowed, stunned, or weakened.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented.",
+          "The Wisdom-based daily usage formula is preserved as literal rules; only the unambiguous once-per-round cap is structured."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.paladin",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "DIVINE",
+        "HEALING"
+      ],
+      "choices": [],
+      "flavor": "Your gentle touch removes affliction.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [
+              {
+                "period": "ROUND",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [
+              "Lose one of your healing surges without regaining hit points."
+            ],
+            "rules": [
+              "Uses per day equal Wisdom (minimum 1), as printed in the Special row."
+            ]
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "MELEE",
+            "distance": "TOUCH",
+            "origin": "self"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You willingly lose a healing surge, regaining no hit points. You remove one condition from the target: blinded, dazed, deafened, slowed, stunned, or weakened."
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Special",
+              "text": "You can use this power a number of times per day equal to your *Wisdom* (minimum 1), but only once per round."
+            }
+          ],
+          "targets": "targets",
+          "requirement": "You must have at least one healing surge remaining.",
+          "special": true
+        }
+      ]
+    }
+  ]
+}

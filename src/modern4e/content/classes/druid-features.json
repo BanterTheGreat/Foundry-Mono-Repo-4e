@@ -1,0 +1,249 @@
+{
+  "schemaVersion": 1,
+  "features": [
+    {
+      "id": "modern4e.feature.druid-balance-of-nature",
+      "title": "Balance of Nature",
+      "description": "Some Druids favor being in beast form, while others prefer being in humanoid form. However, just as Druids seek balance in the world between divine and primordial forces, Druids pursue balance within their own minds and bodies.\n\n*You begin with three at-will attack powers.* Throughout your career, *at least one of those powers, and no more than two, must have the beast form keyword.* By this means, you have access to useful attacks in either beast form or humanoid form.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "Some Druids favor being in beast form, while others prefer being in humanoid form. However, just as Druids seek balance in the world between divine and primordial forces, Druids pursue balance within their own minds and bodies.\n\n*You begin with three at-will attack powers.* Throughout your career, *at least one of those powers, and no more than two, must have the beast form keyword.* By this means, you have access to useful attacks in either beast form or humanoid form."
+        }
+      ],
+      "selectionModifiers": [
+        {
+          "choiceId": "modern4e.choice.class-attack-at-will",
+          "count": 3,
+          "constraints": [
+            {
+              "type": "distinct"
+            },
+            {
+              "type": "keywordCount",
+              "keyword": "BEAST_FORM",
+              "minimum": 1,
+              "maximum": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.primal-guardian",
+      "title": "Primal Guardian",
+      "description": "While you are not wearing heavy armor, you can use your *Constitution* in place of your Dexterity or Intelligence to determine your AC.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "While you are not wearing heavy armor, you can use your *Constitution* in place of your Dexterity or Intelligence to determine your AC."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.primal-predator",
+      "title": "Primal Predator",
+      "description": "While you are not wearing heavy armor, you gain a +1 bonus to your speed.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "While you are not wearing heavy armor, you gain a +1 bonus to your speed."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.primal-swarm",
+      "title": "Primal Swarm",
+      "description": "While you are in beast form and not wearing heavy armor, melee attacks and ranged attacks deal less damage to you. When you take damage from either type of attack, the damage is reduced by your *Constitution*.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "While you are in beast form and not wearing heavy armor, melee attacks and ranged attacks deal less damage to you. When you take damage from either type of attack, the damage is reduced by your *Constitution*."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.druid-primal-wrath",
+      "title": "Primal Wrath",
+      "description": "While you are not wearing heavy armor, you gain a +1 bonus to the attack rolls of Druid attack powers and Druid paragon path attack powers that have the cold, fire, lightning, or thunder keywords.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "While you are not wearing heavy armor, you gain a +1 bonus to the attack rolls of Druid attack powers and Druid paragon path attack powers that have the cold, fire, lightning, or thunder keywords."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.druid-primal-aspect",
+      "title": "Primal Aspect",
+      "description": "Druidic lore speaks of the Primal Beast, the first spirit of the world's noble predators. A formless thing of shadows, fur, feathers, and claws, this creature appears in many Druids' visions, and they speak of channeling the Primal Beast when using their wild shape and beast form powers. As a Druid, you choose which aspect of the Primal Beast you most strongly manifest with your powers. Choose one of these options. Your choice provides bonuses to certain Druid powers, as detailed in those powers.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "choices": [
+        {
+          "id": "modern4e.choice.druid-primal-aspect",
+          "title": "Primal Aspect",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 1,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.primal-guardian",
+              "modern4e.feature.primal-predator",
+              "modern4e.feature.primal-swarm",
+              "modern4e.feature.druid-primal-wrath"
+            ]
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "Druidic lore speaks of the Primal Beast, the first spirit of the world's noble predators. A formless thing of shadows, fur, feathers, and claws, this creature appears in many Druids' visions, and they speak of channeling the Primal Beast when using their wild shape and beast form powers. As a Druid, you choose which aspect of the Primal Beast you most strongly manifest with your powers. Choose one of these options. Your choice provides bonuses to certain Druid powers, as detailed in those powers."
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.druid-primal-aspect"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.druid-wild-shape",
+      "title": "Wild Shape",
+      "description": "As a Druid, you have the ability to channel the primal energy of beasts into your physical form and transform into a beast. You have an at-will power, wild shape, that allows you to assume the form of a beast, and many Druid powers have the beast form keyword and therefore can be used only while you are in beast form.\n\nThe wild shape power lets you assume a form of your size that resembles a natural or a fey beast, usually a four-legged mammalian predator such as a bear, a boar, a panther, a wolf, or a wolverine. Your beast form might also be an indistinct shape of shadowy fur and claws, an incarnation of the Primal Beast of which all earthly beasts are fractured images. You choose a specific form whenever you use wild shape, and that form has no effect on your game statistics.\n\nYour choice of Primal Aspect might suggest a specific form you prefer to assume, and certain beast form powers specify changes to your form when you use them. You might also resemble a more exotic beast when you're in beast form: a reptile such as a rage drake or a crocodile, or a fantastic beast such as an owlbear or a bulette.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "druid-wild-shape",
+          "entryId": "modern4e.power.druid-wild-shape",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "As a Druid, you have the ability to channel the primal energy of beasts into your physical form and transform into a beast. You have an at-will power, wild shape, that allows you to assume the form of a beast, and many Druid powers have the beast form keyword and therefore can be used only while you are in beast form.\n\nThe wild shape power lets you assume a form of your size that resembles a natural or a fey beast, usually a four-legged mammalian predator such as a bear, a boar, a panther, a wolf, or a wolverine. Your beast form might also be an indistinct shape of shadowy fur and claws, an incarnation of the Primal Beast of which all earthly beasts are fractured images. You choose a specific form whenever you use wild shape, and that form has no effect on your game statistics.\n\nYour choice of Primal Aspect might suggest a specific form you prefer to assume, and certain beast form powers specify changes to your form when you use them. You might also resemble a more exotic beast when you're in beast form: a reptile such as a rage drake or a crocodile, or a fantastic beast such as an owlbear or a bulette."
+        },
+        {
+          "type": "grant",
+          "grantId": "druid-wild-shape"
+        }
+      ]
+    }
+  ]
+}

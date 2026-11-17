@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "classes": [
+    {
+      "id": "modern4e.class.warden",
+      "title": "Warden",
+      "description": "Warden is a Strength-based Primal Defender. The tankiest Defender. Can threaten multiple enemies at once, and can save out of debilitating effects before their turn, instead of after. They transform into bestial or nature-based forms to destroy the foes of the wild.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "flavor": {
+        "quote": "Get past me? You might as well try to push the mountains aside.",
+        "introduction": [
+          "As mountains stand fast against the buffeting wind and trees bend but do not break in the storm, wardens are stalwart protectors who draw on the primal spirits of nature to defend the natural world from those who would corrupt or destroy it. Some wardens use the power of earth and stone to shield their allies from harm, whereas others summon the primal strength within themselves to increase their ferocity and tenacity.",
+          "As a warden, you might be the staunch defender of a tribe, chosen by the spirits to be your people's champion. Perhaps you were visited by spirits at a sacred grove and charged with protecting it against a spreading corruption. You might have been raised by a bear or nurtured by dryads, chosen from infancy to stand fast against nature's enemies.",
+          "Primal power waits in the ground beneath your feet, surges with every beat of your heart, and flows through your lungs with every breath. The world cries out to you, calling for a champion to defend it. Will you heed its call?"
+        ],
+        "gameplay": "Warden is a Strength-based *Primal Defender*. The tankiest Defender. Can threaten multiple enemies at once, and can save out of debilitating effects before their turn, instead of after. They transform into bestial or nature-based forms to destroy the foes of the wild."
+      },
+      "role": "DEFENDER",
+      "powerSources": [
+        "PRIMAL"
+      ],
+      "ruleIds": [],
+      "grants": [
+        {
+          "id": "warden-font-of-life",
+          "entryId": "modern4e.feature.warden-font-of-life",
+          "atLevel": 1
+        },
+        {
+          "id": "warden-nature-s-wrath",
+          "entryId": "modern4e.feature.warden-nature-s-wrath",
+          "atLevel": 1
+        },
+        {
+          "id": "warden-guardian-might",
+          "entryId": "modern4e.feature.warden-guardian-might",
+          "atLevel": 1
+        }
+      ],
+      "statistics": {
+        "defenses": {
+          "FORTITUDE": 12,
+          "REFLEX": 11,
+          "WILL": 12
+        },
+        "health": {
+          "base": 20,
+          "perLevel": 7,
+          "constitutionMultiplier": 2
+        },
+        "healingSurges": {
+          "base": 9,
+          "constitutionMultiplier": 1
+        }
+      },
+      "abilities": {
+        "main": [
+          "STRENGTH"
+        ],
+        "secondary": [
+          "CONSTITUTION",
+          "WISDOM"
+        ]
+      },
+      "proficiencies": {
+        "armor": [
+          "LIGHT"
+        ],
+        "shields": [
+          "LIGHT_SHIELD",
+          "HEAVY_SHIELD"
+        ],
+        "weapons": [
+          "SIMPLE_MELEE",
+          "SIMPLE_RANGED",
+          "MILITARY_MELEE"
+        ],
+        "implements": []
+      }
+    }
+  ]
+}

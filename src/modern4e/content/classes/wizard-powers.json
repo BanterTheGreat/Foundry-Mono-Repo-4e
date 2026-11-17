@@ -1,0 +1,837 @@
+{
+  "schemaVersion": 2,
+  "powers": [
+    {
+      "id": "modern4e.power.orb-of-imposition",
+      "title": "Orb of Imposition",
+      "description": "You can use your orb to gain one of the following two effects.\n\nYou can designate one creature you have cast a wizard spell upon that has an effect that lasts until the subject succeeds on a saving throw. That creature takes a penalty to its next saving throw against that effect equal to your Wisdom.\n\nAlternatively, you can choose to extend the duration of an effect created by a wizard at-will spell (such as cloud of daggers or ray of frost) that would otherwise end at the end of your current turn. The effect instead ends at the end of your next turn.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.wizard",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Special"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You can use your orb to gain one of the following two effects.\n\nYou can designate one creature you have cast a wizard spell upon that has an effect that lasts until the subject succeeds on a saving throw. That creature takes a penalty to its next saving throw against that effect equal to your Wisdom.\n\nAlternatively, you can choose to extend the duration of an effect created by a wizard at-will spell (such as cloud of daggers or ray of frost) that would otherwise end at the end of your current turn. The effect instead ends at the end of your next turn."
+            }
+          ],
+          "requirement": "You must wield an orb to use this ability."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.staff-of-defense",
+      "title": "Staff of Defense",
+      "description": "You gain a bonus to defense against one attack equal to your Constitution. You can declare the bonus after the Dungeon Master has already told you the damage total.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.wizard",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Special"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You gain a bonus to defense against one attack equal to your Constitution. You can declare the bonus after the Dungeon Master has already told you the damage total."
+            }
+          ],
+          "requirement": "You must wield your staff."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.wand-of-accuracy",
+      "title": "Wand of Accuracy",
+      "description": "You gain a bonus to a single attack roll equal to your Intelligence.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.wizard",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Special"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You gain a bonus to a single attack roll equal to your Intelligence."
+            }
+          ],
+          "requirement": "You must wield your wand."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.orb-of-deception",
+      "title": "Orb of Deception",
+      "description": "Choose another enemy within 3 squares of the missed target. The chosen enemy cannot also be a target of the original attack. Repeat the attack against this new target, with a bonus to the attack roll equal to your Wisdom.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.wizard",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Special"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Choose another enemy within 3 squares of the missed target. The chosen enemy cannot also be a target of the original attack. Repeat the attack against this new target, with a bonus to the attack roll equal to your Wisdom."
+            }
+          ],
+          "trigger": "When you miss an enemy with a wizard illusion power",
+          "requirement": "You must wield an orb to use this ability."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.wizard-chameleon-s-mask",
+      "title": "Chameleon's Mask",
+      "description": "You may use your Arcana check for the check instead.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.wizard",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "ARCANE",
+        "ILLUSION"
+      ],
+      "choices": [],
+      "flavor": "You pull strands of shadow, blending your colors and sounds with your surroundings to help you hide from your enemy's sight and hearing.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "PERSONAL"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You may use your Arcana check for the check instead."
+            }
+          ],
+          "trigger": "You make a Skill Check to sneak or hide."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.wizard-spook",
+      "title": "Spook",
+      "description": "You may use an Arcana check instead.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.wizard",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "ARCANE",
+        "NETHERMANCY",
+        "SHADOW"
+      ],
+      "choices": [],
+      "flavor": "You gather the shadows to yourself, so that when you speak, your words drip with menace.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "PERSONAL"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You may use an Arcana check instead."
+            }
+          ],
+          "trigger": "You would make a Skill Check to intimidate or coerce someone."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.wizard-suggestion",
+      "title": "Suggestion",
+      "description": "You may use your Arcana check for the check instead.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.wizard",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "ARCANE"
+      ],
+      "choices": [],
+      "flavor": "You weave arcane power through your words, infusing each phrase with persuasive magic.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "PERSONAL"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You may use your Arcana check for the check instead."
+            }
+          ],
+          "trigger": "You would make a Skill Check to persuade someone."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.wizard-water-stride",
+      "title": "Water Stride",
+      "description": "Until the end of your next turn, you can treat liquid surfaces as if they were solid ground but difficult terrain.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.wizard",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "ARCANE"
+      ],
+      "choices": [],
+      "flavor": "You speed across a liquid surface as if it were solid ground.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "PERSONAL"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn, you can treat liquid surfaces as if they were solid ground but difficult terrain."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.wizard-whispering-wind",
+      "title": "Whispering Wind",
+      "description": "You cause a breeze to carry a message of up to 25 words or a sound up to 6 seconds long to a place you choose. The destination must be within a number of miles equal to your Intelligence and must be familiar to you, and it must be a location that the wind can reach. Once you complete the message or the sound, the wind travels at speed 5 (or 1 mile per hour) until it reaches the destination, where it conveys the message or the sound regardless of whether anyone hears it.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.wizard",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "ARCANE"
+      ],
+      "choices": [],
+      "flavor": "You speak a message to the wind and let it carry your words to an audience you choose.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "PERSONAL"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You cause a breeze to carry a message of up to 25 words or a sound up to 6 seconds long to a place you choose. The destination must be within a number of miles equal to your Intelligence and must be familiar to you, and it must be a location that the wind can reach. Once you complete the message or the sound, the wind travels at speed 5 (or 1 mile per hour) until it reaches the destination, where it conveys the message or the sound regardless of whether anyone hears it."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.wizard-prestidigitation",
+      "title": "Prestidigitation",
+      "description": "Use this cantrip to accomplish one of the effects given below: - Change the color of items in 1 cubic foot. - Create a harmless sensory effect, such as a shower of sparks, a puff of wind, faint music, or a strong odor. - Clean or soil items in 1 cubic foot. - Instantly light (or snuff out) a candle, a torch, or a small campfire. - Chill, warm, or flavor up to 1 pound of nonliving material for up to 1 hour. - Make a small mark or symbol appear on a surface for up to 1 hour. - Produce out of nothingness a small item or image that exists until the end of your next turn. - Make a small, handheld item invisible until the end of your next turn.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.wizard",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "ARCANE"
+      ],
+      "choices": [],
+      "flavor": "You perform an amusing magical trick, such as creating a dancing wisp of light, freshening a wilting flower, making a coin invisible, or warming a cold drink.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "RANGED",
+            "origin": "self",
+            "distance": {
+              "base": 2
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Use this cantrip to accomplish one of the effects given below:\n\n- Change the color of items in 1 cubic foot.\n- Create a harmless sensory effect, such as a shower of sparks, a puff of wind, faint music, or a strong odor.\n- Clean or soil items in 1 cubic foot.\n- Instantly light (or snuff out) a candle, a torch, or a small campfire.\n- Chill, warm, or flavor up to 1 pound of nonliving material for up to 1 hour.\n- Make a small mark or symbol appear on a surface for up to 1 hour.\n- Produce out of nothingness a small item or image that exists until the end of your next turn.\n- Make a small, handheld item invisible until the end of your next turn."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.wizard-ghost-sound",
+      "title": "Ghost Sound",
+      "description": "You cause a sound as quiet as a whisper or as loud as a yelling or fighting creature to emanate from the target. You can produce nonvocal sounds such as the ringing of a sword blow, jingling armor, or scraping stone. If you whisper, you can whisper quietly enough that only creatures adjacent to the target can hear your words.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.wizard",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "ARCANE",
+        "ILLUSION"
+      ],
+      "choices": [],
+      "flavor": "With a wink, you create an illusory sound that emanates from a distant location.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One object or unoccupied square"
+            }
+          },
+          "range": {
+            "type": "RANGED",
+            "origin": "self",
+            "distance": {
+              "base": 10
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You cause a sound as quiet as a whisper or as loud as a yelling or fighting creature to emanate from the target. You can produce nonvocal sounds such as the ringing of a sword blow, jingling armor, or scraping stone. If you whisper, you can whisper quietly enough that only creatures adjacent to the target can hear your words."
+            }
+          ],
+          "targets": "targets"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.wizard-light",
+      "title": "Light",
+      "description": "The target sheds bright light until the end of the encounter or until you use this power again. The light fills the target's space and all squares within 4 squares of it. Putting out the light is a free action.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.wizard",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "ARCANE"
+      ],
+      "choices": [],
+      "flavor": "With a wave of your hand, you cause a bright light to appear on the tip of your staff, upon some other object, or in a nearby space.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One object or unoccupied square"
+            }
+          },
+          "range": {
+            "type": "RANGED",
+            "origin": "self",
+            "distance": {
+              "base": 5
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target sheds bright light until the end of the encounter or until you use this power again. The light fills the target's space and all squares within 4 squares of it. Putting out the light is a free action."
+            }
+          ],
+          "targets": "targets"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.wizard-mage-hand",
+      "title": "Mage Hand",
+      "description": "You conjure a spectral, floating hand in an unoccupied square within range. The hand lasts until the end of your next turn or until you use this power again. If you are holding an object when you use this power, the hand can move the object into a pack, a pouch, a sheath, or a similar container and simultaneously move any one object carried or worn anywhere on your body into your hand. While the hand persists, you can take the following actions.\n\n*Minor Action:* The hand picks up or manipulates an object weighing 20 pounds or less. It can hold only one object at a time.\n\n*Move Action:* The hand moves up to 5 squares in any direction, carrying the object it holds.\n\n*Free Action:* The hand drops the object it is holding. *Sustain Minor:* The hand persists until the end of your next turn.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.wizard",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "ARCANE",
+        "CONJURATION"
+      ],
+      "choices": [],
+      "flavor": "You gesture toward an object nearby, and a spectral floating hand lifts the object into the air and moves it where you wish.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "RANGED",
+            "origin": "self",
+            "distance": {
+              "base": 5
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You conjure a spectral, floating hand in an unoccupied square within range. The hand lasts until the end of your next turn or until you use this power again. If you are holding an object when you use this power, the hand can move the object into a pack, a pouch, a sheath, or a similar container and simultaneously move any one object carried or worn anywhere on your body into your hand. While the hand persists, you can take the following actions.\n\n*Minor Action:* The hand picks up or manipulates an object weighing 20 pounds or less. It can hold only one object at a time.\n\n*Move Action:* The hand moves up to 5 squares in any direction, carrying the object it holds.\n\n*Free Action:* The hand drops the object it is holding. *Sustain Minor:* The hand persists until the end of your next turn."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

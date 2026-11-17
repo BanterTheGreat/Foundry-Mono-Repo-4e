@@ -1,0 +1,183 @@
+{
+  "schemaVersion": 2,
+  "powers": [
+    {
+      "id": "modern4e.power.warden-warden-s-fury",
+      "title": "Warden's Fury",
+      "description": "Warden's Fury",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.warden",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "PRIMAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "flavor": "You lash out with nature's wrath at a foe that has attacked your ally and diminish its defenses.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "The triggering enemy"
+            }
+          },
+          "range": {
+            "type": "MELEE",
+            "origin": "self",
+            "distance": "WEAPON"
+          },
+          "blocks": [
+            {
+              "id": "attack",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. Fortitude",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "MELEE",
+                "origin": "self",
+                "distance": "WEAPON"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-1",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength, and the target grants combat advantage to you and your allies until the end of your next turn.",
+                        "scaling": [
+                          {
+                            "atLevel": 21,
+                            "text": "2[W] + Strength."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets",
+          "trigger": "An enemy marked by you makes an attack that does not include you as a target"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.warden-warden-s-grasp",
+      "title": "Warden's Grasp",
+      "description": "You slide the target 1 square. The target is slowed and cannot shift until the end of its turn.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.warden",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "PRIMAL"
+      ],
+      "choices": [],
+      "flavor": "Spectral vines clutch at a foe that has attacked your ally, impeding your enemy's movement.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "The triggering enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "CLOSE_BURST",
+            "origin": "self",
+            "size": {
+              "base": 5
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You slide the target 1 square. The target is slowed and cannot shift until the end of its turn."
+            }
+          ],
+          "targets": "targets",
+          "trigger": "An enemy marked by you that is within 5 squares of you makes an attack that does not include you as a target"
+        }
+      ]
+    }
+  ]
+}

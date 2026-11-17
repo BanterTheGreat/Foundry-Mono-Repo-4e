@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "rules": [
+    {
+      "id": "modern4e.rule.druid-initial-powers",
+      "title": "Initial Powers",
+      "description": "You may choose 3 At-Will, off which 1 must be a beast form power, 1 Encounter and 2 Daily Druid Powers.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      }
+    }
+  ]
+}

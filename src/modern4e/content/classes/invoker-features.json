@@ -1,0 +1,285 @@
+{
+  "schemaVersion": 1,
+  "features": [
+    {
+      "id": "modern4e.feature.invoker-channel-divinity",
+      "title": "Channel Divinity",
+      "description": "Once per encounter you can invoke divine power, filling yourself with the strength of your patron deity. With the divine strength you invoke you can wield special powers. You can also learn other uses for this feature; for instance, the divinity feats grant characters with access to the Channel Divinity class feature the ability to use additional special powers.\n\nRegardless of how many different uses for Channel Divinity you know, you can use only one such ability per encounter. The special ability or power you invoke works just like your other powers. You gain the Rebuke Undead Channel Divinity power.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "invoker-rebuke-undead",
+          "entryId": "modern4e.power.invoker-rebuke-undead",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "Once per encounter you can invoke divine power, filling yourself with the strength of your patron deity. With the divine strength you invoke you can wield special powers. You can also learn other uses for this feature; for instance, the divinity feats grant characters with access to the Channel Divinity class feature the ability to use additional special powers.\n\nRegardless of how many different uses for Channel Divinity you know, you can use only one such ability per encounter. The special ability or power you invoke works just like your other powers. You gain the Rebuke Undead Channel Divinity power."
+        },
+        {
+          "type": "grant",
+          "grantId": "invoker-rebuke-undead"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.covenant-of-malediction",
+      "title": "Covenant Malediction",
+      "description": "The gods entrust you with the invocations of destruction used in their war against the primordials, so you can carry forward their sacred cause and ensure that the world's enemies never rise again.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "invoker-maledictor-s-doom",
+          "entryId": "modern4e.power.maledictors-doom",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "The gods entrust you with the invocations of destruction used in their war against the primordials, so you can carry forward their sacred cause and ensure that the world's enemies never rise again."
+        },
+        {
+          "type": "heading",
+          "title": "Channel Divinity"
+        },
+        {
+          "type": "text",
+          "text": "You gain the Maledictor’s Doom power."
+        },
+        {
+          "type": "heading",
+          "title": "Covenant Manifestation"
+        },
+        {
+          "type": "text",
+          "text": "When you use a divine encounter or daily attack power on your turn, you can push one target hit by the power 1 square after the power's effect is resolved."
+        },
+        {
+          "type": "grant",
+          "grantId": "invoker-maledictor-s-doom"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.invoker-divine-covenant",
+      "title": "Divine Covenant",
+      "description": "Invokers wield ancient divine power that is not accessible to most mortals -- only to those who enter into a personal covenant with a god. Invokers undergo long years of study and testing. Only after that time are they allowed to enter into the final covenant that grants them access to this class's powers. Some say that, in the final swearing of the covenant, the invoker's god briefly manifests, but the details of an invoker's initiation are a closely held secret.\n\nChoose one of the options described below. The Divine Covenant you choose provides you with a Channel Divinity power and a covenant manifestation that takes effect whenever you use a divine encounter or daily attack power. Your choice also provides bonuses to certain invoker powers, as detailed in those powers.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "choices": [
+        {
+          "id": "modern4e.choice.invoker-divine-covenant",
+          "title": "Divine Covenant",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 1,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.covenant-of-malediction",
+              "modern4e.feature.covenant-of-preservation",
+              "modern4e.feature.covenant-of-wrath"
+            ]
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "Invokers wield ancient divine power that is not accessible to most mortals -- only to those who enter into a personal covenant with a god. Invokers undergo long years of study and testing. Only after that time are they allowed to enter into the final covenant that grants them access to this class's powers. Some say that, in the final swearing of the covenant, the invoker's god briefly manifests, but the details of an invoker's initiation are a closely held secret.\n\nChoose one of the options described below. The Divine Covenant you choose provides you with a Channel Divinity power and a covenant manifestation that takes effect whenever you use a divine encounter or daily attack power. Your choice also provides bonuses to certain invoker powers, as detailed in those powers."
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.invoker-divine-covenant"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.covenant-of-preservation",
+      "title": "Covenant of Preservation",
+      "description": "The gods have charged you to defend the faithful and to ally with those who seek to defeat the gods' enemies.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "invoker-preserver-s-rebuke",
+          "entryId": "modern4e.power.preservers-rebuke",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "The gods have charged you to defend the faithful and to ally with those who seek to defeat the gods' enemies."
+        },
+        {
+          "type": "heading",
+          "title": "Channel Divinity"
+        },
+        {
+          "type": "text",
+          "text": "You gain the Preserver's Rebuke power."
+        },
+        {
+          "type": "heading",
+          "title": "Covenant Manifestation"
+        },
+        {
+          "type": "text",
+          "text": "When you use a divine encounter or daily attack power on your turn, you can slide an ally within 10 squares of you 1 square."
+        },
+        {
+          "type": "grant",
+          "grantId": "invoker-preserver-s-rebuke"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.covenant-of-wrath",
+      "title": "Covenant of Wrath",
+      "description": "You have sworn to seek out and destroy those that oppose the gods. Primordials, demons, and devils fall before your magic like wheat before a scythe.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "invoker-armor-of-wrath",
+          "entryId": "modern4e.power.armor-of-wrath",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You have sworn to seek out and destroy those that oppose the gods. Primordials, demons, and devils fall before your magic like wheat before a scythe."
+        },
+        {
+          "type": "heading",
+          "title": "Channel Divinity"
+        },
+        {
+          "type": "text",
+          "text": "You gain the Armor of Wrath power."
+        },
+        {
+          "type": "heading",
+          "title": "Covenant Manifestation"
+        },
+        {
+          "type": "text",
+          "text": "When you use a divine encounter or daily attack power on your turn, you gain a bonus to the damage roll equal to 1 for each enemy you attack with the power."
+        },
+        {
+          "type": "grant",
+          "grantId": "invoker-armor-of-wrath"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.invoker-ritual-casting",
+      "title": "Ritual Casting",
+      "description": "You master the Hand of Fate technique, the first time each day you use it you do not expend a healing surge.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "You master the Hand of Fate technique, the first time each day you use it you do not expend a healing surge."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,422 @@
+{
+  "schemaVersion": 2,
+  "powers": [
+    {
+      "id": "modern4e.power.invoker-rebuke-undead",
+      "title": "Rebuke Undead",
+      "description": "You can use only one channel divinity power per encounter",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.invoker",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "CHANNEL_DIVINITY",
+        "DIVINE",
+        "IMPLEMENT",
+        "RADIANT"
+      ],
+      "choices": [],
+      "flavor": "Undead flee and then cower in your presence, their bodies seared by divine light.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                },
+                "poolId": "modern4e.resource.channel-divinity"
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Each undead creature in the blast"
+            }
+          },
+          "range": {
+            "type": "CLOSE_BLAST",
+            "origin": "self",
+            "size": {
+              "base": 5
+            }
+          },
+          "blocks": [
+            {
+              "id": "attack",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Will",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "CLOSE_BLAST",
+                "origin": "self",
+                "size": {
+                  "base": 5
+                }
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-1",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1d10 + Wisdom radiant damage. You push the target 2 squares, and it is dazed until the end of your next turn.",
+                        "scaling": [
+                          {
+                            "atLevel": 5,
+                            "text": "2d10 + Wisdom radiant damage."
+                          },
+                          {
+                            "atLevel": 11,
+                            "text": "3d10 + Wisdom radiant damage."
+                          },
+                          {
+                            "atLevel": 15,
+                            "text": "4d10 + Wisdom radiant damage."
+                          },
+                          {
+                            "atLevel": 21,
+                            "text": "5d10 + Wisdom radiant damage."
+                          },
+                          {
+                            "atLevel": 25,
+                            "text": "6d10 + Wisdom radiant damage."
+                          }
+                        ]
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-2",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-3",
+              "type": "effect",
+              "label": "Channel Divinity",
+              "text": "You can use only one channel divinity power per encounter"
+            }
+          ],
+          "targets": "targets"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.maledictors-doom",
+      "title": "Maledictor's Doom",
+      "description": "Each target takes a -1 penalty to attack rolls and saving throws until the end of your next turn. In addition, whenever the target is hit by a fear attack before the end of your next turn, you push the target 1 square as a free action.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.invoker",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "CHANNEL_DIVINITY",
+        "DIVINE",
+        "FEAR"
+      ],
+      "choices": [],
+      "flavor": "Foes who hear your solemn vow are shaken by its weighty promise.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                },
+                "poolId": "modern4e.resource.channel-divinity"
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the blast"
+            }
+          },
+          "range": {
+            "type": "CLOSE_BLAST",
+            "origin": "self",
+            "size": {
+              "base": 5
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Each target takes a -1 penalty to attack rolls and saving throws until the end of your next turn. In addition, whenever the target is hit by a fear attack before the end of your next turn, you push the target 1 square as a free action."
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Channel Divinity",
+              "text": "You can use only one channel divinity power per encounter"
+            }
+          ],
+          "targets": "targets"
+        }
+      ],
+      "note": "The source supplied Intelligence without a defense or attack roll; no attack is invented for this effect-only power."
+    },
+    {
+      "id": "modern4e.power.preservers-rebuke",
+      "title": "Preserver's Rebuke",
+      "description": "Before the end of your next turn, you gain a bonus to your next attack roll against the triggering enemy equal to your *Intelligence*.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.invoker",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "CHANNEL_DIVINITY",
+        "DIVINE"
+      ],
+      "choices": [],
+      "flavor": "You call upon the gods to punish the enemy that dares harm those entrusted to your care.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                },
+                "poolId": "modern4e.resource.channel-divinity"
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "An enemy within 10 squares of you"
+            }
+          },
+          "range": {
+            "type": "PERSONAL"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Before the end of your next turn, you gain a bonus to your next attack roll against the triggering enemy equal to your *Intelligence*."
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Channel Divinity",
+              "text": "You can use only one channel divinity power per encounter"
+            }
+          ],
+          "targets": "targets"
+        }
+      ],
+      "note": "The source supplied Intelligence without a defense or attack roll; no attack is invented for this effect-only power."
+    },
+    {
+      "id": "modern4e.power.armor-of-wrath",
+      "title": "Armor of Wrath",
+      "description": "The target takes radiant damage equal to your *Constitution*, and you push the target 2 squares.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.invoker",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "CHANNEL_DIVINITY",
+        "DIVINE",
+        "RADIANT"
+      ],
+      "choices": [],
+      "flavor": "As your foe strikes, you invoke the gods' power to encase yourself in a burning aura of radiant energy.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                },
+                "poolId": "modern4e.resource.channel-divinity"
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "The triggering enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "CLOSE_BURST",
+            "origin": "self",
+            "size": {
+              "base": 5
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target takes radiant damage equal to your *Constitution*, and you push the target 2 squares.",
+              "scaling": [
+                {
+                  "atLevel": 11,
+                  "text": "1d6 + *Constitution* radiant damage."
+                },
+                {
+                  "atLevel": 21,
+                  "text": "2d6 + *Constitution* radiant damage."
+                }
+              ]
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Channel Divinity",
+              "text": "You can use only one channel divinity power per encounter"
+            }
+          ],
+          "targets": "targets",
+          "trigger": "An enemy within 5 squares of you hits you"
+        }
+      ],
+      "note": "The source supplied Intelligence without a defense or attack roll; no attack is invented for this effect-only power."
+    }
+  ]
+}

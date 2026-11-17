@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "classes": [
+    {
+      "id": "modern4e.class.wizard",
+      "title": "Wizard",
+      "description": "Wizard is an Intelligence-based Arcane Controller. Command eldritch forces, shaping them into spells designed to blast your enemies, bring them under your thumb, twist their senses, and impede their movement. Extremely versatile. Huge selection of spells and utilities make them prepared for any situation.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "flavor": {
+        "quote": "I am the fire that burns, the choking fog, the storm that rains devastation on our foes.",
+        "introduction": [
+          "Wizards experiment with a wide range of magical effects from evocation to necromancy and everything in between. The wizard is a generalist and a theorist. This path of arcane study focuses more on a broader understanding of principles instead of specific techniques relating to schools. To wizard, how he or she casts a spell is far more important than what sort of spell is used. Many arcanists follow their imagination as to what spells they might learn and which they might use on any given day, rather than adhering to the dictates of academia.",
+          "Wizards gravitate to the adventuring life because it gives them the chance to discover interesting new spells and rituals to add to their spellbooks. Though they might lack focus, arcanists prove themselves equal to their schools' specialist counterparts in both learning ability and application of that knowledge, and are counted as valued members of any expedition."
+        ],
+        "gameplay": "Wizard is an Intelligence-based *Arcane Controller*. Command eldritch forces, shaping them into spells designed to blast your enemies, bring them under your thumb, twist their senses, and impede their movement. Extremely versatile. Huge selection of spells and utilities make them prepared for any situation."
+      },
+      "role": "CONTROLLER",
+      "powerSources": [
+        "ARCANE"
+      ],
+      "ruleIds": [],
+      "grants": [
+        {
+          "id": "wizard-spellbook",
+          "entryId": "modern4e.feature.wizard-spellbook",
+          "atLevel": 1
+        },
+        {
+          "id": "wizard-arcane-implement-mastery",
+          "entryId": "modern4e.feature.wizard-arcane-implement-mastery",
+          "atLevel": 1
+        },
+        {
+          "id": "wizard-cantrips",
+          "entryId": "modern4e.feature.wizard-cantrips",
+          "atLevel": 1
+        },
+        {
+          "id": "wizard-arcane-techniques",
+          "entryId": "modern4e.feature.wizard-arcane-techniques",
+          "atLevel": 1
+        }
+      ],
+      "statistics": {
+        "defenses": {
+          "FORTITUDE": 11,
+          "REFLEX": 11,
+          "WILL": 13
+        },
+        "health": {
+          "base": 16,
+          "perLevel": 4,
+          "constitutionMultiplier": 2
+        },
+        "healingSurges": {
+          "base": 6,
+          "constitutionMultiplier": 1
+        }
+      },
+      "abilities": {
+        "main": [
+          "INTELLIGENCE"
+        ],
+        "secondary": [
+          "WISDOM",
+          "CONSTITUTION"
+        ]
+      },
+      "proficiencies": {
+        "armor": [
+          "CLOTH"
+        ],
+        "shields": [],
+        "weapons": [
+          "SIMPLE_MELEE",
+          "SIMPLE_RANGED"
+        ],
+        "implements": [
+          "ORB",
+          "STAFF",
+          "WAND",
+          "TOME"
+        ]
+      }
+    }
+  ]
+}

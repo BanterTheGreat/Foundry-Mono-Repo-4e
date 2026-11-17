@@ -57,17 +57,11 @@
 
 #let clericImage = defaultImage;
 
-#let druidQuote = [I am the seeker. I am the stalker. I am the storm.];
+#let druidQuote = classText(catalog.entry("modern4e.class.druid").flavor.quote);
 
-#let druidInfo = [
-  Secretive and enigmatic, druids call the wilderness their home. They can run with a wolf pack, speak with the most ancient trees, and watch thunderstorms from atop the clouds themselves. They regard challenges as tests, both of their fitness and of their connection with the wild places of the world. And though many druids project an outward calm, they have the cunning of the beast and the fury of the storm.
+#let druidInfo = classText(catalog.entry("modern4e.class.druid").flavor.introduction.join("\n\n"));
 
-  Whether you were born to the wilds or retreated from civilization, whether you chose your path or answered a call that whispered in your heart, you share a bond with the primal spirits of nature. You are neither their servant nor their master, but winds, trees, and beasts heed your words, for they recognize you as kin. Call to the spirits, and they will entangle your foes or smite your enemies with the storm. Unleash your own spirit, and you will become the Primal Beast, uncaged and untamed.
-];
-
-#let druidRole = [
-  Druid is a Wisdom-based *Primal Controller*. Fluidly shifts in and out of beast form in battle. Flexible class that can "minor" reasonably well as any other role while still being a Controller.
-];
+#let druidRole = classText(catalog.entry("modern4e.class.druid").flavor.gameplay);
 
 #let druidImage = defaultImage;
 
@@ -79,34 +73,19 @@
 
 #let fighterImage = defaultImage;
 
-#let invokerQuote = [The only thing stronger than my faith is the fire
-  I use to burn away those who stand against the will
-  of the gods.];
+#let invokerQuote = classText(catalog.entry("modern4e.class.invoker").flavor.quote);
 
-#let invokerInfo = [
-  At the dawn of time, the gods who inhabited the Astral Sea warred with the primordials of the Elemental Chaos, the mighty beings who shaped the world out of formless void. The greatest of the gods' mortal agents in that war were invokers, imbued with a fragment of the gods' own might to fight alongside them. No other mortal servant of the gods can claim the same kind of power. Through rites of investiture, avengers, clerics, and paladins gain the ability to manifest echoes of that power, uttering careful prayers and channeling divine energy through their holy symbols. You, however, channel your god's power directly. No mere symbol can contain it, for you speak the words of creation, shaping the universe to your and your god's will.
+#let invokerInfo = classText(catalog.entry("modern4e.class.invoker").flavor.introduction.join("\n\n"));
 
-  Perhaps you were trained in a secret monastery, or you studied in a library where the universe's oldest lore was preserved. Or perhaps you experienced the presence of your god firsthand and took a shard of divine power into yourself. You might even be an immortal born into flesh, slowly awakening to the awesome divine power that is your birthright. Whatever your past, you are among the gods' most trusted servants, bound to a covenant in which you swore to use divine power with great care. To what end will you wield that might?
-];
-
-#let invokerRole = [
-  Invoker is a Wisdom-based *Divine Controller*. In short, a Divine Wizard. Can specialize into enabling allies, as well. Invoke the power of a god to blast your foes from a distance, leave them unable to defend themselves, and scatter them to the four winds. You're basically Moses.
-];
+#let invokerRole = classText(catalog.entry("modern4e.class.invoker").flavor.gameplay);
 
 #let invokerImage = defaultImage;
 
-#let paladinQuote = [I am the righteous shield of Moradin and a sword
-  in his mighty hand! I fear no evil!];
+#let paladinQuote = classText(catalog.entry("modern4e.class.paladin").flavor.quote);
 
-#let paladinInfo = [
-  Paladins are indomitable warriors who've pledged their prowess to something greater than themselves. Paladins smite enemies with divine authority, bolster the courage of nearby companions, and radiate as if a beacon of inextinguishable hope. Paladins are transfigured on the field of battle, exemplars of divine ethos in action.
+#let paladinInfo = classText(catalog.entry("modern4e.class.paladin").flavor.introduction.join("\n\n"));
 
-  To you is given the responsibility to unflinchingly stand before an enemy's charge, smiting them with your sword while protecting your allies with your sacrifice. Where others waver and wonder, your motivation is pure and simple, and your devotion is your strength. Where others scheme and steal, you take the high road, refusing to allow the illusions of temptation to dissuade you from your obligations.
-];
-
-#let paladinRole = [
-  Paladin is a Strength or Charisma-based *Divine Defender*. Extremely durable holy warrior. Issue bold challenges to foes and compel them to fight you rather than your allies, rebuking them with Radiant damage if they refuse to comply. Has a good amount of healing and support ability.
-];
+#let paladinRole = classText(catalog.entry("modern4e.class.paladin").flavor.gameplay);
 
 #let paladinImage = defaultImage;
 
@@ -176,38 +155,19 @@
 
 #let sorcererImage = defaultImage;
 
-#let swordmageQuote = [Under the leaves of Myth Drannor I learned the ancient
-  eladrin way of battle. Spells are my armor, and words of
-  ruin are bound to my blade.];
+#let swordmageQuote = classText(catalog.entry("modern4e.class.swordmage").flavor.quote);
 
-#let swordmageInfo = [
-  Swordmages apply the arcane arts to melee combat. The combat skills they possess are enhanced by the magic they wield. The flourish of a swordmage's blade not only bites with steel, but also with fire, lightning, or other powerful forces.
+#let swordmageInfo = classText(catalog.entry("modern4e.class.swordmage").flavor.introduction.join("\n\n"));
 
-  You studied and practiced for years to master your skills. You mastered the fundamentals of arcane magic and combined this academic study with endless hours of physical training. You might be a young eladrin in search of your fortune, a stranger to the wider world outside the seclusion of your homeland; a self-trained genasi sellsword, gifted with an affinity for elemental magic; the scion of a disgraced noble human family, taught by the finest tutors in your youth but now a footloose expatriate; or a half-elf arcane champion, rigorously trained in a war magic academy to serve in the armies of your homeland.
-
-  Magical barriers of force swirl around you, protecting you from harm. The blade you carry is an extension of your being, both body and mind. It pulses with eldritch energy as you prepare to defend your allies and unleash magical fury against your foes.
-];
-
-#let swordmageRole = [
-  Swordmage is an Intelligence-based *Arcane Defender*. Teleports around the battlefield, protected by magical barriers. Shields allies and harries enemies with steel and spell.
-];
+#let swordmageRole = classText(catalog.entry("modern4e.class.swordmage").flavor.gameplay);
 
 #let swordmageImage = defaultImage;
 
-#let wardenQuote = [Get past me? You might as well try to push the
-  mountains aside.];
+#let wardenQuote = classText(catalog.entry("modern4e.class.warden").flavor.quote);
 
-#let wardenInfo = [
-  As mountains stand fast against the buffeting wind and trees bend but do not break in the storm, wardens are stalwart protectors who draw on the primal spirits of nature to defend the natural world from those who would corrupt or destroy it. Some wardens use the power of earth and stone to shield their allies from harm, whereas others summon the primal strength within themselves to increase their ferocity and tenacity.
+#let wardenInfo = classText(catalog.entry("modern4e.class.warden").flavor.introduction.join("\n\n"));
 
-  As a warden, you might be the staunch defender of a tribe, chosen by the spirits to be your people's champion. Perhaps you were visited by spirits at a sacred grove and charged with protecting it against a spreading corruption. You might have been raised by a bear or nurtured by dryads, chosen from infancy to stand fast against nature's enemies.
-
-  Primal power waits in the ground beneath your feet, surges with every beat of your heart, and flows through your lungs with every breath. The world cries out to you, calling for a champion to defend it. Will you heed its call?
-];
-
-#let wardenRole = [
-  Warden is a Strength-based *Primal Defender*. The tankiest Defender. Can threaten multiple enemies at once, and can save out of debilitating effects before their turn, instead of after. They transform into bestial or nature-based forms to destroy the foes of the wild.
-];
+#let wardenRole = classText(catalog.entry("modern4e.class.warden").flavor.gameplay);
 
 #let wardenImage = defaultImage;
 
@@ -232,17 +192,10 @@
 
 #let warlordImage = defaultImage;
 
-#let wizardQuote = [I am the fire that burns, the choking fog,
-  the storm that rains devastation on our foes.];
+#let wizardQuote = classText(catalog.entry("modern4e.class.wizard").flavor.quote);
 
-#let wizardInfo = [
-  Wizards experiment with a wide range of magical effects from evocation to necromancy and everything in between. The wizard is a generalist and a theorist. This path of arcane study focuses more on a broader understanding of principles instead of specific techniques relating to schools. To wizard, how he or she casts a spell is far more important than what sort of spell is used. Many arcanists follow their imagination as to what spells they might learn and which they might use on any given day, rather than adhering to the dictates of academia.
+#let wizardInfo = classText(catalog.entry("modern4e.class.wizard").flavor.introduction.join("\n\n"));
 
-  Wizards gravitate to the adventuring life because it gives them the chance to discover interesting new spells and rituals to add to their spellbooks. Though they might lack focus, arcanists prove themselves equal to their schools' specialist counterparts in both learning ability and application of that knowledge, and are counted as valued members of any expedition.
-];
-
-#let wizardRole = [
-  Wizard is an Intelligence-based *Arcane Controller*. Command eldritch forces, shaping them into spells designed to blast your enemies, bring them under your thumb, twist their senses, and impede their movement. Extremely versatile. Huge selection of spells and utilities make them prepared for any situation.
-];
+#let wizardRole = classText(catalog.entry("modern4e.class.wizard").flavor.gameplay);
 
 #let wizardImage = defaultImage;

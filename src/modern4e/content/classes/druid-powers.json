@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 2,
+  "powers": [
+    {
+      "id": "modern4e.power.druid-wild-shape",
+      "title": "Wild Shape",
+      "description": "You change from your humanoid form to beast form or vice versa. When you change from beast form back to your humanoid form, you can shift 1 square. While you are in beast form, you can't use weapon or implement attack powers that lack the beast form keyword, although you can sustain such powers.\n\nYou choose a specific form whenever you use wild shape to change into beast form. The beast form is your size, resembles a natural beast or a fey beast, and normally doesn't change your game statistics. Your equipment becomes part of your beast form, but you drop anything you are holding, except implements you can use. You continue to gain the benefits of the equipment you wear, except a shield.\n\nYou can use the properties and the powers of implements as well as magic items that you wear, but not the properties or the powers of weapons or the powers of wondrous items. While equipment is part of your beast form, it cannot be removed, and anything in a container that is part of your beast form is inaccessible.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.druid",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "POLYMORPH",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [
+              {
+                "period": "ROUND",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "PERSONAL"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You change from your humanoid form to beast form or vice versa. When you change from beast form back to your humanoid form, you can shift 1 square. While you are in beast form, you can't use weapon or implement attack powers that lack the beast form keyword, although you can sustain such powers.\n\nYou choose a specific form whenever you use wild shape to change into beast form. The beast form is your size, resembles a natural beast or a fey beast, and normally doesn't change your game statistics. Your equipment becomes part of your beast form, but you drop anything you are holding, except implements you can use. You continue to gain the benefits of the equipment you wear, except a shield.\n\nYou can use the properties and the powers of implements as well as magic items that you wear, but not the properties or the powers of weapons or the powers of wondrous items. While equipment is part of your beast form, it cannot be removed, and anything in a container that is part of your beast form is inaccessible."
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Special",
+              "text": "You can use this power once per round."
+            }
+          ],
+          "special": true
+        }
+      ]
+    }
+  ]
+}

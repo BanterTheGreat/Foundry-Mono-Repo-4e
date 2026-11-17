@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "classes": [
+    {
+      "id": "modern4e.class.druid",
+      "title": "Druid",
+      "description": "Druid is a Wisdom-based Primal Controller. Fluidly shifts in and out of beast form in battle. Flexible class that can \"minor\" reasonably well as any other role while still being a Controller.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "flavor": {
+        "quote": "I am the seeker. I am the stalker. I am the storm.",
+        "introduction": [
+          "Secretive and enigmatic, druids call the wilderness their home. They can run with a wolf pack, speak with the most ancient trees, and watch thunderstorms from atop the clouds themselves. They regard challenges as tests, both of their fitness and of their connection with the wild places of the world. And though many druids project an outward calm, they have the cunning of the beast and the fury of the storm.",
+          "Whether you were born to the wilds or retreated from civilization, whether you chose your path or answered a call that whispered in your heart, you share a bond with the primal spirits of nature. You are neither their servant nor their master, but winds, trees, and beasts heed your words, for they recognize you as kin. Call to the spirits, and they will entangle your foes or smite your enemies with the storm. Unleash your own spirit, and you will become the Primal Beast, uncaged and untamed."
+        ],
+        "gameplay": "Druid is a Wisdom-based *Primal Controller*. Fluidly shifts in and out of beast form in battle. Flexible class that can \"minor\" reasonably well as any other role while still being a Controller."
+      },
+      "role": "CONTROLLER",
+      "powerSources": [
+        "PRIMAL"
+      ],
+      "ruleIds": [
+        "modern4e.rule.druid-initial-powers"
+      ],
+      "grants": [
+        {
+          "id": "druid-balance-of-nature",
+          "entryId": "modern4e.feature.druid-balance-of-nature",
+          "atLevel": 1
+        },
+        {
+          "id": "druid-primal-aspect",
+          "entryId": "modern4e.feature.druid-primal-aspect",
+          "atLevel": 1
+        },
+        {
+          "id": "druid-wild-shape",
+          "entryId": "modern4e.feature.druid-wild-shape",
+          "atLevel": 1
+        }
+      ],
+      "statistics": {
+        "defenses": {
+          "FORTITUDE": 11,
+          "REFLEX": 12,
+          "WILL": 12
+        },
+        "health": {
+          "base": 17,
+          "perLevel": 5,
+          "constitutionMultiplier": 2
+        },
+        "healingSurges": {
+          "base": 7,
+          "constitutionMultiplier": 1
+        }
+      },
+      "abilities": {
+        "main": [
+          "WISDOM"
+        ],
+        "secondary": [
+          "CONSTITUTION",
+          "DEXTERITY"
+        ]
+      },
+      "proficiencies": {
+        "armor": [
+          "LIGHT"
+        ],
+        "shields": [],
+        "weapons": [
+          "SIMPLE_MELEE",
+          "SIMPLE_RANGED"
+        ],
+        "implements": [
+          "STAFF",
+          "TOTEM"
+        ]
+      }
+    }
+  ]
+}

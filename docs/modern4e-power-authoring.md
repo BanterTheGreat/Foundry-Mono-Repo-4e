@@ -1,6 +1,6 @@
 # Ordered power authoring
 
-Status: used by Fighter and all six Leader class chapters, validated against
+Status: used by all four Defender, six Leader and three Controller chapters, validated against
 16 additional published-reference scenarios. Class catalog/export schema v2
 adopts these ordered power definitions, and `helpers/power_content.typ` renders
 them. This is an authoring contract, not an enabled builder runtime package.
@@ -19,8 +19,10 @@ The experimental fixture envelope has `schemaVersion: 1`,
 Production class files use `{schemaVersion: 2, powers: [...]}` and the class
 catalog inventory/reference registry. `class_content.py` validates and exports
 them with the same block validator. Fighter retains its three existing power IDs;
-the Leader migration adds 23 powers. Nineteen predeclared feature/power identities
-are reused, so feat references retain their targets. Cross-catalog runtime
+the Leader migration adds 23 powers, Paladin/Swordmage/Warden add 15, and the
+Controllers add 18. Forty-seven
+predeclared feature/power identities are reused, so feat references retain their
+targets. Cross-catalog runtime
 resolution and legacy feat-reference status reconciliation remain pending.
 Each power has stored `id`, `title`, `description`, shared `access`,
 `prerequisites`, `selection`, explicit `coverage`, `rulesProfile`, `source`,

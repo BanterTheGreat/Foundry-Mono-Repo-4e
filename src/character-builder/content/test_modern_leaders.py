@@ -66,14 +66,14 @@ class ModernLeadersTest(unittest.TestCase):
                 visit(grant["entryId"])
             if entry["category"] != "POWER":
                 for choice in entry.get("choices", []):
-                    for child in choice["source"]["entryIds"]:
+                    for child in choice["source"].get("entryIds", []):
                         visit(child)
         for entry in self.entries.values():
             if entry["category"] == "CLASS":
                 visit(entry["id"])
         expected = {e["id"] for e in self.entries.values() if e["category"] in ("CLASS", "FEATURE", "POWER")}
         self.assertEqual(expected, reached)
-        self.assertEqual(26, len([e for e in self.entries.values() if e["category"] == "POWER"]))
+        self.assertEqual(26, len([e for e in self.entries.values() if e["category"] == "POWER" and e["source"]["entryId"] in {"modern4e.class." + name for name in (*LEADERS, "fighter")}]))
 
     def test_shaman_choices_are_complete_distinct_and_do_not_grant_all_powers(self):
         companion = self.named("FEATURE", "Companion Spirit")
@@ -151,7 +151,9 @@ class ModernLeadersTest(unittest.TestCase):
         def words(value):
             value = re.sub(r"(?m)^\s*\d+\s*$", "", value)
             value = re.sub(r"\b(\d+)(?:st|nd|rd|th)\b", r"\1", value.lower())
+            value = re.sub(r"\btwo\b", "2", value)
             value = re.sub(r"\bthree\b", "3", value)
+            value = re.sub(r"\bfour\b", "4", value)
             return Counter(re.findall(r"[a-z0-9]+", value))
         golden = classes.shared.load_json(FIXTURES / "rendered-before.json")
         with tempfile.TemporaryDirectory(dir=BOOK) as directory:

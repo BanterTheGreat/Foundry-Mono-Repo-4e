@@ -1,12 +1,14 @@
 # Shared class authoring (catalog/export schema v2)
 
-Fighter and all six Leaders (Artificer, Bard, Cleric, Runepriest, Shaman and
-Warlord) are authoritative here. The catalog contains seven classes, 60 features,
-26 granted powers and two Fighter rules. Typst renders them directly;
+All four Defenders (Fighter, Paladin, Swordmage and Warden) and all six Leaders
+(Artificer, Bard, Cleric, Runepriest, Shaman and Warlord), plus all three
+Controllers (Druid, Invoker and Wizard), are authoritative here. The catalog
+contains 13 classes, 118 features, 59 granted powers and three explanatory rules.
+Typst renders them directly;
 `class_content.py` exports the same data for future Character Builder compilation.
 This is **an authoring catalog, not a v1 runtime package**. Engine interpretation,
 full progression and production pipeline replacement remain #33–#35. The other
-12 class chapters remain authoritative Typst. No feat definitions are changed.
+six Striker chapters remain authoritative Typst. No feat definitions are changed.
 
 ## Files and commands
 
@@ -109,6 +111,32 @@ subheadings and cards in source order without embedding Typst in JSON. Typst own
 page/column splits, including Shaman's companion options and Cleric's Channel
 Divinity continuation. Class flavor adapters also read JSON, so banners have no
 second editable copy. The migration reuses 19 predeclared feat reference IDs.
+
+The Defender migration uses the same sections, preserving Paladin's split
+Fervor options, Swordmage's split Aegis options and Warden's side-by-side reaction
+cards. It adds 26 features and 15 powers and reuses 13 predeclared feature/power
+IDs. Paladin's initial Channel Divinity choice is two distinct options from four;
+additional acquisitions at levels 5, 11 and 21 remain explicit prose pending full
+advancement/pool resolution. Grace powers retain their healing-surge costs,
+once-per-round cap and literal Wisdom-based daily maximum. Smite the Condemned
+retains its alternative attack ability and all six scaling thresholds without
+inventing an ability-selection rule.
+
+Controllers add 32 features, 18 powers and Druid's initial-selection explanation,
+retaining 15 predeclared feature/power IDs. Druid's Balance of Nature modifies
+the shared at-will slot to three selections with one-to-two BEAST_FORM powers.
+Wizard's Spellbook modifies initial learned dailies to four, routes them to an
+owned collection and grants a distinct preparation choice of two (three from
+level 5). Storage, preparation and replacement remain separate decisions; later
+utility acquisition/preparation and technique page accounting remain prose with
+explicit incomplete coverage. Cantrips choose four of nine options. Effect-only
+Invoker cards that specify Intelligence without a defense are retained without
+inventing an attack roll.
+
+Feature sections also support a literal `table` with `title`, string `columns`
+and rectangular string `rows`. Wizard's complete preparation table is authored
+once here and rendered by Typst. Query-based choices are explained by the
+feature's prose/table and do not render fabricated option lists or choice prompts.
 
 Cleric Healing Word's level-16 wording and Warlord's flavor/main-ability mismatch
 remain explicit coverage limitations. Technique acquisition remains prose pending

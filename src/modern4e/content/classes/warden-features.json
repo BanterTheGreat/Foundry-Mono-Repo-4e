@@ -1,0 +1,241 @@
+{
+  "schemaVersion": 1,
+  "features": [
+    {
+      "id": "modern4e.feature.warden-font-of-life",
+      "title": "Font of Life",
+      "description": "At the start of your turn, you can make a saving throw against one effect that a save can end. On a save, the effect immediately ends, preventing it from affecting you on your current turn. If you fail the saving throw, you still make a saving throw against the effect at the end of your turn.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "At the start of your turn, you can make a saving throw against one effect that a save can end. On a save, the effect immediately ends, preventing it from affecting you on your current turn. If you fail the saving throw, you still make a saving throw against the effect at the end of your turn."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.warden-nature-s-wrath",
+      "title": "Nature's Wrath",
+      "description": "Once during each of your turns, you can mark each adjacent enemy as a free action. This mark lasts until the end of your next turn. In addition, you gain the warden’s fury and warden’s grasp powers. You can use these powers against enemies to prevent them from harming those you protect.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "warden-warden-s-fury",
+          "entryId": "modern4e.power.warden-warden-s-fury",
+          "atLevel": 1
+        },
+        {
+          "id": "warden-warden-s-grasp",
+          "entryId": "modern4e.power.warden-warden-s-grasp",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "Once during each of your turns, you can mark each adjacent enemy as a free action. This mark lasts until the end of your next turn. In addition, you gain the warden’s fury and warden’s grasp powers. You can use these powers against enemies to prevent them from harming those you protect."
+        },
+        {
+          "type": "grant",
+          "grantId": "warden-warden-s-fury"
+        },
+        {
+          "type": "grant",
+          "grantId": "warden-warden-s-grasp"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.earthstrength",
+      "title": "Earthstrength",
+      "description": "While you are not wearing heavy armor, you add your *Constitution* to your AC. In addition, when you use your second wind, you gain an additional bonus to AC equal to your *Constitution*. The bonus lasts until the end of your next turn.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "While you are not wearing heavy armor, you add your *Constitution* to your AC. In addition, when you use your second wind, you gain an additional bonus to AC equal to your *Constitution*. The bonus lasts until the end of your next turn."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.wildblood",
+      "title": "Wildblood",
+      "description": "While you are not wearing heavy armor, you add your *Wisdom* to your AC. In addition, when you use your second wind, each enemy marked by you takes an additional penalty to attack rolls for attacks that don't include you as a target. The penalty equals your *Wisdom* and lasts until the end of your next turn.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "While you are not wearing heavy armor, you add your *Wisdom* to your AC. In addition, when you use your second wind, each enemy marked by you takes an additional penalty to attack rolls for attacks that don't include you as a target. The penalty equals your *Wisdom* and lasts until the end of your next turn."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.stormheart",
+      "title": "Stormheart",
+      "description": "While you are not wearing heavy armor, you can add your *Constitution* to your AC.\n\nIn addition, when you use your second wind, you slide each enemy marked by you and within 2 squares of you 1 square, and each enemy marked by you is slowed until the end of your next turn.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "While you are not wearing heavy armor, you can add your *Constitution* to your AC.\n\nIn addition, when you use your second wind, you slide each enemy marked by you and within 2 squares of you 1 square, and each enemy marked by you is slowed until the end of your next turn."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.lifespirit",
+      "title": "Lifespirit",
+      "description": "While you are not wearing heavy armor, you add your *Wisdom* to your AC.\n\nIn addition, when you use your second wind, an ally within 5 squares of you can spend a healing surge and make a saving throw.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "While you are not wearing heavy armor, you add your *Wisdom* to your AC.\n\nIn addition, when you use your second wind, an ally within 5 squares of you can spend a healing surge and make a saving throw."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.warden-guardian-might",
+      "title": "Guardian Might",
+      "description": "Wardens connect with the natural world in a variety of ways to augment their fighting abilities. Choose one of the following options:",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "choices": [
+        {
+          "id": "modern4e.choice.warden-guardian-might",
+          "title": "Guardian Might",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 1,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.earthstrength",
+              "modern4e.feature.wildblood",
+              "modern4e.feature.stormheart",
+              "modern4e.feature.lifespirit"
+            ]
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "Wardens connect with the natural world in a variety of ways to augment their fighting abilities. Choose one of the following options:"
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.warden-guardian-might"
+        }
+      ]
+    }
+  ]
+}

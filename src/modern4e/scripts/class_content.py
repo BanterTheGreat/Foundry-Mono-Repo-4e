@@ -288,6 +288,19 @@ def catalog(content=CONTENT):
             for section in entry["sections"]:
                 require(isinstance(section, dict), loc, "expected feature section")
                 kind = section.get("type")
+                if kind == "table":
+                    fields(section, ["type", "title", "columns", "rows"], [], loc)
+                    string(section["title"], loc)
+                    array(section["columns"], loc, True)
+                    for column in section["columns"]:
+                        string(column, loc)
+                    array(section["rows"], loc, True)
+                    for row in section["rows"]:
+                        array(row, loc, True)
+                        require(len(row) == len(section["columns"]), loc, "table row width must match columns")
+                        for cell in row:
+                            string(cell, loc)
+                    continue
                 key = {"text": "text", "heading": "title", "grant": "grantId", "choice": "choiceId"}.get(kind)
                 require(key is not None, loc, "unknown feature section")
                 fields(section, ["type", key], [], loc)

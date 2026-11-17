@@ -1,7 +1,7 @@
 # Running tests yourself
 
-Ordered power authoring (16 published-reference fixtures plus Fighter and six
-Leader migrations; Psionics and Monks excluded):
+Ordered power authoring (16 published-reference fixtures plus all four Defender
+and six Leader/three Controller migrations; Psionics and Monks excluded):
 
 ```sh
 python -X utf8 src/modern4e/scripts/power_content.py
@@ -9,6 +9,8 @@ python -X utf8 -m unittest discover -s src/modern4e/scripts -p test_power_conten
 python -X utf8 src/modern4e/scripts/class_content.py
 python -X utf8 -m unittest discover -s src/character-builder/content -p test_modern_classes.py -v
 python -X utf8 -m unittest discover -s src/character-builder/content -p test_modern_leaders.py -v
+python -X utf8 -m unittest discover -s src/character-builder/content -p test_modern_defenders.py -v
+python -X utf8 -m unittest discover -s src/character-builder/content -p test_modern_controllers.py -v
 npm run typst:compile
 ```
 
@@ -17,7 +19,8 @@ limits/scaling, random tables and malformed-authoring rejection. They do not
 claim combat automation or adaptation of published formulas to Modern4e. Leader
 tests cover class statistics, choices, shared pools, stable feat-reference IDs,
 and feature-section validation. With Typst and `pypdf` available they compile the
-whole book, check no original printed rule words were lost, and verify pre/post
+whole book, check no original printed rule words were lost across all 13 migrated
+classes, and verify pre/post
 attack ordering in an actual rendered power. Typst is resolved from `TYPST_BIN`
 or the process PATH; run outside the restricted sandbox when its executable is
 hidden there. `pypdf` is needed only for printed-content tests (`python -m pip

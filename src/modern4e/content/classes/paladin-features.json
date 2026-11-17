@@ -1,0 +1,507 @@
+{
+  "schemaVersion": 1,
+  "features": [
+    {
+      "id": "modern4e.feature.paladin-divine-sanction",
+      "title": "Divine Sanction",
+      "description": "Many Paladin powers and some other sources such as feats subject a target to your divine sanction. Being subject to your divine sanction means the target is marked by you for a duration specified in the description of the power or source. Unless otherwise noted, the mark ends before the specified duration if another effect marks the target.\n\nUntil this mark ends, the target takes radiant damage equal to 3 + your Wisdom the first time each round it makes an attack that doesn't include you as a target. The damage increases to 6 + your Wisdom at 11th level and 9 + your Wisdom at 21st level.\n\nDivine Sanction is meant to complement Divine Challenge. You can use Divine Challenge to mark one sort of creature and use Divine Sanction to mark others. Divine Sanction has fewer restrictions than Divine Challenge so that you can easily use the two in concert. Using Divine Sanction to supplement Defender Aura is also possible, but more difficult.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "Many Paladin powers and some other sources such as feats subject a target to your divine sanction. Being subject to your divine sanction means the target is marked by you for a duration specified in the description of the power or source. Unless otherwise noted, the mark ends before the specified duration if another effect marks the target.\n\nUntil this mark ends, the target takes radiant damage equal to 3 + your Wisdom the first time each round it makes an attack that doesn't include you as a target. The damage increases to 6 + your Wisdom at 11th level and 9 + your Wisdom at 21st level.\n\nDivine Sanction is meant to complement Divine Challenge. You can use Divine Challenge to mark one sort of creature and use Divine Sanction to mark others. Divine Sanction has fewer restrictions than Divine Challenge so that you can easily use the two in concert. Using Divine Sanction to supplement Defender Aura is also possible, but more difficult."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.paladin-defender-aura-righteous-radiance",
+      "title": "Defender Aura & Righteous Radiance",
+      "description": "Defender Aura & Righteous Radiance",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "paladin-defender-aura",
+          "entryId": "modern4e.power.paladin-defender-aura",
+          "atLevel": 1
+        },
+        {
+          "id": "paladin-righteous-radiance",
+          "entryId": "modern4e.power.paladin-righteous-radiance",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "grant",
+          "grantId": "paladin-defender-aura"
+        },
+        {
+          "type": "grant",
+          "grantId": "paladin-righteous-radiance"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.paladin-paladin-s-fervor",
+      "title": "Paladin's Fervor",
+      "description": "To resist a Paladin on the battlefield is to be overwhelmed by divine menace. You gain your choice of either the Divine Challenge power, or the Defender Aura and Righteous Radiance powers.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "choices": [
+        {
+          "id": "modern4e.choice.paladin-paladin-s-fervor",
+          "title": "Paladin's Fervor",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 1,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.paladin-defender-aura-righteous-radiance",
+              "modern4e.feature.paladin-divine-challenge"
+            ]
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "To resist a Paladin on the battlefield is to be overwhelmed by divine menace. You gain your choice of either the Divine Challenge power, or the Defender Aura and Righteous Radiance powers."
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.paladin-paladin-s-fervor"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.paladin-divine-challenge",
+      "title": "Divine Challenge",
+      "description": "Divine Challenge",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "paladin-divine-challenge",
+          "entryId": "modern4e.power.divine-challenge",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "grant",
+          "grantId": "paladin-divine-challenge"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.paladin-divine-mettle",
+      "title": "Divine Mettle",
+      "description": "Divine Mettle",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "paladin-divine-mettle",
+          "entryId": "modern4e.power.divine-mettle",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "grant",
+          "grantId": "paladin-divine-mettle"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.paladin-divine-strength",
+      "title": "Divine Strength",
+      "description": "Divine Strength",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "paladin-divine-strength",
+          "entryId": "modern4e.power.divine-strength",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "grant",
+          "grantId": "paladin-divine-strength"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.paladin-righteous-shield",
+      "title": "Righteous Shield",
+      "description": "Righteous Shield",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "paladin-righteous-shield",
+          "entryId": "modern4e.power.paladin-righteous-shield",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "grant",
+          "grantId": "paladin-righteous-shield"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.paladin-smite-the-condemned",
+      "title": "Smite the Condemned",
+      "description": "Smite the Condemned",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "paladin-smite-the-condemned",
+          "entryId": "modern4e.power.paladin-smite-the-condemned",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "grant",
+          "grantId": "paladin-smite-the-condemned"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.paladin-channel-divinity",
+      "title": "Channel Divinity",
+      "description": "Once per encounter you can invoke divine power, filling yourself with the might of your patron deity. You begin play with your choice of *two of four Paladin-specific Channel Divinity powers*: Divine Mettle, Divine Strength, Righteous Shield, and Smite the Condemned. At levels 5, 11, and 21, you gain an additional Channel Divinity power.\n\nRegardless of how many different uses for Channel Divinity you know, you can use only one such ability per encounter. Channel Divinity powers otherwise function like your regular class powers.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented.",
+          "The additional Channel Divinity acquisitions at levels 5, 11 and 21 remain in the original rules text, pending full advancement and eligible-pool resolution; the initial two-of-four choice is structured."
+        ]
+      },
+      "choices": [
+        {
+          "id": "modern4e.choice.paladin-channel-divinity",
+          "title": "Channel Divinity",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 2,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.paladin-divine-mettle",
+              "modern4e.feature.paladin-divine-strength",
+              "modern4e.feature.paladin-righteous-shield",
+              "modern4e.feature.paladin-smite-the-condemned"
+            ]
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "Once per encounter you can invoke divine power, filling yourself with the might of your patron deity. You begin play with your choice of *two of four Paladin-specific Channel Divinity powers*: Divine Mettle, Divine Strength, Righteous Shield, and Smite the Condemned. At levels 5, 11, and 21, you gain an additional Channel Divinity power.\n\nRegardless of how many different uses for Channel Divinity you know, you can use only one such ability per encounter. Channel Divinity powers otherwise function like your regular class powers."
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.paladin-channel-divinity"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.paladin-ardent-vow",
+      "title": "Ardent Vow",
+      "description": "Ardent Vow",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "paladin-ardent-vow",
+          "entryId": "modern4e.power.ardent-vow",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "grant",
+          "grantId": "paladin-ardent-vow"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.paladin-lay-on-hands",
+      "title": "Lay On Hands",
+      "description": "Lay On Hands",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "paladin-lay-on-hands",
+          "entryId": "modern4e.power.lay-on-hands",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "grant",
+          "grantId": "paladin-lay-on-hands"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.paladin-virtue-s-touch",
+      "title": "Virtue's Touch",
+      "description": "Virtue's Touch",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "paladin-virtue-s-touch",
+          "entryId": "modern4e.power.virtues-touch",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "grant",
+          "grantId": "paladin-virtue-s-touch"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.paladin-paladin-s-grace",
+      "title": "Paladin's Grace",
+      "description": "Each Paladin can manifest an iconic miracle at the cost of their own life force, from healing the dying to summoning astral beasts. Choose Ardent Vow, Lay On Hands, or Virtue's Touch.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "choices": [
+        {
+          "id": "modern4e.choice.paladin-paladin-s-grace",
+          "title": "Paladin's Grace",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 1,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.paladin-ardent-vow",
+              "modern4e.feature.paladin-lay-on-hands",
+              "modern4e.feature.paladin-virtue-s-touch"
+            ]
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "Each Paladin can manifest an iconic miracle at the cost of their own life force, from healing the dying to summoning astral beasts. Choose Ardent Vow, Lay On Hands, or Virtue's Touch."
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.paladin-paladin-s-grace"
+        }
+      ]
+    }
+  ]
+}

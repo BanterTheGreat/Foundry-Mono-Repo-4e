@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "classes": [
+    {
+      "id": "modern4e.class.paladin",
+      "title": "Paladin",
+      "description": "Paladin is a Strength or Charisma-based Divine Defender. Extremely durable holy warrior. Issue bold challenges to foes and compel them to fight you rather than your allies, rebuking them with Radiant damage if they refuse to comply. Has a good amount of healing and support ability.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "flavor": {
+        "quote": "I am the righteous shield of Moradin and a sword in his mighty hand! I fear no evil!",
+        "introduction": [
+          "Paladins are indomitable warriors who've pledged their prowess to something greater than themselves. Paladins smite enemies with divine authority, bolster the courage of nearby companions, and radiate as if a beacon of inextinguishable hope. Paladins are transfigured on the field of battle, exemplars of divine ethos in action.",
+          "To you is given the responsibility to unflinchingly stand before an enemy's charge, smiting them with your sword while protecting your allies with your sacrifice. Where others waver and wonder, your motivation is pure and simple, and your devotion is your strength. Where others scheme and steal, you take the high road, refusing to allow the illusions of temptation to dissuade you from your obligations."
+        ],
+        "gameplay": "Paladin is a Strength or Charisma-based *Divine Defender*. Extremely durable holy warrior. Issue bold challenges to foes and compel them to fight you rather than your allies, rebuking them with Radiant damage if they refuse to comply. Has a good amount of healing and support ability."
+      },
+      "role": "DEFENDER",
+      "powerSources": [
+        "DIVINE"
+      ],
+      "ruleIds": [],
+      "grants": [
+        {
+          "id": "paladin-divine-sanction",
+          "entryId": "modern4e.feature.paladin-divine-sanction",
+          "atLevel": 1
+        },
+        {
+          "id": "paladin-paladin-s-fervor",
+          "entryId": "modern4e.feature.paladin-paladin-s-fervor",
+          "atLevel": 1
+        },
+        {
+          "id": "paladin-channel-divinity",
+          "entryId": "modern4e.feature.paladin-channel-divinity",
+          "atLevel": 1
+        },
+        {
+          "id": "paladin-paladin-s-grace",
+          "entryId": "modern4e.feature.paladin-paladin-s-grace",
+          "atLevel": 1
+        }
+      ],
+      "statistics": {
+        "defenses": {
+          "FORTITUDE": 12,
+          "REFLEX": 12,
+          "WILL": 12
+        },
+        "health": {
+          "base": 20,
+          "perLevel": 6,
+          "constitutionMultiplier": 2
+        },
+        "healingSurges": {
+          "base": 10,
+          "constitutionMultiplier": 1
+        }
+      },
+      "abilities": {
+        "main": [
+          "STRENGTH",
+          "CHARISMA"
+        ],
+        "secondary": [
+          "WISDOM"
+        ]
+      },
+      "proficiencies": {
+        "armor": [
+          "LIGHT",
+          "HEAVY"
+        ],
+        "shields": [
+          "LIGHT_SHIELD",
+          "HEAVY_SHIELD"
+        ],
+        "weapons": [
+          "SIMPLE_MELEE",
+          "SIMPLE_RANGED",
+          "MILITARY_MELEE"
+        ],
+        "implements": [
+          "HOLY_SYMBOL"
+        ]
+      }
+    }
+  ]
+}

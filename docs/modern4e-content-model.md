@@ -10,7 +10,7 @@ The [ordered power contract](modern4e-power-authoring.md) revises
 the power body around ordered blocks, attack groups, independent activations and
 explicit structural references. Sixteen published-reference fixtures and a strict
 read-only validator exercise the shape. Class catalog/export v2 and Typst now
-consume it for Fighter and the six Leaders; ancestry powers keep their own
+consume it for all four Defenders, six Leaders and three Controllers; ancestry powers keep their own
 schema. Runtime combat interpretation remains unimplemented. Psionics and Monks
 remain outside its scope.
 
@@ -131,14 +131,15 @@ v1 runtime package. Runtime condition and selection-rule evaluation and
 category-specific mechanics remain separate implementation work.
 
 
-## Class authoring, Fighter and Leaders
+## Class authoring, Defenders, Leaders and Controllers
 
 The [class authoring contract](../src/modern4e/content/classes/README.md) extends
 this base with full class flavor, role/sources, abilities, proficiencies, local
 statistics, automatic acquisition grants, independently identified features/powers
-and explanatory rules. Fighter, Artificer, Bard, Cleric, Runepriest, Shaman and
-Warlord render directly from these JSON definitions, including their granted
-powers in the ordered format. Existing Fighter and 19 predeclared Leader
+and explanatory rules. Fighter, Paladin, Swordmage, Warden, Artificer, Bard,
+Cleric, Runepriest, Shaman, Warlord, Druid, Invoker and Wizard render directly from these JSON definitions,
+including their granted powers in the ordered format. Existing Fighter and
+47 predeclared class feature/power
 feature/power identities are retained. Feature sections preserve prose/card/choice
 ordering; page and column layout remain in Typst.
 Shared initial power choices are separate from class entries; feature-owned
@@ -147,7 +148,7 @@ owned collections model learned/stored/prepared choices (Wizard).
 
 `scripts/class_content.py` validates and exports a deterministic authoring catalog,
 not an enabled runtime package. Exceptional-class fixtures establish data shapes;
-the other 12 class migrations, engine interpretation and runtime package adoption
+the six Striker migrations, engine interpretation and runtime package adoption
 remain separate work. Existing feat data and its contracts remain independently
 owned; the feat registry's pending external-reference statuses do not yet resolve
 against class authoring definitions at runtime.

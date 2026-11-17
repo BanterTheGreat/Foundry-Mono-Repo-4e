@@ -1,0 +1,830 @@
+{
+  "schemaVersion": 1,
+  "features": [
+    {
+      "id": "modern4e.feature.wizard-spellbook",
+      "title": "Spellbook",
+      "description": "You possess a spellbook, a book full of mystic lore in which you store your rituals and your daily and utility spells.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented.",
+          "Initial daily acquisition/storage and daily preparation are structured. Later acquisition slots, utility preparation, technique page costs and extended-rest execution remain literal rules pending full progression; collection capacity counts entries, not technique page usage."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "You possess a spellbook, a book full of mystic lore in which you store your rituals and your daily and utility spells."
+        },
+        {
+          "type": "heading",
+          "title": "Daily and Utility Powers"
+        },
+        {
+          "type": "text",
+          "text": "Your spellbook holds your wizard daily attack powers and wizard utility powers (not including your cantrips). You begin with four daily attack powers in your spellbook, two of which you can prepare on any given day. Each time you gain a level that lets you select a wizard daily attack power or a wizard utility power, choose two different powers of that type at that level and add them to your book. After each extended rest, you can prepare a number of daily attack powers and utility powers according to what you can use per day for your level (see the Wizard Powers Prepared per Day table). You can't prepare the same power twice on the same day.\n\nIf you replace a power because of gaining a level or through retraining, the previous power vanishes from your spellbook and is replaced by the new power."
+        },
+        {
+          "type": "heading",
+          "title": "Techniques"
+        },
+        {
+          "type": "text",
+          "text": "Your book also contains three 1st-level magic Techniques of your choice that you have mastered. At 5th level, and again at 11th, 15th, 21st, and 25th level, you master two more Techniques of your choice and add them to your spellbook. When you choose the Techniques , they must be your level or lower."
+        },
+        {
+          "type": "heading",
+          "title": "Capacity"
+        },
+        {
+          "type": "text",
+          "text": "A typical spellbook has 128 pages. Each power takes up 1 page. A Techniques takes up a number of pages equal to its level."
+        },
+        {
+          "type": "table",
+          "title": "Wizard powers prepared per day",
+          "columns": [
+            "Level",
+            "Daily",
+            "Utility"
+          ],
+          "rows": [
+            [
+              "1",
+              "2",
+              "-"
+            ],
+            [
+              "2-4",
+              "2",
+              "1"
+            ],
+            [
+              "5",
+              "3",
+              "1"
+            ],
+            [
+              "6-8",
+              "3",
+              "2"
+            ],
+            [
+              "9",
+              "3",
+              "2"
+            ],
+            [
+              "10-15",
+              "3",
+              "3"
+            ],
+            [
+              "16-21",
+              "3",
+              "4"
+            ],
+            [
+              "22-30",
+              "3",
+              "5"
+            ]
+          ]
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.wizard-prepare-dailies"
+        }
+      ],
+      "collections": [
+        {
+          "id": "modern4e.collection.wizard-spellbook",
+          "title": "Spellbook",
+          "capacity": 128
+        },
+        {
+          "id": "modern4e.collection.wizard-prepared-daily",
+          "title": "Prepared spells",
+          "capacity": 3
+        }
+      ],
+      "selectionModifiers": [
+        {
+          "choiceId": "modern4e.choice.class-attack-daily",
+          "count": 4,
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ],
+          "collection": "modern4e.collection.wizard-spellbook",
+          "replacement": "FOLLOW_TARGET"
+        }
+      ],
+      "choices": [
+        {
+          "id": "modern4e.choice.wizard-prepare-dailies",
+          "title": "Prepare daily spells",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": {
+            "byLevel": [
+              {
+                "atLevel": 1,
+                "count": 2
+              },
+              {
+                "atLevel": 5,
+                "count": 3
+              }
+            ]
+          },
+          "source": {
+            "type": "query",
+            "category": "POWER",
+            "filters": {
+              "usage": "DAILY",
+              "powerKind": "ATTACK",
+              "levelMaximum": "CHARACTER",
+              "access": "CHARACTER"
+            }
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ],
+          "collection": "modern4e.collection.wizard-prepared-daily",
+          "requiresCollection": "modern4e.collection.wizard-spellbook"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.wizard-orb-of-imposition",
+      "title": "Orb of Imposition",
+      "description": "Once per encounter, you can use your Orb of Imposition power.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "wizard-orb-of-imposition",
+          "entryId": "modern4e.power.orb-of-imposition",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "Once per encounter, you can use your Orb of Imposition power."
+        },
+        {
+          "type": "grant",
+          "grantId": "wizard-orb-of-imposition"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.wizard-staff-of-defense",
+      "title": "Staff of Defense",
+      "description": "A staff of defense grants you a +1 bonus to AC. In addition, once per encounter, you can use the Staff of Defense power.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "wizard-staff-of-defense",
+          "entryId": "modern4e.power.staff-of-defense",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "A staff of defense grants you a +1 bonus to AC. In addition, once per encounter, you can use the Staff of Defense power."
+        },
+        {
+          "type": "grant",
+          "grantId": "wizard-staff-of-defense"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.wizard-wand-of-accuracy",
+      "title": "Wand of Accuracy",
+      "description": "Once per encounter, you can use your Wand of Accuracy power.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "wizard-wand-of-accuracy",
+          "entryId": "modern4e.power.wand-of-accuracy",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "Once per encounter, you can use your Wand of Accuracy power."
+        },
+        {
+          "type": "grant",
+          "grantId": "wizard-wand-of-accuracy"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.wizard-orb-of-deception",
+      "title": "Orb of Deception",
+      "description": "Once per encounter, you can use your Orb of Deception power.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "wizard-orb-of-deception",
+          "entryId": "modern4e.power.orb-of-deception",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "Once per encounter, you can use your Orb of Deception power."
+        },
+        {
+          "type": "grant",
+          "grantId": "wizard-orb-of-deception"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.tome-of-binding",
+      "title": "Tome of Binding",
+      "description": "Once per encounter, as a free action, if you use your tome when using an arcane summoning power, all creatures summoned by that power gain a bonus to damage rolls equal to your Constitution.\n\nYou must wield a tome to benefit from this feature.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "Once per encounter, as a free action, if you use your tome when using an arcane summoning power, all creatures summoned by that power gain a bonus to damage rolls equal to your Constitution.\n\nYou must wield a tome to benefit from this feature."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.tome-of-readiness",
+      "title": "Tome of Readiness",
+      "description": "When you select this form of implement mastery, choose a wizard encounter attack power of your level or lower that you don't already know. That power is now stored and available for your use at a later time.\n\nOnce per encounter as a free action, you can use the stored power by expending another unused wizard encounter attack power of its level or higher. You must still take the normal action required to use the stored power.\n\nEach time you reach a level that lets you choose an encounter power, you can replace the stored power with a new wizard encounter attack power of your level or lower that you do not already know.\n\nYou must wield a tome to benefit from this feature.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented.",
+          "The stored encounter-power substitution or technique acquisition remains literal rules pending its runtime/catalog implementation."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "When you select this form of implement mastery, choose a wizard encounter attack power of your level or lower that you don't already know. That power is now stored and available for your use at a later time.\n\nOnce per encounter as a free action, you can use the stored power by expending another unused wizard encounter attack power of its level or higher. You must still take the normal action required to use the stored power.\n\nEach time you reach a level that lets you choose an encounter power, you can replace the stored power with a new wizard encounter attack power of your level or lower that you do not already know.\n\nYou must wield a tome to benefit from this feature."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.wizard-arcane-implement-mastery",
+      "title": "Arcane Implement Mastery",
+      "description": "You specialize in the use of one kind of implement to gain additional abilities when you wield it. Choose one of the following forms of implement mastery below.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "choices": [
+        {
+          "id": "modern4e.choice.wizard-arcane-implement-mastery",
+          "title": "Arcane Implement Mastery",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 1,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.wizard-orb-of-imposition",
+              "modern4e.feature.wizard-staff-of-defense",
+              "modern4e.feature.wizard-wand-of-accuracy",
+              "modern4e.feature.wizard-orb-of-deception",
+              "modern4e.feature.tome-of-binding",
+              "modern4e.feature.tome-of-readiness"
+            ]
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You specialize in the use of one kind of implement to gain additional abilities when you wield it. Choose one of the following forms of implement mastery below."
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.wizard-arcane-implement-mastery"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.wizard-chameleon-s-mask",
+      "title": "Chameleon's Mask",
+      "description": "Chameleon's Mask",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "wizard-chameleon-s-mask",
+          "entryId": "modern4e.power.wizard-chameleon-s-mask",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "grant",
+          "grantId": "wizard-chameleon-s-mask"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.wizard-spook",
+      "title": "Spook",
+      "description": "Spook",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "wizard-spook",
+          "entryId": "modern4e.power.wizard-spook",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "grant",
+          "grantId": "wizard-spook"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.wizard-suggestion",
+      "title": "Suggestion",
+      "description": "Suggestion",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "wizard-suggestion",
+          "entryId": "modern4e.power.wizard-suggestion",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "grant",
+          "grantId": "wizard-suggestion"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.wizard-water-stride",
+      "title": "Water Stride",
+      "description": "Water Stride",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "wizard-water-stride",
+          "entryId": "modern4e.power.wizard-water-stride",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "grant",
+          "grantId": "wizard-water-stride"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.wizard-whispering-wind",
+      "title": "Whispering Wind",
+      "description": "Whispering Wind",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "wizard-whispering-wind",
+          "entryId": "modern4e.power.wizard-whispering-wind",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "grant",
+          "grantId": "wizard-whispering-wind"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.wizard-prestidigitation",
+      "title": "Prestidigitation",
+      "description": "Prestidigitation",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "wizard-prestidigitation",
+          "entryId": "modern4e.power.wizard-prestidigitation",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "grant",
+          "grantId": "wizard-prestidigitation"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.wizard-ghost-sound",
+      "title": "Ghost Sound",
+      "description": "Ghost Sound",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "wizard-ghost-sound",
+          "entryId": "modern4e.power.wizard-ghost-sound",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "grant",
+          "grantId": "wizard-ghost-sound"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.wizard-light",
+      "title": "Light",
+      "description": "Light",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "wizard-light",
+          "entryId": "modern4e.power.wizard-light",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "grant",
+          "grantId": "wizard-light"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.wizard-mage-hand",
+      "title": "Mage Hand",
+      "description": "Mage Hand",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "wizard-mage-hand",
+          "entryId": "modern4e.power.wizard-mage-hand",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "grant",
+          "grantId": "wizard-mage-hand"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.wizard-cantrips",
+      "title": "Cantrips",
+      "description": "You may choose 4 cantrips from the options below.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "choices": [
+        {
+          "id": "modern4e.choice.wizard-cantrips",
+          "title": "Cantrips",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 4,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.wizard-chameleon-s-mask",
+              "modern4e.feature.wizard-spook",
+              "modern4e.feature.wizard-suggestion",
+              "modern4e.feature.wizard-water-stride",
+              "modern4e.feature.wizard-whispering-wind",
+              "modern4e.feature.wizard-prestidigitation",
+              "modern4e.feature.wizard-ghost-sound",
+              "modern4e.feature.wizard-light",
+              "modern4e.feature.wizard-mage-hand"
+            ]
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You may choose 4 cantrips from the options below."
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.wizard-cantrips"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.wizard-arcane-techniques",
+      "title": "Arcane Techniques",
+      "description": "You gain the Technique Master feat for Arcane Techniques.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented.",
+          "The stored encounter-power substitution or technique acquisition remains literal rules pending its runtime/catalog implementation."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "You gain the Technique Master feat for Arcane Techniques."
+        }
+      ]
+    }
+  ]
+}

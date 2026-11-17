@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "classes": [
+    {
+      "id": "modern4e.class.swordmage",
+      "title": "Swordmage",
+      "description": "Swordmage is an Intelligence-based Arcane Defender. Teleports around the battlefield, protected by magical barriers. Shields allies and harries enemies with steel and spell.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "flavor": {
+        "quote": "Under the leaves of Myth Drannor I learned the ancient eladrin way of battle. Spells are my armor, and words of ruin are bound to my blade.",
+        "introduction": [
+          "Swordmages apply the arcane arts to melee combat. The combat skills they possess are enhanced by the magic they wield. The flourish of a swordmage's blade not only bites with steel, but also with fire, lightning, or other powerful forces.",
+          "You studied and practiced for years to master your skills. You mastered the fundamentals of arcane magic and combined this academic study with endless hours of physical training. You might be a young eladrin in search of your fortune, a stranger to the wider world outside the seclusion of your homeland; a self-trained genasi sellsword, gifted with an affinity for elemental magic; the scion of a disgraced noble human family, taught by the finest tutors in your youth but now a footloose expatriate; or a half-elf arcane champion, rigorously trained in a war magic academy to serve in the armies of your homeland.",
+          "Magical barriers of force swirl around you, protecting you from harm. The blade you carry is an extension of your being, both body and mind. It pulses with eldritch energy as you prepare to defend your allies and unleash magical fury against your foes."
+        ],
+        "gameplay": "Swordmage is an Intelligence-based *Arcane Defender*. Teleports around the battlefield, protected by magical barriers. Shields allies and harries enemies with steel and spell."
+      },
+      "role": "DEFENDER",
+      "powerSources": [
+        "MARTIAL",
+        "ARCANE"
+      ],
+      "ruleIds": [],
+      "grants": [
+        {
+          "id": "swordmage-swordbond",
+          "entryId": "modern4e.feature.swordmage-swordbond",
+          "atLevel": 1
+        },
+        {
+          "id": "swordmage-spellwarden-warden",
+          "entryId": "modern4e.feature.swordmage-spellwarden-warden",
+          "atLevel": 1
+        },
+        {
+          "id": "swordmage-spellwarden-aegis",
+          "entryId": "modern4e.feature.swordmage-spellwarden-aegis",
+          "atLevel": 1
+        }
+      ],
+      "statistics": {
+        "defenses": {
+          "FORTITUDE": 11,
+          "REFLEX": 11,
+          "WILL": 13
+        },
+        "health": {
+          "base": 19,
+          "perLevel": 6,
+          "constitutionMultiplier": 2
+        },
+        "healingSurges": {
+          "base": 8,
+          "constitutionMultiplier": 1
+        }
+      },
+      "abilities": {
+        "main": [
+          "INTELLIGENCE"
+        ],
+        "secondary": [
+          "CONSTITUTION",
+          "STRENGTH"
+        ]
+      },
+      "proficiencies": {
+        "armor": [
+          "CLOTH",
+          "LEATHER"
+        ],
+        "shields": [],
+        "weapons": [
+          "SIMPLE_MELEE",
+          "MILITARY_LIGHT_BLADE",
+          "MILITARY_HEAVY_BLADE"
+        ],
+        "implements": [
+          "LIGHT_BLADE",
+          "HEAVY_BLADE"
+        ]
+      }
+    }
+  ]
+}

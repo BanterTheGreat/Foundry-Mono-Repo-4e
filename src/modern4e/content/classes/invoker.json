@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "classes": [
+    {
+      "id": "modern4e.class.invoker",
+      "title": "Invoker",
+      "description": "Invoker is a Wisdom-based Divine Controller. In short, a Divine Wizard. Can specialize into enabling allies, as well. Invoke the power of a god to blast your foes from a distance, leave them unable to defend themselves, and scatter them to the four winds. You're basically Moses.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "flavor": {
+        "quote": "The only thing stronger than my faith is the fire I use to burn away those who stand against the will of the gods.",
+        "introduction": [
+          "At the dawn of time, the gods who inhabited the Astral Sea warred with the primordials of the Elemental Chaos, the mighty beings who shaped the world out of formless void. The greatest of the gods' mortal agents in that war were invokers, imbued with a fragment of the gods' own might to fight alongside them. No other mortal servant of the gods can claim the same kind of power. Through rites of investiture, avengers, clerics, and paladins gain the ability to manifest echoes of that power, uttering careful prayers and channeling divine energy through their holy symbols. You, however, channel your god's power directly. No mere symbol can contain it, for you speak the words of creation, shaping the universe to your and your god's will.",
+          "Perhaps you were trained in a secret monastery, or you studied in a library where the universe's oldest lore was preserved. Or perhaps you experienced the presence of your god firsthand and took a shard of divine power into yourself. You might even be an immortal born into flesh, slowly awakening to the awesome divine power that is your birthright. Whatever your past, you are among the gods' most trusted servants, bound to a covenant in which you swore to use divine power with great care. To what end will you wield that might?"
+        ],
+        "gameplay": "Invoker is a Wisdom-based *Divine Controller*. In short, a Divine Wizard. Can specialize into enabling allies, as well. Invoke the power of a god to blast your foes from a distance, leave them unable to defend themselves, and scatter them to the four winds. You're basically Moses."
+      },
+      "role": "CONTROLLER",
+      "powerSources": [
+        "DIVINE"
+      ],
+      "ruleIds": [],
+      "grants": [
+        {
+          "id": "invoker-channel-divinity",
+          "entryId": "modern4e.feature.invoker-channel-divinity",
+          "atLevel": 1
+        },
+        {
+          "id": "invoker-divine-covenant",
+          "entryId": "modern4e.feature.invoker-divine-covenant",
+          "atLevel": 1
+        },
+        {
+          "id": "invoker-ritual-casting",
+          "entryId": "modern4e.feature.invoker-ritual-casting",
+          "atLevel": 1
+        }
+      ],
+      "statistics": {
+        "defenses": {
+          "FORTITUDE": 12,
+          "REFLEX": 12,
+          "WILL": 12
+        },
+        "health": {
+          "base": 16,
+          "perLevel": 4,
+          "constitutionMultiplier": 2
+        },
+        "healingSurges": {
+          "base": 6,
+          "constitutionMultiplier": 1
+        }
+      },
+      "abilities": {
+        "main": [
+          "WISDOM"
+        ],
+        "secondary": [
+          "CONSTITUTION",
+          "INTELLIGENCE"
+        ]
+      },
+      "proficiencies": {
+        "armor": [
+          "LIGHT",
+          "CHAINMAIL"
+        ],
+        "shields": [],
+        "weapons": [
+          "SIMPLE_MELEE",
+          "SIMPLE_RANGED"
+        ],
+        "implements": [
+          "ROD",
+          "STAFF"
+        ]
+      }
+    }
+  ]
+}
