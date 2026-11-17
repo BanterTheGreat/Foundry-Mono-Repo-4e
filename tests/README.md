@@ -498,3 +498,9 @@ selection/downloads exercise the shared codec; content tests exercise the shared
 catalog over generated JSON assets and distinguish asset failures. Injected quota
 and database failures are deterministic fault tests, not attempts to fill the host
 browser's disk. No Foundry or Android emulator is required.
+
+### Android Home and Character Overview (#22/#23)
+
+From `src/character-builder`, run `bash ./gradlew :android:testDebugUnitTest` for adapter and workflow tests. `BuilderSessionTest` covers durable create/open/edit/cancel/reopen, failed-save protection and mandatory error reset, newer/older import collision previews, copy/cancel/replace, recovery restoration, unsupported input, retained equipment/adjustment operations, confirmed deletion/cancellation/failure/reset with recovery retention, personal-detail cancel/save/clear/reopen missing content with unrelated edits, blocked actions after operational failure, session reset, committed-save preservation and fresh workflows after reset. `FolioScrollbarTest` checks overflow visibility, proportional start/middle/end positions, minimum thumb length, small viewports and overscroll clamping. `CharacterDateTest` covers European calendar dates, offsets, fractional seconds, leap days and invalid input. Shared `CharacterIdentityTest` covers legacy JSON compatibility, personal-detail round trips and strict field types.
+
+When UI testing is authorized, `ANDROID_SERIAL=<test-device> bash ./gradlew :android:connectedDebugAndroidTest` runs the native overview route test and adapter instrumentation tests. `SmokeScreenTest` covers accessible portrait/personal-detail controls, simplified overview contents, cancel/save/reopen and swipes between Overview, the Progression stub and Validation. These UI tests have not been rerun for the latest layout revision, at the user’s request. The system document picker and physical-device visual acceptance remain manual checks.

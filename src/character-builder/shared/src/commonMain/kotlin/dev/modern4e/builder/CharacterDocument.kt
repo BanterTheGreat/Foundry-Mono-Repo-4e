@@ -1,6 +1,8 @@
 package dev.modern4e.builder
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.EncodeDefault
+import kotlinx.serialization.ExperimentalSerializationApi
 
 /** Portable decisions only. Totals, descriptions and runtime state belong elsewhere. */
 @Serializable
@@ -24,7 +26,19 @@ data class CharacterDocument(
 }
 
 @Serializable
-data class CharacterIdentity(val name: String, val player: String = "", val notes: String = "")
+@OptIn(ExperimentalSerializationApi::class)
+data class CharacterIdentity(
+    val name: String,
+    val player: String = "",
+    val notes: String = "",
+    // Descriptive decisions, independent of calculated combat statistics. Omit empty additions
+    // so existing v1 documents retain their original serialized representation.
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val gender: String = "",
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val age: String = "",
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val deity: String = "",
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val languages: String = "",
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val size: String = "",
+)
 
 @Serializable
 data class PackageRevision(@OpaqueIdentifier val packageId: String, @OpaqueIdentifier val revision: String)
