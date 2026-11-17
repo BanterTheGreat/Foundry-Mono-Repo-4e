@@ -355,7 +355,9 @@ private class Evaluation(private val document: CharacterDocument, private val co
         }
         fun background(kind: String, options: Map<String, List<Skill>>) {
             val prefix = "background.$kind."
-            val sources = proficiencyDecisions.map { it.slot.sourceInstanceId }.filter { it.startsWith(prefix) }.distinct()
+            val explicit = if (kind == "environment") document.identity.environment else document.identity.upbringing
+            val sources = if (explicit.isNotBlank()) listOf(prefix + explicit) else
+                proficiencyDecisions.map { it.slot.sourceInstanceId }.filter { it.startsWith(prefix) }.distinct()
             if (sources.size != 1) {
                 invalid("background", "Select exactly one $kind and its skill.", ChoiceSlotId("background.$kind", "skill", 0))
                 return

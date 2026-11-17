@@ -84,7 +84,7 @@ fun BuilderApp(model: BuilderSession, exchange: FileExchange) {
                     Row(Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
                         CharacterTabs.forEach { page ->
                             TextButton(enabled = !model.busy, onClick = { model.page = page }, modifier = Modifier.weight(1f).semantics { selected = model.page == page; role = Role.Tab }) {
-                                Text(if (page == "character") "Overview" else page.readable(), color = if (page == model.page) Accent else Dim)
+                                Text(if (page == "character") "Overview" else if (page == "progression") "Progression (${model.current?.let { Progression.missing(it) } ?: 0})" else page.readable(), color = if (page == model.page) Accent else Dim)
                             }
                         }
                     }

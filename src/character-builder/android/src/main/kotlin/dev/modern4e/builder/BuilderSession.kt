@@ -265,6 +265,36 @@ class BuilderSession(
         }
     }
 
+    /** Catalog options and draft calculations use the same shared coordinator as committed edits. */
+    suspend fun progressionOptions(level: Int, slot: ChoiceSlotId): List<BuilderOption> =
+        withContext(Dispatchers.IO) {
+            if (level <= 2) {
+                operations?.options(current!!.document, level, slot, true).orEmpty()
+            } else {
+                val category = if (slot.choiceId == "feat") EntryCategory.FEAT else EntryCategory.POWER
+                catalog?.search(category = category).orEmpty().mapNotNull { metadata ->
+                    val resolved = (catalog?.lookup(metadata.metadata.id) as? ContractResult.Available)?.value ?: return@mapNotNull null
+                    BuilderOption(resolved, Eligibility.INCOMPLETE, listOf(Diagnostic("android.progression", DiagnosticKind.INCOMPLETE_AUTOMATION,
+                        "Later-level eligibility is not evaluated by the proof engine.")))
+                }
+            }
+        }
+
+    suspend fun previewProgression(edit: BuilderEdit): BuilderState? = withContext(Dispatchers.IO) {
+        operations?.apply(current!!.document, edit)?.takeIf { it.applied }?.state
+    }
+
+    /** Store origin independently so changing it can leave its required skill genuinely empty. */
+    fun backgroundEdit(kind: String, name: String): BuilderEdit {
+        val document = current!!.document
+        val old = document.levels.flatMap { it.proficiencies }.filter {
+            it.slot.sourceInstanceId.startsWith("background.$kind.")
+        }.map { it.slot }.toSet()
+        val identity = if (kind == "environment") document.identity.copy(environment = name)
+            else document.identity.copy(upbringing = name)
+        return BuilderEdit.Batch(listOf(BuilderEdit.Identity(identity), BuilderEdit.RemoveProficiency(old)))
+    }
+
     fun beginEdit(field: String) {
         dialog = field
         draft = when (field) {

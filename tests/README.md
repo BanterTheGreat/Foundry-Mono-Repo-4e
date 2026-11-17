@@ -1,5 +1,12 @@
 # Running tests yourself
 
+Modern 4e feat JSON, complete rulebook references, and safe Typst rendering (the renderer check requires Typst on PATH or `TYPST_BIN`):
+
+```sh
+node --test scripts/test/modern4e-feats.test.mjs
+npm run typst:compile
+```
+
 Dungeondraft tooling, including explicit multilevel generation, validation, and level previews:
 
 ```sh
@@ -505,4 +512,12 @@ The presentation split (#27) uses the same workflow and Compose regression suite
 
 From `src/character-builder`, run `bash ./gradlew :android:testDebugUnitTest` for adapter and workflow tests. `BuilderSessionTest` covers durable create/open/edit/cancel/reopen, failed-save protection and mandatory error reset, newer/older import collision previews, copy/cancel/replace, recovery restoration, unsupported input, retained equipment/adjustment operations, confirmed deletion/cancellation/failure/reset with recovery retention, personal-detail cancel/save/clear/reopen missing content with unrelated edits, blocked actions after operational failure, session reset, committed-save preservation and fresh workflows after reset. `FolioScrollbarTest` checks overflow visibility, proportional start/middle/end positions, minimum thumb length, small viewports and overscroll clamping. `CharacterDateTest` covers European calendar dates, offsets, fractional seconds, leap days and invalid input. Shared `CharacterIdentityTest` covers legacy JSON compatibility, personal-detail round trips and strict field types.
 
-When UI testing is authorized, `ANDROID_SERIAL=<test-device> bash ./gradlew :android:connectedDebugAndroidTest` runs the native overview route test and adapter instrumentation tests. `SmokeScreenTest` covers accessible portrait/personal-detail controls, simplified overview contents, cancel/save/reopen and swipes between Overview, the Progression stub and Validation. These UI tests have not been rerun for the latest layout revision, at the user’s request. The system document picker and physical-device visual acceptance remain manual checks.
+When UI testing is authorized, `ANDROID_SERIAL=<test-device> bash ./gradlew :android:connectedDebugAndroidTest` runs the native overview route test and adapter instrumentation tests. `SmokeScreenTest` covers accessible portrait/personal-detail controls, simplified overview contents, cancel/save/reopen and swipes between Overview, Progression and Validation. These UI tests have not been rerun for the latest layout revision, at the user’s request. The system document picker and physical-device visual acceptance remain manual checks.
+
+Android Progression non-UI checks (from `src/character-builder/`):
+
+```sh
+JAVA_HOME=$(/usr/libexec/java_home -v 21) bash ./gradlew :shared:jvmTest :android:testDebugUnitTest :android:assembleDebug
+```
+
+`ProgressionTest` covers printed schedule milestones and the direct-point allocation/tradeoff. `BuilderSessionTest` covers independent origin persistence, stale-skill clearing, engine-backed drafts, stable occurrences, atomic batch rejection and explicitly incomplete later-level decisions. UI/instrumentation tests are deliberately not run for this handoff. Device launch is a separate manual acceptance step.

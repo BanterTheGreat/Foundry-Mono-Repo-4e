@@ -281,29 +281,58 @@
   )
 }
 
+// Render the small prose subset used by feat JSON without evaluating Typst code.
+#let featDescription(description) = {
+  let inline(value) = value.split("*").enumerate().map(((index, part)) => {
+    let body = part.split("_").enumerate().map(((index, part)) => {
+      let body = text(part.replace("'", "’"))
+      if calc.odd(index) { emph(body) } else { body }
+    }).join()
+    if calc.odd(index) { strong(body) } else { body }
+  }).join()
+  let paragraphs = description.split("\n\n")
+  let result = ()
+  let bullets = ()
+  for paragraph in paragraphs {
+    if paragraph.starts-with("- ") {
+      bullets.push(inline(paragraph.slice(2)))
+    } else {
+      if bullets.len() > 0 {
+        result.push(list(..bullets))
+        bullets = ()
+      }
+      result.push(inline(paragraph))
+    }
+  }
+  if bullets.len() > 0 {
+    result.push(list(..bullets))
+  }
+  result.join(parbreak())
+}
+
 #let featCardsFromJson(file) = {
-  let data = json(file)
-  data.feats.map(feat => featBlock(
+  json(file).feats.map(feat => featBlock(
     title: feat.title,
-    // Preserve bold emphasis without interpreting descriptions as Typst code.
-    content: feat.description.split("\n\n").map(paragraph => {
-      paragraph.split("*").enumerate().map(((index, part)) => {
-        let body = text(part.replace("'", "’"))
-        if calc.odd(index) { strong(body) } else { body }
-      }).join()
-    }).join(parbreak()),
+    content: featDescription(feat.description),
     requirements: feat.at("requirements", default: none),
   ))
 }
 
-#let featBlocksFromJson(file) = {
-  let data = json(file)
-  for feat in data.feats [
-    #featBlock(
-      title: feat.title,
-      content: feat.at("description", default: none),
-      requirements: feat.at("requirements", default: none),
-    )
+// Optional ranges keep explicit page breaks and card wrappers in the page source.
+#let featBlocksFromJson(file, start: 0, end: none) = {
+  let cards = featCardsFromJson(file)
+  for card in cards.slice(start, end) [#card]
+}
+
+// Multiclass feats retain their original heading-and-prose layout.
+#let featChoicesFromJson(file) = {
+  for feat in json(file).feats [
+    #choiceBox(feat.title)
+    #if feat.requirements != none [
+      *Requires: #text(feat.requirements)* #linebreak()
+    ]
+    #featDescription(feat.description)
+    #parbreak()
   ]
 }
 

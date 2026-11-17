@@ -118,33 +118,7 @@
       == Rune Feats
       Any Feat ending with [Rune] is a rune feat.
 
-      #theme.featBlock(
-        title: "Rune of Hope [Rune]",
-        content: [
-          The target of your rune of mending also gains temporary hit points equal to the number of rune feats you have.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Rune of Zeal [Rune]",
-        content: [
-          The target of your rune of mending gains a bonus to damage rolls to their next hit until the end of their next turn equal to the number of rune feats you have.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Rune of Preparation [Rune]",
-        content: [
-          When you roll initiative, you may select an amount of allies equal to the number of rune feats you have, they gain a +1 bonus to initiative.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Rune of Vengeance [Rune]",
-        content: [
-          The first time you are bloodied during an encounter, you gain a bonus to damage rolls equal to the number of rune feats you have. The bonus lasts until the end of your next turn.
-        ],
-      );
+      #theme.featBlocksFromJson("../content/feats/heroic/runepriest.json");
     ]
 
     #pagebreak();
@@ -154,41 +128,7 @@
     ]
 
     #columns(2)[
-      // https://iws.mx/dnd/?view=feat2640 — Player's Handbook 3, page(s) 186.
-      #theme.featBlock(
-        title: "Defiant Light",
-        requirements: "11th level, Defiant Word",
-        content: [
-          You gain resist 5 necrotic and resist 5 radiant. You also gain a +1 bonus to attack rolls with runepriest powers against targets that are vulnerable to radiant damage.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat2660 — Player's Handbook 3, page(s) 189.
-      #theme.featBlock(
-        title: "Rune of Escape [Rune]",
-        requirements: "11th level",
-        content: [
-          Whenever an ally within 5 squares of you uses their second wind, that ally can use a free action to shift a number of squares equal to the number of rune feats you have.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat2661 — Player's Handbook 3, page(s) 189.
-      #theme.featBlock(
-        title: "Rune of Torment [Rune]",
-        requirements: "11th level",
-        content: [
-          Whenever an enemy within 5 squares of you fails a saving throw against an effect caused by your runepriest powers, that enemy takes damage equal to the number of rune feats you have.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat2669 — Player's Handbook 3, page(s) 189.
-      #theme.featBlock(
-        title: "Wrath of Defeat",
-        requirements: "11th level, Wrathful Hammer",
-        content: [
-          When you drop to 0 hit points or fewer, you can use an immediate interrupt to make a melee basic attack with a +2 bonus to the attack roll.
-        ],
-      );
+      #theme.featBlocksFromJson("../content/feats/paragon/runepriest.json");
     ]
   ]
 }

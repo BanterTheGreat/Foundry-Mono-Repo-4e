@@ -111,56 +111,10 @@
     ]
 
     #columns(2)[
-      #theme.featBlock(
-        title: "Accurate Magic Weapon",
-        content: [
-          Whenever you use an Artificer power that targets a weapon or an implement, the next attack roll with that weapon or implement before the end of the encounter gains a +1 bonus.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Arcane Trapsmith",
-        content: [
-          You can use your knowledge of the Arcane during Skill Checks to disable traps or open locks. You gain a +4 feat bonus to checks related to arcane traps or hazards.
-        ],
-      );
-
-
-      #theme.featBlock(
-        title: "Crossbow Caster",
-        content: [
-          You can use a crossbow as an implement for your Artificer powers and Artificer paragon path powers.
-        ],
-      );
+      #theme.featBlocksFromJson("../content/feats/heroic/artificer.json", start: 0, end: 3);
 
       #colbreak();
-      #theme.featBlock(
-        title: "Defensive Minions",
-        content: [
-          A creature you summon using an Artificer summoning power has a +2 feat bonus to all defenses.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Master Mixer",
-        content: [
-          You can make alchemical items of your level + 3 or lower. You must have the correct formula and an appropriate skill.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Potent Restorables",
-        content: [
-          Your Artificer healing powers restore 2 extra hit points. The extra hit points increase to 3 at 6th level, to 4 at 11th level, to 5 at 16th level, to 6 at 21st level, and to 7 at 26th level.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Improved Augment Energy",
-        content: [
-          The Augment Energy option of your Arcane Empowerment class feature grants a +4 bonus to the attack roll instead of +2.
-        ],
-      );
+      #theme.featBlocksFromJson("../content/feats/heroic/artificer.json", start: 3, end: 7);
     ]
 
     #pagebreak();
@@ -170,32 +124,7 @@
     ]
 
     #columns(2)[
-      // https://iws.mx/dnd/?view=feat1416 — Eberron Player's Guide, page(s) 93.
-      #theme.featBlock(
-        title: "Enhanced Resistive Formula",
-        requirements: "11th level",
-        content: [
-          When your resistive formula grants temporary hit points to you or an ally, that character can grant an equal number of temporary hit points to one ally within 5 squares of them.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat2113 — Dragon Magazine 381, page(s) 62.
-      #theme.featBlock(
-        title: "Rapid Infusion",
-        requirements: "11th level",
-        content: [
-          You can use your Healing Infusion powers as free actions on your turn instead of as a minor action.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat2114 — Dragon Magazine 381, page(s) 62.
-      #theme.featBlock(
-        title: "Retribution Seeker",
-        requirements: "11th level",
-        content: [
-          You gain a +2 feat bonus to damage rolls with arcane attack powers against enemies adjacent to at least one of your allies.
-        ],
-      );
+      #theme.featBlocksFromJson("../content/feats/paragon/artificer.json");
     ]
   ]
 }

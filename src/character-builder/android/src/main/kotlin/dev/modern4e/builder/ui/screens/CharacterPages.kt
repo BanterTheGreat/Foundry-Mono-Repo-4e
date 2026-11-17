@@ -36,10 +36,7 @@ internal fun CharacterPages(state: BuilderState, model: BuilderSession) {
         userScrollEnabled = !model.busy) { index ->
         when (CharacterTabs[index]) {
             "character" -> Overview(state, model)
-            "progression" -> Column(Modifier.fillMaxSize().padding(24.dp)) {
-                Heading("Progression")
-                Text("Build editing is coming later.", color = Dim)
-            }
+            "progression" -> ProgressionScreen(state, model)
             "validation" -> Column(Modifier.fillMaxSize().folioScroll(rememberScrollState()).padding(24.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 Heading("Validation")

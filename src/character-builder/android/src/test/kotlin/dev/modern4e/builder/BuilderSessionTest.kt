@@ -24,6 +24,60 @@ class BuilderSessionTest {
         File(context.filesDir, "characters").deleteRecursively()
         store = AndroidCharacterStore(context)
     }
+    @Test fun laterProgressionRemainsPortableAndExplicitlyIncomplete() = runBlocking {
+        val document = sample().copy(id = "later-progression", level = 4)
+        store.save(document, SaveMode.CREATE)
+        val model = session()
+        model.load(document.id)
+        val advancement = AbilityAdvancement(ChoiceSlotId("advancement.4", "ability", 0), mapOf(Ability.WISDOM to 1))
+        model.edit(BuilderEdit.LaterDecisions(LevelDecisions(4, abilityAdvancements = listOf(advancement))))
+        assertTrue(model.errors.isEmpty())
+        assertTrue(model.current!!.rules.ability(Ability.WISDOM) is ContractResult.Unavailable)
+        assertTrue(model.current!!.rules.diagnostics.any { it.kind == DiagnosticKind.INCOMPLETE_AUTOMATION })
+        val reopened = session()
+        reopened.load(document.id)
+        assertEquals(advancement, reopened.current!!.document.levels.single { it.level == 4 }.abilityAdvancements.single())
+        assertTrue(reopened.progressionOptions(4, ChoiceSlotId("advancement.4", "feat", 0)).isNotEmpty())
+    }
+
+    @Test fun progressionBackgroundClearsSkillAndPersistsIndependentOrigin() = runBlocking {
+        val model = session()
+        model.create()
+        val id = model.current!!.document.id
+        val original = model.current!!.document
+        val candidate = model.previewProgression(model.backgroundEdit("environment", "rural"))!!
+        assertEquals(original, model.current!!.document)
+        assertEquals("rural", candidate.document.identity.environment)
+        assertTrue(candidate.document.levels.flatMap { it.proficiencies }.none {
+            it.slot.sourceInstanceId.startsWith("background.environment.")
+        })
+        assertTrue(candidate.rules.choices.any { it.slot == ChoiceSlotId("background.environment.rural", "skill", 0) })
+        model.edit(model.backgroundEdit("environment", "rural"))
+        val reopened = session()
+        reopened.load(id)
+        assertEquals("rural", Progression.background(reopened.current!!.document, "environment"))
+        val slot = ChoiceSlotId("background.environment.rural", "skill", 0)
+        reopened.edit(BuilderEdit.Proficiency(1, ProficiencyChoice(slot, Skill.PERCEPTION)))
+        assertEquals(Skill.PERCEPTION, reopened.current!!.document.levels.flatMap { it.proficiencies }.single { it.slot == slot }.skill)
+    }
+
+    @Test fun progressionBatchRejectsAtomicallyAndKeepsStableEntryOccurrence() = runBlocking {
+        val model = session()
+        model.create()
+        val original = model.current!!.document
+        val slot = ChoiceSlotId("creation", "class", 0)
+        val selected = original.levels.flatMap { it.entries }.single { it.slot == slot }
+        val options = model.progressionOptions(1, slot)
+        assertTrue(options.any { it.entry.entry.id == selected.selection.entryId })
+        val draft = model.previewProgression(BuilderEdit.Entry(1, slot, selected.selection.entryId, "new-id", true))!!
+        assertEquals(selected.instanceId, draft.document.levels.flatMap { it.entries }.single { it.slot == slot }.instanceId)
+        assertNull(model.previewProgression(BuilderEdit.Batch(listOf(
+            BuilderEdit.Identity(original.identity.copy(name = "Must not publish")),
+            BuilderEdit.Entry(1, slot, "missing-entry", "new-id")
+        ))))
+        assertEquals(original, model.current!!.document)
+    }
+
     @Test fun createCancelSaveReopenAndContributors() = runBlocking {
         val model = session()
         model.refresh()

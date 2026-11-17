@@ -38,6 +38,8 @@ data class CharacterIdentity(
     @EncodeDefault(EncodeDefault.Mode.NEVER) val deity: String = "",
     @EncodeDefault(EncodeDefault.Mode.NEVER) val languages: String = "",
     @EncodeDefault(EncodeDefault.Mode.NEVER) val size: String = "",
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val environment: String = "",
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val upbringing: String = "",
 )
 
 @Serializable

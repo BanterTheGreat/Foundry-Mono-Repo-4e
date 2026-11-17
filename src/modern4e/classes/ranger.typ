@@ -96,73 +96,11 @@
     ]
 
     #columns(2)[
-      #theme.featBlock(
-        title: "Precise Hunter",
-        requirements: "3 Wisdom",
-        content: [
-          When you score a critical hit against the target of your Hunter's Quarry with a ranged attack, your allies gain a +1 bonus to attack rolls against that target until the start of your next turn.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Agile Running Attack",
-        requirements: "Running Attack",
-        content: [
-          When you move as part of using a skirmisher attack power, you ignore difficult terrain.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Flank on the Run",
-        requirements: "Running Attack",
-        content: [
-          Whenever you are adjacent to an enemy and move to another square adjacent to that enemy, you do not provoke an opportunity attack from that enemy for leaving your square.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Hobbling Strike",
-        content: [
-          Whenever you would deal Hunter's Quarry damage, you can forgo one die of that damage to slow the target until the end of your next turn.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Hunter’s Aim",
-        content: [
-          You don't take the normal –2 penalty to attack rolls against your quarry if it has cover or concealment.
-        ],
-      );
+      #theme.featBlocksFromJson("../content/feats/heroic/ranger.json", start: 0, end: 5);
       
       #colbreak();
 
-      #theme.featBlock(
-        title: "Lethal Hunter",
-        content: [
-          The extra damage dice from your Hunter's Quarry class feature increase from d6s to d8s.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Second Shot",
-        content: [
-          You can designate the second-nearest enemy as your quarry instead of the nearest enemy.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Staggering Strike",
-        content: [
-          Whenever you would deal Hunter's Quarry damage to an enemy, you can forgo one die of that damage to push that enemy 1 square.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Swift Footwork",
-        content: [
-          Whenever you use a martial encounter or daily power that allows you to shift, you can shift 2 extra squares.
-        ],
-      );
+      #theme.featBlocksFromJson("../content/feats/heroic/ranger.json", start: 5, end: 9);
     ]
 
     #pagebreak();
@@ -172,86 +110,7 @@
     ]
 
     #columns(2)[
-      // https://iws.mx/dnd/?view=feat833 — Martial Power, page(s) 140.
-      #theme.featBlock(
-        title: "Bleeding Precision",
-        requirements: "11th level",
-        content: [
-          Whenever you hit your quarry with a ranger daily attack power, the target takes ongoing 5 damage (save ends). If the power already deals ongoing damage that has no damage type, instead increase that ongoing damage by 5.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat2495 — Martial Power 2, page(s) 142.
-      #theme.featBlock(
-        title: "Elusive Movement",
-        requirements: "11th level",
-        content: [
-          Whenever you end your turn at least 3 squares away from where you began your turn, you gain a +1 feat bonus to AC and Reflex until the start of your next turn.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat852 — Martial Power, page(s) 144.
-      #theme.featBlock(
-        title: "Hunter's Advantage",
-        requirements: "11th level, elf",
-        content: [
-          You deal 2 extra damage with Hunter's Quarry when you have combat advantage against your quarry.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat353 — Martial Power, page(s) 144.
-      #theme.featBlock(
-        title: "Hunter's Resurgence",
-        requirements: "11th level",
-        content: [
-          When you reduce your quarry to 0 hit points, you can use your second wind as a free action. You do not gain the normal bonus to defenses if you do so.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat859 — Martial Power, page(s) 144.
-      #theme.featBlock(
-        title: "Preternatural Senses",
-        requirements: "11th level, 2 Wisdom, proficiency in Perception",
-        content: [
-          Whenever you make a Perception check, roll twice and use the higher result.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat860 — Martial Power, page(s) 144.
-      #theme.featBlock(
-        title: "Prime Quarry",
-        requirements: "11th level, 2 Wisdom, Prime Shot",
-        content: [
-          The bonus to attack rolls granted by Prime Shot increases to +2 if the target is also your quarry.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat2515 — Martial Power 2, page(s) 143.
-      #theme.featBlock(
-        title: "Retreat Technique",
-        requirements: "11th level",
-        content: [
-          Whenever you hit an enemy with a melee attack during your turn, you don't provoke opportunity attacks from that enemy for moving away from it until the end of your turn.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat1722 — Dragon Magazine 377, page(s) 45.
-      #theme.featBlock(
-        title: "Sniper's Aim",
-        requirements: "11th level, proficiency in Perception",
-        content: [
-          Whenever you miss with a daily ranger attack against your quarry, you can choose to apply your Hunter's Quarry damage. You can still deal Hunter's Quarry damage only once per turn.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat871 — Martial Power, page(s) 145.
-      #theme.featBlock(
-        title: "Wrathful Hunter",
-        requirements: "11th level, tiefling",
-        content: [
-          If you use your infernal wrath racial power against your quarry, you gain a +3 power bonus to your next attack against the target made before the end of your next turn.
-        ],
-      );
+      #theme.featBlocksFromJson("../content/feats/paragon/ranger.json");
     ]
   ]
 }

@@ -2,6 +2,9 @@ package dev.modern4e.builder
 
 /** Edits contain decisions only; callers supply IDs and timestamps, never platform services. */
 sealed class BuilderEdit {
+    data class LaterDecisions(val value: LevelDecisions) : BuilderEdit()
+    data class Batch(val edits: List<BuilderEdit>) : BuilderEdit()
+    data class RemoveProficiency(val slots: Set<ChoiceSlotId>) : BuilderEdit()
     data class Identity(val value: CharacterIdentity) : BuilderEdit()
     data class Allocation(val value: AbilityAllocation) : BuilderEdit()
     data class Level(val value: Int) : BuilderEdit()
@@ -85,6 +88,24 @@ class BuilderOperations(private val catalog: ContentCatalog) {
             listOf(Diagnostic("builder.rejected", DiagnosticKind.INVALID_SELECTION, message)))
         var next = document
         when (edit) {
+            is BuilderEdit.LaterDecisions -> {
+                if (edit.value.level !in 3..document.level) {
+                    return reject("Later decisions require an active level above the proof range.")
+                }
+                next = document.copy(levels = document.levels.filterNot { it.level == edit.value.level } + edit.value)
+            }
+            is BuilderEdit.Batch -> {
+                for (command in edit.edits) {
+                    val result = apply(next, command)
+                    if (!result.applied) {
+                        return BuilderResult(evaluate(document), false, result.diagnostics)
+                    }
+                    next = result.state.document
+                }
+            }
+            is BuilderEdit.RemoveProficiency -> next = document.copy(levels = document.levels.map {
+                it.copy(proficiencies = it.proficiencies.filterNot { choice -> choice.slot in edit.slots })
+            })
             is BuilderEdit.Identity -> next = document.copy(identity = edit.value)
             is BuilderEdit.Allocation -> next = document.copy(abilities = edit.value.copy(points = edit.value.points.toMap()))
             is BuilderEdit.Level -> {

@@ -175,155 +175,16 @@
     ]
 
     #columns(2)[
-      #theme.featBlock(
-        title: "Mastery of Knives",
-        content: [
-          You gain proficiency with the kukri and katar, and you can treat them as daggers for the purpose of casting sorcerer spells.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Sorcerous Blade Channeling",
-        content: [
-          When you use any ranged sorcerer attack power through a dagger, you can use the power as a melee attack. If you do so, the power's range equals your melee reach.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Arcane Spellfury",
-        content: [
-          When you hit any enemy with a sorcerer at-will attack power, you gain a +1 bonus to attack rolls against that enemy until the end of your next turn.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Focusing Spellfury",
-        content: [
-          When you use a sorcerer at-will attack power and hit two or more enemies, you gain a +2 bonus to damage rolls with ranged and melee attack powers until the end of your next turn.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Rising Spellfury",
-        content: [
-          When you use a sorcerer at-will attack power and hit only one enemy, you gain a +1 bonus to attack rolls with area and close attack powers until the end of your next turn.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Leatherbound Sorcerer",
-        content: [
-          You become proficient in leather armor.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Armored Sorcerer",
-        requirements: "Proficient in leather armor.",
-        content: [
-          When wearing leather armor, any resistance you gain from your Spell Source class feature increases by 2.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Tempest Magic",
-        requirements: "2 Constitution, 2 Dexterity, Storm Magic",
-        content: [
-          When you use an arcane power that has the lightning or thunder keyword, you gain a +1 feat bonus to damage rolls. While you are bloodied, this bonus becomes +2.
-          At 11th level, this bonus increases to +2 (or +4 when bloodied). At 21st level, it increases to +3 (or +6 when bloodied).
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Improved Dragon Soul",
-        requirements: "Dragon Magic",
-        content: [
-          The resistance granted by your Dragon Soul increases by 2. The increase changes to 5 at 11th level and 10 at 21st level.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Coincidental Success",
-        requirements: "Wild Magic",
-        content: [
-          Once per encounter when you make a skill check as a part of a skill challenge, choose 1–10 or 11–20. If the result of the d20 roll for that skill check is within the range selected, you automatically earn one success for that skill challenge.
-        ],
-      );
-
-
-      #theme.featBlock(
-        title: "Disciplined Wild Soul",
-        requirements: "Wild Magic",
-        content: [
-          When determining your Wild Soul damage type, roll twice and use either result.
-        ],
-      );
-      #theme.featBlock(
-        title: "Distracting Coincidences",
-        requirements: "Wild Magic",
-        content: [
-          Targets you slide with sorcerer attacks or your Unfettered Power take a -2 penalty to AC until the end of your next turn.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Fortunate Resistance",
-        requirements: "Wild Magic",
-        content: [
-          When you roll for your Wild Soul resistance, choose 1–5 or 6–10. If the result of your first die roll is within the range selected, you can choose any result to replace that die roll.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Gambler’s Initiative",
-        requirements: "Wild Magic",
-        content: [
-          Before rolling an initiative check, choose even numbers or odd numbers. If the result of the d20 roll for that initiative check matches the type of number selected, you gain a feat bonus to that initiative check equal to your Charisma.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Unlucky Teleport",
-        requirements: "Wild Magic",
-        content: [
-          Enemies you teleport with sorcerer powers or with sorcerer paragon path powers or class features take 1d10 psychic damage
-        ],
-      );
+      #theme.featBlocksFromJson("../content/feats/heroic/sorcerer.json", start: 0, end: 15);
 
       #block(
         [
-          #theme.featBlock(
-            title: "Lucky Shot",
-            requirements: "Wild Magic",
-            content: [
-              When you use a daily sorcerer attack power or a daily sorcerer paragon path attack power, for one attack roll choose even numbers or odd numbers. If the result of the d20 roll matches the type of number selected, you gain a feat bonus to the damage roll against the target equal to your Charisma for this attack
-            ],
-          );
+          #theme.featBlocksFromJson("../content/feats/heroic/sorcerer.json", start: 15, end: 16);
         ],
         breakable: false,
       );
 
-      #theme.featBlock(
-        title: "Student of the Cosmos",
-        requirements: "Cosmic Magic",
-        content: [
-          You gain an additional benefit based on your current phase in the cosmic cycle:
-          - *Phase of the Sun:* You gain a +2 feat bonus to initiative checks.
-          - *Phase of the Moon:* You gain a +2 feat bonus to arcane technique checks.
-          - *Phase of the Stars:* You gain a +2 feat bonus to Skill Checks to hide or sneak.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Cosmic Blade Channeling",
-        requirements: "Cosmic Magic, Sorcerous Blade Channeling",
-        content: [
-          Once per round, when you hit with an attack made using Sorcerous Blade Channeling, you gain a benefit based on your current phase:
-          - *Phase of the Sun:* You push the target 1 square.
-          - *Phase of the Moon:* You slide the target 1 square to a square adjacent to you.
-          - *Phase of the Stars:* You roll a saving throw.
-        ],
-      );
+      #theme.featBlocksFromJson("../content/feats/heroic/sorcerer.json", start: 16, end: 18);
     ]
 
     #pagebreak();
@@ -333,71 +194,7 @@
     ]
 
     #columns(2)[
-      // https://iws.mx/dnd/?view=feat1034 — Player's Handbook 2, page(s) 190.
-      #theme.featBlock(
-        title: "Arcane Flexibility",
-        requirements: "11th level",
-        content: [
-          When you score a critical hit with a sorcerer power, you can change the damage type dealt by the power to a damage type you have resistance or immunity to.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat1171 — Arcane Power, page(s) 130.
-      #theme.featBlock(
-        title: "Cosmic Spellfury",
-        requirements: "11th level, Cosmic Magic",
-        content: [
-          Whenever you hit at least one enemy with a sorcerer at-will attack power, you gain a benefit based on your current phase in the cosmic cycle. This benefit applies after the attack is resolved.
-          Phase of the Sun: You can roll a saving throw.
-          Phase of the Moon: You gain concealment until the end of your next turn.
-          Phase of the Stars: You become insubstantial until the end of your next turn or until you are hit by an attack.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat576 — Player's Handbook 2, page(s) 190.
-      #theme.featBlock(
-        title: "Draconic Spellfury",
-        requirements: "11th level, Dragon Magic",
-        content: [
-          Whenever you hit an enemy with a sorcerer at-will attack power, you gain temporary hit points equal to your Strength.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat1187 — Arcane Power, page(s) 133.
-      #theme.featBlock(
-        title: "Sorcerous Reserves",
-        requirements: "11th level",
-        content: [
-          When you have expended all your sorcerer daily attack powers, you gain a +1 bonus to attack rolls with sorcerer at-will attack powers until you regain the use of one of your sorcerer daily attack powers.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat1188 — Arcane Power, page(s) 133.
-      #theme.featBlock(
-        title: "Sorcerous Vision",
-        requirements: "11th level",
-        content: [
-          Whenever you would make a Perception check or an Insight check, you can make an Arcana check instead.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat1189 — Arcane Power, page(s) 133.
-      #theme.featBlock(
-        title: "Storm Spellfury",
-        requirements: "11th level, Storm Magic",
-        content: [
-          Whenever you use a sorcerer at-will attack power and hit at least one enemy, you can fly 2 squares as a free action after resolving the attack.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat1050 — Player's Handbook 2, page(s) 193.
-      #theme.featBlock(
-        title: "Wild Spellfury",
-        requirements: "11th level, Wild Magic",
-        content: [
-          Whenever you hit an enemy with a sorcerer at-will attack power, each enemy adjacent to you takes damage equal to your Dexterity.
-        ],
-      );
+      #theme.featBlocksFromJson("../content/feats/paragon/sorcerer.json");
     ]
   ]
 }

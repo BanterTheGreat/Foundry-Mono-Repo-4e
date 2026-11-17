@@ -230,82 +230,11 @@
     ]
 
     #columns(2)[
-      #theme.featBlock(
-        title: "Angry Grandfather",
-        content: [
-          You gain a bonus to death saving throws equal to the number of powers with the Rage keyword you know that are currently expended. This bonus increases by 1 for each ally within 10 squares of you who has at least one tribal feat.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Bloodthirsty Visage",
-        content: [
-          You gain a +2 feat bonus to damage rolls with fear powers, increasing to +3 at level 11 and +4 at level 21. This feat bonus is doubled against creatures that were subject to one of your fear effects before the attack.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Blood Cousin's Tribe",
-        content: [
-          You gain a +1 bonus to damage rolls when raging, increasing to +2 at level 11 and +3 at level 21. This bonus increases by 1 for each ally within 10 squares of you who has at least one tribal feat.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Bloody Triumph",
-        requirements: "Thaneborn Triumph",
-        content: [
-          Once per turn when you bloody an enemy or reduce a non-minion enemy to 0 hit points, an ally who can see you can shift up to 2 squares as a free action.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Crackling Wrath",
-        requirements: "Thunderborn Wrath",
-        content: [
-          You gain resistance to thunder and lightning damage equal to 5 + half your level, or your highest resistance to thunder and lightning damage increases by 5. Your Thunderborn Wrath deals 2 extra lightning damage, increasing to 3 at level 11 and 5 at level 21.
-          Previous feat title: Thunderborn Rage
-        ],
-      );
+      #theme.featBlocksFromJson("../content/feats/heroic/barbarian.json", start: 0, end: 5);
 
       #colbreak();
 
-      #theme.featBlock(
-        title: "Deadly Rage",
-        content: [
-          Whenever you start your turn while raging, you can choose to take damage equal to half your level (minimum 1), which cannot be reduced or prevented in any way. If you do so, you gain a +2 bonus to damage rolls until the end of your turn. Increase the bonus to damage rolls to +4 at level 11, and +6 at level 21.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Double Lunge",
-        requirements: "Whirling Lunge power",
-        content: [
-          When you use Whirling Lunge, you deal 1[W] (main hand weapon) extra damage to the target, increasing to 2[W] (main hand weapon) extra damage at level 21.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Eager Charger",
-        requirements: "Swift Charge power",
-        content: [
-          You gain a +2 feat bonus to speed when charging. In addition, you deal 1[W] extra damage with the charge attack granted by your Swift Charge power, increasing to 2[W] extra damage at level 21.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Brutal Reach",
-        content: [
-          When you are raging and wielding a two-handed reach weapon, you can reroll any weapon damage die that displays a 1 when making melee attacks.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Rising Fury",
-        content: [
-          When you reduce an enemy to 0 hit points, you gain a +2 feat bonus to weapon damage rolls until the end of your next turn. The bonus increases to +3 at 11th level and +4 at 21st level.
-        ],
-      );
+      #theme.featBlocksFromJson("../content/feats/heroic/barbarian.json", start: 5, end: 10);
 
     ]
 
@@ -316,113 +245,7 @@
     ]
 
     #columns(2)[
-      // https://iws.mx/dnd/?view=feat2886 — Dragon Magazine 386, page(s) 51.
-      #theme.featBlock(
-        title: "Bloodthirsty Visage",
-        requirements: "11th level, Thaneborn Triumph",
-        content: [
-          You gain a feat bonus equal to your Charisma to damage rolls with barbarian fear powers.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat467 — Player's Handbook 2, page(s) 190.
-      #theme.featBlock(
-        title: "Charging Rampage",
-        requirements: "11th level",
-        content: [
-          When you score a critical hit with a barbarian attack power while you are raging, you can charge as a free action, instead of making a melee basic attack as a result of Rampage.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat1893 — Primal Power, page(s) 143.
-      #theme.featBlock(
-        title: "Double Lunge",
-        requirements: "11th level, whirling lunge",
-        content: [
-          When you use whirling lunge, you deal extra damage to the target equal to your Strength.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat2887 — Dragon Magazine 386, page(s) 51.
-      #theme.featBlock(
-        title: "Echoing Roar",
-        requirements: "11th level, roar of triumph",
-        content: [
-          Whenever you use your second wind, you also regain the use of roar of triumph.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat1896 — Primal Power, page(s) 143.
-      #theme.featBlock(
-        title: "Explosive Rage Strike",
-        requirements: "11th level",
-        content: [
-          When you use rage strike, you can reduce the damage it deals by 2[W]. If you do so, the power becomes a close burst 1 that targets each enemy that you can see in the burst.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat453 — Player's Handbook 2, page(s) 191.
-      #theme.featBlock(
-        title: "Rageblood Recovery",
-        requirements: "11th level, Rageblood Vigor",
-        content: [
-          When you hit with the charge attack granted by swift charge while you are raging, you can spend a healing surge as a free action.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat1901 — Primal Power, page(s) 145.
-      #theme.featBlock(
-        title: "Reckless Rage",
-        requirements: "11th level",
-        content: [
-          When you attack an enemy with a rage power, you can take a –2 penalty to the attack roll against that enemy to deal 1[W] extra damage to it.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat452 — Player's Handbook 2, page(s) 192.
-      #theme.featBlock(
-        title: "Thaneborn Advance",
-        requirements: "11th level, Thaneborn Triumph",
-        content: [
-          When you use your roar of triumph power while you are raging, you can shift a number of squares equal to your Charisma and use your new position as the origin square of the burst.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat1908 — Primal Power, page(s) 145.
-      #theme.featBlock(
-        title: "Thirsty Blade",
-        requirements: "11th level",
-        content: [
-          When you reduce an enemy to 0 hit points with a charge attack using an axe or a heavy blade, each enemy adjacent to you at the end of the charge takes damage equal to your Strength.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat1910 — Primal Power, page(s) 145.
-      #theme.featBlock(
-        title: "Thunderous Cry",
-        requirements: "11th level, war cry",
-        content: [
-          When you use war cry, the targets grant combat advantage to you until the end of your next turn.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat1913 — Primal Power, page(s) 145.
-      #theme.featBlock(
-        title: "Violent Reminder",
-        requirements: "11th level, Rageblood Vigor",
-        content: [
-          When you reduce an enemy to 0 hit points, you gain a +5 bonus to the next damage roll you make before the end of your next turn.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat1918 — Primal Power, page(s) 146.
-      #theme.featBlock(
-        title: "Withering Roar",
-        requirements: "11th level, Thaneborn Triumph",
-        content: [
-          When you use Roar of Triumph, you can replace its penalty to all defenses for each target with that target granting combat advantage until the end of your next turn. The power's penalty to damage rolls still applies.
-        ],
-      );
+      #theme.featBlocksFromJson("../content/feats/paragon/barbarian.json");
     ]
   ]
 }

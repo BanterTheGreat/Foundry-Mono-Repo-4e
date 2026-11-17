@@ -146,69 +146,11 @@
     ]
 
     #columns(2)[
-      #theme.featBlock(
-        title: "Vindicating Allure",
-        requirements: "Censure of Unity",
-        content: [
-          When you use your bond of censure power, add 2 to the number of squares you can pull the target.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Vindicating Resolution",
-        requirements: "Censure of Pursuit",
-        content: [
-          When you attack a target of your oath of enmity with a weapon attack, treat all rolls of a 1 or 2 on the damage dice as though the result were 3 on the die.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Closing Pledge",
-        requirements: "Censure of Pursuit",
-        content: [
-          When you hit your oath of enmity target with a ranged attack, you can shift a number of squares equal to 1 + your Dexterity as a free action, as long as you end that shift closer to the target.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Divine Passion",
-        content: [
-          When you use divine guidance and the triggering ally hits its target, the ally deals an additional 5 radiant damage.
-          At 21st level, the ally deals an extra 10 radiant damage.
-        ],
-      );
+      #theme.featBlocksFromJson("../content/feats/heroic/avenger.json", start: 0, end: 4);
 
       #colbreak();
 
-      #theme.featBlock(
-        title: "Improved Armor of Faith",
-        content: [
-          While you are wearing cloth armor or no armor and aren’t using a shield, you gain a +1 bonus to AC.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Oath Strike",
-        content: [
-          When you use oath of enmity, you can mark the target until the end of your next turn.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Divine Distraction",
-        requirements: "Censure of Unity",
-        content: [
-          When you are adjacent to your oath of enmity target, the target grants combat advantage to any of your allies adjacent to it.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Armor of Vengeance",
-        requirements: "Censure of Retribution",
-        content: [
-          While you are adjacent to your oath of enmity target, you gain a +1 bonus to all defenses against every other creature.
-        ],
-      );
+      #theme.featBlocksFromJson("../content/feats/heroic/avenger.json", start: 4, end: 8);
     ]
 
     #pagebreak();
@@ -218,122 +160,7 @@
     ]
 
     #columns(2)[
-      // https://iws.mx/dnd/?view=feat2166 — Dragon Magazine 382, page(s) 40.
-      #theme.featBlock(
-        title: "Arbiter of Justice",
-        requirements: "11th level",
-        content: [
-          You deal +2 damage against bloodied targets. Additionally, whenever an ally bloodies or reduces your oath of enmity target to 0 hit points, you may act as though you had bloodied or reduced the target to 0 hit points.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat1565 — Divine Power, page(s) 137.
-      #theme.featBlock(
-        title: "Avenging Surge",
-        requirements: "11th level, Censure of Unity",
-        content: [
-          When an ally hits your oath of enmity target, you gain temporary hit points equal to 3 + 3 per ally adjacent to that target.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat1566 — Divine Power, page(s) 137.
-      #theme.featBlock(
-        title: "Censure's Grip",
-        requirements: "11th level, Censure of Pursuit",
-        content: [
-          When you have combat advantage against your oath of enmity target and hit it with an avenger power, your target cannot shift away from you until the end of your next turn.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat1570 — Divine Power, page(s) 138.
-      #theme.featBlock(
-        title: "Devout Guidance",
-        requirements: "11th level",
-        content: [
-          When you use your divine guidance, the target gains a +3 power bonus to the second attack roll.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat1572 — Divine Power, page(s) 138.
-      #theme.featBlock(
-        title: "Eager for Blood",
-        requirements: "11th level",
-        content: [
-          During the first round of combat, your avenger weapon attacks deal 1[W] extra damage.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat2167 — Dragon Magazine 382, page(s) 41.
-      #theme.featBlock(
-        title: "Exposing Oath",
-        requirements: "11th level",
-        content: [
-          While a creature is your oath of enmity target, your attacks ignore any resist radiant or resist necrotic the target has.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat2168 — Dragon Magazine 382, page(s) 41.
-      #theme.featBlock(
-        title: "Halo of Isolation",
-        requirements: "11th level",
-        content: [
-          While adjacent to your oath of enmity target, all other enemies treat squares adjacent to you as difficult terrain.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat487 — Player's Handbook 2, page(s) 191.
-      #theme.featBlock(
-        title: "Inexorable Pursuit",
-        requirements: "11th level, Censure of Pursuit",
-        content: [
-          When you charge your oath of enmity target, you can ignore difficult terrain and move through enemies' spaces during the charge.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat1756 — Dragon Magazine 378.
-      #theme.featBlock(
-        title: "Inspiring Oath",
-        requirements: "11th level",
-        content: [
-          When you use oath of enmity, one ally you can see can shift 2 squares closer to your target as a free action.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat496 — Player's Handbook 2, page(s) 191.
-      #theme.featBlock(
-        title: "Onslaught of Enmity",
-        requirements: "11th level",
-        content: [
-          When you use oath of enmity, you can shift 2 squares closer to the target as a free action.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat2169 — Dragon Magazine 382, page(s) 41.
-      #theme.featBlock(
-        title: "Painful Oath",
-        requirements: "11th level",
-        content: [
-          The first time you hit your oath of enmity target each turn, you deal extra radiant and necrotic damage equal to your Wisdom.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat1585 — Divine Power, page(s) 140.
-      #theme.featBlock(
-        title: "Pledge of Retribution",
-        requirements: "11th level, Censure of Retribution",
-        content: [
-          If you miss your oath of enmity target with an attack, you gain a +1 bonus to the next attack roll you make against that target before the end of your next turn.
-        ],
-      );
-
-      // https://iws.mx/dnd/?view=feat1044 — Player's Handbook 2, page(s) 191.
-      #theme.featBlock(
-        title: "Protected Isolation",
-        requirements: "11th level, Censure of Retribution",
-        content: [
-          While you are adjacent to your oath of enmity target, you gain a +1 bonus to AC.
-        ],
-      );
+      #theme.featBlocksFromJson("../content/feats/paragon/avenger.json");
     ]
   ]
 }

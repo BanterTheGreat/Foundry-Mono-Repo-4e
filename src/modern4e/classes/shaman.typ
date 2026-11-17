@@ -389,76 +389,13 @@
 
     #columns(2)[
       
-      #theme.featBlock(
-        title: "Intolerable Command",
-        requirements: "World Speaker Spirit",
-        content: [
-          Creatures hit by your World Speaker's Command power take psychic damage equal to your Constitution and are additionally deafened and slowed until the end of your next turn. Your World Speaker's Command power gains the Psychic keyword.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Invigorating Spirit",
-        content: [
-          Whenever you use Healing Spirit, each ally adjacent to your spirit companion can shift 1 square as a free action. At 21st level and above, each ally may shift up to 2 squares as a free action instead.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Mobile Spirit",
-        content: [
-          Whenever you take a move action, you can also move your spirit companion a number of squares equal to your speed + 4. At 11th level and above, this increases to your speed + 5, and at 21st level and above, this increases to your speed + 6.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Precise Fangs",
-        requirements: "Stalker Spirit",
-        content: [
-          Your Spirit's Fangs power deals extra damage equal to your Intelligence and deals half damage on a miss.
-        ],
-      );
+      #theme.featBlocksFromJson("../content/feats/heroic/shaman.json", start: 0, end: 4);
 
 
 
       #colbreak();
 
-      #theme.featBlock(
-        title: "Rejuvenating Spirit",
-        content: [
-          When you use Healing Spirit, the target can make a saving throw.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Resilient Spirit",
-        content: [
-          Your spirit companion gains a +2 bonus to all defenses.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Retributive Spirit",
-        content: [
-          Whenever your spirit companion is destroyed, the creature that destroyed it takes a –2 penalty to all defenses until the end of your next turn.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Revelation of the Spirit",
-        requirements: "Watcher Spirit",
-        content: [
-          Enemies hit by your Shaman spirit attacks cannot benefit from partial cover or concealment (though they still benefit from superior cover or total concealment) until the end of your next turn.
-        ],
-      );
-
-      #theme.featBlock(
-        title: "Sentinel Spirit",
-        requirements: "Watcher Spirit",
-        content: [
-          Allies gain a +2 bonus to attack rolls when making opportunity attacks while within the spirit boon aura of your spirit companion.
-        ],
-      );
+      #theme.featBlocksFromJson("../content/feats/heroic/shaman.json", start: 4, end: 9);
     ]
 
     #pagebreak()
@@ -468,63 +405,12 @@
     ]
 
     #columns(2)[
-      // Source: https://iws.mx/dnd/?view=feat1892
-      #theme.featBlock(
-        title: "Cyclone Spirit",
-        requirements: "11th level, World Speaker Spirit",
-        content: [
-          Whenever you or an ally pulls, pushes, or slides a target, the distance of the forced movement can be increased by 1 square if the target began the forced movement adjacent to your spirit companion.
-        ],
-      );
-
-      // Source: https://iws.mx/dnd/?view=feat3258
-      #theme.featBlock(
-        title: "Elemental Spirit Adept",
-        requirements: "11th level, Elemental Spirit",
-        content: [
-          When your spirit companion disappears as a result of one of your Shaman attack powers, you and your allies gain a +1 bonus to attack rolls against any enemy that was adjacent to the spirit. The bonus lasts until the end of your next turn.
-        ],
-      );
-
-      // Source: https://iws.mx/dnd/?view=feat1895
-      #theme.featBlock(
-        title: "Ephemeral Spirit",
-        requirements: "11th level",
-        content: [
-          When your spirit companion disappears as a result of a ranged attack, you take half the normal damage from its destruction.
-        ],
-      );
+      #theme.featBlocksFromJson("../content/feats/paragon/shaman.json", start: 0, end: 3);
 
 
       #colbreak();
 
-      // Source: https://iws.mx/dnd/?view=feat565
-      #theme.featBlock(
-        title: "Nimble Spirit",
-        requirements: "11th level",
-        content: [
-          You can use Call Spirit Companion as a free action during your turn.
-        ],
-      );
-
-
-      // Source: https://iws.mx/dnd/?view=feat1906
-      #theme.featBlock(
-        title: "Spirit's Eyes",
-        requirements: "11th level",
-        content: [
-          Whenever you make a Perception check while your spirit companion is present, you can roll twice and use either result.
-        ],
-      );
-
-      // Source: https://iws.mx/dnd/?view=feat1912
-      #theme.featBlock(
-        title: "Vicious Spirit",
-        requirements: "11th level, Stalker Spirit",
-        content: [
-          When you use Healing Spirit, each ally adjacent to your spirit companion gains a +2 bonus to damage rolls against bloodied enemies until the end of your next turn.
-        ],
-      );
+      #theme.featBlocksFromJson("../content/feats/paragon/shaman.json", start: 3, end: 6);
     ]
   ]
 }
