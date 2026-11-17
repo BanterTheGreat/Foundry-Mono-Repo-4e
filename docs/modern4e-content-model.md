@@ -10,9 +10,10 @@ The [ordered power contract](modern4e-power-authoring.md) revises
 the power body around ordered blocks, attack groups, independent activations and
 explicit structural references. Sixteen published-reference fixtures and a strict
 read-only validator exercise the shape. Class catalog/export v2 and Typst now
-consume it for all 19 local classes; ancestry powers keep their own
-schema. Runtime combat interpretation remains unimplemented. Psionics and Monks
-remain outside its scope.
+consume it for all 19 local classes, all 15 ancestry powers and the 11 Zeitgeist
+theme powers. Runtime combat interpretation remains unimplemented. Power-point
+augments and Monk disciplines remain outside its scope; non-augmenting theme
+powers retain Psionic keywords.
 
 Model Modern 4e content with a common entry base, extended by category-specific
 data. Reuse this model for feats, powers, classes, ancestries (published “races”),

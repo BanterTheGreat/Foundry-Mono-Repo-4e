@@ -2,7 +2,7 @@
 
 Validate structure and explicit relationships without interpreting rules prose.
 Published-reference fixtures remain experimental; runtime combat is unimplemented.
-Ancestry power contracts remain independently versioned.
+Ancestry and Zeitgeist theme powers use the same ordered body.
 """
 import argparse
 import importlib.util
@@ -85,7 +85,7 @@ def validate_power(power, references):
     shared.coverage(power["coverage"], loc)
     require(power["coverage"]["status"] == "UNIMPLEMENTED", loc, "experimental contract has no runtime support")
     strings(power["keywords"], loc)
-    require(not {"PSIONIC", "AUGMENTABLE", "FULL_DISCIPLINE"} & set(power["keywords"]), loc, "Psionics and Monk disciplines are out of scope")
+    require(not {"AUGMENTABLE", "FULL_DISCIPLINE"} & set(power["keywords"]) and not ("PSIONIC" in power["keywords"] and power["rulesProfile"] != "MODERN4E"), loc, "Psionic reference powers, augments and Monk disciplines are out of scope")
     array(power["choices"], loc)
     choices = {}
     for choice in power["choices"]:

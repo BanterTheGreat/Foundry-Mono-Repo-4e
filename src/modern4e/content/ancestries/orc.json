@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "ancestries": [
     {
       "id": "modern4e.ancestry.orc",
@@ -144,20 +144,45 @@
           "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
         ]
       },
-      "flavor": "Your monstrous wrath burns inside you.",
-      "usage": "ENCOUNTER",
-      "action": "FREE",
-      "range": {
-        "type": "PERSONAL"
-      },
       "keywords": [],
-      "trigger": "You hit an enemy with an attack.",
-      "rows": [
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.furious-assault",
+        "publication": "Modern4e ancestry rules"
+      },
+      "choices": [],
+      "activations": [
         {
-          "label": "Effect",
-          "text": "The attack deals 1[W] extra damage if it's a weapon attack or 1d8 extra damage if it is not a weapon attack."
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            }
+          },
+          "blocks": [
+            {
+              "id": "effect-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The attack deals 1[W] extra damage if it's a weapon attack or 1d8 extra damage if it is not a weapon attack."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "You hit an enemy with an attack."
         }
-      ]
+      ],
+      "flavor": "Your monstrous wrath burns inside you."
     }
   ]
 }

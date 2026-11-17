@@ -13,6 +13,7 @@
 
 #let actionType = (
   standard: "Standard Action",
+  extended: "Extended Action",
   move: "Move Action",
   minor: "Minor Action",
   free: "Free Action",

@@ -4,8 +4,10 @@ Status: used by all 19 local class chapters, validated against
 16 additional published-reference scenarios. Class catalog/export schema v2
 adopts these ordered power definitions, and `helpers/power_content.typ` renders
 them. This is an authoring contract, not an enabled builder runtime package.
-Ancestry powers retain their independent schema. Psionic powers, power-point
-augments and Monk full disciplines are outside this slice.
+All 15 ancestry powers and 11 Zeitgeist theme powers now use this body too.
+Non-augmenting local theme powers may retain the Psionic source keyword;
+published Psionic reference imports, power-point augments and Monk full
+disciplines remain outside this slice. `EXTENDED` preserves the Skyseer action.
 
 The read-only validator is `src/modern4e/scripts/power_content.py`. Its default
 catalog is `src/modern4e/scripts/fixtures/powers/catalog.json`. These fixtures use

@@ -76,7 +76,7 @@
       bonusTitle: power.at("subtitle", default: none),
       description: power.at("flavor", default: none),
       type: (AT_WILL: "At-Will", ENCOUNTER: "Encounter", DAILY: "Daily").at(activation.usage.frequency),
-      action: cards.actionType.at((STANDARD: "standard", MOVE: "move", MINOR: "minor", FREE: "free", REACTION: "reaction", NO_ACTION: "noAction", IMMEDIATE_INTERRUPT: "immediateInterrupt", IMMEDIATE_REACTION: "immediateReaction", OPPORTUNITY: "opportunity").at(activation.action)),
+      action: cards.actionType.at((STANDARD: "standard", EXTENDED: "extended", MOVE: "move", MINOR: "minor", FREE: "free", REACTION: "reaction", NO_ACTION: "noAction", IMMEDIATE_INTERRUPT: "immediateInterrupt", IMMEDIATE_REACTION: "immediateReaction", OPPORTUNITY: "opportunity").at(activation.action)),
       range: rangeText(range),
       target: target,
       traits: power.keywords.map(display).join(", "),

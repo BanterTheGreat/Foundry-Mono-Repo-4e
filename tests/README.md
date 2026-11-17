@@ -625,4 +625,20 @@ npm run typst:compile
 
 Covers all 13 ancestry page consumers, catalog/reference integrity, invalid data and choices, local rules and scaling, and actual Typst renderer output (requires Typst). See [ancestry authoring](../src/modern4e/content/ancestries/README.md). Manually inspect ancestry cards, columns and feat-page breaks after rendering changes; Revenant remains catalogued but excluded from the current book.
 
+Ancestry file schema v2 uses the shared ordered-power validator for all 15 powers.
+Zeitgeist themes also use ordered powers and are included in `npm test`:
+
+```sh
+python3 src/modern4e/scripts/theme_content.py
+python3 -m unittest discover -s src/modern4e/scripts -p test_theme_content.py
+python3 -m unittest discover -s src/modern4e/scripts -p test_power_content.py
+```
+
+Theme tests cover all nine page consumers, 27 level benefits, five modification
+options, 11 powers, grant integrity, invalid references/blocks, extended actions,
+usage scaling, explicit unknown range and literal Typst rendering. Set `TYPST_BIN`
+when Typst is outside PATH; renderer tests otherwise skip. Inspect theme cards,
+illustrations and columns in `src/modern4e/inDev.pdf` after compiling. See
+[theme authoring](../src/modern4e/content/themes/README.md).
+
 Android Progression presentation helpers: `ProgressionTest` covers remaining allocation points (fixed main, unassigned abilities, tradeoffs and overspending) and compact skill source labels. Stepper regression coverage verifies single-negative/single-3 limits, the required -1 before raising to 3, removing the tradeoff in order, fixed main ability and min/max bounds. Run `.\gradlew.bat :android:testDebugUnitTest` from `src/character-builder/`.

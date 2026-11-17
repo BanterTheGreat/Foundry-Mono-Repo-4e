@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "ancestries": [
     {
       "id": "modern4e.ancestry.halfling",
@@ -144,20 +144,45 @@
           "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
         ]
       },
-      "flavor": "Luck and small size combine to work in your favor as you dodge your enemy’s attack.",
-      "usage": "ENCOUNTER",
-      "action": "IMMEDIATE_INTERRUPT",
-      "range": {
-        "type": "PERSONAL"
-      },
       "keywords": [],
-      "trigger": "You are hit by an attack.",
-      "rows": [
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.second-chance",
+        "publication": "Modern4e ancestry rules"
+      },
+      "choices": [],
+      "activations": [
         {
-          "label": "Effect",
-          "text": "The attacker must reroll the attack and use the second roll, even if it is lower."
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            }
+          },
+          "blocks": [
+            {
+              "id": "effect-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The attacker must reroll the attack and use the second roll, even if it is lower."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "You are hit by an attack."
         }
-      ]
+      ],
+      "flavor": "Luck and small size combine to work in your favor as you dodge your enemy’s attack."
     }
   ]
 }

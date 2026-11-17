@@ -1,6 +1,7 @@
 """Validate the closed ancestry authoring vocabulary; no runtime effect claims."""
-import json
 from pathlib import Path
+
+import power_content
 
 CONTENT = Path(__file__).resolve().parents[1] / 'content/ancestries'
 
@@ -24,10 +25,10 @@ def validate(documents):
     entries = {}
     categories = {}
     base = 'id title description access prerequisites selection coverage'.split()
-    optional = {'ancestries': ['attributes', 'grants', 'note'], 'features': ['grants', 'choices'], 'powers': ['flavor', 'usage', 'action', 'range', 'keywords', 'rows', 'trigger', 'target', 'attack', 'attackText']}
+    optional = {'ancestries': ['attributes', 'grants', 'note'], 'features': ['grants', 'choices'], 'powers': ['flavor', 'rulesProfile', 'source', 'keywords', 'choices', 'activations']}
     for data in documents:
         keys(data, ['schemaVersion', 'ancestries', 'features', 'powers'])
-        require(data['schemaVersion'] == 1, 'Unknown schema version')
+        require(type(data['schemaVersion']) is int and data['schemaVersion'] == 2, 'Unknown schema version')
         for category in optional:
             require(isinstance(data[category], list), 'Expected entry array')
             for entry in data[category]:
@@ -57,23 +58,8 @@ def validate(documents):
                     unique(languages['fixed'])
                     require(type(languages['choiceCount']) is int and languages['choiceCount'] >= 0, 'Invalid language choice count')
                 if category == 'powers':
-                    require(entry['usage'] in ['AT_WILL', 'ENCOUNTER', 'DAILY'], 'Unknown usage')
-                    require(entry['action'] in ['MINOR', 'FREE', 'MOVE', 'NO_ACTION', 'IMMEDIATE_REACTION', 'IMMEDIATE_INTERRUPT'], 'Unknown action')
-                    keys(entry['range'], ['type'], ['distance'])
-                    require(entry['range']['type'] in ['PERSONAL', 'RANGED', 'CLOSE_BLAST', 'CLOSE_BURST'], 'Unknown range')
-                    if entry['range']['type'] != 'PERSONAL':
-                        require(type(entry['range'].get('distance')) is int and entry['range']['distance'] > 0, 'Invalid distance')
-                    require(set(entry['keywords']) <= {'VARIES', 'FEAR', 'FIRE', 'NECROTIC', 'HEALING'}, 'Unknown keyword')
-                    require(bool(entry['rows']), 'Missing power rules')
-                    for row in entry['rows']:
-                        keys(row, ['label', 'text'], ['scaling'])
-                        require(row['label'] in ['Effect', 'Hit', 'Special'] and bool(row['text']), 'Invalid row')
-                        for scale in row.get('scaling', []):
-                            keys(scale, ['atLevel', 'text'])
-                            require(scale['atLevel'] in [11, 21] and bool(scale['text']), 'Invalid scaling')
-                    if 'attack' in entry:
-                        keys(entry['attack'], ['ability', 'defense'])
-                        require(entry['attack']['ability'] == 'MAIN_ABILITY' and entry['attack']['defense'] in [None, 'REFLEX', 'WILL'], 'Invalid attack')
+                    power_content.validate_power(entry, {})
+                    require(entry['rulesProfile'] == 'MODERN4E', 'Expected local ancestry rules')
     edges = {}
     for eid, entry in entries.items():
         edges[eid] = []
@@ -83,7 +69,7 @@ def validate(documents):
             keys(grant, ['id', 'entryId', 'atLevel'])
             require(grant['atLevel'] == 1 and grant['entryId'] in entries, 'Invalid grant reference')
             edges[eid].append(grant['entryId'])
-        choices = entry.get('choices', [])
+        choices = entry.get('choices', []) if categories[eid] == 'features' else []
         unique([c['id'] for c in choices])
         for choice in choices:
             keys(choice, ['id', 'count', 'source'])
@@ -116,13 +102,13 @@ def validate(documents):
 
 def load():
     """Read only declared files and validate the complete ancestry catalog."""
-    catalog = json.loads((CONTENT / 'catalog.json').read_text())
+    catalog = power_content.shared.shared.load_json(CONTENT / 'catalog.json')
     keys(catalog, ['schemaVersion', 'files'])
     require(catalog['schemaVersion'] == 1, 'Unknown catalog version')
     unique(catalog['files'])
     require(all(Path(f).name == f and f.endswith('.json') for f in catalog['files']), 'Invalid catalog path')
     require(set(catalog['files']) == {p.name for p in CONTENT.glob('*.json') if p.name != 'catalog.json'}, 'Unlisted ancestry file')
-    return validate([json.loads((CONTENT / f).read_text()) for f in catalog['files']])
+    return validate([power_content.shared.shared.load_json(CONTENT / f) for f in catalog['files']])
 
 
 if __name__ == '__main__':

@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "ancestries": [
     {
       "id": "modern4e.ancestry.dragonborn",
@@ -167,42 +167,104 @@
           "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
         ]
       },
-      "flavor": "As you open your mouth with a roar, the deadly power of your draconic kin blasts forth to engulf your foes.",
-      "usage": "ENCOUNTER",
-      "action": "MINOR",
-      "range": {
-        "type": "CLOSE_BLAST",
-        "distance": 3
-      },
       "keywords": [
         "VARIES"
       ],
-      "target": "Each creature in the blast",
-      "attack": {
-        "ability": "MAIN_ABILITY",
-        "defense": "REFLEX"
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.dragon-breath",
+        "publication": "Modern4e ancestry rules"
       },
-      "attackText": "You gain a +2 bonus to the attack roll.\n\n- Level 11: The bonus increases to +4.\n\n- Level 21: The bonus increases to +6.",
-      "rows": [
+      "choices": [],
+      "activations": [
         {
-          "label": "Hit",
-          "text": "1d6 + Main Ability damage.",
-          "scaling": [
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the blast"
+            }
+          },
+          "blocks": [
             {
-              "atLevel": 11,
-              "text": "2d6 + Main Ability damage."
+              "id": "attack-1",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Main Ability vs. Reflex. You gain a +2 bonus to the attack roll.\n\n- Level 11: The bonus increases to +4.\n\n- Level 21: The bonus increases to +6.",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "CLOSE_BLAST",
+                "size": {
+                  "base": 3
+                },
+                "origin": "self"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "MAIN"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "hit",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1d6 + Main Ability damage.",
+                        "scaling": [
+                          {
+                            "atLevel": 11,
+                            "text": "2d6 + Main Ability damage."
+                          },
+                          {
+                            "atLevel": 21,
+                            "text": "3d6 + Main Ability damage."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
             },
             {
-              "atLevel": 21,
-              "text": "3d6 + Main Ability damage."
+              "id": "special-2",
+              "type": "effect",
+              "label": "Special",
+              "text": "The damage type is the same as the type you choose for Dragonborn Scales."
             }
-          ]
-        },
-        {
-          "label": "Special",
-          "text": "The damage type is the same as the type you choose for Dragonborn Scales."
+          ],
+          "range": {
+            "type": "CLOSE_BLAST",
+            "size": {
+              "base": 3
+            },
+            "origin": "self"
+          },
+          "targets": "targets"
         }
-      ]
+      ],
+      "flavor": "As you open your mouth with a roar, the deadly power of your draconic kin blasts forth to engulf your foes."
     },
     {
       "id": "modern4e.power.dragonfear",
@@ -224,28 +286,88 @@
           "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
         ]
       },
-      "flavor": "Your presence causes your enemies to quake and tremble.",
-      "usage": "ENCOUNTER",
-      "action": "MINOR",
-      "range": {
-        "type": "CLOSE_BURST",
-        "distance": 5
-      },
       "keywords": [
         "FEAR"
       ],
-      "target": "Each enemy in the burst",
-      "attack": {
-        "ability": "MAIN_ABILITY",
-        "defense": "WILL"
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.dragonfear",
+        "publication": "Modern4e ancestry rules"
       },
-      "attackText": "You gain a +2 bonus to the attack roll.\n\n- Level 11: The bonus increases to +4.\n\n- Level 21: Close Burst 10 & The bonus increases to +6.",
-      "rows": [
+      "choices": [],
+      "activations": [
         {
-          "label": "Hit",
-          "text": "The target takes a -2 penalty to attack rolls and grants combat advantage until the end of your next turn."
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "blocks": [
+            {
+              "id": "attack-1",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Main Ability vs. Will. You gain a +2 bonus to the attack roll.\n\n- Level 11: The bonus increases to +4.\n\n- Level 21: Close Burst 10 & The bonus increases to +6.",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "CLOSE_BURST",
+                "size": {
+                  "base": 5
+                },
+                "origin": "self"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "MAIN"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "hit",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "The target takes a -2 penalty to attack rolls and grants combat advantage until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "range": {
+            "type": "CLOSE_BURST",
+            "size": {
+              "base": 5
+            },
+            "origin": "self"
+          },
+          "targets": "targets"
         }
-      ]
+      ],
+      "flavor": "Your presence causes your enemies to quake and tremble."
     }
   ]
 }

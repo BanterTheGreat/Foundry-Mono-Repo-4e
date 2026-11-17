@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "ancestries": [
     {
       "id": "modern4e.ancestry.human",
@@ -144,22 +144,54 @@
           "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
         ]
       },
-      "flavor": "Your grim focus and unbridled energy means that failure is not an option.",
-      "usage": "ENCOUNTER",
-      "action": "NO_ACTION",
-      "range": {
-        "type": "RANGED",
-        "distance": 10
-      },
       "keywords": [],
-      "trigger": "You or an ally miss with an attack or fail a saving throw.",
-      "target": "You or one ally that you can see",
-      "rows": [
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.heroic-effort",
+        "publication": "Modern4e ancestry rules"
+      },
+      "choices": [],
+      "activations": [
         {
-          "label": "Effect",
-          "text": "The target gains a +3 racial bonus to the attack roll or the saving throw."
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "NO_ACTION",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You or one ally that you can see"
+            }
+          },
+          "blocks": [
+            {
+              "id": "effect-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target gains a +3 racial bonus to the attack roll or the saving throw."
+            }
+          ],
+          "range": {
+            "type": "RANGED",
+            "distance": {
+              "base": 10
+            },
+            "origin": "self"
+          },
+          "targets": "targets",
+          "trigger": "You or an ally miss with an attack or fail a saving throw."
         }
-      ]
+      ],
+      "flavor": "Your grim focus and unbridled energy means that failure is not an option."
     }
   ]
 }

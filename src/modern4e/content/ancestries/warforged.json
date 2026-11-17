@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "ancestries": [
     {
       "id": "modern4e.ancestry.warforged",
@@ -144,21 +144,46 @@
           "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
         ]
       },
-      "flavor": "It's difficult to take you down, even when you're faltering.",
-      "usage": "ENCOUNTER",
-      "action": "MINOR",
-      "range": {
-        "type": "PERSONAL"
-      },
       "keywords": [
         "HEALING"
       ],
-      "rows": [
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.warforged-resolve",
+        "publication": "Modern4e ancestry rules"
+      },
+      "choices": [],
+      "activations": [
         {
-          "label": "Effect",
-          "text": "You gain a number of temporary hit points equal to 3 + one-half your level and can make a saving throw against one effect on you that deals ongoing damage. If you are bloodied, you also regain hit points equal to 3 + one-half your level."
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            }
+          },
+          "blocks": [
+            {
+              "id": "effect-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You gain a number of temporary hit points equal to 3 + one-half your level and can make a saving throw against one effect on you that deals ongoing damage. If you are bloodied, you also regain hit points equal to 3 + one-half your level."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
         }
-      ]
+      ],
+      "flavor": "It's difficult to take you down, even when you're faltering."
     }
   ]
 }

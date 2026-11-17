@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "ancestries": [
     {
       "id": "modern4e.ancestry.goliath",
@@ -144,29 +144,54 @@
           "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
         ]
       },
-      "flavor": "Your foes’ attacks bounce off your stony hide.",
-      "usage": "ENCOUNTER",
-      "action": "MINOR",
-      "range": {
-        "type": "PERSONAL"
-      },
       "keywords": [],
-      "rows": [
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.stone-s-endurance",
+        "publication": "Modern4e ancestry rules"
+      },
+      "choices": [],
+      "activations": [
         {
-          "label": "Effect",
-          "text": "You gain resist 5 to all damage until the end of your next turn.",
-          "scaling": [
-            {
-              "atLevel": 11,
-              "text": "Resist 10 to all damage."
-            },
-            {
-              "atLevel": 21,
-              "text": "Resist 15 to all damage."
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
             }
-          ]
+          },
+          "blocks": [
+            {
+              "id": "effect-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You gain resist 5 to all damage until the end of your next turn.",
+              "scaling": [
+                {
+                  "atLevel": 11,
+                  "text": "Resist 10 to all damage."
+                },
+                {
+                  "atLevel": 21,
+                  "text": "Resist 15 to all damage."
+                }
+              ]
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
         }
-      ]
+      ],
+      "flavor": "Your foes’ attacks bounce off your stony hide."
     }
   ]
 }

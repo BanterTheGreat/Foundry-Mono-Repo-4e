@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "ancestries": [
     {
       "id": "modern4e.ancestry.tiefling",
@@ -144,38 +144,72 @@
           "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
         ]
       },
-      "flavor": "You call upon the hellfire burning in your soul to punish your enemy.",
-      "usage": "ENCOUNTER",
-      "action": "FREE",
-      "range": {
-        "type": "CLOSE_BURST",
-        "distance": 10
-      },
       "keywords": [
         "FIRE"
       ],
-      "trigger": "An enemy within 10 squares of you hits you.",
-      "target": "The triggering enemy in the burst",
-      "attack": {
-        "ability": "MAIN_ABILITY",
-        "defense": null
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.infernal-wrath",
+        "publication": "Modern4e ancestry rules"
       },
-      "rows": [
+      "choices": [],
+      "activations": [
         {
-          "label": "Effect",
-          "text": "The target takes 1d6 + Main Ability fire damage.",
-          "scaling": [
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "The triggering enemy in the burst"
+            }
+          },
+          "blocks": [
             {
-              "atLevel": 11,
-              "text": "2d6 + Main Ability fire damage."
+              "id": "attack-1",
+              "type": "effect",
+              "label": "Attack",
+              "text": "Main Ability"
             },
             {
-              "atLevel": 21,
-              "text": "3d6 + Main Ability fire damage."
+              "id": "effect-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target takes 1d6 + Main Ability fire damage.",
+              "scaling": [
+                {
+                  "atLevel": 11,
+                  "text": "2d6 + Main Ability fire damage."
+                },
+                {
+                  "atLevel": 21,
+                  "text": "3d6 + Main Ability fire damage."
+                }
+              ]
             }
-          ]
+          ],
+          "range": {
+            "type": "CLOSE_BURST",
+            "size": {
+              "base": 10
+            },
+            "origin": "self"
+          },
+          "targets": "targets",
+          "trigger": "An enemy within 10 squares of you hits you."
         }
-      ]
+      ],
+      "flavor": "You call upon the hellfire burning in your soul to punish your enemy."
     }
   ]
 }

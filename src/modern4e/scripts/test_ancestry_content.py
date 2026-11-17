@@ -49,12 +49,12 @@ class AncestryContentTest(unittest.TestCase):
             self.assertEqual(len(choices), 1)
             self.assertEqual(choices[0]['count'], 1)
             self.assertEqual(len(choices[0]['source']['entryIds']), 2)
-        self.assertEqual(self.entries['modern4e.power.goblin-tactics']['usage'], 'AT_WILL')
-        self.assertEqual(self.entries['modern4e.power.shifty-maneuver']['usage'], 'AT_WILL')
-        self.assertEqual(self.entries['modern4e.power.heroic-effort']['target'], 'You or one ally that you can see')
+        self.assertEqual(self.entries['modern4e.power.goblin-tactics']['activations'][0]['usage']['frequency'], 'AT_WILL')
+        self.assertEqual(self.entries['modern4e.power.shifty-maneuver']['activations'][0]['usage']['frequency'], 'AT_WILL')
+        self.assertEqual(self.entries['modern4e.power.heroic-effort']['activations'][0]['bindings']['targets']['text'], 'You or one ally that you can see')
         breath = self.entries['modern4e.power.dragon-breath']
-        self.assertEqual(breath['rows'][0]['scaling'][1], {'atLevel': 21, 'text': '3d6 + Main Ability damage.'})
-        self.assertIn('Dragonborn Scales', breath['rows'][1]['text'])
+        self.assertEqual(breath['activations'][0]['blocks'][0]['comparisons'][0]['outcomes']['hit'][0]['scaling'][1], {'atLevel': 21, 'text': '3d6 + Main Ability damage.'})
+        self.assertIn('Dragonborn Scales', breath['activations'][0]['blocks'][1]['text'])
         for name, count in [('deva', 2), ('human', 1), ('dwarf', 0)]:
             self.assertEqual(self.entries['modern4e.ancestry.' + name]['attributes']['languages']['choiceCount'], count)
 
@@ -64,7 +64,10 @@ class AncestryContentTest(unittest.TestCase):
             lambda d: d.append(copy.deepcopy(d[0])),
             lambda d: d[0]['ancestries'][0]['grants'][0].update(entryId='missing'),
             lambda d: d[0]['ancestries'][0]['attributes'].update(speed=True),
-            lambda d: d[0]['powers'][0].update(action='SCRIPT'),
+            lambda d: d[0]['powers'][0]['activations'][0].update(action='SCRIPT'),
+            lambda d: d[0]['powers'][0]['activations'][0]['blocks'][0].update(type='script'),
+            lambda d: d[0]['powers'][0]['activations'][0].update(targets='missing'),
+            lambda d: d[0].update(schemaVersion=1),
             lambda d: d[0]['ancestries'][0].update(access={'type': 'unresolved'}),
             lambda d: d[0]['features'][0].update(choices=[{'id': 'bad', 'count': 3, 'source': {'damageTypes': ['FIRE']}}]),
             lambda d: d[0]['features'][0].update(choices=[{'id': 'bad', 'count': 1, 'source': {'entryIds': ['missing']}}]),
@@ -92,7 +95,7 @@ class AncestryContentTest(unittest.TestCase):
             handle.write(source)
             path = Path(handle.name)
         try:
-            output = subprocess.check_output([os.environ.get('TYPST_BIN', 'typst'), 'query', '--root', str(BOOK), str(path), 'metadata'], text=True)
+            output = subprocess.check_output([os.environ.get('TYPST_BIN', 'typst'), 'query', '--root', str(BOOK), str(path), 'metadata'], text=True, encoding='utf-8')
             rendered = json.loads(output)[0]['value']
             for eid, entry in self.entries.items():
                 if '.feature.' in eid:

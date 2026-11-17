@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "ancestries": [
     {
       "id": "modern4e.ancestry.deva",
@@ -171,20 +171,45 @@
           "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
         ]
       },
-      "flavor": "The dreamlike memories of your previous lives lend insight to aid you.",
-      "usage": "ENCOUNTER",
-      "action": "NO_ACTION",
-      "range": {
-        "type": "PERSONAL"
-      },
       "keywords": [],
-      "trigger": "You make an attack roll, a saving throw, a skill check, or an ability check and dislike the result",
-      "rows": [
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.power.memory-of-a-thousand-lifetimes",
+        "publication": "Modern4e ancestry rules"
+      },
+      "choices": [],
+      "activations": [
         {
-          "label": "Effect",
-          "text": "You add 1d6 to the triggering roll.,"
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "NO_ACTION",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "You"
+            }
+          },
+          "blocks": [
+            {
+              "id": "effect-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You add 1d6 to the triggering roll.,"
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "You make an attack roll, a saving throw, a skill check, or an ability check and dislike the result"
         }
-      ]
+      ],
+      "flavor": "The dreamlike memories of your previous lives lend insight to aid you."
     }
   ]
 }
