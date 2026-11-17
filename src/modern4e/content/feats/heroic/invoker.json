@@ -1,73 +1,179 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.angelic-harrier",
       "title": "Angelic Harrier",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When you hit only one target with an invoker ranged encounter attack or an invoker ranged daily attack, you can slide the target 1 square after the power's effect is resolved."
     },
     {
+      "id": "modern4e.feat.carceris-manacles",
       "title": "Carceri’s Manacles",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Any enemy that ends its turn adjacent to a creature you have summoned is slowed until the end of its next turn."
     },
     {
+      "id": "modern4e.feat.righteous-summons",
       "title": "Righteous Summons",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Creatures created by your divine summoning powers gain a benefit based on your Divine Covenant.\n\n- Covenant of Malediction: Enemies take a -1 penalty to attack rolls while adjacent to your summoned creature.\n\n- Covenant of Preservation: Any ally that starts its turn adjacent to your summoned creature can shift 1 square as a minor action until the end of its turn.\n\n- Covenant of Wrath: Your summoned creatures gain a feat bonus to damage rolls equal to your *Constitution*."
     },
     {
+      "id": "modern4e.feat.bitter-rebuke",
       "title": "Bitter Rebuke",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Modify rebuke undead based on your Divine Covenant.\n\n- Covenant of Malediction: When you hit a creature with rebuke undead, it takes a -2 penalty to attack rolls until the end of your next turn.\n\n- Covenant of Preservation: When you hit a creature with rebuke undead, it is slowed until the end of your next turn.\n\n- Covenant of Wrath: When you hit a creature with rebuke undead, you can push it a number of squares up to 2 + your *Constitution* instead of only 2 squares."
     },
     {
+      "id": "modern4e.feat.heavens-arrow",
       "title": "Heaven’s Arrow",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "You gain a +2 feat bonus to attack rolls with ranged invoker attack powers against targets that are not adjacent to any creature. Increase this bonus to +3 at 15th level and +4 at 25th level."
     },
     {
+      "id": "modern4e.feat.unsettling-omen",
       "title": "Unsettling Omen",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "You gain combat advantage for close blast invoker powers against adjacent enemies."
     },
     {
+      "id": "modern4e.feat.invoker-defense",
       "title": "Invoker Defense",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When you hit an enemy within 3 squares of you with an invoker power, you gain a +2 feat bonus to AC until the start of your next turn."
     },
     {
+      "id": "modern4e.feat.baleful-malediction",
       "title": "Baleful Malediction",
-      "requirements": "Covenant of Malediction",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.covenant-of-malediction"
+      },
       "description": "Whenever you use a divine encounter or daily attack power on your turn, each target hit by the power takes a -2 penalty to attack rolls against you until the start of your next turn."
     },
     {
+      "id": "modern4e.feat.deadly-rebuke",
       "title": "Deadly Rebuke",
-      "requirements": "Covenant of Preservation",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.covenant-of-preservation"
+      },
       "description": "When you use your preserver's rebuke power, add your *Intelligence* to the damage roll of the attack that gains the bonus from the power."
     },
     {
+      "id": "modern4e.feat.insightful-preservation",
       "title": "Insightful Preservation",
-      "requirements": "Covenant of Preservation",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.covenant-of-preservation"
+      },
       "description": "When you use your preserver's rebuke power, one ally hit by the triggering attack gains temporary hit points equal to 3 + your *Intelligence*."
     },
     {
+      "id": "modern4e.feat.armor-of-burning-wrath-fire-and-radiant",
       "title": "Armor of Burning Wrath",
-      "requirements": "Covenant of Wrath",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.covenant-of-wrath"
+      },
       "description": "Your armor of wrath power deals fire and radiant damage and gains the fire keyword. The target of your armor of wrath power takes a -1 penalty to saving throws until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.armor-of-burning-wrath-vulnerability",
       "title": "Armor of Burning Wrath",
-      "requirements": "Covenant of Wrath",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.covenant-of-wrath"
+      },
       "description": "When you use your armor of wrath power, the target gains vulnerable 2 to all other damage until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.crushing-doom",
       "title": "Crushing Doom",
-      "requirements": "Maledictor’s Doom",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.power.maledictors-doom"
+      },
       "description": "When you target an enemy with maledictor's doom, the enemy takes a penalty to damage rolls equal to your *Wisdom* until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.preservers-summons",
       "title": "Preserver’s Summons",
-      "requirements": "Preserver’s Rebuke",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.power.preservers-rebuke"
+      },
       "description": "When you use preserver's rebuke, you can slide the triggering ally 1 square and, if it is marked, you can end that condition."
     }
   ]

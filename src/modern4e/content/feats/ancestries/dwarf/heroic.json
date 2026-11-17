@@ -1,43 +1,100 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.comeback",
       "title": "Comeback",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.dwarf"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "If you are reduced to 0 hit points or fewer and return to consciousness in the same encounter, you gain a +1 bonus to AC and attack rolls until the end of the encounter."
     },
     {
+      "id": "modern4e.feat.dodge-giants",
       "title": "Dodge Giants",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.dwarf"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "You gain a +1 feat bonus to all defenses against the attacks of Large or larger foes. Whenever a Large or larger creature misses you with a melee attack, you can shift 1 square as a free action. The distance you can shift as a free action increases to 2 at 21st level."
     },
     {
+      "id": "modern4e.feat.knock-back",
       "title": "Knock Back",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.dwarf"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When you succeed on a saving throw to avoid being knocked prone, you can knock prone one enemy of size Large or smaller that is adjacent to you."
     },
     {
+      "id": "modern4e.feat.quick-steps",
       "title": "Quick Steps",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.dwarf"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "You gain a +1 feat bonus to speed."
     },
     {
+      "id": "modern4e.feat.fearsome-toughness",
       "title": "Fearsome Toughness",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.dwarf"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When you use Dwarven Resilience, each enemy adjacent to you is marked by you until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.shield-the-fallen",
       "title": "Shield The Fallen",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.dwarf"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When you are adjacent to a bloodied, unconscious, or helpless ally, that ally gains a +2 bonus to saving throws and all defenses. The benefit of this feat doesn't stack if more than one character with Shield the Fallen is adjacent to the same ally."
     },
     {
+      "id": "modern4e.feat.solid-footing",
       "title": "Solid Footing",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.dwarf"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "You ignore difficult terrain that is the result of rubble, uneven stone, or earthen construction such as stairs."
     },
     {
+      "id": "modern4e.feat.bones-of-stone",
       "title": "Bones of Stone",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.dwarf"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Whenever you take a critical hit, roll a d20. If you roll an 11 or higher, the critical hit turns into a normal hit."
     }
   ]

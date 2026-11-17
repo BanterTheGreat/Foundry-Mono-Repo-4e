@@ -1,63 +1,155 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.bloody-balance",
       "title": "Bloody Balance",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "While you are adjacent to a bloodied ally, you gain a +2 bonus to damage rolls."
     },
     {
+      "id": "modern4e.feat.in-shining-armor",
       "title": "In Shining Armor",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "While you are wearing plate armor and using a shield, adjacent allies gain a +1 shield bonus to AC if you are conscious."
     },
     {
+      "id": "modern4e.feat.virtuous-recovery",
       "title": "Virtuous Recovery",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Whenever you spend a healing surge, you gain resistance to all damage equal to your Wisdom until the start of your next turn."
     },
     {
+      "id": "modern4e.feat.divinitys-shield",
       "title": "Divinity’s Shield",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When you use a channel divinity power, you gain a +2 bonus to Fortitude, Reflex, and Will defenses until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.mercys-reward",
       "title": "Mercy’s Reward",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When you score a critical hit, you can choose to reduce it to a normal hit instead. If you do, you or one ally adjacent to you can spend a healing surge and regain 10 additional hit points."
     },
     {
+      "id": "modern4e.feat.bitter-challenge",
       "title": "Bitter Challenge",
-      "requirements": "Divine Challenge",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.power.divine-challenge"
+      },
       "description": "Whenever a target takes damage from your divine challenge, it is also slowed until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.mighty-challenge",
       "title": "Mighty Challenge",
-      "requirements": "Divine Challenge",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.power.divine-challenge"
+      },
       "description": "Whenever a target of your divine challenge takes damage from that power, it takes extra radiant damage equal to your Strength."
     },
     {
+      "id": "modern4e.feat.mettle-proven",
       "title": "Mettle Proven",
-      "requirements": "Divine Mettle",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.power.divine-mettle"
+      },
       "description": "When an ally succeeds on a saving throw granted by your use of divine mettle, the ally can spend a healing surge."
     },
     {
+      "id": "modern4e.feat.sudden-smite",
       "title": "Sudden Smite",
-      "requirements": "Divine Strength",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.power.divine-strength"
+      },
       "description": "When you hit with an attack, you can use divine strength as a free action and apply its damage bonus to the triggering hit instead of your next attack."
     },
     {
+      "id": "modern4e.feat.lend-health",
       "title": "Lend Health",
-      "requirements": "Lay on Hands",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.power.lay-on-hands"
+      },
       "description": "Whenever you use a power that allows an ally to spend a healing surge or regain hit points as if he or she had spent a healing surge, that ally can use your healing surge value to determine the number of hit points regained."
     },
     {
+      "id": "modern4e.feat.devoted-templar",
       "title": "Devoted Templar",
-      "requirements": "Lay on Hands",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.power.lay-on-hands"
+      },
       "description": "When you use your lay on hands on an ally, that ally regains additional hit points equal to your Charisma. Your number of healing surges increases by one."
     },
     {
+      "id": "modern4e.feat.healing-hands",
       "title": "Healing Hands",
-      "requirements": "Lay on Hands",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.power.lay-on-hands"
+      },
       "description": "When you use the lay on hands power, the affected ally gains additional hit points equal to your Charisma."
     }
   ]

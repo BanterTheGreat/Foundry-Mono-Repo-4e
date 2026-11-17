@@ -1,98 +1,299 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.arcing-throw",
       "title": "Arcing Throw",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warden"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When you use a spear as a thrown weapon, the target doesn't gain cover from its allies.",
       "source": "https://iws.mx/dnd/?view=feat1888 — Primal Power, page(s) 143."
     },
     {
+      "id": "modern4e.feat.earths-punishment",
       "title": "Earth's Punishment",
-      "requirements": "11th level, Earthstrength",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warden"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.earthstrength"
+          }
+        ]
+      },
       "description": "When an adjacent enemy that is marked by you makes an attack that does not include you as a target, and hits and damages at least one of your allies, it takes damage equal to your Constitution.",
       "source": "https://iws.mx/dnd/?view=feat1954 — Dragon Magazine 379, page(s) 45."
     },
     {
+      "id": "modern4e.feat.earthstrength-defenses",
       "title": "Earthstrength Defenses",
-      "requirements": "11th level, Earthstrength",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warden"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.earthstrength"
+          }
+        ]
+      },
       "description": "When you use your second wind, you gain a bonus to Fortitude, Reflex, and Will equal to your Constitution until the end of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat1894 — Primal Power, page(s) 143."
     },
     {
+      "id": "modern4e.feat.earthstrength-resolve",
       "title": "Earthstrength Resolve",
-      "requirements": "11th level, Earthstrength",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warden"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.earthstrength"
+          }
+        ]
+      },
       "description": "When any enemy marked by you makes an attack that doesn't include you as a target, you gain temporary hit points equal to your Constitution.",
       "source": "https://iws.mx/dnd/?view=feat1039 — Player's Handbook 2, page(s) 190."
     },
     {
+      "id": "modern4e.feat.enhanced-font-of-life",
       "title": "Enhanced Font of Life",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warden"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "You gain a +1 bonus to saving throws granted by your Font of Life.",
       "source": "https://iws.mx/dnd/?view=feat582 — Player's Handbook 2, page(s) 190."
     },
     {
+      "id": "modern4e.feat.font-of-vengeance",
       "title": "Font of Vengeance",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warden"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When you save against ongoing damage at the start of your turn, if you are adjacent to and can make an opportunity attack against the creature that inflicted the ongoing damage, you deal damage to that creature equal to your Strength.",
       "source": "https://iws.mx/dnd/?view=feat1955 — Dragon Magazine 379, page(s) 46."
     },
     {
+      "id": "modern4e.feat.forceful-smash",
       "title": "Forceful Smash",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warden"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "Whenever you score a critical hit with a hammer or a mace, the target is knocked prone.",
       "source": "https://iws.mx/dnd/?view=feat1897 — Primal Power, page(s) 144."
     },
     {
+      "id": "modern4e.feat.gusting-rebuke",
       "title": "Gusting Rebuke",
-      "requirements": "11th level, Stormheart",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warden"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.stormheart"
+          }
+        ]
+      },
       "description": "When an enemy adjacent to you that is marked by you hits and damages one of your allies with an attack that does not include you as a target, you can push the enemy a number of squares equal to your Constitution as an immediate reaction.",
       "source": "https://iws.mx/dnd/?view=feat2560 — Dragon Magazine 383, page(s) 62."
     },
     {
+      "id": "modern4e.feat.lifespirit-healing",
       "title": "Lifespirit Healing",
-      "requirements": "11th level, Lifespirit",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warden"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.lifespirit"
+          }
+        ]
+      },
       "description": "When you use your second wind, a second ally within 5 squares of you can spend a healing surge and make a saving throw.",
       "source": "https://iws.mx/dnd/?view=feat1898 — Primal Power, page(s) 144."
     },
     {
+      "id": "modern4e.feat.maneuvering-attack",
       "title": "Maneuvering Attack",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warden"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When you pull, push, or slide a target with an attack using a polearm or a spear, that target grants combat advantage to you until the end of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat1899 — Primal Power, page(s) 145."
     },
     {
+      "id": "modern4e.feat.quickening-font",
       "title": "Quickening Font",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warden"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When you save against an effect at the start of your turn, your speed increases by 1 until the end of your turn.",
       "source": "https://iws.mx/dnd/?view=feat1956 — Dragon Magazine 379, page(s) 46."
     },
     {
+      "id": "modern4e.feat.stormheart-thunder",
       "title": "Stormheart Thunder",
-      "requirements": "11th level, Stormheart",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warden"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.stormheart"
+          }
+        ]
+      },
       "description": "When you use Stormheart to slow an enemy, that enemy gains vulnerable 5 thunder until the end of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat1907 — Primal Power, page(s) 145."
     },
     {
+      "id": "modern4e.feat.vengeful-grasp",
       "title": "Vengeful Grasp",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warden"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When you use Warden's Grasp, you can choose to push the target 3 squares rather than slide it 1 square.",
       "source": "https://iws.mx/dnd/?view=feat1957 — Dragon Magazine 379, page(s) 46."
     },
     {
+      "id": "modern4e.feat.wellspring-of-life",
       "title": "Wellspring of Life",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warden"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When you succeed on a saving throw granted by your Font of Life, each ally adjacent to you gains a +1 bonus to saving throws until the end of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat1916 — Primal Power, page(s) 146."
     },
     {
+      "id": "modern4e.feat.wildblood-retribution",
       "title": "Wildblood Retribution",
-      "requirements": "11th level, Wildblood",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warden"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.wildblood"
+          }
+        ]
+      },
       "description": "When you use your second wind, if any enemy marked by you makes an attack that doesn't include you as a target before the start of your next turn, you can make a melee basic attack against that enemy as a free action during your next turn.",
       "source": "https://iws.mx/dnd/?view=feat1917 — Primal Power, page(s) 146."
     },
     {
+      "id": "modern4e.feat.wildblood-speed",
       "title": "Wildblood Speed",
-      "requirements": "11th level, Wildblood",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warden"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.wildblood"
+          }
+        ]
+      },
       "description": "When any enemy marked by you makes an attack that doesn't include you as a target, you can shift a number of squares equal to your Wisdom as a free action.",
       "source": "https://iws.mx/dnd/?view=feat591 — Player's Handbook 2, page(s) 193."
     }

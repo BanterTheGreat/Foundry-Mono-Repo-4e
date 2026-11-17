@@ -1,9 +1,20 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.student-of-divine-runes",
       "title": "Student of Divine Runes",
-      "requirements": null,
-      "description": "Once per day, you can use the Runepriest’s rune of mending power."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "description": "Once per day, you can use the Runepriest’s rune of mending power.",
+      "multiclassFor": "modern4e.class.runepriest",
+      "tags": [
+        "MULTICLASS"
+      ]
     }
   ]
 }

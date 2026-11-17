@@ -1,48 +1,115 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.improved-spellwarden-shielding",
       "title": "Improved Spellwarden Shielding",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "While you are wearing cloth armor, leather armor, or no armor, the bonus to AC from your Swordmage Warding increases by 1."
     },
     {
+      "id": "modern4e.feat.ensnarement",
       "title": "Ensnarement",
-      "requirements": "Aegis of Ensnarement",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.power.aegis-of-ensnarement"
+      },
       "description": "When you use aegis of ensnarement to teleport an enemy, that enemy is also slowed until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.retributive-shield",
       "title": "Retributive Shield",
-      "requirements": "Aegis of Shielding",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.power.aegis-of-shielding"
+      },
       "description": "When you use your aegis of shielding power, you gain a +2 bonus to the next attack roll made before the end of your next turn against the foe that triggered the aegis of shielding immediate interrupt."
     },
     {
+      "id": "modern4e.feat.escalating-assault",
       "title": "Escalating Assault",
-      "requirements": "Aegis of Assault",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.power.aegis-of-assault"
+      },
       "description": "Each time you make a melee basic attack granted by your aegis of assault power, you gain a cumulative +1 bonus on future attack rolls made for the melee basic attacks granted by this power (up to a maximum bonus of +3). This bonus resets to 0 at the end of the encounter or if you are rendered unconscious."
     },
     {
+      "id": "modern4e.feat.aegis-accuracy",
       "title": "Aegis Accuracy",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "If a target marked by your Swordmage Aegis makes an attack and doesn't include you as a target, you gain a +1 bonus to attack rolls against the marked creature until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.aegis-vitality",
       "title": "Aegis Vitality",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Whenever a creature marked by your Swordmage Aegis makes an attack that does not include you as a target, you gain 3 temporary hit points. Increase the temporary hit points to 5 at 11th level, and to 8 at 21st level."
     },
     {
+      "id": "modern4e.feat.combat-casting",
       "title": "Combat Casting",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When you use a melee swordmage attack power and hit an enemy, your ranged and area swordmage attack powers don't provoke opportunity attacks until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.extended-teleportation",
       "title": "Extended Teleportation",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Whenever you teleport with a swordmage or swordmage paragon path power, add 1 to the distance you can teleport."
     },
     {
+      "id": "modern4e.feat.improved-swordbond",
       "title": "Improved Swordbond",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "You can call your bonded weapon to your hand from up to 20 squares away with a minor action."
     }
   ]

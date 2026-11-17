@@ -1,53 +1,128 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.courage-of-the-lone-stag",
       "title": "Courage of the Lone Stag",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warden"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When you mark three or more enemies with Nature's Wrath, you gain a +2 bonus to weapon damage rolls against creatures you mark until the start of your next turn. This bonus increases to +3 at 11th level, and to +4 at 21st level."
     },
     {
+      "id": "modern4e.feat.crushing-earthstrength",
       "title": "Crushing Earthstrength",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warden"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When you use your second wind, you gain a bonus to weapon damage rolls equal to your *Constitution* until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.dancing-leaves",
       "title": "Dancing Leaves",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warden"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When you use warden's grasp, you can teleport up to 2 squares to a square closer to the target instead of sliding it."
     },
     {
+      "id": "modern4e.feat.earthstrength-resilience",
       "title": "Earthstrength Resilience",
-      "requirements": "Earthstrength",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warden"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.earthstrength"
+      },
       "description": "When you use your second wind, you gain resist 2 to all damage until the end of your next turn. The resistance increases to 5 at 11th level and 8 at 21st level."
     },
     {
+      "id": "modern4e.feat.lifespirit-constitution",
       "title": "Lifespirit Constitution",
-      "requirements": "Lifespirit",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warden"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.lifespirit"
+      },
       "description": "You can grant a saving throw to a second ally within 5 squares of you when you use your second wind."
     },
     {
+      "id": "modern4e.feat.revitalizing-font-of-life",
       "title": "Revitalizing Font of Life",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warden"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "If you succeed on a saving throw granted by Font of Life, you gain a +2 bonus to all other saving throws during or at the end of your current turn."
     },
     {
+      "id": "modern4e.feat.roiling-storm",
       "title": "Roiling Storm",
-      "requirements": "Stormheart",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warden"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.stormheart"
+      },
       "description": "When you use your second wind, you can shift a number of squares equal to your *Constitution* instead of sliding enemies marked by you."
     },
     {
+      "id": "modern4e.feat.sudden-roots",
       "title": "Sudden Roots",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warden"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Whenever you hit an enemy with an opportunity attack, that enemy is slowed until the end of its turn."
     },
     {
+      "id": "modern4e.feat.wildblood-fury",
       "title": "Wildblood Fury",
-      "requirements": "Wildblood",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warden"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.wildblood"
+      },
       "description": "When you use your second wind, you gain a bonus to damage rolls against each enemy marked by you equal to your *Wisdom* until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.crushing-guardian",
       "title": "Crushing Guardian",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warden"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "You gain a +2 bonus to damage rolls while in guardian form. This bonus increases to +3 at 11th level, and to +4 at 21st level."
     }
   ]

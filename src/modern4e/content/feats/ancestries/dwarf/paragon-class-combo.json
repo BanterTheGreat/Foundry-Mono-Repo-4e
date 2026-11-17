@@ -1,20 +1,72 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.steadfast-tactics",
       "title": "Steadfast Tactics",
-      "requirements": "11th level, Warlord",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.dwarf"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.warlord"
+          }
+        ]
+      },
       "description": "When you use inspiring word on an ally, that ally can reduce pull, push, and slide effects against him or her by 1 square until the end of the encounter.",
       "note": "Moved from content/feats/paragon/warlord.json."
     },
     {
+      "id": "modern4e.feat.enduring-wallop",
       "title": "Enduring Wallop",
-      "requirements": "11th level, Fighter",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.dwarf"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.fighter"
+          }
+        ]
+      },
       "description": "When you hit an enemy with a fighter daily attack power while wielding an axe, a hammer, or a pick, that enemy takes ongoing damage equal to your Constitution (save ends). If the power already deals ongoing damage that has no damage type, instead increase that ongoing damage by an amount equal to your Constitution.",
       "note": "Moved from content/feats/paragon/fighter.json."
     },
     {
+      "id": "modern4e.feat.stonefoot-reprisal",
       "title": "Stonefoot Reprisal",
-      "requirements": "11th level, Fighter",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.dwarf"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.fighter"
+          }
+        ]
+      },
       "description": "If an adjacent enemy pushes or slides you, you can make an opportunity attack against that enemy before the forced movement. If the attack hits, you can negate the forced movement.",
       "note": "Moved from content/feats/paragon/fighter.json."
     }

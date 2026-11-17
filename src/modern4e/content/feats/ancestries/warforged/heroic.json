@@ -1,28 +1,65 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.alchemical-affinity",
       "title": "Alchemical Affinity",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.warforged"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Once per attack when you hit an enemy using a consumable alchemical item attack power, you gain temporary hit points equal to your Constitution."
     },
     {
+      "id": "modern4e.feat.alchemical-blood",
       "title": "Alchemical Blood",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.warforged"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Choose a damage type—acid, cold, fire, lightning, necrotic, poison, or thunder. When you use an attack power or alchemical item attack power with that keyword, you gain a +1 feat bonus to the damage roll. The bonus increases to +2 at 11th level and to +3 at 21st level. While you have any temporary hit points, you gain an additional +1 bonus to your damage rolls with alchemical item attack powers."
     },
     {
+      "id": "modern4e.feat.improved-warforged-resolve",
       "title": "Improved Warforged Resolve",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.warforged"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When you use your warforged resolve racial power, you gain 5 extra temporary hit points."
     },
     {
+      "id": "modern4e.feat.warforged-tactics",
       "title": "Warforged Tactics",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.warforged"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "You gain a +1 bonus to melee attack rolls against an enemy that is adjacent to an ally."
     },
     {
+      "id": "modern4e.feat.immutability",
       "title": "Immutability",
-      "requirements": "Improved Warforged Resolve",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.warforged"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feat.improved-warforged-resolve"
+      },
       "description": "When you use your warforged resolve racial power, you can make a saving throw against any effect instead of only against an effect that deals ongoing damage. You gain a +2 feat bonus to that saving throw."
     }
   ]

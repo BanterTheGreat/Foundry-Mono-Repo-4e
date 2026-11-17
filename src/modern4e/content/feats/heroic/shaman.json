@@ -1,48 +1,116 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.intolerable-command",
       "title": "Intolerable Command",
-      "requirements": "World Speaker Spirit",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.world-speaker-spirit"
+      },
       "description": "Creatures hit by your World Speaker's Command power take psychic damage equal to your Constitution and are additionally deafened and slowed until the end of your next turn. Your World Speaker's Command power gains the Psychic keyword."
     },
     {
+      "id": "modern4e.feat.invigorating-spirit",
       "title": "Invigorating Spirit",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Whenever you use Healing Spirit, each ally adjacent to your spirit companion can shift 1 square as a free action. At 21st level and above, each ally may shift up to 2 squares as a free action instead."
     },
     {
+      "id": "modern4e.feat.mobile-spirit",
       "title": "Mobile Spirit",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Whenever you take a move action, you can also move your spirit companion a number of squares equal to your speed + 4. At 11th level and above, this increases to your speed + 5, and at 21st level and above, this increases to your speed + 6."
     },
     {
+      "id": "modern4e.feat.precise-fangs",
       "title": "Precise Fangs",
-      "requirements": "Stalker Spirit",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.stalker-spirit"
+      },
       "description": "Your Spirit's Fangs power deals extra damage equal to your Intelligence and deals half damage on a miss."
     },
     {
+      "id": "modern4e.feat.rejuvenating-spirit",
       "title": "Rejuvenating Spirit",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When you use Healing Spirit, the target can make a saving throw."
     },
     {
+      "id": "modern4e.feat.resilient-spirit",
       "title": "Resilient Spirit",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Your spirit companion gains a +2 bonus to all defenses."
     },
     {
+      "id": "modern4e.feat.retributive-spirit",
       "title": "Retributive Spirit",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Whenever your spirit companion is destroyed, the creature that destroyed it takes a –2 penalty to all defenses until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.revelation-of-the-spirit",
       "title": "Revelation of the Spirit",
-      "requirements": "Watcher Spirit",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.watcher-spirit"
+      },
       "description": "Enemies hit by your Shaman spirit attacks cannot benefit from partial cover or concealment (though they still benefit from superior cover or total concealment) until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.sentinel-spirit",
       "title": "Sentinel Spirit",
-      "requirements": "Watcher Spirit",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.shaman"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.watcher-spirit"
+      },
       "description": "Allies gain a +2 bonus to attack rolls when making opportunity attacks while within the spirit boon aura of your spirit companion."
     }
   ]

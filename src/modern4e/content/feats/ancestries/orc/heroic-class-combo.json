@@ -1,98 +1,273 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.arcane-fury",
       "title": "Arcane Fury",
-      "requirements": "Any Arcane class",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.orc"
+      },
+      "prerequisites": {
+        "type": "classPowerSource",
+        "powerSource": "ARCANE"
+      },
       "description": "When you use your Furious Assault power to deal extra damage to the target of an area or close arcane power, you deal the extra damage to all targets you hit with the power, not just one.",
       "source": "https://iws.mx/dnd/?view=feat1114"
     },
     {
+      "id": "modern4e.feat.blessed-strength",
       "title": "Blessed Strength",
-      "requirements": "Paladin",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.orc"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
       "description": "You can use your Strength in place of your Charisma when determining damage for your Divine Challenge or divine sanction.",
       "source": "https://iws.mx/dnd/?view=feat2909"
     },
     {
+      "id": "modern4e.feat.divine-assault",
       "title": "Divine Assault",
-      "requirements": "Paladin",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.orc"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
       "description": "When you use your Furious Assault power, one ally within 5 squares of you gains a bonus equal to your Strength to his or her melee damage rolls against the target until the start of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat1514"
     },
     {
+      "id": "modern4e.feat.dodgy-charge",
       "title": "Dodgy Charge",
-      "requirements": "Avenger",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.orc"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
       "description": "When you charge your oath of enmity target, your movement during the charge does not provoke opportunity attacks.",
       "source": "https://iws.mx/dnd/?view=feat2911"
     },
     {
+      "id": "modern4e.feat.enduring-fury",
       "title": "Enduring Fury",
-      "requirements": "Orc Resilience, invoker",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.orc"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.orc-resilience"
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.invoker"
+          }
+        ]
+      },
       "description": "The first time you are bloodied in an encounter, you gain combat advantage with invoker close burst or close blast attack powers until the end of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat2988"
     },
     {
+      "id": "modern4e.feat.fearsome-wrath",
       "title": "Fearsome Wrath",
-      "requirements": "Avenger",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.orc"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
       "description": "When you use your Furious Assault power against your oath of enmity target, the target takes a -1 penalty to attack rolls until the start of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat1523"
     },
     {
+      "id": "modern4e.feat.feral-companion",
       "title": "Feral Companion",
-      "requirements": "Combined attack druid attack power",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.orc"
+      },
+      "prerequisites": {
+        "type": "unresolved",
+        "text": "Combined attack druid attack power",
+        "reason": "Unclear whether Combined Attack names a power or a power category; see migration issue #29."
+      },
       "description": "You can use your Furious Assault power after you hit with your combined attack power's attack and your animal companion hits with the animal attack combined attack's effect allows. If you do, your hit and your animal companion's hit both deal the extra damage from your Furious Assault power.",
       "source": "https://iws.mx/dnd/?view=feat3797"
     },
     {
+      "id": "modern4e.feat.furious-charge",
       "title": "Furious Charge",
-      "requirements": "Ranger, Hunter's Quarry",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.orc"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.ranger"
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.power.hunters-quarry"
+          }
+        ]
+      },
       "description": "When you miss your quarry with a charge attack, you can expend your Furious Assault power to reroll the charge's attack roll. If the attack hits, you deal 1[W] extra damage to your quarry.",
       "source": "https://iws.mx/dnd/?view=feat2419"
     },
     {
+      "id": "modern4e.feat.furious-concoction",
       "title": "Furious Concoction",
-      "requirements": "Artificer",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.orc"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.class.artificer"
+      },
       "description": "When an ally hits with a melee attack and is benefiting from your resistive formula or shielding elixir, the ally can end the effect as a free action to deal 1d8 extra damage instead of gaining the normal benefit for ending the effect.",
       "source": "https://iws.mx/dnd/?view=feat3033"
     },
     {
+      "id": "modern4e.feat.furious-devotion",
       "title": "Furious Devotion",
-      "requirements": "Any Divine class, Channel Divinity",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.orc"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "classPowerSource",
+            "powerSource": "DIVINE"
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.channel-divinity"
+          }
+        ]
+      },
       "description": "When you use a Channel Divinity power, you gain a +2 bonus to damage rolls with divine attack powers until the end of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat1529"
     },
     {
+      "id": "modern4e.feat.orc-vengeance",
       "title": "Orc Vengeance",
-      "requirements": "Warden",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.orc"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.class.warden"
+      },
       "description": "The first time you are bloodied during an encounter, you gain a +2 feat bonus to attack rolls and damage rolls against creatures marked by you until the end of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat1950"
     },
     {
+      "id": "modern4e.feat.invigorated-healing",
       "title": "Invigorated Healing",
-      "requirements": "Cleric",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.orc"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
       "description": "When you are first bloodied in an encounter, until the end of your next turn whenever you use a healing power, the targets of that power heal additional hit points equal to the number of temporary hit points you gained from your Orc Resilience trait.",
       "source": "https://iws.mx/dnd/?view=feat2912"
     },
     {
+      "id": "modern4e.feat.menacing-thug",
       "title": "Menacing Thug",
-      "requirements": "Rogue",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.orc"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
       "description": "Whenever you use your Furious Assault power, the enemy you hit grants combat advantage to you until the end of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat2449"
     },
     {
+      "id": "modern4e.feat.primal-resilience",
       "title": "Primal Resilience",
-      "requirements": "Any Primal class",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.orc"
+      },
+      "prerequisites": {
+        "type": "classPowerSource",
+        "powerSource": "PRIMAL"
+      },
       "description": "You gain additional temporary hit points from your Orc Resilience trait equal to your Constitution.",
       "source": "https://iws.mx/dnd/?view=feat1855"
     },
     {
+      "id": "modern4e.feat.unyielding-rage",
       "title": "Unyielding Rage",
-      "requirements": "Barbarian, Rage Strike",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.orc"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.barbarian"
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.power.rage-strike"
+          }
+        ]
+      },
       "description": "When you use your Furious Assault power with your rage strike power's attack, you do not expend Furious Assault.",
       "source": "https://iws.mx/dnd/?view=feat3798"
     },
     {
+      "id": "modern4e.feat.warpath-leader",
       "title": "Warpath Leader",
-      "requirements": "Warlord, Combat Leader",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.orc"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.warlord"
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.combat-leader"
+          }
+        ]
+      },
       "description": "Any ally who starts his or her turn within 5 squares of you gains a +2 feat bonus to his or her speed when charging until the end of that turn.",
       "source": "https://iws.mx/dnd/?view=feat2477"
     }

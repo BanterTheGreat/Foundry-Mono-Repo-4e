@@ -203,6 +203,18 @@ def coverage(value, mechanics, where):
         require(value["status"] != "SUPPORTED", where, "unadapted prerequisite cannot be SUPPORTED")
 
 
+def modern_feats(content=ROOT / "src/modern4e/content"):
+    """Compile shared local definitions, preserving conditions without lossy v1 lowering.
+
+    This authoring catalog is the migration input for the runtime package compiler,
+    not a v1 PackageManifest. No compendium entry or published prose is consulted.
+    """
+    spec = importlib.util.spec_from_file_location("modern_feats", ROOT / "src/modern4e/scripts/feats.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return {"modern4e.feats/catalog.json": module.catalog(content)}
+
+
 def build(config_path, snapshot=SNAPSHOT):
     """Return relative asset paths and JSON values, validating everything before IO."""
     config = load_json(config_path)
@@ -302,13 +314,19 @@ def serialize(value):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--config", type=Path, default=Path(__file__).with_name("proof.json"))
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--config", type=Path, default=Path(__file__).with_name("proof.json"))
     parser.add_argument("--snapshot", type=Path, default=SNAPSHOT)
-    parser.add_argument("--output", type=Path, default=Path(__file__).with_name("generated"))
+    mode.add_argument("--modern-feats", action="store_true", help="compile the shared Modern 4e feat authoring catalog (not a v1 runtime package)")
+    parser.add_argument("--output", type=Path)
     parser.add_argument("--check", action="store_true", help="validate and compare without writing")
     args = parser.parse_args()
+    if args.output is None:
+        args.output = Path(__file__).with_name("modern-feats-generated" if args.modern_feats else "generated")
+    if args.modern_feats:
+        require(not args.output.resolve().is_relative_to((ROOT / "src/modern4e/content").resolve()), args.output, "output must not overwrite shared authoring content")
     require(not args.output.resolve().is_relative_to(args.snapshot.resolve()), args.output, "output must not overwrite source snapshot")
-    assets = build(args.config, args.snapshot)
+    assets = modern_feats() if args.modern_feats else build(args.config, args.snapshot)
     for name in assets:
         require(not (args.output / name).resolve().is_relative_to(args.snapshot.resolve()), args.output / name, "generated asset would overwrite source snapshot")
     if args.output.exists():

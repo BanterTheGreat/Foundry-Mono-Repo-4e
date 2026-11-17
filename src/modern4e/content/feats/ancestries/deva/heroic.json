@@ -1,38 +1,90 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.auspicious-lineage",
       "title": "Auspicious Lineage",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.deva"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When you use your memory of a thousand lifetimes racial power, you add 1d8 to the triggering roll, instead of 1d6."
     },
     {
+      "id": "modern4e.feat.battle-intuition",
       "title": "Battle Intuition",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.deva"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "You can use your *Wisdom* in place of your Dexterity to determine your initiative bonus. Additionally, you gain a +2 feat bonus to initiative checks."
     },
     {
+      "id": "modern4e.feat.heavenly-heritage",
       "title": "Heavenly Heritage",
-      "requirements": "2 Wisdom",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.deva"
+      },
+      "prerequisites": {
+        "type": "abilityPoints",
+        "ability": "WISDOM",
+        "minimum": 2
+      },
       "description": "When you take cold damage or fire damage, you gain a number of temporary hit points equal to your *Wisdom*."
     },
     {
+      "id": "modern4e.feat.immortal-skill",
       "title": "Immortal Skill",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.deva"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When using memory of a thousand lifetimes to modify a skill check or ability check, you treat a result that is lower than the average for the die you roll—3 for d6 or 4 for d8—as the average."
     },
     {
+      "id": "modern4e.feat.potent-rebirth",
       "title": "Potent Rebirth",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.deva"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When you drop to 0 hit points or fewer, you gain a +2 bonus to attack rolls and damage rolls until the end of the encounter."
     },
     {
+      "id": "modern4e.feat.radiant-power",
       "title": "Radiant Power",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.deva"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When you make an implement attack, you can take a -2 penalty to the attack roll. If you do so and the attack hits, it deals 2 extra radiant damage. The extra radiant damage increases to 4 at 11th level and 6 at 21st level."
     },
     {
+      "id": "modern4e.feat.upright-revival",
       "title": "Upright Revival",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.deva"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "If you drop to 0 or fewer hit points and fall unconscious, when you regain 1 or more hit points and become conscious, you stand and shift 1 square as a free action."
     }
   ]

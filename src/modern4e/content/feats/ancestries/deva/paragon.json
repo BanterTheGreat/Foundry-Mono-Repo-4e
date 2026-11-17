@@ -1,13 +1,30 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.ascendant-lineage",
       "title": "Ascendant Lineage",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.deva"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When you use your memory of a thousand lifetimes racial power and the triggering roll still fails, you don't expend the use of memory of a thousand lifetimes. However, you can't use the power again until the start of your next turn."
     },
     {
+      "id": "modern4e.feat.astral-renewal",
       "title": "Astral Renewal",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.deva"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "Whenever your Astral Resistance racial trait reduces the damage you take from an enemy's attack, you gain a +2 bonus to the next attack roll you make before the end of your next turn."
     }
   ]

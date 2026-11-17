@@ -1,92 +1,314 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.angelic-protection",
       "title": "Angelic Protection",
-      "requirements": "11th level, lay on hands",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.power.lay-on-hands"
+          }
+        ]
+      },
       "description": "When you use lay on hands, you can instead grant the target temporary hit points equal to the number of hit points it would have regained.",
       "source": "https://iws.mx/dnd/?view=feat3092 — Dragon Magazine 388."
     },
     {
+      "id": "modern4e.feat.chosen-defender",
       "title": "Chosen Defender",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "Enemies adjacent to you take a -2 penalty to attack rolls on opportunity attacks against your allies.",
       "source": "https://iws.mx/dnd/?view=feat2118 — Dragon Magazine 381, page(s) 93."
     },
     {
+      "id": "modern4e.feat.contagious-challenge",
       "title": "Contagious Challenge",
-      "requirements": "11th level, divine challenge",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.power.divine-challenge"
+          }
+        ]
+      },
       "description": "When you hit an enemy marked by your divine challenge, you also subject one enemy adjacent to the target to your divine sanction. This divine sanction lasts until the start of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat1568 — Divine Power, page(s) 138."
     },
     {
+      "id": "modern4e.feat.forceful-challenge",
       "title": "Forceful Challenge",
-      "requirements": "11th level, divine challenge",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.power.divine-challenge"
+          }
+        ]
+      },
       "description": "When a creature takes damage from your divine challenge or divine sanction, you can slide that creature 1 square after the triggering attack is resolved.",
       "source": "https://iws.mx/dnd/?view=feat1755 — Dragon Magazine 378."
     },
     {
+      "id": "modern4e.feat.fulfilled-vow",
       "title": "Fulfilled Vow",
-      "requirements": "11th level, ardent vow",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.power.ardent-vow"
+          }
+        ]
+      },
       "description": "The first time in an encounter that you reduce an enemy marked by you to 0 or fewer hit points, you gain a +5 bonus to your next damage roll before the end of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat3093 — Dragon Magazine 388."
     },
     {
+      "id": "modern4e.feat.heros-poise",
       "title": "Hero's Poise",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When you succeed on a saving throw to end an effect, each ally that can see you within 5 squares of you gains a bonus to saving throws equal to your Charisma until the start of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat3094 — Dragon Magazine 388."
     },
     {
+      "id": "modern4e.feat.honored-foe",
       "title": "Honored Foe",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When a creature marked by your divine challenge or divine sanction damages you, you gain temporary hit points equal to your Wisdom.",
       "source": "https://iws.mx/dnd/?view=feat1578 — Divine Power, page(s) 139."
     },
     {
+      "id": "modern4e.feat.just-punishment",
       "title": "Just Punishment",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When an enemy reduces an ally you can see to 0 or fewer hit points, you gain a +1 bonus to attack rolls against that enemy until that ally has 1 or more hit points or until the end of the encounter.",
       "source": "https://iws.mx/dnd/?view=feat3096 — Dragon Magazine 388."
     },
     {
+      "id": "modern4e.feat.persistent-challenge",
       "title": "Persistent Challenge",
-      "requirements": "11th level, 2 Charisma, divine challenge",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "abilityPoints",
+            "ability": "CHARISMA",
+            "minimum": 2
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.power.divine-challenge"
+          }
+        ]
+      },
       "description": "Once per encounter, if you fail to engage any target of your Divine Challenge on your turn, you can maintain the marks from that use of Divine Challenge as if you had engaged a target.",
       "source": "https://iws.mx/dnd/?view=feat1583 — Divine Power, page(s) 140."
     },
     {
+      "id": "modern4e.feat.resurgent-attack",
       "title": "Resurgent Attack",
-      "requirements": "11th level, 3 Strength",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "abilityPoints",
+            "ability": "STRENGTH",
+            "minimum": 3
+          }
+        ]
+      },
       "description": "When you spend a healing surge, you gain a +2 power bonus to the next attack roll you make before the end of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat1587 — Divine Power, page(s) 140."
     },
     {
+      "id": "modern4e.feat.touch-of-salvation",
       "title": "Touch of Salvation",
-      "requirements": "11th level, 2 Charisma, lay on hands or virtue's touch",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "abilityPoints",
+            "ability": "CHARISMA",
+            "minimum": 2
+          },
+          {
+            "type": "anyOf",
+            "conditions": [
+              {
+                "type": "entry",
+                "entryId": "modern4e.power.lay-on-hands"
+              },
+              {
+                "type": "entry",
+                "entryId": "modern4e.power.virtues-touch"
+              }
+            ]
+          }
+        ]
+      },
       "description": "When you use your lay on hands or virtue’s touch on an ally, that ally can make a saving throw with a bonus equal to your Charisma.",
       "source": "https://iws.mx/dnd/?view=feat1590 — Divine Power, page(s) 140."
     },
     {
+      "id": "modern4e.feat.untiring-virtue",
       "title": "Untiring Virtue",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "Whenever you reach a milestone, you gain one additional use of your ardent vow, virtue’s touch, or lay on hands for today.",
       "source": "https://iws.mx/dnd/?view=feat1591 — Divine Power, page(s) 140."
     },
     {
+      "id": "modern4e.feat.virtues-chosen",
       "title": "Virtue's Chosen",
-      "requirements": "11th level, virtue's touch",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.power.virtues-touch"
+          }
+        ]
+      },
       "description": "Your virtue's touch can also remove ongoing damage.",
       "source": "https://iws.mx/dnd/?view=feat3097 — Dragon Magazine 388."
     },
     {
+      "id": "modern4e.feat.warding-shield-paragon-paladin",
       "title": "Warding Shield",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When you are using a shield, allies adjacent to you gain a +2 shield bonus to Reflex.",
       "source": "https://iws.mx/dnd/?view=feat2121 — Dragon Magazine 381, page(s) 93."
     },
     {
+      "id": "modern4e.feat.wrathful-conviction",
       "title": "Wrathful Conviction",
-      "requirements": "11th level, divine strength",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.power.divine-strength"
+          }
+        ]
+      },
       "description": "The extra damage dealt by Divine Strength increases by your Charisma or Wisdom. This is in addition to its normal extra damage equal to your Strength plus half your level.",
       "source": "https://iws.mx/dnd/?view=feat3098 — Dragon Magazine 388."
     }

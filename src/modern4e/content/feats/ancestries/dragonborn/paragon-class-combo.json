@@ -1,14 +1,49 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.bloody-inspiration",
       "title": "Bloody Inspiration",
-      "requirements": "11th level, Warlord",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.dragonborn"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.warlord"
+          }
+        ]
+      },
       "description": "If you use inspiring word while you are bloodied and do not target yourself, a second ally within the power's range gains temporary hit points equal to twice your Constitution.",
       "note": "Moved from content/feats/paragon/warlord.json."
     },
     {
+      "id": "modern4e.feat.draconic-arrogance",
       "title": "Draconic Arrogance",
-      "requirements": "11th level, Fighter",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.dragonborn"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.fighter"
+          }
+        ]
+      },
       "description": "Whenever you push an enemy or knock an enemy prone, you deal damage to that enemy equal to your Strength.",
       "note": "Moved from content/feats/paragon/fighter.json."
     }

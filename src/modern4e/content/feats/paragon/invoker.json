@@ -1,92 +1,303 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.accursed-isolation",
       "title": "Accursed Isolation",
-      "requirements": "11th level, maledictor's doom",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.power.maledictors-doom"
+          }
+        ]
+      },
       "description": "If you target only one creature with maledictor's doom, the penalty to attack rolls increases to -3, and it is a -5 penalty to opportunity attack rolls.",
       "source": "https://iws.mx/dnd/?view=feat3002 — Dragon Magazine 387, page(s) 42."
     },
     {
+      "id": "modern4e.feat.broadened-manifestation",
       "title": "Broadened Manifestation",
-      "requirements": "11th level, Covenant of Preservation",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.covenant-of-preservation"
+          }
+        ]
+      },
       "description": "You can slide one or two allies with your covenant manifestation.",
       "source": "https://iws.mx/dnd/?view=feat1753 — Dragon Magazine 378."
     },
     {
+      "id": "modern4e.feat.focused-wrath",
       "title": "Focused Wrath",
-      "requirements": "11th level, Covenant of Wrath",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.covenant-of-wrath"
+          }
+        ]
+      },
       "description": "When you use your armor of wrath power and the triggering enemy is the only enemy in the burst, you deal 1d6 extra damage with that power. At 21st level, this extra damage increases to 2d6.",
       "source": "https://iws.mx/dnd/?view=feat1574 — Divine Power, page(s) 138."
     },
     {
+      "id": "modern4e.feat.footsteps-of-doom",
       "title": "Footsteps of Doom",
-      "requirements": "11th level, Covenant of Malediction",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.covenant-of-malediction"
+          }
+        ]
+      },
       "description": "Each target of your maledictor's doom power gains vulnerable 5 to all damage from fear attacks until the end of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat1575 — Divine Power, page(s) 138."
     },
     {
+      "id": "modern4e.feat.forceful-covenant",
       "title": "Forceful Covenant",
-      "requirements": "11th level, Covenant of Malediction",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.covenant-of-malediction"
+          }
+        ]
+      },
       "description": "Add 1 square to the distance that your Covenant Manifestation allows you to push a target.",
       "source": "https://iws.mx/dnd/?view=feat1576 — Divine Power, page(s) 138."
     },
     {
+      "id": "modern4e.feat.invokers-blaze",
       "title": "Invoker's Blaze",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "You gain a +2 feat bonus to damage rolls with divine attack powers that have the fire keyword or the radiant keyword. While you are bloodied, this feat bonus increases to +4. At 21st level, the feat bonus increases to +3 (or +6 while bloodied).",
       "source": "https://iws.mx/dnd/?view=feat1580 — Divine Power, page(s) 140."
     },
     {
+      "id": "modern4e.feat.invokers-control",
       "title": "Invoker's Control",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When an enemy fails a saving throw against an effect caused by one of your divine attack powers, you gain a +2 power bonus to the next attack roll you make against that target before the end of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat1581 — Divine Power, page(s) 140."
     },
     {
+      "id": "modern4e.feat.overbearing-retribution",
       "title": "Overbearing Retribution",
-      "requirements": "11th level, Covenant of Wrath",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.covenant-of-wrath"
+          }
+        ]
+      },
       "description": "When you use your armor of wrath power, the target falls prone after you push it.",
       "source": "https://iws.mx/dnd/?view=feat485 — Player's Handbook 2, page(s) 191."
     },
     {
+      "id": "modern4e.feat.pillar-of-heaven",
       "title": "Pillar of Heaven",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When you miss each target with an invoker encounter attack power while using a staff, you gain a +2 bonus to all defenses until the start of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat3003 — Dragon Magazine 387, page(s) 42."
     },
     {
+      "id": "modern4e.feat.preservers-vengeance",
       "title": "Preserver's Vengeance",
-      "requirements": "11th level, Covenant of Preservation",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.covenant-of-preservation"
+          }
+        ]
+      },
       "description": "You gain a +2 bonus to damage rolls with divine attack powers while a bloodied ally is within 5 squares of you.",
       "source": "https://iws.mx/dnd/?view=feat1043 — Player's Handbook 2, page(s) 191."
     },
     {
+      "id": "modern4e.feat.speaker-of-the-gods",
       "title": "Speaker of the Gods",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When you use any Channel Divinity power, you can score a critical hit on a roll of 18–20 with the next divine attack power that you use before the end of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat486 — Player's Handbook 2, page(s) 191."
     },
     {
+      "id": "modern4e.feat.staff-of-channeled-invocations",
       "title": "Staff of Channeled Invocations",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When you use any ranged invoker attack power through a staff, you can use the power as a melee attack with a range of 1.",
       "source": "https://iws.mx/dnd/?view=feat3004 — Dragon Magazine 387, page(s) 42."
     },
     {
+      "id": "modern4e.feat.warding-covenant",
       "title": "Warding Covenant",
-      "requirements": "11th level, Covenant of Preservation",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.covenant-of-preservation"
+          }
+        ]
+      },
       "description": "When you use your Covenant Manifestation to slide an ally, no enemy can gain combat advantage against that ally until the end of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat1592 — Divine Power, page(s) 140."
     },
     {
+      "id": "modern4e.feat.wrathful-outburst",
       "title": "Wrathful Outburst",
-      "requirements": "11th level, armor of wrath",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.power.armor-of-wrath"
+          }
+        ]
+      },
       "description": "When you use armor of wrath, you can target any one additional enemy in the burst.",
       "source": "https://iws.mx/dnd/?view=feat3005 — Dragon Magazine 387, page(s) 42."
     },
     {
+      "id": "modern4e.feat.wrathful-panoply",
       "title": "Wrathful Panoply",
-      "requirements": "11th level, armor of wrath",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.power.armor-of-wrath"
+          }
+        ]
+      },
       "description": "When you use armor of wrath, you gain a +1 bonus to all defenses until the end of your next turn. At 21st level, the bonus increases to +2.",
       "source": "https://iws.mx/dnd/?view=feat3006 — Dragon Magazine 387, page(s) 42."
     }

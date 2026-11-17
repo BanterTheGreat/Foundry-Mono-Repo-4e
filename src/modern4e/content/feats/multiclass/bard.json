@@ -1,9 +1,20 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.basic-dilettante",
       "title": "Basic Dilettante",
-      "requirements": null,
-      "description": "Once per day, you can use the Bard’s majestic word power. In addition, you can wield bard implements."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "description": "Once per day, you can use the Bard’s majestic word power. In addition, you can wield bard implements.",
+      "multiclassFor": "modern4e.class.bard",
+      "tags": [
+        "MULTICLASS"
+      ]
     }
   ]
 }

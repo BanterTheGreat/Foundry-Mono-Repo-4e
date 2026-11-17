@@ -1,83 +1,297 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.beseech-patron",
       "title": "Beseech Patron",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlock"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When you spend an action point to take an extra action and use an arcane power, you gain the benefit of your pact boon as if an enemy under your Warlock's Curse had dropped to 0 hit points or fewer."
     },
     {
+      "id": "modern4e.feat.curse-of-the-blind-stars",
       "title": "Curse of the Blind Stars",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlock"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When you hit a cursed foe with an encounter or daily warlock attack that causes radiant damage, you can forgo dealing Warlock's Curse damage to instead cause the target to become blinded until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.demonweb-spiral",
       "title": "Demonweb Spiral",
-      "requirements": "11th level, Dark Pact",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlock"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.dark-pact"
+          }
+        ]
+      },
       "description": "Any creature damaged by your Darkspiral Aura is also immobilized until the start of your next turn."
     },
     {
+      "id": "modern4e.feat.elusive-hexer",
       "title": "Elusive Hexer",
-      "requirements": "11th level, Eladrin, Fey Pact",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlock"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.ancestry.eladrin"
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.fey-pact"
+          }
+        ]
+      },
       "description": "When an enemy takes damage from your warlock's curse on your turn, you are invisible until the end of that turn."
     },
     {
+      "id": "modern4e.feat.eochaids-lure",
       "title": "Eochaid's Lure",
-      "requirements": "11th level, Fey Pact",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlock"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.fey-pact"
+          }
+        ]
+      },
       "description": "When you leave a square because of the Misty Step pact boon, you can slide each enemy adjacent to that square 1 square."
     },
     {
+      "id": "modern4e.feat.fey-revel-glamor",
       "title": "Fey Revel Glamor",
-      "requirements": "11th level, Fey Pact",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlock"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.fey-pact"
+          }
+        ]
+      },
       "description": "Whenever you deal Warlock's Curse damage to a target and do so with a warlock daily attack power, the target is slowed (save ends). If the power already subjects the target to a slowing effect that a save can end, the target is instead immobilized (save ends)."
     },
     {
+      "id": "modern4e.feat.flitting-shadows",
       "title": "Flitting Shadows",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlock"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "Whenever you hit an enemy under your Warlock's Curse with an encounter or daily warlock power, you can reduce the Warlock's Curse damage you deal to teleport the target. You can teleport the target 3 squares for each die of Warlock's Curse damage you give up."
     },
     {
+      "id": "modern4e.feat.hellfire-hex",
       "title": "Hellfire Hex",
-      "requirements": "11th level, Infernal Pact",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlock"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.infernal-pact"
+          }
+        ]
+      },
       "description": "Whenever you deal Warlock's Curse damage to a target with a warlock daily attack power, the target takes ongoing 5 fire damage (save ends). If the power already deals ongoing fire damage, instead increase that ongoing damage by 5."
     },
     {
+      "id": "modern4e.feat.improved-darkspiral-aura",
       "title": "Improved Darkspiral Aura",
-      "requirements": "11th level, Dark Pact",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlock"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.dark-pact"
+          }
+        ]
+      },
       "description": "Your Darkspiral Aura deals 1d10 points of damage per point in the Darkspiral Aura (instead of 1d6). At 21st level the damage increases to 1d12 per point in the Darkspiral Aura."
     },
     {
+      "id": "modern4e.feat.message-of-doom-spurned",
       "title": "Message of Doom Spurned",
-      "requirements": "11th level, Star Pact",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlock"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.star-pact"
+          }
+        ]
+      },
       "description": "When you have a bonus from the Fate of the Void pact boon, you can apply it to all your defenses as an immediate interrupt when an enemy hits you. When you do, it lasts until the triggering attack is resolved, and then the bonus is spent."
     },
     {
+      "id": "modern4e.feat.prisoners-resolve",
       "title": "Prisoner's Resolve",
-      "requirements": "11th level, Infernal Pact",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlock"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.infernal-pact"
+          }
+        ]
+      },
       "description": "If you fail a saving throw, you can take 10 damage to make another saving throw against the same effect. You can do this only once per effect per round. This damage cannot be reduced in any way."
     },
     {
+      "id": "modern4e.feat.protective-hex",
       "title": "Protective Hex",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlock"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When you hit an enemy you have cursed with an attack, that enemy takes a -2 penalty to close and melee attacks against your allies until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.relentless-curse",
       "title": "Relentless Curse",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlock"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When an enemy cursed by you is reduced to 0 hit points, you can use your Warlock's Curse as a free action."
     },
     {
+      "id": "modern4e.feat.shared-pact",
       "title": "Shared Pact",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlock"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When your pact boon is triggered, you can designate an ally within 3 squares of you to receive the benefit of the pact boon instead of you."
     },
     {
+      "id": "modern4e.feat.twofold-curse",
       "title": "Twofold Curse",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlock"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When you use your Warlock's Curse class feature, you can curse the two nearest enemies."
     },
     {
+      "id": "modern4e.feat.veil-of-waking-dreams",
       "title": "Veil of Waking Dreams",
-      "requirements": "11th level, Star Pact",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlock"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.star-pact"
+          }
+        ]
+      },
       "description": "Whenever you deal Warlock's Curse damage to a target and do so with a warlock daily attack power, the target is dazed (save ends). If the power already subjects the target to a dazing effect that a save can end, the target is instead dazed and takes ongoing 5 psychic damage (save ends both)."
     }
   ]

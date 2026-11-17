@@ -1,19 +1,50 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.soldier-of-virtue",
       "title": "Soldier of Virtue",
-      "requirements": null,
-      "description": "Once per day, you can use the virtue’s touch power. In addition, you can wield paladin implements."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "description": "Once per day, you can use the virtue’s touch power. In addition, you can wield paladin implements.",
+      "multiclassFor": "modern4e.class.paladin",
+      "tags": [
+        "MULTICLASS"
+      ]
     },
     {
+      "id": "modern4e.feat.squire-of-righteousness",
       "title": "Squire of Righteousness",
-      "requirements": null,
-      "description": "You have proficiency with holy symbols. You gain the defender aura power. You can use righteous radiance as an encounter power."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "description": "You have proficiency with holy symbols. You gain the defender aura power. You can use righteous radiance as an encounter power.",
+      "multiclassFor": "modern4e.class.paladin",
+      "tags": [
+        "MULTICLASS"
+      ]
     },
     {
+      "id": "modern4e.feat.soldier-of-the-faith",
       "title": "Soldier of the Faith",
-      "requirements": null,
-      "description": "Once per encounter, you can use the Paladin’s divine challenge power. In addition, you can use a holy symbol or a holy avenger as an implement."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "description": "Once per encounter, you can use the Paladin’s divine challenge power. In addition, you can use a holy symbol or a holy avenger as an implement.",
+      "multiclassFor": "modern4e.class.paladin",
+      "tags": [
+        "MULTICLASS"
+      ]
     }
   ]
 }

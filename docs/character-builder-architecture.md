@@ -4,6 +4,11 @@ Status: agreed design; the shared core and application shells live in `src/chara
 
 This document records the architecture agreed in the character-builder design discussion. It preserves the decisions for future implementation; it is not an implementation checklist.
 
+For the shared authoring direction established by the feat migration, see the
+[Modern 4e content model](modern4e-content-model.md): reusable entry identity,
+access, structured prerequisites and planned selection rules, extended with
+category-specific data for powers, classes, ancestries and other content.
+
 Visual reference: [Architecture, content overrides, and character sharing](../outputs/character-builder-architecture.html).
 
 ## Purpose and scope

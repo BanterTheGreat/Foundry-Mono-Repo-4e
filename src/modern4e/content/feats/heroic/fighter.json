@@ -1,143 +1,414 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.deep-gash",
       "title": "Deep Gash",
-      "requirements": "3 Constitution",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "abilityPoints",
+        "ability": "CONSTITUTION",
+        "minimum": 3
+      },
       "description": "When you deal ongoing damage that has no damage type to a target as a result of an attack that uses an axe or a pick, the target takes a –2 penalty to saving throws against the ongoing damage."
     },
     {
+      "id": "modern4e.feat.improved-combat-challenge",
       "title": "Improved Combat Challenge",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When an adjacent enemy marked by you shifts or makes an attack that doesn't include you as a target while you are using a shield, you give an adjacent ally a +2 bonus to all defenses until the start of your next turn as an immediate interrupt."
     },
     {
+      "id": "modern4e.feat.defensive-resilience",
       "title": "Defensive Resilience",
-      "requirements": "2 Constitution, 2 Wisdom",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "abilityPoints",
+            "ability": "CONSTITUTION",
+            "minimum": 2
+          },
+          {
+            "type": "abilityPoints",
+            "ability": "WISDOM",
+            "minimum": 2
+          }
+        ]
+      },
       "description": "When you use second wind while you are bloodied, you gain a +1 bonus to all defenses, in addition to the normal bonus for second wind, until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.dirty-fighting-heroic-fighter",
       "title": "Dirty Fighting",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "You gain a +4 bonus to melee weapon damage rolls against surprised enemies."
     },
     {
+      "id": "modern4e.feat.distracting-shield",
       "title": "Distracting Shield",
-      "requirements": "3 Wisdom",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "abilityPoints",
+        "ability": "WISDOM",
+        "minimum": 3
+      },
       "description": "If you hit a foe with an attack granted by your Combat Challenge class feature, the target takes a –2 penalty to attack rolls until the start of your next turn.\n\n_Special:_ You must have a shield equipped to benefit from this feat."
     },
     {
+      "id": "modern4e.feat.dragging-flail",
       "title": "Dragging Flail",
-      "requirements": "3 Dexterity",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "abilityPoints",
+        "ability": "DEXTERITY",
+        "minimum": 3
+      },
       "description": "Whenever you use a flail to knock an enemy prone, you can also slide that enemy 1 square."
     },
     {
+      "id": "modern4e.feat.encouraging-shield",
       "title": "Encouraging Shield",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Your shield bonus also applies to your Will defense."
     },
     {
+      "id": "modern4e.feat.fighter-weapon-specialization",
       "title": "Fighter Weapon Specialization",
-      "requirements": "One-Handed Weapon Talent or Two-Handed Weapon Talent",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "anyOf",
+        "conditions": [
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.one-handed-weapon-talent"
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.two-handed-weapon-talent"
+          }
+        ]
+      },
       "description": "You gain a +1 bonus to damage rolls when you hit with an attack using a weapon of the style covered by your One-Handed Weapon Talent or Two-Handed Weapon Talent class feature."
     },
     {
+      "id": "modern4e.feat.focused-superiority",
       "title": "Focused Superiority",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "While you are wielding a one-handed weapon, you gain a bonus to damage rolls equal to your Wisdom with opportunity attacks."
     },
     {
+      "id": "modern4e.feat.forceful-opportunist",
       "title": "Forceful Opportunist",
-      "requirements": "One-Handed Weapon Talent or Two-Handed Weapon Talent",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "anyOf",
+        "conditions": [
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.one-handed-weapon-talent"
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.two-handed-weapon-talent"
+          }
+        ]
+      },
       "description": "Whenever you hit a target with an opportunity attack, you can push the target 1 square and shift into the square the target vacated."
     },
     {
+      "id": "modern4e.feat.improved-vigor",
       "title": "Improved Vigor",
-      "requirements": "Endurance",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "proficiency",
+        "skill": "ENDURANCE"
+      },
       "description": "You gain a +1 feat bonus to the number of temporary hit points you gain from using an invigorating power. The bonus increases to 2 at 11th level and 3 at 21st level."
     },
     {
+      "id": "modern4e.feat.hewing-charge",
       "title": "Hewing Charge",
-      "requirements": "Two-Handed Weapon Talent",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.two-handed-weapon-talent"
+      },
       "description": "You gain a bonus to damage rolls equal to your Constitution when making charge attacks while using a two-handed weapon."
     },
     {
+      "id": "modern4e.feat.marked-fury",
       "title": "Marked Fury",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "If an adjacent enemy that is marked by you makes an attack that doesn't include you as a target, it takes a penalty to the attack roll equal to either -2 or the number of enemies adjacent to you, whichever is worse. This penalty replaces the normal penalty for having a creature marked."
     },
     {
+      "id": "modern4e.feat.mobile-challenge",
       "title": "Mobile Challenge",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "After you hit an enemy with a melee basic attack granted by your Combat Challenge class feature, you can shift 1 square."
     },
     {
+      "id": "modern4e.feat.offensive-resilience",
       "title": "Offensive Resilience",
-      "requirements": "2 Dexterity, 2 Wisdom",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "abilityPoints",
+            "ability": "DEXTERITY",
+            "minimum": 2
+          },
+          {
+            "type": "abilityPoints",
+            "ability": "WISDOM",
+            "minimum": 2
+          }
+        ]
+      },
       "description": "When you are bloodied and use second wind, you gain a +1 bonus to attack rolls until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.polearm-momentum",
       "title": "Polearm Momentum",
-      "requirements": "2 Dexterity, 2 Wisdom",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "abilityPoints",
+            "ability": "DEXTERITY",
+            "minimum": 2
+          },
+          {
+            "type": "abilityPoints",
+            "ability": "WISDOM",
+            "minimum": 2
+          }
+        ]
+      },
       "description": "Whenever you use a polearm or a spear attack to push or slide a target 2 or more squares, you can also knock that target prone at the end of the forced movement."
     },
     {
+      "id": "modern4e.feat.potent-challenge",
       "title": "Potent Challenge",
-      "requirements": "3 Constitution",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "abilityPoints",
+        "ability": "CONSTITUTION",
+        "minimum": 3
+      },
       "description": "If you hit a foe with an attack granted by your Combat Challenge class feature, add your Constitution to the damage roll.\n\n_Special:_ This benefit applies only to attacks made with two-handed weapons."
     },
     {
+      "id": "modern4e.feat.reaping-blade",
       "title": "Reaping Blade",
-      "requirements": "3 Dexterity",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "abilityPoints",
+        "ability": "DEXTERITY",
+        "minimum": 3
+      },
       "description": "If you reduce an enemy to 0 hit points with an attack using a heavy blade, you can shift as a minor action until the end of your current turn."
     },
     {
+      "id": "modern4e.feat.savage-axe",
       "title": "Savage Axe",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When you hit with an opportunity attack with an axe, you deal extra damage equal to your Constitution."
     },
     {
+      "id": "modern4e.feat.shield-defense",
       "title": "Shield Defense",
-      "requirements": "2 Wisdom",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "abilityPoints",
+        "ability": "WISDOM",
+        "minimum": 2
+      },
       "description": "When you hit with a power that requires a shield, you gain a +1 bonus to AC and Reflex until the end of your next turn or until you stop using the shield."
     },
     {
+      "id": "modern4e.feat.shield-push",
       "title": "Shield Push",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "If you hit a foe with an attack granted by your Combat Challenge class feature, you push the target 1 square after dealing damage.\n\n_Special:_ You must be using a shield to benefit from this feat."
     },
     {
+      "id": "modern4e.feat.shielded-resurgence",
       "title": "Shielded Resurgence",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When you use your second wind while you are using a shield, you regain extra hit points equal to your Wisdom, and the bonus to defenses lasts until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.stout-shield",
       "title": "Stout Shield",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Your shield bonus also applies to your Fortitude."
     },
     {
+      "id": "modern4e.feat.swift-spear",
       "title": "Swift Spear",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When you hit with an opportunity attack with a spear, you can also slide that enemy 1 square to a space adjacent to you."
     },
     {
+      "id": "modern4e.feat.thunder-hammer",
       "title": "Thunder Hammer",
-      "requirements": "3 Constitution",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "abilityPoints",
+        "ability": "CONSTITUTION",
+        "minimum": 3
+      },
       "description": "When you make an attack using a hammer or a mace that causes the target to become dazed, immobilized, slowed, or stunned, that target takes a –2 penalty to saving throws against any of those conditions."
     },
     {
+      "id": "modern4e.feat.unbalancing-shield-shove",
       "title": "Unbalancing Shield Shove",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When you hit with an opportunity attack while using a shield, the target grants combat advantage until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.victors-confidence",
       "title": "Victor's Confidence",
-      "requirements": "3 Constitution",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "abilityPoints",
+        "ability": "CONSTITUTION",
+        "minimum": 3
+      },
       "description": "When you reduce an enemy to 0 hit points with a melee attack, you gain a +1 bonus to saving throws until the end of the encounter."
     },
     {
+      "id": "modern4e.feat.wary-fighter",
       "title": "Wary Fighter",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "You use your Wisdom instead of your Dexterity when rolling initiative. You also gain a +2 feat bonus to Insight and Perception checks."
     }
   ]

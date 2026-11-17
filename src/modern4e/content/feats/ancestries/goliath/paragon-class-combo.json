@@ -1,8 +1,31 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.cragborn-courage",
       "title": "Cragborn Courage",
-      "requirements": "11th level, Warlord, 4 Constitution",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.goliath"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.warlord"
+          },
+          {
+            "type": "abilityPoints",
+            "ability": "CONSTITUTION",
+            "minimum": 4
+          }
+        ]
+      },
       "description": "When you use inspiring word, the target regains additional hit points equal to your Constitution.",
       "note": "Moved from content/feats/paragon/warlord.json."
     }

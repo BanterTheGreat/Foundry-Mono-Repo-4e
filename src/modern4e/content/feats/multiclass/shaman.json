@@ -1,14 +1,35 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.spirit-talker",
       "title": "Spirit Talker",
-      "requirements": null,
-      "description": "You gain the Shaman’s call spirit companion power, but you use it as a standard action. Choose a Companion Spirit option. You gain the at-will Shaman power associated with that option, such as Spirit’s Wrath or Spirit’s Fangs, as an encounter power. You gain speak with spirits as a daily power. In addition, you can wield Shaman implements."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "description": "You gain the Shaman’s call spirit companion power, but you use it as a standard action. Choose a Companion Spirit option. You gain the at-will Shaman power associated with that option, such as Spirit’s Wrath or Spirit’s Fangs, as an encounter power. You gain speak with spirits as a daily power. In addition, you can wield Shaman implements.",
+      "multiclassFor": "modern4e.class.shaman",
+      "tags": [
+        "MULTICLASS"
+      ]
     },
     {
+      "id": "modern4e.feat.mending-spirit",
       "title": "Mending Spirit",
-      "requirements": null,
-      "description": "*Requires*: Spirit Talker #linebreak() You gain the shaman power healing spirit, but you can use it only once per encounter."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "description": "*Requires*: Spirit Talker #linebreak() You gain the shaman power healing spirit, but you can use it only once per encounter.",
+      "multiclassFor": "modern4e.class.shaman",
+      "tags": [
+        "MULTICLASS"
+      ]
     }
   ]
 }

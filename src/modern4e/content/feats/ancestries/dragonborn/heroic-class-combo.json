@@ -1,8 +1,17 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.brutal-teamwork",
       "title": "Brutal Teamwork",
-      "requirements": "Rogue",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.dragonborn"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
       "description": "You gain a +2 bonus to damage rolls when you are adjacent to at least one ally.",
       "note": "Moved from classes/rogue.typ."
     }

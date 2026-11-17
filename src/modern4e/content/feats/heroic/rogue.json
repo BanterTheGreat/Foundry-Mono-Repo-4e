@@ -1,103 +1,253 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.press-the-advantage",
       "title": "Press the Advantage",
-      "requirements": "3 Charisma",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "abilityPoints",
+        "ability": "CHARISMA",
+        "minimum": 3
+      },
       "description": "If you score a critical hit while you have combat advantage, you gain combat advantage against the target until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.speedy-response",
       "title": "Speedy Response",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "If you are hit by an opportunity attack while moving, you gain a +1 bonus to speed for that move. This benefit is cumulative if you are hit multiple times."
     },
     {
+      "id": "modern4e.feat.surprising-charge",
       "title": "Surprising Charge",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When you make a charge attack against a target that is granting combat advantage to you, the attack deals 1[W] extra damage if you hit with a light blade."
     },
     {
+      "id": "modern4e.feat.dirty-fighting-heroic-rogue",
       "title": "Dirty Fighting",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "You gain a +4 bonus to melee weapon damage rolls against surprised enemies."
     },
     {
+      "id": "modern4e.feat.into-the-fray",
       "title": "Into the Fray",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "During the surprise round and the first round of an encounter, you gain a +1 bonus to your speed and to your melee attack rolls."
     },
     {
+      "id": "modern4e.feat.opportunity-knocks",
       "title": "Opportunity Knocks",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Whenever you hit with an opportunity attack, or when an enemy misses you with an opportunity attack, the enemy you hit or the enemy that missed you grants combat advantage to you until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.risky-shift",
       "title": "Risky Shift",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Whenever you shift, you can shift 1 additional square. If you do so, you grant combat advantage until the start of your next turn."
     },
     {
+      "id": "modern4e.feat.two-fisted-shooter",
       "title": "Two-Fisted Shooter",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "You can treat the hand crossbow as an off-hand weapon, and you can reload it one-handed as a free action. When you score a critical hit and have a loaded hand crossbow in your off hand, you can make a ranged basic attack with that weapon as a free action."
     },
     {
+      "id": "modern4e.feat.versatile-duelist",
       "title": "Versatile Duelist",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "You gain proficiency with all one-handed, military heavy blades. If a rogue power requires you to wield a light blade, you can use that power with a one-handed heavy blade and can also deal your Sneak Attack damage while using a one-handed heavy blade with that power."
     },
     {
+      "id": "modern4e.feat.reckless-scramble",
       "title": "Reckless Scramble",
-      "requirements": "Artful Dodger",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.artful-dodger"
+      },
       "description": "When a power lets you shift, you can instead choose to move that distance + 2 squares."
     },
     {
+      "id": "modern4e.feat.aggressive-assault",
       "title": "Aggressive Assault",
-      "requirements": "Brutal Scoundrel",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.brutal-scoundrel"
+      },
       "description": "At the beginning of an encounter, whenever you hit a target that has not yet acted, you slide that target 1 square."
     },
     {
+      "id": "modern4e.feat.brutal-wound",
       "title": "Brutal Wound",
-      "requirements": "Brutal Scoundrel",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.brutal-scoundrel"
+      },
       "description": "When your attack deals ongoing damage and you deal Sneak Attack damage to the target, add 1 to the ongoing damage for every die of Sneak Attack damage dealt."
     },
     {
+      "id": "modern4e.feat.improved-cunning-sneak",
       "title": "Improved Cunning Sneak",
-      "requirements": "Cunning Sneak",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.cunning-sneak"
+      },
       "description": "When you make a Stealth check to become hidden using your Cunning Sneak class feature, you must end a move action at least 2 squares away from your starting position instead of 3."
     },
     {
+      "id": "modern4e.feat.ruthless-injury",
       "title": "Ruthless Injury",
-      "requirements": "Ruthless Ruffian",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.ruthless-ruffian"
+      },
       "description": "When you use a club or a mace to make a sneak attack that causes the target to become blinded, immobilized, slowed, or weakened, that target takes a –2 penalty to saving throws against any of those conditions."
     },
     {
+      "id": "modern4e.feat.backstabber",
       "title": "Backstabber",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "The extra damage dice from your Sneak Attack class feature increase from d6s to d8s."
     },
     {
+      "id": "modern4e.feat.underhanded-tactics",
       "title": "Underhanded Tactics",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Whenever you deal Sneak Attack damage, you can forgo rolling 1 die of that damage to impose a -2 penalty to the target's attack rolls until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.blade-and-buckler",
       "title": "Blade and Buckler",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "The shield bonus to defenses from your light shield increase to +2."
     },
     {
+      "id": "modern4e.feat.buckler-duelist",
       "title": "Buckler Duelist",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "If a rogue power gives you a power bonus to defenses and you wield a light shield, increase that bonus by 1."
     },
     {
+      "id": "modern4e.feat.swashbuckling-specialist",
       "title": "Swashbuckling Specialist",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "While wielding a rapier, if you are the only creature adjacent to the target you may use your sneak attack damage even if you do not have combat advantage against the target with this attack."
     },
     {
+      "id": "modern4e.feat.surprise-knockdown",
       "title": "Surprise Knockdown",
-      "requirements": "3 Strength",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
+      "prerequisites": {
+        "type": "abilityPoints",
+        "ability": "STRENGTH",
+        "minimum": 3
+      },
       "description": "If you score a critical hit while you have combat advantage, you knock the target prone."
     }
   ]

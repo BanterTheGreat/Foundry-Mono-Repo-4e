@@ -1,24 +1,65 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.ruthless-efficiency",
       "title": "Ruthless Efficiency",
-      "requirements": null,
-      "description": "You gain the Ruthless Ruffian class feature."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "description": "You gain the Ruthless Ruffian class feature.",
+      "multiclassFor": "modern4e.class.rogue",
+      "tags": [
+        "MULTICLASS"
+      ]
     },
     {
+      "id": "modern4e.feat.sly-dodge",
       "title": "Sly Dodge",
-      "requirements": null,
-      "description": "Once per encounter, when an enemy makes an opportunity attack against you, you can add your Charisma to your AC against that attack."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "description": "Once per encounter, when an enemy makes an opportunity attack against you, you can add your Charisma to your AC against that attack.",
+      "multiclassFor": "modern4e.class.rogue",
+      "tags": [
+        "MULTICLASS"
+      ]
     },
     {
+      "id": "modern4e.feat.twilight-adept",
       "title": "Twilight Adept",
-      "requirements": null,
-      "description": "Once per encounter, you can use a free action during your turn to gain the benefit of the Rogue class feature Cunning Sneak until the end of your turn."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "description": "Once per encounter, you can use a free action during your turn to gain the benefit of the Rogue class feature Cunning Sneak until the end of your turn.",
+      "multiclassFor": "modern4e.class.rogue",
+      "tags": [
+        "MULTICLASS"
+      ]
     },
     {
+      "id": "modern4e.feat.sneak-of-shadows",
       "title": "Sneak of Shadows",
-      "requirements": null,
-      "description": "Once per encounter, you can use the Rogue's Sneak Attack class feature."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "description": "Once per encounter, you can use the Rogue's Sneak Attack class feature.",
+      "multiclassFor": "modern4e.class.rogue",
+      "tags": [
+        "MULTICLASS"
+      ]
     }
   ]
 }

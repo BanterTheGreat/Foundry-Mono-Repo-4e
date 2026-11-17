@@ -1,14 +1,35 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.initiate-of-the-old-faith",
       "title": "Initiate of the Old Faith",
-      "requirements": null,
-      "description": "You gain the Druid's wild shape power. Choose a 1st-level Druid at-will attack power that has the beast form keyword. You can use that power once per encounter. In addition, you can wield Druid implements."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "description": "You gain the Druid's wild shape power. Choose a 1st-level Druid at-will attack power that has the beast form keyword. You can use that power once per encounter. In addition, you can wield Druid implements.",
+      "multiclassFor": "modern4e.class.druid",
+      "tags": [
+        "MULTICLASS"
+      ]
     },
     {
+      "id": "modern4e.feat.hunting-predator",
       "title": "Hunting Predator",
-      "requirements": null,
-      "description": "While you are in beast form, you gain a +1 bonus to speed."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "description": "While you are in beast form, you gain a +1 bonus to speed.",
+      "multiclassFor": "modern4e.class.druid",
+      "tags": [
+        "MULTICLASS"
+      ]
     }
   ]
 }

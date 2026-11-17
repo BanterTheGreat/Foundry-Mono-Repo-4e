@@ -1,86 +1,218 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.action-rush",
       "title": "Action Rush",
-      "requirements": "ranger or rogue",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.human"
+      },
+      "prerequisites": {
+        "type": "anyOf",
+        "conditions": [
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.ranger"
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.rogue"
+          }
+        ]
+      },
       "description": "When an action point grants you an extra action, you may shift 2 squares as a free action immediately before or after that action.",
       "source": "https://iws.mx/dnd/?view=feat2389"
     },
     {
+      "id": "modern4e.feat.avenging-opportunist",
       "title": "Avenging Opportunist",
-      "requirements": "avenger",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.human"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
       "description": "The first time each encounter you bring your Oath of Enmity target to 0 hit points, gain an extra move action. Use it by the end of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat1493"
     },
     {
+      "id": "modern4e.feat.divine-perseverance",
       "title": "Divine Perseverance",
-      "requirements": "paladin",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.human"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
       "description": "A successful saving throw grants +2 to your next attack roll made by the end of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat1516"
     },
     {
+      "id": "modern4e.feat.human-beast-mastery",
       "title": "Human Beast Mastery",
-      "requirements": "ranger, Beast Mastery",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.human"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.ranger"
+          },
+          {
+            "type": "unresolved",
+            "text": "Beast Mastery",
+            "reason": "No matching local feature, power or feat definition was identified; see migration issue #29."
+          }
+        ]
+      },
       "description": "Increase all of your beast companion's defenses by 1.",
       "source": "https://iws.mx/dnd/?view=feat785"
     },
     {
+      "id": "modern4e.feat.inspired-defense",
       "title": "Inspired Defense",
-      "requirements": "warlord",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.human"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
       "description": "Inspiring Word also gives its target a +1 power bonus to all defenses through the start of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat793"
     },
     {
+      "id": "modern4e.feat.invoke-resilience",
       "title": "Invoke Resilience",
-      "requirements": "invoker",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.human"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
       "description": "Using a divine encounter or daily attack power on your turn grants an ally within 10 squares a +1 power bonus to its next saving throw made by the end of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat1539"
     },
     {
+      "id": "modern4e.feat.rash-sneak-attack",
       "title": "Rash Sneak Attack",
-      "requirements": "rogue",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.human"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.class.rogue"
+      },
       "description": "When dealing Sneak Attack damage, you may add 2 to the damage roll. Taking this bonus grants all enemies combat advantage against you through the end of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat809"
     },
     {
+      "id": "modern4e.feat.reckless-curse",
       "title": "Reckless Curse",
-      "requirements": "warlock",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.human"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlock"
+      },
       "description": "You gain +1 to attacks against enemies under your Warlock's Curse. Those enemies also gain +1 to attacks against you.",
       "source": "https://iws.mx/dnd/?view=feat1153"
     },
     {
+      "id": "modern4e.feat.risky-aegis",
       "title": "Risky Aegis",
-      "requirements": "swordmage",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.human"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
       "description": "After you use the immediate action of Swordmage Aegis against an enemy you marked, gain +2 to attack and damage rolls against it through the end of your next turn. It gains combat advantage against you through the end of its next turn.",
       "source": "https://iws.mx/dnd/?view=feat1156"
     },
     {
+      "id": "modern4e.feat.rousing-voice",
       "title": "Rousing Voice",
-      "requirements": "bard",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.human"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
       "description": "An ally using Second Wind within 10 squares also gains temporary hit points equal to your Charisma.",
       "source": "https://iws.mx/dnd/?view=feat472"
     },
     {
+      "id": "modern4e.feat.shared-perseverance",
       "title": "Shared Perseverance",
-      "requirements": "cleric",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.human"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
       "description": "An ally granted a saving throw by one of your powers gains +1 to that save.",
       "source": "https://iws.mx/dnd/?view=feat1553"
     },
     {
+      "id": "modern4e.feat.sideways-defense",
       "title": "Sideways Defense",
-      "requirements": "fighter",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.human"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
       "description": "Adjacent allies gain +1 to all defenses against creatures you have marked.",
       "source": "https://iws.mx/dnd/?view=feat817"
     },
     {
+      "id": "modern4e.feat.twilight-training",
       "title": "Twilight Training",
-      "requirements": "ranger",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.human"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
       "description": "You acquire low-light vision.",
       "source": "https://iws.mx/dnd/?view=feat2473"
     },
     {
+      "id": "modern4e.feat.wrath-of-the-forester",
       "title": "Wrath of the Forester",
-      "requirements": "warden",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.human"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.class.warden"
+      },
       "description": "If you have already used Nature's Wrath this turn, spending an action point for an extra action lets you use it once more before your turn ends.",
       "source": "https://iws.mx/dnd/?view=feat1953"
     }

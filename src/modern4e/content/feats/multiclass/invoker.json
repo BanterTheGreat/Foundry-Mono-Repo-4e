@@ -1,9 +1,20 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.keeper-of-divine-secrets",
       "title": "Keeper of Divine Secrets",
-      "requirements": null,
-      "description": "Choose a 1st-level Invoker at-will attack power. You can use that power once per encounter. In addition, you can wield Invoker implements."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "description": "Choose a 1st-level Invoker at-will attack power. You can use that power once per encounter. In addition, you can wield Invoker implements.",
+      "multiclassFor": "modern4e.class.invoker",
+      "tags": [
+        "MULTICLASS"
+      ]
     }
   ]
 }

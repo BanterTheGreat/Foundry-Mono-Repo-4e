@@ -1,98 +1,371 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.acid-splash",
       "title": "Acid Splash",
-      "requirements": "11th level, 2 Constitution",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.wizard"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "abilityPoints",
+            "ability": "CONSTITUTION",
+            "minimum": 2
+          }
+        ]
+      },
       "description": "When you miss with an acid wizard power and would not normally do damage, you deal acid damage equal to your Constitution.",
       "source": "Source: https://iws.mx/dnd/?view=feat1998"
     },
     {
+      "id": "modern4e.feat.consuming-the-weak",
       "title": "Consuming the Weak",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.wizard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "Whenever you hit a target vulnerable to fire with an arcane fire attack, the target takes ongoing 5 fire damage in addition to the attack's normal effects (save ends).",
       "source": "Source: https://iws.mx/dnd/?view=feat3071"
     },
     {
+      "id": "modern4e.feat.energy-recovery",
       "title": "Energy Recovery",
-      "requirements": "11th level, 2 Wisdom",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.wizard"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "abilityPoints",
+            "ability": "WISDOM",
+            "minimum": 2
+          }
+        ]
+      },
       "description": "Whenever a creature fails a saving throw against an effect from one of your wizard powers, you gain temporary hit points equal to your Wisdom.",
       "source": "Source: https://iws.mx/dnd/?view=feat1999"
     },
     {
+      "id": "modern4e.feat.improved-orb-of-deception",
       "title": "Improved Orb of Deception",
-      "requirements": "11th level, 3 Charisma, Orb of Deception",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.wizard"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "abilityPoints",
+            "ability": "CHARISMA",
+            "minimum": 3
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.power.orb-of-deception"
+          }
+        ]
+      },
       "description": "While you wield an orb, any creature you hit with an arcane illusion power grants combat advantage to your next ally who attacks it before the start of your next turn.",
       "source": "Source: https://iws.mx/dnd/?view=feat1176"
     },
     {
+      "id": "modern4e.feat.improved-orb-of-imposition",
       "title": "Improved Orb of Imposition",
-      "requirements": "11th level, 3 Wisdom, Orb of Imposition",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.wizard"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "abilityPoints",
+            "ability": "WISDOM",
+            "minimum": 3
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.power.orb-of-imposition"
+          }
+        ]
+      },
       "description": "Each time a creature you have designated with your Orb of Imposition fails a saving throw against the effect you have specified, it takes damage equal to 5 + your Wisdom.",
       "source": "Source: https://iws.mx/dnd/?view=feat1177"
     },
     {
+      "id": "modern4e.feat.improved-staff-of-defense",
       "title": "Improved Staff of Defense",
-      "requirements": "11th level, 2 Constitution, 2 Dexterity, Staff of Defense",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.wizard"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "abilityPoints",
+            "ability": "CONSTITUTION",
+            "minimum": 2
+          },
+          {
+            "type": "abilityPoints",
+            "ability": "DEXTERITY",
+            "minimum": 2
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.power.staff-of-defense"
+          }
+        ]
+      },
       "description": "While you wield a staff, you gain a +1 bonus to Fortitude, Reflex, and Will.",
       "source": "Source: https://iws.mx/dnd/?view=feat1178"
     },
     {
+      "id": "modern4e.feat.improved-tome-of-binding",
       "title": "Improved Tome of Binding",
-      "requirements": "11th level, 3 Constitution, Tome of Binding",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.wizard"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "abilityPoints",
+            "ability": "CONSTITUTION",
+            "minimum": 3
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.tome-of-binding"
+          }
+        ]
+      },
       "description": "While you wield a tome, creatures created by your arcane summoning powers appear with 10 temporary hit points.",
       "source": "Source: https://iws.mx/dnd/?view=feat1179"
     },
     {
+      "id": "modern4e.feat.improved-tome-of-readiness",
       "title": "Improved Tome of Readiness",
-      "requirements": "11th level, 2 Constitution, 2 Wisdom, Tome of Readiness",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.wizard"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "abilityPoints",
+            "ability": "CONSTITUTION",
+            "minimum": 2
+          },
+          {
+            "type": "abilityPoints",
+            "ability": "WISDOM",
+            "minimum": 2
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.tome-of-readiness"
+          }
+        ]
+      },
       "description": "After you prepare your daily and utility wizard powers after an extended rest, choose one daily or utility power in your spellbook that you didn't prepare and store this power in your tome.\n\nOnce per encounter as a free action, you can use this stored power by expending another unused wizard power of the appropriate type (daily or utility) of its level or higher. You must still take the normal action required to use the stored power.",
       "source": "Source: https://iws.mx/dnd/?view=feat1180"
     },
     {
+      "id": "modern4e.feat.improved-wand-of-accuracy",
       "title": "Improved Wand of Accuracy",
-      "requirements": "11th level, 3 Dexterity, Wand of Accuracy",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.wizard"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "abilityPoints",
+            "ability": "DEXTERITY",
+            "minimum": 3
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.power.wand-of-accuracy"
+          }
+        ]
+      },
       "description": "While you wield a wand, your arcane powers ignore enemies' cover (but not superior cover).",
       "source": "Source: https://iws.mx/dnd/?view=feat1181"
     },
     {
+      "id": "modern4e.feat.lightning-transport",
       "title": "Lightning Transport",
-      "requirements": "11th level, 2 Constitution",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.wizard"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "abilityPoints",
+            "ability": "CONSTITUTION",
+            "minimum": 2
+          }
+        ]
+      },
       "description": "When you reduce a creature to 0 hit points or fewer with a wizard lightning power, you can teleport a number of squares equal to your Constitution as a free action.",
       "source": "Source: https://iws.mx/dnd/?view=feat2000"
     },
     {
+      "id": "modern4e.feat.phantasmal-destruction",
       "title": "Phantasmal Destruction",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.wizard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When you have combat advantage against a creature, any wizard illusion power that you use against that creature scores a critical hit on a roll of 19–20.",
       "source": "Source: https://iws.mx/dnd/?view=feat2001"
     },
     {
+      "id": "modern4e.feat.prophetic-preparation",
       "title": "Prophetic Preparation",
-      "requirements": "11th level, Vistani Heritage",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.wizard"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "unresolved",
+            "text": "Vistani Heritage",
+            "reason": "Vistani Heritage is not defined in the Modern 4e feat catalog; see migration issue #29."
+          }
+        ]
+      },
       "description": "Once per day, as a free action, you can swap one daily attack spell you didn't prepare in place of one you did prepare. Also once per day, as a free action, you can swap one utility spell you didn't prepare in place of one you did prepare. You choose the replacement spell at the time you use it.",
       "source": "Source: https://iws.mx/dnd/?view=feat2047"
     },
     {
+      "id": "modern4e.feat.second-implement",
       "title": "Second Implement",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.wizard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "You gain a second Arcane Implement Mastery class feature.",
       "source": "Source: https://iws.mx/dnd/?view=feat320"
     },
     {
+      "id": "modern4e.feat.spell-focus",
       "title": "Spell Focus",
-      "requirements": "11th level, 2 Charisma",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.wizard"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "abilityPoints",
+            "ability": "CHARISMA",
+            "minimum": 2
+          }
+        ]
+      },
       "description": "Creatures that attempt saving throws against your wizard powers take a –2 penalty to the rolls.",
       "source": "Source: https://iws.mx/dnd/?view=feat169"
     },
     {
+      "id": "modern4e.feat.sympathetic-transference",
       "title": "Sympathetic Transference",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.wizard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When you immobilize, restrain, or slow an enemy, choose an ally within 20 squares of you that is also suffering the same condition. End that condition.",
       "source": "Source: https://iws.mx/dnd/?view=feat2002"
     },
     {
+      "id": "modern4e.feat.war-wizardry-paragon-wizard",
       "title": "War Wizardry",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.wizard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "Your arcane spells take a –5 penalty on attack rolls against allies, and deal only half their normal damage to allies.",
       "source": "Source: https://iws.mx/dnd/?view=feat647"
     }

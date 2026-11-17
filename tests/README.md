@@ -416,6 +416,26 @@ Summon automation Node coverage includes separate square selection, per-power ma
 
 ## Character Builder shared core and content production
 
+Shared Modern 4e feat authoring (#28), from the monorepo root:
+
+```sh
+python3 src/character-builder/content/build.py --modern-feats
+python3 src/character-builder/content/build.py --modern-feats --check
+python3 -m unittest discover -s src/character-builder/content -p 'test_*.py' -v
+npm run typst:compile
+```
+
+The authoring catalog is generated into ignored `content/modern-feats-generated/`;
+it is not a v1 runtime package and does not change installed web/Android proof
+bundles. Tests cover all 818 stored IDs, explicit access independent of file
+location, same-title variants, grouped conditions, Modern 4e skill/point identities,
+multiclass/power queries, missing and ambiguous references, malformed authoring,
+deterministic export/check failures and preserved descriptive benefit conditions.
+When Typst is on PATH, a query test compares its generated requirement text with
+the builder export for every entry; that test explicitly skips without Typst.
+The book build also needs the configured fonts; inspect representative feat pages
+after shared renderer changes. See [shared feat authoring](../src/modern4e/content/feats/README.md).
+
 Build-time compendium production (Python 3.9+, standard library; run from repository root):
 
 ```powershell

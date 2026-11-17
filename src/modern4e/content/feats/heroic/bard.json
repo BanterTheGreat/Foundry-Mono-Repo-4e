@@ -1,48 +1,116 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.battle-song-expertise",
       "title": "Battle Song Expertise",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "You also gain a +1 feat bonus to the number of squares that you can pull, push, or slide creatures with your bard attacks and bard paragon path attacks."
     },
     {
+      "id": "modern4e.feat.wild-virtue",
       "title": "Wild Virtue",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Each time you use your Bardic Virtue, you can shift 1 square as a free action."
     },
     {
+      "id": "modern4e.feat.advantage-of-cunning",
       "title": "Advantage of Cunning",
-      "requirements": "Virtue of Cunning",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.virtue-of-cunning"
+      },
       "description": "When you slide an ally with your Virtue of Cunning, you can also slide an enemy that was adjacent to that ally into the space the ally vacated."
     },
     {
+      "id": "modern4e.feat.extended-prescience",
       "title": "Extended Prescience",
-      "requirements": "Virtue of Prescience",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.virtue-of-prescience"
+      },
       "description": "When you use your Virtue of Prescience to grant a power bonus to an ally's defense, that bonus lasts until the end of the ally's next turn."
     },
     {
+      "id": "modern4e.feat.prescient-fortification",
       "title": "Prescient Fortification",
-      "requirements": "Virtue of Prescience",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.virtue-of-prescience"
+      },
       "description": "When you use your Virtue of Prescience to grant a power bonus to an ally, increase that bonus by 2."
     },
     {
+      "id": "modern4e.feat.strength-of-valor",
       "title": "Strength of Valor",
-      "requirements": "Virtue of Valor",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.virtue-of-valor"
+      },
       "description": "When you grant an ally temporary hit points with your Virtue of Valor, that ally also gains a +2 bonus to the next damage roll he or she makes before the end of his or her next turn."
     },
     {
+      "id": "modern4e.feat.bardic-wayfarer",
       "title": "Bardic Wayfarer",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Once per turn when you teleport an ally with a power, you can also teleport 1 square as a free action. In addition, when you use majestic word you can teleport the target 1 square instead of sliding the target."
     },
     {
+      "id": "modern4e.feat.battle-cadence",
       "title": "Battle Cadence",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When you use majestic word, you can slide the target 1 extra square. The target also gains a +2 bonus to the next damage roll he or she makes before the end of his or her next turn."
     },
     {
+      "id": "modern4e.feat.improved-majestic-word",
       "title": "Improved Majestic Word",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.bard"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When you use majestic word, the target of the power gains temporary hit points equal to your Charisma."
     }
   ]

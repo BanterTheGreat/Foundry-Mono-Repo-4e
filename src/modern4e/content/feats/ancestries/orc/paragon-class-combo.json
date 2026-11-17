@@ -1,8 +1,26 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.fearsome-assault",
       "title": "Fearsome Assault",
-      "requirements": "11th level, ranger",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.orc"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.ranger"
+          }
+        ]
+      },
       "description": "When you hit two creatures with one attack, you can use your Furious Assault power to deal the power's extra damage to both creatures.",
       "source": "https://iws.mx/dnd/?view=feat2498"
     }

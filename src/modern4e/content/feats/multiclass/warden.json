@@ -1,14 +1,35 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.defender-of-the-wild",
       "title": "Defender of the Wild",
-      "requirements": null,
-      "description": "Once per encounter as a free action, you can mark each enemy adjacent to you until the end of your next turn."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "description": "Once per encounter as a free action, you can mark each enemy adjacent to you until the end of your next turn.",
+      "multiclassFor": "modern4e.class.warden",
+      "tags": [
+        "MULTICLASS"
+      ]
     },
     {
+      "id": "modern4e.feat.wardens-endurance",
       "title": "Warden’s Endurance",
-      "requirements": null,
-      "description": "Once per encounter, you can make a saving throw against one effect that a save can end at the start of your turn. On a save, the effect immediately ends, preventing it from affecting you on your current turn. If you fail the saving throw, you still make a saving throw against the effect at the end of your turn."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "description": "Once per encounter, you can make a saving throw against one effect that a save can end at the start of your turn. On a save, the effect immediately ends, preventing it from affecting you on your current turn. If you fail the saving throw, you still make a saving throw against the effect at the end of your turn.",
+      "multiclassFor": "modern4e.class.warden",
+      "tags": [
+        "MULTICLASS"
+      ]
     }
   ]
 }

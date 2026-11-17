@@ -1,23 +1,92 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.fated-survival",
       "title": "Fated Survival",
-      "requirements": "11th level, 2 Charisma",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "abilityPoints",
+            "ability": "CHARISMA",
+            "minimum": 2
+          }
+        ]
+      },
       "description": "When you fail a saving throw, you gain a +2 feat bonus to the next saving throw you make against the same effect."
     },
     {
+      "id": "modern4e.feat.occult-reach",
       "title": "Occult Reach",
-      "requirements": "11th level, 3 Dexterity or 3 Intelligence",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "anyOf",
+            "conditions": [
+              {
+                "type": "abilityPoints",
+                "ability": "DEXTERITY",
+                "minimum": 3
+              },
+              {
+                "type": "abilityPoints",
+                "ability": "INTELLIGENCE",
+                "minimum": 3
+              }
+            ]
+          }
+        ]
+      },
       "description": "When using a close implement attack power, you can choose a square within 2 squares of yours as the origin square. You are still excluded from the area of the attack. At 21st level, you can choose a square within 3 squares of your square."
     },
     {
+      "id": "modern4e.feat.defensive-advantage",
       "title": "Defensive Advantage",
-      "requirements": "11th level, 3 Dexterity",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "abilityPoints",
+            "ability": "DEXTERITY",
+            "minimum": 3
+          }
+        ]
+      },
       "description": "When you have combat advantage against an enemy, you gain a +2 bonus to AC against that enemy's attacks."
     },
     {
+      "id": "modern4e.feat.uncanny-dodge",
       "title": "Uncanny Dodge",
-      "requirements": "11th level",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "Choose an ability other than Dexterity or Intelligence. While wearing light armor or no armor, you can use this ability in place of Dexterity or Intelligence to determine your AC."
     }
   ]

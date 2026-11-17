@@ -1,99 +1,366 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.mighty-battlerage",
       "title": "Mighty Battlerage",
-      "requirements": "11th level, 3 Constitution, Battlerager Vigor",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "abilityPoints",
+            "ability": "CONSTITUTION",
+            "minimum": 3
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.battlerager-vigor"
+          }
+        ]
+      },
       "description": "The damage bonus granted by your Battlerager Vigor increases by 1. At 21st level, it increases by 2."
     },
     {
+      "id": "modern4e.feat.grit",
       "title": "Grit",
-      "requirements": "11th level, 4 Constitution",
-
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "abilityPoints",
+            "ability": "CONSTITUTION",
+            "minimum": 4
+          }
+        ]
+      },
       "description": "When you spend a healing surge to regain hit points, you also gain temporary hit points equal to your Constitution."
     },
     {
+      "id": "modern4e.feat.chainmail-agility",
       "title": "Chainmail Agility",
-      "requirements": "11th level, 3 Dexterity",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "abilityPoints",
+            "ability": "DEXTERITY",
+            "minimum": 3
+          }
+        ]
+      },
       "description": "You ignore the speed penalty normally incurred by wearing chainmail."
     },
     {
+      "id": "modern4e.feat.fey-charge",
       "title": "Fey Charge",
-      "requirements": "11th level, Eladrin",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.ancestry.eladrin"
+          }
+        ]
+      },
       "description": "When you charge, you can expend your fey step racial power as a free action to replace up to 5 squares of your charge movement with teleportation. If the charge attack hits, you do not expend fey step."
     },
     {
+      "id": "modern4e.feat.dizzying-mace",
       "title": "Dizzying Mace",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When you hit an enemy with a power that dazes the target while you are using a mace, the target also takes a penalty to attack rolls equal to your Constitution for as long as it remains dazed by your attack."
     },
     {
+      "id": "modern4e.feat.plunging-blade",
       "title": "Plunging Blade",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When you make an opportunity attack with a light blade, you score a critical hit on a natural roll of 19 or 20."
     },
     {
+      "id": "modern4e.feat.reckless-attacker",
       "title": "Reckless Attacker",
-      "requirements": "11th level",
-      "description": "The first time you score a critical hit with a fighter attack power on your turn, you can make a melee basic attack as a free action. If you do so, you take a \u20132 penalty to AC until the end of your next turn."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
+      "description": "The first time you score a critical hit with a fighter attack power on your turn, you can make a melee basic attack as a free action. If you do so, you take a –2 penalty to AC until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.reliable-persistence",
       "title": "Reliable Persistence",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When you miss a creature with a martial power that has the reliable keyword, you gain a +4 bonus to attack rolls against that creature using that power. This bonus lasts until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.striking-resurgence",
       "title": "Striking Resurgence",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When you use second wind as a standard action, you can forgo the bonus to defenses to make a melee basic attack as a free action."
     },
     {
+      "id": "modern4e.feat.ubiquitous-shield",
       "title": "Ubiquitous Shield",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "While you are using a shield, enemies gain no bonus to attack rolls for having combat advantage against you."
     },
     {
+      "id": "modern4e.feat.phalanx-warrior-paragon-fighter",
       "title": "Phalanx Warrior",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When you are using a shield, adjacent allies gain a +1 shield bonus to AC."
     },
     {
+      "id": "modern4e.feat.daunting-challenge",
       "title": "Daunting Challenge",
-      "requirements": "11th level",
-      "description": "Creatures marked by you take a \u20133 penalty to attack rolls for any attack that doesn't include you as a target (rather than a \u20132 penalty)."
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
+      "description": "Creatures marked by you take a –3 penalty to attack rolls for any attack that doesn't include you as a target (rather than a –2 penalty)."
     },
     {
+      "id": "modern4e.feat.marked-scourge",
       "title": "Marked Scourge",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "Once per round, you can add your Wisdom to your damage roll against an enemy marked by you."
     },
     {
+      "id": "modern4e.feat.staggering-challenge",
       "title": "Staggering Challenge",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When you hit an enemy with a melee basic attack granted by Combat Challenge while you are using a shield, you can knock the target prone instead of dealing damage with the attack."
     },
     {
+      "id": "modern4e.feat.tactical-superiority",
       "title": "Tactical Superiority",
-      "requirements": "11th level, Combat Superiority",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.combat-superiority"
+          }
+        ]
+      },
       "description": "Whenever you hit an enemy marked by you with an opportunity attack, that enemy is slowed until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.mastered-technique",
       "title": "Mastered Technique",
-      "requirements": "11th level, One-Handed Weapon Talent or Two-Handed Weapon Talent",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "anyOf",
+            "conditions": [
+              {
+                "type": "entry",
+                "entryId": "modern4e.feature.one-handed-weapon-talent"
+              },
+              {
+                "type": "entry",
+                "entryId": "modern4e.feature.two-handed-weapon-talent"
+              }
+            ]
+          }
+        ]
+      },
       "description": "You gain a +1 feat bonus to AC when you hit with an attack using a weapon of the style covered by your One-Handed Weapon Talent or Two-Handed Weapon Talent class feature until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.pinning-challenge",
       "title": "Pinning Challenge",
-      "requirements": "11th level, One-Handed Weapon Talent or Two-Handed Weapon Talent",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "anyOf",
+            "conditions": [
+              {
+                "type": "entry",
+                "entryId": "modern4e.feature.one-handed-weapon-talent"
+              },
+              {
+                "type": "entry",
+                "entryId": "modern4e.feature.two-handed-weapon-talent"
+              }
+            ]
+          }
+        ]
+      },
       "description": "Whenever you hit a target already marked by you with a two-handed weapon and when using a basic attack, the target is also immobilized until the start of your next turn."
     },
     {
+      "id": "modern4e.feat.steely-defense",
       "title": "Steely Defense",
-      "requirements": "11th level, One-Handed Weapon Talent or Two-Handed Weapon Talent",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "anyOf",
+            "conditions": [
+              {
+                "type": "entry",
+                "entryId": "modern4e.feature.one-handed-weapon-talent"
+              },
+              {
+                "type": "entry",
+                "entryId": "modern4e.feature.two-handed-weapon-talent"
+              }
+            ]
+          }
+        ]
+      },
       "description": "When you take the total defense action while wielding a two-handed weapon, any enemy that attacks you with a melee attack takes damage equal to your Strength."
     },
     {
+      "id": "modern4e.feat.combat-opening",
       "title": "Combat Opening",
-      "requirements": "11th level, Half-elf",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.ancestry.half-elf"
+          }
+        ]
+      },
       "description": "When you can make a melee basic attack against a target because of Combat Challenge, you can instead choose to let an ally make a melee basic attack against that target as a free action."
     }
   ]

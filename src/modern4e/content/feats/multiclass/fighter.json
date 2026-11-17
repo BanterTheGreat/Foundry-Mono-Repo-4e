@@ -1,29 +1,80 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.student-of-the-sword",
       "title": "Student of the Sword",
-      "requirements": null,
-      "description": "Choose either one-handed melee weapons or two-handed melee weapons. Once per encounter as a free action, you can add a +1 bonus to the next attack roll you make with a weapon of that category. Whether the attack hits or misses, you mark the target until the end of your next turn."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "description": "Choose either one-handed melee weapons or two-handed melee weapons. Once per encounter as a free action, you can add a +1 bonus to the next attack roll you make with a weapon of that category. Whether the attack hits or misses, you mark the target until the end of your next turn.",
+      "multiclassFor": "modern4e.class.fighter",
+      "tags": [
+        "MULTICLASS"
+      ]
     },
     {
+      "id": "modern4e.feat.wrathful-warrior",
       "title": "Wrathful Warrior",
-      "requirements": null,
-      "description": "Once per encounter, when you are hit by a melee attack or a close attack, you gain temporary hit points equal to your Constitution."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "description": "Once per encounter, when you are hit by a melee attack or a close attack, you gain temporary hit points equal to your Constitution.",
+      "multiclassFor": "modern4e.class.fighter",
+      "tags": [
+        "MULTICLASS"
+      ]
     },
     {
+      "id": "modern4e.feat.cyclone-warrior",
       "title": "Cyclone Warrior",
-      "requirements": null,
-      "description": "Once per encounter as a free action during your turn, while you are wearing light armor or chainmail and wielding a weapon in each hand, you can gain a +1 bonus to damage rolls with melee or close attacks until the end of your turn. This bonus increases to +2 at 11th level and +3 at 21st level."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "description": "Once per encounter as a free action during your turn, while you are wearing light armor or chainmail and wielding a weapon in each hand, you can gain a +1 bonus to damage rolls with melee or close attacks until the end of your turn. This bonus increases to +2 at 11th level and +3 at 21st level.",
+      "multiclassFor": "modern4e.class.fighter",
+      "tags": [
+        "MULTICLASS"
+      ]
     },
     {
+      "id": "modern4e.feat.brawling-warrior",
       "title": "Brawling Warrior",
-      "requirements": null,
-      "description": "Once per encounter while you wield a weapon in one hand and have nothing in your other hand, you can use a free action during your turn to gain a +1 bonus to an attack roll you just made or a +1 bonus to AC until the start of your next turn."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "description": "Once per encounter while you wield a weapon in one hand and have nothing in your other hand, you can use a free action during your turn to gain a +1 bonus to an attack roll you just made or a +1 bonus to AC until the start of your next turn.",
+      "multiclassFor": "modern4e.class.fighter",
+      "tags": [
+        "MULTICLASS"
+      ]
     },
     {
+      "id": "modern4e.feat.battle-awareness",
       "title": "Battle Awareness",
-      "requirements": null,
-      "description": "Once per encounter, whenever an enemy that is adjacent to you shifts or makes an attack that does not include you as a target, you can make a melee basic attack against that enemy as an immediate interrupt."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "description": "Once per encounter, whenever an enemy that is adjacent to you shifts or makes an attack that does not include you as a target, you can make a melee basic attack against that enemy as an immediate interrupt.",
+      "multiclassFor": "modern4e.class.fighter",
+      "tags": [
+        "MULTICLASS"
+      ]
     }
   ]
 }

@@ -1,5 +1,6 @@
 #import "state.typ" as state;
 #import "configuration.typ" as config;
+#import "feat_requirements.typ": featRequirements;
 
 #let tableDivider = rgb("#96afaf");
 #let table1 = rgb("#e7f0f0");
@@ -314,7 +315,7 @@
   json(file).feats.map(feat => featBlock(
     title: feat.title,
     content: featDescription(feat.description),
-    requirements: feat.at("requirements", default: none),
+    requirements: featRequirements(feat),
   ))
 }
 
@@ -328,8 +329,9 @@
 #let featChoicesFromJson(file) = {
   for feat in json(file).feats [
     #choiceBox(feat.title)
-    #if feat.requirements != none [
-      *Requires: #text(feat.requirements)* #linebreak()
+    #let requirements = featRequirements(feat)
+    #if requirements != none [
+      *Requires: #text(requirements)* #linebreak()
     ]
     #featDescription(feat.description)
     #parbreak()

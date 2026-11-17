@@ -1,43 +1,128 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.magic-of-the-ages",
       "title": "Magic of the Ages",
-      "requirements": "any arcane class",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.deva"
+      },
+      "prerequisites": {
+        "type": "classPowerSource",
+        "powerSource": "ARCANE"
+      },
       "description": "When you use your memory of a thousand lifetimes racial power to add to the attack roll of an arcane power, you gain a +1 bonus to the triggering roll."
     },
     {
+      "id": "modern4e.feat.astral-elixir",
       "title": "Astral Elixir",
-      "requirements": "artificer, shielding elixir power",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.deva"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.artificer"
+          },
+          {
+            "type": "unresolved",
+            "text": "shielding elixir power",
+            "reason": "No matching local feature, power or feat definition was identified; see migration issue #29."
+          }
+        ]
+      },
       "description": "Shielding Elixir also grants radiant resistance of the same value and duration as its usual resistance. Its target may end the effect as a free action when making a saving throw to add 1d6 to that save, replacing the usual benefit for ending the elixir.",
       "source": "https://iws.mx/dnd/?view=feat3023"
     },
     {
+      "id": "modern4e.feat.astral-enmity",
       "title": "Astral Enmity",
-      "requirements": "avenger, oath of enmity power",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.deva"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.avenger"
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.power.oath-of-enmity"
+          }
+        ]
+      },
       "description": "When Memory of a Thousand Lifetimes boosts an attack against your Oath of Enmity target, that attack also deals extra damage equal to the bonus rolled.",
       "source": "https://iws.mx/dnd/?view=feat1490"
     },
     {
+      "id": "modern4e.feat.astral-preservation",
       "title": "Astral Preservation",
-      "requirements": "invoker, Covenant of Preservation",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.deva"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.invoker"
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.covenant-of-preservation"
+          }
+        ]
+      },
       "description": "Using Preserver's Rebuke gives allies within 2 squares +1 to all defenses against bloodied attackers for the rest of the encounter.",
       "source": "https://iws.mx/dnd/?view=feat1491"
     },
     {
+      "id": "modern4e.feat.immortal-warding",
       "title": "Immortal Warding",
-      "requirements": "swordmage",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.deva"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.class.swordmage"
+      },
       "description": "Swordmage Warding stays active while you are unconscious. Its AC bonus also increases both resistances from your Astral Resistance trait by that amount.",
       "source": "https://iws.mx/dnd/?view=feat1142"
     },
     {
+      "id": "modern4e.feat.memory-of-a-thousand-battles",
       "title": "Memory of a Thousand Battles",
-      "requirements": "fighter",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.deva"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
       "description": "After a reliable fighter power misses all its targets, you may expend Memory of a Thousand Lifetimes to reroll all of that power's attack rolls.",
       "source": "https://iws.mx/dnd/?view=feat2448"
     },
     {
+      "id": "modern4e.feat.shared-memories",
       "title": "Shared Memories",
-      "requirements": "warlord",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.deva"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
       "description": "As a free action, expend Memory of a Thousand Lifetimes to add 1d6 to an adjacent ally's attack roll, saving throw, or skill check.",
       "source": "https://iws.mx/dnd/?view=feat2463"
     }

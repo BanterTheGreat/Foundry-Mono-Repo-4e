@@ -1,93 +1,257 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.armored-warlord",
       "title": "Armored Warlord",
-      "requirements": "Battlefront Leader, Leading The Charge",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.battlefront-leader"
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.leading-the-charge"
+          }
+        ]
+      },
       "description": "You gain proficiency with scale armor, and you increase your number of healing surges by one."
     },
     {
+      "id": "modern4e.feat.courageous-word",
       "title": "Courageous Word",
-      "requirements": "Bravura Presence",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.bravura-presence"
+      },
       "description": "When you use inspiring word, the target can choose to take advantage of this feat. If the target does, he or she grants combat advantage until the start of your next turn but deals extra damage equal to your Charisma against the next enemy he or she hits before the end of your next turn."
     },
     {
+      "id": "modern4e.feat.resourceful-presence",
       "title": "Resourceful Presence",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When an enemy provokes an opportunity attack from you, you can take an opportunity action to let one ally adjacent to you shift a number of squares equal to your Intelligence to a square not adjacent to the provoking enemy as a free action."
     },
     {
+      "id": "modern4e.feat.emboldening-presence",
       "title": "Emboldening Presence",
-      "requirements": "Inspiring Presence",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.inspiring-presence"
+      },
       "description": "When an ally with line of sight to you expends his or her second wind, he or she gains a bonus to saving throws equal to your Charisma until the end of his or her next turn."
     },
     {
+      "id": "modern4e.feat.export-combat-leader",
       "title": "Export Combat Leader",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "The bonus to initiative from Combat Leader increases to +3."
     },
     {
+      "id": "modern4e.feat.guide-the-shot",
       "title": "Guide the Shot",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Whenever you grant an ally a ranged basic attack, that ally's attack ignores cover and concealment (but not superior cover or total concealment)."
     },
     {
+      "id": "modern4e.feat.imaginative-reaction",
       "title": "Imaginative Reaction",
-      "requirements": "Combat Leader, Resourceful Presence",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.combat-leader"
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feat.resourceful-presence"
+          }
+        ]
+      },
       "description": "Whenever you roll initiative, you can subtract 4 from your check result to increase the result of one or two allies who benefit from Combat Leader. One ally gains a bonus equal to your Charisma and the other gains a bonus equal to your Intelligence."
     },
     {
+      "id": "modern4e.feat.improved-healing-word",
       "title": "Improved Healing Word",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Add your Charisma to the hit points restored by your inspiring word."
     },
     {
+      "id": "modern4e.feat.improved-skirmishing",
       "title": "Improved Skirmishing",
-      "requirements": "Skirmishing Presence",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.skirmishing-presence"
+      },
       "description": "When an ally who can see you spends an action point to attack, that ally gains a +1 bonus to attack rolls for that attack."
     },
     {
+      "id": "modern4e.feat.improved-tactics",
       "title": "Improved Tactics",
-      "requirements": "Tactical Presence",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.tactical-presence"
+      },
       "description": "Add 1 to the attack roll bonus granted by your Tactical Presence."
     },
     {
+      "id": "modern4e.feat.lend-might",
       "title": "Lend Might",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When an ally makes an attack granted by one of your Warlord powers to attack an enemy adjacent to you, that ally gains a +1 bonus to the attack roll."
     },
     {
+      "id": "modern4e.feat.lend-strength",
       "title": "Lend Strength",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Whenever you grant an ally a basic attack against an enemy that is adjacent to you, the ally gains a +2 bonus to the attack's damage roll."
     },
     {
+      "id": "modern4e.feat.resourceful-donation",
       "title": "Resourceful Donation",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Whenever you spend a healing surge, you can divide the hit points regained between yourself and one ally adjacent to you in any proportion."
     },
     {
+      "id": "modern4e.feat.risky-charge",
       "title": "Risky Charge",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When you charge, you can choose to use this feat. If the charge attack hits, you also knock the enemy prone. If the attack misses, the enemy can make a melee basic attack against you as a free action."
     },
     {
+      "id": "modern4e.feat.rousing-resurgence",
       "title": "Rousing Resurgence",
-      "requirements": "Inspiring Presence",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.inspiring-presence"
+      },
       "description": "Allies who expend their second winds while they have line of sight to you also gain temporary hit points equal to your Charisma plus one-half your level."
     },
     {
+      "id": "modern4e.feat.shrewd-positioning",
       "title": "Shrewd Positioning",
-      "requirements": "Combat Leader, Tactical Presence",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.combat-leader"
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.tactical-presence"
+          }
+        ]
+      },
       "description": "When you make an initiative check, you can slide each ally benefiting from Combat Leader 1 square."
     },
     {
+      "id": "modern4e.feat.stirring-word",
       "title": "Stirring Word",
-      "requirements": "Inspiring Presence",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.inspiring-presence"
+      },
       "description": "When you use inspiring word, the target gains temporary hit points equal to your Charisma."
     },
     {
+      "id": "modern4e.feat.tactical-assault",
       "title": "Tactical Assault",
-      "requirements": "Tactical Presence",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlord"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.tactical-presence"
+      },
       "description": "When an ally who can see you spends an action point to make an attack, the attack's damage roll gains a bonus equal to your Intelligence."
     }
   ]

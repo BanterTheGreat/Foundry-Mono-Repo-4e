@@ -1,33 +1,82 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.baalzebuls-desperate-gambit",
       "title": "Baalzebul's Desperate Gambit",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.tiefling"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When you first become bloodied in an encounter, you can roll a saving throw, with a bonus equal to the number of enemies adjacent to you. If you succeed, spend a healing surge. If you fail, you lose a healing surge."
     },
     {
+      "id": "modern4e.feat.bels-impending-victory",
       "title": "Bel's Impending Victory",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.tiefling"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When you hit a bloodied enemy, your allies gain a +1 bonus to attack rolls against the target until the start of your next turn."
     },
     {
+      "id": "modern4e.feat.blood-of-levistus",
       "title": "Blood of Levistus",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.tiefling"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "You gain resistance to cold equal to 5 + one-half your level. You gain a +3 feat bonus to damage rolls with attacks that have the cold keyword."
     },
     {
+      "id": "modern4e.feat.fiery-rebuke",
       "title": "Fiery Rebuke",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.tiefling"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When you use the Infernal Wrath power, the target takes 5 extra fire damage."
     },
     {
+      "id": "modern4e.feat.hellfire-of-mephistopheles",
       "title": "Hellfire of Mephistopheles",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.tiefling"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "Each time you hit an enemy that has fire resistance, after resolving the attack, reduce the value of the resistance by 5 until the end of the encounter."
     },
     {
+      "id": "modern4e.feat.mammons-theft-of-health",
       "title": "Mammon's Theft of Health",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.tiefling"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "When you use your Second Wind, you can choose for an ally within 5 squares of you to lose a healing surge. If you do, you regain extra hit points equal to your healing surge value."
     }
   ]

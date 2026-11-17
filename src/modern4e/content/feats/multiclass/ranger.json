@@ -1,14 +1,35 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.warrior-of-the-wild",
       "title": "Warrior of the Wild",
-      "requirements": null,
-      "description": "Once per encounter, you can use the Ranger’s Hunter's Quarry class feature. The target you designate as your quarry remains your quarry until the end of your next turn."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "description": "Once per encounter, you can use the Ranger’s Hunter's Quarry class feature. The target you designate as your quarry remains your quarry until the end of your next turn.",
+      "multiclassFor": "modern4e.class.ranger",
+      "tags": [
+        "MULTICLASS"
+      ]
     },
     {
+      "id": "modern4e.feat.two-blade-warrior",
       "title": "Two-Blade Warrior",
-      "requirements": null,
-      "description": "You can wield a one-handed weapon in your off hand as though it were an off-hand weapon."
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "description": "You can wield a one-handed weapon in your off hand as though it were an off-hand weapon.",
+      "multiclassFor": "modern4e.class.ranger",
+      "tags": [
+        "MULTICLASS"
+      ]
     }
   ]
 }

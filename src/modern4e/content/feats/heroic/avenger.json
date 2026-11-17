@@ -1,43 +1,105 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.vindicating-allure",
       "title": "Vindicating Allure",
-      "requirements": "Censure of Unity",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.censure-of-unity"
+      },
       "description": "When you use your bond of censure power, add 2 to the number of squares you can pull the target."
     },
     {
+      "id": "modern4e.feat.vindicating-resolution",
       "title": "Vindicating Resolution",
-      "requirements": "Censure of Pursuit",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.censure-of-pursuit"
+      },
       "description": "When you attack a target of your oath of enmity with a weapon attack, treat all rolls of a 1 or 2 on the damage dice as though the result were 3 on the die."
     },
     {
+      "id": "modern4e.feat.closing-pledge",
       "title": "Closing Pledge",
-      "requirements": "Censure of Pursuit",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.censure-of-pursuit"
+      },
       "description": "When you hit your oath of enmity target with a ranged attack, you can shift a number of squares equal to 1 + your Dexterity as a free action, as long as you end that shift closer to the target."
     },
     {
+      "id": "modern4e.feat.divine-passion",
       "title": "Divine Passion",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When you use divine guidance and the triggering ally hits its target, the ally deals an additional 5 radiant damage. At 21st level, the ally deals an extra 10 radiant damage."
     },
     {
+      "id": "modern4e.feat.improved-armor-of-faith",
       "title": "Improved Armor of Faith",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "While you are wearing cloth armor or no armor and aren’t using a shield, you gain a +1 bonus to AC."
     },
     {
+      "id": "modern4e.feat.oath-strike",
       "title": "Oath Strike",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "When you use oath of enmity, you can mark the target until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.divine-distraction",
       "title": "Divine Distraction",
-      "requirements": "Censure of Unity",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.censure-of-unity"
+      },
       "description": "When you are adjacent to your oath of enmity target, the target grants combat advantage to any of your allies adjacent to it."
     },
     {
+      "id": "modern4e.feat.armor-of-vengeance",
       "title": "Armor of Vengeance",
-      "requirements": "Censure of Retribution",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.avenger"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.censure-of-retribution"
+      },
       "description": "While you are adjacent to your oath of enmity target, you gain a +1 bonus to all defenses against every other creature."
     }
   ]

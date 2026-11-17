@@ -1,15 +1,50 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.wholesome-spirit",
       "title": "Wholesome Spirit",
-      "requirements": "11th level, shaman",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.deva"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.shaman"
+          }
+        ]
+      },
       "description": "Your spirit companion receives the same necrotic and radiant resistance as your Astral Resistance trait.",
       "note": "The index says Heroic, but the entry body labels Wholesome Spirit Paragon.",
       "source": "https://iws.mx/dnd/?view=feat3063"
     },
     {
+      "id": "modern4e.feat.commanders-memory",
       "title": "Commander's Memory",
-      "requirements": "11th level, warlord",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.deva"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.warlord"
+          }
+        ]
+      },
       "description": "As a free action, expend Memory of a Thousand Lifetimes to add 1d6 to an ally's attack roll, saving throw, or skill check within 10 squares.",
       "source": "https://iws.mx/dnd/?view=feat2486"
     }

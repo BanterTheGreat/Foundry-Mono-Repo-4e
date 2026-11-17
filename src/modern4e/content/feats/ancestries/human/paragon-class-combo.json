@@ -1,13 +1,57 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.bloody-tenacity",
       "title": "Bloody Tenacity",
-      "requirements": "11th level, any martial class",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.human"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "classPowerSource",
+            "powerSource": "MARTIAL"
+          }
+        ]
+      },
       "description": "When you are bloodied for the first time in an encounter, you gain a +2 bonus to all defenses until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.avenging-spirit",
       "title": "Avenging Spirit",
-      "requirements": "11th level, fighter or warlord",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.human"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "anyOf",
+            "conditions": [
+              {
+                "type": "entry",
+                "entryId": "modern4e.class.fighter"
+              },
+              {
+                "type": "entry",
+                "entryId": "modern4e.class.warlord"
+              }
+            ]
+          }
+        ]
+      },
       "description": "When an ally of at least your level drops to 0 hit points or fewer and you can see or hear that ally, gain an action point. It expires if unused at the end of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat831"
     }

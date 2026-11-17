@@ -1,48 +1,116 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.precise-hunter",
       "title": "Precise Hunter",
-      "requirements": "3 Wisdom",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "abilityPoints",
+        "ability": "WISDOM",
+        "minimum": 3
+      },
       "description": "When you score a critical hit against the target of your Hunter's Quarry with a ranged attack, your allies gain a +1 bonus to attack rolls against that target until the start of your next turn."
     },
     {
+      "id": "modern4e.feat.agile-running-attack",
       "title": "Agile Running Attack",
-      "requirements": "Running Attack",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.running-attack"
+      },
       "description": "When you move as part of using a skirmisher attack power, you ignore difficult terrain."
     },
     {
+      "id": "modern4e.feat.flank-on-the-run",
       "title": "Flank on the Run",
-      "requirements": "Running Attack",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "entry",
+        "entryId": "modern4e.feature.running-attack"
+      },
       "description": "Whenever you are adjacent to an enemy and move to another square adjacent to that enemy, you do not provoke an opportunity attack from that enemy for leaving your square."
     },
     {
+      "id": "modern4e.feat.hobbling-strike",
       "title": "Hobbling Strike",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Whenever you would deal Hunter's Quarry damage, you can forgo one die of that damage to slow the target until the end of your next turn."
     },
     {
+      "id": "modern4e.feat.hunters-aim",
       "title": "Hunter’s Aim",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "You don't take the normal –2 penalty to attack rolls against your quarry if it has cover or concealment."
     },
     {
+      "id": "modern4e.feat.lethal-hunter",
       "title": "Lethal Hunter",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "The extra damage dice from your Hunter's Quarry class feature increase from d6s to d8s."
     },
     {
+      "id": "modern4e.feat.second-shot",
       "title": "Second Shot",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "You can designate the second-nearest enemy as your quarry instead of the nearest enemy."
     },
     {
+      "id": "modern4e.feat.staggering-strike",
       "title": "Staggering Strike",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Whenever you would deal Hunter's Quarry damage to an enemy, you can forgo one die of that damage to push that enemy 1 square."
     },
     {
+      "id": "modern4e.feat.swift-footwork",
       "title": "Swift Footwork",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Whenever you use a martial encounter or daily power that allows you to shift, you can shift 2 extra squares."
     }
   ]

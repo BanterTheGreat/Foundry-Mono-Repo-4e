@@ -1,23 +1,52 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.kobold-in-a-corner",
       "title": "Kobold in a Corner",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.kobold"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "You gain a +1 bonus to damage rolls against creatures that have combat advantage against you. This bonus increases to +2 at 11th level and +3 at 21st level."
     },
     {
+      "id": "modern4e.feat.strength-in-numbers",
       "title": "Strength in Numbers",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.kobold"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "You gain a bonus to melee rolls against a target equal to the number of allies adjacent to it."
     },
     {
+      "id": "modern4e.feat.trap-safety",
       "title": "Trap Safety",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.kobold"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "A trap will never accidentally trigger while you fail a Skill Check to disarm it."
     },
     {
+      "id": "modern4e.feat.group-sneak",
       "title": "Group Sneak",
-      "requirements": null,
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.kobold"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
       "description": "Allies within 5 squares of you have a +2 on Skill Checks to sneak or hide."
     }
   ]

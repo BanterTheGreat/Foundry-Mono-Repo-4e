@@ -1,86 +1,244 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.bolstered-swarm",
       "title": "Bolstered Swarm",
-      "requirements": "11th level, Primal Swarm",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.primal-swarm"
+          }
+        ]
+      },
       "description": "When you use wild shape to change from your humanoid form to beast form, you gain 5 + your Constitution temporary hit points. The temporary hit points increase to 10 + your Constitution at 21st level.",
       "source": "https://iws.mx/dnd/?view=feat1889 — Primal Power, page(s) 143."
     },
     {
+      "id": "modern4e.feat.bolstering-guardian",
       "title": "Bolstering Guardian",
-      "requirements": "11th level, Primal Guardian",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.primal-guardian"
+          }
+        ]
+      },
       "description": "When you reduce an enemy to 0 hit points with a druid attack power, one ally adjacent to you gains temporary hit points equal to your Constitution.",
       "source": "https://iws.mx/dnd/?view=feat1890 — Primal Power, page(s) 143."
     },
     {
+      "id": "modern4e.feat.brutal-grappler-form",
       "title": "Brutal Grappler Form",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "While you are in beast form, you gain a +2 feat bonus to grab attempts. Additionally, any target you are grabbing while in beast form grants you combat advantage.",
       "source": "https://iws.mx/dnd/?view=feat2187 — Dragon Magazine 382, page(s) 54."
     },
     {
+      "id": "modern4e.feat.commanding-form",
       "title": "Commanding Form",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "Once per round while you are in beast form, you can use a free action to give one of your summoned creatures a command that normally requires a minor action.",
       "source": "https://iws.mx/dnd/?view=feat1891 — Primal Power, page(s) 143."
     },
     {
+      "id": "modern4e.feat.fierce-thrasher-form",
       "title": "Fierce Thrasher Form",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "While you are in beast form and use a beast form power that pushes, pulls, or slides the target, increase the distance of the push, pull, or slide by 1 square.",
       "source": "https://iws.mx/dnd/?view=feat2188 — Dragon Magazine 382, page(s) 54."
     },
     {
+      "id": "modern4e.feat.hunting-wolf-form",
       "title": "Hunting Wolf Form",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "While you are in beast form, you gain a +5 feat bonus to Perception checks and a +1 feat bonus to speed.",
       "source": "https://iws.mx/dnd/?view=feat554 — Player's Handbook 2, page(s) 191."
     },
     {
+      "id": "modern4e.feat.pouncing-form",
       "title": "Pouncing Form",
-      "requirements": "11th level, Primal Predator",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.primal-predator"
+          }
+        ]
+      },
       "description": "When you use wild shape to change from your humanoid form to beast form, you can shift a number of squares equal to your Dexterity.",
       "source": "https://iws.mx/dnd/?view=feat1900 — Primal Power, page(s) 145."
     },
     {
+      "id": "modern4e.feat.quick-wild-shape",
       "title": "Quick Wild Shape",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "You can use your wild shape power as a free action during your turn.",
       "source": "https://iws.mx/dnd/?view=feat1045 — Player's Handbook 2, page(s) 191."
     },
     {
+      "id": "modern4e.feat.scattering-swarm",
       "title": "Scattering Swarm",
-      "requirements": "11th level, Primal Swarm",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.primal-swarm"
+          }
+        ]
+      },
       "description": "While you are in beast form, if you take damage from an area or a close attack, you can shift 2 squares as a free action.",
       "source": "https://iws.mx/dnd/?view=feat1903 — Primal Power, page(s) 145."
     },
     {
+      "id": "modern4e.feat.scuttling-crawler-form",
       "title": "Scuttling Crawler Form",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "While you are in beast form, you gain a +5 feat bonus to Athletics checks to climb and can climb at your speed.",
       "source": "https://iws.mx/dnd/?view=feat2189 — Dragon Magazine 382, page(s) 54."
     },
     {
+      "id": "modern4e.feat.stalking-panther-form",
       "title": "Stalking Panther Form",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "While you are in beast form, you gain a +5 feat bonus to Stealth checks and a +4 feat bonus to initiative checks.",
       "source": "https://iws.mx/dnd/?view=feat553 — Player's Handbook 2, page(s) 192."
     },
     {
+      "id": "modern4e.feat.venomous-fang-form",
       "title": "Venomous Fang Form",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "While you are in beast form, all your melee attacks with the poison keyword ignore the first 10 points of the target's poison resist. This increases to 15 points at 21st level.",
       "source": "https://iws.mx/dnd/?view=feat2190 — Dragon Magazine 382, page(s) 54."
     },
     {
+      "id": "modern4e.feat.vital-form",
       "title": "Vital Form",
-      "requirements": "11th level",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 11
+      },
       "description": "Once per encounter, when you use wild shape, you regain the use of your second wind if you have already used it during this encounter.",
       "source": "https://iws.mx/dnd/?view=feat1914 — Primal Power, page(s) 145."
     },
     {
+      "id": "modern4e.feat.warning-guardian",
       "title": "Warning Guardian",
-      "requirements": "11th level, Primal Guardian",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.feature.primal-guardian"
+          }
+        ]
+      },
       "description": "Any ally adjacent to you doesn't grant combat advantage for being flanked.",
       "source": "https://iws.mx/dnd/?view=feat1915 — Primal Power, page(s) 146."
     }

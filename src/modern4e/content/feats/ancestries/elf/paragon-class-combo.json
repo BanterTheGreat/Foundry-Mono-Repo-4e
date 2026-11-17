@@ -1,20 +1,76 @@
 {
+  "schemaVersion": 1,
   "feats": [
     {
+      "id": "modern4e.feat.hunters-advantage-ancestries-elf-paragon-class-combo",
       "title": "Hunter's Advantage",
-      "requirements": "11th level, ranger",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.elf"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.ranger"
+          }
+        ]
+      },
       "description": "Your Hunter's Quarry damage increases by 2 against a quarry granting you combat advantage.",
       "source": "https://iws.mx/dnd/?view=feat852"
     },
     {
+      "id": "modern4e.feat.opportunistic-archer",
       "title": "Opportunistic Archer",
-      "requirements": "11th level, fighter, Combat Challenge",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.elf"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.fighter"
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.power.combat-challenge"
+          }
+        ]
+      },
       "description": "When Combat Challenge grants a melee basic attack, you may instead make a ranged basic attack with a bow against that target. This attack provokes no opportunity attacks.",
       "source": "https://iws.mx/dnd/?view=feat857"
     },
     {
+      "id": "modern4e.feat.prime-slayer-ancestries-elf-paragon-class-combo",
       "title": "Prime Slayer",
-      "requirements": "11th level, rogue",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.ancestry.elf"
+      },
+      "prerequisites": {
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.rogue"
+          }
+        ]
+      },
       "description": "Gain +2 to ranged damage rolls against a target if no ally is closer to it than you.",
       "source": "https://iws.mx/dnd/?view=feat861"
     }
