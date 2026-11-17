@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "classes": [
+    {
+      "id": "modern4e.class.warlock",
+      "title": "Warlock",
+      "description": "Charisma or Constitution-based Arcane Striker. Cast debilitating curses upon your foes to hamper or weaken them as you deal damage. Practically all their damaging moves come with a debuff. You can elude attacks by flying, teleporting, or turning invisible with the power of your patron, a powerful, supernatural force or entity.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "flavor": {
+        "quote": "The darkness holds no terror for me, demon! I curse you now under the Sign of Ill Omen!",
+        "introduction": [
+          "Warlocks channel arcane might wrested from primeval entities. They commune with infernal intelligences and fey spirits, scour enemies with potent blasts of eldritch power, and bedevil foes with hexing curses. Armed with esoteric secrets and dangerous lore, warlocks are clever and resourceful foes.",
+          "However you came to your arcane knowledge, you need not accept the poor reputation warlocks sometimes endure. You could be a libram-toting scholar captivated by ominous lore, a foot-loose wanderer searching for elusive ultimate truths, a devil-touched hunter using infernal spells to eliminate evil, or even a black-clad mercenary who uses sinister trappings to discourage prying strangers and unwanted attention. On the other hand, you could be a true diabolist using your gifts to tyrannize the weak—some warlocks unfortunately are exactly that.",
+          "The pacts are complete. The rites have concluded. The signs are drawn in blood, and the seals are broken. Your destiny beckons."
+        ],
+        "gameplay": "Charisma or Constitution-based Arcane Striker. Cast debilitating curses upon your foes to hamper or weaken them as you deal damage. Practically all their damaging moves come with a debuff. You can elude attacks by flying, teleporting, or turning invisible with the power of your patron, a powerful, supernatural force or entity."
+      },
+      "role": "STRIKER",
+      "powerSources": [
+        "ARCANE"
+      ],
+      "ruleIds": [
+        "modern4e.rule.warlock-initial-powers"
+      ],
+      "grants": [
+        {
+          "id": "warlock-warlock-s-curse",
+          "entryId": "modern4e.feature.warlock-warlock-s-curse",
+          "atLevel": 1
+        },
+        {
+          "id": "warlock-eldritch-attack",
+          "entryId": "modern4e.feature.warlock-eldritch-attack",
+          "atLevel": 1
+        },
+        {
+          "id": "warlock-eldritch-pact",
+          "entryId": "modern4e.feature.warlock-eldritch-pact",
+          "atLevel": 1
+        },
+        {
+          "id": "warlock-prime-shot",
+          "entryId": "modern4e.feature.warlock-prime-shot",
+          "atLevel": 1
+        },
+        {
+          "id": "warlock-shadow-walk",
+          "entryId": "modern4e.feature.warlock-shadow-walk",
+          "atLevel": 1
+        }
+      ],
+      "statistics": {
+        "defenses": {
+          "FORTITUDE": 11,
+          "REFLEX": 12,
+          "WILL": 12
+        },
+        "health": {
+          "base": 17,
+          "perLevel": 5,
+          "constitutionMultiplier": 2
+        },
+        "healingSurges": {
+          "base": 6,
+          "constitutionMultiplier": 1
+        }
+      },
+      "abilities": {
+        "main": [
+          "CHARISMA",
+          "CONSTITUTION"
+        ],
+        "secondary": [
+          "INTELLIGENCE"
+        ]
+      },
+      "proficiencies": {
+        "armor": [
+          "LIGHT",
+          "CHAINMAIL"
+        ],
+        "shields": [],
+        "weapons": [
+          "SIMPLE_MELEE",
+          "SIMPLE_RANGED"
+        ],
+        "implements": [
+          "ROD",
+          "WAND",
+          "TOME"
+        ]
+      }
+    }
+  ]
+}

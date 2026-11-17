@@ -1,6 +1,6 @@
 # Ordered power authoring
 
-Status: used by all four Defender, six Leader and three Controller chapters, validated against
+Status: used by all 19 local class chapters, validated against
 16 additional published-reference scenarios. Class catalog/export schema v2
 adopts these ordered power definitions, and `helpers/power_content.typ` renders
 them. This is an authoring contract, not an enabled builder runtime package.
@@ -20,7 +20,8 @@ Production class files use `{schemaVersion: 2, powers: [...]}` and the class
 catalog inventory/reference registry. `class_content.py` validates and exports
 them with the same block validator. Fighter retains its three existing power IDs;
 the Leader migration adds 23 powers, Paladin/Swordmage/Warden add 15, and the
-Controllers add 18. Forty-seven
+Controllers add 18. Strikers add 23 granted powers and 96 selectable revised
+Barbarian attacks. Seventy-seven
 predeclared feature/power identities are reused, so feat references retain their
 targets. Cross-catalog runtime
 resolution and legacy feat-reference status reconciliation remain pending.
@@ -29,8 +30,9 @@ Each power has stored `id`, `title`, `description`, shared `access`,
 `keywords`, `choices`, and `activations`. Access, prerequisites and selection
 reuse the existing shared validators. References are declarations with category,
 title and PENDING_MIGRATION/UNAVAILABLE status; declarations do not confer access.
-Optional `level`, `powerKind` (ATTACK/UTILITY), `flavor`, and `note` retain
-selection metadata and presentation. Missing levels are not inferred from titles.
+Optional `level`, `powerKind` (ATTACK/UTILITY), `flavor`, `subtitle`, and `note` retain
+selection metadata and presentation. `subtitle` preserves a printed level label;
+it is not an eligibility rule. Missing levels are not inferred from titles.
 
 `source` records `entryId` and `publication`. PUBLISHED_REFERENCE fixtures also
 require complete literal `rulesText`; production definitions author their rules

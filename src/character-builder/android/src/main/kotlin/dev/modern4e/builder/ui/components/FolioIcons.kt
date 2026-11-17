@@ -59,3 +59,21 @@ internal fun TrashIcon() {
         drawPath(path, Accent, style = Stroke(width = 1.5.dp.toPx()))
     }
 }
+
+/** Small decorative pencil; the containing header supplies the edit action and semantics. */
+@Composable
+internal fun PencilIcon() {
+    Canvas(Modifier.size(16.dp)) {
+        val pencil = Path().apply {
+            moveTo(size.width * .18f, size.height * .65f)
+            lineTo(size.width * .68f, size.height * .15f)
+            lineTo(size.width * .85f, size.height * .32f)
+            lineTo(size.width * .35f, size.height * .82f)
+            lineTo(size.width * .12f, size.height * .88f)
+            close()
+            moveTo(size.width * .58f, size.height * .25f)
+            lineTo(size.width * .75f, size.height * .42f)
+        }
+        drawPath(pencil, Dim, style = Stroke(width = 1.3.dp.toPx()))
+    }
+}

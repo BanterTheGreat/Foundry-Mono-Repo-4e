@@ -2,6 +2,7 @@ package dev.modern4e.builder.ui.screens
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.*
@@ -40,7 +41,6 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                 }
             }
         }
-        Field("Name", document.identity.name, enabled = !model.busy) { model.beginEdit("Name") }
         listOf("ancestry", "environment", "upbringing", "theme", "class").forEach { kind ->
             val background = kind == "environment" || kind == "upbringing"
             val value = if (background) Progression.background(document, kind).ifBlank { "Choose…" }.readable()
@@ -177,20 +177,35 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
                     }
                     "allocation" -> {
                         var points by remember { mutableStateOf(document.abilities.points) }
+                        val allocation = document.abilities.copy(points = points)
+                        val remaining = Progression.remainingPoints(allocation)
+                        Surface(color = Wash, border = BorderStroke(1.dp, Line), shape = RoundedCornerShape(3.dp)) {
+                            Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
+                                Column(Modifier.weight(1f)) {
+                                    Text("Ability points", fontFamily = FontFamily.Serif, fontSize = 20.sp)
+                                    Text(if (remaining < 0) "Over budget" else "Left to allocate", color = Dim, fontSize = 12.sp)
+                                }
+                                Text(remaining.toString(), color = Accent, fontFamily = FontFamily.Serif, fontSize = 32.sp)
+                            }
+                        }
                         Ability.entries.forEach { ability ->
-                            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                            Row(Modifier.fillMaxWidth().padding(vertical = 2.dp), verticalAlignment = Alignment.CenterVertically) {
                                 Text(ability.name.readable(), Modifier.weight(1f), fontFamily = FontFamily.Serif)
                                 val fixed = ability == document.abilities.mainAbility
                                 val value = points[ability] ?: 0
-                                TextButton(enabled = !fixed && value > -1, onClick = {
+                                OutlinedButton(enabled = !fixed && value > -1, modifier = Modifier.size(48.dp),
+                                    shape = RoundedCornerShape(3.dp), contentPadding = PaddingValues(0.dp), onClick = {
                                     points = points + (ability to value - 1)
                                     edit = BuilderEdit.Allocation(document.abilities.copy(points = points))
-                                }) { Text("−") }
-                                Text(value.toString(), color = Accent)
-                                TextButton(enabled = !fixed && value < 3, onClick = {
+                                }) { Text("−", fontSize = 24.sp) }
+                                Box(Modifier.width(48.dp), contentAlignment = Alignment.Center) {
+                                    Text(value.toString(), color = Accent, fontFamily = FontFamily.Serif, fontSize = 24.sp)
+                                }
+                                OutlinedButton(enabled = !fixed && value < 3, modifier = Modifier.size(48.dp),
+                                    shape = RoundedCornerShape(3.dp), contentPadding = PaddingValues(0.dp), onClick = {
                                     points = points + (ability to value + 1)
                                     edit = BuilderEdit.Allocation(document.abilities.copy(points = points))
-                                }) { Text("+") }
+                                }) { Text("+", fontSize = 24.sp) }
                             }
                         }
                         Text("Distribute 5 points: 0–2 each, or one −1 paired with one 3.", color = Dim)
@@ -229,11 +244,13 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
                                     BuilderEdit.Proficiency(request.level, ProficiencyChoice(slots[index], pick))
                                 })
                             }, color = if (chosen) Wash else Paper, border = BorderStroke(1.dp, if (chosen) Accent else Line)) {
-                                Row(Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
+                                Row(Modifier.heightIn(min = 48.dp).padding(horizontal = 12.dp, vertical = 7.dp), verticalAlignment = Alignment.CenterVertically) {
                                     Column(Modifier.weight(1f)) {
                                         Text((if (chosen) "✓ " else "") + skill.name.readable(), color = if (blocked) Dim else Ink)
                                         if (blocked) { Text("Already proficient", color = Dim, fontSize = 12.sp) }
-                                        calculation?.value?.contributors?.forEach { Text(it.label, fontSize = 10.sp, color = Dim) }
+                                        calculation?.value?.contributors?.mapNotNull { Progression.skillContributorLabel(it.label) }?.forEach {
+                                            Text(it, fontSize = 11.sp, lineHeight = 13.sp, color = Dim)
+                                        }
                                     }
                                     Text(modifier, color = Accent)
                                 }

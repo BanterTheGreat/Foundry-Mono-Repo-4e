@@ -1,0 +1,251 @@
+{
+  "schemaVersion": 1,
+  "features": [
+    {
+      "id": "modern4e.feature.avenger-armor-of-faith",
+      "title": "Armor Of Faith",
+      "description": "The favor of your deity wards you from harm. While you are wearing cloth armor or no armor and aren’t using a shield, you gain a +3 bonus to AC.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "The favor of your deity wards you from harm. While you are wearing cloth armor or no armor and aren’t using a shield, you gain a +3 bonus to AC."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.channel-divinity",
+      "title": "Channel Divinity",
+      "description": "Once per encounter you can invoke divine power, filling yourself with the might of your patron deity. With the divine might you invoke you can wield special powers. You can also learn other uses for this feature; for instance, the divinity feats grant characters with access to the Channel Divinity class feature the ability to use additional special powers.\n\nRegardless of how many different uses for Channel Divinity you know, you can use only one such ability per encounter. The special ability or power you invoke works just like your other powers. You gain the following Channel Divinity abilities.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "avenger-abjure-undead",
+          "entryId": "modern4e.power.avenger-abjure-undead",
+          "atLevel": 1
+        },
+        {
+          "id": "avenger-divine-guidance",
+          "entryId": "modern4e.power.avenger-divine-guidance",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "Once per encounter you can invoke divine power, filling yourself with the might of your patron deity. With the divine might you invoke you can wield special powers. You can also learn other uses for this feature; for instance, the divinity feats grant characters with access to the Channel Divinity class feature the ability to use additional special powers.\n\nRegardless of how many different uses for Channel Divinity you know, you can use only one such ability per encounter. The special ability or power you invoke works just like your other powers. You gain the following Channel Divinity abilities."
+        },
+        {
+          "type": "grant",
+          "grantId": "avenger-abjure-undead"
+        },
+        {
+          "type": "grant",
+          "grantId": "avenger-divine-guidance"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.avenger-oath-of-enmity",
+      "title": "Oath of Enmity",
+      "description": "Your god gives you the power to strike down your chosen prey. You gain the oath of enmity power.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "avenger-oath-of-enmity",
+          "entryId": "modern4e.power.oath-of-enmity",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "Your god gives you the power to strike down your chosen prey. You gain the oath of enmity power."
+        },
+        {
+          "type": "grant",
+          "grantId": "avenger-oath-of-enmity"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.censure-of-pursuit",
+      "title": "Censure of Pursuit",
+      "description": "Whenever you hit your oath of enmity target with a charge attack, you gain a +2 bonus to AC and damage rolls until the end of your next turn. The bonus to damage rolls increases to +4 at 11th level and +6 at 21st level.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "Whenever you hit your oath of enmity target with a charge attack, you gain a +2 bonus to AC and damage rolls until the end of your next turn. The bonus to damage rolls increases to +4 at 11th level and +6 at 21st level."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.censure-of-retribution",
+      "title": "Censure of Retribution",
+      "description": "Whenever any enemy hits you with an attack, you gain a bonus to damage rolls against your oath of enmity target equal to your *Intelligence* until the end of your next turn.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "Whenever any enemy hits you with an attack, you gain a bonus to damage rolls against your oath of enmity target equal to your *Intelligence* until the end of your next turn."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.censure-of-unity",
+      "title": "Censure of Unity",
+      "description": "You gain a +2 bonus to damage rolls against your oath of enmity target for each ally adjacent to that target. The bonus increases to +3 at 11th level and +4 at 21st level.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "You gain a +2 bonus to damage rolls against your oath of enmity target for each ally adjacent to that target. The bonus increases to +3 at 11th level and +4 at 21st level."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.avenger-vindicators-censure",
+      "title": "Vindicator’s Censure",
+      "description": "As a vindicator, you train your mind, body, and soul toward one purpose: destroying the enemies of your faith. To that end, you gain divine aid in pursuing a single target, though the way you eliminate that enemy varies. Do you pin your foe down and keep other enemies away, or do you pursue your foe across the field of battle? Choose one of the following options. Your choice provides bonuses to certain vindicator powers, as detailed in those powers.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "choices": [
+        {
+          "id": "modern4e.choice.avenger-vindicators-censure",
+          "title": "Vindicator’s Censure",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 1,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.censure-of-pursuit",
+              "modern4e.feature.censure-of-retribution",
+              "modern4e.feature.censure-of-unity"
+            ]
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "As a vindicator, you train your mind, body, and soul toward one purpose: destroying the enemies of your faith. To that end, you gain divine aid in pursuing a single target, though the way you eliminate that enemy varies. Do you pin your foe down and keep other enemies away, or do you pursue your foe across the field of battle? Choose one of the following options. Your choice provides bonuses to certain vindicator powers, as detailed in those powers."
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.avenger-vindicators-censure"
+        }
+      ]
+    }
+  ]
+}

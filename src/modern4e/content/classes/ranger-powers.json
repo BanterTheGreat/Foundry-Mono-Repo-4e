@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 2,
+  "powers": [
+    {
+      "id": "modern4e.power.hunters-quarry",
+      "title": "Hunter's Quarry",
+      "description": "The target is designated as your quarry. The target remains your quarry until the end of the encounter, until the target is defeated, or until you designate a different target as your quarry. You can designate one enemy as your quarry at a time. If multiple enemies you can see are equally nearest to you, you choose which becomes your quarry.\n\nWhenever you hit the enemy designated as your quarry with an attack that deals damage during your turn, you deal 1d6 extra damage to that enemy.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.ranger",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "MARTIAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "The nearest enemy that you can see."
+            }
+          },
+          "range": {
+            "type": "PERSONAL"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target is designated as your quarry. The target remains your quarry until the end of the encounter, until the target is defeated, or until you designate a different target as your quarry. You can designate one enemy as your quarry at a time. If multiple enemies you can see are equally nearest to you, you choose which becomes your quarry.\n\nWhenever you hit the enemy designated as your quarry with an attack that deals damage during your turn, you deal 1d6 extra damage to that enemy.",
+              "scaling": [
+                {
+                  "atLevel": 11,
+                  "text": "2d6 extra damage."
+                },
+                {
+                  "atLevel": 21,
+                  "text": "3d6 extra damage."
+                }
+              ]
+            }
+          ],
+          "targets": "targets"
+        }
+      ]
+    }
+  ]
+}

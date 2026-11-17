@@ -1,0 +1,1343 @@
+{
+  "schemaVersion": 2,
+  "powers": [
+    {
+      "id": "modern4e.power.warlock-warlock-s-curse",
+      "title": "Warlock's Curse",
+      "description": "You place a Warlock's Curse on the enemy. If you hit a cursed enemy with an attack, you deal +1d6 damage. You decide whether to apply the extra damage after making the damage roll. You can deal this extra damage to each enemy only once per turn.\n\nA Warlock's Curse remains in effect until the end of the encounter or until the cursed enemy drops to 0 hit points or fewer. You can't place a Warlock's Curse on a creature that is already affected by your or another character's Warlock's Curse.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.warlock",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "CURSE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [
+              {
+                "period": "TURN",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "The enemy nearest to you that you can see"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Special"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You place a Warlock's Curse on the enemy. If you hit a cursed enemy with an attack, you deal +1d6 damage. You decide whether to apply the extra damage after making the damage roll. You can deal this extra damage to each enemy only once per turn.\n\nA Warlock's Curse remains in effect until the end of the encounter or until the cursed enemy drops to 0 hit points or fewer. You can't place a Warlock's Curse on a creature that is already affected by your or another character's Warlock's Curse.",
+              "scaling": [
+                {
+                  "atLevel": 11,
+                  "text": "+2d6 damage."
+                },
+                {
+                  "atLevel": 21,
+                  "text": "+3d6 damage."
+                }
+              ]
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Special",
+              "text": "You can only use Warlock's Curse once per turn."
+            }
+          ],
+          "targets": "targets",
+          "special": true
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.eldritch-blast",
+      "title": "Eldritch Blast",
+      "description": "Eldritch Blast",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.warlock",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "flavor": "You fire a bolt of dark, crackling eldritch energy at your foe.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RANGED",
+            "origin": "self",
+            "distance": {
+              "base": 10
+            }
+          },
+          "blocks": [
+            {
+              "id": "attack",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma or Constitution vs. Reflex",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "RANGED",
+                "origin": "self",
+                "distance": {
+                  "base": 10
+                }
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Charisma or Constitution"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-1",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1d10 + Charisma or Constitution damage.",
+                        "scaling": [
+                          {
+                            "atLevel": 21,
+                            "text": "2d10 + Charisma or Constitution damage."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets",
+          "special": true
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.warlock-eldritch-strike",
+      "title": "Eldritch Strike",
+      "description": "This power counts as a melee basic attack.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.warlock",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "ARCANE",
+        "WEAPON",
+        "BASIC"
+      ],
+      "choices": [],
+      "flavor": "The dire power of your attack drives your enemy before you.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "MELEE",
+            "origin": "self",
+            "distance": "WEAPON"
+          },
+          "blocks": [
+            {
+              "id": "attack",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma or Constitution vs. Ac",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "MELEE",
+                "origin": "self",
+                "distance": "WEAPON"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Charisma or Constitution"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-1",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Charisma or Constitution damage, and you slide the target 1 square.",
+                        "scaling": [
+                          {
+                            "atLevel": 21,
+                            "text": "2[W] + Charisma or Constitution."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Special",
+              "text": "This power counts as a melee basic attack."
+            }
+          ],
+          "targets": "targets"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.warlock-darkspiral-aura",
+      "title": "Darkspiral Aura",
+      "description": "When an enemy under your Warlock's Curse is reduced to 0 hit points or fewer, add 1 to your Darkspiral Aura. Your Darkspiral Aura has a starting value of 0, and it resets to 0 when you take a short rest or an extended rest.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.warlock",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "ARCANE",
+        "NECROTIC",
+        "PSYCHIC"
+      ],
+      "choices": [],
+      "flavor": "As your cursed enemies fall in battle, your Darkspiral Aura grows in power. You can unleash it on an enemy, blasting its mind and body.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Special"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "When an enemy under your Warlock's Curse is reduced to 0 hit points or fewer, add 1 to your Darkspiral Aura. Your Darkspiral Aura has a starting value of 0, and it resets to 0 when you take a short rest or an extended rest."
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Hit",
+              "text": "1d6 necrotic and psychic damage to that enemy for each point of your Darkspiral Aura's current value.",
+              "scaling": [
+                {
+                  "atLevel": 11,
+                  "text": "1d8 damage."
+                },
+                {
+                  "atLevel": 21,
+                  "text": "1d10 damage."
+                }
+              ]
+            },
+            {
+              "id": "row-3",
+              "type": "effect",
+              "label": "Special",
+              "text": "If this attack deals less than 12 damage, the value of your Darkspiral Aura becomes 0.\n\nIf this attack deals 12 damage or more, you can cause the enemy to be weakened for its attack (which means the attack deals half damage), and the value of your Darkspiral Aura becomes 1."
+            }
+          ],
+          "trigger": "When an enemy under your Warlock's Curse makes a melee attack or a ranged attack against you"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.warlock-spiteful-glamor",
+      "title": "Spiteful Glamor",
+      "description": "Spiteful Glamor",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.warlock",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT",
+        "PSYCHIC"
+      ],
+      "choices": [],
+      "flavor": "The mere sight of you is anathema to your enemy.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RANGED",
+            "origin": "self",
+            "distance": {
+              "base": 10
+            }
+          },
+          "blocks": [
+            {
+              "id": "attack",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Will",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "RANGED",
+                "origin": "self",
+                "distance": {
+                  "base": 10
+                }
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-1",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1d8 + Charisma psychic damage, or 1d12 + Charisma psychic damage to a target at maximum hit points.",
+                        "scaling": [
+                          {
+                            "atLevel": 21,
+                            "text": "2d8 + Charisma damage, or 2d12 + Charisma to a target at maximum hit points."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets",
+          "special": true
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.warlock-accursed-affinity",
+      "title": "Accursed Affinity",
+      "description": "The next enemy you place your Warlock's Curse on gains vulnerable 5 to the damage type matching your current elemental affinity. This vulnerability is cumulative with the enemy's existing vulnerability to the same damage type, if any, and lasts until the curse ends.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.warlock",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "CLOSE_BURST",
+            "origin": "self",
+            "size": {
+              "base": 20
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The next enemy you place your Warlock's Curse on gains vulnerable 5 to the damage type matching your current elemental affinity. This vulnerability is cumulative with the enemy's existing vulnerability to the same damage type, if any, and lasts until the curse ends.",
+              "scaling": [
+                {
+                  "atLevel": 11,
+                  "text": "Vulnerable 10."
+                },
+                {
+                  "atLevel": 21,
+                  "text": "Vulnerable 15."
+                }
+              ]
+            }
+          ],
+          "trigger": "An enemy under your Warlock's Curse is reduced to 0 hit points or fewer"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.warlock-chromatic-bolt",
+      "title": "Chromatic Bolt",
+      "description": "Chromatic Bolt",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.warlock",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "ARCANE",
+        "ELEMENTAL",
+        "IMPLEMENT",
+        "PSYCHIC",
+        "BASIC"
+      ],
+      "choices": [],
+      "flavor": "You loose a crackling bolt of raw chaos against your foes.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RANGED",
+            "origin": "self",
+            "distance": {
+              "base": 10
+            }
+          },
+          "blocks": [
+            {
+              "id": "attack",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Reflex",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "RANGED",
+                "origin": "self",
+                "distance": {
+                  "base": 10
+                }
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-1",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1d6 + Charisma psychic damage, and one creature within 5 squares of the target takes psychic damage equal to your *Constitution*.",
+                        "scaling": [
+                          {
+                            "atLevel": 21,
+                            "text": "2d6 + Charisma psychic damage, and one creature within 10 squares of the target takes psychic damage equal to your *Constitution*."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.warlock-misty-step",
+      "title": "Misty Step",
+      "description": "You teleport a number of squares up to your *Intelligence*. Once per turn, you may then deal Force damage equal to half your level plus your *Intelligence* to one adjacent creature.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.warlock",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [],
+      "choices": [],
+      "flavor": "You instantly transform into silver mist that streams a short distance and reforms, allowing you to flee or maneuver to set up a deadly attack.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "CLOSE_BURST",
+            "origin": "self",
+            "size": {
+              "base": 20
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You teleport a number of squares up to your *Intelligence*. Once per turn, you may then deal Force damage equal to half your level plus your *Intelligence* to one adjacent creature.",
+              "scaling": [
+                {
+                  "atLevel": 11,
+                  "text": "One or two adjacent creatures."
+                },
+                {
+                  "atLevel": 21,
+                  "text": "Any number of adjacent creatures."
+                }
+              ]
+            }
+          ],
+          "trigger": "An enemy under your Warlock's Curse is reduced to 0 hit points or fewer"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.warlock-eyebite",
+      "title": "Eyebite",
+      "description": "Eyebite",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.warlock",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "ARCANE",
+        "CHARM",
+        "IMPLEMENT",
+        "PSYCHIC"
+      ],
+      "choices": [],
+      "flavor": "You glare at your enemy, and your eyes briefly gleam with brilliant colors. Your foe reels under your mental assault, and you vanish from his sight.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One or two creatures"
+            }
+          },
+          "range": {
+            "type": "RANGED",
+            "origin": "self",
+            "distance": {
+              "base": 10
+            }
+          },
+          "blocks": [
+            {
+              "id": "attack",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma vs. Will",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "RANGED",
+                "origin": "self",
+                "distance": {
+                  "base": 10
+                }
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CHARISMA"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-1",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1d6 + Charisma psychic damage, and if you had combat advantage against the target you are invisible to the target until the start of your next turn.",
+                        "scaling": [
+                          {
+                            "atLevel": 21,
+                            "text": "2d6 + Charisma damage."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.warlock-infernal-patronage",
+      "title": "Infernal Patronage",
+      "description": "You gain the following benefits\n- *Dark One's Blessing:* You gain temporary hit points equal to your level + your *Intelligence*. These temporary hit points disappear at the end of your next extended rest.\n- *Soul Pyre:* If the triggering enemy was not a minion, you may then make a _Soul Pyre_ attack.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.warlock",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "ARCANE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "CLOSE_BURST",
+            "origin": "self",
+            "size": {
+              "base": 20
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You gain the following benefits\n- *Dark One's Blessing:* You gain temporary hit points equal to your level + your *Intelligence*. These temporary hit points disappear at the end of your next extended rest.\n- *Soul Pyre:* If the triggering enemy was not a minion, you may then make a _Soul Pyre_ attack."
+            }
+          ],
+          "trigger": "An enemy in range under your Warlock's Curse is reduced to 0 hit points or less."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.warlock-soul-pyre",
+      "title": "Soul Pyre",
+      "description": "Half your level + *Intelligence* fire damage.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.warlock",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "ARCANE",
+        "FIRE"
+      ],
+      "choices": [],
+      "flavor": "You unleash a burst of hellish flames from the location where your cursed enemy fell.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "NO_ACTION",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [
+              {
+                "period": "TURN",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1 on the triggering enemy"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Half your level + *Intelligence* fire damage.",
+              "scaling": [
+                {
+                  "atLevel": 21,
+                  "text": "Close burst 2."
+                }
+              ]
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Special",
+              "text": "You may use Soul Pyre once per turn."
+            }
+          ],
+          "targets": "targets",
+          "special": true
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.warlock-hellish-rebuke",
+      "title": "Hellish Rebuke",
+      "description": "Hellish Rebuke",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.warlock",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "ARCANE",
+        "FIRE",
+        "IMPLEMENT"
+      ],
+      "choices": [],
+      "flavor": "You point your finger, and your foe is scoured in hellish flames stoked by your own anger and pain. If you are injured, the flames burst into life one more time before they fade away.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RANGED",
+            "origin": "self",
+            "distance": {
+              "base": 10
+            }
+          },
+          "blocks": [
+            {
+              "id": "attack",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Constitution vs. Reflex",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "RANGED",
+                "origin": "self",
+                "distance": {
+                  "base": 10
+                }
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "CONSTITUTION"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-1",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1d8 + Constitution fire damage. The first time you take damage before the end of your next turn, the target takes 1d8 + Constitution fire damage.",
+                        "scaling": [
+                          {
+                            "atLevel": 21,
+                            "text": "2d8 + Constitution damage and extra damage."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.warlock-fate-of-the-void",
+      "title": "Fate of the Void",
+      "description": "You gain a charge of Glimpse of the Void.\n\nWhenever you make an attack, before making any attack rolls or applying any effects of the power, you may choose to spend any number of charges of Glimpse of the Void to enhance the power.\n\n- If you spend one charge of Glimpse of the Void, you gain combat advantage and a bonus to damage rolls with the power equal to your *Intelligence*.\n- For each additional charge you spend, you gain an additional +1 bonus to attack rolls and an additional +2 bonus to damage rolls with the power.\n\nWhenever you make an ability check, skill check, or saving throw, before making the roll, you may choose to spend any number of charges of Glimpse of the Void to enhance the roll.\n\n- If you spend one charge of Glimpse of the Void, you gain a +2 bonus to the roll.\n- For each additional charge you spend, you gain an additional +1 bonus to the roll.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.warlock",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "ARCANE"
+      ],
+      "choices": [],
+      "flavor": "Your curse intermingles with the lost vitality of a cursed enemy to reveal a glimpse of the future to you.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "CLOSE_BURST",
+            "origin": "self",
+            "size": {
+              "base": 20
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You gain a charge of Glimpse of the Void.\n\nWhenever you make an attack, before making any attack rolls or applying any effects of the power, you may choose to spend any number of charges of Glimpse of the Void to enhance the power.\n\n- If you spend one charge of Glimpse of the Void, you gain combat advantage and a bonus to damage rolls with the power equal to your *Intelligence*.\n- For each additional charge you spend, you gain an additional +1 bonus to attack rolls and an additional +2 bonus to damage rolls with the power.\n\nWhenever you make an ability check, skill check, or saving throw, before making the roll, you may choose to spend any number of charges of Glimpse of the Void to enhance the roll.\n\n- If you spend one charge of Glimpse of the Void, you gain a +2 bonus to the roll.\n- For each additional charge you spend, you gain an additional +1 bonus to the roll.",
+              "scaling": [
+                {
+                  "atLevel": 11,
+                  "text": "Increase the additional bonus to damage rolls when spending additional charges to +3."
+                },
+                {
+                  "atLevel": 21,
+                  "text": "Increase the additional bonus to damage rolls when spending additional charges to +4."
+                }
+              ]
+            }
+          ],
+          "trigger": "An enemy in range under your Warlock's Curse is reduced to 0 hit points or less.",
+          "requirement": "You must not have more charges of Glimpses of the Void than your Intelligence (minimum 1)."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.warlock-dire-radiance",
+      "title": "Dire Radiance",
+      "description": "Dire Radiance",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.warlock",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "ARCANE",
+        "FEAR",
+        "IMPLEMENT",
+        "RADIANT"
+      ],
+      "choices": [],
+      "flavor": "You cause a shaft of brilliant, cold starlight to lance down from above, bathing your foe in excruciating light. The nearer he moves toward you, the brighter and more deadly the light becomes.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RANGED",
+            "origin": "self",
+            "distance": {
+              "base": 10
+            }
+          },
+          "blocks": [
+            {
+              "id": "attack",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Charisma or Constitution vs. Fortitude",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "RANGED",
+                "origin": "self",
+                "distance": {
+                  "base": 10
+                }
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "RULES_TEXT",
+                  "text": "Charisma or Constitution"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-1",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1d6 + Charisma or Constitution radiant damage. The first time the target moves closer to you on its next turn, it takes 1d6 + Charisma or Constitution damage. This is a fear effect.",
+                        "scaling": [
+                          {
+                            "atLevel": 21,
+                            "text": "2d6 + Charisma or Constitution damage."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "targets": "targets"
+        }
+      ]
+    }
+  ]
+}

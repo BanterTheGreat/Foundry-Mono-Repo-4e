@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "classes": [
+    {
+      "id": "modern4e.class.avenger",
+      "title": "Avenger",
+      "description": "Avenger is a Wisdom-based Divine Striker. Holy ninja. Unarmored. Specializes in isolating a single target and killing it. Your oaths bring divine wrath upon the enemies of your god. With methodical devastation, you eliminate one foe at a time.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "flavor": {
+        "quote": "Everything my god needs to say to you can be said with my weapon.",
+        "introduction": [
+          "In secret temples far from bustling cities and priestly hierarchies, orders of esoteric warriors train their initiates in ancient traditions now forgotten or forbidden by most religious organizations. The champions of these orders are avengers—deadly weapons in the hands of their gods, imbued with divine power through secret rites of initiation. In battle, avengers swear to execute divine vengeance, entering a mental state that gives them unerring focus on a single enemy.",
+          "As an avenger, you were trained in a monastery, initiated through secret rites, and imbued with the power to smite your god's foes. You might be a disciple of Ioun, sworn to hunt and exterminate the minions of Vecna until you one day face the Maimed God. You could be an agent of the Raven Queen, bringing death to those who would defy your mistress. Or perhaps you serve Bahamut as an agent of justice, bringing ruin to tyrants and oppressors. The organizations devoted to your god might view you as a heretic or a hero, but you answer only to your god and to the vows you swore upon your initiation as an avenger."
+        ],
+        "gameplay": "Avenger is a Wisdom-based *Divine Striker*. Holy ninja. Unarmored. Specializes in isolating a single target and killing it. Your oaths bring divine wrath upon the enemies of your god. With methodical devastation, you eliminate one foe at a time."
+      },
+      "role": "STRIKER",
+      "powerSources": [
+        "DIVINE"
+      ],
+      "ruleIds": [],
+      "grants": [
+        {
+          "id": "avenger-armor-of-faith",
+          "entryId": "modern4e.feature.avenger-armor-of-faith",
+          "atLevel": 1
+        },
+        {
+          "id": "avenger-channel-divinity",
+          "entryId": "modern4e.feature.channel-divinity",
+          "atLevel": 1
+        },
+        {
+          "id": "avenger-oath-of-enmity",
+          "entryId": "modern4e.feature.avenger-oath-of-enmity",
+          "atLevel": 1
+        },
+        {
+          "id": "avenger-vindicators-censure",
+          "entryId": "modern4e.feature.avenger-vindicators-censure",
+          "atLevel": 1
+        }
+      ],
+      "statistics": {
+        "defenses": {
+          "FORTITUDE": 12,
+          "REFLEX": 12,
+          "WILL": 12
+        },
+        "health": {
+          "base": 18,
+          "perLevel": 6,
+          "constitutionMultiplier": 2
+        },
+        "healingSurges": {
+          "base": 7,
+          "constitutionMultiplier": 1
+        }
+      },
+      "abilities": {
+        "main": [
+          "WISDOM"
+        ],
+        "secondary": [
+          "DEXTERITY",
+          "INTELLIGENCE"
+        ]
+      },
+      "proficiencies": {
+        "armor": [
+          "CLOTH"
+        ],
+        "shields": [],
+        "weapons": [
+          "SIMPLE_MELEE",
+          "MILITARY_MELEE",
+          "SIMPLE_RANGED"
+        ],
+        "implements": [
+          "HOLY_SYMBOL"
+        ]
+      }
+    }
+  ]
+}

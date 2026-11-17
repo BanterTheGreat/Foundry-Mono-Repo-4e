@@ -21,7 +21,7 @@
   }
   classes.proficiencies(
     armorProficiencies: prof.armor.map(value => if value == "LIGHT" or value == "HEAVY" { display(value) + " Armor" } else { display(value) }) + shields,
-    weaponProficiencies: prof.weapons.map(display),
+    weaponProficiencies: prof.weapons.map(value => if value == "SHORT_SWORD" { "Shortsword" } else { display(value) }),
     implementProficiencies: prof.implements.map(display),
   )
   let stats = class.statistics
@@ -44,13 +44,13 @@
 
 #let powerCard = orderedPowers.powerCard
 
-#let featureBody(feature, fill: theme.rowStripes, showDescription: true, sectionStart: 0, sectionEnd: none, optionStart: 0, optionEnd: none, onlyOptions: false) = {
+#let featureBody(feature, fill: theme.rowStripes, showDescription: true, sectionStart: 0, sectionEnd: none, optionStart: 0, optionEnd: none, onlyOptions: false, optionBreakable: false) = {
   let showOptions(choice) = {
     if choice.source.type != "entries" { return }
     let options = choice.source.entryIds
     for id in options.slice(optionStart, if optionEnd == none { options.len() } else { optionEnd }) {
       let option = entry(id)
-      theme.choiceBlock(title: option.title, body: featureBody(option, fill: theme.bgColor))
+      theme.choiceBlock(title: option.title, body: featureBody(option, fill: theme.bgColor), breakable: optionBreakable)
     }
   }
   if onlyOptions {
@@ -64,8 +64,8 @@
       else if section.type == "heading" { heading(section.title, level: 2) }
       else if section.type == "table" {
         block(breakable: false)[
-          *#section.title*
-          #table(columns: (1fr,) * section.columns.len(), stroke: theme.tableDivider, align: left, fill: theme.defaultTableStyle(), inset: 8pt,
+          #if section.title != "" { strong(classText(section.title)) }
+          #table(columns: (1fr,) * section.columns.len(), stroke: theme.tableDivider, align: left, fill: theme.defaultTableStyle(), inset: if section.at("style", default: "DEFAULT") == "COMPACT" { 4pt } else { 8pt },
             ..section.columns.map(column => strong(classText(column))),
             ..section.rows.flatten().map(classText))
         ]
@@ -108,17 +108,17 @@
   }
 }
 
-#let featureOptions(id, start: 0, end: none) = featureBody(entry(id), optionStart: start, optionEnd: end, onlyOptions: true)
-#let featureSections(id, start: 0, end: none, optionEnd: none, fill: theme.rowStripes) = featureBody(entry(id), sectionStart: start, sectionEnd: end, optionEnd: optionEnd, fill: fill)
+#let featureOptions(id, start: 0, end: none, breakable: false) = featureBody(entry(id), optionStart: start, optionEnd: end, onlyOptions: true, optionBreakable: breakable)
+#let featureSections(id, start: 0, end: none, optionEnd: none, fill: theme.rowStripes, optionBreakable: false) = featureBody(entry(id), sectionStart: start, sectionEnd: end, optionEnd: optionEnd, fill: fill, optionBreakable: optionBreakable)
 
-#let feature(id, sectionEnd: none, optionEnd: none) = {
+#let feature(id, sectionEnd: none, optionEnd: none, optionBreakable: false) = {
   let value = entry(id)
   heading(value.title, level: 1)
   if "choices" in value and value.choices.any(choice => choice.source.type == "entries") {
     let count = value.choices.first().count
     theme.buildChoiceHeader(prompt: if count == 1 { [Choose One] } else { [Choose #count] })
   }
-  if "sections" in value { featureSections(id, end: sectionEnd, optionEnd: optionEnd) }
+  if "sections" in value { featureSections(id, end: sectionEnd, optionEnd: optionEnd, optionBreakable: optionBreakable) }
   else { featureBody(value) }
 }
 

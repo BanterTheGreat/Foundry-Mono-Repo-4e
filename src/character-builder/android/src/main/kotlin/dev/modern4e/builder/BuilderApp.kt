@@ -57,11 +57,16 @@ fun BuilderApp(model: BuilderSession, exchange: FileExchange) {
                             }
                         }
                         val character = model.page in CharacterTabs
-                        Text(if (character) model.current?.document?.identity?.name.orEmpty() else if (model.page == "import") "Import Character" else "Characters",
-                            fontFamily = FontFamily.Serif, fontSize = 24.sp, lineHeight = 28.sp,
-                            modifier = Modifier.weight(1f).height(48.dp).wrapContentHeight(Alignment.CenterVertically).then(
-                                if (character) Modifier.clickable(enabled = !model.busy) { model.beginEdit("Name") }
-                                    .semantics { contentDescription = "Edit character name" } else Modifier))
+                        Row(Modifier.weight(1f).height(48.dp).then(
+                            if (character) Modifier.clickable(enabled = !model.busy) { model.beginEdit("Name") }
+                                .semantics(mergeDescendants = true) { contentDescription = "Edit character name" } else Modifier),
+                            verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Text(if (character) model.current?.document?.identity?.name.orEmpty() else if (model.page == "import") "Import Character" else "Characters",
+                                fontFamily = FontFamily.Serif, fontSize = 24.sp, lineHeight = 28.sp,
+                                modifier = Modifier.weight(1f, fill = false), maxLines = 1,
+                                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
+                            if (character) { PencilIcon() }
+                        }
                     }
                     HorizontalDivider(color = Line)
                 }

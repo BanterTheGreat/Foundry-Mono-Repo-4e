@@ -101,10 +101,10 @@ def validate_set_limits(rules, count, source, entries, references, where):
                     reference(key, ["POWER"], entries, references, where)
 
 
-def choice_count(value, where):
+def choice_count(value, where, minimum=1):
     """A fixed count or a step table; each threshold replaces the earlier count."""
     if type(value) is int:
-        integer(value, where, 1)
+        integer(value, where, minimum)
         return
     fields(value, ["byLevel"], [], where)
     array(value["byLevel"], where, True)
@@ -112,7 +112,7 @@ def choice_count(value, where):
     for step in value["byLevel"]:
         fields(step, ["atLevel", "count"], [], where)
         integer(step["atLevel"], where, 1, 30)
-        integer(step["count"], where, 1)
+        integer(step["count"], where, minimum)
         levels.append(step["atLevel"])
     require(levels[0] == 1 and levels == sorted(set(levels)), where, "count thresholds must start at 1 and be unique and ordered")
 
@@ -289,8 +289,10 @@ def catalog(content=CONTENT):
                 require(isinstance(section, dict), loc, "expected feature section")
                 kind = section.get("type")
                 if kind == "table":
-                    fields(section, ["type", "title", "columns", "rows"], [], loc)
-                    string(section["title"], loc)
+                    fields(section, ["type", "title", "columns", "rows"], ["style"], loc)
+                    require(isinstance(section["title"], str), loc, "expected table title string")
+                    if "style" in section:
+                        enum(section["style"], ["DEFAULT", "COMPACT"], loc)
                     array(section["columns"], loc, True)
                     for column in section["columns"]:
                         string(column, loc)
@@ -326,7 +328,7 @@ def catalog(content=CONTENT):
             require(isinstance(target, str) and target in choices, loc, "unknown target choice")
             require(target not in targets, loc, "duplicate selection modifier target")
             targets.add(target)
-            choice_count(modifier["count"], loc)
+            choice_count(modifier["count"], loc, minimum=0)
             if "collection" in modifier:
                 require(isinstance(modifier["collection"], str) and modifier["collection"] in collections, loc, "undeclared collection")
             if "replacement" in modifier:

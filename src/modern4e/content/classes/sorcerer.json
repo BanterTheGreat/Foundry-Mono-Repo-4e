@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "classes": [
+    {
+      "id": "modern4e.class.sorcerer",
+      "title": "Sorcerer",
+      "description": "Sorcerer is a Charisma-based Arcane Striker. Glass cannon that unleashes devastating surges of arcane power. Sorcerers are defined by the type of magic that resonates with their soul; dragons, chaos, storms and cosmic energy. Specializes in multi-target damage.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "flavor": {
+        "quote": "I am in the arcane, and the arcane is in me.",
+        "introduction": [
+          "The sorcerer is the arcane antithesis of the wizard. Wielding raw, barely contained magical power, sorcerers channel bursts and blasts of arcane energy through their bodies. They gain their power not through rigorous study of esoteric tomes, but by harnessing magic in their blood, waiting to be tapped and shaped. If wizards wield magic as fighters wield swords, a sorcerer's magic is the arcing greataxe of a raging barbarian.",
+          "You might be a proud dragonborn scion of ancient Arkhosia, calling on the draconic power of your heritage, or perhaps you were bathed in dragon blood as an infant to fill you with that power. You might have been born in a place where planar forces converged in strange eddies, infusing you with chaos, or perhaps you survived implantation of a slaad embryo, which left the taint of chaos upon you.",
+          "Magic pulses through your veins, calling on you to give it expression. As it grows ever stronger, will it consume you or transform you into magic incarnate?"
+        ],
+        "gameplay": "Sorcerer is a Charisma-based *Arcane Striker*. Glass cannon that unleashes devastating surges of arcane power. Sorcerers are defined by the type of magic that resonates with their soul; dragons, chaos, storms and cosmic energy. Specializes in multi-target damage."
+      },
+      "role": "STRIKER",
+      "powerSources": [
+        "ARCANE"
+      ],
+      "ruleIds": [],
+      "grants": [
+        {
+          "id": "sorcerer-spell-source",
+          "entryId": "modern4e.feature.sorcerer-spell-source",
+          "atLevel": 1
+        },
+        {
+          "id": "sorcerer-prime-shot",
+          "entryId": "modern4e.feature.sorcerer-prime-shot",
+          "atLevel": 1
+        }
+      ],
+      "statistics": {
+        "defenses": {
+          "FORTITUDE": 11,
+          "REFLEX": 11,
+          "WILL": 13
+        },
+        "health": {
+          "base": 17,
+          "perLevel": 5,
+          "constitutionMultiplier": 2
+        },
+        "healingSurges": {
+          "base": 6,
+          "constitutionMultiplier": 1
+        }
+      },
+      "abilities": {
+        "main": [
+          "CHARISMA"
+        ],
+        "secondary": [
+          "STRENGTH",
+          "DEXTERITY"
+        ]
+      },
+      "proficiencies": {
+        "armor": [
+          "CLOTH"
+        ],
+        "shields": [],
+        "weapons": [
+          "DAGGER",
+          "STAFF"
+        ],
+        "implements": [
+          "STAFF",
+          "DAGGER"
+        ]
+      }
+    }
+  ]
+}

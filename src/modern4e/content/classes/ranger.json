@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "classes": [
+    {
+      "id": "modern4e.class.ranger",
+      "title": "Ranger",
+      "description": "Ranger is a Strength or Dexterity-based Martial Striker. Ranged or melee (dual wield), or can have a pet. High single-target damage. Hit-and-run fighting style.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "flavor": {
+        "quote": "I’ll get the one in the back. That’s one hobgoblin who’ll regret ever lifting a bow.",
+        "introduction": [
+          "Rangers are watchful warriors who roam past the horizon to safeguard a region, a principle, or a way of life. Masters of bow and blade, rangers excel at hit-and-run assaults and can quickly and silently eliminate foes. Rangers lay superb ambushes and excel at avoiding danger.",
+          "As a ranger, you possess almost supernaturally keen senses and a deep appreciation for untamed wilderness. With your knowledge of the natural world, you can track enemies through nearly any landscape, using the smallest clue to set your course, even sometimes the calls and songs of beasts and birds. Your severe demeanor promises a deadly conclusion to any enemy you hunt.",
+          "When you catch sight of your quarry, will the transgressor perish by swift bow shots from a distance, or by the twofold blades that glint and glitter in each of your battle-scarred hands?"
+        ],
+        "gameplay": "Ranger is a Strength or Dexterity-based *Martial Striker*. Ranged or melee (dual wield), or can have a pet. High single-target damage. Hit-and-run fighting style."
+      },
+      "role": "STRIKER",
+      "powerSources": [
+        "MARTIAL",
+        "PRIMAL"
+      ],
+      "ruleIds": [],
+      "grants": [
+        {
+          "id": "ranger-hunter-s-quarry",
+          "entryId": "modern4e.feature.ranger-hunter-s-quarry",
+          "atLevel": 1
+        },
+        {
+          "id": "ranger-fighting-style",
+          "entryId": "modern4e.feature.ranger-fighting-style",
+          "atLevel": 1
+        },
+        {
+          "id": "ranger-hunters-specialization",
+          "entryId": "modern4e.feature.ranger-hunters-specialization",
+          "atLevel": 1
+        }
+      ],
+      "statistics": {
+        "defenses": {
+          "FORTITUDE": 12,
+          "REFLEX": 12,
+          "WILL": 11
+        },
+        "health": {
+          "base": 17,
+          "perLevel": 5,
+          "constitutionMultiplier": 2
+        },
+        "healingSurges": {
+          "base": 6,
+          "constitutionMultiplier": 1
+        }
+      },
+      "abilities": {
+        "main": [
+          "STRENGTH",
+          "DEXTERITY"
+        ],
+        "secondary": [
+          "CONSTITUTION",
+          "WISDOM",
+          "DEXTERITY"
+        ]
+      },
+      "proficiencies": {
+        "armor": [
+          "LIGHT",
+          "CHAINMAIL"
+        ],
+        "shields": [],
+        "weapons": [
+          "SIMPLE_MELEE",
+          "SIMPLE_RANGED",
+          "MILITARY_MELEE",
+          "MILITARY_RANGED"
+        ],
+        "implements": []
+      }
+    }
+  ]
+}

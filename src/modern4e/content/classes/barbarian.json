@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "classes": [
+    {
+      "id": "modern4e.class.barbarian",
+      "title": "Barbarian",
+      "description": "Barbarian is a Strength-based Primal Striker. Charge everywhere, hit hard, yell. One of the tougher Strikers, but no slouch on damage.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "flavor": {
+        "quote": "My strength is the fury of the wild.",
+        "introduction": [
+          "Barbarians are savage warriors who deal out powerful blows from their mighty weapons. They charge from foe to foe and seldom feel the pain of an enemy's strike. For barbarians' foes, the moments of greatest terror come when barbarians call upon primal forces to lend power to their raging spirits. These rages, although temporary, give a barbarian incredible power--a combination of skill, willpower, and a legacy of ancient tribal rituals.",
+          "As a barbarian, you have a link to powerful nature spirits and other primal forces bound to the warriors of your tribe by the songs and totems of your legacy. These spirits lend energy to your rages, transforming you into a devastating force on the battlefield. As you become more experienced, these rages transcend mortal limitations, manifesting directly as waves of elemental power or gifting you with supernatural recuperative powers."
+        ],
+        "gameplay": "Barbarian is a Strength-based *Primal Striker*. Charge everywhere, hit hard, yell. One of the tougher Strikers, but no slouch on damage."
+      },
+      "role": "STRIKER",
+      "powerSources": [
+        "MARTIAL",
+        "PRIMAL"
+      ],
+      "ruleIds": [
+        "modern4e.rule.barbarian-revised-powers"
+      ],
+      "grants": [
+        {
+          "id": "barbarian-barbarian-agility",
+          "entryId": "modern4e.feature.barbarian-barbarian-agility",
+          "atLevel": 1
+        },
+        {
+          "id": "barbarian-feral-might",
+          "entryId": "modern4e.feature.barbarian-feral-might",
+          "atLevel": 1
+        },
+        {
+          "id": "barbarian-rage-strike",
+          "entryId": "modern4e.feature.barbarian-rage-strike",
+          "atLevel": 1
+        },
+        {
+          "id": "barbarian-rampage",
+          "entryId": "modern4e.feature.barbarian-rampage",
+          "atLevel": 1
+        }
+      ],
+      "statistics": {
+        "defenses": {
+          "FORTITUDE": 13,
+          "REFLEX": 11,
+          "WILL": 11
+        },
+        "health": {
+          "base": 19,
+          "perLevel": 6,
+          "constitutionMultiplier": 2
+        },
+        "healingSurges": {
+          "base": 8,
+          "constitutionMultiplier": 1
+        }
+      },
+      "abilities": {
+        "main": [
+          "STRENGTH"
+        ],
+        "secondary": [
+          "CONSTITUTION",
+          "DEXTERITY",
+          "CHARISMA"
+        ]
+      },
+      "proficiencies": {
+        "armor": [
+          "LIGHT"
+        ],
+        "shields": [],
+        "weapons": [
+          "SIMPLE_MELEE",
+          "SIMPLE_RANGED",
+          "MILITARY_MELEE"
+        ],
+        "implements": []
+      }
+    }
+  ]
+}

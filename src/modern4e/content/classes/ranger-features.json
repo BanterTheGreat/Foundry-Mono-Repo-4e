@@ -1,0 +1,311 @@
+{
+  "schemaVersion": 1,
+  "features": [
+    {
+      "id": "modern4e.feature.ranger-hunter-s-quarry",
+      "title": "Hunter's Quarry",
+      "description": "You gain the Hunter's Quarry power.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "ranger-hunter-s-quarry",
+          "entryId": "modern4e.power.hunters-quarry",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You gain the Hunter's Quarry power."
+        },
+        {
+          "type": "grant",
+          "grantId": "ranger-hunter-s-quarry"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.ranger-archer-fighting-style",
+      "title": "Archer Fighting Style",
+      "description": "Whenever you roll initiative, you can shift a number of squares equal to your *Wisdom*, even if you are surprised. You gain Defensive Mobility as a bonus feat.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "Whenever you roll initiative, you can shift a number of squares equal to your *Wisdom*, even if you are surprised. You gain Defensive Mobility as a bonus feat."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.ranger-hunter-fighting-style",
+      "title": "Hunter Fighting Style",
+      "description": "You gain a +4 bonus to AC against opportunity attacks you provoke by making a ranged attack. You can sheathe a weapon as a free action and can draw a weapon as part of the same action used to attack with it.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "You gain a +4 bonus to AC against opportunity attacks you provoke by making a ranged attack. You can sheathe a weapon as a free action and can draw a weapon as part of the same action used to attack with it."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.ranger-marauder-fighting-style",
+      "title": "Marauder Fighting Style",
+      "description": "You gain a +1 bonus to speed while you aren't using a shield or a two-handed weapon. This bonus to speed increases to +2 at 21st level. While wielding a melee weapon in each hand, you gain a +1 shield bonus to AC and Reflex.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "You gain a +1 bonus to speed while you aren't using a shield or a two-handed weapon. This bonus to speed increases to +2 at 21st level. While wielding a melee weapon in each hand, you gain a +1 shield bonus to AC and Reflex."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.ranger-two-blade-fighting-style",
+      "title": "Two-Blade Fighting Style",
+      "description": "You can wield any one-handed weapon in your off hand as if it were an off-hand weapon. You gain Toughness as a bonus feat.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "You can wield any one-handed weapon in your off hand as if it were an off-hand weapon. You gain Toughness as a bonus feat."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.ranger-fighting-style",
+      "title": "Fighting Style",
+      "description": "Each ranger has their own fighting style, choose one from the options below.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "choices": [
+        {
+          "id": "modern4e.choice.ranger-fighting-style",
+          "title": "Fighting Style",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 1,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.ranger-archer-fighting-style",
+              "modern4e.feature.ranger-hunter-fighting-style",
+              "modern4e.feature.ranger-marauder-fighting-style",
+              "modern4e.feature.ranger-two-blade-fighting-style"
+            ]
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "Each ranger has their own fighting style, choose one from the options below."
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.ranger-fighting-style"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.prime-shot",
+      "title": "Prime Shot",
+      "description": "If none of your allies are nearer to your target than you are, you receive a +1 bonus to ranged attack rolls against that target.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "If none of your allies are nearer to your target than you are, you receive a +1 bonus to ranged attack rolls against that target."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.running-attack",
+      "title": "Running Attack",
+      "description": "Whenver you use a standard action that lets you move (such as making a charge or using the skirmish shot power), and you end that movement at least 2 squares away from where you began that move, you gain a +1 bonus to attack rolls made as part of that standard action.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "Whenver you use a standard action that lets you move (such as making a charge or using the skirmish shot power), and you end that movement at least 2 squares away from where you began that move, you gain a +1 bonus to attack rolls made as part of that standard action."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.ranger-hunters-specialization",
+      "title": "Hunter’s Specialization",
+      "description": "Choose one of the options below:",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "choices": [
+        {
+          "id": "modern4e.choice.ranger-hunters-specialization",
+          "title": "Hunter’s Specialization",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 1,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.prime-shot",
+              "modern4e.feature.running-attack"
+            ]
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "Choose one of the options below:"
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.ranger-hunters-specialization"
+        }
+      ]
+    }
+  ]
+}

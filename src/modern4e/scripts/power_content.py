@@ -63,7 +63,7 @@ def validate(document):
 
 def validate_power(power, references):
     """Validate a power's presentation tree, activations and structural links."""
-    fields(power, ["id", "title", "description", "access", "prerequisites", "selection", "coverage", "rulesProfile", "source", "keywords", "choices", "activations"], ["level", "powerKind", "flavor", "note"], "power")
+    fields(power, ["id", "title", "description", "access", "prerequisites", "selection", "coverage", "rulesProfile", "source", "keywords", "choices", "activations"], ["level", "powerKind", "flavor", "note", "subtitle"], "power")
     loc = power["id"]
     for key in ("id", "title", "description"):
         string(power[key], "power." + key)
@@ -71,7 +71,7 @@ def validate_power(power, references):
         integer(power["level"], loc, 1, 30)
     if "powerKind" in power:
         enum(power["powerKind"], ["ATTACK", "UTILITY"], loc)
-    for key in ("flavor", "note"):
+    for key in ("flavor", "note", "subtitle"):
         if key in power:
             string(power[key], loc)
     enum(power["rulesProfile"], ["MODERN4E", "PUBLISHED_REFERENCE"], loc)

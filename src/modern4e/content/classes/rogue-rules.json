@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "rules": [
+    {
+      "id": "modern4e.rule.rattling",
+      "title": "Rattling",
+      "description": "If a creature deals damage with a power that has the rattling keyword, the target takes a -2 penalty to attack rolls until the end of the user's next turn. A target that is immune to fear is not subject to this penalty.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+        ]
+      }
+    }
+  ]
+}

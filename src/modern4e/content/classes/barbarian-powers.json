@@ -1,0 +1,449 @@
+{
+  "schemaVersion": 2,
+  "powers": [
+    {
+      "id": "modern4e.power.swift-charge",
+      "title": "Swift Charge",
+      "description": "You charge an enemy.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.barbarian",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "PRIMAL"
+      ],
+      "choices": [],
+      "flavor": "As your foe falls, you rush towards your next victim",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "PERSONAL"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You charge an enemy.",
+              "scaling": [
+                {
+                  "atLevel": 11,
+                  "text": "Your charge attack deals 1[W] extra damage on a hit."
+                },
+                {
+                  "atLevel": 21,
+                  "text": "Your charge attack deals 2[W] extra damage on a hit."
+                }
+              ]
+            }
+          ],
+          "trigger": "You reduce a creature to 0 hit points, or an enemy adjacent to you drops to 0 hit points."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.roar-of-triumph",
+      "title": "Roar of Triumph",
+      "description": "Each target takes a -2 penalty to damage rolls and all defenses until the end of your next turn.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.barbarian",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "FEAR",
+        "PRIMAL"
+      ],
+      "choices": [],
+      "flavor": "Your howl of victory shakes your enemies to the core, as they know your blood thirst is not yet quenched.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "CLOSE_BURST",
+            "origin": "self",
+            "size": {
+              "base": 3,
+              "byLevel": [
+                {
+                  "atLevel": 11,
+                  "value": 4
+                },
+                {
+                  "atLevel": 21,
+                  "value": 5
+                }
+              ]
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Each target takes a -2 penalty to damage rolls and all defenses until the end of your next turn.",
+              "scaling": [
+                {
+                  "atLevel": 11,
+                  "text": "The penalty to damage rolls increases to -4."
+                }
+              ]
+            }
+          ],
+          "targets": "targets",
+          "trigger": "You reduce a creature to 0 hit points, or an enemy adjacent to you drops to 0 hit points."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.war-cry",
+      "title": "War Cry",
+      "description": "You may push each target up to 1 square, and each target gains vulnerability to thunder damage equal to your Constitution plus 1 until the end of your next turn.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.barbarian",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "FEAR",
+        "PRIMAL",
+        "THUNDER"
+      ],
+      "choices": [],
+      "flavor": "Your potent victory cry sends nearby enemies reeling in terror.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the blast"
+            }
+          },
+          "range": {
+            "type": "CLOSE_BLAST",
+            "origin": "self",
+            "size": {
+              "base": 3,
+              "byLevel": [
+                {
+                  "atLevel": 11,
+                  "value": 5
+                },
+                {
+                  "atLevel": 21,
+                  "value": 7
+                }
+              ]
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You may push each target up to 1 square, and each target gains vulnerability to thunder damage equal to your Constitution plus 1 until the end of your next turn.",
+              "scaling": [
+                {
+                  "atLevel": 11,
+                  "text": "up to 2 squares, Constitution plus 2."
+                },
+                {
+                  "atLevel": 21,
+                  "text": "up to 3 squares, Constitution plus 3."
+                }
+              ]
+            }
+          ],
+          "targets": "targets",
+          "trigger": "You reduce a creature to 0 hit points, or an enemy adjacent to you drops to 0 hit points."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.whirling-lunge",
+      "title": "Whirling Lunge",
+      "description": "You shift up to 2 squares and then deal 1[W] damage (off-hand weapon) to one enemy adjacent to you after the shift that you can see.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.barbarian",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "PRIMAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "flavor": "Striking down one foe, you whirl deeper into enemy ranks.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "FREE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            }
+          },
+          "range": {
+            "type": "PERSONAL"
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You shift up to 2 squares and then deal 1[W] damage (off-hand weapon) to one enemy adjacent to you after the shift that you can see.",
+              "scaling": [
+                {
+                  "atLevel": 11,
+                  "text": "3 squares, 2[W] damage (off-hand weapon)"
+                },
+                {
+                  "atLevel": 21,
+                  "text": "4 squares, 3[W] damage (off-hand weapon)"
+                }
+              ]
+            }
+          ],
+          "trigger": "You reduce a creature to 0 hit points, or an enemy adjacent to you drops to 0 hit points."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.rage-strike",
+      "title": "Rage Strike",
+      "description": "To make this attack, you expend an unused Daily Barbarian rage power without using it.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.barbarian",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "PRIMAL",
+        "WEAPON"
+      ],
+      "choices": [],
+      "flavor": "You channel your primal rage into a devastating attack.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [
+              "Expend an unused daily Barbarian rage power without using it."
+            ],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "MELEE",
+            "origin": "self",
+            "distance": "WEAPON"
+          },
+          "blocks": [
+            {
+              "id": "attack",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "MELEE",
+                "origin": "self",
+                "distance": "WEAPON"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-1",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "You deal damage based on the level of the rage power you expended, _if the target of this power is in the Elite or Solo group, the total damage you deal to that target is doubled._\n\n*1st level:* 3[W] + Strength\n\n*5th level:* 5[W] + Strength\n\n*9th level:* 7[W] + Strength\n\n*15th level:* 9[W] + Strength\n\n*19th level:* 11[W] + Strength\n\n*20th level:* 12[W] + Strength\n\n*25th level:* 13[W] + Strength\n\n*29th level:* 15[W] + Strength"
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-2",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-3",
+              "type": "effect",
+              "label": "Special",
+              "text": "To make this attack, you expend an unused Daily Barbarian rage power without using it."
+            }
+          ],
+          "targets": "targets",
+          "requirement": "You must be raging and have at least one unused rage power.",
+          "special": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,303 @@
+{
+  "schemaVersion": 1,
+  "features": [
+    {
+      "id": "modern4e.feature.barbarian-barbarian-agility",
+      "title": "Barbarian Agility",
+      "description": "While wearing light or no armor, you gain a +1 bonus to your Reflex defense and may use your Strength in place of Intelligence or Dexterity when calculating your AC score.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "While wearing light or no armor, you gain a +1 bonus to your Reflex defense and may use your Strength in place of Intelligence or Dexterity when calculating your AC score."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.rageblood-vigor",
+      "title": "Rageblood Vigor",
+      "description": "You gain the swift charge power. Once per turn when you bloody a non-minion enemy or reduce a non-minion enemy to 0 hit points, you gain temporary hit points equal to your *Constitution* plus half your level.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "barbarian-swift-charge",
+          "entryId": "modern4e.power.swift-charge",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You gain the swift charge power. Once per turn when you bloody a non-minion enemy or reduce a non-minion enemy to 0 hit points, you gain temporary hit points equal to your *Constitution* plus half your level."
+        },
+        {
+          "type": "grant",
+          "grantId": "barbarian-swift-charge"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.thaneborn-triumph",
+      "title": "Thaneborn Triumph",
+      "description": "You gain the roar of triumph power. Once per turn when you bloody a non-minion enemy or reduce a non-minion enemy to 0 hit points, choose an enemy adjacent to you. The next attack by you or an ally against that enemy gains a +3 power bonus to the attack roll and deals extra damage to that creature equal to your *Charisma*.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "barbarian-roar-of-triumph",
+          "entryId": "modern4e.power.roar-of-triumph",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You gain the roar of triumph power. Once per turn when you bloody a non-minion enemy or reduce a non-minion enemy to 0 hit points, choose an enemy adjacent to you. The next attack by you or an ally against that enemy gains a +3 power bonus to the attack roll and deals extra damage to that creature equal to your *Charisma*."
+        },
+        {
+          "type": "grant",
+          "grantId": "barbarian-roar-of-triumph"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.barbarian-feral-might",
+      "title": "Feral Might",
+      "description": "Barbarians connect with the natural world in a variety of ways. Some barbarians grow so hardened to physical punishment that they find it easier to simply absorb, rather than avoid, attacks. Others are living examples of the power of one's will to shape one's fate. Choose one of the following options:",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "choices": [
+        {
+          "id": "modern4e.choice.barbarian-feral-might",
+          "title": "Feral Might",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 1,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.rageblood-vigor",
+              "modern4e.feature.thaneborn-triumph",
+              "modern4e.feature.thunderborn-wrath",
+              "modern4e.feature.barbarian-whirling-slayer"
+            ]
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "Barbarians connect with the natural world in a variety of ways. Some barbarians grow so hardened to physical punishment that they find it easier to simply absorb, rather than avoid, attacks. Others are living examples of the power of one's will to shape one's fate. Choose one of the following options:"
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.barbarian-feral-might"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.thunderborn-wrath",
+      "title": "Thunderborn Wrath",
+      "description": "You gain the war cry power. Once per turn when you bloody a non-minion enemy or reduce a non-minion enemy to 0 hit points, each enemy adjacent to you takes thunder damage equal to your *Constitution* plus half your level.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "barbarian-war-cry",
+          "entryId": "modern4e.power.war-cry",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You gain the war cry power. Once per turn when you bloody a non-minion enemy or reduce a non-minion enemy to 0 hit points, each enemy adjacent to you takes thunder damage equal to your *Constitution* plus half your level."
+        },
+        {
+          "type": "grant",
+          "grantId": "barbarian-war-cry"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.barbarian-whirling-slayer",
+      "title": "Whirling Slayer",
+      "description": "You gain the Whirling Lunge power, and you can wield one-handed weapons in your off hand without needing the off-hand property. Once per turn when you bloody a non-minion enemy or reduce a non-minion enemy to 0 hit points, you can shift a number of squares equal to half your *Dexterity* as a free action, and your next attack before the end of your next turn against any enemy adjacent to you after the shift gains a +2 bonus to damage rolls against those enemies. Increase this bonus to +3 at 11th level and +4 at 21st level.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "barbarian-whirling-lunge",
+          "entryId": "modern4e.power.whirling-lunge",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You gain the Whirling Lunge power, and you can wield one-handed weapons in your off hand without needing the off-hand property. Once per turn when you bloody a non-minion enemy or reduce a non-minion enemy to 0 hit points, you can shift a number of squares equal to half your *Dexterity* as a free action, and your next attack before the end of your next turn against any enemy adjacent to you after the shift gains a +2 bonus to damage rolls against those enemies. Increase this bonus to +3 at 11th level and +4 at 21st level."
+        },
+        {
+          "type": "grant",
+          "grantId": "barbarian-whirling-lunge"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.barbarian-rage-strike",
+      "title": "Rage Strike",
+      "description": "Barbarian daily attack powers with the Rage keyword begin with an attack and let you enter a rage, granting an ongoing benefit until the rage ends. A rage lasts until the end of the encounter, until you enter another rage, or until you fall unconscious.\n\nYou gain the rage strike power. It lets you expend another daily rage power for a single attack while keeping your current rage.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "barbarian-rage-strike",
+          "entryId": "modern4e.power.rage-strike",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "Barbarian daily attack powers with the Rage keyword begin with an attack and let you enter a rage, granting an ongoing benefit until the rage ends. A rage lasts until the end of the encounter, until you enter another rage, or until you fall unconscious.\n\nYou gain the rage strike power. It lets you expend another daily rage power for a single attack while keeping your current rage."
+        },
+        {
+          "type": "grant",
+          "grantId": "barbarian-rage-strike"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.barbarian-rampage",
+      "title": "Rampage",
+      "description": "Once per round, when you score a critical hit with a barbarian attack power, you can make a melee basic attack as a free action. You do not have to attack the same target that you critically hit.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "Once per round, when you score a critical hit with a barbarian attack power, you can make a melee basic attack as a free action. You do not have to attack the same target that you critically hit."
+        }
+      ]
+    }
+  ]
+}

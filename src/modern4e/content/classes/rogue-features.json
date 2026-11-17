@@ -1,0 +1,350 @@
+{
+  "schemaVersion": 1,
+  "features": [
+    {
+      "id": "modern4e.feature.rogue-first-strike",
+      "title": "First Strike",
+      "description": "At the start of every encounter, you have combat advantage against any creatures that have not yet acted in that encounter.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "At the start of every encounter, you have combat advantage against any creatures that have not yet acted in that encounter."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.rogue-sneak-attack",
+      "title": "Sneak Attack",
+      "description": "When you make an attack with a light blade, a hand crossbow, a shortbow, or a sling and hit an enemy granting combat advantage to you, that enemy takes extra damage based on your level. You can deal this extra damage only once per turn.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "When you make an attack with a light blade, a hand crossbow, a shortbow, or a sling and hit an enemy granting combat advantage to you, that enemy takes extra damage based on your level. You can deal this extra damage only once per turn."
+        },
+        {
+          "type": "table",
+          "title": "",
+          "style": "COMPACT",
+          "columns": [
+            "Level",
+            "Extra Damage"
+          ],
+          "rows": [
+            [
+              "1–10",
+              "2d6"
+            ],
+            [
+              "11–20",
+              "3d6"
+            ],
+            [
+              "21–30",
+              "5d6"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.artful-dodger",
+      "title": "Artful Dodger",
+      "description": "You gain a bonus to AC against opportunity attacks. The bonus equals your *Charisma*.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "You gain a bonus to AC against opportunity attacks. The bonus equals your *Charisma*."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.brutal-scoundrel",
+      "title": "Brutal Scoundrel",
+      "description": "You gain a bonus to Sneak Attack damage. The bonus equals your *Strength*.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "You gain a bonus to Sneak Attack damage. The bonus equals your *Strength*."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.cunning-sneak",
+      "title": "Cunning Sneak",
+      "description": "You don't take a penalty to checks to sneak or hide for moving more than 2 squares, and you take a –5 penalty instead of a -10 penalty to Stealth checks for running.\n\nIf you end your movement at least 3 squares away from your starting position, you can make a check to sneak or hide to become hidden if you have any concealment or any cover, except for cover provided by intervening allies.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "You don't take a penalty to checks to sneak or hide for moving more than 2 squares, and you take a –5 penalty instead of a -10 penalty to Stealth checks for running.\n\nIf you end your movement at least 3 squares away from your starting position, you can make a check to sneak or hide to become hidden if you have any concealment or any cover, except for cover provided by intervening allies."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.ruthless-ruffian",
+      "title": "Ruthless Ruffian",
+      "description": "You are proficient with the club and the mace, and you can use those weapons with Sneak Attack or any rogue power or rogue paragon path power that normally requires a light blade. If you use a club or a mace to deliver an attack that has the rattling keyword, add your *Strength* to the damage roll.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "You are proficient with the club and the mace, and you can use those weapons with Sneak Attack or any rogue power or rogue paragon path power that normally requires a light blade. If you use a club or a mace to deliver an attack that has the rattling keyword, add your *Strength* to the damage roll."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.rogue-rogue-tactics",
+      "title": "Rogue Tactics",
+      "description": "You gain one of the benefits described below, depending on your choice of Scoundrel Tactics. Your choice also provides additional benefits to certain scoundrel powers, as detailed in those powers' descriptions.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "choices": [
+        {
+          "id": "modern4e.choice.rogue-rogue-tactics",
+          "title": "Rogue Tactics",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 1,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.artful-dodger",
+              "modern4e.feature.brutal-scoundrel",
+              "modern4e.feature.cunning-sneak",
+              "modern4e.feature.ruthless-ruffian"
+            ]
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You gain one of the benefits described below, depending on your choice of Scoundrel Tactics. Your choice also provides additional benefits to certain scoundrel powers, as detailed in those powers' descriptions."
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.rogue-rogue-tactics"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.rogue-weapon-talent",
+      "title": "Rogue Weapon Talent",
+      "description": "You gain a +1 bonus to weapon attack rolls with daggers.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "You gain a +1 bonus to weapon attack rolls with daggers."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.rogue-sharpshooter-talent",
+      "title": "Sharpshooter Talent",
+      "description": "You gain a +1 bonus to either crossbows or slings.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "You gain a +1 bonus to either crossbows or slings."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.rogue-rogue-weapon-talent-selection",
+      "title": "Rogue Weapon Talent",
+      "description": "Choose one of the options below:",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "choices": [
+        {
+          "id": "modern4e.choice.rogue-rogue-weapon-talent",
+          "title": "Rogue Weapon Talent",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 1,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.rogue-weapon-talent",
+              "modern4e.feature.rogue-sharpshooter-talent"
+            ]
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "Choose one of the options below:"
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.rogue-rogue-weapon-talent"
+        }
+      ]
+    }
+  ]
+}

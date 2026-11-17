@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "classes": [
+    {
+      "id": "modern4e.class.rogue",
+      "title": "Rogue",
+      "description": "Rogue is a Dexterity-based Martial Striker. Cunning and elusive single-target Striker. Requires having Combat Advantage on an enemy to get the most out of its Sneak Attack, frequently provided by the Defender or Controller.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "flavor": {
+        "quote": "You look surprised to see me. If you’d been paying attention, you might still be alive.",
+        "introduction": [
+          "A fair fight is not in the rogue's vocabulary. Rogues find success on the battlefield by using every trick at their disposal to deceive, mislead, and ambush their enemies. They draw on their many skills to give them an edge in combat, whether that edge enables them to snatch a treasure from a villain or leap away at the last moment to thwart an attack. Rogues are survivors, and they are not above getting their hands dirty to win the day.",
+          "A rogue relies on clever planning and quick wits to survive. Some rogues favor punishing exploits, focusing on hitting hard and inflicting terrible injuries. Others use witty banter and feints to frustrate and misdirect opponents. Others still favor acrobatics, menace, or secrecy.",
+          "Rogues are adventurers first and foremost. One might have learned the trade on the streets, might have developed his or her powers out of necessity after fate betrayed them, or could have been apprenticed to a master thief. Some rogues join adventuring parties for the promise of treasure and have few reservations about exploring dusty tombs and labyrinthine dungeons as long as there's a reward on the other side. Not all rogues are that mercenary, however. There are things other than loot that are worth fighting for."
+        ],
+        "gameplay": "Rogue is a Dexterity-based *Martial Striker*. Cunning and elusive single-target Striker. Requires having Combat Advantage on an enemy to get the most out of its Sneak Attack, frequently provided by the Defender or Controller."
+      },
+      "role": "STRIKER",
+      "powerSources": [
+        "MARTIAL"
+      ],
+      "ruleIds": [
+        "modern4e.rule.reliable",
+        "modern4e.rule.rattling"
+      ],
+      "grants": [
+        {
+          "id": "rogue-first-strike",
+          "entryId": "modern4e.feature.rogue-first-strike",
+          "atLevel": 1
+        },
+        {
+          "id": "rogue-sneak-attack",
+          "entryId": "modern4e.feature.rogue-sneak-attack",
+          "atLevel": 1
+        },
+        {
+          "id": "rogue-rogue-tactics",
+          "entryId": "modern4e.feature.rogue-rogue-tactics",
+          "atLevel": 1
+        },
+        {
+          "id": "rogue-rogue-weapon-talent-selection",
+          "entryId": "modern4e.feature.rogue-rogue-weapon-talent-selection",
+          "atLevel": 1
+        }
+      ],
+      "statistics": {
+        "defenses": {
+          "FORTITUDE": 12,
+          "REFLEX": 11,
+          "WILL": 12
+        },
+        "health": {
+          "base": 17,
+          "perLevel": 5,
+          "constitutionMultiplier": 2
+        },
+        "healingSurges": {
+          "base": 6,
+          "constitutionMultiplier": 1
+        }
+      },
+      "abilities": {
+        "main": [
+          "DEXTERITY"
+        ],
+        "secondary": [
+          "CONSTITUTION",
+          "STRENGTH",
+          "CHARISMA"
+        ]
+      },
+      "proficiencies": {
+        "armor": [
+          "CLOTH",
+          "LEATHER"
+        ],
+        "shields": [
+          "LIGHT_SHIELD"
+        ],
+        "weapons": [
+          "DAGGER",
+          "HAND_CROSSBOW",
+          "SHORT_SWORD",
+          "SLING"
+        ],
+        "implements": []
+      }
+    }
+  ]
+}

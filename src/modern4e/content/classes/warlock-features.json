@@ -1,0 +1,659 @@
+{
+  "schemaVersion": 1,
+  "features": [
+    {
+      "id": "modern4e.feature.warlock-warlock-s-curse",
+      "title": "Warlock's Curse",
+      "description": "You can use the Warlock's Curse Power.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "warlock-warlock-s-curse",
+          "entryId": "modern4e.power.warlock-warlock-s-curse",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You can use the Warlock's Curse Power."
+        },
+        {
+          "type": "grant",
+          "grantId": "warlock-warlock-s-curse"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.warlock-eldritch-blast",
+      "title": "Eldritch Blast",
+      "description": "You specialize at ranged combat, firing bolts of eldritch energy at your foes. You learn the Eldritch Blast power.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "warlock-eldritch-blast",
+          "entryId": "modern4e.power.eldritch-blast",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You specialize at ranged combat, firing bolts of eldritch energy at your foes. You learn the Eldritch Blast power."
+        },
+        {
+          "type": "grant",
+          "grantId": "warlock-eldritch-blast"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.warlock-eldritch-strike",
+      "title": "Eldritch Strike",
+      "description": "You specialize at melee combat, using your eldritch power to drive back your foes. You learn the Eldritch Strike power.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "warlock-eldritch-strike",
+          "entryId": "modern4e.power.warlock-eldritch-strike",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You specialize at melee combat, using your eldritch power to drive back your foes. You learn the Eldritch Strike power."
+        },
+        {
+          "type": "grant",
+          "grantId": "warlock-eldritch-strike"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.warlock-eldritch-attack",
+      "title": "Eldritch Attack",
+      "description": "Warlocks may specialise in blade or blast, choose one of the options below:",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented.",
+          "The shared selectable at-will slot is disabled: at-wills are granted by the selected Eldritch Attack and pact packages. Runtime application of this modifier remains unimplemented."
+        ]
+      },
+      "choices": [
+        {
+          "id": "modern4e.choice.warlock-eldritch-attack",
+          "title": "Eldritch Attack",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 1,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.warlock-eldritch-blast",
+              "modern4e.feature.warlock-eldritch-strike"
+            ]
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "Warlocks may specialise in blade or blast, choose one of the options below:"
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.warlock-eldritch-attack"
+        }
+      ],
+      "selectionModifiers": [
+        {
+          "choiceId": "modern4e.choice.class-attack-at-will",
+          "count": 0,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.dark-pact",
+      "title": "Dark Pact",
+      "description": "You have forged a pact with the dark beings that lurk in the shadows of the drow civilization. Spells of darkness, poison, madness, and spite fill your mind. You might turn your powers to noble ends, but you always face the temptation to enhance your spells by hurting your friends—just a little.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "warlock-darkspiral-aura",
+          "entryId": "modern4e.power.warlock-darkspiral-aura",
+          "atLevel": 1
+        },
+        {
+          "id": "warlock-spiteful-glamor",
+          "entryId": "modern4e.power.warlock-spiteful-glamor",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You have forged a pact with the dark beings that lurk in the shadows of the drow civilization. Spells of darkness, poison, madness, and spite fill your mind. You might turn your powers to noble ends, but you always face the temptation to enhance your spells by hurting your friends—just a little."
+        },
+        {
+          "type": "heading",
+          "title": "Darkspiral Aura"
+        },
+        {
+          "type": "text",
+          "text": "You gain the Darkspiral Aura power."
+        },
+        {
+          "type": "grant",
+          "grantId": "warlock-darkspiral-aura"
+        },
+        {
+          "type": "heading",
+          "title": "Spiteful Glamor"
+        },
+        {
+          "type": "text",
+          "text": "You gain the Spiteful Glamor at-will spell."
+        },
+        {
+          "type": "grant",
+          "grantId": "warlock-spiteful-glamor"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.warlock-elemental-pact",
+      "title": "Elemental Pact",
+      "description": "The Elemental Chaos's power lured you into forging a pact with one of the inscrutable primordials. You reached into the rolling Plane Below and stole its power. Your magic is wild and random, changing to suit the powers you serve. The elemental power fueling your spells surprised your enemies with the seemingly random energy you can loose against them.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "warlock-accursed-affinity",
+          "entryId": "modern4e.power.warlock-accursed-affinity",
+          "atLevel": 1
+        },
+        {
+          "id": "warlock-chromatic-bolt",
+          "entryId": "modern4e.power.warlock-chromatic-bolt",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "The Elemental Chaos's power lured you into forging a pact with one of the inscrutable primordials. You reached into the rolling Plane Below and stole its power. Your magic is wild and random, changing to suit the powers you serve. The elemental power fueling your spells surprised your enemies with the seemingly random energy you can loose against them."
+        },
+        {
+          "type": "heading",
+          "title": "Elemental Affinity"
+        },
+        {
+          "type": "text",
+          "text": "After short or extended rest, roll a d10 to determine your current elemental affinity. You can choose the damage type when you use your second wind, but the type changes again when you rest."
+        },
+        {
+          "type": "table",
+          "title": "",
+          "style": "COMPACT",
+          "columns": [
+            "D10",
+            "Affinity"
+          ],
+          "rows": [
+            [
+              "1-2",
+              "Acid"
+            ],
+            [
+              "3-4",
+              "Cold"
+            ],
+            [
+              "5-6",
+              "Fire"
+            ],
+            [
+              "7-8",
+              "Lightning"
+            ],
+            [
+              "9-10",
+              "Thunder"
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "On your turn, when you use an arcane attack power that deals force, necrotic, poison, or psychic damage, you can change the damage type to match that of your current elemental affinity. Your elemental affinity's damage type replaces each instance of force, necrotic, poison, and psychic damage that the power deals."
+        },
+        {
+          "type": "heading",
+          "title": "Accursed Affinity"
+        },
+        {
+          "type": "text",
+          "text": "You gain the Accursed Affinity pact boon."
+        },
+        {
+          "type": "grant",
+          "grantId": "warlock-accursed-affinity"
+        },
+        {
+          "type": "heading",
+          "title": "Chromatic Bolt"
+        },
+        {
+          "type": "text",
+          "text": "You gain the chromatic bolt power."
+        },
+        {
+          "type": "grant",
+          "grantId": "warlock-chromatic-bolt"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.fey-pact",
+      "title": "Fey Pact",
+      "description": "You have forged a bargain with ancient, amoral powers of the Feywild. Some are primitive earth spirits, grim and menacing; some are capricious wood, sky, or water spirits; and others are incarnations of seasons or natural forces who roam the faerie realm like wild gods. They bestow magic that ranges from feral and savage to wondrous and enchanting.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "warlock-misty-step",
+          "entryId": "modern4e.power.warlock-misty-step",
+          "atLevel": 1
+        },
+        {
+          "id": "warlock-eyebite",
+          "entryId": "modern4e.power.warlock-eyebite",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You have forged a bargain with ancient, amoral powers of the Feywild. Some are primitive earth spirits, grim and menacing; some are capricious wood, sky, or water spirits; and others are incarnations of seasons or natural forces who roam the faerie realm like wild gods. They bestow magic that ranges from feral and savage to wondrous and enchanting."
+        },
+        {
+          "type": "heading",
+          "title": "Misty Step"
+        },
+        {
+          "type": "text",
+          "text": "You have the Misty Step pact boon"
+        },
+        {
+          "type": "grant",
+          "grantId": "warlock-misty-step"
+        },
+        {
+          "type": "heading",
+          "title": "Eyebite"
+        },
+        {
+          "type": "text",
+          "text": "You know the eyebite spell"
+        },
+        {
+          "type": "grant",
+          "grantId": "warlock-eyebite"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.infernal-pact",
+      "title": "Infernal Pact",
+      "description": "Long ago a forgotten race of devils created a secret path to power and taught it to the tieflings of old to weaken their fealty to Asmodeus. In his wrath, Asmodeus destroyed the scheming devils and struck their very names from the memory of all beings—but you dare to study their perilous secrets anyway.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "warlock-infernal-patronage",
+          "entryId": "modern4e.power.warlock-infernal-patronage",
+          "atLevel": 1
+        },
+        {
+          "id": "warlock-soul-pyre",
+          "entryId": "modern4e.power.warlock-soul-pyre",
+          "atLevel": 1
+        },
+        {
+          "id": "warlock-hellish-rebuke",
+          "entryId": "modern4e.power.warlock-hellish-rebuke",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "Long ago a forgotten race of devils created a secret path to power and taught it to the tieflings of old to weaken their fealty to Asmodeus. In his wrath, Asmodeus destroyed the scheming devils and struck their very names from the memory of all beings—but you dare to study their perilous secrets anyway."
+        },
+        {
+          "type": "heading",
+          "title": "Infernal Patronage"
+        },
+        {
+          "type": "text",
+          "text": "You have the Infernal Patronage pact boon"
+        },
+        {
+          "type": "grant",
+          "grantId": "warlock-infernal-patronage"
+        },
+        {
+          "type": "grant",
+          "grantId": "warlock-soul-pyre"
+        },
+        {
+          "type": "heading",
+          "title": "Hellish Rebuke"
+        },
+        {
+          "type": "text",
+          "text": "You gain the Hellish Rebuke spell"
+        },
+        {
+          "type": "grant",
+          "grantId": "warlock-hellish-rebuke"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.star-pact",
+      "title": "Star Pact",
+      "description": "You have mastered the astrologer's art, learning the secret names of the stars and gazing into the Far Realm beyond, gaining great power thereby. You can call upon powers that madden or terrify your enemies, manipulate chance and fate, or scour your foes with icy banes and curses drawn from beyond the night sky.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "grants": [
+        {
+          "id": "warlock-fate-of-the-void",
+          "entryId": "modern4e.power.warlock-fate-of-the-void",
+          "atLevel": 1
+        },
+        {
+          "id": "warlock-dire-radiance",
+          "entryId": "modern4e.power.warlock-dire-radiance",
+          "atLevel": 1
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You have mastered the astrologer's art, learning the secret names of the stars and gazing into the Far Realm beyond, gaining great power thereby. You can call upon powers that madden or terrify your enemies, manipulate chance and fate, or scour your foes with icy banes and curses drawn from beyond the night sky."
+        },
+        {
+          "type": "heading",
+          "title": "Fate of the Void"
+        },
+        {
+          "type": "text",
+          "text": "You have the Fate of the Void pact boon."
+        },
+        {
+          "type": "grant",
+          "grantId": "warlock-fate-of-the-void"
+        },
+        {
+          "type": "text",
+          "text": ";\n\nWhenever you complete a short or extended rest and have charges of Glimpse of the Void remaining, you gain temporary hit points equal to your *Intelligence* for each charge. All of your charges of Glimpse of the Void then dissipate. These temporary hit points disappear at the end of your next extended rest."
+        },
+        {
+          "type": "heading",
+          "title": "Dire Radiance"
+        },
+        {
+          "type": "text",
+          "text": "You gain the Dire Radiance power."
+        },
+        {
+          "type": "grant",
+          "grantId": "warlock-dire-radiance"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.warlock-eldritch-pact",
+      "title": "Eldritch Pact",
+      "description": "You have forged a pact with mysterious entities that grant you your arcane powers. Choose one pact. The pacts presented in the Player's Handbook are the fey pact, the infernal pact, and the star pact. Other products present additional pacts. The pact you choose determines the following Warlock abilities:\n- *At-Will Spells:* Your pact determines one of the at-will spells you know.\n- *Pact Boon:* Each pact includes a pact boon. The pact boon is a granted power you can use to further hex your enemies.\n\nThe pact you take also provides bonuses to certain Warlock powers. Individual powers detail the effects (if any) your Eldritch Pact selection has on them. Choose one of the following pacts:",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "choices": [
+        {
+          "id": "modern4e.choice.warlock-eldritch-pact",
+          "title": "Eldritch Pact",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 1,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.dark-pact",
+              "modern4e.feature.warlock-elemental-pact",
+              "modern4e.feature.fey-pact",
+              "modern4e.feature.infernal-pact",
+              "modern4e.feature.star-pact"
+            ]
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "text": "You have forged a pact with mysterious entities that grant you your arcane powers. Choose one pact. The pacts presented in the Player's Handbook are the fey pact, the infernal pact, and the star pact. Other products present additional pacts. The pact you choose determines the following Warlock abilities:\n- *At-Will Spells:* Your pact determines one of the at-will spells you know.\n- *Pact Boon:* Each pact includes a pact boon. The pact boon is a granted power you can use to further hex your enemies.\n\nThe pact you take also provides bonuses to certain Warlock powers. Individual powers detail the effects (if any) your Eldritch Pact selection has on them. Choose one of the following pacts:"
+        },
+        {
+          "type": "choice",
+          "choiceId": "modern4e.choice.warlock-eldritch-pact"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.warlock-prime-shot",
+      "title": "Prime Shot",
+      "description": "If none of your allies are nearer to your target than you are, you receive a +1 bonus to ranged attack rolls against that target.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "If none of your allies are nearer to your target than you are, you receive a +1 bonus to ranged attack rolls against that target."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.warlock-shadow-walk",
+      "title": "Shadow Walk",
+      "description": "On your turn, if you move at least 3 squares away from where you started your turn, you gain concealment until the end of your next turn.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "sections": [
+        {
+          "type": "text",
+          "text": "On your turn, if you move at least 3 squares away from where you started your turn, you gain concealment until the end of your next turn."
+        }
+      ]
+    }
+  ]
+}

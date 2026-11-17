@@ -1,0 +1,312 @@
+{
+  "schemaVersion": 2,
+  "powers": [
+    {
+      "id": "modern4e.power.avenger-abjure-undead",
+      "title": "Abjure Undead",
+      "description": "You can use only one channel divinity power per encounter.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.avenger",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "DIVINE",
+        "IMPLEMENT",
+        "RADIANT"
+      ],
+      "choices": [],
+      "flavor": "You send a brilliant ray of radiant power at an undead foe, compelling it to stagger toward you.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                },
+                "poolId": "modern4e.resource.channel-divinity"
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One undead creature in the burst"
+            }
+          },
+          "range": {
+            "type": "CLOSE_BURST",
+            "origin": "self",
+            "size": {
+              "base": 5
+            }
+          },
+          "blocks": [
+            {
+              "id": "attack",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Wisdom vs. Will",
+              "actor": "self",
+              "targets": "targets",
+              "range": {
+                "type": "CLOSE_BURST",
+                "origin": "self",
+                "size": {
+                  "base": 5
+                }
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "WISDOM"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-1",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3d10 + Wisdom radiant damage, and you pull the target a number of squares equal to 1 + your Wisdom. The target is also immobilized until the end of your next turn.",
+                        "scaling": [
+                          {
+                            "atLevel": 5,
+                            "text": "4d10 + Wisdom radiant damage."
+                          },
+                          {
+                            "atLevel": 11,
+                            "text": "5d10 + Wisdom radiant damage."
+                          },
+                          {
+                            "atLevel": 15,
+                            "text": "6d10 + Wisdom radiant damage."
+                          },
+                          {
+                            "atLevel": 21,
+                            "text": "7d10 + Wisdom radiant damage."
+                          },
+                          {
+                            "atLevel": 25,
+                            "text": "8d10 + Wisdom radiant damage."
+                          }
+                        ]
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-2",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and you pull the target 1 square"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-3",
+              "type": "effect",
+              "label": "Channel Divinity",
+              "text": "You can use only one channel divinity power per encounter."
+            }
+          ],
+          "targets": "targets",
+          "special": true
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.avenger-divine-guidance",
+      "title": "Divine Guidance",
+      "description": "The target makes a second attack roll and uses either result.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.avenger",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "DIVINE"
+      ],
+      "choices": [],
+      "flavor": "You lend your deity’s guidance to an ally’s attack against your foe.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                },
+                "poolId": "modern4e.resource.channel-divinity"
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "The Triggering Ally"
+            }
+          },
+          "range": {
+            "type": "CLOSE_BURST",
+            "origin": "self",
+            "size": {
+              "base": 10
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target makes a second attack roll and uses either result."
+            },
+            {
+              "id": "row-2",
+              "type": "effect",
+              "label": "Channel Divinity",
+              "text": "You can use only one channel divinity power per encounter."
+            }
+          ],
+          "targets": "targets",
+          "trigger": "An ally within 10 squares of you makes an attack roll against your oath of enmity target.",
+          "special": true
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.oath-of-enmity",
+      "title": "Oath of Enmity",
+      "description": "When you make a melee attack against the target and the target is the only enemy adjacent to you, you make two attack rolls and use either result. This effect lasts until the end of the encounter or until the target drops to 0 hit points, at which point you regain the use of this power.\n\nIf another effect lets you roll twice and use the higher result when making an attack roll, this power has no effect on that attack. If an effect forces you to roll twice and use the lower result when making an attack roll, this power has no effect on that attack either.\n\nIf an effect lets you reroll an attack roll and you rolled twice because of this power, you reroll both dice.\n\nIf both of the dice results would hit, your attack deals an additional 1[W] damage.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "modern4e.class.avenger",
+        "publication": "Modern4e local class chapter"
+      },
+      "keywords": [
+        "DIVINE"
+      ],
+      "choices": [],
+      "flavor": "You focus your wrath on a single foe, giving your attacks against it extraordinary accuracy.",
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One enemy you can see in burst"
+            }
+          },
+          "range": {
+            "type": "CLOSE_BURST",
+            "origin": "self",
+            "size": {
+              "base": 10
+            }
+          },
+          "blocks": [
+            {
+              "id": "row-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "When you make a melee attack against the target and the target is the only enemy adjacent to you, you make two attack rolls and use either result. This effect lasts until the end of the encounter or until the target drops to 0 hit points, at which point you regain the use of this power.\n\nIf another effect lets you roll twice and use the higher result when making an attack roll, this power has no effect on that attack. If an effect forces you to roll twice and use the lower result when making an attack roll, this power has no effect on that attack either.\n\nIf an effect lets you reroll an attack roll and you rolled twice because of this power, you reroll both dice.\n\nIf both of the dice results would hit, your attack deals an additional 1[W] damage."
+            }
+          ],
+          "targets": "targets",
+          "special": true
+        }
+      ]
+    }
+  ]
+}

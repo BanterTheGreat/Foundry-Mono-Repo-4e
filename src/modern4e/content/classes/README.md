@@ -1,14 +1,14 @@
 # Shared class authoring (catalog/export schema v2)
 
-All four Defenders (Fighter, Paladin, Swordmage and Warden) and all six Leaders
-(Artificer, Bard, Cleric, Runepriest, Shaman and Warlord), plus all three
-Controllers (Druid, Invoker and Wizard), are authoritative here. The catalog
-contains 13 classes, 118 features, 59 granted powers and three explanatory rules.
+All 19 local classes are authoritative here: four Defenders, six Leaders, three
+Controllers and six Strikers. The catalog contains 170 features, 82 granted
+powers, 96 selectable revised Barbarian attack powers and six explanatory rules.
 Typst renders them directly;
 `class_content.py` exports the same data for future Character Builder compilation.
 This is **an authoring catalog, not a v1 runtime package**. Engine interpretation,
-full progression and production pipeline replacement remain #33–#35. The other
-six Striker chapters remain authoritative Typst. No feat definitions are changed.
+full progression and production pipeline replacement remain #33–#35. No class
+chapter keeps a second editable rules definition in Typst. Feats and paragon-path
+catalogs retain their existing contracts.
 
 ## Files and commands
 
@@ -137,6 +137,29 @@ Feature sections also support a literal `table` with `title`, string `columns`
 and rectangular string `rows`. Wizard's complete preparation table is authored
 once here and rendered by Typst. Query-based choices are explained by the
 feature's prose/table and do not render fabricated option lists or choice prompts.
+
+Strikers add 52 features, 23 granted powers, 96 selectable revised Barbarian
+attack powers and three explanatory rules, preserving 30 predeclared feature/
+power IDs. Warlock's Eldritch Attack disables the standard selectable at-will
+slot with a zero-count selection modifier; its attack and pact choices grant the
+actual at-wills. Player choices still require positive counts. Ranger's four
+fighting styles/two specializations, Rogue's tactics/talents, Sorcerer's four
+sources, Warlock's five pacts and Barbarian's four Feral Might options retain
+their original packages and prose.
+
+Selectable Barbarian attacks have class access, usage, level, ATTACK kind and
+stored IDs. They are not automatic class grants. Their printed chapter order
+stays in `classes/barbarian-primal-powers.typ`, which renders the JSON cards.
+Attack blocks preserve before-attack movement, scoped hit/miss results and
+secondary attacks; subtitle metadata preserves printed level labels. Rage Strike
+keeps its expended-rage cost and literal power-level damage table, which must not
+be mistaken for character-level scaling. Unusual source wording (Savage Reach's
+"Melee weapon 1") remains explicit rather than being silently corrected.
+
+Compact feature tables support an empty title and `style: COMPACT`; Rogue's
+Sneak Attack dice and Sorcerer/Warlock damage-type tables remain shared data.
+The renderer receives page-splitting and breakability choices from Typst rather
+than storing page geometry in content definitions.
 
 Cleric Healing Word's level-16 wording and Warlord's flavor/main-ability mismatch
 remain explicit coverage limitations. Technique acquisition remains prose pending

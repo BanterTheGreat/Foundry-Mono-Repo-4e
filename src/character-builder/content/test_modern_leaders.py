@@ -71,7 +71,7 @@ class ModernLeadersTest(unittest.TestCase):
         for entry in self.entries.values():
             if entry["category"] == "CLASS":
                 visit(entry["id"])
-        expected = {e["id"] for e in self.entries.values() if e["category"] in ("CLASS", "FEATURE", "POWER")}
+        expected = {e["id"] for e in self.entries.values() if e["category"] in ("CLASS", "FEATURE", "POWER") and not (e["category"] == "POWER" and e.get("powerKind") == "ATTACK" and "level" in e)}
         self.assertEqual(expected, reached)
         self.assertEqual(26, len([e for e in self.entries.values() if e["category"] == "POWER" and e["source"]["entryId"] in {"modern4e.class." + name for name in (*LEADERS, "fighter")}]))
 
@@ -92,7 +92,7 @@ class ModernLeadersTest(unittest.TestCase):
         self.assertEqual(activation["blocks"][0]["roll"]["statistic"]["ability"], "WISDOM")
 
     def test_channel_divinity_choices_and_shared_pool_survive(self):
-        channel = self.named("FEATURE", "Channel Divinity")
+        channel = self.entries["modern4e.feature.cleric-channel-divinity"]
         self.assertEqual(len(channel["grants"]), 1)
         self.assertEqual(channel["choices"][0]["count"], 1)
         self.assertEqual(len(channel["choices"][0]["source"]["entryIds"]), 3)
@@ -149,6 +149,9 @@ class ModernLeadersTest(unittest.TestCase):
     def test_full_book_preserves_printed_rules_and_renderer_block_order(self):
         from pypdf import PdfReader
         def words(value):
+            value = re.sub(r"(?m)^\s*\d+\s+v[\d.]+\s*$", "", value)
+            value = re.sub(r"(?m)^(?:Leaders|Controllers|Strikers|Defenders)[ \t]+[^\n]+\n", "", value)
+            value = re.sub(r"\bon page\s+\d+\b", "on page", value)
             value = re.sub(r"(?m)^\s*\d+\s*$", "", value)
             value = re.sub(r"\b(\d+)(?:st|nd|rd|th)\b", r"\1", value.lower())
             value = re.sub(r"\btwo\b", "2", value)

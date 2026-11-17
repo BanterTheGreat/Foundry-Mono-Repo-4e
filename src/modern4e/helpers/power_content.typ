@@ -4,10 +4,10 @@
 #import "class_text.typ": classText;
 
 #let display(value) = value.split("_").map(word => upper(word.first()) + lower(word.slice(1))).join(" ")
-#let scaled(value) = {
+#let scaled(value, prefix: "") = {
   if type(value) == str { lower(value) } else {
     str(value.base) + if "byLevel" in value {
-      " (" + value.byLevel.map(row => str(row.value) + " at level " + str(row.atLevel)).join(", ") + ")"
+      " (" + value.byLevel.map(row => prefix + str(row.value) + " at level " + str(row.atLevel)).join(", ") + ")"
     } else { "" }
   }
 }
@@ -16,7 +16,7 @@
   else if range.type == "RULES_TEXT" { range.text }
   else if range.type == "CHOICE" { range.options.map(rangeText).join(" or ") }
   else {
-    display(range.type) + " " + if "size" in range { scaled(range.size) } else {
+    display(range.type) + " " + if "size" in range { scaled(range.size, prefix: if range.type == "CLOSE_BURST" { "burst " } else if range.type == "CLOSE_BLAST" { "blast " } else { "" }) } else {
       (if range.at("origin", default: "self") == "spirit" { "spirit " } else { "" }) + scaled(range.distance)
     } + if "size" in range and "distance" in range { " within " + scaled(range.distance) + " squares" } else { "" }
   }
@@ -73,6 +73,7 @@
     let target = if "targets" in activation { classText(activation.bindings.at(activation.targets).text) } else { none }
     cards.power(
       title: activation.at("title", default: power.title),
+      bonusTitle: power.at("subtitle", default: none),
       description: power.at("flavor", default: none),
       type: (AT_WILL: "At-Will", ENCOUNTER: "Encounter", DAILY: "Daily").at(activation.usage.frequency),
       action: cards.actionType.at((STANDARD: "standard", MOVE: "move", MINOR: "minor", FREE: "free", REACTION: "reaction", NO_ACTION: "noAction", IMMEDIATE_INTERRUPT: "immediateInterrupt", IMMEDIATE_REACTION: "immediateReaction", OPPORTUNITY: "opportunity").at(activation.action)),

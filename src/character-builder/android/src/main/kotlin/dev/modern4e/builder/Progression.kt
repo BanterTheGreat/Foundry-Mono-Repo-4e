@@ -36,6 +36,17 @@ object Progression {
             }?.slot?.sourceInstanceId?.removePrefix("background.$kind.").orEmpty()
         }
 
+    /** The main ability is fixed and does not spend the five-point allocation budget. */
+    fun remainingPoints(allocation: AbilityAllocation): Int =
+        5 - Ability.entries.filter { it != allocation.mainAbility }.sumOf { allocation.points[it] ?: 0 }
+
+    /** Compact labels for the skill picker; proficiency is already conveyed by selection/status. */
+    fun skillContributorLabel(label: String): String? = when {
+        label == "Proficiency" -> null
+        Ability.entries.any { label == "${it.name} points" } -> label.removeSuffix(" points").readable()
+        else -> label
+    }
+
     fun validAllocation(allocation: AbilityAllocation): Boolean {
         val values = Ability.entries.filter { it != allocation.mainAbility }.map { allocation.points[it] ?: 0 }
         return allocation.points[allocation.mainAbility] == 4 && values.sum() == 5 &&

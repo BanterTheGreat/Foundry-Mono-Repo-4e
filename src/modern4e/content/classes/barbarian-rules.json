@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "rules": [
+    {
+      "id": "modern4e.rule.barbarian-revised-powers",
+      "title": "Revised Attack Powers",
+      "description": "Use the revised attack powers printed in this chapter in place of their published versions. The lists include powers available through level 11 and their scaling through that level. A level-based improvement to a power you know applies automatically unless the list says it requires a higher-level power slot. Utility power choices follow the book's normal utility rules.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+        ]
+      }
+    }
+  ]
+}
