@@ -1,0 +1,190 @@
+{
+  "schemaVersion": 1,
+  "ancestries": [
+    {
+      "id": "modern4e.ancestry.deva",
+      "title": "Deva",
+      "description": "",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "attributes": {
+        "size": "normal",
+        "speed": 6,
+        "vision": "normal",
+        "languages": {
+          "fixed": [
+            "common"
+          ],
+          "choiceCount": 2
+        }
+      },
+      "grants": [
+        {
+          "id": "astral-majesty",
+          "entryId": "modern4e.feature.deva-astral-majesty",
+          "atLevel": 1
+        },
+        {
+          "id": "astral-resistance",
+          "entryId": "modern4e.feature.deva-astral-resistance",
+          "atLevel": 1
+        },
+        {
+          "id": "immortal-origin",
+          "entryId": "modern4e.feature.deva-immortal-origin",
+          "atLevel": 1
+        },
+        {
+          "id": "memory-of-a-thousand-lifetimes",
+          "entryId": "modern4e.feature.deva-memory-of-a-thousand-lifetimes",
+          "atLevel": 1
+        }
+      ],
+      "note": "The local source lists size as Normal. Preserved pending an explicit rules correction."
+    }
+  ],
+  "features": [
+    {
+      "id": "modern4e.feature.deva-astral-majesty",
+      "title": "Astral Majesty",
+      "description": "You have a +1 bonus to all defenses against attacks made by bloodied creatures.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.deva-astral-resistance",
+      "title": "Astral Resistance",
+      "description": "You have resistance to necrotic damage and radiant damage equal to 5 + one-half your level.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.deva-immortal-origin",
+      "title": "Immortal Origin",
+      "description": "Your spirit is native to the Astral Sea, so you are considered an immortal creature for the purpose of effects that relate to creature origin.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.deva-memory-of-a-thousand-lifetimes",
+      "title": "Memory of a Thousand Lifetimes",
+      "description": "You have the memory of a thousand lifetimes power.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "grants": [
+        {
+          "id": "power",
+          "entryId": "modern4e.power.memory-of-a-thousand-lifetimes",
+          "atLevel": 1
+        }
+      ]
+    }
+  ],
+  "powers": [
+    {
+      "id": "modern4e.power.memory-of-a-thousand-lifetimes",
+      "title": "Memory of a Thousand Lifetimes",
+      "description": "Effect: You add 1d6 to the triggering roll.,",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "flavor": "The dreamlike memories of your previous lives lend insight to aid you.",
+      "usage": "ENCOUNTER",
+      "action": "NO_ACTION",
+      "range": {
+        "type": "PERSONAL"
+      },
+      "keywords": [],
+      "trigger": "You make an attack roll, a saving throw, a skill check, or an ability check and dislike the result",
+      "rows": [
+        {
+          "label": "Effect",
+          "text": "You add 1d6 to the triggering roll.,"
+        }
+      ]
+    }
+  ]
+}

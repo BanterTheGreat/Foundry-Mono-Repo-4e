@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.ruthless-efficiency",
@@ -9,6 +9,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You gain the Ruthless Ruffian class feature.",
       "multiclassFor": "modern4e.class.rogue",
@@ -25,6 +29,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Once per encounter, when an enemy makes an opportunity attack against you, you can add your Charisma to your AC against that attack.",
       "multiclassFor": "modern4e.class.rogue",
       "tags": [
@@ -40,6 +48,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Once per encounter, you can use a free action during your turn to gain the benefit of the Rogue class feature Cunning Sneak until the end of your turn.",
       "multiclassFor": "modern4e.class.rogue",
       "tags": [
@@ -54,6 +66,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Once per encounter, you can use the Rogue's Sneak Attack class feature.",
       "multiclassFor": "modern4e.class.rogue",

@@ -2,6 +2,10 @@
 
 ## Character Builder (shared core preview)
 
+- Shared class authoring (#30/#31): Fighter’s full flavor, statistics, proficiencies, nine features, three granted powers and two explanatory rules live in validated JSON and render its Typst chapter. Initial power counts are shared advancement data; class-independent entry choices, collection/preparation shapes and selection modifiers have exceptional-class schema fixtures. Deterministic authoring export preserves explicit unsupported coverage; runtime interpretation, remaining classes and production package conversion remain #32–#35. Existing feat/path data is unchanged by the class migration. See [class contract](src/modern4e/content/classes/README.md).
+
+- Feat selection authoring (#29): feat JSON/catalog schema v2 explicitly stores occurrence limits and separate granted choices. Armor Proficiency, Weapon Proficiency, Skill Training, Linguist and Adaptable Breath have validated advancement/distinct-choice constraints, character/entry/power scopes and exhaustion policies; Typst and the authoring export generate identical repetition text. Weapon pools preserve the superior-weapon/simple-and-military-bundle alternative. Language/weapon option catalogs remain pending, and v1 runtime enforcement remains unimplemented. Class JSON/progression is unaffected. See [selection contract](docs/modern4e-selection-rules.md).
+
 - Shared Modern 4e feat authoring (#28): all 818 entries carry persistent `modern4e.feat.*` IDs, explicit general/class/ancestry access and validated prerequisite trees (AND/OR, level, points, proficiencies, entry references, class sources, size and selected-content queries). Typst generates requirement text from the same definitions; `content/build.py --modern-feats` exports a deterministic authoring catalog with section order and explicit unresolved-reference diagnostics. Same-title variants remain distinct; descriptions and book curation are preserved. This is build-time migration data, not an enabled runtime package: eligibility integration, effects, deduplication and existing-character migration remain [#29](https://github.com/BanterTheGreat/Foundry-Mono-Repo-4e/issues/29).
 
 - Shared content reconciliation reports changed definitions/revisions and unavailable saved occurrences, exposes details only for available definitions, and preserves unresolved provenance through edits/export. Explicit acknowledgment advances available baselines; package-order previews show recalculated diagnostics and affected selections, support discard-to-cancel, and reject stale character commits. Includes inventory and replacement history; UI wiring remains in the platform workflow tickets. See `src/character-builder/shared/BUILDER.md`.
@@ -183,6 +187,8 @@ Operations use explicit supported fields and document types. Creation and editin
 
 ## Modern 4e Rulebook
 
+All 13 ancestry definitions, traits and powers are authored in shared JSON and rendered by Typst (#36). Power alternatives, damage-type choices and language choice counts are explicit; runtime ancestry effect automation remains unimplemented. Revenant remains excluded from the current book.
+
 | Feature | Description | Access |
 | --- | --- | --- |
 | Character creation and advancement | in a centralized rulebook. | Players & GM |
@@ -190,7 +196,7 @@ Operations use explicit supported fields and document types. Creation and editin
 | Backgrounds | combining environment and upbringing. | Players & GM |
 | Revised ability points and skill checks | Proficiency and graded check outcomes. | Players & GM |
 | Equipment, feats, utility powers, and Techniques | Character equipment and progression options. | Players & GM |
-| JSON feat catalog | All general, class, ancestry, and multiclass feats use JSON entries; the rulebook preserves section order, prerequisites, emphasis, lists, and source notes. | Developers / maintainers |
+| JSON feat catalog | All general, class, ancestry, and multiclass feats use JSON entries; the rulebook preserves section order, prerequisites, emphasis, lists, and source notes. Schema v2 adds explicit occurrence limits and generated repetition text from typed selection rules for the five repeatable feats. | Developers / maintainers |
 | Separate combat and out-of-combat utility choices | Independent utility selections for each area of play. | Players & GM |
 | Draw Steel-inspired negotiation rules | Social-encounter rules adapted for Modern 4e. | Players & GM |
 | Homebrew balance changes and quick-reference rules | Local mechanical changes and rules reference. | Players & GM |
@@ -323,3 +329,5 @@ Check each item after enabling its module (and, where noted, its setting).
 
 - Android Progression (experimental): one scrolling folio with printed level 1–30 grant schedule, power tally, origin rows, level-1 completion boxes and required-choice navigation count. Native bottom sheets offer framed expandable catalog cards, Class-first feat tabs, ineligible filtering, Modern background descriptions, independent origin/skill storage, live engine skill previews and exact-two free picks. Allocation uses the main-4/non-main-5 budget and optional single −1/3 tradeoff. Atomic edit batches persist before publishing; old documents infer origin from legacy skill slots. Active later levels preserve ability increases, catalog powers/feats and targeted progression replacements with explicit incomplete automation/unavailable totals. The proof engine still evaluates only levels 1–2; Fighter Reactivity/Combat Superiority and paragon/epic content are not authored, so those gaps remain visible. The modified prototype is retained as a reference while this incomplete slice awaits visual acceptance.
 - Manual Progression check: change each origin, confirm its stale skill clears, select one background skill and exactly two free skills, inspect live modifiers, exercise allocation limits, open feat tabs/filter, cancel/save/reopen, inspect upcoming levels and confirm unsupported progression stays visibly incomplete. No UI tests were performed for this change, as requested.
+
+- [ ] Modern 4e ancestry JSON (#36) — attributes, traits, power cards and alternatives render from the catalog; check Dragonborn/Elf choices, Dwarf speed 5, language counts, power scaling, illustrations and following feat-page breaks. Revenant stays excluded from the current book.

@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.cyclone-spirit",
@@ -20,6 +20,10 @@
             "entryId": "modern4e.feature.world-speaker-spirit"
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Whenever you or an ally pulls, pushes, or slides a target, the distance of the forced movement can be increased by 1 square if the target began the forced movement adjacent to your spirit companion.",
       "source": "Source: https://iws.mx/dnd/?view=feat1892"
@@ -44,6 +48,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When your spirit companion disappears as a result of one of your Shaman attack powers, you and your allies gain a +1 bonus to attack rolls against any enemy that was adjacent to the spirit. The bonus lasts until the end of your next turn.",
       "source": "Source: https://iws.mx/dnd/?view=feat3258"
     },
@@ -57,6 +65,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When your spirit companion disappears as a result of a ranged attack, you take half the normal damage from its destruction.",
       "source": "Source: https://iws.mx/dnd/?view=feat1895"
@@ -72,6 +84,10 @@
         "type": "level",
         "minimum": 11
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You can use Call Spirit Companion as a free action during your turn.",
       "source": "Source: https://iws.mx/dnd/?view=feat565"
     },
@@ -85,6 +101,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Whenever you make a Perception check while your spirit companion is present, you can roll twice and use either result.",
       "source": "Source: https://iws.mx/dnd/?view=feat1906"
@@ -108,6 +128,10 @@
             "entryId": "modern4e.feature.stalker-spirit"
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you use Healing Spirit, each ally adjacent to your spirit companion gains a +2 bonus to damage rolls against bloodied enemies until the end of your next turn.",
       "source": "Source: https://iws.mx/dnd/?view=feat1912"

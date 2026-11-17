@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.bloody-tenacity",
@@ -20,6 +20,10 @@
             "powerSource": "MARTIAL"
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you are bloodied for the first time in an encounter, you gain a +2 bonus to all defenses until the end of your next turn."
     },
@@ -51,6 +55,10 @@
             ]
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When an ally of at least your level drops to 0 hit points or fewer and you can see or hear that ally, gain an action point. It expires if unused at the end of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat831"

@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.phantom-echoes",
@@ -12,6 +12,10 @@
         "type": "abilityPoints",
         "ability": "WISDOM",
         "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you use an arcane illusion power and hit a target, you gain combat advantage against that target until the end of your next turn. If the illusion power has an effect that a save can end, you instead gain combat advantage against the target until it saves against that effect."
     },
@@ -27,6 +31,10 @@
         "ability": "CONSTITUTION",
         "minimum": 2
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Creatures created by your arcane summoning powers gain a +1 bonus to all defenses."
     },
     {
@@ -40,6 +48,10 @@
         "type": "abilityPoints",
         "ability": "DEXTERITY",
         "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you use an arcane attack power and hit two or more creatures, you gain a +2 bonus to that power's damage rolls. This bonus increases to +3 at 11th level and to +4 at 21st level."
     },
@@ -55,6 +67,10 @@
         "ability": "WISDOM",
         "minimum": 2
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Before using a wizard at-will or encounter attack power, you can choose to take a -2 penalty to each die of damage rolled with the power to increase the size of its blast or its burst by 1.\n\nYou can't use this feat on a power that doesn't roll dice for damage."
     },
     {
@@ -69,6 +85,10 @@
         "ability": "WISDOM",
         "minimum": 2
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Choose one daily wizard attack spell of every level you know. Add this spell to your spellbook. Each time you gain a new level of daily wizard attack spells, you learn one extra spell of that level (in other words, add three spells to your spellbook instead of only two).\n\nThis feat doesn't change the number of daily attack spells you can prepare each day."
     },
     {
@@ -80,6 +100,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you hit a creature with a cold wizard power, that creature also takes a -2 penalty to its Fortitude until the end of your next turn."
     },
@@ -93,6 +117,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Your arcane fire powers ignore an amount of fire resistance equal to your Intelligence. The fire resistance you ignore increases to 5 + your Intelligence at 11th level and to 10 + your Intelligence at 21st level. If the creature is immune to fire, instead treat that creature as having resist fire 25."
     },
     {
@@ -104,6 +132,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "If a wizard power has a range of 10 squares or fewer, increase the power's normal range by 2 squares. If a wizard power has a range of 11–20 squares, increase the power's normal range by 5 squares. This also applies to area powers, so an area burst 1 within 10 becomes an area burst 1 within 12."
     },
@@ -117,6 +149,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you use a wizard power, you gain 1 temporary hit point for each minion you reduce to 0 hit points with that power."
     },
     {
@@ -128,6 +164,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you hit a target with a fire attack, you gain a +2 power bonus to your next damage roll with a fire attack against that target before the end of your next turn."
     },
@@ -141,6 +181,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You gain a +2 feat bonus to damage rolls with arcane fire attacks against creatures taking ongoing fire damage. This bonus increases to +4 at 11th level and +6 at 21st level."
     },
     {
@@ -153,6 +197,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Whenever you use a wizard illusion power and you hit a target, you gain a feat bonus to Skill Checks to hide or sneak equal to your Intelligence until the end of your next turn."
     },
     {
@@ -164,6 +212,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you hit a target with an arcane fire power, that target gains vulnerable 5 cold against the first arcane attack power you use against it before the end of your next turn."
     }

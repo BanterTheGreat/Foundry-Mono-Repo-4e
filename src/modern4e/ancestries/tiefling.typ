@@ -1,48 +1,25 @@
 #import "../helpers/theme.typ" as theme;
-#import "../helpers/powers.typ";
-#import "../helpers/ancestries.typ";
+#import "../helpers/ancestry_content.typ" as ancestryContent;
 
 
 #let tieflingPage() = {
   return [
-    #theme.subPageTitle(title: "Tiefling");
+    #theme.subPageTitle(title: ancestryContent.entry("modern4e.ancestry.tiefling").title);
 
     #columns(2)[
       = Attributes
 
-      #ancestries.attributes(
-        size: "Medium",
-        speed: 6,
-        vision: "Low-Light",
-        languages: "Common + 1",
-      )
+      #ancestryContent.attributes("modern4e.ancestry.tiefling")
 
       = Ancestry Traits
-      == Bloodhunt
-      You gain a +1 racial bonus to attack rolls against bloodied foes.
-      == Fire Resistance
-      You have resist fire 5 + one-half your level.
-      == Infernal Wrath
-      You gain the Infernal Wrath power.
+      #ancestryContent.trait("modern4e.feature.tiefling-bloodhunt")
 
-      #powers.power(
-        title: "Infernal Wrath",
-        description: "You call upon the hellfire burning in your soul to punish your enemy.",
-        type: powers.powerType.encounter,
-        range: "Close burst 10",
-        action: powers.actionType.free,
-        target: "The triggering enemy in the burst",
-        offenseStat: "Main Ability",
-        defenseStat: none,
-        trigger: "An enemy within 10 squares of you hits you.",
-        additionalRows: (
-          [*Effect:* The target takes 1d6 + Main Ability fire damage.
-            - Level 11: 2d6 + Main Ability fire damage.
-            - Level 21: 3d6 + Main Ability fire damage.
-          ],
-        ),
-        traits: "Fire",
-      );
+      #ancestryContent.trait("modern4e.feature.tiefling-fire-resistance")
+
+      #ancestryContent.trait("modern4e.feature.tiefling-infernal-wrath")
+
+
+      #ancestryContent.powerCard("modern4e.power.infernal-wrath");
 
       #colbreak();
       #image("../images/tiefling.webp", height: 300pt)

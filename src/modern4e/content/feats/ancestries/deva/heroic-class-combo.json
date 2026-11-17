@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.magic-of-the-ages",
@@ -11,6 +11,10 @@
       "prerequisites": {
         "type": "classPowerSource",
         "powerSource": "ARCANE"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you use your memory of a thousand lifetimes racial power to add to the attack roll of an arcane power, you gain a +1 bonus to the triggering roll."
     },
@@ -35,6 +39,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Shielding Elixir also grants radiant resistance of the same value and duration as its usual resistance. Its target may end the effect as a free action when making a saving throw to add 1d6 to that save, replacing the usual benefit for ending the elixir.",
       "source": "https://iws.mx/dnd/?view=feat3023"
     },
@@ -57,6 +65,10 @@
             "entryId": "modern4e.power.oath-of-enmity"
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When Memory of a Thousand Lifetimes boosts an attack against your Oath of Enmity target, that attack also deals extra damage equal to the bonus rolled.",
       "source": "https://iws.mx/dnd/?view=feat1490"
@@ -81,6 +93,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Using Preserver's Rebuke gives allies within 2 squares +1 to all defenses against bloodied attackers for the rest of the encounter.",
       "source": "https://iws.mx/dnd/?view=feat1491"
     },
@@ -94,6 +110,10 @@
       "prerequisites": {
         "type": "entry",
         "entryId": "modern4e.class.swordmage"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Swordmage Warding stays active while you are unconscious. Its AC bonus also increases both resistances from your Astral Resistance trait by that amount.",
       "source": "https://iws.mx/dnd/?view=feat1142"
@@ -109,6 +129,10 @@
         "type": "entry",
         "entryId": "modern4e.class.fighter"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "After a reliable fighter power misses all its targets, you may expend Memory of a Thousand Lifetimes to reroll all of that power's attack rolls.",
       "source": "https://iws.mx/dnd/?view=feat2448"
     },
@@ -122,6 +146,10 @@
       "prerequisites": {
         "type": "entry",
         "entryId": "modern4e.class.warlord"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "As a free action, expend Memory of a Thousand Lifetimes to add 1d6 to an adjacent ally's attack roll, saving throw, or skill check.",
       "source": "https://iws.mx/dnd/?view=feat2463"

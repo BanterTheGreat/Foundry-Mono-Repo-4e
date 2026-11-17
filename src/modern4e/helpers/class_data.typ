@@ -1,3 +1,7 @@
+#import "class_text.typ": classText;
+#import "class_catalog.typ" as catalog;
+#let fighterData = catalog.entry("modern4e.class.fighter");
+
 #let defaultImage = "../images/classes_parent.jpg";
 
 #let artificerQuote = [I see the secret patterns of magic, and through the
@@ -109,19 +113,11 @@
 
 #let druidImage = defaultImage;
 
-#let fighterQuote = [You’ll have to deal with me first, dragon!];
+#let fighterQuote = classText(fighterData.flavor.quote);
 
-#let fighterInfo = [
-  Fighters crash into the teeth of enemy forces, armed with cold steel and grim purpose. They are the mercenaries loitering in taverns between expeditions, the guards who cast a watchful eye over their charges, the weapon masters who elevate fighting styles to lethal arts. The fighter is a fearless warrior, ready to meet any challenge.
+#let fighterInfo = classText(fighterData.flavor.introduction.join("\n\n"));
 
-  Fighters can be found just about anywhere and among any sort of people. A few are gallant warriors fighting for noble causes, while others are calculating mercenaries who draw their weapons only when the pay is right. All fighters, however, are adventurers, ready to face any challenge, to go where glory, plunder, or honor leads them.
-
-  Specialized combat maneuvers, or exploits, combined with a dedicated focus on a fighting style set fighters apart from other warriors. A fighter can slam his or her weapon through one enemy to crunch into another or carve a bloody path through enemies in a whirlwind of destruction. Weapons are crucial too, since fighters know how to coax every advantage they can from their tools, and those who use axes fight differently from those who favor heavy blades.
-];
-
-#let fighterRole = [
-  Fighter is a Strength-based *Martial Defender*. Use tactical cunning and battle prowess to contain the enemy and protect your allies. "Stickiest" Defender; hard for enemies to escape you. Variety of build options based on preferred weapon loadout. High damage for a Defender and king of the opportunity attack.
-];
+#let fighterRole = classText(fighterData.flavor.gameplay);
 
 #let fighterImage = defaultImage;
 

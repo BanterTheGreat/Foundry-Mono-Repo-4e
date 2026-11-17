@@ -1,0 +1,181 @@
+{
+  "schemaVersion": 1,
+  "ancestries": [
+    {
+      "id": "modern4e.ancestry.tiefling",
+      "title": "Tiefling",
+      "description": "",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "attributes": {
+        "size": "medium",
+        "speed": 6,
+        "vision": "low-light",
+        "languages": {
+          "fixed": [
+            "common"
+          ],
+          "choiceCount": 1
+        }
+      },
+      "grants": [
+        {
+          "id": "bloodhunt",
+          "entryId": "modern4e.feature.tiefling-bloodhunt",
+          "atLevel": 1
+        },
+        {
+          "id": "fire-resistance",
+          "entryId": "modern4e.feature.tiefling-fire-resistance",
+          "atLevel": 1
+        },
+        {
+          "id": "infernal-wrath",
+          "entryId": "modern4e.feature.tiefling-infernal-wrath",
+          "atLevel": 1
+        }
+      ]
+    }
+  ],
+  "features": [
+    {
+      "id": "modern4e.feature.tiefling-bloodhunt",
+      "title": "Bloodhunt",
+      "description": "You gain a +1 racial bonus to attack rolls against bloodied foes.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.tiefling-fire-resistance",
+      "title": "Fire Resistance",
+      "description": "You have resist fire 5 + one-half your level.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.tiefling-infernal-wrath",
+      "title": "Infernal Wrath",
+      "description": "You gain the Infernal Wrath power.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "grants": [
+        {
+          "id": "power",
+          "entryId": "modern4e.power.infernal-wrath",
+          "atLevel": 1
+        }
+      ]
+    }
+  ],
+  "powers": [
+    {
+      "id": "modern4e.power.infernal-wrath",
+      "title": "Infernal Wrath",
+      "description": "Effect: The target takes 1d6 + Main Ability fire damage.\n\n- Level 11: 2d6 + Main Ability fire damage.\n\n- Level 21: 3d6 + Main Ability fire damage.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "flavor": "You call upon the hellfire burning in your soul to punish your enemy.",
+      "usage": "ENCOUNTER",
+      "action": "FREE",
+      "range": {
+        "type": "CLOSE_BURST",
+        "distance": 10
+      },
+      "keywords": [
+        "FIRE"
+      ],
+      "trigger": "An enemy within 10 squares of you hits you.",
+      "target": "The triggering enemy in the burst",
+      "attack": {
+        "ability": "MAIN_ABILITY",
+        "defense": null
+      },
+      "rows": [
+        {
+          "label": "Effect",
+          "text": "The target takes 1d6 + Main Ability fire damage.",
+          "scaling": [
+            {
+              "atLevel": 11,
+              "text": "2d6 + Main Ability fire damage."
+            },
+            {
+              "atLevel": 21,
+              "text": "3d6 + Main Ability fire damage."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

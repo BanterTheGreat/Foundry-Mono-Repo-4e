@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.acid-splash",
@@ -22,6 +22,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you miss with an acid wizard power and would not normally do damage, you deal acid damage equal to your Constitution.",
       "source": "Source: https://iws.mx/dnd/?view=feat1998"
     },
@@ -35,6 +39,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Whenever you hit a target vulnerable to fire with an arcane fire attack, the target takes ongoing 5 fire damage in addition to the attack's normal effects (save ends).",
       "source": "Source: https://iws.mx/dnd/?view=feat3071"
@@ -59,6 +67,10 @@
             "minimum": 2
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Whenever a creature fails a saving throw against an effect from one of your wizard powers, you gain temporary hit points equal to your Wisdom.",
       "source": "Source: https://iws.mx/dnd/?view=feat1999"
@@ -88,6 +100,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "While you wield an orb, any creature you hit with an arcane illusion power grants combat advantage to your next ally who attacks it before the start of your next turn.",
       "source": "Source: https://iws.mx/dnd/?view=feat1176"
     },
@@ -115,6 +131,10 @@
             "entryId": "modern4e.power.orb-of-imposition"
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Each time a creature you have designated with your Orb of Imposition fails a saving throw against the effect you have specified, it takes damage equal to 5 + your Wisdom.",
       "source": "Source: https://iws.mx/dnd/?view=feat1177"
@@ -149,6 +169,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "While you wield a staff, you gain a +1 bonus to Fortitude, Reflex, and Will.",
       "source": "Source: https://iws.mx/dnd/?view=feat1178"
     },
@@ -176,6 +200,10 @@
             "entryId": "modern4e.feature.tome-of-binding"
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "While you wield a tome, creatures created by your arcane summoning powers appear with 10 temporary hit points.",
       "source": "Source: https://iws.mx/dnd/?view=feat1179"
@@ -210,6 +238,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "After you prepare your daily and utility wizard powers after an extended rest, choose one daily or utility power in your spellbook that you didn't prepare and store this power in your tome.\n\nOnce per encounter as a free action, you can use this stored power by expending another unused wizard power of the appropriate type (daily or utility) of its level or higher. You must still take the normal action required to use the stored power.",
       "source": "Source: https://iws.mx/dnd/?view=feat1180"
     },
@@ -238,6 +270,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "While you wield a wand, your arcane powers ignore enemies' cover (but not superior cover).",
       "source": "Source: https://iws.mx/dnd/?view=feat1181"
     },
@@ -262,6 +298,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you reduce a creature to 0 hit points or fewer with a wizard lightning power, you can teleport a number of squares equal to your Constitution as a free action.",
       "source": "Source: https://iws.mx/dnd/?view=feat2000"
     },
@@ -275,6 +315,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you have combat advantage against a creature, any wizard illusion power that you use against that creature scores a critical hit on a roll of 19–20.",
       "source": "Source: https://iws.mx/dnd/?view=feat2001"
@@ -300,6 +344,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Once per day, as a free action, you can swap one daily attack spell you didn't prepare in place of one you did prepare. Also once per day, as a free action, you can swap one utility spell you didn't prepare in place of one you did prepare. You choose the replacement spell at the time you use it.",
       "source": "Source: https://iws.mx/dnd/?view=feat2047"
     },
@@ -313,6 +361,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You gain a second Arcane Implement Mastery class feature.",
       "source": "Source: https://iws.mx/dnd/?view=feat320"
@@ -338,6 +390,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Creatures that attempt saving throws against your wizard powers take a –2 penalty to the rolls.",
       "source": "Source: https://iws.mx/dnd/?view=feat169"
     },
@@ -352,6 +408,10 @@
         "type": "level",
         "minimum": 11
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you immobilize, restrain, or slow an enemy, choose an ally within 20 squares of you that is also suffering the same condition. End that condition.",
       "source": "Source: https://iws.mx/dnd/?view=feat2002"
     },
@@ -365,6 +425,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Your arcane spells take a –5 penalty on attack rolls against allies, and deal only half their normal damage to allies.",
       "source": "Source: https://iws.mx/dnd/?view=feat647"

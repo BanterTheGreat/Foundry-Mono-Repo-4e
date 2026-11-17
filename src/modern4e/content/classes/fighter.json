@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "classes": [
+    {
+      "id": "modern4e.class.fighter",
+      "title": "Fighter",
+      "description": "Fighter is a Strength-based Martial Defender. Use tactical cunning and battle prowess to contain the enemy and protect your allies. \"Stickiest\" Defender; hard for enemies to escape you. Variety of build options based on preferred weapon loadout. High damage for a Defender and king of the opportunity attack.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+        ]
+      },
+      "flavor": {
+        "quote": "You’ll have to deal with me first, dragon!",
+        "introduction": [
+          "Fighters crash into the teeth of enemy forces, armed with cold steel and grim purpose. They are the mercenaries loitering in taverns between expeditions, the guards who cast a watchful eye over their charges, the weapon masters who elevate fighting styles to lethal arts. The fighter is a fearless warrior, ready to meet any challenge.",
+          "Fighters can be found just about anywhere and among any sort of people. A few are gallant warriors fighting for noble causes, while others are calculating mercenaries who draw their weapons only when the pay is right. All fighters, however, are adventurers, ready to face any challenge, to go where glory, plunder, or honor leads them.",
+          "Specialized combat maneuvers, or exploits, combined with a dedicated focus on a fighting style set fighters apart from other warriors. A fighter can slam his or her weapon through one enemy to crunch into another or carve a bloody path through enemies in a whirlwind of destruction. Weapons are crucial too, since fighters know how to coax every advantage they can from their tools, and those who use axes fight differently from those who favor heavy blades."
+        ],
+        "gameplay": "Fighter is a Strength-based *Martial Defender*. Use tactical cunning and battle prowess to contain the enemy and protect your allies. \"Stickiest\" Defender; hard for enemies to escape you. Variety of build options based on preferred weapon loadout. High damage for a Defender and king of the opportunity attack."
+      },
+      "role": "DEFENDER",
+      "powerSources": [
+        "MARTIAL"
+      ],
+      "abilities": {
+        "main": [
+          "STRENGTH"
+        ],
+        "secondary": [
+          "CONSTITUTION",
+          "DEXTERITY",
+          "WISDOM"
+        ]
+      },
+      "proficiencies": {
+        "armor": [
+          "LIGHT",
+          "CHAINMAIL",
+          "SCALE"
+        ],
+        "shields": [
+          "LIGHT_SHIELD",
+          "HEAVY_SHIELD"
+        ],
+        "weapons": [
+          "SIMPLE_MELEE",
+          "SIMPLE_RANGED",
+          "MILITARY_MELEE",
+          "MILITARY_RANGED"
+        ],
+        "implements": []
+      },
+      "statistics": {
+        "defenses": {
+          "FORTITUDE": 13,
+          "REFLEX": 11,
+          "WILL": 11
+        },
+        "health": {
+          "base": 18,
+          "perLevel": 7,
+          "constitutionMultiplier": 2
+        },
+        "healingSurges": {
+          "base": 9,
+          "constitutionMultiplier": 1
+        }
+      },
+      "grants": [
+        {
+          "id": "combat-challenge",
+          "entryId": "modern4e.feature.combat-challenge",
+          "atLevel": 1
+        },
+        {
+          "id": "melee-weapon-mastery",
+          "entryId": "modern4e.feature.melee-weapon-mastery",
+          "atLevel": 1
+        },
+        {
+          "id": "fighter-reactivity",
+          "entryId": "modern4e.feature.fighter-reactivity",
+          "atLevel": 1
+        },
+        {
+          "id": "fighter-specialization",
+          "entryId": "modern4e.feature.fighter-specialization",
+          "atLevel": 1
+        }
+      ],
+      "ruleIds": [
+        "modern4e.rule.reliable",
+        "modern4e.rule.invigorating"
+      ]
+    }
+  ]
+}

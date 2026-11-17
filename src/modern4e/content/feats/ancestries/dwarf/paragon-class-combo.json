@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.steadfast-tactics",
@@ -20,6 +20,10 @@
             "entryId": "modern4e.class.warlord"
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you use inspiring word on an ally, that ally can reduce pull, push, and slide effects against him or her by 1 square until the end of the encounter.",
       "note": "Moved from content/feats/paragon/warlord.json."
@@ -44,6 +48,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you hit an enemy with a fighter daily attack power while wielding an axe, a hammer, or a pick, that enemy takes ongoing damage equal to your Constitution (save ends). If the power already deals ongoing damage that has no damage type, instead increase that ongoing damage by an amount equal to your Constitution.",
       "note": "Moved from content/feats/paragon/fighter.json."
     },
@@ -66,6 +74,10 @@
             "entryId": "modern4e.class.fighter"
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "If an adjacent enemy pushes or slides you, you can make an opportunity attack against that enemy before the forced movement. If the attack hits, you can negate the forced movement.",
       "note": "Moved from content/feats/paragon/fighter.json."

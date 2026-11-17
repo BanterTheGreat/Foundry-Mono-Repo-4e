@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.bleeding-precision",
@@ -11,6 +11,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Whenever you hit your quarry with a ranger daily attack power, the target takes ongoing 5 damage (save ends). If the power already deals ongoing damage that has no damage type, instead increase that ongoing damage by 5.",
       "source": "https://iws.mx/dnd/?view=feat833 — Martial Power, page(s) 140."
@@ -25,6 +29,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Whenever you end your turn at least 3 squares away from where you began your turn, you gain a +1 feat bonus to AC and Reflex until the start of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat2495 — Martial Power 2, page(s) 142."
@@ -49,6 +57,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You deal 2 extra damage with Hunter's Quarry when you have combat advantage against your quarry.",
       "source": "https://iws.mx/dnd/?view=feat852 — Martial Power, page(s) 144."
     },
@@ -62,6 +74,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you reduce your quarry to 0 hit points, you can use your second wind as a free action. You do not gain the normal bonus to defenses if you do so.",
       "source": "https://iws.mx/dnd/?view=feat353 — Martial Power, page(s) 144."
@@ -91,6 +107,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Whenever you make a Perception check, roll twice and use the higher result.",
       "source": "https://iws.mx/dnd/?view=feat859 — Martial Power, page(s) 144."
     },
@@ -119,6 +139,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "The bonus to attack rolls granted by Prime Shot increases to +2 if the target is also your quarry.",
       "source": "https://iws.mx/dnd/?view=feat860 — Martial Power, page(s) 144."
     },
@@ -132,6 +156,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Whenever you hit an enemy with a melee attack during your turn, you don't provoke opportunity attacks from that enemy for moving away from it until the end of your turn.",
       "source": "https://iws.mx/dnd/?view=feat2515 — Martial Power 2, page(s) 143."
@@ -156,6 +184,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Whenever you miss with a daily ranger attack against your quarry, you can choose to apply your Hunter's Quarry damage. You can still deal Hunter's Quarry damage only once per turn.",
       "source": "https://iws.mx/dnd/?view=feat1722 — Dragon Magazine 377, page(s) 45."
     },
@@ -178,6 +210,10 @@
             "entryId": "modern4e.ancestry.tiefling"
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "If you use your infernal wrath racial power against your quarry, you gain a +3 power bonus to your next attack against the target made before the end of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat871 — Martial Power, page(s) 145."

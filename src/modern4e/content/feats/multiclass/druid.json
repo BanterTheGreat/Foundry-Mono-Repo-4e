@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.initiate-of-the-old-faith",
@@ -9,6 +9,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You gain the Druid's wild shape power. Choose a 1st-level Druid at-will attack power that has the beast form keyword. You can use that power once per encounter. In addition, you can wield Druid implements.",
       "multiclassFor": "modern4e.class.druid",
@@ -24,6 +28,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "While you are in beast form, you gain a +1 bonus to speed.",
       "multiclassFor": "modern4e.class.druid",

@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.courage-of-the-lone-stag",
@@ -10,6 +10,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you mark three or more enemies with Nature's Wrath, you gain a +2 bonus to weapon damage rolls against creatures you mark until the start of your next turn. This bonus increases to +3 at 11th level, and to +4 at 21st level."
     },
@@ -23,6 +27,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you use your second wind, you gain a bonus to weapon damage rolls equal to your *Constitution* until the end of your next turn."
     },
     {
@@ -34,6 +42,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you use warden's grasp, you can teleport up to 2 squares to a square closer to the target instead of sliding it."
     },
@@ -48,6 +60,10 @@
         "type": "entry",
         "entryId": "modern4e.feature.earthstrength"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you use your second wind, you gain resist 2 to all damage until the end of your next turn. The resistance increases to 5 at 11th level and 8 at 21st level."
     },
     {
@@ -61,6 +77,10 @@
         "type": "entry",
         "entryId": "modern4e.feature.lifespirit"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You can grant a saving throw to a second ally within 5 squares of you when you use your second wind."
     },
     {
@@ -72,6 +92,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "If you succeed on a saving throw granted by Font of Life, you gain a +2 bonus to all other saving throws during or at the end of your current turn."
     },
@@ -86,6 +110,10 @@
         "type": "entry",
         "entryId": "modern4e.feature.stormheart"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you use your second wind, you can shift a number of squares equal to your *Constitution* instead of sliding enemies marked by you."
     },
     {
@@ -97,6 +125,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Whenever you hit an enemy with an opportunity attack, that enemy is slowed until the end of its turn."
     },
@@ -111,6 +143,10 @@
         "type": "entry",
         "entryId": "modern4e.feature.wildblood"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you use your second wind, you gain a bonus to damage rolls against each enemy marked by you equal to your *Wisdom* until the end of your next turn."
     },
     {
@@ -122,6 +158,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You gain a +2 bonus to damage rolls while in guardian form. This bonus increases to +3 at 11th level, and to +4 at 21st level."
     }

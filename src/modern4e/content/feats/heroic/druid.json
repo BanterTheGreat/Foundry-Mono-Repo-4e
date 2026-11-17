@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.strong-willed-summoning",
@@ -10,6 +10,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When a creature you summon uses an instinctive action to attack, it gains a +1 bonus to the attack roll."
     },
@@ -24,6 +28,10 @@
         "type": "entry",
         "entryId": "modern4e.feature.primal-guardian"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you roll initiative at the start of any encounter, one ally within 5 squares of you can reroll his or her initiative."
     },
     {
@@ -36,6 +44,10 @@
       "prerequisites": {
         "type": "entry",
         "entryId": "modern4e.feature.primal-guardian"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "While you are in beast form, you and each ally adjacent to you gain a +2 feat bonus to attack rolls when making opportunity attacks."
     },
@@ -50,6 +62,10 @@
         "type": "entry",
         "entryId": "modern4e.feature.primal-predator"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You gain a +1 bonus to attack rolls with primal powers against bloodied enemies."
     },
     {
@@ -63,6 +79,10 @@
         "type": "entry",
         "entryId": "modern4e.feature.primal-predator"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you charge while you are in beast form, you gain a +2 bonus to speed and a +1 bonus to the damage rolls of the charge attack."
     },
     {
@@ -75,6 +95,10 @@
       "prerequisites": {
         "type": "entry",
         "entryId": "modern4e.feature.primal-swarm"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Once per round when an enemy damages you with a melee attack while you are in beast form, that enemy grants combat advantage to you until the end of your next turn."
     },
@@ -90,6 +114,10 @@
         "text": "Grasping Claws Power",
         "reason": "No matching local feature, power or feat definition was identified; see migration issue #29."
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you hit a target with the grasping claws power, instead of slowing the target you can instead choose for the target to be immobilized until the end of your next turn. If you are ever not adjacent to the target, the immobilized effect ends."
     },
     {
@@ -103,6 +131,10 @@
         "type": "unresolved",
         "text": "Pounce Power",
         "reason": "No matching local feature, power or feat definition was identified; see migration issue #29."
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you hit a target with an attack using the pounce power, the target grants combat advantage until the end of your next turn."
     },
@@ -118,6 +150,10 @@
         "text": "Savage Rend Power",
         "reason": "No matching local feature, power or feat definition was identified; see migration issue #29."
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you hit a target with the savage rend power, you can shift 1 square into the space occupied by your target after you slide it."
     },
     {
@@ -129,6 +165,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you use wild shape to change from your humanoid form to beast form, you shift 1 square."
     },
@@ -142,6 +182,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "While you are in beast form and you are bloodied, you gain a +4 feat bonus to speed when you charge or run."
     },
     {
@@ -154,6 +198,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "While you are in beast form, you gain a +1 bonus to attack rolls and a +2 bonus to damage rolls with charge attacks."
     },
     {
@@ -165,6 +213,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "While you are in beast form, any time you take the total defense action or use your second wind, you gain resist 5 to all damage until the end of your next turn."
     }

@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.arcane-flexibility",
@@ -11,6 +11,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you score a critical hit with a sorcerer power, you can change the damage type dealt by the power to a damage type you have resistance or immunity to.",
       "source": "https://iws.mx/dnd/?view=feat1034 — Player's Handbook 2, page(s) 190."
@@ -35,6 +39,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Whenever you hit at least one enemy with a sorcerer at-will attack power, you gain a benefit based on your current phase in the cosmic cycle. This benefit applies after the attack is resolved. Phase of the Sun: You can roll a saving throw. Phase of the Moon: You gain concealment until the end of your next turn. Phase of the Stars: You become insubstantial until the end of your next turn or until you are hit by an attack.",
       "source": "https://iws.mx/dnd/?view=feat1171 — Arcane Power, page(s) 130."
     },
@@ -58,6 +66,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Whenever you hit an enemy with a sorcerer at-will attack power, you gain temporary hit points equal to your Strength.",
       "source": "https://iws.mx/dnd/?view=feat576 — Player's Handbook 2, page(s) 190."
     },
@@ -72,6 +84,10 @@
         "type": "level",
         "minimum": 11
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you have expended all your sorcerer daily attack powers, you gain a +1 bonus to attack rolls with sorcerer at-will attack powers until you regain the use of one of your sorcerer daily attack powers.",
       "source": "https://iws.mx/dnd/?view=feat1187 — Arcane Power, page(s) 133."
     },
@@ -85,6 +101,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Whenever you would make a Perception check or an Insight check, you can make an Arcana check instead.",
       "source": "https://iws.mx/dnd/?view=feat1188 — Arcane Power, page(s) 133."
@@ -109,6 +129,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Whenever you use a sorcerer at-will attack power and hit at least one enemy, you can fly 2 squares as a free action after resolving the attack.",
       "source": "https://iws.mx/dnd/?view=feat1189 — Arcane Power, page(s) 133."
     },
@@ -131,6 +155,10 @@
             "entryId": "modern4e.feature.wild-magic"
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Whenever you hit an enemy with a sorcerer at-will attack power, each enemy adjacent to you takes damage equal to your Dexterity.",
       "source": "https://iws.mx/dnd/?view=feat1050 — Player's Handbook 2, page(s) 193."

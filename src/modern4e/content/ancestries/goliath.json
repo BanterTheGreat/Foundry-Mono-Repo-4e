@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 1,
+  "ancestries": [
+    {
+      "id": "modern4e.ancestry.goliath",
+      "title": "Goliath",
+      "description": "",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "attributes": {
+        "size": "medium",
+        "speed": 6,
+        "vision": "normal",
+        "languages": {
+          "fixed": [
+            "common"
+          ],
+          "choiceCount": 1
+        }
+      },
+      "grants": [
+        {
+          "id": "mountain-s-tenacity",
+          "entryId": "modern4e.feature.goliath-mountain-s-tenacity",
+          "atLevel": 1
+        },
+        {
+          "id": "powerful-athlete",
+          "entryId": "modern4e.feature.goliath-powerful-athlete",
+          "atLevel": 1
+        },
+        {
+          "id": "stone-s-endurance",
+          "entryId": "modern4e.feature.goliath-stone-s-endurance",
+          "atLevel": 1
+        }
+      ]
+    }
+  ],
+  "features": [
+    {
+      "id": "modern4e.feature.goliath-mountain-s-tenacity",
+      "title": "Mountain’s Tenacity",
+      "description": "You have a +1 racial bonus to Will.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.goliath-powerful-athlete",
+      "title": "Powerful Athlete",
+      "description": "Whenever you make a Skill Check to perform a physical action akin to jumping or climbing, roll twice and use either result.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.goliath-stone-s-endurance",
+      "title": "Stone’s Endurance",
+      "description": "You gain the Stone’s Endurance power.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "grants": [
+        {
+          "id": "power",
+          "entryId": "modern4e.power.stone-s-endurance",
+          "atLevel": 1
+        }
+      ]
+    }
+  ],
+  "powers": [
+    {
+      "id": "modern4e.power.stone-s-endurance",
+      "title": "Stone's Endurance",
+      "description": "Effect: You gain resist 5 to all damage until the end of your next turn.\n\n- Level 11: Resist 10 to all damage.\n\n- Level 21: Resist 15 to all damage.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "flavor": "Your foes’ attacks bounce off your stony hide.",
+      "usage": "ENCOUNTER",
+      "action": "MINOR",
+      "range": {
+        "type": "PERSONAL"
+      },
+      "keywords": [],
+      "rows": [
+        {
+          "label": "Effect",
+          "text": "You gain resist 5 to all damage until the end of your next turn.",
+          "scaling": [
+            {
+              "atLevel": 11,
+              "text": "Resist 10 to all damage."
+            },
+            {
+              "atLevel": 21,
+              "text": "Resist 15 to all damage."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -115,7 +115,9 @@ class ModernFeatsTest(unittest.TestCase):
         shield = self.named("Distracting Shield")[0]
         self.assertEqual({"type": "abilityPoints", "ability": "WISDOM", "minimum": 3}, shield["prerequisites"])
         self.assertIn("shield equipped", shield["description"])
-        self.assertIn("more than once", self.named("Armor Proficiency")[0]["description"])
+        armor = self.named("Armor Proficiency")[0]
+        self.assertIn("more than once", self.catalog["selectionText"][armor["id"]])
+        self.assertNotIn("more than once", armor["description"])
 
     def test_duplicate_ids_unknown_fields_and_missing_inventory_are_rejected(self):
         cases = [

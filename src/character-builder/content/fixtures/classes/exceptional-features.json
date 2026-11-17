@@ -1,0 +1,272 @@
+{
+  "schemaVersion": 1,
+  "features": [
+    {
+      "id": "modern4e.feature.fixture-balance-of-nature",
+      "title": "Balance of Nature",
+      "description": "You begin with three at-will attack powers. Throughout your career, at least one and no more than two must have the beast form keyword.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+        ]
+      },
+      "selectionModifiers": [
+        {
+          "choiceId": "modern4e.choice.class-attack-at-will",
+          "count": 3,
+          "constraints": [
+            {
+              "type": "distinct"
+            },
+            {
+              "type": "keywordCount",
+              "keyword": "BEAST_FORM",
+              "minimum": 1,
+              "maximum": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.fixture-spellbook",
+      "title": "Spellbook",
+      "description": "Store daily and utility powers separately from daily preparations. Retraining replaces the previous power in the book. Later acquisition slots and technique page costs remain pending migration.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+        ]
+      },
+      "collections": [
+        {
+          "id": "modern4e.collection.fixture-spellbook",
+          "title": "Spellbook",
+          "capacity": 128
+        },
+        {
+          "id": "modern4e.collection.fixture-prepared",
+          "title": "Prepared spells",
+          "capacity": 8
+        }
+      ],
+      "selectionModifiers": [
+        {
+          "choiceId": "modern4e.choice.class-attack-daily",
+          "count": 4,
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ],
+          "collection": "modern4e.collection.fixture-spellbook",
+          "replacement": "FOLLOW_TARGET"
+        }
+      ],
+      "choices": [
+        {
+          "id": "modern4e.choice.fixture-prepare-dailies",
+          "title": "Prepare daily spells",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": {
+            "byLevel": [
+              {
+                "atLevel": 1,
+                "count": 2
+              },
+              {
+                "atLevel": 5,
+                "count": 3
+              }
+            ]
+          },
+          "source": {
+            "type": "query",
+            "category": "POWER",
+            "filters": {
+              "usage": "DAILY",
+              "powerKind": "ATTACK",
+              "levelMaximum": "CHARACTER",
+              "access": "CHARACTER"
+            }
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ],
+          "collection": "modern4e.collection.fixture-prepared",
+          "requiresCollection": "modern4e.collection.fixture-spellbook"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.fixture-cantrips",
+      "title": "Cantrips",
+      "description": "Choose four cantrips.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+        ]
+      },
+      "choices": [
+        {
+          "id": "modern4e.choice.fixture-cantrips",
+          "title": "Cantrips",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 4,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.power.fixture-cantrip-0",
+              "modern4e.power.fixture-cantrip-1",
+              "modern4e.power.fixture-cantrip-2",
+              "modern4e.power.fixture-cantrip-3",
+              "modern4e.power.fixture-cantrip-4"
+            ]
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.fixture-companion",
+      "title": "Companion Spirit",
+      "description": "Choose a companion spirit; each option grants a boon and spirit attack.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+        ]
+      },
+      "choices": [
+        {
+          "id": "modern4e.choice.fixture-companion",
+          "title": "Companion Spirit",
+          "kind": "ENTRY",
+          "atLevel": 1,
+          "count": 1,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.fixture-elemental-spirit"
+            ]
+          },
+          "constraints": [
+            {
+              "type": "distinct"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.fixture-elemental-spirit",
+      "title": "Elemental Spirit",
+      "description": "Your spirit companion has an aura 1, expanding to aura 2 at level 21.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+        ]
+      },
+      "grants": [
+        {
+          "id": "spirit-attack",
+          "entryId": "modern4e.power.fixture-spirit-attack",
+          "atLevel": 1
+        }
+      ]
+    }
+  ],
+  "references": {
+    "modern4e.power.fixture-cantrip-0": {
+      "category": "POWER",
+      "title": "Cantrip 0",
+      "status": "PENDING_MIGRATION"
+    },
+    "modern4e.power.fixture-cantrip-1": {
+      "category": "POWER",
+      "title": "Cantrip 1",
+      "status": "PENDING_MIGRATION"
+    },
+    "modern4e.power.fixture-cantrip-2": {
+      "category": "POWER",
+      "title": "Cantrip 2",
+      "status": "PENDING_MIGRATION"
+    },
+    "modern4e.power.fixture-cantrip-3": {
+      "category": "POWER",
+      "title": "Cantrip 3",
+      "status": "PENDING_MIGRATION"
+    },
+    "modern4e.power.fixture-cantrip-4": {
+      "category": "POWER",
+      "title": "Cantrip 4",
+      "status": "PENDING_MIGRATION"
+    },
+    "modern4e.power.fixture-spirit-attack": {
+      "category": "POWER",
+      "title": "Spirit’s Wrath",
+      "status": "PENDING_MIGRATION"
+    }
+  }
+}

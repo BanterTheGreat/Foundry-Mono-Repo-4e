@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.invigorating-critical",
@@ -19,6 +19,10 @@
             "powerSource": "DIVINE"
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "The first time you score a critical hit with a divine attack power during an encounter, an ally adjacent to you or adjacent to the target regains hit points equal to 10 + your Wisdom."
     },
@@ -41,6 +45,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you hit a target that has vulnerability to radiant damage with an attack that does not deal radiant damage, you deal extra damage equal to that vulnerability."
     },
     {
@@ -61,6 +69,10 @@
             "powerSource": "DIVINE"
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you succeed on a saving throw, you can choose not to end the effect you saved against and instead allow an ally within 5 squares of you to make a saving throw with a bonus equal to your Wisdom."
     },
@@ -87,6 +99,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you use a Channel Divinity power, you gain temporary hit points equal to your Wisdom."
     },
     {
@@ -111,6 +127,10 @@
             "entryId": "modern4e.feature.channel-divinity"
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you use a Channel Divinity power, you and each ally within 10 squares of you gain resistance to necrotic damage equal to 5 + your Wisdom until the start of your next turn."
     }

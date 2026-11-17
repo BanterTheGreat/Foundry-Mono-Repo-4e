@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.fated-survival",
@@ -20,6 +20,10 @@
             "minimum": 2
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you fail a saving throw, you gain a +2 feat bonus to the next saving throw you make against the same effect."
     },
@@ -53,6 +57,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When using a close implement attack power, you can choose a square within 2 squares of yours as the origin square. You are still excluded from the area of the attack. At 21st level, you can choose a square within 3 squares of your square."
     },
     {
@@ -75,6 +83,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you have combat advantage against an enemy, you gain a +2 bonus to AC against that enemy's attacks."
     },
     {
@@ -86,6 +98,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Choose an ability other than Dexterity or Intelligence. While wearing light armor or no armor, you can use this ability in place of Dexterity or Intelligence to determine your AC."
     }

@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.resourceful-leader",
@@ -9,6 +9,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When an ally you can see spends an action point to make an attack, the ally gains a +3 bonus to damage rolls on a hit or gains 3 temporary hit points on a miss. This bonus increases to +5 at 11th level and +7 at 21st level. These temporary hit points increase to 5 at 11th level and 7 at 21st level.",
       "multiclassFor": "modern4e.class.warlord",
@@ -25,6 +29,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Once per day, you can use the Warlord’s inspiring word power.",
       "multiclassFor": "modern4e.class.warlord",
       "tags": [
@@ -39,6 +47,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When an ally you can see spends an action point to attack, that ally can choose to gain a +4 bonus to the attack's damage roll. If the ally chooses to use the bonus, he or she grants combat advantage to the target of the attack until the end of his or her next turn. This bonus increases to +6 at 11th level and +8 at 21st level.",
       "multiclassFor": "modern4e.class.warlord",
@@ -55,6 +67,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When an ally you can see spends an action point to take an extra action, that ally can shift 1 square as a free action before or after the extra action.",
       "multiclassFor": "modern4e.class.warlord",
       "tags": [
@@ -69,6 +85,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When an ally you can see spends an action point to take an extra action, that ally gains a +1 bonus to all defenses until the end of his or her next turn.",
       "multiclassFor": "modern4e.class.warlord",
@@ -85,6 +105,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Once per encounter, when an ally who can see you spends an action point to take an extra action, that ally also gains temporary hit points equal to 1 + one-half your level.",
       "multiclassFor": "modern4e.class.warlord",
       "tags": [
@@ -99,6 +123,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Once per encounter, when an ally you can see spends an action point to make an attack, that ally gains a +1 bonus to the attack roll.",
       "multiclassFor": "modern4e.class.warlord",

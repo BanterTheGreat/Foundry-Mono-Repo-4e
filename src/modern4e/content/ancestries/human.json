@@ -1,0 +1,165 @@
+{
+  "schemaVersion": 1,
+  "ancestries": [
+    {
+      "id": "modern4e.ancestry.human",
+      "title": "Human",
+      "description": "",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "attributes": {
+        "size": "medium",
+        "speed": 6,
+        "vision": "normal",
+        "languages": {
+          "fixed": [
+            "common"
+          ],
+          "choiceCount": 1
+        }
+      },
+      "grants": [
+        {
+          "id": "cooperation",
+          "entryId": "modern4e.feature.human-cooperation",
+          "atLevel": 1
+        },
+        {
+          "id": "all-rounded",
+          "entryId": "modern4e.feature.human-all-rounded",
+          "atLevel": 1
+        },
+        {
+          "id": "heroic-effort",
+          "entryId": "modern4e.feature.human-heroic-effort",
+          "atLevel": 1
+        }
+      ]
+    }
+  ],
+  "features": [
+    {
+      "id": "modern4e.feature.human-cooperation",
+      "title": "Cooperation",
+      "description": "You gain +1 to any Skill Check to Aid Another.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.human-all-rounded",
+      "title": "All-Rounded",
+      "description": "You gain a +1 racial bonus to Fortitude, Reflex & Will.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.human-heroic-effort",
+      "title": "Heroic Effort",
+      "description": "You gain the Heroic Effort power.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "grants": [
+        {
+          "id": "power",
+          "entryId": "modern4e.power.heroic-effort",
+          "atLevel": 1
+        }
+      ]
+    }
+  ],
+  "powers": [
+    {
+      "id": "modern4e.power.heroic-effort",
+      "title": "Heroic Effort",
+      "description": "Effect: The target gains a +3 racial bonus to the attack roll or the saving throw.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "flavor": "Your grim focus and unbridled energy means that failure is not an option.",
+      "usage": "ENCOUNTER",
+      "action": "NO_ACTION",
+      "range": {
+        "type": "RANGED",
+        "distance": 10
+      },
+      "keywords": [],
+      "trigger": "You or an ally miss with an attack or fail a saving throw.",
+      "target": "You or one ally that you can see",
+      "rows": [
+        {
+          "label": "Effect",
+          "text": "The target gains a +3 racial bonus to the attack roll or the saving throw."
+        }
+      ]
+    }
+  ]
+}

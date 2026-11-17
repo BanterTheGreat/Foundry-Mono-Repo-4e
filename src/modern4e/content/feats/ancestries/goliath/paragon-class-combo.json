@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.cragborn-courage",
@@ -25,6 +25,10 @@
             "minimum": 4
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you use inspiring word, the target regains additional hit points equal to your Constitution.",
       "note": "Moved from content/feats/paragon/warlord.json."

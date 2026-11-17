@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.bloody-balance",
@@ -10,6 +10,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "While you are adjacent to a bloodied ally, you gain a +2 bonus to damage rolls."
     },
@@ -23,6 +27,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "While you are wearing plate armor and using a shield, adjacent allies gain a +1 shield bonus to AC if you are conscious."
     },
     {
@@ -34,6 +42,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Whenever you spend a healing surge, you gain resistance to all damage equal to your Wisdom until the start of your next turn."
     },
@@ -47,6 +59,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you use a channel divinity power, you gain a +2 bonus to Fortitude, Reflex, and Will defenses until the end of your next turn."
     },
     {
@@ -58,6 +74,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you score a critical hit, you can choose to reduce it to a normal hit instead. If you do, you or one ally adjacent to you can spend a healing surge and regain 10 additional hit points."
     },
@@ -72,6 +92,10 @@
         "type": "entry",
         "entryId": "modern4e.power.divine-challenge"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Whenever a target takes damage from your divine challenge, it is also slowed until the end of your next turn."
     },
     {
@@ -84,6 +108,10 @@
       "prerequisites": {
         "type": "entry",
         "entryId": "modern4e.power.divine-challenge"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Whenever a target of your divine challenge takes damage from that power, it takes extra radiant damage equal to your Strength."
     },
@@ -98,6 +126,10 @@
         "type": "entry",
         "entryId": "modern4e.power.divine-mettle"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When an ally succeeds on a saving throw granted by your use of divine mettle, the ally can spend a healing surge."
     },
     {
@@ -110,6 +142,10 @@
       "prerequisites": {
         "type": "entry",
         "entryId": "modern4e.power.divine-strength"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you hit with an attack, you can use divine strength as a free action and apply its damage bonus to the triggering hit instead of your next attack."
     },
@@ -124,6 +160,10 @@
         "type": "entry",
         "entryId": "modern4e.power.lay-on-hands"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Whenever you use a power that allows an ally to spend a healing surge or regain hit points as if he or she had spent a healing surge, that ally can use your healing surge value to determine the number of hit points regained."
     },
     {
@@ -137,6 +177,10 @@
         "type": "entry",
         "entryId": "modern4e.power.lay-on-hands"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you use your lay on hands on an ally, that ally regains additional hit points equal to your Charisma. Your number of healing surges increases by one."
     },
     {
@@ -149,6 +193,10 @@
       "prerequisites": {
         "type": "entry",
         "entryId": "modern4e.power.lay-on-hands"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you use the lay on hands power, the affected ally gains additional hit points equal to your Charisma."
     }

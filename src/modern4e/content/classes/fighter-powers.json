@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "powers": [
+    {
+      "id": "modern4e.power.combat-challenge",
+      "title": "Combat Challenge",
+      "description": "You can make a melee basic attack against that enemy",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+        ]
+      },
+      "usage": "AT_WILL",
+      "action": "IMMEDIATE_INTERRUPT",
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "range": {
+        "type": "MELEE",
+        "distance": 1
+      },
+      "rows": [
+        {
+          "label": "Effect",
+          "text": "You can make a melee basic attack against that enemy"
+        }
+      ],
+      "trigger": "An enemy marked by you is adjacent to you and shifts or makes an attack that does not include you as a target."
+    },
+    {
+      "id": "modern4e.power.combat-reactivity",
+      "title": "Combat Reactivity",
+      "description": "After the triggering enemy completes the action, you shift a number of squares equal to your *Dexterity*. You must end the shift closer to the target than you were when you began the shift. Then, make the following attack",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+        ]
+      },
+      "usage": "AT_WILL",
+      "action": "OPPORTUNITY",
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "range": {
+        "type": "MELEE",
+        "distance": "WEAPON"
+      },
+      "rows": [
+        {
+          "label": "Effect",
+          "text": "After the triggering enemy completes the action, you shift a number of squares equal to your *Dexterity*. You must end the shift closer to the target than you were when you began the shift. Then, make the following attack"
+        }
+      ],
+      "trigger": "An enemy adjacent to you takes an action that provokes an opportunity attack."
+    },
+    {
+      "id": "modern4e.power.combat-reactivity-followup",
+      "title": "Combat Reactivity Followup",
+      "description": "1[W] + *Strength* damage, and you knock the target prone.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+        ]
+      },
+      "usage": "AT_WILL",
+      "action": "NO_ACTION",
+      "keywords": [
+        "MARTIAL",
+        "WEAPON"
+      ],
+      "range": {
+        "type": "MELEE",
+        "distance": "WEAPON"
+      },
+      "rows": [
+        {
+          "label": "Hit",
+          "text": "1[W] + *Strength* damage, and you knock the target prone.",
+          "scaling": [
+            {
+              "atLevel": 21,
+              "text": "2[W] + *Strength* damage."
+            }
+          ]
+        }
+      ],
+      "target": "The triggering enemy",
+      "attack": {
+        "ability": "STRENGTH",
+        "defense": "AC"
+      }
+    }
+  ]
+}

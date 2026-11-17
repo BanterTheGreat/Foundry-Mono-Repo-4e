@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.blessing-of-corellon",
@@ -21,6 +21,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "After an Elven Accuracy reroll hits, choose an ally within 5 squares; that ally may spend a healing surge.",
       "source": "https://iws.mx/dnd/?view=feat1499"
     },
@@ -34,6 +38,10 @@
       "prerequisites": {
         "type": "entry",
         "entryId": "modern4e.class.artificer"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Bows count as implements for your artificer powers and your artificer paragon path powers.",
       "source": "https://iws.mx/dnd/?view=feat3025"
@@ -57,6 +65,10 @@
             "entryId": "modern4e.power.elven-accuracy"
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "An Elven Accuracy reroll that hits your quarry deals an additional 1d6 + Wisdom damage.",
       "source": "https://iws.mx/dnd/?view=feat761"
@@ -86,6 +98,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Your beast companion ignores difficult terrain during shifts. Elven Accuracy can reroll either your attack or your beast companion's attack.",
       "source": "https://iws.mx/dnd/?view=feat776"
     },
@@ -108,6 +124,10 @@
             "entryId": "modern4e.power.elven-accuracy"
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "While in a guardian form, gain a +2 feat bonus to a weapon attack roll rerolled with Elven Accuracy.",
       "source": "https://iws.mx/dnd/?view=feat1948"
@@ -132,6 +152,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "If an Elven Accuracy reroll hits your Oath of Enmity target, gain +2 to damage rolls against it through the end of your next turn. This becomes +4 at level 11 and +6 at level 21.",
       "source": "https://iws.mx/dnd/?view=feat1524"
     },
@@ -145,6 +169,10 @@
       "prerequisites": {
         "type": "entry",
         "entryId": "modern4e.class.warlord"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Allies shifting because of your powers ignore difficult terrain for those shifts.",
       "source": "https://iws.mx/dnd/?view=feat2424"
@@ -160,6 +188,10 @@
         "type": "entry",
         "entryId": "modern4e.class.warlord"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "After your bow attack hits, allies within 10 squares who can see and hear you gain +1 to ranged attack rolls against that enemy through the start of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat796"
     },
@@ -173,6 +205,10 @@
       "prerequisites": {
         "type": "entry",
         "entryId": "modern4e.class.fighter"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Movement granted by your fighter attack powers ignores difficult terrain.",
       "source": "https://iws.mx/dnd/?view=feat2791"
@@ -197,6 +233,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "If Elven Accuracy rerolls a shaman spirit attack and it hits, allies adjacent to your spirit companion gain a +2 power bonus to attacks against that enemy through the start of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat3056"
     },
@@ -219,6 +259,10 @@
             "skill": "INTIMIDATE"
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "A hit with a barbarian fear attack power lets you push the enemy 1 square, in addition to the attack's other effects.",
       "source": "https://iws.mx/dnd/?view=feat2792"
@@ -243,6 +287,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When Elven Accuracy rerolls an attack against an enemy granting you combat advantage, a second miss leaves Elven Accuracy unexpended.",
       "source": "https://iws.mx/dnd/?view=feat819"
     },
@@ -257,6 +305,10 @@
         "type": "entry",
         "entryId": "modern4e.class.warden"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Each use of Nature's Wrath lets you shift 1 square to exchange spaces with an adjacent enemy you have marked.",
       "source": "https://iws.mx/dnd/?view=feat3511"
     },
@@ -270,6 +322,10 @@
       "prerequisites": {
         "type": "entry",
         "entryId": "modern4e.class.rogue"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Any bow can deliver your Sneak Attack and can be used for rogue powers whose weapon requirement is a crossbow.",
       "source": "https://iws.mx/dnd/?view=feat2471"
@@ -295,6 +351,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Swordmage Warding grants +2 AC when you wield a falchion or double scimitar.",
       "source": "https://iws.mx/dnd/?view=feat2795"
     },
@@ -308,6 +368,10 @@
       "prerequisites": {
         "type": "entry",
         "entryId": "modern4e.class.warden"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Warden's Grasp may pull its target 3 squares in place of its slide. A giant or goblin affected this way is also slowed through the end of its next turn.",
       "source": "https://iws.mx/dnd/?view=feat2796"
@@ -336,6 +400,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Targets hit by an Elven Accuracy reroll of an invoker encounter or daily attack power take 4 additional damage.",
       "source": "https://iws.mx/dnd/?view=feat3001"
     },
@@ -349,6 +417,10 @@
       "prerequisites": {
         "type": "entry",
         "entryId": "modern4e.class.warlord"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Inspiring Word restores additional hit points equal to your Intelligence.",
       "source": "https://iws.mx/dnd/?view=feat2797"

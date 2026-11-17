@@ -1,0 +1,291 @@
+{
+  "schemaVersion": 1,
+  "features": [
+    {
+      "id": "modern4e.feature.combat-challenge",
+      "title": "Combat Challenge",
+      "description": "In combat, it’s dangerous to ignore The Fighter. Every time you attack an enemy, you can choose to *mark* that target. The mark lasts until the end of your next turn.\n\nAdditionally, you gain the Combat Challenge power:",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+        ]
+      },
+      "grants": [
+        {
+          "id": "combat-challenge",
+          "entryId": "modern4e.power.combat-challenge",
+          "atLevel": 1
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.melee-weapon-mastery",
+      "title": "Melee Weapon Mastery",
+      "description": "Various Fighter powers come with bonuses if you have certain weapon types equipped. See the table below.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+        ]
+      },
+      "weaponAbilities": [
+        {
+          "weaponGroup": "AXE",
+          "ability": "CONSTITUTION"
+        },
+        {
+          "weaponGroup": "FLAIL",
+          "ability": "DEXTERITY"
+        },
+        {
+          "weaponGroup": "HAMMER",
+          "ability": "CONSTITUTION"
+        },
+        {
+          "weaponGroup": "HEAVY_BLADE",
+          "ability": "DEXTERITY"
+        },
+        {
+          "weaponGroup": "LIGHT_BLADE",
+          "ability": "DEXTERITY"
+        },
+        {
+          "weaponGroup": "MACE",
+          "ability": "CONSTITUTION"
+        },
+        {
+          "weaponGroup": "PICK",
+          "ability": "CONSTITUTION"
+        },
+        {
+          "weaponGroup": "POLEARM",
+          "ability": "WISDOM"
+        },
+        {
+          "weaponGroup": "SPEAR",
+          "ability": "DEXTERITY"
+        },
+        {
+          "weaponGroup": "STAFF",
+          "ability": "CONSTITUTION"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.fighter-reactivity",
+      "title": "Reactivity",
+      "description": "As a Fighter, you are quick to strike down those who try to escape your reach. Choose one of the options below.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+        ]
+      },
+      "choices": [
+        {
+          "id": "modern4e.choice.fighter-reactivity",
+          "title": "Reactivity",
+          "atLevel": 1,
+          "kind": "ENTRY",
+          "count": 1,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.combat-reactivity",
+              "modern4e.feature.combat-superiority"
+            ]
+          },
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.combat-reactivity",
+      "title": "Combat Reactivity",
+      "description": "You gain the Combat Reactivity and Combat Reactivity Followup powers.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+        ]
+      },
+      "grants": [
+        {
+          "id": "combat-reactivity",
+          "entryId": "modern4e.power.combat-reactivity",
+          "atLevel": 1
+        },
+        {
+          "id": "combat-reactivity-followup",
+          "entryId": "modern4e.power.combat-reactivity-followup",
+          "atLevel": 1
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.combat-superiority",
+      "title": "Combat Superiority",
+      "description": "You gain a bonus to opportunity attacks equal to either your *Wisdom* or *Dexterity*. An enemy struck by your opportunity attack stops moving, if a move provoked the attack. If it still has actions remaining, it can use them to resume moving.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration.",
+          "Whether Wisdom or Dexterity is a saved choice, a per-attack choice or the higher value is unresolved; preserve the original wording."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.fighter-specialization",
+      "title": "Fighter Specialization",
+      "description": "As a Fighter, you specialise in a specific way of fighting. Choose one of the options below.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+        ]
+      },
+      "choices": [
+        {
+          "id": "modern4e.choice.fighter-specialization",
+          "title": "Fighter Specialization",
+          "atLevel": 1,
+          "kind": "ENTRY",
+          "count": 1,
+          "source": {
+            "type": "entries",
+            "entryIds": [
+              "modern4e.feature.one-handed-weapon-talent",
+              "modern4e.feature.two-handed-weapon-talent",
+              "modern4e.feature.battlerager-vigor"
+            ]
+          },
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.one-handed-weapon-talent",
+      "title": "One-Handed Weapon Talent",
+      "description": "You gain a +1 bonus to weapon attack rolls with one-handed weapons.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.two-handed-weapon-talent",
+      "title": "Two-Handed Weapon Talent",
+      "description": "You gain a +1 bonus to weapon attack rolls with two-handed weapons.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.battlerager-vigor",
+      "title": "Battlerager Vigor",
+      "description": "Whenever you hit an enemy with a melee or a close attack, you gain temporary hit points equal to your *Constitution*, plus any temporary hit points normally granted by the power. You gain the hit points only after the attack is resolved.\n\nIf you use an invigorating Fighter attack power and miss every target with it, you gain temporary hit points equal to your *Constitution*. When wearing light armor or chainmail, you gain a +2 bonus to damage rolls with melee and close weapon attacks whenever you have temporary hit points.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+        ]
+      }
+    }
+  ]
+}

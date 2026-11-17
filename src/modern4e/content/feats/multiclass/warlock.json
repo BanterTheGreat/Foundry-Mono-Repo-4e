@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.student-of-malediction",
@@ -9,6 +9,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Once per encounter, you can use the Warlock’s Curse class feature. The curse ends the first time you deal the extra damage from Warlock's Curse. In addition, you can wield Warlock implements.",
       "multiclassFor": "modern4e.class.warlock",
@@ -24,6 +28,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Choose a Warlock pact. You gain the pact's at-will power as an encounter power, and you can pursue the Warlock’s paragon path based on that pact. In addition, you can use a rod, a wand, or a pact blade as an implement.",
       "multiclassFor": "modern4e.class.warlock",

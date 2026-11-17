@@ -416,6 +416,25 @@ Summon automation Node coverage includes separate square selection, per-power ma
 
 ## Character Builder shared core and content production
 
+Shared class authoring / Fighter migration (#30/#31), from the repository root:
+
+```sh
+python3 src/modern4e/scripts/class_content.py
+python3 src/modern4e/scripts/class_content.py --output /tmp/modern4e-classes.json
+python3 src/modern4e/scripts/class_content.py --output /tmp/modern4e-classes.json --check
+python3 -m unittest discover -s src/character-builder/content -p 'test_modern_classes.py' -v
+npm run typst:compile
+```
+
+The class tests cover complete Fighter flavor/statistics, independent build choices,
+granted power/scaling references, stable identities after moves/renames, shared
+conditions, strict authoring errors/cycles, deterministic exports and actual
+Typst/JSON agreement. Test-only Druid/Wizard/Shaman fixtures cover choice-set limits,
+known/stored/prepared collections, cantrip counts and nested grants. They do not
+claim runtime automation or additional migrated classes. See the
+[class authoring contract](../src/modern4e/content/classes/README.md).
+
+
 Shared Modern 4e feat authoring (#28), from the monorepo root:
 
 ```sh
@@ -431,6 +450,12 @@ bundles. Tests cover all 818 stored IDs, explicit access independent of file
 location, same-title variants, grouped conditions, Modern 4e skill/point identities,
 multiclass/power queries, missing and ambiguous references, malformed authoring,
 deterministic export/check failures and preserved descriptive benefit conditions.
+Feat selection tests additionally cover explicit occurrence caps, the five repeatable
+exceptions, character/entry/power distinctness, Linguist's skill-only exhaustion
+fallback, finite option counts, armor advancement, the superior-weapon/bundle
+alternative, malformed selection data and pending option catalogs. Feat authoring
+and catalog schemas are v2; runtime packages are unchanged. A second Typst query
+compares generated selection text with the export for every feat.
 When Typst is on PATH, a query test compares its generated requirement text with
 the builder export for every entry; that test explicitly skips without Typst.
 The book build also needs the configured fonts; inspect representative feat pages
@@ -541,3 +566,15 @@ JAVA_HOME=$(/usr/libexec/java_home -v 21) bash ./gradlew :shared:jvmTest :androi
 ```
 
 `ProgressionTest` covers printed schedule milestones and the direct-point allocation/tradeoff. `BuilderSessionTest` covers independent origin persistence, stale-skill clearing, engine-backed drafts, stable occurrences, atomic batch rejection and explicitly incomplete later-level decisions. UI/instrumentation tests are deliberately not run for this handoff. Device launch is a separate manual acceptance step.
+
+### Modern 4e ancestry authoring (#36)
+
+Also included in the root `npm test` suite via `scripts/test/modern4e-ancestries.test.mjs`.
+
+```sh
+python3 src/modern4e/scripts/ancestry_content.py
+python3 -m unittest discover -s src/modern4e/scripts -p test_ancestry_content.py
+npm run typst:compile
+```
+
+Covers all 13 ancestry page consumers, catalog/reference integrity, invalid data and choices, local rules and scaling, and actual Typst renderer output (requires Typst). See [ancestry authoring](../src/modern4e/content/ancestries/README.md). Manually inspect ancestry cards, columns and feat-page breaks after rendering changes; Revenant remains catalogued but excluded from the current book.

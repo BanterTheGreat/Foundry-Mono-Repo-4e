@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.icy-heart",
@@ -10,6 +10,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You gain a +3 feat bonus to cold damage rolls. This bonus increases to +4 at 21st level. In addition, whenever you take cold damage from an enemy attack, each enemy within 2 squares of you becomes slowed until the end of your next turn. At 21st level, this increases to each enemy within 3 squares of you."
     },
@@ -22,6 +26,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You gain a +3 feat bonus to thunder damage rolls. This bonus increases to +4 at 21st level. In addition, whenever you take thunder damage from an enemy attack, you can push each creature within 2 squares of you up to 2 squares. At 21st level, this increases to pushing each creature within 3 squares of you up to 3 squares."
     },
@@ -55,6 +63,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You may choose to make any untyped damage you would deal Lightning damage. Once per turn when you score a critical hit with a power that has the Lightning keyword, you may choose another creature within 10 squares of the original target that was not a target of the triggering power. That creature takes damage as if it were hit (but not critically hit) by the triggering power."
     },
     {
@@ -67,6 +79,10 @@
         "type": "level",
         "minimum": 11
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You gain a +3 feat bonus to lightning damage rolls. This bonus increases to +4 at 21st level. In addition, whenever you take lightning damage from an enemy attack, one enemy within 5 squares of you takes lightning damage equal to your level. This increases to one enemy within 10 squares of you at 21st level."
     },
     {
@@ -78,6 +94,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You gain a +3 feat bonus to fire damage rolls. This bonus increases to +4 at 21st level. In addition, whenever you take fire damage from an enemy attack, each enemy adjacent to you takes fire damage equal to half your level. At 21st level, this increases to each enemy within 2 squares of you."
     }

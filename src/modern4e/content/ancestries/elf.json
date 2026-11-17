@@ -1,0 +1,203 @@
+{
+  "schemaVersion": 1,
+  "ancestries": [
+    {
+      "id": "modern4e.ancestry.elf",
+      "title": "Elf",
+      "description": "",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "attributes": {
+        "size": "medium",
+        "speed": 7,
+        "vision": "low-light",
+        "languages": {
+          "fixed": [
+            "common",
+            "elven"
+          ],
+          "choiceCount": 0
+        }
+      },
+      "grants": [
+        {
+          "id": "wild-step",
+          "entryId": "modern4e.feature.elf-wild-step",
+          "atLevel": 1
+        },
+        {
+          "id": "group-awareness",
+          "entryId": "modern4e.feature.elf-group-awareness",
+          "atLevel": 1
+        },
+        {
+          "id": "elf-powers",
+          "entryId": "modern4e.feature.elf-elf-powers",
+          "atLevel": 1
+        }
+      ]
+    }
+  ],
+  "features": [
+    {
+      "id": "modern4e.feature.elf-wild-step",
+      "title": "Wild Step",
+      "description": "You ignore difficult terrain when you shift.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.elf-group-awareness",
+      "title": "Group Awareness",
+      "description": "You grant allies within 5 squares of you a +1 racial bonus to initiative.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.elf-elf-powers",
+      "title": "Elf Powers",
+      "description": "You gain either the Elven Accuracy or the Subtle Step power, choose one of the powers below:",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "choices": [
+        {
+          "id": "ancestry-power",
+          "count": 1,
+          "source": {
+            "entryIds": [
+              "modern4e.power.elven-accuracy",
+              "modern4e.power.subtle-step"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "powers": [
+    {
+      "id": "modern4e.power.elven-accuracy",
+      "title": "Elven Accuracy",
+      "description": "Effect: Reroll the attack roll. Use the second roll, even if it's lower.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "flavor": "With an instant of focus, you take careful aim at your foe and strike with the legendary accuracy of the elves.",
+      "usage": "ENCOUNTER",
+      "action": "FREE",
+      "range": {
+        "type": "PERSONAL"
+      },
+      "keywords": [],
+      "trigger": "You make an attack roll and dislike the result.",
+      "rows": [
+        {
+          "label": "Effect",
+          "text": "Reroll the attack roll. Use the second roll, even if it's lower."
+        }
+      ]
+    },
+    {
+      "id": "modern4e.power.subtle-step",
+      "title": "Subtle Step",
+      "description": "Effect: You shift up to your speed.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "flavor": "Wild elves train for battle from the time they can walk, and their teachers place early emphasis on evasion and escape.",
+      "usage": "ENCOUNTER",
+      "action": "MOVE",
+      "range": {
+        "type": "PERSONAL"
+      },
+      "keywords": [],
+      "rows": [
+        {
+          "label": "Effect",
+          "text": "You shift up to your speed."
+        }
+      ]
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.assured-healing",
@@ -11,6 +11,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you miss with a divine attack power with the healing keyword, and that power has no effect on a miss, you or one ally within 5 squares of you regains hit points equal to your Charisma.",
       "source": "https://iws.mx/dnd/?view=feat1967 — Dragon Magazine 379, page(s) 56."
@@ -35,6 +39,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Whenever you hit an undead creature with your turn undead class feature, you can choose to make the target dazed instead of immobilized.",
       "source": "https://iws.mx/dnd/?view=feat1093 — Dragon Magazine 371, page(s) 8."
     },
@@ -58,6 +66,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you deal damage to at least one undead enemy with your turn undead, each ally in the power's burst can make a saving throw.",
       "source": "https://iws.mx/dnd/?view=feat1571 — Divine Power, page(s) 138."
     },
@@ -72,6 +84,10 @@
         "type": "level",
         "minimum": 11
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "The burst of your healing word increases by 5.",
       "source": "https://iws.mx/dnd/?view=feat1573 — Divine Power, page(s) 138."
     },
@@ -85,6 +101,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Once per encounter, when you score a critical hit, you gain an additional use of your healing word power during this encounter.",
       "source": "https://iws.mx/dnd/?view=feat1968 — Dragon Magazine 379, page(s) 56."
@@ -109,6 +129,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Each target of your healer's mercy can make a saving throw.",
       "source": "https://iws.mx/dnd/?view=feat1582 — Divine Power, page(s) 140."
     },
@@ -132,6 +156,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Each target of your healer's mercy power can shift 1 square as a free action.",
       "source": "https://iws.mx/dnd/?view=feat1757 — Dragon Magazine 378."
     },
@@ -145,6 +173,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "If you hit an enemy with a cleric attack power that has the radiant keyword, the next time you use healing word before the end of your next turn the target regains 2d6 additional hit points.",
       "source": "https://iws.mx/dnd/?view=feat1586 — Divine Power, page(s) 140."
@@ -169,6 +201,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You can use your turn undead as a minor action instead of a standard action.",
       "source": "https://iws.mx/dnd/?view=feat1589 — Divine Power, page(s) 140."
     },
@@ -191,6 +227,10 @@
             "entryId": "modern4e.power.turn-undead"
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Your turn undead class feature gains the zone keyword. Whenever you use this power, the burst creates a zone that lasts until the end of your next turn. Any undead creature that enters or starts its turn within the zone takes 1d6 + Wisdom radiant damage. A creature can take this damage only once per turn.",
       "source": "https://iws.mx/dnd/?view=feat1096 — Dragon Magazine 371, page(s) 9."
@@ -223,6 +263,10 @@
             ]
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you are using a shield, allies adjacent to you gain a +2 shield bonus to Reflex.",
       "source": "https://iws.mx/dnd/?view=feat2121 — Dragon Magazine 381, page(s) 93."

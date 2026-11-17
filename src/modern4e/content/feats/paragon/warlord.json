@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.agile-command",
@@ -26,6 +26,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Any ally who starts his or her turn adjacent to you gains a +2 feat bonus to AC and Reflex against opportunity attacks until the end of his or her turn."
     },
     {
@@ -47,6 +51,10 @@
             "entryId": "modern4e.feature.bravura-presence"
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Whenever an ally chooses to benefit from your Bravura Presence class feature, that ally gains concealment until the end of its next turn."
     },
@@ -70,6 +78,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "The bonus to initiative granted by your Combat Leader class feature is now equal to your Charisma or your Intelligence, whichever is higher."
     },
     {
@@ -91,6 +103,10 @@
             "entryId": "modern4e.feature.inspiring-presence"
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Whenever an ally with line of sight to you takes the total defense action, the bonus to his or her defenses equals your Charisma."
     },
@@ -115,6 +131,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you use your second wind, you can grant the +2 bonus to all defenses to an adjacent ally, in addition to gaining the bonus yourself."
     },
     {
@@ -127,6 +147,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You can use your inspiring word one additional time per encounter."
     },
@@ -151,6 +175,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you charge an enemy, your allies gain combat advantage against that enemy until the end of your next turn."
     },
     {
@@ -173,6 +201,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Your battlefront shift power targets one additional character."
     },
     {
@@ -185,6 +217,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Any ally within 5 squares of you gains a +1 bonus to attack rolls against enemies that have not yet acted during the encounter."
     },
@@ -217,6 +253,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you are using a shield, adjacent allies gain a +1 shield bonus to AC."
     },
     {
@@ -238,6 +278,10 @@
             "entryId": "modern4e.feat.resourceful-presence"
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When an ally who can see you spends an action point to take an extra action and doesn't use that action to make an attack, the ally gains temporary hit points equal to your Charisma."
     },
@@ -261,6 +305,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you use inspiring word, the target gains a bonus equal to one-half your Intelligence to its next attack roll made before the start of your next turn."
     },
     {
@@ -283,6 +331,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you use inspiring word, in addition to the benefit of the power, the target can either shift a number of squares equal to one-half your Charisma as a free action or gain a bonus to AC equal to one-half your Intelligence until the start of its next turn."
     },
     {
@@ -295,6 +347,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Any ally who can see and hear you adds your Charisma to the hit points regained by using second wind."
     },
@@ -318,6 +374,10 @@
             "minimum": 4
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you use the aid another, aid attack, or aid defense action, you can target up to two allies with that action."
     }

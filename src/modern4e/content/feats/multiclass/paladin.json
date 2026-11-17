@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.soldier-of-virtue",
@@ -9,6 +9,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Once per day, you can use the virtue’s touch power. In addition, you can wield paladin implements.",
       "multiclassFor": "modern4e.class.paladin",
@@ -25,6 +29,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You have proficiency with holy symbols. You gain the defender aura power. You can use righteous radiance as an encounter power.",
       "multiclassFor": "modern4e.class.paladin",
       "tags": [
@@ -39,6 +47,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Once per encounter, you can use the Paladin’s divine challenge power. In addition, you can use a holy symbol or a holy avenger as an implement.",
       "multiclassFor": "modern4e.class.paladin",

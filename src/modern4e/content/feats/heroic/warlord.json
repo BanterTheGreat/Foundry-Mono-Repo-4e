@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.armored-warlord",
@@ -21,6 +21,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You gain proficiency with scale armor, and you increase your number of healing surges by one."
     },
     {
@@ -34,6 +38,10 @@
         "type": "entry",
         "entryId": "modern4e.feature.bravura-presence"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you use inspiring word, the target can choose to take advantage of this feat. If the target does, he or she grants combat advantage until the start of your next turn but deals extra damage equal to your Charisma against the next enemy he or she hits before the end of your next turn."
     },
     {
@@ -45,6 +53,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When an enemy provokes an opportunity attack from you, you can take an opportunity action to let one ally adjacent to you shift a number of squares equal to your Intelligence to a square not adjacent to the provoking enemy as a free action."
     },
@@ -59,6 +71,10 @@
         "type": "entry",
         "entryId": "modern4e.feature.inspiring-presence"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When an ally with line of sight to you expends his or her second wind, he or she gains a bonus to saving throws equal to your Charisma until the end of his or her next turn."
     },
     {
@@ -71,6 +87,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "The bonus to initiative from Combat Leader increases to +3."
     },
     {
@@ -82,6 +102,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Whenever you grant an ally a ranged basic attack, that ally's attack ignores cover and concealment (but not superior cover or total concealment)."
     },
@@ -105,6 +129,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Whenever you roll initiative, you can subtract 4 from your check result to increase the result of one or two allies who benefit from Combat Leader. One ally gains a bonus equal to your Charisma and the other gains a bonus equal to your Intelligence."
     },
     {
@@ -116,6 +144,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Add your Charisma to the hit points restored by your inspiring word."
     },
@@ -130,6 +162,10 @@
         "type": "entry",
         "entryId": "modern4e.feature.skirmishing-presence"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When an ally who can see you spends an action point to attack, that ally gains a +1 bonus to attack rolls for that attack."
     },
     {
@@ -143,6 +179,10 @@
         "type": "entry",
         "entryId": "modern4e.feature.tactical-presence"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Add 1 to the attack roll bonus granted by your Tactical Presence."
     },
     {
@@ -154,6 +194,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When an ally makes an attack granted by one of your Warlord powers to attack an enemy adjacent to you, that ally gains a +1 bonus to the attack roll."
     },
@@ -167,6 +211,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Whenever you grant an ally a basic attack against an enemy that is adjacent to you, the ally gains a +2 bonus to the attack's damage roll."
     },
     {
@@ -178,6 +226,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Whenever you spend a healing surge, you can divide the hit points regained between yourself and one ally adjacent to you in any proportion."
     },
@@ -191,6 +243,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you charge, you can choose to use this feat. If the charge attack hits, you also knock the enemy prone. If the attack misses, the enemy can make a melee basic attack against you as a free action."
     },
     {
@@ -203,6 +259,10 @@
       "prerequisites": {
         "type": "entry",
         "entryId": "modern4e.feature.inspiring-presence"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Allies who expend their second winds while they have line of sight to you also gain temporary hit points equal to your Charisma plus one-half your level."
     },
@@ -226,6 +286,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you make an initiative check, you can slide each ally benefiting from Combat Leader 1 square."
     },
     {
@@ -239,6 +303,10 @@
         "type": "entry",
         "entryId": "modern4e.feature.inspiring-presence"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you use inspiring word, the target gains temporary hit points equal to your Charisma."
     },
     {
@@ -251,6 +319,10 @@
       "prerequisites": {
         "type": "entry",
         "entryId": "modern4e.feature.tactical-presence"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When an ally who can see you spends an action point to make an attack, the attack's damage roll gains a bonus equal to your Intelligence."
     }

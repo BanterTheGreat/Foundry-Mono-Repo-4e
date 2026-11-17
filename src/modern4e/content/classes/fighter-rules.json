@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "rules": [
+    {
+      "id": "modern4e.rule.reliable",
+      "title": "Reliable",
+      "description": "An effect type. If a reliable power misses every target, the power is not expended.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.rule.invigorating",
+      "title": "Invigorating",
+      "description": "The creature gains temporary hit points equal to their *Constitution* when it hits with a power that has the invigorating keyword. No invigorating power grants temporary hit points more than once during a turn, even if the user hits more than once with that power.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+        ]
+      }
+    }
+  ]
+}

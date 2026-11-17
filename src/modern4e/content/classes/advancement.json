@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "id": "modern4e.advancement.standard",
+  "coverage": {
+    "status": "PARTIAL",
+    "limitations": [
+      "Only initial class attack-power choices are structured here. Later advancement remains in the existing rulebook table until the progression migration."
+    ]
+  },
+  "powerChoices": [
+    {
+      "id": "modern4e.choice.class-attack-at-will",
+      "title": "At-Will",
+      "kind": "ENTRY",
+      "atLevel": 1,
+      "count": 2,
+      "source": {
+        "type": "query",
+        "category": "POWER",
+        "filters": {
+          "usage": "AT_WILL",
+          "powerKind": "ATTACK",
+          "levelMaximum": 1,
+          "access": "CHARACTER"
+        }
+      },
+      "constraints": [
+        {
+          "type": "distinct"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.choice.class-attack-encounter",
+      "title": "Encounter",
+      "kind": "ENTRY",
+      "atLevel": 1,
+      "count": 1,
+      "source": {
+        "type": "query",
+        "category": "POWER",
+        "filters": {
+          "usage": "ENCOUNTER",
+          "powerKind": "ATTACK",
+          "levelMaximum": 1,
+          "access": "CHARACTER"
+        }
+      },
+      "constraints": [
+        {
+          "type": "distinct"
+        }
+      ]
+    },
+    {
+      "id": "modern4e.choice.class-attack-daily",
+      "title": "Daily",
+      "kind": "ENTRY",
+      "atLevel": 1,
+      "count": 2,
+      "source": {
+        "type": "query",
+        "category": "POWER",
+        "filters": {
+          "usage": "DAILY",
+          "powerKind": "ATTACK",
+          "levelMaximum": 1,
+          "access": "CHARACTER"
+        }
+      },
+      "constraints": [
+        {
+          "type": "distinct"
+        }
+      ]
+    }
+  ]
+}

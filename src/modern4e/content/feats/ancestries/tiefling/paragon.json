@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.baalzebuls-desperate-gambit",
@@ -11,6 +11,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you first become bloodied in an encounter, you can roll a saving throw, with a bonus equal to the number of enemies adjacent to you. If you succeed, spend a healing surge. If you fail, you lose a healing surge."
     },
@@ -25,6 +29,10 @@
         "type": "level",
         "minimum": 11
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you hit a bloodied enemy, your allies gain a +1 bonus to attack rolls against the target until the start of your next turn."
     },
     {
@@ -37,6 +45,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You gain resistance to cold equal to 5 + one-half your level. You gain a +3 feat bonus to damage rolls with attacks that have the cold keyword."
     },
@@ -51,6 +63,10 @@
         "type": "level",
         "minimum": 11
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you use the Infernal Wrath power, the target takes 5 extra fire damage."
     },
     {
@@ -64,6 +80,10 @@
         "type": "level",
         "minimum": 11
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Each time you hit an enemy that has fire resistance, after resolving the attack, reduce the value of the resistance by 5 until the end of the encounter."
     },
     {
@@ -76,6 +96,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you use your Second Wind, you can choose for an ally within 5 squares of you to lose a healing surge. If you do, you regain extra hit points equal to your healing surge value."
     }

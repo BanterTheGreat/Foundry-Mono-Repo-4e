@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "ancestries": [
+    {
+      "id": "modern4e.ancestry.dwarf",
+      "title": "Dwarf",
+      "description": "",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "attributes": {
+        "size": "medium",
+        "speed": 5,
+        "vision": "low-light",
+        "languages": {
+          "fixed": [
+            "common",
+            "dwarven"
+          ],
+          "choiceCount": 0
+        }
+      },
+      "grants": [
+        {
+          "id": "sturdy",
+          "entryId": "modern4e.feature.dwarf-sturdy",
+          "atLevel": 1
+        },
+        {
+          "id": "stand-your-ground",
+          "entryId": "modern4e.feature.dwarf-stand-your-ground",
+          "atLevel": 1
+        },
+        {
+          "id": "dwarven-resilience",
+          "entryId": "modern4e.feature.dwarf-dwarven-resilience",
+          "atLevel": 1
+        }
+      ]
+    }
+  ],
+  "features": [
+    {
+      "id": "modern4e.feature.dwarf-sturdy",
+      "title": "Sturdy",
+      "description": "You ignore any Armor speed penalties and gain +1 healing surges.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.dwarf-stand-your-ground",
+      "title": "Stand Your Ground",
+      "description": "When an effect forces you to move, you can move 1 square less than the effect specifies.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.dwarf-dwarven-resilience",
+      "title": "Dwarven Resilience",
+      "description": "You gain the Dwarven Resilience power.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "grants": [
+        {
+          "id": "power",
+          "entryId": "modern4e.power.dwarven-resilience",
+          "atLevel": 1
+        }
+      ]
+    }
+  ],
+  "powers": [
+    {
+      "id": "modern4e.power.dwarven-resilience",
+      "title": "Dwarven Resilience",
+      "description": "Effect: You use your second wind.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "flavor": "You quickly catch your breath and carry on.",
+      "usage": "ENCOUNTER",
+      "action": "MINOR",
+      "range": {
+        "type": "PERSONAL"
+      },
+      "keywords": [],
+      "rows": [
+        {
+          "label": "Effect",
+          "text": "You use your second wind."
+        }
+      ]
+    }
+  ]
+}

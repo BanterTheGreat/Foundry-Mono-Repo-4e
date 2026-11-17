@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.ankle-biter",
@@ -10,6 +10,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You gain a +1 feat bonus to damage rolls against creatures larger than you. This bonus increases to +2 at 11th level and to +3 at 21st level. Also, when you score a critical hit against a creature larger than you, the creature takes 1d6 extra damage."
     },
@@ -23,6 +27,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you use goblin tactics while bloodied, you can shift up to 2 extra squares."
     },
     {
@@ -34,6 +42,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you use goblin tactics, you gain combat advantage against the enemy that missed you until the end of your next turn."
     },
@@ -47,6 +59,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you use goblin tactics in response to an adjacent enemy's attack, the enemy takes 1d4 damage right before you shift. This damage increases to 2d4 at 11th level and 3d4 at 21st level."
     },
     {
@@ -58,6 +74,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you use Goblin Tactics, you can shift 1 extra square, and you gain partial concealment until the end of your next turn."
     }

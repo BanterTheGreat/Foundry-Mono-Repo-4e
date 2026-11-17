@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "ancestries": [
+    {
+      "id": "modern4e.ancestry.halfling",
+      "title": "Halfling",
+      "description": "",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "attributes": {
+        "size": "small",
+        "speed": 6,
+        "vision": "normal",
+        "languages": {
+          "fixed": [
+            "common"
+          ],
+          "choiceCount": 1
+        }
+      },
+      "grants": [
+        {
+          "id": "bold",
+          "entryId": "modern4e.feature.halfling-bold",
+          "atLevel": 1
+        },
+        {
+          "id": "nimble-reaction",
+          "entryId": "modern4e.feature.halfling-nimble-reaction",
+          "atLevel": 1
+        },
+        {
+          "id": "second-chance",
+          "entryId": "modern4e.feature.halfling-second-chance",
+          "atLevel": 1
+        }
+      ]
+    }
+  ],
+  "features": [
+    {
+      "id": "modern4e.feature.halfling-bold",
+      "title": "Bold",
+      "description": "You gain a +5 racial bonus to saving throws against fear.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.halfling-nimble-reaction",
+      "title": "Nimble Reaction",
+      "description": "You gain a +2 racial bonus to AC against opportunity attacks.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.halfling-second-chance",
+      "title": "Second Chance",
+      "description": "You gain the Second Chance power.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "grants": [
+        {
+          "id": "power",
+          "entryId": "modern4e.power.second-chance",
+          "atLevel": 1
+        }
+      ]
+    }
+  ],
+  "powers": [
+    {
+      "id": "modern4e.power.second-chance",
+      "title": "Second Chance",
+      "description": "Effect: The attacker must reroll the attack and use the second roll, even if it is lower.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "flavor": "Luck and small size combine to work in your favor as you dodge your enemy’s attack.",
+      "usage": "ENCOUNTER",
+      "action": "IMMEDIATE_INTERRUPT",
+      "range": {
+        "type": "PERSONAL"
+      },
+      "keywords": [],
+      "trigger": "You are hit by an attack.",
+      "rows": [
+        {
+          "label": "Effect",
+          "text": "The attacker must reroll the attack and use the second roll, even if it is lower."
+        }
+      ]
+    }
+  ]
+}

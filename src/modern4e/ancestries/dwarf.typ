@@ -1,44 +1,24 @@
 #import "../helpers/theme.typ" as theme;
-#import "../helpers/powers.typ";
-#import "../helpers/ancestries.typ";
+#import "../helpers/ancestry_content.typ" as ancestryContent;
 
 #let dwarfPage() = {
   return [
-    #theme.subPageTitle(title: "Dwarf");
+    #theme.subPageTitle(title: ancestryContent.entry("modern4e.ancestry.dwarf").title);
 
     #columns(2)[
       = Attributes
 
-      #ancestries.attributes(
-        size: "Medium",
-        speed: 5,
-        vision: "Low-light",
-        languages: "Common Dwarven",
-      )
+      #ancestryContent.attributes("modern4e.ancestry.dwarf")
 
       = Ancestry Traits
-      == Sturdy
-      You ignore any Armor speed penalties and gain +1 healing surges.
-      == Stand Your Ground
-      When an effect forces you to move, you can move 1 square less than the effect specifies.
-      == Dwarven Resilience
-      You gain the Dwarven Resilience power.
+      #ancestryContent.trait("modern4e.feature.dwarf-sturdy")
 
-      #powers.power(
-        title: "Dwarven Resilience",
-        description: "You quickly catch your breath and carry on.",
-        type: powers.powerType.encounter,
-        range: "Personal",
-        action: powers.actionType.minor,
-        target: none,
-        offenseStat: none,
-        defenseStat: none,
-        trigger: none,
-        additionalRows: (
-          [*Effect:* You use your second wind.],
-        ),
-        traits: none,
-      );
+      #ancestryContent.trait("modern4e.feature.dwarf-stand-your-ground")
+
+      #ancestryContent.trait("modern4e.feature.dwarf-dwarven-resilience")
+
+
+      #ancestryContent.powerCard("modern4e.power.dwarven-resilience");
 
       #colbreak();
       #image("../images/dwarf.jpg", height: 340pt)

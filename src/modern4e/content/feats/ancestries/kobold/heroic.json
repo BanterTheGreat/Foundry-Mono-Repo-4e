@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.kobold-in-a-corner",
@@ -10,6 +10,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You gain a +1 bonus to damage rolls against creatures that have combat advantage against you. This bonus increases to +2 at 11th level and +3 at 21st level."
     },
@@ -23,6 +27,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You gain a bonus to melee rolls against a target equal to the number of allies adjacent to it."
     },
     {
@@ -35,6 +43,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "A trap will never accidentally trigger while you fail a Skill Check to disarm it."
     },
     {
@@ -46,6 +58,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Allies within 5 squares of you have a +2 on Skill Checks to sneak or hide."
     }

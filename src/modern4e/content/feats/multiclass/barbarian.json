@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.barbarians-fury",
@@ -9,6 +9,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Once per day as a free action, you can gain a +2 bonus to damage rolls until the end of the encounter.",
       "multiclassFor": "modern4e.class.barbarian",
@@ -24,6 +28,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You gain the Barbarian’s class feature Rampage.",
       "multiclassFor": "modern4e.class.barbarian",

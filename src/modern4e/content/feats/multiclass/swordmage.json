@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.blade-initiate",
@@ -9,6 +9,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Once per day, when you are wielding a blade, you can invoke the Swordmage Warding class feature as a minor action. Until the end of the encounter, you gain a +1 bonus to AC (or a +3 bonus to AC if you have one hand free). In addition, you can use Swordmage implements.",
       "multiclassFor": "modern4e.class.swordmage",
@@ -24,6 +28,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You gain the Swordmage’s Swordbond class feature. In addition, you can wield Swordmage’s implements.",
       "multiclassFor": "modern4e.class.swordmage",

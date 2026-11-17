@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.initiate-of-the-faith",
@@ -9,6 +9,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Once per day, you can use the Cleric’s healing word power. In addition, you can use a holy symbol as an implement.",
       "multiclassFor": "modern4e.class.cleric",
@@ -24,6 +28,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You gain the cleric's Healer's Lore class feature. In addition, you can wield cleric implements.",
       "multiclassFor": "modern4e.class.cleric",

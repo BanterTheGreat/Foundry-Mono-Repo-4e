@@ -1,8 +1,8 @@
 # Shared Modern 4e content model
 
 Status: agreed authoring direction. The feat migration implements identity,
-access and structured prerequisites. Selection rules and reuse across other
-entry types are planned in [migration issue #29](https://github.com/BanterTheGreat/Foundry-Mono-Repo-4e/issues/29).
+access, structured prerequisites and selection authoring. Runtime enforcement and
+reuse across other entry types remain in [migration issue #29](https://github.com/BanterTheGreat/Foundry-Mono-Repo-4e/issues/29).
 
 ## Shared entry base
 
@@ -18,7 +18,7 @@ material for explicitly imported or adapted content.
 | `title` | Human-readable name; changing it does not change identity | Implemented for feats |
 | `access` | Which characters have access to this curated entry | Implemented as feat authoring data |
 | `prerequisites` | Additional conditions required to select the entry | Implemented as feat authoring data |
-| `selection` | Limits and constraints on selecting this entry | Planned; no accepted JSON field yet |
+| `selection` | Limits and constraints on selecting this entry | Implemented as feat authoring data; runtime enforcement pending |
 | `description` | Shared human-readable rules text | Implemented for feats |
 | Provenance | Source references and explanatory author notes | Existing optional feat `source` and `note` fields |
 
@@ -75,9 +75,10 @@ when content changes, and report the problem rather than deleting the decision.
 Reserve **selection rules** for how an entry may be selected: maximum occurrences,
 repeatability, uniqueness across chosen configurations, and eligibility for a
 particular selection slot. These concepts apply to feats, powers and other entry
-types. They do not imply that every category has the same default limit. Define
-the exact JSON shape and defaults with their implementation; the current feat
-validator rejects a `selection` field.
+types. They do not imply that every category has the same default limit. The
+[selection authoring contract](modern4e-selection-rules.md) defines the implemented
+feat v2 shape, explicit occurrence caps and distinct-choice scopes. Other category
+schemas remain independent; the shared validator supplies no defaults.
 
 Keep three concepts distinct:
 
@@ -110,5 +111,21 @@ is the first implementation of this direction. Its validator, reference registry
 and section inventory still use feat-specific names. Generalize those as other
 categories migrate; do not claim a generic runtime schema already exists.
 `build.py --modern-feats` currently exports an authoring catalog, not an enabled
-v1 runtime package. Runtime condition evaluation, structured selection rules and
+v1 runtime package. Runtime condition and selection-rule evaluation and
 category-specific mechanics remain separate implementation work.
+
+
+## Class authoring and Fighter migration (#30/#31)
+
+The [class authoring contract](../src/modern4e/content/classes/README.md) extends
+this base with full class flavor, role/sources, abilities, proficiencies, local
+statistics, automatic acquisition grants, independently identified features/powers
+and explanatory rules. Fighter renders directly from these JSON definitions.
+Shared initial power choices are separate from class entries; feature-owned
+modifiers can change counts and constrain a selection set (Druid), and separate
+owned collections model learned/stored/prepared choices (Wizard).
+
+`scripts/class_content.py` validates and exports a deterministic authoring catalog,
+not an enabled runtime package. Exceptional-class fixtures establish data shapes;
+other class migrations, engine interpretation and build pipeline adoption remain
+#32–#35. Existing feat data and its contracts remain independently owned.

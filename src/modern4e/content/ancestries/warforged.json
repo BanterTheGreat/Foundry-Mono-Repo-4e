@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 1,
+  "ancestries": [
+    {
+      "id": "modern4e.ancestry.warforged",
+      "title": "Warforged",
+      "description": "",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "attributes": {
+        "size": "medium",
+        "speed": 6,
+        "vision": "normal",
+        "languages": {
+          "fixed": [
+            "common"
+          ],
+          "choiceCount": 1
+        }
+      },
+      "grants": [
+        {
+          "id": "warforged-mind",
+          "entryId": "modern4e.feature.warforged-warforged-mind",
+          "atLevel": 1
+        },
+        {
+          "id": "warforged-resilience",
+          "entryId": "modern4e.feature.warforged-warforged-resilience",
+          "atLevel": 1
+        },
+        {
+          "id": "warforged-resolve",
+          "entryId": "modern4e.feature.warforged-warforged-resolve",
+          "atLevel": 1
+        }
+      ]
+    }
+  ],
+  "features": [
+    {
+      "id": "modern4e.feature.warforged-warforged-mind",
+      "title": "Warforged Mind",
+      "description": "You have a +1 racial bonus to your Will.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.warforged-warforged-resilience",
+      "title": "Warforged Resilience",
+      "description": "You have a +2 racial bonus to saving throws against ongoing damage. Also, when you make a death saving throw, you can take the better result of your die roll or 10.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.warforged-warforged-resolve",
+      "title": "Warforged Resolve",
+      "description": "You gain the Warforged Resolve power.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "grants": [
+        {
+          "id": "power",
+          "entryId": "modern4e.power.warforged-resolve",
+          "atLevel": 1
+        }
+      ]
+    }
+  ],
+  "powers": [
+    {
+      "id": "modern4e.power.warforged-resolve",
+      "title": "Warforged Resolve",
+      "description": "Effect: You gain a number of temporary hit points equal to 3 + one-half your level and can make a saving throw against one effect on you that deals ongoing damage. If you are bloodied, you also regain hit points equal to 3 + one-half your level.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "flavor": "It's difficult to take you down, even when you're faltering.",
+      "usage": "ENCOUNTER",
+      "action": "MINOR",
+      "range": {
+        "type": "PERSONAL"
+      },
+      "keywords": [
+        "HEALING"
+      ],
+      "rows": [
+        {
+          "label": "Effect",
+          "text": "You gain a number of temporary hit points equal to 3 + one-half your level and can make a saving throw against one effect on you that deals ongoing damage. If you are bloodied, you also regain hit points equal to 3 + one-half your level."
+        }
+      ]
+    }
+  ]
+}

@@ -4,6 +4,7 @@
 #import "class_flavor.typ" as flavor;
 #import "state.typ" as state;
 #import "configuration.typ" as config;
+#import "class_catalog.typ" as catalog;
 
 #let zeitgeistPathReference() = {
   if config.isZeitgeistBuild [
@@ -56,7 +57,7 @@
   heavyBlade: "Heavy Blade",
 )
 
-#let powerLinks(className: str, extraContent: none, skipAtWill: false, skipPaths: false) = [
+#let powerLinks(className: str, extraContent: none, skipAtWill: false, skipPaths: false, powerSources: none) = [
 
   #let utilitySources = (
     Artificer: "Arcane",
@@ -65,7 +66,7 @@
     Bard: "Arcane",
     Cleric: "Divine",
     Druid: "Primal",
-    Fighter: "Martial",
+    Fighter: catalog.entry("modern4e.class.fighter").powerSources.map(source => upper(source.first()) + lower(source.slice(1))).join(" and "),
     Invoker: "Divine",
     Paladin: "Divine",
     Ranger: "Martial and Primal",
@@ -81,7 +82,7 @@
   )
 
   = Feats & Utility Powers
-  You gain access to *#className Powers*, *#className feats*, and *General Feats*, as well as *Generic Utility Powers* and *#utilitySources.at(className) Utility Powers*.
+  You gain access to *#className Powers*, *#className feats*, and *General Feats*, as well as *Generic Utility Powers* and *#if powerSources == none [#utilitySources.at(className)] else [#powerSources.join(" and ")] Utility Powers*.
 
   #parbreak()
 
@@ -183,7 +184,7 @@
   )
 }
 
-#let bannerPage(className: str) = {
+#let bannerPage(className: str, flavorContent: none, imagePath: none) = {
   return [
 
     #state.defaultAbilityFormattingEnabled.update(false);
@@ -204,12 +205,12 @@
       it.body; linebreak();
     }
 
-    #let quote = flavor.getQuote(className: className);
-    #let role = flavor.getRole(className: className);
-    #let info = flavor.getInfo(className: className);
+    #let quote = if flavorContent == none { flavor.getQuote(className: className) } else { flavorContent.quote };
+    #let role = if flavorContent == none { flavor.getRole(className: className) } else { flavorContent.gameplay };
+    #let info = if flavorContent == none { flavor.getInfo(className: className) } else { flavorContent.introduction };
 
     #set page(
-      background: image(flavor.getImage(className: className), fit: "stretch", width: 100%),
+      background: image(if imagePath == none { flavor.getImage(className: className) } else { imagePath }, fit: "stretch", width: 100%),
       footer: theme.footer(invert: true),
       margin: 0cm,
     )

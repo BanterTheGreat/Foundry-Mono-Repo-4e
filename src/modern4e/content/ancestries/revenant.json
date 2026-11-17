@@ -1,0 +1,202 @@
+{
+  "schemaVersion": 1,
+  "ancestries": [
+    {
+      "id": "modern4e.ancestry.revenant",
+      "title": "Revenant",
+      "description": "",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "attributes": {
+        "size": "medium",
+        "speed": 6,
+        "vision": "low-light",
+        "languages": {
+          "fixed": [
+            "common"
+          ],
+          "choiceCount": 1
+        }
+      },
+      "grants": [
+        {
+          "id": "unnatural-vitality",
+          "entryId": "modern4e.feature.revenant-unnatural-vitality",
+          "atLevel": 1
+        },
+        {
+          "id": "past-life",
+          "entryId": "modern4e.feature.revenant-past-life",
+          "atLevel": 1
+        },
+        {
+          "id": "undead",
+          "entryId": "modern4e.feature.revenant-undead",
+          "atLevel": 1
+        },
+        {
+          "id": "dark-reaping",
+          "entryId": "modern4e.feature.revenant-dark-reaping",
+          "atLevel": 1
+        }
+      ]
+    }
+  ],
+  "features": [
+    {
+      "id": "modern4e.feature.revenant-unnatural-vitality",
+      "title": "Unnatural Vitality",
+      "description": "When you drop to 0 hit points or fewer and are subjected to the dying condition, you can choose to be dazed, instead of falling unconscious. You make death saving throws as normal, and if you fail one, you fall unconscious instead of being dazed.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.revenant-past-life",
+      "title": "Past Life",
+      "description": "Select a race other than revenant. You are also considered a member of that race for the purpose of meeting prerequisites, such as feat or paragon path prerequisites.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "choices": [
+        {
+          "id": "past-life",
+          "count": 1,
+          "source": {
+            "ancestriesExcept": [
+              "modern4e.ancestry.revenant"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.revenant-undead",
+      "title": "Undead",
+      "description": "You are considered an undead creature for the purpose of effects that relate to the undead keyword. You are also considered a living creature.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.revenant-dark-reaping",
+      "title": "Dark Reaping",
+      "description": "You gain the Dark Reaping power.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "grants": [
+        {
+          "id": "power",
+          "entryId": "modern4e.power.dark-reaping",
+          "atLevel": 1
+        }
+      ]
+    }
+  ],
+  "powers": [
+    {
+      "id": "modern4e.power.dark-reaping",
+      "title": "Dark Reaping",
+      "description": "Effect: One creature of your choice that you hit with an attack before the end of your next turn takes extra necrotic damage equal to 1d8 + your main ability.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "flavor": "You use one death as the seed to sow more destruction.",
+      "usage": "ENCOUNTER",
+      "action": "FREE",
+      "range": {
+        "type": "PERSONAL"
+      },
+      "keywords": [
+        "NECROTIC"
+      ],
+      "trigger": "A creature within 5 squares of you is reduced to 0 hit points",
+      "rows": [
+        {
+          "label": "Effect",
+          "text": "One creature of your choice that you hit with an attack before the end of your next turn takes extra necrotic damage equal to 1d8 + your main ability."
+        }
+      ]
+    }
+  ]
+}

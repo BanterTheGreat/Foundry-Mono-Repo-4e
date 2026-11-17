@@ -1,43 +1,24 @@
 #import "../helpers/theme.typ" as theme;
-#import "../helpers/powers.typ";
-#import "../helpers/ancestries.typ";
+#import "../helpers/ancestry_content.typ" as ancestryContent;
 
 #let koboldPage() = {
   return [
-    #theme.subPageTitle(title: "Kobold");
+    #theme.subPageTitle(title: ancestryContent.entry("modern4e.ancestry.kobold").title);
 
     #columns(2)[
       = Attributes
 
-      #ancestries.attributes(
-        size: "Small",
-        speed: 6,
-        vision: "Darkvision",
-        languages: "Common Draconic",
-      )
+      #ancestryContent.attributes("modern4e.ancestry.kobold")
 
       = Ancestry Traits
-      == Trap Sense
-      You gain a +2 bonus to defenses against traps.
-      == Kobold Scales
-      Choose either Acid, Cold, Fire, Lightning, Necrotic, Poison or Radiant. You have resistance to the chosen damage type equal to 5 +  one-half your level.
-      == Shifty Maneuver
-      You gain the Shifty Maneuver power.
+      #ancestryContent.trait("modern4e.feature.kobold-trap-sense")
 
-      #powers.power(
-        title: "Shifty Maneuver",
-        description: "You call on your natural ability to dodge danger.",
-        type: powers.powerType.at-will,
-        range: "Personal",
-        action: powers.actionType.minor,
-        target: none,
-        offenseStat: none,
-        defenseStat: none,
-        additionalRows: (
-          [*Effect:* You shift 1 square.],
-        ),
-        traits: none,
-      );
+      #ancestryContent.trait("modern4e.feature.kobold-kobold-scales")
+
+      #ancestryContent.trait("modern4e.feature.kobold-shifty-maneuver")
+
+
+      #ancestryContent.powerCard("modern4e.power.shifty-maneuver");
 
       #colbreak();
       #image("../images/kobold.webp", height: 300pt)

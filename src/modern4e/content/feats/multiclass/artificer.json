@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.student-of-artifice",
@@ -9,6 +9,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Once per day, you can use the Artificer’s healing infusion power. The infusion you create cannot be replenished. In addition, you can wield Artificer’s implements.",
       "multiclassFor": "modern4e.class.artificer",

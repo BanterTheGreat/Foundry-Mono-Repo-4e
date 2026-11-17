@@ -1,5 +1,6 @@
 """Shared Modern 4e feat authoring contract; no inference from titles or prose."""
 import json
+import importlib.util
 from pathlib import Path
 import re
 import unicodedata
@@ -13,6 +14,10 @@ SIZES = "TINY SMALL MEDIUM LARGE HUGE GARGANTUAN".split()
 EQUIPMENT = "CLOTH LEATHER HIDE CHAINMAIL SCALE PLATE SHIELD LIGHT_SHIELD HEAVY_SHIELD".split()
 EQUIPMENT_NAMES = {key: key.lower() + " armor" for key in EQUIPMENT[:6]}
 EQUIPMENT_NAMES.update(SHIELD="shields", LIGHT_SHIELD="light shields", HEAVY_SHIELD="heavy shields")
+_selection_spec = importlib.util.spec_from_file_location("entry_selection", Path(__file__).with_name("entry_selection.py"))
+selection_rules = importlib.util.module_from_spec(_selection_spec)
+_selection_spec.loader.exec_module(selection_rules)
+DAMAGE_TYPES = "ACID COLD FIRE FORCE LIGHTNING NECROTIC POISON PSYCHIC RADIANT THUNDER".split()
 
 
 def require(condition, where, message):
@@ -173,12 +178,12 @@ def catalog(content=CONTENT):
         path = content / "feats" / section
         data = load_json(path)
         fields(data, ["schemaVersion", "feats"], [], path)
-        require(type(data["schemaVersion"]) is int and data["schemaVersion"] == 1, path, "unsupported schema version")
+        require(type(data["schemaVersion"]) is int and data["schemaVersion"] == 2, path, "unsupported schema version")
         require(isinstance(data["feats"], list), path, "expected feats array")
         sections[section] = []
         for i, feat in enumerate(data["feats"]):
             where = f"{path}:feats[{i}]"
-            fields(feat, ["id", "title", "access", "prerequisites", "description"], ["source", "note", "multiclassFor", "tags"], where)
+            fields(feat, ["id", "title", "access", "prerequisites", "selection", "description"], ["source", "note", "multiclassFor", "tags", "choices"], where)
             identity(feat["id"], "FEAT", where)
             for key in ("title", "description", "source", "note"):
                 if key in feat:
@@ -194,15 +199,18 @@ def catalog(content=CONTENT):
         for field in ("access", "prerequisites"):
             validate_condition(feat[field], references, set(entries), f"{where}.{field}")
         validate_access(feat["access"], references, f"{where}.access")
+        selection_rules.validate(feat["selection"], feat.get("choices", []), references,
+                                 {"SKILL": SKILLS, "DAMAGE_TYPE": DAMAGE_TYPES}, where)
         if "multiclassFor" in feat:
             require(isinstance(feat["multiclassFor"], str) and feat["multiclassFor"] in references and references[feat["multiclassFor"]]["category"] == "CLASS", where, "multiclassFor must reference a declared class")
             require("MULTICLASS" in feat.get("tags", []), where, "multiclassFor requires the MULTICLASS tag")
         if "tags" in feat:
             require(feat["tags"] == ["MULTICLASS"], where, "unknown or duplicate feat tags")
-    return {"schemaVersion": 1, "entries": [entries[key] for key in sorted(entries)],
+    return {"schemaVersion": 2, "entries": [entries[key] for key in sorted(entries)],
             "references": references, "sections": sections,
             "requirementText": {key: condition_text(entries[key]["prerequisites"], references, titles) for key in sorted(entries)},
-            "limitations": {key: unresolved_conditions(entries[key]["access"], references) + unresolved_conditions(entries[key]["prerequisites"], references) for key in sorted(entries)}}
+            "selectionText": {key: selection_rules.special_text(entries[key], references, noun="feat") for key in sorted(entries)},
+            "limitations": {key: unresolved_conditions(entries[key]["access"], references) + unresolved_conditions(entries[key]["prerequisites"], references) + selection_rules.limitations(entries[key], references) for key in sorted(entries)}}
 
 
 def validate_access(node, references, where):

@@ -1,6 +1,7 @@
 #import "state.typ" as state;
 #import "configuration.typ" as config;
 #import "feat_requirements.typ": featRequirements;
+#import "feat_selection.typ": selectionSpecial;
 
 #let tableDivider = rgb("#96afaf");
 #let table1 = rgb("#e7f0f0");
@@ -311,10 +312,19 @@
   result.join(parbreak())
 }
 
+#let featContent(feat) = {
+  let description = feat.description
+  let special = selectionSpecial(feat)
+  if special != "" {
+    description += "\n\n*Special:* " + special
+  }
+  featDescription(description)
+}
+
 #let featCardsFromJson(file) = {
   json(file).feats.map(feat => featBlock(
     title: feat.title,
-    content: featDescription(feat.description),
+    content: featContent(feat),
     requirements: featRequirements(feat),
   ))
 }
@@ -333,7 +343,7 @@
     #if requirements != none [
       *Requires: #text(requirements)* #linebreak()
     ]
-    #featDescription(feat.description)
+    #featContent(feat)
     #parbreak()
   ]
 }

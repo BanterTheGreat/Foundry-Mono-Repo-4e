@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.disciple-of-divine-wrath",
@@ -9,6 +9,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You can use the Avenger’s oath of enmity power. The effect lasts until the end of your next turn. In addition, you can wield Avenger implements.",
       "multiclassFor": "modern4e.class.avenger",

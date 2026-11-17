@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.rune-of-hope-rune",
@@ -10,6 +10,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "The target of your rune of mending also gains temporary hit points equal to the number of rune feats you have."
     },
@@ -23,6 +27,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "The target of your rune of mending gains a bonus to damage rolls to their next hit until the end of their next turn equal to the number of rune feats you have."
     },
     {
@@ -35,6 +43,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you roll initiative, you may select an amount of allies equal to the number of rune feats you have, they gain a +1 bonus to initiative."
     },
     {
@@ -46,6 +58,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "The first time you are bloodied during an encounter, you gain a bonus to damage rolls equal to the number of rune feats you have. The bonus lasts until the end of your next turn."
     }

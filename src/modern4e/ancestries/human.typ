@@ -1,44 +1,24 @@
 #import "../helpers/theme.typ" as theme;
-#import "../helpers/powers.typ";
-#import "../helpers/ancestries.typ";
+#import "../helpers/ancestry_content.typ" as ancestryContent;
 
 #let humanPage() = {
   return [
-    #theme.subPageTitle(title: "Human");
+    #theme.subPageTitle(title: ancestryContent.entry("modern4e.ancestry.human").title);
 
     #columns(2)[
       = Attributes
 
-      #ancestries.attributes(
-        size: "Medium",
-        speed: 6,
-        vision: "Normal",
-        languages: "Common + 1",
-      )
+      #ancestryContent.attributes("modern4e.ancestry.human")
 
       = Ancestry Traits
-      == Cooperation
-      You gain +1 to any Skill Check to Aid Another.
-      == All-Rounded
-      You gain a +1 racial bonus to Fortitude, Reflex & Will.
-      == Heroic Effort
-      You gain the Heroic Effort power.
+      #ancestryContent.trait("modern4e.feature.human-cooperation")
 
-      #powers.power(
-        title: "Heroic Effort",
-        description: "Your grim focus and unbridled energy means that failure is not an option.",
-        type: powers.powerType.encounter,
-        range: "Ranged 10",
-        action: powers.actionType.noAction,
-        target: "You or one ally that you can see",
-        offenseStat: none,
-        defenseStat: none,
-        trigger: "You or an ally miss with an attack or fail a saving throw.",
-        additionalRows: (
-          [*Effect:* The target gains a +3 racial bonus to the attack roll or the saving throw.],
-        ),
-        traits: none,
-      );
+      #ancestryContent.trait("modern4e.feature.human-all-rounded")
+
+      #ancestryContent.trait("modern4e.feature.human-heroic-effort")
+
+
+      #ancestryContent.powerCard("modern4e.power.heroic-effort");
 
       #colbreak();
       #image("../images/human.png", height: 300pt)

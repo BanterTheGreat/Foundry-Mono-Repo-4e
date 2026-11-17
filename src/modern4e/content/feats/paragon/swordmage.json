@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.deadly-immobilization",
@@ -11,6 +11,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Whenever you slow or immobilize a target with a swordmage or swordmage paragon path attack power, that power deals extra damage equal to your *Constitution*."
     },
@@ -25,6 +29,10 @@
         "type": "level",
         "minimum": 11
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You can call your bonded weapon to your hand from up to 1 mile away as a minor action."
     },
     {
@@ -37,6 +45,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you use your Swordmage Aegis power, you can choose to also mark a second target within the burst. If both targets attack your allies, you must choose which of the targets to respond to. (You still have only one immediate action per round.)"
     },
@@ -60,6 +72,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you use aegis of ensnarement to teleport an enemy, you gain a +5 bonus to damage rolls on melee attacks against that enemy until the end of your next turn."
     },
     {
@@ -82,6 +98,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you use your aegis of shielding to reduce the damage from an enemy's attack, you reduce the damage by an additional 5 points."
     },
     {
@@ -95,6 +115,10 @@
         "type": "level",
         "minimum": 11
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "While your Swordmage Warding is active, you gain a +1 feat bonus to all defenses. At 21st level, this bonus increases to +2."
     },
     {
@@ -107,6 +131,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you use second wind, you can also teleport a number of squares equal to your *Intelligence* as a free action."
     },
@@ -129,6 +157,10 @@
             "entryId": "modern4e.power.aegis-of-assault"
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you use your aegis of assault to teleport, you gain temporary hit points equal to 3 + your *Strength*."
     }

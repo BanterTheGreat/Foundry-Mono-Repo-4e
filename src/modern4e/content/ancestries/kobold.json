@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 1,
+  "ancestries": [
+    {
+      "id": "modern4e.ancestry.kobold",
+      "title": "Kobold",
+      "description": "",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "attributes": {
+        "size": "small",
+        "speed": 6,
+        "vision": "darkvision",
+        "languages": {
+          "fixed": [
+            "common",
+            "draconic"
+          ],
+          "choiceCount": 0
+        }
+      },
+      "grants": [
+        {
+          "id": "trap-sense",
+          "entryId": "modern4e.feature.kobold-trap-sense",
+          "atLevel": 1
+        },
+        {
+          "id": "kobold-scales",
+          "entryId": "modern4e.feature.kobold-kobold-scales",
+          "atLevel": 1
+        },
+        {
+          "id": "shifty-maneuver",
+          "entryId": "modern4e.feature.kobold-shifty-maneuver",
+          "atLevel": 1
+        }
+      ]
+    }
+  ],
+  "features": [
+    {
+      "id": "modern4e.feature.kobold-trap-sense",
+      "title": "Trap Sense",
+      "description": "You gain a +2 bonus to defenses against traps.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.kobold-kobold-scales",
+      "title": "Kobold Scales",
+      "description": "Choose either Acid, Cold, Fire, Lightning, Necrotic, Poison or Radiant. You have resistance to the chosen damage type equal to 5 + one-half your level.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "choices": [
+        {
+          "id": "scales-damage",
+          "count": 1,
+          "source": {
+            "damageTypes": [
+              "ACID",
+              "COLD",
+              "FIRE",
+              "LIGHTNING",
+              "NECROTIC",
+              "POISON",
+              "RADIANT"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "modern4e.feature.kobold-shifty-maneuver",
+      "title": "Shifty Maneuver",
+      "description": "You gain the Shifty Maneuver power.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "grants": [
+        {
+          "id": "power",
+          "entryId": "modern4e.power.shifty-maneuver",
+          "atLevel": 1
+        }
+      ]
+    }
+  ],
+  "powers": [
+    {
+      "id": "modern4e.power.shifty-maneuver",
+      "title": "Shifty Maneuver",
+      "description": "Effect: You shift 1 square.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "flavor": "You call on your natural ability to dodge danger.",
+      "usage": "AT_WILL",
+      "action": "MINOR",
+      "range": {
+        "type": "PERSONAL"
+      },
+      "keywords": [],
+      "rows": [
+        {
+          "label": "Effect",
+          "text": "You shift 1 square."
+        }
+      ]
+    }
+  ]
+}

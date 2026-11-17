@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.aggressive-advantage",
@@ -10,6 +10,10 @@
       "prerequisites": {
         "type": "proficiency",
         "skill": "NATURE"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You gain combat advantage against all enemies during your first turn in an encounter."
     },
@@ -24,6 +28,10 @@
         "ability": "DEXTERITY",
         "minimum": 3
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Whenever you are pulled, pushed, or slid into a square adjacent to an enemy, you can use an immediate reaction to make a basic attack against that enemy."
     },
     {
@@ -34,6 +42,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You master the Alchemical Creation technique, additionally, you learn a formula of your level or lower at 1st level, 2nd level, and every even level thereafter.\n\n*Special*: You can take this feat instead of the Technique Master feat granted by your class feature."
     },
@@ -47,6 +59,10 @@
         "type": "proficiency",
         "skill": "PERCEPTION"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You cannot be surprised. Also, you gain a +2 feat bonus to Perception checks. At 21st level, this feat bonus increases to +3."
     },
     {
@@ -58,7 +74,25 @@
       "prerequisites": {
         "type": "always"
       },
-      "description": "You gain proficiency with the armor type one step above the highest armor type you are already proficient with, using this progression: Cloth → Leather → Hide → Chainmail → Scale → Plate.\n\n*Special*: You can take this feat more than once. Each time you select this feat, advance one more step in the progression, up to Plate."
+      "selection": {
+        "maximum": null,
+        "constraints": [
+          {
+            "type": "advance",
+            "fact": "ARMOR_PROFICIENCY",
+            "order": [
+              "CLOTH",
+              "LEATHER",
+              "HIDE",
+              "CHAINMAIL",
+              "SCALE",
+              "PLATE"
+            ],
+            "steps": 1
+          }
+        ]
+      },
+      "description": "You gain proficiency with the armor type one step above the highest armor type you are already proficient with, using this progression: Cloth → Leather → Hide → Chainmail → Scale → Plate."
     },
     {
       "id": "modern4e.feat.astral-fire",
@@ -81,6 +115,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You gain a +2 feat bonus to damage rolls when you use a power that has the Fire or the Radiant keyword. At 11th level, this feat bonus increases to +3. At 21st level, it increases to +4."
     },
     {
@@ -91,6 +129,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Whenever you are adjacent to blocking terrain other than the ground, you gain a +1 feat bonus to attack rolls, a +1 bonus to damage rolls against adjacent enemies, and do not grant combat advantage to those enemies. At 11th level, this bonus to damage rolls increases to +2. At 21st level, it increases to +3."
     },
@@ -104,6 +146,10 @@
         "type": "equipmentProficiency",
         "equipment": "SHIELD"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you are wielding a shield and push or slide a creature with a melee or close attack, you gain a +1 feat bonus to the distance of that forced movement. This feat bonus increases to +2 at 21st level."
     },
     {
@@ -114,6 +160,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Whenever you hit an enemy with a charm power, that enemy takes a -2 penalty to attack rolls against you until the end of its next turn."
     },
@@ -138,6 +188,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You gain a +2 feat bonus to damage rolls when you use a power that has the Acid or the Cold keyword. At 11th level, this feat bonus increases to +3. At 21st level, it increases to +4."
     },
     {
@@ -149,6 +203,10 @@
       "prerequisites": {
         "type": "proficiency",
         "skill": "MEDICINE"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You can administer first aid as a minor action with no increase in difficulty. You gain a +2 feat bonus to Medicine checks, increasing to a +3 feat bonus at 21st level."
     },
@@ -163,6 +221,10 @@
         "ability": "DEXTERITY",
         "minimum": 3
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Enemies do not gain the normal +2 bonus to attack rolls against you when they have combat advantage. Any other benefits derived from combat advantage still apply."
     },
     {
@@ -173,6 +235,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you use a burst or blast attack, you gain combat advantage against enemy targets if at least one of your allies is targeted by the burst or blast."
     },
@@ -186,6 +252,10 @@
         "type": "abilityPoints",
         "ability": "WISDOM",
         "minimum": 3
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you make an initiative check, roll twice and take the higher of the two rolls."
     },
@@ -210,6 +280,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You gain a +2 feat bonus to damage rolls when you use a power that has the necrotic or the psychic keyword. At 11th level, this bonus increases to +3. At 21st level, it increases to +4."
     },
     {
@@ -220,6 +294,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Whenever you pull or slide an enemy to a square adjacent to you, you gain combat advantage against that enemy until the end of your next turn."
     },
@@ -232,6 +310,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You do not provoke opportunity attacks when leaving a square adjacent to an enemy as long as you are entering another square adjacent to that enemy."
     },
     {
@@ -243,6 +325,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You gain combat advantage for close, ranged, and area attacks against any enemy flanked by your allies."
     },
     {
@@ -253,6 +339,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Your number of healing surges increases by 2. At 11th level, your number of healing surges instead increases by 3, and at 21st level your number of healing surges instead increases by 4."
     },
@@ -266,6 +356,10 @@
         "type": "proficiency",
         "skill": "ATHLETICS"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You gain a +4 power bonus to speed on your first turn during an encounter. Increase this bonus to +6 at 11th level and +8 at 21st level."
     },
     {
@@ -277,6 +371,10 @@
       "prerequisites": {
         "type": "proficiency",
         "skill": "ACROBATICS"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You can attempt to escape a grab as a minor action, instead of as a move action. You also gain a +2 feat bonus to Acrobatics checks. At 21st level, this feat bonus increases to +3."
     },
@@ -291,6 +389,10 @@
         "ability": "DEXTERITY",
         "minimum": 3
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Whenever an attack misses you and would still inflict damage on a miss, you do not take that damage."
     },
     {
@@ -301,6 +403,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Your close burst and area burst attacks ignore cover, but not superior cover."
     },
@@ -313,6 +419,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you make a ranged attack with a thrown weapon or consumable item, increase both the normal range and long range of the attack by your Strength."
     },
     {
@@ -323,6 +433,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You gain a +2 bonus to speed whenever you charge or run. At 11th level, this bonus increases to +3. At 21st level, it increases to +4."
     },
@@ -337,6 +451,10 @@
         "ability": "DEXTERITY",
         "minimum": 3
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You gain a +1 feat bonus to your speed, increasing to a +2 feat bonus to your speed at 21st level."
     },
     {
@@ -348,6 +466,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Your ranged attacks ignore the penalty for attacking prone targets and deal 2 extra damage against them. Increase this extra damage to 4 at 11th level and 6 at 21st level."
     },
     {
@@ -358,6 +480,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "While wielding a polearm, spear, or staff in two hands, you gain a +1 shield bonus to AC and Reflex."
     },
@@ -372,6 +498,10 @@
         "ability": "CONSTITUTION",
         "minimum": 3
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Whenever you hit a target with a basic attack using a hammer, you can also push that target 1 square."
     },
     {
@@ -382,6 +512,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You gain a +2 feat bonus to weapon damage rolls with axes and heavy blades. This feat bonus increases to +3 at 11th level and +4 at 21st level. Against prone targets, this feat bonus is doubled."
     },
@@ -394,6 +528,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You can Bull Rush creatures of any size. Whenever you use the Bull Rush option, you deal 4 extra damage, plus 4 extra damage for each size category smaller than you the target is. The extra damage increases to 6 at 11th level, and 8 at 21st level."
     },
     {
@@ -404,6 +542,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You can use the Grab attack on creatures of any size. When you use the Grab attack on a creature two or more sizes larger than you that creature is not immobilized, but instead must pull you one square to a square adjacent to them whenever they move, and fails to move if they cannot do so. Whenever you sustain a grab, the grabbing power deals 1[W] damage (occupied weapon or unarmed weapon) to the target."
     },
@@ -416,6 +558,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You gain a +4 feat bonus to initiative. This feat bonus increases to +5 at 11th level and +6 at 21st level."
     },
     {
@@ -426,6 +572,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Whenever you use your Second Wind, you regain additional hit points equal to 5 + half your level."
     },
@@ -438,6 +588,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Once per turn when you deal cold damage to a creature, you can choose to inflict vulnerable 3 to cold damage to that creature until the end of your next turn. The vulnerability inflicted increases to 5 at 11th level and 10 at 21st level."
     },
     {
@@ -449,7 +603,53 @@
       "prerequisites": {
         "type": "always"
       },
-      "description": "Choose three languages. You can speak, read, and write those languages fluently. You gain a +2 feat bonus to your choice of Diplomacy, Society, or Insight checks. At 21st level, this feat bonus increases to +3. *Special*: You can take this feat more than once. Each time you select this feat, choose three additional languages and, if possible, another skill to gain a feat bonus."
+      "selection": {
+        "maximum": null,
+        "constraints": [
+          {
+            "type": "distinct",
+            "choiceId": "languages",
+            "against": {
+              "scope": "CHARACTER",
+              "fact": "LANGUAGE"
+            },
+            "whenExhausted": "BLOCK"
+          },
+          {
+            "type": "distinct",
+            "choiceId": "skill-bonus",
+            "against": {
+              "scope": "ENTRY"
+            },
+            "whenExhausted": "ALLOW_REPEAT"
+          }
+        ]
+      },
+      "choices": [
+        {
+          "id": "languages",
+          "kind": "LANGUAGE",
+          "count": 3,
+          "source": {
+            "type": "catalog",
+            "catalog": "LANGUAGE"
+          }
+        },
+        {
+          "id": "skill-bonus",
+          "kind": "SKILL",
+          "count": 1,
+          "source": {
+            "type": "values",
+            "values": [
+              "DIPLOMACY",
+              "SOCIETY",
+              "INSIGHT"
+            ]
+          }
+        }
+      ],
+      "description": "Choose three languages. You can speak, read, and write those languages fluently. You gain a +2 feat bonus to your choice of Diplomacy, Society, or Insight checks. At 21st level, this feat bonus increases to +3."
     },
     {
       "id": "modern4e.feat.long-jumper",
@@ -460,6 +660,10 @@
       "prerequisites": {
         "type": "proficiency",
         "skill": "ATHLETICS"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Whenever you make a long jump with a running start, your jump can take you further than your remaining movement. You gain a +2 feat bonus to Athletics checks. At 21st level, this feat bonus increases to +3."
     },
@@ -482,6 +686,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You gain a +2 racial bonus to all defenses when you are adjacent to at least two creatures larger than you."
     },
     {
@@ -492,6 +700,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You gain a +1 tier bonus to the attack rolls of weapon attacks. The bonus increases to +2 at 11th level and +3 at 21st level.\n\nAlso, you can use a single minor action to sheathe a weapon and then draw another weapon."
     },
@@ -506,6 +718,10 @@
         "ability": "CONSTITUTION",
         "minimum": 3
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Whenever an attack misses you and would still inflict a condition on a miss, you do not suffer that condition."
     },
     {
@@ -519,6 +735,10 @@
         "ability": "DEXTERITY",
         "minimum": 3
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you attack with a dagger or light blade and you have combat advantage, you gain a +1 feat bonus to attack rolls."
     },
     {
@@ -529,6 +749,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you hit with any lightning attack power, you gain combat advantage with thunder powers until the end of your next turn. When you hit with any thunder attack power, you gain combat advantage with lightning powers until the end of your next turn."
     },
@@ -542,6 +766,10 @@
         "type": "proficiency",
         "skill": "INSIGHT"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Whenever you hit with an opportunity attack, you can shift 1 square as a free action. Increase this shift to up to 2 squares at 21st level."
     },
     {
@@ -554,6 +782,10 @@
         "type": "proficiency",
         "skill": "ATHLETICS"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When making an opportunity attack, you can use the Bull Rush option. On a hit, the target also grants Combat Advantage until the end of your next turn."
     },
     {
@@ -564,6 +796,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Your movement doesn't provoke opportunity attacks from enemies granting Combat Advantage to you prior to the movement."
     },
@@ -576,6 +812,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Whenever you score a critical hit, you can also knock the target prone."
     },
     {
@@ -587,6 +827,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You gain the Prime Shot feature. (If none of your allies are nearer to your target than you are, you have combat advantage with ranged attack rolls against that target.)"
     },
     {
@@ -597,6 +841,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "While you are wielding a weapon with the Reach property, you and your ally are flanking an enemy if your ally and a square adjacent to you are adjacent to and on opposite sides or corners of that enemy's space."
     },
@@ -611,6 +859,10 @@
         "ability": "STRENGTH",
         "minimum": 3
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You gain a +2 feat bonus to weapon damage with two-handed weapons, increasing to +3 at 11th level and +4 at 21st level. Additionally, whenever you make a weapon attack with a two-handed weapon, you may choose to take a -2 penalty to the attack roll. If you do so, the feat bonus is doubled for that attack."
     },
     {
@@ -621,6 +873,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Whenever you charge, you deal 3 extra damage with your attack, increasing to 5 extra damage at 11th level and 10 extra damage at 21st level."
     },
@@ -635,6 +891,10 @@
         "ability": "STRENGTH",
         "minimum": 3
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You gain a +2 feat bonus to weapon damage with ranged and thrown weapons, increasing to +3 at 11th level and +4 at 21st level. Additionally, whenever you make a weapon attack with a ranged or thrown weapon, you may choose to take a -2 penalty to the attack roll. If you do so, the feat bonus is doubled for that attack."
     },
     {
@@ -645,6 +905,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You can draw a weapon or object as part of the same action used to attack with the weapon or use the object. You also gain a +3 feat bonus to Initiative checks."
     },
@@ -669,6 +933,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You gain a +2 feat bonus to damage rolls when you use a power that has the Lightning or Thunder keyword. At 11th level, this feat bonus increases to +3. At 21st level, it increases to +4."
     },
     {
@@ -680,6 +948,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "On your first turn during an encounter, you gain a +4 power bonus to damage rolls with melee and ranged attacks. The bonus increases to +6 at 11th level and +8 at 21st level. This bonus is doubled against creatures that are Surprised."
     },
     {
@@ -690,6 +962,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You can add 1 to the size of any blast that has the thunder keyword. At 21st level, you can add 1 or 2 to the size of any blast that has the thunder keyword and 1 to the size of any burst that has the thunder keyword."
     },
@@ -703,6 +979,10 @@
         "type": "proficiency",
         "skill": "ACROBATICS"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Whenever an effect pulls, pushes, or slides you, you can shift 1 square as a free action at the end of the forced movement. At 21st level, you can instead shift up to 2 squares at the end of the forced movement."
     },
     {
@@ -713,6 +993,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You can master and perform techniques of your level and lower."
     },
@@ -725,6 +1009,10 @@
       "prerequisites": {
         "type": "entry",
         "entryId": "modern4e.ancestry.human"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "During the first round of combat and during surprise rounds, you have combat advantage against any foe whose initiative result is lower than yours. Additionally, whenever you make an initiative check and roll a natural 20, you gain an Action Point."
     },
@@ -747,6 +1035,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "While wielding a shield with which you have proficiency, your shield bonus also applies to your Fortitude."
     },
     {
@@ -768,6 +1060,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Any shield bonuses to defense you receive while wielding a shield with which you are proficient increase by one."
     },
     {
@@ -778,6 +1074,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Whenever you use your Second Wind or take the Total Defense action, you can also shift 1 square. At 21st level, you can shift up to 2 squares."
     },
@@ -791,6 +1091,10 @@
         "type": "level",
         "minimum": 2
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You gain a skill power of your level or lower from a skill in which you are trained."
     },
     {
@@ -802,7 +1106,49 @@
       "prerequisites": {
         "type": "always"
       },
-      "description": "You gain proficiency in two additional skills. *Special*: You can take this feat more than once. Each time you select this feat, choose two additional skills."
+      "selection": {
+        "maximum": null,
+        "constraints": [
+          {
+            "type": "distinct",
+            "choiceId": "skills",
+            "against": {
+              "scope": "CHARACTER",
+              "fact": "SKILL_PROFICIENCY"
+            },
+            "whenExhausted": "BLOCK"
+          }
+        ]
+      },
+      "choices": [
+        {
+          "id": "skills",
+          "kind": "SKILL",
+          "count": 2,
+          "source": {
+            "type": "values",
+            "values": [
+              "ATHLETICS",
+              "ACROBATICS",
+              "STEALTH",
+              "THIEVERY",
+              "ENDURANCE",
+              "ARCANA",
+              "CRAFTING",
+              "SOCIETY",
+              "MEDICINE",
+              "INSIGHT",
+              "NATURE",
+              "PERCEPTION",
+              "RELIGION",
+              "BLUFF",
+              "DIPLOMACY",
+              "INTIMIDATE"
+            ]
+          }
+        }
+      ],
+      "description": "You gain proficiency in two additional skills."
     },
     {
       "id": "modern4e.feat.sly-hunter",
@@ -814,6 +1160,10 @@
         "type": "abilityPoints",
         "ability": "WISDOM",
         "minimum": 3
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You gain a +2 feat bonus to damage rolls with bow and crossbow attacks. This feat bonus increases to +3 at 11th level and +4 at 21st level. Against any target that has no creature within 3 squares of it, this feat bonus is doubled."
     },
@@ -828,6 +1178,10 @@
         "ability": "STRENGTH",
         "minimum": 3
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Whenever you push a foe with a polearm or spear attack, you may add 1 square to the distance pushed, or 2 squares at 21st level or higher."
     },
     {
@@ -838,6 +1192,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You can shift 1 square as a free action when you stand up. At 21st level, you can shift up to 2 squares."
     },
@@ -850,6 +1208,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Whenever an attack would knock you prone, you can make a saving throw to avoid falling prone. You gain a +2 feat bonus to Endurance checks, increasing to +3 at 21st level."
     },
     {
@@ -860,6 +1222,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Once per turn when you deal fire damage to a creature, you can choose to inflict vulnerable 3 fire to that creature until the end of your next turn. The vulnerability inflicted increases to 5 at 11th level and 10 at 21st level."
     },
@@ -873,6 +1239,10 @@
         "type": "proficiency",
         "skill": "ENDURANCE"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You gain a +3 feat bonus to your healing surge value. This bonus increases to +4 at 11th level and +5 at 21st level."
     },
     {
@@ -883,6 +1253,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You gain additional hit points equal to 5 + one half your level. You also gain a +2 feat bonus to Endurance checks. At 21st level, this feat bonus increases to +3."
     },
@@ -895,6 +1269,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "While you are wielding two melee weapons with which you are proficient, you gain a +1 shield bonus to AC and Reflex."
     },
     {
@@ -905,6 +1283,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You gain a +2 feat bonus to AC while wearing either cloth armor or no armor."
     },
@@ -917,6 +1299,10 @@
       "prerequisites": {
         "type": "always"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "While you are flanking an enemy, that enemy grants combat advantage to all creatures."
     },
     {
@@ -927,6 +1313,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You gain combat advantage against immobilized, slowed, and weakened targets."
     },
@@ -940,6 +1330,10 @@
         "type": "equipmentProficiency",
         "equipment": "SHIELD"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Whenever you successfully use the Aid Defense action while carrying a shield with which you are proficient, the chosen ally also shares your shield bonuses to defenses until the end of your next turn."
     },
     {
@@ -951,7 +1345,43 @@
       "prerequisites": {
         "type": "always"
       },
-      "description": "You gain proficiency in a single superior weapon of your choice, or all simple and military weapons.\n\n*Special*: You can take this feat more than once. Each time you select this feat, choose another weapon."
+      "selection": {
+        "maximum": null,
+        "constraints": [
+          {
+            "type": "distinct",
+            "choiceId": "weapon-proficiency",
+            "against": {
+              "scope": "ENTRY"
+            },
+            "whenExhausted": "BLOCK"
+          }
+        ]
+      },
+      "choices": [
+        {
+          "id": "weapon-proficiency",
+          "kind": "WEAPON_PROFICIENCY",
+          "count": 1,
+          "source": {
+            "type": "catalog",
+            "catalog": "WEAPON",
+            "filters": {
+              "proficiencyCategory": "SUPERIOR"
+            },
+            "bundles": [
+              {
+                "id": "simple-and-military",
+                "proficiencyCategories": [
+                  "SIMPLE",
+                  "MILITARY"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "description": "You gain proficiency in a single superior weapon of your choice, or all simple and military weapons."
     },
     {
       "id": "modern4e.feat.watchful-redoubt",
@@ -961,6 +1391,10 @@
       },
       "prerequisites": {
         "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You gain a +3 feat bonus to initiative. When you use your Second Wind or the Total Defense action, you can choose to reroll your initiative. Your initiative is set to the result at the start of the next round, even if it is lower."
     }

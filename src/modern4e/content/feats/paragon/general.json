@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.blood-thirst",
@@ -10,6 +10,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You have combat advantage against bloodied enemies."
     },
@@ -23,6 +27,10 @@
         "type": "level",
         "minimum": 11
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Whenever you score a critical hit, the target takes ongoing damage equal to your level and a -2 penalty to the defense targeted by the attack (save ends both). The ongoing damage is of the same types dealt by the critical hit, if any."
     },
     {
@@ -35,6 +43,10 @@
         "type": "level",
         "minimum": 11
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "The first time you drop to 0 power points during an encounter, you gain a +2 bonus to attack rolls and a +2 bonus to all defenses until the end of your next turn."
     },
     {
@@ -46,6 +58,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Being flanked doesn't cause you to grant combat advantage. You gain a +2 feat bonus to Perception checks, increasing to +3 at 21st level."
     },
@@ -68,6 +84,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Whenever you use a Daily power as a standard action, you gain temporary hit points equal to your healing surge value."
     },
     {
@@ -79,6 +99,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you roll a natural 20 on an attack roll, skill check, or saving throw, remove all effects on you that a save can end."
     },
@@ -92,6 +116,10 @@
         "type": "level",
         "minimum": 11
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You gain one additional healing surge. Whenever you achieve a milestone, you regain a healing surge."
     },
     {
@@ -103,6 +131,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Whenever an enemy makes a charge attack against you, you can make a melee basic attack against that enemy as an opportunity action."
     },
@@ -116,6 +148,10 @@
         "type": "level",
         "minimum": 11
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You gain a +4 bonus to Strength or Dexterity checks made to escape a grab and any other effect that allows you to escape. Whenever you successfully escape, you can shift 2 squares."
     },
     {
@@ -128,6 +164,10 @@
         "type": "level",
         "minimum": 11
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you spend an action point, you can also spend a healing surge."
     },
     {
@@ -139,6 +179,10 @@
       "prerequisites": {
         "type": "level",
         "minimum": 11
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Your arcane spells take a –5 penalty on attack rolls against allies, and deal only half their normal damage to allies."
     }

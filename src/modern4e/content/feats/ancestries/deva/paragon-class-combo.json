@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.wholesome-spirit",
@@ -21,9 +21,13 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Your spirit companion receives the same necrotic and radiant resistance as your Astral Resistance trait.",
-      "note": "The index says Heroic, but the entry body labels Wholesome Spirit Paragon.",
-      "source": "https://iws.mx/dnd/?view=feat3063"
+      "source": "https://iws.mx/dnd/?view=feat3063",
+      "note": "The index says Heroic, but the entry body labels Wholesome Spirit Paragon."
     },
     {
       "id": "modern4e.feat.commanders-memory",
@@ -44,6 +48,10 @@
             "entryId": "modern4e.class.warlord"
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "As a free action, expend Memory of a Thousand Lifetimes to add 1d6 to an ally's attack roll, saving throw, or skill check within 10 squares.",
       "source": "https://iws.mx/dnd/?view=feat2486"

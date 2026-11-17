@@ -1,41 +1,24 @@
 #import "../helpers/theme.typ" as theme;
-#import "../helpers/powers.typ";
-#import "../helpers/ancestries.typ";
+#import "../helpers/ancestry_content.typ" as ancestryContent;
 
 #let halflingPage() = {
   return [
-    #theme.subPageTitle(title: "Halfling");
+    #theme.subPageTitle(title: ancestryContent.entry("modern4e.ancestry.halfling").title);
 
     #columns(2)[
       = Attributes
 
-      #ancestries.attributes(
-        size: "Small",
-        speed: 6,
-        vision: "Normal",
-        languages: "Common + 1",
-      )
+      #ancestryContent.attributes("modern4e.ancestry.halfling")
 
       = Traits
-      == Bold
-      You gain a +5 racial bonus to saving throws against fear.
-      == Nimble Reaction
-      You gain a +2 racial bonus to AC against opportunity attacks.
-      == Second Chance
-      You gain the Second Chance power.
+      #ancestryContent.trait("modern4e.feature.halfling-bold")
 
-      #powers.power(
-        title: "Second Chance",
-        description: "Luck and small size combine to work in your favor as you dodge your enemy’s attack.",
-        type: powers.powerType.encounter,
-        range: "Personal",
-        action: powers.actionType.immediateInterrupt,
-        target: none,
-        trigger: "You are hit by an attack.",
-        additionalRows: (
-          [*Effect:* The attacker must reroll the attack and use the second roll, even if it is lower.],
-        ),
-      );
+      #ancestryContent.trait("modern4e.feature.halfling-nimble-reaction")
+
+      #ancestryContent.trait("modern4e.feature.halfling-second-chance")
+
+
+      #ancestryContent.powerCard("modern4e.power.second-chance");
 
       #colbreak();
       #image("../images/halfling.jpg", height: 400pt)

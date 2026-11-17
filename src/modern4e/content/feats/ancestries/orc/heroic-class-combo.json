@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "feats": [
     {
       "id": "modern4e.feat.arcane-fury",
@@ -11,6 +11,10 @@
       "prerequisites": {
         "type": "classPowerSource",
         "powerSource": "ARCANE"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you use your Furious Assault power to deal extra damage to the target of an area or close arcane power, you deal the extra damage to all targets you hit with the power, not just one.",
       "source": "https://iws.mx/dnd/?view=feat1114"
@@ -26,6 +30,10 @@
         "type": "entry",
         "entryId": "modern4e.class.paladin"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "You can use your Strength in place of your Charisma when determining damage for your Divine Challenge or divine sanction.",
       "source": "https://iws.mx/dnd/?view=feat2909"
     },
@@ -40,6 +48,10 @@
         "type": "entry",
         "entryId": "modern4e.class.paladin"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you use your Furious Assault power, one ally within 5 squares of you gains a bonus equal to your Strength to his or her melee damage rolls against the target until the start of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat1514"
     },
@@ -53,6 +65,10 @@
       "prerequisites": {
         "type": "entry",
         "entryId": "modern4e.class.avenger"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you charge your oath of enmity target, your movement during the charge does not provoke opportunity attacks.",
       "source": "https://iws.mx/dnd/?view=feat2911"
@@ -77,6 +93,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "The first time you are bloodied in an encounter, you gain combat advantage with invoker close burst or close blast attack powers until the end of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat2988"
     },
@@ -90,6 +110,10 @@
       "prerequisites": {
         "type": "entry",
         "entryId": "modern4e.class.avenger"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When you use your Furious Assault power against your oath of enmity target, the target takes a -1 penalty to attack rolls until the start of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat1523"
@@ -105,6 +129,10 @@
         "type": "unresolved",
         "text": "Combined attack druid attack power",
         "reason": "Unclear whether Combined Attack names a power or a power category; see migration issue #29."
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You can use your Furious Assault power after you hit with your combined attack power's attack and your animal companion hits with the animal attack combined attack's effect allows. If you do, your hit and your animal companion's hit both deal the extra damage from your Furious Assault power.",
       "source": "https://iws.mx/dnd/?view=feat3797"
@@ -129,6 +157,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you miss your quarry with a charge attack, you can expend your Furious Assault power to reroll the charge's attack roll. If the attack hits, you deal 1[W] extra damage to your quarry.",
       "source": "https://iws.mx/dnd/?view=feat2419"
     },
@@ -142,6 +174,10 @@
       "prerequisites": {
         "type": "entry",
         "entryId": "modern4e.class.artificer"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "When an ally hits with a melee attack and is benefiting from your resistive formula or shielding elixir, the ally can end the effect as a free action to deal 1d8 extra damage instead of gaining the normal benefit for ending the effect.",
       "source": "https://iws.mx/dnd/?view=feat3033"
@@ -166,6 +202,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you use a Channel Divinity power, you gain a +2 bonus to damage rolls with divine attack powers until the end of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat1529"
     },
@@ -179,6 +219,10 @@
       "prerequisites": {
         "type": "entry",
         "entryId": "modern4e.class.warden"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "The first time you are bloodied during an encounter, you gain a +2 feat bonus to attack rolls and damage rolls against creatures marked by you until the end of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat1950"
@@ -194,6 +238,10 @@
         "type": "entry",
         "entryId": "modern4e.class.cleric"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you are first bloodied in an encounter, until the end of your next turn whenever you use a healing power, the targets of that power heal additional hit points equal to the number of temporary hit points you gained from your Orc Resilience trait.",
       "source": "https://iws.mx/dnd/?view=feat2912"
     },
@@ -208,6 +256,10 @@
         "type": "entry",
         "entryId": "modern4e.class.rogue"
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "Whenever you use your Furious Assault power, the enemy you hit grants combat advantage to you until the end of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat2449"
     },
@@ -221,6 +273,10 @@
       "prerequisites": {
         "type": "classPowerSource",
         "powerSource": "PRIMAL"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "You gain additional temporary hit points from your Orc Resilience trait equal to your Constitution.",
       "source": "https://iws.mx/dnd/?view=feat1855"
@@ -245,6 +301,10 @@
           }
         ]
       },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
       "description": "When you use your Furious Assault power with your rage strike power's attack, you do not expend Furious Assault.",
       "source": "https://iws.mx/dnd/?view=feat3798"
     },
@@ -267,6 +327,10 @@
             "entryId": "modern4e.feature.combat-leader"
           }
         ]
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
       },
       "description": "Any ally who starts his or her turn within 5 squares of you gains a +2 feat bonus to his or her speed when charging until the end of that turn.",
       "source": "https://iws.mx/dnd/?view=feat2477"

@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 1,
+  "ancestries": [
+    {
+      "id": "modern4e.ancestry.goblin",
+      "title": "Goblin",
+      "description": "",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "attributes": {
+        "size": "small",
+        "speed": 6,
+        "vision": "low-light",
+        "languages": {
+          "fixed": [
+            "common",
+            "goblin"
+          ],
+          "choiceCount": 0
+        }
+      },
+      "grants": [
+        {
+          "id": "slippery",
+          "entryId": "modern4e.feature.goblin-slippery",
+          "atLevel": 1
+        },
+        {
+          "id": "goblin-reflexes",
+          "entryId": "modern4e.feature.goblin-goblin-reflexes",
+          "atLevel": 1
+        },
+        {
+          "id": "goblin-tactics",
+          "entryId": "modern4e.feature.goblin-goblin-tactics",
+          "atLevel": 1
+        }
+      ]
+    }
+  ],
+  "features": [
+    {
+      "id": "modern4e.feature.goblin-slippery",
+      "title": "Slippery",
+      "description": "You gain a +2 racial bonus to your AC against Attack of Opportunities.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.goblin-goblin-reflexes",
+      "title": "Goblin Reflexes",
+      "description": "You gain a +1 racial bonus to your Reflex defense.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      }
+    },
+    {
+      "id": "modern4e.feature.goblin-goblin-tactics",
+      "title": "Goblin Tactics",
+      "description": "You gain the Goblin Tactics power.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "grants": [
+        {
+          "id": "power",
+          "entryId": "modern4e.power.goblin-tactics",
+          "atLevel": 1
+        }
+      ]
+    }
+  ],
+  "powers": [
+    {
+      "id": "modern4e.power.goblin-tactics",
+      "title": "Goblin Tactics",
+      "description": "Effect: You shift 1 square.",
+      "access": {
+        "type": "always"
+      },
+      "prerequisites": {
+        "type": "always"
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Shared authoring data; runtime ancestry mechanics are not implemented by this migration."
+        ]
+      },
+      "flavor": "You avoid your enemy's blow and cleverly dodge away.",
+      "usage": "AT_WILL",
+      "action": "IMMEDIATE_REACTION",
+      "range": {
+        "type": "PERSONAL"
+      },
+      "keywords": [],
+      "trigger": "An enemy misses you with a melee attack.",
+      "rows": [
+        {
+          "label": "Effect",
+          "text": "You shift 1 square."
+        }
+      ]
+    }
+  ]
+}
