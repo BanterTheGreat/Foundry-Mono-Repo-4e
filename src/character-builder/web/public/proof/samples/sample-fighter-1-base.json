@@ -1,0 +1,242 @@
+{
+  "abilities": {
+    "mainAbility": "STRENGTH",
+    "points": {
+      "CHARISMA": 0,
+      "CONSTITUTION": 2,
+      "DEXTERITY": 2,
+      "INTELLIGENCE": 1,
+      "STRENGTH": 4,
+      "WISDOM": 0
+    },
+    "source": {
+      "choiceId": "main-ability",
+      "ordinal": 0,
+      "sourceInstanceId": "fighter"
+    }
+  },
+  "equipment": [
+    {
+      "equipped": true,
+      "instanceId": "weapon3610",
+      "quantity": 1,
+      "selection": {
+        "acknowledgedFingerprint": "sha256-v1:8f99f87c8e6fafc9cdf399e9ca5d4fd59611b0001795b49c27cea324c3af6fd5",
+        "entryId": "weapon3610",
+        "savedTitle": "Longsword",
+        "supplierPackageId": "modern4e.fighter-proof"
+      }
+    },
+    {
+      "equipped": true,
+      "instanceId": "armor5",
+      "quantity": 1,
+      "selection": {
+        "acknowledgedFingerprint": "sha256-v1:80a236c1df6b486e99c17eb7a9371e5dc7d008e26a13ef037ef1343c4ef5b653",
+        "entryId": "armor5",
+        "savedTitle": "Scale Armor",
+        "supplierPackageId": "modern4e.fighter-proof"
+      }
+    },
+    {
+      "equipped": true,
+      "instanceId": "armor8",
+      "quantity": 1,
+      "selection": {
+        "acknowledgedFingerprint": "sha256-v1:a52a3c8969182c72ff624128ba2869e3221f8e7f573ff7d71515ea3fe200348d",
+        "entryId": "armor8",
+        "savedTitle": "Heavy Shield",
+        "supplierPackageId": "modern4e.fighter-proof"
+      }
+    }
+  ],
+  "formatVersion": 1,
+  "id": "fighter-proof-1-base",
+  "identity": {
+    "name": "Torbera, urban artisan",
+    "notes": "Provisional proof. Urban Society; Labor Crafting; free Medicine/Religion. Dwarf Sturdy, Stand Your Ground, Dwarven Resilience and Fighter Combat Challenge/Reactivity (Combat Reactivity) are descriptive only. Theme omitted (optional)."
+  },
+  "level": 1,
+  "levels": [
+    {
+      "entries": [
+        {
+          "instanceId": "fighter",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:5515e1dd71ca457106c32546754710122b8dcb3890538ffdec26819264a607da",
+            "entryId": "class3",
+            "savedTitle": "Fighter (Weaponmaster)",
+            "supplierPackageId": "modern4e.fighter-proof"
+          },
+          "slot": {
+            "choiceId": "class",
+            "ordinal": 0,
+            "sourceInstanceId": "creation"
+          }
+        },
+        {
+          "instanceId": "dwarf",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:2114a6dfcfe1c36a97f0af1cdedc75911a95a5c76b91be782292d4f327416cec",
+            "entryId": "race2",
+            "savedTitle": "Dwarf",
+            "supplierPackageId": "modern4e.fighter-proof"
+          },
+          "slot": {
+            "choiceId": "ancestry",
+            "ordinal": 0,
+            "sourceInstanceId": "creation"
+          }
+        },
+        {
+          "instanceId": "training",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:0bc8182c6f354f89c2cc854de151c98816cf2624eb0f147619f4bd3a69082a78",
+            "entryId": "feat166",
+            "savedTitle": "Skill Training",
+            "supplierPackageId": "modern4e.fighter-proof"
+          },
+          "slot": {
+            "choiceId": "feat",
+            "ordinal": 0,
+            "sourceInstanceId": "creation"
+          }
+        },
+        {
+          "instanceId": "power992",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:e7b6c3c2673d1bea9e25acc76bda5edc4e50d32d45d43e47fab97a04efe0712e",
+            "entryId": "power992",
+            "savedTitle": "Cleave",
+            "supplierPackageId": "modern4e.fighter-proof"
+          },
+          "slot": {
+            "choiceId": "at-will",
+            "ordinal": 0,
+            "sourceInstanceId": "fighter"
+          }
+        },
+        {
+          "instanceId": "power1000",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:f54c3f2c79482aa643737e913cad07192d22c20bddb9ac9bd5fc456e7ce94943",
+            "entryId": "power1000",
+            "savedTitle": "Tide of Iron",
+            "supplierPackageId": "modern4e.fighter-proof"
+          },
+          "slot": {
+            "choiceId": "at-will",
+            "ordinal": 1,
+            "sourceInstanceId": "fighter"
+          }
+        },
+        {
+          "instanceId": "power1015",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:08f0d0ac427d5d6c866ccec7f36e3c1e7b54f655bcfa28194ea3a2f21f196c19",
+            "entryId": "power1015",
+            "savedTitle": "Passing Attack",
+            "supplierPackageId": "modern4e.fighter-proof"
+          },
+          "slot": {
+            "choiceId": "encounter",
+            "ordinal": 0,
+            "sourceInstanceId": "fighter"
+          }
+        },
+        {
+          "instanceId": "power1429",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:b9c1caba1198b8c4698215c92417075d172c43231e844d6b9e3d13c80229db33",
+            "entryId": "power1429",
+            "savedTitle": "Villain's Menace",
+            "supplierPackageId": "modern4e.fighter-proof"
+          },
+          "slot": {
+            "choiceId": "daily",
+            "ordinal": 0,
+            "sourceInstanceId": "fighter"
+          }
+        },
+        {
+          "instanceId": "power1524",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:d3f7615f2e51e77106a8b301524d8de1da220ecf8ef5ce35c3dceafe27927b5e",
+            "entryId": "power1524",
+            "savedTitle": "Brute Strike",
+            "supplierPackageId": "modern4e.fighter-proof"
+          },
+          "slot": {
+            "choiceId": "daily",
+            "ordinal": 1,
+            "sourceInstanceId": "fighter"
+          }
+        }
+      ],
+      "level": 1,
+      "proficiencies": [
+        {
+          "skill": "SOCIETY",
+          "slot": {
+            "choiceId": "skill",
+            "ordinal": 0,
+            "sourceInstanceId": "background.environment.urban"
+          }
+        },
+        {
+          "skill": "CRAFTING",
+          "slot": {
+            "choiceId": "skill",
+            "ordinal": 0,
+            "sourceInstanceId": "background.upbringing.labor"
+          }
+        },
+        {
+          "skill": "MEDICINE",
+          "slot": {
+            "choiceId": "free-skill",
+            "ordinal": 0,
+            "sourceInstanceId": "creation"
+          }
+        },
+        {
+          "skill": "RELIGION",
+          "slot": {
+            "choiceId": "free-skill",
+            "ordinal": 1,
+            "sourceInstanceId": "creation"
+          }
+        },
+        {
+          "skill": "ATHLETICS",
+          "slot": {
+            "choiceId": "skill-training",
+            "ordinal": 0,
+            "sourceInstanceId": "training"
+          }
+        }
+      ]
+    }
+  ],
+  "manualAdjustments": [
+    {
+      "id": "medicine-manual",
+      "modifier": {
+        "bonusType": "UNTYPED",
+        "operation": "ADD",
+        "target": {
+          "skill": "MEDICINE",
+          "statistic": "SKILL_CHECK"
+        },
+        "value": 2
+      }
+    }
+  ],
+  "packages": [
+    {
+      "packageId": "modern4e.fighter-proof",
+      "revision": "1"
+    }
+  ],
+  "savedAt": "2026-11-17T12:00:00Z"
+}

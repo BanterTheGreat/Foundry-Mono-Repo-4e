@@ -414,6 +414,7 @@ Build-time compendium production (Python 3.9+, standard library; run from reposi
 ```powershell
 python -X utf8 src/character-builder/content/build.py
 python -X utf8 src/character-builder/content/build.py --check
+python -X utf8 src/character-builder/content/samples.py --check
 python -X utf8 -m unittest discover -s src/character-builder/content -p 'test_*.py' -v
 ```
 
@@ -468,3 +469,4 @@ Robolectric API 34. `AndroidAdaptersTest` repeats the contract on device: reopen
 persistence, collision actions, stale comparisons, recovery restoration/retention,
 failed and interrupted publication, malformed storage, permissions/cancellation,
 and generated asset loading. Instrumentation compilation alone is not device execution.
+Fighter proof #15: `FighterProofTest` runs the four bundled portable samples on both JVM and JS against hand-checked ability/skill goldens, level-2 override isolation, source fingerprints, incomplete prerequisites and missing-supplier behavior. The Python sample tests verify coverage completeness and byte-identical web/Android bundles. Regenerate with `python -X utf8 src/character-builder/content/samples.py` after package generation; see [recorded inputs and limitations](../src/character-builder/content/FIGHTER-PROOF.md).
