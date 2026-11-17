@@ -156,6 +156,9 @@ evaluated by shared Kotlin (#33). Full authored entries and unsupported mechanic
 remain preserved with explicit coverage. The normal production build bundles these authoritative definitions on web and
 Android (#35), retaining published proof classes only as explicit legacy fixtures.
 General progression/query pools/collections are shared engine responsibilities (#34).
+Ancestries, Zeitgeist themes, feats, utility powers and equipment now compile to their own
+production packages the same way (see the content README); their effects stay descriptive
+with explicit coverage, and unresolved references/conditions are never converted to eligibility.
 Exceptional-class fixtures establish data shapes;
 general progression remains a shared engine concern. Production package adoption
 uses local IDs directly and preserves unresolved legacy selections. The

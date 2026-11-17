@@ -1,0 +1,4017 @@
+{
+  "entries": [
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Armor bonus, speed modifier, armor check penalty, the light-armor ability rule and armor proficiency are preserved for display only; they do not change AC, speed or skill totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.armor.chainmail",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Armor. Proficiency: Chainmail.\nCategory: Heavy.\nArmor bonus: +6.\nSpeed modifier: -1.\nArmor check modifier: 0.\nThe penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.",
+        "title": "Chainmail"
+      },
+      "sharedData": {
+        "armorRules": {
+          "armorCheckAbilities": [
+            "STRENGTH",
+            "DEXTERITY",
+            "CONSTITUTION"
+          ],
+          "armorCheckDescription": "The penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.",
+          "lightArmorAbilities": [
+            "INTELLIGENCE",
+            "DEXTERITY"
+          ],
+          "lightArmorAbilityOperation": "HIGHEST"
+        },
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "armorBonus": 6,
+          "armorCategory": "HEAVY",
+          "armorCheckModifier": 0,
+          "kind": "ARMOR",
+          "proficiencyKey": "CHAINMAIL",
+          "speedModifier": -1
+        },
+        "id": "modern4e.armor.chainmail",
+        "presentation": {
+          "description": "",
+          "title": "Chainmail"
+        },
+        "propertyDefinitions": []
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Armor bonus, speed modifier, armor check penalty, the light-armor ability rule and armor proficiency are preserved for display only; they do not change AC, speed or skill totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.armor.cloth",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Armor. Proficiency: Cloth.\nCategory: Light.\nArmor bonus: 0.\nLight armor ability: Highest of Intelligence, Dexterity.\nSpeed modifier: 0.\nArmor check modifier: 0.\nThe penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.",
+        "title": "Cloth"
+      },
+      "sharedData": {
+        "armorRules": {
+          "armorCheckAbilities": [
+            "STRENGTH",
+            "DEXTERITY",
+            "CONSTITUTION"
+          ],
+          "armorCheckDescription": "The penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.",
+          "lightArmorAbilities": [
+            "INTELLIGENCE",
+            "DEXTERITY"
+          ],
+          "lightArmorAbilityOperation": "HIGHEST"
+        },
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "armorBonus": 0,
+          "armorCategory": "LIGHT",
+          "armorCheckModifier": 0,
+          "kind": "ARMOR",
+          "proficiencyKey": "CLOTH",
+          "speedModifier": 0
+        },
+        "id": "modern4e.armor.cloth",
+        "presentation": {
+          "description": "",
+          "title": "Cloth"
+        },
+        "propertyDefinitions": []
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Armor bonus, speed modifier, armor check penalty, the light-armor ability rule and armor proficiency are preserved for display only; they do not change AC, speed or skill totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.armor.hide",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Armor. Proficiency: Hide.\nCategory: Light.\nArmor bonus: +3.\nLight armor ability: Highest of Intelligence, Dexterity.\nSpeed modifier: 0.\nArmor check modifier: 0.\nThe penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.",
+        "title": "Hide"
+      },
+      "sharedData": {
+        "armorRules": {
+          "armorCheckAbilities": [
+            "STRENGTH",
+            "DEXTERITY",
+            "CONSTITUTION"
+          ],
+          "armorCheckDescription": "The penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.",
+          "lightArmorAbilities": [
+            "INTELLIGENCE",
+            "DEXTERITY"
+          ],
+          "lightArmorAbilityOperation": "HIGHEST"
+        },
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "armorBonus": 3,
+          "armorCategory": "LIGHT",
+          "armorCheckModifier": 0,
+          "kind": "ARMOR",
+          "proficiencyKey": "HIDE",
+          "speedModifier": 0
+        },
+        "id": "modern4e.armor.hide",
+        "presentation": {
+          "description": "",
+          "title": "Hide"
+        },
+        "propertyDefinitions": []
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Armor bonus, speed modifier, armor check penalty, the light-armor ability rule and armor proficiency are preserved for display only; they do not change AC, speed or skill totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.armor.leather",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Armor. Proficiency: Leather.\nCategory: Light.\nArmor bonus: +2.\nLight armor ability: Highest of Intelligence, Dexterity.\nSpeed modifier: 0.\nArmor check modifier: 0.\nThe penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.",
+        "title": "Leather"
+      },
+      "sharedData": {
+        "armorRules": {
+          "armorCheckAbilities": [
+            "STRENGTH",
+            "DEXTERITY",
+            "CONSTITUTION"
+          ],
+          "armorCheckDescription": "The penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.",
+          "lightArmorAbilities": [
+            "INTELLIGENCE",
+            "DEXTERITY"
+          ],
+          "lightArmorAbilityOperation": "HIGHEST"
+        },
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "armorBonus": 2,
+          "armorCategory": "LIGHT",
+          "armorCheckModifier": 0,
+          "kind": "ARMOR",
+          "proficiencyKey": "LEATHER",
+          "speedModifier": 0
+        },
+        "id": "modern4e.armor.leather",
+        "presentation": {
+          "description": "",
+          "title": "Leather"
+        },
+        "propertyDefinitions": []
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Armor bonus, speed modifier, armor check penalty, the light-armor ability rule and armor proficiency are preserved for display only; they do not change AC, speed or skill totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.armor.plate",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Armor. Proficiency: Plate.\nCategory: Heavy.\nArmor bonus: +9.\nSpeed modifier: -1.\nArmor check modifier: -1.\nThe penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.",
+        "title": "Plate"
+      },
+      "sharedData": {
+        "armorRules": {
+          "armorCheckAbilities": [
+            "STRENGTH",
+            "DEXTERITY",
+            "CONSTITUTION"
+          ],
+          "armorCheckDescription": "The penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.",
+          "lightArmorAbilities": [
+            "INTELLIGENCE",
+            "DEXTERITY"
+          ],
+          "lightArmorAbilityOperation": "HIGHEST"
+        },
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "armorBonus": 9,
+          "armorCategory": "HEAVY",
+          "armorCheckModifier": -1,
+          "kind": "ARMOR",
+          "proficiencyKey": "PLATE",
+          "speedModifier": -1
+        },
+        "id": "modern4e.armor.plate",
+        "presentation": {
+          "description": "",
+          "title": "Plate"
+        },
+        "propertyDefinitions": []
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Armor bonus, speed modifier, armor check penalty, the light-armor ability rule and armor proficiency are preserved for display only; they do not change AC, speed or skill totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.armor.scale",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Armor. Proficiency: Scale.\nCategory: Heavy.\nArmor bonus: +7.\nSpeed modifier: -1.\nArmor check modifier: 0.\nThe penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.",
+        "title": "Scale"
+      },
+      "sharedData": {
+        "armorRules": {
+          "armorCheckAbilities": [
+            "STRENGTH",
+            "DEXTERITY",
+            "CONSTITUTION"
+          ],
+          "armorCheckDescription": "The penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.",
+          "lightArmorAbilities": [
+            "INTELLIGENCE",
+            "DEXTERITY"
+          ],
+          "lightArmorAbilityOperation": "HIGHEST"
+        },
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "armorBonus": 7,
+          "armorCategory": "HEAVY",
+          "armorCheckModifier": 0,
+          "kind": "ARMOR",
+          "proficiencyKey": "SCALE",
+          "speedModifier": -1
+        },
+        "id": "modern4e.armor.scale",
+        "presentation": {
+          "description": "",
+          "title": "Scale"
+        },
+        "propertyDefinitions": []
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Shield bonus, occupied hand, speed modifier, armor check penalty and shield proficiency are preserved for display only; they do not change AC, speed or skill totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.shield.heavy-shield",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Shield. Proficiency: Heavy Shield.\nHands occupied: 1.\nShield bonus: +2.\nSpeed modifier: 0.\nArmor check modifier: -1.\nThe penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.",
+        "title": "Heavy Shield"
+      },
+      "sharedData": {
+        "armorRules": {
+          "armorCheckAbilities": [
+            "STRENGTH",
+            "DEXTERITY",
+            "CONSTITUTION"
+          ],
+          "armorCheckDescription": "The penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.",
+          "lightArmorAbilities": [
+            "INTELLIGENCE",
+            "DEXTERITY"
+          ],
+          "lightArmorAbilityOperation": "HIGHEST"
+        },
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "armorCheckModifier": -1,
+          "handsOccupied": 1,
+          "kind": "SHIELD",
+          "proficiencyKey": "HEAVY_SHIELD",
+          "shieldBonus": 2,
+          "speedModifier": 0
+        },
+        "id": "modern4e.shield.heavy-shield",
+        "presentation": {
+          "description": "",
+          "title": "Heavy Shield"
+        },
+        "propertyDefinitions": []
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Shield bonus, occupied hand, speed modifier, armor check penalty and shield proficiency are preserved for display only; they do not change AC, speed or skill totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.shield.light-shield",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Shield. Proficiency: Light Shield.\nHands occupied: 1.\nShield bonus: +1.\nSpeed modifier: 0.\nArmor check modifier: 0.\nThe penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.",
+        "title": "Light Shield"
+      },
+      "sharedData": {
+        "armorRules": {
+          "armorCheckAbilities": [
+            "STRENGTH",
+            "DEXTERITY",
+            "CONSTITUTION"
+          ],
+          "armorCheckDescription": "The penalty to Strength-, Dexterity-, and Constitution-based skill checks that a creature takes while wearing the armor. This penalty is called an armor check penalty.",
+          "lightArmorAbilities": [
+            "INTELLIGENCE",
+            "DEXTERITY"
+          ],
+          "lightArmorAbilityOperation": "HIGHEST"
+        },
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "armorCheckModifier": 0,
+          "handsOccupied": 1,
+          "kind": "SHIELD",
+          "proficiencyKey": "LIGHT_SHIELD",
+          "shieldBonus": 1,
+          "speedModifier": 0
+        },
+        "id": "modern4e.shield.light-shield",
+        "presentation": {
+          "description": "",
+          "title": "Light Shield"
+        },
+        "propertyDefinitions": []
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.bastard-sword",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Superior proficiency, melee attack.\nHands required: 1.\nGroups: Heavy Blade.\nProficiency bonus: +3.\nDamage: 1d10.\nProperties:\n- Versatile:\n    Versatile weapons are one-handed but deal bonus damage and qualify as a two-handed weapon for power riders and requirements when supported with a second hand.\n    This bonus is equal to:\n    - +1 to each `[W]` die at levels 1–10\n    - +2 at levels 11–20\n    - +3 at levels 21–30\n\n    The versatile bonus may be gained by supporting the weapon with an off-hand occupied by a light shield or weapon in the unarmed group, but no bonuses from the item equipped in the off-hand apply to the attack, and the unarmed weapon cannot be used to attack until the grip is released.\n    Changing grip is a free action.",
+        "title": "Bastard Sword"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 10
+          },
+          "groups": [
+            "HEAVY_BLADE"
+          ],
+          "handsRequired": 1,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "SUPERIOR",
+          "properties": [
+            {
+              "id": "VERSATILE"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.bastard-sword",
+        "presentation": {
+          "description": "",
+          "title": "Bastard Sword"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "Versatile weapons are one-handed but deal bonus damage and qualify as a two-handed weapon for power riders and requirements when supported with a second hand.\nThis bonus is equal to:\n- +1 to each `[W]` die at levels 1–10\n- +2 at levels 11–20\n- +3 at levels 21–30\n\nThe versatile bonus may be gained by supporting the weapon with an off-hand occupied by a light shield or weapon in the unarmed group, but no bonuses from the item equipped in the off-hand apply to the attack, and the unarmed weapon cannot be used to attack until the grip is released.\nChanging grip is a free action.",
+            "id": "VERSATILE",
+            "printRule": true,
+            "title": "Versatile"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.battleaxe",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Military proficiency, melee attack.\nHands required: 1.\nGroups: Axe.\nProficiency bonus: +3.\nDamage: 1d10.\nProperties:\n- Versatile:\n    Versatile weapons are one-handed but deal bonus damage and qualify as a two-handed weapon for power riders and requirements when supported with a second hand.\n    This bonus is equal to:\n    - +1 to each `[W]` die at levels 1–10\n    - +2 at levels 11–20\n    - +3 at levels 21–30\n\n    The versatile bonus may be gained by supporting the weapon with an off-hand occupied by a light shield or weapon in the unarmed group, but no bonuses from the item equipped in the off-hand apply to the attack, and the unarmed weapon cannot be used to attack until the grip is released.\n    Changing grip is a free action.",
+        "title": "Battleaxe"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 10
+          },
+          "groups": [
+            "AXE"
+          ],
+          "handsRequired": 1,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "MILITARY",
+          "properties": [
+            {
+              "id": "VERSATILE"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.battleaxe",
+        "presentation": {
+          "description": "",
+          "title": "Battleaxe"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "Versatile weapons are one-handed but deal bonus damage and qualify as a two-handed weapon for power riders and requirements when supported with a second hand.\nThis bonus is equal to:\n- +1 to each `[W]` die at levels 1–10\n- +2 at levels 11–20\n- +3 at levels 21–30\n\nThe versatile bonus may be gained by supporting the weapon with an off-hand occupied by a light shield or weapon in the unarmed group, but no bonuses from the item equipped in the off-hand apply to the attack, and the unarmed weapon cannot be used to attack until the grip is released.\nChanging grip is a free action.",
+            "id": "VERSATILE",
+            "printRule": true,
+            "title": "Versatile"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.carbine",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Simple proficiency, ranged attack.\nHands required: 2.\nGroups: Firearm.\nProficiency bonus: +2.\nDamage: 2d6.\nProperties:\n- Load (standard action)\n- Ranged (range 15/30 squares)\n- Brutal 2:\n    A brutal weapon's minimum damage is higher than that of a normal weapon. When rolling the damage from a weapon attack made with a brutal weapon, reroll any damage die that displays a value of 2 or lower until it shows 3 or greater, then use the new value.\n- High Crit:\n    A high crit weapon deals more damage when you score a critical hit with it.\n    A critical hit with a weapon attack deals maximum rolled damage and an extra [W] based on level:\n    - 1[W] at 1st–5th levels\n    - 2[W] at 6th–10th levels\n    - 3[W] at 11th–15th levels\n    - 4[W] at 16th–20th levels\n    - 5[W] at 21st–25th levels\n    - 6[W] at 26th–30th levels\n    This extra damage is in addition to any critical damage the weapon supplies if it is a magic weapon.",
+        "title": "Carbine"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "RANGED",
+          "damage": {
+            "diceCount": 2,
+            "dieSize": 6
+          },
+          "groups": [
+            "FIREARM"
+          ],
+          "handsRequired": 2,
+          "kind": "WEAPON",
+          "proficiencyBonus": 2,
+          "proficiencyCategory": "SIMPLE",
+          "properties": [
+            {
+              "action": "STANDARD",
+              "id": "LOAD"
+            },
+            {
+              "id": "RANGED",
+              "range": {
+                "long": 30,
+                "normal": 15
+              }
+            },
+            {
+              "id": "BRUTAL",
+              "value": 2
+            },
+            {
+              "id": "HIGH_CRIT"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.carbine",
+        "presentation": {
+          "description": "",
+          "title": "Carbine"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "",
+            "id": "LOAD",
+            "printRule": false,
+            "title": "Load"
+          },
+          {
+            "description": "",
+            "id": "RANGED",
+            "printRule": false,
+            "title": "Ranged"
+          },
+          {
+            "description": "A brutal weapon's minimum damage is higher than that of a normal weapon. When rolling the damage from a weapon attack made with a brutal weapon, reroll any damage die that displays a value of 2 or lower until it shows 3 or greater, then use the new value.",
+            "id": "BRUTAL",
+            "printRule": true,
+            "title": "Brutal"
+          },
+          {
+            "description": "A high crit weapon deals more damage when you score a critical hit with it.\nA critical hit with a weapon attack deals maximum rolled damage and an extra [W] based on level:\n- 1[W] at 1st–5th levels\n- 2[W] at 6th–10th levels\n- 3[W] at 11th–15th levels\n- 4[W] at 16th–20th levels\n- 5[W] at 21st–25th levels\n- 6[W] at 26th–30th levels\nThis extra damage is in addition to any critical damage the weapon supplies if it is a magic weapon.",
+            "id": "HIGH_CRIT",
+            "printRule": true,
+            "title": "High Crit"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.club",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Simple proficiency, melee attack.\nHands required: 1.\nGroups: Club.\nProficiency bonus: +2.\nDamage: 1d6.\nProperties:\n- Off Hand",
+        "title": "Club"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 6
+          },
+          "groups": [
+            "CLUB"
+          ],
+          "handsRequired": 1,
+          "kind": "WEAPON",
+          "proficiencyBonus": 2,
+          "proficiencyCategory": "SIMPLE",
+          "properties": [
+            {
+              "id": "OFF_HAND"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.club",
+        "presentation": {
+          "description": "",
+          "title": "Club"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "",
+            "id": "OFF_HAND",
+            "printRule": false,
+            "title": "Off-hand"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.composite-bow",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Military proficiency, ranged attack.\nHands required: 2.\nGroups: Bow.\nProficiency bonus: +3.\nDamage: 1d8.\nProperties:\n- Load (free action)\n- Ranged (range 20/40 squares)",
+        "title": "Composite Bow"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "RANGED",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 8
+          },
+          "groups": [
+            "BOW"
+          ],
+          "handsRequired": 2,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "MILITARY",
+          "properties": [
+            {
+              "action": "FREE",
+              "id": "LOAD"
+            },
+            {
+              "id": "RANGED",
+              "range": {
+                "long": 40,
+                "normal": 20
+              }
+            }
+          ]
+        },
+        "id": "modern4e.weapon.composite-bow",
+        "presentation": {
+          "description": "",
+          "title": "Composite Bow"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "",
+            "id": "LOAD",
+            "printRule": false,
+            "title": "Load"
+          },
+          {
+            "description": "",
+            "id": "RANGED",
+            "printRule": false,
+            "title": "Ranged"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "The source lists Thrown without a normal/long range.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.dagger",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Simple proficiency, melee attack.\nHands required: 1.\nGroups: Light Blade.\nProficiency bonus: +3.\nDamage: 1d4.\nProperties:\n- Off Hand\n- Thrown:\n    A thrown weapon may be used to make ranged attacks without penalty.\n    You hurl most thrown weapons from your hand, rather than using the weapon to loose a projectile.\n\n    A thrown weapon with a specified load speed is instead a launcher that can be used with enchanted ammunition if desired-- the launcher is not thrown at the target.",
+        "title": "Dagger"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime.",
+            "The source lists Thrown without a normal/long range."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 4
+          },
+          "groups": [
+            "LIGHT_BLADE"
+          ],
+          "handsRequired": 1,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "SIMPLE",
+          "properties": [
+            {
+              "id": "OFF_HAND"
+            },
+            {
+              "id": "THROWN"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.dagger",
+        "presentation": {
+          "description": "",
+          "title": "Dagger"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "",
+            "id": "OFF_HAND",
+            "printRule": false,
+            "title": "Off-hand"
+          },
+          {
+            "description": "A thrown weapon may be used to make ranged attacks without penalty.\nYou hurl most thrown weapons from your hand, rather than using the weapon to loose a projectile.\n\nA thrown weapon with a specified load speed is instead a launcher that can be used with enchanted ammunition if desired-- the launcher is not thrown at the target.",
+            "id": "THROWN",
+            "printRule": true,
+            "title": "Thrown"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.double-bladed-dagger",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Superior proficiency, melee attack.\nHands required: 1.\nGroups: Light Blade.\nProficiency bonus: +3.\nDamage: 1d8.\nProperties:\n- Off Hand",
+        "title": "Double-Bladed Dagger"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 8
+          },
+          "groups": [
+            "LIGHT_BLADE"
+          ],
+          "handsRequired": 1,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "SUPERIOR",
+          "properties": [
+            {
+              "id": "OFF_HAND"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.double-bladed-dagger",
+        "presentation": {
+          "description": "",
+          "title": "Double-Bladed Dagger"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "",
+            "id": "OFF_HAND",
+            "printRule": false,
+            "title": "Off-hand"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.execution-axe",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Superior proficiency, melee attack.\nHands required: 2.\nGroups: Axe.\nProficiency bonus: +3.\nDamage: 1d12.\nProperties:\n- High Crit:\n    A high crit weapon deals more damage when you score a critical hit with it.\n    A critical hit with a weapon attack deals maximum rolled damage and an extra [W] based on level:\n    - 1[W] at 1st–5th levels\n    - 2[W] at 6th–10th levels\n    - 3[W] at 11th–15th levels\n    - 4[W] at 16th–20th levels\n    - 5[W] at 21st–25th levels\n    - 6[W] at 26th–30th levels\n    This extra damage is in addition to any critical damage the weapon supplies if it is a magic weapon.",
+        "title": "Execution Axe"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 12
+          },
+          "groups": [
+            "AXE"
+          ],
+          "handsRequired": 2,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "SUPERIOR",
+          "properties": [
+            {
+              "id": "HIGH_CRIT"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.execution-axe",
+        "presentation": {
+          "description": "",
+          "title": "Execution Axe"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "A high crit weapon deals more damage when you score a critical hit with it.\nA critical hit with a weapon attack deals maximum rolled damage and an extra [W] based on level:\n- 1[W] at 1st–5th levels\n- 2[W] at 6th–10th levels\n- 3[W] at 11th–15th levels\n- 4[W] at 16th–20th levels\n- 5[W] at 21st–25th levels\n- 6[W] at 26th–30th levels\nThis extra damage is in addition to any critical damage the weapon supplies if it is a magic weapon.",
+            "id": "HIGH_CRIT",
+            "printRule": true,
+            "title": "High Crit"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.flail",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Military proficiency, melee attack.\nHands required: 1.\nGroups: Flail.\nProficiency bonus: +3.\nDamage: 1d8.\nProperties: none.",
+        "title": "Flail"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 8
+          },
+          "groups": [
+            "FLAIL"
+          ],
+          "handsRequired": 1,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "MILITARY",
+          "properties": []
+        },
+        "id": "modern4e.weapon.flail",
+        "presentation": {
+          "description": "",
+          "title": "Flail"
+        },
+        "propertyDefinitions": []
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.fullblade",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Superior proficiency, melee attack.\nHands required: 2.\nGroups: Heavy Blade.\nProficiency bonus: +3.\nDamage: 1d12.\nProperties:\n- Brutal:\n    A brutal weapon's minimum damage is higher than that of a normal weapon. When rolling the damage from a weapon attack made with a brutal weapon, reroll any damage die that displays a value of 2 or lower until it shows 3 or greater, then use the new value.\n- Severe:\n    A severe weapon's maximum damage is higher than that of a normal weapon.\n    When rolling the damage from a weapon attack made with a severe weapon, whenever you roll a die that displays its maximum value, that die explodes: roll a second damage die of the same size, and add these dice to the original roll as extra damage.",
+        "title": "Fullblade"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 12
+          },
+          "groups": [
+            "HEAVY_BLADE"
+          ],
+          "handsRequired": 2,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "SUPERIOR",
+          "properties": [
+            {
+              "id": "BRUTAL"
+            },
+            {
+              "id": "SEVERE"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.fullblade",
+        "presentation": {
+          "description": "",
+          "title": "Fullblade"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "A brutal weapon's minimum damage is higher than that of a normal weapon. When rolling the damage from a weapon attack made with a brutal weapon, reroll any damage die that displays a value of 2 or lower until it shows 3 or greater, then use the new value.",
+            "id": "BRUTAL",
+            "printRule": true,
+            "title": "Brutal"
+          },
+          {
+            "description": "A severe weapon's maximum damage is higher than that of a normal weapon.\nWhen rolling the damage from a weapon attack made with a severe weapon, whenever you roll a die that displays its maximum value, that die explodes: roll a second damage die of the same size, and add these dice to the original roll as extra damage.",
+            "id": "SEVERE",
+            "printRule": true,
+            "title": "Severe"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "The source places this versatile weapon in a two-handed section; that classification is preserved pending clarification.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.glaive",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Military proficiency, melee attack.\nHands required: 2.\nGroups: Heavy Blade.\nProficiency bonus: +3.\nDamage: 1d10.\nProperties:\n- Reach\n- Versatile:\n    Versatile weapons are one-handed but deal bonus damage and qualify as a two-handed weapon for power riders and requirements when supported with a second hand.\n    This bonus is equal to:\n    - +1 to each `[W]` die at levels 1–10\n    - +2 at levels 11–20\n    - +3 at levels 21–30\n\n    The versatile bonus may be gained by supporting the weapon with an off-hand occupied by a light shield or weapon in the unarmed group, but no bonuses from the item equipped in the off-hand apply to the attack, and the unarmed weapon cannot be used to attack until the grip is released.\n    Changing grip is a free action.",
+        "title": "Glaive"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime.",
+            "The source places this versatile weapon in a two-handed section; that classification is preserved pending clarification."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 10
+          },
+          "groups": [
+            "HEAVY_BLADE"
+          ],
+          "handsRequired": 2,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "MILITARY",
+          "properties": [
+            {
+              "id": "REACH"
+            },
+            {
+              "id": "VERSATILE"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.glaive",
+        "presentation": {
+          "description": "",
+          "title": "Glaive"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "",
+            "id": "REACH",
+            "printRule": false,
+            "title": "Reach"
+          },
+          {
+            "description": "Versatile weapons are one-handed but deal bonus damage and qualify as a two-handed weapon for power riders and requirements when supported with a second hand.\nThis bonus is equal to:\n- +1 to each `[W]` die at levels 1–10\n- +2 at levels 11–20\n- +3 at levels 21–30\n\nThe versatile bonus may be gained by supporting the weapon with an off-hand occupied by a light shield or weapon in the unarmed group, but no bonuses from the item equipped in the off-hand apply to the attack, and the unarmed weapon cannot be used to attack until the grip is released.\nChanging grip is a free action.",
+            "id": "VERSATILE",
+            "printRule": true,
+            "title": "Versatile"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.greataxe",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Military proficiency, melee attack.\nHands required: 2.\nGroups: Axe.\nProficiency bonus: +3.\nDamage: 1d12.\nProperties:\n- Brutal:\n    A brutal weapon's minimum damage is higher than that of a normal weapon. When rolling the damage from a weapon attack made with a brutal weapon, reroll any damage die that displays a value of 2 or lower until it shows 3 or greater, then use the new value.",
+        "title": "Greataxe"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 12
+          },
+          "groups": [
+            "AXE"
+          ],
+          "handsRequired": 2,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "MILITARY",
+          "properties": [
+            {
+              "id": "BRUTAL"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.greataxe",
+        "presentation": {
+          "description": "",
+          "title": "Greataxe"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "A brutal weapon's minimum damage is higher than that of a normal weapon. When rolling the damage from a weapon attack made with a brutal weapon, reroll any damage die that displays a value of 2 or lower until it shows 3 or greater, then use the new value.",
+            "id": "BRUTAL",
+            "printRule": true,
+            "title": "Brutal"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.greatbow",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Military proficiency, ranged attack.\nHands required: 2.\nGroups: Bow.\nProficiency bonus: +3.\nDamage: 1d10.\nProperties:\n- Load (minor action)\n- Ranged (range 25/50 squares)",
+        "title": "Greatbow"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "RANGED",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 10
+          },
+          "groups": [
+            "BOW"
+          ],
+          "handsRequired": 2,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "MILITARY",
+          "properties": [
+            {
+              "action": "MINOR",
+              "id": "LOAD"
+            },
+            {
+              "id": "RANGED",
+              "range": {
+                "long": 50,
+                "normal": 25
+              }
+            }
+          ]
+        },
+        "id": "modern4e.weapon.greatbow",
+        "presentation": {
+          "description": "",
+          "title": "Greatbow"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "",
+            "id": "LOAD",
+            "printRule": false,
+            "title": "Load"
+          },
+          {
+            "description": "",
+            "id": "RANGED",
+            "printRule": false,
+            "title": "Ranged"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.greatclub",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Simple proficiency, melee attack.\nHands required: 2.\nGroups: Club.\nProficiency bonus: +2.\nDamage: 1d10.\nProperties: none.",
+        "title": "Greatclub"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 10
+          },
+          "groups": [
+            "CLUB"
+          ],
+          "handsRequired": 2,
+          "kind": "WEAPON",
+          "proficiencyBonus": 2,
+          "proficiencyCategory": "SIMPLE",
+          "properties": []
+        },
+        "id": "modern4e.weapon.greatclub",
+        "presentation": {
+          "description": "",
+          "title": "Greatclub"
+        },
+        "propertyDefinitions": []
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.greatsword",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Military proficiency, melee attack.\nHands required: 2.\nGroups: Heavy Blade.\nProficiency bonus: +3.\nDamage: 1d10.\nProperties:\n- High Crit:\n    A high crit weapon deals more damage when you score a critical hit with it.\n    A critical hit with a weapon attack deals maximum rolled damage and an extra [W] based on level:\n    - 1[W] at 1st–5th levels\n    - 2[W] at 6th–10th levels\n    - 3[W] at 11th–15th levels\n    - 4[W] at 16th–20th levels\n    - 5[W] at 21st–25th levels\n    - 6[W] at 26th–30th levels\n    This extra damage is in addition to any critical damage the weapon supplies if it is a magic weapon.",
+        "title": "Greatsword"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 10
+          },
+          "groups": [
+            "HEAVY_BLADE"
+          ],
+          "handsRequired": 2,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "MILITARY",
+          "properties": [
+            {
+              "id": "HIGH_CRIT"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.greatsword",
+        "presentation": {
+          "description": "",
+          "title": "Greatsword"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "A high crit weapon deals more damage when you score a critical hit with it.\nA critical hit with a weapon attack deals maximum rolled damage and an extra [W] based on level:\n- 1[W] at 1st–5th levels\n- 2[W] at 6th–10th levels\n- 3[W] at 11th–15th levels\n- 4[W] at 16th–20th levels\n- 5[W] at 21st–25th levels\n- 6[W] at 26th–30th levels\nThis extra damage is in addition to any critical damage the weapon supplies if it is a magic weapon.",
+            "id": "HIGH_CRIT",
+            "printRule": true,
+            "title": "High Crit"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.halberd",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Military proficiency, melee attack.\nHands required: 2.\nGroups: Polearm.\nProficiency bonus: +3.\nDamage: 1d10.\nProperties:\n- Reach\n- Severe:\n    A severe weapon's maximum damage is higher than that of a normal weapon.\n    When rolling the damage from a weapon attack made with a severe weapon, whenever you roll a die that displays its maximum value, that die explodes: roll a second damage die of the same size, and add these dice to the original roll as extra damage.",
+        "title": "Halberd"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 10
+          },
+          "groups": [
+            "POLEARM"
+          ],
+          "handsRequired": 2,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "MILITARY",
+          "properties": [
+            {
+              "id": "REACH"
+            },
+            {
+              "id": "SEVERE"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.halberd",
+        "presentation": {
+          "description": "",
+          "title": "Halberd"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "",
+            "id": "REACH",
+            "printRule": false,
+            "title": "Reach"
+          },
+          {
+            "description": "A severe weapon's maximum damage is higher than that of a normal weapon.\nWhen rolling the damage from a weapon attack made with a severe weapon, whenever you roll a die that displays its maximum value, that die explodes: roll a second damage die of the same size, and add these dice to the original roll as extra damage.",
+            "id": "SEVERE",
+            "printRule": true,
+            "title": "Severe"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.handaxe",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Simple proficiency, melee attack.\nHands required: 1.\nGroups: Axe.\nProficiency bonus: +2.\nDamage: 1d6.\nProperties:\n- Thrown (range 5/10 squares):\n    A thrown weapon may be used to make ranged attacks without penalty.\n    You hurl most thrown weapons from your hand, rather than using the weapon to loose a projectile.\n\n    A thrown weapon with a specified load speed is instead a launcher that can be used with enchanted ammunition if desired-- the launcher is not thrown at the target.",
+        "title": "Handaxe"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 6
+          },
+          "groups": [
+            "AXE"
+          ],
+          "handsRequired": 1,
+          "kind": "WEAPON",
+          "proficiencyBonus": 2,
+          "proficiencyCategory": "SIMPLE",
+          "properties": [
+            {
+              "id": "THROWN",
+              "range": {
+                "long": 10,
+                "normal": 5
+              }
+            }
+          ]
+        },
+        "id": "modern4e.weapon.handaxe",
+        "presentation": {
+          "description": "",
+          "title": "Handaxe"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "A thrown weapon may be used to make ranged attacks without penalty.\nYou hurl most thrown weapons from your hand, rather than using the weapon to loose a projectile.\n\nA thrown weapon with a specified load speed is instead a launcher that can be used with enchanted ammunition if desired-- the launcher is not thrown at the target.",
+            "id": "THROWN",
+            "printRule": true,
+            "title": "Thrown"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.heavy-crossbow",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Military proficiency, ranged attack.\nHands required: 2.\nGroups: Crossbow.\nProficiency bonus: +3.\nDamage: 1d10.\nProperties:\n- Load (minor action)\n- Ranged (range 20/40 squares)",
+        "title": "Heavy Crossbow"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "RANGED",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 10
+          },
+          "groups": [
+            "CROSSBOW"
+          ],
+          "handsRequired": 2,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "MILITARY",
+          "properties": [
+            {
+              "action": "MINOR",
+              "id": "LOAD"
+            },
+            {
+              "id": "RANGED",
+              "range": {
+                "long": 40,
+                "normal": 20
+              }
+            }
+          ]
+        },
+        "id": "modern4e.weapon.heavy-crossbow",
+        "presentation": {
+          "description": "",
+          "title": "Heavy Crossbow"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "",
+            "id": "LOAD",
+            "printRule": false,
+            "title": "Load"
+          },
+          {
+            "description": "",
+            "id": "RANGED",
+            "printRule": false,
+            "title": "Ranged"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.javelin",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Simple proficiency, melee attack.\nHands required: 1.\nGroups: Spear.\nProficiency bonus: +2.\nDamage: 1d6.\nProperties:\n- Thrown (range 5/10 squares):\n    A thrown weapon may be used to make ranged attacks without penalty.\n    You hurl most thrown weapons from your hand, rather than using the weapon to loose a projectile.\n\n    A thrown weapon with a specified load speed is instead a launcher that can be used with enchanted ammunition if desired-- the launcher is not thrown at the target.",
+        "title": "Javelin"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 6
+          },
+          "groups": [
+            "SPEAR"
+          ],
+          "handsRequired": 1,
+          "kind": "WEAPON",
+          "proficiencyBonus": 2,
+          "proficiencyCategory": "SIMPLE",
+          "properties": [
+            {
+              "id": "THROWN",
+              "range": {
+                "long": 10,
+                "normal": 5
+              }
+            }
+          ]
+        },
+        "id": "modern4e.weapon.javelin",
+        "presentation": {
+          "description": "",
+          "title": "Javelin"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "A thrown weapon may be used to make ranged attacks without penalty.\nYou hurl most thrown weapons from your hand, rather than using the weapon to loose a projectile.\n\nA thrown weapon with a specified load speed is instead a launcher that can be used with enchanted ammunition if desired-- the launcher is not thrown at the target.",
+            "id": "THROWN",
+            "printRule": true,
+            "title": "Thrown"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.light-crossbow",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Simple proficiency, ranged attack.\nHands required: 2.\nGroups: Crossbow.\nProficiency bonus: +2.\nDamage: 1d8.\nProperties:\n- Load (minor action)\n- Ranged (range 15/30 squares)",
+        "title": "Light Crossbow"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "RANGED",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 8
+          },
+          "groups": [
+            "CROSSBOW"
+          ],
+          "handsRequired": 2,
+          "kind": "WEAPON",
+          "proficiencyBonus": 2,
+          "proficiencyCategory": "SIMPLE",
+          "properties": [
+            {
+              "action": "MINOR",
+              "id": "LOAD"
+            },
+            {
+              "id": "RANGED",
+              "range": {
+                "long": 30,
+                "normal": 15
+              }
+            }
+          ]
+        },
+        "id": "modern4e.weapon.light-crossbow",
+        "presentation": {
+          "description": "",
+          "title": "Light Crossbow"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "",
+            "id": "LOAD",
+            "printRule": false,
+            "title": "Load"
+          },
+          {
+            "description": "",
+            "id": "RANGED",
+            "printRule": false,
+            "title": "Ranged"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.longspear",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Military proficiency, melee attack.\nHands required: 2.\nGroups: Spear.\nProficiency bonus: +3.\nDamage: 1d10.\nProperties:\n- Reach",
+        "title": "Longspear"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 10
+          },
+          "groups": [
+            "SPEAR"
+          ],
+          "handsRequired": 2,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "MILITARY",
+          "properties": [
+            {
+              "id": "REACH"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.longspear",
+        "presentation": {
+          "description": "",
+          "title": "Longspear"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "",
+            "id": "REACH",
+            "printRule": false,
+            "title": "Reach"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.longsword",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Military proficiency, melee attack.\nHands required: 1.\nGroups: Heavy Blade.\nProficiency bonus: +3.\nDamage: 1d8.\nProperties:\n- Versatile:\n    Versatile weapons are one-handed but deal bonus damage and qualify as a two-handed weapon for power riders and requirements when supported with a second hand.\n    This bonus is equal to:\n    - +1 to each `[W]` die at levels 1–10\n    - +2 at levels 11–20\n    - +3 at levels 21–30\n\n    The versatile bonus may be gained by supporting the weapon with an off-hand occupied by a light shield or weapon in the unarmed group, but no bonuses from the item equipped in the off-hand apply to the attack, and the unarmed weapon cannot be used to attack until the grip is released.\n    Changing grip is a free action.",
+        "title": "Longsword"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 8
+          },
+          "groups": [
+            "HEAVY_BLADE"
+          ],
+          "handsRequired": 1,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "MILITARY",
+          "properties": [
+            {
+              "id": "VERSATILE"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.longsword",
+        "presentation": {
+          "description": "",
+          "title": "Longsword"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "Versatile weapons are one-handed but deal bonus damage and qualify as a two-handed weapon for power riders and requirements when supported with a second hand.\nThis bonus is equal to:\n- +1 to each `[W]` die at levels 1–10\n- +2 at levels 11–20\n- +3 at levels 21–30\n\nThe versatile bonus may be gained by supporting the weapon with an off-hand occupied by a light shield or weapon in the unarmed group, but no bonuses from the item equipped in the off-hand apply to the attack, and the unarmed weapon cannot be used to attack until the grip is released.\nChanging grip is a free action.",
+            "id": "VERSATILE",
+            "printRule": true,
+            "title": "Versatile"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.mace",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Simple proficiency, melee attack.\nHands required: 1.\nGroups: Hammer.\nProficiency bonus: +2.\nDamage: 1d8.\nProperties:\n- Implement:\n    A weapon with the Implement property may be used as an implement, even if they are held in only one hand.",
+        "title": "Mace"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 8
+          },
+          "groups": [
+            "HAMMER"
+          ],
+          "handsRequired": 1,
+          "kind": "WEAPON",
+          "proficiencyBonus": 2,
+          "proficiencyCategory": "SIMPLE",
+          "properties": [
+            {
+              "id": "IMPLEMENT"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.mace",
+        "presentation": {
+          "description": "",
+          "title": "Mace"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "A weapon with the Implement property may be used as an implement, even if they are held in only one hand.",
+            "id": "IMPLEMENT",
+            "printRule": true,
+            "title": "Implement"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.maul",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Military proficiency, melee attack.\nHands required: 2.\nGroups: Hammer.\nProficiency bonus: +3.\nDamage: 2d6.\nProperties:\n- Brutal:\n    A brutal weapon's minimum damage is higher than that of a normal weapon. When rolling the damage from a weapon attack made with a brutal weapon, reroll any damage die that displays a value of 2 or lower until it shows 3 or greater, then use the new value.",
+        "title": "Maul"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 2,
+            "dieSize": 6
+          },
+          "groups": [
+            "HAMMER"
+          ],
+          "handsRequired": 2,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "MILITARY",
+          "properties": [
+            {
+              "id": "BRUTAL"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.maul",
+        "presentation": {
+          "description": "",
+          "title": "Maul"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "A brutal weapon's minimum damage is higher than that of a normal weapon. When rolling the damage from a weapon attack made with a brutal weapon, reroll any damage die that displays a value of 2 or lower until it shows 3 or greater, then use the new value.",
+            "id": "BRUTAL",
+            "printRule": true,
+            "title": "Brutal"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "The Superior Ranged Weapons section does not specify required hands.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.musket",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Superior proficiency, ranged attack.\nHands required: not specified.\nGroups: Firearm.\nProficiency bonus: +3.\nDamage: 2d8.\nProperties:\n- Load (standard action)\n- Ranged (range 20/40 squares)\n- Brutal 2:\n    A brutal weapon's minimum damage is higher than that of a normal weapon. When rolling the damage from a weapon attack made with a brutal weapon, reroll any damage die that displays a value of 2 or lower until it shows 3 or greater, then use the new value.\n- High Crit:\n    A high crit weapon deals more damage when you score a critical hit with it.\n    A critical hit with a weapon attack deals maximum rolled damage and an extra [W] based on level:\n    - 1[W] at 1st–5th levels\n    - 2[W] at 6th–10th levels\n    - 3[W] at 11th–15th levels\n    - 4[W] at 16th–20th levels\n    - 5[W] at 21st–25th levels\n    - 6[W] at 26th–30th levels\n    This extra damage is in addition to any critical damage the weapon supplies if it is a magic weapon.",
+        "title": "Musket"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime.",
+            "The Superior Ranged Weapons section does not specify required hands."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "RANGED",
+          "damage": {
+            "diceCount": 2,
+            "dieSize": 8
+          },
+          "groups": [
+            "FIREARM"
+          ],
+          "handsRequired": null,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "SUPERIOR",
+          "properties": [
+            {
+              "action": "STANDARD",
+              "id": "LOAD"
+            },
+            {
+              "id": "RANGED",
+              "range": {
+                "long": 40,
+                "normal": 20
+              }
+            },
+            {
+              "id": "BRUTAL",
+              "value": 2
+            },
+            {
+              "id": "HIGH_CRIT"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.musket",
+        "presentation": {
+          "description": "",
+          "title": "Musket"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "",
+            "id": "LOAD",
+            "printRule": false,
+            "title": "Load"
+          },
+          {
+            "description": "",
+            "id": "RANGED",
+            "printRule": false,
+            "title": "Ranged"
+          },
+          {
+            "description": "A brutal weapon's minimum damage is higher than that of a normal weapon. When rolling the damage from a weapon attack made with a brutal weapon, reroll any damage die that displays a value of 2 or lower until it shows 3 or greater, then use the new value.",
+            "id": "BRUTAL",
+            "printRule": true,
+            "title": "Brutal"
+          },
+          {
+            "description": "A high crit weapon deals more damage when you score a critical hit with it.\nA critical hit with a weapon attack deals maximum rolled damage and an extra [W] based on level:\n- 1[W] at 1st–5th levels\n- 2[W] at 6th–10th levels\n- 3[W] at 11th–15th levels\n- 4[W] at 16th–20th levels\n- 5[W] at 21st–25th levels\n- 6[W] at 26th–30th levels\nThis extra damage is in addition to any critical damage the weapon supplies if it is a magic weapon.",
+            "id": "HIGH_CRIT",
+            "printRule": true,
+            "title": "High Crit"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.parrying-dagger",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Superior proficiency, melee attack.\nHands required: 1.\nGroups: Light Blade.\nProficiency bonus: +3.\nDamage: 1d6.\nProperties:\n- Defensive:\n    A defensive weapon grants you a +1 bonus to AC while you wield at least one defensive weapon you are proficient with. Multiple defensive weapons do not stack.\n- Off Hand",
+        "title": "Parrying Dagger"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 6
+          },
+          "groups": [
+            "LIGHT_BLADE"
+          ],
+          "handsRequired": 1,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "SUPERIOR",
+          "properties": [
+            {
+              "id": "DEFENSIVE"
+            },
+            {
+              "id": "OFF_HAND"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.parrying-dagger",
+        "presentation": {
+          "description": "",
+          "title": "Parrying Dagger"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "A defensive weapon grants you a +1 bonus to AC while you wield at least one defensive weapon you are proficient with. Multiple defensive weapons do not stack.",
+            "id": "DEFENSIVE",
+            "printRule": true,
+            "title": "Defensive"
+          },
+          {
+            "description": "",
+            "id": "OFF_HAND",
+            "printRule": false,
+            "title": "Off-hand"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.pick",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Military proficiency, melee attack.\nHands required: 1.\nGroups: Hammer.\nProficiency bonus: +3.\nDamage: 1d8.\nProperties:\n- Brutal:\n    A brutal weapon's minimum damage is higher than that of a normal weapon. When rolling the damage from a weapon attack made with a brutal weapon, reroll any damage die that displays a value of 2 or lower until it shows 3 or greater, then use the new value.",
+        "title": "Pick"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 8
+          },
+          "groups": [
+            "HAMMER"
+          ],
+          "handsRequired": 1,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "MILITARY",
+          "properties": [
+            {
+              "id": "BRUTAL"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.pick",
+        "presentation": {
+          "description": "",
+          "title": "Pick"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "A brutal weapon's minimum damage is higher than that of a normal weapon. When rolling the damage from a weapon attack made with a brutal weapon, reroll any damage die that displays a value of 2 or lower until it shows 3 or greater, then use the new value.",
+            "id": "BRUTAL",
+            "printRule": true,
+            "title": "Brutal"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.pistol",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Simple proficiency, ranged attack.\nHands required: 1.\nGroups: Firearm.\nProficiency bonus: +2.\nDamage: 2d4.\nProperties:\n- Load (standard action)\n- Ranged (range 10/20 squares)\n- Brutal 2:\n    A brutal weapon's minimum damage is higher than that of a normal weapon. When rolling the damage from a weapon attack made with a brutal weapon, reroll any damage die that displays a value of 2 or lower until it shows 3 or greater, then use the new value.\n- High Crit:\n    A high crit weapon deals more damage when you score a critical hit with it.\n    A critical hit with a weapon attack deals maximum rolled damage and an extra [W] based on level:\n    - 1[W] at 1st–5th levels\n    - 2[W] at 6th–10th levels\n    - 3[W] at 11th–15th levels\n    - 4[W] at 16th–20th levels\n    - 5[W] at 21st–25th levels\n    - 6[W] at 26th–30th levels\n    This extra damage is in addition to any critical damage the weapon supplies if it is a magic weapon.\n- Off Hand",
+        "title": "Pistol"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "RANGED",
+          "damage": {
+            "diceCount": 2,
+            "dieSize": 4
+          },
+          "groups": [
+            "FIREARM"
+          ],
+          "handsRequired": 1,
+          "kind": "WEAPON",
+          "proficiencyBonus": 2,
+          "proficiencyCategory": "SIMPLE",
+          "properties": [
+            {
+              "action": "STANDARD",
+              "id": "LOAD"
+            },
+            {
+              "id": "RANGED",
+              "range": {
+                "long": 20,
+                "normal": 10
+              }
+            },
+            {
+              "id": "BRUTAL",
+              "value": 2
+            },
+            {
+              "id": "HIGH_CRIT"
+            },
+            {
+              "id": "OFF_HAND"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.pistol",
+        "presentation": {
+          "description": "",
+          "title": "Pistol"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "",
+            "id": "LOAD",
+            "printRule": false,
+            "title": "Load"
+          },
+          {
+            "description": "",
+            "id": "RANGED",
+            "printRule": false,
+            "title": "Ranged"
+          },
+          {
+            "description": "A brutal weapon's minimum damage is higher than that of a normal weapon. When rolling the damage from a weapon attack made with a brutal weapon, reroll any damage die that displays a value of 2 or lower until it shows 3 or greater, then use the new value.",
+            "id": "BRUTAL",
+            "printRule": true,
+            "title": "Brutal"
+          },
+          {
+            "description": "A high crit weapon deals more damage when you score a critical hit with it.\nA critical hit with a weapon attack deals maximum rolled damage and an extra [W] based on level:\n- 1[W] at 1st–5th levels\n- 2[W] at 6th–10th levels\n- 3[W] at 11th–15th levels\n- 4[W] at 16th–20th levels\n- 5[W] at 21st–25th levels\n- 6[W] at 26th–30th levels\nThis extra damage is in addition to any critical damage the weapon supplies if it is a magic weapon.",
+            "id": "HIGH_CRIT",
+            "printRule": true,
+            "title": "High Crit"
+          },
+          {
+            "description": "",
+            "id": "OFF_HAND",
+            "printRule": false,
+            "title": "Off-hand"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "The source places this versatile weapon in a two-handed section; that classification is preserved pending clarification.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.quarterstaff",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Simple proficiency, melee attack.\nHands required: 2.\nGroups: Staff.\nProficiency bonus: +2.\nDamage: 1d8.\nProperties:\n- Versatile:\n    Versatile weapons are one-handed but deal bonus damage and qualify as a two-handed weapon for power riders and requirements when supported with a second hand.\n    This bonus is equal to:\n    - +1 to each `[W]` die at levels 1–10\n    - +2 at levels 11–20\n    - +3 at levels 21–30\n\n    The versatile bonus may be gained by supporting the weapon with an off-hand occupied by a light shield or weapon in the unarmed group, but no bonuses from the item equipped in the off-hand apply to the attack, and the unarmed weapon cannot be used to attack until the grip is released.\n    Changing grip is a free action.\n- Implement:\n    A weapon with the Implement property may be used as an implement, even if they are held in only one hand.",
+        "title": "Quarterstaff"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime.",
+            "The source places this versatile weapon in a two-handed section; that classification is preserved pending clarification."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 8
+          },
+          "groups": [
+            "STAFF"
+          ],
+          "handsRequired": 2,
+          "kind": "WEAPON",
+          "proficiencyBonus": 2,
+          "proficiencyCategory": "SIMPLE",
+          "properties": [
+            {
+              "id": "VERSATILE"
+            },
+            {
+              "id": "IMPLEMENT"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.quarterstaff",
+        "presentation": {
+          "description": "",
+          "title": "Quarterstaff"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "Versatile weapons are one-handed but deal bonus damage and qualify as a two-handed weapon for power riders and requirements when supported with a second hand.\nThis bonus is equal to:\n- +1 to each `[W]` die at levels 1–10\n- +2 at levels 11–20\n- +3 at levels 21–30\n\nThe versatile bonus may be gained by supporting the weapon with an off-hand occupied by a light shield or weapon in the unarmed group, but no bonuses from the item equipped in the off-hand apply to the attack, and the unarmed weapon cannot be used to attack until the grip is released.\nChanging grip is a free action.",
+            "id": "VERSATILE",
+            "printRule": true,
+            "title": "Versatile"
+          },
+          {
+            "description": "A weapon with the Implement property may be used as an implement, even if they are held in only one hand.",
+            "id": "IMPLEMENT",
+            "printRule": true,
+            "title": "Implement"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.rapier",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Military proficiency, melee attack.\nHands required: 1.\nGroups: Light Blade.\nProficiency bonus: +3.\nDamage: 1d8.\nProperties:\n- High Crit:\n    A high crit weapon deals more damage when you score a critical hit with it.\n    A critical hit with a weapon attack deals maximum rolled damage and an extra [W] based on level:\n    - 1[W] at 1st–5th levels\n    - 2[W] at 6th–10th levels\n    - 3[W] at 11th–15th levels\n    - 4[W] at 16th–20th levels\n    - 5[W] at 21st–25th levels\n    - 6[W] at 26th–30th levels\n    This extra damage is in addition to any critical damage the weapon supplies if it is a magic weapon.",
+        "title": "Rapier"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 8
+          },
+          "groups": [
+            "LIGHT_BLADE"
+          ],
+          "handsRequired": 1,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "MILITARY",
+          "properties": [
+            {
+              "id": "HIGH_CRIT"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.rapier",
+        "presentation": {
+          "description": "",
+          "title": "Rapier"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "A high crit weapon deals more damage when you score a critical hit with it.\nA critical hit with a weapon attack deals maximum rolled damage and an extra [W] based on level:\n- 1[W] at 1st–5th levels\n- 2[W] at 6th–10th levels\n- 3[W] at 11th–15th levels\n- 4[W] at 16th–20th levels\n- 5[W] at 21st–25th levels\n- 6[W] at 26th–30th levels\nThis extra damage is in addition to any critical damage the weapon supplies if it is a magic weapon.",
+            "id": "HIGH_CRIT",
+            "printRule": true,
+            "title": "High Crit"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "The Superior Ranged Weapons section does not specify required hands.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.recurve-bow",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Superior proficiency, ranged attack.\nHands required: not specified.\nGroups: Bow.\nProficiency bonus: +3.\nDamage: 1d8.\nProperties:\n- Ranged (range 25/50 squares)\n- Load (free action)",
+        "title": "Recurve Bow"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime.",
+            "The Superior Ranged Weapons section does not specify required hands."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "RANGED",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 8
+          },
+          "groups": [
+            "BOW"
+          ],
+          "handsRequired": null,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "SUPERIOR",
+          "properties": [
+            {
+              "id": "RANGED",
+              "range": {
+                "long": 50,
+                "normal": 25
+              }
+            },
+            {
+              "action": "FREE",
+              "id": "LOAD"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.recurve-bow",
+        "presentation": {
+          "description": "",
+          "title": "Recurve Bow"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "",
+            "id": "RANGED",
+            "printRule": false,
+            "title": "Ranged"
+          },
+          {
+            "description": "",
+            "id": "LOAD",
+            "printRule": false,
+            "title": "Load"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "The Superior Ranged Weapons section does not specify required hands.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.repeating-heavy-crossbow",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Superior proficiency, ranged attack.\nHands required: not specified.\nGroups: Crossbow.\nProficiency bonus: +3.\nDamage: 1d10.\nProperties:\n- Load (free action)\n- Ranged (range 25/50 squares)",
+        "title": "Repeating Heavy Crossbow"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime.",
+            "The Superior Ranged Weapons section does not specify required hands."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "RANGED",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 10
+          },
+          "groups": [
+            "CROSSBOW"
+          ],
+          "handsRequired": null,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "SUPERIOR",
+          "properties": [
+            {
+              "action": "FREE",
+              "id": "LOAD"
+            },
+            {
+              "id": "RANGED",
+              "range": {
+                "long": 50,
+                "normal": 25
+              }
+            }
+          ]
+        },
+        "id": "modern4e.weapon.repeating-heavy-crossbow",
+        "presentation": {
+          "description": "",
+          "title": "Repeating Heavy Crossbow"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "",
+            "id": "LOAD",
+            "printRule": false,
+            "title": "Load"
+          },
+          {
+            "description": "",
+            "id": "RANGED",
+            "printRule": false,
+            "title": "Ranged"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.scimitar",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Military proficiency, melee attack.\nHands required: 1.\nGroups: Heavy Blade.\nProficiency bonus: +3.\nDamage: 1d8.\nProperties: none.",
+        "title": "Scimitar"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 8
+          },
+          "groups": [
+            "HEAVY_BLADE"
+          ],
+          "handsRequired": 1,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "MILITARY",
+          "properties": []
+        },
+        "id": "modern4e.weapon.scimitar",
+        "presentation": {
+          "description": "",
+          "title": "Scimitar"
+        },
+        "propertyDefinitions": []
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.shortsword",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Military proficiency, melee attack.\nHands required: 1.\nGroups: Light Blade.\nProficiency bonus: +3.\nDamage: 1d6.\nProperties:\n- Off Hand",
+        "title": "Shortsword"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 6
+          },
+          "groups": [
+            "LIGHT_BLADE"
+          ],
+          "handsRequired": 1,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "MILITARY",
+          "properties": [
+            {
+              "id": "OFF_HAND"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.shortsword",
+        "presentation": {
+          "description": "",
+          "title": "Shortsword"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "",
+            "id": "OFF_HAND",
+            "printRule": false,
+            "title": "Off-hand"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.shotgun",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Simple proficiency, ranged attack.\nHands required: 2.\nGroups: Firearm.\nProficiency bonus: +2.\nDamage: 2d8.\nProperties:\n- Load (standard action)\n- Ranged (range 3/6 squares)",
+        "title": "Shotgun"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "RANGED",
+          "damage": {
+            "diceCount": 2,
+            "dieSize": 8
+          },
+          "groups": [
+            "FIREARM"
+          ],
+          "handsRequired": 2,
+          "kind": "WEAPON",
+          "proficiencyBonus": 2,
+          "proficiencyCategory": "SIMPLE",
+          "properties": [
+            {
+              "action": "STANDARD",
+              "id": "LOAD"
+            },
+            {
+              "id": "RANGED",
+              "range": {
+                "long": 6,
+                "normal": 3
+              }
+            }
+          ]
+        },
+        "id": "modern4e.weapon.shotgun",
+        "presentation": {
+          "description": "",
+          "title": "Shotgun"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "",
+            "id": "LOAD",
+            "printRule": false,
+            "title": "Load"
+          },
+          {
+            "description": "",
+            "id": "RANGED",
+            "printRule": false,
+            "title": "Ranged"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.sickle",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Simple proficiency, melee attack.\nHands required: 1.\nGroups: Light Blade.\nProficiency bonus: +2.\nDamage: 1d6.\nProperties:\n- Off Hand",
+        "title": "Sickle"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 6
+          },
+          "groups": [
+            "LIGHT_BLADE"
+          ],
+          "handsRequired": 1,
+          "kind": "WEAPON",
+          "proficiencyBonus": 2,
+          "proficiencyCategory": "SIMPLE",
+          "properties": [
+            {
+              "id": "OFF_HAND"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.sickle",
+        "presentation": {
+          "description": "",
+          "title": "Sickle"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "",
+            "id": "OFF_HAND",
+            "printRule": false,
+            "title": "Off-hand"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.sling",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Simple proficiency, ranged attack.\nHands required: 2.\nGroups: Sling.\nProficiency bonus: +2.\nDamage: 1d6.\nProperties:\n- Ranged (range 20/40 squares)",
+        "title": "Sling"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "RANGED",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 6
+          },
+          "groups": [
+            "SLING"
+          ],
+          "handsRequired": 2,
+          "kind": "WEAPON",
+          "proficiencyBonus": 2,
+          "proficiencyCategory": "SIMPLE",
+          "properties": [
+            {
+              "id": "RANGED",
+              "range": {
+                "long": 40,
+                "normal": 20
+              }
+            }
+          ]
+        },
+        "id": "modern4e.weapon.sling",
+        "presentation": {
+          "description": "",
+          "title": "Sling"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "",
+            "id": "RANGED",
+            "printRule": false,
+            "title": "Ranged"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "The source places this versatile weapon in a two-handed section; that classification is preserved pending clarification.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.sling-staff",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Military proficiency, ranged attack.\nHands required: 2.\nGroups: Sling.\nProficiency bonus: +3.\nDamage: 1d10.\nProperties:\n- Ranged (range 15/30 squares)\n- Versatile:\n    Versatile weapons are one-handed but deal bonus damage and qualify as a two-handed weapon for power riders and requirements when supported with a second hand.\n    This bonus is equal to:\n    - +1 to each `[W]` die at levels 1–10\n    - +2 at levels 11–20\n    - +3 at levels 21–30\n\n    The versatile bonus may be gained by supporting the weapon with an off-hand occupied by a light shield or weapon in the unarmed group, but no bonuses from the item equipped in the off-hand apply to the attack, and the unarmed weapon cannot be used to attack until the grip is released.\n    Changing grip is a free action.",
+        "title": "Sling Staff"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime.",
+            "The source places this versatile weapon in a two-handed section; that classification is preserved pending clarification."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "RANGED",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 10
+          },
+          "groups": [
+            "SLING"
+          ],
+          "handsRequired": 2,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "MILITARY",
+          "properties": [
+            {
+              "id": "RANGED",
+              "range": {
+                "long": 30,
+                "normal": 15
+              }
+            },
+            {
+              "id": "VERSATILE"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.sling-staff",
+        "presentation": {
+          "description": "",
+          "title": "Sling Staff"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "",
+            "id": "RANGED",
+            "printRule": false,
+            "title": "Ranged"
+          },
+          {
+            "description": "Versatile weapons are one-handed but deal bonus damage and qualify as a two-handed weapon for power riders and requirements when supported with a second hand.\nThis bonus is equal to:\n- +1 to each `[W]` die at levels 1–10\n- +2 at levels 11–20\n- +3 at levels 21–30\n\nThe versatile bonus may be gained by supporting the weapon with an off-hand occupied by a light shield or weapon in the unarmed group, but no bonuses from the item equipped in the off-hand apply to the attack, and the unarmed weapon cannot be used to attack until the grip is released.\nChanging grip is a free action.",
+            "id": "VERSATILE",
+            "printRule": true,
+            "title": "Versatile"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.spear",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Simple proficiency, melee attack.\nHands required: 2.\nGroups: Spear.\nProficiency bonus: +2.\nDamage: 1d8.\nProperties:\n- Thrown (range 5/10 squares):\n    A thrown weapon may be used to make ranged attacks without penalty.\n    You hurl most thrown weapons from your hand, rather than using the weapon to loose a projectile.\n\n    A thrown weapon with a specified load speed is instead a launcher that can be used with enchanted ammunition if desired-- the launcher is not thrown at the target.",
+        "title": "Spear"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 8
+          },
+          "groups": [
+            "SPEAR"
+          ],
+          "handsRequired": 2,
+          "kind": "WEAPON",
+          "proficiencyBonus": 2,
+          "proficiencyCategory": "SIMPLE",
+          "properties": [
+            {
+              "id": "THROWN",
+              "range": {
+                "long": 10,
+                "normal": 5
+              }
+            }
+          ]
+        },
+        "id": "modern4e.weapon.spear",
+        "presentation": {
+          "description": "",
+          "title": "Spear"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "A thrown weapon may be used to make ranged attacks without penalty.\nYou hurl most thrown weapons from your hand, rather than using the weapon to loose a projectile.\n\nA thrown weapon with a specified load speed is instead a launcher that can be used with enchanted ammunition if desired-- the launcher is not thrown at the target.",
+            "id": "THROWN",
+            "printRule": true,
+            "title": "Thrown"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "The source places this versatile weapon in a two-handed section; that classification is preserved pending clarification.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.spiked-chain",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Superior proficiency, melee attack.\nHands required: 2.\nGroups: Flail.\nProficiency bonus: +3.\nDamage: 2d4.\nProperties:\n- Reach\n- Versatile:\n    Versatile weapons are one-handed but deal bonus damage and qualify as a two-handed weapon for power riders and requirements when supported with a second hand.\n    This bonus is equal to:\n    - +1 to each `[W]` die at levels 1–10\n    - +2 at levels 11–20\n    - +3 at levels 21–30\n\n    The versatile bonus may be gained by supporting the weapon with an off-hand occupied by a light shield or weapon in the unarmed group, but no bonuses from the item equipped in the off-hand apply to the attack, and the unarmed weapon cannot be used to attack until the grip is released.\n    Changing grip is a free action.",
+        "title": "Spiked Chain"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime.",
+            "The source places this versatile weapon in a two-handed section; that classification is preserved pending clarification."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 2,
+            "dieSize": 4
+          },
+          "groups": [
+            "FLAIL"
+          ],
+          "handsRequired": 2,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "SUPERIOR",
+          "properties": [
+            {
+              "id": "REACH"
+            },
+            {
+              "id": "VERSATILE"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.spiked-chain",
+        "presentation": {
+          "description": "",
+          "title": "Spiked Chain"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "",
+            "id": "REACH",
+            "printRule": false,
+            "title": "Reach"
+          },
+          {
+            "description": "Versatile weapons are one-handed but deal bonus damage and qualify as a two-handed weapon for power riders and requirements when supported with a second hand.\nThis bonus is equal to:\n- +1 to each `[W]` die at levels 1–10\n- +2 at levels 11–20\n- +3 at levels 21–30\n\nThe versatile bonus may be gained by supporting the weapon with an off-hand occupied by a light shield or weapon in the unarmed group, but no bonuses from the item equipped in the off-hand apply to the attack, and the unarmed weapon cannot be used to attack until the grip is released.\nChanging grip is a free action.",
+            "id": "VERSATILE",
+            "printRule": true,
+            "title": "Versatile"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.throwing-hammer",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Military proficiency, ranged attack.\nHands required: 1.\nGroups: Hammer.\nProficiency bonus: +3.\nDamage: 1d6.\nProperties:\n- Thrown (range 5/10 squares):\n    A thrown weapon may be used to make ranged attacks without penalty.\n    You hurl most thrown weapons from your hand, rather than using the weapon to loose a projectile.\n\n    A thrown weapon with a specified load speed is instead a launcher that can be used with enchanted ammunition if desired-- the launcher is not thrown at the target.",
+        "title": "Throwing Hammer"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "RANGED",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 6
+          },
+          "groups": [
+            "HAMMER"
+          ],
+          "handsRequired": 1,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "MILITARY",
+          "properties": [
+            {
+              "id": "THROWN",
+              "range": {
+                "long": 10,
+                "normal": 5
+              }
+            }
+          ]
+        },
+        "id": "modern4e.weapon.throwing-hammer",
+        "presentation": {
+          "description": "",
+          "title": "Throwing Hammer"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "A thrown weapon may be used to make ranged attacks without penalty.\nYou hurl most thrown weapons from your hand, rather than using the weapon to loose a projectile.\n\nA thrown weapon with a specified load speed is instead a launcher that can be used with enchanted ammunition if desired-- the launcher is not thrown at the target.",
+            "id": "THROWN",
+            "printRule": true,
+            "title": "Thrown"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.throwing-shield",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Military proficiency, ranged attack.\nHands required: 1.\nGroups: Shield.\nProficiency bonus: +3.\nDamage: 1d6.\nProperties:\n- Thrown (range 5/10 squares):\n    A thrown weapon may be used to make ranged attacks without penalty.\n    You hurl most thrown weapons from your hand, rather than using the weapon to loose a projectile.\n\n    A thrown weapon with a specified load speed is instead a launcher that can be used with enchanted ammunition if desired-- the launcher is not thrown at the target.\n- Defensive:\n    A defensive weapon grants you a +1 bonus to AC while you wield at least one defensive weapon you are proficient with. Multiple defensive weapons do not stack.",
+        "title": "Throwing Shield"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "RANGED",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 6
+          },
+          "groups": [
+            "SHIELD"
+          ],
+          "handsRequired": 1,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "MILITARY",
+          "properties": [
+            {
+              "id": "THROWN",
+              "range": {
+                "long": 10,
+                "normal": 5
+              }
+            },
+            {
+              "id": "DEFENSIVE"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.throwing-shield",
+        "presentation": {
+          "description": "",
+          "title": "Throwing Shield"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "A thrown weapon may be used to make ranged attacks without penalty.\nYou hurl most thrown weapons from your hand, rather than using the weapon to loose a projectile.\n\nA thrown weapon with a specified load speed is instead a launcher that can be used with enchanted ammunition if desired-- the launcher is not thrown at the target.",
+            "id": "THROWN",
+            "printRule": true,
+            "title": "Thrown"
+          },
+          {
+            "description": "A defensive weapon grants you a +1 bonus to AC while you wield at least one defensive weapon you are proficient with. Multiple defensive weapons do not stack.",
+            "id": "DEFENSIVE",
+            "printRule": true,
+            "title": "Defensive"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "The source leaves the proficiency bonus blank; null is not an assumed zero.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.unarmed-attack",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Improvised proficiency, melee attack.\nHands required: 1.\nGroups: Unarmed.\nProficiency bonus: not specified.\nDamage: 1d4.\nProperties: none.",
+        "title": "Unarmed Attack"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime.",
+            "The source leaves the proficiency bonus blank; null is not an assumed zero."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 4
+          },
+          "groups": [
+            "UNARMED"
+          ],
+          "handsRequired": 1,
+          "kind": "WEAPON",
+          "proficiencyBonus": null,
+          "proficiencyCategory": "IMPROVISED",
+          "properties": []
+        },
+        "id": "modern4e.weapon.unarmed-attack",
+        "presentation": {
+          "description": "",
+          "title": "Unarmed Attack"
+        },
+        "propertyDefinitions": []
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.warhammer",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Military proficiency, melee attack.\nHands required: 1.\nGroups: Hammer.\nProficiency bonus: +3.\nDamage: 1d10.\nProperties:\n- Versatile:\n    Versatile weapons are one-handed but deal bonus damage and qualify as a two-handed weapon for power riders and requirements when supported with a second hand.\n    This bonus is equal to:\n    - +1 to each `[W]` die at levels 1–10\n    - +2 at levels 11–20\n    - +3 at levels 21–30\n\n    The versatile bonus may be gained by supporting the weapon with an off-hand occupied by a light shield or weapon in the unarmed group, but no bonuses from the item equipped in the off-hand apply to the attack, and the unarmed weapon cannot be used to attack until the grip is released.\n    Changing grip is a free action.",
+        "title": "Warhammer"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 10
+          },
+          "groups": [
+            "HAMMER"
+          ],
+          "handsRequired": 1,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "MILITARY",
+          "properties": [
+            {
+              "id": "VERSATILE"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.warhammer",
+        "presentation": {
+          "description": "",
+          "title": "Warhammer"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "Versatile weapons are one-handed but deal bonus damage and qualify as a two-handed weapon for power riders and requirements when supported with a second hand.\nThis bonus is equal to:\n- +1 to each `[W]` die at levels 1–10\n- +2 at levels 11–20\n- +3 at levels 21–30\n\nThe versatile bonus may be gained by supporting the weapon with an off-hand occupied by a light shield or weapon in the unarmed group, but no bonuses from the item equipped in the off-hand apply to the attack, and the unarmed weapon cannot be used to attack until the grip is released.\nChanging grip is a free action.",
+            "id": "VERSATILE",
+            "printRule": true,
+            "title": "Versatile"
+          }
+        ]
+      }
+    },
+    {
+      "category": "ITEM",
+      "coverage": {
+        "limitations": [
+          "Equipment combat rules are not interpreted by the current builder runtime.",
+          "Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; they do not change attack, damage or defense totals and no proficiency is granted by equipping."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.weapon.warpick",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Weapon. Military proficiency, melee attack.\nHands required: 2.\nGroups: Hammer.\nProficiency bonus: +3.\nDamage: 1d12.\nProperties:\n- Severe:\n    A severe weapon's maximum damage is higher than that of a normal weapon.\n    When rolling the damage from a weapon attack made with a severe weapon, whenever you roll a die that displays its maximum value, that die explodes: roll a second damage die of the same size, and add these dice to the original roll as extra damage.",
+        "title": "Warpick"
+      },
+      "sharedData": {
+        "category": "ITEM",
+        "coverage": {
+          "limitations": [
+            "Equipment combat rules are not interpreted by the current builder runtime."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "equipment": {
+          "attackCategory": "MELEE",
+          "damage": {
+            "diceCount": 1,
+            "dieSize": 12
+          },
+          "groups": [
+            "HAMMER"
+          ],
+          "handsRequired": 2,
+          "kind": "WEAPON",
+          "proficiencyBonus": 3,
+          "proficiencyCategory": "MILITARY",
+          "properties": [
+            {
+              "id": "SEVERE"
+            }
+          ]
+        },
+        "id": "modern4e.weapon.warpick",
+        "presentation": {
+          "description": "",
+          "title": "Warpick"
+        },
+        "propertyDefinitions": [
+          {
+            "description": "A severe weapon's maximum damage is higher than that of a normal weapon.\nWhen rolling the damage from a weapon attack made with a severe weapon, whenever you roll a die that displays its maximum value, that die explodes: roll a second damage die of the same size, and add these dice to the original roll as extra damage.",
+            "id": "SEVERE",
+            "printRule": true,
+            "title": "Severe"
+          }
+        ]
+      }
+    }
+  ],
+  "id": "entries-0000"
+}

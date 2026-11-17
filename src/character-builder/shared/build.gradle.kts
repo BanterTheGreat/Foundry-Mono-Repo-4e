@@ -7,7 +7,8 @@ kotlin {
     jvm()
     androidTarget()
     js(IR) {
-        nodejs()
+        // Full production-catalog tests decode several MB of generated JSON; mocha's 2s default is too tight.
+        nodejs { testTask { useMocha { timeout = "120s" } } }
         browser()
         binaries.library()
         useEsModules()

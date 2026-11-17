@@ -481,6 +481,25 @@ Summon automation Node coverage includes separate square selection, per-power ma
 
 Shared class runtime and authoritative production classes (#33–#35), from the repository root:
 
+Ancestry, theme, feat, utility and equipment runtime packages add one Python suite each, plus a shared JVM/JS test:
+
+```powershell
+python -X utf8 -m unittest discover -s src/character-builder/content -p 'test_ancestry_runtime.py' -v
+python -X utf8 -m unittest discover -s src/character-builder/content -p 'test_theme_runtime.py' -v
+python -X utf8 -m unittest discover -s src/character-builder/content -p 'test_feat_runtime.py' -v
+python -X utf8 -m unittest discover -s src/character-builder/content -p 'test_utility_runtime.py' -v
+python -X utf8 -m unittest discover -s src/character-builder/content -p 'test_equipment_runtime.py' -v
+python -X utf8 src/character-builder/content/build.py --check
+bash ./gradlew :shared:jvmTest :shared:jsNodeTest   # from src/character-builder
+```
+
+The Python suites cover authored counts, unique IDs, determinism, structured access/prerequisite preservation,
+unresolved/unsupported reporting, no query-pool leakage for granted powers and cross-package references.
+`ProductionContentPackagesTest` loads the bundled bytes through the shared catalog, offers and accepts ancestry,
+theme, feat, utility and equipment entries, checks class-gated feat/utility eligibility and withheld utilities,
+and keeps 818-feat option listing fast. Android tests need an Android SDK; review the sample template's package
+list when adding packages.
+
 Fighter selectable attacks through level 15 add five Python regressions:
 
 ```powershell

@@ -41,8 +41,10 @@ class BuilderOperations(private val catalog: ContentCatalog) {
     }
 
     /** Refresh resolution after every edit; no existing decision is silently pruned. */
-    suspend fun evaluate(document: CharacterDocument): BuilderState {
-        val rules = RulesEngine.evaluate(document, RulesContent.load(document, catalog))
+    suspend fun evaluate(document: CharacterDocument): BuilderState = evaluate(document, catalog)
+
+    private suspend fun evaluate(document: CharacterDocument, reading: ContentCatalog): BuilderState {
+        val rules = RulesEngine.evaluate(document, RulesContent.load(document, reading))
         val required = listOf("class", "ancestry", "feat").map { ChoiceSlotId("creation", it, 0) } +
             if (document.level >= 2) listOf(ChoiceSlotId("advancement.2", "feat", 0)) else emptyList()
         val selected = document.levels.flatMap { it.entries }.map { it.slot }.toSet()
@@ -58,18 +60,20 @@ class BuilderOperations(private val catalog: ContentCatalog) {
         if (level !in 1..document.level) {
             return emptyList()
         }
-        val current = evaluate(document)
+        // Candidates are evaluated against one decoded snapshot instead of re-reading every chunk each time.
+        val reading = catalog.readSession()
+        val current = evaluate(document, reading)
         val category = rootCategory(level, slot)
         val offered = current.rules.choices.singleOrNull { it.slot == slot }
         val ids = if (category != null) catalog.search(category = category).map { it.metadata.id }
             else offered?.entries?.map { it.entryId }.orEmpty()
         val result = mutableListOf<BuilderOption>()
         for (id in ids) {
-            val definition = (catalog.lookup(id) as? ContractResult.Available)?.value ?: continue
+            val definition = (reading.lookup(id) as? ContractResult.Available)?.value ?: continue
             val existing = document.levels.flatMap { it.entries }.firstOrNull { it.slot == slot }
             val instance = existing?.instanceId ?: "builder-preview:${slot.sourceInstanceId.length}:${slot.sourceInstanceId}:${slot.choiceId}:${slot.ordinal}"
             val candidate = putEntry(document, level, EntryChoice(instance, slot, saved(definition)))
-            val evaluated = evaluate(candidate)
+            val evaluated = evaluate(candidate, reading)
             val diagnostics = evaluated.rules.diagnostics.filter { it.slot == slot && it.entryId == id }
             val status = if (definition.entry.mechanics.version >= 2) {
                 evaluated.rules.entryEligibility[instance]?.status ?: Eligibility.UNRESOLVED

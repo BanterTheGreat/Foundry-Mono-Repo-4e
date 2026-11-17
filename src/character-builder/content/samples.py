@@ -70,6 +70,10 @@ def assets():
     return output
 
 
+MODERN_PACKAGES = ['modern4e.classes', 'modern4e.ancestries', 'modern4e.themes', 'modern4e.feats',
+                   'modern4e.utilities', 'modern4e.equipment']
+
+
 def modern_sample():
     """New-character template; legacy proof saves remain separate named fixtures."""
     packages = build.production()
@@ -102,8 +106,8 @@ def modern_sample():
     fingerprint = 'sha256-v1:' + hashlib.sha256(canonical.encode('utf-8')).hexdigest()
     return dict(formatVersion=1, id='modern4e-new-fighter', savedAt='2026-11-17T12:00:00Z',
                 identity=dict(name='New character'), level=1,
-                packages=[dict(packageId='modern4e.classes', revision=packages['modern4e.classes/manifest.json']['revision']),
-                          dict(packageId=BASE, revision='2')],
+                packages=[dict(packageId=package, revision=packages[f'{package}/manifest.json']['revision'])
+                          for package in MODERN_PACKAGES] + [dict(packageId=BASE, revision='2')],
                 abilities=dict(source=dict(sourceInstanceId='fighter', choiceId='main', ordinal=0),
                                mainAbility='STRENGTH', points=dict(STRENGTH=4, DEXTERITY=2, CONSTITUTION=2,
                                                                  INTELLIGENCE=1, WISDOM=0, CHARISMA=0)),

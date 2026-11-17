@@ -58,6 +58,41 @@ production catalog or a fallback for missing/malformed local JSON. The offline
 compendium snapshot and explicit `--config full.json` export remain available.
 
 
+## Production ancestries, themes, feats, utilities and equipment
+
+`build.py` (normal production mode) also compiles five more mechanics-v2 packages beside `modern4e.classes`,
+then validates that every grant, finite choice and entry condition resolves in the combined catalog. Each has a
+compiler module and test suite in this folder; `runtime_common.py` supplies the chunked package assembly and
+cross-package reference check. The sample new-character template enables all of them.
+
+- `modern4e.ancestries` (`ancestry_runtime.py`): 13 ancestries, 41 traits and 15 powers. Complete authored entries,
+  including size, speed, vision and languages, stay in `sharedData`; no modifiers are invented from prose or
+  attributes. Grants and Dragonborn/Elf power choices compile to finite entry choices. Damage-type choices,
+  Revenant's Past Life (ancestry qualification only, never granting the chosen ancestry's traits) and language
+  picks are recorded in `mechanics.unsupported` and coverage limitations. Ancestry powers carry no power profile
+  and never enter class power query pools.
+- `modern4e.themes` (`theme_runtime.py`): nine Zeitgeist themes, 32 level-benefit features and 11 powers under
+  root slot `creation/theme/0`. Gunsmith's five `modifications` options are not an automatic grant or a finite
+  choice because their count and timing exist only in prose; they are preserved in `sharedData` and reported as
+  unsupported. Theme powers have no power profile.
+- `modern4e.feats` (`feat_runtime.py`): all 818 feats in nine chunks. Access, structured prerequisites (allOf/anyOf
+  intact) and `selection.maximum` are preserved; entry references to classes, ancestries and their features/powers
+  stay `entry` conditions only when the target exists in a runtime package. Pending/unavailable references and
+  `size`/`selected` conditions become explicit `unresolved` conditions. Skill Training's skill choice is the only
+  compiled choice; other choices and distinct/advance constraints are unsupported and listed in coverage.
+- `modern4e.utilities` (`utility_runtime.py`): all 1,081 utility powers. The 1,010 in AVAILABLE sections carry a
+  `powerProfile` and join the level-N utility pools; the 71 DEFERRED class utilities stay in the package so IDs
+  resolve but have no profile. `sharedData.utilitySection` keeps section kind/availability and COMBAT/NON_COMBAT
+  pick kinds. The advancement pool queries do not carry the authored `access: CHARACTER` filter, so pools list
+  other classes' utilities; selection still requires eligible access and prerequisites.
+- `modern4e.equipment` (`equipment_runtime.py`): 53 ITEM entries (45 weapons, 6 armor, 2 shields). Descriptions
+  render deterministically from structured fields only. No armor, speed, attack or damage number becomes a modifier;
+  `sharedData` keeps the authored profile, property definitions and armor rules. The authoring export
+  (`--modern-equipment`) is unchanged.
+
+`BuilderOperations.options` evaluates each candidate against one shared decoded catalog snapshot
+(`ContentCatalog.readSession`), which keeps large pools such as the 818 feats usable.
+
 ## Shared class runtime package (#33)
 
 ```powershell

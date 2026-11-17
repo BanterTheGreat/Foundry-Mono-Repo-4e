@@ -325,11 +325,24 @@ def serialize(value):
 
 def production(content=None, snapshot=SNAPSHOT):
     """Compile authoritative classes first; retain explicitly imported other categories."""
+    import ancestry_runtime
     import class_runtime
+    import equipment_runtime
+    import feat_runtime
+    import runtime_common
+    import theme_runtime
+    import utility_runtime
     classes = class_runtime.build() if content is None else class_runtime.build(content)
+    modern = dict(classes)
+    for compiler in (ancestry_runtime, theme_runtime, feat_runtime, utility_runtime, equipment_runtime):
+        package = compiler.build()
+        require(not modern.keys() & package.keys(), "production", "duplicate package assets")
+        modern |= package
+    # Grants, finite choices and entry conditions may cross authored packages, never dangle.
+    runtime_common.validate_references(modern)
     imported = build(Path(__file__).with_name("proof.json"), snapshot, exclude_classes=True)
-    require(not classes.keys() & imported.keys(), "production", "duplicate package assets")
-    return imported | classes
+    require(not modern.keys() & imported.keys(), "production", "duplicate package assets")
+    return imported | modern
 
 
 def main():

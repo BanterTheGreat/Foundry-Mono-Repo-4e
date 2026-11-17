@@ -12,9 +12,16 @@ class ContentCatalog private constructor(
     private val entries: Map<String, CatalogEntry>,
     private val definitions: Map<String, Map<String, EntryMetadata>>,
     val diagnostics: List<Diagnostic>,
+    private val resolved: MutableMap<String, ContractResult<ResolvedEntry>>? = null,
 ) {
-    /** One evaluation shares decoded chunks; later evaluations still observe current source bytes. */
+    /**
+     * One evaluation shares decoded chunks; later evaluations still observe current source bytes.
+     * A session is already shared, so batch callers can reuse one across many evaluations.
+     */
     internal fun readSession(): ContentCatalog {
+        if (resolved != null) {
+            return this
+        }
         val chunks = mutableMapOf<Pair<String, String>, ContractResult<EntryChunk>>()
         val sessionSource = object : ContentSource {
             override suspend fun listPackages() = source.listPackages()
@@ -24,7 +31,7 @@ class ContentCatalog private constructor(
                 return chunks[key] ?: source.loadChunk(packageId, chunkId).also { chunks[key] = it }
             }
         }
-        return ContentCatalog(sessionSource, packages, entries, definitions, diagnostics)
+        return ContentCatalog(sessionSource, packages, entries, definitions, diagnostics, mutableMapOf())
     }
 
     /** Search winning metadata only; never loads a chunk. Ordering is stable across platforms. */
@@ -73,6 +80,12 @@ class ContentCatalog private constructor(
     }
 
     private suspend fun load(candidate: CatalogEntry): ContractResult<ResolvedEntry> {
+        val metadata = candidate.metadata
+        resolved?.get(metadata.id)?.let { return it }
+        return loadUncached(candidate).also { resolved?.put(metadata.id, it) }
+    }
+
+    private suspend fun loadUncached(candidate: CatalogEntry): ContractResult<ResolvedEntry> {
         val metadata = candidate.metadata
         return when (val result = source.loadChunk(candidate.supplier.packageId, metadata.chunkId)) {
             is ContractResult.Unavailable -> result

@@ -1,0 +1,5322 @@
+{
+  "entries": [
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.accurate-magic-weapon",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.artificer",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Whenever you use an Artificer power that targets a weapon or an implement, the next attack roll with that weapon or implement before the end of the encounter gains a +1 bonus.",
+        "title": "Accurate Magic Weapon"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.artificer",
+          "type": "entry"
+        },
+        "description": "Whenever you use an Artificer power that targets a weapon or an implement, the next attack roll with that weapon or implement before the end of the encounter gains a +1 bonus.",
+        "id": "modern4e.feat.accurate-magic-weapon",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Accurate Magic Weapon"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.accursed-isolation",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.invoker",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 11,
+                "type": "level"
+              },
+              {
+                "entryId": "modern4e.power.maledictors-doom",
+                "type": "entry"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "If you target only one creature with maledictor's doom, the penalty to attack rolls increases to -3, and it is a -5 penalty to opportunity attack rolls.",
+        "title": "Accursed Isolation"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.invoker",
+          "type": "entry"
+        },
+        "description": "If you target only one creature with maledictor's doom, the penalty to attack rolls increases to -3, and it is a -5 penalty to opportunity attack rolls.",
+        "id": "modern4e.feat.accursed-isolation",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 11,
+              "type": "level"
+            },
+            {
+              "entryId": "modern4e.power.maledictors-doom",
+              "type": "entry"
+            }
+          ],
+          "type": "allOf"
+        },
+        "runtimeRequirementText": "11th level, Maledictor’s Doom",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat3002 — Dragon Magazine 387, page(s) 42.",
+        "title": "Accursed Isolation"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.acid-splash",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 11,
+                "type": "level"
+              },
+              {
+                "ability": "CONSTITUTION",
+                "minimum": 2,
+                "type": "abilityPoints"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you miss with an acid wizard power and would not normally do damage, you deal acid damage equal to your Constitution.",
+        "title": "Acid Splash"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "description": "When you miss with an acid wizard power and would not normally do damage, you deal acid damage equal to your Constitution.",
+        "id": "modern4e.feat.acid-splash",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 11,
+              "type": "level"
+            },
+            {
+              "ability": "CONSTITUTION",
+              "minimum": 2,
+              "type": "abilityPoints"
+            }
+          ],
+          "type": "allOf"
+        },
+        "runtimeRequirementText": "11th level, 2 Constitution",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "Source: https://iws.mx/dnd/?view=feat1998",
+        "title": "Acid Splash"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder.",
+          "Prerequisite not evaluated: Any class-specific multiclass feat (Condition type selected requires an additional runtime fact vocabulary.)"
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.acolyte-power",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 6,
+                "type": "level"
+              },
+              {
+                "reason": "Condition type selected requires an additional runtime fact vocabulary.",
+                "text": "Any class-specific multiclass feat",
+                "type": "unresolved"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "You can swap one utility power you know for one utility power of the same level or lower from the class you multiclassed into. You can swap one daily attack power you know for one daily attack power of the same level or lower from the class you multiclassed into.",
+        "title": "Acolyte Power"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "description": "You can swap one utility power you know for one utility power of the same level or lower from the class you multiclassed into. You can swap one daily attack power you know for one daily attack power of the same level or lower from the class you multiclassed into.",
+        "id": "modern4e.feat.acolyte-power",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 6,
+              "type": "level"
+            },
+            {
+              "category": "FEAT",
+              "filters": {
+                "classSpecific": true,
+                "multiclass": true
+              },
+              "type": "selected"
+            }
+          ],
+          "type": "allOf"
+        },
+        "runtimeRequirementText": "6th level, Any class-specific multiclass feat",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "tags": [
+          "MULTICLASS"
+        ],
+        "title": "Acolyte Power"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.action-recovery",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.human",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you spend an action point to take an extra action, you can immediately make a saving throw against each effect on you that a save can end.",
+        "title": "Action Recovery"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.human",
+          "type": "entry"
+        },
+        "description": "When you spend an action point to take an extra action, you can immediately make a saving throw against each effect on you that a save can end.",
+        "id": "modern4e.feat.action-recovery",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "runtimeRequirementText": "11th level",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Action Recovery"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.action-rush",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.human",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "entryId": "modern4e.class.ranger",
+                "type": "entry"
+              },
+              {
+                "entryId": "modern4e.class.rogue",
+                "type": "entry"
+              }
+            ],
+            "type": "anyOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When an action point grants you an extra action, you may shift 2 squares as a free action immediately before or after that action.",
+        "title": "Action Rush"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.human",
+          "type": "entry"
+        },
+        "description": "When an action point grants you an extra action, you may shift 2 squares as a free action immediately before or after that action.",
+        "id": "modern4e.feat.action-rush",
+        "prerequisites": {
+          "conditions": [
+            {
+              "entryId": "modern4e.class.ranger",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.class.rogue",
+              "type": "entry"
+            }
+          ],
+          "type": "anyOf"
+        },
+        "runtimeRequirementText": "Ranger or Rogue",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat2389",
+        "title": "Action Rush"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.action-surge",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.human",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "You gain a +3 bonus to attack rolls you make during any action you gain by spending an action point.",
+        "title": "Action Surge"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.human",
+          "type": "entry"
+        },
+        "description": "You gain a +3 bonus to attack rolls you make during any action you gain by spending an action point.",
+        "id": "modern4e.feat.action-surge",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Action Surge"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder.",
+          "Choice damage-type: select 1 DAMAGE_TYPE from ACID, COLD, FIRE, LIGHTNING, POISON, NECROTIC, RADIANT; the closed vocabulary cannot apply this decision.",
+          "Selection constraint: choice damage-type must be distinct against POWER DAMAGE_TYPE (modern4e.power.dragon-breath); when exhausted BLOCK; not enforced."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.adaptable-breath",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.dragonborn",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "entryId": "modern4e.power.dragon-breath",
+            "type": "entry"
+          }
+        ],
+        "unsupported": [
+          "Choice damage-type: select 1 DAMAGE_TYPE from ACID, COLD, FIRE, LIGHTNING, POISON, NECROTIC, RADIANT; the closed vocabulary cannot apply this decision.",
+          "Selection constraint: choice damage-type must be distinct against POWER DAMAGE_TYPE (modern4e.power.dragon-breath); when exhausted BLOCK; not enforced."
+        ],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Choose a type of damage your dragon breath doesn't already deal from among acid, cold, fire, lightning, or poison, necrotic, radiant. When you use your dragon breath racial power, you can choose to use this damage type rather than the normal damage dealt by the power. Only one damage type applies for a given dragon breath attack.",
+        "title": "Adaptable Breath"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.dragonborn",
+          "type": "entry"
+        },
+        "choices": [
+          {
+            "count": 1,
+            "id": "damage-type",
+            "kind": "DAMAGE_TYPE",
+            "source": {
+              "type": "values",
+              "values": [
+                "ACID",
+                "COLD",
+                "FIRE",
+                "LIGHTNING",
+                "POISON",
+                "NECROTIC",
+                "RADIANT"
+              ]
+            }
+          }
+        ],
+        "description": "Choose a type of damage your dragon breath doesn't already deal from among acid, cold, fire, lightning, or poison, necrotic, radiant. When you use your dragon breath racial power, you can choose to use this damage type rather than the normal damage dealt by the power. Only one damage type applies for a given dragon breath attack.",
+        "id": "modern4e.feat.adaptable-breath",
+        "prerequisites": {
+          "entryId": "modern4e.power.dragon-breath",
+          "type": "entry"
+        },
+        "runtimeRequirementText": "Dragon Breath",
+        "runtimeSelectionText": "You can take this feat more than once. Each time, choose 1 damage type that Dragon Breath does not already deal.",
+        "selection": {
+          "constraints": [
+            {
+              "against": {
+                "entryId": "modern4e.power.dragon-breath",
+                "fact": "DAMAGE_TYPE",
+                "scope": "POWER"
+              },
+              "choiceId": "damage-type",
+              "type": "distinct",
+              "whenExhausted": "BLOCK"
+            }
+          ],
+          "maximum": null
+        },
+        "title": "Adaptable Breath"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.adept-power",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 11,
+                "type": "level"
+              },
+              {
+                "entryId": "modern4e.feat.novice-power",
+                "type": "entry"
+              },
+              {
+                "entryId": "modern4e.feat.acolyte-power",
+                "type": "entry"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "You can swap one level 1 at-will attack power you know for one level 1 at-will attack power from the class you multiclassed into.",
+        "title": "Adept Power"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "description": "You can swap one level 1 at-will attack power you know for one level 1 at-will attack power from the class you multiclassed into.",
+        "id": "modern4e.feat.adept-power",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 11,
+              "type": "level"
+            },
+            {
+              "entryId": "modern4e.feat.novice-power",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.feat.acolyte-power",
+              "type": "entry"
+            }
+          ],
+          "type": "allOf"
+        },
+        "runtimeRequirementText": "11th level, Novice Power, Acolyte Power",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "tags": [
+          "MULTICLASS"
+        ],
+        "title": "Adept Power"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.advantage-of-cunning",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.bard",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "entryId": "modern4e.feature.virtue-of-cunning",
+            "type": "entry"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you slide an ally with your Virtue of Cunning, you can also slide an enemy that was adjacent to that ally into the space the ally vacated.",
+        "title": "Advantage of Cunning"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.bard",
+          "type": "entry"
+        },
+        "description": "When you slide an ally with your Virtue of Cunning, you can also slide an enemy that was adjacent to that ally into the space the ally vacated.",
+        "id": "modern4e.feat.advantage-of-cunning",
+        "prerequisites": {
+          "entryId": "modern4e.feature.virtue-of-cunning",
+          "type": "entry"
+        },
+        "runtimeRequirementText": "Virtue of Cunning",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Advantage of Cunning"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.aegis-accuracy",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "If a target marked by your Swordmage Aegis makes an attack and doesn't include you as a target, you gain a +1 bonus to attack rolls against the marked creature until the end of your next turn.",
+        "title": "Aegis Accuracy"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "description": "If a target marked by your Swordmage Aegis makes an attack and doesn't include you as a target, you gain a +1 bonus to attack rolls against the marked creature until the end of your next turn.",
+        "id": "modern4e.feat.aegis-accuracy",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Aegis Accuracy"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.aegis-vitality",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Whenever a creature marked by your Swordmage Aegis makes an attack that does not include you as a target, you gain 3 temporary hit points. Increase the temporary hit points to 5 at 11th level, and to 8 at 21st level.",
+        "title": "Aegis Vitality"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "description": "Whenever a creature marked by your Swordmage Aegis makes an attack that does not include you as a target, you gain 3 temporary hit points. Increase the temporary hit points to 5 at 11th level, and to 8 at 21st level.",
+        "id": "modern4e.feat.aegis-vitality",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Aegis Vitality"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.aggressive-advantage",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "skill": "NATURE",
+            "type": "proficiency"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "You gain combat advantage against all enemies during your first turn in an encounter.",
+        "title": "Aggressive Advantage"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "description": "You gain combat advantage against all enemies during your first turn in an encounter.",
+        "id": "modern4e.feat.aggressive-advantage",
+        "prerequisites": {
+          "skill": "NATURE",
+          "type": "proficiency"
+        },
+        "runtimeRequirementText": "Nature",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Aggressive Advantage"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.aggressive-assault",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.rogue",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "entryId": "modern4e.feature.brutal-scoundrel",
+            "type": "entry"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "At the beginning of an encounter, whenever you hit a target that has not yet acted, you slide that target 1 square.",
+        "title": "Aggressive Assault"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.rogue",
+          "type": "entry"
+        },
+        "description": "At the beginning of an encounter, whenever you hit a target that has not yet acted, you slide that target 1 square.",
+        "id": "modern4e.feat.aggressive-assault",
+        "prerequisites": {
+          "entryId": "modern4e.feature.brutal-scoundrel",
+          "type": "entry"
+        },
+        "runtimeRequirementText": "Brutal Scoundrel",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Aggressive Assault"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.agile-command",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warlord",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 11,
+                "type": "level"
+              },
+              {
+                "ability": "INTELLIGENCE",
+                "minimum": 3,
+                "type": "abilityPoints"
+              },
+              {
+                "entryId": "modern4e.feature.skirmishing-presence",
+                "type": "entry"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Any ally who starts his or her turn adjacent to you gains a +2 feat bonus to AC and Reflex against opportunity attacks until the end of his or her turn.",
+        "title": "Agile Command"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warlord",
+          "type": "entry"
+        },
+        "description": "Any ally who starts his or her turn adjacent to you gains a +2 feat bonus to AC and Reflex against opportunity attacks until the end of his or her turn.",
+        "id": "modern4e.feat.agile-command",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 11,
+              "type": "level"
+            },
+            {
+              "ability": "INTELLIGENCE",
+              "minimum": 3,
+              "type": "abilityPoints"
+            },
+            {
+              "entryId": "modern4e.feature.skirmishing-presence",
+              "type": "entry"
+            }
+          ],
+          "type": "allOf"
+        },
+        "runtimeRequirementText": "11th level, 3 Intelligence, Skirmishing Presence",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Agile Command"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.agile-form",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.druid",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you use wild shape to change from your humanoid form to beast form, you shift 1 square.",
+        "title": "Agile Form"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.druid",
+          "type": "entry"
+        },
+        "description": "When you use wild shape to change from your humanoid form to beast form, you shift 1 square.",
+        "id": "modern4e.feat.agile-form",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Agile Form"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.agile-opportunist",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "ability": "DEXTERITY",
+            "minimum": 3,
+            "type": "abilityPoints"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Whenever you are pulled, pushed, or slid into a square adjacent to an enemy, you can use an immediate reaction to make a basic attack against that enemy.",
+        "title": "Agile Opportunist"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "description": "Whenever you are pulled, pushed, or slid into a square adjacent to an enemy, you can use an immediate reaction to make a basic attack against that enemy.",
+        "id": "modern4e.feat.agile-opportunist",
+        "prerequisites": {
+          "ability": "DEXTERITY",
+          "minimum": 3,
+          "type": "abilityPoints"
+        },
+        "runtimeRequirementText": "3 Dexterity",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Agile Opportunist"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.agile-running-attack",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.ranger",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "entryId": "modern4e.feature.running-attack",
+            "type": "entry"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you move as part of using a skirmisher attack power, you ignore difficult terrain.",
+        "title": "Agile Running Attack"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.ranger",
+          "type": "entry"
+        },
+        "description": "When you move as part of using a skirmisher attack power, you ignore difficult terrain.",
+        "id": "modern4e.feat.agile-running-attack",
+        "prerequisites": {
+          "entryId": "modern4e.feature.running-attack",
+          "type": "entry"
+        },
+        "runtimeRequirementText": "Running Attack",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Agile Running Attack"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.alchemical-affinity",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.warforged",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Once per attack when you hit an enemy using a consumable alchemical item attack power, you gain temporary hit points equal to your Constitution.",
+        "title": "Alchemical Affinity"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.warforged",
+          "type": "entry"
+        },
+        "description": "Once per attack when you hit an enemy using a consumable alchemical item attack power, you gain temporary hit points equal to your Constitution.",
+        "id": "modern4e.feat.alchemical-affinity",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Alchemical Affinity"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.alchemical-blood",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.warforged",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Choose a damage type—acid, cold, fire, lightning, necrotic, poison, or thunder. When you use an attack power or alchemical item attack power with that keyword, you gain a +1 feat bonus to the damage roll. The bonus increases to +2 at 11th level and to +3 at 21st level. While you have any temporary hit points, you gain an additional +1 bonus to your damage rolls with alchemical item attack powers.",
+        "title": "Alchemical Blood"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.warforged",
+          "type": "entry"
+        },
+        "description": "Choose a damage type—acid, cold, fire, lightning, necrotic, poison, or thunder. When you use an attack power or alchemical item attack power with that keyword, you gain a +1 feat bonus to the damage roll. The bonus increases to +2 at 11th level and to +3 at 21st level. While you have any temporary hit points, you gain an additional +1 bonus to your damage rolls with alchemical item attack powers.",
+        "id": "modern4e.feat.alchemical-blood",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Alchemical Blood"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.alchemist",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "You master the Alchemical Creation technique, additionally, you learn a formula of your level or lower at 1st level, 2nd level, and every even level thereafter.\n\n*Special*: You can take this feat instead of the Technique Master feat granted by your class feature.",
+        "title": "Alchemist"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "description": "You master the Alchemical Creation technique, additionally, you learn a formula of your level or lower at 1st level, 2nd level, and every even level thereafter.\n\n*Special*: You can take this feat instead of the Technique Master feat granted by your class feature.",
+        "id": "modern4e.feat.alchemist",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Alchemist"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.alertness",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "skill": "PERCEPTION",
+            "type": "proficiency"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "You cannot be surprised. Also, you gain a +2 feat bonus to Perception checks. At 21st level, this feat bonus increases to +3.",
+        "title": "Alertness"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "description": "You cannot be surprised. Also, you gain a +2 feat bonus to Perception checks. At 21st level, this feat bonus increases to +3.",
+        "id": "modern4e.feat.alertness",
+        "prerequisites": {
+          "skill": "PERCEPTION",
+          "type": "proficiency"
+        },
+        "runtimeRequirementText": "Perception",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Alertness"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.allegiance-to-the-daughter",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "entryId": "modern4e.feature.infernal-pact",
+            "type": "entry"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Whenever you reduce an enemy you have cursed to 0 hit points with a Warlock attack, the enemy's space fills with hellfire until the end of your next turn. Any creature that enters or starts its turn within the square takes fire damage equal to 5 + one-half your level.",
+        "title": "Allegiance to the Daughter"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "description": "Whenever you reduce an enemy you have cursed to 0 hit points with a Warlock attack, the enemy's space fills with hellfire until the end of your next turn. Any creature that enters or starts its turn within the square takes fire damage equal to 5 + one-half your level.",
+        "id": "modern4e.feat.allegiance-to-the-daughter",
+        "prerequisites": {
+          "entryId": "modern4e.feature.infernal-pact",
+          "type": "entry"
+        },
+        "runtimeRequirementText": "Infernal Pact",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Allegiance to the Daughter"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.ancient-covenant-of-nessus",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.tiefling",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "entryId": "modern4e.class.invoker",
+            "type": "entry"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When using a divine encounter or daily attack power on your turn, you may replace your covenant manifestation: offer one target a basic attack as a free action. If it attacks, it then takes 5 + Intelligence fire damage. This becomes 10 + Intelligence at level 11 and 15 + Intelligence at level 21.",
+        "title": "Ancient Covenant of Nessus"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.tiefling",
+          "type": "entry"
+        },
+        "description": "When using a divine encounter or daily attack power on your turn, you may replace your covenant manifestation: offer one target a basic attack as a free action. If it attacks, it then takes 5 + Intelligence fire damage. This becomes 10 + Intelligence at level 11 and 15 + Intelligence at level 21.",
+        "id": "modern4e.feat.ancient-covenant-of-nessus",
+        "prerequisites": {
+          "entryId": "modern4e.class.invoker",
+          "type": "entry"
+        },
+        "runtimeRequirementText": "Invoker",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat2285",
+        "title": "Ancient Covenant of Nessus"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.angelic-harrier",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.invoker",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you hit only one target with an invoker ranged encounter attack or an invoker ranged daily attack, you can slide the target 1 square after the power's effect is resolved.",
+        "title": "Angelic Harrier"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.invoker",
+          "type": "entry"
+        },
+        "description": "When you hit only one target with an invoker ranged encounter attack or an invoker ranged daily attack, you can slide the target 1 square after the power's effect is resolved.",
+        "id": "modern4e.feat.angelic-harrier",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Angelic Harrier"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.angelic-protection",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 11,
+                "type": "level"
+              },
+              {
+                "entryId": "modern4e.power.lay-on-hands",
+                "type": "entry"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you use lay on hands, you can instead grant the target temporary hit points equal to the number of hit points it would have regained.",
+        "title": "Angelic Protection"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "description": "When you use lay on hands, you can instead grant the target temporary hit points equal to the number of hit points it would have regained.",
+        "id": "modern4e.feat.angelic-protection",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 11,
+              "type": "level"
+            },
+            {
+              "entryId": "modern4e.power.lay-on-hands",
+              "type": "entry"
+            }
+          ],
+          "type": "allOf"
+        },
+        "runtimeRequirementText": "11th level, lay on hands",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat3092 — Dragon Magazine 388.",
+        "title": "Angelic Protection"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.anger-unleashed",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.orc",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "The first time you are bloodied during an encounter, you gain a +2 bonus to attack rolls until the end of your next turn.",
+        "title": "Anger Unleashed"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.orc",
+          "type": "entry"
+        },
+        "description": "The first time you are bloodied during an encounter, you gain a +2 bonus to attack rolls until the end of your next turn.",
+        "id": "modern4e.feat.anger-unleashed",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Anger Unleashed"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.angry-grandfather",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.barbarian",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "You gain a bonus to death saving throws equal to the number of powers with the Rage keyword you know that are currently expended. This bonus increases by 1 for each ally within 10 squares of you who has at least one tribal feat.",
+        "title": "Angry Grandfather"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.barbarian",
+          "type": "entry"
+        },
+        "description": "You gain a bonus to death saving throws equal to the number of powers with the Rage keyword you know that are currently expended. This bonus increases by 1 for each ally within 10 squares of you who has at least one tribal feat.",
+        "id": "modern4e.feat.angry-grandfather",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Angry Grandfather"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.ankle-biter",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.goblin",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "You gain a +1 feat bonus to damage rolls against creatures larger than you. This bonus increases to +2 at 11th level and to +3 at 21st level. Also, when you score a critical hit against a creature larger than you, the creature takes 1d6 extra damage.",
+        "title": "Ankle Biter"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.goblin",
+          "type": "entry"
+        },
+        "description": "You gain a +1 feat bonus to damage rolls against creatures larger than you. This bonus increases to +2 at 11th level and to +3 at 21st level. Also, when you score a critical hit against a creature larger than you, the creature takes 1d6 extra damage.",
+        "id": "modern4e.feat.ankle-biter",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Ankle Biter"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.arbiter-of-justice",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.avenger",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "You deal +2 damage against bloodied targets. Additionally, whenever an ally bloodies or reduces your oath of enmity target to 0 hit points, you may act as though you had bloodied or reduced the target to 0 hit points.",
+        "title": "Arbiter of Justice"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.avenger",
+          "type": "entry"
+        },
+        "description": "You deal +2 damage against bloodied targets. Additionally, whenever an ally bloodies or reduces your oath of enmity target to 0 hit points, you may act as though you had bloodied or reduced the target to 0 hit points.",
+        "id": "modern4e.feat.arbiter-of-justice",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "runtimeRequirementText": "11th level",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat2166 — Dragon Magazine 382, page(s) 40.",
+        "title": "Arbiter of Justice"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.arcane-fire",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you hit a target with an arcane fire power, that target gains vulnerable 5 cold against the first arcane attack power you use against it before the end of your next turn.",
+        "title": "Arcane Fire"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "description": "When you hit a target with an arcane fire power, that target gains vulnerable 5 cold against the first arcane attack power you use against it before the end of your next turn.",
+        "id": "modern4e.feat.arcane-fire",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Arcane Fire"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.arcane-flexibility",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.sorcerer",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you score a critical hit with a sorcerer power, you can change the damage type dealt by the power to a damage type you have resistance or immunity to.",
+        "title": "Arcane Flexibility"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.sorcerer",
+          "type": "entry"
+        },
+        "description": "When you score a critical hit with a sorcerer power, you can change the damage type dealt by the power to a damage type you have resistance or immunity to.",
+        "id": "modern4e.feat.arcane-flexibility",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "runtimeRequirementText": "11th level",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat1034 — Player's Handbook 2, page(s) 190.",
+        "title": "Arcane Flexibility"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.arcane-fury",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.orc",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "powerSource": "ARCANE",
+            "type": "classPowerSource"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you use your Furious Assault power to deal extra damage to the target of an area or close arcane power, you deal the extra damage to all targets you hit with the power, not just one.",
+        "title": "Arcane Fury"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.orc",
+          "type": "entry"
+        },
+        "description": "When you use your Furious Assault power to deal extra damage to the target of an area or close arcane power, you deal the extra damage to all targets you hit with the power, not just one.",
+        "id": "modern4e.feat.arcane-fury",
+        "prerequisites": {
+          "powerSource": "ARCANE",
+          "type": "classPowerSource"
+        },
+        "runtimeRequirementText": "Any Arcane class",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat1114",
+        "title": "Arcane Fury"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.arcane-initiate",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Choose a 1st-level wizard at-will power. You can use that power once per encounter. In addition, you can use Wizard implements.",
+        "title": "Arcane Initiate"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "description": "Choose a 1st-level wizard at-will power. You can use that power once per encounter. In addition, you can use Wizard implements.",
+        "id": "modern4e.feat.arcane-initiate",
+        "multiclassFor": "modern4e.class.wizard",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "tags": [
+          "MULTICLASS"
+        ],
+        "title": "Arcane Initiate"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.arcane-prodigy",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Once per encounter as a free action, you can gain a +2 bonus to your next damage roll. The bonus increases to +3 at 11th level and +4 at 21st level. In addition, you can wield sorcerer implements.",
+        "title": "Arcane Prodigy"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "description": "Once per encounter as a free action, you can gain a +2 bonus to your next damage roll. The bonus increases to +3 at 11th level and +4 at 21st level. In addition, you can wield sorcerer implements.",
+        "id": "modern4e.feat.arcane-prodigy",
+        "multiclassFor": "modern4e.class.sorcerer",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "tags": [
+          "MULTICLASS"
+        ],
+        "title": "Arcane Prodigy"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.arcane-spellfury",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.sorcerer",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you hit any enemy with a sorcerer at-will attack power, you gain a +1 bonus to attack rolls against that enemy until the end of your next turn.",
+        "title": "Arcane Spellfury"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.sorcerer",
+          "type": "entry"
+        },
+        "description": "When you hit any enemy with a sorcerer at-will attack power, you gain a +1 bonus to attack rolls against that enemy until the end of your next turn.",
+        "id": "modern4e.feat.arcane-spellfury",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Arcane Spellfury"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.arcane-trapsmith",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.artificer",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "You can use your knowledge of the Arcane during Skill Checks to disable traps or open locks. You gain a +4 feat bonus to checks related to arcane traps or hazards.",
+        "title": "Arcane Trapsmith"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.artificer",
+          "type": "entry"
+        },
+        "description": "You can use your knowledge of the Arcane during Skill Checks to disable traps or open locks. You gain a +4 feat bonus to checks related to arcane traps or hazards.",
+        "id": "modern4e.feat.arcane-trapsmith",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Arcane Trapsmith"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.arcing-throw",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you use a spear as a thrown weapon, the target doesn't gain cover from its allies.",
+        "title": "Arcing Throw"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "description": "When you use a spear as a thrown weapon, the target doesn't gain cover from its allies.",
+        "id": "modern4e.feat.arcing-throw",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "runtimeRequirementText": "11th level",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat1888 — Primal Power, page(s) 143.",
+        "title": "Arcing Throw"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.armor-of-burning-wrath-fire-and-radiant",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.invoker",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "entryId": "modern4e.feature.covenant-of-wrath",
+            "type": "entry"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Your armor of wrath power deals fire and radiant damage and gains the fire keyword. The target of your armor of wrath power takes a -1 penalty to saving throws until the end of your next turn.",
+        "title": "Armor of Burning Wrath"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.invoker",
+          "type": "entry"
+        },
+        "description": "Your armor of wrath power deals fire and radiant damage and gains the fire keyword. The target of your armor of wrath power takes a -1 penalty to saving throws until the end of your next turn.",
+        "id": "modern4e.feat.armor-of-burning-wrath-fire-and-radiant",
+        "prerequisites": {
+          "entryId": "modern4e.feature.covenant-of-wrath",
+          "type": "entry"
+        },
+        "runtimeRequirementText": "Covenant of Wrath",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Armor of Burning Wrath"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.armor-of-burning-wrath-vulnerability",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.invoker",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "entryId": "modern4e.feature.covenant-of-wrath",
+            "type": "entry"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you use your armor of wrath power, the target gains vulnerable 2 to all other damage until the end of your next turn.",
+        "title": "Armor of Burning Wrath"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.invoker",
+          "type": "entry"
+        },
+        "description": "When you use your armor of wrath power, the target gains vulnerable 2 to all other damage until the end of your next turn.",
+        "id": "modern4e.feat.armor-of-burning-wrath-vulnerability",
+        "prerequisites": {
+          "entryId": "modern4e.feature.covenant-of-wrath",
+          "type": "entry"
+        },
+        "runtimeRequirementText": "Covenant of Wrath",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Armor of Burning Wrath"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.armor-of-vengeance",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.avenger",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "entryId": "modern4e.feature.censure-of-retribution",
+            "type": "entry"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "While you are adjacent to your oath of enmity target, you gain a +1 bonus to all defenses against every other creature.",
+        "title": "Armor of Vengeance"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.avenger",
+          "type": "entry"
+        },
+        "description": "While you are adjacent to your oath of enmity target, you gain a +1 bonus to all defenses against every other creature.",
+        "id": "modern4e.feat.armor-of-vengeance",
+        "prerequisites": {
+          "entryId": "modern4e.feature.censure-of-retribution",
+          "type": "entry"
+        },
+        "runtimeRequirementText": "Censure of Retribution",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Armor of Vengeance"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder.",
+          "Selection constraint: each selection advances 1 step in ARMOR_PROFICIENCY (CLOTH > LEATHER > HIDE > CHAINMAIL > SCALE > PLATE); not enforced."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.armor-proficiency",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": null,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [
+          "Selection constraint: each selection advances 1 step in ARMOR_PROFICIENCY (CLOTH > LEATHER > HIDE > CHAINMAIL > SCALE > PLATE); not enforced."
+        ],
+        "version": 2
+      },
+      "presentation": {
+        "description": "You gain proficiency with the armor type one step above the highest armor type you are already proficient with, using this progression: Cloth → Leather → Hide → Chainmail → Scale → Plate.",
+        "title": "Armor Proficiency"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "description": "You gain proficiency with the armor type one step above the highest armor type you are already proficient with, using this progression: Cloth → Leather → Hide → Chainmail → Scale → Plate.",
+        "id": "modern4e.feat.armor-proficiency",
+        "prerequisites": {
+          "type": "always"
+        },
+        "runtimeSelectionText": "You can take this feat more than once. Each time, advance one step in the armor proficiency progression, up to Plate.",
+        "selection": {
+          "constraints": [
+            {
+              "fact": "ARMOR_PROFICIENCY",
+              "order": [
+                "CLOTH",
+                "LEATHER",
+                "HIDE",
+                "CHAINMAIL",
+                "SCALE",
+                "PLATE"
+              ],
+              "steps": 1,
+              "type": "advance"
+            }
+          ],
+          "maximum": null
+        },
+        "title": "Armor Proficiency"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.armored-by-faith",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 11,
+                "type": "level"
+              },
+              {
+                "powerSource": "DIVINE",
+                "type": "classPowerSource"
+              },
+              {
+                "entryId": "modern4e.feature.channel-divinity",
+                "type": "entry"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you use a Channel Divinity power, you gain temporary hit points equal to your Wisdom.",
+        "title": "Armored by Faith"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "description": "When you use a Channel Divinity power, you gain temporary hit points equal to your Wisdom.",
+        "id": "modern4e.feat.armored-by-faith",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 11,
+              "type": "level"
+            },
+            {
+              "powerSource": "DIVINE",
+              "type": "classPowerSource"
+            },
+            {
+              "entryId": "modern4e.feature.channel-divinity",
+              "type": "entry"
+            }
+          ],
+          "type": "allOf"
+        },
+        "runtimeRequirementText": "11th level, Any Divine class, Channel Divinity",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Armored by Faith"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.armored-sorcerer",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.sorcerer",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "equipment": "LEATHER",
+            "type": "equipmentProficiency"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When wearing leather armor, any resistance you gain from your Spell Source class feature increases by 2.",
+        "title": "Armored Sorcerer"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.sorcerer",
+          "type": "entry"
+        },
+        "description": "When wearing leather armor, any resistance you gain from your Spell Source class feature increases by 2.",
+        "id": "modern4e.feat.armored-sorcerer",
+        "prerequisites": {
+          "equipment": "LEATHER",
+          "type": "equipmentProficiency"
+        },
+        "runtimeRequirementText": "Proficiency with leather armor",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Armored Sorcerer"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.armored-warlord",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warlord",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "entryId": "modern4e.feature.battlefront-leader",
+                "type": "entry"
+              },
+              {
+                "entryId": "modern4e.feature.leading-the-charge",
+                "type": "entry"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "You gain proficiency with scale armor, and you increase your number of healing surges by one.",
+        "title": "Armored Warlord"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warlord",
+          "type": "entry"
+        },
+        "description": "You gain proficiency with scale armor, and you increase your number of healing surges by one.",
+        "id": "modern4e.feat.armored-warlord",
+        "prerequisites": {
+          "conditions": [
+            {
+              "entryId": "modern4e.feature.battlefront-leader",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.feature.leading-the-charge",
+              "type": "entry"
+            }
+          ],
+          "type": "allOf"
+        },
+        "runtimeRequirementText": "Battlefront Leader, Leading The Charge",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Armored Warlord"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.ascendant-lineage",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.deva",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you use your memory of a thousand lifetimes racial power and the triggering roll still fails, you don't expend the use of memory of a thousand lifetimes. However, you can't use the power again until the start of your next turn.",
+        "title": "Ascendant Lineage"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.deva",
+          "type": "entry"
+        },
+        "description": "When you use your memory of a thousand lifetimes racial power and the triggering roll still fails, you don't expend the use of memory of a thousand lifetimes. However, you can't use the power again until the start of your next turn.",
+        "id": "modern4e.feat.ascendant-lineage",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "runtimeRequirementText": "11th level",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Ascendant Lineage"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.assured-healing",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.cleric",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you miss with a divine attack power with the healing keyword, and that power has no effect on a miss, you or one ally within 5 squares of you regains hit points equal to your Charisma.",
+        "title": "Assured Healing"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.cleric",
+          "type": "entry"
+        },
+        "description": "When you miss with a divine attack power with the healing keyword, and that power has no effect on a miss, you or one ally within 5 squares of you regains hit points equal to your Charisma.",
+        "id": "modern4e.feat.assured-healing",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "runtimeRequirementText": "11th level",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat1967 — Dragon Magazine 379, page(s) 56.",
+        "title": "Assured Healing"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder.",
+          "Prerequisite not evaluated: shielding elixir power (No matching local feature, power or feat definition was identified; see migration issue #29.)"
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.astral-elixir",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.deva",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "entryId": "modern4e.class.artificer",
+                "type": "entry"
+              },
+              {
+                "reason": "No matching local feature, power or feat definition was identified; see migration issue #29.",
+                "text": "shielding elixir power",
+                "type": "unresolved"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Shielding Elixir also grants radiant resistance of the same value and duration as its usual resistance. Its target may end the effect as a free action when making a saving throw to add 1d6 to that save, replacing the usual benefit for ending the elixir.",
+        "title": "Astral Elixir"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.deva",
+          "type": "entry"
+        },
+        "description": "Shielding Elixir also grants radiant resistance of the same value and duration as its usual resistance. Its target may end the effect as a free action when making a saving throw to add 1d6 to that save, replacing the usual benefit for ending the elixir.",
+        "id": "modern4e.feat.astral-elixir",
+        "prerequisites": {
+          "conditions": [
+            {
+              "entryId": "modern4e.class.artificer",
+              "type": "entry"
+            },
+            {
+              "reason": "No matching local feature, power or feat definition was identified; see migration issue #29.",
+              "text": "shielding elixir power",
+              "type": "unresolved"
+            }
+          ],
+          "type": "allOf"
+        },
+        "runtimeRequirementText": "Artificer, shielding elixir power",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat3023",
+        "title": "Astral Elixir"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.astral-enmity",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.deva",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "entryId": "modern4e.class.avenger",
+                "type": "entry"
+              },
+              {
+                "entryId": "modern4e.power.oath-of-enmity",
+                "type": "entry"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When Memory of a Thousand Lifetimes boosts an attack against your Oath of Enmity target, that attack also deals extra damage equal to the bonus rolled.",
+        "title": "Astral Enmity"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.deva",
+          "type": "entry"
+        },
+        "description": "When Memory of a Thousand Lifetimes boosts an attack against your Oath of Enmity target, that attack also deals extra damage equal to the bonus rolled.",
+        "id": "modern4e.feat.astral-enmity",
+        "prerequisites": {
+          "conditions": [
+            {
+              "entryId": "modern4e.class.avenger",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.power.oath-of-enmity",
+              "type": "entry"
+            }
+          ],
+          "type": "allOf"
+        },
+        "runtimeRequirementText": "Avenger, oath of enmity",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat1490",
+        "title": "Astral Enmity"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.astral-fire",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "ability": "DEXTERITY",
+                "minimum": 2,
+                "type": "abilityPoints"
+              },
+              {
+                "ability": "CHARISMA",
+                "minimum": 2,
+                "type": "abilityPoints"
+              }
+            ],
+            "type": "anyOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "You gain a +2 feat bonus to damage rolls when you use a power that has the Fire or the Radiant keyword. At 11th level, this feat bonus increases to +3. At 21st level, it increases to +4.",
+        "title": "Astral Fire"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "description": "You gain a +2 feat bonus to damage rolls when you use a power that has the Fire or the Radiant keyword. At 11th level, this feat bonus increases to +3. At 21st level, it increases to +4.",
+        "id": "modern4e.feat.astral-fire",
+        "prerequisites": {
+          "conditions": [
+            {
+              "ability": "DEXTERITY",
+              "minimum": 2,
+              "type": "abilityPoints"
+            },
+            {
+              "ability": "CHARISMA",
+              "minimum": 2,
+              "type": "abilityPoints"
+            }
+          ],
+          "type": "anyOf"
+        },
+        "runtimeRequirementText": "2 Dexterity or 2 Charisma",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Astral Fire"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.astral-preservation",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.deva",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "entryId": "modern4e.class.invoker",
+                "type": "entry"
+              },
+              {
+                "entryId": "modern4e.feature.covenant-of-preservation",
+                "type": "entry"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Using Preserver's Rebuke gives allies within 2 squares +1 to all defenses against bloodied attackers for the rest of the encounter.",
+        "title": "Astral Preservation"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.deva",
+          "type": "entry"
+        },
+        "description": "Using Preserver's Rebuke gives allies within 2 squares +1 to all defenses against bloodied attackers for the rest of the encounter.",
+        "id": "modern4e.feat.astral-preservation",
+        "prerequisites": {
+          "conditions": [
+            {
+              "entryId": "modern4e.class.invoker",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.feature.covenant-of-preservation",
+              "type": "entry"
+            }
+          ],
+          "type": "allOf"
+        },
+        "runtimeRequirementText": "Invoker, Covenant of Preservation",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat1491",
+        "title": "Astral Preservation"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.astral-renewal",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.deva",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Whenever your Astral Resistance racial trait reduces the damage you take from an enemy's attack, you gain a +2 bonus to the next attack roll you make before the end of your next turn.",
+        "title": "Astral Renewal"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.deva",
+          "type": "entry"
+        },
+        "description": "Whenever your Astral Resistance racial trait reduces the damage you take from an enemy's attack, you gain a +2 bonus to the next attack roll you make before the end of your next turn.",
+        "id": "modern4e.feat.astral-renewal",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "runtimeRequirementText": "11th level",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Astral Renewal"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.auspicious-lineage",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.deva",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you use your memory of a thousand lifetimes racial power, you add 1d8 to the triggering roll, instead of 1d6.",
+        "title": "Auspicious Lineage"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.deva",
+          "type": "entry"
+        },
+        "description": "When you use your memory of a thousand lifetimes racial power, you add 1d8 to the triggering roll, instead of 1d6.",
+        "id": "modern4e.feat.auspicious-lineage",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Auspicious Lineage"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.avandras-gift",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.rogue",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 11,
+                "type": "level"
+              },
+              {
+                "entryId": "modern4e.ancestry.halfling",
+                "type": "entry"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you use your second chance racial power and the enemy's attack misses, you gain combat advantage for the next attack roll you make against that enemy before the end of your next turn.",
+        "title": "Avandra's Gift"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.rogue",
+          "type": "entry"
+        },
+        "description": "When you use your second chance racial power and the enemy's attack misses, you gain combat advantage for the next attack roll you make against that enemy before the end of your next turn.",
+        "id": "modern4e.feat.avandras-gift",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 11,
+              "type": "level"
+            },
+            {
+              "entryId": "modern4e.ancestry.halfling",
+              "type": "entry"
+            }
+          ],
+          "type": "allOf"
+        },
+        "runtimeRequirementText": "11th level, Halfling",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat393 — Martial Power, page(s) 140.",
+        "title": "Avandra's Gift"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.avenging-opportunist",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.human",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "entryId": "modern4e.class.avenger",
+            "type": "entry"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "The first time each encounter you bring your Oath of Enmity target to 0 hit points, gain an extra move action. Use it by the end of your next turn.",
+        "title": "Avenging Opportunist"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.human",
+          "type": "entry"
+        },
+        "description": "The first time each encounter you bring your Oath of Enmity target to 0 hit points, gain an extra move action. Use it by the end of your next turn.",
+        "id": "modern4e.feat.avenging-opportunist",
+        "prerequisites": {
+          "entryId": "modern4e.class.avenger",
+          "type": "entry"
+        },
+        "runtimeRequirementText": "Avenger",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat1493",
+        "title": "Avenging Opportunist"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.avenging-spirit",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.human",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 11,
+                "type": "level"
+              },
+              {
+                "conditions": [
+                  {
+                    "entryId": "modern4e.class.fighter",
+                    "type": "entry"
+                  },
+                  {
+                    "entryId": "modern4e.class.warlord",
+                    "type": "entry"
+                  }
+                ],
+                "type": "anyOf"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When an ally of at least your level drops to 0 hit points or fewer and you can see or hear that ally, gain an action point. It expires if unused at the end of your next turn.",
+        "title": "Avenging Spirit"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.human",
+          "type": "entry"
+        },
+        "description": "When an ally of at least your level drops to 0 hit points or fewer and you can see or hear that ally, gain an action point. It expires if unused at the end of your next turn.",
+        "id": "modern4e.feat.avenging-spirit",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 11,
+              "type": "level"
+            },
+            {
+              "conditions": [
+                {
+                  "entryId": "modern4e.class.fighter",
+                  "type": "entry"
+                },
+                {
+                  "entryId": "modern4e.class.warlord",
+                  "type": "entry"
+                }
+              ],
+              "type": "anyOf"
+            }
+          ],
+          "type": "allOf"
+        },
+        "runtimeRequirementText": "11th level, (Fighter or Warlord)",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat831",
+        "title": "Avenging Spirit"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.avenging-surge",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.avenger",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 11,
+                "type": "level"
+              },
+              {
+                "entryId": "modern4e.feature.censure-of-unity",
+                "type": "entry"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When an ally hits your oath of enmity target, you gain temporary hit points equal to 3 + 3 per ally adjacent to that target.",
+        "title": "Avenging Surge"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.avenger",
+          "type": "entry"
+        },
+        "description": "When an ally hits your oath of enmity target, you gain temporary hit points equal to 3 + 3 per ally adjacent to that target.",
+        "id": "modern4e.feat.avenging-surge",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 11,
+              "type": "level"
+            },
+            {
+              "entryId": "modern4e.feature.censure-of-unity",
+              "type": "entry"
+            }
+          ],
+          "type": "allOf"
+        },
+        "runtimeRequirementText": "11th level, Censure of Unity",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat1565 — Divine Power, page(s) 137.",
+        "title": "Avenging Surge"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.baalzebuls-desperate-gambit",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.tiefling",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you first become bloodied in an encounter, you can roll a saving throw, with a bonus equal to the number of enemies adjacent to you. If you succeed, spend a healing surge. If you fail, you lose a healing surge.",
+        "title": "Baalzebul's Desperate Gambit"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.tiefling",
+          "type": "entry"
+        },
+        "description": "When you first become bloodied in an encounter, you can roll a saving throw, with a bonus equal to the number of enemies adjacent to you. If you succeed, spend a healing surge. If you fail, you lose a healing surge.",
+        "id": "modern4e.feat.baalzebuls-desperate-gambit",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "runtimeRequirementText": "11th level",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Baalzebul's Desperate Gambit"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.back-to-the-wall",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Whenever you are adjacent to blocking terrain other than the ground, you gain a +1 feat bonus to attack rolls, a +1 bonus to damage rolls against adjacent enemies, and do not grant combat advantage to those enemies. At 11th level, this bonus to damage rolls increases to +2. At 21st level, it increases to +3.",
+        "title": "Back to the Wall"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "description": "Whenever you are adjacent to blocking terrain other than the ground, you gain a +1 feat bonus to attack rolls, a +1 bonus to damage rolls against adjacent enemies, and do not grant combat advantage to those enemies. At 11th level, this bonus to damage rolls increases to +2. At 21st level, it increases to +3.",
+        "id": "modern4e.feat.back-to-the-wall",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Back to the Wall"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.backstabber",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.rogue",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "The extra damage dice from your Sneak Attack class feature increase from d6s to d8s.",
+        "title": "Backstabber"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.rogue",
+          "type": "entry"
+        },
+        "description": "The extra damage dice from your Sneak Attack class feature increase from d6s to d8s.",
+        "id": "modern4e.feat.backstabber",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Backstabber"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.bael-turath-born",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.tiefling",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 11,
+                "type": "level"
+              },
+              {
+                "entryId": "modern4e.class.warlock",
+                "type": "entry"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Your fire resistance improves; you now have resist fire 8 + your level.",
+        "title": "Bael Turath Born"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.tiefling",
+          "type": "entry"
+        },
+        "description": "Your fire resistance improves; you now have resist fire 8 + your level.",
+        "id": "modern4e.feat.bael-turath-born",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 11,
+              "type": "level"
+            },
+            {
+              "entryId": "modern4e.class.warlock",
+              "type": "entry"
+            }
+          ],
+          "type": "allOf"
+        },
+        "runtimeRequirementText": "11th level, Warlock",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Bael Turath Born"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.baleful-malediction",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.invoker",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "entryId": "modern4e.feature.covenant-of-malediction",
+            "type": "entry"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Whenever you use a divine encounter or daily attack power on your turn, each target hit by the power takes a -2 penalty to attack rolls against you until the start of your next turn.",
+        "title": "Baleful Malediction"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.invoker",
+          "type": "entry"
+        },
+        "description": "Whenever you use a divine encounter or daily attack power on your turn, each target hit by the power takes a -2 penalty to attack rolls against you until the start of your next turn.",
+        "id": "modern4e.feat.baleful-malediction",
+        "prerequisites": {
+          "entryId": "modern4e.feature.covenant-of-malediction",
+          "type": "entry"
+        },
+        "runtimeRequirementText": "Covenant of Malediction",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Baleful Malediction"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.barbarians-fury",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Once per day as a free action, you can gain a +2 bonus to damage rolls until the end of the encounter.",
+        "title": "Barbarian’s Fury"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "description": "Once per day as a free action, you can gain a +2 bonus to damage rolls until the end of the encounter.",
+        "id": "modern4e.feat.barbarians-fury",
+        "multiclassFor": "modern4e.class.barbarian",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "tags": [
+          "MULTICLASS"
+        ],
+        "title": "Barbarian’s Fury"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.bardic-wayfarer",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.bard",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Once per turn when you teleport an ally with a power, you can also teleport 1 square as a free action. In addition, when you use majestic word you can teleport the target 1 square instead of sliding the target.",
+        "title": "Bardic Wayfarer"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.bard",
+          "type": "entry"
+        },
+        "description": "Once per turn when you teleport an ally with a power, you can also teleport 1 square as a free action. In addition, when you use majestic word you can teleport the target 1 square instead of sliding the target.",
+        "id": "modern4e.feat.bardic-wayfarer",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Bardic Wayfarer"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.basic-dilettante",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Once per day, you can use the Bard’s majestic word power. In addition, you can wield bard implements.",
+        "title": "Basic Dilettante"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "description": "Once per day, you can use the Bard’s majestic word power. In addition, you can wield bard implements.",
+        "id": "modern4e.feat.basic-dilettante",
+        "multiclassFor": "modern4e.class.bard",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "tags": [
+          "MULTICLASS"
+        ],
+        "title": "Basic Dilettante"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.battering-shield",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "equipment": "SHIELD",
+            "type": "equipmentProficiency"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you are wielding a shield and push or slide a creature with a melee or close attack, you gain a +1 feat bonus to the distance of that forced movement. This feat bonus increases to +2 at 21st level.",
+        "title": "Battering Shield"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "description": "When you are wielding a shield and push or slide a creature with a melee or close attack, you gain a +1 feat bonus to the distance of that forced movement. This feat bonus increases to +2 at 21st level.",
+        "id": "modern4e.feat.battering-shield",
+        "prerequisites": {
+          "equipment": "SHIELD",
+          "type": "equipmentProficiency"
+        },
+        "runtimeRequirementText": "Proficiency with shields",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Battering Shield"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.battle-awareness",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Once per encounter, whenever an enemy that is adjacent to you shifts or makes an attack that does not include you as a target, you can make a melee basic attack against that enemy as an immediate interrupt.",
+        "title": "Battle Awareness"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "description": "Once per encounter, whenever an enemy that is adjacent to you shifts or makes an attack that does not include you as a target, you can make a melee basic attack against that enemy as an immediate interrupt.",
+        "id": "modern4e.feat.battle-awareness",
+        "multiclassFor": "modern4e.class.fighter",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "tags": [
+          "MULTICLASS"
+        ],
+        "title": "Battle Awareness"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.battle-cadence",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.bard",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you use majestic word, you can slide the target 1 extra square. The target also gains a +2 bonus to the next damage roll he or she makes before the end of his or her next turn.",
+        "title": "Battle Cadence"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.bard",
+          "type": "entry"
+        },
+        "description": "When you use majestic word, you can slide the target 1 extra square. The target also gains a +2 bonus to the next damage roll he or she makes before the end of his or her next turn.",
+        "id": "modern4e.feat.battle-cadence",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Battle Cadence"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.battle-healer",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.cleric",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you use your healing word, you regain hit points equal to your Strength.",
+        "title": "Battle Healer"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.cleric",
+          "type": "entry"
+        },
+        "description": "When you use your healing word, you regain hit points equal to your Strength.",
+        "id": "modern4e.feat.battle-healer",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Battle Healer"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.battle-intuition",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.deva",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "You can use your *Wisdom* in place of your Dexterity to determine your initiative bonus. Additionally, you gain a +2 feat bonus to initiative checks.",
+        "title": "Battle Intuition"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.deva",
+          "type": "entry"
+        },
+        "description": "You can use your *Wisdom* in place of your Dexterity to determine your initiative bonus. Additionally, you gain a +2 feat bonus to initiative checks.",
+        "id": "modern4e.feat.battle-intuition",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Battle Intuition"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.battle-song-expertise",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.bard",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "You also gain a +1 feat bonus to the number of squares that you can pull, push, or slide creatures with your bard attacks and bard paragon path attacks.",
+        "title": "Battle Song Expertise"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.bard",
+          "type": "entry"
+        },
+        "description": "You also gain a +1 feat bonus to the number of squares that you can pull, push, or slide creatures with your bard attacks and bard paragon path attacks.",
+        "id": "modern4e.feat.battle-song-expertise",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Battle Song Expertise"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.battlepriests-armanents",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.cleric",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "ability": "STRENGTH",
+            "minimum": 3,
+            "type": "abilityPoints"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "You gain proficiency with light shields and with one military weapon of your choice.",
+        "title": "Battlepriest's Armanents"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.cleric",
+          "type": "entry"
+        },
+        "description": "You gain proficiency with light shields and with one military weapon of your choice.",
+        "id": "modern4e.feat.battlepriests-armanents",
+        "prerequisites": {
+          "ability": "STRENGTH",
+          "minimum": 3,
+          "type": "abilityPoints"
+        },
+        "runtimeRequirementText": "3 Strength",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Battlepriest's Armanents"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.beguiling-enchantment",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Whenever you hit an enemy with a charm power, that enemy takes a -2 penalty to attack rolls against you until the end of its next turn.",
+        "title": "Beguiling Enchantment"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "description": "Whenever you hit an enemy with a charm power, that enemy takes a -2 penalty to attack rolls against you until the end of its next turn.",
+        "id": "modern4e.feat.beguiling-enchantment",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Beguiling Enchantment"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.bels-impending-victory",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.tiefling",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you hit a bloodied enemy, your allies gain a +1 bonus to attack rolls against the target until the start of your next turn.",
+        "title": "Bel's Impending Victory"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.tiefling",
+          "type": "entry"
+        },
+        "description": "When you hit a bloodied enemy, your allies gain a +1 bonus to attack rolls against the target until the start of your next turn.",
+        "id": "modern4e.feat.bels-impending-victory",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "runtimeRequirementText": "11th level",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Bel's Impending Victory"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.beseech-patron",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you spend an action point to take an extra action and use an arcane power, you gain the benefit of your pact boon as if an enemy under your Warlock's Curse had dropped to 0 hit points or fewer.",
+        "title": "Beseech Patron"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "description": "When you spend an action point to take an extra action and use an arcane power, you gain the benefit of your pact boon as if an enemy under your Warlock's Curse had dropped to 0 hit points or fewer.",
+        "id": "modern4e.feat.beseech-patron",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "runtimeRequirementText": "11th level",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Beseech Patron"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.bitter-challenge",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "entryId": "modern4e.power.divine-challenge",
+            "type": "entry"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Whenever a target takes damage from your divine challenge, it is also slowed until the end of your next turn.",
+        "title": "Bitter Challenge"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "description": "Whenever a target takes damage from your divine challenge, it is also slowed until the end of your next turn.",
+        "id": "modern4e.feat.bitter-challenge",
+        "prerequisites": {
+          "entryId": "modern4e.power.divine-challenge",
+          "type": "entry"
+        },
+        "runtimeRequirementText": "Divine Challenge",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Bitter Challenge"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.bitter-cold",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you hit a creature with a cold wizard power, that creature also takes a -2 penalty to its Fortitude until the end of your next turn.",
+        "title": "Bitter Cold"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.wizard",
+          "type": "entry"
+        },
+        "description": "When you hit a creature with a cold wizard power, that creature also takes a -2 penalty to its Fortitude until the end of your next turn.",
+        "id": "modern4e.feat.bitter-cold",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Bitter Cold"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.bitter-rebuke",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.invoker",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Modify rebuke undead based on your Divine Covenant.\n\n- Covenant of Malediction: When you hit a creature with rebuke undead, it takes a -2 penalty to attack rolls until the end of your next turn.\n\n- Covenant of Preservation: When you hit a creature with rebuke undead, it is slowed until the end of your next turn.\n\n- Covenant of Wrath: When you hit a creature with rebuke undead, you can push it a number of squares up to 2 + your *Constitution* instead of only 2 squares.",
+        "title": "Bitter Rebuke"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.invoker",
+          "type": "entry"
+        },
+        "description": "Modify rebuke undead based on your Divine Covenant.\n\n- Covenant of Malediction: When you hit a creature with rebuke undead, it takes a -2 penalty to attack rolls until the end of your next turn.\n\n- Covenant of Preservation: When you hit a creature with rebuke undead, it is slowed until the end of your next turn.\n\n- Covenant of Wrath: When you hit a creature with rebuke undead, you can push it a number of squares up to 2 + your *Constitution* instead of only 2 squares.",
+        "id": "modern4e.feat.bitter-rebuke",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Bitter Rebuke"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.blade-and-buckler",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.rogue",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "The shield bonus to defenses from your light shield increase to +2.",
+        "title": "Blade and Buckler"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.rogue",
+          "type": "entry"
+        },
+        "description": "The shield bonus to defenses from your light shield increase to +2.",
+        "id": "modern4e.feat.blade-and-buckler",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Blade and Buckler"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.blade-initiate",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Once per day, when you are wielding a blade, you can invoke the Swordmage Warding class feature as a minor action. Until the end of the encounter, you gain a +1 bonus to AC (or a +3 bonus to AC if you have one hand free). In addition, you can use Swordmage implements.",
+        "title": "Blade Initiate"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "description": "Once per day, when you are wielding a blade, you can invoke the Swordmage Warding class feature as a minor action. Until the end of the encounter, you gain a +1 bonus to AC (or a +3 bonus to AC if you have one hand free). In addition, you can use Swordmage implements.",
+        "id": "modern4e.feat.blade-initiate",
+        "multiclassFor": "modern4e.class.swordmage",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "tags": [
+          "MULTICLASS"
+        ],
+        "title": "Blade Initiate"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.bleeding-backstab",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.rogue",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Whenever you deal Sneak Attack damage to a target with a rogue daily attack power, the target takes ongoing 5 damage (save ends). If the power already deals ongoing damage that has no damage type, instead increase that ongoing damage by 5.",
+        "title": "Bleeding Backstab"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.rogue",
+          "type": "entry"
+        },
+        "description": "Whenever you deal Sneak Attack damage to a target with a rogue daily attack power, the target takes ongoing 5 damage (save ends). If the power already deals ongoing damage that has no damage type, instead increase that ongoing damage by 5.",
+        "id": "modern4e.feat.bleeding-backstab",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "runtimeRequirementText": "11th level",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat832 — Martial Power, page(s) 140.",
+        "title": "Bleeding Backstab"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.bleeding-precision",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.ranger",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Whenever you hit your quarry with a ranger daily attack power, the target takes ongoing 5 damage (save ends). If the power already deals ongoing damage that has no damage type, instead increase that ongoing damage by 5.",
+        "title": "Bleeding Precision"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.ranger",
+          "type": "entry"
+        },
+        "description": "Whenever you hit your quarry with a ranger daily attack power, the target takes ongoing 5 damage (save ends). If the power already deals ongoing damage that has no damage type, instead increase that ongoing damage by 5.",
+        "id": "modern4e.feat.bleeding-precision",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "runtimeRequirementText": "11th level",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat833 — Martial Power, page(s) 140.",
+        "title": "Bleeding Precision"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.blessed-strength",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.orc",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "entryId": "modern4e.class.paladin",
+            "type": "entry"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "You can use your Strength in place of your Charisma when determining damage for your Divine Challenge or divine sanction.",
+        "title": "Blessed Strength"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.orc",
+          "type": "entry"
+        },
+        "description": "You can use your Strength in place of your Charisma when determining damage for your Divine Challenge or divine sanction.",
+        "id": "modern4e.feat.blessed-strength",
+        "prerequisites": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "runtimeRequirementText": "Paladin",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat2909",
+        "title": "Blessed Strength"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.blessing-of-corellon",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.elf",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "entryId": "modern4e.class.cleric",
+                "type": "entry"
+              },
+              {
+                "entryId": "modern4e.power.elven-accuracy",
+                "type": "entry"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "After an Elven Accuracy reroll hits, choose an ally within 5 squares; that ally may spend a healing surge.",
+        "title": "Blessing of Corellon"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.elf",
+          "type": "entry"
+        },
+        "description": "After an Elven Accuracy reroll hits, choose an ally within 5 squares; that ally may spend a healing surge.",
+        "id": "modern4e.feat.blessing-of-corellon",
+        "prerequisites": {
+          "conditions": [
+            {
+              "entryId": "modern4e.class.cleric",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.power.elven-accuracy",
+              "type": "entry"
+            }
+          ],
+          "type": "allOf"
+        },
+        "runtimeRequirementText": "Cleric, Elven Accuracy",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat1499",
+        "title": "Blessing of Corellon"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.blood-cousins-tribe",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.barbarian",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "You gain a +1 bonus to damage rolls when raging, increasing to +2 at level 11 and +3 at level 21. This bonus increases by 1 for each ally within 10 squares of you who has at least one tribal feat.",
+        "title": "Blood Cousin's Tribe"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.barbarian",
+          "type": "entry"
+        },
+        "description": "You gain a +1 bonus to damage rolls when raging, increasing to +2 at level 11 and +3 at level 21. This bonus increases by 1 for each ally within 10 squares of you who has at least one tribal feat.",
+        "id": "modern4e.feat.blood-cousins-tribe",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Blood Cousin's Tribe"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.blood-of-dragons",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.dragonborn",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "entryId": "modern4e.power.dragonfear",
+            "type": "entry"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "You gain a +2 bonus to all defenses against fear attacks, or a +4 if the attacker is a dragon.",
+        "title": "Blood of Dragons"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.dragonborn",
+          "type": "entry"
+        },
+        "description": "You gain a +2 bonus to all defenses against fear attacks, or a +4 if the attacker is a dragon.",
+        "id": "modern4e.feat.blood-of-dragons",
+        "prerequisites": {
+          "entryId": "modern4e.power.dragonfear",
+          "type": "entry"
+        },
+        "runtimeRequirementText": "Dragonfear",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Blood of Dragons"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.blood-of-levistus",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.tiefling",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "You gain resistance to cold equal to 5 + one-half your level. You gain a +3 feat bonus to damage rolls with attacks that have the cold keyword.",
+        "title": "Blood of Levistus"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.tiefling",
+          "type": "entry"
+        },
+        "description": "You gain resistance to cold equal to 5 + one-half your level. You gain a +3 feat bonus to damage rolls with attacks that have the cold keyword.",
+        "id": "modern4e.feat.blood-of-levistus",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "runtimeRequirementText": "11th level",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Blood of Levistus"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.blood-pact-of-cania",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.tiefling",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "ability": "CHARISMA",
+                "minimum": 2,
+                "type": "abilityPoints"
+              },
+              {
+                "entryId": "modern4e.class.warlock",
+                "type": "entry"
+              },
+              {
+                "entryId": "modern4e.feature.infernal-pact",
+                "type": "entry"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Warlock powers that attack using Constitution gain +2 to damage rolls, increasing to +3 at level 11 and +4 at level 21.",
+        "title": "Blood Pact of Cania"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.tiefling",
+          "type": "entry"
+        },
+        "description": "Warlock powers that attack using Constitution gain +2 to damage rolls, increasing to +3 at level 11 and +4 at level 21.",
+        "id": "modern4e.feat.blood-pact-of-cania",
+        "prerequisites": {
+          "conditions": [
+            {
+              "ability": "CHARISMA",
+              "minimum": 2,
+              "type": "abilityPoints"
+            },
+            {
+              "entryId": "modern4e.class.warlock",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.feature.infernal-pact",
+              "type": "entry"
+            }
+          ],
+          "type": "allOf"
+        },
+        "runtimeRequirementText": "2 Charisma, Warlock, Infernal Pact",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat2286",
+        "title": "Blood Pact of Cania"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.blood-quarry",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.tiefling",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "entryId": "modern4e.class.ranger",
+            "type": "entry"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Bloodhunt grants +2 to attack rolls against your quarry instead of +1.",
+        "title": "Blood Quarry"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.tiefling",
+          "type": "entry"
+        },
+        "description": "Bloodhunt grants +2 to attack rolls against your quarry instead of +1.",
+        "id": "modern4e.feat.blood-quarry",
+        "prerequisites": {
+          "entryId": "modern4e.class.ranger",
+          "type": "entry"
+        },
+        "runtimeRequirementText": "Ranger",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat2398",
+        "title": "Blood Quarry"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.blood-thirst",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "You have combat advantage against bloodied enemies.",
+        "title": "Blood Thirst"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "description": "You have combat advantage against bloodied enemies.",
+        "id": "modern4e.feat.blood-thirst",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "runtimeRequirementText": "11th level",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Blood Thirst"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.bloodhunters-dread",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.tiefling",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you hit a bloodied foe, the target takes a -2 penalty to attack rolls against you until the end of your next turn.",
+        "title": "Bloodhunter's Dread"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.tiefling",
+          "type": "entry"
+        },
+        "description": "When you hit a bloodied foe, the target takes a -2 penalty to attack rolls against you until the end of your next turn.",
+        "id": "modern4e.feat.bloodhunters-dread",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Bloodhunter's Dread"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.bloodied-boon",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "You can choose to gain your pact boon when an enemy you curse is first bloodied. If you do, you remove your curse from that enemy.",
+        "title": "Bloodied Boon"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "description": "You can choose to gain your pact boon when an enemy you curse is first bloodied. If you do, you remove your curse from that enemy.",
+        "id": "modern4e.feat.bloodied-boon",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Bloodied Boon"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.bloodied-thriumph",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.halfling",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you use second chance while bloodied, you and your allies gain combat advantage against the triggering attacker until the end of your next turn.",
+        "title": "Bloodied Thriumph"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.halfling",
+          "type": "entry"
+        },
+        "description": "When you use second chance while bloodied, you and your allies gain combat advantage against the triggering attacker until the end of your next turn.",
+        "id": "modern4e.feat.bloodied-thriumph",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Bloodied Thriumph"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.bloodseeker",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.tiefling",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "You gain a +2 bonus to damage rolls against bloodied enemies marked by you.",
+        "title": "Bloodseeker"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.tiefling",
+          "type": "entry"
+        },
+        "description": "You gain a +2 bonus to damage rolls against bloodied enemies marked by you.",
+        "id": "modern4e.feat.bloodseeker",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Bloodseeker"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.bloodthirsty-visage-heroic-barbarian",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.barbarian",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "You gain a +2 feat bonus to damage rolls with fear powers, increasing to +3 at level 11 and +4 at level 21. This feat bonus is doubled against creatures that were subject to one of your fear effects before the attack.",
+        "title": "Bloodthirsty Visage"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.barbarian",
+          "type": "entry"
+        },
+        "description": "You gain a +2 feat bonus to damage rolls with fear powers, increasing to +3 at level 11 and +4 at level 21. This feat bonus is doubled against creatures that were subject to one of your fear effects before the attack.",
+        "id": "modern4e.feat.bloodthirsty-visage-heroic-barbarian",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Bloodthirsty Visage"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.bloodthirsty-visage-paragon-barbarian",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.barbarian",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 11,
+                "type": "level"
+              },
+              {
+                "entryId": "modern4e.feature.thaneborn-triumph",
+                "type": "entry"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "You gain a feat bonus equal to your Charisma to damage rolls with barbarian fear powers.",
+        "title": "Bloodthirsty Visage"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.barbarian",
+          "type": "entry"
+        },
+        "description": "You gain a feat bonus equal to your Charisma to damage rolls with barbarian fear powers.",
+        "id": "modern4e.feat.bloodthirsty-visage-paragon-barbarian",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 11,
+              "type": "level"
+            },
+            {
+              "entryId": "modern4e.feature.thaneborn-triumph",
+              "type": "entry"
+            }
+          ],
+          "type": "allOf"
+        },
+        "runtimeRequirementText": "11th level, Thaneborn Triumph",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat2886 — Dragon Magazine 386, page(s) 51.",
+        "title": "Bloodthirsty Visage"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.bloody-balance",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "While you are adjacent to a bloodied ally, you gain a +2 bonus to damage rolls.",
+        "title": "Bloody Balance"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "description": "While you are adjacent to a bloodied ally, you gain a +2 bonus to damage rolls.",
+        "id": "modern4e.feat.bloody-balance",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Bloody Balance"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.bloody-inspiration",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.dragonborn",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 11,
+                "type": "level"
+              },
+              {
+                "entryId": "modern4e.class.warlord",
+                "type": "entry"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "If you use inspiring word while you are bloodied and do not target yourself, a second ally within the power's range gains temporary hit points equal to twice your Constitution.",
+        "title": "Bloody Inspiration"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.dragonborn",
+          "type": "entry"
+        },
+        "description": "If you use inspiring word while you are bloodied and do not target yourself, a second ally within the power's range gains temporary hit points equal to twice your Constitution.",
+        "id": "modern4e.feat.bloody-inspiration",
+        "note": "Moved from content/feats/paragon/warlord.json.",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 11,
+              "type": "level"
+            },
+            {
+              "entryId": "modern4e.class.warlord",
+              "type": "entry"
+            }
+          ],
+          "type": "allOf"
+        },
+        "runtimeRequirementText": "11th level, Warlord",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Bloody Inspiration"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.bloody-tenacity",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.human",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 11,
+                "type": "level"
+              },
+              {
+                "powerSource": "MARTIAL",
+                "type": "classPowerSource"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you are bloodied for the first time in an encounter, you gain a +2 bonus to all defenses until the end of your next turn.",
+        "title": "Bloody Tenacity"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.human",
+          "type": "entry"
+        },
+        "description": "When you are bloodied for the first time in an encounter, you gain a +2 bonus to all defenses until the end of your next turn.",
+        "id": "modern4e.feat.bloody-tenacity",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 11,
+              "type": "level"
+            },
+            {
+              "powerSource": "MARTIAL",
+              "type": "classPowerSource"
+            }
+          ],
+          "type": "allOf"
+        },
+        "runtimeRequirementText": "11th level, Any Martial class",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Bloody Tenacity"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.bloody-triumph",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.barbarian",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "entryId": "modern4e.feature.thaneborn-triumph",
+            "type": "entry"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Once per turn when you bloody an enemy or reduce a non-minion enemy to 0 hit points, an ally who can see you can shift up to 2 squares as a free action.",
+        "title": "Bloody Triumph"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.barbarian",
+          "type": "entry"
+        },
+        "description": "Once per turn when you bloody an enemy or reduce a non-minion enemy to 0 hit points, an ally who can see you can shift up to 2 squares as a free action.",
+        "id": "modern4e.feat.bloody-triumph",
+        "prerequisites": {
+          "entryId": "modern4e.feature.thaneborn-triumph",
+          "type": "entry"
+        },
+        "runtimeRequirementText": "Thaneborn Triumph",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Bloody Triumph"
+      }
+    }
+  ],
+  "id": "entries-0000"
+}
