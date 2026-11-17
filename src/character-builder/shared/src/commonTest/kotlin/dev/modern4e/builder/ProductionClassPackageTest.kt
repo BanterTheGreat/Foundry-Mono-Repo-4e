@@ -36,6 +36,60 @@ class ProductionClassPackageTest {
             val saved = sample.levels.first().entries.first().selection
             assertEquals(fighter.fingerprint, saved.acknowledgedFingerprint)
             assertFalse(assertIs<ContractResult.Available<ResolvedEntry>>(catalog.resolve(saved)).value.acknowledgmentRequired)
+            val initialContent = RulesContent.load(sample, catalog)
+            val initial = RulesEngine.evaluate(sample, initialContent)
+            val atWill = initial.choices.first { it.slot.choiceId == "modern4e.choice.class-attack-at-will" }
+            assertEquals(17, atWill.entries.count { it.entryId.startsWith("modern4e.power.fighter-power") && it.status == Eligibility.ELIGIBLE })
+            assertFalse(atWill.entries.any { it.entryId == "modern4e.power.fighter-power10517" })
+            val levelFive = sample.copy(level = 5)
+            val fiveRules = RulesEngine.evaluate(levelFive, RulesContent.load(levelFive, catalog))
+            val dailyFive = fiveRules.choices.single { it.slot.choiceId == "modern4e.choice.class-attack-daily-5" }
+            val gated = dailyFive.entries.single { it.entryId == "modern4e.power.fighter-power10153" }
+            // An unfinished starter has unavailable prerequisite facts; it must
+            // never offer the gated power as eligible before proficiency is known.
+            assertEquals(Eligibility.UNRESOLVED, gated.status)
+            val proficient = levelFive.copy(levels = listOf(levelFive.levels.first().copy(proficiencies = listOf(
+                ProficiencyChoice(ChoiceSlotId("creation", "free-skill", 0), Skill.ENDURANCE)))))
+            val proficientRules = RulesEngine.evaluate(proficient, RulesContent.load(proficient, catalog))
+            assertEquals(Eligibility.ELIGIBLE, proficientRules.choices.single { it.slot == dailyFive.slot }.entries.single {
+                it.entryId == "modern4e.power.fighter-power10153" }.status)
+            val wizard = assertIs<ContractResult.Available<ResolvedEntry?>>(catalog.lookup("modern4e.class.wizard")).value!!
+            val otherClass = sample.copy(levels = listOf(sample.levels.first().copy(entries = listOf(sample.levels.first().entries.first().copy(
+                selection = SavedSelection(wizard.entry.id, wizard.entry.presentation.title, wizard.supplier.packageId, wizard.fingerprint))))))
+            val otherRules = RulesEngine.evaluate(otherClass, RulesContent.load(otherClass, catalog))
+            assertNotEquals(Eligibility.ELIGIBLE, otherRules.choices.first { it.slot.choiceId == atWill.slot.choiceId }.entries.single {
+                it.entryId == "modern4e.power.fighter-power992" }.status)
+            val rootInstance = sample.levels.first().entries.first().instanceId
+            suspend fun choice(sourceId: String, choiceId: String): EntryChoice {
+                val power = assertIs<ContractResult.Available<ResolvedEntry?>>(catalog.lookup("modern4e.power.fighter-$sourceId")).value!!
+                return EntryChoice(sourceId, ChoiceSlotId(rootInstance, choiceId, 0), SavedSelection(power.entry.id,
+                    power.entry.presentation.title, power.supplier.packageId, power.fingerprint))
+            }
+            val encounter = choice("power622", "modern4e.choice.class-attack-encounter")
+            val daily = choice("power1429", "modern4e.choice.class-attack-daily")
+            val selected = choice("power992", "modern4e.choice.class-attack-at-will")
+            // Use a level-1 encounter acquisition, then retained replacement history.
+            val earlyEncounter = initialContent.entries.values.filterIsInstance<ContractResult.Available<ResolvedEntry>>()
+                .first { it.value.entry.id.startsWith("modern4e.power.fighter-power") &&
+                    it.value.entry.mechanics.powerProfile?.level == 1 && it.value.entry.mechanics.powerProfile?.usage == "ENCOUNTER" }.value
+            val oldEncounter = encounter.copy(selection = SavedSelection(earlyEncounter.entry.id, earlyEncounter.entry.presentation.title,
+                earlyEncounter.supplier.packageId, earlyEncounter.fingerprint))
+            val base = sample.copy(levels = listOf(sample.levels.first().copy(entries = sample.levels.first().entries + selected + oldEncounter + daily)))
+            val lateEncounter = choice("power10517", encounter.slot.choiceId).copy(instanceId = oldEncounter.instanceId)
+            val lateDaily = choice("power1101", daily.slot.choiceId).copy(instanceId = daily.instanceId)
+            val later = base.copy(level = 15, levels = base.levels +
+                LevelDecisions(13, replacements = listOf(Replacement(encounter.slot, lateEncounter, ReplacementKind.PROGRESSION))) +
+                LevelDecisions(15, replacements = listOf(Replacement(daily.slot, lateDaily, ReplacementKind.PROGRESSION))))
+            val laterRules = RulesEngine.evaluate(later, RulesContent.load(later, catalog))
+            val levelThirteen = later.copy(level = 13, levels = later.levels.filter { it.level <= 13 })
+            val thirteenRules = RulesEngine.evaluate(levelThirteen, RulesContent.load(levelThirteen, catalog))
+            assertTrue(thirteenRules.choices.single { it.slot == encounter.slot }.entries.any { it.entryId == lateEncounter.selection.entryId && it.status == Eligibility.ELIGIBLE })
+            assertTrue(laterRules.choices.single { it.slot == encounter.slot }.entries.any { it.entryId == lateEncounter.selection.entryId && it.status == Eligibility.INCOMPLETE })
+            assertTrue(laterRules.choices.single { it.slot == daily.slot }.entries.any { it.entryId == lateDaily.selection.entryId && it.status == Eligibility.ELIGIBLE })
+            assertTrue(laterRules.diagnostics.any { it.code == "engine.replacementTiming" })
+            val portable = assertIs<ContractResult.Available<CharacterDocument>>(ContractCodec.decode(ContractCodec.encode(later))).value
+            assertEquals(later, portable)
+            assertEquals(laterRules.diagnostics, RulesEngine.evaluate(portable, RulesContent.load(portable, catalog)).diagnostics)
             val legacy = assertIs<ContractResult.Available<CharacterDocument>>(
                 ContractCodec.decode(contractFixtures.getValue("sample-fighter-1-base.json"))).value
             val oldChoice = legacy.levels.first().entries.first().selection

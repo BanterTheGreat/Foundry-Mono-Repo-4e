@@ -1,6 +1,7 @@
 #import "../helpers/theme.typ";
 #import "../helpers/classes.typ" as classes;
 #import "../helpers/class_content.typ" as content;
+#import "fighter-attack-powers.typ": fighterAttackPowers;
 
 #let fighter = content.entry("modern4e.class.fighter");
 #let className = fighter.title;
@@ -37,6 +38,10 @@
       #content.commonRules(fighter)
       #colbreak()
       #classes.powerLinks(className: className, skipPaths: true, powerSources: fighter.powerSources.map(content.display));
+    ]
+
+    #classes.classFeatures[
+      #fighterAttackPowers()
     ]
 
     #pagebreak()

@@ -159,8 +159,11 @@ General progression/query pools/collections are shared engine responsibilities (
 Exceptional-class fixtures establish data shapes;
 general progression remains a shared engine concern. Production package adoption
 uses local IDs directly and preserves unresolved legacy selections. The
-96 revised Barbarian selectable attacks also use the ordered power contract;
-other selectable class catalogs remain linked source material. Existing feat
+96 revised Barbarian selectable attacks and all 174 Fighter selectable attacks
+through level 15 use the ordered power contract. Fighter attacks are bundled in
+runtime package revision 2 with explicit access/level/proficiency requirements;
+their combat rules remain manual. Other selectable class catalogs remain linked
+source material. Existing feat
 data and its contracts remain independently
 owned; the feat registry's pending external-reference statuses do not yet resolve
 against class authoring definitions at runtime.

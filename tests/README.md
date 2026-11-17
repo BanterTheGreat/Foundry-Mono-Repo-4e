@@ -481,6 +481,20 @@ Summon automation Node coverage includes separate square selection, per-power ma
 
 Shared class runtime and authoritative production classes (#33–#35), from the repository root:
 
+Fighter selectable attacks through level 15 add five Python regressions:
+
+```powershell
+python -X utf8 -m unittest discover -s src/character-builder/content -p test_fighter_attacks.py -v
+```
+
+They cover all 174 source identities, the level-15 boundary, source preservation,
+direct-point rules, attack sequences/scaling, prerequisites and source-independent
+runtime compilation. `ProductionClassPackageTest` also checks actual generated
+Fighter pools, level/proficiency/class filtering, level-13/15 replacements and
+portable reopening on JVM and JS. Historical eligibility and retraining timing
+remain explicitly incomplete. Typst compilation and Fighter card/page inspection
+are required when Typst is available.
+
 ```powershell
 python -X utf8 src/character-builder/content/build.py --modern-classes-runtime
 python -X utf8 src/character-builder/content/build.py --modern-classes-runtime --check

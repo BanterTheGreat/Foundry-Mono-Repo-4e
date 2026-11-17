@@ -10,6 +10,16 @@ remain in each definition's `sharedData`. The engine reports partial coverage,
 unavailable selectable pools and unsupported combat/later-level behavior.
 Published class HTML and mechanics never supply or fill these definitions.
 
+Package revision 2 adds all 174 Fighter selectable attacks through level 15 from
+`modern4e/content/classes/fighter-attack-powers.json`, with stable local IDs,
+level/usage profiles, class access and skill prerequisites. Descriptions render
+reviewed ordered rules; original published text is retained only as provenance.
+The explicit migration helper is not part of production. The Fighter-only compiler
+subset includes its curated attack pool when advancement is enabled; the named
+old proof compilation without advancement remains unchanged. Level-13/15 replacement
+candidates use replacement-level ceilings while historical eligibility and timing
+still report the shared engine's existing limitations.
+
 ```powershell
 python -X utf8 src/character-builder/content/build.py
 python -X utf8 src/character-builder/content/build.py --check

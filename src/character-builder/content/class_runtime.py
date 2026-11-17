@@ -105,8 +105,31 @@ def compile_entry(entry):
         "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."]
     coverage = {"status": "PARTIAL" if entry["category"] != "POWER" else "UNIMPLEMENTED",
                 "limitations": limitations or ["Combat/session effects are not executed by the character builder."]}
+    description = entry["description"]
+    if entry["category"] == "POWER" and entry.get("source", {}).get("rulesText"):
+        # Render reviewed local rules, not the preserved unadapted source transcript.
+        def lines(blocks):
+            result = []
+            for block in blocks:
+                result.append(f"{block['label']}: {block['text']}")
+                result += [f"Level {scale['atLevel']}: {scale['text']}" for scale in block.get("scaling", [])]
+                for comparison in block.get("comparisons", []):
+                    for children in comparison["outcomes"].values():
+                        result += lines(children)
+            return result
+        parts = [description]
+        for activation in entry["activations"]:
+            parts.append(activation["usage"]["frequency"] + " / " + activation["action"])
+            parts.append(activation["range"]["text"])
+            for key in ("trigger", "requirement"):
+                if key in activation:
+                    parts.append(f"{key.title()}: {activation[key]}")
+            if "targets" in activation:
+                parts.append("Target: " + activation["bindings"][activation["targets"]]["text"])
+            parts += lines(activation["blocks"])
+        description = "\n\n".join(parts)
     return {"id": entry["id"], "category": entry["category"],
-            "presentation": {"title": entry["title"], "description": entry["description"]},
+            "presentation": {"title": entry["title"], "description": description},
             "mechanics": mechanics, "coverage": coverage, "sharedData": entry}
 
 
@@ -118,6 +141,12 @@ def build(content=authoring.CONTENT, class_ids=None, include_advancement=True):
     if class_ids is not None:
         authoring.require(all(key in source and source[key]["category"] == "CLASS" for key in ids),
                           "class_ids", "expected authoritative class IDs")
+        if include_advancement:
+            # Query pools are dependencies too; explicit old proof compilation
+            # without advancement keeps its named finite fixture unchanged.
+            ids.update(entry["id"] for entry in source.values() if entry["category"] == "POWER"
+                       and "level" in entry and entry["access"].get("type") == "entry"
+                       and entry["access"]["entryId"] in class_ids)
         pending = list(ids)
         while pending:
             entry = source[pending.pop()]
@@ -137,7 +166,7 @@ def build(content=authoring.CONTENT, class_ids=None, include_advancement=True):
             entry["mechanics"]["choices"] += [compile_choice(choice) for choice in catalog["advancement"]["powerChoices"]]
     package = "modern4e.classes"
     return {
-        f"{package}/manifest.json": {"formatVersion": 2, "id": package, "revision": "1",
+        f"{package}/manifest.json": {"formatVersion": 2, "id": package, "revision": "2",
                                     "title": "Modern 4e shared classes", "indexes": ["index"], "chunks": ["entries"]},
         f"{package}/index.json": {"entries": [{"id": e["id"], "title": e["presentation"]["title"],
                                                "category": e["category"], "chunkId": "entries"} for e in entries]},

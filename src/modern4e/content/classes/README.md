@@ -2,7 +2,8 @@
 
 All 19 local classes are authoritative here: four Defenders, six Leaders, three
 Controllers and six Strikers. The catalog contains 170 features, 82 granted
-powers, 96 selectable revised Barbarian attack powers and six explanatory rules.
+powers, 96 selectable revised Barbarian attack powers, 174 selectable Fighter
+attack powers through level 15 and six explanatory rules.
 Typst renders them directly;
 `class_content.py` exports the same data for future Character Builder compilation.
 This is **an authoring catalog, not a v1 runtime package**. The separate
@@ -13,6 +14,21 @@ chapter keeps a second editable rules definition in Typst. Feats and paragon-pat
 catalogs retain their existing contracts.
 
 ## Files and commands
+
+`fighter-attack-powers.json` owns the Fighter's 17 at-will, 82 encounter and 75
+daily attacks at levels 1–15. IDs retain the stored `modern4e.power.fighter-powerN`
+identity independently of title. Published transcripts/citations remain in `source`;
+reviewed rules use direct ability points and explicit skill proficiency gates.
+Weapon/hand requirements remain activation requirements, not acquisition gates.
+Conditional/nested attacks, weapon alternatives, stances and sustain text remain
+manual rules with explicit unimplemented combat coverage. Level-21 at-will scaling
+is retained without claiming complete higher-level progression.
+
+`classes/fighter-attack-powers.typ` renders these definitions in the Fighter chapter;
+the runtime compiler exports them in production package revision 2. The explicit
+`scripts/import_fighter_attacks.py --output <new-scratch-file>` migration aid reads
+the offline snapshot only for review and refuses to overwrite authoritative data.
+Normal validation/compilation reads local JSON, never reimports source powers.
 
 `catalog.json` inventories every entry file exactly once under `classes`,
 `features`, `powers` or `rules`. Each file has a schema version and that envelope
