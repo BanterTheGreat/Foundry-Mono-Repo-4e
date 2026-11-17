@@ -2,6 +2,8 @@
 
 ## Character Builder (shared core preview)
 
+- Shared content reconciliation reports changed definitions/revisions and unavailable saved occurrences, exposes details only for available definitions, and preserves unresolved provenance through edits/export. Explicit acknowledgment advances available baselines; package-order previews show recalculated diagnostics and affected selections, support discard-to-cancel, and reject stale character commits. Includes inventory and replacement history; UI wiring remains in the platform workflow tickets. See `src/character-builder/shared/BUILDER.md`.
+
 - Shared builder operations create/edit level-1 and direct level-2 characters, preserve stable occurrences and dependent decisions, recalculate after identity, Modern 4e allocation/proficiency/background, equipment and manual-adjustment edits, and offer eligible entry choices with explicit acceptance of invalid/incomplete choices. Invalid and missing selections remain exportable; progression beyond level 2 and UI wiring remain outside this slice. See `src/character-builder/shared/BUILDER.md`.
 
 - Android runtime adapters (#14): locked private JSON journal commits characters and recovery copies together; create conflicts and stale replacements fail explicitly, deletion retains backups, and shared import/recovery actions restore or copy documents. Generated packages ship byte-for-byte as app assets. Storage Access Framework open/create adapters pass imported JSON to shared handling and validate exports before writing; cancellation and IO/permission failures return structured results. Builder UI wiring remains #17.

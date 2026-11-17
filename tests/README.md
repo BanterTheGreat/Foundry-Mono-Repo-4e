@@ -451,6 +451,12 @@ there is no catalog UI or rules execution in this ticket.
 
 `RulesEngineTest` and `EngineModifiersTest` use the same shared JVM/JS tasks. They cover current Modern 4e allocation budgets/caps/tradeoff, all skill mappings, explained proficiency sources, duplicate proficiency handling, grants/choices, eligibility and unsupported prerequisites, missing definitions/cycles, level-2 content, typed/untyped stacking, penalties, explicit base/floor operations, manual labels and unavailable/overflow results. Run unfiltered `:shared:jvmTest :shared:jsNodeTest` for cross-platform verification; Gradle `--tests` filtering may silently select zero Node/JS tests.
 
+Shared `ContentReconciliationTest` runs on JVM and JS with the same Gradle commands.
+It covers current-definition recalculation without acknowledgment, revision-only
+changes, persistent acknowledgment, missing suppliers/entries and detail failures,
+explicit fallback on package switches, order/cancel/stale commits, invalid choices,
+and inventory/replacement occurrences. See [reconciliation API](../src/character-builder/shared/BUILDER.md).
+
 Shared `BuilderOperationsTest` runs on JVM and JS with the commands above. It covers incremental/direct level-2 creation, repeated choice slots, stable IDs, eligible/forced choices, allocation limits, changed backgrounds, and edits/export with missing content. Operation contracts: [BUILDER.md](../src/character-builder/shared/BUILDER.md).
 
 On macOS/Linux, from `src/character-builder/`, run `bash gradlew :shared:jvmTest :shared:jsNodeTest :shared:jsBrowserDevelopmentLibraryDistribution` to test both targets and build the shared browser library.

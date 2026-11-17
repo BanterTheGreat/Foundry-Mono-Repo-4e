@@ -5,7 +5,7 @@
 package revisions, direct point allocation and level 1 or 2. It fills empty level
 containers without inventing player choices. `evaluate` refreshes content and
 returns `BuilderState(document, rules)` without saving. Recreate the coordinator
-when packages change; package switching belongs to the catalog workflow.
+when packages change; use the reconciliation workflow below for package switching.
 
 `apply(document, BuilderEdit)` returns a recalculated state and `applied` flag.
 Operation diagnostics explain rejected commands; rule diagnostics live in
@@ -40,3 +40,42 @@ Equipment configuration is preserved but still has incomplete automation.
 
 Run `bash gradlew :shared:jvmTest :shared:jsNodeTest :shared:jsBrowserDevelopmentLibraryDistribution`
 from `src/character-builder/` for shared behavior and the web consumable build.
+
+## Content reconciliation and package changes (#11)
+
+`ContentReconciliation(source, standardPackageId)` opens a fresh catalog for each
+operation. Android and common Kotlin callers use it directly; the same common
+implementation compiles to JavaScript. The platform workflow tickets own UI and
+plain-data web bindings, as they do for `BuilderOperations`.
+
+- `reconcile(document)` returns `ContractResult<ReconciliationState>` with the
+  unchanged document, current rules, per-occurrence resolutions and changed
+  installed package revisions. `acknowledgmentRequired` is a content-change
+  notice, separate from invalid, unresolved and incomplete rule diagnostics.
+  A revision-only update does not invent a definition change.
+- `selections` covers level entries, replacement history and all inventory,
+  including unequipped items. Each occurrence retains its saved title and
+  provenance. `detailsAvailable` is false for missing suppliers, removed entries
+  or failed detail reads; inspect `definition` for diagnostics. A missing custom
+  supplier never silently adopts a standard definition.
+- `acknowledge(document)` explicitly refreshes all available selection titles,
+  suppliers and fingerprints, plus installed revisions in the existing package
+  list. Unavailable selections and missing package revisions remain intact.
+  Player decisions, occurrence IDs, timestamps and unresolved export data survive.
+- `preview(document, orderedPackages)` resolves deliberately by entry ID and
+  returns a `PackageSwitchPreview`: `proposed` contains the recalculated candidate,
+  while `affectedSelections` contains changed or unavailable occurrences compared
+  with their saved baselines. Available definitions adopt their current supplier
+  and baseline in the candidate. Missing definitions preserve prior provenance.
+  Invalid and unresolved choices stay in the document and can be committed.
+- Discard the preview to cancel. `commit(currentDocument, preview)` returns the
+  proposed state only if the current document still equals the preview's original;
+  otherwise it returns `reconciliation.stalePreview`. Rebuild a preview after any
+  installed content update. Commit performs no storage write; the caller persists
+  the returned document and creates a new editing coordinator/catalog for its order.
+
+All operations return structured catalog failures when the standard package or
+catalog cannot be loaded. Missing optional content still permits unrelated edits.
+The existing engine conservatively marks totals unavailable where missing active
+mechanics could affect them; missing unequipped inventory does not block totals.
+These operations add no historical pinning, migrations, package import or UI.
