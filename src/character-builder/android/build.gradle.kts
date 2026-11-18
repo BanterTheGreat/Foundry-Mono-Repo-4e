@@ -1,3 +1,8 @@
+import java.time.ZonedDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.Locale
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -16,6 +21,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     sourceSets["main"].assets.srcDir(layout.buildDirectory.dir("generated/bundledAssets"))
+    sourceSets["main"].res.srcDir(layout.buildDirectory.dir("generated/buildInfo"))
     sourceSets["androidTest"].assets.srcDir("../shared/fixtures")
     testOptions.unitTests.isIncludeAndroidResources = true
     sourceSets["test"].resources.srcDir("../shared/fixtures")
@@ -51,3 +57,19 @@ val bundleContent by tasks.registering(Sync::class) {
     }
 }
 tasks.named("preBuild") { dependsOn(bundleContent) }
+
+// Stamp every build execution, including incremental builds, rather than app launch.
+val buildInfoFile = layout.buildDirectory.file("generated/buildInfo/values/build-info.xml")
+val generateBuildInfo by tasks.registering {
+    outputs.file(buildInfoFile)
+    outputs.upToDateWhen { false }
+    doLast {
+        val timestamp = ZonedDateTime.now(ZoneId.of("Europe/Amsterdam"))
+            .format(DateTimeFormatter.ofPattern("d MMMM yyyy, HH:mm z", Locale.ENGLISH))
+        buildInfoFile.get().asFile.apply {
+            parentFile.mkdirs()
+            writeText("""<resources><string name="app_build_time">Built $timestamp</string></resources>""")
+        }
+    }
+}
+tasks.named("preBuild") { dependsOn(generateBuildInfo) }

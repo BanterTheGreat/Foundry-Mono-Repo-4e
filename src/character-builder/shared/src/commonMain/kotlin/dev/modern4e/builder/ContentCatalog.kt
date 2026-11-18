@@ -13,6 +13,7 @@ class ContentCatalog private constructor(
     private val definitions: Map<String, Map<String, EntryMetadata>>,
     val diagnostics: List<Diagnostic>,
     private val resolved: MutableMap<String, ContractResult<ResolvedEntry>>? = null,
+    private val chunks: MutableMap<Pair<String, String>, ContractResult<Map<String, ContentEntry>>>? = null,
 ) {
     /**
      * One evaluation shares decoded chunks; later evaluations still observe current source bytes.
@@ -22,16 +23,7 @@ class ContentCatalog private constructor(
         if (resolved != null) {
             return this
         }
-        val chunks = mutableMapOf<Pair<String, String>, ContractResult<EntryChunk>>()
-        val sessionSource = object : ContentSource {
-            override suspend fun listPackages() = source.listPackages()
-            override suspend fun loadIndex(packageId: String, indexId: String) = source.loadIndex(packageId, indexId)
-            override suspend fun loadChunk(packageId: String, chunkId: String): ContractResult<EntryChunk> {
-                val key = packageId to chunkId
-                return chunks[key] ?: source.loadChunk(packageId, chunkId).also { chunks[key] = it }
-            }
-        }
-        return ContentCatalog(sessionSource, packages, entries, definitions, diagnostics, mutableMapOf())
+        return ContentCatalog(source, packages, entries, definitions, diagnostics, mutableMapOf(), mutableMapOf())
     }
 
     /** Search winning metadata only; never loads a chunk. Ordering is stable across platforms. */
@@ -87,16 +79,13 @@ class ContentCatalog private constructor(
 
     private suspend fun loadUncached(candidate: CatalogEntry): ContractResult<ResolvedEntry> {
         val metadata = candidate.metadata
-        return when (val result = source.loadChunk(candidate.supplier.packageId, metadata.chunkId)) {
+        return when (val result = indexedChunk(candidate.supplier.packageId, metadata.chunkId)) {
             is ContractResult.Unavailable -> result
             is ContractResult.Available -> {
-                val chunk = result.value
-                val matches = chunk.entries.filter { it.id == metadata.id }
-                if (chunk.id != metadata.chunkId || chunk.entries.map { it.id }.distinct().size != chunk.entries.size ||
-                    matches.size != 1 || matches.single().category != metadata.category || matches.single().presentation.title != metadata.title) {
+                val entry = result.value[metadata.id]
+                if (entry == null || entry.category != metadata.category || entry.presentation.title != metadata.title) {
                     failure("catalog.chunk", "Chunk does not match indexed definition ${metadata.id}", metadata.id)
                 } else {
-                    val entry = matches.single()
                     val incomplete = entry.coverage.status != CoverageStatus.SUPPORTED || entry.mechanics.prerequisites.any { it is Prerequisite.Unadapted }
                     val notices = if (incomplete) listOf(Diagnostic("catalog.incomplete", DiagnosticKind.INCOMPLETE_AUTOMATION,
                         "Automation is incomplete: ${entry.coverage.limitations.joinToString()}", entryId = entry.id)) else emptyList()
@@ -104,6 +93,25 @@ class ContentCatalog private constructor(
                 }
             }
         }
+    }
+
+    /** Validate and index a chunk once per operation, rather than scan the whole chunk for every definition. */
+    private suspend fun indexedChunk(packageId: String, chunkId: String): ContractResult<Map<String, ContentEntry>> {
+        val key = packageId to chunkId
+        chunks?.get(key)?.let { return it }
+        val result = when (val loaded = source.loadChunk(packageId, chunkId)) {
+            is ContractResult.Unavailable -> loaded
+            is ContractResult.Available -> {
+                val indexed = loaded.value.entries.associateBy { it.id }
+                if (loaded.value.id != chunkId || indexed.size != loaded.value.entries.size) {
+                    failure("catalog.chunk", "Chunk $chunkId is invalid or contains ambiguous definitions")
+                } else {
+                    ContractResult.Available(indexed, loaded.diagnostics)
+                }
+            }
+        }
+        chunks?.put(key, result)
+        return result
     }
 
     companion object {

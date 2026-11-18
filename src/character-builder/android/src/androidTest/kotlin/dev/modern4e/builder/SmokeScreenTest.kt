@@ -17,6 +17,12 @@ class SmokeScreenTest {
         }
         compose.waitForIdle()
     }
+    @Test fun homeDisplaysPackagedBuildTimeAfterRecreation() {
+        val label = compose.activity.getString(R.string.app_build_time)
+        compose.onNodeWithText(label).assertIsDisplayed()
+        compose.activityRule.scenario.recreate()
+        compose.onNodeWithText(label).assertIsDisplayed()
+    }
     @Test fun overviewEditsCancelPersistAndReopenWithProgression() {
         compose.waitUntil(15_000) {
             compose.onAllNodesWithText("Your Characters").fetchSemanticsNodes().any {

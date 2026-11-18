@@ -1,5 +1,25 @@
 # Shared builder operations
 
+## Calculation and content lifetime
+
+Each `evaluate`, `options` or `apply` call owns operation-local content preparation.
+Decoded, validated and indexed chunks and dependency expansion are reused within
+that operation; the next call observes fresh source bytes. Reopen the catalog after
+package metadata/order changes. Candidate snapshots contain only their own dependencies.
+Future progression and acquisition definitions are deferred until active. Active power
+queries still prepare the complete power catalog because metadata lacks power facts.
+
+Choice listing and single-entry validation share the internal `ChoiceEvaluation`
+module. Selecting an entry checks that candidate without evaluating other entries
+in its category. Mechanics v2 candidates activate the same rules but calculate only
+their own eligibility; legacy candidates retain complete diagnostic evaluation.
+Batch edits validate sequentially and publish one final calculated state, or return
+the original state on rejection. Calculation reuse is bounded and expires with the operation.
+
+Android Save persists the calculated state with a new `savedAt`, then publishes it
+only after durable storage succeeds. The timestamp triggers no additional rules
+calculation. Failed saves leave the prior visible state intact.
+
 Shared class v2 definitions expose their main ability at `(class instance,
 "main", 0)` and feature-owned choices under deterministic grant instances.
 Options use shared occurrence eligibility separately from combat coverage;

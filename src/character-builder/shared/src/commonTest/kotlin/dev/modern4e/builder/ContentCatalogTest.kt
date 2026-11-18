@@ -81,6 +81,29 @@ class ContentCatalogTest {
         assertEquals(listOf(standard.id, third.id, custom.id), b.packages.map { it.id })
     }
 
+    @Test fun readSessionsShareIndexedChunksButLaterOperationsObserveChangedBytes() = run {
+        val source = Source()
+        val other = override.copy(id = "other", presentation = Presentation("Other"))
+        source.indexes[custom.id] = ContentIndex(source.indexes.getValue(custom.id).entries +
+            EntryMetadata(other.id, other.category, other.presentation.title, "classes"))
+        source.chunks[custom.id] = EntryChunk("classes", listOf(override, other))
+        val catalog = catalog(source)
+        val reading = catalog.readSession()
+        assertEquals(override, value(reading.lookup(override.id))!!.entry)
+        assertEquals(other, value(reading.lookup(other.id))!!.entry)
+        assertEquals(1, source.reads)
+        val changed = other.copy(mechanics = Mechanics(prerequisites = listOf(Prerequisite.Level(2))))
+        source.chunks[custom.id] = EntryChunk("classes", listOf(override, changed))
+        assertEquals(other, value(reading.lookup(other.id))!!.entry)
+        assertEquals(changed, value(catalog.readSession().lookup(other.id))!!.entry)
+        assertEquals(2, source.reads)
+        source.chunks[custom.id] = EntryChunk("classes", listOf(override, other, other))
+        val malformed = catalog.readSession()
+        assertEquals("catalog.chunk", code(malformed.lookup(override.id)))
+        assertEquals("catalog.chunk", code(malformed.lookup(other.id)))
+        assertEquals(3, source.reads)
+    }
+
     @Test fun missingExpectedSupplierAndEntryNeverFallBackButSwitchCan() = run {
         val source = Source()
         val base = catalog(source, emptyList())

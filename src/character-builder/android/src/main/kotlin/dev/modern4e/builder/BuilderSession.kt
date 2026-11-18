@@ -189,14 +189,15 @@ class BuilderSession(
             errors = result.diagnostics
             return
         }
-        pending = result.state.document.copy(savedAt = Instant.now().toString())
-        commitPending()
+        commitPending(result.state)
     }
 
-    private suspend fun commitPending() {
-        val document = pending ?: return
+    /** Persist the calculated state; savedAt is storage metadata and cannot change its rules. */
+    private suspend fun commitPending(evaluated: BuilderState) {
+        val document = evaluated.document.copy(savedAt = Instant.now().toString())
+        pending = document
         if (persist(document, committed)) {
-            current = evaluate(document)
+            current = evaluated.copy(document = document)
             committed = document
             pending = null
             dialog = null

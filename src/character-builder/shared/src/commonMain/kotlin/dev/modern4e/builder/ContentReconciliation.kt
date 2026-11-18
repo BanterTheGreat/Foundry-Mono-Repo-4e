@@ -96,7 +96,7 @@ class ContentReconciliation(private val source: ContentSource, private val stand
     private suspend fun <T> withCatalog(packages: List<PackageRevision>, block: suspend (ContentCatalog) -> T): ContractResult<T> {
         return when (val opened = ContentCatalog.open(source, standardPackageId, packages)) {
             is ContractResult.Unavailable -> opened
-            is ContractResult.Available -> ContractResult.Available(block(opened.value), opened.diagnostics)
+            is ContractResult.Available -> ContractResult.Available(block(opened.value.readSession()), opened.diagnostics)
         }
     }
 }

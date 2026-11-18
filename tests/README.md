@@ -717,6 +717,8 @@ browser's disk. No Foundry or Android emulator is required.
 
 ### Android Home and Character Overview (#22/#23)
 
+`BuildInfoTest` checks the generated app build timestamp resource with `:android:testDebugUnitTest`. `SmokeScreenTest.homeDisplaysPackagedBuildTimeAfterRecreation` checks the Home label remains visible and unchanged after activity recreation with `:android:connectedDebugAndroidTest`. The timestamp uses Europe/Amsterdam time and refreshes on every build.
+
 The presentation split (#27) uses the same workflow and Compose regression suites. Run `bash ./gradlew :android:testDebugUnitTest :android:assembleDebug :android:assembleDebugAndroidTest :shared:jvmTest` to check the extracted screens, dialogs, components and theme; device execution remains the separate command below.
 
 From `src/character-builder`, run `bash ./gradlew :android:testDebugUnitTest` for adapter and workflow tests. `BuilderSessionTest` covers durable create/open/edit/cancel/reopen, failed-save protection and mandatory error reset, newer/older import collision previews, copy/cancel/replace, recovery restoration, unsupported input, retained equipment/adjustment operations, confirmed deletion/cancellation/failure/reset with recovery retention, personal-detail cancel/save/clear/reopen missing content with unrelated edits, blocked actions after operational failure, session reset, committed-save preservation and fresh workflows after reset. `FolioScrollbarTest` checks overflow visibility, proportional start/middle/end positions, minimum thumb length, small viewports and overscroll clamping. `CharacterDateTest` covers European calendar dates, offsets, fractional seconds, leap days and invalid input. Shared `CharacterIdentityTest` covers legacy JSON compatibility, personal-detail round trips and strict field types.
@@ -858,3 +860,17 @@ and checks both the displayed decision and granted fact. The overview smoke test
 uses the current Progression screen and waits for durable saves to finish before
 interacting with enabled controls. Run with `:android:connectedDebugAndroidTest`
 on an explicitly selected test emulator/device.
+
+### Builder calculation and Save regressions
+
+From `src/character-builder/`, run `.\gradlew.bat :shared:jvmTest :shared:jsNodeTest :android:testDebugUnitTest :shared:jsBrowserProductionLibraryDistribution`, then `npm test --prefix web`, `npm run build --prefix web` and `npm run test:browser --prefix web`.
+
+`ChoiceEvaluationTest` covers direct selection work counts, targeted/full eligibility,
+filtering, fresh reads between commands and atomic sequential batches.
+`SelectionTimeFactsTest` covers historical exclusions, repeated occurrences and
+equivalent snapshot reuse; `RulesContentPreparationTest` and `ContentCatalogTest`
+cover deferred dependencies, complete active queries, candidate isolation, supplier
+protection, chunk indexing and freshness. Android `BuilderSessionTest` verifies
+Save publishes calculated state only after storage succeeds without more content reads.
+Manual device checklist: open a feat/power choice, save it, reopen and check choices
+and totals; cancel a changed draft and verify the saved character is unchanged.

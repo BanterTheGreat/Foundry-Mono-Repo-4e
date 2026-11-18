@@ -1,5 +1,13 @@
 # Shared rules engine
 
+Selection-time dependency exclusion and historical reconstruction belong to the
+internal `SelectionTimeFacts` module. Equivalent reconstructed documents share a
+facts evaluation within one rules evaluation; caches never survive a content or
+document evaluation. Internal targeted candidate checks preserve activation and
+occurrence eligibility while skipping unrelated choice eligibility and final
+statistics. Normal `RulesEngine.evaluate` still produces the complete result.
+Public contracts and saved-supplier protection are unchanged.
+
 ## Shared class runtime (#33)
 
 Package manifests accept versions 1 and 2; mechanics v2 adds class profiles,

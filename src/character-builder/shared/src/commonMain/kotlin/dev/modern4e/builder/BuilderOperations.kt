@@ -30,7 +30,14 @@ data class BuilderResult(val state: BuilderState, val applied: Boolean, val diag
 data class BuilderOption(val entry: ResolvedEntry, val eligibility: Eligibility, val diagnostics: List<Diagnostic>)
 
 /** Shared editing coordinator. Catalog reads are its only dependency; it never saves or exports. */
-class BuilderOperations(private val catalog: ContentCatalog) {
+class BuilderOperations private constructor(private val catalog: ContentCatalog, private val operation: Boolean) {
+    constructor(catalog: ContentCatalog) : this(catalog, false)
+
+    private val preparation by lazy { RulesContentPreparation(catalog) }
+    private val evaluated = mutableMapOf<CharacterDocument, BuilderState>()
+
+    /** Decoded content and calculations live for one command, never across content refreshes. */
+    private fun operation() = if (operation) this else BuilderOperations(catalog.readSession(), true)
     /** Direct creation at either proof level; incomplete decisions remain exportable. */
     suspend fun create(id: String, savedAt: String, identity: CharacterIdentity, packages: List<PackageRevision>,
         abilities: AbilityAllocation, level: Int = 1): BuilderState {
@@ -42,10 +49,21 @@ class BuilderOperations(private val catalog: ContentCatalog) {
     }
 
     /** Refresh resolution after every edit; no existing decision is silently pruned. */
-    suspend fun evaluate(document: CharacterDocument): BuilderState = evaluate(document, catalog)
+    suspend fun evaluate(document: CharacterDocument): BuilderState {
+        if (!operation) {
+            return operation().evaluate(document)
+        }
+        evaluated[document]?.let { return it }
+        return calculate(document).also {
+            evaluated[document] = it
+            if (evaluated.size > 2) {
+                evaluated.remove(evaluated.keys.first())
+            }
+        }
+    }
 
-    private suspend fun evaluate(document: CharacterDocument, reading: ContentCatalog): BuilderState {
-        val rules = RulesEngine.evaluate(document, RulesContent.load(document, reading))
+    private suspend fun calculate(document: CharacterDocument): BuilderState {
+        val rules = RulesEngine.evaluate(document, preparation.load(document))
         val required = listOf("class", "ancestry", "feat").map { ChoiceSlotId("creation", it, 0) } +
             if (document.level >= 2) listOf(ChoiceSlotId("advancement.2", "feat", 0)) else emptyList()
         val selected = document.levels.flatMap { it.entries }.map { it.slot }.toSet()
@@ -58,46 +76,28 @@ class BuilderOperations(private val catalog: ContentCatalog) {
     /** Root and child entry options share engine eligibility. Unknown/ineligible options require explicit opt-in. */
     suspend fun options(document: CharacterDocument, level: Int, slot: ChoiceSlotId,
         includeIneligible: Boolean = false): List<BuilderOption> {
-        if (level !in 1..document.level) {
-            return emptyList()
+        if (!operation) {
+            return operation().options(document, level, slot, includeIneligible)
         }
-        // Candidates are evaluated against one decoded snapshot instead of re-reading every chunk each time.
-        val reading = catalog.readSession()
-        val current = evaluate(document, reading)
-        val category = rootCategory(level, slot)
-        val offered = current.rules.choices.singleOrNull { it.slot == slot }
-        if (offered?.optional == true && offered.acquisitionLevel != level) {
-            return emptyList()
-        }
-        val ids = if (category != null) catalog.search(category = category).map { it.metadata.id }
-            else offered?.entries?.map { it.entryId }.orEmpty()
-        val result = mutableListOf<BuilderOption>()
-        for (id in ids) {
-            val definition = (reading.lookup(id) as? ContractResult.Available)?.value ?: continue
-            val existing = document.levels.flatMap { it.entries }.firstOrNull { it.slot == slot }
-            val instance = if (offered?.optional == true) ModernCreation.grantInstance(slot.sourceInstanceId, slot.choiceId)
-                else existing?.instanceId ?: "builder-preview:${slot.sourceInstanceId.length}:${slot.sourceInstanceId}:${slot.choiceId}:${slot.ordinal}"
-            val candidate = putEntry(document, level, EntryChoice(instance, slot, saved(definition)))
-            val evaluated = evaluate(candidate, reading)
-            val diagnostics = evaluated.rules.diagnostics.filter { it.slot == slot && it.entryId == id }
-            val status = if (definition.entry.mechanics.version >= 2) {
-                evaluated.rules.entryEligibility[instance]?.status ?: Eligibility.UNRESOLVED
-            } else when {
-                diagnostics.any { it.kind == DiagnosticKind.INVALID_SELECTION } -> Eligibility.INELIGIBLE
-                diagnostics.any { it.kind == DiagnosticKind.UNRESOLVED_CONTENT } -> Eligibility.UNRESOLVED
-                diagnostics.any { it.kind == DiagnosticKind.INCOMPLETE_AUTOMATION } -> Eligibility.INCOMPLETE
-                else -> Eligibility.ELIGIBLE
-            }
-            if (includeIneligible || status == Eligibility.ELIGIBLE) {
-                result += BuilderOption(definition, status, diagnostics)
-            }
-        }
-        return result
+        return choiceEvaluation().options(document, level, slot, includeIneligible)
     }
+
+    private fun choiceEvaluation() = ChoiceEvaluation(catalog, { evaluate(it) }, { preparation.load(it) })
 
     /** Rejected commands return the unchanged, recalculated document and an explicit operation diagnostic. */
     suspend fun apply(document: CharacterDocument, edit: BuilderEdit): BuilderResult {
-        suspend fun reject(message: String) = BuilderResult(evaluate(document), false,
+        if (!operation) {
+            return operation().apply(document, edit)
+        }
+        return when (val changed = change(document, edit)) {
+            is ContractResult.Available -> BuilderResult(evaluate(changed.value), true)
+            is ContractResult.Unavailable -> BuilderResult(evaluate(document), false, changed.diagnostics)
+        }
+    }
+
+    /** Stage a whole command before calculating its result; batch children still validate in order. */
+    private suspend fun change(document: CharacterDocument, edit: BuilderEdit): ContractResult<CharacterDocument> {
+        fun reject(message: String) = ContractResult.Unavailable(
             listOf(Diagnostic("builder.rejected", DiagnosticKind.INVALID_SELECTION, message)))
         var next = document
         when (edit) {
@@ -109,11 +109,10 @@ class BuilderOperations(private val catalog: ContentCatalog) {
             }
             is BuilderEdit.Batch -> {
                 for (command in edit.edits) {
-                    val result = apply(next, command)
-                    if (!result.applied) {
-                        return BuilderResult(evaluate(document), false, result.diagnostics)
+                    when (val result = change(next, command)) {
+                        is ContractResult.Unavailable -> return result
+                        is ContractResult.Available -> next = result.value
                     }
-                    next = result.state.document
                 }
             }
             is BuilderEdit.RemoveProficiency -> next = document.copy(levels = document.levels.map {
@@ -143,7 +142,7 @@ class BuilderOperations(private val catalog: ContentCatalog) {
                     document.equipment.any { it.instanceId == instance }) {
                     return reject("Entry occurrence ID is already in use.")
                 }
-                val option = options(document, edit.level, edit.slot, true).firstOrNull { it.entry.entry.id == edit.entryId }
+                val option = choiceEvaluation().option(document, edit.level, edit.slot, edit.entryId)
                     ?: return reject("Entry is unavailable or is not an option for this slot.")
                 if (!edit.acceptIneligible && option.eligibility != Eligibility.ELIGIBLE) {
                     return reject("Choice is ${option.eligibility}; explicitly accept it to retain its diagnostics.")
@@ -234,9 +233,9 @@ class BuilderOperations(private val catalog: ContentCatalog) {
         }
         val encoded = ContractCodec.encodeChecked(next)
         if (encoded is ContractResult.Unavailable) {
-            return BuilderResult(evaluate(document), false, encoded.diagnostics)
+            return encoded
         }
-        return BuilderResult(evaluate(next), true)
+        return ContractResult.Available(next)
     }
 
     private fun saved(entry: ResolvedEntry) = SavedSelection(entry.entry.id, entry.entry.presentation.title,
@@ -249,22 +248,4 @@ class BuilderOperations(private val catalog: ContentCatalog) {
         levels = levels(document, level).map { decisions -> decisions.copy(entries = decisions.entries.filterNot { it.slot == entry.slot } +
             if (decisions.level == level) listOf(entry) else emptyList()) })
 
-    private fun rootCategory(level: Int, slot: ChoiceSlotId): EntryCategory? {
-        if (slot.ordinal != 0) {
-            return null
-        }
-        if (level == 2 && slot == ChoiceSlotId("advancement.2", "feat", 0)) {
-            return EntryCategory.FEAT
-        }
-        if (level != 1 || slot.sourceInstanceId != "creation") {
-            return null
-        }
-        return when (slot.choiceId) {
-            "class" -> EntryCategory.CLASS
-            "ancestry" -> EntryCategory.ANCESTRY
-            "theme" -> EntryCategory.THEME
-            "feat" -> EntryCategory.FEAT
-            else -> null
-        }
-    }
 }

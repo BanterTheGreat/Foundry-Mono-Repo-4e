@@ -185,6 +185,51 @@ class BuilderSessionTest {
         assertEquals(original, model.current!!.document)
         assertTrue(model.errors.isEmpty())
     }
+    @Test fun successfulSavePublishesCalculatedStateWithoutReadingContentAgain() = runBlocking {
+        val readsAfterSave = AtomicInteger()
+        var saved = false
+        var inspectSave: ((CharacterDocument) -> Unit)? = null
+        val real = AndroidContentSource(context.assets)
+        val source = object : ContentSource by real {
+            override suspend fun loadChunk(packageId: String, chunkId: String): ContractResult<EntryChunk> {
+                if (saved) {
+                    readsAfterSave.incrementAndGet()
+                }
+                return real.loadChunk(packageId, chunkId)
+            }
+        }
+        val storage = object : CharacterStore by store {
+            override suspend fun save(document: CharacterDocument, mode: SaveMode, expected: CharacterDocument?): ContractResult<SaveReceipt> {
+                inspectSave?.invoke(document)
+                return store.save(document, mode, expected).also {
+                    if (inspectSave != null && it is ContractResult.Available) {
+                        saved = true
+                    }
+                }
+            }
+        }
+        val model = session(storage, source)
+        model.create()
+        val original = model.current!!
+        val adjustment = ManualAdjustment("save-bonus", TypedModifier(
+            ModifierTarget(Statistic.SKILL_CHECK, skill = Skill.ATHLETICS), ModifierOperation.ADD, 2), "Training")
+        inspectSave = { document ->
+            assertSame(original, model.current)
+            assertEquals(document, model.pending)
+            assertEquals(listOf(adjustment), document.manualAdjustments)
+        }
+        model.edit(BuilderEdit.Adjustment(adjustment))
+        assertTrue(model.errors.isEmpty())
+        assertEquals(0, readsAfterSave.get())
+        assertNull(model.pending)
+        val committed = model.current!!
+        assertEquals(committed.document, (store.load(original.document.id) as ContractResult.Available).value)
+        assertEquals(original.document.levels, committed.document.levels)
+        val before = (original.rules.displayedSkill(Skill.ATHLETICS) as ContractResult.Available).value.total
+        val result = (committed.rules.displayedSkill(Skill.ATHLETICS) as ContractResult.Available).value
+        assertEquals(before + 2, result.total)
+        assertTrue(result.contributors.any { it.label == "Manual Adjustment" })
+    }
     @Test fun importCollisionCopyCancelRecoveryAndInvalidInput() = runBlocking {
         val model = session()
         val original = sample()
