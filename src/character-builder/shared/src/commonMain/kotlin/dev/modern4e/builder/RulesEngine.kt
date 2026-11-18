@@ -87,10 +87,26 @@ data class EngineResult(
     val conditionalModifiers: List<ConditionalContribution> = emptyList(),
     val entryEligibility: Map<String, EntryEligibility> = emptyMap(),
     val selectionSets: List<SelectionSetResult> = emptyList(),
+    val overviewAbilityTotals: Map<Ability, Int> = emptyMap(),
 ) {
     fun ability(ability: Ability) = statistics.getValue(ModifierTarget(Statistic.ABILITY_POINTS, ability = ability)).value
     fun skill(skill: Skill) = statistics.getValue(ModifierTarget(Statistic.SKILL_CHECK, skill = skill)).value
+
+    /** Calculate the displayed modifier using committed proficiency or the picker’s draft source. */
+    fun displayedSkill(skill: Skill, proficiencySource: ChoiceSlotId? = proficiencies[skill]?.firstOrNull()): ContractResult<CalculatedValue> {
+        val target = ModifierTarget(Statistic.SKILL_CHECK, skill = skill)
+        val proficiencyKey = "modern.proficiency:$skill"
+        val known = statistics.getValue(target).modifiers.map { it.contribution }.filter { it.sourceKey != proficiencyKey }
+        val points = overviewAbilityTotals.getValue(skill.ability)
+        val base = ContractResult.Available(CalculatedValue(points, listOf(Contributor("${skill.ability.name} points", points))))
+        return ModifierCalculator.calculate(base, skillProficiency(skill, proficiencySource) + known).value
+    }
 }
+
+private fun skillProficiency(skill: Skill, source: ChoiceSlotId?): List<ModifierContribution> =
+    if (source == null) emptyList() else listOf(ModifierContribution(
+        TypedModifier(ModifierTarget(Statistic.SKILL_CHECK, skill = skill), ModifierOperation.ADD, 5, BonusType.PROFICIENCY),
+        "Proficiency", "modern.proficiency:$skill", source))
 
 /** Shared baseline choice identities match the portable v1 fixtures. */
 object ModernCreation {
@@ -164,6 +180,7 @@ private class Evaluation(private val document: CharacterDocument, private val co
     private val proficiencyDecisions = document.levels.sortedBy { it.level }.flatMap { it.proficiencies }
     private val abilityValues = linkedMapOf<Ability, StatisticCalculation>()
     private val abilityFacts = linkedMapOf<Ability, StatisticCalculation>()
+    private val overviewAbilityTotals = linkedMapOf<Ability, Int>()
 
     fun run(): EngineResult {
         val repeatedSlots = (entryDecisions.map { it.slot } + proficiencyDecisions.map { it.slot })
@@ -286,10 +303,9 @@ private class Evaluation(private val document: CharacterDocument, private val co
         for (skill in Skill.entries) {
             val ability = abilityValues.getValue(skill.ability).value
             val target = ModifierTarget(Statistic.SKILL_CHECK, skill = skill)
-            val sources = proficiencies[skill].orEmpty()
-            val proficiency = if (sources.isEmpty()) emptyList() else listOf(ModifierContribution(
-                TypedModifier(target, ModifierOperation.ADD, 5, BonusType.PROFICIENCY), "Proficiency", "modern.proficiency:$skill", sources.first()))
-            statistics[target] = ModifierCalculator.calculate(ability, proficiency + modifiers.filter { it.modifier.target == target })
+            val proficiency = skillProficiency(skill, proficiencies[skill]?.firstOrNull())
+            val contributions = proficiency + modifiers.filter { it.modifier.target == target }
+            statistics[target] = ModifierCalculator.calculate(ability, contributions)
         }
         for (statistic in Statistic.entries.filter { it != Statistic.ABILITY_POINTS && it != Statistic.SKILL_CHECK }) {
             val target = ModifierTarget(statistic)
@@ -308,7 +324,7 @@ private class Evaluation(private val document: CharacterDocument, private val co
             entries.associate { it.instanceId to it.definition.entry.coverage }, diagnostics.distinct(),
             entries.flatMap { occurrence -> occurrence.definition.entry.mechanics.conditionalModifiers.map {
                 ConditionalContribution(occurrence.instanceId, occurrence.slot, it)
-            } }, selectedEligibility, sets.toList())
+            } }, selectedEligibility, sets.toList(), overviewAbilityTotals.toMap())
     }
 
     /** A single active class establishes a base with every term visible in the breakdown. */
@@ -660,6 +676,15 @@ private class Evaluation(private val document: CharacterDocument, private val co
             nonMain.filterValues { it > 2 }.size <= 1 && nonMain.values.count { it > 0 } > 0
         val source = choices[allocation.source] as? ChoiceDefinition.MainAbility
         val legalSource = source != null && allocation.mainAbility in source.abilities
+        val classInstances = entries.filter { it.definition.entry.category == EntryCategory.CLASS }.map { it.instanceId }.toSet()
+        val classAbilities = choices.filterKeys { it.sourceInstanceId in classInstances }.values
+            .filterIsInstance<ChoiceDefinition.MainAbility>().flatMap { it.abilities }.distinct()
+        val defaultMain = if (allocation.source.sourceInstanceId in classInstances && legalSource) {
+            allocation.mainAbility
+        } else {
+            classAbilities.singleOrNull()
+        }
+        val hasAllocation = points.values.any { it != 0 }
         val legal = points[allocation.mainAbility] == 4 && (standard || trade) && legalSource
         val errors = mutableListOf<Diagnostic>()
         if (!legalSource) {
@@ -679,13 +704,19 @@ private class Evaluation(private val document: CharacterDocument, private val co
         }
         for (ability in Ability.entries) {
             val target = ModifierTarget(Statistic.ABILITY_POINTS, ability = ability)
+            val knownPoints = if (hasAllocation) points.getValue(ability) else if (ability == defaultMain) 4 else 0
+            val contributions = modifiers.filter { it.modifier.target == target }
+            val knownBase = ContractResult.Available(CalculatedValue(knownPoints,
+                listOf(Contributor("${ability.name} points", knownPoints, allocation.source))))
+            val knownValue = ModifierCalculator.calculate(knownBase, contributions).value
+            overviewAbilityTotals[ability] = (knownValue as? ContractResult.Available)?.value?.total ?: knownPoints
             val base = if (!legal || blockers.isNotEmpty()) {
                 ContractResult.Unavailable((errors + blockers).distinct())
             } else {
                 ContractResult.Available(CalculatedValue(points.getValue(ability),
                     listOf(Contributor("${ability.name} points", points.getValue(ability), allocation.source))))
             }
-            abilityValues[ability] = ModifierCalculator.calculate(base, modifiers.filter { it.modifier.target == target })
+            abilityValues[ability] = ModifierCalculator.calculate(base, contributions)
             // An unfilled feature choice cannot erase an independently validated allocation.
             // Unavailable definitions/cycles still block facts because their effects are unknown.
             val factBlockers = blockers.filter { it.code != "engine.missingChoice" }
@@ -695,7 +726,7 @@ private class Evaluation(private val document: CharacterDocument, private val co
                 ContractResult.Available(CalculatedValue(points.getValue(ability),
                     listOf(Contributor("${ability.name} points", points.getValue(ability), allocation.source))))
             }
-            abilityFacts[ability] = ModifierCalculator.calculate(facts, modifiers.filter { it.modifier.target == target })
+            abilityFacts[ability] = ModifierCalculator.calculate(facts, contributions)
         }
     }
 

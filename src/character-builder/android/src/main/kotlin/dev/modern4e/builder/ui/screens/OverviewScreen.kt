@@ -62,12 +62,12 @@ internal fun Overview(state: BuilderState, model: BuilderSession) {
         Ability.entries.chunked(if (LocalConfiguration.current.fontScale > 1.2f) 3 else 6).forEach { row ->
             Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
                 row.forEach { ability ->
-                    val value = state.rules.statistics.getValue(ModifierTarget(Statistic.ABILITY_POINTS, ability = ability))
-                    Surface(Modifier.weight(1f).semantics { contentDescription = "${ability.name.readable()}: ${value.value.display()}" },
+                    val value = state.rules.overviewAbilityTotals.getValue(ability).toString()
+                    Surface(Modifier.weight(1f).semantics { contentDescription = "${ability.name.readable()}: $value" },
                         color = Paper, border = BorderStroke(1.dp, Line), shape = RoundedCornerShape(2.dp)) {
                         Column(Modifier.padding(vertical = 8.dp, horizontal = 2.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                             Text(ability.name.take(3), color = Dim, fontSize = 10.sp)
-                            Text(value.value.display(), fontFamily = FontFamily.Serif, fontSize = 25.sp, color = Accent)
+                            Text(value, fontFamily = FontFamily.Serif, fontSize = 25.sp, color = Accent)
                         }
                     }
                 }
@@ -79,11 +79,11 @@ internal fun Overview(state: BuilderState, model: BuilderSession) {
         }
         FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             state.rules.proficiencies.keys.forEach { skill ->
-                val value = state.rules.statistics.getValue(ModifierTarget(Statistic.SKILL_CHECK, skill = skill))
+                val value = state.rules.displayedSkill(skill)
                 Surface(color = Wash, border = BorderStroke(1.dp, Line), shape = RoundedCornerShape(3.dp)) {
                     Row(Modifier.padding(10.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                         Text(skill.name.readable(), fontSize = 13.sp)
-                        Text(value.value.display(signed = true), color = Accent, fontSize = 13.sp)
+                        Text(value.display(signed = true), color = Accent, fontSize = 13.sp)
                     }
                 }
             }
@@ -97,7 +97,7 @@ internal fun Overview(state: BuilderState, model: BuilderSession) {
     }
 }
 
-private fun ContractResult<CalculatedValue>.display(signed: Boolean = false): String = when (this) {
+internal fun ContractResult<CalculatedValue>.display(signed: Boolean = false): String = when (this) {
     is ContractResult.Available -> if (signed) value.total.signed() else value.total.toString()
     is ContractResult.Unavailable -> "Unavailable"
 }

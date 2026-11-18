@@ -698,6 +698,8 @@ From `src/character-builder`, run `bash ./gradlew :android:testDebugUnitTest` fo
 
 When UI testing is authorized, `ANDROID_SERIAL=<test-device> bash ./gradlew :android:connectedDebugAndroidTest` runs the native overview route test and adapter instrumentation tests. `SmokeScreenTest` covers accessible portrait/personal-detail controls, simplified overview contents, cancel/save/reopen and swipes between Overview, Progression and Validation. These UI tests have not been rerun for the latest layout revision, at the user’s request. The system document picker and physical-device visual acceptance remain manual checks.
 
+The shared `RulesEngineTest` also checks Overview ability defaults and skill modifiers from known abilities, proficiencies, and skill bonuses with an open choice using `:shared:jvmTest` and `:shared:jsNodeTest`.
+
 Android Progression non-UI checks (from `src/character-builder/`):
 
 ```sh

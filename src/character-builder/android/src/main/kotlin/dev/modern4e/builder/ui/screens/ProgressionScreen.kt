@@ -147,17 +147,10 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
     var expanded by remember(request) { mutableStateOf(selected) }
     var showIneligible by remember(request) { mutableStateOf(false) }
     var featTab by remember(request) { mutableStateOf("Class") }
-    var preview by remember(request) { mutableStateOf(state) }
-    var checking by remember { mutableStateOf(false) }
     var replacementTarget by remember(request) { mutableStateOf<ChoiceSlotId?>(null) }
     val document = state.document
     LaunchedEffect(request) {
         if (request.kind in listOf("entry", "feat", "replacement")) { options = model.progressionOptions(request.level, request.slot!!) }
-    }
-    LaunchedEffect(edit) {
-        checking = true
-        preview = edit?.let { model.previewProgression(it) } ?: state
-        checking = false
     }
     ModalBottomSheet(onDismissRequest = { if (!model.busy) dismiss() }, containerColor = Paper,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)) {
@@ -234,9 +227,11 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
                         if (offered.isEmpty()) { Text("Choose ${kind.readable()} first.", color = Dim) }
                         offered.forEach { skill ->
                             val chosen = skill in picks
-                            val blocked = state.rules.proficiencies[skill].orEmpty().any { it !in slots }
-                            val calculation = preview?.rules?.skill(skill) as? ContractResult.Available
-                            val modifier = calculation?.value?.total?.let { if (it >= 0) "+$it" else "$it" } ?: "Unavailable"
+                            val otherSource = state.rules.proficiencies[skill].orEmpty().firstOrNull { it !in slots }
+                            val blocked = otherSource != null
+                            val draftSource = slots.getOrNull(picks.indexOf(skill))
+                            val modifier = state.rules.displayedSkill(skill, otherSource ?: draftSource)
+                            val calculation = modifier as? ContractResult.Available
                             Surface(Modifier.fillMaxWidth().clickable(enabled = !blocked) {
                                 picks = if (chosen) picks - skill else if (slots.size == 1) listOf(skill) else if (picks.size < 2) picks + skill else picks
                                 edit = BuilderEdit.Batch(listOf(BuilderEdit.RemoveProficiency(slots.toSet())) + picks.mapIndexed { index, pick ->
@@ -251,7 +246,7 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
                                             Text(it, fontSize = 11.sp, lineHeight = 13.sp, color = Dim)
                                         }
                                     }
-                                    Text(modifier, color = Accent)
+                                    Text(modifier.display(signed = true), color = Accent)
                                 }
                             }
                         }
@@ -325,8 +320,8 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
                 } else if (edit != null) {
                     TextButton(enabled = !model.busy, onClick = dismiss) { Text("Undo changes") }
                 }
-                val valid = edit != null && !checking && preview != null &&
-                    (request.kind != "free" || preview?.document?.levels?.flatMap { it.proficiencies }?.count { it.slot.sourceInstanceId == "creation" && it.slot.choiceId == "free-skill" } == 2) &&
+                val valid = edit != null &&
+                    (request.kind != "free" || (edit as? BuilderEdit.Batch)?.edits?.count { it is BuilderEdit.Proficiency } == 2) &&
                     (request.kind != "allocation" || (edit as? BuilderEdit.Allocation)?.value?.let { Progression.validAllocation(it) } == true)
                 TextButton(enabled = valid && !model.busy, onClick = {
                     val command = edit ?: return@TextButton

@@ -34,6 +34,42 @@ class RulesEngineTest {
     private fun evaluate(document: CharacterDocument = character(), vararg definitions: ContentEntry) = RulesEngine.evaluate(document, content(document, *definitions))
 
     @Test
+    fun overviewShowsDefaultsAndKnownModifiersWhileRequiredChoicesAreOpen() {
+        val original = character()
+        val empty = original.copy(abilities = original.abilities.copy(points = emptyMap()), levels = emptyList())
+        val emptyOverview = evaluate(empty)
+        assertEquals(Ability.entries.associateWith { 0 }, emptyOverview.overviewAbilityTotals)
+        assertEquals(0, total(emptyOverview.displayedSkill(Skill.ATHLETICS)))
+
+        val classOnly = original.copy(abilities = empty.abilities)
+        val classOverview = evaluate(classOnly)
+        assertEquals(4, classOverview.overviewAbilityTotals.getValue(Ability.STRENGTH))
+        assertEquals(0, classOverview.overviewAbilityTotals.getValue(Ability.DEXTERITY))
+        assertEquals(4, total(classOverview.displayedSkill(Skill.ATHLETICS)))
+        assertEquals(5, total(classOverview.displayedSkill(Skill.MEDICINE)))
+
+        val abilityTarget = ModifierTarget(Statistic.ABILITY_POINTS, ability = Ability.DEXTERITY)
+        val bonus = entry("bonus", mechanics = Mechanics(
+            modifiers = listOf(TypedModifier(abilityTarget, ModifierOperation.ADD, 1))))
+        val pending = entry("pending", mechanics = Mechanics(
+            choices = listOf(ChoiceDefinition.Entries("bonus", 1, listOf(bonus.id)))))
+        val known = entry("known", category = EntryCategory.THEME, mechanics = Mechanics(modifiers = listOf(
+            TypedModifier(abilityTarget, ModifierOperation.ADD, 2),
+            TypedModifier(ModifierTarget(Statistic.SKILL_CHECK, skill = Skill.MEDICINE), ModifierOperation.ADD, 2))))
+        val result = evaluate(character(choice(pending), choice(known, slot = slot("creation", "theme"))),
+            pending, known, bonus)
+        assertTrue(result.diagnostics.any { it.code == "engine.missingChoice" })
+        assertEquals(4, result.overviewAbilityTotals.getValue(Ability.DEXTERITY))
+        assertIs<ContractResult.Unavailable>(result.ability(Ability.DEXTERITY))
+        assertEquals(4, total(result.displayedSkill(Skill.ACROBATICS)))
+        assertEquals(8, total(result.displayedSkill(Skill.MEDICINE)))
+        val draftSlot = slot("creation", "free-skill")
+        assertEquals(9, total(result.displayedSkill(Skill.ACROBATICS, draftSlot)))
+        assertEquals(3, total(result.displayedSkill(Skill.MEDICINE, proficiencySource = null)))
+        assertIs<ContractResult.Unavailable>(result.skill(Skill.MEDICINE))
+    }
+
+    @Test
     fun modernAbilityAndSkillGoldenHasExplainedProficiencyWithoutHalfLevel() {
         val result = evaluate()
         assertEquals(4, total(result.ability(Ability.STRENGTH)))
