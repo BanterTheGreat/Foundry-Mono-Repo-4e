@@ -75,6 +75,12 @@ modals. Dark mode and dynamic system colours are not implemented.
 
 - Overview's Level and Portrait panels have equal heights. Speed and right-aligned
   Size share a row.
+- Overview's Level panel opens the Change level dialog instead of navigating: 38 sp serif
+  Accent target level, 56 dp outlined − / + steppers with a 1 dp Accent border, and an
+  Accent incomplete-automation note above level 2.
+- The Portrait panel is tappable and opens the system image picker; the chosen image fills
+  the panel (cropped to fit). Problems with a picked image use a small dismissible notice
+  dialog, not the blocking error modal, since nothing in the session is at risk.
 - Character library rows are rectangular, with a right-aligned delete button.
   Display dates as day month year.
 - Do not show status banners for successful create, save, import or delete actions,

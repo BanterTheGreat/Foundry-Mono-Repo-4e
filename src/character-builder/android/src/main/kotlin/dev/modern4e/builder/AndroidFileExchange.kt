@@ -13,6 +13,7 @@ class AndroidDocumentPicker(activity: ComponentActivity) {
     private var pending: Continuation<Uri?>? = null
     private val open = activity.registerForActivityResult(ActivityResultContracts.OpenDocument()) { finish(it) }
     private val create = activity.registerForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { finish(it) }
+    private val openImage = activity.registerForActivityResult(ActivityResultContracts.OpenDocument()) { finish(it) }
     private fun finish(uri: Uri?) {
         val continuation = pending
         pending = null
@@ -30,6 +31,7 @@ class AndroidDocumentPicker(activity: ComponentActivity) {
     }
     suspend fun open(): Uri? = pick { open.launch(arrayOf("application/json", "text/plain", "application/octet-stream")) }
     suspend fun create(name: String): Uri? = pick { create.launch(name) }
+    suspend fun image(): Uri? = pick { openImage.launch(arrayOf("image/*")) }
 }
 
 /** SAF owns external permissions; imports remain bytes until the shared importer inspects them.

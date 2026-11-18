@@ -54,8 +54,8 @@ occurrence IDs survive replacement, keeping child slots stable; new occurrence
 IDs come from callers. Repeated choices use distinct ordinals and instances.
 
 `Level(2)` preserves all prior choices and exposes authored level-2 choices.
-Direct level-2 creation allows filling both levels. Deleveling and progression
-above level 2 are rejected. General advancement and retraining allowances remain
+Direct level-2 creation allows filling both levels. `Level(n)` raises the level forward through 30, padding empty decisions for each new level; deleveling and levels above 30 are rejected. Progression above level 2 stays incomplete automation, and
+general advancement and retraining allowances remain
 incomplete; explicit power replacement composition is supported as described below.
 
 `Background` selects environment/upbringing and one skill; changing its name

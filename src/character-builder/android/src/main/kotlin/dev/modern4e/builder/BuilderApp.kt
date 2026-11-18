@@ -27,7 +27,7 @@ internal fun String.readable() = lowercase().replace('_', ' ').replaceFirstChar 
 
 /** App shell: initializes the session and coordinates navigation, chrome, and destinations. */
 @Composable
-fun BuilderApp(model: BuilderSession, exchange: FileExchange) {
+fun BuilderApp(model: BuilderSession, exchange: FileExchange, portraitChooser: PortraitChooser? = null) {
     val scope = rememberCoroutineScope()
     fun task(action: suspend BuilderSession.() -> Unit) { scope.launch { model.run(action) } }
     LaunchedEffect(Unit) { model.run { refresh() } }
@@ -81,7 +81,9 @@ fun BuilderApp(model: BuilderSession, exchange: FileExchange) {
                         "home" -> HomeScreen(model, ::task)
                         "library" -> LibraryScreen(model, ::task)
                         "import" -> ImportScreen(model, ::task, exchange)
-                        "character" -> model.current?.let { CharacterPages(it, model) }
+                        "character" -> model.current?.let {
+                            CompositionLocalProvider(LocalPortraitChooser provides portraitChooser) { CharacterPages(it, model) }
+                        }
                     }
                 }
                 if (model.page in CharacterTabs) {

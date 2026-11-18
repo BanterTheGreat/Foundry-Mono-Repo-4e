@@ -64,7 +64,29 @@ class BuilderOperationsTest {
         val edited = select(ops, progressed, 1, slot, "power", "ignored-new-id")
         assertEquals("power-0", edited.levels.first().entries.single { it.slot == slot }.instanceId)
         assertFalse(ops.apply(progressed, BuilderEdit.Level(1)).applied)
-        assertFalse(ops.apply(progressed, BuilderEdit.Level(3)).applied)
+    }
+
+    @Test fun levelOnlyRisesThroughThirtyPadsEmptyDecisionsAndStaysExportable() = run {
+        val ops = operations()
+        val base = create(ops)
+        val raised = ops.apply(base, BuilderEdit.Level(5))
+        assertTrue(raised.applied, raised.diagnostics.toString())
+        assertEquals(5, raised.state.document.level)
+        assertEquals((1..5).toList(), raised.state.document.levels.map { it.level }.sorted())
+        assertTrue(raised.state.document.levels.filter { it.level > 1 }.all { it.entries.isEmpty() && it.abilityAdvancements.isEmpty() })
+        assertTrue(raised.state.rules.diagnostics.any { it.kind == DiagnosticKind.INCOMPLETE_AUTOMATION })
+        assertIs<ContractResult.Available<String>>(ContractCodec.encodeChecked(raised.state.document))
+        val same = ops.apply(raised.state.document, BuilderEdit.Level(5))
+        assertTrue(same.applied)
+        assertEquals(raised.state.document.levels, same.state.document.levels)
+        val top = ops.apply(raised.state.document, BuilderEdit.Level(30))
+        assertTrue(top.applied, top.diagnostics.toString())
+        assertEquals((1..30).toList(), top.state.document.levels.map { it.level }.sorted())
+        assertFalse(ops.apply(raised.state.document, BuilderEdit.Level(4)).applied)
+        assertFalse(ops.apply(top.state.document, BuilderEdit.Level(31)).applied)
+        assertFalse(ops.apply(top.state.document, BuilderEdit.Level(29)).applied)
+        val decided = ops.apply(raised.state.document, BuilderEdit.LaterDecisions(LevelDecisions(3)))
+        assertTrue(decided.applied, decided.diagnostics.toString())
     }
 
     @Test fun eligibleDefaultAndForcedInvalidSelectionSurviveExport() = run {

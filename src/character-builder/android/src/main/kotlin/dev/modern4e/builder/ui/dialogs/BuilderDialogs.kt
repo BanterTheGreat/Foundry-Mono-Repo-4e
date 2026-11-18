@@ -1,12 +1,16 @@
 package dev.modern4e.builder.ui.dialogs
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.semantics.*
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -28,6 +32,15 @@ internal fun BuilderDialogs(model: BuilderSession, task: (suspend BuilderSession
         }
     } else {
         Editor(model, task)
+        model.levelTarget?.let { target -> LevelDialog(model, target, task) }
+        model.notice?.let { message ->
+            FolioDialog("Portrait not changed", { model.notice = null }) {
+                Text(message)
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                    TextButton(onClick = { model.notice = null }) { Text("OK") }
+                }
+            }
+        }
         model.classMenu?.let { classes -> ClassMenu(model, classes, task) }
         model.deleting?.let { character ->
             FolioDialog("Delete character?", { if (!model.busy) model.cancelDeletion() }) {
@@ -124,6 +137,36 @@ private fun Editor(model: BuilderSession, task: (suspend BuilderSession.() -> Un
                     saveIdentityDraft()
                 }
             }) { Text("Save") }
+        }
+    }
+}
+
+/** Raise the character's level: forward only, from the current level up to the cap, applied on Confirm. */
+@Composable
+private fun LevelDialog(model: BuilderSession, target: Int, task: (suspend BuilderSession.() -> Unit) -> Unit) {
+    val level = model.current?.document?.level ?: return
+    FolioDialog("Change level", { if (!model.busy) model.cancelLevelChange() }) {
+        Text("Current level $level. Levels can only be raised, never lowered.", color = Dim)
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
+            OutlinedButton({ model.adjustLevelTarget(target - 1) }, enabled = !model.busy && target > level, shape = RoundedCornerShape(3.dp),
+                border = BorderStroke(1.dp, Accent), modifier = Modifier.size(56.dp).semantics { contentDescription = "Lower target level" },
+                contentPadding = PaddingValues(0.dp)) { Text("−", fontSize = 24.sp) }
+            Text("Level $target", fontFamily = FontFamily.Serif, fontSize = 38.sp, color = Accent,
+                modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite })
+            OutlinedButton({ model.adjustLevelTarget(target + 1) }, enabled = !model.busy && target < BuilderSession.MAX_LEVEL, shape = RoundedCornerShape(3.dp),
+                border = BorderStroke(1.dp, Accent), modifier = Modifier.size(56.dp).semantics { contentDescription = "Raise target level" },
+                contentPadding = PaddingValues(0.dp)) { Text("+", fontSize = 24.sp) }
+        }
+        if (level >= BuilderSession.MAX_LEVEL) {
+            Text("This character is already at the maximum level.", color = Dim)
+        }
+        if (target > 2) {
+            Text("Incomplete automation: progression above level 2 is not evaluated. Calculated totals are unavailable.", color = Accent)
+        }
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+            TextButton(enabled = !model.busy, onClick = { model.cancelLevelChange() }) { Text("Cancel") }
+            TextButton(enabled = !model.busy && target > level, onClick = { task { confirmLevelChange() } },
+                modifier = Modifier.semantics { contentDescription = "Confirm level $target" }) { Text("Confirm") }
         }
     }
 }

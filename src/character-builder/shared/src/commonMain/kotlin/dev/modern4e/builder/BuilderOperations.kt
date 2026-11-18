@@ -127,8 +127,8 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
             is BuilderEdit.Identity -> next = document.copy(identity = edit.value)
             is BuilderEdit.Allocation -> next = document.copy(abilities = edit.value.copy(points = edit.value.points.toMap()))
             is BuilderEdit.Level -> {
-                if (edit.value !in document.level..2) {
-                    return reject("Only forward progression through level 2 is supported.")
+                if (edit.value !in document.level..30) {
+                    return reject("Levels can only increase, up to level 30.")
                 }
                 next = document.copy(level = edit.value, levels = document.levels +
                     (1..edit.value).filter { level -> document.levels.none { it.level == level } }.map { LevelDecisions(it) })

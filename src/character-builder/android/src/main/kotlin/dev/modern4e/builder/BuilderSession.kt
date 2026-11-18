@@ -16,6 +16,7 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
+import java.io.File
 import java.time.Instant
 import java.util.UUID
 
@@ -23,9 +24,17 @@ import java.util.UUID
 class BuilderSession(
     private val store: CharacterStore,
     private val source: ContentSource,
+    private val portraits: PortraitStore?,
     private val sample: () -> CharacterDocument,
 ) : ViewModel() {
+    constructor(store: CharacterStore, source: ContentSource, sample: () -> CharacterDocument) : this(store, source, null, sample)
+
     var page by mutableStateOf("home")
+    /** A non-blocking message about something that did not happen, such as an unusable portrait image. */
+    var notice by mutableStateOf<String?>(null)
+    /** Changes whenever a stored portrait is added, replaced or removed, so displays reload it. */
+    var portraitRevision by mutableStateOf(0)
+        private set
     var current by mutableStateOf<BuilderState?>(null)
     var characters by mutableStateOf(emptyList<CharacterSummary>())
     var recoveries by mutableStateOf<List<RecoverySummary>?>(null)
@@ -38,6 +47,8 @@ class BuilderSession(
     var pending by mutableStateOf<CharacterDocument?>(null)
     var description by mutableStateOf<ResolvedEntry?>(null)
     var dialog by mutableStateOf<String?>(null)
+    /** Level the open level dialog would raise the character to; null when it is closed. */
+    var levelTarget by mutableStateOf<Int?>(null)
     /** Classes offered while the new-character menu is open; null when it is closed. */
     var classMenu by mutableStateOf<List<CatalogEntry>?>(null)
     @Volatile private var classMenuCatalog: ContentCatalog? = null
@@ -95,9 +106,11 @@ class BuilderSession(
         catalog = null
         clearOptionListings()
         dialog = null
+        levelTarget = null
         classMenu = null
         draft = ""
         deleting = null
+        notice = null
         preview = null
         recoveries = null
         description = null
@@ -133,6 +146,8 @@ class BuilderSession(
             is ContractResult.Unavailable -> errors = result.diagnostics
             is ContractResult.Available -> {
                 deleting = null
+                withContext(Dispatchers.IO) { portraits?.delete(character.id) }
+                portraitRevision++
                 characters = characters.filterNot { it.id == character.id }
                 if (current?.document?.id == character.id) {
                     current = null
@@ -147,6 +162,32 @@ class BuilderSession(
                 page = "library"
                 refresh()
             }
+        }
+    }
+
+    /** The stored portrait of a character on this device, or null. Blocking file access: call from IO. */
+    fun portrait(characterId: String): File? = portraits?.current(characterId)
+
+    /**
+     * Let the user choose an image for the open character's portrait. Cancelling changes nothing; an
+     * unusable image leaves the existing portrait in place and sets [notice]. The portrait is
+     * device-local and never touches the character document, its saved JSON or its recovery copies.
+     */
+    suspend fun choosePortrait(chooser: PortraitChooser) {
+        val store = portraits ?: return
+        val id = current?.document?.id ?: return
+        val stream = try {
+            chooser.choose()
+        } catch (error: Exception) {
+            if (error is kotlinx.coroutines.CancellationException) {
+                throw error
+            }
+            notice = error.message ?: "That file could not be opened."
+            return
+        } ?: return
+        when (val result = withContext(Dispatchers.IO) { store.save(id, stream) }) {
+            is ContractResult.Available -> portraitRevision++
+            is ContractResult.Unavailable -> notice = result.diagnostics.first().message
         }
     }
 
@@ -249,6 +290,7 @@ class BuilderSession(
         committed = document
         pending = null
         page = "character"
+        levelTarget = null
         dialog = null
         description = null
         current?.let { warmOptionLists(it, 0) }
@@ -656,5 +698,35 @@ class BuilderSession(
         dialog = null
         pending = null
         draft = ""
+    }
+
+    /** Open the level dialog on the next level; at the cap it opens on the current level and cannot confirm. */
+    fun beginLevelChange() {
+        val level = current?.document?.level ?: return
+        levelTarget = minOf(level + 1, MAX_LEVEL)
+    }
+
+    /** Move the pending level, never below the current level or above the cap. */
+    fun adjustLevelTarget(target: Int) {
+        val level = current?.document?.level ?: return
+        levelTarget = target.coerceIn(level, MAX_LEVEL)
+    }
+
+    fun cancelLevelChange() {
+        levelTarget = null
+    }
+
+    /** Close the dialog and raise the level through the normal edit pipeline; choosing the current level changes nothing. */
+    suspend fun confirmLevelChange() {
+        val target = levelTarget ?: return
+        levelTarget = null
+        if (target > current!!.document.level) {
+            edit(BuilderEdit.Level(target))
+        }
+    }
+
+    companion object {
+        /** Highest level a character can be raised to. */
+        const val MAX_LEVEL = 30
     }
 }

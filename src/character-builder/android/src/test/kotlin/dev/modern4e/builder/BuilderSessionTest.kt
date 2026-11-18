@@ -472,6 +472,55 @@ class BuilderSessionTest {
         assertTrue(reopened.progressionOptions(4, ChoiceSlotId("advancement.4", "feat", 0)).isNotEmpty())
     }
 
+    @Test fun levelDialogRaisesLevelOnConfirmOnlyAndNeverLowersOrExceedsTheCap() = runBlocking {
+        val document = sample().copy(id = "level-dialog")
+        store.save(document, SaveMode.CREATE)
+        val model = session()
+        model.load(document.id)
+        val before = model.current!!.document
+
+        model.beginLevelChange()
+        assertEquals(before.level + 1, model.levelTarget)
+        model.adjustLevelTarget(before.level - 3)
+        assertEquals(before.level, model.levelTarget)
+        model.adjustLevelTarget(99)
+        assertEquals(BuilderSession.MAX_LEVEL, model.levelTarget)
+        model.cancelLevelChange()
+        assertNull(model.levelTarget)
+        model.confirmLevelChange()
+        assertEquals(before, model.current!!.document)
+        assertEquals(before, (store.load(document.id) as ContractResult.Available).value)
+
+        model.beginLevelChange()
+        model.adjustLevelTarget(before.level)
+        model.confirmLevelChange()
+        assertNull(model.levelTarget)
+        assertEquals(before, model.current!!.document)
+
+        model.beginLevelChange()
+        model.adjustLevelTarget(4)
+        model.confirmLevelChange()
+        assertTrue(model.errors.isEmpty())
+        assertNull(model.levelTarget)
+        assertEquals(4, model.current!!.document.level)
+        assertEquals((1..4).toList(), model.current!!.document.levels.map { it.level }.sorted())
+        assertTrue(model.current!!.rules.diagnostics.any { it.kind == DiagnosticKind.INCOMPLETE_AUTOMATION })
+        assertEquals(4, (store.load(document.id) as ContractResult.Available).value.level)
+        val reopened = session()
+        reopened.load(document.id)
+        assertEquals(4, reopened.current!!.document.level)
+
+        model.beginLevelChange()
+        assertEquals(5, model.levelTarget)
+        model.adjustLevelTarget(BuilderSession.MAX_LEVEL)
+        model.confirmLevelChange()
+        assertEquals(BuilderSession.MAX_LEVEL, model.current!!.document.level)
+        model.beginLevelChange()
+        assertEquals(BuilderSession.MAX_LEVEL, model.levelTarget)
+        model.confirmLevelChange()
+        assertEquals(BuilderSession.MAX_LEVEL, model.current!!.document.level)
+    }
+
     @Test fun progressionBackgroundClearsSkillAndPersistsIndependentOrigin() = runBlocking {
         val model = session()
         model.create()

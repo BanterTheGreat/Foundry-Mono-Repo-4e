@@ -480,6 +480,14 @@ Summon automation Node coverage includes separate square selection, per-power ma
 
 ## Character Builder shared core and content production
 
+Android Character Builder level raising and portraits (from `src/character-builder`, run
+`bash ./gradlew :shared:jvmTest :shared:jsNodeTest :android:testDebugUnitTest`):
+`BuilderOperationsTest` and `BuilderSessionTest` cover forward-only level raises up to 30,
+padded level records and the confirm/cancel dialog state; `PortraitStoreTest`,
+`PortraitSessionTest` and `BitmapPortraitEncoderTest` cover portrait file handling
+(save/replace/delete, hostile ids, oversize and unusable images), that choosing, exporting
+and importing never change or carry portrait data, deletion cleanup and downscaling.
+
 Feat consolidation tests cover shared section references, OR class access, shield
 requirements, retained ancestry placement, corrected titles and explicit old-ID
 migration. Typst parity checks resolve referenced placements before comparing output.

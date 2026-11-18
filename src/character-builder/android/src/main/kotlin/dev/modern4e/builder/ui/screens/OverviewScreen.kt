@@ -32,7 +32,8 @@ internal fun Overview(state: BuilderState, model: BuilderSession) {
             Surface(Modifier.weight(1f).fillMaxHeight().heightIn(min = 104.dp), shape = RoundedCornerShape(3.dp), color = Wash, border = BorderStroke(1.dp, Line)) {
                 Column(Modifier.padding(13.dp), verticalArrangement = Arrangement.Center) {
                     Text("Level ${document.level}", fontFamily = FontFamily.Serif, fontSize = 38.sp, color = Accent,
-                        modifier = Modifier.clickable { model.page = "progression" })
+                        modifier = Modifier.clickable(enabled = !model.busy) { model.beginLevelChange() }
+                            .semantics { contentDescription = "Change level, currently ${document.level}" })
                     Row(Modifier.fillMaxWidth().padding(top = 7.dp), verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         Text("Speed ${state.rules.speedDisplay()}", fontSize = 12.sp, color = Dim, modifier = Modifier.weight(1f))
@@ -42,13 +43,7 @@ internal fun Overview(state: BuilderState, model: BuilderSession) {
                     }
                 }
             }
-            Surface(Modifier.width(96.dp).fillMaxHeight().heightIn(min = 104.dp).semantics { contentDescription = "Character portrait placeholder" },
-                color = Wash, border = BorderStroke(1.dp, Line), shape = RoundedCornerShape(3.dp)) {
-                Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("♙", fontSize = 40.sp, color = Dim)
-                    Text("PORTRAIT", fontSize = 9.sp, letterSpacing = 1.sp, color = Dim)
-                }
-            }
+            PortraitPanel(model, document.id, Modifier.width(96.dp).fillMaxHeight().heightIn(min = 104.dp))
         }
         Row(horizontalArrangement = Arrangement.spacedBy(7.dp), modifier = Modifier.height(IntrinsicSize.Min)) {
             listOf("Gender" to identity.gender, "Age" to identity.age, "Deity" to identity.deity).forEach { (label, value) ->
