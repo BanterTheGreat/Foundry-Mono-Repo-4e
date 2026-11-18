@@ -6,13 +6,25 @@
   SHIELD: "shields", LIGHT_SHIELD: "light shields", HEAVY_SHIELD: "heavy shields",
 )
 
-#let featTitles = {
+#let featDefinitions = {
   let files = json("../content/feat-sections.json").sections
-  let titles = (:)
+  let definitions = (:)
   for file in files {
     for feat in json("../content/feats/" + file).feats {
-      titles.insert(feat.id, feat.title)
+      if not ("ref" in feat) {
+        definitions.insert(feat.id, feat)
+      }
     }
+  }
+  definitions
+}
+
+// Section references preserve printed placement without duplicating definitions.
+#let resolveFeat(feat) = if "ref" in feat { featDefinitions.at(feat.ref) } else { feat }
+#let featTitles = {
+  let titles = (:)
+  for (id, feat) in featDefinitions {
+    titles.insert(id, feat.title)
   }
   titles
 }

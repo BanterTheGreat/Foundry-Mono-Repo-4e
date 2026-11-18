@@ -23,8 +23,17 @@
       "id": "modern4e.feat.elusive-movement-paragon-ranger",
       "title": "Elusive Movement",
       "access": {
-        "type": "entry",
-        "entryId": "modern4e.class.ranger"
+        "type": "anyOf",
+        "conditions": [
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.ranger"
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.rogue"
+          }
+        ]
       },
       "prerequisites": {
         "type": "level",
@@ -36,33 +45,6 @@
       },
       "description": "Whenever you end your turn at least 3 squares away from where you began your turn, you gain a +1 feat bonus to AC and Reflex until the start of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat2495 — Martial Power 2, page(s) 142."
-    },
-    {
-      "id": "modern4e.feat.hunters-advantage-paragon-ranger",
-      "title": "Hunter's Advantage",
-      "access": {
-        "type": "entry",
-        "entryId": "modern4e.class.ranger"
-      },
-      "prerequisites": {
-        "type": "allOf",
-        "conditions": [
-          {
-            "type": "level",
-            "minimum": 11
-          },
-          {
-            "type": "entry",
-            "entryId": "modern4e.ancestry.elf"
-          }
-        ]
-      },
-      "selection": {
-        "maximum": 1,
-        "constraints": []
-      },
-      "description": "You deal 2 extra damage with Hunter's Quarry when you have combat advantage against your quarry.",
-      "source": "https://iws.mx/dnd/?view=feat852 — Martial Power, page(s) 144."
     },
     {
       "id": "modern4e.feat.hunters-resurgence",
@@ -190,33 +172,6 @@
       },
       "description": "Whenever you miss with a daily ranger attack against your quarry, you can choose to apply your Hunter's Quarry damage. You can still deal Hunter's Quarry damage only once per turn.",
       "source": "https://iws.mx/dnd/?view=feat1722 — Dragon Magazine 377, page(s) 45."
-    },
-    {
-      "id": "modern4e.feat.wrathful-hunter-paragon-ranger",
-      "title": "Wrathful Hunter",
-      "access": {
-        "type": "entry",
-        "entryId": "modern4e.class.ranger"
-      },
-      "prerequisites": {
-        "type": "allOf",
-        "conditions": [
-          {
-            "type": "level",
-            "minimum": 11
-          },
-          {
-            "type": "entry",
-            "entryId": "modern4e.ancestry.tiefling"
-          }
-        ]
-      },
-      "selection": {
-        "maximum": 1,
-        "constraints": []
-      },
-      "description": "If you use your infernal wrath racial power against your quarry, you gain a +3 power bonus to your next attack against the target made before the end of your next turn.",
-      "source": "https://iws.mx/dnd/?view=feat871 — Martial Power, page(s) 145."
     }
   ]
 }

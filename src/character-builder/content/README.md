@@ -29,7 +29,7 @@ destination catalog. Platform migration UI remains pending; the plan is not
 applied automatically when opening a character.
 
 Remaining #29 work includes other repeatable effects/option catalogs, Alchemist's
-grant replacement, ten unresolved prerequisite occurrences, duplicate consolidation,
+grant replacement, one unresolved prerequisite occurrence, broader content coverage,
 broader reviewed ID plans and platform migration UI. Higher-level progression
 remains provisional under #20.
 
@@ -78,6 +78,16 @@ supplier history and unresolved selections are preserved; installing the modern
 class package never rewrites them. No automatic adoption/migration exists. Any
 future adoption must present explicit mappings and a reconciliation preview.
 
+## Reviewed feat consolidation
+
+`migrations/feat-consolidation-v1.json` explicitly maps nine retired duplicate IDs
+to retained definitions. It uses the existing deliberate preview/commit API;
+removed heroic Bloodthirsty Visage and paragon Double Lunge have no substitute.
+Section `ref` placements share one authored definition and occurrence limit while
+preserving class-page order. The runtime exports 802 unique feats; no same-title
+groups remain after the reviewed corrections. Stable IDs survive title changes,
+including Scouring Wrath and Swordmage Warden/Aegis.
+
 ## Current-data test fixtures
 
 `samples.py` generates four level 1/2 Fighter test characters (base and override)
@@ -122,7 +132,7 @@ cross-package reference check. The sample new-character template enables all of 
   root slot `creation/theme/0`. Gunsmith's five `modifications` options are not an automatic grant or a finite
   choice because their count and timing exist only in prose; they are preserved in `sharedData` and reported as
   unsupported. Theme powers have no power profile.
-- `modern4e.feats` (`feat_runtime.py`): all 818 feats in nine chunks. Access, structured prerequisites (allOf/anyOf
+- `modern4e.feats` (`feat_runtime.py`): all 802 feats in nine chunks. Access, structured prerequisites (allOf/anyOf
   intact) and `selection.maximum` are preserved; entry references to classes, ancestries and their features/powers
   stay `entry` conditions only when the target exists in a runtime package. Pending/unavailable references and
   `size`/`selected` conditions become explicit `unresolved` conditions. Skill Training's two distinct untrained skill choices are enforced, including exhaustion;
@@ -139,7 +149,7 @@ cross-package reference check. The sample new-character template enables all of 
   (`--modern-equipment`) is unchanged.
 
 `BuilderOperations.options` evaluates each candidate against one shared decoded catalog snapshot
-(`ContentCatalog.readSession`), which keeps large pools such as the 818 feats usable.
+(`ContentCatalog.readSession`), which keeps large pools such as the 802 feats usable.
 
 ## Shared class runtime package (#33)
 

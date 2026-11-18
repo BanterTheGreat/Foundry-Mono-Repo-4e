@@ -324,34 +324,6 @@
       "source": "Source: https://iws.mx/dnd/?view=feat2001"
     },
     {
-      "id": "modern4e.feat.prophetic-preparation",
-      "title": "Prophetic Preparation",
-      "access": {
-        "type": "entry",
-        "entryId": "modern4e.class.wizard"
-      },
-      "prerequisites": {
-        "type": "allOf",
-        "conditions": [
-          {
-            "type": "level",
-            "minimum": 11
-          },
-          {
-            "type": "unresolved",
-            "text": "Vistani Heritage",
-            "reason": "Vistani Heritage is not defined in the Modern 4e feat catalog; see migration issue #29."
-          }
-        ]
-      },
-      "selection": {
-        "maximum": 1,
-        "constraints": []
-      },
-      "description": "Once per day, as a free action, you can swap one daily attack spell you didn't prepare in place of one you did prepare. Also once per day, as a free action, you can swap one utility spell you didn't prepare in place of one you did prepare. You choose the replacement spell at the time you use it.",
-      "source": "Source: https://iws.mx/dnd/?view=feat2047"
-    },
-    {
       "id": "modern4e.feat.second-implement",
       "title": "Second Implement",
       "access": {
@@ -416,22 +388,7 @@
       "source": "Source: https://iws.mx/dnd/?view=feat2002"
     },
     {
-      "id": "modern4e.feat.war-wizardry-paragon-wizard",
-      "title": "War Wizardry",
-      "access": {
-        "type": "entry",
-        "entryId": "modern4e.class.wizard"
-      },
-      "prerequisites": {
-        "type": "level",
-        "minimum": 11
-      },
-      "selection": {
-        "maximum": 1,
-        "constraints": []
-      },
-      "description": "Your arcane spells take a –5 penalty on attack rolls against allies, and deal only half their normal damage to allies.",
-      "source": "Source: https://iws.mx/dnd/?view=feat647"
+      "ref": "modern4e.feat.war-wizardry-paragon-general"
     }
   ]
 }

@@ -119,4 +119,27 @@ class ContentMigrationTest {
         assertEquals(CurrentDataFixtures.overrideId, saved.supplierPackageId)
         assertFalse(value(reopenedCatalog.resolve(saved)).acknowledgmentRequired)
     }
+
+    @Test fun reviewedFeatConsolidationPreservesOldSelectionUntilExplicitAdoption() = run {
+        val plan = ContractCodec.json.decodeFromString<ContentMigrationPlan>(
+            productionFixtures.getValue("migrations/feat-consolidation-v1.json"))
+        val doc = CurrentDataFixtures.sample()
+        val catalog = value(ContentCatalog.open(CurrentDataFixtures, "modern4e.classes", doc.packages))
+        for (mapping in plan.mappings) {
+            assertEquals(EntryCategory.FEAT, value(catalog.lookup(mapping.targetId))!!.entry.category)
+            assertNull(value(catalog.lookup(mapping.sourceId)))
+        }
+        val originalSaved = SavedSelection("modern4e.feat.dirty-fighting-heroic-rogue", "Dirty Fighting", "modern4e.feats", "old-fingerprint")
+        val original = doc.copy(levels = doc.levels.map { level -> level.copy(entries = level.entries.map {
+            if (it.instanceId == "training") it.copy(selection = originalSaved) else it
+        }) })
+        val migration = ContentMigration(catalog)
+        val preview = value(migration.preview(original, plan))
+        assertEquals(originalSaved, original.levels.first().entries.single { it.instanceId == "training" }.selection)
+        assertEquals("modern4e.feat.dirty-fighting-heroic-fighter", preview.changes.single().proposed.let { value(it).entryId })
+        val adopted = value(migration.commit(original, preview))
+        assertEquals(originalSaved, adopted.contentMigrations.single().original)
+        assertEquals(original.levels.first().proficiencies, adopted.levels.first().proficiencies)
+        assertEquals(adopted, value(ContractCodec.decode(ContractCodec.encode(adopted))))
+    }
 }

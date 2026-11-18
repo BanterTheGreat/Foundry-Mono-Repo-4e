@@ -8,502 +8,6 @@
         ],
         "status": "UNIMPLEMENTED"
       },
-      "id": "modern4e.feat.overbearing-retribution",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.invoker",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "conditions": [
-              {
-                "minimum": 11,
-                "type": "level"
-              },
-              {
-                "entryId": "modern4e.feature.covenant-of-wrath",
-                "type": "entry"
-              }
-            ],
-            "type": "allOf"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "When you use your armor of wrath power, the target falls prone after you push it.",
-        "title": "Overbearing Retribution"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.invoker",
-          "type": "entry"
-        },
-        "description": "When you use your armor of wrath power, the target falls prone after you push it.",
-        "id": "modern4e.feat.overbearing-retribution",
-        "prerequisites": {
-          "conditions": [
-            {
-              "minimum": 11,
-              "type": "level"
-            },
-            {
-              "entryId": "modern4e.feature.covenant-of-wrath",
-              "type": "entry"
-            }
-          ],
-          "type": "allOf"
-        },
-        "runtimeRequirementText": "11th level, Covenant of Wrath",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "source": "https://iws.mx/dnd/?view=feat485 — Player's Handbook 2, page(s) 191.",
-        "title": "Overbearing Retribution"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.feat.overwhelming-critical",
-      "mechanics": {
-        "access": {
-          "type": "always"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "type": "always"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Whenever you score a critical hit, you can also knock the target prone.",
-        "title": "Overwhelming Critical"
-      },
-      "sharedData": {
-        "access": {
-          "type": "always"
-        },
-        "description": "Whenever you score a critical hit, you can also knock the target prone.",
-        "id": "modern4e.feat.overwhelming-critical",
-        "prerequisites": {
-          "type": "always"
-        },
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "title": "Overwhelming Critical"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.feat.pacifist-healer",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.cleric",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "type": "always"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "When you use healing word or a divine power that allows a target to spend a healing surge, the target regains additional hit points equal to 1d6 + your Charisma. Whenever you use said power, until the end of your next turn if you deal damage to a bloodied enemy, you become Dazed.\n\nThe additional hit points increase to 2d6 + your Charisma at 11th level, and to 3d6 + your Charisma at 21st level.",
-        "title": "Pacifist Healer"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.cleric",
-          "type": "entry"
-        },
-        "description": "When you use healing word or a divine power that allows a target to spend a healing surge, the target regains additional hit points equal to 1d6 + your Charisma. Whenever you use said power, until the end of your next turn if you deal damage to a bloodied enemy, you become Dazed.\n\nThe additional hit points increase to 2d6 + your Charisma at 11th level, and to 3d6 + your Charisma at 21st level.",
-        "id": "modern4e.feat.pacifist-healer",
-        "prerequisites": {
-          "type": "always"
-        },
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "title": "Pacifist Healer"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.feat.pacifists-reward",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.cleric",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "type": "always"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "When you hit with an attack that doesn't deal damage, if you didn't deal any damage on your turn, gain 2 temporary hit points at the end of the turn. The temporary hit points increase to 3 at 11th level, and to 4 at 21st level.",
-        "title": "Pacifist's Reward"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.cleric",
-          "type": "entry"
-        },
-        "description": "When you hit with an attack that doesn't deal damage, if you didn't deal any damage on your turn, gain 2 temporary hit points at the end of the turn. The temporary hit points increase to 3 at 11th level, and to 4 at 21st level.",
-        "id": "modern4e.feat.pacifists-reward",
-        "prerequisites": {
-          "type": "always"
-        },
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "title": "Pacifist's Reward"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
-        ],
-        "status": "PARTIAL"
-      },
-      "id": "modern4e.feat.pact-initiate",
-      "mechanics": {
-        "access": {
-          "type": "always"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "multiclassFor": "modern4e.class.warlock",
-        "prerequisites": [
-          {
-            "type": "always"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Choose a Warlock pact. You gain the pact's at-will power as an encounter power, and you can pursue the Warlock’s paragon path based on that pact. In addition, you can use a rod, a wand, or a pact blade as an implement.",
-        "title": "Pact Initiate"
-      },
-      "sharedData": {
-        "access": {
-          "type": "always"
-        },
-        "description": "Choose a Warlock pact. You gain the pact's at-will power as an encounter power, and you can pursue the Warlock’s paragon path based on that pact. In addition, you can use a rod, a wand, or a pact blade as an implement.",
-        "id": "modern4e.feat.pact-initiate",
-        "multiclassFor": "modern4e.class.warlock",
-        "prerequisites": {
-          "type": "always"
-        },
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "tags": [
-          "MULTICLASS"
-        ],
-        "title": "Pact Initiate"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.feat.pain-doesnt-hurt",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.ancestry.human",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "While you are bloodied, you gain a +2 feat bonus to saving throws against ongoing damage. Increase this bonus to +3 if you have the Human Perseverance feat. In addition, the first time you are bloodied in each encounter, you ignore all ongoing damage until the end of your next turn.",
-        "title": "Pain Doesn't Hurt"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.ancestry.human",
-          "type": "entry"
-        },
-        "description": "While you are bloodied, you gain a +2 feat bonus to saving throws against ongoing damage. Increase this bonus to +3 if you have the Human Perseverance feat. In addition, the first time you are bloodied in each encounter, you ignore all ongoing damage until the end of your next turn.",
-        "id": "modern4e.feat.pain-doesnt-hurt",
-        "prerequisites": {
-          "minimum": 11,
-          "type": "level"
-        },
-        "runtimeRequirementText": "11th level",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "title": "Pain Doesn't Hurt"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.feat.pain-gain",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.ancestry.orc",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "type": "always"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "The first time you are bloodied during an encounter, you gain a +5 bonus to damage rolls until the end of your next turn.",
-        "title": "Pain Gain"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.ancestry.orc",
-          "type": "entry"
-        },
-        "description": "The first time you are bloodied during an encounter, you gain a +5 bonus to damage rolls until the end of your next turn.",
-        "id": "modern4e.feat.pain-gain",
-        "prerequisites": {
-          "type": "always"
-        },
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "title": "Pain Gain"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.feat.painful-oath",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.avenger",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "The first time you hit your oath of enmity target each turn, you deal extra radiant and necrotic damage equal to your Wisdom.",
-        "title": "Painful Oath"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.avenger",
-          "type": "entry"
-        },
-        "description": "The first time you hit your oath of enmity target each turn, you deal extra radiant and necrotic damage equal to your Wisdom.",
-        "id": "modern4e.feat.painful-oath",
-        "prerequisites": {
-          "minimum": 11,
-          "type": "level"
-        },
-        "runtimeRequirementText": "11th level",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "source": "https://iws.mx/dnd/?view=feat2169 — Dragon Magazine 382, page(s) 41.",
-        "title": "Painful Oath"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.feat.past-soul",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.ancestry.revenant",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "type": "always"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "You gain the racial power of the race you chose with your Past Life racial feature (if that race has more than one racial power, choose one of the powers, and you gain only that one). During each encounter, you can use either that power or dark reaping, not both.",
-        "title": "Past Soul"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.ancestry.revenant",
-          "type": "entry"
-        },
-        "description": "You gain the racial power of the race you chose with your Past Life racial feature (if that race has more than one racial power, choose one of the powers, and you gain only that one). During each encounter, you can use either that power or dark reaping, not both.",
-        "id": "modern4e.feat.past-soul",
-        "prerequisites": {
-          "type": "always"
-        },
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "title": "Past Soul"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder.",
-          "Prerequisite not evaluated: Pounce Power (No matching local feature, power or feat definition was identified; see migration issue #29.)"
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.feat.patient-hunter",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.druid",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "reason": "No matching local feature, power or feat definition was identified; see migration issue #29.",
-            "text": "Pounce Power",
-            "type": "unresolved"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "When you hit a target with an attack using the pounce power, the target grants combat advantage until the end of your next turn.",
-        "title": "Patient Hunter"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.druid",
-          "type": "entry"
-        },
-        "description": "When you hit a target with an attack using the pounce power, the target grants combat advantage until the end of your next turn.",
-        "id": "modern4e.feat.patient-hunter",
-        "prerequisites": {
-          "reason": "No matching local feature, power or feat definition was identified; see migration issue #29.",
-          "text": "Pounce Power",
-          "type": "unresolved"
-        },
-        "runtimeRequirementText": "Pounce Power",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "title": "Patient Hunter"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
       "id": "modern4e.feat.persistent-challenge",
       "mechanics": {
         "access": {
@@ -650,57 +154,17 @@
       "id": "modern4e.feat.phalanx-warrior-paragon-fighter",
       "mechanics": {
         "access": {
-          "entryId": "modern4e.class.fighter",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "When you are using a shield, adjacent allies gain a +1 shield bonus to AC.",
-        "title": "Phalanx Warrior"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.fighter",
-          "type": "entry"
-        },
-        "description": "When you are using a shield, adjacent allies gain a +1 shield bonus to AC.",
-        "id": "modern4e.feat.phalanx-warrior-paragon-fighter",
-        "prerequisites": {
-          "minimum": 11,
-          "type": "level"
-        },
-        "runtimeRequirementText": "11th level",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "title": "Phalanx Warrior"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.feat.phalanx-warrior-paragon-warlord",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.warlord",
-          "type": "entry"
+          "conditions": [
+            {
+              "entryId": "modern4e.class.fighter",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.class.warlord",
+              "type": "entry"
+            }
+          ],
+          "type": "anyOf"
         },
         "choices": [],
         "grants": [],
@@ -738,11 +202,20 @@
       },
       "sharedData": {
         "access": {
-          "entryId": "modern4e.class.warlord",
-          "type": "entry"
+          "conditions": [
+            {
+              "entryId": "modern4e.class.fighter",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.class.warlord",
+              "type": "entry"
+            }
+          ],
+          "type": "anyOf"
         },
         "description": "When you are using a shield, adjacent allies gain a +1 shield bonus to AC.",
-        "id": "modern4e.feat.phalanx-warrior-paragon-warlord",
+        "id": "modern4e.feat.phalanx-warrior-paragon-fighter",
         "prerequisites": {
           "conditions": [
             {
@@ -2452,74 +1925,6 @@
         ],
         "status": "UNIMPLEMENTED"
       },
-      "id": "modern4e.feat.prime-slayer-paragon-rogue",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.rogue",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "conditions": [
-              {
-                "minimum": 11,
-                "type": "level"
-              },
-              {
-                "entryId": "modern4e.ancestry.elf",
-                "type": "entry"
-              }
-            ],
-            "type": "allOf"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "While none of your allies are closer to your target than you are, you gain a +2 bonus to damage rolls for ranged attacks against that target.",
-        "title": "Prime Slayer"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.rogue",
-          "type": "entry"
-        },
-        "description": "While none of your allies are closer to your target than you are, you gain a +2 bonus to damage rolls for ranged attacks against that target.",
-        "id": "modern4e.feat.prime-slayer-paragon-rogue",
-        "prerequisites": {
-          "conditions": [
-            {
-              "minimum": 11,
-              "type": "level"
-            },
-            {
-              "entryId": "modern4e.ancestry.elf",
-              "type": "entry"
-            }
-          ],
-          "type": "allOf"
-        },
-        "runtimeRequirementText": "11th level, Elf",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "source": "https://iws.mx/dnd/?view=feat861 — Martial Power, page(s) 144.",
-        "title": "Prime Slayer"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
       "id": "modern4e.feat.primed-curse",
       "mechanics": {
         "access": {
@@ -2669,77 +2074,6 @@
           "maximum": 1
         },
         "title": "Prolonged Curse"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder.",
-          "Prerequisite not evaluated: Vistani Heritage (Vistani Heritage is not defined in the Modern 4e feat catalog; see migration issue #29.)"
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.feat.prophetic-preparation",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.wizard",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "conditions": [
-              {
-                "minimum": 11,
-                "type": "level"
-              },
-              {
-                "reason": "Vistani Heritage is not defined in the Modern 4e feat catalog; see migration issue #29.",
-                "text": "Vistani Heritage",
-                "type": "unresolved"
-              }
-            ],
-            "type": "allOf"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Once per day, as a free action, you can swap one daily attack spell you didn't prepare in place of one you did prepare. Also once per day, as a free action, you can swap one utility spell you didn't prepare in place of one you did prepare. You choose the replacement spell at the time you use it.",
-        "title": "Prophetic Preparation"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.wizard",
-          "type": "entry"
-        },
-        "description": "Once per day, as a free action, you can swap one daily attack spell you didn't prepare in place of one you did prepare. Also once per day, as a free action, you can swap one utility spell you didn't prepare in place of one you did prepare. You choose the replacement spell at the time you use it.",
-        "id": "modern4e.feat.prophetic-preparation",
-        "prerequisites": {
-          "conditions": [
-            {
-              "minimum": 11,
-              "type": "level"
-            },
-            {
-              "reason": "Vistani Heritage is not defined in the Modern 4e feat catalog; see migration issue #29.",
-              "text": "Vistani Heritage",
-              "type": "unresolved"
-            }
-          ],
-          "type": "allOf"
-        },
-        "runtimeRequirementText": "11th level, Vistani Heritage",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "source": "Source: https://iws.mx/dnd/?view=feat2047",
-        "title": "Prophetic Preparation"
       }
     },
     {
@@ -5337,6 +4671,648 @@
           "maximum": 1
         },
         "title": "Roiling Storm"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.roll-with-it",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "skill": "ACROBATICS",
+            "type": "proficiency"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Whenever an effect pulls, pushes, or slides you, you can shift 1 square as a free action at the end of the forced movement. At 21st level, you can instead shift up to 2 squares at the end of the forced movement.",
+        "title": "Roll with It"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "description": "Whenever an effect pulls, pushes, or slides you, you can shift 1 square as a free action at the end of the forced movement. At 21st level, you can instead shift up to 2 squares at the end of the forced movement.",
+        "id": "modern4e.feat.roll-with-it",
+        "prerequisites": {
+          "skill": "ACROBATICS",
+          "type": "proficiency"
+        },
+        "runtimeRequirementText": "Acrobatics",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Roll with It"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.roundabout-charge",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.rogue",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 11,
+                "type": "level"
+              },
+              {
+                "skill": "ACROBATICS",
+                "type": "proficiency"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you charge, each square of your movement need not bring you closer to the target of your charge, but you must start the charge at least 3 squares away from the target.",
+        "title": "Roundabout Charge"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.rogue",
+          "type": "entry"
+        },
+        "description": "When you charge, each square of your movement need not bring you closer to the target of your charge, but you must start the charge at least 3 squares away from the target.",
+        "id": "modern4e.feat.roundabout-charge",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 11,
+              "type": "level"
+            },
+            {
+              "skill": "ACROBATICS",
+              "type": "proficiency"
+            }
+          ],
+          "type": "allOf"
+        },
+        "runtimeRequirementText": "11th level, Acrobatics",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat865 — Martial Power, page(s) 144.",
+        "title": "Roundabout Charge"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.rousing-resurgence",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warlord",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "entryId": "modern4e.feature.inspiring-presence",
+            "type": "entry"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Allies who expend their second winds while they have line of sight to you also gain temporary hit points equal to your Charisma plus one-half your level.",
+        "title": "Rousing Resurgence"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warlord",
+          "type": "entry"
+        },
+        "description": "Allies who expend their second winds while they have line of sight to you also gain temporary hit points equal to your Charisma plus one-half your level.",
+        "id": "modern4e.feat.rousing-resurgence",
+        "prerequisites": {
+          "entryId": "modern4e.feature.inspiring-presence",
+          "type": "entry"
+        },
+        "runtimeRequirementText": "Inspiring Presence",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Rousing Resurgence"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.rousing-voice",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.human",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "entryId": "modern4e.class.bard",
+            "type": "entry"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "An ally using Second Wind within 10 squares also gains temporary hit points equal to your Charisma.",
+        "title": "Rousing Voice"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.human",
+          "type": "entry"
+        },
+        "description": "An ally using Second Wind within 10 squares also gains temporary hit points equal to your Charisma.",
+        "id": "modern4e.feat.rousing-voice",
+        "prerequisites": {
+          "entryId": "modern4e.class.bard",
+          "type": "entry"
+        },
+        "runtimeRequirementText": "Bard",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat472",
+        "title": "Rousing Voice"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.rune-of-escape-rune",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Whenever an ally within 5 squares of you uses their second wind, that ally can use a free action to shift a number of squares equal to the number of rune feats you have.",
+        "title": "Rune of Escape [Rune]"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "description": "Whenever an ally within 5 squares of you uses their second wind, that ally can use a free action to shift a number of squares equal to the number of rune feats you have.",
+        "id": "modern4e.feat.rune-of-escape-rune",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "runtimeRequirementText": "11th level",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat2660 — Player's Handbook 3, page(s) 189.",
+        "title": "Rune of Escape [Rune]"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.rune-of-hope-rune",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "The target of your rune of mending also gains temporary hit points equal to the number of rune feats you have.",
+        "title": "Rune of Hope [Rune]"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "description": "The target of your rune of mending also gains temporary hit points equal to the number of rune feats you have.",
+        "id": "modern4e.feat.rune-of-hope-rune",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Rune of Hope [Rune]"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.rune-of-preparation-rune",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you roll initiative, you may select an amount of allies equal to the number of rune feats you have, they gain a +1 bonus to initiative.",
+        "title": "Rune of Preparation [Rune]"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "description": "When you roll initiative, you may select an amount of allies equal to the number of rune feats you have, they gain a +1 bonus to initiative.",
+        "id": "modern4e.feat.rune-of-preparation-rune",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Rune of Preparation [Rune]"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.rune-of-torment-rune",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Whenever an enemy within 5 squares of you fails a saving throw against an effect caused by your runepriest powers, that enemy takes damage equal to the number of rune feats you have.",
+        "title": "Rune of Torment [Rune]"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "description": "Whenever an enemy within 5 squares of you fails a saving throw against an effect caused by your runepriest powers, that enemy takes damage equal to the number of rune feats you have.",
+        "id": "modern4e.feat.rune-of-torment-rune",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "runtimeRequirementText": "11th level",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat2661 — Player's Handbook 3, page(s) 189.",
+        "title": "Rune of Torment [Rune]"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.rune-of-vengeance-rune",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "The first time you are bloodied during an encounter, you gain a bonus to damage rolls equal to the number of rune feats you have. The bonus lasts until the end of your next turn.",
+        "title": "Rune of Vengeance [Rune]"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "description": "The first time you are bloodied during an encounter, you gain a bonus to damage rolls equal to the number of rune feats you have. The bonus lasts until the end of your next turn.",
+        "id": "modern4e.feat.rune-of-vengeance-rune",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Rune of Vengeance [Rune]"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.rune-of-zeal-rune",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "The target of your rune of mending gains a bonus to damage rolls to their next hit until the end of their next turn equal to the number of rune feats you have.",
+        "title": "Rune of Zeal [Rune]"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "description": "The target of your rune of mending gains a bonus to damage rolls to their next hit until the end of their next turn equal to the number of rune feats you have.",
+        "id": "modern4e.feat.rune-of-zeal-rune",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Rune of Zeal [Rune]"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.running-shot",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.elf",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "You don't take an attack penalty to ranged attacks after you use the run action.",
+        "title": "Running Shot"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.elf",
+          "type": "entry"
+        },
+        "description": "You don't take an attack penalty to ranged attacks after you use the run action.",
+        "id": "modern4e.feat.running-shot",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Running Shot"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
+        ],
+        "status": "PARTIAL"
+      },
+      "id": "modern4e.feat.ruthless-efficiency",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.rogue",
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "You gain the Ruthless Ruffian class feature.",
+        "title": "Ruthless Efficiency"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "description": "You gain the Ruthless Ruffian class feature.",
+        "id": "modern4e.feat.ruthless-efficiency",
+        "multiclassFor": "modern4e.class.rogue",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "tags": [
+          "MULTICLASS"
+        ],
+        "title": "Ruthless Efficiency"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.ruthless-injury",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.rogue",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "entryId": "modern4e.feature.ruthless-ruffian",
+            "type": "entry"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you use a club or a mace to make a sneak attack that causes the target to become blinded, immobilized, slowed, or weakened, that target takes a –2 penalty to saving throws against any of those conditions.",
+        "title": "Ruthless Injury"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.rogue",
+          "type": "entry"
+        },
+        "description": "When you use a club or a mace to make a sneak attack that causes the target to become blinded, immobilized, slowed, or weakened, that target takes a –2 penalty to saving throws against any of those conditions.",
+        "id": "modern4e.feat.ruthless-injury",
+        "prerequisites": {
+          "entryId": "modern4e.feature.ruthless-ruffian",
+          "type": "entry"
+        },
+        "runtimeRequirementText": "Ruthless Ruffian",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Ruthless Injury"
       }
     }
   ],

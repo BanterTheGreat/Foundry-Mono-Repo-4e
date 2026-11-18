@@ -8,148 +8,6 @@
         ],
         "status": "UNIMPLEMENTED"
       },
-      "id": "modern4e.feat.distant-advantage",
-      "mechanics": {
-        "access": {
-          "type": "always"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "type": "always"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "You gain combat advantage for close, ranged, and area attacks against any enemy flanked by your allies.",
-        "title": "Distant Advantage"
-      },
-      "sharedData": {
-        "access": {
-          "type": "always"
-        },
-        "description": "You gain combat advantage for close, ranged, and area attacks against any enemy flanked by your allies.",
-        "id": "modern4e.feat.distant-advantage",
-        "prerequisites": {
-          "type": "always"
-        },
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "title": "Distant Advantage"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.feat.distant-swordbond",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.swordmage",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "You can call your bonded weapon to your hand from up to 1 mile away as a minor action.",
-        "title": "Distant Swordbond"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.swordmage",
-          "type": "entry"
-        },
-        "description": "You can call your bonded weapon to your hand from up to 1 mile away as a minor action.",
-        "id": "modern4e.feat.distant-swordbond",
-        "prerequisites": {
-          "minimum": 11,
-          "type": "level"
-        },
-        "runtimeRequirementText": "11th level",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "title": "Distant Swordbond"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.feat.distracting-coincidences",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.sorcerer",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "entryId": "modern4e.feature.wild-magic",
-            "type": "entry"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Targets you slide with sorcerer attacks or your Unfettered Power take a -2 penalty to AC until the end of your next turn.",
-        "title": "Distracting Coincidences"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.sorcerer",
-          "type": "entry"
-        },
-        "description": "Targets you slide with sorcerer attacks or your Unfettered Power take a -2 penalty to AC until the end of your next turn.",
-        "id": "modern4e.feat.distracting-coincidences",
-        "prerequisites": {
-          "entryId": "modern4e.feature.wild-magic",
-          "type": "entry"
-        },
-        "runtimeRequirementText": "Wild Magic",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "title": "Distracting Coincidences"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
       "id": "modern4e.feat.distracting-shield",
       "mechanics": {
         "access": {
@@ -791,74 +649,6 @@
           "constraints": [],
           "maximum": 1
         },
-        "title": "Double Lunge"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.feat.double-lunge-paragon-barbarian",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.barbarian",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "conditions": [
-              {
-                "minimum": 11,
-                "type": "level"
-              },
-              {
-                "entryId": "modern4e.power.whirling-lunge",
-                "type": "entry"
-              }
-            ],
-            "type": "allOf"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "When you use whirling lunge, you deal extra damage to the target equal to your Strength.",
-        "title": "Double Lunge"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.barbarian",
-          "type": "entry"
-        },
-        "description": "When you use whirling lunge, you deal extra damage to the target equal to your Strength.",
-        "id": "modern4e.feat.double-lunge-paragon-barbarian",
-        "prerequisites": {
-          "conditions": [
-            {
-              "minimum": 11,
-              "type": "level"
-            },
-            {
-              "entryId": "modern4e.power.whirling-lunge",
-              "type": "entry"
-            }
-          ],
-          "type": "allOf"
-        },
-        "runtimeRequirementText": "11th level, Whirling Lunge",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "source": "https://iws.mx/dnd/?view=feat1893 — Primal Power, page(s) 143.",
         "title": "Double Lunge"
       }
     },
@@ -1971,8 +1761,17 @@
       "id": "modern4e.feat.elusive-movement-paragon-ranger",
       "mechanics": {
         "access": {
-          "entryId": "modern4e.class.ranger",
-          "type": "entry"
+          "conditions": [
+            {
+              "entryId": "modern4e.class.ranger",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.class.rogue",
+              "type": "entry"
+            }
+          ],
+          "type": "anyOf"
         },
         "choices": [],
         "grants": [],
@@ -1992,8 +1791,17 @@
       },
       "sharedData": {
         "access": {
-          "entryId": "modern4e.class.ranger",
-          "type": "entry"
+          "conditions": [
+            {
+              "entryId": "modern4e.class.ranger",
+              "type": "entry"
+            },
+            {
+              "entryId": "modern4e.class.rogue",
+              "type": "entry"
+            }
+          ],
+          "type": "anyOf"
         },
         "description": "Whenever you end your turn at least 3 squares away from where you began your turn, you gain a +1 feat bonus to AC and Reflex until the start of your next turn.",
         "id": "modern4e.feat.elusive-movement-paragon-ranger",
@@ -2008,135 +1816,6 @@
         },
         "source": "https://iws.mx/dnd/?view=feat2495 — Martial Power 2, page(s) 142.",
         "title": "Elusive Movement"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.feat.elusive-movement-paragon-rogue",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.rogue",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Whenever you end your turn at least 3 squares away from where you began your turn, you gain a +1 feat bonus to AC and Reflex until the start of your next turn.",
-        "title": "Elusive Movement"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.rogue",
-          "type": "entry"
-        },
-        "description": "Whenever you end your turn at least 3 squares away from where you began your turn, you gain a +1 feat bonus to AC and Reflex until the start of your next turn.",
-        "id": "modern4e.feat.elusive-movement-paragon-rogue",
-        "prerequisites": {
-          "minimum": 11,
-          "type": "level"
-        },
-        "runtimeRequirementText": "11th level",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "source": "https://iws.mx/dnd/?view=feat2495 — Martial Power 2, page(s) 142.",
-        "title": "Elusive Movement"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder.",
-          "Prerequisite not evaluated: Beast Mastery (No matching local feature, power or feat definition was identified; see migration issue #29.)"
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.feat.elven-beast-mastery",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.ancestry.elf",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "conditions": [
-              {
-                "entryId": "modern4e.class.ranger",
-                "type": "entry"
-              },
-              {
-                "reason": "No matching local feature, power or feat definition was identified; see migration issue #29.",
-                "text": "Beast Mastery",
-                "type": "unresolved"
-              },
-              {
-                "entryId": "modern4e.power.elven-accuracy",
-                "type": "entry"
-              }
-            ],
-            "type": "allOf"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Your beast companion ignores difficult terrain during shifts. Elven Accuracy can reroll either your attack or your beast companion's attack.",
-        "title": "Elven Beast Mastery"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.ancestry.elf",
-          "type": "entry"
-        },
-        "description": "Your beast companion ignores difficult terrain during shifts. Elven Accuracy can reroll either your attack or your beast companion's attack.",
-        "id": "modern4e.feat.elven-beast-mastery",
-        "prerequisites": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.ranger",
-              "type": "entry"
-            },
-            {
-              "reason": "No matching local feature, power or feat definition was identified; see migration issue #29.",
-              "text": "Beast Mastery",
-              "type": "unresolved"
-            },
-            {
-              "entryId": "modern4e.power.elven-accuracy",
-              "type": "entry"
-            }
-          ],
-          "type": "allOf"
-        },
-        "runtimeRequirementText": "Ranger, Beast Mastery, Elven Accuracy",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "source": "https://iws.mx/dnd/?view=feat776",
-        "title": "Elven Beast Mastery"
       }
     },
     {
@@ -4790,77 +4469,6 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder.",
-          "Prerequisite not evaluated: Beast Mastery (No matching local feature, power or feat definition was identified; see migration issue #29.)"
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.feat.fiendish-companion",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.ancestry.tiefling",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "conditions": [
-              {
-                "entryId": "modern4e.class.ranger",
-                "type": "entry"
-              },
-              {
-                "reason": "No matching local feature, power or feat definition was identified; see migration issue #29.",
-                "text": "Beast Mastery",
-                "type": "unresolved"
-              }
-            ],
-            "type": "allOf"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Your beast companion gains fire resistance of 5 + one-half your level.",
-        "title": "Fiendish Companion"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.ancestry.tiefling",
-          "type": "entry"
-        },
-        "description": "Your beast companion gains fire resistance of 5 + one-half your level.",
-        "id": "modern4e.feat.fiendish-companion",
-        "prerequisites": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.ranger",
-              "type": "entry"
-            },
-            {
-              "reason": "No matching local feature, power or feat definition was identified; see migration issue #29.",
-              "text": "Beast Mastery",
-              "type": "unresolved"
-            }
-          ],
-          "type": "allOf"
-        },
-        "runtimeRequirementText": "Ranger, Beast Mastery",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "source": "https://iws.mx/dnd/?view=feat781",
-        "title": "Fiendish Companion"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
           "Feat benefits are descriptive text; no feat effect is automated by the character builder."
         ],
         "status": "UNIMPLEMENTED"
@@ -5378,6 +4986,420 @@
           "maximum": 1
         },
         "title": "Flitting Shadows"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.focused-superiority",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.fighter",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "While you are wielding a one-handed weapon, you gain a bonus to damage rolls equal to your Wisdom with opportunity attacks.",
+        "title": "Focused Superiority"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.fighter",
+          "type": "entry"
+        },
+        "description": "While you are wielding a one-handed weapon, you gain a bonus to damage rolls equal to your Wisdom with opportunity attacks.",
+        "id": "modern4e.feat.focused-superiority",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Focused Superiority"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.focused-wrath",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.invoker",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 11,
+                "type": "level"
+              },
+              {
+                "entryId": "modern4e.feature.covenant-of-wrath",
+                "type": "entry"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you use your armor of wrath power and the triggering enemy is the only enemy in the burst, you deal 1d6 extra damage with that power. At 21st level, this extra damage increases to 2d6.",
+        "title": "Focused Wrath"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.invoker",
+          "type": "entry"
+        },
+        "description": "When you use your armor of wrath power and the triggering enemy is the only enemy in the burst, you deal 1d6 extra damage with that power. At 21st level, this extra damage increases to 2d6.",
+        "id": "modern4e.feat.focused-wrath",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 11,
+              "type": "level"
+            },
+            {
+              "entryId": "modern4e.feature.covenant-of-wrath",
+              "type": "entry"
+            }
+          ],
+          "type": "allOf"
+        },
+        "runtimeRequirementText": "11th level, Covenant of Wrath",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat1574 — Divine Power, page(s) 138.",
+        "title": "Focused Wrath"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.focusing-spellfury",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.sorcerer",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you use a sorcerer at-will attack power and hit two or more enemies, you gain a +2 bonus to damage rolls with ranged and melee attack powers until the end of your next turn.",
+        "title": "Focusing Spellfury"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.sorcerer",
+          "type": "entry"
+        },
+        "description": "When you use a sorcerer at-will attack power and hit two or more enemies, you gain a +2 bonus to damage rolls with ranged and melee attack powers until the end of your next turn.",
+        "id": "modern4e.feat.focusing-spellfury",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Focusing Spellfury"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.font-of-vengeance",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 11,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you save against ongoing damage at the start of your turn, if you are adjacent to and can make an opportunity attack against the creature that inflicted the ongoing damage, you deal damage to that creature equal to your Strength.",
+        "title": "Font of Vengeance"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "description": "When you save against ongoing damage at the start of your turn, if you are adjacent to and can make an opportunity attack against the creature that inflicted the ongoing damage, you deal damage to that creature equal to your Strength.",
+        "id": "modern4e.feat.font-of-vengeance",
+        "prerequisites": {
+          "minimum": 11,
+          "type": "level"
+        },
+        "runtimeRequirementText": "11th level",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat1955 — Dragon Magazine 379, page(s) 46.",
+        "title": "Font of Vengeance"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.footsteps-of-doom",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.invoker",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 11,
+                "type": "level"
+              },
+              {
+                "entryId": "modern4e.feature.covenant-of-malediction",
+                "type": "entry"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Each target of your maledictor's doom power gains vulnerable 5 to all damage from fear attacks until the end of your next turn.",
+        "title": "Footsteps of Doom"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.invoker",
+          "type": "entry"
+        },
+        "description": "Each target of your maledictor's doom power gains vulnerable 5 to all damage from fear attacks until the end of your next turn.",
+        "id": "modern4e.feat.footsteps-of-doom",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 11,
+              "type": "level"
+            },
+            {
+              "entryId": "modern4e.feature.covenant-of-malediction",
+              "type": "entry"
+            }
+          ],
+          "type": "allOf"
+        },
+        "runtimeRequirementText": "11th level, Covenant of Malediction",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat1575 — Divine Power, page(s) 138.",
+        "title": "Footsteps of Doom"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.forceful-challenge",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 11,
+                "type": "level"
+              },
+              {
+                "entryId": "modern4e.power.divine-challenge",
+                "type": "entry"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When a creature takes damage from your divine challenge or divine sanction, you can slide that creature 1 square after the triggering attack is resolved.",
+        "title": "Forceful Challenge"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "description": "When a creature takes damage from your divine challenge or divine sanction, you can slide that creature 1 square after the triggering attack is resolved.",
+        "id": "modern4e.feat.forceful-challenge",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 11,
+              "type": "level"
+            },
+            {
+              "entryId": "modern4e.power.divine-challenge",
+              "type": "entry"
+            }
+          ],
+          "type": "allOf"
+        },
+        "runtimeRequirementText": "11th level, Divine Challenge",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat1755 — Dragon Magazine 378.",
+        "title": "Forceful Challenge"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.forceful-covenant",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.invoker",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 11,
+                "type": "level"
+              },
+              {
+                "entryId": "modern4e.feature.covenant-of-malediction",
+                "type": "entry"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Add 1 square to the distance that your Covenant Manifestation allows you to push a target.",
+        "title": "Forceful Covenant"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.invoker",
+          "type": "entry"
+        },
+        "description": "Add 1 square to the distance that your Covenant Manifestation allows you to push a target.",
+        "id": "modern4e.feat.forceful-covenant",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 11,
+              "type": "level"
+            },
+            {
+              "entryId": "modern4e.feature.covenant-of-malediction",
+              "type": "entry"
+            }
+          ],
+          "type": "allOf"
+        },
+        "runtimeRequirementText": "11th level, Covenant of Malediction",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat1576 — Divine Power, page(s) 138.",
+        "title": "Forceful Covenant"
       }
     }
   ],

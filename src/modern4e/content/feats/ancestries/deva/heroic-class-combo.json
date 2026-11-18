@@ -19,34 +19,6 @@
       "description": "When you use your memory of a thousand lifetimes racial power to add to the attack roll of an arcane power, you gain a +1 bonus to the triggering roll."
     },
     {
-      "id": "modern4e.feat.astral-elixir",
-      "title": "Astral Elixir",
-      "access": {
-        "type": "entry",
-        "entryId": "modern4e.ancestry.deva"
-      },
-      "prerequisites": {
-        "type": "allOf",
-        "conditions": [
-          {
-            "type": "entry",
-            "entryId": "modern4e.class.artificer"
-          },
-          {
-            "type": "unresolved",
-            "text": "shielding elixir power",
-            "reason": "No matching local feature, power or feat definition was identified; see migration issue #29."
-          }
-        ]
-      },
-      "selection": {
-        "maximum": 1,
-        "constraints": []
-      },
-      "description": "Shielding Elixir also grants radiant resistance of the same value and duration as its usual resistance. Its target may end the effect as a free action when making a saving throw to add 1d6 to that save, replacing the usual benefit for ending the elixir.",
-      "source": "https://iws.mx/dnd/?view=feat3023"
-    },
-    {
       "id": "modern4e.feat.astral-enmity",
       "title": "Astral Enmity",
       "access": {

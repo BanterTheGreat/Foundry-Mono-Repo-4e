@@ -65,34 +65,6 @@
       "source": "https://iws.mx/dnd/?view=feat1516"
     },
     {
-      "id": "modern4e.feat.human-beast-mastery",
-      "title": "Human Beast Mastery",
-      "access": {
-        "type": "entry",
-        "entryId": "modern4e.ancestry.human"
-      },
-      "prerequisites": {
-        "type": "allOf",
-        "conditions": [
-          {
-            "type": "entry",
-            "entryId": "modern4e.class.ranger"
-          },
-          {
-            "type": "unresolved",
-            "text": "Beast Mastery",
-            "reason": "No matching local feature, power or feat definition was identified; see migration issue #29."
-          }
-        ]
-      },
-      "selection": {
-        "maximum": 1,
-        "constraints": []
-      },
-      "description": "Increase all of your beast companion's defenses by 1.",
-      "source": "https://iws.mx/dnd/?view=feat785"
-    },
-    {
       "id": "modern4e.feat.inspired-defense",
       "title": "Inspired Defense",
       "access": {

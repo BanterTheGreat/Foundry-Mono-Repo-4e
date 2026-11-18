@@ -129,9 +129,10 @@ class FeatSelectionTest(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=BOOK) as directory:
             path = Path(directory) / "selection.typ"
             path.write_text('''#import "../helpers/feat_selection.typ": selectionSpecial
+#import "../helpers/feat_requirements.typ": resolveFeat
 #let result = (:)
 #for section in json("../content/feat-sections.json").sections {
-  for feat in json("../content/feats/" + section).feats {
+  for feat in json("../content/feats/" + section).feats.map(resolveFeat) {
     result.insert(feat.id, selectionSpecial(feat))
   }
 }

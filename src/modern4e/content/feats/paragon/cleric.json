@@ -239,8 +239,17 @@
       "id": "modern4e.feat.warding-shield-paragon-cleric",
       "title": "Warding Shield",
       "access": {
-        "type": "entry",
-        "entryId": "modern4e.class.cleric"
+        "type": "anyOf",
+        "conditions": [
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.cleric"
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.paladin"
+          }
+        ]
       },
       "prerequisites": {
         "type": "allOf",

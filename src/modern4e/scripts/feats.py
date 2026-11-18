@@ -183,6 +183,11 @@ def catalog(content=CONTENT):
         sections[section] = []
         for i, feat in enumerate(data["feats"]):
             where = f"{path}:feats[{i}]"
+            if "ref" in feat:
+                fields(feat, ["ref"], [], where)
+                identity(feat["ref"], "FEAT", where)
+                sections[section].append(feat["ref"])
+                continue
             fields(feat, ["id", "title", "access", "prerequisites", "selection", "description"], ["source", "note", "multiclassFor", "tags", "choices"], where)
             identity(feat["id"], "FEAT", where)
             for key in ("title", "description", "source", "note"):
@@ -193,6 +198,10 @@ def catalog(content=CONTENT):
             locations[feat["id"]] = where
             sections[section].append(feat["id"])
     require(bool(entries), content, "no feat definitions")
+    for section, ids in sections.items():
+        require(len(ids) == len(set(ids)), section, "duplicate section feat reference")
+        for entry_id in ids:
+            require(entry_id in entries, section, f"unknown section feat reference {entry_id}")
     titles = {key: feat["title"] for key, feat in entries.items()}
     for key, feat in entries.items():
         where = locations[key]

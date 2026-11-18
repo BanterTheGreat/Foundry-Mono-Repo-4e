@@ -82,7 +82,8 @@ class ModernDefendersTest(unittest.TestCase):
                 self.assertEqual(activation["range"], {"type": "MELEE", "distance": "TOUCH", "origin": "self"})
 
     def test_swordmage_aegis_and_warden_guardian_options_are_complete(self):
-        for title, count in [("Spellwarden Aegis", 3), ("Guardian Might", 4)]:
+        self.assertEqual("modern4e.feature.swordmage-spellwarden-warden", self.named("FEATURE", "Swordmage Warden")["id"])
+        for title, count in [("Swordmage Aegis", 3), ("Guardian Might", 4)]:
             choice = self.named("FEATURE", title)["choices"][0]
             self.assertEqual(choice["count"], 1)
             self.assertEqual(len(choice["source"]["entryIds"]), count)

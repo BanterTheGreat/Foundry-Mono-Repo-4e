@@ -225,39 +225,7 @@
       "description": "Any ally within 5 squares of you gains a +1 bonus to attack rolls against enemies that have not yet acted during the encounter."
     },
     {
-      "id": "modern4e.feat.phalanx-warrior-paragon-warlord",
-      "title": "Phalanx Warrior",
-      "access": {
-        "type": "entry",
-        "entryId": "modern4e.class.warlord"
-      },
-      "prerequisites": {
-        "type": "allOf",
-        "conditions": [
-          {
-            "type": "level",
-            "minimum": 11
-          },
-          {
-            "type": "anyOf",
-            "conditions": [
-              {
-                "type": "equipmentProficiency",
-                "equipment": "LIGHT_SHIELD"
-              },
-              {
-                "type": "equipmentProficiency",
-                "equipment": "HEAVY_SHIELD"
-              }
-            ]
-          }
-        ]
-      },
-      "selection": {
-        "maximum": 1,
-        "constraints": []
-      },
-      "description": "When you are using a shield, adjacent allies gain a +1 shield bonus to AC."
+      "ref": "modern4e.feat.phalanx-warrior-paragon-fighter"
     },
     {
       "id": "modern4e.feat.reliable-resources",

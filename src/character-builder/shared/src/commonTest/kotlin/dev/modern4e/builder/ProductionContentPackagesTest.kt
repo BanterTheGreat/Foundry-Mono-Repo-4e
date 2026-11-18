@@ -62,7 +62,7 @@ class ProductionContentPackagesTest {
         assertEquals(19, catalog.search(category = EntryCategory.CLASS).size)
         assertEquals(13, catalog.search(category = EntryCategory.ANCESTRY).count { it.supplier.packageId == "modern4e.ancestries" })
         assertEquals(9, catalog.search(category = EntryCategory.THEME).count { it.supplier.packageId == "modern4e.themes" })
-        assertEquals(818, catalog.search(category = EntryCategory.FEAT).count { it.supplier.packageId == "modern4e.feats" })
+        assertEquals(802, catalog.search(category = EntryCategory.FEAT).count { it.supplier.packageId == "modern4e.feats" })
         assertEquals(53, catalog.search(category = EntryCategory.ITEM).count { it.supplier.packageId == "modern4e.equipment" })
         assertEquals(1081, catalog.search(category = EntryCategory.POWER).count { it.supplier.packageId == "modern4e.utilities" })
     }
@@ -109,7 +109,7 @@ class ProductionContentPackagesTest {
         val (sample, _, operations) = openTemplate()
         val feats = operations.options(sample, 1, ChoiceSlotId("creation", "feat", 0), includeIneligible = true)
             .filter { it.entry.supplier.packageId == "modern4e.feats" }
-        assertEquals(818, feats.size)
+        assertEquals(802, feats.size)
         // Fighter-only access must not be eligible for a Fighter starter and wizard access must not be.
         val wizardOnly = feats.filter { (it.entry.entry.mechanics.access as? Prerequisite.Entry)?.entryId == "modern4e.class.wizard" }
         assertTrue(wizardOnly.isNotEmpty())

@@ -10,7 +10,11 @@ Character Builder build-time content. Published compendium text does not replace
 their local rules. File grouping, array order and Typst page breaks retain book
 layout; moving a definition does not change its identity or access.
 
-Each file has `schemaVersion: 2` and a `feats` array. Register every JSON file in
+Each file has `schemaVersion: 2` and a `feats` array. A printed placement may instead
+contain only `{"ref": "modern4e.feat.<stored-id>"}`, referring to a full definition
+in another registered section. References cannot override fields or chain; unknown
+and repeated section references fail validation. Typst resolves the same definition
+while the runtime catalog exports it once. Register every JSON file in
 `../feat-sections.json`; both consumers use this inventory for cross-references.
 The validator is `../../scripts/feats.py`. Run its tests through the Character
 Builder content suite documented in the repository's `tests/README.md`.
@@ -107,9 +111,9 @@ These declarations provide identity and labels, not automated eligibility.
 Unknown feat IDs fail validation. Missing content is never silently created from
 a title or dropped. The catalog exposes reference gaps for the future compiler.
 
-Combined Attack, missing Vistani
-Heritage and unmatched local feature/power names remain `unresolved`. Their
-original requirement wording stays printed. See migration issue
+Combined Attack remains `unresolved`;
+its original requirement wording stays printed. Feats requiring Shielding Elixir,
+Beast Mastery or Vistani Heritage have been removed. See migration issue
 [#29](https://github.com/BanterTheGreat/Foundry-Mono-Repo-4e/issues/29).
 
 ## Migration limits
@@ -120,6 +124,10 @@ class/source qualification and ZEITGEIST availability are evaluated by shared Ko
 benefits, option catalogs and grant substitutions remain future work. In particular, “must have a shield equipped to
 benefit” must not be converted into a selection prerequisite.
 
-There are 818 stored definitions across 93 sections at this migration baseline.
-Repeated titles remain separate IDs, even where they appear to describe the same
-feat. Deliberate deduplication and saved-character migration belong to #29.
+The current catalog contains 802 stored definitions across 93 sections.
+The reviewed duplicate groups now have one definition each. Shared-class feats use
+OR access and references at both printed locations; ancestry/class feats live only
+in the ancestry-combination list. Scouring Wrath retains its previous stable ID
+after correcting its title. Retired duplicate IDs have an explicit migration plan
+at `character-builder/content/migrations/feat-consolidation-v1.json` (relative to
+`src/`); removed tier variants are not substituted automatically.

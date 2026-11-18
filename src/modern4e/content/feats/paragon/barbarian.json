@@ -26,7 +26,7 @@
         "constraints": []
       },
       "description": "You gain a feat bonus equal to your Charisma to damage rolls with barbarian fear powers.",
-      "source": "https://iws.mx/dnd/?view=feat2886 — Dragon Magazine 386, page(s) 51."
+      "source": "https://iws.mx/dnd/?view=feat2886"
     },
     {
       "id": "modern4e.feat.charging-rampage",
@@ -45,33 +45,6 @@
       },
       "description": "When you score a critical hit with a barbarian attack power while you are raging, you can charge as a free action, instead of making a melee basic attack as a result of Rampage.",
       "source": "https://iws.mx/dnd/?view=feat467 — Player's Handbook 2, page(s) 190."
-    },
-    {
-      "id": "modern4e.feat.double-lunge-paragon-barbarian",
-      "title": "Double Lunge",
-      "access": {
-        "type": "entry",
-        "entryId": "modern4e.class.barbarian"
-      },
-      "prerequisites": {
-        "type": "allOf",
-        "conditions": [
-          {
-            "type": "level",
-            "minimum": 11
-          },
-          {
-            "type": "entry",
-            "entryId": "modern4e.power.whirling-lunge"
-          }
-        ]
-      },
-      "selection": {
-        "maximum": 1,
-        "constraints": []
-      },
-      "description": "When you use whirling lunge, you deal extra damage to the target equal to your Strength.",
-      "source": "https://iws.mx/dnd/?view=feat1893 — Primal Power, page(s) 143."
     },
     {
       "id": "modern4e.feat.echoing-roar",

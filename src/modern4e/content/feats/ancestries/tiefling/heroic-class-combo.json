@@ -124,34 +124,6 @@
       "source": "https://iws.mx/dnd/?view=feat767"
     },
     {
-      "id": "modern4e.feat.fiendish-companion",
-      "title": "Fiendish Companion",
-      "access": {
-        "type": "entry",
-        "entryId": "modern4e.ancestry.tiefling"
-      },
-      "prerequisites": {
-        "type": "allOf",
-        "conditions": [
-          {
-            "type": "entry",
-            "entryId": "modern4e.class.ranger"
-          },
-          {
-            "type": "unresolved",
-            "text": "Beast Mastery",
-            "reason": "No matching local feature, power or feat definition was identified; see migration issue #29."
-          }
-        ]
-      },
-      "selection": {
-        "maximum": 1,
-        "constraints": []
-      },
-      "description": "Your beast companion gains fire resistance of 5 + one-half your level.",
-      "source": "https://iws.mx/dnd/?view=feat781"
-    },
-    {
       "id": "modern4e.feat.hellbook",
       "title": "Hellbook",
       "access": {

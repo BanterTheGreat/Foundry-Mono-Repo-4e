@@ -58,7 +58,7 @@
 
       #colbreak();
 
-      #theme.featBlocksFromJson("../content/feats/heroic/barbarian.json", start: 5, end: 10);
+      #theme.featBlocksFromJson("../content/feats/heroic/barbarian.json", start: 5);
 
     ]
 

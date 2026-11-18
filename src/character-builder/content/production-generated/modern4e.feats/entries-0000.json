@@ -2056,6 +2056,7 @@
           "constraints": [],
           "maximum": 1
         },
+        "source": "https://iws.mx/dnd/?view=feat1488",
         "title": "Armor of Burning Wrath"
       }
     },
@@ -2087,7 +2088,7 @@
       },
       "presentation": {
         "description": "When you use your armor of wrath power, the target gains vulnerable 2 to all other damage until the end of your next turn.",
-        "title": "Armor of Burning Wrath"
+        "title": "Scouring Wrath"
       },
       "sharedData": {
         "access": {
@@ -2105,7 +2106,8 @@
           "constraints": [],
           "maximum": 1
         },
-        "title": "Armor of Burning Wrath"
+        "source": "https://iws.mx/dnd/?view=feat1079",
+        "title": "Scouring Wrath"
       }
     },
     {
@@ -2505,77 +2507,6 @@
         },
         "source": "https://iws.mx/dnd/?view=feat1967 — Dragon Magazine 379, page(s) 56.",
         "title": "Assured Healing"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder.",
-          "Prerequisite not evaluated: shielding elixir power (No matching local feature, power or feat definition was identified; see migration issue #29.)"
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.feat.astral-elixir",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.ancestry.deva",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "conditions": [
-              {
-                "entryId": "modern4e.class.artificer",
-                "type": "entry"
-              },
-              {
-                "reason": "No matching local feature, power or feat definition was identified; see migration issue #29.",
-                "text": "shielding elixir power",
-                "type": "unresolved"
-              }
-            ],
-            "type": "allOf"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Shielding Elixir also grants radiant resistance of the same value and duration as its usual resistance. Its target may end the effect as a free action when making a saving throw to add 1d6 to that save, replacing the usual benefit for ending the elixir.",
-        "title": "Astral Elixir"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.ancestry.deva",
-          "type": "entry"
-        },
-        "description": "Shielding Elixir also grants radiant resistance of the same value and duration as its usual resistance. Its target may end the effect as a free action when making a saving throw to add 1d6 to that save, replacing the usual benefit for ending the elixir.",
-        "id": "modern4e.feat.astral-elixir",
-        "prerequisites": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.artificer",
-              "type": "entry"
-            },
-            {
-              "reason": "No matching local feature, power or feat definition was identified; see migration issue #29.",
-              "text": "shielding elixir power",
-              "type": "unresolved"
-            }
-          ],
-          "type": "allOf"
-        },
-        "runtimeRequirementText": "Artificer, shielding elixir power",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "source": "https://iws.mx/dnd/?view=feat3023",
-        "title": "Astral Elixir"
       }
     },
     {
@@ -4987,52 +4918,6 @@
         ],
         "status": "UNIMPLEMENTED"
       },
-      "id": "modern4e.feat.bloodthirsty-visage-heroic-barbarian",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.barbarian",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "type": "always"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "You gain a +2 feat bonus to damage rolls with fear powers, increasing to +3 at level 11 and +4 at level 21. This feat bonus is doubled against creatures that were subject to one of your fear effects before the attack.",
-        "title": "Bloodthirsty Visage"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.barbarian",
-          "type": "entry"
-        },
-        "description": "You gain a +2 feat bonus to damage rolls with fear powers, increasing to +3 at level 11 and +4 at level 21. This feat bonus is doubled against creatures that were subject to one of your fear effects before the attack.",
-        "id": "modern4e.feat.bloodthirsty-visage-heroic-barbarian",
-        "prerequisites": {
-          "type": "always"
-        },
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "title": "Bloodthirsty Visage"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
       "id": "modern4e.feat.bloodthirsty-visage-paragon-barbarian",
       "mechanics": {
         "access": {
@@ -5089,7 +4974,7 @@
           "constraints": [],
           "maximum": 1
         },
-        "source": "https://iws.mx/dnd/?view=feat2886 — Dragon Magazine 386, page(s) 51.",
+        "source": "https://iws.mx/dnd/?view=feat2886",
         "title": "Bloodthirsty Visage"
       }
     },
@@ -5321,6 +5206,123 @@
           "maximum": 1
         },
         "title": "Bloody Triumph"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.bolstered-swarm",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.druid",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "conditions": [
+              {
+                "minimum": 11,
+                "type": "level"
+              },
+              {
+                "entryId": "modern4e.feature.primal-swarm",
+                "type": "entry"
+              }
+            ],
+            "type": "allOf"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you use wild shape to change from your humanoid form to beast form, you gain 5 + your Constitution temporary hit points. The temporary hit points increase to 10 + your Constitution at 21st level.",
+        "title": "Bolstered Swarm"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.druid",
+          "type": "entry"
+        },
+        "description": "When you use wild shape to change from your humanoid form to beast form, you gain 5 + your Constitution temporary hit points. The temporary hit points increase to 10 + your Constitution at 21st level.",
+        "id": "modern4e.feat.bolstered-swarm",
+        "prerequisites": {
+          "conditions": [
+            {
+              "minimum": 11,
+              "type": "level"
+            },
+            {
+              "entryId": "modern4e.feature.primal-swarm",
+              "type": "entry"
+            }
+          ],
+          "type": "allOf"
+        },
+        "runtimeRequirementText": "11th level, Primal Swarm",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat1889 — Primal Power, page(s) 143.",
+        "title": "Bolstered Swarm"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.bolstering-breath",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.dragonborn",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "entryId": "modern4e.power.dragon-breath",
+            "type": "entry"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Your dragon breath power targets enemies in the area, instead of all creatures in the area. In addition, allies in the area of your dragon breath gain a +1 bonus to attack rolls until the end of your next turn.",
+        "title": "Bolstering Breath"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.dragonborn",
+          "type": "entry"
+        },
+        "description": "Your dragon breath power targets enemies in the area, instead of all creatures in the area. In addition, allies in the area of your dragon breath gain a +1 bonus to attack rolls until the end of your next turn.",
+        "id": "modern4e.feat.bolstering-breath",
+        "prerequisites": {
+          "entryId": "modern4e.power.dragon-breath",
+          "type": "entry"
+        },
+        "runtimeRequirementText": "Dragon Breath",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Bolstering Breath"
       }
     }
   ],

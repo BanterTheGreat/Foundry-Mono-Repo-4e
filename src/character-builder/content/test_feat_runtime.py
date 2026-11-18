@@ -25,14 +25,14 @@ class FeatRuntimeTest(unittest.TestCase):
         cls.entries = {entry["id"]: entry for entry in runtime_common.entries_of(cls.assets)}
 
     def test_every_authored_feat_is_emitted_once_in_chunks(self):
-        self.assertEqual(818, len(self.source))
+        self.assertEqual(802, len(self.source))
         self.assertEqual(set(self.source), set(self.entries))
-        self.assertEqual(818, len(runtime_common.entries_of(self.assets)))
+        self.assertEqual(802, len(runtime_common.entries_of(self.assets)))
         manifest = self.assets[f"{PACKAGE}/manifest.json"]
         self.assertEqual(
             {"formatVersion": 2, "id": PACKAGE, "revision": "1", "title": "Modern 4e shared feats",
              "indexes": ["index"], "chunks": [f"entries-{i:04d}" for i in range(9)]}, manifest)
-        self.assertEqual(818, len(self.assets[f"{PACKAGE}/index.json"]["entries"]))
+        self.assertEqual(802, len(self.assets[f"{PACKAGE}/index.json"]["entries"]))
         self.assertEqual({"FEAT"}, {entry["category"] for entry in self.entries.values()})
 
     def test_output_is_deterministic(self):

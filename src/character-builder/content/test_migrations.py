@@ -7,6 +7,19 @@ import runtime_common
 
 
 class MigrationPlanTest(unittest.TestCase):
+    def test_feat_consolidation_only_maps_retired_duplicate_identities(self):
+        plan = build.load_json(Path(__file__).with_name('migrations') / 'feat-consolidation-v1.json')
+        self.assertEqual(1, plan['schemaVersion'])
+        self.assertEqual(9, len(plan['mappings']))
+        self.assertEqual(9, len({m['sourceId'] for m in plan['mappings']}))
+        definitions = {e['id']: e for e in runtime_common.entries_of(build.production())}
+        for mapping in plan['mappings']:
+            self.assertNotIn(mapping['sourceId'], definitions)
+            self.assertEqual('FEAT', mapping['category'])
+            self.assertEqual('FEAT', definitions[mapping['targetId']]['category'])
+        self.assertFalse(any('double-lunge' in m['sourceId'] or 'bloodthirsty-visage' in m['sourceId']
+                             for m in plan['mappings']))
+
     def test_fighter_plan_is_explicit_unique_and_matches_authored_provenance(self):
         path = Path(__file__).with_name('migrations') / 'fighter-v1.json'
         plan = build.load_json(path)

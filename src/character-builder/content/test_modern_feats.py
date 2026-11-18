@@ -43,11 +43,11 @@ class ModernFeatsTest(unittest.TestCase):
         return [e for e in self.entries.values() if e["title"] == title]
 
     def test_complete_catalog_has_stored_unique_ids_and_unchanged_section_order(self):
-        self.assertEqual(818, len(self.entries))
+        self.assertEqual(802, len(self.entries))
         self.assertEqual(93, len(self.catalog["sections"]))
         for section, ids in self.catalog["sections"].items():
             authored = feats.load_json(BOOK / "content/feats" / section)["feats"]
-            self.assertEqual([entry["id"] for entry in authored], ids)
+            self.assertEqual([entry.get("ref", entry.get("id")) for entry in authored], ids)
         self.assertTrue(all("requirements" not in entry for entry in self.entries.values()))
         self.assertEqual("modern4e.feat.deep-gash", self.named("Deep Gash")[0]["id"])
 
@@ -57,12 +57,41 @@ class ModernFeatsTest(unittest.TestCase):
         changed = self.edited(lambda c: self.edit_file(c, "heroic/fighter.json", lambda d: d["feats"][0].update(title="A Different Name")))
         self.assertEqual("A Different Name", next(e for e in changed["entries"] if e["id"] == original)["title"])
 
-    def test_same_title_variants_do_not_overwrite_each_other(self):
-        variants = self.named("Bloodthirsty Visage")
-        self.assertEqual(2, len(variants))
-        self.assertNotEqual(variants[0]["id"], variants[1]["id"])
-        self.assertNotEqual(variants[0]["description"], variants[1]["description"])
-        self.assertEqual(2, len(self.named("Armor of Burning Wrath")))
+    def test_corrected_titles_keep_stable_ids_and_removed_tier_variants_are_absent(self):
+        self.assertEqual(1, len(self.named("Bloodthirsty Visage")))
+        self.assertEqual("modern4e.feat.bloodthirsty-visage-paragon-barbarian", self.named("Bloodthirsty Visage")[0]["id"])
+        self.assertEqual("modern4e.feat.double-lunge-heroic-barbarian", self.named("Double Lunge")[0]["id"])
+        self.assertEqual("modern4e.feat.armor-of-burning-wrath-vulnerability", self.named("Scouring Wrath")[0]["id"])
+        self.assertEqual(1, len(self.named("Armor of Burning Wrath")))
+
+    def test_shared_class_feats_have_one_definition_and_two_printed_placements(self):
+        for title, classes in [("Dirty Fighting", {"fighter", "rogue"}), ("Elusive Movement", {"ranger", "rogue"}),
+                               ("Phalanx Warrior", {"fighter", "warlord"}), ("Warding Shield", {"cleric", "paladin"})]:
+            entry, = self.named(title)
+            self.assertEqual({"modern4e.class." + name for name in classes},
+                             {node["entryId"] for node in entry["access"]["conditions"]})
+            self.assertEqual(2, sum(entry["id"] in ids for ids in self.catalog["sections"].values()))
+            if title in ("Phalanx Warrior", "Warding Shield"):
+                self.assertEqual({"LIGHT_SHIELD", "HEAVY_SHIELD"},
+                                 {node["equipment"] for node in entry["prerequisites"]["conditions"][1]["conditions"]})
+        self.assertEqual({"type": "always"}, self.named("War Wizardry")[0]["access"])
+
+    def test_relaxed_prerequisites_and_ancestry_only_placements(self):
+        for title in ("Ruthless Killer", "Patient Hunter", "Unstoppable Beast"):
+            self.assertEqual({"type": "always"}, self.named(title)[0]["prerequisites"])
+        self.assertEqual({"type": "entry", "entryId": "modern4e.class.swordmage"}, self.named("Valenar Weapon Warding")[0]["prerequisites"])
+        for title, ancestry in [("Hunter's Advantage", "elf"), ("Prime Slayer", "elf"),
+                                ("Infernal Sneak Attack", "tiefling"), ("Wrathful Hunter", "tiefling")]:
+            entry, = self.named(title)
+            self.assertEqual([f"ancestries/{ancestry}/paragon-class-combo.json"],
+                             [section for section, ids in self.catalog["sections"].items() if entry["id"] in ids])
+
+    def test_section_references_reject_missing_targets_overrides_and_duplicates(self):
+        for reference, error in [({"ref": "modern4e.feat.missing"}, "unknown section feat reference"),
+                                 ({"ref": "modern4e.feat.deep-gash", "title": "Override"}, "unknown fields"),
+                                 ({"ref": "modern4e.feat.deep-gash"}, "duplicate section feat reference")]:
+            with self.subTest(reference=reference), self.assertRaisesRegex(ValueError, error):
+                self.edited(lambda c: self.edit_file(c, "heroic/fighter.json", lambda d: d["feats"].append(reference)))
 
     def test_access_is_explicit_and_multiclass_target_is_not_a_class_requirement(self):
         fighter = self.named("Deep Gash")[0]
@@ -104,12 +133,22 @@ class ModernFeatsTest(unittest.TestCase):
         self.assertEqual(self.named("Improved Warforged Resolve")[0]["id"], immutability["entryId"])
 
     def test_unknown_and_ambiguous_requirements_remain_visible(self):
-        for title, text in [("Feral Companion", "Combined attack druid attack power"), ("Prophetic Preparation", "Vistani Heritage")]:
+        for title, text in [("Feral Companion", "Combined attack druid attack power")]:
             entry = self.named(title)[0]
             self.assertIn(text, self.catalog["requirementText"][entry["id"]])
             self.assertTrue(self.catalog["limitations"][entry["id"]])
         unavailable = self.catalog["references"]["modern4e.ancestry.eladrin"]
         self.assertEqual("UNAVAILABLE", unavailable["status"])
+
+    def test_retired_missing_feature_feats_are_absent_from_all_sections(self):
+        retired = {"modern4e.feat.astral-elixir", "modern4e.feat.elven-beast-mastery",
+                   "modern4e.feat.human-beast-mastery", "modern4e.feat.fiendish-companion",
+                   "modern4e.feat.prophetic-preparation"}
+        self.assertTrue(retired.isdisjoint(self.entries))
+        self.assertTrue(retired.isdisjoint(entry_id for ids in self.catalog["sections"].values() for entry_id in ids))
+        for entry in self.entries.values():
+            text = json.dumps(entry["prerequisites"]).lower()
+            self.assertFalse(any(term in text for term in ("shielding elixir", "beast mastery", "vistani heritage")))
 
     def test_improved_fate_threshold_uses_two_points_in_either_ability(self):
         entry = self.named("Improved Fate of the Void")[0]
@@ -194,10 +233,10 @@ class ModernFeatsTest(unittest.TestCase):
     def test_typst_and_builder_render_the_same_requirements_for_every_feat(self):
         with tempfile.TemporaryDirectory(dir=BOOK) as directory:
             path = Path(directory) / "requirements.typ"
-            path.write_text('''#import "../helpers/feat_requirements.typ": featRequirements
+            path.write_text('''#import "../helpers/feat_requirements.typ": featRequirements, resolveFeat
 #let result = (:)
 #for section in json("../content/feat-sections.json").sections {
-  for feat in json("../content/feats/" + section).feats {
+  for feat in json("../content/feats/" + section).feats.map(resolveFeat) {
     result.insert(feat.id, featRequirements(feat))
   }
 }

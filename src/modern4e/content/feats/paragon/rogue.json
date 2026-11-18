@@ -156,22 +156,7 @@
       "source": "https://iws.mx/dnd/?view=feat2492 — Martial Power 2, page(s) 142."
     },
     {
-      "id": "modern4e.feat.elusive-movement-paragon-rogue",
-      "title": "Elusive Movement",
-      "access": {
-        "type": "entry",
-        "entryId": "modern4e.class.rogue"
-      },
-      "prerequisites": {
-        "type": "level",
-        "minimum": 11
-      },
-      "selection": {
-        "maximum": 1,
-        "constraints": []
-      },
-      "description": "Whenever you end your turn at least 3 squares away from where you began your turn, you gain a +1 feat bonus to AC and Reflex until the start of your next turn.",
-      "source": "https://iws.mx/dnd/?view=feat2495 — Martial Power 2, page(s) 142."
+      "ref": "modern4e.feat.elusive-movement-paragon-ranger"
     },
     {
       "id": "modern4e.feat.evasive-footwork",
@@ -225,33 +210,6 @@
       "source": "https://iws.mx/dnd/?view=feat2496 — Martial Power 2, page(s) 142."
     },
     {
-      "id": "modern4e.feat.infernal-sneak-attack-paragon-rogue",
-      "title": "Infernal Sneak Attack",
-      "access": {
-        "type": "entry",
-        "entryId": "modern4e.class.rogue"
-      },
-      "prerequisites": {
-        "type": "allOf",
-        "conditions": [
-          {
-            "type": "level",
-            "minimum": 11
-          },
-          {
-            "type": "entry",
-            "entryId": "modern4e.ancestry.tiefling"
-          }
-        ]
-      },
-      "selection": {
-        "maximum": 1,
-        "constraints": []
-      },
-      "description": "When you deal your Sneak Attack damage, you can expend your infernal wrath to deal 1d6 extra fire damage for each die of Sneak Attack damage you deal.",
-      "source": "https://iws.mx/dnd/?view=feat854 — Martial Power, page(s) 144."
-    },
-    {
       "id": "modern4e.feat.opportunistic-sneak-attack",
       "title": "Opportunistic Sneak Attack",
       "access": {
@@ -268,33 +226,6 @@
       },
       "description": "When you hit with an opportunity attack and deal Sneak Attack damage, the target is slowed until the end of your next turn.",
       "source": "https://iws.mx/dnd/?view=feat355 — Martial Power, page(s) 144."
-    },
-    {
-      "id": "modern4e.feat.prime-slayer-paragon-rogue",
-      "title": "Prime Slayer",
-      "access": {
-        "type": "entry",
-        "entryId": "modern4e.class.rogue"
-      },
-      "prerequisites": {
-        "type": "allOf",
-        "conditions": [
-          {
-            "type": "level",
-            "minimum": 11
-          },
-          {
-            "type": "entry",
-            "entryId": "modern4e.ancestry.elf"
-          }
-        ]
-      },
-      "selection": {
-        "maximum": 1,
-        "constraints": []
-      },
-      "description": "While none of your allies are closer to your target than you are, you gain a +2 bonus to damage rolls for ranged attacks against that target.",
-      "source": "https://iws.mx/dnd/?view=feat861 — Martial Power, page(s) 144."
     },
     {
       "id": "modern4e.feat.rogue-weapon-mastery",

@@ -1,6 +1,6 @@
 #import "state.typ" as state;
 #import "configuration.typ" as config;
-#import "feat_requirements.typ": featRequirements;
+#import "feat_requirements.typ": featRequirements, resolveFeat;
 #import "feat_selection.typ": selectionSpecial;
 
 #let tableDivider = rgb("#96afaf");
@@ -322,7 +322,7 @@
 }
 
 #let featCardsFromJson(file) = {
-  json(file).feats.map(feat => featBlock(
+  json(file).feats.map(resolveFeat).map(feat => featBlock(
     title: feat.title,
     content: featContent(feat),
     requirements: featRequirements(feat),
@@ -337,7 +337,7 @@
 
 // Multiclass feats retain their original heading-and-prose layout.
 #let featChoicesFromJson(file) = {
-  for feat in json(file).feats [
+  for feat in json(file).feats.map(resolveFeat) [
     #choiceBox(feat.title)
     #let requirements = featRequirements(feat)
     #if requirements != none [

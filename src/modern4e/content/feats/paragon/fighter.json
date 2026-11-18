@@ -218,12 +218,39 @@
       "id": "modern4e.feat.phalanx-warrior-paragon-fighter",
       "title": "Phalanx Warrior",
       "access": {
-        "type": "entry",
-        "entryId": "modern4e.class.fighter"
+        "type": "anyOf",
+        "conditions": [
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.fighter"
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.warlord"
+          }
+        ]
       },
       "prerequisites": {
-        "type": "level",
-        "minimum": 11
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "level",
+            "minimum": 11
+          },
+          {
+            "type": "anyOf",
+            "conditions": [
+              {
+                "type": "equipmentProficiency",
+                "equipment": "LIGHT_SHIELD"
+              },
+              {
+                "type": "equipmentProficiency",
+                "equipment": "HEAVY_SHIELD"
+              }
+            ]
+          }
+        ]
       },
       "selection": {
         "maximum": 1,

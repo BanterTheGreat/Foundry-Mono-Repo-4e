@@ -67,8 +67,17 @@
       "id": "modern4e.feat.dirty-fighting-heroic-fighter",
       "title": "Dirty Fighting",
       "access": {
-        "type": "entry",
-        "entryId": "modern4e.class.fighter"
+        "type": "anyOf",
+        "conditions": [
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.fighter"
+          },
+          {
+            "type": "entry",
+            "entryId": "modern4e.class.rogue"
+          }
+        ]
       },
       "prerequisites": {
         "type": "always"

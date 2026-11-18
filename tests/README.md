@@ -479,6 +479,10 @@ Summon automation Node coverage includes separate square selection, per-power ma
 
 ## Character Builder shared core and content production
 
+Feat consolidation tests cover shared section references, OR class access, shield
+requirements, retained ancestry placement, corrected titles and explicit old-ID
+migration. Typst parity checks resolve referenced placements before comparing output.
+
 Ticket #29 adds `ContentMigrationTest`, `ProficiencySelectionTest` and
 `SharedContentAcceptanceTest` to the existing JVM/JS tasks, plus historical,
 circular, multiclass and campaign eligibility regressions. The Python discovery
@@ -507,7 +511,7 @@ The Python suites cover authored counts, unique IDs, determinism, structured acc
 unresolved/unsupported reporting, no query-pool leakage for granted powers and cross-package references.
 `ProductionContentPackagesTest` loads the bundled bytes through the shared catalog, offers and accepts ancestry,
 theme, feat, utility and equipment entries, checks class-gated feat/utility eligibility and withheld utilities,
-and keeps 818-feat option listing fast. Android tests need an Android SDK; review the sample template's package
+and keeps 802-feat option listing fast. Android tests need an Android SDK; review the sample template's package
 list when adding packages.
 
 Fighter selectable attacks through level 15 add five Python regressions:
@@ -604,7 +608,7 @@ npm run typst:compile
 
 The authoring catalog is generated into ignored `content/modern-feats-generated/`;
 it is not a v1 runtime package and does not change installed web/Android proof
-bundles. Tests cover all 818 stored IDs, explicit access independent of file
+bundles. Tests cover all 802 stored IDs, explicit access independent of file
 location, same-title variants, grouped conditions, Modern 4e skill/point identities,
 multiclass/power queries, missing and ambiguous references, malformed authoring,
 deterministic export/check failures and preserved descriptive benefit conditions.
