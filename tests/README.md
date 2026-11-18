@@ -516,6 +516,12 @@ theme, feat, utility and equipment entries, checks class-gated feat/utility elig
 and keeps 798-feat option listing fast. Android tests need an Android SDK; review the sample template's package
 list when adding packages.
 
+The Android option-list warm-up (on opening or loading a character, then checked Ancestry/Class feat tabs after a saved Ancestry/Class change, checked attack-power pools after a Class change or power pick, cancellation by later edits and quiet background read failures) is covered by `BuilderSessionTest`; the shared power fast path (equivalence with per-power activation, fallbacks) is covered by `PreparedPowerChoicesTest` in the shared JVM/JS suites:
+
+```powershell
+bash ./gradlew :android:testDebugUnitTest --tests "dev.modern4e.builder.BuilderSessionTest"   # from src/character-builder
+```
+
 Fighter selectable attacks through level 15 add five Python regressions:
 
 ```powershell

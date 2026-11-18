@@ -29,6 +29,45 @@ object Progression {
         it.substringAfterLast(' ').replaceFirstChar { c -> c.uppercase() }
     }.eachCount()
 
+    /** Level at which an engine entry arrived: its own decision level, else its source chain's grant/progression level. */
+    fun acquiredAt(state: BuilderState, source: EngineEntry, seen: Set<String> = emptySet()): Int {
+        state.document.levels.firstOrNull { level -> level.entries.any { it.instanceId == source.instanceId } }?.let { return it.level }
+        if (source.instanceId in seen) {
+            return 1
+        }
+        val parent = state.rules.entries.firstOrNull { it.instanceId == source.slot.sourceInstanceId } ?: return 1
+        val grant = parent.definition.entry.mechanics.grants.filterIsInstance<Grant.Entry>().firstOrNull { it.grantId == source.slot.choiceId }
+        val progressedAt = parent.definition.entry.mechanics.progression.filter { progression -> progression.grants.any {
+            it is Grant.Entry && it.grantId == source.slot.choiceId
+        } }.maxOfOrNull { it.level } ?: 1
+        return maxOf(grant?.atLevel ?: 1, progressedAt, acquiredAt(state, parent, seen + source.instanceId))
+    }
+
+    /** Only the engine can declare real class choices; this is the set the Progression screen shows at a level. */
+    fun levelChoices(state: BuilderState, level: Int): List<EngineChoice> = state.rules.choices.filter { choice ->
+        state.rules.entries.any { source ->
+            source.instanceId == choice.slot.sourceInstanceId &&
+                (if (source.definition.entry.mechanics.progression.any { progression -> progression.level == level && progression.choices.any { it.choiceId() == choice.slot.choiceId } }) true
+                else level == acquiredAt(state, source) && (source.definition.entry.mechanics.choices.any { it.choiceId() == choice.slot.choiceId } ||
+                    source.definition.entry.mechanics.grants.filterIsInstance<Grant.Entry>().any {
+                        it.grantId == choice.slot.choiceId && it.replacementEntryIds.isNotEmpty()
+                    }))
+        }
+    }
+
+    /** Attack-power pools: entry choices from a class-like source whose query is not for utilities. */
+    fun isAttackPowerChoice(state: BuilderState, choice: EngineChoice): Boolean {
+        if (choice.optional || choice.abilities.isNotEmpty() || choice.entries.isEmpty()) {
+            return false
+        }
+        val source = state.rules.entries.firstOrNull { it.instanceId == choice.slot.sourceInstanceId } ?: return false
+        val mechanics = source.definition.entry.mechanics
+        val definition = (mechanics.choices + mechanics.progression.flatMap { it.choices })
+            .filterIsInstance<ChoiceDefinition.Entries>().firstOrNull { it.id == choice.slot.choiceId }
+        val kind = definition?.query?.powerKind
+        return kind != null && kind != "UTILITY"
+    }
+
     fun background(document: CharacterDocument, kind: String): String =
         (if (kind == "environment") document.identity.environment else document.identity.upbringing).ifBlank {
             document.levels.flatMap { it.proficiencies }.firstOrNull {
@@ -86,6 +125,13 @@ object Progression {
             listOf("environment", "upbringing").count { background(doc, it).isEmpty() } +
             if (validAllocation(doc.abilities)) 0 else 1
     }
+}
+
+internal fun ChoiceDefinition.choiceId(): String = when (this) {
+    is ChoiceDefinition.Entries -> id
+    is ChoiceDefinition.Proficiencies -> id
+    is ChoiceDefinition.MainAbility -> id
+    is ChoiceDefinition.Values -> id
 }
 
 /** Modern background prose; proficiency options remain owned by ModernCreation. */

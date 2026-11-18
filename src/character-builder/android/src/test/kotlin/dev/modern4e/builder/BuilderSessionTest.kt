@@ -40,6 +40,7 @@ class BuilderSessionTest {
         }
         val model = session(source = source)
         model.create()
+        model.awaitWarmup()
         val slot = ChoiceSlotId("creation", "feat", 0)
         reads = 0
         var updates = 0
@@ -82,6 +83,204 @@ class BuilderSessionTest {
                 throw kotlinx.coroutines.CancellationException("Only inspect refreshed metadata")
             }
         } catch (_: kotlinx.coroutines.CancellationException) { }
+    }
+
+    /** The first rows a picker publishes for one slot; later batches are cancelled before they run. */
+    private suspend fun BuilderSession.firstRows(level: Int, slot: ChoiceSlotId, group: FeatGroup? = null): List<BuilderOptionRow> {
+        var first: List<BuilderOptionRow>? = null
+        try {
+            progressionOptionRows(level, slot, group) {
+                first = it
+                throw kotlinx.coroutines.CancellationException("Only inspect the opening rows")
+            }
+        } catch (_: kotlinx.coroutines.CancellationException) { }
+        return first!!
+    }
+
+    private suspend fun BuilderSession.firstFeatRows(group: FeatGroup) = firstRows(1, ChoiceSlotId("creation", "feat", 0), group)
+
+    /** The sample fighter with its attack powers unpicked, so every pool starts open and cold. */
+    private fun openPoolSession(source: ContentSource = AndroidContentSource(context.assets)) = BuilderSession(store, source) {
+        sample().let { document -> document.copy(levels = document.levels.map { level ->
+            level.copy(entries = level.entries.filterNot { it.slot.choiceId.startsWith("modern4e.choice.class-attack") })
+        }) }
+    }
+
+    /** Level 1 attack-power slots that still have no selection, in the order the Progression screen lists them. */
+    private fun BuilderSession.emptyAttackSlots(): List<ChoiceSlotId> {
+        val state = current!!
+        val filled = state.document.levels.flatMap { it.entries }.map { it.slot }.toSet()
+        return Progression.levelChoices(state, 1).filter { Progression.isAttackPowerChoice(state, it) && it.slot !in filled }.map { it.slot }
+    }
+
+    @Test fun powerPicksAndClassChangesWarmTheRemainingAttackPowerPools() = runBlocking {
+        var reads = 0
+        val real = AndroidContentSource(context.assets)
+        val source = object : ContentSource by real {
+            override suspend fun loadChunk(packageId: String, chunkId: String): ContractResult<EntryChunk> {
+                reads++
+                return real.loadChunk(packageId, chunkId)
+            }
+        }
+        val model = openPoolSession(source)
+        model.create()
+        model.awaitWarmup()
+        val slots = model.emptyAttackSlots()
+        assertEquals(5, slots.size)
+        val opened = reads
+        for (slot in slots) {
+            assertTrue("Opening the character warms ${slot.choiceId}#${slot.ordinal}", model.firstRows(1, slot).let { it.isNotEmpty() && it.all { row -> row.checked } })
+        }
+        assertEquals("Pools warmed on open read no further content", opened, reads)
+
+        val pick = Progression.levelChoices(model.current!!, 1).first { it.slot == slots.first() }.entries.first().entryId
+        model.edit(BuilderEdit.Entry(1, slots.first(), pick, "power-pick", true))
+        assertTrue(model.errors.isEmpty())
+        model.awaitWarmup()
+        val remaining = model.emptyAttackSlots()
+        assertEquals(slots - slots.first(), remaining)
+        val afterPick = reads
+        for (slot in remaining) {
+            val rows = model.firstRows(1, slot)
+            assertTrue(rows.isNotEmpty())
+            assertTrue("Warmed pool ${slot.choiceId}#${slot.ordinal} opens checked", rows.all { it.checked })
+        }
+        assertEquals("Opening warmed pools reads no further content", afterPick, reads)
+
+        // Leaving the class and returning to it is a class change, which warms the pools again.
+        val classSlot = ChoiceSlotId("creation", "class", 0)
+        model.edit(BuilderEdit.Entry(1, classSlot, "modern4e.class.wizard", "class-wizard", true))
+        model.edit(BuilderEdit.Entry(1, classSlot, "modern4e.class.fighter", "class-fighter", true))
+        assertTrue(model.errors.isEmpty())
+        model.awaitWarmup()
+        val afterClass = reads
+        val reopened = model.emptyAttackSlots()
+        assertTrue(reopened.isNotEmpty())
+        for (slot in reopened) {
+            assertTrue(model.firstRows(1, slot).let { it.isNotEmpty() && it.all { row -> row.checked } })
+        }
+        assertEquals(afterClass, reads)
+    }
+
+    @Test fun loadingACharacterWarmsFeatTabsAndPoolsAndMissingChoicesWarmNothing() = runBlocking {
+        val model = session()
+        model.create()
+        val id = model.current!!.document.id
+        // A reloaded character starts cold and warms its Class and Ancestry feat tabs without any edit.
+        val reopened = session()
+        reopened.load(id)
+        reopened.awaitWarmup()
+        assertTrue(reopened.errors.isEmpty())
+        for (group in listOf(FeatGroup.CLASS, FeatGroup.ANCESTRY)) {
+            assertTrue("$group opens checked", reopened.firstFeatRows(group).let { it.isNotEmpty() && it.all { row -> row.checked } })
+        }
+        assertTrue(reopened.firstFeatRows(FeatGroup.GENERAL).none { it.checked })
+
+        // Without a class or ancestry there is nothing to warm, and that is not an error.
+        val bare = BuilderSession(store, AndroidContentSource(context.assets)) {
+            sample().let { document -> document.copy(levels = document.levels.map { level ->
+                level.copy(entries = level.entries.filterNot { it.slot.choiceId == "class" || it.slot.choiceId == "ancestry" })
+            }) }
+        }
+        bare.create()
+        bare.awaitWarmup()
+        assertTrue(bare.errors.isEmpty())
+        assertTrue(bare.firstFeatRows(FeatGroup.CLASS).none { it.checked })
+        assertTrue(bare.firstFeatRows(FeatGroup.ANCESTRY).none { it.checked })
+    }
+
+    @Test fun utilityPoolsAndUnrelatedEditsAreNotWarmed() = runBlocking {
+        val model = openPoolSession()
+        model.create()
+        model.edit(BuilderEdit.Level(2))
+        assertTrue(model.errors.isEmpty())
+        val state = model.current!!
+        val utility = state.rules.choices.first { it.slot.choiceId == "modern4e.choice.class-utility-2" }
+        assertFalse(Progression.isAttackPowerChoice(state, utility))
+        val slot = model.emptyAttackSlots().first()
+        model.edit(BuilderEdit.Identity(state.document.identity.copy(name = "Renamed")))
+        model.awaitWarmup()
+        assertTrue(model.firstRows(1, slot).none { it.checked })
+        // A utility pick leaves the attack pools alone, and the utility pool itself is never warmed.
+        model.edit(BuilderEdit.Entry(2, utility.slot, utility.entries.first().entryId, "utility-pick", true))
+        assertTrue(model.errors.isEmpty())
+        model.awaitWarmup()
+        assertTrue(model.firstRows(1, slot).none { it.checked })
+        assertTrue(model.firstRows(2, utility.slot).none { it.checked })
+    }
+
+    @Test fun ancestryAndClassChangesWarmTheirFeatListsInTheBackground() = runBlocking {
+        var reads = 0
+        val real = AndroidContentSource(context.assets)
+        val source = object : ContentSource by real {
+            override suspend fun loadChunk(packageId: String, chunkId: String): ContractResult<EntryChunk> {
+                reads++
+                return real.loadChunk(packageId, chunkId)
+            }
+        }
+        val model = session(source = source)
+        model.create()
+        model.edit(BuilderEdit.Entry(1, ChoiceSlotId("creation", "ancestry", 0), "modern4e.ancestry.human", "ancestry-human", true))
+        assertTrue(model.errors.isEmpty())
+        model.awaitWarmup()
+        val afterAncestry = reads
+        val ancestry = model.firstFeatRows(FeatGroup.ANCESTRY)
+        assertTrue(ancestry.isNotEmpty())
+        assertTrue("Warmed ancestry feats open already checked", ancestry.all { it.checked })
+        assertEquals("Opening a warmed list reads no further content", afterAncestry, reads)
+        assertTrue("Other tabs are not warmed by an ancestry change", model.firstFeatRows(FeatGroup.GENERAL).none { it.checked })
+
+        model.edit(BuilderEdit.Entry(1, ChoiceSlotId("creation", "class", 0), "modern4e.class.wizard", "class-wizard", true))
+        assertTrue(model.errors.isEmpty())
+        model.awaitWarmup()
+        val afterClass = reads
+        val classFeats = model.firstFeatRows(FeatGroup.CLASS)
+        assertTrue(classFeats.isNotEmpty())
+        assertTrue("Warmed class feats open already checked", classFeats.all { it.checked })
+        assertEquals(afterClass, reads)
+        assertTrue("A class change does not warm the ancestry tab", model.firstFeatRows(FeatGroup.ANCESTRY).none { it.checked })
+    }
+
+    @Test fun unrelatedEditsAndSupersededChangesLeaveFeatListsUnwarmed() = runBlocking {
+        val model = session()
+        model.create()
+        model.edit(BuilderEdit.Identity(model.current!!.document.identity.copy(name = "Renamed")))
+        model.awaitWarmup()
+        assertTrue(model.firstFeatRows(FeatGroup.CLASS).none { it.checked })
+
+        // An edit made while the warm-up runs invalidates it, whether or not it had finished.
+        model.edit(BuilderEdit.Entry(1, ChoiceSlotId("creation", "ancestry", 0), "modern4e.ancestry.human", "ancestry-human", true))
+        model.edit(BuilderEdit.Identity(model.current!!.document.identity.copy(name = "Renamed again")))
+        model.awaitWarmup()
+        assertTrue(model.firstFeatRows(FeatGroup.ANCESTRY).none { it.checked })
+        assertTrue(model.errors.isEmpty())
+    }
+
+    @Test fun warmupReadFailuresStayQuietAndThePickerRecovers() = runBlocking {
+        val real = AndroidContentSource(context.assets)
+        var failReads = false
+        val source = object : ContentSource by real {
+            override suspend fun loadChunk(packageId: String, chunkId: String): ContractResult<EntryChunk> =
+                if (failReads) ContractResult.Unavailable(listOf(Diagnostic("test.read", DiagnosticKind.IO_FAILURE, "Cannot load content")))
+                else real.loadChunk(packageId, chunkId)
+        }
+        var armed = false
+        val storage = object : CharacterStore by store {
+            override suspend fun save(document: CharacterDocument, mode: SaveMode, expected: CharacterDocument?) =
+                store.save(document, mode, expected).also { failReads = armed }
+        }
+        val model = session(storage, source)
+        model.create()
+        armed = true
+        // Reads fail only once the edit is stored, so the background warm-up is what meets the failure.
+        model.edit(BuilderEdit.Entry(1, ChoiceSlotId("creation", "ancestry", 0), "modern4e.ancestry.human", "ancestry-human", true))
+        model.awaitWarmup()
+        assertTrue("A background failure never opens the blocking error flow", model.errors.isEmpty())
+        failReads = false
+        var last: List<BuilderOptionRow> = emptyList()
+        model.progressionOptionRows(1, ChoiceSlotId("creation", "feat", 0), FeatGroup.ANCESTRY) { last = it }
+        assertTrue(model.errors.isEmpty())
+        assertTrue(last.isNotEmpty() && last.all { it.checked })
     }
 
     @Test fun characterChangesStopOldPickerUpdatesAndContentFailuresUseBlockingErrors() = runBlocking {
@@ -518,6 +717,7 @@ class BuilderSessionTest {
                 .bufferedReader(Charsets.UTF_8).use { it.readText() }) as ContractResult.Available).value
         }
         model.create()
+        model.awaitWarmup()
         val slot = ChoiceSlotId("creation", "class", 0)
         val classId = model.progressionOptions(1, slot).first().entry.entry.id
         peak.set(0)

@@ -30,19 +30,6 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
     val document = state.document
     val entries = document.levels.flatMap { it.entries }
     val skills = document.levels.flatMap { it.proficiencies }
-    fun acquiredAt(source: EngineEntry, seen: Set<String> = emptySet()): Int {
-        document.levels.firstOrNull { level -> level.entries.any { it.instanceId == source.instanceId } }?.let { return it.level }
-        if (source.instanceId in seen) {
-            return 1
-        }
-        val parent = state.rules.entries.firstOrNull { it.instanceId == source.slot.sourceInstanceId } ?: return 1
-        val grant = parent.definition.entry.mechanics.grants.filterIsInstance<Grant.Entry>().firstOrNull { it.grantId == source.slot.choiceId }
-        val progressedAt = parent.definition.entry.mechanics.progression.filter { progression -> progression.grants.any {
-            it is Grant.Entry && it.grantId == source.slot.choiceId
-        } }.maxOfOrNull { it.level } ?: 1
-        return maxOf(grant?.atLevel ?: 1, progressedAt, acquiredAt(parent, seen + source.instanceId))
-    }
-
     fun selected(slot: ChoiceSlotId) = entries.firstOrNull { it.slot == slot }?.selection?.savedTitle
         ?: state.rules.entries.firstOrNull { it.slot == slot && it.granted }?.definition?.entry?.presentation?.title ?: "Choose…"
     fun open(kind: String, level: Int = 1, slot: ChoiceSlotId? = null) { editor = ProgressionEditor(kind, level, slot) }
@@ -100,16 +87,7 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                 }
             }
             // Only the engine can declare real class choices. Illustrative prototype choices are not fabricated.
-            val levelChoices = state.rules.choices.filter { choice ->
-                state.rules.entries.any { source ->
-                    source.instanceId == choice.slot.sourceInstanceId &&
-                        (if (source.definition.entry.mechanics.progression.any { progression -> progression.level == level && progression.choices.any { it.choiceId() == choice.slot.choiceId } }) true
-                        else level == acquiredAt(source) && (source.definition.entry.mechanics.choices.any { it.choiceId() == choice.slot.choiceId } ||
-                            source.definition.entry.mechanics.grants.filterIsInstance<Grant.Entry>().any {
-                                it.grantId == choice.slot.choiceId && it.replacementEntryIds.isNotEmpty()
-                            }))
-                }
-            }
+            val levelChoices = Progression.levelChoices(state, level)
             levelChoices.filter { choice -> choice.abilities.isEmpty() }.forEach { choice ->
                 val sourceTitle = state.rules.entries.firstOrNull { it.instanceId == choice.slot.sourceInstanceId }
                     ?.definition?.entry?.presentation?.title.orEmpty()
@@ -475,9 +453,3 @@ private fun PowerPresentation(entry: ContentEntry) {
     ControlledDescription(html)
 }
 
-private fun ChoiceDefinition.choiceId(): String = when (this) {
-    is ChoiceDefinition.Entries -> id
-    is ChoiceDefinition.Proficiencies -> id
-    is ChoiceDefinition.MainAbility -> id
-    is ChoiceDefinition.Values -> id
-}

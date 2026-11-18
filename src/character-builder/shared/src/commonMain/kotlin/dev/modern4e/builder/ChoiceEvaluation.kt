@@ -9,9 +9,11 @@ internal class ChoiceEvaluation(
     private val catalog: ContentCatalog,
     private val evaluate: suspend (CharacterDocument) -> BuilderState,
     private val prepare: suspend (CharacterDocument) -> RulesContent,
+    private val fastPowers: Boolean = true,
 ) {
     private data class Selection(val ids: List<String>, val instance: String)
     private val featFacts = mutableMapOf<Triple<CharacterDocument, Int, ChoiceSlotId>, PreparedFeatChoices>()
+    private val powerFacts = mutableMapOf<Triple<CharacterDocument, Int, ChoiceSlotId>, Pair<PreparedPowerChoices, RulesContent>>()
     private val selections = mutableMapOf<Triple<CharacterDocument, Int, ChoiceSlotId>, Selection>()
     private val indexed by lazy { catalog.search() }
 
@@ -97,6 +99,15 @@ internal class ChoiceEvaluation(
         val definition = (catalog.lookup(id) as? ContractResult.Available)?.value ?: return null
         val saved = SavedSelection(id, definition.entry.presentation.title, definition.supplier.packageId, definition.fingerprint)
         val entry = EntryChoice(instance, slot, saved)
+        // Plain pool powers share one activation of the slot's character; the rest use candidate activation below.
+        if (fastPowers && definition.entry.category == EntryCategory.POWER && definition.entry.mechanics.version == 2) {
+            val (checker, content) = powerFacts.getOrPut(Triple(document, level, slot)) {
+                RulesEngine.preparePowerChoices(document, level, slot).let { it to prepare(it.baseline) }
+            }
+            checker.check(definition, catalog.resolve(saved), content, instance)?.let {
+                return BuilderOption(definition, it.eligibility.status, it.diagnostics)
+            }
+        }
         val levels = if (document.levels.any { it.level == level }) document.levels else document.levels + LevelDecisions(level)
         val candidate = document.copy(levels = levels.map { decisions ->
             decisions.copy(entries = decisions.entries.filterNot { it.slot == slot } +

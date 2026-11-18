@@ -87,6 +87,10 @@ object RulesEngine {
     /** A picker may reuse activation and selection-time facts for mechanically passive root feats. */
     internal fun prepareFeatChoices(document: CharacterDocument, level: Int, slot: ChoiceSlotId) =
         PreparedFeatChoices(document, level, slot)
+
+    /** A picker may judge plain class powers against one activation of the character with the slot empty. */
+    internal fun preparePowerChoices(document: CharacterDocument, level: Int, slot: ChoiceSlotId) =
+        PreparedPowerChoices(document, level, slot)
 }
 
 internal data class PreparedFeatChoice(val eligibility: EntryEligibility, val diagnostics: List<Diagnostic>)
@@ -151,6 +155,78 @@ internal class PreparedFeatChoices(
             it, slot, entry.id) }
         diagnostics += eligibility.diagnostics
         return PreparedFeatChoice(eligibility, diagnostics.distinct())
+    }
+}
+
+/**
+ * Conservative list fast path for a pool slot's plain powers. The pool itself is already filtered by class and
+ * level; a power whose only mechanics are its profile, usage limit and always/level/class-reference access
+ * cannot change any character fact. The character with this slot emptied is therefore activated once, and each
+ * candidate is judged by the ordinary eligibility code against that activation, which supplies the repeat limit
+ * and the pool, level and class checks. Powers with prerequisites of their own (such as a skill proficiency),
+ * any other mechanics, or any slot, instance or dependency conflict return null for normal candidate activation.
+ * `content` must be prepared from [baseline], and the same instance must be passed for a whole list.
+ */
+internal class PreparedPowerChoices(
+    private val document: CharacterDocument,
+    private val level: Int,
+    private val slot: ChoiceSlotId,
+) {
+    /** The character as the pool sees it before this slot is filled; prepare list content from this document. */
+    val baseline = document.copy(levels = document.levels.map { decisions ->
+        decisions.copy(entries = decisions.entries.filterNot { it.slot == slot })
+    })
+    private var prepared: Pair<RulesContent, Evaluation>? = null
+    internal var baselinePreparations = 0
+        private set
+
+    /** [resolution] is the saved selection resolved exactly as candidate activation would resolve it. */
+    fun check(definition: ResolvedEntry, resolution: ContractResult<ResolvedEntry>, content: RulesContent,
+        instanceId: String): PreparedFeatChoice? {
+        val entry = definition.entry
+        val resolved = (resolution as? ContractResult.Available)?.value
+        if (!plainPower(entry, content) || resolved == null || resolved.entry != entry) {
+            return null
+        }
+        val facts = prepared?.takeIf { it.first == content }?.second ?: Evaluation(baseline, content, targetInstance = "").also {
+            it.run()
+            baselinePreparations++
+            prepared = content to it
+        }
+        if (!facts.canCheckPassivePower(entry, instanceId, slot)) {
+            return null
+        }
+        val eligibility = facts.passivePowerEligibility(entry, slot, level)
+        val diagnostics = (resolution as ContractResult.Available).diagnostics.map { it.copy(slot = slot, entryId = entry.id) }.toMutableList()
+        if (entry.coverage.status != CoverageStatus.SUPPORTED) {
+            diagnostics += diagnostic("coverage", DiagnosticKind.INCOMPLETE_AUTOMATION,
+                "${entry.presentation.title}: ${entry.coverage.status}. ${entry.coverage.limitations.joinToString()}", slot, entry.id)
+        }
+        diagnostics += entry.mechanics.unsupported.map { diagnostic("unsupportedMechanic", DiagnosticKind.INCOMPLETE_AUTOMATION,
+            it, slot, entry.id) }
+        diagnostics += eligibility.diagnostics
+        return PreparedFeatChoice(eligibility, diagnostics.distinct())
+    }
+
+    /** Powers whose mechanics are exactly a profile plus always/level/class-reference access. */
+    private fun plainPower(entry: ContentEntry, content: RulesContent): Boolean {
+        val mechanics = entry.mechanics
+        if (level !in 1..document.level || document.levels.none { it.level == level } || content.diagnostics.isNotEmpty() ||
+            entry.category != EntryCategory.POWER || mechanics.version != 2 || mechanics.powerProfile == null ||
+            mechanics.copy(prerequisites = emptyList(), access = null, maximumSelections = null, unsupported = emptyList(),
+                powerProfile = null) != Mechanics(version = 2)) {
+            return false
+        }
+        if (document.levels.any { decisions -> decisions.replacements.any { it.replaces == slot } ||
+                decisions.proficiencies.any { it.slot == slot } || decisions.values.any { it.slot == slot } }) {
+            return false
+        }
+        val classReference = { leaf: Prerequisite.Entry ->
+            (content.entries[leaf.entryId] as? ContractResult.Available)?.value?.entry?.category == EntryCategory.CLASS
+        }
+        return mechanics.access?.leaves().orEmpty().all {
+            it is Prerequisite.Always || it is Prerequisite.Level || it is Prerequisite.Entry && classReference(it)
+        } && mechanics.prerequisites.flatMap { it.leaves() }.all { it is Prerequisite.Always || it is Prerequisite.Level }
     }
 }
 
@@ -226,6 +302,32 @@ private class Evaluation(
 
     /** Uses exactly the ordinary eligibility implementation, including historical self-benefit exclusion. */
     fun passiveFeatEligibility(entry: ContentEntry, slot: ChoiceSlotId, level: Int): EntryEligibility {
+        decisionLevels[slot] = level
+        return eligibility(entry, slot, entries.map { it.definition.entry.id }.toSet())
+    }
+
+    /**
+     * A plain power can be judged here only for an empty, offered, ordinary pool slot, with no occurrence or
+     * definition conflict and no other counted occurrence whose requirements would be excluded as depending on it.
+     */
+    fun canCheckPassivePower(entry: ContentEntry, instanceId: String, slot: ChoiceSlotId): Boolean {
+        val source = choices[slot] as? ChoiceDefinition.Entries ?: return false
+        if (slot in grantReplacementSlots || entry.id !in source.entryIds || source.collection != null ||
+            source.requiresCollection != null || source.constraints.any { it.type == "notKnown" }) {
+            return false
+        }
+        if (entries.any { it.slot == slot || it.instanceId == instanceId || it.definition.entry.id == entry.id && it.definition.entry != entry }) {
+            return false
+        }
+        return entries.filter { !it.granted || it.slot in grantReplacementSlots }.none { other ->
+            val mechanics = other.definition.entry.mechanics
+            (mechanics.prerequisites + listOfNotNull(mechanics.access)).flatMap { it.leaves() }
+                .any { selectionTimeFacts.selfDependency(entry, it) }
+        }
+    }
+
+    /** Uses exactly the ordinary eligibility implementation, as if the candidate were selected at [level]. */
+    fun passivePowerEligibility(entry: ContentEntry, slot: ChoiceSlotId, level: Int): EntryEligibility {
         decisionLevels[slot] = level
         return eligibility(entry, slot, entries.map { it.definition.entry.id }.toSet())
     }
