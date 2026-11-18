@@ -45,7 +45,8 @@ class FeatRuntimeTest(unittest.TestCase):
             self.assertEqual(authored["description"], entry["presentation"]["description"])
             self.assertEqual(authored["selection"]["maximum"], entry["mechanics"]["maximumSelections"])
             self.assertEqual(2, entry["mechanics"]["version"])
-            self.assertEqual("UNIMPLEMENTED", entry["coverage"]["status"])
+            automated = bool(entry["mechanics"]["choices"]) or bool(entry["mechanics"].get("multiclassFor"))
+            self.assertEqual("PARTIAL" if automated else "UNIMPLEMENTED", entry["coverage"]["status"])
             self.assertTrue(entry["coverage"]["limitations"])
             shared = {k: v for k, v in entry["sharedData"].items() if not k.startswith("runtime")}
             self.assertEqual(authored, shared)
@@ -135,8 +136,24 @@ class FeatRuntimeTest(unittest.TestCase):
         self.assertEqual("proficiencies", choice["type"])
         self.assertEqual(2, choice["count"])
         self.assertEqual(16, len(choice["skills"]))
-        self.assertTrue(any("must be distinct" in text for text in entry["mechanics"]["unsupported"]))
+        self.assertTrue(choice["distinctAgainstCharacter"])
+        self.assertEqual([], entry["mechanics"]["unsupported"])
         self.assertIsNone(entry["mechanics"]["maximumSelections"])
+
+    def test_multiclass_qualification_requires_both_tag_and_explicit_target(self):
+        for key, entry in self.entries.items():
+            authored = self.source[key]
+            expected = authored.get('multiclassFor') if 'MULTICLASS' in authored.get('tags', []) else None
+            self.assertEqual(expected, entry['mechanics'].get('multiclassFor'), key)
+        self.assertTrue(any(entry['mechanics'].get('multiclassFor') for entry in self.entries.values()))
+        context = {'references': {}, 'feat_ids': set(), 'titles': {}, 'available': set()}
+        source = {'id': 'modern4e.feat.example', 'title': 'Example', 'description': 'Example',
+                  'access': {'type': 'always'}, 'prerequisites': {'type': 'always'},
+                  'selection': {'maximum': 1, 'constraints': []}, 'multiclassFor': 'modern4e.class.wizard'}
+        self.assertNotIn('multiclassFor', feat_runtime.compile_feat(source, context, '', '')['mechanics'])
+        source['tags'] = ['MULTICLASS']
+        self.assertEqual('modern4e.class.wizard',
+                         feat_runtime.compile_feat(source, context, '', '')['mechanics']['multiclassFor'])
 
     def test_unsupported_choices_and_constraints_are_recorded_not_faked(self):
         linguist = self.entries["modern4e.feat.linguist"]
@@ -144,7 +161,9 @@ class FeatRuntimeTest(unittest.TestCase):
         self.assertEqual(4, len(linguist["mechanics"]["unsupported"]))
         for entry in self.entries.values():
             constraints = entry["sharedData"]["selection"]["constraints"]
-            self.assertGreaterEqual(len(entry["mechanics"]["unsupported"]), len(constraints))
+            enforced = sum(1 for rule in constraints if rule['type'] == 'distinct' and
+                           rule['against'] == {'scope': 'CHARACTER', 'fact': 'SKILL_PROFICIENCY'})
+            self.assertGreaterEqual(len(entry["mechanics"]["unsupported"]), len(constraints) - enforced)
             for text in entry["mechanics"]["unsupported"]:
                 self.assertIn(text, entry["coverage"]["limitations"])
             if not entry["sharedData"].get("choices") and not constraints:

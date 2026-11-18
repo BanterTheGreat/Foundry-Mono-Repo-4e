@@ -62,8 +62,10 @@ Builder content suite documented in the repository's `tests/README.md`.
   repetition Special paragraphs from this data.
 - **Multiclass:** `tags: ["MULTICLASS"]` classifies a multiclass feat.
   `multiclassFor` optionally identifies its target class. That target is not a
-  requirement to already belong to that class. Qualification and exclusivity
-  rules need explicit decisions in the runtime migration.
+  requirement to already belong to that class. For feat and paragon-path prerequisites, an explicitly declared target counts as
+  class membership (including its class source). It does not open class power pools
+  or grant equipment proficiencies. Granted features qualify only when actually
+  represented as grants; multiclass exclusivity remains unimplemented.
 
 ## Condition vocabulary
 
@@ -105,18 +107,17 @@ These declarations provide identity and labels, not automated eligibility.
 Unknown feat IDs fail validation. Missing content is never silently created from
 a title or dropped. The catalog exposes reference gaps for the future compiler.
 
-The ambiguous implicit Charisma threshold, Combined Attack, missing Vistani
+Combined Attack, missing Vistani
 Heritage and unmatched local feature/power names remain `unresolved`. Their
 original requirement wording stays printed. See migration issue
 [#29](https://github.com/BanterTheGreat/Foundry-Mono-Repo-4e/issues/29).
 
 ## Migration limits
 
-The build exports a deterministic structured authoring catalog; current v1
-runtime packages still use the architecture proof. New prerequisite evaluation,
-class/source facts and campaign policies are future work. Repeatability and
-distinct-choice rules are structured authoring data; benefit automation and grant
-substitutions remain future work. In particular, “must have a shield equipped to
+The build exports a deterministic authoring catalog and production mechanics-v2
+runtime package. Grouped prerequisites, historical independent facts, explicit
+class/source qualification and ZEITGEIST availability are evaluated by shared Kotlin. Occurrence limits and Skill Training distinctness are enforced. Other repeatable
+benefits, option catalogs and grant substitutions remain future work. In particular, “must have a shield equipped to
 benefit” must not be converted into a selection prerequisite.
 
 There are 818 stored definitions across 93 sections at this migration baseline.

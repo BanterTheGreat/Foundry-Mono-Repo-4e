@@ -104,12 +104,21 @@ class ModernFeatsTest(unittest.TestCase):
         self.assertEqual(self.named("Improved Warforged Resolve")[0]["id"], immutability["entryId"])
 
     def test_unknown_and_ambiguous_requirements_remain_visible(self):
-        for title, text in [("Improved Fate of the Void", "2 Constitution or Charisma"), ("Feral Companion", "Combined attack druid attack power"), ("Prophetic Preparation", "Vistani Heritage")]:
+        for title, text in [("Feral Companion", "Combined attack druid attack power"), ("Prophetic Preparation", "Vistani Heritage")]:
             entry = self.named(title)[0]
             self.assertIn(text, self.catalog["requirementText"][entry["id"]])
             self.assertTrue(self.catalog["limitations"][entry["id"]])
         unavailable = self.catalog["references"]["modern4e.ancestry.eladrin"]
         self.assertEqual("UNAVAILABLE", unavailable["status"])
+
+    def test_improved_fate_threshold_uses_two_points_in_either_ability(self):
+        entry = self.named("Improved Fate of the Void")[0]
+        threshold, pact = entry["prerequisites"]["conditions"]
+        self.assertEqual({"type": "anyOf", "conditions": [
+            {"type": "abilityPoints", "ability": "CONSTITUTION", "minimum": 2},
+            {"type": "abilityPoints", "ability": "CHARISMA", "minimum": 2}]}, threshold)
+        self.assertEqual({"type": "entry", "entryId": "modern4e.feature.star-pact"}, pact)
+        self.assertIn("(2 Constitution or 2 Charisma)", self.catalog["requirementText"][entry["id"]])
 
     def test_effect_conditions_and_repetition_are_not_misread_as_prerequisites(self):
         shield = self.named("Distracting Shield")[0]

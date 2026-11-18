@@ -5,6 +5,25 @@ import kotlin.coroutines.*
 
 /** The same observable power-selection fixtures execute on JVM and JavaScript. */
 class PowerSelectionTest {
+    @Test
+    fun utilityPickKindsFilterOnlyExplicitMembershipAndRemainIndependentOfKeywords() {
+        fun utility(id: String, kinds: List<String>) = power(id, kind = "UTILITY").let {
+            it.copy(mechanics = it.mechanics.copy(powerProfile = it.mechanics.powerProfile!!.copy(pickKinds = kinds)))
+        }
+        val combat = utility("combat", listOf("COMBAT"))
+        val outside = utility("outside", listOf("NON_COMBAT"))
+        val both = utility("both", listOf("COMBAT", "NON_COMBAT"))
+        val unknown = utility("unknown", emptyList())
+        val choices = listOf("COMBAT", "NON_COMBAT").map { kind -> ChoiceDefinition.Entries(kind, 1,
+            query = PowerQuery(powerKind = "UTILITY", pickKind = kind)) }
+        val root = root(choices)
+        val result = evaluate(character(root, emptyList()), listOf(root, combat, outside, both, unknown))
+        assertEquals(setOf("combat", "both"), result.choices.single { it.slot.choiceId == "COMBAT" }.entries.map { it.entryId }.toSet())
+        assertEquals(setOf("outside", "both"), result.choices.single { it.slot.choiceId == "NON_COMBAT" }.entries.map { it.entryId }.toSet())
+        assertFailsWith<IllegalArgumentException> { PowerQuery(powerKind = "ATTACK", pickKind = "COMBAT") }
+        assertFailsWith<IllegalArgumentException> { PowerProfile(1, "DAILY", "UTILITY", pickKinds = listOf("UNKNOWN")) }
+    }
+
     private val supplier = PackageRevision("test.powers", "1")
     private val atWill = "modern4e.choice.class-attack-at-will"
     private val daily = "modern4e.choice.class-attack-daily"

@@ -1028,14 +1028,25 @@
       "coverage": {
         "limitations": [
           "Select 1 additional language(s); the closed vocabulary has no language decision and no complete language catalog is authored.",
-          "Size, speed, vision and languages are preserved in sharedData and are not applied as modifiers by the character builder."
+          "Size, speed, vision and languages are preserved in sharedData and are not applied as modifiers by the character builder.",
+          "Revenant is excluded from ZEITGEIST by the local rulebook ancestry roster."
         ],
         "status": "PARTIAL"
       },
       "id": "modern4e.ancestry.revenant",
       "mechanics": {
         "access": {
-          "type": "always"
+          "conditions": [
+            {
+              "type": "always"
+            },
+            {
+              "reason": "Revenant is excluded from ZEITGEIST by the local rulebook ancestry roster.",
+              "text": "Unavailable in ZEITGEIST",
+              "type": "unavailable"
+            }
+          ],
+          "type": "allOf"
         },
         "choices": [],
         "conditionalModifiers": [],
@@ -1095,6 +1106,11 @@
           "size": "medium",
           "speed": 6,
           "vision": "low-light"
+        },
+        "campaignAvailability": {
+          "available": false,
+          "profile": "ZEITGEIST",
+          "reason": "Revenant is excluded from ZEITGEIST by the local rulebook ancestry roster."
         },
         "coverage": {
           "limitations": [

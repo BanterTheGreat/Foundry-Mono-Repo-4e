@@ -50,6 +50,7 @@ class UtilityRuntimeTest(unittest.TestCase):
             profile = self.entries[power_id]["mechanics"]["powerProfile"]
             self.assertEqual("UTILITY", profile["powerKind"])
             self.assertEqual(self.powers[power_id]["level"], profile["level"])
+            self.assertEqual(self.sections[power_id]["pickKinds"][power_id], profile["pickKinds"])
             self.assertIn(profile["usage"], ("AT_WILL", "ENCOUNTER", "DAILY"))
             self.assertEqual([], self.entries[power_id]["mechanics"]["unsupported"])
         fighter = next(section for section in self.catalog["sections"] if section.get("classId") == "modern4e.class.fighter")

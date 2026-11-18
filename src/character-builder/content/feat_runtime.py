@@ -1,8 +1,9 @@
 """Compile the validated shared feat catalog into the mechanics-v2 runtime contract.
 
 One package, ``modern4e.feats``, carries every authored feat. Access, prerequisites and the
-occurrence limit are evaluated by the shared engine. Feat benefits stay descriptive: every
-entry is UNIMPLEMENTED, and decisions the closed vocabulary cannot express remain in
+occurrence limit are evaluated by the shared engine. Skill Training proficiency choices and
+explicit multiclass qualification have PARTIAL coverage; other benefits stay UNIMPLEMENTED.
+Decisions the closed vocabulary cannot express remain in
 ``mechanics.unsupported``, coverage limitations and ``sharedData``.
 
 References to classes, ancestries and their features/powers stay ``entry`` conditions only
@@ -100,7 +101,8 @@ def compile_choices(entry):
         source = choice["source"]
         if grants_skill_proficiency(entry, choice):
             choices.append({"type": "proficiencies", "id": f"modern4e.choice.{stem}.{choice['id']}",
-                            "count": choice["count"], "skills": source["values"]})
+                            "count": choice["count"], "skills": source["values"],
+                            "distinctAgainstCharacter": True})
         elif source["type"] == "catalog":
             unsupported.append(f"Choice {choice['id']}: select {choice['count']} {choice['kind']} from the "
                                f"{source['catalog']} catalog; the option catalog is pending migration.")
@@ -128,8 +130,13 @@ def compile_feat(entry, context, requirement_text, selection_text):
     access = condition(entry["access"], context)
     prerequisite = condition(entry["prerequisites"], context)
     choices, unsupported = compile_choices(entry)
-    unsupported += [constraint_note(rule) for rule in entry["selection"]["constraints"]]
-    limitations = ["Feat benefits are descriptive text; no feat effect is automated by the character builder."]
+    enforced = {choice["id"] for choice in entry.get("choices", []) if grants_skill_proficiency(entry, choice)}
+    unsupported += [constraint_note(rule) for rule in entry["selection"]["constraints"]
+                    if not (rule["type"] == "distinct" and rule["choiceId"] in enforced)]
+    automated = bool(choices) or "MULTICLASS" in entry.get("tags", []) and bool(entry.get("multiclassFor"))
+    limitations = ["Only declared proficiency choices and explicit multiclass qualification are automated; "
+                    "other feat benefits require manual resolution." if automated else
+                    "Feat benefits are descriptive text; no feat effect is automated by the character builder."]
     for label, tree in (("Access", access), ("Prerequisite", prerequisite)):
         for leaf in unresolved_nodes(tree):
             limitations.append(f"{label} not evaluated: {leaf['text']} ({leaf['reason']})")
@@ -139,12 +146,15 @@ def compile_feat(entry, context, requirement_text, selection_text):
         shared["runtimeRequirementText"] = requirement_text
     if selection_text:
         shared["runtimeSelectionText"] = selection_text
+    mechanics = {"version": 2, "access": access, "prerequisites": [prerequisite],
+                 "grants": [], "choices": choices, "unsupported": unsupported,
+                 "maximumSelections": entry["selection"]["maximum"]}
+    if "MULTICLASS" in entry.get("tags", []) and entry.get("multiclassFor"):
+        mechanics["multiclassFor"] = entry["multiclassFor"]
     return {"id": entry["id"], "category": "FEAT",
             "presentation": {"title": entry["title"], "description": entry["description"]},
-            "mechanics": {"version": 2, "access": access, "prerequisites": [prerequisite],
-                          "grants": [], "choices": choices, "unsupported": unsupported,
-                          "maximumSelections": entry["selection"]["maximum"]},
-            "coverage": {"status": "UNIMPLEMENTED", "limitations": limitations},
+            "mechanics": mechanics,
+            "coverage": {"status": "PARTIAL" if automated else "UNIMPLEMENTED", "limitations": limitations},
             "sharedData": shared}
 
 

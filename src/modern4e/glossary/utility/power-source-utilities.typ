@@ -6,7 +6,7 @@
   pagebreak()
   theme.subPageTitle(title: "Power Source Utility Powers")
   parbreak()
-  [These powers are available to any class with the matching power source. Choose them with your out-of-combat utility picks, meeting the minimum level and all listed prerequisites and requirements.]
+  [These powers are available to any class with the matching power source. Choose them whenever advancement grants a utility power, meeting the minimum level and all listed prerequisites and requirements.]
   for source in ("Arcane", "Martial", "Primal", "Divine") {
     pagebreak()
     theme.subPageTitle(title: source + " Utility Powers", level: 3)

@@ -44,7 +44,7 @@ def compile_choice(choice):
     else:
         filters = source["filters"]
         query = {"category": source["category"]}
-        for key in ("usage", "powerKind", "keywords"):
+        for key in ("usage", "powerKind", "keywords", "pickKind"):
             if key in filters:
                 query[key] = filters[key]
         maximum = filters.get("levelMaximum")

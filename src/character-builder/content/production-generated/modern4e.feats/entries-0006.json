@@ -548,9 +548,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.ruthless-efficiency",
       "mechanics": {
@@ -560,6 +560,7 @@
         "choices": [],
         "grants": [],
         "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.rogue",
         "prerequisites": [
           {
             "type": "always"
@@ -2078,10 +2079,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder.",
-          "Selection constraint: choice skills must be distinct against CHARACTER SKILL_PROFICIENCY; when exhausted BLOCK; not enforced."
+          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.skill-training",
       "mechanics": {
@@ -2091,6 +2091,7 @@
         "choices": [
           {
             "count": 2,
+            "distinctAgainstCharacter": true,
             "id": "modern4e.choice.skill-training.skills",
             "skills": [
               "ATHLETICS",
@@ -2120,9 +2121,7 @@
             "type": "always"
           }
         ],
-        "unsupported": [
-          "Selection constraint: choice skills must be distinct against CHARACTER SKILL_PROFICIENCY; when exhausted BLOCK; not enforced."
-        ],
+        "unsupported": [],
         "version": 2
       },
       "presentation": {
@@ -2188,9 +2187,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.skirmishing-leader",
       "mechanics": {
@@ -2200,6 +2199,7 @@
         "choices": [],
         "grants": [],
         "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.warlord",
         "prerequisites": [
           {
             "type": "always"
@@ -2236,9 +2236,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.sly-dodge",
       "mechanics": {
@@ -2248,6 +2248,7 @@
         "choices": [],
         "grants": [],
         "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.rogue",
         "prerequisites": [
           {
             "type": "always"
@@ -2333,9 +2334,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.sneak-of-shadows",
       "mechanics": {
@@ -2345,6 +2346,7 @@
         "choices": [],
         "grants": [],
         "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.rogue",
         "prerequisites": [
           {
             "type": "always"
@@ -2567,9 +2569,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.soldier-of-the-faith",
       "mechanics": {
@@ -2579,6 +2581,7 @@
         "choices": [],
         "grants": [],
         "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.paladin",
         "prerequisites": [
           {
             "type": "always"
@@ -2615,9 +2618,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.soldier-of-virtue",
       "mechanics": {
@@ -2627,6 +2630,7 @@
         "choices": [],
         "grants": [],
         "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.paladin",
         "prerequisites": [
           {
             "type": "always"
@@ -2855,9 +2859,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.soul-of-sorcery",
       "mechanics": {
@@ -2867,6 +2871,7 @@
         "choices": [],
         "grants": [],
         "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.sorcerer",
         "prerequisites": [
           {
             "type": "always"
@@ -3164,9 +3169,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.spirit-talker",
       "mechanics": {
@@ -3176,6 +3181,7 @@
         "choices": [],
         "grants": [],
         "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.shaman",
         "prerequisites": [
           {
             "type": "always"
@@ -3306,9 +3312,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.squire-of-righteousness",
       "mechanics": {
@@ -3318,6 +3324,7 @@
         "choices": [],
         "grants": [],
         "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.paladin",
         "prerequisites": [
           {
             "type": "always"
@@ -4616,9 +4623,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.student-of-artifice",
       "mechanics": {
@@ -4628,6 +4635,7 @@
         "choices": [],
         "grants": [],
         "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.artificer",
         "prerequisites": [
           {
             "type": "always"
@@ -4664,9 +4672,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.student-of-battle",
       "mechanics": {
@@ -4676,6 +4684,7 @@
         "choices": [],
         "grants": [],
         "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.warlord",
         "prerequisites": [
           {
             "type": "always"
@@ -4712,9 +4721,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.student-of-divine-runes",
       "mechanics": {
@@ -4724,6 +4733,7 @@
         "choices": [],
         "grants": [],
         "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.runepriest",
         "prerequisites": [
           {
             "type": "always"
@@ -4760,9 +4770,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.student-of-malediction",
       "mechanics": {
@@ -4772,6 +4782,7 @@
         "choices": [],
         "grants": [],
         "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.warlock",
         "prerequisites": [
           {
             "type": "always"
@@ -4857,9 +4868,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.student-of-the-sword",
       "mechanics": {
@@ -4869,6 +4880,7 @@
         "choices": [],
         "grants": [],
         "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.fighter",
         "prerequisites": [
           {
             "type": "always"

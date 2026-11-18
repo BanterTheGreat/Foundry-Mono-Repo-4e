@@ -43,6 +43,30 @@ class ClassRuntimeTest(unittest.TestCase):
         self.assertIn("collections", wizard["sharedData"])
         self.assertNotEqual("SUPPORTED", wizard["coverage"]["status"])
 
+    def test_utility_pick_kind_filter_survives_authoring_and_compilation(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "classes"
+            shutil.copytree(class_runtime.authoring.CONTENT, root)
+            path = root / "advancement.json"
+            data = json.loads(path.read_text(encoding="utf-8"))
+            choice = next(c for c in data["powerChoices"] if c["id"] == "modern4e.choice.class-utility-2")
+            choice["source"]["filters"]["pickKind"] = "COMBAT"
+            path.write_text(json.dumps(data), encoding="utf-8")
+            entries = class_runtime.build(root)["modern4e.classes/entries.json"]["entries"]
+            fighter = next(e for e in entries if e["id"] == "modern4e.class.fighter")
+            compiled = next(c for c in fighter["mechanics"]["choices"] if c["id"] == choice["id"])
+            self.assertEqual("COMBAT", compiled["query"]["pickKind"])
+            choice["source"]["filters"]["pickKind"] = "SPELL"
+            path.write_text(json.dumps(data), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "unknown value"):
+                class_runtime.build(root)
+
+            choice["source"]["filters"]["pickKind"] = "COMBAT"
+            choice["source"]["filters"]["powerKind"] = "ATTACK"
+            path.write_text(json.dumps(data), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "pickKind requires a UTILITY"):
+                class_runtime.build(root)
+
     def test_shared_slots_mirror_authoritative_gain_events_through_level_ten(self):
         catalog = class_runtime.authoring.catalog()
         creation = json.loads((class_runtime.authoring.CONTENT.parent / "creation/standard.json").read_text(encoding="utf-8"))

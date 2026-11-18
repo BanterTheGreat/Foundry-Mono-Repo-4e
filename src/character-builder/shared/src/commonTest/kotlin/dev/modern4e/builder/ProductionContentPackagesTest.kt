@@ -40,6 +40,20 @@ class ProductionContentPackagesTest {
     }
 
     @Test
+    fun campaignExclusionsAreIneligibleAndExistingSavedSelectionsRemainPortable() = run {
+        val (sample, catalog, operations) = openTemplate()
+        val slot = ChoiceSlotId("creation", "ancestry", 0)
+        val options = operations.options(sample, 1, slot, includeIneligible = true)
+        assertEquals(Eligibility.INELIGIBLE, options.single { it.entry.entry.id == "modern4e.ancestry.revenant" }.eligibility)
+        val resolved = assertIs<ContractResult.Available<ResolvedEntry?>>(catalog.lookup("modern4e.ancestry.revenant")).value!!
+        val saved = SavedSelection(resolved.entry.id, resolved.entry.presentation.title, resolved.supplier.packageId, resolved.fingerprint)
+        val document = sample.copy(levels = listOf(sample.levels.single().copy(entries = sample.levels.single().entries +
+            EntryChoice("saved-revenant", slot, saved))))
+        assertEquals(Eligibility.INELIGIBLE, operations.evaluate(document).rules.entryEligibility.getValue("saved-revenant").status)
+        assertEquals(document, assertIs<ContractResult.Available<CharacterDocument>>(ContractCodec.decode(ContractCodec.encode(document))).value)
+    }
+
+    @Test
     fun templateEnablesEveryProductionPackageAndCatalogIsComplete() = run {
         val (sample, catalog, _) = openTemplate()
         assertEquals(listOf("modern4e.classes", "modern4e.ancestries", "modern4e.themes", "modern4e.feats",

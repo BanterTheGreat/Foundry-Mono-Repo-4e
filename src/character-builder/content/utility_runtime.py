@@ -71,6 +71,8 @@ def compile_utility(power, section, known):
             {**activation, "range": {**activation["range"], "text": "Personal"}}
             if activation["range"]["type"] == "PERSONAL" else activation for activation in power["activations"]]
     entry = class_runtime.compile_entry(working)
+    if available and "powerProfile" in entry["mechanics"]:
+        entry["mechanics"]["powerProfile"]["pickKinds"] = section["pickKinds"][power["id"]]
     if not available:
         entry["mechanics"].pop("powerProfile", None)
         entry["mechanics"]["unsupported"].append(WITHHELD)

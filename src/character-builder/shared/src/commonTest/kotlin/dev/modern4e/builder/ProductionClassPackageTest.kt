@@ -45,9 +45,9 @@ class ProductionClassPackageTest {
             val fiveRules = RulesEngine.evaluate(levelFive, RulesContent.load(levelFive, catalog))
             val dailyFive = fiveRules.choices.single { it.slot.choiceId == "modern4e.choice.class-attack-daily-5" }
             val gated = dailyFive.entries.single { it.entryId == "modern4e.power.fighter-power10153" }
-            // An unfinished starter has unavailable prerequisite facts; it must
-            // never offer the gated power as eligible before proficiency is known.
-            assertEquals(Eligibility.UNRESOLVED, gated.status)
+            // Unfilled choices do not provide a prerequisite; independent facts
+            // establish ineligibility until Endurance is actually selected.
+            assertEquals(Eligibility.INELIGIBLE, gated.status)
             val proficient = levelFive.copy(levels = listOf(levelFive.levels.first().copy(proficiencies = listOf(
                 ProficiencyChoice(ChoiceSlotId("creation", "free-skill", 0), Skill.ENDURANCE)))))
             val proficientRules = RulesEngine.evaluate(proficient, RulesContent.load(proficient, catalog))
@@ -84,7 +84,8 @@ class ProductionClassPackageTest {
             val levelThirteen = later.copy(level = 13, levels = later.levels.filter { it.level <= 13 })
             val thirteenRules = RulesEngine.evaluate(levelThirteen, RulesContent.load(levelThirteen, catalog))
             assertTrue(thirteenRules.choices.single { it.slot == encounter.slot }.entries.any { it.entryId == lateEncounter.selection.entryId && it.status == Eligibility.ELIGIBLE })
-            assertTrue(laterRules.choices.single { it.slot == encounter.slot }.entries.any { it.entryId == lateEncounter.selection.entryId && it.status == Eligibility.INCOMPLETE })
+            assertTrue(laterRules.choices.single { it.slot == encounter.slot }.entries.any { it.entryId == lateEncounter.selection.entryId && it.status == Eligibility.ELIGIBLE },
+                laterRules.choices.single { it.slot == encounter.slot }.entries.single { it.entryId == lateEncounter.selection.entryId }.toString())
             assertTrue(laterRules.choices.single { it.slot == daily.slot }.entries.any { it.entryId == lateDaily.selection.entryId && it.status == Eligibility.ELIGIBLE })
             assertTrue(laterRules.diagnostics.any { it.code == "engine.replacementTiming" })
             val portable = assertIs<ContractResult.Available<CharacterDocument>>(ContractCodec.decode(ContractCodec.encode(later))).value

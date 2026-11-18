@@ -479,6 +479,16 @@ Summon automation Node coverage includes separate square selection, per-power ma
 
 ## Character Builder shared core and content production
 
+Ticket #29 adds `ContentMigrationTest`, `ProficiencySelectionTest` and
+`SharedContentAcceptanceTest` to the existing JVM/JS tasks, plus historical,
+circular, multiclass and campaign eligibility regressions. The Python discovery
+command below also runs campaign policy, reviewed ID-map, compiler and acceptance
+fixture checks. `samples.py --check` verifies all regression/acceptance characters.
+Acceptance uses one utility total at level 2, with separate combat/non-combat
+examples and explicit partial automation. No migration UI or full feat-effect
+automation is claimed.
+
+
 Shared class runtime and authoritative production classes (#33–#35), from the repository root:
 
 Ancestry, theme, feat, utility and equipment runtime packages add one Python suite each, plus a shared JVM/JS test:

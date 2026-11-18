@@ -20,11 +20,11 @@
         Most powers can be described as 'Attack' powers, these are powers which focus on harming your enemies in combat, whether directly through indirectly.
         Utility powers on the other hand focus on overcoming a variety of obstacles, both in and out of combat. Utility powers are split into in- and out of combat powers, where the in-combat powers focus on aiding you or your allies during combat, while out of combat powers focus increasing your versatility outside of combat.
 
-        *Note:* Some powers count as both in and out of combat.
+        Whenever advancement grants one utility power, choose one eligible power from the combat or non-combat lists. These are one shared choice, not separate grants. Some powers count as both in and out of combat.
 
         Most skills have a set of Utility powers associated with it, this requires you to be proficient in the skill associated with the power as well as meet a minimum level to select. You may choose these whenever you gain an utility power.
 
-        Power Source Utility Powers are shared by all classes of the matching source: *Arcane*, *Martial*, *Primal*, or *Divine*. Choose them with your out-of-combat utility picks, meeting their minimum level and all listed prerequisites. A shared source does not grant a beast companion, pact, class feature, or other prerequisite. Powers explicitly marked for both combat and non-combat can use either kind of utility pick.
+        Power Source Utility Powers are shared by all classes of the matching source: *Arcane*, *Martial*, *Primal*, or *Divine*. You may choose one whenever you gain a utility power, meeting its minimum level and all listed prerequisites. A shared source does not grant a beast companion, pact, class feature, or other prerequisite. Combat and non-combat labels describe the power's use; they do not grant additional selections.
 
         The power source lists replace the previous general and source-specific out-of-combat lists. The utility lists include powers of levels 2, 6, and 10.
       ],

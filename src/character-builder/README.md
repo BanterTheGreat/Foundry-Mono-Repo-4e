@@ -1,3 +1,26 @@
+# Shared-content migration progress (#29)
+
+Independent selection-time eligibility, explicit multiclass qualification for feats
+and paragon paths, Skill Training distinctness/exhaustion, ZEITGEIST availability
+and reviewed Fighter ID migration previews are implemented in shared Kotlin.
+Three production-data acceptance characters cover levels 1?2, including either a
+combat or non-combat power in the single level-2 utility slot. Coverage remains
+explicitly partial. See [runtime semantics](shared/ENGINE.md) and
+[content policy, fixtures and migration](content/README.md).
+
+Other repeatable feat effects, option catalogs, Alchemist substitution, unresolved
+prerequisites, duplicate consolidation and platform migration UI still prevent
+closing the full migration ticket. Migration never runs automatically or converts
+ability scores; original provenance survives portable export.
+
+Local validation for this #29 slice (18 November 2026): 133 shared tests passed
+on each JVM/JS target; 34 Android unit tests, eight web unit tests and nine Chromium
+adapter tests passed. Shared JS distribution, web production build and Android
+debug/instrumentation APK assembly passed. The Python content suite ran 165 tests
+with six Typst-dependent skips; creation authoring ran seven with one Typst skip.
+Content/sample freshness and diff checks passed. Typst compilation was attempted
+but unavailable on PATH; book visual checks and device UI tests were not run.
+
 # Production content adoption (#35)
 
 Normal `content/build.py` validates and compiles all 19 authoritative Modern 4e

@@ -66,6 +66,7 @@ data class Mechanics(
     @EncodeDefault(EncodeDefault.Mode.NEVER) val classProfile: ClassProfile? = null,
     @EncodeDefault(EncodeDefault.Mode.NEVER) val conditionalModifiers: List<ConditionalModifier> = emptyList(),
     @EncodeDefault(EncodeDefault.Mode.NEVER) val unsupported: List<String> = emptyList(),
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val multiclassFor: String? = null,
     @EncodeDefault(EncodeDefault.Mode.NEVER) val maximumSelections: Int? = null,
     @EncodeDefault(EncodeDefault.Mode.NEVER) val weaponAbilities: Map<WeaponGroup, Ability> = emptyMap(),
     @EncodeDefault(EncodeDefault.Mode.NEVER) val selectionModifiers: List<SelectionModifier> = emptyList(),
@@ -85,6 +86,8 @@ sealed class Prerequisite {
     data class ClassPowerSource(val powerSource: String) : Prerequisite()
     @Serializable @SerialName("equipmentProficiency")
     data class EquipmentProficiency(val equipment: String) : Prerequisite()
+    @Serializable @SerialName("unavailable")
+    data class Unavailable(val text: String, val reason: String) : Prerequisite()
     @Serializable @SerialName("unresolved")
     data class Unresolved(val text: String, val reason: String) : Prerequisite()
     @Serializable @SerialName("level")
@@ -134,7 +137,8 @@ sealed class ChoiceDefinition {
         }
     }
     @Serializable @SerialName("proficiencies")
-    data class Proficiencies(val id: String, val count: Int, val skills: List<Skill>) : ChoiceDefinition()
+    data class Proficiencies(val id: String, val count: Int, val skills: List<Skill>,
+        @EncodeDefault(EncodeDefault.Mode.NEVER) val distinctAgainstCharacter: Boolean = false) : ChoiceDefinition()
     @Serializable @SerialName("mainAbility")
     data class MainAbility(val id: String, val abilities: List<Ability>) : ChoiceDefinition()
 }

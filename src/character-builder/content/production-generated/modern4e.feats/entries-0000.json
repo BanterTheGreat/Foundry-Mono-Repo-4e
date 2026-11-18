@@ -1774,9 +1774,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.arcane-initiate",
       "mechanics": {
@@ -1786,6 +1786,7 @@
         "choices": [],
         "grants": [],
         "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.wizard",
         "prerequisites": [
           {
             "type": "always"
@@ -1822,9 +1823,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.arcane-prodigy",
       "mechanics": {
@@ -1834,6 +1835,7 @@
         "choices": [],
         "grants": [],
         "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.sorcerer",
         "prerequisites": [
           {
             "type": "always"
@@ -3407,9 +3409,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.barbarians-fury",
       "mechanics": {
@@ -3419,6 +3421,7 @@
         "choices": [],
         "grants": [],
         "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.barbarian",
         "prerequisites": [
           {
             "type": "always"
@@ -3501,9 +3504,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.basic-dilettante",
       "mechanics": {
@@ -3513,6 +3516,7 @@
         "choices": [],
         "grants": [],
         "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.bard",
         "prerequisites": [
           {
             "type": "always"
@@ -3596,9 +3600,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.battle-awareness",
       "mechanics": {
@@ -3608,6 +3612,7 @@
         "choices": [],
         "grants": [],
         "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.fighter",
         "prerequisites": [
           {
             "type": "always"
@@ -4208,9 +4213,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.blade-initiate",
       "mechanics": {
@@ -4220,6 +4225,7 @@
         "choices": [],
         "grants": [],
         "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.swordmage",
         "prerequisites": [
           {
             "type": "always"

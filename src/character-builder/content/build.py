@@ -323,9 +323,10 @@ def serialize(value):
     return (json.dumps(value, ensure_ascii=False, sort_keys=True, indent=2) + "\n").encode("utf-8")
 
 
-def production(content=None, snapshot=SNAPSHOT):
+def production(content=None, snapshot=SNAPSHOT, campaign=None):
     """Compile authoritative classes first; retain explicitly imported other categories."""
     import ancestry_runtime
+    import campaign_profiles
     import class_runtime
     import equipment_runtime
     import feat_runtime
@@ -340,7 +341,7 @@ def production(content=None, snapshot=SNAPSHOT):
         modern |= package
     # Grants, finite choices and entry conditions may cross authored packages, never dangle.
     runtime_common.validate_references(modern)
-    return modern
+    return campaign_profiles.apply(modern, campaign)
 
 
 def main():

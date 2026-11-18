@@ -53,14 +53,17 @@ kotlin.sourceSets.commonTest { kotlin.srcDir(generateContractFixtures) }
 val generateProductionFixtures by tasks.registering {
     val fixtures = layout.projectDirectory.dir("../content/test-generated")
     val authoritative = layout.projectDirectory.dir("../content/production-generated")
+    val migrations = layout.projectDirectory.dir("../content/migrations")
     val output = layout.buildDirectory.dir("generated/productionFixtures")
     inputs.dir(fixtures)
     inputs.dir(authoritative)
+    inputs.dir(migrations)
     outputs.dir(output)
     doLast {
         val target = output.get().file("ProductionFixtures.kt").asFile
         target.parentFile.mkdirs()
-        val files = listOf(fixtures.asFile to "", authoritative.asFile to "authoritative/").flatMap { (root, prefix) ->
+        val files = listOf(fixtures.asFile to "", authoritative.asFile to "authoritative/",
+            migrations.asFile to "migrations/").flatMap { (root, prefix) ->
             root.walkTopDown().filter { it.isFile && it.extension == "json" }.map { prefix + it.relativeTo(root).invariantSeparatorsPath to it }.toList()
         }
         val entries = files.sortedBy { it.first }.joinToString(",\n") { (name, file) ->

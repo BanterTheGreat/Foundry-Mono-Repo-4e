@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "defaultProfile": "ZEITGEIST",
+  "profiles": {
+    "ZEITGEIST": {
+      "enabled": true,
+      "limitations": ["Campaign policy is selected when compiling the bundle; per-character campaign switching is not implemented."],
+      "excludedEntries": {
+        "modern4e.ancestry.revenant": "Revenant is excluded from ZEITGEIST by the local rulebook ancestry roster."
+      }
+    },
+    "HOMEBREW": {
+      "enabled": false,
+      "limitations": ["The separate HOMEBREW theme roster has not been migrated; this profile cannot be compiled as playable content."],
+      "excludedEntries": {}
+    }
+  }
+}

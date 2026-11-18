@@ -143,13 +143,17 @@ def choice(value, entries, references, where):
         fields(source, ["type", "category", "filters"], [], where)
         enum(source["category"], ["POWER", "FEATURE", "FEAT", "TECHNIQUE"], where)
         filters = source["filters"]
-        fields(filters, [], ["usage", "powerKind", "levelMaximum", "access", "keywords"], where)
+        fields(filters, [], ["usage", "powerKind", "levelMaximum", "access", "keywords", "pickKind"], where)
         require(bool(filters), where, "query must declare filters")
+        require("pickKind" not in filters or filters.get("powerKind") == "UTILITY",
+                where, "pickKind requires a UTILITY query")
         for key, v in filters.items():
             if key == "usage":
                 enum(v, USAGES, where)
             elif key == "powerKind":
                 enum(v, ["ATTACK", "UTILITY"], where)
+            elif key == "pickKind":
+                enum(v, ["COMBAT", "NON_COMBAT"], where)
             elif key == "levelMaximum":
                 if isinstance(v, str):
                     enum(v, ["CHARACTER", "SLOT"], where)

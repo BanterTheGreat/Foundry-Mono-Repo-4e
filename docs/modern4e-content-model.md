@@ -1,8 +1,9 @@
 # Shared Modern 4e content model
 
 Status: agreed authoring direction. The feat migration implements identity,
-access, structured prerequisites and selection authoring. Runtime enforcement and
-reuse across other entry types remain in [migration issue #29](https://github.com/BanterTheGreat/Foundry-Mono-Repo-4e/issues/29).
+access, structured prerequisites and selection authoring. Production v2 now evaluates
+independent historical eligibility, explicit multiclass qualification and Skill Training
+distinctness. Other repeatable effects and broader migration work remain in [migration issue #29](https://github.com/BanterTheGreat/Foundry-Mono-Repo-4e/issues/29).
 
 ## Shared entry base
 
@@ -70,9 +71,10 @@ parse free text, execute scripts, infer access from file placement or translate
 published ability scores into Modern 4e points automatically.
 
 “Any Divine class” checks a qualifying class's power source. Merely knowing a
-Divine power does not establish that qualification. Multiclass qualification
-needs explicit rules; a multiclass feat's target class is not automatically a
-requirement to already belong to that class.
+Divine power does not establish that qualification. An explicitly targeted class-specific multiclass feat counts as class membership
+for feat and paragon-path prerequisites, including qualifying class sources. It
+does not open class power pools or grant class equipment proficiencies. Explicitly
+granted features qualify normally; prose-only effects remain unsupported.
 
 Unknown or ambiguous requirements remain explicit `unresolved` conditions with
 their original text and a reason. References to entries pending migration remain
@@ -128,8 +130,8 @@ is the first implementation of this direction. Its validator, reference registry
 and section inventory still use feat-specific names. Generalize those as other
 categories migrate; do not claim a generic runtime schema already exists.
 `build.py --modern-feats` currently exports an authoring catalog, not an enabled
-v1 runtime package. Runtime condition and selection-rule evaluation and
-category-specific mechanics remain separate implementation work.
+v1 runtime package. Production v2 evaluates supported conditions, occurrence maxima and Skill Training
+distinctness; other category-specific mechanics remain separate implementation work.
 
 
 ## Class authoring across all combat roles

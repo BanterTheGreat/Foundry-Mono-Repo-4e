@@ -364,9 +364,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.divine-healer",
       "mechanics": {
@@ -376,6 +376,7 @@
         "choices": [],
         "grants": [],
         "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.cleric",
         "prerequisites": [
           {
             "type": "always"

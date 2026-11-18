@@ -28,9 +28,7 @@ Access and prerequisites share recursive `allOf`/`anyOf` evaluation across
 categories. Supported leaves include level, entry, direct ability, proficiency,
 class power source and equipment proficiency. Sources qualify through active
 classes, not known powers. Unsupported size/selected queries compile to explicit
-unresolved conditions with the source data preserved. No branch may prove its
-prerequisite from its own benefit chain; ambiguous/historical evaluation remains
-incomplete. In v2 eligibility and automation coverage are separate facts: an
+unresolved conditions with the source data preserved. Mechanics-v2 prerequisites use selection-time snapshots excluding the candidate occurrence and recursively dependent benefit chains. Unknown definitions and unsupported conditions remain explicit gaps. Legacy v1 historical evaluation remains incomplete. In v2 eligibility and automation coverage are separate facts: an
 eligible feature may still have incomplete combat effects. Legacy v1 retains its
 existing conservative coverage gate.
 
@@ -134,19 +132,41 @@ diagnostics/explicit selection. Missing prerequisite definitions are unresolved;
 an available required entry that is not selected is provably ineligible.
 Imported `Unadapted` text is incomplete and never parsed as a score threshold.
 
-Eligibility must not be proved from a candidate's own benefits. The proof engine
-conservatively diagnoses potentially self-satisfying grant/choice/modifier chains
-as incomplete instead of claiming eligibility. It also diagnoses non-level
-prerequisites on earlier-level decisions as incomplete when evaluating a later
-level, because historical independent calculations are not implemented. An
-earlier decision's explicit level prerequisite uses its selection level, not the
-character's current level. These limits are explicit; this engine does not claim
-full historical eligibility, retraining, or arbitrary progression. Legacy documents
-above level 2 and documents with ability advancements remain preserved but have
-unavailable totals. Power-only replacement history can replay supported acquisition
-occurrences with an explicit incomplete timing/allowance diagnostic; it does not
-make general retraining or later-level advancement complete. Explicit v2 class formulas/acquisition can evaluate
-later levels with the general-progression limitation described above.
+Mechanics-v2 eligibility reconstructs facts at the decision level, excluding the
+candidate occurrence, its descendants and recursively dependent selections. Later
+selections cannot qualify earlier decisions. Equipment and manual adjustments do
+not establish prerequisite facts because they have no dated acquisition history.
+Forced ineligible selections still contribute their declared benefits under the
+existing editing contract; this is not general dependency-validity filtering.
+Legacy v1 historical/self-benefit cases remain incomplete. General advancement,
+retraining timing and higher levels remain provisional under #20.
+
+Explicit `multiclassFor` counts as the target class for FEAT and PARAGON_PATH
+access/prerequisites, including class source conditions. It does not grant the
+class's equipment proficiencies or access to its power pools. Actually granted
+features satisfy feature prerequisites normally; prose-only feature benefits
+remain unsupported and are never inferred from a multiclass title.
+
+`ChoiceDefinition.Proficiencies.distinctAgainstCharacter` enforces authored Skill
+Training choices against independent proficiencies and sibling picks. Two new
+skills must remain; later-level grants do not invalidate an earlier choice.
+Ordinary proficiency choices retain their previous behavior.
+
+Campaign `unavailable` conditions are provably ineligible, distinct from unknown
+rules. The production ZEITGEIST policy retains Revenant's definition and saved
+selections while denying access. HOMEBREW is explicitly unavailable until its
+separate theme roster is migrated. Policy selection is currently at bundle build
+time, with no character campaign-switch UI.
+
+`ContentMigration.preview` accepts a reviewed `ContentMigrationPlan` against a
+deliberately selected destination catalog. It preserves unmapped/missing targets,
+source slots, abilities and inventory configuration, and records original and
+adopted selections in optional portable `contentMigrations`. Destination package
+precedence is retained; empty/failed migrations leave packages unchanged.
+`commit` rejects stale documents and performs no persistence. The explicit
+`content/migrations/fighter-v1.json` maps class3 and 174 published attack IDs.
+Other identities require reviewed mappings; no automatic score or slot conversion
+occurs. Platform confirmation/persistence UI remains pending.
 
 ## Modifier semantics
 

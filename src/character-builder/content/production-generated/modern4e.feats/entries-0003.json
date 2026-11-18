@@ -2005,9 +2005,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.heart-of-the-blade",
       "mechanics": {
@@ -2017,6 +2017,7 @@
         "choices": [],
         "grants": [],
         "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.swordmage",
         "prerequisites": [
           {
             "type": "always"
@@ -3216,9 +3217,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.hunting-predator",
       "mechanics": {
@@ -3228,6 +3229,7 @@
         "choices": [],
         "grants": [],
         "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.druid",
         "prerequisites": [
           {
             "type": "always"
@@ -4380,8 +4382,7 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder.",
-          "Prerequisite not evaluated: 2 Constitution or Charisma (Implicit Charisma threshold needs an explicit Modern 4e ruling; see migration issue #29.)"
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -4398,9 +4399,19 @@
           {
             "conditions": [
               {
-                "reason": "Implicit Charisma threshold needs an explicit Modern 4e ruling; see migration issue #29.",
-                "text": "2 Constitution or Charisma",
-                "type": "unresolved"
+                "conditions": [
+                  {
+                    "ability": "CONSTITUTION",
+                    "minimum": 2,
+                    "type": "abilityPoints"
+                  },
+                  {
+                    "ability": "CHARISMA",
+                    "minimum": 2,
+                    "type": "abilityPoints"
+                  }
+                ],
+                "type": "anyOf"
               },
               {
                 "entryId": "modern4e.feature.star-pact",
@@ -4427,9 +4438,19 @@
         "prerequisites": {
           "conditions": [
             {
-              "reason": "Implicit Charisma threshold needs an explicit Modern 4e ruling; see migration issue #29.",
-              "text": "2 Constitution or Charisma",
-              "type": "unresolved"
+              "conditions": [
+                {
+                  "ability": "CONSTITUTION",
+                  "minimum": 2,
+                  "type": "abilityPoints"
+                },
+                {
+                  "ability": "CHARISMA",
+                  "minimum": 2,
+                  "type": "abilityPoints"
+                }
+              ],
+              "type": "anyOf"
             },
             {
               "entryId": "modern4e.feature.star-pact",
@@ -4438,7 +4459,7 @@
           ],
           "type": "allOf"
         },
-        "runtimeRequirementText": "2 Constitution or Charisma, Star Pact",
+        "runtimeRequirementText": "(2 Constitution or 2 Charisma), Star Pact",
         "selection": {
           "constraints": [],
           "maximum": 1

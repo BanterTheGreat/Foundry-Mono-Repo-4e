@@ -208,9 +208,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.pact-initiate",
       "mechanics": {
@@ -220,6 +220,7 @@
         "choices": [],
         "grants": [],
         "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.warlock",
         "prerequisites": [
           {
             "type": "always"
@@ -3378,9 +3379,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.rampant-fury",
       "mechanics": {
@@ -3390,6 +3391,7 @@
         "choices": [],
         "grants": [],
         "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.barbarian",
         "prerequisites": [
           {
             "type": "always"
@@ -4329,9 +4331,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.resourceful-leader",
       "mechanics": {
@@ -4341,6 +4343,7 @@
         "choices": [],
         "grants": [],
         "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.warlord",
         "prerequisites": [
           {
             "type": "always"

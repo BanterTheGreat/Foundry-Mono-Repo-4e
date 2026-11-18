@@ -27,7 +27,7 @@ def fingerprint(entry):
     for key in ('prerequisites', 'grants', 'choices', 'modifiers', 'progression'):
         mechanics.setdefault(key, [])
     for key in ('conditionalModifiers', 'unsupported', 'weaponAbilities', 'selectionModifiers', 'collections',
-                'maximumSelections', 'classProfile', 'powerProfile', 'access'):
+                'maximumSelections', 'classProfile', 'powerProfile', 'access', 'multiclassFor'):
         if mechanics.get(key) is None or mechanics.get(key) == [] or mechanics.get(key) == {}:
             mechanics.pop(key, None)
     for grant in mechanics['grants']:
@@ -39,6 +39,8 @@ def fingerprint(entry):
         modifier['target'].setdefault('ability', None)
         modifier['target'].setdefault('skill', None)
     for choice in mechanics['choices']:
+        if choice['type'] == 'proficiencies' and not choice.get('distinctAgainstCharacter', False):
+            choice.pop('distinctAgainstCharacter', None)
         if choice['type'] != 'entries':
             continue
         choice.setdefault('entryIds', [])
@@ -142,12 +144,44 @@ def assets(packages=None):
     return output
 
 
+def accepted_assets(packages=None):
+    """Complete represented level-1/2 decisions, retaining explicit partial effect coverage."""
+    packages = build.production() if packages is None else packages
+    definitions = {e['id']: (name.split('/')[0], e) for name, chunk in packages.items()
+                   if '/entries' in name for e in chunk['entries']}
+    def saved(entry_id):
+        supplier, entry = definitions[entry_id]
+        return dict(entryId=entry_id, savedTitle=entry['presentation']['title'],
+                    supplierPackageId=supplier, acknowledgedFingerprint=fingerprint(entry))
+    result = {}
+    for level in (1, 2):
+        document = assets(packages)[f'sample-current-fighter-{level}-base.json']
+        document.update(id=f'accepted-fighter-{level}')
+        document['identity'].update(name='Accepted Fighter', environment='urban', upbringing='labor')
+        document['levels'][0]['entries'].append(dict(instanceId='docker',
+            slot=dict(sourceInstanceId='creation', choiceId='theme', ordinal=0),
+            selection=saved('modern4e.theme.docker')))
+        for item_id, instance in [('modern4e.armor.scale', 'scale'), ('modern4e.shield.heavy-shield', 'shield')]:
+            document['equipment'].append(dict(instanceId=instance, selection=saved(item_id), quantity=1, equipped=True))
+        if level == 2:
+            document['levels'][1]['entries'].append(dict(instanceId='durable',
+                slot=dict(sourceInstanceId='advancement.2', choiceId='feat', ordinal=0),
+                selection=saved('modern4e.feat.durable')))
+        result[f'sample-accepted-fighter-{level}.json'] = document
+    non_combat = copy.deepcopy(result['sample-accepted-fighter-2.json'])
+    non_combat['id'] = 'accepted-fighter-2-non-combat'
+    utility = next(e for e in non_combat['levels'][1]['entries'] if e['slot']['choiceId'] == 'modern4e.choice.class-utility-2')
+    utility['selection'] = saved('modern4e.power.utility-source-warlord-2-mind-for-maps')
+    result['sample-accepted-fighter-2-non-combat.json'] = non_combat
+    return result
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--check', action='store_true')
     args = parser.parse_args()
     packages = build.production()
-    samples = assets(packages)
+    samples = assets(packages) | accepted_assets(packages)
     template = {'sample-modern-fighter.json': modern_sample(packages)}
     destinations = [(FIXTURES, samples | template), (TEST_PACKAGES, test_override(packages)),
         (HERE.parent / 'web/public/samples', template),
@@ -162,7 +196,7 @@ def main():
             else:
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_bytes(data)
-    print('Checked' if args.check else 'Generated', 'four current-data test characters, test override and identical production starters')
+    print('Checked' if args.check else 'Generated', 'four regression characters, three acceptance characters, test override and identical production starters')
 
 
 if __name__ == '__main__':

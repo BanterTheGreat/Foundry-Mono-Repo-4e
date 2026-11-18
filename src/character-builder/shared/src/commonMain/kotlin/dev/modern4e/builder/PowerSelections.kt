@@ -1,14 +1,20 @@
+@file:OptIn(kotlinx.serialization.ExperimentalSerializationApi::class)
+
 package dev.modern4e.builder
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.EncodeDefault
 
 /** Acquisition/filter facts are independent of benefit scaling and activation rules. */
 @Serializable
-data class PowerProfile(val level: Int, val usage: String, val powerKind: String, val keywords: List<String> = emptyList()) {
+data class PowerProfile(val level: Int, val usage: String, val powerKind: String, val keywords: List<String> = emptyList(),
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val pickKinds: List<String> = emptyList()) {
     init {
         require(level in 1..30)
         require(usage in listOf("AT_WILL", "ENCOUNTER", "DAILY"))
         require(powerKind in listOf("ATTACK", "UTILITY"))
+        require(pickKinds == pickKinds.distinct() && pickKinds.all { it in listOf("COMBAT", "NON_COMBAT") })
+        require(pickKinds.isEmpty() || powerKind == "UTILITY")
     }
 }
 
@@ -16,12 +22,15 @@ data class PowerProfile(val level: Int, val usage: String, val powerKind: String
 @Serializable
 data class PowerQuery(val category: EntryCategory = EntryCategory.POWER, val usage: String? = null,
     val powerKind: String? = null, val levelMaximum: Int? = null, val characterLevel: Boolean = false,
-    val keywords: List<String> = emptyList()) {
+    val keywords: List<String> = emptyList(),
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val pickKind: String? = null) {
     init {
         require(category in listOf(EntryCategory.POWER, EntryCategory.TECHNIQUE, EntryCategory.FEATURE, EntryCategory.FEAT))
         require(usage == null || usage in listOf("AT_WILL", "ENCOUNTER", "DAILY"))
         require(powerKind == null || powerKind in listOf("ATTACK", "UTILITY"))
         require(levelMaximum == null || levelMaximum in 1..30)
+        require(pickKind == null || pickKind in listOf("COMBAT", "NON_COMBAT"))
+        require(pickKind == null || powerKind == "UTILITY")
     }
 }
 

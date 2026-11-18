@@ -191,8 +191,8 @@ class SharedClassTest {
             modifiers = listOf(TypedModifier(ModifierTarget(Statistic.ABILITY_POINTS, ability = Ability.WISDOM), ModifierOperation.ADD, 2))))
         val result = evaluate(replacements = listOf(changed))
         val option = result.choices.single { it.slot == ownedChoice("fighter-specialization") }.entries.single { it.entryId == candidate.id }
-        assertEquals(Eligibility.INCOMPLETE, option.status)
-        assertTrue(option.diagnostics.any { it.code == "engine.prerequisiteDependency" })
+        assertEquals(Eligibility.INELIGIBLE, option.status)
+        assertTrue(option.diagnostics.any { it.code == "engine.prerequisite" })
     }
 
     @Test
@@ -216,9 +216,75 @@ class SharedClassTest {
         val second = reactivity.copy(mechanics = reactivity.mechanics.copy(prerequisites = listOf(Prerequisite.Proficiency(Skill.ATHLETICS)),
             modifiers = listOf(TypedModifier(ModifierTarget(Statistic.ABILITY_POINTS, ability = Ability.WISDOM), ModifierOperation.ADD, 2))))
         val result = evaluate(replacements = listOf(first, second))
-        assertEquals(Eligibility.INCOMPLETE, result.entryEligibility.getValue("specialization").status)
-        assertEquals(Eligibility.INCOMPLETE, result.entryEligibility.getValue("reactivity").status)
-        assertTrue(result.diagnostics.any { it.code == "engine.prerequisiteDependency" })
+        assertEquals(Eligibility.INELIGIBLE, result.entryEligibility.getValue("specialization").status)
+        assertEquals(Eligibility.INELIGIBLE, result.entryEligibility.getValue("reactivity").status)
+        assertTrue(result.diagnostics.any { it.code == "engine.prerequisite" })
+    }
+
+    @Test
+    fun independentFactsCanQualifyDespiteMatchingBenefitsAndHistoricalDecisionsUseTheirOwnLevel() {
+        val talent = feature("one-handed-weapon-talent")
+        val qualified = talent.copy(mechanics = talent.mechanics.copy(prerequisites = listOf(
+            Prerequisite.AbilityPoints(Ability.CONSTITUTION, 2), Prerequisite.ClassPowerSource("MARTIAL")),
+            modifiers = listOf(TypedModifier(ModifierTarget(Statistic.ABILITY_POINTS, ability = Ability.CONSTITUTION), ModifierOperation.ADD, 1))))
+        val doc = character().let { it.copy(level = 2, levels = it.levels + LevelDecisions(2)) }
+        val result = evaluate(doc, listOf(qualified))
+        assertEquals(Eligibility.ELIGIBLE, result.entryEligibility.getValue("specialization").status)
+        assertFalse(result.diagnostics.any { it.code == "engine.prerequisiteDependency" })
+        assertEquals(doc, assertIs<ContractResult.Available<CharacterDocument>>(ContractCodec.decode(ContractCodec.encode(doc))).value)
+    }
+
+    @Test
+    fun laterGrantsAndProficienciesCannotRetroactivelyQualifyEarlierSelections() {
+        val talent = feature("one-handed-weapon-talent")
+        val qualified = talent.copy(mechanics = talent.mechanics.copy(prerequisites = listOf(Prerequisite.Proficiency(Skill.ATHLETICS))))
+        val later = fighter.copy(mechanics = fighter.mechanics.copy(progression = fighter.mechanics.progression +
+            ClassProgression(2, grants = listOf(Grant.Proficiency("late-athletics", Skill.ATHLETICS)))))
+        val doc = character().let { it.copy(level = 2, levels = it.levels + LevelDecisions(2)) }
+        val result = evaluate(doc, listOf(qualified, later))
+        assertTrue(Skill.ATHLETICS in result.proficiencies)
+        assertEquals(Eligibility.INELIGIBLE, result.entryEligibility.getValue("specialization").status)
+    }
+
+    @Test
+    fun explicitCampaignExclusionsAreKnownIneligibilityAndPreserveSelections() {
+        val talent = feature("one-handed-weapon-talent")
+        val excluded = talent.copy(mechanics = talent.mechanics.copy(access =
+            Prerequisite.Unavailable("Unavailable in this campaign", "Explicit profile policy")))
+        val encoded = ContractCodec.json.encodeToString(ContentEntry.serializer(), excluded)
+        assertEquals(excluded, ContractCodec.json.decodeFromString<ContentEntry>(encoded))
+        assertNotEquals(ContractCodec.fingerprint(talent), ContractCodec.fingerprint(excluded))
+        val result = evaluate(replacements = listOf(excluded))
+        assertEquals(Eligibility.INELIGIBLE, result.entryEligibility.getValue("specialization").status)
+        assertTrue(result.entries.any { it.instanceId == "specialization" })
+        assertTrue(result.diagnostics.any { it.code == "engine.unavailableCondition" })
+    }
+
+    @Test
+    fun multiclassQualificationAppliesOnlyToFeatsAndPathsAndOnlyGrantsRealFeatures() {
+        val target = fighter.copy(id = "modern4e.class.rogue", mechanics = fighter.mechanics.copy(
+            classProfile = fighter.mechanics.classProfile!!.copy(powerSources = listOf("DIVINE")), grants = emptyList(), choices = emptyList()))
+        val multiclass = feature("combat-reactivity").copy(category = EntryCategory.FEAT,
+            mechanics = Mechanics(version = 2, multiclassFor = target.id))
+        val talent = feature("one-handed-weapon-talent")
+        for (category in listOf(EntryCategory.FEAT, EntryCategory.PARAGON_PATH, EntryCategory.POWER)) {
+            val candidate = talent.copy(category = category, mechanics = Mechanics(version = 2,
+                prerequisites = listOf(Prerequisite.Entry(target.id), Prerequisite.ClassPowerSource("DIVINE"))))
+            val result = evaluate(replacements = listOf(multiclass, candidate, target))
+            assertEquals(if (category == EntryCategory.POWER) Eligibility.INELIGIBLE else Eligibility.ELIGIBLE,
+                result.entryEligibility.getValue("specialization").status)
+        }
+        val missingFeature = talent.copy(category = EntryCategory.FEAT, mechanics = Mechanics(version = 2,
+            prerequisites = listOf(Prerequisite.Entry("modern4e.feature.sneak-attack"))))
+        val sneak = talent.copy(id = "modern4e.feature.sneak-attack", mechanics = Mechanics(version = 2))
+        assertEquals(Eligibility.INELIGIBLE, evaluate(replacements = listOf(multiclass, missingFeature, target, sneak))
+            .entryEligibility.getValue("specialization").status)
+        val granting = multiclass.copy(mechanics = multiclass.mechanics.copy(grants = listOf(Grant.Entry("sneak", sneak.id))))
+        assertEquals(Eligibility.ELIGIBLE, evaluate(replacements = listOf(granting, missingFeature, target, sneak))
+            .entryEligibility.getValue("specialization").status)
+        assertEquals(multiclass, ContractCodec.json.decodeFromString<ContentEntry>(
+            ContractCodec.json.encodeToString(ContentEntry.serializer(), multiclass)))
+        assertNotEquals(ContractCodec.fingerprint(multiclass), ContractCodec.fingerprint(multiclass.copy(mechanics = multiclass.mechanics.copy(multiclassFor = null))))
     }
 
     @Test

@@ -1,7 +1,8 @@
 # Modern 4e selection authoring
 
-Status: implemented for feat authoring and Typst/build export. Runtime enforcement
-remains part of migration issue #29. This extends the
+Status: implemented for feat authoring and Typst/build export. Runtime occurrence
+limits and Skill Training distinct proficiency choices are implemented; the other
+repeatable choice effects remain part of migration issue #29. This extends the
 [shared content model](modern4e-content-model.md) without changing class JSON,
 class progression or the existing v1 runtime packages.
 
@@ -102,8 +103,9 @@ Typst generates the five repetition Special paragraphs from this data. The
 compiler exports identical `selectionText` alongside `selection` and `choices`.
 Effect prose retains the original benefits without duplicating these paragraphs.
 
-This is authoring validation, not live character validation. The v1 engine and
-platform bundles do not yet enforce these rules or consume these choices.
+The production mechanics-v2 engine enforces explicit occurrence limits and Skill
+Training's two distinct untrained skills, including repeated picks and exhaustion.
+The remaining scopes and repeatable feat benefits stay visibly unsupported.
 Language and weapon catalogs, historical facts, full effects, character migration,
 unresolved prerequisites and deduplication remain separate work. Scope `ENTRY`
 uses stable IDs; known duplicate definitions need review before full activation.

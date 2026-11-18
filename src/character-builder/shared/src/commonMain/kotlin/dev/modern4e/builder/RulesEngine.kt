@@ -16,6 +16,7 @@ data class RulesContent(
             val pending = mutableListOf<String>()
             fun dependencies(entry: ContentEntry) {
                 val mechanics = entry.mechanics
+                mechanics.multiclassFor?.let { pending += it }
                 if (!queryPowersLoaded && (mechanics.choices + mechanics.progression.flatMap { it.choices })
                     .filterIsInstance<ChoiceDefinition.Entries>().any { it.query?.category == EntryCategory.POWER }) {
                     pending += reading.search(category = EntryCategory.POWER).map { it.metadata.id }
@@ -135,7 +136,12 @@ object RulesEngine {
     fun evaluate(document: CharacterDocument, content: RulesContent): EngineResult = Evaluation(document, content).run()
 }
 
-private class Evaluation(private val document: CharacterDocument, private val content: RulesContent) {
+private class Evaluation(
+    private val document: CharacterDocument,
+    private val content: RulesContent,
+    private val factsOnly: Boolean = false,
+) {
+    private val independentFacts = mutableMapOf<Pair<String, ChoiceSlotId>, Evaluation>()
     private val diagnostics = content.diagnostics.toMutableList()
     private val blockers = content.diagnostics.filter { it.kind == DiagnosticKind.UNRESOLVED_CONTENT }.toMutableList()
     private val entries = mutableListOf<EngineEntry>()
@@ -181,6 +187,7 @@ private class Evaluation(private val document: CharacterDocument, private val co
     private val abilityValues = linkedMapOf<Ability, StatisticCalculation>()
     private val abilityFacts = linkedMapOf<Ability, StatisticCalculation>()
     private val overviewAbilityTotals = linkedMapOf<Ability, Int>()
+    private val proficiencySelectionRules by lazy { ProficiencySelectionRules(document, entries, proficiencies) }
 
     fun run(): EngineResult {
         val repeatedSlots = (entryDecisions.map { it.slot } + proficiencyDecisions.map { it.slot })
@@ -274,6 +281,10 @@ private class Evaluation(private val document: CharacterDocument, private val co
             modifiers += ModifierContribution(adjustment.modifier, "Manual Adjustment", "manual:${adjustment.id}")
         }
         calculateAbilities()
+        if (factsOnly) {
+            return EngineResult(emptyMap(), entries.toList(), emptyList(), proficiencies.mapValues { it.value.toList() },
+                entries.associate { it.instanceId to it.definition.entry.coverage }, diagnostics.distinct())
+        }
         val entryIds = entries.map { it.definition.entry.id }.toSet()
         val selectedEligibility = entries.filterNot { it.granted }.associate { entry ->
             entry.instanceId to eligibility(entry.definition.entry, entry.slot, entryIds)
@@ -292,7 +303,7 @@ private class Evaluation(private val document: CharacterDocument, private val co
                             }.map { it.copy(slot = slot, entryId = id) })
                     }
                 })
-                is ChoiceDefinition.Proficiencies -> EngineChoice(slot, skills = definition.skills)
+                is ChoiceDefinition.Proficiencies -> EngineChoice(slot, skills = proficiencySelectionRules.skills(slot, definition))
                 is ChoiceDefinition.MainAbility -> EngineChoice(slot, abilities = definition.abilities)
             }
         }
@@ -493,6 +504,7 @@ private class Evaluation(private val document: CharacterDocument, private val co
                         query.category == EntryCategory.POWER && candidate.category == query.category && profile != null && candidate.mechanics.access != null &&
                             (query.usage == null || profile.usage == query.usage) &&
                             (query.powerKind == null || profile.powerKind == query.powerKind) &&
+                            (query.pickKind == null || query.pickKind in profile.pickKinds) &&
                             profile.level <= ceiling &&
                             profile.keywords.containsAll(query.keywords)
                     }.map { it.id }.sorted()
@@ -793,6 +805,10 @@ private class Evaluation(private val document: CharacterDocument, private val co
             return EntryEligibility(entry.id, Eligibility.INELIGIBLE, listOf(diagnostic("selectionMaximum",
                 DiagnosticKind.INVALID_SELECTION, "Entry selection maximum exceeded.", slot, entry.id)))
         }
+        val proficiencyErrors = proficiencySelectionRules.validate(entry, slot)
+        if (proficiencyErrors.isNotEmpty()) {
+            return EntryEligibility(entry.id, Eligibility.INELIGIBLE, proficiencyErrors)
+        }
         val result = evaluate(Prerequisite.AllOf(listOfNotNull(entry.mechanics.access) + entry.mechanics.prerequisites + Prerequisite.Always))
         if (entry.mechanics.version == 1 && entry.coverage.status != CoverageStatus.SUPPORTED) {
             val notice = diagnostic("coverage", DiagnosticKind.INCOMPLETE_AUTOMATION,
@@ -805,12 +821,18 @@ private class Evaluation(private val document: CharacterDocument, private val co
 
     private fun leafEligibility(entry: ContentEntry, slot: ChoiceSlotId, selected: Set<String>, prerequisite: Prerequisite): EntryEligibility {
         val errors = mutableListOf<Diagnostic>()
+        val factBlockers = if (factsOnly) blockers.filter { it.code != "engine.missingChoice" } else blockers
         var unresolved = false
         var incomplete = false
         var invalid = false
         val selectionLevel = decisionLevels[slot]
         val historical = selectionLevel != null && selectionLevel < document.level && prerequisite !is Prerequisite.Level && prerequisite !is Prerequisite.Always
-        if (selfDependency(entry, prerequisite) || entry.mechanics.version >= 2 && dependentBenefit(entry, prerequisite) || historical) {
+        if (!factsOnly && entry.mechanics.version >= 2 && prerequisite !is Prerequisite.Level &&
+            prerequisite !is Prerequisite.Always && prerequisite !is Prerequisite.Unresolved && prerequisite !is Prerequisite.Unadapted) {
+            val facts = independentFacts.getOrPut(entry.id to slot) { independentFacts(entry, slot) }
+            return facts.leafEligibility(entry, slot, facts.entries.map { it.definition.entry.id }.toSet(), prerequisite)
+        }
+        if (!factsOnly && (selfDependency(entry, prerequisite) || historical)) {
             incomplete = true
             errors += diagnostic("prerequisiteDependency", DiagnosticKind.INCOMPLETE_AUTOMATION,
                 "Eligibility needs independent or historical prerequisite evaluation; this proof cannot establish it from current benefits.", slot, entry.id)
@@ -821,7 +843,12 @@ private class Evaluation(private val document: CharacterDocument, private val co
             is Prerequisite.AllOf, is Prerequisite.AnyOf -> error("Groups are evaluated recursively")
             is Prerequisite.ClassPowerSource, is Prerequisite.EquipmentProficiency -> {
                 val classes = entries.filter { it.definition.entry.category == EntryCategory.CLASS }
-                val known = classes.mapNotNull { it.definition.entry.mechanics.classProfile }
+                val qualifyingMulticlasses = if (prerequisite is Prerequisite.ClassPowerSource && entry.category in setOf(EntryCategory.FEAT, EntryCategory.PARAGON_PATH)) {
+                    entries.mapNotNull { it.definition.entry.mechanics.multiclassFor }.distinct().map {
+                        (content.entries[it] as? ContractResult.Available)?.value?.entry?.mechanics?.classProfile
+                    }
+                } else emptyList()
+                val known = classes.mapNotNull { it.definition.entry.mechanics.classProfile } + qualifyingMulticlasses.filterNotNull()
                 val matches = when (prerequisite) {
                     is Prerequisite.ClassPowerSource -> known.any { prerequisite.powerSource in it.powerSources }
                     is Prerequisite.EquipmentProficiency -> known.any { prerequisite.equipment in it.proficiencies.values.flatten() }
@@ -829,8 +856,8 @@ private class Evaluation(private val document: CharacterDocument, private val co
                 }
                 when {
                     matches -> true
-                    blockers.isNotEmpty() -> { unresolved = true; null }
-                    known.size != classes.size -> {
+                    factBlockers.isNotEmpty() -> { unresolved = true; null }
+                    known.size != classes.size + qualifyingMulticlasses.size -> {
                         incomplete = true
                         errors += diagnostic("classFactsUnavailable", DiagnosticKind.INCOMPLETE_AUTOMATION,
                             "A legacy class has no shared source/proficiency facts.", slot, entry.id)
@@ -838,6 +865,11 @@ private class Evaluation(private val document: CharacterDocument, private val co
                     }
                     else -> false
                 }
+            }
+            is Prerequisite.Unavailable -> {
+                errors += diagnostic("unavailableCondition", DiagnosticKind.INVALID_SELECTION,
+                    "${prerequisite.text}: ${prerequisite.reason}", slot, entry.id)
+                false
             }
             is Prerequisite.Unresolved -> {
                 incomplete = true
@@ -847,9 +879,12 @@ private class Evaluation(private val document: CharacterDocument, private val co
             }
             is Prerequisite.Level -> (selectionLevel ?: document.level) >= prerequisite.minimum
             is Prerequisite.Entry -> {
-                if (prerequisite.entryId in selected) {
+                val multiclassMatch = entry.category in setOf(EntryCategory.FEAT, EntryCategory.PARAGON_PATH) &&
+                    entries.any { it.definition.entry.category == EntryCategory.FEAT && it.definition.entry.mechanics.multiclassFor == prerequisite.entryId } &&
+                    (content.entries[prerequisite.entryId] as? ContractResult.Available)?.value?.entry?.category == EntryCategory.CLASS
+                if (prerequisite.entryId in selected || multiclassMatch) {
                     true
-                } else if (blockers.isNotEmpty() || content.entries[prerequisite.entryId] !is ContractResult.Available) {
+                } else if (factBlockers.isNotEmpty() || content.entries[prerequisite.entryId] !is ContractResult.Available) {
                     unresolved = true
                     null
                 } else {
@@ -872,7 +907,7 @@ private class Evaluation(private val document: CharacterDocument, private val co
                 }
             }
             is Prerequisite.Proficiency -> {
-                if (prerequisite.skill in proficiencies) true else if (blockers.isNotEmpty()) { unresolved = true; null } else false
+                if (prerequisite.skill in proficiencies) true else if (factBlockers.isNotEmpty()) { unresolved = true; null } else false
             }
             is Prerequisite.Unadapted -> {
                 incomplete = true
@@ -914,9 +949,14 @@ private class Evaluation(private val document: CharacterDocument, private val co
             is Prerequisite.AbilityPoints -> sourceModifiers.any { it.target == ModifierTarget(Statistic.ABILITY_POINTS, ability = prerequisite.ability) }
             is Prerequisite.Proficiency -> grants.filterIsInstance<Grant.Proficiency>().any { it.skill == prerequisite.skill } ||
                 sourceChoices.filterIsInstance<ChoiceDefinition.Proficiencies>().any { prerequisite.skill in it.skills }
-            is Prerequisite.ClassPowerSource -> prerequisite.powerSource in mechanics.classProfile?.powerSources.orEmpty()
+            is Prerequisite.ClassPowerSource -> prerequisite.powerSource in mechanics.classProfile?.powerSources.orEmpty() ||
+                mechanics.multiclassFor?.let { target ->
+                    val profile = (content.entries[target] as? ContractResult.Available)?.value?.entry?.mechanics?.classProfile
+                    prerequisite.powerSource in profile?.powerSources.orEmpty()
+                } == true
             is Prerequisite.EquipmentProficiency -> prerequisite.equipment in mechanics.classProfile?.proficiencies?.values?.flatten().orEmpty()
-            is Prerequisite.Entry -> prerequisite.entryId == entry.id || grants.filterIsInstance<Grant.Entry>().any { it.entryId == prerequisite.entryId }
+            is Prerequisite.Entry -> prerequisite.entryId == entry.id || prerequisite.entryId == mechanics.multiclassFor ||
+                grants.filterIsInstance<Grant.Entry>().any { it.entryId == prerequisite.entryId }
             else -> false
         }
         if (direct) {
@@ -930,25 +970,44 @@ private class Evaluation(private val document: CharacterDocument, private val co
         }
     }
 
-    /** Also exclude benefits of selected entries whose eligibility depends on this candidate. */
-    private fun dependentBenefit(candidate: ContentEntry, prerequisite: Prerequisite): Boolean {
-        val dependent = linkedMapOf(candidate.id to candidate)
-        val selected = entries.filterNot { it.granted }.map { it.definition.entry }
+    /**
+     * Reconstruct selection-time facts without this occurrence or a benefit chain depending on it.
+     * The snapshot never evaluates eligibility itself, so circular requirements cannot recurse.
+     */
+    private fun independentFacts(candidate: ContentEntry, slot: ChoiceSlotId): Evaluation {
+        val excludedDefinitions = linkedMapOf(candidate.id to candidate)
         var changed = true
         while (changed) {
             changed = false
-            for (other in selected) {
-                if (other.id in dependent) {
+            for (other in entries.filterNot { it.granted }.map { it.definition.entry }) {
+                if (other.id in excludedDefinitions) {
                     continue
                 }
                 val requirements = (other.mechanics.prerequisites + listOfNotNull(other.mechanics.access)).flatMap { it.leaves() }
-                if (requirements.any { requirement -> dependent.values.any { selfDependency(it, requirement) } }) {
-                    dependent[other.id] = other
+                if (requirements.any { requirement -> excludedDefinitions.values.any { selfDependency(it, requirement) } }) {
+                    excludedDefinitions[other.id] = other
                     changed = true
                 }
             }
         }
-        return dependent.values.filter { it.id != candidate.id }.any { selfDependency(it, prerequisite) }
+        val excludedInstances = entries.filter {
+            it.slot == slot || it.definition.entry.id != candidate.id && it.definition.entry.id in excludedDefinitions
+        }.map { it.instanceId }.toMutableSet()
+        do {
+            changed = false
+            for (occurrence in entries) {
+                if (occurrence.slot.sourceInstanceId in excludedInstances && excludedInstances.add(occurrence.instanceId)) {
+                    changed = true
+                }
+            }
+        } while (changed)
+        val atLevel = decisionLevels[slot] ?: document.level
+        val snapshot = document.copy(level = atLevel, levels = document.levels.filter { it.level <= atLevel }.map { level ->
+            level.copy(entries = level.entries.filter { it.instanceId !in excludedInstances && it.slot != slot },
+                proficiencies = level.proficiencies.filter { it.slot.sourceInstanceId !in excludedInstances },
+                replacements = level.replacements.filter { it.replaces.sourceInstanceId !in excludedInstances && it.replaces != slot })
+        }, equipment = emptyList(), manualAdjustments = emptyList())
+        return Evaluation(snapshot, content, factsOnly = true).also { it.run() }
     }
 
     private fun invalid(code: String, message: String, slot: ChoiceSlotId, entryId: String? = null) {

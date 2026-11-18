@@ -7,6 +7,19 @@ import samples
 
 
 class SampleTest(unittest.TestCase):
+    def test_accepted_samples_use_real_themed_origins_and_level_two_feat(self):
+        packages = build.production()
+        definitions = {e['id']: e for e in runtime_common.entries_of(packages)}
+        accepted = samples.accepted_assets(packages)
+        self.assertEqual(3, len(accepted))
+        for name, document in accepted.items():
+            self.assertEqual(build.serialize(document), (samples.FIXTURES / name).read_bytes())
+            for selection in [e['selection'] for row in document['levels'] for e in row['entries']] + [e['selection'] for e in document['equipment']]:
+                self.assertEqual(samples.fingerprint(definitions[selection['entryId']]), selection['acknowledgedFingerprint'])
+            self.assertIn('modern4e.theme.docker', [e['selection']['entryId'] for e in document['levels'][0]['entries']])
+            self.assertEqual(3, len(document['equipment']))
+            self.assertEqual(document['level'], sum(e['slot']['choiceId'] == 'feat' for row in document['levels'] for e in row['entries']))
+
     def test_samples_are_reproducible_and_reference_current_definitions(self):
         packages = build.production()
         original_bytes = {name: build.serialize(value) for name, value in packages.items()}

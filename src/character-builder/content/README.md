@@ -1,5 +1,38 @@
 # Build-time content production
 
+## Shared-content acceptance and migration (#29)
+
+Production uses an explicit build-time ZEITGEIST profile in `campaign-profiles.json`.
+Revenant retains its ID and full definition but has a provably unavailable access
+condition. HOMEBREW is declared unavailable until its separate theme roster is
+migrated. This does not add per-character campaign switching.
+
+Mechanics-v2 eligibility uses independent selection-time facts. Explicit
+class-specific multiclass targets qualify for feat/paragon-path class and source
+requirements, without opening class power pools or granting class equipment
+proficiencies. Skill Training enforces two distinct untrained skills and pool
+exhaustion. Other repeatable feat choices/effects remain visible limitations.
+
+`samples.py` additionally generates three unbundled acceptance characters:
+level 1, level 2 with a combat utility, and level 2 with a non-combat utility.
+Each fills all represented choices using production definitions. Advancement
+grants **one utility total**, selected from eligible combat/non-combat options.
+`PowerProfile.pickKinds` preserves explicit section membership, and optional
+`PowerQuery.pickKind` can restrict a pool without inventing keywords or extra slots.
+
+`migrations/fighter-v1.json` explicitly maps class3 and 174 published Fighter
+attack IDs to stable Modern 4e identities. The shared `ContentMigration` API
+requires a deliberate destination catalog and preview/commit. It retains unknown
+choices, original supplier/title/fingerprint provenance and slots, rejects stale
+confirmation, and never converts scores. Package precedence follows the selected
+destination catalog. Platform migration UI remains pending; the plan is not
+applied automatically when opening a character.
+
+Remaining #29 work includes other repeatable effects/option catalogs, Alchemist's
+grant replacement, ten unresolved prerequisite occurrences, duplicate consolidation,
+broader reviewed ID plans and platform migration UI. Higher-level progression
+remains provisional under #20.
+
 ## Production classes (#35)
 
 The normal build validates all authoritative Modern 4e class JSON and compiles
@@ -16,9 +49,8 @@ level/usage profiles, class access and skill prerequisites. Descriptions render
 reviewed ordered rules; original published text is retained only as provenance.
 The explicit migration helper is not part of production. The Fighter-only compiler
 subset includes its curated attack pool when advancement is enabled; the named
-old proof compilation without advancement remains unchanged. Level-13/15 replacement
-candidates use replacement-level ceilings while historical eligibility and timing
-still report the shared engine's existing limitations.
+old proof compilation without advancement remains unchanged. Level-13/15 replacement candidates use replacement-level ceilings; general
+progression/retraining timing remains provisional.
 
 ```powershell
 python -X utf8 src/character-builder/content/build.py
@@ -93,8 +125,9 @@ cross-package reference check. The sample new-character template enables all of 
 - `modern4e.feats` (`feat_runtime.py`): all 818 feats in nine chunks. Access, structured prerequisites (allOf/anyOf
   intact) and `selection.maximum` are preserved; entry references to classes, ancestries and their features/powers
   stay `entry` conditions only when the target exists in a runtime package. Pending/unavailable references and
-  `size`/`selected` conditions become explicit `unresolved` conditions. Skill Training's skill choice is the only
-  compiled choice; other choices and distinct/advance constraints are unsupported and listed in coverage.
+  `size`/`selected` conditions become explicit `unresolved` conditions. Skill Training's two distinct untrained skill choices are enforced, including exhaustion;
+  other choices and distinct/advance constraints are unsupported and listed in coverage. Explicit
+  tagged multiclass targets carry contextual feat/paragon-path qualification; other benefits remain descriptive.
 - `modern4e.utilities` (`utility_runtime.py`): all 1,081 utility powers. The 1,010 in AVAILABLE sections carry a
   `powerProfile` and join the level-N utility pools; the 71 DEFERRED class utilities stay in the package so IDs
   resolve but have no profile. `sharedData.utilitySection` keeps section kind/availability and COMBAT/NON_COMBAT

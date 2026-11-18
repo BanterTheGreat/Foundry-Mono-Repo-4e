@@ -17,6 +17,8 @@ data class CharacterDocument(
     val levels: List<LevelDecisions> = emptyList(),
     val equipment: List<EquipmentSelection> = emptyList(),
     val manualAdjustments: List<ManualAdjustment> = emptyList(),
+    @OptIn(ExperimentalSerializationApi::class)
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val contentMigrations: List<ContentMigrationRecord> = emptyList(),
 ) {
     init {
         require(level in 1..30)

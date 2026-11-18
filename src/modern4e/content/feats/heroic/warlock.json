@@ -30,9 +30,19 @@
         "type": "allOf",
         "conditions": [
           {
-            "type": "unresolved",
-            "text": "2 Constitution or Charisma",
-            "reason": "Implicit Charisma threshold needs an explicit Modern 4e ruling; see migration issue #29."
+            "type": "anyOf",
+            "conditions": [
+              {
+                "type": "abilityPoints",
+                "ability": "CONSTITUTION",
+                "minimum": 2
+              },
+              {
+                "type": "abilityPoints",
+                "ability": "CHARISMA",
+                "minimum": 2
+              }
+            ]
           },
           {
             "type": "entry",
