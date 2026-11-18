@@ -35,7 +35,7 @@ Striker tests additionally cover all option packages, Warlock's disabled standar
 at-will slot, shared Channel Divinity usage, local damage tables, Barbarian class
 access/levels, pre-attack movement and distinct secondary attack geometry.
 
-Shared utility authoring (1,081 definitions, including 71 withheld entries):
+Shared utility authoring (1,046 definitions):
 
 ```sh
 python3 src/modern4e/scripts/utility_content.py
@@ -46,10 +46,10 @@ npm run typst:compile
 ```
 
 Tests cover pre-migration presentation hashes for every card, class/source variant
-identity, access/proficiency/level conditions, pick types, withheld review status,
+identity, access/proficiency/level conditions, pick types, formerly withheld utilities in their class sections,
 malformed inventories/powers, deterministic export and safe importer destinations.
-With Typst available, they render every available section and reject the withheld
-section. Runtime effects and builder package integration remain unimplemented.
+With Typst available, they render every available section and reject a withheld
+section on a copy with one section flipped. Runtime effects and builder package integration remain unimplemented.
 See the [utility contract](../src/modern4e/content/utilities/README.md).
 
 Shared Modern 4e equipment catalog, migration goldens, builder export and actual Typst table rendering:
@@ -511,7 +511,7 @@ bash ./gradlew :shared:jvmTest :shared:jsNodeTest   # from src/character-builder
 The Python suites cover authored counts, unique IDs, determinism, structured access/prerequisite preservation,
 unresolved/unsupported reporting, no query-pool leakage for granted powers and cross-package references.
 `ProductionContentPackagesTest` loads the bundled bytes through the shared catalog, offers and accepts ancestry,
-theme, feat, utility and equipment entries, checks class-gated feat/utility eligibility and withheld utilities,
+theme, feat, utility and equipment entries, checks class-gated feat/utility eligibility and that formerly deferred off-slot utilities (Fighter Shield Block, level 8) reach the level-10 pool,
 and keeps 798-feat option listing fast. Android tests need an Android SDK; review the sample template's package
 list when adding packages.
 

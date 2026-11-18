@@ -2087,9 +2087,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Depends on summoning rules or summoned-creature statistics; review that dependency before placement.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -2103,20 +2101,31 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "HEALING",
+            "SUMMONING"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
         "prerequisites": [
           {
             "minimum": 10,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You imbue a small figure with life force, causing it to emit a golden aura that heals allies.",
+        "description": "You imbue a small figure with life force, causing it to emit a golden aura that heals allies.\n\nDAILY / STANDARD\n\nRanged 5\n\nEffect: You create a Small healing figurine in an unoccupied square within range. The healing figurine has speed 5. It has a +2 bonus to AC and to Fortitude. Any ally who spends a healing surge while adjacent to the figurine gains additional hit points equal to your Wisdom. In addition, three times before the end of the encounter, an ally adjacent to the healing figurine can use a minor action to make a saving throw and to regain hit points as if he or she had spent a healing surge. You can give the healing figurine the following special command.\n\nMinor Action: The healing figurine administers first aid to an ally adjacent to it. The figurine uses your Medicine skill for the check.",
         "title": "Healing Figurine"
       },
       "sharedData": {
@@ -2167,8 +2176,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Depends on summoning rules or summoned-creature statistics; review that dependency before placement."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -2198,9 +2206,9 @@
         "subtitle": "10",
         "title": "Healing Figurine",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.artificer",
+          "id": "class-artificer",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"
@@ -2213,9 +2221,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Depends on summoning rules or summoned-creature statistics; review that dependency before placement.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -2229,20 +2235,29 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
         "prerequisites": [
           {
             "minimum": 2,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You send energy to bolster one of your artifices, helping it to evade an attack that might otherwise have damaged it.",
+        "description": "You send energy to bolster one of your artifices, helping it to evade an attack that might otherwise have damaged it.\n\nDAILY / IMMEDIATE_INTERRUPT\n\nClose burst 5\n\nTrigger: One of your summoned creatures within 5 squares of you is hit by an attack\n\nEffect: The triggering attack misses the summoned creature.",
         "title": "Reinforced Minion"
       },
       "sharedData": {
@@ -2288,8 +2303,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Depends on summoning rules or summoned-creature statistics; review that dependency before placement."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -2317,9 +2331,9 @@
         "subtitle": "2",
         "title": "Reinforced Minion",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.artificer",
+          "id": "class-artificer",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"

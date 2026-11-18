@@ -1,11 +1,11 @@
 package dev.modern4e.builder.ui.dialogs
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.sp
 import dev.modern4e.builder.*
 import dev.modern4e.builder.ui.theme.*
 import dev.modern4e.builder.ui.components.*
+import dev.modern4e.builder.ui.screens.pickerSheetHeight
 
 /** Presents workflow modals, prioritizing blocking operational errors. */
 @Composable
@@ -71,22 +72,41 @@ internal fun BuilderDialogs(model: BuilderSession, task: (suspend BuilderSession
     }
 }
 
-/** Choose the starting class; the character is only created once the choice is confirmed. */
+/**
+ * Choose the starting class from the same card list and bottom sheet the Progression pickers use; the
+ * character is only created once the choice is confirmed.
+ */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ClassMenu(model: BuilderSession, classes: List<CatalogEntry>, task: (suspend BuilderSession.() -> Unit) -> Unit) {
     var selected by remember(classes) { mutableStateOf<String?>(null) }
-    FolioDialog("Choose a class", { if (!model.busy) model.cancelCreate() }) {
-        classes.forEach { entry ->
-            val id = entry.metadata.id
-            Row(Modifier.fillMaxWidth().selectable(selected == id, enabled = !model.busy, role = Role.RadioButton) { selected = id },
-                verticalAlignment = Alignment.CenterVertically) {
-                RadioButton(selected == id, onClick = null, enabled = !model.busy)
-                Text(entry.metadata.title, modifier = Modifier.padding(start = 12.dp, top = 12.dp, bottom = 12.dp))
+    var expanded by remember(classes) { mutableStateOf<String?>(null) }
+    ModalBottomSheet(onDismissRequest = { if (!model.busy) model.cancelCreate() }, containerColor = Paper,
+        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)) {
+        Column(Modifier.fillMaxWidth().height(pickerSheetHeight(LocalConfiguration.current.screenHeightDp)).padding(horizontal = 20.dp)) {
+            Column(Modifier.weight(1f).folioScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                classes.forEach { entry ->
+                    val id = entry.metadata.id
+                    ChoiceCard(entry.metadata.title, selected == id, expanded == id, true, null, {
+                        if (model.busy) {
+                            return@ChoiceCard
+                        }
+                        if (selected == id) {
+                            expanded = if (expanded == id) null else id
+                        } else {
+                            selected = id
+                            expanded = id
+                        }
+                    }) {
+                        val description by produceState<String?>(null, id) { value = model.classDescription(id) }
+                        description?.let { ControlledDescription(it) } ?: Text("Loading…", color = Dim)
+                    }
+                }
             }
-        }
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-            TextButton(enabled = !model.busy, onClick = { model.cancelCreate() }) { Text("Cancel") }
-            TextButton(enabled = !model.busy && selected != null, onClick = { selected?.let { id -> task { create(id) } } }) { Text("Create") }
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                TextButton(enabled = !model.busy, onClick = { model.cancelCreate() }) { Text("Cancel") }
+                TextButton(enabled = !model.busy && selected != null, onClick = { selected?.let { id -> task { create(id) } } }) { Text("Create") }
+            }
         }
     }
 }

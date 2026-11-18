@@ -3860,6 +3860,95 @@
       "flavor": "You sweep your shield out to give your allies protection."
     },
     {
+      "id": "modern4e.power.utility-class-deferred-power12677",
+      "title": "Shield Block",
+      "description": "You lunge with your shield to protect an ally from an attack.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.fighter"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 8
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12677",
+        "publication": "Published in Heroes of the Fallen Lands, page(s) 137."
+      },
+      "keywords": [
+        "MARTIAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "The character hit or missed by the triggering attack"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The damage dealt to the target is reduced by 1d10 + your Constitution."
+            },
+            {
+              "id": "rule-5",
+              "type": "effect",
+              "label": "Level 11",
+              "text": "2d10 + Constitution."
+            },
+            {
+              "id": "rule-6",
+              "type": "effect",
+              "label": "Level 21",
+              "text": "3d10 + Constitution."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee 1"
+          },
+          "requirement": "You must use this power with a shield.",
+          "trigger": "An attack hits or misses you or an ally adjacent to you and deals damage",
+          "targets": "targets"
+        }
+      ],
+      "level": 8,
+      "powerKind": "UTILITY",
+      "subtitle": "8",
+      "flavor": "You lunge with your shield to protect an ally from an attack."
+    },
+    {
       "id": "modern4e.power.utility-class-fighter-power12853",
       "title": "Another Day",
       "description": "After suffering a hit, you leap out of your opponent's reach to escape any subsequent attacks.",

@@ -5,9 +5,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -21,20 +19,29 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 8,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
         "prerequisites": [
           {
             "minimum": 8,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You infuse the spirit of a divine steed into yourself, gaining some of its capabilities.",
+        "description": "You infuse the spirit of a divine steed into yourself, gaining some of its capabilities.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: You gain a +2 power bonus to speed. You also gain a power bonus to damage rolls with charge attacks equal to your Charisma. These effects last until the end of the encounter.\n\nLevel 18: You also gain a fly speed equal to your speed.\n\nLevel 28: This power can also target each ally within 2 squares of you.",
         "title": "Spirit of the Virtuous Charger"
       },
       "sharedData": {
@@ -90,8 +97,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -119,9 +125,9 @@
         "subtitle": "8",
         "title": "Spirit of the Virtuous Charger",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"

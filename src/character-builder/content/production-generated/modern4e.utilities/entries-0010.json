@@ -5,9 +5,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Depends on summoning rules or summoned-creature statistics; review that dependency before placement.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -21,20 +19,31 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE",
+            "HEALING",
+            "SUMMONING"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
         "prerequisites": [
           {
             "minimum": 10,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "A star descends from the heavens and as its light fades a cherubic angel is revealed to aid in your cause.",
+        "description": "A star descends from the heavens and as its light fades a cherubic angel is revealed to aid in your cause.\n\nDAILY / MINOR\n\nRanged 10\n\nEffect: You summon an angelic messenger in an unoccupied square within range. The angelic messenger has speed 6, and fly 8 (hover). You can give the angelic messenger the following special commands.\n\nStandard Action: Melee 1; targets one ally; the ally regains 1d6 hit points.\n\nMove Action: The angelic messenger and one ally adjacent to it fly 8 squares. The ally must land at the end of this movement, or he or she falls.",
         "title": "Angelic Messenger"
       },
       "sharedData": {
@@ -91,8 +100,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Depends on summoning rules or summoned-creature statistics; review that dependency before placement."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -122,9 +130,9 @@
         "subtitle": "10",
         "title": "Angelic Messenger",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.invoker",
+          "id": "class-invoker",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"

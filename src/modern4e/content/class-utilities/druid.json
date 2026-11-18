@@ -2610,6 +2610,74 @@
       "flavor": "You take the form of a treetop creature or another animal or insect that can easily traverse heights, taking to a perch unseen by your enemies."
     },
     {
+      "id": "modern4e.power.utility-class-deferred-power9665",
+      "title": "Animal Clan",
+      "description": "You form a deep bond with your summoned animals, drawing out their thirst for battle.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.druid"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power9665",
+        "publication": "Published in Primal Power, page(s) 44."
+      },
+      "keywords": [
+        "PRIMAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Once per round until the end of the encounter, you can use a minor action to command one of your summoned creatures to use its instinctive effect."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "You form a deep bond with your summoned animals, drawing out their thirst for battle."
+    },
+    {
       "id": "modern4e.power.utility-class-druid-power9666",
       "title": "Animal Shapes",
       "description": "You transform yourself and your allies into mice, beetles, or other seemingly innocuous animals.",

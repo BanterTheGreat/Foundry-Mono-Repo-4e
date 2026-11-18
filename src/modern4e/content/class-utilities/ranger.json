@@ -1198,6 +1198,75 @@
       "flavor": "Even as your foe connects, you leap backward, out of the way of further harm."
     },
     {
+      "id": "modern4e.power.utility-class-deferred-power13600",
+      "title": "Reactive Shift",
+      "description": "You keep one eye on the fight around you at all times, so that you can slip away from an enemy that moves too close.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.ranger"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 5
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power13600",
+        "publication": "Published in Heroes of the Forgotten Kingdoms, page(s) 163."
+      },
+      "keywords": [
+        "MARTIAL"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You shift a number of squares up to your Wisdom."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "trigger": "An enemy you can see ends its turn adjacent to you."
+        }
+      ],
+      "level": 5,
+      "powerKind": "UTILITY",
+      "subtitle": "5",
+      "flavor": "You keep one eye on the fight around you at all times, so that you can slip away from an enemy that moves too close."
+    },
+    {
       "id": "modern4e.power.utility-class-ranger-power10702",
       "title": "Arrow of the Savior",
       "description": "Your arrow saves a falling friend by pinning him or her to a nearby wall, or presenting a sudden handhold.",

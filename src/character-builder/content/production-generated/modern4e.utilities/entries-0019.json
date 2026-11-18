@@ -5,9 +5,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -21,20 +19,30 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "CONJURATION"
+          ],
+          "level": 4,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
         "prerequisites": [
           {
             "minimum": 4,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "The air around you ripples and becomes heavy as you call forth a spirit of the planes to serve you.",
+        "description": "The air around you ripples and becomes heavy as you call forth a spirit of the planes to serve you.\n\nDAILY / STANDARD\n\nMelee 1\n\nEffect: You conjure the Tiny spirit of a planar being in a square adjacent to you. The spirit is an invisible conjuration that lasts until it is dismissed as a free action or until it completes its task, which can take no longer than 1 hour. You command the spirit to attempt one of the following tasks.\n\n* Locate an Object or a Person: The spirit can locate a specific object or creature within 5 miles of you that you have seen or touched. When it completes the task, the spirit returns to you and describes the direction, distance, and location of the object or creature.\n\n* Explore an Area: The spirit can provide a rough description of an area up to 20 squares on a side, including obvious physical features. The spirit cannot open doors or breach physical or magical barriers, so it cannot explore any area that a Tiny creature couldn't reach. It cannot notice anything that requires a Perception check to detect. When it completes the task, the spirit returns to you and telepathically provides a mental image of the area.",
         "title": "Lesser Planar Ally"
       },
       "sharedData": {
@@ -91,8 +99,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -121,9 +128,9 @@
         "subtitle": "4",
         "title": "Lesser Planar Ally",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warlock",
+          "id": "class-warlock",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"

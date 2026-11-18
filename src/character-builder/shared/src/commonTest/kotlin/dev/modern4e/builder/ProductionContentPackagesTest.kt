@@ -40,11 +40,12 @@ class ProductionContentPackagesTest {
     }
 
     @Test
-    fun campaignExclusionsAreIneligibleAndExistingSavedSelectionsRemainPortable() = run {
+    fun campaignExclusionsStayIneligibleWhenEvaluatedAndExistingSavedSelectionsRemainPortable() = run {
         val (sample, catalog, operations) = openTemplate()
         val slot = ChoiceSlotId("creation", "ancestry", 0)
         val options = operations.options(sample, 1, slot, includeIneligible = true)
-        assertEquals(Eligibility.INELIGIBLE, options.single { it.entry.entry.id == "modern4e.ancestry.revenant" }.eligibility)
+        // Class and ancestry pickers never check eligibility, so an excluded ancestry is still offered.
+        assertEquals(Eligibility.ELIGIBLE, options.single { it.entry.entry.id == "modern4e.ancestry.revenant" }.eligibility)
         val resolved = assertIs<ContractResult.Available<ResolvedEntry?>>(catalog.lookup("modern4e.ancestry.revenant")).value!!
         val saved = SavedSelection(resolved.entry.id, resolved.entry.presentation.title, resolved.supplier.packageId, resolved.fingerprint)
         val document = sample.copy(levels = listOf(sample.levels.single().copy(entries = sample.levels.single().entries +
@@ -79,7 +80,7 @@ class ProductionContentPackagesTest {
         assertEquals(9, catalog.search(category = EntryCategory.THEME).count { it.supplier.packageId == "modern4e.themes" })
         assertEquals(798, catalog.search(category = EntryCategory.FEAT).count { it.supplier.packageId == "modern4e.feats" })
         assertEquals(53, catalog.search(category = EntryCategory.ITEM).count { it.supplier.packageId == "modern4e.equipment" })
-        assertEquals(1081, catalog.search(category = EntryCategory.POWER).count { it.supplier.packageId == "modern4e.utilities" })
+        assertEquals(1046, catalog.search(category = EntryCategory.POWER).count { it.supplier.packageId == "modern4e.utilities" })
     }
 
     @Test
@@ -141,12 +142,24 @@ class ProductionContentPackagesTest {
         val offered = utility.entries.filter { it.entryId.startsWith("modern4e.power.utility-") }
         assertTrue(offered.any { it.entryId.startsWith("modern4e.power.utility-class-fighter") && it.status == Eligibility.ELIGIBLE })
         assertTrue(offered.none { it.entryId.startsWith("modern4e.power.utility-class-wizard") && it.status == Eligibility.ELIGIBLE })
+        // Former deferred utilities are ordinary pool members; a level-8 Fighter utility is above the level-2 ceiling.
+        assertTrue(offered.none { it.entryId == "modern4e.power.utility-class-deferred-power12677" })
         for (candidate in catalog.search(category = EntryCategory.POWER).filter { it.supplier.packageId == "modern4e.utilities" }) {
             val loaded = assertIs<ContractResult.Available<ResolvedEntry?>>(catalog.lookup(candidate.metadata.id)).value!!
             if (loaded.entry.mechanics.powerProfile == null) {
                 assertTrue(offered.none { it.entryId == candidate.metadata.id })
             }
         }
+    }
+
+    @Test
+    fun formerlyDeferredOffSlotUtilitiesJoinTheirClassPoolAtTheirLevel() = run {
+        val (sample, catalog, _) = openTemplate()
+        val levelTen = sample.copy(level = 10, levels = sample.levels + (2..10).map { LevelDecisions(it) })
+        val rules = RulesEngine.evaluate(levelTen, RulesContent.load(levelTen, catalog))
+        val utility = rules.choices.single { it.slot.choiceId == "modern4e.choice.class-utility-10" }
+        // Shield Block is a level-8 Fighter utility: not a 2/6/10 slot level, yet offered by the level-10 slot.
+        assertTrue(utility.entries.any { it.entryId == "modern4e.power.utility-class-deferred-power12677" && it.status == Eligibility.ELIGIBLE })
     }
 
     @Test

@@ -1819,6 +1819,89 @@
       "flavor": "A glyph of ancient meaning shimmers above your companion, allowing you to channel your divine might to strike those that intend your companion harm."
     },
     {
+      "id": "modern4e.power.utility-class-deferred-power11296",
+      "title": "Angelic Messenger",
+      "description": "A star descends from the heavens and as its light fades a cherubic angel is revealed to aid in your cause.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.invoker"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11296",
+        "publication": "Published in Dragon Magazine 383, page(s) 34."
+      },
+      "keywords": [
+        "DIVINE",
+        "HEALING",
+        "SUMMONING"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You summon an angelic messenger in an unoccupied square within range. The angelic messenger has speed 6, and fly 8 (hover). You can give the angelic messenger the following special commands."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Standard Action",
+              "text": "Melee 1; targets one ally; the ally regains 1d6 hit points."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Move Action",
+              "text": "The angelic messenger and one ally adjacent to it fly 8 squares. The ally must land at the end of this movement, or he or she falls."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          }
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "A star descends from the heavens and as its light fades a cherubic angel is revealed to aid in your cause."
+    },
+    {
       "id": "modern4e.power.utility-class-invoker-power2886",
       "title": "Angelic Visage",
       "description": "As your foe attacks, you transform into the image of a death angel. Filled with terror, the foe backs away.",

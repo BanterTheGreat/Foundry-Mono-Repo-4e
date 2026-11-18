@@ -88,6 +88,25 @@ class BuilderSessionTest {
         } catch (_: kotlinx.coroutines.CancellationException) { }
     }
 
+    @Test fun classAndAncestryRowsAreNeverEligibilityCheckedAndAncestriesListTheirFeatures() = runBlocking {
+        val model = session()
+        model.create()
+        model.warmupSettleMillis = 60_000
+        for (choice in listOf("class", "ancestry")) {
+            var last = emptyList<BuilderOptionRow>()
+            model.progressionOptionRows(1, ChoiceSlotId("creation", choice, 0)) { last = it }
+            assertTrue(last.isNotEmpty())
+            assertTrue(last.all { it.checked && it.option?.eligibility == Eligibility.ELIGIBLE && it.diagnostics.isEmpty() })
+        }
+        var ancestries = emptyList<BuilderOptionRow>()
+        model.progressionOptionRows(1, ChoiceSlotId("creation", "ancestry", 0)) { ancestries = it }
+        val deva = ancestries.first { it.metadata.metadata.id == "modern4e.ancestry.deva" }.option!!.entry.entry
+        val features = model.grantedEntries(deva)
+        assertEquals(listOf("Astral Majesty", "Astral Resistance", "Immortal Origin", "Memory of a Thousand Lifetimes"),
+            features.map { it.presentation.title })
+        assertTrue(features.all { it.presentation.description.isNotBlank() })
+    }
+
     private var touches = 0
 
     /** An edit that changes the rules inputs (unlike a rename), so every non-root list built earlier is out of date. */
@@ -827,12 +846,24 @@ class BuilderSessionTest {
         assertTrue(menu.size >= 19)
         assertTrue(menu.all { it.metadata.category == EntryCategory.CLASS })
         assertTrue(menu.any { it.metadata.id == "modern4e.class.wizard" })
+        val titles = menu.map { it.metadata.title }
+        assertEquals("Classes are listed alphabetically, like the prototype's class list", titles.sortedBy { it.lowercase() }, titles)
         assertEquals("The menu only opens; nothing is created yet", "home", model.page)
         model.cancelCreate()
         assertNull(model.classMenu)
         model.refresh()
         assertTrue(model.characters.isEmpty())
         assertNull(model.current)
+    }
+
+    @Test fun classMenuCardsReadTheirDescriptionOnDemand() = runBlocking {
+        val model = session()
+        assertNull("Nothing is offered before the menu opens", model.classDescription("modern4e.class.wizard"))
+        model.beginCreate()
+        for (entry in model.classMenu!!) {
+            assertFalse("${entry.metadata.id} has a description", model.classDescription(entry.metadata.id).isNullOrBlank())
+        }
+        assertNull(model.classDescription("modern4e.class.nonexistent"))
     }
 
     @Test fun confirmingAClassCreatesAndPersistsACharacterOfThatClass() = runBlocking {

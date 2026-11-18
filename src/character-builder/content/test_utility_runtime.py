@@ -23,13 +23,13 @@ class UtilityRuntimeTest(unittest.TestCase):
         cls.sections = {power_id: section for section in cls.catalog["sections"] for power_id in section["powerIds"]}
 
     def test_package_contains_every_authored_utility_in_hundred_entry_chunks(self):
-        self.assertEqual(1081, len(self.powers))
+        self.assertEqual(1046, len(self.powers))
         self.assertEqual(set(self.powers), set(self.entries))
         entries = runtime_common.entries_of(self.assets)
         self.assertEqual(len(self.powers), len(entries))
         self.assertEqual(len(self.powers), len({entry["id"] for entry in entries}))
         manifest = self.assets["modern4e.utilities/manifest.json"]
-        self.assertEqual(("modern4e.utilities", "2", "Modern 4e shared utility powers", 2),
+        self.assertEqual(("modern4e.utilities", "3", "Modern 4e shared utility powers", 2),
                          (manifest["id"], manifest["revision"], manifest["title"], manifest["formatVersion"]))
         # Each class's utilities fill their own chunks (19 classes), plus unscoped skill/power-source utilities.
         self.assertEqual(22, len(manifest["chunks"]))
@@ -38,7 +38,7 @@ class UtilityRuntimeTest(unittest.TestCase):
             self.assertEqual(1, len({row.get("classId") for row in rows if row["chunkId"] == chunk}), chunk)
         self.assertEqual(19, len({row["classId"] for row in rows if "classId" in row}))
         self.assertTrue(all(len(self.assets[f"modern4e.utilities/{name}.json"]["entries"]) <= 100 for name in manifest["chunks"]))
-        self.assertEqual(1081, len(self.assets["modern4e.utilities/index.json"]["entries"]))
+        self.assertEqual(1046, len(self.assets["modern4e.utilities/index.json"]["entries"]))
         self.assertTrue(all(entry["category"] == "POWER" for entry in entries))
 
     def test_output_is_deterministic_and_contains_no_local_paths(self):
@@ -50,7 +50,7 @@ class UtilityRuntimeTest(unittest.TestCase):
 
     def test_available_sections_become_selectable_pool_members(self):
         available = [power_id for power_id, section in self.sections.items() if section["availability"] == "AVAILABLE"]
-        self.assertEqual(1010, len(available))
+        self.assertEqual(1046, len(available))
         for power_id in available:
             profile = self.entries[power_id]["mechanics"]["powerProfile"]
             self.assertEqual("UTILITY", profile["powerKind"])
@@ -64,17 +64,38 @@ class UtilityRuntimeTest(unittest.TestCase):
         self.assertEqual(source["activations"][0]["usage"]["frequency"], entry["mechanics"]["powerProfile"]["usage"])
         self.assertEqual(source["keywords"], entry["mechanics"]["powerProfile"]["keywords"])
 
-    def test_deferred_sections_resolve_but_are_excluded_from_pools(self):
-        deferred = [power_id for power_id, section in self.sections.items() if section["availability"] == "DEFERRED"]
-        self.assertEqual(71, len(deferred))
-        for power_id in deferred:
+    def test_no_authored_utility_is_withheld(self):
+        self.assertEqual([], [power_id for power_id, section in self.sections.items() if section["availability"] != "AVAILABLE"])
+
+    def test_formerly_withheld_utilities_join_their_class_pools_at_their_own_level(self):
+        cases = {"modern4e.power.utility-class-deferred-power7643": ("modern4e.class.artificer", 2),
+                 "modern4e.power.utility-class-deferred-power4148": ("modern4e.class.artificer", 10)}
+        levels = {entry["sharedData"]["title"]: entry["mechanics"]["powerProfile"]["level"]
+                  for entry in self.entries.values() if entry["id"].startswith("modern4e.power.utility-class-deferred-")}
+        self.assertEqual(36, len(levels))
+        # Cleric's off-slot utilities are level 1; earlier-level powers stay in every later level's pool.
+        self.assertEqual({1}, {levels[title] for title in ("Create Water", "True Strike", "Soothing Light")})
+        self.assertEqual({8}, {levels["Shield Block"], levels["Spirit of the Virtuous Charger"]})
+        self.assertEqual(5, levels["Reactive Shift"])
+        self.assertEqual(4, levels["Lesser Planar Ally"])
+        for power_id, (class_id, level) in cases.items():
             entry = self.entries[power_id]
-            self.assertNotIn("powerProfile", entry["mechanics"])
-            self.assertIn(utility_runtime.WITHHELD, entry["mechanics"]["unsupported"])
-            self.assertIn(utility_runtime.WITHHELD, entry["coverage"]["limitations"])
-            self.assertEqual("DEFERRED", entry["sharedData"]["utilitySection"]["availability"])
-            # Withheld rules text is not presented; the unreviewed description is unchanged.
-            self.assertEqual(self.powers[power_id]["description"], entry["presentation"]["description"])
+            self.assertEqual({"type": "entry", "entryId": class_id}, entry["mechanics"]["access"])
+            self.assertEqual(level, entry["mechanics"]["powerProfile"]["level"])
+            self.assertEqual(class_id, self.sections[power_id]["classId"])
+            # The review reasons are resolved; only the generic runtime limitation remains.
+            self.assertEqual(1, len(self.powers[power_id]["coverage"]["limitations"]))
+
+    def test_withheld_sections_resolve_but_are_excluded_from_pools(self):
+        power = self.powers["modern4e.power.utility-class-deferred-power7643"]
+        section = {**self.sections[power["id"]], "availability": "DEFERRED"}
+        entry = utility_runtime.compile_utility(power, section, known=set(self.powers) | set(self.class_ids))
+        self.assertNotIn("powerProfile", entry["mechanics"])
+        self.assertIn(utility_runtime.WITHHELD, entry["mechanics"]["unsupported"])
+        self.assertIn(utility_runtime.WITHHELD, entry["coverage"]["limitations"])
+        self.assertEqual("DEFERRED", entry["sharedData"]["utilitySection"]["availability"])
+        # Withheld rules text is not presented; the unreviewed description is unchanged.
+        self.assertEqual(power["description"], entry["presentation"]["description"])
 
     def test_access_and_prerequisites_are_preserved_structurally(self):
         for power_id, power in self.powers.items():

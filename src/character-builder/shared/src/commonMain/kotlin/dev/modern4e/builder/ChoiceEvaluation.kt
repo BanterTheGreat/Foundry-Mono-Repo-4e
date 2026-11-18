@@ -97,6 +97,10 @@ internal class ChoiceEvaluation(
     private suspend fun candidate(document: CharacterDocument, level: Int, slot: ChoiceSlotId,
         id: String, instance: String): BuilderOption? {
         val definition = (catalog.lookup(id) as? ContractResult.Available)?.value ?: return null
+        // Class and ancestry are the basest choices: any of them can always be taken, so they are never checked.
+        if (rootCategory(level, slot).let { it == EntryCategory.CLASS || it == EntryCategory.ANCESTRY }) {
+            return BuilderOption(definition, Eligibility.ELIGIBLE, emptyList())
+        }
         val saved = SavedSelection(id, definition.entry.presentation.title, definition.supplier.packageId, definition.fingerprint)
         val entry = EntryChoice(instance, slot, saved)
         // Plain pool powers share one activation of the slot's character; the rest use candidate activation below.

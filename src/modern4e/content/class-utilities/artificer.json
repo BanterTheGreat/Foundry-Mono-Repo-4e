@@ -229,6 +229,76 @@
       "flavor": "You touch some armor, causing it to glow as you enhance its defenses."
     },
     {
+      "id": "modern4e.power.utility-class-deferred-power7643",
+      "title": "Reinforced Minion",
+      "description": "You send energy to bolster one of your artifices, helping it to evade an attack that might otherwise have damaged it.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.artificer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power7643",
+        "publication": "Published in Eberron Player's Guide, page(s) 49."
+      },
+      "keywords": [
+        "ARCANE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The triggering attack misses the summoned creature."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 5"
+          },
+          "trigger": "One of your summoned creatures within 5 squares of you is hit by an attack"
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "You send energy to bolster one of your artifices, helping it to evade an attack that might otherwise have damaged it."
+    },
+    {
       "id": "modern4e.power.utility-class-artificer-power4202",
       "title": "Restorative Infusion",
       "description": "You infuse a comrade with a restorative compound. That ally can then redirect excess vitality to your other allies.",
@@ -970,6 +1040,83 @@
       "powerKind": "UTILITY",
       "subtitle": "10",
       "flavor": "A small metal sheaf unfolds into a medium-sized shield that floats near an ally and blocks incoming attacks."
+    },
+    {
+      "id": "modern4e.power.utility-class-deferred-power4148",
+      "title": "Healing Figurine",
+      "description": "You imbue a small figure with life force, causing it to emit a golden aura that heals allies.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.artificer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4148",
+        "publication": "Published in Eberron Player's Guide, page(s) 52."
+      },
+      "keywords": [
+        "ARCANE",
+        "HEALING",
+        "SUMMONING"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You create a Small healing figurine in an unoccupied square within range. The healing figurine has speed 5. It has a +2 bonus to AC and to Fortitude. Any ally who spends a healing surge while adjacent to the figurine gains additional hit points equal to your Wisdom. In addition, three times before the end of the encounter, an ally adjacent to the healing figurine can use a minor action to make a saving throw and to regain hit points as if he or she had spent a healing surge. You can give the healing figurine the following special command."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Minor Action",
+              "text": "The healing figurine administers first aid to an ally adjacent to it. The figurine uses your Medicine skill for the check."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 5"
+          }
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "You imbue a small figure with life force, causing it to emit a golden aura that heals allies."
     },
     {
       "id": "modern4e.power.utility-class-artificer-power10207",

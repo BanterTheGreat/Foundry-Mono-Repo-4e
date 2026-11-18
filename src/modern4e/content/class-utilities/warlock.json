@@ -1274,6 +1274,88 @@
       "flavor": "Your eyes glow with power, and a cloak of red fire swirls around you as you channel the wrath and fury of your pact."
     },
     {
+      "id": "modern4e.power.utility-class-deferred-power13641",
+      "title": "Lesser Planar Ally",
+      "description": "The air around you ripples and becomes heavy as you call forth a spirit of the planes to serve you.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.warlock"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 4
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power13641",
+        "publication": "Published in Heroes of the Forgotten Kingdoms, page(s) 210."
+      },
+      "keywords": [
+        "ARCANE",
+        "CONJURATION"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You conjure the Tiny spirit of a planar being in a square adjacent to you. The spirit is an invisible conjuration that lasts until it is dismissed as a free action or until it completes its task, which can take no longer than 1 hour. You command the spirit to attempt one of the following tasks."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "* Locate an Object or a Person",
+              "text": "The spirit can locate a specific object or creature within 5 miles of you that you have seen or touched. When it completes the task, the spirit returns to you and describes the direction, distance, and location of the object or creature."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "* Explore an Area",
+              "text": "The spirit can provide a rough description of an area up to 20 squares on a side, including obvious physical features. The spirit cannot open doors or breach physical or magical barriers, so it cannot explore any area that a Tiny creature couldn't reach. It cannot notice anything that requires a Perception check to detect. When it completes the task, the spirit returns to you and telepathically provides a mental image of the area."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee 1"
+          }
+        }
+      ],
+      "level": 4,
+      "powerKind": "UTILITY",
+      "subtitle": "4",
+      "flavor": "The air around you ripples and becomes heavy as you call forth a spirit of the planes to serve you."
+    },
+    {
       "id": "modern4e.power.utility-class-warlock-power13646",
       "title": "Astral Eyes",
       "description": "Your eyes exude the light that bathes the Astral Sea, sharpening your sight and allowing you to perceive subtle details with ease.",

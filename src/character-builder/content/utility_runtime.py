@@ -92,4 +92,4 @@ def build(content=None):
     for section in catalog["sections"]:
         for power_id in section["powerIds"]:
             entries.append(compile_utility(powers[power_id], section, known))
-    return runtime_common.package(PACKAGE, TITLE, entries, revision="2", scope=runtime_common.power_scope(class_ids))
+    return runtime_common.package(PACKAGE, TITLE, entries, revision="3", scope=runtime_common.power_scope(class_ids))

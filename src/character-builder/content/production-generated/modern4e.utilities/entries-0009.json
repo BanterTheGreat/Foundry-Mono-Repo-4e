@@ -5,9 +5,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -21,20 +19,29 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "MARTIAL"
+          ],
+          "level": 8,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
         "prerequisites": [
           {
             "minimum": 8,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You lunge with your shield to protect an ally from an attack.",
+        "description": "You lunge with your shield to protect an ally from an attack.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nMelee 1\n\nTrigger: An attack hits or misses you or an ally adjacent to you and deals damage\n\nRequirement: You must use this power with a shield.\n\nTarget: The character hit or missed by the triggering attack\n\nEffect: The damage dealt to the target is reduced by 1d10 + your Constitution.\n\nLevel 11: 2d10 + Constitution.\n\nLevel 21: 3d10 + Constitution.",
         "title": "Shield Block"
       },
       "sharedData": {
@@ -99,8 +106,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -128,466 +134,9 @@
         "subtitle": "8",
         "title": "Shield Block",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
-          "kind": "CLASS",
-          "pickKinds": [
-            "COMBAT"
-          ]
-        }
-      }
-    },
-    {
-      "category": "POWER",
-      "coverage": {
-        "limitations": [
-          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Unusual prerequisite: You must be eladrin.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.power.utility-class-deferred-power13775",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.fighter",
-          "type": "entry"
-        },
-        "choices": [],
-        "conditionalModifiers": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "conditions": [
-              {
-                "minimum": 2,
-                "type": "level"
-              },
-              {
-                "reason": "Utility prerequisite requires manual resolution.",
-                "text": "You must be eladrin.",
-                "type": "unresolved"
-              }
-            ],
-            "type": "allOf"
-          }
-        ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
-        "version": 2,
-        "weaponAbilities": {}
-      },
-      "presentation": {
-        "description": "Using your talent for teleportation, you take an ally's place.",
-        "title": "Eldritch Tactics"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.fighter",
-          "type": "entry"
-        },
-        "activations": [
-          {
-            "action": "MOVE",
-            "availability": "ENTRY",
-            "bindings": {
-              "targets": {
-                "kind": "TARGET_SET",
-                "text": "You and one ally in the burst"
-              }
-            },
-            "blocks": [
-              {
-                "id": "rule-1",
-                "label": "Prerequisite",
-                "text": "You must be eladrin.",
-                "type": "effect"
-              },
-              {
-                "id": "rule-3",
-                "label": "Effect",
-                "text": "Each target teleports, swapping positions.",
-                "type": "effect"
-              }
-            ],
-            "id": "use",
-            "range": {
-              "text": "Close burst 3",
-              "type": "RULES_TEXT"
-            },
-            "targets": "targets",
-            "usage": {
-              "costs": [],
-              "frequency": "ENCOUNTER",
-              "limits": [
-                {
-                  "maximum": {
-                    "base": 1
-                  },
-                  "period": "ENCOUNTER"
-                }
-              ],
-              "rules": []
-            }
-          }
-        ],
-        "category": "POWER",
-        "choices": [],
-        "coverage": {
-          "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Unusual prerequisite: You must be eladrin."
-          ],
-          "status": "UNIMPLEMENTED"
-        },
-        "description": "Using your talent for teleportation, you take an ally's place.",
-        "flavor": "Using your talent for teleportation, you take an ally's place.",
-        "id": "modern4e.power.utility-class-deferred-power13775",
-        "keywords": [
-          "ARCANE",
-          "MARTIAL",
-          "TELEPORTATION"
-        ],
-        "level": 2,
-        "powerKind": "UTILITY",
-        "prerequisites": {
-          "conditions": [
-            {
-              "minimum": 2,
-              "type": "level"
-            },
-            {
-              "reason": "Utility prerequisite requires manual resolution.",
-              "text": "You must be eladrin.",
-              "type": "unresolved"
-            }
-          ],
-          "type": "allOf"
-        },
-        "rulesProfile": "MODERN4E",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "source": {
-          "entryId": "power13775",
-          "publication": "Published in Dragon Magazine 395."
-        },
-        "subtitle": "2",
-        "title": "Eldritch Tactics",
-        "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
-          "kind": "CLASS",
-          "pickKinds": [
-            "COMBAT"
-          ]
-        }
-      }
-    },
-    {
-      "category": "POWER",
-      "coverage": {
-        "limitations": [
-          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Unusual prerequisite: You must be eladrin.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.power.utility-class-deferred-power13776",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.fighter",
-          "type": "entry"
-        },
-        "choices": [],
-        "conditionalModifiers": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "conditions": [
-              {
-                "minimum": 6,
-                "type": "level"
-              },
-              {
-                "reason": "Utility prerequisite requires manual resolution.",
-                "text": "You must be eladrin.",
-                "type": "unresolved"
-              }
-            ],
-            "type": "allOf"
-          }
-        ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
-        "version": 2,
-        "weaponAbilities": {}
-      },
-      "presentation": {
-        "description": "You catch the enemy's eye just as the foe makes an attack. What it sees in your gaze rattles it enough to interfere with its strike.",
-        "title": "Bewitching Glare"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.fighter",
-          "type": "entry"
-        },
-        "activations": [
-          {
-            "action": "IMMEDIATE_INTERRUPT",
-            "availability": "ENTRY",
-            "bindings": {
-              "targets": {
-                "kind": "TARGET_SET",
-                "text": "The triggering enemy"
-              }
-            },
-            "blocks": [
-              {
-                "id": "rule-1",
-                "label": "Prerequisite",
-                "text": "You must be eladrin.",
-                "type": "effect"
-              },
-              {
-                "id": "rule-4",
-                "label": "Effect",
-                "text": "The enemy takes a -2 penalty to the triggering attack roll. If the attack misses, you can pull the target 1 square. You cannot pull the target into hindering terrain.",
-                "type": "effect"
-              }
-            ],
-            "id": "use",
-            "range": {
-              "text": "Close burst 3",
-              "type": "RULES_TEXT"
-            },
-            "targets": "targets",
-            "trigger": "One enemy in the burst makes an attack roll against an ally you can see.",
-            "usage": {
-              "costs": [],
-              "frequency": "ENCOUNTER",
-              "limits": [
-                {
-                  "maximum": {
-                    "base": 1
-                  },
-                  "period": "ENCOUNTER"
-                }
-              ],
-              "rules": []
-            }
-          }
-        ],
-        "category": "POWER",
-        "choices": [],
-        "coverage": {
-          "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Unusual prerequisite: You must be eladrin."
-          ],
-          "status": "UNIMPLEMENTED"
-        },
-        "description": "You catch the enemy's eye just as the foe makes an attack. What it sees in your gaze rattles it enough to interfere with its strike.",
-        "flavor": "You catch the enemy's eye just as the foe makes an attack. What it sees in your gaze rattles it enough to interfere with its strike.",
-        "id": "modern4e.power.utility-class-deferred-power13776",
-        "keywords": [
-          "ARCANE",
-          "CHARM",
-          "MARTIAL"
-        ],
-        "level": 6,
-        "powerKind": "UTILITY",
-        "prerequisites": {
-          "conditions": [
-            {
-              "minimum": 6,
-              "type": "level"
-            },
-            {
-              "reason": "Utility prerequisite requires manual resolution.",
-              "text": "You must be eladrin.",
-              "type": "unresolved"
-            }
-          ],
-          "type": "allOf"
-        },
-        "rulesProfile": "MODERN4E",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "source": {
-          "entryId": "power13776",
-          "publication": "Published in Dragon Magazine 395."
-        },
-        "subtitle": "6",
-        "title": "Bewitching Glare",
-        "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
-          "kind": "CLASS",
-          "pickKinds": [
-            "COMBAT"
-          ]
-        }
-      }
-    },
-    {
-      "category": "POWER",
-      "coverage": {
-        "limitations": [
-          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Unusual prerequisite: You must be eladrin.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.power.utility-class-deferred-power13777",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.fighter",
-          "type": "entry"
-        },
-        "choices": [],
-        "conditionalModifiers": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "conditions": [
-              {
-                "minimum": 10,
-                "type": "level"
-              },
-              {
-                "reason": "Utility prerequisite requires manual resolution.",
-                "text": "You must be eladrin.",
-                "type": "unresolved"
-              }
-            ],
-            "type": "allOf"
-          }
-        ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
-        "version": 2,
-        "weaponAbilities": {}
-      },
-      "presentation": {
-        "description": "You anticipate an enemy's attack and weave a shield to mitigate its worst effect.",
-        "title": "Arcane Instincts"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.fighter",
-          "type": "entry"
-        },
-        "activations": [
-          {
-            "action": "IMMEDIATE_INTERRUPT",
-            "availability": "ENTRY",
-            "bindings": {
-              "targets": {
-                "kind": "TARGET_SET",
-                "text": "You and each ally in the burst"
-              }
-            },
-            "blocks": [
-              {
-                "id": "rule-1",
-                "label": "Prerequisite",
-                "text": "You must be eladrin.",
-                "type": "effect"
-              },
-              {
-                "id": "rule-4",
-                "label": "Effect",
-                "text": "The target gains resist 10 to the triggering damage type until the end of your next turn.",
-                "type": "effect"
-              }
-            ],
-            "id": "use",
-            "range": {
-              "text": "Close burst 1",
-              "type": "RULES_TEXT"
-            },
-            "targets": "targets",
-            "trigger": "You take acid, cold, fire, lightning, or thunder damage.",
-            "usage": {
-              "costs": [],
-              "frequency": "ENCOUNTER",
-              "limits": [
-                {
-                  "maximum": {
-                    "base": 1
-                  },
-                  "period": "ENCOUNTER"
-                }
-              ],
-              "rules": []
-            }
-          }
-        ],
-        "category": "POWER",
-        "choices": [],
-        "coverage": {
-          "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Unusual prerequisite: You must be eladrin."
-          ],
-          "status": "UNIMPLEMENTED"
-        },
-        "description": "You anticipate an enemy's attack and weave a shield to mitigate its worst effect.",
-        "flavor": "You anticipate an enemy's attack and weave a shield to mitigate its worst effect.",
-        "id": "modern4e.power.utility-class-deferred-power13777",
-        "keywords": [
-          "ARCANE",
-          "MARTIAL"
-        ],
-        "level": 10,
-        "powerKind": "UTILITY",
-        "prerequisites": {
-          "conditions": [
-            {
-              "minimum": 10,
-              "type": "level"
-            },
-            {
-              "reason": "Utility prerequisite requires manual resolution.",
-              "text": "You must be eladrin.",
-              "type": "unresolved"
-            }
-          ],
-          "type": "allOf"
-        },
-        "rulesProfile": "MODERN4E",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "source": {
-          "entryId": "power13777",
-          "publication": "Published in Dragon Magazine 395."
-        },
-        "subtitle": "10",
-        "title": "Arcane Instincts",
-        "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.fighter",
+          "id": "class-fighter",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"

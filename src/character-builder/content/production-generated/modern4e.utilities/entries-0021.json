@@ -5,9 +5,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Requires or modifies an arcane familiar; familiar rules are not supplied by the class chapter.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -21,20 +19,30 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "TELEPORTATION"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "AT_WILL"
+        },
         "prerequisites": [
           {
             "minimum": 2,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You send your familiar in to keep your opponent off balance.",
+        "description": "You send your familiar in to keep your opponent off balance.\n\nAT_WILL / MOVE\n\nSee effect\n\nEffect: Teleport your familiar 10 squares, and until the end of your next turn your familiar can flank with you or your allies. When an attack hits a creature flanked by the familiar, that creature cannot shift until the end of its next turn.",
         "title": "Familiar Harrier"
       },
       "sharedData": {
@@ -72,8 +80,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Requires or modifies an arcane familiar; familiar rules are not supplied by the class chapter."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -102,9 +109,9 @@
         "subtitle": "2",
         "title": "Familiar Harrier",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.wizard",
+          "id": "class-wizard",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"
@@ -117,9 +124,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Requires or modifies an arcane familiar; familiar rules are not supplied by the class chapter.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -133,20 +138,30 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "TELEPORTATION"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
         "prerequisites": [
           {
             "minimum": 6,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You teleport yourself to where your familiar is.",
+        "description": "You teleport yourself to where your familiar is.\n\nENCOUNTER / MOVE\n\nPersonal\n\nEffect: You teleport up to 20 squares to the square occupied by your familiar and your familiar enters passive mode.",
         "title": "Familiar's Call"
       },
       "sharedData": {
@@ -190,8 +205,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Requires or modifies an arcane familiar; familiar rules are not supplied by the class chapter."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -220,9 +234,9 @@
         "subtitle": "6",
         "title": "Familiar's Call",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.wizard",
+          "id": "class-wizard",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"
@@ -235,10 +249,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Requires or modifies an arcane familiar; familiar rules are not supplied by the class chapter.",
-          "Attack structure remains literal: defense alternatives or a situational modifier need explicit runtime resolution.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -252,20 +263,31 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "IMPLEMENT",
+            "ZONE"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
         "prerequisites": [
           {
             "minimum": 10,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You weave a circle of protective runes that guard your allies and can draw power from your familiar for greater strength.",
+        "description": "You weave a circle of protective runes that guard your allies and can draw power from your familiar for greater strength.\n\nDAILY / STANDARD\n\nArea burst 1 within 20 squares\n\nEffect: The burst becomes a zone of protection until the end of your next turn. You and allies gain resist to all damage equal to your Intelligence while in the zone. Enemies must spend 2 extra squares of movement to enter the zone. You make an attack.\n\nTarget: Each enemy in the burst\n\nAttack: Intelligence vs. Fortitude\n\nArcane Familiar: Add a +4 power bonus to the attack roll if your familiar is in the burst.\n\nHit: Push the target from the burst's origin square to a space outside the zone. You cannot push the target when doing so causes the target to take damage or make a saving throw.\n\nSustain Minor: The effect persists.",
         "title": "Circle of Protection"
       },
       "sharedData": {
@@ -349,9 +371,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Requires or modifies an arcane familiar; familiar rules are not supplied by the class chapter.",
-            "Attack structure remains literal: defense alternatives or a situational modifier need explicit runtime resolution."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -381,9 +401,9 @@
         "subtitle": "10",
         "title": "Circle of Protection",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.wizard",
+          "id": "class-wizard",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"
@@ -396,9 +416,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Requires or modifies an arcane familiar; familiar rules are not supplied by the class chapter.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -412,20 +430,30 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "POLYMORPH"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
         "prerequisites": [
           {
             "minimum": 10,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You assume the shape of a creature that resembles your familiar.",
+        "description": "You assume the shape of a creature that resembles your familiar.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: You assume a form identical to your familiar until the end of the encounter and, for the same duration, can change back or forth between this and your natural form as a minor action. In this form, you gain the movement modes, speed, and special senses of your familiar but cannot make attacks.",
         "title": "Familiar Shape"
       },
       "sharedData": {
@@ -469,8 +497,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Requires or modifies an arcane familiar; familiar rules are not supplied by the class chapter."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -499,9 +526,9 @@
         "subtitle": "10",
         "title": "Familiar Shape",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.wizard",
+          "id": "class-wizard",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"
@@ -514,9 +541,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Depends on summoning rules or summoned-creature statistics; review that dependency before placement.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -530,20 +555,31 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "SHADOW",
+            "SUMMONING"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
         "prerequisites": [
           {
             "minimum": 2,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Shadows flicker at your feet, swirl before you, and coalesce into the form of a black serpent.",
+        "description": "Shadows flicker at your feet, swirl before you, and coalesce into the form of a black serpent.\n\nDAILY / MINOR\n\nRanged 10\n\nEffect: You summon a shadow serpent in an unoccupied square within range. The creature is an ally to you and your allies.\n\nRule: The serpent lacks actions of its own. Instead, you spend actions to command it mentally, choosing from the actions in its description. You don't need line of effect to the serpent to command it. When you command the serpent, the two of you share knowledge but not senses.\n\nRule: When the serpent makes a check, you make the roll using your game statistics, not including temporary bonuses or penalties.\n\nRule: The serpent lasts until it drops to 0 hit points, at which point you lose a healing surge (or hit points equal to your healing surge value if you have no surges left). Otherwise, it lasts until you dismiss it as a minor action or until the end of the encounter.",
         "title": "Summon Shadow Serpent"
       },
       "sharedData": {
@@ -606,8 +642,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Depends on summoning rules or summoned-creature statistics; review that dependency before placement."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -637,9 +672,9 @@
         "subtitle": "2",
         "title": "Summon Shadow Serpent",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.wizard",
+          "id": "class-wizard",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"
@@ -652,9 +687,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Depends on summoning rules or summoned-creature statistics; review that dependency before placement.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -668,20 +701,31 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "IMPLEMENT",
+            "SUMMONING"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
         "prerequisites": [
           {
             "minimum": 6,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "A dwarf-sized humanoid creature of earth and iron ore appears near you. When you come under attack, it steps in to absorb the force of the blow.",
+        "description": "A dwarf-sized humanoid creature of earth and iron ore appears near you. When you come under attack, it steps in to absorb the force of the blow.\n\nDAILY / MINOR\n\nClose burst 2\n\nEffect: You summon a Small iron cohort in an unoccupied square within the burst. The iron cohort has a speed of 6 and has a +2 bonus to AC. You can give the iron cohort the following special command.\n\nImmediate Interrupt: When you are targeted by a ranged or melee attack and the iron cohort is adjacent to you, the iron cohort becomes the attack's target instead.",
         "title": "Summon Iron Cohort"
       },
       "sharedData": {
@@ -732,8 +776,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Depends on summoning rules or summoned-creature statistics; review that dependency before placement."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -763,9 +806,9 @@
         "subtitle": "6",
         "title": "Summon Iron Cohort",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.wizard",
+          "id": "class-wizard",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"
@@ -778,9 +821,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Depends on summoning rules or summoned-creature statistics; review that dependency before placement.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -794,20 +835,31 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "IMPLEMENT",
+            "SUMMONING"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
         "prerequisites": [
           {
             "minimum": 10,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "A hulking creature of rock appears before you. It strikes too slowly to possibly hit a living creature, but its mighty fists turn walls and doors into rubble.",
+        "description": "A hulking creature of rock appears before you. It strikes too slowly to possibly hit a living creature, but its mighty fists turn walls and doors into rubble.\n\nDAILY / MINOR\n\nRanged 10\n\nEffect: You summon a Medium hammerfist crusher in an unoccupied square within range. The hammerfist crusher has a speed of 3. It has a +2 bonus to AC and a +2 bonus to Fortitude. You can give the crusher the following special command.\n\nStandard Action: Melee 1; targets one object; Intelligence vs. Reflex; 5d6 + Intelligence damage.",
         "title": "Summon Hammerfist Crusher"
       },
       "sharedData": {
@@ -858,8 +910,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Depends on summoning rules or summoned-creature statistics; review that dependency before placement."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -889,9 +940,9 @@
         "subtitle": "10",
         "title": "Summon Hammerfist Crusher",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.wizard",
+          "id": "class-wizard",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"

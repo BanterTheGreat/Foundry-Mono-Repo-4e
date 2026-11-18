@@ -5,9 +5,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Requires or modifies an arcane familiar; familiar rules are not supplied by the class chapter.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -21,20 +19,29 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
         "prerequisites": [
           {
             "minimum": 2,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You allow your magic to flow toward your familiar so that your next attack is more accurate.",
+        "description": "You allow your magic to flow toward your familiar so that your next attack is more accurate.\n\nENCOUNTER / MINOR\n\nPersonal\n\nRequirement: Your familiar must be in its active mode.\n\nEffect: Until the end of your next turn, you gain a +2 power bonus to attack rolls against any creature adjacent to your familiar.",
         "title": "Spirit Guidance"
       },
       "sharedData": {
@@ -79,8 +86,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Requires or modifies an arcane familiar; familiar rules are not supplied by the class chapter."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -108,9 +114,9 @@
         "subtitle": "2",
         "title": "Spirit Guidance",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.sorcerer",
+          "id": "class-sorcerer",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"
@@ -123,9 +129,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Requires or modifies an arcane familiar; familiar rules are not supplied by the class chapter.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -139,20 +143,29 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
         "prerequisites": [
           {
             "minimum": 6,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Your familiar has a link to your soul. You can protect an ally from damage with your familiar, but you are going to feel it.",
+        "description": "Your familiar has a link to your soul. You can protect an ally from damage with your familiar, but you are going to feel it.\n\nDAILY / IMMEDIATE_INTERRUPT\n\nSee effect\n\nTrigger: An attack hits an ally you can see\n\nRequirement: Your familiar must be in its active mode.\n\nEffect: Your familiar can shift its speed; if it ends this movement adjacent to the triggering ally, the triggering attack hits your familiar instead of the ally. You take damage equal to your level.",
         "title": "Protective Familiar"
       },
       "sharedData": {
@@ -199,8 +212,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Requires or modifies an arcane familiar; familiar rules are not supplied by the class chapter."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -228,9 +240,9 @@
         "subtitle": "6",
         "title": "Protective Familiar",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.sorcerer",
+          "id": "class-sorcerer",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"
@@ -243,9 +255,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Requires or modifies an arcane familiar; familiar rules are not supplied by the class chapter.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -259,20 +269,29 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
         "prerequisites": [
           {
             "minimum": 10,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Sometimes your familiar enters combat, and you have to make sure that you protect it.",
+        "description": "Sometimes your familiar enters combat, and you have to make sure that you protect it.\n\nDAILY / MINOR\n\nRanged 10\n\nTarget: Your familiar\n\nEffect: Your familiar gains a power bonus to all defenses equal to your Charisma and resist 10 to all damage until the end of the encounter.",
         "title": "Shielding the Bound Spirit"
       },
       "sharedData": {
@@ -323,8 +342,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Requires or modifies an arcane familiar; familiar rules are not supplied by the class chapter."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -352,9 +370,9 @@
         "subtitle": "10",
         "title": "Shielding the Bound Spirit",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.sorcerer",
+          "id": "class-sorcerer",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"

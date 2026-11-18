@@ -178,7 +178,7 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
         Column(Modifier.fillMaxWidth().height(pickerSheetHeight(LocalConfiguration.current.screenHeightDp)).padding(horizontal = 20.dp)) {
             if (catalogPicker) {
                 key(request, featTab) {
-                    CatalogChoiceList(request, state, optionRows, selected, expanded, featTab, showIneligible,
+                    CatalogChoiceList(request, state, model, optionRows, selected, expanded, featTab, showIneligible,
                         replacementTarget, Modifier.weight(1f),
                         changeTab = { featTab = it }, toggleIneligible = { showIneligible = !showIneligible },
                         changeTarget = { replacementTarget = it; edit = null }, choose = { option ->
@@ -350,7 +350,7 @@ internal fun pickerSheetHeight(screenHeightDp: Int): Dp = minOf(PickerSheetMaxHe
 
 /** The catalog supplies a tab's metadata first; lazy rows update in place as checks finish. */
 @Composable
-private fun CatalogChoiceList(request: ProgressionEditor, state: BuilderState, rows: List<BuilderOptionRow>?,
+private fun CatalogChoiceList(request: ProgressionEditor, state: BuilderState, model: BuilderSession, rows: List<BuilderOptionRow>?,
     selected: String?, expanded: String?, featTab: String, showIneligible: Boolean, replacementTarget: ChoiceSlotId?,
     modifier: Modifier, changeTab: (String) -> Unit, toggleIneligible: () -> Unit,
     changeTarget: (ChoiceSlotId) -> Unit, choose: (BuilderOption) -> Unit) {
@@ -405,6 +405,7 @@ private fun CatalogChoiceList(request: ProgressionEditor, state: BuilderState, r
                     } else {
                         if (entry.category == EntryCategory.POWER) { PowerPresentation(entry) }
                         else { ControlledDescription(entry.presentation.description) }
+                        if (entry.category == EntryCategory.ANCESTRY) { AncestryFeatures(entry, model) }
                         if (entry.mechanics.prerequisites.any { it is Prerequisite.Unadapted }) {
                             Text("Prerequisite not adapted", color = Accent)
                         }
@@ -431,17 +432,13 @@ private fun CatalogChoiceList(request: ProgressionEditor, state: BuilderState, r
     }
 }
 
+/** The traits and powers an ancestry grants, loaded when its card is expanded. */
 @Composable
-private fun ChoiceCard(title: String, chosen: Boolean, expanded: Boolean, enabled: Boolean, level: Int?, click: () -> Unit, content: @Composable ColumnScope.() -> Unit) {
-    Surface(Modifier.fillMaxWidth().clickable(enabled = enabled, onClick = click), color = if (chosen) Wash else Paper,
-        border = BorderStroke(if (chosen) 2.dp else 1.dp, if (chosen) Accent else Line)) {
-        Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text((if (chosen) "✓ " else "") + title, Modifier.weight(1f), fontFamily = FontFamily.Serif, fontSize = 18.sp, color = if (enabled) Ink else Dim)
-                level?.let { Surface(color = Ink) { Text(it.toString(), Modifier.padding(7.dp), color = Paper) } }
-            }
-            if (expanded || !enabled) { content() }
-        }
+private fun AncestryFeatures(ancestry: ContentEntry, model: BuilderSession) {
+    val granted by produceState<List<ContentEntry>>(emptyList(), ancestry.id) { value = model.grantedEntries(ancestry) }
+    granted.forEach { feature ->
+        Text(feature.presentation.title, fontFamily = FontFamily.Serif, fontSize = 16.sp)
+        ControlledDescription(feature.presentation.description)
     }
 }
 

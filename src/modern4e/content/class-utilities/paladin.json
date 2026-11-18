@@ -1799,6 +1799,86 @@
       "flavor": "You extend the power of your virtue to nearby allies, enabling you and your friends to easily strike down your enemies."
     },
     {
+      "id": "modern4e.power.utility-class-deferred-power13561",
+      "title": "Spirit of the Virtuous Charger",
+      "description": "You infuse the spirit of a divine steed into yourself, gaining some of its capabilities.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.paladin"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 8
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power13561",
+        "publication": "Published in Heroes of the Forgotten Kingdoms."
+      },
+      "keywords": [
+        "DIVINE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You gain a +2 power bonus to speed. You also gain a power bonus to damage rolls with charge attacks equal to your Charisma. These effects last until the end of the encounter."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Level 18",
+              "text": "You also gain a fly speed equal to your speed."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Level 28",
+              "text": "This power can also target each ally within 2 squares of you."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 8,
+      "powerKind": "UTILITY",
+      "subtitle": "8",
+      "flavor": "You infuse the spirit of a divine steed into yourself, gaining some of its capabilities."
+    },
+    {
       "id": "modern4e.power.utility-class-paladin-power13564",
       "title": "Beacon of Nobility",
       "description": "You inspire hope in your allies through your combination of divine power and valorous words.",

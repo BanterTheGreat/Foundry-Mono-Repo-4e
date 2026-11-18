@@ -2,6 +2,1436 @@
   "schemaVersion": 2,
   "powers": [
     {
+      "id": "modern4e.power.utility-class-deferred-power12636",
+      "title": "Create Water",
+      "description": "A cool breeze washes over you as a thick, magical mist fills a vessel with water.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12636",
+        "publication": "Published in Heroes of the Fallen Lands, page(s) 110."
+      },
+      "keywords": [
+        "DIVINE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One empty cup, flask, or similar container that can hold up to 1 gallon of liquid"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You cause the container to fill with fresh, potable water."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee 1"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 1,
+      "powerKind": "UTILITY",
+      "subtitle": "1",
+      "flavor": "A cool breeze washes over you as a thick, magical mist fills a vessel with water."
+    },
+    {
+      "id": "modern4e.power.utility-class-deferred-power16415",
+      "title": "Cruel Inspiration",
+      "description": "You lash out with a whip of divine energy, sparking pain but fortifying will.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power16415",
+        "publication": "Published in Dragon Magazine 409."
+      },
+      "keywords": [
+        "CHANNEL_DIVINITY",
+        "DIVINE",
+        "PSYCHIC",
+        "SHADOW"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You or one ally in the burst"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target takes 5 psychic damage and can then make a saving throw with a +5 power bonus."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Special",
+              "text": "You can use only one channel divinity power per encounter."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 3"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 1,
+      "powerKind": "UTILITY",
+      "subtitle": "1",
+      "flavor": "You lash out with a whip of divine energy, sparking pain but fortifying will."
+    },
+    {
+      "id": "modern4e.power.utility-class-deferred-power13941",
+      "title": "Eye of the Vulture",
+      "description": "Unseen energy lances out from you to your foes, granting you perception of the balance between life and death.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power13941",
+        "publication": "Published in Heroes of Shadow, page(s) 86."
+      },
+      "keywords": [
+        "DIVINE",
+        "SHADOW"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Each bloodied enemy in the burst"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You learn which targets have current hit point totals lower than your healing surge value."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 3"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 1,
+      "powerKind": "UTILITY",
+      "subtitle": "1",
+      "flavor": "Unseen energy lances out from you to your foes, granting you perception of the balance between life and death."
+    },
+    {
+      "id": "modern4e.power.utility-class-deferred-power14235",
+      "title": "Fey Sight",
+      "description": "A whispered prayer brings forth a swirling silver light in the eyes of you and your allies, granting you supernatural vision.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14235",
+        "publication": "Published in Neverwinter Campaign Setting, page(s) 54."
+      },
+      "keywords": [
+        "AURA",
+        "DIVINE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You activate an aura 5 that lasts until the end of the encounter. While in the aura, you and your allies gain low-light vision and a +2 power bonus to Perception checks."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 1,
+      "powerKind": "UTILITY",
+      "subtitle": "1",
+      "flavor": "A whispered prayer brings forth a swirling silver light in the eyes of you and your allies, granting you supernatural vision."
+    },
+    {
+      "id": "modern4e.power.utility-class-deferred-power16418",
+      "title": "Inspire Dread",
+      "description": "You take on a ferocious demeanor, seeming taller and more menacing.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power16418",
+        "publication": "Published in Dragon Magazine 409."
+      },
+      "keywords": [
+        "DIVINE",
+        "SHADOW"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You gain a +2 power bonus to the next Intimidate check you make before the end of your next turn."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 1,
+      "powerKind": "UTILITY",
+      "subtitle": "1",
+      "flavor": "You take on a ferocious demeanor, seeming taller and more menacing."
+    },
+    {
+      "id": "modern4e.power.utility-class-deferred-power14245",
+      "title": "Knowledge to Spread",
+      "description": "Thoughts run through the minds of you and your allies, each idea particular to the task to which you set yourselves.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14245",
+        "publication": "Published in Neverwinter Campaign Setting, page(s) 58."
+      },
+      "keywords": [
+        "CHANNEL_DIVINITY",
+        "DIVINE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You and each ally in the burst"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The next time the target makes a skill check before the end of your next turn, the target gains a +2 power bonus to the check."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Special",
+              "text": "You can use only one channel divinity power per encounter."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 3"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 1,
+      "powerKind": "UTILITY",
+      "subtitle": "1",
+      "flavor": "Thoughts run through the minds of you and your allies, each idea particular to the task to which you set yourselves."
+    },
+    {
+      "id": "modern4e.power.utility-class-deferred-power14262",
+      "title": "Life and Light",
+      "description": "A burst of light flares around you, protecting your allies and making your foes feel Selûne's wrath.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14262",
+        "publication": "Published in Neverwinter Campaign Setting, page(s) 61."
+      },
+      "keywords": [
+        "CHANNEL_DIVINITY",
+        "DIVINE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn, you and each ally in the burst gain resist 5 necrotic, and each enemy in the burst gain vulnerable 5 radiant."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Level 11",
+              "text": "The resistance and the vulnerability equal 10."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Level 21",
+              "text": "The resistance and the vulnerability equal 15."
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Special",
+              "text": "You can use only one channel divinity power per encounter."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 5"
+          }
+        }
+      ],
+      "level": 1,
+      "powerKind": "UTILITY",
+      "subtitle": "1",
+      "flavor": "A burst of light flares around you, protecting your allies and making your foes feel Selûne's wrath."
+    },
+    {
+      "id": "modern4e.power.utility-class-deferred-power14260",
+      "title": "Moon Weapon",
+      "description": "The light of a full moon surrounds you, alighting on the weapon you touch to limn it with a silver glow.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14260",
+        "publication": "Published in Neverwinter Campaign Setting, page(s) 60."
+      },
+      "keywords": [
+        "DIVINE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One held weapon"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, the weapon sheds bright light in a 5-foot radius, and it is considered a silvered weapon. In addition, any damage dealt by weapon attacks made using the weapon is radiant damage, unless the damage already has a type."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee touch"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 1,
+      "powerKind": "UTILITY",
+      "subtitle": "1",
+      "flavor": "The light of a full moon surrounds you, alighting on the weapon you touch to limn it with a silver glow."
+    },
+    {
+      "id": "modern4e.power.utility-class-deferred-power14275",
+      "title": "Outmaneuver",
+      "description": "A brilliant light indicates a pathway for your ally to find the right place to battle your foe.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14275",
+        "publication": "Published in Neverwinter Campaign Setting, page(s) 64."
+      },
+      "keywords": [
+        "CHANNEL_DIVINITY",
+        "DIVINE",
+        "TELEPORTATION"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One ally in the burst"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You teleport the target to a square where it flanks an enemy adjacent to you. Until the end of your next turn, you and the target gain a +1 bonus to attack rolls against that enemy while you both flank it."
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Special",
+              "text": "You can use only one channel divinity power per encounter."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 10"
+          },
+          "requirement": "You must be adjacent to an enemy.",
+          "targets": "targets"
+        }
+      ],
+      "level": 1,
+      "powerKind": "UTILITY",
+      "subtitle": "1",
+      "flavor": "A brilliant light indicates a pathway for your ally to find the right place to battle your foe."
+    },
+    {
+      "id": "modern4e.power.utility-class-deferred-power12651",
+      "title": "Soothing Light",
+      "description": "Under the light of the sun, all ills fade. Your devotion gives your ally the vigor needed to persevere.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12651",
+        "publication": "Published in Heroes of the Fallen Lands, page(s) 116."
+      },
+      "keywords": [
+        "CHANNEL_DIVINITY",
+        "DIVINE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You or one ally in the burst"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target makes a saving throw with a +2 power bonus."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Special",
+              "text": "You can use only one channel divinity power per encounter."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 2"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 1,
+      "powerKind": "UTILITY",
+      "subtitle": "1",
+      "flavor": "Under the light of the sun, all ills fade. Your devotion gives your ally the vigor needed to persevere."
+    },
+    {
+      "id": "modern4e.power.utility-class-deferred-power13943",
+      "title": "Stay the Hand of Death",
+      "description": "When grievous wounds hinder you or an ally, your power bestows a temporary surge of vitality.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power13943",
+        "publication": "Published in Heroes of Shadow, page(s) 87."
+      },
+      "keywords": [
+        "CHANNEL_DIVINITY",
+        "DIVINE",
+        "SHADOW"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You or one ally in the burst; the target must be bloodied"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target gains 5 temporary hit points."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Level 11",
+              "text": "10 temporary hit points."
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Level 21",
+              "text": "15 temporary hit points."
+            },
+            {
+              "id": "rule-5",
+              "type": "effect",
+              "label": "Special",
+              "text": "You can use only one channel divinity power per encounter."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 2"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 1,
+      "powerKind": "UTILITY",
+      "subtitle": "1",
+      "flavor": "When grievous wounds hinder you or an ally, your power bestows a temporary surge of vitality."
+    },
+    {
+      "id": "modern4e.power.utility-class-deferred-power14231",
+      "title": "Step Together",
+      "description": "You and an ally vanish, only to emerge together a moment later from a ripple in the air.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14231",
+        "publication": "Published in Neverwinter Campaign Setting, page(s) 55."
+      },
+      "keywords": [
+        "CHANNEL_DIVINITY",
+        "DIVINE",
+        "TELEPORTATION"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MOVE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You and one ally in the burst"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Each target teleports up to 5 squares and must end adjacent to the other."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Special",
+              "text": "You can use only one channel divinity power per encounter."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 1,
+      "powerKind": "UTILITY",
+      "subtitle": "1",
+      "flavor": "You and an ally vanish, only to emerge together a moment later from a ripple in the air."
+    },
+    {
+      "id": "modern4e.power.utility-class-deferred-power13708",
+      "title": "Stone Speak",
+      "description": "You reach down to touch the stone beneath you and at your urging, it tells you the tale of this place.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power13708",
+        "publication": "Published in Dragon Magazine 392."
+      },
+      "keywords": [
+        "DIVINE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You make a Perception check with a +5 power bonus to detect secret doors, hidden objects, and hidden creatures within 10 squares."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 1,
+      "powerKind": "UTILITY",
+      "subtitle": "1",
+      "flavor": "You reach down to touch the stone beneath you and at your urging, it tells you the tale of this place."
+    },
+    {
+      "id": "modern4e.power.utility-class-deferred-power13710",
+      "title": "Stone's Resolve",
+      "description": "For a brief moment, you or a nearby ally become a creature of living rock.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power13710",
+        "publication": "Published in Dragon Magazine 392."
+      },
+      "keywords": [
+        "CHANNEL_DIVINITY",
+        "DIVINE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You or one ally in the burst"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target gains resist 5 to all damage until the end of your next turn."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Level 11",
+              "text": "Resist 10."
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Level 21",
+              "text": "Resist 15."
+            },
+            {
+              "id": "rule-5",
+              "type": "effect",
+              "label": "Special",
+              "text": "You can use only one channel divinity power per encounter."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 2"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 1,
+      "powerKind": "UTILITY",
+      "subtitle": "1",
+      "flavor": "For a brief moment, you or a nearby ally become a creature of living rock."
+    },
+    {
+      "id": "modern4e.power.utility-class-deferred-power12638",
+      "title": "Storm Surge",
+      "description": "Crackles of lightning dance along the weapon you bless, ready to unleash a surge of power.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12638",
+        "publication": "Published in Heroes of the Fallen Lands, page(s) 110."
+      },
+      "keywords": [
+        "CHANNEL_DIVINITY",
+        "DIVINE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "You or one ally in the burst"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The next time the target makes a damage roll for a melee weapon attack before the end of your next turn, the target deals 4 extra lightning damage."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Level 11",
+              "text": "The extra damage increases to 6."
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Level 21",
+              "text": "The extra damage increases to 8."
+            },
+            {
+              "id": "rule-5",
+              "type": "effect",
+              "label": "Special",
+              "text": "You can use only one channel divinity power per encounter."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 2"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 1,
+      "powerKind": "UTILITY",
+      "subtitle": "1",
+      "flavor": "Crackles of lightning dance along the weapon you bless, ready to unleash a surge of power."
+    },
+    {
+      "id": "modern4e.power.utility-class-deferred-power14248",
+      "title": "Sudden Inspiration",
+      "description": "You gain a divine perspective into how a challenge can be surmounted, the thought arriving in the nick of time.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14248",
+        "publication": "Published in Neverwinter Campaign Setting, page(s) 57."
+      },
+      "keywords": [
+        "DIVINE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "The triggering creature"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target gains a power bonus to the skill check equal to your Wisdom."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 10"
+          },
+          "trigger": "You or one ally in the burst fails a skill check.",
+          "targets": "targets"
+        }
+      ],
+      "level": 1,
+      "powerKind": "UTILITY",
+      "subtitle": "1",
+      "flavor": "You gain a divine perspective into how a challenge can be surmounted, the thought arriving in the nick of time."
+    },
+    {
+      "id": "modern4e.power.utility-class-deferred-power12649",
+      "title": "Sun's Glow",
+      "description": "You place an incandescent mote of sunlight upon a nearby object.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12649",
+        "publication": "Published in Heroes of the Fallen Lands, page(s) 117."
+      },
+      "keywords": [
+        "DIVINE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One object or unoccupied square"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target sheds bright light that fills its space and squares within 4 squares of it. The light lasts for 1 hour, until you use this power again, or until you end the light as a free action."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee 1"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 1,
+      "powerKind": "UTILITY",
+      "subtitle": "1",
+      "flavor": "You place an incandescent mote of sunlight upon a nearby object."
+    },
+    {
+      "id": "modern4e.power.utility-class-deferred-power14273",
+      "title": "True Strike",
+      "description": "A whispered prayer connects your ally with the divine, guiding your friend's hands and mind toward the target.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.cleric"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power14273",
+        "publication": "Published in Neverwinter Campaign Setting, page(s) 63."
+      },
+      "keywords": [
+        "DIVINE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "One ally in the burst"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target gains a +4 bonus to its next attack roll against an enemy before the end of your next turn."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 5"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 1,
+      "powerKind": "UTILITY",
+      "subtitle": "1",
+      "flavor": "A whispered prayer connects your ally with the divine, guiding your friend's hands and mind toward the target."
+    },
+    {
       "id": "modern4e.power.utility-class-cleric-power9982",
       "title": "Angelic Witnesses",
       "description": "Your prayers bring the attention of ghostly minor angels, who stand and silently observe you in battle.",

@@ -142,9 +142,10 @@ cross-package reference check. The sample new-character template enables all of 
   remain explicit unresolved conditions. `size`/`selected` predicates compile to structured ancestry and selection queries; unknown facts stay incomplete. Skill Training's two distinct untrained skill choices are enforced, including exhaustion;
   Armor Proficiency advances the authored category sequence through Plate; other choices and distinct constraints are unsupported and listed in coverage. Explicit
   tagged multiclass targets carry contextual feat/paragon-path qualification; other benefits remain descriptive.
-- `modern4e.utilities` (`utility_runtime.py`): all 1,081 utility powers. The 1,010 in AVAILABLE sections carry a
-  `powerProfile` and join the level-N utility pools; the 71 DEFERRED class utilities stay in the package so IDs
-  resolve but have no profile. `sharedData.utilitySection` keeps section kind/availability and COMBAT/NON_COMBAT
+- `modern4e.utilities` (`utility_runtime.py`): all 1,046 utility powers, none withheld. Every one carries a
+  `powerProfile` (revision 3) and joins the level-N utility pools, including off-slot levels (level 1 Cleric,
+  levels 4/5/8) that appear in every pool whose level reaches them; an entry in a DEFERRED section would stay in
+  the package so its ID resolves but have no profile. `sharedData.utilitySection` keeps section kind/availability and COMBAT/NON_COMBAT
   pick kinds. The advancement pool queries do not carry the authored `access: CHARACTER` filter, so pools list
   other classes' utilities; selection still requires eligible access and prerequisites.
 - `modern4e.equipment` (`equipment_runtime.py`): 53 ITEM entries (45 weapons, 6 armor, 2 shields). Descriptions

@@ -5,127 +5,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Requires nature's growth, absent from the local druid.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.power.utility-class-deferred-power14510",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.druid",
-          "type": "entry"
-        },
-        "choices": [],
-        "conditionalModifiers": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 6,
-            "type": "level"
-          }
-        ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
-        "version": 2,
-        "weaponAbilities": {}
-      },
-      "presentation": {
-        "description": "The power you learned at the earliest stage of your training can be unleashed again.",
-        "title": "Verdant Surge"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.druid",
-          "type": "entry"
-        },
-        "activations": [
-          {
-            "action": "MINOR",
-            "availability": "ENTRY",
-            "bindings": {},
-            "blocks": [
-              {
-                "id": "rule-2",
-                "label": "Effect",
-                "text": "You regain the use of your nature's growth, and you can use it as a free action.",
-                "type": "effect"
-              }
-            ],
-            "id": "use",
-            "range": {
-              "type": "PERSONAL"
-            },
-            "requirement": "Your nature's growth must be expended.",
-            "usage": {
-              "costs": [],
-              "frequency": "DAILY",
-              "limits": [
-                {
-                  "maximum": {
-                    "base": 1
-                  },
-                  "period": "DAY"
-                }
-              ],
-              "rules": []
-            }
-          }
-        ],
-        "category": "POWER",
-        "choices": [],
-        "coverage": {
-          "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Requires nature's growth, absent from the local druid."
-          ],
-          "status": "UNIMPLEMENTED"
-        },
-        "description": "The power you learned at the earliest stage of your training can be unleashed again.",
-        "flavor": "The power you learned at the earliest stage of your training can be unleashed again.",
-        "id": "modern4e.power.utility-class-deferred-power14510",
-        "keywords": [
-          "PRIMAL"
-        ],
-        "level": 6,
-        "powerKind": "UTILITY",
-        "prerequisites": {
-          "minimum": 6,
-          "type": "level"
-        },
-        "rulesProfile": "MODERN4E",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "source": {
-          "entryId": "power14510",
-          "publication": "Published in Heroes of the Feywild, page(s) 80."
-        },
-        "subtitle": "6",
-        "title": "Verdant Surge",
-        "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
-          "kind": "CLASS",
-          "pickKinds": [
-            "COMBAT"
-          ]
-        }
-      }
-    },
-    {
-      "category": "POWER",
-      "coverage": {
-        "limitations": [
-          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Depends on summoning rules or summoned-creature statistics; review that dependency before placement.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -139,20 +19,29 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
         "prerequisites": [
           {
             "minimum": 10,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You form a deep bond with your summoned animals, drawing out their thirst for battle.",
+        "description": "You form a deep bond with your summoned animals, drawing out their thirst for battle.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Once per round until the end of the encounter, you can use a minor action to command one of your summoned creatures to use its instinctive effect.",
         "title": "Animal Clan"
       },
       "sharedData": {
@@ -196,8 +85,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Depends on summoning rules or summoned-creature statistics; review that dependency before placement."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -225,9 +113,9 @@
         "subtitle": "10",
         "title": "Animal Clan",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.druid",
+          "id": "class-druid",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"

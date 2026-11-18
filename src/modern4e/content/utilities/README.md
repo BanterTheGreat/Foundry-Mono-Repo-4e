@@ -1,7 +1,7 @@
 # Shared utility power authoring
 
-All 1,081 utility definitions use the shared entry base and ordered power body:
-790 available class utilities, 71 withheld class utilities, 66 formerly inline
+All 1,046 utility definitions use the shared entry base and ordered power body:
+826 available class utilities, 66 formerly inline
 skill cards, 41 additional skill utilities and 113 power-source utilities.
 The rulebook consumes these definitions directly. This is authoring data, not
 a Character Builder runtime package or combat interpreter.
@@ -25,9 +25,12 @@ Use requirements remain distinct from selection prerequisites.
 
 Sections own `powerIds` in printed order, `availability` (AVAILABLE/DEFERRED), and
 per-power `pickKinds` (COMBAT/NON_COMBAT, or both). Class/source metadata agrees
-with the definitions' access conditions. The 71 withheld entries retain their
-review reasons in coverage and are exported as DEFERRED. The Typst reader refuses
-to render a withheld section. Importing this catalog must not expose all exported
+with the definitions' access conditions. No entry is withheld now. The 36 formerly
+deferred class utilities (familiar, summoning and off-slot-level powers, including
+18 level-1 Cleric powers) joined their class sections and keep their original
+`utility-class-deferred-` identities; 35 that depend on Beast Mastery companions,
+Godsworn, eladrin or class features absent from Modern 4e were removed. A DEFERRED
+section remains valid, is exported as DEFERRED and is refused by the Typst reader. Importing this catalog must not expose all exported
 powers as available selections.
 
 The six ability-named Typst files retain only their public section functions;

@@ -293,6 +293,69 @@
       "flavor": "Your form blurs as you hastily withdraw from the battlefield."
     },
     {
+      "id": "modern4e.power.utility-class-deferred-power10418",
+      "title": "Familiar Harrier",
+      "description": "You send your familiar in to keep your opponent off balance.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.wizard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10418",
+        "publication": "Published in Dragon Magazine 382, page(s) 26."
+      },
+      "keywords": [
+        "ARCANE",
+        "TELEPORTATION"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MOVE",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Teleport your familiar 10 squares, and until the end of your next turn your familiar can flank with you or your allies. When an attack hits a creature flanked by the familiar, that creature cannot shift until the end of its next turn."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "See effect"
+          }
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "You send your familiar in to keep your opponent off balance."
+    },
+    {
       "id": "modern4e.power.utility-class-wizard-power1213",
       "title": "Feather Fall",
       "description": "You or a creature you choose falls gently, like a feather.",
@@ -1563,6 +1626,95 @@
       "flavor": "You make a complex illusion of a creature or an object to fool your enemies."
     },
     {
+      "id": "modern4e.power.utility-class-deferred-power4106",
+      "title": "Summon Shadow Serpent",
+      "description": "Shadows flicker at your feet, swirl before you, and coalesce into the form of a black serpent.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.wizard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4106",
+        "publication": "Published in Arcane Power, page(s) 104, Heroes of Shadow, page(s) 101."
+      },
+      "keywords": [
+        "ARCANE",
+        "SHADOW",
+        "SUMMONING"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You summon a shadow serpent in an unoccupied square within range. The creature is an ally to you and your allies."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Rule",
+              "text": "The serpent lacks actions of its own. Instead, you spend actions to command it mentally, choosing from the actions in its description. You don't need line of effect to the serpent to command it. When you command the serpent, the two of you share knowledge but not senses."
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Rule",
+              "text": "When the serpent makes a check, you make the roll using your game statistics, not including temporary bonuses or penalties."
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Rule",
+              "text": "The serpent lasts until it drops to 0 hit points, at which point you lose a healing surge (or hit points equal to your healing surge value if you have no surges left). Otherwise, it lasts until you dismiss it as a minor action or until the end of the encounter."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          }
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "Shadows flicker at your feet, swirl before you, and coalesce into the form of a black serpent."
+    },
+    {
       "id": "modern4e.power.utility-class-wizard-power10072",
       "title": "Able Companion",
       "description": "You conjure a creature of many hands and feet that aids your allies.",
@@ -2175,6 +2327,75 @@
       "powerKind": "UTILITY",
       "subtitle": "6",
       "flavor": "The instant you feel your enemy's attack, you vanish in a puff of black smoke."
+    },
+    {
+      "id": "modern4e.power.utility-class-deferred-power10420",
+      "title": "Familiar's Call",
+      "description": "You teleport yourself to where your familiar is.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.wizard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10420",
+        "publication": "Published in Dragon Magazine 382, page(s) 27."
+      },
+      "keywords": [
+        "ARCANE",
+        "TELEPORTATION"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MOVE",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You teleport up to 20 squares to the square occupied by your familiar and your familiar enters passive mode."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "You teleport yourself to where your familiar is."
     },
     {
       "id": "modern4e.power.utility-class-wizard-power2835",
@@ -2906,6 +3127,83 @@
       "flavor": "You summon the ghostly image of a powerful mastiff that follows you protectively."
     },
     {
+      "id": "modern4e.power.utility-class-deferred-power4112",
+      "title": "Summon Iron Cohort",
+      "description": "A dwarf-sized humanoid creature of earth and iron ore appears near you. When you come under attack, it steps in to absorb the force of the blow.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.wizard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4112",
+        "publication": "Published in Arcane Power, page(s) 105."
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT",
+        "SUMMONING"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You summon a Small iron cohort in an unoccupied square within the burst. The iron cohort has a speed of 6 and has a +2 bonus to AC. You can give the iron cohort the following special command."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Immediate Interrupt",
+              "text": "When you are targeted by a ranged or melee attack and the iron cohort is adjacent to you, the iron cohort becomes the attack's target instead."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 2"
+          }
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "A dwarf-sized humanoid creature of earth and iron ore appears near you. When you come under attack, it steps in to absorb the force of the blow."
+    },
+    {
       "id": "modern4e.power.utility-class-wizard-power1548",
       "title": "Wall of Fog",
       "description": "You create a billowing wall of gray fog that obscures vision.",
@@ -3266,6 +3564,116 @@
       "flavor": "You cloak yourself with a shimmering aura, making your outline almost impossible to discern."
     },
     {
+      "id": "modern4e.power.utility-class-deferred-power10422",
+      "title": "Circle of Protection",
+      "description": "You weave a circle of protective runes that guard your allies and can draw power from your familiar for greater strength.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.wizard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10422",
+        "publication": "Published in Dragon Magazine 382, page(s) 27."
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT",
+        "ZONE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "actor": {
+              "kind": "ACTOR",
+              "text": "You"
+            },
+            "attack-targets-2": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The burst becomes a zone of protection until the end of your next turn. You and allies gain resist to all damage equal to your Intelligence while in the zone. Enemies must spend 2 extra squares of movement to enter the zone. You make an attack."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Target",
+              "text": "Each enemy in the burst"
+            },
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Attack",
+              "text": "Intelligence vs. Fortitude"
+            },
+            {
+              "id": "rule-4",
+              "type": "effect",
+              "label": "Arcane Familiar",
+              "text": "Add a +4 power bonus to the attack roll if your familiar is in the burst."
+            },
+            {
+              "id": "rule-5",
+              "type": "effect",
+              "label": "Hit",
+              "text": "Push the target from the burst's origin square to a space outside the zone. You cannot push the target when doing so causes the target to take damage or make a saving throw."
+            },
+            {
+              "id": "rule-6",
+              "type": "effect",
+              "label": "Sustain Minor",
+              "text": "The effect persists."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Area burst 1 within 20 squares"
+          }
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "You weave a circle of protective runes that guard your allies and can draw power from your familiar for greater strength."
+    },
+    {
       "id": "modern4e.power.utility-class-wizard-power16290",
       "title": "Dig",
       "description": "You cause earth and stone to pull apart, creating a deep pit or a shortcut to a different location.",
@@ -3402,6 +3810,75 @@
       "powerKind": "UTILITY",
       "subtitle": "10",
       "flavor": "As you shrug off an enemy's attack, you capture that attack's power for your own use."
+    },
+    {
+      "id": "modern4e.power.utility-class-deferred-power10424",
+      "title": "Familiar Shape",
+      "description": "You assume the shape of a creature that resembles your familiar.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.wizard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power10424",
+        "publication": "Published in Dragon Magazine 382, page(s) 27."
+      },
+      "keywords": [
+        "ARCANE",
+        "POLYMORPH"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You assume a form identical to your familiar until the end of the encounter and, for the same duration, can change back or forth between this and your natural form as a minor action. In this form, you gain the movement modes, speed, and special senses of your familiar but cannot make attacks."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          }
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "You assume the shape of a creature that resembles your familiar."
     },
     {
       "id": "modern4e.power.utility-class-wizard-power4237",
@@ -4062,6 +4539,83 @@
       "powerKind": "UTILITY",
       "subtitle": "10",
       "flavor": "You make yourself or another creature in range resistant to a particular kind of damage."
+    },
+    {
+      "id": "modern4e.power.utility-class-deferred-power4117",
+      "title": "Summon Hammerfist Crusher",
+      "description": "A hulking creature of rock appears before you. It strikes too slowly to possibly hit a living creature, but its mighty fists turn walls and doors into rubble.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.wizard"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power4117",
+        "publication": "Published in Arcane Power, page(s) 107."
+      },
+      "keywords": [
+        "ARCANE",
+        "IMPLEMENT",
+        "SUMMONING"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-1",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You summon a Medium hammerfist crusher in an unoccupied square within range. The hammerfist crusher has a speed of 3. It has a +2 bonus to AC and a +2 bonus to Fortitude. You can give the crusher the following special command."
+            },
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Standard Action",
+              "text": "Melee 1; targets one object; Intelligence vs. Reflex; 5d6 + Intelligence damage."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          }
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "A hulking creature of rock appears before you. It strikes too slowly to possibly hit a living creature, but its mighty fists turn walls and doors into rubble."
     },
     {
       "id": "modern4e.power.utility-class-wizard-power2840",

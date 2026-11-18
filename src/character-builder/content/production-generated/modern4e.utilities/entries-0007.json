@@ -6311,9 +6311,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -6327,20 +6325,29 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 1,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
         "prerequisites": [
           {
             "minimum": 1,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "A cool breeze washes over you as a thick, magical mist fills a vessel with water.",
+        "description": "A cool breeze washes over you as a thick, magical mist fills a vessel with water.\n\nENCOUNTER / MINOR\n\nMelee 1\n\nTarget: One empty cup, flask, or similar container that can hold up to 1 gallon of liquid\n\nEffect: You cause the container to fill with fresh, potable water.",
         "title": "Create Water"
       },
       "sharedData": {
@@ -6391,8 +6398,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -6420,9 +6426,9 @@
         "subtitle": "1",
         "title": "Create Water",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.cleric",
+          "id": "class-cleric",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"
@@ -6435,9 +6441,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -6451,20 +6455,30 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "CHANNEL_DIVINITY",
+            "DIVINE"
+          ],
+          "level": 1,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
         "prerequisites": [
           {
             "minimum": 1,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Crackles of lightning dance along the weapon you bless, ready to unleash a surge of power.",
+        "description": "Crackles of lightning dance along the weapon you bless, ready to unleash a surge of power.\n\nENCOUNTER / MINOR\n\nClose burst 2\n\nTarget: You or one ally in the burst\n\nEffect: The next time the target makes a damage roll for a melee weapon attack before the end of your next turn, the target deals 4 extra lightning damage.\n\nLevel 11: The extra damage increases to 6.\n\nLevel 21: The extra damage increases to 8.\n\nSpecial: You can use only one channel divinity power per encounter.",
         "title": "Storm Surge"
       },
       "sharedData": {
@@ -6533,8 +6547,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -6563,9 +6576,9 @@
         "subtitle": "1",
         "title": "Storm Surge",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.cleric",
+          "id": "class-cleric",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"
@@ -6578,9 +6591,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -6594,20 +6605,29 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 1,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "AT_WILL"
+        },
         "prerequisites": [
           {
             "minimum": 1,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You place an incandescent mote of sunlight upon a nearby object.",
+        "description": "You place an incandescent mote of sunlight upon a nearby object.\n\nAT_WILL / MINOR\n\nMelee 1\n\nTarget: One object or unoccupied square\n\nEffect: The target sheds bright light that fills its space and squares within 4 squares of it. The light lasts for 1 hour, until you use this power again, or until you end the light as a free action.",
         "title": "Sun's Glow"
       },
       "sharedData": {
@@ -6651,8 +6671,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -6680,9 +6699,9 @@
         "subtitle": "1",
         "title": "Sun's Glow",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.cleric",
+          "id": "class-cleric",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"
@@ -6695,9 +6714,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -6711,20 +6728,30 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "CHANNEL_DIVINITY",
+            "DIVINE"
+          ],
+          "level": 1,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
         "prerequisites": [
           {
             "minimum": 1,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Under the light of the sun, all ills fade. Your devotion gives your ally the vigor needed to persevere.",
+        "description": "Under the light of the sun, all ills fade. Your devotion gives your ally the vigor needed to persevere.\n\nENCOUNTER / MINOR\n\nClose burst 2\n\nTarget: You or one ally in the burst\n\nEffect: The target makes a saving throw with a +2 power bonus.\n\nSpecial: You can use only one channel divinity power per encounter.",
         "title": "Soothing Light"
       },
       "sharedData": {
@@ -6781,8 +6808,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -6811,9 +6837,9 @@
         "subtitle": "1",
         "title": "Soothing Light",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.cleric",
+          "id": "class-cleric",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"
@@ -6826,9 +6852,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -6842,20 +6866,29 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 1,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
         "prerequisites": [
           {
             "minimum": 1,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You reach down to touch the stone beneath you and at your urging, it tells you the tale of this place.",
+        "description": "You reach down to touch the stone beneath you and at your urging, it tells you the tale of this place.\n\nENCOUNTER / MINOR\n\nPersonal\n\nEffect: You make a Perception check with a +5 power bonus to detect secret doors, hidden objects, and hidden creatures within 10 squares.",
         "title": "Stone Speak"
       },
       "sharedData": {
@@ -6899,8 +6932,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -6928,9 +6960,9 @@
         "subtitle": "1",
         "title": "Stone Speak",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.cleric",
+          "id": "class-cleric",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"
@@ -6943,9 +6975,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -6959,20 +6989,30 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "CHANNEL_DIVINITY",
+            "DIVINE"
+          ],
+          "level": 1,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
         "prerequisites": [
           {
             "minimum": 1,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "For a brief moment, you or a nearby ally become a creature of living rock.",
+        "description": "For a brief moment, you or a nearby ally become a creature of living rock.\n\nENCOUNTER / MINOR\n\nClose burst 2\n\nTarget: You or one ally in the burst\n\nEffect: The target gains resist 5 to all damage until the end of your next turn.\n\nLevel 11: Resist 10.\n\nLevel 21: Resist 15.\n\nSpecial: You can use only one channel divinity power per encounter.",
         "title": "Stone's Resolve"
       },
       "sharedData": {
@@ -7041,8 +7081,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -7071,9 +7110,9 @@
         "subtitle": "1",
         "title": "Stone's Resolve",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.cleric",
+          "id": "class-cleric",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"
@@ -7086,9 +7125,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -7102,20 +7139,30 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE",
+            "SHADOW"
+          ],
+          "level": 1,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
         "prerequisites": [
           {
             "minimum": 1,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Unseen energy lances out from you to your foes, granting you perception of the balance between life and death.",
+        "description": "Unseen energy lances out from you to your foes, granting you perception of the balance between life and death.\n\nENCOUNTER / MINOR\n\nClose burst 3\n\nTarget: Each bloodied enemy in the burst\n\nEffect: You learn which targets have current hit point totals lower than your healing surge value.",
         "title": "Eye of the Vulture"
       },
       "sharedData": {
@@ -7166,8 +7213,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -7196,9 +7242,9 @@
         "subtitle": "1",
         "title": "Eye of the Vulture",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.cleric",
+          "id": "class-cleric",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"
@@ -7211,9 +7257,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -7227,20 +7271,31 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "CHANNEL_DIVINITY",
+            "DIVINE",
+            "SHADOW"
+          ],
+          "level": 1,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
         "prerequisites": [
           {
             "minimum": 1,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "When grievous wounds hinder you or an ally, your power bestows a temporary surge of vitality.",
+        "description": "When grievous wounds hinder you or an ally, your power bestows a temporary surge of vitality.\n\nENCOUNTER / MINOR\n\nClose burst 2\n\nTarget: You or one ally in the burst; the target must be bloodied\n\nEffect: The target gains 5 temporary hit points.\n\nLevel 11: 10 temporary hit points.\n\nLevel 21: 15 temporary hit points.\n\nSpecial: You can use only one channel divinity power per encounter.",
         "title": "Stay the Hand of Death"
       },
       "sharedData": {
@@ -7309,8 +7364,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -7340,9 +7394,9 @@
         "subtitle": "1",
         "title": "Stay the Hand of Death",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.cleric",
+          "id": "class-cleric",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"
@@ -7355,9 +7409,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -7371,20 +7423,31 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "CHANNEL_DIVINITY",
+            "DIVINE",
+            "TELEPORTATION"
+          ],
+          "level": 1,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
         "prerequisites": [
           {
             "minimum": 1,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You and an ally vanish, only to emerge together a moment later from a ripple in the air.",
+        "description": "You and an ally vanish, only to emerge together a moment later from a ripple in the air.\n\nENCOUNTER / MOVE\n\nClose burst 1\n\nTarget: You and one ally in the burst\n\nEffect: Each target teleports up to 5 squares and must end adjacent to the other.\n\nSpecial: You can use only one channel divinity power per encounter.",
         "title": "Step Together"
       },
       "sharedData": {
@@ -7441,8 +7504,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -7472,9 +7534,9 @@
         "subtitle": "1",
         "title": "Step Together",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.cleric",
+          "id": "class-cleric",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"
@@ -7487,9 +7549,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -7503,20 +7563,30 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "AURA",
+            "DIVINE"
+          ],
+          "level": 1,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
         "prerequisites": [
           {
             "minimum": 1,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "A whispered prayer brings forth a swirling silver light in the eyes of you and your allies, granting you supernatural vision.",
+        "description": "A whispered prayer brings forth a swirling silver light in the eyes of you and your allies, granting you supernatural vision.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: You activate an aura 5 that lasts until the end of the encounter. While in the aura, you and your allies gain low-light vision and a +2 power bonus to Perception checks.",
         "title": "Fey Sight"
       },
       "sharedData": {
@@ -7560,8 +7630,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -7590,9 +7659,9 @@
         "subtitle": "1",
         "title": "Fey Sight",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.cleric",
+          "id": "class-cleric",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"
@@ -7605,9 +7674,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -7621,20 +7688,30 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "CHANNEL_DIVINITY",
+            "DIVINE"
+          ],
+          "level": 1,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
         "prerequisites": [
           {
             "minimum": 1,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Thoughts run through the minds of you and your allies, each idea particular to the task to which you set yourselves.",
+        "description": "Thoughts run through the minds of you and your allies, each idea particular to the task to which you set yourselves.\n\nENCOUNTER / MINOR\n\nClose burst 3\n\nTarget: You and each ally in the burst\n\nEffect: The next time the target makes a skill check before the end of your next turn, the target gains a +2 power bonus to the check.\n\nSpecial: You can use only one channel divinity power per encounter.",
         "title": "Knowledge to Spread"
       },
       "sharedData": {
@@ -7691,8 +7768,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -7721,9 +7797,9 @@
         "subtitle": "1",
         "title": "Knowledge to Spread",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.cleric",
+          "id": "class-cleric",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"
@@ -7736,9 +7812,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -7752,20 +7826,29 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 1,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
         "prerequisites": [
           {
             "minimum": 1,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You gain a divine perspective into how a challenge can be surmounted, the thought arriving in the nick of time.",
+        "description": "You gain a divine perspective into how a challenge can be surmounted, the thought arriving in the nick of time.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nClose burst 10\n\nTrigger: You or one ally in the burst fails a skill check.\n\nTarget: The triggering creature\n\nEffect: The target gains a power bonus to the skill check equal to your Wisdom.",
         "title": "Sudden Inspiration"
       },
       "sharedData": {
@@ -7817,8 +7900,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -7846,9 +7928,9 @@
         "subtitle": "1",
         "title": "Sudden Inspiration",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.cleric",
+          "id": "class-cleric",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"
@@ -7861,9 +7943,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -7877,20 +7957,29 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 1,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
         "prerequisites": [
           {
             "minimum": 1,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "The light of a full moon surrounds you, alighting on the weapon you touch to limn it with a silver glow.",
+        "description": "The light of a full moon surrounds you, alighting on the weapon you touch to limn it with a silver glow.\n\nDAILY / MINOR\n\nMelee touch\n\nTarget: One held weapon\n\nEffect: Until the end of the encounter, the weapon sheds bright light in a 5-foot radius, and it is considered a silvered weapon. In addition, any damage dealt by weapon attacks made using the weapon is radiant damage, unless the damage already has a type.",
         "title": "Moon Weapon"
       },
       "sharedData": {
@@ -7941,8 +8030,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -7970,9 +8058,9 @@
         "subtitle": "1",
         "title": "Moon Weapon",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.cleric",
+          "id": "class-cleric",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"
@@ -7985,9 +8073,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -8001,20 +8087,30 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "CHANNEL_DIVINITY",
+            "DIVINE"
+          ],
+          "level": 1,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
         "prerequisites": [
           {
             "minimum": 1,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "A burst of light flares around you, protecting your allies and making your foes feel Selûne's wrath.",
+        "description": "A burst of light flares around you, protecting your allies and making your foes feel Selûne's wrath.\n\nENCOUNTER / STANDARD\n\nClose burst 5\n\nEffect: Until the end of your next turn, you and each ally in the burst gain resist 5 necrotic, and each enemy in the burst gain vulnerable 5 radiant.\n\nLevel 11: The resistance and the vulnerability equal 10.\n\nLevel 21: The resistance and the vulnerability equal 15.\n\nSpecial: You can use only one channel divinity power per encounter.",
         "title": "Life and Light"
       },
       "sharedData": {
@@ -8077,8 +8173,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -8107,9 +8202,9 @@
         "subtitle": "1",
         "title": "Life and Light",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.cleric",
+          "id": "class-cleric",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"
@@ -8122,9 +8217,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -8138,20 +8231,29 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 1,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "AT_WILL"
+        },
         "prerequisites": [
           {
             "minimum": 1,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "A whispered prayer connects your ally with the divine, guiding your friend's hands and mind toward the target.",
+        "description": "A whispered prayer connects your ally with the divine, guiding your friend's hands and mind toward the target.\n\nAT_WILL / STANDARD\n\nClose burst 5\n\nTarget: One ally in the burst\n\nEffect: The target gains a +4 bonus to its next attack roll against an enemy before the end of your next turn.",
         "title": "True Strike"
       },
       "sharedData": {
@@ -8195,8 +8297,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -8224,9 +8325,9 @@
         "subtitle": "1",
         "title": "True Strike",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.cleric",
+          "id": "class-cleric",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"
@@ -8239,9 +8340,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -8255,20 +8354,31 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "CHANNEL_DIVINITY",
+            "DIVINE",
+            "TELEPORTATION"
+          ],
+          "level": 1,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
         "prerequisites": [
           {
             "minimum": 1,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "A brilliant light indicates a pathway for your ally to find the right place to battle your foe.",
+        "description": "A brilliant light indicates a pathway for your ally to find the right place to battle your foe.\n\nENCOUNTER / STANDARD\n\nClose burst 10\n\nRequirement: You must be adjacent to an enemy.\n\nTarget: One ally in the burst\n\nEffect: You teleport the target to a square where it flanks an enemy adjacent to you. Until the end of your next turn, you and the target gain a +1 bonus to attack rolls against that enemy while you both flank it.\n\nSpecial: You can use only one channel divinity power per encounter.",
         "title": "Outmaneuver"
       },
       "sharedData": {
@@ -8326,8 +8436,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -8357,9 +8466,9 @@
         "subtitle": "1",
         "title": "Outmaneuver",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.cleric",
+          "id": "class-cleric",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"
@@ -8372,9 +8481,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -8388,20 +8495,32 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "CHANNEL_DIVINITY",
+            "DIVINE",
+            "PSYCHIC",
+            "SHADOW"
+          ],
+          "level": 1,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
         "prerequisites": [
           {
             "minimum": 1,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You lash out with a whip of divine energy, sparking pain but fortifying will.",
+        "description": "You lash out with a whip of divine energy, sparking pain but fortifying will.\n\nENCOUNTER / MINOR\n\nClose burst 3\n\nTarget: You or one ally in the burst\n\nEffect: The target takes 5 psychic damage and can then make a saving throw with a +5 power bonus.\n\nSpecial: You can use only one channel divinity power per encounter.",
         "title": "Cruel Inspiration"
       },
       "sharedData": {
@@ -8458,8 +8577,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -8490,9 +8608,9 @@
         "subtitle": "1",
         "title": "Cruel Inspiration",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.cleric",
+          "id": "class-cleric",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"
@@ -8505,9 +8623,7 @@
       "coverage": {
         "limitations": [
           "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-          "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
-          "Withheld pending review (DEFERRED section); excluded from query pools."
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -8521,20 +8637,30 @@
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE",
+            "SHADOW"
+          ],
+          "level": 1,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
         "prerequisites": [
           {
             "minimum": 1,
             "type": "level"
           }
         ],
-        "unsupported": [
-          "Withheld pending review (DEFERRED section); excluded from query pools."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You take on a ferocious demeanor, seeming taller and more menacing.",
+        "description": "You take on a ferocious demeanor, seeming taller and more menacing.\n\nENCOUNTER / MINOR\n\nPersonal\n\nEffect: You gain a +2 power bonus to the next Intimidate check you make before the end of your next turn.",
         "title": "Inspire Dread"
       },
       "sharedData": {
@@ -8578,8 +8704,7 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
-            "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility."
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -8608,9 +8733,9 @@
         "subtitle": "1",
         "title": "Inspire Dread",
         "utilitySection": {
-          "availability": "DEFERRED",
-          "classId": null,
-          "id": "class-deferred",
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.cleric",
+          "id": "class-cleric",
           "kind": "CLASS",
           "pickKinds": [
             "COMBAT"

@@ -40,6 +40,7 @@ class BuilderSession(
     var dialog by mutableStateOf<String?>(null)
     /** Classes offered while the new-character menu is open; null when it is closed. */
     var classMenu by mutableStateOf<List<CatalogEntry>?>(null)
+    @Volatile private var classMenuCatalog: ContentCatalog? = null
     var draft by mutableStateOf("")
     private var committed: CharacterDocument? = null
     private var operations: BuilderOperations? = null
@@ -159,10 +160,23 @@ class BuilderSession(
                 if (classes.isEmpty()) {
                     errors = listOf(Diagnostic("android.create", DiagnosticKind.UNRESOLVED_CONTENT, "No classes are available."))
                 } else {
-                    classMenu = classes
+                    classMenuCatalog = result.value
+                    classMenu = classes.sortedBy { it.metadata.title.lowercase() }
                 }
             }
         }
+    }
+
+    /**
+     * The description a class card shows when expanded, read on demand so opening the menu stays index-only.
+     *
+     * @param classId the catalog id of a class listed in [classMenu].
+     * @return the class's HTML description, or null when it cannot be read.
+     */
+    suspend fun classDescription(classId: String): String? {
+        val catalog = classMenuCatalog ?: return null
+        val resolved = withContext(Dispatchers.IO) { catalog.lookup(classId) }
+        return (resolved as? ContractResult.Available)?.value?.entry?.presentation?.description
     }
 
     fun cancelCreate() {
@@ -347,6 +361,22 @@ class BuilderSession(
             description = result.value
         } else {
             errors = listOf(Diagnostic("android.reference", DiagnosticKind.UNRESOLVED_CONTENT, "Reference $id is unavailable"))
+        }
+    }
+
+    /**
+     * The entries an ancestry grants (its features and powers), in authored order, read on demand so
+     * the picker stays index-only until a card is expanded.
+     *
+     * @param entry the ancestry whose granted entries are wanted.
+     * @return the granted definitions that could be read; empty for entries that grant nothing.
+     */
+    suspend fun grantedEntries(entry: ContentEntry): List<ContentEntry> {
+        val catalog = catalog ?: return emptyList()
+        return withContext(Dispatchers.IO) {
+            entry.mechanics.grants.filterIsInstance<Grant.Entry>().mapNotNull {
+                (catalog.lookup(it.entryId) as? ContractResult.Available)?.value?.entry
+            }
         }
     }
 

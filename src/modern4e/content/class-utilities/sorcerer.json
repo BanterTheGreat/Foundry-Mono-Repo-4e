@@ -787,6 +787,75 @@
       "flavor": "You spin around, releasing a blaze of golden energy. As you finish your revolution, you disappear and reappear a short distance away."
     },
     {
+      "id": "modern4e.power.utility-class-deferred-power12468",
+      "title": "Spirit Guidance",
+      "description": "You allow your magic to flow toward your familiar so that your next attack is more accurate.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.sorcerer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 2
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12468",
+        "publication": "Published in Dragon Magazine 386, page(s) 21."
+      },
+      "keywords": [
+        "ARCANE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [
+              {
+                "period": "ENCOUNTER",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn, you gain a +2 power bonus to attack rolls against any creature adjacent to your familiar."
+            }
+          ],
+          "range": {
+            "type": "PERSONAL"
+          },
+          "requirement": "Your familiar must be in its active mode."
+        }
+      ],
+      "level": 2,
+      "powerKind": "UTILITY",
+      "subtitle": "2",
+      "flavor": "You allow your magic to flow toward your familiar so that your next attack is more accurate."
+    },
+    {
       "id": "modern4e.power.utility-class-sorcerer-power5267",
       "title": "Stretch Spell",
       "description": "You bend space to increase the extent of your spell.",
@@ -1698,6 +1767,77 @@
       "powerKind": "UTILITY",
       "subtitle": "6",
       "flavor": "With a flourish of snapping sparks, your single step speeds you, lightning-quick, across the battlefield."
+    },
+    {
+      "id": "modern4e.power.utility-class-deferred-power12471",
+      "title": "Protective Familiar",
+      "description": "Your familiar has a link to your soul. You can protect an ally from damage with your familiar, but you are going to feel it.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.sorcerer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 6
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12471",
+        "publication": "Published in Dragon Magazine 386, page(s) 22."
+      },
+      "keywords": [
+        "ARCANE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {},
+          "blocks": [
+            {
+              "id": "rule-3",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Your familiar can shift its speed; if it ends this movement adjacent to the triggering ally, the triggering attack hits your familiar instead of the ally. You take damage equal to your level."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "See effect"
+          },
+          "requirement": "Your familiar must be in its active mode.",
+          "trigger": "An attack hits an ally you can see"
+        }
+      ],
+      "level": 6,
+      "powerKind": "UTILITY",
+      "subtitle": "6",
+      "flavor": "Your familiar has a link to your soul. You can protect an ally from damage with your familiar, but you are going to feel it."
     },
     {
       "id": "modern4e.power.utility-class-sorcerer-power16240",
@@ -3014,6 +3154,81 @@
       "powerKind": "UTILITY",
       "subtitle": "10",
       "flavor": "You teleport away from your foe and reduce the force of its attack."
+    },
+    {
+      "id": "modern4e.power.utility-class-deferred-power12474",
+      "title": "Shielding the Bound Spirit",
+      "description": "Sometimes your familiar enters combat, and you have to make sure that you protect it.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.sorcerer"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 10
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power12474",
+        "publication": "Published in Dragon Magazine 386, page(s) 22."
+      },
+      "keywords": [
+        "ARCANE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "MINOR",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [
+              {
+                "period": "DAY",
+                "maximum": {
+                  "base": 1
+                }
+              }
+            ],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "targets": {
+              "kind": "TARGET_SET",
+              "text": "Your familiar"
+            }
+          },
+          "blocks": [
+            {
+              "id": "rule-2",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Your familiar gains a power bonus to all defenses equal to your Charisma and resist 10 to all damage until the end of the encounter."
+            }
+          ],
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Ranged 10"
+          },
+          "targets": "targets"
+        }
+      ],
+      "level": 10,
+      "powerKind": "UTILITY",
+      "subtitle": "10",
+      "flavor": "Sometimes your familiar enters combat, and you have to make sure that you protect it."
     },
     {
       "id": "modern4e.power.utility-class-sorcerer-power3203",

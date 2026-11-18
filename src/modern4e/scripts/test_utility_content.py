@@ -48,20 +48,27 @@ class UtilityContentTest(unittest.TestCase):
                 self.assertEqual(digest, goldens[eid])
 
     def test_complete_sections_withheld_entries_and_variant_identity(self):
-        self.assertEqual(len(self.entries), 1081)
+        self.assertEqual(len(self.entries), 1046)
         order = json.loads((BOOK / "scripts/fixtures/utilities/section-order-sha256.json").read_text())
         self.assertEqual({section["id"]: hashlib.sha256(json.dumps(section["powerIds"]).encode()).hexdigest() for section in self.catalog["sections"]}, order)
         sections = {s["id"]: s for s in self.catalog["sections"]}
-        self.assertEqual(len(sections["class-deferred"]["powerIds"]), 71)
-        self.assertEqual(sections["class-deferred"]["availability"], "DEFERRED")
+        self.assertNotIn("class-deferred", sections)
+        self.assertTrue(all(s["availability"] == "AVAILABLE" for s in sections.values()))
         self.assertEqual(len(sections["skill"]["powerIds"]), 41)
         self.assertEqual(sum(len(sections[s]["powerIds"]) for s in ("arcane", "martial", "divine", "primal")), 113)
-        self.assertEqual(sum(len(s["powerIds"]) for s in sections.values() if s["kind"] == "CLASS" and s["availability"] == "AVAILABLE"), 790)
+        self.assertEqual(sum(len(s["powerIds"]) for s in sections.values() if s["kind"] == "CLASS" and s["availability"] == "AVAILABLE"), 826)
         variants = [p for p in self.entries.values() if p["source"]["entryId"] == "power4938"]
         self.assertEqual(len(variants), 2)
         self.assertNotEqual(variants[0]["id"], variants[1]["id"])
         self.assertNotEqual(variants[0]["access"], variants[1]["access"])
-        self.assertTrue(all(self.entries[i]["coverage"]["limitations"][1:] for i in sections["class-deferred"]["powerIds"]))
+        # Formerly withheld utilities sit in their class sections, level-ordered, with off-slot levels kept.
+        cleric = [self.entries[i] for i in sections["class-cleric"]["powerIds"]]
+        self.assertEqual(18, sum(1 for p in cleric if p["level"] == 1))
+        self.assertEqual([p["level"] for p in cleric], sorted(p["level"] for p in cleric))
+        self.assertIn("modern4e.power.utility-class-deferred-power7643", sections["class-artificer"]["powerIds"])
+        self.assertTrue(all(len(p["coverage"]["limitations"]) == 1 for i, p in self.entries.items() if "class-deferred" in i))
+        removed = {"Prescient Knowledge", "Wolf Trip", "Eldritch Tactics", "Circle of Battle", "Project Vitality", "Verdant Surge"}
+        self.assertFalse(removed & {p["title"] for p in self.entries.values()})
 
     def test_skill_prerequisites_pick_types_and_unresolved_requirements(self):
         power = self.entries["modern4e.power.utility-general-agile-recovery"]
@@ -149,12 +156,22 @@ class UtilityContentTest(unittest.TestCase):
             rendered = json.loads(result)[0]["value"]
             for fragment in ("You stand up.", "you cannot use this power on them", "The conjuration or zone is destroyed", "Sustain Minor"):
                 self.assertTrue(fragment in rendered, "Missing rendered fragment: " + fragment)
-            path.write_text('#import "helpers/utility_content.typ" as u\n#u.utilitySection("class-deferred")')
-            rejected = subprocess.run(command, text=True, capture_output=True)
-            self.assertNotEqual(rejected.returncode, 0)
-            self.assertIn("Withheld utility section", rejected.stderr)
         finally:
             path.unlink()
+        # No authored section is withheld now, so the guard is exercised on a copy with one section flipped.
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            shutil.copytree(BOOK / "helpers", root / "helpers")
+            shutil.copytree(BOOK / "svgs", root / "svgs")
+            shutil.copytree(content.CONTENT, root / "content", ignore=shutil.ignore_patterns("compendium"))
+            data = copy.deepcopy(self.catalog)
+            data["sections"][0]["availability"] = "DEFERRED"
+            (root / "content/utilities/catalog.json").write_text(json.dumps(data))
+            (root / "probe.typ").write_text('#import "helpers/utility_content.typ" as u\n#u.utilitySection("' + data["sections"][0]["id"] + '")')
+            rejected = subprocess.run([os.environ.get("TYPST_BIN", "typst"), "query", "--root", str(root), str(root / "probe.typ"), "metadata"],
+                                      text=True, capture_output=True)
+            self.assertNotEqual(rejected.returncode, 0)
+            self.assertIn("Withheld utility section", rejected.stderr)
 
     def test_legacy_importers_require_safe_scratch_output(self):
         for filename in ("import_class_utilities.py", "import_source_utilities.py"):

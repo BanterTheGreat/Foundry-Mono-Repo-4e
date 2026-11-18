@@ -6,7 +6,6 @@
     "class-utilities/barbarian.json",
     "class-utilities/bard.json",
     "class-utilities/cleric.json",
-    "class-utilities/deferred.json",
     "class-utilities/druid.json",
     "class-utilities/fighter.json",
     "class-utilities/invoker.json",
@@ -35,6 +34,7 @@
         "modern4e.power.utility-class-artificer-power10194",
         "modern4e.power.utility-class-artificer-power4137",
         "modern4e.power.utility-class-artificer-power7642",
+        "modern4e.power.utility-class-deferred-power7643",
         "modern4e.power.utility-class-artificer-power4202",
         "modern4e.power.utility-class-artificer-power14401",
         "modern4e.power.utility-class-artificer-power7644",
@@ -45,6 +45,7 @@
         "modern4e.power.utility-class-artificer-power4143",
         "modern4e.power.utility-class-artificer-power4142",
         "modern4e.power.utility-class-artificer-power7658",
+        "modern4e.power.utility-class-deferred-power4148",
         "modern4e.power.utility-class-artificer-power10207",
         "modern4e.power.utility-class-artificer-power7659",
         "modern4e.power.utility-class-artificer-power4203"
@@ -57,6 +58,9 @@
           "COMBAT"
         ],
         "modern4e.power.utility-class-artificer-power7642": [
+          "COMBAT"
+        ],
+        "modern4e.power.utility-class-deferred-power7643": [
           "COMBAT"
         ],
         "modern4e.power.utility-class-artificer-power4202": [
@@ -87,6 +91,9 @@
           "COMBAT"
         ],
         "modern4e.power.utility-class-artificer-power7658": [
+          "COMBAT"
+        ],
+        "modern4e.power.utility-class-deferred-power4148": [
           "COMBAT"
         ],
         "modern4e.power.utility-class-artificer-power10207": [
@@ -532,6 +539,24 @@
       "classId": "modern4e.class.cleric",
       "availability": "AVAILABLE",
       "powerIds": [
+        "modern4e.power.utility-class-deferred-power12636",
+        "modern4e.power.utility-class-deferred-power16415",
+        "modern4e.power.utility-class-deferred-power13941",
+        "modern4e.power.utility-class-deferred-power14235",
+        "modern4e.power.utility-class-deferred-power16418",
+        "modern4e.power.utility-class-deferred-power14245",
+        "modern4e.power.utility-class-deferred-power14262",
+        "modern4e.power.utility-class-deferred-power14260",
+        "modern4e.power.utility-class-deferred-power14275",
+        "modern4e.power.utility-class-deferred-power12651",
+        "modern4e.power.utility-class-deferred-power13943",
+        "modern4e.power.utility-class-deferred-power14231",
+        "modern4e.power.utility-class-deferred-power13708",
+        "modern4e.power.utility-class-deferred-power13710",
+        "modern4e.power.utility-class-deferred-power12638",
+        "modern4e.power.utility-class-deferred-power14248",
+        "modern4e.power.utility-class-deferred-power12649",
+        "modern4e.power.utility-class-deferred-power14273",
         "modern4e.power.utility-class-cleric-power9982",
         "modern4e.power.utility-class-cleric-power3467",
         "modern4e.power.utility-class-cleric-power13923",
@@ -582,6 +607,60 @@
         "modern4e.power.utility-class-cleric-power7889"
       ],
       "pickKinds": {
+        "modern4e.power.utility-class-deferred-power12636": [
+          "COMBAT"
+        ],
+        "modern4e.power.utility-class-deferred-power16415": [
+          "COMBAT"
+        ],
+        "modern4e.power.utility-class-deferred-power13941": [
+          "COMBAT"
+        ],
+        "modern4e.power.utility-class-deferred-power14235": [
+          "COMBAT"
+        ],
+        "modern4e.power.utility-class-deferred-power16418": [
+          "COMBAT"
+        ],
+        "modern4e.power.utility-class-deferred-power14245": [
+          "COMBAT"
+        ],
+        "modern4e.power.utility-class-deferred-power14262": [
+          "COMBAT"
+        ],
+        "modern4e.power.utility-class-deferred-power14260": [
+          "COMBAT"
+        ],
+        "modern4e.power.utility-class-deferred-power14275": [
+          "COMBAT"
+        ],
+        "modern4e.power.utility-class-deferred-power12651": [
+          "COMBAT"
+        ],
+        "modern4e.power.utility-class-deferred-power13943": [
+          "COMBAT"
+        ],
+        "modern4e.power.utility-class-deferred-power14231": [
+          "COMBAT"
+        ],
+        "modern4e.power.utility-class-deferred-power13708": [
+          "COMBAT"
+        ],
+        "modern4e.power.utility-class-deferred-power13710": [
+          "COMBAT"
+        ],
+        "modern4e.power.utility-class-deferred-power12638": [
+          "COMBAT"
+        ],
+        "modern4e.power.utility-class-deferred-power14248": [
+          "COMBAT"
+        ],
+        "modern4e.power.utility-class-deferred-power12649": [
+          "COMBAT"
+        ],
+        "modern4e.power.utility-class-deferred-power14273": [
+          "COMBAT"
+        ],
         "modern4e.power.utility-class-cleric-power9982": [
           "COMBAT"
         ],
@@ -729,300 +808,6 @@
       }
     },
     {
-      "id": "class-deferred",
-      "kind": "CLASS",
-      "classId": null,
-      "availability": "DEFERRED",
-      "powerIds": [
-        "modern4e.power.utility-class-deferred-power7643",
-        "modern4e.power.utility-class-deferred-power4148",
-        "modern4e.power.utility-class-deferred-power11675",
-        "modern4e.power.utility-class-deferred-power11671",
-        "modern4e.power.utility-class-deferred-power11676",
-        "modern4e.power.utility-class-deferred-power11674",
-        "modern4e.power.utility-class-deferred-power11680",
-        "modern4e.power.utility-class-deferred-power11673",
-        "modern4e.power.utility-class-deferred-power11681",
-        "modern4e.power.utility-class-deferred-power11678",
-        "modern4e.power.utility-class-deferred-power11679",
-        "modern4e.power.utility-class-deferred-power11672",
-        "modern4e.power.utility-class-deferred-power11677",
-        "modern4e.power.utility-class-deferred-power14428",
-        "modern4e.power.utility-class-deferred-power14472",
-        "modern4e.power.utility-class-deferred-power16415",
-        "modern4e.power.utility-class-deferred-power12638",
-        "modern4e.power.utility-class-deferred-power12649",
-        "modern4e.power.utility-class-deferred-power12636",
-        "modern4e.power.utility-class-deferred-power13941",
-        "modern4e.power.utility-class-deferred-power16418",
-        "modern4e.power.utility-class-deferred-power14245",
-        "modern4e.power.utility-class-deferred-power14262",
-        "modern4e.power.utility-class-deferred-power14275",
-        "modern4e.power.utility-class-deferred-power12651",
-        "modern4e.power.utility-class-deferred-power13943",
-        "modern4e.power.utility-class-deferred-power14231",
-        "modern4e.power.utility-class-deferred-power13708",
-        "modern4e.power.utility-class-deferred-power13710",
-        "modern4e.power.utility-class-deferred-power14248",
-        "modern4e.power.utility-class-deferred-power14273",
-        "modern4e.power.utility-class-deferred-power14235",
-        "modern4e.power.utility-class-deferred-power14260",
-        "modern4e.power.utility-class-deferred-power14510",
-        "modern4e.power.utility-class-deferred-power9665",
-        "modern4e.power.utility-class-deferred-power13775",
-        "modern4e.power.utility-class-deferred-power13776",
-        "modern4e.power.utility-class-deferred-power12677",
-        "modern4e.power.utility-class-deferred-power13777",
-        "modern4e.power.utility-class-deferred-power11296",
-        "modern4e.power.utility-class-deferred-power13561",
-        "modern4e.power.utility-class-deferred-power13697",
-        "modern4e.power.utility-class-deferred-power13698",
-        "modern4e.power.utility-class-deferred-power4381",
-        "modern4e.power.utility-class-deferred-power4383",
-        "modern4e.power.utility-class-deferred-power13700",
-        "modern4e.power.utility-class-deferred-power13702",
-        "modern4e.power.utility-class-deferred-power13704",
-        "modern4e.power.utility-class-deferred-power13705",
-        "modern4e.power.utility-class-deferred-power13696",
-        "modern4e.power.utility-class-deferred-power13699",
-        "modern4e.power.utility-class-deferred-power13701",
-        "modern4e.power.utility-class-deferred-power13703",
-        "modern4e.power.utility-class-deferred-power13600",
-        "modern4e.power.utility-class-deferred-power10621",
-        "modern4e.power.utility-class-deferred-power4398",
-        "modern4e.power.utility-class-deferred-power11573",
-        "modern4e.power.utility-class-deferred-power4399",
-        "modern4e.power.utility-class-deferred-power4411",
-        "modern4e.power.utility-class-deferred-power4414",
-        "modern4e.power.utility-class-deferred-power12468",
-        "modern4e.power.utility-class-deferred-power12471",
-        "modern4e.power.utility-class-deferred-power12474",
-        "modern4e.power.utility-class-deferred-power13641",
-        "modern4e.power.utility-class-deferred-power10418",
-        "modern4e.power.utility-class-deferred-power4106",
-        "modern4e.power.utility-class-deferred-power10420",
-        "modern4e.power.utility-class-deferred-power4112",
-        "modern4e.power.utility-class-deferred-power10422",
-        "modern4e.power.utility-class-deferred-power10424",
-        "modern4e.power.utility-class-deferred-power4117"
-      ],
-      "pickKinds": {
-        "modern4e.power.utility-class-deferred-power7643": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power4148": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power11675": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power11671": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power11676": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power11674": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power11680": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power11673": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power11681": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power11678": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power11679": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power11672": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power11677": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power14428": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power14472": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power16415": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power12638": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power12649": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power12636": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power13941": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power16418": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power14245": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power14262": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power14275": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power12651": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power13943": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power14231": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power13708": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power13710": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power14248": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power14273": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power14235": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power14260": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power14510": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power9665": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power13775": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power13776": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power12677": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power13777": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power11296": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power13561": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power13697": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power13698": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power4381": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power4383": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power13700": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power13702": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power13704": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power13705": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power13696": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power13699": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power13701": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power13703": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power13600": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power10621": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power4398": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power11573": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power4399": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power4411": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power4414": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power12468": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power12471": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power12474": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power13641": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power10418": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power4106": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power10420": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power4112": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power10422": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power10424": [
-          "COMBAT"
-        ],
-        "modern4e.power.utility-class-deferred-power4117": [
-          "COMBAT"
-        ]
-      }
-    },
-    {
       "id": "class-druid",
       "kind": "CLASS",
       "classId": "modern4e.class.druid",
@@ -1062,6 +847,7 @@
         "modern4e.power.utility-class-druid-power5507",
         "modern4e.power.utility-class-druid-power4893",
         "modern4e.power.utility-class-druid-power10371",
+        "modern4e.power.utility-class-deferred-power9665",
         "modern4e.power.utility-class-druid-power9666",
         "modern4e.power.utility-class-druid-power2844",
         "modern4e.power.utility-class-druid-power13528",
@@ -1180,6 +966,9 @@
         "modern4e.power.utility-class-druid-power10371": [
           "COMBAT"
         ],
+        "modern4e.power.utility-class-deferred-power9665": [
+          "COMBAT"
+        ],
         "modern4e.power.utility-class-druid-power9666": [
           "COMBAT"
         ],
@@ -1281,6 +1070,7 @@
         "modern4e.power.utility-class-fighter-power1441",
         "modern4e.power.utility-class-fighter-power12701",
         "modern4e.power.utility-class-fighter-power4329",
+        "modern4e.power.utility-class-deferred-power12677",
         "modern4e.power.utility-class-fighter-power12853",
         "modern4e.power.utility-class-fighter-power12678",
         "modern4e.power.utility-class-fighter-power10513",
@@ -1462,6 +1252,9 @@
         "modern4e.power.utility-class-fighter-power4329": [
           "COMBAT"
         ],
+        "modern4e.power.utility-class-deferred-power12677": [
+          "COMBAT"
+        ],
         "modern4e.power.utility-class-fighter-power12853": [
           "COMBAT"
         ],
@@ -1573,6 +1366,7 @@
         "modern4e.power.utility-class-invoker-power7180",
         "modern4e.power.utility-class-invoker-power2885",
         "modern4e.power.utility-class-invoker-power10265",
+        "modern4e.power.utility-class-deferred-power11296",
         "modern4e.power.utility-class-invoker-power2886",
         "modern4e.power.utility-class-invoker-power7191",
         "modern4e.power.utility-class-invoker-power11298",
@@ -1659,6 +1453,9 @@
         "modern4e.power.utility-class-invoker-power10265": [
           "COMBAT"
         ],
+        "modern4e.power.utility-class-deferred-power11296": [
+          "COMBAT"
+        ],
         "modern4e.power.utility-class-invoker-power2886": [
           "COMBAT"
         ],
@@ -1719,6 +1516,7 @@
         "modern4e.power.utility-class-paladin-power7256",
         "modern4e.power.utility-class-paladin-power10250",
         "modern4e.power.utility-class-paladin-power1279",
+        "modern4e.power.utility-class-deferred-power13561",
         "modern4e.power.utility-class-paladin-power13564",
         "modern4e.power.utility-class-paladin-power13565",
         "modern4e.power.utility-class-paladin-power7264",
@@ -1810,6 +1608,9 @@
         "modern4e.power.utility-class-paladin-power1279": [
           "COMBAT"
         ],
+        "modern4e.power.utility-class-deferred-power13561": [
+          "COMBAT"
+        ],
         "modern4e.power.utility-class-paladin-power13564": [
           "COMBAT"
         ],
@@ -1877,6 +1678,7 @@
         "modern4e.power.utility-class-ranger-power10607",
         "modern4e.power.utility-class-ranger-power923",
         "modern4e.power.utility-class-ranger-power749",
+        "modern4e.power.utility-class-deferred-power13600",
         "modern4e.power.utility-class-ranger-power10702",
         "modern4e.power.utility-class-ranger-power4396",
         "modern4e.power.utility-class-ranger-power4397",
@@ -1958,6 +1760,9 @@
           "COMBAT"
         ],
         "modern4e.power.utility-class-ranger-power749": [
+          "COMBAT"
+        ],
+        "modern4e.power.utility-class-deferred-power13600": [
           "COMBAT"
         ],
         "modern4e.power.utility-class-ranger-power10702": [
@@ -2499,6 +2304,7 @@
         "modern4e.power.utility-class-sorcerer-power16237",
         "modern4e.power.utility-class-sorcerer-power3053",
         "modern4e.power.utility-class-sorcerer-power3201",
+        "modern4e.power.utility-class-deferred-power12468",
         "modern4e.power.utility-class-sorcerer-power5267",
         "modern4e.power.utility-class-sorcerer-power5268",
         "modern4e.power.utility-class-sorcerer-power16238",
@@ -2511,6 +2317,7 @@
         "modern4e.power.utility-class-sorcerer-power5852",
         "modern4e.power.utility-class-sorcerer-power16241",
         "modern4e.power.utility-class-sorcerer-power5853",
+        "modern4e.power.utility-class-deferred-power12471",
         "modern4e.power.utility-class-sorcerer-power16240",
         "modern4e.power.utility-class-sorcerer-power5854",
         "modern4e.power.utility-class-sorcerer-power5277",
@@ -2528,6 +2335,7 @@
         "modern4e.power.utility-class-sorcerer-power3779",
         "modern4e.power.utility-class-sorcerer-power10355",
         "modern4e.power.utility-class-sorcerer-power5283",
+        "modern4e.power.utility-class-deferred-power12474",
         "modern4e.power.utility-class-sorcerer-power3203",
         "modern4e.power.utility-class-sorcerer-power5859",
         "modern4e.power.utility-class-sorcerer-power5860",
@@ -2567,6 +2375,9 @@
         "modern4e.power.utility-class-sorcerer-power3201": [
           "COMBAT"
         ],
+        "modern4e.power.utility-class-deferred-power12468": [
+          "COMBAT"
+        ],
         "modern4e.power.utility-class-sorcerer-power5267": [
           "COMBAT"
         ],
@@ -2601,6 +2412,9 @@
           "COMBAT"
         ],
         "modern4e.power.utility-class-sorcerer-power5853": [
+          "COMBAT"
+        ],
+        "modern4e.power.utility-class-deferred-power12471": [
           "COMBAT"
         ],
         "modern4e.power.utility-class-sorcerer-power16240": [
@@ -2652,6 +2466,9 @@
           "COMBAT"
         ],
         "modern4e.power.utility-class-sorcerer-power5283": [
+          "COMBAT"
+        ],
+        "modern4e.power.utility-class-deferred-power12474": [
           "COMBAT"
         ],
         "modern4e.power.utility-class-sorcerer-power3203": [
@@ -2960,6 +2777,7 @@
         "modern4e.power.utility-class-warlock-power1923",
         "modern4e.power.utility-class-warlock-power16262",
         "modern4e.power.utility-class-warlock-power13640",
+        "modern4e.power.utility-class-deferred-power13641",
         "modern4e.power.utility-class-warlock-power13646",
         "modern4e.power.utility-class-warlock-power16265",
         "modern4e.power.utility-class-warlock-power1326",
@@ -3055,6 +2873,9 @@
           "COMBAT"
         ],
         "modern4e.power.utility-class-warlock-power13640": [
+          "COMBAT"
+        ],
+        "modern4e.power.utility-class-deferred-power13641": [
           "COMBAT"
         ],
         "modern4e.power.utility-class-warlock-power13646": [
@@ -3426,6 +3247,7 @@
         "modern4e.power.utility-class-wizard-power14546",
         "modern4e.power.utility-class-wizard-power6899",
         "modern4e.power.utility-class-wizard-power1212",
+        "modern4e.power.utility-class-deferred-power10418",
         "modern4e.power.utility-class-wizard-power1213",
         "modern4e.power.utility-class-wizard-power16278",
         "modern4e.power.utility-class-wizard-power4105",
@@ -3443,6 +3265,7 @@
         "modern4e.power.utility-class-wizard-power1235",
         "modern4e.power.utility-class-wizard-power14548",
         "modern4e.power.utility-class-wizard-power10143",
+        "modern4e.power.utility-class-deferred-power4106",
         "modern4e.power.utility-class-wizard-power10072",
         "modern4e.power.utility-class-wizard-power16283",
         "modern4e.power.utility-class-wizard-power13985",
@@ -3451,6 +3274,7 @@
         "modern4e.power.utility-class-wizard-power2273",
         "modern4e.power.utility-class-wizard-power4110",
         "modern4e.power.utility-class-wizard-power14554",
+        "modern4e.power.utility-class-deferred-power10420",
         "modern4e.power.utility-class-wizard-power2835",
         "modern4e.power.utility-class-wizard-power11035",
         "modern4e.power.utility-class-wizard-power10145",
@@ -3461,13 +3285,16 @@
         "modern4e.power.utility-class-wizard-power14556",
         "modern4e.power.utility-class-wizard-power13986",
         "modern4e.power.utility-class-wizard-power3220",
+        "modern4e.power.utility-class-deferred-power4112",
         "modern4e.power.utility-class-wizard-power1548",
         "modern4e.power.utility-class-wizard-power16284",
         "modern4e.power.utility-class-wizard-power6902",
         "modern4e.power.utility-class-wizard-power1543",
         "modern4e.power.utility-class-wizard-power513",
+        "modern4e.power.utility-class-deferred-power10422",
         "modern4e.power.utility-class-wizard-power16290",
         "modern4e.power.utility-class-wizard-power12749",
+        "modern4e.power.utility-class-deferred-power10424",
         "modern4e.power.utility-class-wizard-power4237",
         "modern4e.power.utility-class-wizard-power16291",
         "modern4e.power.utility-class-wizard-power16292",
@@ -3477,6 +3304,7 @@
         "modern4e.power.utility-class-wizard-power12549",
         "modern4e.power.utility-class-wizard-power7401",
         "modern4e.power.utility-class-wizard-power2274",
+        "modern4e.power.utility-class-deferred-power4117",
         "modern4e.power.utility-class-wizard-power2840",
         "modern4e.power.utility-class-wizard-power13992",
         "modern4e.power.utility-class-wizard-power13993",
@@ -3495,6 +3323,9 @@
           "COMBAT"
         ],
         "modern4e.power.utility-class-wizard-power1212": [
+          "COMBAT"
+        ],
+        "modern4e.power.utility-class-deferred-power10418": [
           "COMBAT"
         ],
         "modern4e.power.utility-class-wizard-power1213": [
@@ -3548,6 +3379,9 @@
         "modern4e.power.utility-class-wizard-power10143": [
           "COMBAT"
         ],
+        "modern4e.power.utility-class-deferred-power4106": [
+          "COMBAT"
+        ],
         "modern4e.power.utility-class-wizard-power10072": [
           "COMBAT"
         ],
@@ -3570,6 +3404,9 @@
           "COMBAT"
         ],
         "modern4e.power.utility-class-wizard-power14554": [
+          "COMBAT"
+        ],
+        "modern4e.power.utility-class-deferred-power10420": [
           "COMBAT"
         ],
         "modern4e.power.utility-class-wizard-power2835": [
@@ -3602,6 +3439,9 @@
         "modern4e.power.utility-class-wizard-power3220": [
           "COMBAT"
         ],
+        "modern4e.power.utility-class-deferred-power4112": [
+          "COMBAT"
+        ],
         "modern4e.power.utility-class-wizard-power1548": [
           "COMBAT"
         ],
@@ -3617,10 +3457,16 @@
         "modern4e.power.utility-class-wizard-power513": [
           "COMBAT"
         ],
+        "modern4e.power.utility-class-deferred-power10422": [
+          "COMBAT"
+        ],
         "modern4e.power.utility-class-wizard-power16290": [
           "COMBAT"
         ],
         "modern4e.power.utility-class-wizard-power12749": [
+          "COMBAT"
+        ],
+        "modern4e.power.utility-class-deferred-power10424": [
           "COMBAT"
         ],
         "modern4e.power.utility-class-wizard-power4237": [
@@ -3648,6 +3494,9 @@
           "COMBAT"
         ],
         "modern4e.power.utility-class-wizard-power2274": [
+          "COMBAT"
+        ],
+        "modern4e.power.utility-class-deferred-power4117": [
           "COMBAT"
         ],
         "modern4e.power.utility-class-wizard-power2840": [
