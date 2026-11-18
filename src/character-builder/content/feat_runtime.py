@@ -83,6 +83,22 @@ def unresolved_nodes(node):
     return [node] if node["type"] == "unresolved" else []
 
 
+def feat_group(entry, references):
+    """Browse by authored access, independent of title, ID and additional prerequisites.
+
+    Reference categories are validated authoring data. An ancestry/class combination
+    belongs with ancestry feats; its class restriction still participates in eligibility.
+    """
+    def categories(node):
+        if node["type"] in ("allOf", "anyOf"):
+            return set().union(*(categories(child) for child in node["conditions"]))
+        if node["type"] == "entry":
+            return {references[node["entryId"]]["category"]}
+        return set()
+    access = categories(entry["access"])
+    return "ANCESTRY" if "ANCESTRY" in access else "CLASS" if "CLASS" in access else "GENERAL"
+
+
 def grants_skill_proficiency(entry, choice):
     """A skill choice is a proficiency grant only when its authored constraint says so."""
     return choice["kind"] == "SKILL" and any(
@@ -193,4 +209,8 @@ def build(content=None, available=None):
                "available": available_ids() if available is None else set(available)}
     entries = [compile_feat(entry, context, catalog["requirementText"][entry["id"]],
                             catalog["selectionText"][entry["id"]]) for entry in catalog["entries"]]
-    return runtime_common.package(PACKAGE, TITLE, entries, revision=REVISION)
+    assets = runtime_common.package(PACKAGE, TITLE, entries, revision=REVISION)
+    groups = {entry["id"]: feat_group(entry, catalog["references"]) for entry in catalog["entries"]}
+    for metadata in assets[f"{PACKAGE}/index.json"]["entries"]:
+        metadata["featGroup"] = groups[metadata["id"]]
+    return assets

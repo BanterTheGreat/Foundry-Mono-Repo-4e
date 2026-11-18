@@ -11,6 +11,45 @@ internal class ChoiceEvaluation(
     private val prepare: suspend (CharacterDocument) -> RulesContent,
 ) {
     private data class Selection(val ids: List<String>, val instance: String)
+    private val featFacts = mutableMapOf<Triple<CharacterDocument, Int, ChoiceSlotId>, PreparedFeatChoices>()
+    private val selections = mutableMapOf<Triple<CharacterDocument, Int, ChoiceSlotId>, Selection>()
+    private val indexed by lazy { catalog.search() }
+
+    /** Metadata-first browsing never evaluates a root choice or unrelated tabs. */
+    suspend fun metadata(document: CharacterDocument, level: Int, slot: ChoiceSlotId,
+        group: FeatGroup? = null): List<CatalogEntry> {
+        val selection = selection(document, level, slot) ?: return emptyList()
+        val ids = selection.ids.toSet()
+        val metadata = indexed.filter { it.metadata.id in ids }
+        if (group == null) {
+            return metadata
+        }
+        val result = mutableListOf<CatalogEntry>()
+        for (entry in metadata) {
+            val known = entry.metadata.featGroup ?: legacyGroup(entry)
+            // Unknown legacy definitions stay discoverable in every tab, with their diagnostics.
+            if (known == null || known == group) {
+                result += entry
+            }
+        }
+        return result
+    }
+
+    /** Legacy indexes may omit groups; resolve actual reference categories without guessing from names. */
+    private suspend fun legacyGroup(entry: CatalogEntry): FeatGroup? {
+        val definition = (catalog.lookup(entry.metadata.id) as? ContractResult.Available)?.value?.entry ?: return null
+        val mechanics = definition.mechanics
+        val requirements = mechanics.access?.let { listOf(it) } ?: mechanics.prerequisites
+        val references = requirements.flatMap { it.leaves() }.filterIsInstance<Prerequisite.Entry>()
+        val categories = indexed.associate { it.metadata.id to it.metadata.category }
+        if (references.any { categories[it.entryId] == EntryCategory.ANCESTRY }) {
+            return FeatGroup.ANCESTRY
+        }
+        if (references.any { categories[it.entryId] in listOf(EntryCategory.CLASS, EntryCategory.FEATURE) }) {
+            return FeatGroup.CLASS
+        }
+        return if (references.any { it.entryId !in categories }) null else FeatGroup.GENERAL
+    }
 
     suspend fun options(document: CharacterDocument, level: Int, slot: ChoiceSlotId,
         includeIneligible: Boolean): List<BuilderOption> {
@@ -35,21 +74,22 @@ internal class ChoiceEvaluation(
     }
 
     private suspend fun selection(document: CharacterDocument, level: Int, slot: ChoiceSlotId): Selection? {
+        val key = Triple(document, level, slot)
+        selections[key]?.let { return it }
         if (level !in 1..document.level) {
             return null
         }
-        val current = evaluate(document)
-        val offered = current.rules.choices.singleOrNull { it.slot == slot }
+        val category = rootCategory(level, slot)
+        val offered = if (category == null) evaluate(document).rules.choices.singleOrNull { it.slot == slot } else null
         if (offered?.optional == true && offered.acquisitionLevel != level) {
             return null
         }
-        val category = rootCategory(level, slot)
         val ids = if (category != null) catalog.search(category = category).map { it.metadata.id }
             else offered?.entries?.map { it.entryId }.orEmpty()
         val existing = document.levels.flatMap { it.entries }.firstOrNull { it.slot == slot }
         val instance = if (offered?.optional == true) ModernCreation.grantInstance(slot.sourceInstanceId, slot.choiceId)
             else existing?.instanceId ?: "builder-preview:${slot.sourceInstanceId.length}:${slot.sourceInstanceId}:${slot.choiceId}:${slot.ordinal}"
-        return Selection(ids, instance)
+        return Selection(ids, instance).also { selections[key] = it }
     }
 
     private suspend fun candidate(document: CharacterDocument, level: Int, slot: ChoiceSlotId,
@@ -65,7 +105,13 @@ internal class ChoiceEvaluation(
         // Legacy coverage gates use the complete diagnostic stream. V2 separates eligibility
         // from statistic coverage, so unrelated choices and totals need not be calculated here.
         val rules = if (definition.entry.mechanics.version >= 2) {
-            RulesEngine.evaluateChoice(candidate, prepare(candidate), instance)
+            val content = prepare(candidate)
+            val checker = featFacts.getOrPut(Triple(document, level, slot)) { RulesEngine.prepareFeatChoices(document, level, slot) }
+            val checked = checker.check(definition, content, instance)
+            if (checked != null) {
+                return BuilderOption(definition, checked.eligibility.status, checked.diagnostics)
+            }
+            RulesEngine.evaluateChoice(candidate, content, instance)
         } else {
             evaluate(candidate).rules
         }

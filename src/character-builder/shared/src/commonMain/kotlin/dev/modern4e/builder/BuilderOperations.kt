@@ -84,6 +84,12 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
 
     private fun choiceEvaluation() = ChoiceEvaluation(catalog, { evaluate(it) }, { preparation.load(it) })
 
+    /** Retain only while this document and installed content are unchanged; mutations always validate afresh. */
+    fun optionListing(document: CharacterDocument, level: Int, slot: ChoiceSlotId): BuilderOptionListing {
+        val reading = operation()
+        return BuilderOptionListing(reading.choiceEvaluation(), document, level, slot, reading.catalog)
+    }
+
     /** Rejected commands return the unchanged, recalculated document and an explicit operation diagnostic. */
     suspend fun apply(document: CharacterDocument, edit: BuilderEdit): BuilderResult {
         if (!operation) {

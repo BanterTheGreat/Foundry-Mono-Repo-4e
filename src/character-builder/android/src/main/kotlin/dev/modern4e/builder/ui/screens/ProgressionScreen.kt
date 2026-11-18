@@ -4,6 +4,9 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -172,185 +175,165 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
 private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, model: BuilderSession, dismiss: () -> Unit) {
     val scope = rememberCoroutineScope()
     var edit by remember(request) { mutableStateOf<BuilderEdit?>(null) }
-    var options by remember(request) { mutableStateOf<List<BuilderOption>?>(null) }
     var selected by remember(request) { mutableStateOf(state.document.levels.flatMap { it.entries }.firstOrNull { it.slot == request.slot }?.selection?.entryId
         ?: state.rules.entries.firstOrNull { it.slot == request.slot && it.granted }?.definition?.entry?.id) }
     var expanded by remember(request) { mutableStateOf(selected) }
     var showIneligible by remember(request) { mutableStateOf(false) }
     var featTab by remember(request) { mutableStateOf("Class") }
+    var optionRows by remember(request, featTab, state.document) { mutableStateOf<List<BuilderOptionRow>?>(null) }
     var replacementTarget by remember(request) { mutableStateOf<ChoiceSlotId?>(null) }
     val document = state.document
-    LaunchedEffect(request) {
-        if (request.kind in listOf("entry", "feat", "replacement")) { options = model.progressionOptions(request.level, request.slot!!) }
+    val catalogPicker = request.kind in listOf("entry", "feat", "replacement")
+    LaunchedEffect(request, if (request.kind == "feat") featTab else null, document) {
+        if (catalogPicker) {
+            optionRows = null
+            val group = if (request.kind == "feat") FeatGroup.valueOf(featTab.uppercase()) else null
+            model.progressionOptionRows(request.level, request.slot!!, group) { optionRows = it }
+        }
     }
     ModalBottomSheet(onDismissRequest = { if (!model.busy) dismiss() }, containerColor = Paper,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)) {
         Column(Modifier.fillMaxWidth().heightIn(max = 650.dp).padding(horizontal = 20.dp)) {
-            Column(Modifier.weight(1f, fill = false).folioScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                if (request.level > 2) { Text("Incomplete automation: later-level eligibility and totals are unavailable.", color = Accent) }
-                when (request.kind) {
-                    "advancement" -> {
-                        Ability.entries.filter { it != document.abilities.mainAbility }.forEach { ability ->
-                            ChoiceCard(ability.name.readable(), selected == ability.name, false, true, null, {
-                                selected = ability.name
-                                val decisions = document.levels.firstOrNull { it.level == request.level } ?: LevelDecisions(request.level)
-                                edit = BuilderEdit.LaterDecisions(decisions.copy(abilityAdvancements = listOf(
-                                    AbilityAdvancement(ChoiceSlotId("advancement.${request.level}", "ability", 0), mapOf(ability to 1)))))
-                            }) { }
-                        }
-                    }
-                    "allocation" -> {
-                        var points by remember { mutableStateOf(document.abilities.points) }
-                        val allocation = document.abilities.copy(points = points)
-                        val remaining = Progression.remainingPoints(allocation)
-                        Surface(color = Wash, border = BorderStroke(1.dp, Line), shape = RoundedCornerShape(3.dp)) {
-                            Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-                                Column(Modifier.weight(1f)) {
-                                    Text("Ability points", fontFamily = FontFamily.Serif, fontSize = 20.sp)
-                                    Text(if (remaining < 0) "Over budget" else "Left to allocate", color = Dim, fontSize = 12.sp)
-                                }
-                                Text(remaining.toString(), color = Accent, fontFamily = FontFamily.Serif, fontSize = 32.sp)
-                            }
-                        }
-                        Ability.entries.forEach { ability ->
-                            Row(Modifier.fillMaxWidth().padding(vertical = 2.dp), verticalAlignment = Alignment.CenterVertically) {
-                                Text(ability.name.readable(), Modifier.weight(1f), fontFamily = FontFamily.Serif)
-                                val value = points[ability] ?: 0
-                                OutlinedButton(enabled = Progression.canAdjustAbility(allocation, ability, -1), modifier = Modifier.size(48.dp),
-                                    shape = RoundedCornerShape(3.dp), contentPadding = PaddingValues(0.dp), onClick = {
-                                    points = points + (ability to value - 1)
-                                    edit = BuilderEdit.Allocation(document.abilities.copy(points = points))
-                                }) { Text("−", fontSize = 24.sp) }
-                                Box(Modifier.width(48.dp), contentAlignment = Alignment.Center) {
-                                    Text(value.toString(), color = Accent, fontFamily = FontFamily.Serif, fontSize = 24.sp)
-                                }
-                                OutlinedButton(enabled = Progression.canAdjustAbility(allocation, ability, 1), modifier = Modifier.size(48.dp),
-                                    shape = RoundedCornerShape(3.dp), contentPadding = PaddingValues(0.dp), onClick = {
-                                    points = points + (ability to value + 1)
-                                    edit = BuilderEdit.Allocation(document.abilities.copy(points = points))
-                                }) { Text("+", fontSize = 24.sp) }
-                            }
-                        }
-                        Text("Distribute 5 points: 0–2 each, or one −1 paired with one 3.", color = Dim)
-                    }
-                    "environment", "upbringing" -> {
-                        val backgrounds = if (request.kind == "environment") ModernCreation.environments else ModernCreation.upbringings
-                        var background by remember { mutableStateOf(Progression.background(document, request.kind)) }
-                        backgrounds.forEach { (name, skills) ->
-                            ChoiceCard(name.readable(), name == background, name == expanded, true, null, {
-                                if (background == name) { expanded = if (expanded == name) null else name }
-                                else { background = name; expanded = name; edit = model.backgroundEdit(request.kind, name) }
-                            }) {
-                                Text(BackgroundDescriptions[name].orEmpty(), color = Dim)
-                                Text("Choose one: ${skills.joinToString { it.name.readable() }}", color = Dim)
-                            }
-                        }
-                    }
-                    "value" -> {
-                        val offered = state.rules.choices.firstOrNull { it.slot == request.slot }?.values.orEmpty()
-                        val committed = document.levels.flatMap { it.values }.firstOrNull { it.slot == request.slot }?.value
-                        val draft = (edit as? BuilderEdit.Value)?.value?.value ?: committed
-                        offered.forEach { option ->
-                            ChoiceCard(option.title, option.id == draft, false, true, null, {
-                                edit = BuilderEdit.Value(request.level, ValueChoice(request.slot!!, option.id))
-                            }) { }
-                        }
-                    }
-                    "free", "environment-skill", "upbringing-skill", "skill" -> {
-                        val kind = request.kind.substringBefore('-')
-                        val slots = when (kind) {
-                            "free" -> (0..1).map { ChoiceSlotId("creation", "free-skill", it) }
-                            "skill" -> listOf(request.slot!!)
-                            else -> listOf(ChoiceSlotId("background.$kind.${Progression.background(document, kind)}", "skill", 0))
-                        }
-                        val offered = if (kind == "free") Skill.entries else state.rules.choices.firstOrNull { it.slot == slots.first() }?.skills.orEmpty()
-                        var picks by remember { mutableStateOf(document.levels.flatMap { it.proficiencies }.filter { it.slot in slots }.map { it.skill }) }
-                        if (offered.isEmpty()) { Text("Choose ${kind.readable()} first.", color = Dim) }
-                        offered.forEach { skill ->
-                            val chosen = skill in picks
-                            val otherSource = state.rules.proficiencies[skill].orEmpty().firstOrNull { it !in slots }
-                            val blocked = otherSource != null
-                            val draftSource = slots.getOrNull(picks.indexOf(skill))
-                            val modifier = state.rules.displayedSkill(skill, otherSource ?: draftSource)
-                            val calculation = modifier as? ContractResult.Available
-                            Surface(Modifier.fillMaxWidth().clickable(enabled = !blocked) {
-                                picks = if (chosen) picks - skill else if (slots.size == 1) listOf(skill) else if (picks.size < 2) picks + skill else picks
-                                edit = BuilderEdit.Batch(listOf(BuilderEdit.RemoveProficiency(slots.toSet())) + picks.mapIndexed { index, pick ->
-                                    BuilderEdit.Proficiency(request.level, ProficiencyChoice(slots[index], pick))
-                                })
-                            }, color = if (chosen) Wash else Paper, border = BorderStroke(1.dp, if (chosen) Accent else Line)) {
-                                Row(Modifier.heightIn(min = 48.dp).padding(horizontal = 12.dp, vertical = 7.dp), verticalAlignment = Alignment.CenterVertically) {
-                                    Column(Modifier.weight(1f)) {
-                                        Text((if (chosen) "✓ " else "") + skill.name.readable(), color = if (blocked) Dim else Ink)
-                                        if (blocked) { Text("Already proficient", color = Dim, fontSize = 12.sp) }
-                                        calculation?.value?.contributors?.mapNotNull { Progression.skillContributorLabel(it.label) }?.forEach {
-                                            Text(it, fontSize = 11.sp, lineHeight = 13.sp, color = Dim)
-                                        }
+            if (catalogPicker) {
+                key(request, featTab) {
+                    CatalogChoiceList(request, state, optionRows, selected, expanded, featTab, showIneligible,
+                        replacementTarget, Modifier.weight(1f, fill = false),
+                        changeTab = { featTab = it }, toggleIneligible = { showIneligible = !showIneligible },
+                        changeTarget = { replacementTarget = it; edit = null }, choose = { option ->
+                            val entry = option.entry.entry
+                            if (selected == entry.id) {
+                                expanded = if (expanded == entry.id) null else entry.id
+                            } else {
+                                selected = entry.id
+                                expanded = entry.id
+                                edit = if (request.level <= 2) {
+                                    BuilderEdit.Entry(request.level, request.slot!!, entry.id, java.util.UUID.randomUUID().toString(),
+                                        option.eligibility == Eligibility.INCOMPLETE)
+                                } else {
+                                    val decisions = document.levels.firstOrNull { it.level == request.level } ?: LevelDecisions(request.level)
+                                    val occurrence = decisions.entries.firstOrNull { it.slot == request.slot }?.instanceId ?: java.util.UUID.randomUUID().toString()
+                                    val choice = EntryChoice(occurrence, request.slot!!, SavedSelection(entry.id, entry.presentation.title,
+                                        option.entry.supplier.packageId, option.entry.fingerprint))
+                                    if (request.kind == "replacement") {
+                                        replacementTarget?.let { target -> BuilderEdit.LaterDecisions(decisions.copy(replacements =
+                                            decisions.replacements.filterNot { it.replacement.slot == request.slot } + Replacement(target, choice, ReplacementKind.PROGRESSION))) }
+                                    } else {
+                                        BuilderEdit.LaterDecisions(decisions.copy(entries = decisions.entries.filterNot { it.slot == request.slot } + choice))
                                     }
-                                    Text(modifier.display(signed = true), color = Accent)
                                 }
                             }
-                        }
-                        if (slots.size == 2) { Text("${2 - picks.size} left", color = Dim) }
-                        
-                    }
-                    else -> {
-                        if (request.kind == "feat") {
-                            Row { listOf("General", "Ancestry", "Class").forEach { tab ->
-                                TextButton({ featTab = tab }, Modifier.weight(1f)) { Text(tab, color = if (featTab == tab) Accent else Dim) }
-                            } }
-                        }
-                        if (request.kind == "replacement") {
-                            document.levels.filter { it.level < request.level }.flatMap { it.entries }.filter { old ->
-                                state.rules.entries.any { it.slot == old.slot && it.definition.entry.category == EntryCategory.POWER } || old.slot.choiceId == "power"
-                            }.forEach { old ->
-                                ChoiceCard("Replace ${old.selection.savedTitle}", replacementTarget == old.slot, false, true, null, {
-                                    replacementTarget = old.slot; edit = null
+                        })
+                }
+            } else {
+                Column(Modifier.weight(1f, fill = false).folioScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    if (request.level > 2) { Text("Incomplete automation: later-level eligibility and totals are unavailable.", color = Accent) }
+                    when (request.kind) {
+                        "advancement" -> {
+                            Ability.entries.filter { it != document.abilities.mainAbility }.forEach { ability ->
+                                ChoiceCard(ability.name.readable(), selected == ability.name, false, true, null, {
+                                    selected = ability.name
+                                    val decisions = document.levels.firstOrNull { it.level == request.level } ?: LevelDecisions(request.level)
+                                    edit = BuilderEdit.LaterDecisions(decisions.copy(abilityAdvancements = listOf(
+                                        AbilityAdvancement(ChoiceSlotId("advancement.${request.level}", "ability", 0), mapOf(ability to 1)))))
                                 }) { }
                             }
                         }
-                        val all = options
-                        if (all == null) { Text("Loading…", color = Dim) }
-                        else {
-                            val taken = document.levels.flatMap { it.entries }.filter { it.slot != request.slot }.map { it.selection.entryId }.toSet()
-                            fun eligible(option: BuilderOption) = option.entry.entry.id !in taken && option.eligibility != Eligibility.INELIGIBLE && option.eligibility != Eligibility.UNRESOLVED
-                            fun category(option: BuilderOption): String {
-                                val prerequisites = option.entry.entry.mechanics.prerequisites.filterIsInstance<Prerequisite.Entry>().map { it.entryId }
-                                val ancestry = state.rules.entries.filter { it.definition.entry.category == EntryCategory.ANCESTRY }.map { it.definition.entry.id }
-                                return if (prerequisites.any { it in ancestry }) "Ancestry" else if (prerequisites.isNotEmpty()) "Class" else "General"
-                            }
-                            val filtered = all.filter { request.kind != "feat" || category(it) == featTab }
-                            val hidden = filtered.count { !eligible(it) }
-                            filtered.sortedWith(compareByDescending<BuilderOption> { it.entry.entry.mechanics.prerequisites.filterIsInstance<Prerequisite.Level>().maxOfOrNull { it.minimum } ?: 0 }
-                                .thenBy { it.entry.entry.presentation.title }).filter { eligible(it) || showIneligible }.forEach { option ->
-                                val entry = option.entry.entry
-                                val level = entry.mechanics.prerequisites.filterIsInstance<Prerequisite.Level>().maxOfOrNull { it.minimum }
-                                    ?: Regex("(?:Attack|Utility) (\\d+)").find(entry.presentation.description)?.groupValues?.get(1)?.toIntOrNull()
-                                ChoiceCard(entry.presentation.title, selected == entry.id, expanded == entry.id, eligible(option), level, {
-                                    if (selected == entry.id) { expanded = if (expanded == entry.id) null else entry.id }
-                                    else {
-                                        selected = entry.id; expanded = entry.id
-                                        edit = if (request.level <= 2) BuilderEdit.Entry(request.level, request.slot!!, entry.id, java.util.UUID.randomUUID().toString(), option.eligibility == Eligibility.INCOMPLETE)
-                                        else {
-                                            val decisions = document.levels.firstOrNull { it.level == request.level } ?: LevelDecisions(request.level)
-                                            val occurrence = decisions.entries.firstOrNull { it.slot == request.slot }?.instanceId ?: java.util.UUID.randomUUID().toString()
-                                            val choice = EntryChoice(occurrence, request.slot!!, SavedSelection(entry.id, entry.presentation.title, option.entry.supplier.packageId, option.entry.fingerprint))
-                                            if (request.kind == "replacement") {
-                                                replacementTarget?.let { target -> BuilderEdit.LaterDecisions(decisions.copy(replacements =
-                                                    decisions.replacements.filterNot { it.replacement.slot == request.slot } + Replacement(target, choice, ReplacementKind.PROGRESSION))) }
-                                            } else { BuilderEdit.LaterDecisions(decisions.copy(entries = decisions.entries.filterNot { it.slot == request.slot } + choice)) }
-                                        }
+                        "allocation" -> {
+                            var points by remember { mutableStateOf(document.abilities.points) }
+                            val allocation = document.abilities.copy(points = points)
+                            val remaining = Progression.remainingPoints(allocation)
+                            Surface(color = Wash, border = BorderStroke(1.dp, Line), shape = RoundedCornerShape(3.dp)) {
+                                Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
+                                    Column(Modifier.weight(1f)) {
+                                        Text("Ability points", fontFamily = FontFamily.Serif, fontSize = 20.sp)
+                                        Text(if (remaining < 0) "Over budget" else "Left to allocate", color = Dim, fontSize = 12.sp)
                                     }
-                                }) {
-                                    if (entry.category == EntryCategory.POWER) { PowerPresentation(entry) }
-                                    else { ControlledDescription(entry.presentation.description) }
-                                    if (entry.mechanics.prerequisites.any { it is Prerequisite.Unadapted }) { Text("Prerequisite not adapted", color = Accent) }
-                                    if (!eligible(option)) { Text(if (entry.id in taken) "Already chosen" else option.diagnostics.joinToString { it.message }, color = Dim) }
+                                    Text(remaining.toString(), color = Accent, fontFamily = FontFamily.Serif, fontSize = 32.sp)
                                 }
                             }
-                            if (hidden > 0) { TextButton({ showIneligible = !showIneligible }) { Text(if (showIneligible) "Hide ineligible" else "Show $hidden ineligible") } }
-                            if (filtered.isEmpty()) { Text("No ${if (request.kind == "feat") featTab.lowercase() else "available"} options in the installed content.", color = Dim) }
+                            Ability.entries.forEach { ability ->
+                                Row(Modifier.fillMaxWidth().padding(vertical = 2.dp), verticalAlignment = Alignment.CenterVertically) {
+                                    Text(ability.name.readable(), Modifier.weight(1f), fontFamily = FontFamily.Serif)
+                                    val value = points[ability] ?: 0
+                                    OutlinedButton(enabled = Progression.canAdjustAbility(allocation, ability, -1), modifier = Modifier.size(48.dp),
+                                        shape = RoundedCornerShape(3.dp), contentPadding = PaddingValues(0.dp), onClick = {
+                                        points = points + (ability to value - 1)
+                                        edit = BuilderEdit.Allocation(document.abilities.copy(points = points))
+                                    }) { Text("−", fontSize = 24.sp) }
+                                    Box(Modifier.width(48.dp), contentAlignment = Alignment.Center) {
+                                        Text(value.toString(), color = Accent, fontFamily = FontFamily.Serif, fontSize = 24.sp)
+                                    }
+                                    OutlinedButton(enabled = Progression.canAdjustAbility(allocation, ability, 1), modifier = Modifier.size(48.dp),
+                                        shape = RoundedCornerShape(3.dp), contentPadding = PaddingValues(0.dp), onClick = {
+                                        points = points + (ability to value + 1)
+                                        edit = BuilderEdit.Allocation(document.abilities.copy(points = points))
+                                    }) { Text("+", fontSize = 24.sp) }
+                                }
+                            }
+                            Text("Distribute 5 points: 0–2 each, or one −1 paired with one 3.", color = Dim)
                         }
+                        "environment", "upbringing" -> {
+                            val backgrounds = if (request.kind == "environment") ModernCreation.environments else ModernCreation.upbringings
+                            var background by remember { mutableStateOf(Progression.background(document, request.kind)) }
+                            backgrounds.forEach { (name, skills) ->
+                                ChoiceCard(name.readable(), name == background, name == expanded, true, null, {
+                                    if (background == name) { expanded = if (expanded == name) null else name }
+                                    else { background = name; expanded = name; edit = model.backgroundEdit(request.kind, name) }
+                                }) {
+                                    Text(BackgroundDescriptions[name].orEmpty(), color = Dim)
+                                    Text("Choose one: ${skills.joinToString { it.name.readable() }}", color = Dim)
+                                }
+                            }
+                        }
+                        "value" -> {
+                            val offered = state.rules.choices.firstOrNull { it.slot == request.slot }?.values.orEmpty()
+                            val committed = document.levels.flatMap { it.values }.firstOrNull { it.slot == request.slot }?.value
+                            val draft = (edit as? BuilderEdit.Value)?.value?.value ?: committed
+                            offered.forEach { option ->
+                                ChoiceCard(option.title, option.id == draft, false, true, null, {
+                                    edit = BuilderEdit.Value(request.level, ValueChoice(request.slot!!, option.id))
+                                }) { }
+                            }
+                        }
+                        "free", "environment-skill", "upbringing-skill", "skill" -> {
+                            val kind = request.kind.substringBefore('-')
+                            val slots = when (kind) {
+                                "free" -> (0..1).map { ChoiceSlotId("creation", "free-skill", it) }
+                                "skill" -> listOf(request.slot!!)
+                                else -> listOf(ChoiceSlotId("background.$kind.${Progression.background(document, kind)}", "skill", 0))
+                            }
+                            val offered = if (kind == "free") Skill.entries else state.rules.choices.firstOrNull { it.slot == slots.first() }?.skills.orEmpty()
+                            var picks by remember { mutableStateOf(document.levels.flatMap { it.proficiencies }.filter { it.slot in slots }.map { it.skill }) }
+                            if (offered.isEmpty()) { Text("Choose ${kind.readable()} first.", color = Dim) }
+                            offered.forEach { skill ->
+                                val chosen = skill in picks
+                                val otherSource = state.rules.proficiencies[skill].orEmpty().firstOrNull { it !in slots }
+                                val blocked = otherSource != null
+                                val draftSource = slots.getOrNull(picks.indexOf(skill))
+                                val modifier = state.rules.displayedSkill(skill, otherSource ?: draftSource)
+                                val calculation = modifier as? ContractResult.Available
+                                Surface(Modifier.fillMaxWidth().clickable(enabled = !blocked) {
+                                    picks = if (chosen) picks - skill else if (slots.size == 1) listOf(skill) else if (picks.size < 2) picks + skill else picks
+                                    edit = BuilderEdit.Batch(listOf(BuilderEdit.RemoveProficiency(slots.toSet())) + picks.mapIndexed { index, pick ->
+                                        BuilderEdit.Proficiency(request.level, ProficiencyChoice(slots[index], pick))
+                                    })
+                                }, color = if (chosen) Wash else Paper, border = BorderStroke(1.dp, if (chosen) Accent else Line)) {
+                                    Row(Modifier.heightIn(min = 48.dp).padding(horizontal = 12.dp, vertical = 7.dp), verticalAlignment = Alignment.CenterVertically) {
+                                        Column(Modifier.weight(1f)) {
+                                            Text((if (chosen) "✓ " else "") + skill.name.readable(), color = if (blocked) Dim else Ink)
+                                            if (blocked) { Text("Already proficient", color = Dim, fontSize = 12.sp) }
+                                            calculation?.value?.contributors?.mapNotNull { Progression.skillContributorLabel(it.label) }?.forEach {
+                                                Text(it, fontSize = 11.sp, lineHeight = 13.sp, color = Dim)
+                                            }
+                                        }
+                                        Text(modifier.display(signed = true), color = Accent)
+                                    }
+                                }
+                            }
+                            if (slots.size == 2) { Text("${2 - picks.size} left", color = Dim) }
+
+                        }
+                        else -> Unit
                     }
                 }
             }
@@ -368,6 +351,89 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
                     val command = edit ?: return@TextButton
                     scope.launch { model.run { edit(command) }; if (model.errors.isEmpty()) dismiss() }
                 }) { Text("Save") }
+            }
+        }
+    }
+}
+
+/** The catalog supplies a tab's metadata first; lazy rows update in place as checks finish. */
+@Composable
+private fun CatalogChoiceList(request: ProgressionEditor, state: BuilderState, rows: List<BuilderOptionRow>?,
+    selected: String?, expanded: String?, featTab: String, showIneligible: Boolean, replacementTarget: ChoiceSlotId?,
+    modifier: Modifier, changeTab: (String) -> Unit, toggleIneligible: () -> Unit,
+    changeTarget: (ChoiceSlotId) -> Unit, choose: (BuilderOption) -> Unit) {
+    val scroll = rememberLazyListState()
+    val taken = remember(state.document, request.slot) {
+        state.document.levels.flatMap { it.entries }.filter { it.slot != request.slot }.map { it.selection.entryId }.toSet()
+    }
+    val visible = remember(rows, taken, showIneligible) {
+        rows.orEmpty().filter { it.pickerVisible(taken, showIneligible) }
+    }
+    val hidden = remember(rows, taken) { rows.orEmpty().count { it.checked && !it.pickerSelectable(taken) } }
+    LazyColumn(modifier.fillMaxWidth().folioScroll(scroll), state = scroll,
+        verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        if (request.level > 2) {
+            item("coverage") { Text("Incomplete automation: later-level eligibility and totals are unavailable.", color = Accent) }
+        }
+        if (request.kind == "feat") {
+            item("tabs") {
+                Row {
+                    listOf("General", "Ancestry", "Class").forEach { tab ->
+                        TextButton({ changeTab(tab) }, Modifier.weight(1f)) {
+                            Text(tab, color = if (featTab == tab) Accent else Dim)
+                        }
+                    }
+                }
+            }
+        }
+        if (request.kind == "replacement") {
+            val targets = state.document.levels.filter { it.level < request.level }.flatMap { it.entries }.filter { old ->
+                state.rules.entries.any { it.slot == old.slot && it.definition.entry.category == EntryCategory.POWER } || old.slot.choiceId == "power"
+            }
+            items(targets, key = { "replace:${it.instanceId}" }) { old ->
+                ChoiceCard("Replace ${old.selection.savedTitle}", replacementTarget == old.slot, false, true, null,
+                    { changeTarget(old.slot) }) { }
+            }
+        }
+        if (rows == null) {
+            item("loading") { Text("Loading…", color = Dim) }
+        } else {
+            items(visible, key = { "option:${it.metadata.metadata.id}" }) { row ->
+                val option = row.option
+                val entry = option?.entry?.entry
+                val level = entry?.mechanics?.prerequisites?.filterIsInstance<Prerequisite.Level>()?.maxOfOrNull { it.minimum }
+                    ?: entry?.presentation?.description?.let { Regex("(?:Attack|Utility) (\\d+)").find(it)?.groupValues?.get(1)?.toIntOrNull() }
+                val selectable = row.pickerSelectable(taken)
+                ChoiceCard(row.metadata.metadata.title, selected == row.metadata.metadata.id,
+                    expanded == row.metadata.metadata.id, selectable, level, { option?.let(choose) }) {
+                    if (!row.checked) {
+                        Text("Checking eligibility…", color = Dim)
+                    } else if (entry == null) {
+                        Text(row.diagnostics.joinToString { it.message }.ifBlank { "Definition is unavailable." }, color = Dim)
+                    } else {
+                        if (entry.category == EntryCategory.POWER) { PowerPresentation(entry) }
+                        else { ControlledDescription(entry.presentation.description) }
+                        if (entry.mechanics.prerequisites.any { it is Prerequisite.Unadapted }) {
+                            Text("Prerequisite not adapted", color = Accent)
+                        }
+                        if (!selectable) {
+                            Text(if (entry.id in taken) "Already chosen" else option?.diagnostics.orEmpty().joinToString { it.message }, color = Dim)
+                        }
+                    }
+                }
+            }
+            if (rows.any { !it.checked }) {
+                item("checking") { Text("Checking eligibility…", color = Dim) }
+            }
+            if (hidden > 0) {
+                item("toggle") {
+                    TextButton(toggleIneligible) { Text(if (showIneligible) "Hide ineligible" else "Show $hidden ineligible") }
+                }
+            }
+            if (rows.isEmpty()) {
+                item("empty") {
+                    Text("No ${if (request.kind == "feat") featTab.lowercase() else "available"} options in the installed content.", color = Dim)
+                }
             }
         }
     }

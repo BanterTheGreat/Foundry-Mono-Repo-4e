@@ -131,3 +131,27 @@ active slots in direct higher-level documents, but this does not add full
 higher-level character creation or forward advancement. Shared power acquisition
 is supported through level 10; later provisional content and technique pools
 remain incomplete.
+
+## Progressive option browsing
+
+`optionListing(document, level, slot)` creates an explicit content snapshot for one
+unchanged character and choice slot. `rows(featGroup)` returns metadata rows before
+root-choice eligibility or definition loading; `check(ids)` checks only offered IDs
+and retains completed results. Pending rows have `checked = false` and cannot be
+selected. Failed definitions become checked unavailable rows with diagnostics.
+Normal edits still validate against fresh operation content, independently of browsing.
+
+Production feat indexes carry optional authored `featGroup` metadata (General,
+Ancestry, Class); old indexes omit it and use definition/reference-category fallback.
+Unknown legacy groups stay discoverable across tabs. Grouping uses access rather
+than titles or the character's currently selected ancestry. Active feat mechanics
+retain normal candidate activation; passive v2 root feats share exact prepared
+character facts with conservative fallback for ambiguous cases.
+
+Android loads only the selected feat tab and publishes metadata, then batches of
+12 checks. Lazy rows preserve native scrolling and the folio scrollbar. Rows stay
+in metadata title order during loading. Cancelling/tab switching stops delivery;
+reopening the unchanged character reuses checked results. At most two slot snapshots
+are retained; edits, character changes and catalog reloads clear them. Bundled content
+is immutable for the session; a new catalog is required after installed metadata changes.
+Higher-level choices retain their explicitly incomplete eligibility policy.

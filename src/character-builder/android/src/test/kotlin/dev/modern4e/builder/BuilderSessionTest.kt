@@ -28,6 +28,83 @@ class BuilderSessionTest {
         File(context.filesDir, "characters").deleteRecursively()
         store = AndroidCharacterStore(context)
     }
+
+    @Test fun featRowsArriveBeforeChecksResumeAfterCancellationAndInvalidateAfterEdits() = runBlocking {
+        var reads = 0
+        val real = AndroidContentSource(context.assets)
+        val source = object : ContentSource by real {
+            override suspend fun loadChunk(packageId: String, chunkId: String): ContractResult<EntryChunk> {
+                reads++
+                return real.loadChunk(packageId, chunkId)
+            }
+        }
+        val model = session(source = source)
+        model.create()
+        val slot = ChoiceSlotId("creation", "feat", 0)
+        reads = 0
+        var updates = 0
+        try {
+            model.progressionOptionRows(1, slot, FeatGroup.GENERAL) { rows ->
+                updates++
+                if (updates == 1) {
+                    assertTrue(rows.isNotEmpty())
+                    assertTrue(rows.all { !it.checked && it.option == null })
+                    assertEquals(0, reads)
+                } else {
+                    assertEquals(12, rows.count { it.checked })
+                    throw kotlinx.coroutines.CancellationException("Dismiss picker after the first batch")
+                }
+            }
+            fail("Picker cancellation should stop remaining batches")
+        } catch (_: kotlinx.coroutines.CancellationException) {
+            // Reopening continues the same immutable browsing snapshot.
+        }
+        var reopened: List<BuilderOptionRow>? = null
+        model.progressionOptionRows(1, slot, FeatGroup.GENERAL) { rows ->
+            if (reopened == null) {
+                assertEquals(12, rows.count { it.checked })
+            }
+            reopened = rows
+        }
+        assertTrue(reopened!!.all { it.checked })
+        val completedReads = reads
+        var cachedUpdates = 0
+        model.progressionOptionRows(1, slot, FeatGroup.GENERAL) {
+            cachedUpdates++
+            assertTrue(it.all { row -> row.checked })
+        }
+        assertEquals(1, cachedUpdates)
+        assertEquals(completedReads, reads)
+        model.edit(BuilderEdit.Identity(model.current!!.document.identity.copy(name = "Changed")))
+        try {
+            model.progressionOptionRows(1, slot, FeatGroup.GENERAL) {
+                assertTrue(it.none { row -> row.checked })
+                throw kotlinx.coroutines.CancellationException("Only inspect refreshed metadata")
+            }
+        } catch (_: kotlinx.coroutines.CancellationException) { }
+    }
+
+    @Test fun characterChangesStopOldPickerUpdatesAndContentFailuresUseBlockingErrors() = runBlocking {
+        val real = AndroidContentSource(context.assets)
+        var failReads = false
+        val source = object : ContentSource by real {
+            override suspend fun loadChunk(packageId: String, chunkId: String): ContractResult<EntryChunk> =
+                if (failReads) ContractResult.Unavailable(listOf(Diagnostic("test.read", DiagnosticKind.IO_FAILURE, "Cannot load content")))
+                else real.loadChunk(packageId, chunkId)
+        }
+        val model = session(source = source)
+        model.create()
+        var updates = 0
+        val slot = ChoiceSlotId("creation", "feat", 0)
+        model.progressionOptionRows(1, slot, FeatGroup.GENERAL) {
+            updates++
+            model.edit(BuilderEdit.Identity(model.current!!.document.identity.copy(name = "Changed while loading")))
+        }
+        assertEquals(1, updates)
+        failReads = true
+        model.progressionOptionRows(1, slot, FeatGroup.GENERAL) { }
+        assertTrue(model.errors.any { it.kind == DiagnosticKind.IO_FAILURE })
+    }
     @Test fun structuredLinguistEditsPersistAndReopenWithGrantsAndRejectedDuplicates() = runBlocking {
         val model = session()
         model.create()

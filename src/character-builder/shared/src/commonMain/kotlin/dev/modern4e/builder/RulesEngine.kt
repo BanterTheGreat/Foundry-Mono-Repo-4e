@@ -83,6 +83,75 @@ object RulesEngine {
     /** Candidate validation activates the same mechanics without evaluating unrelated offered choices or totals. */
     internal fun evaluateChoice(document: CharacterDocument, content: RulesContent, instanceId: String): EngineResult =
         Evaluation(document, content, targetInstance = instanceId).run()
+
+    /** A picker may reuse activation and selection-time facts for mechanically passive root feats. */
+    internal fun prepareFeatChoices(document: CharacterDocument, level: Int, slot: ChoiceSlotId) =
+        PreparedFeatChoices(document, level, slot)
+}
+
+internal data class PreparedFeatChoice(val eligibility: EntryEligibility, val diagnostics: List<Diagnostic>)
+
+/**
+ * Conservative list fast path. A passive feat cannot change character facts, so the character
+ * with this slot removed is activated once. Exact content snapshots and historical exclusions
+ * remain part of the cache key; active feats and ambiguous documents use normal candidate activation.
+ */
+internal class PreparedFeatChoices(
+    private val document: CharacterDocument,
+    private val level: Int,
+    private val slot: ChoiceSlotId,
+) {
+    private val baseline = document.copy(levels = document.levels.map { decisions ->
+        decisions.copy(entries = decisions.entries.filterNot { it.slot == slot })
+    })
+    private val prepared = linkedMapOf<RulesContent, Evaluation>()
+    internal var factPreparations = 0
+        private set
+
+    fun check(definition: ResolvedEntry, content: RulesContent, instanceId: String): PreparedFeatChoice? {
+        val entry = definition.entry
+        val mechanics = entry.mechanics
+        val root = slot.ordinal == 0 && slot.choiceId == "feat" &&
+            (level == 1 && slot.sourceInstanceId == "creation" || level == 2 && slot.sourceInstanceId == "advancement.2")
+        if (!root || level !in 1..document.level || document.levels.none { it.level == level } || entry.category != EntryCategory.FEAT ||
+            mechanics.version != 2 || mechanics.copy(prerequisites = emptyList(), access = null,
+                maximumSelections = null, unsupported = emptyList()) != Mechanics(version = 2)) {
+            return null
+        }
+        if (document.levels.any { decisions -> decisions.replacements.any { it.replaces == slot } ||
+                decisions.proficiencies.any { it.slot == slot } || decisions.values.any { it.slot == slot } }) {
+            return null
+        }
+        val saved = baseline.levels.flatMap { decisions -> decisions.entries.map { it.selection } +
+            decisions.replacements.map { it.replacement.selection } } + baseline.equipment.filter { it.equipped }.map { it.selection }
+        val factsContent = content.copy(selections = content.selections.filterKeys { it in saved })
+        val facts = prepared[factsContent] ?: Evaluation(baseline, factsContent, targetInstance = "").also {
+            it.run()
+            factPreparations++
+            prepared[factsContent] = it
+            if (prepared.size > 4) {
+                prepared.remove(prepared.keys.first())
+            }
+        }
+        if (!facts.canCheckPassiveFeat(entry, instanceId, slot)) {
+            return null
+        }
+        val eligibility = facts.passiveFeatEligibility(entry, slot, level)
+        val selection = SavedSelection(entry.id, entry.presentation.title, definition.supplier.packageId, definition.fingerprint)
+        val resolved = content.selections[selection] ?: return null
+        if (resolved !is ContractResult.Available || resolved.value.entry != entry) {
+            return null
+        }
+        val diagnostics = resolved.diagnostics.map { it.copy(slot = slot, entryId = entry.id) }.toMutableList()
+        if (entry.coverage.status != CoverageStatus.SUPPORTED) {
+            diagnostics += diagnostic("coverage", DiagnosticKind.INCOMPLETE_AUTOMATION,
+                "${entry.presentation.title}: ${entry.coverage.status}. ${entry.coverage.limitations.joinToString()}", slot, entry.id)
+        }
+        diagnostics += mechanics.unsupported.map { diagnostic("unsupportedMechanic", DiagnosticKind.INCOMPLETE_AUTOMATION,
+            it, slot, entry.id) }
+        diagnostics += eligibility.diagnostics
+        return PreparedFeatChoice(eligibility, diagnostics.distinct())
+    }
 }
 
 private class Evaluation(
@@ -148,6 +217,18 @@ private class Evaluation(
     private val abilityFacts = linkedMapOf<Ability, StatisticCalculation>()
     private val overviewAbilityTotals = linkedMapOf<Ability, Int>()
     private val proficiencySelectionRules by lazy { ProficiencySelectionRules(document, entries, proficiencies) }
+
+    /** Never reuse activation when the candidate would create an instance or definition conflict. */
+    fun canCheckPassiveFeat(entry: ContentEntry, instanceId: String, slot: ChoiceSlotId): Boolean =
+        slot !in choices && slot !in grantReplacementSlots && entries.none {
+            it.slot == slot || it.instanceId == instanceId || it.definition.entry.id == entry.id && it.definition.entry != entry
+        }
+
+    /** Uses exactly the ordinary eligibility implementation, including historical self-benefit exclusion. */
+    fun passiveFeatEligibility(entry: ContentEntry, slot: ChoiceSlotId, level: Int): EntryEligibility {
+        decisionLevels[slot] = level
+        return eligibility(entry, slot, entries.map { it.definition.entry.id }.toSet())
+    }
 
     fun run(): EngineResult {
         val repeatedSlots = (entryDecisions.map { it.slot } + proficiencyDecisions.map { it.slot } + valueDecisions.map { it.slot })

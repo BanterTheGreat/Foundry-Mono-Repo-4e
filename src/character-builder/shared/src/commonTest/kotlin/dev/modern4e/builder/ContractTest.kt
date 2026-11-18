@@ -10,6 +10,18 @@ class ContractTest {
     private fun chunk(): EntryChunk = json.decodeFromString(contractFixtures.getValue("chunk.json"))
 
     @Test
+    fun featBrowseGroupingIsOptionalAndRoundTripsWithoutChangingLegacyMetadata() {
+        val metadata = EntryMetadata("feat", EntryCategory.FEAT, "Feat", "chunk")
+        val legacy = json.encodeToJsonElement(metadata).jsonObject
+        assertFalse("featGroup" in legacy)
+        assertNull(json.decodeFromJsonElement<EntryMetadata>(legacy).featGroup)
+        for (group in FeatGroup.entries) {
+            val grouped = metadata.copy(featGroup = group)
+            assertEquals(grouped, json.decodeFromString<EntryMetadata>(json.encodeToString(grouped)))
+        }
+    }
+
+    @Test
     fun goldenCharacterPreservesUnresolvedDecisions() {
         val document = character()
         assertEquals(document, assertIs<ContractResult.Available<CharacterDocument>>(ContractCodec.decode(ContractCodec.encode(document))).value)

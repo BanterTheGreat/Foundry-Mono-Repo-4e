@@ -8,6 +8,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
 import java.time.Instant
 import java.util.UUID
 
@@ -35,6 +37,8 @@ class BuilderSession(
     private var operations: BuilderOperations? = null
     private var catalog: ContentCatalog? = null
     private val heavyWork = Mutex()
+    private var optionDocument: CharacterDocument? = null
+    private val optionListings = linkedMapOf<Pair<Int, ChoiceSlotId>, BuilderOptionListing>()
     private val importer = CharacterImporter(store) { UUID.randomUUID().toString() }
 
     /** Call on Main; operations run on IO. Errors block further work until the session is reset. */
@@ -76,6 +80,7 @@ class BuilderSession(
         pending = null
         operations = null
         catalog = null
+        clearOptionListings()
         dialog = null
         draft = ""
         deleting = null
@@ -121,6 +126,7 @@ class BuilderSession(
                     pending = null
                     operations = null
                     catalog = null
+                    clearOptionListings()
                     description = null
                     dialog = null
                 }
@@ -148,6 +154,7 @@ class BuilderSession(
     }
 
     private suspend fun open(document: CharacterDocument) {
+        clearOptionListings()
         val result = withContext(Dispatchers.IO) { ContentCatalog.open(source, "modern4e.classes", document.packages) }
         if (result is ContractResult.Unavailable && result.diagnostics.any { it.kind == DiagnosticKind.IO_FAILURE }) {
             errors = result.diagnostics
@@ -197,6 +204,7 @@ class BuilderSession(
         val document = evaluated.document.copy(savedAt = Instant.now().toString())
         pending = document
         if (persist(document, committed)) {
+            clearOptionListings()
             current = evaluated.copy(document = document)
             committed = document
             pending = null
@@ -285,6 +293,94 @@ class BuilderSession(
                 }
             }
         } }
+
+    /**
+     * Display metadata first, then check small batches on IO. The browsing snapshot survives sheet
+     * cancellation/reopening, but never an edit, another character or a content-catalog reload.
+     * Callbacks run on the caller's context; cancellation prevents a previous tab publishing late rows.
+     */
+    suspend fun progressionOptionRows(level: Int, slot: ChoiceSlotId, featGroup: FeatGroup? = null,
+        onUpdate: suspend (List<BuilderOptionRow>) -> Unit) {
+        val original = current?.document ?: return
+        val originalCatalog = catalog
+        if (level > 2) {
+            // Higher-level editing retains its explicit incomplete-automation policy.
+            val metadata = originalCatalog?.search(category = if (slot.choiceId == "feat") EntryCategory.FEAT else EntryCategory.POWER)
+                .orEmpty().filter { featGroup == null || it.metadata.featGroup == null || it.metadata.featGroup == featGroup }
+            var rows = metadata.map { BuilderOptionRow(it) }
+            onUpdate(rows)
+            for (batch in metadata.chunked(12)) {
+                currentCoroutineContext().ensureActive()
+                if (current?.document != original || catalog !== originalCatalog) {
+                    return
+                }
+                val checked = withContext(Dispatchers.IO) { heavyWork.withLock {
+                    batch.associate { entry ->
+                        val loaded = originalCatalog?.lookup(entry.metadata.id)
+                        val resolved = (loaded as? ContractResult.Available)?.value
+                        val diagnostics = (loaded as? ContractResult.Unavailable)?.diagnostics ?: listOf(Diagnostic(
+                            "android.progression", DiagnosticKind.INCOMPLETE_AUTOMATION,
+                            "Later-level eligibility is not evaluated by the proof engine."))
+                        entry.metadata.id to BuilderOptionRow(entry, resolved?.let { BuilderOption(it, Eligibility.INCOMPLETE, diagnostics) }, true, diagnostics)
+                    }
+                } }
+                if (current?.document != original || catalog !== originalCatalog) {
+                    return
+                }
+                rows = rows.map { checked[it.metadata.metadata.id] ?: it }
+                onUpdate(rows)
+            }
+            return
+        }
+        val listing = withContext(Dispatchers.IO) { heavyWork.withLock {
+            synchronized(optionListings) {
+                if (optionDocument != original) {
+                    clearOptionListings()
+                    optionDocument = original
+                }
+                val key = level to slot
+                optionListings[key] ?: operations?.optionListing(original, level, slot)?.also {
+                    optionListings[key] = it
+                    if (optionListings.size > 2) {
+                        optionListings.remove(optionListings.keys.first())
+                    }
+                }
+            }
+        } }
+        if (listing == null) {
+            onUpdate(emptyList())
+            return
+        }
+        var rows = withContext(Dispatchers.IO) { heavyWork.withLock { listing.rows(featGroup) } }
+        if (current?.document != original || catalog !== originalCatalog) {
+            return
+        }
+        onUpdate(rows)
+        for (batch in rows.filterNot { it.checked }.chunked(12)) {
+            currentCoroutineContext().ensureActive()
+            if (current?.document != original || catalog !== originalCatalog) {
+                return
+            }
+            val checked = withContext(Dispatchers.IO) { heavyWork.withLock { listing.check(batch.map { it.metadata.metadata.id }) } }
+            if (current?.document != original || catalog !== originalCatalog) {
+                return
+            }
+            val failures = checked.flatMap { it.diagnostics }.filter { it.kind == DiagnosticKind.IO_FAILURE }
+            if (failures.isNotEmpty()) {
+                errors = failures.distinct()
+                return
+            }
+            rows = withContext(Dispatchers.IO) { heavyWork.withLock { listing.rows(featGroup) } }
+            onUpdate(rows)
+        }
+    }
+
+    private fun clearOptionListings() {
+        synchronized(optionListings) {
+            optionDocument = null
+            optionListings.clear()
+        }
+    }
 
     /**
      * Drafts are evaluated one at a time. Each evaluation resolves every candidate power, so overlapping ones

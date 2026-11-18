@@ -874,3 +874,21 @@ protection, chunk indexing and freshness. Android `BuilderSessionTest` verifies
 Save publishes calculated state only after storage succeeds without more content reads.
 Manual device checklist: open a feat/power choice, save it, reopen and check choices
 and totals; cancel a changed draft and verify the saved character is unchanged.
+
+### Progressive feat listing
+
+Use the same shared JVM/JS, Android unit and web commands above.
+`BuilderOptionListingTest` verifies metadata-first loading without chunk reads,
+selected-tab isolation, partial checks, cached reopen, content/document freshness
+and a real production first-batch timing sample (informational, without flaky time
+limits). `PreparedFeatChoicesTest` checks shared-fact reuse and parity with normal
+activation, including historical prerequisites and dependent-benefit exclusion.
+`BuilderSessionTest` covers progressive callbacks, cancellation/resume, stale-result
+suppression, cache invalidation and blocking read failures. Android
+`ProgressionOptionsTest` verifies pending/unavailable rows cannot be selected;
+`FolioScrollbarTest` covers fractional lazy-list scrolling. Content tests verify
+authored feat groups and legacy metadata compatibility without fingerprint changes.
+
+Manual device check: open each feat tab, scroll while checks complete, switch tabs
+mid-load, cancel/reopen, and edit the character before reopening. Names should appear
+before eligibility completes; pending rows stay disabled and saved selections persist.

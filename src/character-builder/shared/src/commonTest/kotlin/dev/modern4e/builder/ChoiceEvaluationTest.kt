@@ -53,7 +53,7 @@ class ChoiceEvaluationTest {
         }, { preparation.load(it) })
         val options = choices.options(document(), 1, slot, true)
         assertEquals(feats.size, options.size)
-        assertEquals(1, fullEvaluations, "V2 candidate checks must not calculate every candidate's complete statistics/choices")
+        assertEquals(0, fullEvaluations, "Root metadata and V2 candidate checks need no complete character evaluation")
         assertEquals(feats.size, source.reads.size)
         for (option in options) {
             val definition = option.entry

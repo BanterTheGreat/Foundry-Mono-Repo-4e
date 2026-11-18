@@ -38,6 +38,25 @@ class FeatRuntimeTest(unittest.TestCase):
     def test_output_is_deterministic(self):
         self.assertEqual(self.assets, feat_runtime.build(available=self.available))
 
+    def test_feat_browse_groups_follow_authored_access_only(self):
+        index = self.assets[f"{PACKAGE}/index.json"]["entries"]
+        counts = {group: sum(row["featGroup"] == group for row in index)
+                  for group in ("GENERAL", "ANCESTRY", "CLASS")}
+        self.assertEqual({"GENERAL": 148, "ANCESTRY": 199, "CLASS": 451}, counts)
+        for metadata in index:
+            self.assertEqual(feat_runtime.feat_group(self.source[metadata["id"]], self.catalog["references"]),
+                             metadata["featGroup"])
+        references = {"a": {"category": "ANCESTRY"}, "c": {"category": "CLASS"}}
+        entry = {"id": "misleading.class.id", "title": "Class Feat", "access": {"type": "always"},
+                 "prerequisites": {"type": "entry", "entryId": "c"}}
+        self.assertEqual("GENERAL", feat_runtime.feat_group(entry, references))
+        entry["access"] = {"type": "anyOf", "conditions": [{"type": "entry", "entryId": "a"}]}
+        self.assertEqual("ANCESTRY", feat_runtime.feat_group(entry, references))
+        entry["access"] = {"type": "allOf", "conditions": [{"type": "entry", "entryId": "c"}]}
+        self.assertEqual("CLASS", feat_runtime.feat_group(entry, references))
+        entry["access"]["conditions"].append({"type": "entry", "entryId": "a"})
+        self.assertEqual("ANCESTRY", feat_runtime.feat_group(entry, references))
+
     def test_authored_entry_description_and_selection_are_preserved(self):
         for key, entry in self.entries.items():
             authored = self.source[key]

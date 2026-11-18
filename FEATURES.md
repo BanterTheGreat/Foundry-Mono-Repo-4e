@@ -388,3 +388,5 @@ Check each item after enabling its module (and, where noted, its setting).
   cumulative totals. Levels 11–30 remain provisional. Utility pick splits and
   retraining stay unresolved; builder runtime progression is not implemented by
   this authoring migration. See [creation contract](src/modern4e/content/creation/README.md).
+
+- Progressive feat browsing: authored index groups load the selected General/Ancestry/Class tab before other definitions; Android displays pending names immediately, disables unchecked rows, publishes eligibility in cancellable batches and virtualizes catalog rows with the folio scrollbar. Unchanged character/slot browsing results are reused across reopen/tab changes and discarded after edits or catalog/character changes. Passive v2 feats share prepared facts; active/ambiguous choices retain normal validation. Manual check: switch feat tabs during loading, cancel/reopen, select a checked feat and save/reopen; confirm no stale rows or selectable pending choices.

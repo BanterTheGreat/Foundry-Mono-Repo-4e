@@ -21,7 +21,17 @@ data class PackageManifest(
 data class ContentIndex(val entries: List<EntryMetadata>)
 
 @Serializable
-data class EntryMetadata(val id: String, val category: EntryCategory, val title: String, val chunkId: String)
+data class EntryMetadata(
+    val id: String,
+    val category: EntryCategory,
+    val title: String,
+    val chunkId: String,
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val featGroup: FeatGroup? = null,
+)
+
+/** Authored access grouping for feat browsing; never an eligibility result. */
+@Serializable
+enum class FeatGroup { GENERAL, ANCESTRY, CLASS }
 
 @Serializable
 data class EntryChunk(val id: String, val entries: List<ContentEntry>)
