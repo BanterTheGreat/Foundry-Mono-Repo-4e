@@ -72,6 +72,11 @@ data class Mechanics(
     @EncodeDefault(EncodeDefault.Mode.NEVER) val selectionModifiers: List<SelectionModifier> = emptyList(),
     @EncodeDefault(EncodeDefault.Mode.NEVER) val collections: List<PowerCollection> = emptyList(),
     @EncodeDefault(EncodeDefault.Mode.NEVER) val powerProfile: PowerProfile? = null,
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val equipmentProficiencies: List<String> = emptyList(),
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val armorAdvancement: ArmorAdvancement? = null,
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val size: CreatureSize? = null,
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val facts: List<FactGrant> = emptyList(),
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val factLinks: List<FactLink> = emptyList(),
 )
 
 @Serializable
@@ -86,6 +91,15 @@ sealed class Prerequisite {
     data class ClassPowerSource(val powerSource: String) : Prerequisite()
     @Serializable @SerialName("equipmentProficiency")
     data class EquipmentProficiency(val equipment: String) : Prerequisite()
+    @Serializable @SerialName("size")
+    data class Size(val size: CreatureSize) : Prerequisite()
+    @Serializable @SerialName("selected")
+    data class Selected(val category: EntryCategory, val filters: SelectedFilters) : Prerequisite() {
+        init {
+            require(category == EntryCategory.FEAT && filters == SelectedFilters(multiclass = true, classSpecific = true) ||
+                category == EntryCategory.POWER && filters == SelectedFilters(usage = "ENCOUNTER", hasLevel = true))
+        }
+    }
     @Serializable @SerialName("unavailable")
     data class Unavailable(val text: String, val reason: String) : Prerequisite()
     @Serializable @SerialName("unresolved")
@@ -107,9 +121,11 @@ sealed class Prerequisite {
 sealed class Grant {
     @Serializable @SerialName("entry")
     data class Entry(val grantId: String, val entryId: String,
-        @EncodeDefault(EncodeDefault.Mode.NEVER) val atLevel: Int = 1) : Grant() {
+        @EncodeDefault(EncodeDefault.Mode.NEVER) val atLevel: Int = 1,
+        @EncodeDefault(EncodeDefault.Mode.NEVER) val replacementEntryIds: List<String> = emptyList()) : Grant() {
         init {
             require(atLevel in 1..30)
+            require(replacementEntryIds.distinct() == replacementEntryIds && replacementEntryIds.none { it.isBlank() || it == entryId })
         }
     }
     @Serializable @SerialName("proficiency")
@@ -118,6 +134,13 @@ sealed class Grant {
 
 @Serializable
 sealed class ChoiceDefinition {
+    /** Finite decisions grant typed facts; targetId scopes power facts without changing character facts. */
+    @Serializable @SerialName("values")
+    data class Values(val id: String, val count: Int, val kind: FactKind, val options: List<ValueOption>,
+        val targetId: String? = null, val distinctScope: FactScope = FactScope.NONE,
+        val allowRepeatWhenExhausted: Boolean = false,
+        val bonus: Int = 0, val epicBonus: Int = 0) : ChoiceDefinition()
+
     @Serializable @SerialName("entries")
     data class Entries(val id: String, val count: Int, val entryIds: List<String> = emptyList(),
         @EncodeDefault(EncodeDefault.Mode.NEVER) val atLevel: Int = 1,
@@ -175,3 +198,40 @@ data class ClassProgression(
         require(level in 1..30)
     }
 }
+
+/** An authored progression grants only the next category; no initial proficiency is assumed. */
+@Serializable
+data class ArmorAdvancement(val order: List<String>, val steps: Int) {
+    init {
+        require(order.size >= 2 && order == order.distinct() && order.none { it.isBlank() })
+        require(steps > 0 && steps < order.size)
+    }
+}
+
+/** Normal is the ancestry author's size identity; descriptions do not establish size facts. */
+@Serializable
+enum class CreatureSize { TINY, SMALL, NORMAL, MEDIUM, LARGE, HUGE, GARGANTUAN }
+
+/** Closed selected-entry predicates currently authored by Modern 4e feats. */
+@Serializable
+data class SelectedFilters(
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val multiclass: Boolean? = null,
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val classSpecific: Boolean? = null,
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val usage: String? = null,
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val hasLevel: Boolean? = null,
+)
+
+/** Closed build-time facts. Descriptive identity text never creates these facts. */
+@Serializable
+enum class FactKind { LANGUAGE, EQUIPMENT_PROFICIENCY, DAMAGE_TYPE, ANCESTRY_QUALIFICATION, SKILL_BONUS }
+@Serializable
+enum class FactScope { NONE, CHARACTER, ENTRY, POWER }
+@Serializable
+data class ValueOption(val id: String, val title: String, val grants: List<String> = emptyList())
+@Serializable
+data class FactGrant(val kind: FactKind, val values: List<String>, val targetId: String? = null)
+@Serializable
+data class StructuredFact(val kind: FactKind, val value: String, val targetId: String?, val source: ChoiceSlotId)
+
+@Serializable
+data class FactLink(val kind: FactKind, val sourceTargetId: String, val targetId: String)

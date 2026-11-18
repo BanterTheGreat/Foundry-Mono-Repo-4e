@@ -23,7 +23,7 @@ data class RulesContent(
                     queryPowersLoaded = true
                 }
                 pending += (mechanics.grants + mechanics.progression.flatMap { it.grants })
-                    .filterIsInstance<Grant.Entry>().map { it.entryId }
+                    .filterIsInstance<Grant.Entry>().flatMap { listOf(it.entryId) + it.replacementEntryIds }
                 pending += (mechanics.choices + mechanics.progression.flatMap { it.choices })
                     .filterIsInstance<ChoiceDefinition.Entries>().flatMap { it.entryIds }
                 pending += (mechanics.prerequisites + listOfNotNull(mechanics.access)).flatMap { it.leaves() }
@@ -73,6 +73,10 @@ data class EngineChoice(
     val entries: List<EntryEligibility> = emptyList(),
     val skills: List<Skill> = emptyList(),
     val abilities: List<Ability> = emptyList(),
+    val optional: Boolean = false,
+    val acquisitionLevel: Int? = null,
+    val values: List<ValueOption> = emptyList(),
+    val valueKind: FactKind? = null,
 )
 
 @kotlinx.serialization.Serializable
@@ -89,6 +93,8 @@ data class EngineResult(
     val entryEligibility: Map<String, EntryEligibility> = emptyMap(),
     val selectionSets: List<SelectionSetResult> = emptyList(),
     val overviewAbilityTotals: Map<Ability, Int> = emptyMap(),
+    val equipmentProficiencies: Map<String, List<ChoiceSlotId>> = emptyMap(),
+    val facts: List<StructuredFact> = emptyList(),
 ) {
     fun ability(ability: Ability) = statistics.getValue(ModifierTarget(Statistic.ABILITY_POINTS, ability = ability)).value
     fun skill(skill: Skill) = statistics.getValue(ModifierTarget(Statistic.SKILL_CHECK, skill = skill)).value
@@ -147,17 +153,23 @@ private class Evaluation(
     private val entries = mutableListOf<EngineEntry>()
     private val instances = mutableSetOf<String>()
     private val choices = linkedMapOf<ChoiceSlotId, ChoiceDefinition>()
+    private val grantReplacementSlots = mutableSetOf<ChoiceSlotId>()
     private val modifiers = mutableListOf<ModifierContribution>()
     private val proficiencies = linkedMapOf<Skill, MutableList<ChoiceSlotId>>()
+    private val equipmentProficiencies = linkedMapOf<String, MutableList<ChoiceSlotId>>()
     private val usedEntries = mutableSetOf<EntryChoice>()
     private data class PendingChoice(val owner: EngineEntry, val choice: ChoiceDefinition, val ancestors: Set<String>)
     private val pendingChoices = mutableListOf<PendingChoice>()
     private val sets = mutableListOf<SelectionSetResult>()
     private val usedProficiencies = mutableSetOf<ProficiencyChoice>()
+    private val valueDecisions = document.levels.sortedBy { it.level }.flatMap { it.values }
+    private val facts = mutableListOf<StructuredFact>()
+    private val selectedValues = mutableListOf<ValueChoice>()
+    private val valueOptions = linkedMapOf<ChoiceSlotId, List<ValueOption>>()
     private val entryDecisions = effectiveDecisions()
     private val decisionLevels = document.levels.sortedBy { it.level }.flatMap { level ->
         level.entries.map { it.slot to level.level } + level.replacements.map { it.replaces to level.level }
-    }.toMap()
+    }.toMap().toMutableMap()
 
     /** Replay a replacement against its stable acquisition occurrence, retaining saved history. */
     private fun effectiveDecisions(): List<EntryChoice> {
@@ -190,7 +202,7 @@ private class Evaluation(
     private val proficiencySelectionRules by lazy { ProficiencySelectionRules(document, entries, proficiencies) }
 
     fun run(): EngineResult {
-        val repeatedSlots = (entryDecisions.map { it.slot } + proficiencyDecisions.map { it.slot })
+        val repeatedSlots = (entryDecisions.map { it.slot } + proficiencyDecisions.map { it.slot } + valueDecisions.map { it.slot })
             .groupingBy { it }.eachCount().filterValues { it > 1 }.keys
         for (slot in repeatedSlots) {
             invalid("duplicateSlot", "Multiple decisions occupy the same choice slot.", slot)
@@ -280,19 +292,22 @@ private class Evaluation(
         for (adjustment in document.manualAdjustments) {
             modifiers += ModifierContribution(adjustment.modifier, "Manual Adjustment", "manual:${adjustment.id}")
         }
+        calculateEquipmentProficiencies()
+        calculateValueChoices()
         calculateAbilities()
         if (factsOnly) {
             return EngineResult(emptyMap(), entries.toList(), emptyList(), proficiencies.mapValues { it.value.toList() },
                 entries.associate { it.instanceId to it.definition.entry.coverage }, diagnostics.distinct())
         }
         val entryIds = entries.map { it.definition.entry.id }.toSet()
-        val selectedEligibility = entries.filterNot { it.granted }.associate { entry ->
+        val selectedEligibility = entries.filter { !it.granted || it.slot in grantReplacementSlots }.associate { entry ->
             entry.instanceId to eligibility(entry.definition.entry, entry.slot, entryIds)
         }
         diagnostics += selectedEligibility.values.flatMap { it.diagnostics }
         val offered = choices.map { (slot, definition) ->
             when (definition) {
-                is ChoiceDefinition.Entries -> EngineChoice(slot, entries = definition.entryIds.map { id ->
+                is ChoiceDefinition.Entries -> EngineChoice(slot, optional = slot in grantReplacementSlots,
+                    acquisitionLevel = if (slot in grantReplacementSlots) decisionLevels[slot] else null, entries = definition.entryIds.map { id ->
                     val resolved = content.entries[id]
                     if (resolved is ContractResult.Available) {
                         eligibility(resolved.value.entry, slot, entryIds)
@@ -305,6 +320,7 @@ private class Evaluation(
                 })
                 is ChoiceDefinition.Proficiencies -> EngineChoice(slot, skills = proficiencySelectionRules.skills(slot, definition))
                 is ChoiceDefinition.MainAbility -> EngineChoice(slot, abilities = definition.abilities)
+                is ChoiceDefinition.Values -> EngineChoice(slot, values = valueOptions[slot].orEmpty(), valueKind = definition.kind)
             }
         }
         val statistics = linkedMapOf<ModifierTarget, StatisticCalculation>()
@@ -335,7 +351,145 @@ private class Evaluation(
             entries.associate { it.instanceId to it.definition.entry.coverage }, diagnostics.distinct(),
             entries.flatMap { occurrence -> occurrence.definition.entry.mechanics.conditionalModifiers.map {
                 ConditionalContribution(occurrence.instanceId, occurrence.slot, it)
-            } }, selectedEligibility, sets.toList(), overviewAbilityTotals.toMap())
+            } }, selectedEligibility, sets.toList(), overviewAbilityTotals.toMap(), equipmentProficiencies.mapValues { it.value.toList() }, facts.toList())
+    }
+
+    /** Resolve finite fact decisions in acquisition order, preserving rejected decisions for diagnostics. */
+    private fun acquisitionLevel(occurrence: EngineEntry, seen: Set<String> = emptySet()): Int {
+        decisionLevels[occurrence.slot]?.let { return it }
+        if (occurrence.instanceId in seen) {
+            return document.level
+        }
+        val parent = entries.singleOrNull { it.instanceId == occurrence.slot.sourceInstanceId } ?: return 1
+        val mechanics = parent.definition.entry.mechanics
+        val grantedAt = mechanics.grants.filterIsInstance<Grant.Entry>().singleOrNull { it.grantId == occurrence.slot.choiceId }?.atLevel ?: 1
+        val progressedAt = mechanics.progression.filter { progression -> progression.grants.any {
+            it is Grant.Entry && it.grantId == occurrence.slot.choiceId
+        } }.maxOfOrNull { it.level } ?: 1
+        return maxOf(grantedAt, progressedAt, acquisitionLevel(parent, seen + occurrence.instanceId))
+    }
+
+    private fun calculateValueChoices() {
+        fun grant(kind: FactKind, value: String, target: String?, slot: ChoiceSlotId) {
+            facts += StructuredFact(kind, value, target, slot)
+            for (link in entries.flatMap { it.definition.entry.mechanics.factLinks }.filter { it.kind == kind && it.sourceTargetId == target }) {
+                facts += StructuredFact(kind, value, link.targetId, slot)
+            }
+            if (kind == FactKind.EQUIPMENT_PROFICIENCY) {
+                equipmentProficiencies.getOrPut(value) { mutableListOf() }.add(slot)
+            }
+        }
+        val used = mutableSetOf<ValueChoice>()
+        val ordered = entries.sortedWith(compareBy<EngineEntry> { acquisitionLevel(it) }
+            .thenBy { if (it.definition.entry.category == EntryCategory.FEAT) 1 else 0 })
+        for ((_, acquired) in ordered.groupBy { acquisitionLevel(it) }) {
+            // Independent explicit grants at the same acquisition level are already present before decisions.
+            for (owner in acquired) {
+                for (fact in owner.definition.entry.mechanics.facts) {
+                    for (value in fact.values) { grant(fact.kind, value, fact.targetId, owner.slot) }
+                }
+            }
+            for (owner in acquired) {
+                val definitions = choices.filterKeys { it.sourceInstanceId == owner.instanceId }.values
+                    .filterIsInstance<ChoiceDefinition.Values>().distinctBy { it.id }
+                for (choice in definitions) {
+                    val prior = facts.filter { fact -> fact.kind == choice.kind && when (choice.distinctScope) {
+                        FactScope.NONE -> false
+                        FactScope.CHARACTER -> fact.targetId == null
+                        FactScope.POWER -> fact.targetId == choice.targetId
+                        FactScope.ENTRY -> entries.any { it.definition.entry.id == owner.definition.entry.id &&
+                            it.instanceId == fact.source.sourceInstanceId } && fact.source.choiceId == choice.id
+                    } }.map { it.value }.toMutableSet()
+                    if (choice.distinctScope == FactScope.ENTRY) {
+                        prior += selectedValues.filter { it.slot.choiceId == choice.id && entries.any { ownerEntry ->
+                            ownerEntry.instanceId == it.slot.sourceInstanceId && ownerEntry.definition.entry.id == owner.definition.entry.id
+                        } }.map { it.value }
+                    }
+                    for (ordinal in 0 until choice.count) {
+                        val slot = ChoiceSlotId(owner.instanceId, choice.id, ordinal)
+                        var available = choice.options.filter { it.id !in prior }
+                        if (choice.distinctScope == FactScope.NONE) {
+                            available = choice.options
+                        }
+                        if (available.isEmpty() && choice.allowRepeatWhenExhausted) {
+                            available = choice.options
+                        }
+                        valueOptions[slot] = available
+                        val decisions = valueDecisions.filter { it.slot == slot }
+                        used += decisions
+                        val decision = decisions.singleOrNull()
+                        if (decision == null) {
+                            invalid("missingValue", "Select exactly one ${choice.kind} option.", slot, owner.definition.entry.id)
+                            continue
+                        }
+                        val storedAt = document.levels.single { decision in it.values }.level
+                        if (storedAt != acquisitionLevel(owner)) {
+                            invalid("valueTiming", "Decision must belong to its source acquisition level; later choices cannot rewrite earlier facts.", slot, owner.definition.entry.id)
+                            continue
+                        }
+                        val option = available.singleOrNull { it.id == decision.value }
+                        if (option == null) {
+                            invalid("valueOption", "Saved ${choice.kind} decision is unavailable, already known, or repeated.", slot, owner.definition.entry.id)
+                            continue
+                        }
+                        prior += option.id
+                        selectedValues += decision
+                        for (value in option.grants.ifEmpty { listOf(option.id) }) {
+                            grant(choice.kind, value, choice.targetId, slot)
+                        }
+                        if (choice.kind == FactKind.SKILL_BONUS) {
+                            val skill = Skill.entries.firstOrNull { it.name == option.id }
+                            if (skill != null) {
+                                val bonus = if (document.level >= 21 && choice.epicBonus != 0) choice.epicBonus else choice.bonus
+                                modifiers += ModifierContribution(TypedModifier(ModifierTarget(Statistic.SKILL_CHECK, skill = skill),
+                                    ModifierOperation.ADD, bonus, BonusType.FEAT), owner.definition.entry.presentation.title,
+                                    owner.definition.entry.id, slot)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        for (decision in valueDecisions.filter { it !in used }) {
+            invalid("orphanValue", "Saved decision has no active granting source or slot.", decision.slot)
+        }
+    }
+
+    /** Replay equipment grants in acquisition order, including independent grants before each advancement. */
+    private fun calculateEquipmentProficiencies() {
+        fun level(occurrence: EngineEntry, seen: Set<String> = emptySet()): Int {
+            decisionLevels[occurrence.slot]?.let { return it }
+            if (occurrence.instanceId in seen) {
+                return document.level
+            }
+            val parent = entries.singleOrNull { it.instanceId == occurrence.slot.sourceInstanceId } ?: return 1
+            val mechanics = parent.definition.entry.mechanics
+            val grantLevel = mechanics.grants.filterIsInstance<Grant.Entry>()
+                .singleOrNull { it.grantId == occurrence.slot.choiceId }?.atLevel ?: 1
+            val progressionLevel = mechanics.progression.filter { progression -> progression.grants.any {
+                it is Grant.Entry && it.grantId == occurrence.slot.choiceId
+            } }.maxOfOrNull { it.level } ?: 1
+            return maxOf(grantLevel, progressionLevel, level(parent, seen + occurrence.instanceId))
+        }
+        fun grant(value: String, source: ChoiceSlotId) {
+            equipmentProficiencies.getOrPut(value) { mutableListOf() }.add(source)
+        }
+        for ((_, acquired) in entries.groupBy { level(it) }.entries.sortedBy { it.key }) {
+            for (occurrence in acquired) {
+                val mechanics = occurrence.definition.entry.mechanics
+                val values = mechanics.classProfile?.proficiencies?.values?.flatten().orEmpty() + mechanics.equipmentProficiencies
+                for (value in values.distinct()) {
+                    grant(value, occurrence.slot)
+                }
+            }
+            for (occurrence in acquired) {
+                val advancement = occurrence.definition.entry.mechanics.armorAdvancement ?: continue
+                val highest = advancement.order.indexOfLast { it in equipmentProficiencies }
+                if (highest >= 0 && highest + advancement.steps <= advancement.order.lastIndex) {
+                    grant(advancement.order[highest + advancement.steps], occurrence.slot)
+                }
+            }
+        }
     }
 
     /** A single active class establishes a base with every term visible in the breakdown. */
@@ -456,7 +610,39 @@ private class Evaluation(
             when (grant) {
                 is Grant.Proficiency -> proficiencies.getOrPut(grant.skill) { mutableListOf() }.add(grantSlot)
                 is Grant.Entry -> {
-                    val next = accept(content.entries[grant.entryId], grantSlot, grant.entryId)
+                    val saved = entryDecisions.filter { it.slot == grantSlot }
+                    val acquiredAt = maxOf(acquisitionLevel(entries.first { it.instanceId == instance }), grant.atLevel,
+                        progression.filter { grant in it.grants }.maxOfOrNull { it.level } ?: 1)
+                    decisionLevels[grantSlot] = acquiredAt
+                    if (grant.replacementEntryIds.isNotEmpty()) {
+                        grantReplacementSlots += grantSlot
+                        choices[grantSlot] = ChoiceDefinition.Entries(id, 1, listOf(grant.entryId) + grant.replacementEntryIds,
+                            atLevel = grant.atLevel)
+                    }
+                    val decision = saved.singleOrNull()
+                    val next = if (saved.isEmpty()) {
+                        accept(content.entries[grant.entryId], grantSlot, grant.entryId)
+                    } else {
+                        usedEntries += saved
+                        if (decision == null) {
+                            invalid("duplicateSlot", "A grant substitution needs exactly one saved decision.", grantSlot)
+                            null
+                        } else if (document.levels.single { decision in it.entries }.level != acquiredAt) {
+                            invalid("grantTiming", "A grant substitution must be recorded at its source acquisition level; the default grant remains active.",
+                                grantSlot, decision.selection.entryId)
+                            accept(content.entries[grant.entryId], grantSlot, grant.entryId)
+                        } else if (decision.selection.entryId != grant.entryId && decision.selection.entryId !in grant.replacementEntryIds ||
+                            grant.replacementEntryIds.isEmpty()) {
+                            invalid("grantReplacement", "Saved substitution is no longer permitted by this grant; the default grant remains active.",
+                                grantSlot, decision.selection.entryId)
+                            accept(content.entries[grant.entryId], grantSlot, grant.entryId)
+                        } else {
+                            if (decision.instanceId != ModernCreation.grantInstance(instance, id)) {
+                                invalid("grantInstance", "A grant substitution must retain its stable granted occurrence identity.", grantSlot, decision.selection.entryId)
+                            }
+                            selected(decision)
+                        }
+                    }
                     if (next != null) {
                         visit(next, ModernCreation.grantInstance(instance, id), grantSlot, true, ancestors + entry.id)
                     }
@@ -473,7 +659,7 @@ private class Evaluation(
         val owner = pending.owner
         val instance = owner.instanceId
         var choice = pending.choice
-        val id = when (choice) { is ChoiceDefinition.Entries -> choice.id; is ChoiceDefinition.Proficiencies -> choice.id; is ChoiceDefinition.MainAbility -> choice.id }
+        val id = when (choice) { is ChoiceDefinition.Entries -> choice.id; is ChoiceDefinition.Proficiencies -> choice.id; is ChoiceDefinition.MainAbility -> choice.id; is ChoiceDefinition.Values -> choice.id }
         if (choice is ChoiceDefinition.Entries) {
             val changes = entries.flatMap { it.definition.entry.mechanics.selectionModifiers }.filter { it.choiceId == id }
                 .map { modifier -> modifier.copy(count = modifier.countByLevel.filter { it.atLevel <= document.level }
@@ -511,7 +697,7 @@ private class Evaluation(
                 choice = choice.copy(entryIds = candidates, query = null)
             }
         }
-        val count = when (choice) { is ChoiceDefinition.Entries -> choice.count; is ChoiceDefinition.Proficiencies -> choice.count; is ChoiceDefinition.MainAbility -> 1 }
+        val count = when (choice) { is ChoiceDefinition.Entries -> choice.count; is ChoiceDefinition.Proficiencies -> choice.count; is ChoiceDefinition.MainAbility -> 1; is ChoiceDefinition.Values -> choice.count }
         if (id.isBlank() || count !in 0..100 || choices.keys.any { it.sourceInstanceId == instance && it.choiceId == id } ||
             choice is ChoiceDefinition.Entries && (choice.entryIds.distinct().size != choice.entryIds.size || choice.entryIds.any { it.isBlank() } ||
                 (pending.choice as? ChoiceDefinition.Entries)?.query == null && choice.distinct && count > choice.entryIds.size)) {
@@ -799,7 +985,7 @@ private class Evaluation(
         }
         val maximum = entry.mechanics.maximumSelections
         if ((choices[slot] as? ChoiceDefinition.Entries)?.requiresCollection == null && maximum != null && (maximum < 1 || entries.count {
-            !it.granted && it.slot != slot && it.definition.entry.id == entry.id &&
+            (!it.granted || it.slot in grantReplacementSlots) && it.slot != slot && it.definition.entry.id == entry.id &&
                 (choices[it.slot] as? ChoiceDefinition.Entries)?.requiresCollection == null
         } >= maximum)) {
             return EntryEligibility(entry.id, Eligibility.INELIGIBLE, listOf(diagnostic("selectionMaximum",
@@ -808,6 +994,35 @@ private class Evaluation(
         val proficiencyErrors = proficiencySelectionRules.validate(entry, slot)
         if (proficiencyErrors.isNotEmpty()) {
             return EntryEligibility(entry.id, Eligibility.INELIGIBLE, proficiencyErrors)
+        }
+        for (choice in entry.mechanics.choices.filterIsInstance<ChoiceDefinition.Values>()) {
+            if (choice.distinctScope == FactScope.NONE || choice.allowRepeatWhenExhausted) {
+                continue
+            }
+            val snapshot = independentFacts.getOrPut(entry.id to slot) { independentFacts(entry, slot) }
+            val excluded = snapshot.facts.filter { fact -> fact.kind == choice.kind && when (choice.distinctScope) {
+                FactScope.CHARACTER -> fact.targetId == null
+                FactScope.POWER -> fact.targetId == choice.targetId
+                FactScope.ENTRY -> snapshot.entries.any { it.instanceId == fact.source.sourceInstanceId && it.definition.entry.id == entry.id } && fact.source.choiceId == choice.id
+                FactScope.NONE -> false
+            } }.map { it.value }.toMutableSet()
+            if (choice.distinctScope == FactScope.ENTRY) {
+                excluded += snapshot.selectedValues.filter { decision -> decision.slot.choiceId == choice.id && snapshot.entries.any {
+                    it.instanceId == decision.slot.sourceInstanceId && it.definition.entry.id == entry.id
+                } }.map { it.value }
+            }
+            if (choice.options.count { it.id !in excluded } < choice.count) {
+                return EntryEligibility(entry.id, Eligibility.INELIGIBLE, listOf(diagnostic("valueExhausted",
+                    DiagnosticKind.INVALID_SELECTION, "Not enough distinct ${choice.kind} options remain at acquisition.", slot, entry.id)))
+            }
+        }
+        entry.mechanics.armorAdvancement?.let { advancement ->
+            val facts = independentFacts.getOrPut(entry.id to slot) { independentFacts(entry, slot) }
+            val highest = advancement.order.indexOfLast { it in facts.equipmentProficiencies }
+            if (highest < 0 || highest + advancement.steps > advancement.order.lastIndex) {
+                return EntryEligibility(entry.id, Eligibility.INELIGIBLE, listOf(diagnostic("armorAdvancement",
+                    DiagnosticKind.INVALID_SELECTION, "Armor advancement needs an independent starting proficiency below the authored cap.", slot, entry.id)))
+            }
         }
         val result = evaluate(Prerequisite.AllOf(listOfNotNull(entry.mechanics.access) + entry.mechanics.prerequisites + Prerequisite.Always))
         if (entry.mechanics.version == 1 && entry.coverage.status != CoverageStatus.SUPPORTED) {
@@ -851,7 +1066,7 @@ private class Evaluation(
                 val known = classes.mapNotNull { it.definition.entry.mechanics.classProfile } + qualifyingMulticlasses.filterNotNull()
                 val matches = when (prerequisite) {
                     is Prerequisite.ClassPowerSource -> known.any { prerequisite.powerSource in it.powerSources }
-                    is Prerequisite.EquipmentProficiency -> known.any { prerequisite.equipment in it.proficiencies.values.flatten() }
+                    is Prerequisite.EquipmentProficiency -> prerequisite.equipment in equipmentProficiencies
                     else -> false
                 }
                 when {
@@ -861,6 +1076,42 @@ private class Evaluation(
                         incomplete = true
                         errors += diagnostic("classFactsUnavailable", DiagnosticKind.INCOMPLETE_AUTOMATION,
                             "A legacy class has no shared source/proficiency facts.", slot, entry.id)
+                        null
+                    }
+                    else -> false
+                }
+            }
+            is Prerequisite.Size -> {
+                val ancestries = entries.filter { it.definition.entry.category == EntryCategory.ANCESTRY }
+                val sizes = ancestries.mapNotNull { it.definition.entry.mechanics.size }.distinct()
+                when {
+                    factBlockers.isNotEmpty() -> { unresolved = true; null }
+                    ancestries.isEmpty() || ancestries.any { it.definition.entry.mechanics.size == null } || sizes.size != 1 -> {
+                        incomplete = true
+                        errors += diagnostic("sizeFactsUnavailable", DiagnosticKind.INCOMPLETE_AUTOMATION,
+                            "Size requires one unambiguous structured ancestry size.", slot, entry.id)
+                        null
+                    }
+                    else -> sizes.single() == prerequisite.size
+                }
+            }
+            is Prerequisite.Selected -> {
+                val candidates = entries.filter { !it.granted && it.definition.entry.category == prerequisite.category }
+                val matches = candidates.any {
+                    val mechanics = it.definition.entry.mechanics
+                    when (prerequisite.category) {
+                        EntryCategory.FEAT -> mechanics.multiclassFor != null
+                        EntryCategory.POWER -> mechanics.powerProfile?.usage == prerequisite.filters.usage
+                        else -> false
+                    }
+                }
+                when {
+                    matches -> true
+                    factBlockers.isNotEmpty() -> { unresolved = true; null }
+                    prerequisite.category == EntryCategory.POWER && candidates.any { it.definition.entry.mechanics.powerProfile == null } -> {
+                        incomplete = true
+                        errors += diagnostic("selectedFactsUnavailable", DiagnosticKind.INCOMPLETE_AUTOMATION,
+                            "A selected power has no structured level/usage profile.", slot, entry.id)
                         null
                     }
                     else -> false
@@ -882,7 +1133,7 @@ private class Evaluation(
                 val multiclassMatch = entry.category in setOf(EntryCategory.FEAT, EntryCategory.PARAGON_PATH) &&
                     entries.any { it.definition.entry.category == EntryCategory.FEAT && it.definition.entry.mechanics.multiclassFor == prerequisite.entryId } &&
                     (content.entries[prerequisite.entryId] as? ContractResult.Available)?.value?.entry?.category == EntryCategory.CLASS
-                if (prerequisite.entryId in selected || multiclassMatch) {
+                if (prerequisite.entryId in selected || multiclassMatch || facts.any { it.kind == FactKind.ANCESTRY_QUALIFICATION && it.value == prerequisite.entryId }) {
                     true
                 } else if (factBlockers.isNotEmpty() || content.entries[prerequisite.entryId] !is ContractResult.Available) {
                     unresolved = true
@@ -954,15 +1205,24 @@ private class Evaluation(
                     val profile = (content.entries[target] as? ContractResult.Available)?.value?.entry?.mechanics?.classProfile
                     prerequisite.powerSource in profile?.powerSources.orEmpty()
                 } == true
-            is Prerequisite.EquipmentProficiency -> prerequisite.equipment in mechanics.classProfile?.proficiencies?.values?.flatten().orEmpty()
+            is Prerequisite.EquipmentProficiency -> prerequisite.equipment in mechanics.classProfile?.proficiencies?.values?.flatten().orEmpty() ||
+                prerequisite.equipment in mechanics.equipmentProficiencies || prerequisite.equipment in mechanics.armorAdvancement?.order.orEmpty() ||
+                sourceChoices.filterIsInstance<ChoiceDefinition.Values>().any { it.kind == FactKind.EQUIPMENT_PROFICIENCY && it.options.any { option -> prerequisite.equipment in option.grants.ifEmpty { listOf(option.id) } } }
+            is Prerequisite.Size -> mechanics.size != null
+            is Prerequisite.Selected -> when (prerequisite.category) {
+                EntryCategory.FEAT -> entry.category == EntryCategory.FEAT && mechanics.multiclassFor != null
+                EntryCategory.POWER -> entry.category == EntryCategory.POWER && mechanics.powerProfile?.usage == prerequisite.filters.usage
+                else -> false
+            }
             is Prerequisite.Entry -> prerequisite.entryId == entry.id || prerequisite.entryId == mechanics.multiclassFor ||
-                grants.filterIsInstance<Grant.Entry>().any { it.entryId == prerequisite.entryId }
+                grants.filterIsInstance<Grant.Entry>().any { it.entryId == prerequisite.entryId } ||
+                sourceChoices.filterIsInstance<ChoiceDefinition.Values>().any { it.kind == FactKind.ANCESTRY_QUALIFICATION && it.options.any { option -> option.id == prerequisite.entryId } }
             else -> false
         }
         if (direct) {
             return true
         }
-        val childIds = grants.filterIsInstance<Grant.Entry>().map { it.entryId } +
+        val childIds = grants.filterIsInstance<Grant.Entry>().flatMap { listOf(it.entryId) + it.replacementEntryIds } +
             sourceChoices.filterIsInstance<ChoiceDefinition.Entries>().flatMap { it.entryIds }
         return childIds.any { id ->
             val child = content.entries[id] as? ContractResult.Available
@@ -979,7 +1239,7 @@ private class Evaluation(
         var changed = true
         while (changed) {
             changed = false
-            for (other in entries.filterNot { it.granted }.map { it.definition.entry }) {
+            for (other in entries.filter { !it.granted || it.slot in grantReplacementSlots }.map { it.definition.entry }) {
                 if (other.id in excludedDefinitions) {
                     continue
                 }
@@ -1005,6 +1265,7 @@ private class Evaluation(
         val snapshot = document.copy(level = atLevel, levels = document.levels.filter { it.level <= atLevel }.map { level ->
             level.copy(entries = level.entries.filter { it.instanceId !in excludedInstances && it.slot != slot },
                 proficiencies = level.proficiencies.filter { it.slot.sourceInstanceId !in excludedInstances },
+                values = level.values.filter { it.slot.sourceInstanceId !in excludedInstances },
                 replacements = level.replacements.filter { it.replaces.sourceInstanceId !in excludedInstances && it.replaces != slot })
         }, equipment = emptyList(), manualAdjustments = emptyList())
         return Evaluation(snapshot, content, factsOnly = true).also { it.run() }

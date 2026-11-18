@@ -3,7 +3,7 @@ const bundled = import.meta.glob("../../../content/production-generated/*/*.json
 
 /** Static asset IO only; shared ContentCatalog owns search and resolution. */
 export class BundledContentSource {
-  constructor(private readonly fetchAsset: typeof fetch = fetch, private readonly assets = bundled) {}
+  constructor(private readonly fetchAsset: typeof fetch = (...args) => fetch(...args), private readonly assets = bundled) {}
   readonly call = async (operation: string, json: string): Promise<string> => {
     try {
       const load = async (path: string) => {

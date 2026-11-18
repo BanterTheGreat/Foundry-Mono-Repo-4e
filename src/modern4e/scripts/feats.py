@@ -148,9 +148,48 @@ def unresolved_conditions(node, references):
     return []
 
 
+def language_catalog(content=CONTENT):
+    """Validate reviewed language identities and source attribution without granting facts."""
+    where = "languages.json"
+    data = load_json(Path(content) / where)
+    fields(data, ["schemaVersion", "source", "note", "languages"], [], where)
+    require(type(data["schemaVersion"]) is int and data["schemaVersion"] == 1, where, "unsupported schema version")
+    fields(data["source"], ["url", "publication", "page"], [], where + ":source")
+    string(data["source"]["url"], where)
+    string(data["source"]["publication"], where)
+    require(type(data["source"]["page"]) is int and data["source"]["page"] > 0, where, "expected positive source page")
+    string(data["note"], where)
+    require(isinstance(data["languages"], list) and bool(data["languages"]), where, "expected language options")
+    ids = set()
+    for index, language in enumerate(data["languages"]):
+        loc = f"{where}:languages[{index}]"
+        fields(language, ["id", "title", "script"], [], loc)
+        require(isinstance(language["id"], str) and re.fullmatch(r"[A-Z]+(?:_[A-Z]+)*", language["id"]), loc, "expected stable language identity")
+        require(language["id"] not in ids, loc, "duplicate language identity")
+        ids.add(language["id"])
+        string(language["title"], loc)
+        string(language["script"], loc)
+    return data
+
+
+def weapon_catalog(content=CONTENT):
+    """Use validated local equipment identities for superior-weapon choices."""
+    spec = importlib.util.spec_from_file_location("feat_equipment", Path(__file__).with_name("equipment_content.py"))
+    equipment = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(equipment)
+    catalog = equipment.catalog(Path(content) / "equipment/equipment.json")
+    weapons = [{"id": entry["id"], "title": entry["presentation"]["title"],
+                "proficiencyCategory": entry["equipment"]["proficiencyCategory"]}
+               for entry in catalog["entries"] if entry["equipment"]["kind"] == "WEAPON"
+               and entry["equipment"]["proficiencyCategory"] == "SUPERIOR"]
+    require(bool(weapons), "equipment/equipment.json", "expected superior weapon options")
+    return {"schemaVersion": 1, "source": "Modern 4e equipment/equipment.json", "weapons": weapons}
+
+
 def catalog(content=CONTENT):
     """Resolve book sections into a deterministic shared catalog, independent of paths."""
     content = Path(content)
+    option_catalogs = {"LANGUAGE": language_catalog(content), "WEAPON": weapon_catalog(content)}
     vocabulary = load_json(content / "feat-references.json")
     fields(vocabulary, ["schemaVersion", "entries"], [], "feat-references.json")
     require(type(vocabulary["schemaVersion"]) is int and vocabulary["schemaVersion"] == 1, "feat-references.json", "unsupported schema version")
@@ -215,11 +254,11 @@ def catalog(content=CONTENT):
             require("MULTICLASS" in feat.get("tags", []), where, "multiclassFor requires the MULTICLASS tag")
         if "tags" in feat:
             require(feat["tags"] == ["MULTICLASS"], where, "unknown or duplicate feat tags")
-    return {"schemaVersion": 2, "entries": [entries[key] for key in sorted(entries)],
+    return {"schemaVersion": 2, "optionCatalogs": option_catalogs, "entries": [entries[key] for key in sorted(entries)],
             "references": references, "sections": sections,
             "requirementText": {key: condition_text(entries[key]["prerequisites"], references, titles) for key in sorted(entries)},
             "selectionText": {key: selection_rules.special_text(entries[key], references, noun="feat") for key in sorted(entries)},
-            "limitations": {key: unresolved_conditions(entries[key]["access"], references) + unresolved_conditions(entries[key]["prerequisites"], references) + selection_rules.limitations(entries[key], references) for key in sorted(entries)}}
+            "limitations": {key: unresolved_conditions(entries[key]["access"], references) + unresolved_conditions(entries[key]["prerequisites"], references) + selection_rules.limitations(entries[key], references, option_catalogs) for key in sorted(entries)}}
 
 
 def validate_access(node, references, where):

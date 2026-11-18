@@ -73,7 +73,8 @@ object Progression {
         val doc = state.document
         val entries = doc.levels.flatMap { it.entries }.map { it.slot }.toSet()
         val skills = doc.levels.flatMap { it.proficiencies }.map { it.slot }.toSet()
-        val slots = state.rules.choices.filter { it.abilities.isEmpty() }.map { it.slot }.toMutableSet()
+        val values = doc.levels.flatMap { it.values }.map { it.slot }.toSet()
+        val slots = state.rules.choices.filter { it.abilities.isEmpty() && !it.optional }.map { it.slot }.toMutableSet()
         listOf("class", "ancestry", "feat").forEach { slots += ChoiceSlotId("creation", it, 0) }
         if (doc.level >= 2) { slots += ChoiceSlotId("advancement.2", "feat", 0) }
         (3..doc.level).forEach { level ->
@@ -81,7 +82,7 @@ object Progression {
             if (schedule.feat) { slots += ChoiceSlotId("advancement.$level", "feat", 0) }
             schedule.powers.indices.forEach { slots += ChoiceSlotId("advancement.$level", "power", it) }
         }
-        return slots.count { it !in entries && it !in skills } +
+        return slots.count { it !in entries && it !in skills && it !in values } +
             listOf("environment", "upbringing").count { background(doc, it).isEmpty() } +
             if (validAllocation(doc.abilities)) 0 else 1
     }

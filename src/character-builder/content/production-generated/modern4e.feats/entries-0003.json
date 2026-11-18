@@ -8,240 +8,6 @@
         ],
         "status": "UNIMPLEMENTED"
       },
-      "id": "modern4e.feat.forceful-opportunist",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.fighter",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "conditions": [
-              {
-                "entryId": "modern4e.feature.one-handed-weapon-talent",
-                "type": "entry"
-              },
-              {
-                "entryId": "modern4e.feature.two-handed-weapon-talent",
-                "type": "entry"
-              }
-            ],
-            "type": "anyOf"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Whenever you hit a target with an opportunity attack, you can push the target 1 square and shift into the square the target vacated.",
-        "title": "Forceful Opportunist"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.fighter",
-          "type": "entry"
-        },
-        "description": "Whenever you hit a target with an opportunity attack, you can push the target 1 square and shift into the square the target vacated.",
-        "id": "modern4e.feat.forceful-opportunist",
-        "prerequisites": {
-          "conditions": [
-            {
-              "entryId": "modern4e.feature.one-handed-weapon-talent",
-              "type": "entry"
-            },
-            {
-              "entryId": "modern4e.feature.two-handed-weapon-talent",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
-        "runtimeRequirementText": "One-Handed Weapon Talent or Two-Handed Weapon Talent",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "title": "Forceful Opportunist"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.feat.forceful-smash",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.warden",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Whenever you score a critical hit with a hammer or a mace, the target is knocked prone.",
-        "title": "Forceful Smash"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.warden",
-          "type": "entry"
-        },
-        "description": "Whenever you score a critical hit with a hammer or a mace, the target is knocked prone.",
-        "id": "modern4e.feat.forceful-smash",
-        "prerequisites": {
-          "minimum": 11,
-          "type": "level"
-        },
-        "runtimeRequirementText": "11th level",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "source": "https://iws.mx/dnd/?view=feat1897 — Primal Power, page(s) 144.",
-        "title": "Forceful Smash"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.feat.fortunate-resistance",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.sorcerer",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "entryId": "modern4e.feature.wild-magic",
-            "type": "entry"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "When you roll for your Wild Soul resistance, choose 1–5 or 6–10. If the result of your first die roll is within the range selected, you can choose any result to replace that die roll.",
-        "title": "Fortunate Resistance"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.sorcerer",
-          "type": "entry"
-        },
-        "description": "When you roll for your Wild Soul resistance, choose 1–5 or 6–10. If the result of your first die roll is within the range selected, you can choose any result to replace that die roll.",
-        "id": "modern4e.feat.fortunate-resistance",
-        "prerequisites": {
-          "entryId": "modern4e.feature.wild-magic",
-          "type": "entry"
-        },
-        "runtimeRequirementText": "Wild Magic",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "title": "Fortunate Resistance"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.feat.fulfilled-vow",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.paladin",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "conditions": [
-              {
-                "minimum": 11,
-                "type": "level"
-              },
-              {
-                "entryId": "modern4e.power.ardent-vow",
-                "type": "entry"
-              }
-            ],
-            "type": "allOf"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "The first time in an encounter that you reduce an enemy marked by you to 0 or fewer hit points, you gain a +5 bonus to your next damage roll before the end of your next turn.",
-        "title": "Fulfilled Vow"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.paladin",
-          "type": "entry"
-        },
-        "description": "The first time in an encounter that you reduce an enemy marked by you to 0 or fewer hit points, you gain a +5 bonus to your next damage roll before the end of your next turn.",
-        "id": "modern4e.feat.fulfilled-vow",
-        "prerequisites": {
-          "conditions": [
-            {
-              "minimum": 11,
-              "type": "level"
-            },
-            {
-              "entryId": "modern4e.power.ardent-vow",
-              "type": "entry"
-            }
-          ],
-          "type": "allOf"
-        },
-        "runtimeRequirementText": "11th level, ardent vow",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "source": "https://iws.mx/dnd/?view=feat3093 — Dragon Magazine 388.",
-        "title": "Fulfilled Vow"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
       "id": "modern4e.feat.furious-charge",
       "mechanics": {
         "access": {
@@ -1591,7 +1357,7 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
+          "Only declared build-time choices, proficiency grants and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
         "status": "PARTIAL"
       },
@@ -2664,7 +2430,7 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
+          "Only declared build-time choices, proficiency grants and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
         "status": "PARTIAL"
       },
@@ -5438,6 +5204,203 @@
           "maximum": 1
         },
         "title": "Infernal Warrior"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Only declared build-time choices, proficiency grants and explicit multiclass qualification are automated; other feat benefits require manual resolution."
+        ],
+        "status": "PARTIAL"
+      },
+      "id": "modern4e.feat.initiate-of-the-faith",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.cleric",
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "Once per day, you can use the Cleric’s healing word power. In addition, you can use a holy symbol as an implement.",
+        "title": "Initiate of the Faith"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "description": "Once per day, you can use the Cleric’s healing word power. In addition, you can use a holy symbol as an implement.",
+        "id": "modern4e.feat.initiate-of-the-faith",
+        "multiclassFor": "modern4e.class.cleric",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "tags": [
+          "MULTICLASS"
+        ],
+        "title": "Initiate of the Faith"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Only declared build-time choices, proficiency grants and explicit multiclass qualification are automated; other feat benefits require manual resolution."
+        ],
+        "status": "PARTIAL"
+      },
+      "id": "modern4e.feat.initiate-of-the-old-faith",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.druid",
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "You gain the Druid's wild shape power. Choose a 1st-level Druid at-will attack power that has the beast form keyword. You can use that power once per encounter. In addition, you can wield Druid implements.",
+        "title": "Initiate of the Old Faith"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "description": "You gain the Druid's wild shape power. Choose a 1st-level Druid at-will attack power that has the beast form keyword. You can use that power once per encounter. In addition, you can wield Druid implements.",
+        "id": "modern4e.feat.initiate-of-the-old-faith",
+        "multiclassFor": "modern4e.class.druid",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "tags": [
+          "MULTICLASS"
+        ],
+        "title": "Initiate of the Old Faith"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.insatiable-rage-of-minauros",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.tiefling",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "entryId": "modern4e.class.barbarian",
+            "type": "entry"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "While raging, gain +2 to melee damage rolls, but take 2 damage if your turn ends without you having damaged an enemy that turn. Both amounts become 3 at level 11 and 5 at level 21.",
+        "title": "Insatiable Rage of Minauros"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.tiefling",
+          "type": "entry"
+        },
+        "description": "While raging, gain +2 to melee damage rolls, but take 2 damage if your turn ends without you having damaged an enemy that turn. Both amounts become 3 at level 11 and 5 at level 21.",
+        "id": "modern4e.feat.insatiable-rage-of-minauros",
+        "prerequisites": {
+          "entryId": "modern4e.class.barbarian",
+          "type": "entry"
+        },
+        "runtimeRequirementText": "Barbarian",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": "https://iws.mx/dnd/?view=feat2296",
+        "title": "Insatiable Rage of Minauros"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Only declared build-time choices, proficiency grants and explicit multiclass qualification are automated; other feat benefits require manual resolution."
+        ],
+        "status": "PARTIAL"
+      },
+      "id": "modern4e.feat.insightful-leader",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "multiclassFor": "modern4e.class.warlord",
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When an ally you can see spends an action point to take an extra action, that ally gains a +1 bonus to all defenses until the end of his or her next turn.",
+        "title": "Insightful Leader"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "description": "When an ally you can see spends an action point to take an extra action, that ally gains a +1 bonus to all defenses until the end of his or her next turn.",
+        "id": "modern4e.feat.insightful-leader",
+        "multiclassFor": "modern4e.class.warlord",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "tags": [
+          "MULTICLASS"
+        ],
+        "title": "Insightful Leader"
       }
     }
   ],

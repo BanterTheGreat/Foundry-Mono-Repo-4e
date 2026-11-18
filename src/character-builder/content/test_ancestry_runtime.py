@@ -61,6 +61,7 @@ class AncestryRuntimeTest(unittest.TestCase):
         for entry in ancestries:
             self.assertTrue(entry["mechanics"]["grants"])
             self.assertEqual({"size", "speed", "vision", "languages"}, set(entry["sharedData"]["attributes"]))
+            self.assertEqual(entry["sharedData"]["attributes"]["size"].upper(), entry["mechanics"]["size"])
             self.assertEqual([], entry["mechanics"].get("modifiers", []))
             self.assertEqual([], entry["mechanics"]["conditionalModifiers"])
             self.assertTrue(any("sharedData" in text for text in entry["coverage"]["limitations"]))
@@ -68,18 +69,18 @@ class AncestryRuntimeTest(unittest.TestCase):
         self.assertEqual("normal", deva["sharedData"]["attributes"]["size"])
         self.assertTrue(any(text.startswith("Authoring note:") for text in deva["coverage"]["limitations"]))
 
-    def test_language_picks_are_recorded_as_unsupported(self):
-        entries = entries_by_id()
-        for entry in entries.values():
+    def test_language_choices_and_fixed_grants_use_reviewed_structured_ids(self):
+        for entry in entries_by_id().values():
             if entry["category"] != "ANCESTRY":
                 continue
-            picks = entry["sharedData"]["attributes"]["languages"]["choiceCount"]
-            noted = [text for text in entry["mechanics"]["unsupported"] if "language" in text]
-            self.assertEqual(1 if picks else 0, len(noted), entry["id"])
-            if picks:
-                self.assertIn(f"Select {picks} additional language", noted[0])
-                self.assertTrue(set(noted) <= set(entry["coverage"]["limitations"]))
-            self.assertEqual([], entry["mechanics"]["choices"])
+            source = entry["sharedData"]["attributes"]["languages"]
+            self.assertEqual([value.upper().replace("-", "_").replace(" ", "_") for value in source["fixed"]], entry["mechanics"]["facts"][0]["values"])
+            choices = entry["mechanics"]["choices"]
+            self.assertEqual(1 if source["choiceCount"] else 0, len(choices))
+            if choices:
+                self.assertEqual(source["choiceCount"], choices[0]["count"])
+                self.assertEqual("CHARACTER", choices[0]["distinctScope"])
+                self.assertEqual(10, len(choices[0]["options"]))
 
     def test_dragonborn_and_elf_power_choices_are_finite_entry_choices(self):
         entries = entries_by_id()
@@ -95,23 +96,25 @@ class AncestryRuntimeTest(unittest.TestCase):
             for power_id in power_ids:
                 self.assertEqual("POWER", entries[power_id]["category"])
 
-    def test_damage_type_choices_are_unsupported_but_preserved(self):
+    def test_damage_choices_are_entry_scoped_and_only_dragonborn_links_to_breath(self):
         entries = entries_by_id()
         for key in ("modern4e.feature.dragonborn-dragonborn-scales", "modern4e.feature.kobold-kobold-scales"):
             entry = entries[key]
-            self.assertEqual([], entry["mechanics"]["choices"])
-            self.assertEqual(1, len(entry["mechanics"]["unsupported"]))
-            self.assertIn("damage types ACID, COLD, FIRE, LIGHTNING, NECROTIC, POISON, RADIANT", entry["mechanics"]["unsupported"][0])
-            self.assertIn(entry["mechanics"]["unsupported"][0], entry["coverage"]["limitations"])
-            self.assertEqual("damageTypes", next(iter(entry["sharedData"]["choices"][0]["source"])))
+            choice = entry["mechanics"]["choices"][0]
+            self.assertEqual("DAMAGE_TYPE", choice["kind"])
+            self.assertEqual(key, choice["targetId"])
+            self.assertEqual(7, len(choice["options"]))
+            self.assertEqual([], entry["mechanics"]["unsupported"])
+        self.assertEqual([{"kind": "DAMAGE_TYPE", "sourceTargetId": "modern4e.feature.dragonborn-dragonborn-scales", "targetId": "modern4e.power.dragon-breath"}],
+                         entries["modern4e.power.dragon-breath"]["mechanics"]["factLinks"])
 
     def test_revenant_past_life_is_qualification_only_and_grants_nothing(self):
         entries = entries_by_id()
         past = entries["modern4e.feature.revenant-past-life"]
-        self.assertEqual([], past["mechanics"]["choices"])
+        self.assertEqual("ANCESTRY_QUALIFICATION", past["mechanics"]["choices"][0]["kind"])
+        self.assertNotIn("modern4e.ancestry.revenant", [option["id"] for option in past["mechanics"]["choices"][0]["options"]])
         self.assertEqual([], past["mechanics"]["grants"])
-        self.assertEqual(1, len(past["mechanics"]["unsupported"]))
-        self.assertIn("never grants the chosen ancestry's traits", past["mechanics"]["unsupported"][0])
+        self.assertEqual([], past["mechanics"]["unsupported"])
         self.assertEqual({"ancestriesExcept": ["modern4e.ancestry.revenant"]}, past["sharedData"]["choices"][0]["source"])
         # No entry other than the Revenant ancestry itself references Past Life or another ancestry's traits.
         for entry in entries.values():
@@ -137,7 +140,7 @@ class AncestryRuntimeTest(unittest.TestCase):
         assets = ancestry_runtime.build()
         runtime_common.validate_references(assets)
         allowed = {"version", "access", "prerequisites", "grants", "choices", "unsupported", "maximumSelections",
-                   "conditionalModifiers", "weaponAbilities"}
+                   "conditionalModifiers", "weaponAbilities", "size", "facts", "factLinks"}
         for entry in runtime_common.entries_of(assets):
             self.assertEqual(set(), set(entry["mechanics"]) - allowed)
             self.assertEqual({"id", "category", "presentation", "mechanics", "coverage", "sharedData"}, set(entry))

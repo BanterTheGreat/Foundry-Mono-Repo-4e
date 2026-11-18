@@ -246,3 +246,63 @@ test("malformed bundled JSON data becomes content failure rather than a rejected
   });
   expect(result).toMatchObject({ type: "unavailable", diagnostics: [{ code: "content.load" }] });
 });
+
+test("authored grant substitution and Linguist decisions survive browser save and reload", async ({ page }) => {
+  const fixture = JSON.parse(await readFile(new URL("../../shared/fixtures/sample-current-fighter-1-base.json", import.meta.url), "utf8"));
+  const selected = await page.evaluate(async (initial) => {
+    const w = window as any;
+    const catalog = new w.WebContentCatalog(new w.BundledContentSource().call);
+    const value = async (request: Promise<string>) => {
+      const result = JSON.parse(await request);
+      if (result.type !== "available") throw new Error(JSON.stringify(result));
+      return result.value;
+    };
+    await value(catalog.open("modern4e.classes", JSON.stringify(initial.packages.filter((p: any) => p.packageId !== "modern4e.classes"))));
+    const root = async (entryId: string, instanceId: string, choiceId: string) => {
+      const found = await value(catalog.lookup(entryId));
+      return { instanceId, slot: { sourceInstanceId: "creation", choiceId, ordinal: 0 }, selection: {
+        entryId, savedTitle: found.entry.presentation.title, supplierPackageId: found.supplier.packageId, acknowledgedFingerprint: found.fingerprint,
+      } };
+    };
+    let document = { ...initial, id: "choices-reopen", equipment: [], levels: [{ level: 1, entries: [
+      await root("modern4e.class.wizard", "wizard", "class"), await root("modern4e.feat.linguist", "linguist", "feat"),
+    ], proficiencies: [] }] };
+    let rules = await value(catalog.evaluate(JSON.stringify(document)));
+    const grant = rules.choices.find((choice: any) => choice.optional && choice.entries.some((entry: any) => entry.entryId === "modern4e.feat.alchemist"));
+    if (!grant) throw new Error("Missing authored Technique Master grant substitution");
+    const defaultOccurrence = rules.entries.find((entry: any) => JSON.stringify(entry.slot) === JSON.stringify(grant.slot));
+    document = await value(catalog.chooseEntry(JSON.stringify(document), 1, JSON.stringify(grant.slot), "modern4e.feat.alchemist", "caller-instance"));
+    for (let ordinal = 0; ordinal < 3; ordinal++) {
+      rules = await value(catalog.evaluate(JSON.stringify(document)));
+      const choice = rules.choices.find((choice: any) => choice.slot.sourceInstanceId === "linguist" && choice.valueKind === "LANGUAGE" && choice.slot.ordinal === ordinal);
+      document = await value(catalog.chooseValue(JSON.stringify(document), 1, JSON.stringify(choice.slot), choice.values[0].id));
+    }
+    rules = await value(catalog.evaluate(JSON.stringify(document)));
+    const skill = rules.choices.find((choice: any) => choice.slot.sourceInstanceId === "linguist" && choice.valueKind === "SKILL_BONUS");
+    document = await value(catalog.chooseValue(JSON.stringify(document), 1, JSON.stringify(skill.slot), skill.values[0].id));
+    const store = new w.IndexedDbCharacterStore("choices-reopen");
+    const saved = await store.save(document, "CREATE");
+    if (saved.type !== "available") throw new Error(JSON.stringify(saved));
+    return { document, grantSlot: grant.slot, occurrence: defaultOccurrence.instanceId };
+  }, fixture);
+  await page.reload();
+  await page.waitForFunction(() => "IndexedDbCharacterStore" in window);
+  const reopened = await page.evaluate(async () => {
+    const w = window as any;
+    const stored = await new w.IndexedDbCharacterStore("choices-reopen").load("choices-reopen");
+    if (stored.type !== "available") throw new Error(JSON.stringify(stored));
+    const catalog = new w.WebContentCatalog(new w.BundledContentSource().call);
+    await catalog.open("modern4e.classes", JSON.stringify(stored.value.packages.filter((p: any) => p.packageId !== "modern4e.classes")));
+    const evaluated = JSON.parse(await catalog.evaluate(JSON.stringify(stored.value)));
+    if (evaluated.type !== "available") throw new Error(JSON.stringify(evaluated));
+    return { document: stored.value, rules: evaluated.value };
+  });
+  expect(reopened.document).toEqual(selected.document);
+  const grant = reopened.rules.entries.find((entry: any) => entry.instanceId === selected.occurrence);
+  expect(grant).toMatchObject({ slot: selected.grantSlot, granted: true, definition: { entry: { id: "modern4e.feat.alchemist" } } });
+  expect(reopened.rules.entries.some((entry: any) => entry.definition.entry.id === "modern4e.feat.technique-master")).toBe(false);
+  const choices = reopened.document.levels[0].values;
+  expect(choices).toHaveLength(4);
+  expect(new Set(choices.filter((choice: any) => choice.slot.choiceId.includes("languages")).map((choice: any) => choice.value)).size).toBe(3);
+  expect(reopened.rules.diagnostics.some((diagnostic: any) => diagnostic.slot?.sourceInstanceId === "linguist" && diagnostic.kind === "INVALID_SELECTION")).toBe(false);
+});

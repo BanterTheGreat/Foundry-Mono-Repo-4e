@@ -38,7 +38,14 @@ def fingerprint(entry):
         modifier.setdefault('bonusType', 'UNTYPED')
         modifier['target'].setdefault('ability', None)
         modifier['target'].setdefault('skill', None)
+    for fact in mechanics.get('facts', []):
+        fact.setdefault('targetId', None)
     for choice in mechanics['choices']:
+        if choice['type'] == 'values':
+            for key, default in dict(targetId=None, distinctScope='NONE', allowRepeatWhenExhausted=False, bonus=0, epicBonus=0).items():
+                choice.setdefault(key, default)
+            for option in choice['options']:
+                option.setdefault('grants', [])
         if choice['type'] == 'proficiencies' and not choice.get('distinctAgainstCharacter', False):
             choice.pop('distinctAgainstCharacter', None)
         if choice['type'] != 'entries':

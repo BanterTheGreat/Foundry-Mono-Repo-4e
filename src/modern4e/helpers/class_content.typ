@@ -72,9 +72,13 @@
       }
       else if section.type == "grant" {
         let grant = feature.grants.find(grant => grant.id == section.grantId)
-        let child = entry(grant.entryId)
-        if grant.entryId.starts-with("modern4e.power.") { powerCard(child, fill: fill) }
-        else { featureBody(child, fill: fill) }
+        // Cross-catalog feat grants are already stated in the feature prose.
+        // Do not look them up as class features or duplicate their full feat card.
+        if not grant.entryId.starts-with("modern4e.feat.") {
+          let child = entry(grant.entryId)
+          if grant.entryId.starts-with("modern4e.power.") { powerCard(child, fill: fill) }
+          else { featureBody(child, fill: fill) }
+        }
       } else if section.type == "choice" {
         showOptions(feature.choices.find(choice => choice.id == section.choiceId))
       }

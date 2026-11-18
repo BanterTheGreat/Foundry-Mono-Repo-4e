@@ -8,232 +8,6 @@
         ],
         "status": "UNIMPLEMENTED"
       },
-      "id": "modern4e.feat.tacticians-word",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.warlord",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "conditions": [
-              {
-                "minimum": 11,
-                "type": "level"
-              },
-              {
-                "entryId": "modern4e.feature.tactical-presence",
-                "type": "entry"
-              }
-            ],
-            "type": "allOf"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "When you use inspiring word, the target gains a bonus equal to one-half your Intelligence to its next attack roll made before the start of your next turn.",
-        "title": "Tactician's Word"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.warlord",
-          "type": "entry"
-        },
-        "description": "When you use inspiring word, the target gains a bonus equal to one-half your Intelligence to its next attack roll made before the start of your next turn.",
-        "id": "modern4e.feat.tacticians-word",
-        "prerequisites": {
-          "conditions": [
-            {
-              "minimum": 11,
-              "type": "level"
-            },
-            {
-              "entryId": "modern4e.feature.tactical-presence",
-              "type": "entry"
-            }
-          ],
-          "type": "allOf"
-        },
-        "runtimeRequirementText": "11th level, Tactical Presence",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "title": "Tactician's Word"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.feat.tail-slide",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.ancestry.tiefling",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "type": "always"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "When you shift, you can also slide an ally adjacent to your starting square 1 square.",
-        "title": "Tail Slide"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.ancestry.tiefling",
-          "type": "entry"
-        },
-        "description": "When you shift, you can also slide an ally adjacent to your starting square 1 square.",
-        "id": "modern4e.feat.tail-slide",
-        "prerequisites": {
-          "type": "always"
-        },
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "title": "Tail Slide"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.feat.tail-trip",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.ancestry.tiefling",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "conditions": [
-              {
-                "minimum": 11,
-                "type": "level"
-              },
-              {
-                "entryId": "modern4e.class.fighter",
-                "type": "entry"
-              }
-            ],
-            "type": "allOf"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "A hit with an opportunity attack or an attack granted by Combat Challenge lets you knock the enemy prone.",
-        "title": "Tail Trip"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.ancestry.tiefling",
-          "type": "entry"
-        },
-        "description": "A hit with an opportunity attack or an attack granted by Combat Challenge lets you knock the enemy prone.",
-        "id": "modern4e.feat.tail-trip",
-        "note": "Also listed as Tail Whip in the former Fighter feat list.",
-        "prerequisites": {
-          "conditions": [
-            {
-              "minimum": 11,
-              "type": "level"
-            },
-            {
-              "entryId": "modern4e.class.fighter",
-              "type": "entry"
-            }
-          ],
-          "type": "allOf"
-        },
-        "runtimeRequirementText": "11th level, Fighter",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "source": "https://iws.mx/dnd/?view=feat2312",
-        "title": "Tail Trip"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.feat.technique-master",
-      "mechanics": {
-        "access": {
-          "type": "always"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "type": "always"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "You can master and perform techniques of your level and lower.",
-        "title": "Technique Master"
-      },
-      "sharedData": {
-        "access": {
-          "type": "always"
-        },
-        "description": "You can master and perform techniques of your level and lower.",
-        "id": "modern4e.feat.technique-master",
-        "prerequisites": {
-          "type": "always"
-        },
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "title": "Technique Master"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
       "id": "modern4e.feat.tempest-magic",
       "mechanics": {
         "access": {
@@ -1069,7 +843,7 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
+          "Only declared build-time choices, proficiency grants and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
         "status": "PARTIAL"
       },
@@ -1168,7 +942,7 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
+          "Only declared build-time choices, proficiency grants and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
         "status": "PARTIAL"
       },
@@ -3468,7 +3242,7 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
+          "Only declared build-time choices, proficiency grants and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
         "status": "PARTIAL"
       },
@@ -4033,7 +3807,7 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
+          "Only declared build-time choices, proficiency grants and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
         "status": "PARTIAL"
       },
@@ -4221,18 +3995,73 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder.",
-          "Choice weapon-proficiency: select 1 WEAPON_PROFICIENCY from the WEAPON catalog; the option catalog is pending migration.",
-          "Selection constraint: choice weapon-proficiency must be distinct against ENTRY; when exhausted BLOCK; not enforced."
+          "Only declared build-time choices, proficiency grants and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.weapon-proficiency",
       "mechanics": {
         "access": {
           "type": "always"
         },
-        "choices": [],
+        "choices": [
+          {
+            "allowRepeatWhenExhausted": false,
+            "count": 1,
+            "distinctScope": "ENTRY",
+            "id": "modern4e.choice.weapon-proficiency.weapon-proficiency",
+            "kind": "EQUIPMENT_PROFICIENCY",
+            "options": [
+              {
+                "id": "modern4e.weapon.bastard-sword",
+                "title": "Bastard Sword"
+              },
+              {
+                "id": "modern4e.weapon.double-bladed-dagger",
+                "title": "Double-Bladed Dagger"
+              },
+              {
+                "id": "modern4e.weapon.execution-axe",
+                "title": "Execution Axe"
+              },
+              {
+                "id": "modern4e.weapon.fullblade",
+                "title": "Fullblade"
+              },
+              {
+                "id": "modern4e.weapon.musket",
+                "title": "Musket"
+              },
+              {
+                "id": "modern4e.weapon.parrying-dagger",
+                "title": "Parrying Dagger"
+              },
+              {
+                "id": "modern4e.weapon.recurve-bow",
+                "title": "Recurve Bow"
+              },
+              {
+                "id": "modern4e.weapon.repeating-heavy-crossbow",
+                "title": "Repeating Heavy Crossbow"
+              },
+              {
+                "id": "modern4e.weapon.spiked-chain",
+                "title": "Spiked Chain"
+              },
+              {
+                "grants": [
+                  "SIMPLE_MELEE",
+                  "SIMPLE_RANGED",
+                  "MILITARY_MELEE",
+                  "MILITARY_RANGED"
+                ],
+                "id": "simple-and-military",
+                "title": "All simple and military weapons"
+              }
+            ],
+            "type": "values"
+          }
+        ],
         "grants": [],
         "maximumSelections": null,
         "prerequisites": [
@@ -4240,10 +4069,7 @@
             "type": "always"
           }
         ],
-        "unsupported": [
-          "Choice weapon-proficiency: select 1 WEAPON_PROFICIENCY from the WEAPON catalog; the option catalog is pending migration.",
-          "Selection constraint: choice weapon-proficiency must be distinct against ENTRY; when exhausted BLOCK; not enforced."
-        ],
+        "unsupported": [],
         "version": 2
       },
       "presentation": {
@@ -4281,6 +4107,59 @@
         "id": "modern4e.feat.weapon-proficiency",
         "prerequisites": {
           "type": "always"
+        },
+        "runtimeChoiceCatalogs": {
+          "WEAPON": {
+            "schemaVersion": 1,
+            "source": "Modern 4e equipment/equipment.json",
+            "weapons": [
+              {
+                "id": "modern4e.weapon.bastard-sword",
+                "proficiencyCategory": "SUPERIOR",
+                "title": "Bastard Sword"
+              },
+              {
+                "id": "modern4e.weapon.double-bladed-dagger",
+                "proficiencyCategory": "SUPERIOR",
+                "title": "Double-Bladed Dagger"
+              },
+              {
+                "id": "modern4e.weapon.execution-axe",
+                "proficiencyCategory": "SUPERIOR",
+                "title": "Execution Axe"
+              },
+              {
+                "id": "modern4e.weapon.fullblade",
+                "proficiencyCategory": "SUPERIOR",
+                "title": "Fullblade"
+              },
+              {
+                "id": "modern4e.weapon.musket",
+                "proficiencyCategory": "SUPERIOR",
+                "title": "Musket"
+              },
+              {
+                "id": "modern4e.weapon.parrying-dagger",
+                "proficiencyCategory": "SUPERIOR",
+                "title": "Parrying Dagger"
+              },
+              {
+                "id": "modern4e.weapon.recurve-bow",
+                "proficiencyCategory": "SUPERIOR",
+                "title": "Recurve Bow"
+              },
+              {
+                "id": "modern4e.weapon.repeating-heavy-crossbow",
+                "proficiencyCategory": "SUPERIOR",
+                "title": "Repeating Heavy Crossbow"
+              },
+              {
+                "id": "modern4e.weapon.spiked-chain",
+                "proficiencyCategory": "SUPERIOR",
+                "title": "Spiked Chain"
+              }
+            ]
+          }
         },
         "runtimeSelectionText": "You can take this feat more than once. Each time, choose 1 weapon proficiency option not chosen for previous selections of this feat.",
         "selection": {
@@ -5451,7 +5330,7 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
+          "Only declared build-time choices, proficiency grants and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
         "status": "PARTIAL"
       },
@@ -5494,6 +5373,101 @@
           "MULTICLASS"
         ],
         "title": "Wrathful Warrior"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.wrist-biter",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.goblin",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you use goblin tactics in response to an adjacent enemy's attack, the enemy takes 1d4 damage right before you shift. This damage increases to 2d4 at 11th level and 3d4 at 21st level.",
+        "title": "Wrist Biter"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.goblin",
+          "type": "entry"
+        },
+        "description": "When you use goblin tactics in response to an adjacent enemy's attack, the enemy takes 1d4 damage right before you shift. This damage increases to 2d4 at 11th level and 3d4 at 21st level.",
+        "id": "modern4e.feat.wrist-biter",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Wrist Biter"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.yorgrixs-brutality",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "entryId": "modern4e.feature.dark-pact",
+            "type": "entry"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you damage a creature with a Warlock attack power while that creature is taking ongoing damage, the creature takes 2 extra poison damage. The extra damage increases to 4 at 11th level and to 6 at 21st level.",
+        "title": "Yorgrix's Brutality"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "description": "When you damage a creature with a Warlock attack power while that creature is taking ongoing damage, the creature takes 2 extra poison damage. The extra damage increases to 4 at 11th level and to 6 at 21st level.",
+        "id": "modern4e.feat.yorgrixs-brutality",
+        "prerequisites": {
+          "entryId": "modern4e.feature.dark-pact",
+          "type": "entry"
+        },
+        "runtimeRequirementText": "Dark Pact",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Yorgrix's Brutality"
       }
     }
   ],

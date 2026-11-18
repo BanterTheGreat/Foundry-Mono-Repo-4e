@@ -57,13 +57,22 @@ class ModernLeadersTest(unittest.TestCase):
 
     def test_all_class_features_and_granted_powers_are_reachable(self):
         reached = set()
+        external = set()
         def visit(key):
+            if key not in self.entries:
+                reference = self.catalog["references"][key]
+                self.assertEqual("SHARED", reference["status"])
+                self.assertEqual("FEAT", reference["category"])
+                external.add(key)
+                return
             if key in reached:
                 return
             reached.add(key)
             entry = self.entries[key]
             for grant in entry.get("grants", []):
                 visit(grant["entryId"])
+                for replacement in grant.get("replacementEntryIds", []):
+                    visit(replacement)
             if entry["category"] != "POWER":
                 for choice in entry.get("choices", []):
                     for child in choice["source"].get("entryIds", []):
@@ -73,6 +82,7 @@ class ModernLeadersTest(unittest.TestCase):
                 visit(entry["id"])
         expected = {e["id"] for e in self.entries.values() if e["category"] in ("CLASS", "FEATURE", "POWER") and not (e["category"] == "POWER" and e.get("powerKind") == "ATTACK" and "level" in e)}
         self.assertEqual(expected, reached)
+        self.assertEqual({"modern4e.feat.technique-master", "modern4e.feat.alchemist"}, external)
         self.assertEqual(26, len([e for e in self.entries.values() if e["category"] == "POWER" and e["source"]["entryId"] in {"modern4e.class." + name for name in (*LEADERS, "fighter")}]))
 
     def test_shaman_choices_are_complete_distinct_and_do_not_grant_all_powers(self):

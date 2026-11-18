@@ -143,6 +143,32 @@ class WebContentCatalog(private val call: (String, String) -> Promise<String>) {
         }
     }
 
+    /** Deliberate finite decision editing uses the shared rules; callers persist the returned portable document. */
+    fun chooseValue(characterJson: String, level: Int, slotJson: String, value: String): Promise<String> = asyncJson {
+        when (val decoded = ContractCodec.decode(characterJson)) {
+            is ContractResult.Unavailable -> resultJson<JsonElement>(decoded)
+            is ContractResult.Available -> {
+                val slot = ContractCodec.json.decodeFromString<ChoiceSlotId>(slotJson)
+                val result = BuilderOperations(requireNotNull(catalog)).apply(decoded.value, BuilderEdit.Value(level, ValueChoice(slot, value)))
+                if (result.applied) resultJson(ContractResult.Available(result.state.document))
+                else resultJson<JsonElement>(ContractResult.Unavailable(result.diagnostics))
+            }
+        }
+    }
+
+    /** Includes explicit grant alternatives, with stable shared occurrence identities. */
+    fun chooseEntry(characterJson: String, level: Int, slotJson: String, entryId: String, instanceId: String): Promise<String> = asyncJson {
+        when (val decoded = ContractCodec.decode(characterJson)) {
+            is ContractResult.Unavailable -> resultJson<JsonElement>(decoded)
+            is ContractResult.Available -> {
+                val slot = ContractCodec.json.decodeFromString<ChoiceSlotId>(slotJson)
+                val result = BuilderOperations(requireNotNull(catalog)).apply(decoded.value, BuilderEdit.Entry(level, slot, entryId, instanceId))
+                if (result.applied) resultJson(ContractResult.Available(result.state.document))
+                else resultJson<JsonElement>(ContractResult.Unavailable(result.diagnostics))
+            }
+        }
+    }
+
     /** Shared calculations only; browser code receives explanations, eligibility and coverage. */
     fun evaluate(characterJson: String): Promise<String> = asyncJson {
         when (val document = ContractCodec.decode(characterJson)) {
@@ -160,6 +186,8 @@ class WebContentCatalog(private val call: (String, String) -> Promise<String>) {
                     put("entries", ContractCodec.json.encodeToJsonElement(rules.entries))
                     put("choices", ContractCodec.json.encodeToJsonElement(rules.choices))
                     put("proficiencies", ContractCodec.json.encodeToJsonElement(rules.proficiencies))
+                    put("equipmentProficiencies", ContractCodec.json.encodeToJsonElement(rules.equipmentProficiencies))
+                    put("facts", ContractCodec.json.encodeToJsonElement(rules.facts))
                     put("coverage", ContractCodec.json.encodeToJsonElement(rules.coverage))
                     put("diagnostics", ContractCodec.json.encodeToJsonElement(rules.diagnostics))
                     put("conditionalModifiers", ContractCodec.json.encodeToJsonElement(rules.conditionalModifiers))

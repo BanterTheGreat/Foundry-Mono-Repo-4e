@@ -188,8 +188,7 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder.",
-          "Prerequisite not evaluated: Any class-specific multiclass feat (Condition type selected requires an additional runtime fact vocabulary.)"
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
         ],
         "status": "UNIMPLEMENTED"
       },
@@ -209,9 +208,12 @@
                 "type": "level"
               },
               {
-                "reason": "Condition type selected requires an additional runtime fact vocabulary.",
-                "text": "Any class-specific multiclass feat",
-                "type": "unresolved"
+                "category": "FEAT",
+                "filters": {
+                  "classSpecific": true,
+                  "multiclass": true
+                },
+                "type": "selected"
               }
             ],
             "type": "allOf"
@@ -425,11 +427,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder.",
-          "Choice damage-type: select 1 DAMAGE_TYPE from ACID, COLD, FIRE, LIGHTNING, POISON, NECROTIC, RADIANT; the closed vocabulary cannot apply this decision.",
-          "Selection constraint: choice damage-type must be distinct against POWER DAMAGE_TYPE (modern4e.power.dragon-breath); when exhausted BLOCK; not enforced."
+          "Only declared build-time choices, proficiency grants and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.adaptable-breath",
       "mechanics": {
@@ -437,7 +437,47 @@
           "entryId": "modern4e.ancestry.dragonborn",
           "type": "entry"
         },
-        "choices": [],
+        "choices": [
+          {
+            "allowRepeatWhenExhausted": false,
+            "count": 1,
+            "distinctScope": "POWER",
+            "id": "modern4e.choice.adaptable-breath.damage-type",
+            "kind": "DAMAGE_TYPE",
+            "options": [
+              {
+                "id": "ACID",
+                "title": "Acid"
+              },
+              {
+                "id": "COLD",
+                "title": "Cold"
+              },
+              {
+                "id": "FIRE",
+                "title": "Fire"
+              },
+              {
+                "id": "LIGHTNING",
+                "title": "Lightning"
+              },
+              {
+                "id": "POISON",
+                "title": "Poison"
+              },
+              {
+                "id": "NECROTIC",
+                "title": "Necrotic"
+              },
+              {
+                "id": "RADIANT",
+                "title": "Radiant"
+              }
+            ],
+            "targetId": "modern4e.power.dragon-breath",
+            "type": "values"
+          }
+        ],
         "grants": [],
         "maximumSelections": null,
         "prerequisites": [
@@ -446,10 +486,7 @@
             "type": "entry"
           }
         ],
-        "unsupported": [
-          "Choice damage-type: select 1 DAMAGE_TYPE from ACID, COLD, FIRE, LIGHTNING, POISON, NECROTIC, RADIANT; the closed vocabulary cannot apply this decision.",
-          "Selection constraint: choice damage-type must be distinct against POWER DAMAGE_TYPE (modern4e.power.dragon-breath); when exhausted BLOCK; not enforced."
-        ],
+        "unsupported": [],
         "version": 2
       },
       "presentation": {
@@ -1136,9 +1173,9 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+          "Optional replacement of an explicitly granted Technique Master class-feature feat is automated; technique mastery and formula acquisition remain manual."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.alchemist",
       "mechanics": {
@@ -1774,7 +1811,7 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
+          "Only declared build-time choices, proficiency grants and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
         "status": "PARTIAL"
       },
@@ -1823,7 +1860,7 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
+          "Only declared build-time choices, proficiency grants and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
         "status": "PARTIAL"
       },
@@ -2163,15 +2200,25 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder.",
-          "Selection constraint: each selection advances 1 step in ARMOR_PROFICIENCY (CLOTH > LEATHER > HIDE > CHAINMAIL > SCALE > PLATE); not enforced."
+          "Authored armor proficiency advancement is automated; armor statistics and combat effects remain manual."
         ],
-        "status": "UNIMPLEMENTED"
+        "status": "PARTIAL"
       },
       "id": "modern4e.feat.armor-proficiency",
       "mechanics": {
         "access": {
           "type": "always"
+        },
+        "armorAdvancement": {
+          "order": [
+            "CLOTH",
+            "LEATHER",
+            "HIDE",
+            "CHAINMAIL",
+            "SCALE",
+            "PLATE"
+          ],
+          "steps": 1
         },
         "choices": [],
         "grants": [],
@@ -2181,9 +2228,7 @@
             "type": "always"
           }
         ],
-        "unsupported": [
-          "Selection constraint: each selection advances 1 step in ARMOR_PROFICIENCY (CLOTH > LEATHER > HIDE > CHAINMAIL > SCALE > PLATE); not enforced."
-        ],
+        "unsupported": [],
         "version": 2
       },
       "presentation": {
@@ -3340,7 +3385,7 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
+          "Only declared build-time choices, proficiency grants and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
         "status": "PARTIAL"
       },
@@ -3435,7 +3480,7 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
+          "Only declared build-time choices, proficiency grants and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
         "status": "PARTIAL"
       },
@@ -3531,7 +3576,7 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
+          "Only declared build-time choices, proficiency grants and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
         "status": "PARTIAL"
       },
@@ -4144,7 +4189,7 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
+          "Only declared build-time choices, proficiency grants and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
         "status": "PARTIAL"
       },

@@ -36,8 +36,11 @@ def entries_of(assets):
 def referenced_ids(entry):
     """Entry IDs the runtime mechanics depend on (grants, finite choices, entry conditions)."""
     mechanics = entry["mechanics"]
-    refs = [grant["entryId"] for grant in mechanics.get("grants", []) if grant.get("type") == "entry"]
-    for choice in mechanics.get("choices", []):
+    progressions = mechanics.get("progression", [])
+    grants = mechanics.get("grants", []) + [grant for step in progressions for grant in step.get("grants", [])]
+    refs = [key for grant in grants if grant.get("type") == "entry"
+            for key in [grant["entryId"]] + grant.get("replacementEntryIds", [])]
+    for choice in mechanics.get("choices", []) + [choice for step in progressions for choice in step.get("choices", [])]:
         refs += choice.get("entryIds", [])
     pending = [mechanics.get("access")] + list(mechanics.get("prerequisites", []))
     while pending:

@@ -106,28 +106,50 @@ uses parentheses so OR scope is explicit.
 Non-feat references are declared in `../feat-references.json`, with stable ID,
 category, printed title, status and optional local source path. `PENDING_MIGRATION`
 means the corresponding shared executable definition is not available yet;
-`UNAVAILABLE` identifies an option outside the local roster (Eladrin/Half-elf).
+`UNAVAILABLE` identifies an option outside the local roster.
 These declarations provide identity and labels, not automated eligibility.
 Unknown feat IDs fail validation. Missing content is never silently created from
 a title or dropped. The catalog exposes reference gaps for the future compiler.
 
-Combined Attack remains `unresolved`;
-its original requirement wording stays printed. Feats requiring Shielding Elixir,
-Beast Mastery or Vistani Heritage have been removed. See migration issue
+Feral Companion, Fey Charge, Combat Opening and Elusive Hexer are retired by user
+ruling. This removes the Combined Attack ambiguity and every Eladrin/Half-elf
+dependency; the current authored catalog has no unresolved prerequisite occurrences.
+Feats requiring Shielding Elixir, Beast Mastery or Vistani Heritage are also removed.
+Saved retired IDs receive no silent replacements. See migration issue
 [#29](https://github.com/BanterTheGreat/Foundry-Mono-Repo-4e/issues/29).
 
 ## Migration limits
 
 The build exports a deterministic authoring catalog and production mechanics-v2
 runtime package. Grouped prerequisites, historical independent facts, explicit
-class/source qualification and ZEITGEIST availability are evaluated by shared Kotlin. Occurrence limits and Skill Training distinctness are enforced. Other repeatable
-benefits, option catalogs and grant substitutions remain future work. In particular, “must have a shield equipped to
+class/source qualification and ZEITGEIST availability are evaluated by shared Kotlin.
+Occurrence limits, armor advancement, Skill Training, Weapon Proficiency, Linguist
+and Adaptable Breath build-time choices are enforced. Explicit class-feature
+Technique Master grants allow the authored Alchemist substitution in the same
+stable grant slot. Other unspecified benefits remain manual. In particular, “must have a shield equipped to
 benefit” must not be converted into a selection prerequisite.
 
-The current catalog contains 802 stored definitions across 93 sections.
+The current catalog contains 798 stored definitions across 93 sections.
 The reviewed duplicate groups now have one definition each. Shared-class feats use
 OR access and references at both printed locations; ancestry/class feats live only
 in the ancestry-combination list. Scouring Wrath retains its previous stable ID
 after correcting its title. Retired duplicate IDs have an explicit migration plan
 at `character-builder/content/migrations/feat-consolidation-v1.json` (relative to
 `src/`); removed tier variants are not substituted automatically.
+
+## Reviewed language catalog
+
+`../languages.json` supplies the user-approved ten-language catalog from the
+published Languages entry (Rules Compendium p. 69, `glossary623`), with persistent
+uppercase identities, display names, scripts and source attribution. The authoring
+export exposes it under `optionCatalogs.LANGUAGE`; Linguist's production definition
+preserves it in `sharedData.runtimeChoiceCatalogs.LANGUAGE`. Linguist's runtime
+choices grant three new languages and the chosen skill bonus; catalog membership
+alone does not establish known languages or ancestry eligibility facts.
+Unspecified additional feat effects remain manual pending further scope decisions.
+
+`optionCatalogs.WEAPON` derives nine superior weapon identities and titles from
+the validated local `../equipment/equipment.json`. The feat's authored
+`simple-and-military` bundle is distinct from those weapon identities. Neither
+catalog imports or guesses additional published weapons. Runtime scope and saved
+orphan behavior are documented in the shared selection contract.

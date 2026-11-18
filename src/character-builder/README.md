@@ -3,6 +3,15 @@
 Independent selection-time eligibility, explicit multiclass qualification for feats
 and paragon paths, Skill Training distinctness/exhaustion, ZEITGEIST availability
 and reviewed Fighter ID migration previews are implemented in shared Kotlin.
+
+Weapon Proficiency, Linguist, Adaptable Breath and structured ancestry choices use
+persisted value decisions, scoped facts and shared Android/web editing operations.
+Alchemist can deliberately replace the authored Wizard/Artificer Technique Master
+grant without changing its source slot or occurrence identity. Missing sources and
+invalid choices remain saved and diagnosed. Combat/session effects remain manual;
+Revenant Past Life grants qualification only and does not activate ancestry traits.
+ZEITGEIST remains the sole supported campaign. Migration UI/save integration stays
+deferred to #38 and broader progression/class coverage to #20/#21.
 Three production-data acceptance characters cover levels 1?2, including either a
 combat or non-combat power in the single level-2 utility slot. Coverage remains
 explicitly partial. See [runtime semantics](shared/ENGINE.md) and
@@ -70,6 +79,12 @@ The smoke fixture remains an engineering check. Shared contracts are defined in 
 Pinned Gradle 8.11.1 (wrapper with distribution SHA-256), Kotlin/Compose compiler 2.1.21, Android Gradle Plugin 8.7.3. Use JDK 21, Node 24.16.0/npm 11.13.0 and Android SDK platform 34 plus build-tools 34.0.0. Android Studio is optional. Accept SDK licenses and set `ANDROID_HOME` to your SDK directory (or configure an ignored `local.properties`). Gradle downloads dependencies on the first build; network access is required for setup. npm dependency versions are exact with a committed lockfile. Kotlin/JS uses its own downloaded Node 22.14.0 and committed `kotlin-js-store/yarn.lock`; the web tooling uses the Node version in `.nvmrc`.
 
 ## Build and test
+
+To build and install the Android debug app on your connected Pixel, run
+`npm run builder:install` or `make builder-install` from the repository root.
+Enable USB debugging and authorize this PC on the phone first; keep only the
+intended device connected and close emulators. Requires the toolchain below.
+This updates the installed app while normally preserving saved characters.
 
 Build-time package generation and validation live in [content/README.md](content/README.md). The checked-in representative assets use existing v1 contracts unchanged and are tested on JVM/JS. Full compendium extraction remains explicitly unimplemented automation; the authored proof is partial Modern 4e content.
 

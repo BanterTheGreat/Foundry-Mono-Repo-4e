@@ -27,7 +27,21 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
     val document = state.document
     val entries = document.levels.flatMap { it.entries }
     val skills = document.levels.flatMap { it.proficiencies }
-    fun selected(slot: ChoiceSlotId) = entries.firstOrNull { it.slot == slot }?.selection?.savedTitle ?: "Choose…"
+    fun acquiredAt(source: EngineEntry, seen: Set<String> = emptySet()): Int {
+        document.levels.firstOrNull { level -> level.entries.any { it.instanceId == source.instanceId } }?.let { return it.level }
+        if (source.instanceId in seen) {
+            return 1
+        }
+        val parent = state.rules.entries.firstOrNull { it.instanceId == source.slot.sourceInstanceId } ?: return 1
+        val grant = parent.definition.entry.mechanics.grants.filterIsInstance<Grant.Entry>().firstOrNull { it.grantId == source.slot.choiceId }
+        val progressedAt = parent.definition.entry.mechanics.progression.filter { progression -> progression.grants.any {
+            it is Grant.Entry && it.grantId == source.slot.choiceId
+        } }.maxOfOrNull { it.level } ?: 1
+        return maxOf(grant?.atLevel ?: 1, progressedAt, acquiredAt(parent, seen + source.instanceId))
+    }
+
+    fun selected(slot: ChoiceSlotId) = entries.firstOrNull { it.slot == slot }?.selection?.savedTitle
+        ?: state.rules.entries.firstOrNull { it.slot == slot && it.granted }?.definition?.entry?.presentation?.title ?: "Choose…"
     fun open(kind: String, level: Int = 1, slot: ChoiceSlotId? = null) { editor = ProgressionEditor(kind, level, slot) }
     Column(Modifier.fillMaxSize().folioScroll(rememberScrollState()).padding(20.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -87,12 +101,28 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                 state.rules.entries.any { source ->
                     source.instanceId == choice.slot.sourceInstanceId &&
                         (if (source.definition.entry.mechanics.progression.any { progression -> progression.level == level && progression.choices.any { it.choiceId() == choice.slot.choiceId } }) true
-                        else level == 1 && source.definition.entry.mechanics.choices.any { it.choiceId() == choice.slot.choiceId })
+                        else level == acquiredAt(source) && (source.definition.entry.mechanics.choices.any { it.choiceId() == choice.slot.choiceId } ||
+                            source.definition.entry.mechanics.grants.filterIsInstance<Grant.Entry>().any {
+                                it.grantId == choice.slot.choiceId && it.replacementEntryIds.isNotEmpty()
+                            }))
                 }
             }
             levelChoices.filter { choice -> choice.abilities.isEmpty() }.forEach { choice ->
+                val sourceTitle = state.rules.entries.firstOrNull { it.instanceId == choice.slot.sourceInstanceId }
+                    ?.definition?.entry?.presentation?.title.orEmpty()
                 if (choice.entries.isNotEmpty()) {
-                    Field(choice.slot.choiceId.readable(), selected(choice.slot), enabled = !model.busy && !future) { open("entry", level, choice.slot) }
+                    Field(if (choice.optional) "$sourceTitle (optional substitution)" else choice.slot.choiceId.readable(), selected(choice.slot), enabled = !model.busy && !future) { open("entry", level, choice.slot) }
+                } else if (choice.valueKind != null) {
+                    val pick = document.levels.flatMap { it.values }.firstOrNull { it.slot == choice.slot }
+                    val label = when (requireNotNull(choice.valueKind)) {
+                        FactKind.LANGUAGE -> "language ${choice.slot.ordinal + 1}"
+                        FactKind.EQUIPMENT_PROFICIENCY -> "weapon proficiency"
+                        FactKind.DAMAGE_TYPE -> "damage type"
+                        FactKind.ANCESTRY_QUALIFICATION -> "Past Life ancestry"
+                        FactKind.SKILL_BONUS -> "bonus skill"
+                    }
+                    Field("$sourceTitle: $label", choice.values.firstOrNull { it.id == pick?.value }?.title ?: pick?.value ?: "Choose...",
+                        enabled = !model.busy && !future) { open("value", level, choice.slot) }
                 } else if (choice.skills.isNotEmpty()) {
                     Field(choice.slot.choiceId.readable(), skills.firstOrNull { it.slot == choice.slot }?.skill?.name?.readable() ?: "Choose…", enabled = !model.busy && !future) {
                         open("skill", level, choice.slot)
@@ -143,7 +173,8 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
     val scope = rememberCoroutineScope()
     var edit by remember(request) { mutableStateOf<BuilderEdit?>(null) }
     var options by remember(request) { mutableStateOf<List<BuilderOption>?>(null) }
-    var selected by remember(request) { mutableStateOf(state.document.levels.flatMap { it.entries }.firstOrNull { it.slot == request.slot }?.selection?.entryId) }
+    var selected by remember(request) { mutableStateOf(state.document.levels.flatMap { it.entries }.firstOrNull { it.slot == request.slot }?.selection?.entryId
+        ?: state.rules.entries.firstOrNull { it.slot == request.slot && it.granted }?.definition?.entry?.id) }
     var expanded by remember(request) { mutableStateOf(selected) }
     var showIneligible by remember(request) { mutableStateOf(false) }
     var featTab by remember(request) { mutableStateOf("Class") }
@@ -213,6 +244,16 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
                                 Text(BackgroundDescriptions[name].orEmpty(), color = Dim)
                                 Text("Choose one: ${skills.joinToString { it.name.readable() }}", color = Dim)
                             }
+                        }
+                    }
+                    "value" -> {
+                        val offered = state.rules.choices.firstOrNull { it.slot == request.slot }?.values.orEmpty()
+                        val committed = document.levels.flatMap { it.values }.firstOrNull { it.slot == request.slot }?.value
+                        val draft = (edit as? BuilderEdit.Value)?.value?.value ?: committed
+                        offered.forEach { option ->
+                            ChoiceCard(option.title, option.id == draft, false, true, null, {
+                                edit = BuilderEdit.Value(request.level, ValueChoice(request.slot!!, option.id))
+                            }) { }
                         }
                     }
                     "free", "environment-skill", "upbringing-skill", "skill" -> {
@@ -372,4 +413,5 @@ private fun ChoiceDefinition.choiceId(): String = when (this) {
     is ChoiceDefinition.Entries -> id
     is ChoiceDefinition.Proficiencies -> id
     is ChoiceDefinition.MainAbility -> id
+    is ChoiceDefinition.Values -> id
 }

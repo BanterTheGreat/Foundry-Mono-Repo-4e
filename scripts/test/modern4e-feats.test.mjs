@@ -22,11 +22,14 @@ function files(directory, extension) {
 const catalog = new Map(files(path.join(book, "content/feats"), ".json").map((filename) => [
   filename, JSON.parse(readFileSync(filename, "utf8")).feats,
 ]));
+const definitions = new Map([...catalog.values()].flat().filter(feat => feat.id).map(feat => [feat.id, feat]));
 
 test("feat catalog has complete prose entries and explicit prerequisites", () => {
   for (const [filename, feats] of catalog) {
-    assert.ok(Array.isArray(feats) && feats.length > 0, filename);
-    for (const feat of feats) {
+    assert.ok(Array.isArray(feats), filename);
+    for (const placement of feats) {
+      const feat = placement.ref ? definitions.get(placement.ref) : placement;
+      assert.ok(feat, `${filename}: unresolved reference ${placement.ref}`);
       for (const key of ["title", "description"]) {
         assert.equal(typeof feat[key], "string", `${filename}: ${key}`);
         assert.ok(feat[key].trim(), `${filename}: ${key}`);
@@ -54,7 +57,7 @@ test("rulebook renders every JSON feat exactly once, including split sections", 
     if (filename.endsWith("glossary/feats.typ")) {
       assert.doesNotMatch(source, /theme\.choiceBox\(/, filename);
     }
-    const pattern = /theme\.feat(?:Cards|Blocks|Choices)FromJson\("([^"]+)"(?:, start: (\d+), end: (\d+))?\)/g;
+    const pattern = /theme\.feat(?:Cards|Blocks|Choices)FromJson\("([^"]+)"(?:, start: (\d+)(?:, end: (\d+))?)?\)/g;
     for (const match of source.matchAll(pattern)) {
       const target = path.resolve(path.dirname(filename), match[1]);
       const counts = uses.get(target);

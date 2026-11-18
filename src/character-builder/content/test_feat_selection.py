@@ -48,7 +48,8 @@ class FeatSelectionTest(unittest.TestCase):
         self.assertEqual("BLOCK", first["whenExhausted"])
         self.assertEqual({"scope": "ENTRY"}, second["against"])
         self.assertEqual("ALLOW_REPEAT", second["whenExhausted"])
-        self.assertIn("language", " ".join(self.catalog["limitations"][entry["id"]]).lower())
+        self.assertEqual(10, len(self.catalog["optionCatalogs"]["LANGUAGE"]["languages"]))
+        self.assertFalse(any("LANGUAGE option catalog is pending" in text for text in self.catalog["limitations"][entry["id"]]))
 
     def test_breath_excludes_all_existing_power_damage_types_and_preserves_local_pool(self):
         entry = self.entries["Adaptable Breath"]
@@ -63,12 +64,14 @@ class FeatSelectionTest(unittest.TestCase):
         self.assertEqual([{"type": "advance", "fact": "ARMOR_PROFICIENCY", "order": ["CLOTH", "LEATHER", "HIDE", "CHAINMAIL", "SCALE", "PLATE"], "steps": 1}], entry["selection"]["constraints"])
         self.assertIn("up to Plate", self.catalog["selectionText"][entry["id"]])
 
-    def test_weapon_bundle_and_superior_weapon_options_are_pending_not_invented(self):
+    def test_weapon_bundle_and_superior_weapon_options_use_reviewed_catalog(self):
         entry = self.entries["Weapon Proficiency"]
         self.assertEqual({"type": "catalog", "catalog": "WEAPON", "filters": {"proficiencyCategory": "SUPERIOR"}, "bundles": [{"id": "simple-and-military", "proficiencyCategories": ["SIMPLE", "MILITARY"]}]}, entry["choices"][0]["source"])
         self.assertEqual({"scope": "ENTRY"}, entry["selection"]["constraints"][0]["against"])
         self.assertIn("all simple and military weapons", entry["description"])
-        self.assertIn("pending migration", " ".join(self.catalog["limitations"][entry["id"]]))
+        self.assertEqual(9, len(self.catalog["optionCatalogs"]["WEAPON"]["weapons"]))
+        self.assertFalse(any("WEAPON option catalog is pending" in text
+                             for text in self.catalog["limitations"][entry["id"]]))
 
     def test_granted_slot_replacement_and_benefit_conditions_remain_separate(self):
         alchemist = self.entries["Alchemist"]

@@ -193,7 +193,7 @@ def catalog(content=CONTENT):
         enum(ref["category"], list(CATEGORIES.values()) + ["FEAT", "ANCESTRY", "TECHNIQUE"], key)
         shared.identity(key, ref["category"], key)
         string(ref["title"], key)
-        enum(ref["status"], ["PENDING_MIGRATION", "UNAVAILABLE"], key)
+        enum(ref["status"], ["PENDING_MIGRATION", "UNAVAILABLE", "SHARED"], key)
         if "source" in ref:
             string(ref["source"], key)
     entries, locations, sections = {}, {}, {}
@@ -260,12 +260,21 @@ def catalog(content=CONTENT):
         grant_ids = set()
         for i, g in enumerate(grants):
             at = f"{loc}.grants[{i}]"
-            fields(g, ["id", "entryId", "atLevel"], [], at)
+            fields(g, ["id", "entryId", "atLevel"], ["replacementEntryIds"], at)
             string(g["id"], at)
             require(g["id"] not in grant_ids, at, "duplicate grant ID")
             grant_ids.add(g["id"])
             reference(g["entryId"], ["FEATURE", "POWER", "FEAT", "RULE", "TECHNIQUE"], entries, references, at)
             integer(g["atLevel"], at, 1, 30)
+            replacements = g.get("replacementEntryIds", [])
+            array(replacements, at)
+            require(len(replacements) == len(set(replacements)) and g["entryId"] not in replacements, at, "duplicate grant replacement")
+            for replacement in replacements:
+                reference(replacement, ["FEAT"], entries, references, at)
+            if replacements:
+                require(entry["category"] == "FEATURE" and g["entryId"] == "modern4e.feat.technique-master" and
+                        replacements == ["modern4e.feat.alchemist"], at,
+                        "only the authored class-feature Technique Master to Alchemist substitution is supported")
         array(entry.get("choices", []), loc + ".choices")
         for i, ch in enumerate(entry.get("choices", [])):
             at = f"{loc}.choices[{i}]"
@@ -373,7 +382,8 @@ def catalog(content=CONTENT):
                 targets += ch["source"]["entryIds"]
             else:
                 gaps.append(f"Choice {ch['id']}: query pool must be resolved by the runtime catalog.")
-        gaps += [f"{target}: {references[target]['status']}" for target in targets if target in references]
+        gaps += [f"{target}: {references[target]['status']}" for target in targets
+                 if target in references and references[target]["status"] != "SHARED"]
         require(not gaps or entry["coverage"]["status"] != "SUPPORTED", locations[key], "unresolved or unimplemented content cannot claim SUPPORTED")
         limitations[key] = gaps
     return {"schemaVersion": 2, "kind": "modern4e.class-authoring", "entries": [entries[k] for k in sorted(entries)], "references": references, "sections": sections, "advancement": advancement, "limitations": limitations}

@@ -54,6 +54,21 @@ class ProductionContentPackagesTest {
     }
 
     @Test
+    fun retiredFeatsHaveNoReplacementAndSavedProvenanceSurvivesReopen() = run {
+        val (sample, catalog, operations) = openTemplate()
+        val retired = listOf("feral-companion", "fey-charge", "combat-opening", "elusive-hexer")
+        for (id in retired.map { "modern4e.feat.$it" }) {
+            assertNull(assertIs<ContractResult.Available<ResolvedEntry?>>(catalog.lookup(id)).value)
+            val original = SavedSelection(id, "Original saved title", "modern4e.feats", "retired-fingerprint")
+            val document = sample.copy(levels = sample.levels.map { level -> level.copy(entries = level.entries +
+                EntryChoice("retired", ChoiceSlotId("creation", "feat", 0), original)) })
+            val reopened = assertIs<ContractResult.Available<CharacterDocument>>(ContractCodec.decode(ContractCodec.encode(document))).value
+            assertEquals(original, reopened.levels.first().entries.single { it.instanceId == "retired" }.selection)
+            assertTrue(operations.evaluate(reopened).rules.diagnostics.any { it.kind == DiagnosticKind.UNRESOLVED_CONTENT && it.entryId == id })
+        }
+    }
+
+    @Test
     fun templateEnablesEveryProductionPackageAndCatalogIsComplete() = run {
         val (sample, catalog, _) = openTemplate()
         assertEquals(listOf("modern4e.classes", "modern4e.ancestries", "modern4e.themes", "modern4e.feats",
@@ -62,7 +77,7 @@ class ProductionContentPackagesTest {
         assertEquals(19, catalog.search(category = EntryCategory.CLASS).size)
         assertEquals(13, catalog.search(category = EntryCategory.ANCESTRY).count { it.supplier.packageId == "modern4e.ancestries" })
         assertEquals(9, catalog.search(category = EntryCategory.THEME).count { it.supplier.packageId == "modern4e.themes" })
-        assertEquals(802, catalog.search(category = EntryCategory.FEAT).count { it.supplier.packageId == "modern4e.feats" })
+        assertEquals(798, catalog.search(category = EntryCategory.FEAT).count { it.supplier.packageId == "modern4e.feats" })
         assertEquals(53, catalog.search(category = EntryCategory.ITEM).count { it.supplier.packageId == "modern4e.equipment" })
         assertEquals(1081, catalog.search(category = EntryCategory.POWER).count { it.supplier.packageId == "modern4e.utilities" })
     }
@@ -109,7 +124,7 @@ class ProductionContentPackagesTest {
         val (sample, _, operations) = openTemplate()
         val feats = operations.options(sample, 1, ChoiceSlotId("creation", "feat", 0), includeIneligible = true)
             .filter { it.entry.supplier.packageId == "modern4e.feats" }
-        assertEquals(802, feats.size)
+        assertEquals(798, feats.size)
         // Fighter-only access must not be eligible for a Fighter starter and wizard access must not be.
         val wizardOnly = feats.filter { (it.entry.entry.mechanics.access as? Prerequisite.Entry)?.entryId == "modern4e.class.wizard" }
         assertTrue(wizardOnly.isNotEmpty())
@@ -132,6 +147,25 @@ class ProductionContentPackagesTest {
                 assertTrue(offered.none { it.entryId == candidate.metadata.id })
             }
         }
+    }
+
+    @Test
+    fun authoredArmorFeatGrantsPlateAndBlocksAnotherSelectionThroughTheNormalWorkflow() = run {
+        val (sample, _, operations) = openTemplate()
+        val result = operations.apply(sample, BuilderEdit.Entry(1, ChoiceSlotId("creation", "feat", 0),
+            "modern4e.feat.armor-proficiency", "armor"))
+        assertTrue(result.applied)
+        assertEquals(Eligibility.ELIGIBLE, result.state.rules.entryEligibility.getValue("armor").status)
+        assertEquals(listOf(ChoiceSlotId("creation", "feat", 0)), result.state.rules.equipmentProficiencies.getValue("PLATE"))
+        val levelTwo = result.state.document.copy(level = 2, levels = result.state.document.levels + LevelDecisions(2))
+        val selected = result.state.document.levels.first().entries.single { it.instanceId == "armor" }
+        val repeated = levelTwo.copy(levels = levelTwo.levels.map { level ->
+            if (level.level == 2) level.copy(entries = listOf(selected.copy(instanceId = "second-armor",
+                slot = ChoiceSlotId("advancement.2", "feat", 0)))) else level
+        })
+        assertEquals(Eligibility.INELIGIBLE, operations.evaluate(repeated).rules.entryEligibility.getValue("second-armor").status)
+        val reopened = assertIs<ContractResult.Available<CharacterDocument>>(ContractCodec.decode(ContractCodec.encode(levelTwo))).value
+        assertEquals(result.state.rules.equipmentProficiencies, operations.evaluate(reopened).rules.equipmentProficiencies)
     }
 
     @Test

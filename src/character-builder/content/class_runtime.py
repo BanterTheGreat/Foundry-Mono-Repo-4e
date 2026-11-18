@@ -63,7 +63,9 @@ def compile_entry(entry):
     mechanics = {"version": 2, "access": condition(entry["access"]),
                  "prerequisites": [condition(entry["prerequisites"])],
                  "grants": [{"type": "entry", "grantId": g["id"], "entryId": g["entryId"],
-                             "atLevel": g["atLevel"]} for g in entry.get("grants", [])],
+                             "atLevel": g["atLevel"],
+                             **({"replacementEntryIds": g["replacementEntryIds"]} if g.get("replacementEntryIds") else {})}
+                            for g in entry.get("grants", [])],
                  "choices": [], "unsupported": [], "maximumSelections": entry["selection"]["maximum"]}
     for choice in entry.get("choices", []) if entry["category"] != "POWER" else []:
         mechanics["choices"].append(compile_choice(choice))

@@ -28,7 +28,8 @@ class ModernFeatsTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             content = Path(directory)
             shutil.copytree(BOOK / "content/feats", content / "feats")
-            for name in ("feat-references.json", "feat-sections.json"):
+            shutil.copytree(BOOK / "content/equipment", content / "equipment")
+            for name in ("feat-references.json", "feat-sections.json", "languages.json"):
                 shutil.copyfile(BOOK / "content" / name, content / name)
             edit(content)
             return feats.catalog(content)
@@ -43,7 +44,7 @@ class ModernFeatsTest(unittest.TestCase):
         return [e for e in self.entries.values() if e["title"] == title]
 
     def test_complete_catalog_has_stored_unique_ids_and_unchanged_section_order(self):
-        self.assertEqual(802, len(self.entries))
+        self.assertEqual(798, len(self.entries))
         self.assertEqual(93, len(self.catalog["sections"]))
         for section, ids in self.catalog["sections"].items():
             authored = feats.load_json(BOOK / "content/feats" / section)["feats"]
@@ -132,13 +133,66 @@ class ModernFeatsTest(unittest.TestCase):
         immutability = self.named("Immutability")[0]["prerequisites"]
         self.assertEqual(self.named("Improved Warforged Resolve")[0]["id"], immutability["entryId"])
 
-    def test_unknown_and_ambiguous_requirements_remain_visible(self):
-        for title, text in [("Feral Companion", "Combined attack druid attack power")]:
-            entry = self.named(title)[0]
-            self.assertIn(text, self.catalog["requirementText"][entry["id"]])
-            self.assertTrue(self.catalog["limitations"][entry["id"]])
-        unavailable = self.catalog["references"]["modern4e.ancestry.eladrin"]
-        self.assertEqual("UNAVAILABLE", unavailable["status"])
+    def test_retired_feral_and_unavailable_ancestry_options_are_absent_without_substitutions(self):
+        retired = {"modern4e.feat.feral-companion", "modern4e.feat.fey-charge",
+                   "modern4e.feat.combat-opening", "modern4e.feat.elusive-hexer"}
+        self.assertTrue(retired.isdisjoint(self.entries))
+        self.assertTrue(retired.isdisjoint(key for ids in self.catalog["sections"].values() for key in ids))
+        self.assertNotIn("modern4e.ancestry.eladrin", self.catalog["references"])
+        self.assertNotIn("modern4e.ancestry.half-elf", self.catalog["references"])
+        for entry in self.entries.values():
+            requirements = json.dumps([entry["access"], entry["prerequisites"]])
+            self.assertNotIn("modern4e.ancestry.eladrin", requirements)
+            self.assertNotIn("modern4e.ancestry.half-elf", requirements)
+            self.assertNotIn('"type": "unresolved"', requirements)
+
+    def test_reviewed_language_catalog_has_ten_stable_options_and_source_scripts(self):
+        catalog = self.catalog["optionCatalogs"]["LANGUAGE"]
+        self.assertEqual({"COMMON", "DEEP_SPEECH", "DRACONIC", "DWARVEN", "ELVEN", "GIANT",
+                          "GOBLIN", "PRIMORDIAL", "SUPERNAL", "ABYSSAL"}, {x["id"] for x in catalog["languages"]})
+        self.assertEqual(10, len(catalog["languages"]))
+        self.assertEqual("https://iws.mx/dnd/?view=glossary623", catalog["source"]["url"])
+        self.assertEqual(("Rules Compendium", 69), (catalog["source"]["publication"], catalog["source"]["page"]))
+        self.assertEqual("Iokharic", next(x["script"] for x in catalog["languages"] if x["id"] == "DRACONIC"))
+        self.assertEqual("Deep Speech", next(x["title"] for x in catalog["languages"] if x["id"] == "DEEP_SPEECH"))
+        self.assertFalse(any("LANGUAGE option catalog is pending" in text
+                             for text in self.catalog["limitations"][self.named("Linguist")[0]["id"]]))
+
+    def test_weapon_catalog_uses_only_authoritative_superior_identities(self):
+        weapons = self.catalog["optionCatalogs"]["WEAPON"]["weapons"]
+        self.assertEqual({"bastard-sword", "double-bladed-dagger", "parrying-dagger", "fullblade",
+                          "execution-axe", "spiked-chain", "recurve-bow", "repeating-heavy-crossbow", "musket"},
+                         {weapon["id"].removeprefix("modern4e.weapon.") for weapon in weapons})
+        self.assertTrue(all(weapon["proficiencyCategory"] == "SUPERIOR" for weapon in weapons))
+        self.assertEqual("Execution Axe", next(w["title"] for w in weapons if w["id"].endswith(".execution-axe")))
+        self.assertFalse(any("WEAPON option catalog is pending" in limitation
+                             for limitation in self.catalog["limitations"][self.named("Weapon Proficiency")[0]["id"]]))
+
+    def test_weapon_catalog_rejects_ambiguous_or_invalid_equipment(self):
+        for mutate, message in [(lambda d: d["equipment"].append(copy.deepcopy(d["equipment"][0])), "duplicate"),
+                                (lambda d: d["equipment"][0]["equipment"].update(proficiencyCategory="UNKNOWN"), "unknown value")]:
+            def change(content):
+                path = content / "equipment/equipment.json"
+                data = feats.load_json(path)
+                mutate(data)
+                path.write_text(json.dumps(data), encoding="utf-8")
+            with self.subTest(message=message), self.assertRaisesRegex(ValueError, message):
+                self.edited(change)
+
+    def test_language_catalog_rejects_ambiguous_or_malformed_identities(self):
+        cases = [(lambda d: d["languages"].append(d["languages"][0]), "duplicate language identity"),
+                 (lambda d: d["languages"][0].update(id="Common"), "stable language identity"),
+                 (lambda d: d["languages"][0].update(script=""), "nonblank"),
+                 (lambda d: d["languages"][0].update(grant=True), "unknown fields"),
+                 (lambda d: d.update(schemaVersion=True), "unsupported schema")]
+        for edit, message in cases:
+            def change(content):
+                path = content / "languages.json"
+                data = feats.load_json(path)
+                edit(data)
+                path.write_text(json.dumps(data), encoding="utf-8")
+            with self.subTest(message=message), self.assertRaisesRegex(ValueError, message):
+                self.edited(change)
 
     def test_retired_missing_feature_feats_are_absent_from_all_sections(self):
         retired = {"modern4e.feat.astral-elixir", "modern4e.feat.elven-beast-mastery",

@@ -12,6 +12,11 @@ copy-module:
 
 install: copy-modules
 
+# Build and update Character Builder on connected Android devices.
+.PHONY: builder-install
+builder-install:
+	node scripts/builder-install.mjs
+
 # Typst development; outputs src/modern4e/inDev.pdf. Requires Typst on PATH.
 # Extra options: make typst-compile TYPST_ARGS="--font-path /path/to/fonts"
 # Override the executable with TYPST_BIN=/path/to/typst.

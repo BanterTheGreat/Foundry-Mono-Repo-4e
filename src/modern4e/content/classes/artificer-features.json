@@ -133,16 +133,29 @@
         "constraints": []
       },
       "coverage": {
-        "status": "UNIMPLEMENTED",
+        "status": "PARTIAL",
         "limitations": [
-          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented.",
-          "Technique acquisition remains literal rules text pending the technique catalog; no technique choices or mastery are automatically applied."
+          "Technique Master is explicitly granted, with the authored optional Alchemist substitution. Technique mastery, formulas and combat/session effects remain manual."
         ]
       },
       "sections": [
         {
           "type": "text",
           "text": "You master the Alchemical Creation and Brew Potion techniques and gain the Technique Master feat."
+        },
+        {
+          "type": "grant",
+          "grantId": "artificer-technique-master"
+        }
+      ],
+      "grants": [
+        {
+          "id": "artificer-technique-master",
+          "entryId": "modern4e.feat.technique-master",
+          "atLevel": 1,
+          "replacementEntryIds": [
+            "modern4e.feat.alchemist"
+          ]
         }
       ]
     }

@@ -14,6 +14,7 @@ sealed class BuilderEdit {
         val kind: ReplacementKind = ReplacementKind.RETRAINING, val acceptIneligible: Boolean = false) : BuilderEdit()
     data class RemoveEntry(val slot: ChoiceSlotId) : BuilderEdit()
     data class Proficiency(val level: Int, val value: ProficiencyChoice) : BuilderEdit()
+    data class Value(val level: Int, val value: ValueChoice) : BuilderEdit()
     /** Changing background preserves its skill unless the caller explicitly supplies a replacement. */
     data class Background(val kind: BackgroundKind, val name: String, val skill: Skill? = null) : BuilderEdit()
     data class Equipment(val value: EquipmentSelection) : BuilderEdit()
@@ -65,13 +66,17 @@ class BuilderOperations(private val catalog: ContentCatalog) {
         val current = evaluate(document, reading)
         val category = rootCategory(level, slot)
         val offered = current.rules.choices.singleOrNull { it.slot == slot }
+        if (offered?.optional == true && offered.acquisitionLevel != level) {
+            return emptyList()
+        }
         val ids = if (category != null) catalog.search(category = category).map { it.metadata.id }
             else offered?.entries?.map { it.entryId }.orEmpty()
         val result = mutableListOf<BuilderOption>()
         for (id in ids) {
             val definition = (reading.lookup(id) as? ContractResult.Available)?.value ?: continue
             val existing = document.levels.flatMap { it.entries }.firstOrNull { it.slot == slot }
-            val instance = existing?.instanceId ?: "builder-preview:${slot.sourceInstanceId.length}:${slot.sourceInstanceId}:${slot.choiceId}:${slot.ordinal}"
+            val instance = if (offered?.optional == true) ModernCreation.grantInstance(slot.sourceInstanceId, slot.choiceId)
+                else existing?.instanceId ?: "builder-preview:${slot.sourceInstanceId.length}:${slot.sourceInstanceId}:${slot.choiceId}:${slot.ordinal}"
             val candidate = putEntry(document, level, EntryChoice(instance, slot, saved(definition)))
             val evaluated = evaluate(candidate, reading)
             val diagnostics = evaluated.rules.diagnostics.filter { it.slot == slot && it.entryId == id }
@@ -128,7 +133,12 @@ class BuilderOperations(private val catalog: ContentCatalog) {
                     return reject("Entry occurrence ID must be nonblank.")
                 }
                 val existing = document.levels.flatMap { it.entries }.firstOrNull { it.slot == edit.slot }
-                val instance = existing?.instanceId ?: edit.instanceId
+                val offered = evaluate(document).rules.choices.singleOrNull { it.slot == edit.slot }
+                if (offered?.optional == true && offered.acquisitionLevel != edit.level) {
+                    return reject("Grant substitutions belong to the granting source's acquisition level; later replacement allowances are not implemented.")
+                }
+                val instance = if (offered?.optional == true) ModernCreation.grantInstance(edit.slot.sourceInstanceId, edit.slot.choiceId)
+                    else existing?.instanceId ?: edit.instanceId
                 if (document.levels.flatMap { it.entries }.any { it.slot != edit.slot && it.instanceId == instance } ||
                     document.equipment.any { it.instanceId == instance }) {
                     return reject("Entry occurrence ID is already in use.")
@@ -173,6 +183,20 @@ class BuilderOperations(private val catalog: ContentCatalog) {
             }
             is BuilderEdit.RemoveEntry -> next = document.copy(levels = document.levels.map { level ->
                 level.copy(entries = level.entries.filterNot { it.slot == edit.slot }) })
+            is BuilderEdit.Value -> {
+                if (edit.level !in 1..document.level) {
+                    return reject("Decision level must be active.")
+                }
+                val offered = evaluate(document).rules.choices.singleOrNull { it.slot == edit.value.slot }
+                if (offered?.values?.none { it.id == edit.value.value } != false) {
+                    return reject("Option is unavailable, repeated or the source is inactive.")
+                }
+                next = document.copy(levels = levels(document, edit.level).map { level -> level.copy(values =
+                    level.values.filterNot { it.slot == edit.value.slot } + if (level.level == edit.level) listOf(edit.value) else emptyList()) })
+                if (evaluate(next).rules.diagnostics.any { it.slot == edit.value.slot && it.code in setOf("engine.valueTiming", "engine.valueOption", "engine.orphanValue") }) {
+                    return reject("Decision must be valid at its source acquisition level.")
+                }
+            }
             is BuilderEdit.Proficiency -> {
                 if (edit.level !in 1..document.level || edit.level > 2) {
                     return reject("Proficiency level must be an active proof level.")

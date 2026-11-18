@@ -25,14 +25,14 @@ class FeatRuntimeTest(unittest.TestCase):
         cls.entries = {entry["id"]: entry for entry in runtime_common.entries_of(cls.assets)}
 
     def test_every_authored_feat_is_emitted_once_in_chunks(self):
-        self.assertEqual(802, len(self.source))
+        self.assertEqual(798, len(self.source))
         self.assertEqual(set(self.source), set(self.entries))
-        self.assertEqual(802, len(runtime_common.entries_of(self.assets)))
+        self.assertEqual(798, len(runtime_common.entries_of(self.assets)))
         manifest = self.assets[f"{PACKAGE}/manifest.json"]
         self.assertEqual(
             {"formatVersion": 2, "id": PACKAGE, "revision": "1", "title": "Modern 4e shared feats",
-             "indexes": ["index"], "chunks": [f"entries-{i:04d}" for i in range(9)]}, manifest)
-        self.assertEqual(802, len(self.assets[f"{PACKAGE}/index.json"]["entries"]))
+             "indexes": ["index"], "chunks": [f"entries-{i:04d}" for i in range(8)]}, manifest)
+        self.assertEqual(798, len(self.assets[f"{PACKAGE}/index.json"]["entries"]))
         self.assertEqual({"FEAT"}, {entry["category"] for entry in self.entries.values()})
 
     def test_output_is_deterministic(self):
@@ -45,7 +45,7 @@ class FeatRuntimeTest(unittest.TestCase):
             self.assertEqual(authored["description"], entry["presentation"]["description"])
             self.assertEqual(authored["selection"]["maximum"], entry["mechanics"]["maximumSelections"])
             self.assertEqual(2, entry["mechanics"]["version"])
-            automated = bool(entry["mechanics"]["choices"]) or bool(entry["mechanics"].get("multiclassFor"))
+            automated = key == "modern4e.feat.alchemist" or bool(entry["mechanics"]["choices"]) or bool(entry["mechanics"].get("multiclassFor")) or bool(entry["mechanics"].get("armorAdvancement"))
             self.assertEqual("PARTIAL" if automated else "UNIMPLEMENTED", entry["coverage"]["status"])
             self.assertTrue(entry["coverage"]["limitations"])
             shared = {k: v for k, v in entry["sharedData"].items() if not k.startswith("runtime")}
@@ -54,7 +54,6 @@ class FeatRuntimeTest(unittest.TestCase):
     def test_pending_reference_becomes_unresolved_not_an_entry_condition(self):
         pending = {key for key, ref in self.catalog["references"].items() if key not in self.available}
         self.assertIn("modern4e.feature.orc-resilience", pending)
-        self.assertIn("modern4e.ancestry.eladrin", pending)
         for entry in self.entries.values():
             trees = [entry["mechanics"]["access"]] + entry["mechanics"]["prerequisites"]
             for leaf in (leaf for tree in trees for leaf in leaves(tree)):
@@ -111,13 +110,14 @@ class FeatRuntimeTest(unittest.TestCase):
         context = {"references": {}, "feat_ids": set(), "titles": {}, "available": set()}
         self.assertEqual(authored, feat_runtime.condition(authored, context))
 
-    def test_unsupported_condition_types_are_explicit_gaps(self):
+    def test_size_and_selected_conditions_preserve_authored_predicates(self):
         context = {"references": self.catalog["references"], "feat_ids": set(), "titles": {}, "available": set()}
         size = feat_runtime.condition({"type": "size", "size": "SMALL"}, context)
-        self.assertEqual("unresolved", size["type"])
+        self.assertEqual({"type": "size", "size": "SMALL"}, size)
         selected = feat_runtime.condition({"type": "selected", "category": "FEAT",
                                            "filters": {"multiclass": True, "classSpecific": True}}, context)
-        self.assertEqual("unresolved", selected["type"])
+        self.assertEqual({"type": "selected", "category": "FEAT",
+                          "filters": {"multiclass": True, "classSpecific": True}}, selected)
         for node in ({"type": "level", "minimum": 2}, {"type": "always"}):
             self.assertEqual(node, feat_runtime.condition(node, context))
         with self.assertRaises(ValueError):
@@ -125,7 +125,7 @@ class FeatRuntimeTest(unittest.TestCase):
 
     def test_every_authored_condition_type_compiles_to_engine_vocabulary(self):
         allowed = {"always", "level", "entry", "abilityPoints", "proficiency", "classPowerSource",
-                   "equipmentProficiency", "unresolved"}
+                   "equipmentProficiency", "unresolved", "size", "selected"}
         for entry in self.entries.values():
             trees = [entry["mechanics"]["access"]] + entry["mechanics"]["prerequisites"]
             self.assertLessEqual({leaf["type"] for tree in trees for leaf in leaves(tree)}, allowed)
@@ -157,19 +157,36 @@ class FeatRuntimeTest(unittest.TestCase):
 
     def test_unsupported_choices_and_constraints_are_recorded_not_faked(self):
         linguist = self.entries["modern4e.feat.linguist"]
-        self.assertEqual([], linguist["mechanics"]["choices"])
-        self.assertEqual(4, len(linguist["mechanics"]["unsupported"]))
+        self.assertEqual(["LANGUAGE", "SKILL_BONUS"], [choice["kind"] for choice in linguist["mechanics"]["choices"]])
+        self.assertEqual([], linguist["mechanics"]["unsupported"])
+        languages, bonus = linguist["mechanics"]["choices"]
+        self.assertEqual(3, languages["count"])
+        self.assertEqual("CHARACTER", languages["distinctScope"])
+        self.assertEqual((2, 3, True), (bonus["bonus"], bonus["epicBonus"], bonus["allowRepeatWhenExhausted"]))
+        catalog = linguist["sharedData"]["runtimeChoiceCatalogs"]["LANGUAGE"]
+        self.assertEqual(self.catalog["optionCatalogs"]["LANGUAGE"], catalog)
+        self.assertEqual(10, len(catalog["languages"]))
+        weapon = self.entries["modern4e.feat.weapon-proficiency"]["mechanics"]["choices"][0]
+        self.assertEqual(10, len(weapon["options"]))
+        self.assertEqual("ENTRY", weapon["distinctScope"])
+        self.assertEqual(["SIMPLE_MELEE", "SIMPLE_RANGED", "MILITARY_MELEE", "MILITARY_RANGED"], weapon["options"][-1]["grants"])
+        breath = self.entries["modern4e.feat.adaptable-breath"]["mechanics"]["choices"][0]
+        self.assertEqual(("POWER", "modern4e.power.dragon-breath"), (breath["distinctScope"], breath["targetId"]))
+        retired = {"modern4e.feat.feral-companion", "modern4e.feat.fey-charge",
+                   "modern4e.feat.combat-opening", "modern4e.feat.elusive-hexer"}
+        self.assertTrue(retired.isdisjoint(self.entries))
         for entry in self.entries.values():
             constraints = entry["sharedData"]["selection"]["constraints"]
-            enforced = sum(1 for rule in constraints if rule['type'] == 'distinct' and
-                           rule['against'] == {'scope': 'CHARACTER', 'fact': 'SKILL_PROFICIENCY'})
+            enforced = len(constraints)
             self.assertGreaterEqual(len(entry["mechanics"]["unsupported"]), len(constraints) - enforced)
             for text in entry["mechanics"]["unsupported"]:
                 self.assertIn(text, entry["coverage"]["limitations"])
             if not entry["sharedData"].get("choices") and not constraints:
                 self.assertEqual([], entry["mechanics"]["unsupported"])
         armor = self.entries["modern4e.feat.armor-proficiency"]
-        self.assertIn("not enforced", armor["mechanics"]["unsupported"][0])
+        self.assertEqual([], armor["mechanics"]["unsupported"])
+        self.assertEqual({"order": ["CLOTH", "LEATHER", "HIDE", "CHAINMAIL", "SCALE", "PLATE"], "steps": 1},
+                         armor["mechanics"]["armorAdvancement"])
         self.assertEqual(5, sum(1 for entry in self.entries.values()
                                 if entry["mechanics"]["maximumSelections"] is None))
 

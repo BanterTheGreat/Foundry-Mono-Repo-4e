@@ -103,6 +103,8 @@ data class LevelDecisions(
     val proficiencies: List<ProficiencyChoice> = emptyList(),
     val abilityAdvancements: List<AbilityAdvancement> = emptyList(),
     val replacements: List<Replacement> = emptyList(),
+    @OptIn(ExperimentalSerializationApi::class)
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val values: List<ValueChoice> = emptyList(),
 ) {
     init {
         require(level in 1..30)
@@ -131,3 +133,6 @@ data class EquipmentSelection(
 
 @Serializable
 data class ManualAdjustment(@OpaqueIdentifier val id: String, val modifier: TypedModifier, val reason: String = "")
+
+@Serializable
+data class ValueChoice(val slot: ChoiceSlotId, @OpaqueIdentifier val value: String)

@@ -128,10 +128,11 @@ def special_text(entry, references, noun="entry"):
     return " ".join(sentences)
 
 
-def limitations(entry, references):
+def limitations(entry, references, available_catalogs=()):
     """Expose pending choice catalogs and target definitions without claiming automation."""
     gaps = [f"Choice {c['id']}: {c['source']['catalog']} option catalog is pending migration."
-            for c in entry.get("choices", []) if c["source"]["type"] == "catalog"]
+            for c in entry.get("choices", []) if c["source"]["type"] == "catalog" and
+            c["source"]["catalog"] not in available_catalogs]
     for rule in entry["selection"]["constraints"]:
         if rule["type"] == "distinct" and rule["against"]["scope"] == "POWER":
             key = rule["against"]["entryId"]

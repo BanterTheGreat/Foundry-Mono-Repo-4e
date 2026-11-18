@@ -84,7 +84,12 @@ class ModernClassesTest(unittest.TestCase):
         self.assertEqual("AC", attack["comparisons"][0]["defense"])
         self.assertEqual(21, attack["comparisons"][0]["outcomes"]["hit"][0]["scaling"][0]["atLevel"])
         self.assertTrue(any("unresolved" in gap for gap in self.catalog["limitations"]["modern4e.feature.combat-superiority"]))
-        self.assertTrue(all(e["coverage"]["status"] == "UNIMPLEMENTED" for e in self.entries.values()))
+        partial = {key for key, entry in self.entries.items() if entry["coverage"]["status"] == "PARTIAL"}
+        self.assertEqual({"modern4e.feature.artificer-techniques", "modern4e.feature.wizard-arcane-techniques"}, partial)
+        for key, entry in self.entries.items():
+            self.assertEqual("PARTIAL" if key in partial else "UNIMPLEMENTED", entry["coverage"]["status"])
+            if key in partial:
+                self.assertTrue(any("remain manual" in limitation for limitation in entry["coverage"]["limitations"]))
 
     def test_renaming_and_moving_do_not_change_identity_or_access(self):
         def edit(root):

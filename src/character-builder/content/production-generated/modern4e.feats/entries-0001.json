@@ -168,7 +168,7 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
+          "Only declared build-time choices, proficiency grants and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
         "status": "PARTIAL"
       },
@@ -284,7 +284,7 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
+          "Only declared build-time choices, proficiency grants and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
         "status": "PARTIAL"
       },
@@ -1797,75 +1797,6 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder.",
-          "Prerequisite not evaluated: Half-Elf (modern4e.ancestry.half-elf (ANCESTRY) is outside the local roster: UNAVAILABLE.)"
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.feat.combat-opening",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.fighter",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "conditions": [
-              {
-                "minimum": 11,
-                "type": "level"
-              },
-              {
-                "reason": "modern4e.ancestry.half-elf (ANCESTRY) is outside the local roster: UNAVAILABLE.",
-                "text": "Half-Elf",
-                "type": "unresolved"
-              }
-            ],
-            "type": "allOf"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "When you can make a melee basic attack against a target because of Combat Challenge, you can instead choose to let an ally make a melee basic attack against that target as a free action.",
-        "title": "Combat Opening"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.fighter",
-          "type": "entry"
-        },
-        "description": "When you can make a melee basic attack against a target because of Combat Challenge, you can instead choose to let an ally make a melee basic attack against that target as a free action.",
-        "id": "modern4e.feat.combat-opening",
-        "prerequisites": {
-          "conditions": [
-            {
-              "minimum": 11,
-              "type": "level"
-            },
-            {
-              "entryId": "modern4e.ancestry.half-elf",
-              "type": "entry"
-            }
-          ],
-          "type": "allOf"
-        },
-        "runtimeRequirementText": "11th level, Half-Elf",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "title": "Combat Opening"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
           "Feat benefits are descriptive text; no feat effect is automated by the character builder."
         ],
         "status": "UNIMPLEMENTED"
@@ -3213,7 +3144,7 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
+          "Only declared build-time choices, proficiency grants and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
         "status": "PARTIAL"
       },
@@ -3993,7 +3924,7 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
+          "Only declared build-time choices, proficiency grants and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
         "status": "PARTIAL"
       },
@@ -4989,7 +4920,7 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
+          "Only declared build-time choices, proficiency grants and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
         "status": "PARTIAL"
       },
@@ -5323,6 +5254,57 @@
           "maximum": 1
         },
         "title": "Distracting Coincidences"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.distracting-shield",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.fighter",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "ability": "WISDOM",
+            "minimum": 3,
+            "type": "abilityPoints"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "If you hit a foe with an attack granted by your Combat Challenge class feature, the target takes a –2 penalty to attack rolls until the start of your next turn.\n\n_Special:_ You must have a shield equipped to benefit from this feat.",
+        "title": "Distracting Shield"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.fighter",
+          "type": "entry"
+        },
+        "description": "If you hit a foe with an attack granted by your Combat Challenge class feature, the target takes a –2 penalty to attack rolls until the start of your next turn.\n\n_Special:_ You must have a shield equipped to benefit from this feat.",
+        "id": "modern4e.feat.distracting-shield",
+        "prerequisites": {
+          "ability": "WISDOM",
+          "minimum": 3,
+          "type": "abilityPoints"
+        },
+        "runtimeRequirementText": "3 Wisdom",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Distracting Shield"
       }
     }
   ],

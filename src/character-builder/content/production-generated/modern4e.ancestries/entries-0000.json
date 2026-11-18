@@ -4,9 +4,8 @@
       "category": "ANCESTRY",
       "coverage": {
         "limitations": [
-          "Select 2 additional language(s); the closed vocabulary has no language decision and no complete language catalog is authored.",
           "Authoring note: The local source lists size as Normal. Preserved pending an explicit rules correction.",
-          "Size, speed, vision and languages are preserved in sharedData and are not applied as modifiers by the character builder."
+          "Size and structured language choices supply build-time facts. Speed and vision are preserved in sharedData and are not applied as modifiers by the character builder."
         ],
         "status": "PARTIAL"
       },
@@ -15,8 +14,66 @@
         "access": {
           "type": "always"
         },
-        "choices": [],
+        "choices": [
+          {
+            "count": 2,
+            "distinctScope": "CHARACTER",
+            "id": "languages",
+            "kind": "LANGUAGE",
+            "options": [
+              {
+                "id": "COMMON",
+                "title": "Common"
+              },
+              {
+                "id": "DEEP_SPEECH",
+                "title": "Deep Speech"
+              },
+              {
+                "id": "DRACONIC",
+                "title": "Draconic"
+              },
+              {
+                "id": "DWARVEN",
+                "title": "Dwarven"
+              },
+              {
+                "id": "ELVEN",
+                "title": "Elven"
+              },
+              {
+                "id": "GIANT",
+                "title": "Giant"
+              },
+              {
+                "id": "GOBLIN",
+                "title": "Goblin"
+              },
+              {
+                "id": "PRIMORDIAL",
+                "title": "Primordial"
+              },
+              {
+                "id": "SUPERNAL",
+                "title": "Supernal"
+              },
+              {
+                "id": "ABYSSAL",
+                "title": "Abyssal"
+              }
+            ],
+            "type": "values"
+          }
+        ],
         "conditionalModifiers": [],
+        "facts": [
+          {
+            "kind": "LANGUAGE",
+            "values": [
+              "COMMON"
+            ]
+          }
+        ],
         "grants": [
           {
             "atLevel": 1,
@@ -49,9 +106,8 @@
             "type": "always"
           }
         ],
-        "unsupported": [
-          "Select 2 additional language(s); the closed vocabulary has no language decision and no complete language catalog is authored."
-        ],
+        "size": "NORMAL",
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
@@ -119,7 +175,7 @@
       "category": "ANCESTRY",
       "coverage": {
         "limitations": [
-          "Size, speed, vision and languages are preserved in sharedData and are not applied as modifiers by the character builder."
+          "Size and structured language choices supply build-time facts. Speed and vision are preserved in sharedData and are not applied as modifiers by the character builder."
         ],
         "status": "PARTIAL"
       },
@@ -130,6 +186,15 @@
         },
         "choices": [],
         "conditionalModifiers": [],
+        "facts": [
+          {
+            "kind": "LANGUAGE",
+            "values": [
+              "COMMON",
+              "DRACONIC"
+            ]
+          }
+        ],
         "grants": [
           {
             "atLevel": 1,
@@ -156,6 +221,7 @@
             "type": "always"
           }
         ],
+        "size": "MEDIUM",
         "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
@@ -219,7 +285,7 @@
       "category": "ANCESTRY",
       "coverage": {
         "limitations": [
-          "Size, speed, vision and languages are preserved in sharedData and are not applied as modifiers by the character builder."
+          "Size and structured language choices supply build-time facts. Speed and vision are preserved in sharedData and are not applied as modifiers by the character builder."
         ],
         "status": "PARTIAL"
       },
@@ -230,6 +296,15 @@
         },
         "choices": [],
         "conditionalModifiers": [],
+        "facts": [
+          {
+            "kind": "LANGUAGE",
+            "values": [
+              "COMMON",
+              "DWARVEN"
+            ]
+          }
+        ],
         "grants": [
           {
             "atLevel": 1,
@@ -256,6 +331,7 @@
             "type": "always"
           }
         ],
+        "size": "MEDIUM",
         "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
@@ -319,7 +395,7 @@
       "category": "ANCESTRY",
       "coverage": {
         "limitations": [
-          "Size, speed, vision and languages are preserved in sharedData and are not applied as modifiers by the character builder."
+          "Size and structured language choices supply build-time facts. Speed and vision are preserved in sharedData and are not applied as modifiers by the character builder."
         ],
         "status": "PARTIAL"
       },
@@ -330,6 +406,15 @@
         },
         "choices": [],
         "conditionalModifiers": [],
+        "facts": [
+          {
+            "kind": "LANGUAGE",
+            "values": [
+              "COMMON",
+              "ELVEN"
+            ]
+          }
+        ],
         "grants": [
           {
             "atLevel": 1,
@@ -356,6 +441,7 @@
             "type": "always"
           }
         ],
+        "size": "MEDIUM",
         "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
@@ -419,7 +505,7 @@
       "category": "ANCESTRY",
       "coverage": {
         "limitations": [
-          "Size, speed, vision and languages are preserved in sharedData and are not applied as modifiers by the character builder."
+          "Size and structured language choices supply build-time facts. Speed and vision are preserved in sharedData and are not applied as modifiers by the character builder."
         ],
         "status": "PARTIAL"
       },
@@ -430,6 +516,15 @@
         },
         "choices": [],
         "conditionalModifiers": [],
+        "facts": [
+          {
+            "kind": "LANGUAGE",
+            "values": [
+              "COMMON",
+              "GOBLIN"
+            ]
+          }
+        ],
         "grants": [
           {
             "atLevel": 1,
@@ -456,6 +551,7 @@
             "type": "always"
           }
         ],
+        "size": "SMALL",
         "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
@@ -519,8 +615,7 @@
       "category": "ANCESTRY",
       "coverage": {
         "limitations": [
-          "Select 1 additional language(s); the closed vocabulary has no language decision and no complete language catalog is authored.",
-          "Size, speed, vision and languages are preserved in sharedData and are not applied as modifiers by the character builder."
+          "Size and structured language choices supply build-time facts. Speed and vision are preserved in sharedData and are not applied as modifiers by the character builder."
         ],
         "status": "PARTIAL"
       },
@@ -529,8 +624,66 @@
         "access": {
           "type": "always"
         },
-        "choices": [],
+        "choices": [
+          {
+            "count": 1,
+            "distinctScope": "CHARACTER",
+            "id": "languages",
+            "kind": "LANGUAGE",
+            "options": [
+              {
+                "id": "COMMON",
+                "title": "Common"
+              },
+              {
+                "id": "DEEP_SPEECH",
+                "title": "Deep Speech"
+              },
+              {
+                "id": "DRACONIC",
+                "title": "Draconic"
+              },
+              {
+                "id": "DWARVEN",
+                "title": "Dwarven"
+              },
+              {
+                "id": "ELVEN",
+                "title": "Elven"
+              },
+              {
+                "id": "GIANT",
+                "title": "Giant"
+              },
+              {
+                "id": "GOBLIN",
+                "title": "Goblin"
+              },
+              {
+                "id": "PRIMORDIAL",
+                "title": "Primordial"
+              },
+              {
+                "id": "SUPERNAL",
+                "title": "Supernal"
+              },
+              {
+                "id": "ABYSSAL",
+                "title": "Abyssal"
+              }
+            ],
+            "type": "values"
+          }
+        ],
         "conditionalModifiers": [],
+        "facts": [
+          {
+            "kind": "LANGUAGE",
+            "values": [
+              "COMMON"
+            ]
+          }
+        ],
         "grants": [
           {
             "atLevel": 1,
@@ -557,9 +710,8 @@
             "type": "always"
           }
         ],
-        "unsupported": [
-          "Select 1 additional language(s); the closed vocabulary has no language decision and no complete language catalog is authored."
-        ],
+        "size": "MEDIUM",
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
@@ -621,8 +773,7 @@
       "category": "ANCESTRY",
       "coverage": {
         "limitations": [
-          "Select 1 additional language(s); the closed vocabulary has no language decision and no complete language catalog is authored.",
-          "Size, speed, vision and languages are preserved in sharedData and are not applied as modifiers by the character builder."
+          "Size and structured language choices supply build-time facts. Speed and vision are preserved in sharedData and are not applied as modifiers by the character builder."
         ],
         "status": "PARTIAL"
       },
@@ -631,8 +782,66 @@
         "access": {
           "type": "always"
         },
-        "choices": [],
+        "choices": [
+          {
+            "count": 1,
+            "distinctScope": "CHARACTER",
+            "id": "languages",
+            "kind": "LANGUAGE",
+            "options": [
+              {
+                "id": "COMMON",
+                "title": "Common"
+              },
+              {
+                "id": "DEEP_SPEECH",
+                "title": "Deep Speech"
+              },
+              {
+                "id": "DRACONIC",
+                "title": "Draconic"
+              },
+              {
+                "id": "DWARVEN",
+                "title": "Dwarven"
+              },
+              {
+                "id": "ELVEN",
+                "title": "Elven"
+              },
+              {
+                "id": "GIANT",
+                "title": "Giant"
+              },
+              {
+                "id": "GOBLIN",
+                "title": "Goblin"
+              },
+              {
+                "id": "PRIMORDIAL",
+                "title": "Primordial"
+              },
+              {
+                "id": "SUPERNAL",
+                "title": "Supernal"
+              },
+              {
+                "id": "ABYSSAL",
+                "title": "Abyssal"
+              }
+            ],
+            "type": "values"
+          }
+        ],
         "conditionalModifiers": [],
+        "facts": [
+          {
+            "kind": "LANGUAGE",
+            "values": [
+              "COMMON"
+            ]
+          }
+        ],
         "grants": [
           {
             "atLevel": 1,
@@ -659,9 +868,8 @@
             "type": "always"
           }
         ],
-        "unsupported": [
-          "Select 1 additional language(s); the closed vocabulary has no language decision and no complete language catalog is authored."
-        ],
+        "size": "SMALL",
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
@@ -723,8 +931,7 @@
       "category": "ANCESTRY",
       "coverage": {
         "limitations": [
-          "Select 1 additional language(s); the closed vocabulary has no language decision and no complete language catalog is authored.",
-          "Size, speed, vision and languages are preserved in sharedData and are not applied as modifiers by the character builder."
+          "Size and structured language choices supply build-time facts. Speed and vision are preserved in sharedData and are not applied as modifiers by the character builder."
         ],
         "status": "PARTIAL"
       },
@@ -733,8 +940,66 @@
         "access": {
           "type": "always"
         },
-        "choices": [],
+        "choices": [
+          {
+            "count": 1,
+            "distinctScope": "CHARACTER",
+            "id": "languages",
+            "kind": "LANGUAGE",
+            "options": [
+              {
+                "id": "COMMON",
+                "title": "Common"
+              },
+              {
+                "id": "DEEP_SPEECH",
+                "title": "Deep Speech"
+              },
+              {
+                "id": "DRACONIC",
+                "title": "Draconic"
+              },
+              {
+                "id": "DWARVEN",
+                "title": "Dwarven"
+              },
+              {
+                "id": "ELVEN",
+                "title": "Elven"
+              },
+              {
+                "id": "GIANT",
+                "title": "Giant"
+              },
+              {
+                "id": "GOBLIN",
+                "title": "Goblin"
+              },
+              {
+                "id": "PRIMORDIAL",
+                "title": "Primordial"
+              },
+              {
+                "id": "SUPERNAL",
+                "title": "Supernal"
+              },
+              {
+                "id": "ABYSSAL",
+                "title": "Abyssal"
+              }
+            ],
+            "type": "values"
+          }
+        ],
         "conditionalModifiers": [],
+        "facts": [
+          {
+            "kind": "LANGUAGE",
+            "values": [
+              "COMMON"
+            ]
+          }
+        ],
         "grants": [
           {
             "atLevel": 1,
@@ -761,9 +1026,8 @@
             "type": "always"
           }
         ],
-        "unsupported": [
-          "Select 1 additional language(s); the closed vocabulary has no language decision and no complete language catalog is authored."
-        ],
+        "size": "MEDIUM",
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
@@ -825,7 +1089,7 @@
       "category": "ANCESTRY",
       "coverage": {
         "limitations": [
-          "Size, speed, vision and languages are preserved in sharedData and are not applied as modifiers by the character builder."
+          "Size and structured language choices supply build-time facts. Speed and vision are preserved in sharedData and are not applied as modifiers by the character builder."
         ],
         "status": "PARTIAL"
       },
@@ -836,6 +1100,15 @@
         },
         "choices": [],
         "conditionalModifiers": [],
+        "facts": [
+          {
+            "kind": "LANGUAGE",
+            "values": [
+              "COMMON",
+              "DRACONIC"
+            ]
+          }
+        ],
         "grants": [
           {
             "atLevel": 1,
@@ -862,6 +1135,7 @@
             "type": "always"
           }
         ],
+        "size": "SMALL",
         "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
@@ -925,8 +1199,7 @@
       "category": "ANCESTRY",
       "coverage": {
         "limitations": [
-          "Select 1 additional language(s); the closed vocabulary has no language decision and no complete language catalog is authored.",
-          "Size, speed, vision and languages are preserved in sharedData and are not applied as modifiers by the character builder."
+          "Size and structured language choices supply build-time facts. Speed and vision are preserved in sharedData and are not applied as modifiers by the character builder."
         ],
         "status": "PARTIAL"
       },
@@ -935,8 +1208,66 @@
         "access": {
           "type": "always"
         },
-        "choices": [],
+        "choices": [
+          {
+            "count": 1,
+            "distinctScope": "CHARACTER",
+            "id": "languages",
+            "kind": "LANGUAGE",
+            "options": [
+              {
+                "id": "COMMON",
+                "title": "Common"
+              },
+              {
+                "id": "DEEP_SPEECH",
+                "title": "Deep Speech"
+              },
+              {
+                "id": "DRACONIC",
+                "title": "Draconic"
+              },
+              {
+                "id": "DWARVEN",
+                "title": "Dwarven"
+              },
+              {
+                "id": "ELVEN",
+                "title": "Elven"
+              },
+              {
+                "id": "GIANT",
+                "title": "Giant"
+              },
+              {
+                "id": "GOBLIN",
+                "title": "Goblin"
+              },
+              {
+                "id": "PRIMORDIAL",
+                "title": "Primordial"
+              },
+              {
+                "id": "SUPERNAL",
+                "title": "Supernal"
+              },
+              {
+                "id": "ABYSSAL",
+                "title": "Abyssal"
+              }
+            ],
+            "type": "values"
+          }
+        ],
         "conditionalModifiers": [],
+        "facts": [
+          {
+            "kind": "LANGUAGE",
+            "values": [
+              "COMMON"
+            ]
+          }
+        ],
         "grants": [
           {
             "atLevel": 1,
@@ -963,9 +1294,8 @@
             "type": "always"
           }
         ],
-        "unsupported": [
-          "Select 1 additional language(s); the closed vocabulary has no language decision and no complete language catalog is authored."
-        ],
+        "size": "MEDIUM",
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
@@ -1027,8 +1357,7 @@
       "category": "ANCESTRY",
       "coverage": {
         "limitations": [
-          "Select 1 additional language(s); the closed vocabulary has no language decision and no complete language catalog is authored.",
-          "Size, speed, vision and languages are preserved in sharedData and are not applied as modifiers by the character builder.",
+          "Size and structured language choices supply build-time facts. Speed and vision are preserved in sharedData and are not applied as modifiers by the character builder.",
           "Revenant is excluded from ZEITGEIST by the local rulebook ancestry roster."
         ],
         "status": "PARTIAL"
@@ -1048,8 +1377,66 @@
           ],
           "type": "allOf"
         },
-        "choices": [],
+        "choices": [
+          {
+            "count": 1,
+            "distinctScope": "CHARACTER",
+            "id": "languages",
+            "kind": "LANGUAGE",
+            "options": [
+              {
+                "id": "COMMON",
+                "title": "Common"
+              },
+              {
+                "id": "DEEP_SPEECH",
+                "title": "Deep Speech"
+              },
+              {
+                "id": "DRACONIC",
+                "title": "Draconic"
+              },
+              {
+                "id": "DWARVEN",
+                "title": "Dwarven"
+              },
+              {
+                "id": "ELVEN",
+                "title": "Elven"
+              },
+              {
+                "id": "GIANT",
+                "title": "Giant"
+              },
+              {
+                "id": "GOBLIN",
+                "title": "Goblin"
+              },
+              {
+                "id": "PRIMORDIAL",
+                "title": "Primordial"
+              },
+              {
+                "id": "SUPERNAL",
+                "title": "Supernal"
+              },
+              {
+                "id": "ABYSSAL",
+                "title": "Abyssal"
+              }
+            ],
+            "type": "values"
+          }
+        ],
         "conditionalModifiers": [],
+        "facts": [
+          {
+            "kind": "LANGUAGE",
+            "values": [
+              "COMMON"
+            ]
+          }
+        ],
         "grants": [
           {
             "atLevel": 1,
@@ -1082,9 +1469,8 @@
             "type": "always"
           }
         ],
-        "unsupported": [
-          "Select 1 additional language(s); the closed vocabulary has no language decision and no complete language catalog is authored."
-        ],
+        "size": "MEDIUM",
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
@@ -1156,8 +1542,7 @@
       "category": "ANCESTRY",
       "coverage": {
         "limitations": [
-          "Select 1 additional language(s); the closed vocabulary has no language decision and no complete language catalog is authored.",
-          "Size, speed, vision and languages are preserved in sharedData and are not applied as modifiers by the character builder."
+          "Size and structured language choices supply build-time facts. Speed and vision are preserved in sharedData and are not applied as modifiers by the character builder."
         ],
         "status": "PARTIAL"
       },
@@ -1166,8 +1551,66 @@
         "access": {
           "type": "always"
         },
-        "choices": [],
+        "choices": [
+          {
+            "count": 1,
+            "distinctScope": "CHARACTER",
+            "id": "languages",
+            "kind": "LANGUAGE",
+            "options": [
+              {
+                "id": "COMMON",
+                "title": "Common"
+              },
+              {
+                "id": "DEEP_SPEECH",
+                "title": "Deep Speech"
+              },
+              {
+                "id": "DRACONIC",
+                "title": "Draconic"
+              },
+              {
+                "id": "DWARVEN",
+                "title": "Dwarven"
+              },
+              {
+                "id": "ELVEN",
+                "title": "Elven"
+              },
+              {
+                "id": "GIANT",
+                "title": "Giant"
+              },
+              {
+                "id": "GOBLIN",
+                "title": "Goblin"
+              },
+              {
+                "id": "PRIMORDIAL",
+                "title": "Primordial"
+              },
+              {
+                "id": "SUPERNAL",
+                "title": "Supernal"
+              },
+              {
+                "id": "ABYSSAL",
+                "title": "Abyssal"
+              }
+            ],
+            "type": "values"
+          }
+        ],
         "conditionalModifiers": [],
+        "facts": [
+          {
+            "kind": "LANGUAGE",
+            "values": [
+              "COMMON"
+            ]
+          }
+        ],
         "grants": [
           {
             "atLevel": 1,
@@ -1194,9 +1637,8 @@
             "type": "always"
           }
         ],
-        "unsupported": [
-          "Select 1 additional language(s); the closed vocabulary has no language decision and no complete language catalog is authored."
-        ],
+        "size": "MEDIUM",
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
@@ -1258,8 +1700,7 @@
       "category": "ANCESTRY",
       "coverage": {
         "limitations": [
-          "Select 1 additional language(s); the closed vocabulary has no language decision and no complete language catalog is authored.",
-          "Size, speed, vision and languages are preserved in sharedData and are not applied as modifiers by the character builder."
+          "Size and structured language choices supply build-time facts. Speed and vision are preserved in sharedData and are not applied as modifiers by the character builder."
         ],
         "status": "PARTIAL"
       },
@@ -1268,8 +1709,66 @@
         "access": {
           "type": "always"
         },
-        "choices": [],
+        "choices": [
+          {
+            "count": 1,
+            "distinctScope": "CHARACTER",
+            "id": "languages",
+            "kind": "LANGUAGE",
+            "options": [
+              {
+                "id": "COMMON",
+                "title": "Common"
+              },
+              {
+                "id": "DEEP_SPEECH",
+                "title": "Deep Speech"
+              },
+              {
+                "id": "DRACONIC",
+                "title": "Draconic"
+              },
+              {
+                "id": "DWARVEN",
+                "title": "Dwarven"
+              },
+              {
+                "id": "ELVEN",
+                "title": "Elven"
+              },
+              {
+                "id": "GIANT",
+                "title": "Giant"
+              },
+              {
+                "id": "GOBLIN",
+                "title": "Goblin"
+              },
+              {
+                "id": "PRIMORDIAL",
+                "title": "Primordial"
+              },
+              {
+                "id": "SUPERNAL",
+                "title": "Supernal"
+              },
+              {
+                "id": "ABYSSAL",
+                "title": "Abyssal"
+              }
+            ],
+            "type": "values"
+          }
+        ],
         "conditionalModifiers": [],
+        "facts": [
+          {
+            "kind": "LANGUAGE",
+            "values": [
+              "COMMON"
+            ]
+          }
+        ],
         "grants": [
           {
             "atLevel": 1,
@@ -1296,9 +1795,8 @@
             "type": "always"
           }
         ],
-        "unsupported": [
-          "Select 1 additional language(s); the closed vocabulary has no language decision and no complete language catalog is authored."
-        ],
+        "size": "MEDIUM",
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
@@ -1710,7 +2208,6 @@
       "category": "FEATURE",
       "coverage": {
         "limitations": [
-          "Choice scales-damage: select 1 of the damage types ACID, COLD, FIRE, LIGHTNING, NECROTIC, POISON, RADIANT; the closed vocabulary has no damage-type decision.",
           "Trait effects described in the text are not automated by the character builder."
         ],
         "status": "PARTIAL"
@@ -1720,7 +2217,45 @@
         "access": {
           "type": "always"
         },
-        "choices": [],
+        "choices": [
+          {
+            "count": 1,
+            "id": "scales-damage",
+            "kind": "DAMAGE_TYPE",
+            "options": [
+              {
+                "id": "ACID",
+                "title": "Acid"
+              },
+              {
+                "id": "COLD",
+                "title": "Cold"
+              },
+              {
+                "id": "FIRE",
+                "title": "Fire"
+              },
+              {
+                "id": "LIGHTNING",
+                "title": "Lightning"
+              },
+              {
+                "id": "NECROTIC",
+                "title": "Necrotic"
+              },
+              {
+                "id": "POISON",
+                "title": "Poison"
+              },
+              {
+                "id": "RADIANT",
+                "title": "Radiant"
+              }
+            ],
+            "targetId": "modern4e.feature.dragonborn-dragonborn-scales",
+            "type": "values"
+          }
+        ],
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
@@ -1729,9 +2264,7 @@
             "type": "always"
           }
         ],
-        "unsupported": [
-          "Choice scales-damage: select 1 of the damage types ACID, COLD, FIRE, LIGHTNING, NECROTIC, POISON, RADIANT; the closed vocabulary has no damage-type decision."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
@@ -2812,7 +3345,6 @@
       "category": "FEATURE",
       "coverage": {
         "limitations": [
-          "Choice scales-damage: select 1 of the damage types ACID, COLD, FIRE, LIGHTNING, NECROTIC, POISON, RADIANT; the closed vocabulary has no damage-type decision.",
           "Trait effects described in the text are not automated by the character builder."
         ],
         "status": "PARTIAL"
@@ -2822,7 +3354,45 @@
         "access": {
           "type": "always"
         },
-        "choices": [],
+        "choices": [
+          {
+            "count": 1,
+            "id": "scales-damage",
+            "kind": "DAMAGE_TYPE",
+            "options": [
+              {
+                "id": "ACID",
+                "title": "Acid"
+              },
+              {
+                "id": "COLD",
+                "title": "Cold"
+              },
+              {
+                "id": "FIRE",
+                "title": "Fire"
+              },
+              {
+                "id": "LIGHTNING",
+                "title": "Lightning"
+              },
+              {
+                "id": "NECROTIC",
+                "title": "Necrotic"
+              },
+              {
+                "id": "POISON",
+                "title": "Poison"
+              },
+              {
+                "id": "RADIANT",
+                "title": "Radiant"
+              }
+            ],
+            "targetId": "modern4e.feature.kobold-kobold-scales",
+            "type": "values"
+          }
+        ],
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
@@ -2831,9 +3401,7 @@
             "type": "always"
           }
         ],
-        "unsupported": [
-          "Choice scales-damage: select 1 of the damage types ACID, COLD, FIRE, LIGHTNING, NECROTIC, POISON, RADIANT; the closed vocabulary has no damage-type decision."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
@@ -3238,7 +3806,6 @@
       "category": "FEATURE",
       "coverage": {
         "limitations": [
-          "Choice past-life: select 1 ancestry other than modern4e.ancestry.revenant for ancestry qualification only; it never grants the chosen ancestry's traits and the closed vocabulary has no qualification-only ancestry decision.",
           "Trait effects described in the text are not automated by the character builder."
         ],
         "status": "PARTIAL"
@@ -3248,7 +3815,64 @@
         "access": {
           "type": "always"
         },
-        "choices": [],
+        "choices": [
+          {
+            "count": 1,
+            "id": "past-life",
+            "kind": "ANCESTRY_QUALIFICATION",
+            "options": [
+              {
+                "id": "modern4e.ancestry.deva",
+                "title": "Deva"
+              },
+              {
+                "id": "modern4e.ancestry.dragonborn",
+                "title": "Dragonborn"
+              },
+              {
+                "id": "modern4e.ancestry.dwarf",
+                "title": "Dwarf"
+              },
+              {
+                "id": "modern4e.ancestry.elf",
+                "title": "Elf"
+              },
+              {
+                "id": "modern4e.ancestry.goblin",
+                "title": "Goblin"
+              },
+              {
+                "id": "modern4e.ancestry.goliath",
+                "title": "Goliath"
+              },
+              {
+                "id": "modern4e.ancestry.halfling",
+                "title": "Halfling"
+              },
+              {
+                "id": "modern4e.ancestry.human",
+                "title": "Human"
+              },
+              {
+                "id": "modern4e.ancestry.kobold",
+                "title": "Kobold"
+              },
+              {
+                "id": "modern4e.ancestry.orc",
+                "title": "Orc"
+              },
+              {
+                "id": "modern4e.ancestry.tiefling",
+                "title": "Tiefling"
+              },
+              {
+                "id": "modern4e.ancestry.warforged",
+                "title": "Warforged"
+              }
+            ],
+            "type": "values"
+          }
+        ],
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
@@ -3257,9 +3881,7 @@
             "type": "always"
           }
         ],
-        "unsupported": [
-          "Choice past-life: select 1 ancestry other than modern4e.ancestry.revenant for ancestry qualification only; it never grants the chosen ancestry's traits and the closed vocabulary has no qualification-only ancestry decision."
-        ],
+        "unsupported": [],
         "version": 2,
         "weaponAbilities": {}
       },
@@ -3852,6 +4474,13 @@
         },
         "choices": [],
         "conditionalModifiers": [],
+        "factLinks": [
+          {
+            "kind": "DAMAGE_TYPE",
+            "sourceTargetId": "modern4e.feature.dragonborn-dragonborn-scales",
+            "targetId": "modern4e.power.dragon-breath"
+          }
+        ],
         "grants": [],
         "maximumSelections": 1,
         "prerequisites": [

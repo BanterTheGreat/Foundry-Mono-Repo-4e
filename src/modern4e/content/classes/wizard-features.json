@@ -1100,16 +1100,29 @@
         "constraints": []
       },
       "coverage": {
-        "status": "UNIMPLEMENTED",
+        "status": "PARTIAL",
         "limitations": [
-          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented.",
-          "The stored encounter-power substitution or technique acquisition remains literal rules pending its runtime/catalog implementation."
+          "Technique Master is explicitly granted, with the authored optional Alchemist substitution. Technique mastery, formulas and combat/session effects remain manual."
         ]
       },
       "sections": [
         {
           "type": "text",
           "text": "You gain the Technique Master feat for Arcane Techniques."
+        },
+        {
+          "type": "grant",
+          "grantId": "wizard-technique-master"
+        }
+      ],
+      "grants": [
+        {
+          "id": "wizard-technique-master",
+          "entryId": "modern4e.feat.technique-master",
+          "atLevel": 1,
+          "replacementEntryIds": [
+            "modern4e.feat.alchemist"
+          ]
         }
       ]
     }

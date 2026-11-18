@@ -57,4 +57,19 @@ class ProgressionTest {
         assertFalse(Progression.canAdjustAbility(base, Ability.STRENGTH, 1))
         assertTrue(Progression.canAdjustAbility(base, Ability.WISDOM, 1))
     }
+    @Test fun filledStructuredChoicesReduceRequiredBadgeAndOptionalGrantsDoNotAddRequirements() {
+        val slot = ChoiceSlotId("linguist", "language", 0)
+        val optional = ChoiceSlotId("feature", "technique", 0)
+        val doc = CharacterDocument(id = "badge", savedAt = "2026-11-18T12:00:00Z", identity = CharacterIdentity("Badge"),
+            packages = emptyList(), level = 1, abilities = AbilityAllocation(ChoiceSlotId("class", "main", 0), Ability.STRENGTH,
+                mapOf(Ability.STRENGTH to 4, Ability.DEXTERITY to 2, Ability.CONSTITUTION to 2, Ability.WISDOM to 1)),
+            levels = listOf(LevelDecisions(1)))
+        val rules = EngineResult(emptyMap(), emptyList(), listOf(EngineChoice(slot, values = listOf(ValueOption("ELVEN", "Elven")), valueKind = FactKind.LANGUAGE)),
+            emptyMap(), emptyMap(), emptyList())
+        val missing = Progression.missing(BuilderState(doc, rules))
+        val filled = doc.copy(levels = listOf(LevelDecisions(1, values = listOf(ValueChoice(slot, "ELVEN")))))
+        assertEquals(missing - 1, Progression.missing(BuilderState(filled, rules)))
+        assertEquals(missing - 1, Progression.missing(BuilderState(filled, rules.copy(choices = rules.choices + EngineChoice(optional, optional = true)))))
+    }
+
 }

@@ -1,5 +1,7 @@
 # Running tests yourself
 
+Character Builder install command routing and failure propagation: `node --test scripts/test/builder-install.test.mjs`. This uses a stub process runner; a real device install is a separate manual check with `npm run builder:install` (or `make builder-install`).
+
 Ordered power authoring (16 published-reference fixtures plus all 19 local class
 migrations and 96 selectable revised Barbarian attacks; Psionics and Monks excluded):
 
@@ -511,7 +513,7 @@ The Python suites cover authored counts, unique IDs, determinism, structured acc
 unresolved/unsupported reporting, no query-pool leakage for granted powers and cross-package references.
 `ProductionContentPackagesTest` loads the bundled bytes through the shared catalog, offers and accepts ancestry,
 theme, feat, utility and equipment entries, checks class-gated feat/utility eligibility and withheld utilities,
-and keeps 802-feat option listing fast. Android tests need an Android SDK; review the sample template's package
+and keeps 798-feat option listing fast. Android tests need an Android SDK; review the sample template's package
 list when adding packages.
 
 Fighter selectable attacks through level 15 add five Python regressions:
@@ -608,7 +610,7 @@ npm run typst:compile
 
 The authoring catalog is generated into ignored `content/modern-feats-generated/`;
 it is not a v1 runtime package and does not change installed web/Android proof
-bundles. Tests cover all 802 stored IDs, explicit access independent of file
+bundles. Tests cover all 798 stored IDs, explicit access independent of file
 location, same-title variants, grouped conditions, Modern 4e skill/point identities,
 multiclass/power queries, missing and ambiguous references, malformed authoring,
 deterministic export/check failures and preserved descriptive benefit conditions.
@@ -791,3 +793,68 @@ duplicate JSON keys and deterministic export/source protection. Actual Typst
 renderer tests require `typst` on PATH or `TYPST_BIN`; inspect the creation table,
 class reference panels and technique introduction after rendering changes. See
 [authoring contract](../src/modern4e/content/creation/README.md).
+
+Armor advancement and structured prerequisites (#29) run on both shared targets:
+
+```powershell
+cd src/character-builder
+.\gradlew.bat :shared:jvmTest :shared:jsNodeTest
+```
+
+`ArmorAdvancementTest` covers each starting category, independent grants, repeated
+selections, the Plate cap, absent starting proficiency, sourced facts and historical
+acquisition. `StructuredPrerequisiteTest` covers structured ancestry size, explicit
+class-specific multiclass selection, leveled encounter-power queries, missing facts,
+self-benefit exclusion and closed query validation. The production content suites
+verify the same authored conditions and armor progression compile into runtime data.
+
+The same content command covers retired Feral Companion/Eladrin/Half-elf-dependent
+options and the reviewed ten-language catalog:
+
+```powershell
+python -X utf8 -m unittest discover -s src/character-builder/content -p 'test_*.py'
+```
+
+`ModernFeatsTest` checks absence from definitions and printed sections, absence of
+remaining ancestry/unresolved prerequisites, exact language identities/scripts/source,
+and rejection of malformed catalogs. `FeatRuntimeTest` checks catalog propagation
+and accurate unsupported coverage. Shared `ProductionContentPackagesTest` checks
+retired saved selections stay unresolved and portable without substitutions on JVM/JS.
+
+Structured feat/ancestry choices and Alchemist grant substitution (#29):
+
+```powershell
+python -X utf8 src/character-builder/content/build.py
+python -X utf8 src/character-builder/content/samples.py
+python -X utf8 src/character-builder/content/build.py --check
+python -X utf8 src/character-builder/content/samples.py --check
+python -X utf8 -m unittest discover -s src/character-builder/content -p 'test_*.py'
+cd src/character-builder
+$env:GRADLE_USER_HOME='C:\Users\Imre\.gradle'
+.\gradlew.bat :shared:jvmTest :shared:jsNodeTest :shared:jsBrowserProductionLibraryDistribution
+.\gradlew.bat :android:testDebugUnitTest :android:assembleDebug :android:assembleDebugAndroidTest
+npm test --prefix web
+npm run build --prefix web
+npm run test:browser --prefix web
+```
+
+`ValueChoicesTest` covers scoped language/damage/proficiency/qualification facts,
+distinctness, exhaustion/fallback, independent damage grants, historical facts,
+self-benefit protection, portable round trips and retained invalid/orphan choices.
+`GrantSubstitutionTest` covers default/explicit alternatives, stable grant identity,
+save/reopen, removed/changed sources/options, missing suppliers and occurrence limits.
+Python tests verify authoritative option identities, compiled ancestry/feat facts,
+exact Alchemist grant sources and replacement-reference validation. Android
+`BuilderSessionTest` exercises durable structured edits, rejected duplicates and
+reopen. Chromium exercises the compiled web editing bridge and IndexedDB
+save/reload for both value choices and the Alchemist substitution. The web app
+remains a scaffold; these checks cover its supported editing API, not a full
+browser builder screen. Android build/unit checks require a configured SDK;
+device instrumentation execution and physical-device visual acceptance are separate.
+
+`SmokeScreenTest.structuredLanguageSheetSavesAndReopensItsDecision` opens the native
+Linguist language sheet, selects a catalog language, saves and reloads the character,
+and checks both the displayed decision and granted fact. The overview smoke test
+uses the current Progression screen and waits for durable saves to finish before
+interacting with enabled controls. Run with `:android:connectedDebugAndroidTest`
+on an explicitly selected test emulator/device.

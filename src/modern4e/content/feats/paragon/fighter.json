@@ -87,32 +87,6 @@
       "description": "You ignore the speed penalty normally incurred by wearing chainmail."
     },
     {
-      "id": "modern4e.feat.fey-charge",
-      "title": "Fey Charge",
-      "access": {
-        "type": "entry",
-        "entryId": "modern4e.class.fighter"
-      },
-      "prerequisites": {
-        "type": "allOf",
-        "conditions": [
-          {
-            "type": "level",
-            "minimum": 11
-          },
-          {
-            "type": "entry",
-            "entryId": "modern4e.ancestry.eladrin"
-          }
-        ]
-      },
-      "selection": {
-        "maximum": 1,
-        "constraints": []
-      },
-      "description": "When you charge, you can expend your fey step racial power as a free action to replace up to 5 squares of your charge movement with teleportation. If the charge attack hits, you do not expend fey step."
-    },
-    {
       "id": "modern4e.feat.dizzying-mace",
       "title": "Dizzying Mace",
       "access": {
@@ -439,32 +413,6 @@
         "constraints": []
       },
       "description": "When you take the total defense action while wielding a two-handed weapon, any enemy that attacks you with a melee attack takes damage equal to your Strength."
-    },
-    {
-      "id": "modern4e.feat.combat-opening",
-      "title": "Combat Opening",
-      "access": {
-        "type": "entry",
-        "entryId": "modern4e.class.fighter"
-      },
-      "prerequisites": {
-        "type": "allOf",
-        "conditions": [
-          {
-            "type": "level",
-            "minimum": 11
-          },
-          {
-            "type": "entry",
-            "entryId": "modern4e.ancestry.half-elf"
-          }
-        ]
-      },
-      "selection": {
-        "maximum": 1,
-        "constraints": []
-      },
-      "description": "When you can make a melee basic attack against a target because of Combat Challenge, you can instead choose to let an ally make a melee basic attack against that target as a free action."
     }
   ]
 }

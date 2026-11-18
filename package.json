@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "builder:install": "node scripts/builder-install.mjs",
     "copy-modules": "node scripts/copy-modules.mjs",
     "copy-module": "node scripts/copy-modules.mjs",
     "typst:compile": "node scripts/typst.mjs compile",

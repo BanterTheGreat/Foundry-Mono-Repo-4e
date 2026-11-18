@@ -1,7 +1,7 @@
 # Modern 4e selection authoring
 
 Status: implemented for feat authoring and Typst/build export. Runtime occurrence
-limits and Skill Training distinct proficiency choices are implemented; the other
+limits, Armor Proficiency advancement and Skill Training distinct proficiency choices are implemented; the other
 repeatable choice effects remain part of migration issue #29. This extends the
 [shared content model](modern4e-content-model.md) without changing class JSON,
 class progression or the existing v1 runtime packages.
@@ -49,11 +49,16 @@ selections. `constraints` is an array. Missing `selection` is an error in feat v
 scoped to its entry, a `kind`, a positive `count` of distinct values within one
 occurrence, and a `source`. A `SKILL` choice does not itself imply proficiency:
 Linguist chooses a skill for a bonus, whereas Skill Training grants proficiency.
-Benefit mechanics remain in effect prose pending automation.
+The runtime compiles supported build-time grants separately from this selection
+vocabulary; other benefit mechanics remain in effect prose and manual coverage.
 
 Choice kinds are `SKILL`, `LANGUAGE`, `WEAPON_PROFICIENCY` and `DAMAGE_TYPE`.
 `values` sources use validated finite enum pools. `catalog` sources declare
 external option catalogs; missing catalogs produce explicit export limitations.
+The LANGUAGE catalog is reviewed and exported with stable identities, names, scripts
+and source attribution (Rules Compendium p. 69). WEAPON uses the validated local
+equipment catalog's nine superior weapons and stable `modern4e.weapon.*` IDs.
+The simple-and-military bundle remains a separate authored option identity.
 
 ## Distinct-choice constraints
 
@@ -105,12 +110,31 @@ Effect prose retains the original benefits without duplicating these paragraphs.
 
 The production mechanics-v2 engine enforces explicit occurrence limits and Skill
 Training's two distinct untrained skills, including repeated picks and exhaustion.
-The remaining scopes and repeatable feat benefits stay visibly unsupported.
-Language and weapon catalogs, historical facts, full effects, character migration,
-unresolved prerequisites and deduplication remain separate work. Scope `ENTRY`
+Armor Proficiency replays the authored order at acquisition time, uses independent
+equipment grants and class proficiencies, grants exactly the next category, and
+blocks further selection at Plate. A missing starting proficiency grants nothing.
+Weapon Proficiency, Linguist and Adaptable Breath compile to structured value
+choices. Persisted decisions retain source occurrence, choice ID and ordinal;
+invalid or orphaned decisions remain in the document with diagnostics. Language
+facts are character-wide; repeated bonus-skill/weapon picks are entry-specific;
+damage facts target the declared power. Descriptive personal-detail text never
+establishes those facts. Linguist's authored +2 feat bonus (+3 at level 21) uses
+the normal modifier stacking rules, including repeated selections of that feat.
+Structured ancestry choices supply known languages, power damage types and Past
+Life qualification. Past Life never visits or grants the chosen ancestry's traits.
+Acquisition-time independent facts continue to exclude self-benefits and dependent
+chains. Full combat/session effects remain manual.
+Saved-character migration UI/save integration is deferred to
+[#38](https://github.com/BanterTheGreat/Foundry-Mono-Repo-4e/issues/38), outside #29. Scope `ENTRY`
 uses stable IDs; known duplicate definitions need review before full activation.
 
-Alchemist's replacement of granted Technique Master remains descriptive and needs
-a separate slot/grant interaction. Conditional benefits such as “have a shield
-equipped to benefit” remain effect conditions. Neither becomes a repetition rule
-or new prerequisite. The parallel class migration has no new dependency on them.
+Alchemist is an explicit alternative on the authored class-feature Technique
+Master grants. The granting occurrence and grant ID identify its slot; changing
+the selected definition retains the deterministic granted occurrence identity.
+With no saved decision, the engine uses the default grant. An explicit substitution retains its
+saved supplier/fingerprint and is revalidated when the source or allowed options
+change; unavailable or orphaned choices are diagnosed and preserved. Removing a
+decision deliberately restores the current default. This is a grant interaction,
+not general retraining or an extra feat allowance. Technique mastery and formula
+effects remain manual. Conditional benefits such as “have a shield equipped to
+benefit” remain effect conditions, never new selection prerequisites.

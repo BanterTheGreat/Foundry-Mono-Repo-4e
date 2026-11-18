@@ -28,6 +28,36 @@ class BuilderSessionTest {
         File(context.filesDir, "characters").deleteRecursively()
         store = AndroidCharacterStore(context)
     }
+    @Test fun structuredLinguistEditsPersistAndReopenWithGrantsAndRejectedDuplicates() = runBlocking {
+        val model = session()
+        model.create()
+        val id = model.current!!.document.id
+        model.edit(BuilderEdit.Entry(1, ChoiceSlotId("creation", "feat", 0), "modern4e.feat.linguist", "linguist"))
+        assertTrue(model.errors.isEmpty())
+        val occurrence = model.current!!.document.levels.flatMap { it.entries }.single { it.selection.entryId == "modern4e.feat.linguist" }.instanceId
+        val choices = model.current!!.rules.choices.filter { it.slot.sourceInstanceId == occurrence && it.valueKind == FactKind.LANGUAGE }
+        assertEquals(3, choices.size)
+        val picked = mutableSetOf<String>()
+        for (choice in choices) {
+            val current = model.current!!.rules.choices.single { it.slot == choice.slot }
+            val option = current.values.first { it.id !in picked }
+            model.edit(BuilderEdit.Value(1, ValueChoice(choice.slot, option.id)))
+            assertTrue(model.errors.isEmpty())
+            picked += option.id
+        }
+        val bonus = model.current!!.rules.choices.single { it.slot.sourceInstanceId == occurrence && it.valueKind == FactKind.SKILL_BONUS }
+        model.edit(BuilderEdit.Value(1, ValueChoice(bonus.slot, "SOCIETY")))
+        assertTrue(model.errors.isEmpty())
+        val reopened = session()
+        reopened.load(id)
+        assertEquals(4, reopened.current!!.document.levels.flatMap { it.values }.count { it.slot.sourceInstanceId == occurrence })
+        assertTrue(reopened.current!!.rules.facts.filter { it.kind == FactKind.LANGUAGE }.map { it.value }.containsAll(picked))
+        val committed = reopened.current!!.document
+        val rejected = reopened.previewProgression(BuilderEdit.Value(1, ValueChoice(choices[1].slot, picked.first())))
+        assertNull(rejected)
+        assertEquals(committed, reopened.current!!.document)
+    }
+
     @Test fun productionCreationUsesModernIdentityWithoutAdoptingLegacyDecisions() = runBlocking {
         val model = BuilderSession(store, AndroidContentSource(context.assets)) {
             (ContractCodec.decode(context.assets.open("samples/sample-modern-fighter.json")

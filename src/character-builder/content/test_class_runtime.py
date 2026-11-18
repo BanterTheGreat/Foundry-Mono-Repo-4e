@@ -6,9 +6,50 @@ import tempfile
 import unittest
 
 import class_runtime
+import runtime_common
 
 
 class ClassRuntimeTest(unittest.TestCase):
+    def test_replacement_references_in_grants_and_progressions_must_resolve(self):
+        for field in ("grants", "progression"):
+            grant = {"type": "entry", "grantId": "techniques", "entryId": "default", "replacementEntryIds": ["missing"]}
+            mechanics = {"grants": [grant]} if field == "grants" else {"progression": [{"level": 2, "grants": [grant]}]}
+            assets = {"test/entries.json": {"id": "entries", "entries": [
+                {"id": "source", "mechanics": mechanics}, {"id": "default", "mechanics": {}}]}}
+            self.assertIn("missing", runtime_common.referenced_ids(assets["test/entries.json"]["entries"][0]))
+            with self.assertRaisesRegex(ValueError, "mechanical reference missing is absent"):
+                runtime_common.validate_references(assets)
+
+    def test_only_authored_class_features_grant_the_technique_master_substitution(self):
+        entries = {e["id"]: e for e in class_runtime.build()["modern4e.classes/entries.json"]["entries"]}
+        grants = [(entry["id"], grant) for entry in entries.values() for grant in entry["mechanics"]["grants"]
+                  if grant.get("replacementEntryIds")]
+        self.assertEqual({"modern4e.feature.artificer-techniques", "modern4e.feature.wizard-arcane-techniques"},
+                         {entry_id for entry_id, _ in grants})
+        self.assertEqual(2, len(grants))
+        for entry_id, grant in grants:
+            self.assertEqual("modern4e.feat.technique-master", grant["entryId"])
+            self.assertEqual(["modern4e.feat.alchemist"], grant["replacementEntryIds"])
+            self.assertEqual(1, grant["atLevel"])
+            self.assertIn("manual", " ".join(entries[entry_id]["coverage"]["limitations"]))
+            self.assertEqual([], entries[entry_id]["mechanics"]["choices"])
+
+    def test_invalid_or_duplicate_grant_substitutions_are_rejected_at_authoring(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "classes"
+            shutil.copytree(class_runtime.authoring.CONTENT, root)
+            path = root / "artificer-features.json"
+            original = json.loads(path.read_text(encoding="utf-8"))
+            for replacements, message in [(["modern4e.feat.alchemist", "modern4e.feat.alchemist"], "duplicate grant replacement"),
+                                          (["modern4e.feat.technique-master"], "duplicate grant replacement"),
+                                          (["modern4e.feature.artificer-techniques"], "reference category mismatch")]:
+                data = json.loads(json.dumps(original))
+                entry = next(e for e in data["features"] if e["id"] == "modern4e.feature.artificer-techniques")
+                entry["grants"][0]["replacementEntryIds"] = replacements
+                path.write_text(json.dumps(data), encoding="utf-8")
+                with self.assertRaisesRegex(ValueError, message):
+                    class_runtime.build(root)
+
     def test_fighter_exact_runtime_golden_and_independent_choices(self):
         assets = class_runtime.build(class_ids=["modern4e.class.fighter"], include_advancement=False)
         chunk = assets["modern4e.classes/entries.json"]

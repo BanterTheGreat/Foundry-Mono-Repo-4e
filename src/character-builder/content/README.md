@@ -4,14 +4,14 @@
 
 Production uses an explicit build-time ZEITGEIST profile in `campaign-profiles.json`.
 Revenant retains its ID and full definition but has a provably unavailable access
-condition. HOMEBREW is declared unavailable until its separate theme roster is
-migrated. This does not add per-character campaign switching.
+condition. HOMEBREW is explicitly unsupported and outside the current Character Builder
+scope by user decision. Only ZEITGEIST is supported. This does not add per-character campaign switching.
 
 Mechanics-v2 eligibility uses independent selection-time facts. Explicit
 class-specific multiclass targets qualify for feat/paragon-path class and source
 requirements, without opening class power pools or granting class equipment
 proficiencies. Skill Training enforces two distinct untrained skills and pool
-exhaustion. Other repeatable feat choices/effects remain visible limitations.
+exhaustion. Armor Proficiency advances the authored category sequence through Plate using independent/current equipment proficiency facts, with repeated-selection cap checks. Other repeatable feat choices/effects remain visible limitations.
 
 `samples.py` additionally generates three unbundled acceptance characters:
 level 1, level 2 with a combat utility, and level 2 with a non-combat utility.
@@ -25,12 +25,13 @@ attack IDs to stable Modern 4e identities. The shared `ContentMigration` API
 requires a deliberate destination catalog and preview/commit. It retains unknown
 choices, original supplier/title/fingerprint provenance and slots, rejects stale
 confirmation, and never converts scores. Package precedence follows the selected
-destination catalog. Platform migration UI remains pending; the plan is not
-applied automatically when opening a character.
+destination catalog. Platform migration UI, save/recovery integration and additional reviewed adoption
+plans are deferred to [#38](https://github.com/BanterTheGreat/Foundry-Mono-Repo-4e/issues/38),
+outside #29 acceptance. The plan is not applied automatically when opening a character.
 
-Remaining #29 work includes other repeatable effects/option catalogs, Alchemist's
-grant replacement, one unresolved prerequisite occurrence, broader content coverage,
-broader reviewed ID plans and platform migration UI. Higher-level progression
+Remaining #29 work includes other repeatable effects/weapon option catalogs, language choice persistence/grants, Alchemist's
+grant replacement and broader content coverage. Saved-character adoption UI and
+additional reviewed ID plans are tracked separately in #38. Higher-level progression
 remains provisional under #20.
 
 ## Production classes (#35)
@@ -84,7 +85,7 @@ future adoption must present explicit mappings and a reconciliation preview.
 to retained definitions. It uses the existing deliberate preview/commit API;
 removed heroic Bloodthirsty Visage and paragon Double Lunge have no substitute.
 Section `ref` placements share one authored definition and occurrence limit while
-preserving class-page order. The runtime exports 802 unique feats; no same-title
+preserving class-page order. The runtime exports 798 unique feats; no same-title
 groups remain after the reviewed corrections. Stable IDs survive title changes,
 including Scouring Wrath and Swordmage Warden/Aegis.
 
@@ -123,7 +124,7 @@ compiler module and test suite in this folder; `runtime_common.py` supplies the 
 cross-package reference check. The sample new-character template enables all of them.
 
 - `modern4e.ancestries` (`ancestry_runtime.py`): 13 ancestries, 41 traits and 15 powers. Complete authored entries,
-  including size, speed, vision and languages, stay in `sharedData`; no modifiers are invented from prose or
+  including size, speed, vision and languages, stay in `sharedData`; size additionally supplies a structured prerequisite fact. No modifiers are invented from prose or
   attributes. Grants and Dragonborn/Elf power choices compile to finite entry choices. Damage-type choices,
   Revenant's Past Life (ancestry qualification only, never granting the chosen ancestry's traits) and language
   picks are recorded in `mechanics.unsupported` and coverage limitations. Ancestry powers carry no power profile
@@ -132,11 +133,11 @@ cross-package reference check. The sample new-character template enables all of 
   root slot `creation/theme/0`. Gunsmith's five `modifications` options are not an automatic grant or a finite
   choice because their count and timing exist only in prose; they are preserved in `sharedData` and reported as
   unsupported. Theme powers have no power profile.
-- `modern4e.feats` (`feat_runtime.py`): all 802 feats in nine chunks. Access, structured prerequisites (allOf/anyOf
+- `modern4e.feats` (`feat_runtime.py`): all 798 feats in eight chunks. Access, structured prerequisites (allOf/anyOf
   intact) and `selection.maximum` are preserved; entry references to classes, ancestries and their features/powers
-  stay `entry` conditions only when the target exists in a runtime package. Pending/unavailable references and
-  `size`/`selected` conditions become explicit `unresolved` conditions. Skill Training's two distinct untrained skill choices are enforced, including exhaustion;
-  other choices and distinct/advance constraints are unsupported and listed in coverage. Explicit
+  stay `entry` conditions only when the target exists in a runtime package. Pending/unavailable references
+  remain explicit unresolved conditions. `size`/`selected` predicates compile to structured ancestry and selection queries; unknown facts stay incomplete. Skill Training's two distinct untrained skill choices are enforced, including exhaustion;
+  Armor Proficiency advances the authored category sequence through Plate; other choices and distinct constraints are unsupported and listed in coverage. Explicit
   tagged multiclass targets carry contextual feat/paragon-path qualification; other benefits remain descriptive.
 - `modern4e.utilities` (`utility_runtime.py`): all 1,081 utility powers. The 1,010 in AVAILABLE sections carry a
   `powerProfile` and join the level-N utility pools; the 71 DEFERRED class utilities stay in the package so IDs
@@ -149,7 +150,7 @@ cross-package reference check. The sample new-character template enables all of 
   (`--modern-equipment`) is unchanged.
 
 `BuilderOperations.options` evaluates each candidate against one shared decoded catalog snapshot
-(`ContentCatalog.readSession`), which keeps large pools such as the 802 feats usable.
+(`ContentCatalog.readSession`), which keeps large pools such as the 798 feats usable.
 
 ## Shared class runtime package (#33)
 
@@ -228,7 +229,7 @@ versioned **authoring catalog**, with original section order, structured conditi
 reference declarations, generated requirement/selection text and per-entry unresolved
 gaps. Feat files and this catalog use schema v2, including explicit `selection`
 limits and separate `choices`. See the [selection contract](../../../docs/modern4e-selection-rules.md)
-for distinctness scopes, exhaustion rules and the pending language/weapon catalogs.
+for distinctness scopes, exhaustion rules and reviewed language/weapon catalogs.
 Use `--output <directory>` for another location. No timestamps or machine paths
 are emitted. Strict validation runs before any output writes; `--check` compares
 the exact generated bytes. Unknown fields, duplicate IDs, undeclared references,
@@ -272,3 +273,33 @@ Each config contains `packages`: unique ID, opaque revision, title, entries, opt
 Mechanics use the existing closed Kotlin v1 vocabulary: prerequisites, grants, choices, typed integer modifiers and level progression. Unknown fields, executable extensions, vanilla skill identities, invalid target qualifiers/ranges, repeated choice/grant IDs, duplicate entries, cycles, missing dependencies and unresolved mechanical references fail. Mechanical references must exist locally or in a declared transitive dependency; presentation references may target the broader snapshot. Duplicate authored JSON keys are rejected.
 
 Absent mechanics receive UNIMPLEMENTED coverage with a limitation. Authored mechanics require explicit coverage. PARTIAL/UNIMPLEMENTED require nonblank limitations; an unadapted prerequisite cannot claim SUPPORTED. Coverage is the author's declaration, not proof that a runtime engine evaluates every operation.
+
+## Retired dependencies and reviewed languages (#29)
+
+Feral Companion, Fey Charge, Combat Opening and Elusive Hexer are removed from
+shared authoring and production. No active feat requires Eladrin/Half-elf; no
+authored unresolved prerequisite occurrence remains. Saved retired IDs are not
+mapped to other options and preserve their supplier/title/fingerprint provenance.
+
+`modern4e/content/languages.json` (relative to `src/`) records the ten published
+languages approved for Linguist, including stable IDs, scripts and the Rules
+Compendium p. 69 source. The feat authoring catalog exports `optionCatalogs.LANGUAGE`;
+Linguist's runtime `sharedData.runtimeChoiceCatalogs.LANGUAGE` carries identical
+catalog data. Its structured value choices persist three new languages and the
+authored chosen skill bonus, with separate language and bonus-skill exhaustion
+rules. WEAPON options come from the nine superior identities in the validated
+local equipment catalog plus the explicitly authored simple-and-military bundle.
+Weapon Proficiency and Adaptable Breath compile scoped distinct choices; ancestry
+choices and grants supply structured language, damage and qualification facts.
+Descriptive identity language text supplies no eligibility facts. Other unspecified
+feat benefits remain manual. HOMEBREW still denotes the alternate rulebook theme
+roster in `glossary/themes.typ`, not a general switch enabling arbitrary imports;
+its builder profile stays disabled and is outside the current scope by user decision.
+
+Alchemist substitutes only for explicitly authored class-feature Technique Master
+grants. The class compiler retains the source grant ID and emits its permitted
+replacement IDs; runtime dependency validation includes default and replacement.
+There is no additional normal feat slot, inferred technique catalog or formula
+automation. Missing sources/options preserve saved substitution decisions with
+diagnostics. Regenerate production packages and sample fingerprints with `build.py`
+and `samples.py` after changing inputs, then check both with `--check`.

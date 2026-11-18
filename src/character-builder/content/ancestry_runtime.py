@@ -1,12 +1,14 @@
 """Compile validated shared ancestry data into the mechanics-v2 runtime contract.
 
-One package, ``modern4e.ancestries``, carries every ancestry with its traits (features) and
-ancestry powers. Size, speed, vision and languages stay in ``sharedData`` only. Decisions the
-closed Mechanics vocabulary cannot express (damage types, ancestry exclusion, language picks)
-are recorded in ``mechanics.unsupported`` and coverage limitations, never dropped or faked.
+One package, ``modern4e.ancestries``, carries every ancestry with its traits and powers.
+Structured language choices, entry-scoped damage decisions and qualification-only Past Life
+facts are persisted by the shared engine. Explicit fact links connect Dragonborn Scales to
+active Dragon Breath without conflating other ancestry damage facts. Combat/session effects,
+speed and vision remain manual and visibly covered as partial or unimplemented.
 """
 import copy
 import importlib.util
+import json
 import sys
 from pathlib import Path
 
@@ -39,9 +41,17 @@ def category(entry_id):
     return CATEGORIES[entry_id.split(".")[1]]
 
 
-def compile_choice(choice):
-    """Compile a finite power choice; return None for sources the vocabulary cannot express."""
+def compile_choice(choice, entry_id=None):
+    """Compile a finite power, scoped damage-type or qualification-only ancestry choice."""
     source = choice["source"]
+    if "damageTypes" in source:
+        return {"type": "values", "id": choice["id"], "count": choice["count"], "kind": "DAMAGE_TYPE",
+                "targetId": entry_id, "options": [{"id": value, "title": value.title()} for value in source["damageTypes"]]}
+    if "ancestriesExcept" in source:
+        entries = authoring.load()
+        return {"type": "values", "id": choice["id"], "count": choice["count"], "kind": "ANCESTRY_QUALIFICATION",
+                "options": [{"id": entry["id"], "title": entry["title"]} for entry in entries.values()
+                            if category(entry["id"]) == "ANCESTRY" and entry["id"] not in source["ancestriesExcept"]]}
     if "entryIds" not in source:
         return None
     return class_runtime.compile_choice({"id": choice["id"], "count": choice["count"], "atLevel": 1,
@@ -50,7 +60,7 @@ def compile_choice(choice):
 
 
 def unsupported_choice(choice):
-    """Describe a decision (damage type, excluded-ancestry pick) that has no runtime vocabulary."""
+    """Describe an unsupported authored decision without deleting its source data."""
     source = choice["source"]
     count = choice["count"]
     if "damageTypes" in source:
@@ -70,22 +80,29 @@ def compile_entry(entry):
     mechanics = result["mechanics"]
     unsupported = []
     for choice in entry.get("choices", []):
-        compiled = compile_choice(choice)
+        compiled = compile_choice(choice, entry["id"])
         if compiled:
             mechanics["choices"].append(compiled)
         else:
             unsupported.append(unsupported_choice(choice))
     if kind == "ANCESTRY":
-        picks = entry["attributes"]["languages"]["choiceCount"]
+        mechanics["size"] = entry["attributes"]["size"].upper()
+        languages = entry["attributes"]["languages"]
+        mechanics["facts"] = [{"kind": "LANGUAGE", "values": [value.upper().replace("-", "_").replace(" ", "_") for value in languages["fixed"]]}]
+        picks = languages["choiceCount"]
         if picks:
-            unsupported.append(f"Select {picks} additional language(s); the closed vocabulary has no language "
-                               "decision and no complete language catalog is authored.")
+            catalog = json.loads((SCRIPTS.parent / "content/languages.json").read_text(encoding="utf-8"))
+            mechanics["choices"].append({"type": "values", "id": "languages", "count": picks, "kind": "LANGUAGE",
+                                         "distinctScope": "CHARACTER", "options": [{"id": option["id"], "title": option["title"]} for option in catalog["languages"]]})
+    if entry["id"] == "modern4e.power.dragon-breath":
+        mechanics["factLinks"] = [{"kind": "DAMAGE_TYPE", "sourceTargetId": "modern4e.feature.dragonborn-dragonborn-scales",
+                                    "targetId": entry["id"]}]
     mechanics["unsupported"] += unsupported
     limitations = list(unsupported)
     if "note" in entry:
         limitations.append("Authoring note: " + entry["note"])
     if kind == "ANCESTRY":
-        limitations.append("Size, speed, vision and languages are preserved in sharedData and are not applied "
+        limitations.append("Size and structured language choices supply build-time facts. Speed and vision are preserved in sharedData and are not applied "
                            "as modifiers by the character builder.")
     elif kind == "FEATURE":
         limitations.append("Trait effects described in the text are not automated by the character builder.")

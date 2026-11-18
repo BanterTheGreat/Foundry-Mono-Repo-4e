@@ -8,302 +8,6 @@
         ],
         "status": "UNIMPLEMENTED"
       },
-      "id": "modern4e.feat.persistent-challenge",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.paladin",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "conditions": [
-              {
-                "minimum": 11,
-                "type": "level"
-              },
-              {
-                "ability": "CHARISMA",
-                "minimum": 2,
-                "type": "abilityPoints"
-              },
-              {
-                "entryId": "modern4e.power.divine-challenge",
-                "type": "entry"
-              }
-            ],
-            "type": "allOf"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "Once per encounter, if you fail to engage any target of your Divine Challenge on your turn, you can maintain the marks from that use of Divine Challenge as if you had engaged a target.",
-        "title": "Persistent Challenge"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.paladin",
-          "type": "entry"
-        },
-        "description": "Once per encounter, if you fail to engage any target of your Divine Challenge on your turn, you can maintain the marks from that use of Divine Challenge as if you had engaged a target.",
-        "id": "modern4e.feat.persistent-challenge",
-        "prerequisites": {
-          "conditions": [
-            {
-              "minimum": 11,
-              "type": "level"
-            },
-            {
-              "ability": "CHARISMA",
-              "minimum": 2,
-              "type": "abilityPoints"
-            },
-            {
-              "entryId": "modern4e.power.divine-challenge",
-              "type": "entry"
-            }
-          ],
-          "type": "allOf"
-        },
-        "runtimeRequirementText": "11th level, 2 Charisma, Divine Challenge",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "source": "https://iws.mx/dnd/?view=feat1583 — Divine Power, page(s) 140.",
-        "title": "Persistent Challenge"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.feat.pervasive-light",
-      "mechanics": {
-        "access": {
-          "type": "always"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "conditions": [
-              {
-                "minimum": 11,
-                "type": "level"
-              },
-              {
-                "powerSource": "DIVINE",
-                "type": "classPowerSource"
-              }
-            ],
-            "type": "allOf"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "When you hit a target that has vulnerability to radiant damage with an attack that does not deal radiant damage, you deal extra damage equal to that vulnerability.",
-        "title": "Pervasive Light"
-      },
-      "sharedData": {
-        "access": {
-          "type": "always"
-        },
-        "description": "When you hit a target that has vulnerability to radiant damage with an attack that does not deal radiant damage, you deal extra damage equal to that vulnerability.",
-        "id": "modern4e.feat.pervasive-light",
-        "prerequisites": {
-          "conditions": [
-            {
-              "minimum": 11,
-              "type": "level"
-            },
-            {
-              "powerSource": "DIVINE",
-              "type": "classPowerSource"
-            }
-          ],
-          "type": "allOf"
-        },
-        "runtimeRequirementText": "11th level, Any Divine class",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "title": "Pervasive Light"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.feat.phalanx-warrior-paragon-fighter",
-      "mechanics": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.fighter",
-              "type": "entry"
-            },
-            {
-              "entryId": "modern4e.class.warlord",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "conditions": [
-              {
-                "minimum": 11,
-                "type": "level"
-              },
-              {
-                "conditions": [
-                  {
-                    "equipment": "LIGHT_SHIELD",
-                    "type": "equipmentProficiency"
-                  },
-                  {
-                    "equipment": "HEAVY_SHIELD",
-                    "type": "equipmentProficiency"
-                  }
-                ],
-                "type": "anyOf"
-              }
-            ],
-            "type": "allOf"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "When you are using a shield, adjacent allies gain a +1 shield bonus to AC.",
-        "title": "Phalanx Warrior"
-      },
-      "sharedData": {
-        "access": {
-          "conditions": [
-            {
-              "entryId": "modern4e.class.fighter",
-              "type": "entry"
-            },
-            {
-              "entryId": "modern4e.class.warlord",
-              "type": "entry"
-            }
-          ],
-          "type": "anyOf"
-        },
-        "description": "When you are using a shield, adjacent allies gain a +1 shield bonus to AC.",
-        "id": "modern4e.feat.phalanx-warrior-paragon-fighter",
-        "prerequisites": {
-          "conditions": [
-            {
-              "minimum": 11,
-              "type": "level"
-            },
-            {
-              "conditions": [
-                {
-                  "equipment": "LIGHT_SHIELD",
-                  "type": "equipmentProficiency"
-                },
-                {
-                  "equipment": "HEAVY_SHIELD",
-                  "type": "equipmentProficiency"
-                }
-              ],
-              "type": "anyOf"
-            }
-          ],
-          "type": "allOf"
-        },
-        "runtimeRequirementText": "11th level, (Proficiency with light shields or Proficiency with heavy shields)",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "title": "Phalanx Warrior"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.feat.phantasmal-destruction",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.wizard",
-          "type": "entry"
-        },
-        "choices": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "prerequisites": [
-          {
-            "minimum": 11,
-            "type": "level"
-          }
-        ],
-        "unsupported": [],
-        "version": 2
-      },
-      "presentation": {
-        "description": "When you have combat advantage against a creature, any wizard illusion power that you use against that creature scores a critical hit on a roll of 19–20.",
-        "title": "Phantasmal Destruction"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.wizard",
-          "type": "entry"
-        },
-        "description": "When you have combat advantage against a creature, any wizard illusion power that you use against that creature scores a critical hit on a roll of 19–20.",
-        "id": "modern4e.feat.phantasmal-destruction",
-        "prerequisites": {
-          "minimum": 11,
-          "type": "level"
-        },
-        "runtimeRequirementText": "11th level",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "source": "Source: https://iws.mx/dnd/?view=feat2001",
-        "title": "Phantasmal Destruction"
-      }
-    },
-    {
-      "category": "FEAT",
-      "coverage": {
-        "limitations": [
-          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
       "id": "modern4e.feat.phantom-echoes",
       "mechanics": {
         "access": {
@@ -2713,7 +2417,7 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
+          "Only declared build-time choices, proficiency grants and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
         "status": "PARTIAL"
       },
@@ -3665,7 +3369,7 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
+          "Only declared build-time choices, proficiency grants and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
         "status": "PARTIAL"
       },
@@ -5221,7 +4925,7 @@
       "category": "FEAT",
       "coverage": {
         "limitations": [
-          "Only declared proficiency choices and explicit multiclass qualification are automated; other feat benefits require manual resolution."
+          "Only declared build-time choices, proficiency grants and explicit multiclass qualification are automated; other feat benefits require manual resolution."
         ],
         "status": "PARTIAL"
       },
@@ -5313,6 +5017,195 @@
           "maximum": 1
         },
         "title": "Ruthless Injury"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.ruthless-killer",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.druid",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you hit a target with the grasping claws power, instead of slowing the target you can instead choose for the target to be immobilized until the end of your next turn. If you are ever not adjacent to the target, the immobilized effect ends.",
+        "title": "Ruthless Killer"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.druid",
+          "type": "entry"
+        },
+        "description": "When you hit a target with the grasping claws power, instead of slowing the target you can instead choose for the target to be immobilized until the end of your next turn. If you are ever not adjacent to the target, the immobilized effect ends.",
+        "id": "modern4e.feat.ruthless-killer",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Ruthless Killer"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.sacrifice-to-caiphon",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "ability": "CONSTITUTION",
+            "minimum": 2,
+            "type": "abilityPoints"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you attack with a Warlock encounter power that has targets and you miss all targets, then you can deal damage to yourself equal to the level of the power. If you do, you immediately recover the power.",
+        "title": "Sacrifice to Caiphon"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warlock",
+          "type": "entry"
+        },
+        "description": "When you attack with a Warlock encounter power that has targets and you miss all targets, then you can deal damage to yourself equal to the level of the power. If you do, you immediately recover the power.",
+        "id": "modern4e.feat.sacrifice-to-caiphon",
+        "prerequisites": {
+          "ability": "CONSTITUTION",
+          "minimum": 2,
+          "type": "abilityPoints"
+        },
+        "runtimeRequirementText": "2 Constitution",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Sacrifice to Caiphon"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.savage-assault",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.ancestry.orc",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you use furious assault, the enemy you hit also takes a -1 penalty to all defenses until the end of your next turn.",
+        "title": "Savage Assault"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.ancestry.orc",
+          "type": "entry"
+        },
+        "description": "When you use furious assault, the enemy you hit also takes a -1 penalty to all defenses until the end of your next turn.",
+        "id": "modern4e.feat.savage-assault",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Savage Assault"
+      }
+    },
+    {
+      "category": "FEAT",
+      "coverage": {
+        "limitations": [
+          "Feat benefits are descriptive text; no feat effect is automated by the character builder."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.feat.savage-axe",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.fighter",
+          "type": "entry"
+        },
+        "choices": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2
+      },
+      "presentation": {
+        "description": "When you hit with an opportunity attack with an axe, you deal extra damage equal to your Constitution.",
+        "title": "Savage Axe"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.fighter",
+          "type": "entry"
+        },
+        "description": "When you hit with an opportunity attack with an axe, you deal extra damage equal to your Constitution.",
+        "id": "modern4e.feat.savage-axe",
+        "prerequisites": {
+          "type": "always"
+        },
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "title": "Savage Axe"
       }
     }
   ],

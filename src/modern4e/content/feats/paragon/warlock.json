@@ -62,36 +62,6 @@
       "description": "Any creature damaged by your Darkspiral Aura is also immobilized until the start of your next turn."
     },
     {
-      "id": "modern4e.feat.elusive-hexer",
-      "title": "Elusive Hexer",
-      "access": {
-        "type": "entry",
-        "entryId": "modern4e.class.warlock"
-      },
-      "prerequisites": {
-        "type": "allOf",
-        "conditions": [
-          {
-            "type": "level",
-            "minimum": 11
-          },
-          {
-            "type": "entry",
-            "entryId": "modern4e.ancestry.eladrin"
-          },
-          {
-            "type": "entry",
-            "entryId": "modern4e.feature.fey-pact"
-          }
-        ]
-      },
-      "selection": {
-        "maximum": 1,
-        "constraints": []
-      },
-      "description": "When an enemy takes damage from your warlock's curse on your turn, you are invisible until the end of that turn."
-    },
-    {
       "id": "modern4e.feat.eochaids-lure",
       "title": "Eochaid's Lure",
       "access": {

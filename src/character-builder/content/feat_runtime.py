@@ -1,8 +1,8 @@
 """Compile the validated shared feat catalog into the mechanics-v2 runtime contract.
 
 One package, ``modern4e.feats``, carries every authored feat. Access, prerequisites and the
-occurrence limit are evaluated by the shared engine. Skill Training proficiency choices and
-explicit multiclass qualification have PARTIAL coverage; other benefits stay UNIMPLEMENTED.
+occurrence limit are evaluated by the shared engine. Reviewed structured choices, armor advancement,
+proficiency grants and explicit multiclass qualification have PARTIAL coverage; other benefits stay UNIMPLEMENTED.
 Decisions the closed vocabulary cannot express remain in
 ``mechanics.unsupported``, coverage limitations and ``sharedData``.
 
@@ -72,9 +72,7 @@ def condition(node, context):
             raise ValueError(f"undeclared reference {entry_id}")
         return unresolved_reference(entry_id, context["references"])
     if kind in ("size", "selected"):
-        text = feats.condition_text(node, context["references"], context["titles"])
-        return {"type": "unresolved", "text": text,
-                "reason": f"Condition type {kind} requires an additional runtime fact vocabulary."}
+        return node
     return class_runtime.condition(node)
 
 
@@ -93,7 +91,7 @@ def grants_skill_proficiency(entry, choice):
         for rule in entry["selection"]["constraints"])
 
 
-def compile_choices(entry):
+def compile_choices(entry, option_catalogs=None):
     """Return (runtime choices, unsupported notes) for the authored choices."""
     stem = entry["id"][len(FEAT_PREFIX):]
     choices, unsupported = [], []
@@ -103,12 +101,29 @@ def compile_choices(entry):
             choices.append({"type": "proficiencies", "id": f"modern4e.choice.{stem}.{choice['id']}",
                             "count": choice["count"], "skills": source["values"],
                             "distinctAgainstCharacter": True})
-        elif source["type"] == "catalog":
-            unsupported.append(f"Choice {choice['id']}: select {choice['count']} {choice['kind']} from the "
-                               f"{source['catalog']} catalog; the option catalog is pending migration.")
+        elif choice["kind"] in ("LANGUAGE", "DAMAGE_TYPE", "WEAPON_PROFICIENCY", "SKILL"):
+            kind = {"WEAPON_PROFICIENCY": "EQUIPMENT_PROFICIENCY", "SKILL": "SKILL_BONUS"}.get(choice["kind"], choice["kind"])
+            if source["type"] == "catalog":
+                catalog = (option_catalogs or {})[source["catalog"]]
+                options = [{"id": item["id"], "title": item["title"]} for item in catalog.get("languages", catalog.get("weapons", []))]
+                for bundle in source.get("bundles", []):
+                    options.append({"id": bundle["id"], "title": "All simple and military weapons",
+                                    "grants": ["SIMPLE_MELEE", "SIMPLE_RANGED", "MILITARY_MELEE", "MILITARY_RANGED"]})
+            else:
+                options = [{"id": value, "title": value.replace("_", " ").title()} for value in source["values"]]
+            rule = next((rule for rule in entry["selection"]["constraints"] if rule.get("choiceId") == choice["id"]), None)
+            compiled = {"type": "values", "id": f"modern4e.choice.{stem}.{choice['id']}", "kind": kind,
+                        "count": choice["count"], "options": options}
+            if rule:
+                compiled["distinctScope"] = rule["against"]["scope"]
+                compiled["allowRepeatWhenExhausted"] = rule["whenExhausted"] == "ALLOW_REPEAT"
+                if "entryId" in rule["against"]:
+                    compiled["targetId"] = rule["against"]["entryId"]
+            if kind == "SKILL_BONUS":
+                compiled.update(bonus=2, epicBonus=3)
+            choices.append(compiled)
         else:
-            unsupported.append(f"Choice {choice['id']}: select {choice['count']} {choice['kind']} from "
-                               f"{', '.join(source['values'])}; the closed vocabulary cannot apply this decision.")
+            unsupported.append(f"Choice {choice['id']} remains manual.")
     return choices, unsupported
 
 
@@ -129,12 +144,13 @@ def compile_feat(entry, context, requirement_text, selection_text):
     """Map one authored feat; the complete authored entry stays in sharedData."""
     access = condition(entry["access"], context)
     prerequisite = condition(entry["prerequisites"], context)
-    choices, unsupported = compile_choices(entry)
-    enforced = {choice["id"] for choice in entry.get("choices", []) if grants_skill_proficiency(entry, choice)}
+    choices, unsupported = compile_choices(entry, context.get("option_catalogs", {}))
+    enforced = {choice["id"] for choice in entry.get("choices", []) if grants_skill_proficiency(entry, choice) or choice["kind"] in ("LANGUAGE", "DAMAGE_TYPE", "WEAPON_PROFICIENCY", "SKILL")}
+    armor = next((rule for rule in entry["selection"]["constraints"] if rule["type"] == "advance"), None)
     unsupported += [constraint_note(rule) for rule in entry["selection"]["constraints"]
-                    if not (rule["type"] == "distinct" and rule["choiceId"] in enforced)]
-    automated = bool(choices) or "MULTICLASS" in entry.get("tags", []) and bool(entry.get("multiclassFor"))
-    limitations = ["Only declared proficiency choices and explicit multiclass qualification are automated; "
+                    if rule["type"] != "advance" and not (rule["type"] == "distinct" and rule["choiceId"] in enforced)]
+    automated = entry["id"] == "modern4e.feat.alchemist" or bool(armor) or bool(choices) or "MULTICLASS" in entry.get("tags", []) and bool(entry.get("multiclassFor"))
+    limitations = ["Only declared build-time choices, proficiency grants and explicit multiclass qualification are automated; "
                     "other feat benefits require manual resolution." if automated else
                     "Feat benefits are descriptive text; no feat effect is automated by the character builder."]
     for label, tree in (("Access", access), ("Prerequisite", prerequisite)):
@@ -142,6 +158,11 @@ def compile_feat(entry, context, requirement_text, selection_text):
             limitations.append(f"{label} not evaluated: {leaf['text']} ({leaf['reason']})")
     limitations += unsupported
     shared = dict(entry)
+    used_catalogs = {choice["source"]["catalog"]: context["option_catalogs"][choice["source"]["catalog"]]
+                     for choice in entry.get("choices", []) if choice["source"]["type"] == "catalog" and
+                     choice["source"]["catalog"] in context.get("option_catalogs", {})}
+    if used_catalogs:
+        shared["runtimeChoiceCatalogs"] = used_catalogs
     if requirement_text:
         shared["runtimeRequirementText"] = requirement_text
     if selection_text:
@@ -149,6 +170,11 @@ def compile_feat(entry, context, requirement_text, selection_text):
     mechanics = {"version": 2, "access": access, "prerequisites": [prerequisite],
                  "grants": [], "choices": choices, "unsupported": unsupported,
                  "maximumSelections": entry["selection"]["maximum"]}
+    if armor:
+        mechanics["armorAdvancement"] = {"order": armor["order"], "steps": armor["steps"]}
+        limitations[0] = "Authored armor proficiency advancement is automated; armor statistics and combat effects remain manual."
+    if entry["id"] == "modern4e.feat.alchemist":
+        limitations[0] = "Optional replacement of an explicitly granted Technique Master class-feature feat is automated; technique mastery and formula acquisition remain manual."
     if "MULTICLASS" in entry.get("tags", []) and entry.get("multiclassFor"):
         mechanics["multiclassFor"] = entry["multiclassFor"]
     return {"id": entry["id"], "category": "FEAT",
@@ -161,7 +187,7 @@ def compile_feat(entry, context, requirement_text, selection_text):
 def build(content=None, available=None):
     """Validate the authored feats, then emit the deterministic ``modern4e.feats`` package."""
     catalog = feats.catalog(feats.CONTENT if content is None else content)
-    context = {"references": catalog["references"],
+    context = {"references": catalog["references"], "option_catalogs": catalog["optionCatalogs"],
                "feat_ids": {entry["id"] for entry in catalog["entries"]},
                "titles": {entry["id"]: entry["title"] for entry in catalog["entries"]},
                "available": available_ids() if available is None else set(available)}

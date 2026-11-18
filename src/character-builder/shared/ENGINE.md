@@ -27,8 +27,7 @@ and a choice's `distinct` constraint. Class/feature edits retain orphan decision
 Access and prerequisites share recursive `allOf`/`anyOf` evaluation across
 categories. Supported leaves include level, entry, direct ability, proficiency,
 class power source and equipment proficiency. Sources qualify through active
-classes, not known powers. Unsupported size/selected queries compile to explicit
-unresolved conditions with the source data preserved. Mechanics-v2 prerequisites use selection-time snapshots excluding the candidate occurrence and recursively dependent benefit chains. Unknown definitions and unsupported conditions remain explicit gaps. Legacy v1 historical evaluation remains incomplete. In v2 eligibility and automation coverage are separate facts: an
+classes, not known powers. Size predicates use structured ancestry size. The authored selected predicates query explicit class-specific multiclass targets and selected leveled encounter-power profiles. Missing or conflicting size and missing power profiles remain incomplete; titles and descriptions never establish these facts. Mechanics-v2 prerequisites use selection-time snapshots excluding the candidate occurrence and recursively dependent benefit chains. Unknown definitions and unsupported conditions remain explicit gaps. Legacy v1 historical evaluation remains incomplete. In v2 eligibility and automation coverage are separate facts: an
 eligible feature may still have incomplete combat effects. Legacy v1 retains its
 existing conservative coverage gate.
 
@@ -152,10 +151,18 @@ Training choices against independent proficiencies and sibling picks. Two new
 skills must remain; later-level grants do not invalidate an earlier choice.
 Ordinary proficiency choices retain their previous behavior.
 
+`armorAdvancement` carries an authored category order and step count. The engine
+replays it by acquisition level against class and explicit `equipmentProficiencies`
+grants, retaining each source in `EngineResult.equipmentProficiencies` (also exposed
+by the web bridge). It grants only the next category; no starting proficiency or
+past-cap benefit is invented. Independent selection-time snapshots enforce the
+cap across repeated selections and expose the resulting facts to equipment
+prerequisites. These grants do not apply armor statistics or combat effects.
+
 Campaign `unavailable` conditions are provably ineligible, distinct from unknown
 rules. The production ZEITGEIST policy retains Revenant's definition and saved
-selections while denying access. HOMEBREW is explicitly unavailable until its
-separate theme roster is migrated. Policy selection is currently at bundle build
+selections while denying access. HOMEBREW is explicitly unsupported and outside the current Character Builder
+scope by user decision. Only ZEITGEIST is supported. Policy selection is currently at bundle build
 time, with no character campaign-switch UI.
 
 `ContentMigration.preview` accepts a reviewed `ContentMigrationPlan` against a
@@ -166,7 +173,47 @@ precedence is retained; empty/failed migrations leave packages unchanged.
 `commit` rejects stale documents and performs no persistence. The explicit
 `content/migrations/fighter-v1.json` maps class3 and 174 published attack IDs.
 Other identities require reviewed mappings; no automatic score or slot conversion
-occurs. Platform confirmation/persistence UI remains pending.
+occurs. Platform confirmation/persistence UI and additional reviewed ID plans are deferred
+to [#38](https://github.com/BanterTheGreat/Foundry-Mono-Repo-4e/issues/38) and do not
+block #29; the existing shared API remains available.
+
+## Structured feat and ancestry choices (#29)
+
+`ChoiceDefinition.Values` exposes finite `ValueOption` identities and labels.
+`LevelDecisions.values` stores `ValueChoice(slot, value)` decisions without copying
+derived facts. Empty arrays are omitted so existing documents retain their shape.
+`EngineChoice.values` and `BuilderEdit.Value` provide the same options/edits to
+Android and the web bridge. Saved invalid and orphan decisions remain exportable
+and receive diagnostics rather than being silently cleared.
+
+`Mechanics.facts` and choice grants produce sourced `EngineResult.facts`.
+Languages are character facts; weapon and Linguist bonus-skill distinctness use
+the same entry's earlier occurrences; damage types target a power ID. Past Life
+supplies ancestry qualification only, without activating its traits, languages,
+size or powers. Personal-detail language/size prose does not create these facts.
+`Mechanics.factLinks` explicitly projects Dragonborn Scales' entry-scoped damage
+choice onto active Dragon Breath power facts. Other ancestry damage choices do
+not become Dragon Breath types merely because their strings match.
+Weapon Proficiency grants one reviewed superior identity or the authored
+simple-and-military bundle. Linguist grants three new distinct languages and its
+chosen feat bonus, with bonus-skill repeats allowed only after exhaustion.
+Adaptable Breath excludes existing Dragon Breath damage types from every source.
+Acquisition-time snapshots and self/dependent-chain protection remain in force.
+
+`Grant.Entry.replacementEntryIds` declares explicit alternatives to a default
+grant. Alchemist is authored only on the existing Wizard/Artificer class-feature
+Technique Master grants. The parent occurrence and grant ID keep the same slot
+and deterministic `ModernCreation.grantInstance` identity across substitutions.
+An optional entry decision selects the default or alternative through ordinary
+builder editing; removing that decision restores the default. Removed sources,
+withdrawn alternatives and missing suppliers retain saved decisions and produce
+diagnostics. This adds no general retraining, formula grants or technique effect
+automation. Unsupported effects retain visible coverage.
+
+Optional grant choices expose their source `acquisitionLevel`. Editors reject
+substitutions recorded at another level. A saved late substitution stays portable
+with a timing diagnostic and the default grant active, so later facts cannot
+retroactively qualify the replacement.
 
 ## Modifier semantics
 

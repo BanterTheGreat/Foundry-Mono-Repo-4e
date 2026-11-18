@@ -275,8 +275,19 @@ The validator rejects unknown fields/values, duplicate keys/IDs, missing invento
 wrong-category/missing references, bad counts/formulas/scaling, duplicate grant or
 choice IDs, recursive grant/choice paths and invalid collection/override targets.
 `catalog.json.references` declares external references with category/title and
-PENDING_MIGRATION or UNAVAILABLE status; declarations are not definitions.
+PENDING_MIGRATION, UNAVAILABLE or SHARED status; declarations are not definitions.
+SHARED identifies a definition supplied by another authoritative runtime package.
+Production validation must resolve that reference, including grant alternatives.
 The existing feat reference registry is left untouched by this migration.
+
+The Wizard Arcane Techniques and Artificer Techniques features explicitly grant
+Technique Master. Their grant records carry `replacementEntryIds` containing only
+Alchemist, matching that feat's authored class-feature substitution. Grant IDs
+remain scoped to the source feature occurrence. Choosing an alternative changes
+the granted definition, not its slot or deterministic occurrence identity. No
+other source receives that allowance. Technique mastery/formula effects remain
+manual; a FEAT grant uses its existing feature prose rather than rendering a
+duplicate external feat card in the class chapter.
 
 ## Runtime query and diagnostic contract
 
