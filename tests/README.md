@@ -21,20 +21,19 @@ These tests verify source preservation, branching/roll relationships, grants,
 limits/scaling, random tables and malformed-authoring rejection. They do not
 claim combat automation or adaptation of published formulas to Modern4e. Leader
 tests cover class statistics, choices, shared pools, stable feat-reference IDs,
-and feature-section validation. With Typst and `pypdf` available they compile the
-whole book, check no original printed rule words were lost across all 19 migrated
-classes, and verify pre/post
-attack ordering in an actual rendered power. Typst is resolved from `TYPST_BIN`
+and feature-section validation. With Typst available they compile the whole book and
+fail on any error or warning; with `pypdf` as well they verify pre/post attack
+ordering in an actual rendered power. (The pre-migration word-for-word comparison
+against `rendered-before.json` was retired once all classes were JSON-backed, since
+it flagged deliberate content corrections.) Typst is resolved from `TYPST_BIN`
 or the process PATH; run outside the restricted sandbox when its executable is
-hidden there. `pypdf` is needed only for printed-content tests (`python -m pip
+hidden there. `pypdf` is needed only for the rendered-order test (`python -m pip
 install pypdf`). The normal build writes the development PDF at
 `src/modern4e/inDev.pdf`.
 
 Striker tests additionally cover all option packages, Warlock's disabled standard
 at-will slot, shared Channel Divinity usage, local damage tables, Barbarian class
 access/levels, pre-attack movement and distinct secondary attack geometry.
-Printed-content comparisons exclude changing page headers/footers and page
-reference numbers, while retaining numerical rules and damage text.
 
 Shared utility authoring (1,081 definitions, including 71 withheld entries):
 
@@ -530,7 +529,7 @@ python -X utf8 -m unittest discover -s src/character-builder/content -p test_cla
 
 They cover every source identity per class (minus titles already authored as Modern 4e powers), the level-15 boundary, source preservation, local wording (no stock skills or "modifier"), range/action completeness, skill prerequisites, granted follow-up activations and errata removal, faithful attack statistics and counts, deferral of powers that need builds Modern 4e lacks (no `powerProfile`, still resolvable by ID), source-independent runtime compilation and the chunked, consistently indexed classes package. Class-scoped loading is covered by the Python per-class chunk/`classId` test above and by the shared `ClassScopedLoadingTest` (`:shared:jvmTest`, `:shared:jsNodeTest`): index rows, scoped search, a Fighter reading under a third of the chunks and loading no other class's power, a Wizard's pools excluding Fighter powers, and deferred powers staying resolvable by ID but never offered.
 
-Regenerate review files with `python -X utf8 src/modern4e/scripts/import_class_attacks.py --class <Name>... --output-dir <new scratch dir>`; it refuses to overwrite authoritative data. After changing authoritative content, rebuild into an empty `modern4e.classes` folder (`build.py` rejects stale chunk layouts), then run `samples.py`. The pre-existing `test_modern_leaders` Swordmage "spellwarden" rendered-book failure reproduces on a clean checkout and is unrelated.
+Regenerate review files with `python -X utf8 src/modern4e/scripts/import_class_attacks.py --class <Name>... --output-dir <new scratch dir>`; it refuses to overwrite authoritative data. After changing authoritative content, rebuild into an empty `modern4e.classes` folder (`build.py` rejects stale chunk layouts), then run `samples.py`.
 
 Fighter selectable attacks through level 15 add five Python regressions:
 

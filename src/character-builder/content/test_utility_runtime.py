@@ -29,9 +29,14 @@ class UtilityRuntimeTest(unittest.TestCase):
         self.assertEqual(len(self.powers), len(entries))
         self.assertEqual(len(self.powers), len({entry["id"] for entry in entries}))
         manifest = self.assets["modern4e.utilities/manifest.json"]
-        self.assertEqual(("modern4e.utilities", "1", "Modern 4e shared utility powers", 2),
+        self.assertEqual(("modern4e.utilities", "2", "Modern 4e shared utility powers", 2),
                          (manifest["id"], manifest["revision"], manifest["title"], manifest["formatVersion"]))
-        self.assertEqual(11, len(manifest["chunks"]))
+        # Each class's utilities fill their own chunks (19 classes), plus unscoped skill/power-source utilities.
+        self.assertEqual(22, len(manifest["chunks"]))
+        rows = self.assets["modern4e.utilities/index.json"]["entries"]
+        for chunk in manifest["chunks"]:
+            self.assertEqual(1, len({row.get("classId") for row in rows if row["chunkId"] == chunk}), chunk)
+        self.assertEqual(19, len({row["classId"] for row in rows if "classId" in row}))
         self.assertTrue(all(len(self.assets[f"modern4e.utilities/{name}.json"]["entries"]) <= 100 for name in manifest["chunks"]))
         self.assertEqual(1081, len(self.assets["modern4e.utilities/index.json"]["entries"]))
         self.assertTrue(all(entry["category"] == "POWER" for entry in entries))

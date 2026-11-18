@@ -90,18 +90,18 @@
                         "id": "row-3",
                         "type": "effect",
                         "label": "Hit",
-                        "text": "1[W] + Strength damage."
+                        "text": "1[W] + Strength damage.",
+                        "scaling": [
+                          {
+                            "atLevel": 21,
+                            "text": "2[W] + Strength"
+                          }
+                        ]
                       }
                     ]
                   }
                 }
               ]
-            },
-            {
-              "id": "row-4",
-              "type": "effect",
-              "label": "Rule",
-              "text": "Increase damage to 2[W] + Strength at 21st level."
             },
             {
               "id": "row-5",
@@ -323,18 +323,18 @@
                         "id": "row-3",
                         "type": "effect",
                         "label": "Hit",
-                        "text": "1[W] + Strength damage."
+                        "text": "1[W] + Strength damage.",
+                        "scaling": [
+                          {
+                            "atLevel": 21,
+                            "text": "2[W] + Strength"
+                          }
+                        ]
                       }
                     ]
                   }
                 }
               ]
-            },
-            {
-              "id": "row-4",
-              "type": "effect",
-              "label": "Rule",
-              "text": "Increase damage to 2[W] + Strength at 21st level."
             }
           ],
           "targets": "targets-1"
@@ -602,18 +602,18 @@
                         "id": "row-3",
                         "type": "effect",
                         "label": "Hit",
-                        "text": "1[W] + Strength damage. You can shift 1 square and slide the target 1 square into the space you left."
+                        "text": "1[W] + Strength damage. You can shift 1 square and slide the target 1 square into the space you left.",
+                        "scaling": [
+                          {
+                            "atLevel": 21,
+                            "text": "2[W] + Strength"
+                          }
+                        ]
                       }
                     ]
                   }
                 }
               ]
-            },
-            {
-              "id": "row-4",
-              "type": "effect",
-              "label": "Rule",
-              "text": "Increase damage to 2[W] + Strength at 21st level."
             }
           ],
           "targets": "targets-1"
@@ -1057,18 +1057,18 @@
                         "id": "row-4",
                         "type": "effect",
                         "label": "Hit",
-                        "text": "1[W] + Strength damage, and you gain resist equal to your Constitution against the target's attacks until the end of your next turn."
+                        "text": "1[W] + Strength damage, and you gain resist equal to your Constitution against the target's attacks until the end of your next turn.",
+                        "scaling": [
+                          {
+                            "atLevel": 21,
+                            "text": "2[W] + your Strength"
+                          }
+                        ]
                       }
                     ]
                   }
                 }
               ]
-            },
-            {
-              "id": "row-5",
-              "type": "effect",
-              "label": "Rule",
-              "text": "Increase damage to 2[W] + your Strength at 21st level."
             }
           ],
           "requirement": "You must be using a shield.",
@@ -6284,18 +6284,6 @@
                   }
                 }
               ]
-            },
-            {
-              "id": "row-7",
-              "type": "effect",
-              "label": "Rule",
-              "text": "Addition (1/21/2009)"
-            },
-            {
-              "id": "row-8",
-              "type": "effect",
-              "label": "Add “Target",
-              "text": "One creature” above the Attack line."
             }
           ],
           "targets": "targets-1"
@@ -7717,7 +7705,7 @@
               "id": "row-2",
               "type": "attack",
               "label": "Attack",
-              "text": "Strength vs. AC. Make the attack twice against the target.",
+              "text": "Strength vs. AC",
               "actor": "self",
               "targets": "targets-1",
               "range": {
@@ -7728,8 +7716,8 @@
                 "count": 2,
                 "sharing": "PER_TARGET",
                 "statistic": {
-                  "type": "RULES_TEXT",
-                  "text": "Strength vs. AC. Make the attack twice against the target."
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
                 }
               },
               "comparisons": [
@@ -7748,6 +7736,12 @@
                   }
                 }
               ]
+            },
+            {
+              "id": "row-2-note",
+              "type": "effect",
+              "label": "Attack",
+              "text": "Make the attack twice against the target."
             },
             {
               "id": "row-4",
@@ -8820,7 +8814,8 @@
       "coverage": {
         "status": "UNIMPLEMENTED",
         "limitations": [
-          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text."
         ]
       },
       "rulesProfile": "MODERN4E",
@@ -8850,10 +8845,6 @@
             "self": {
               "kind": "ACTOR",
               "text": "The power user."
-            },
-            "targets-8": {
-              "kind": "TARGET_SET",
-              "text": "The triggering enemy."
             }
           },
           "range": {
@@ -8868,23 +8859,40 @@
               "text": "Until the stance ends, you can use the Bare-Knuckled Rebuke Attack power."
             },
             {
-              "id": "row-2",
-              "type": "effect",
-              "label": "Rule",
-              "text": "Bare-Knuckled Rebuke Attack"
+              "id": "grant-use-bare-knuckled-rebuke-attack",
+              "type": "grant",
+              "label": "Grants",
+              "text": "Bare-Knuckled Rebuke Attack",
+              "activationId": "use-bare-knuckled-rebuke-attack",
+              "duration": "As stated in the power's rules"
+            }
+          ]
+        },
+        {
+          "id": "use-bare-knuckled-rebuke-attack",
+          "availability": "GRANTED",
+          "action": "IMMEDIATE_REACTION",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
             },
-            {
-              "id": "row-3",
-              "type": "effect",
-              "label": "Rule",
-              "text": "At-Will ✦     Martial, Weapon"
-            },
-            {
-              "id": "row-4",
-              "type": "effect",
-              "label": "Rule",
-              "text": "Immediate Reaction      Melee weapon"
-            },
+            "targets-8": {
+              "kind": "TARGET_SET",
+              "text": "The triggering enemy."
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
             {
               "id": "row-9",
               "type": "attack",
@@ -8894,7 +8902,7 @@
               "targets": "targets-8",
               "range": {
                 "type": "RULES_TEXT",
-                "text": "Personal"
+                "text": "Melee weapon"
               },
               "roll": {
                 "count": 1,
@@ -8922,7 +8930,8 @@
               ]
             }
           ],
-          "requirement": "You must have a hand free.",
+          "title": "Bare-Knuckled Rebuke Attack",
+          "requirement": "The power Bare-Knuckled Rebuke must be active in order to use this power. You must have a hand free.",
           "trigger": "An enemy adjacent to you misses you with a melee attack",
           "targets": "targets-8"
         }
@@ -9110,12 +9119,6 @@
             "text": "Melee weapon"
           },
           "blocks": [
-            {
-              "id": "row-1",
-              "type": "effect",
-              "label": "Prerequisite",
-              "text": "You must be proficient in Endurance."
-            },
             {
               "id": "row-3",
               "type": "attack",
@@ -9354,12 +9357,6 @@
             "text": "Melee weapon"
           },
           "blocks": [
-            {
-              "id": "row-1",
-              "type": "effect",
-              "label": "Prerequisite",
-              "text": "You must be proficient in Athletics."
-            },
             {
               "id": "row-4",
               "type": "attack",
@@ -15278,7 +15275,7 @@
               "targets": "targets-6",
               "range": {
                 "type": "RULES_TEXT",
-                "text": "Melee weapon"
+                "text": "Each enemy within 3 squares of the primary target"
               },
               "roll": {
                 "count": 1,
@@ -16044,7 +16041,7 @@
               "id": "row-2",
               "type": "attack",
               "label": "Attack",
-              "text": "Strength vs. AC. You make the attack twice, distributing the attacks between the targets or making both attacks against one.",
+              "text": "Strength vs. AC",
               "actor": "self",
               "targets": "targets-1",
               "range": {
@@ -16055,8 +16052,8 @@
                 "count": 2,
                 "sharing": "ALL_TARGETS",
                 "statistic": {
-                  "type": "RULES_TEXT",
-                  "text": "Strength vs. AC. You make the attack twice, distributing the attacks between the targets or making both attacks against one."
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
                 }
               },
               "comparisons": [
@@ -16075,6 +16072,12 @@
                   }
                 }
               ]
+            },
+            {
+              "id": "row-2-note",
+              "type": "effect",
+              "label": "Attack",
+              "text": "You make the attack twice, distributing the attacks between the targets or making both attacks against one."
             }
           ],
           "targets": "targets-1"
@@ -16368,7 +16371,7 @@
               "id": "row-2",
               "type": "attack",
               "label": "Attack",
-              "text": "Strength vs. AC. If the target attacked you or an ally since the end of your last turn, you gain a +2 bonus to the attack roll.",
+              "text": "Strength vs. AC",
               "actor": "self",
               "targets": "targets-1",
               "range": {
@@ -16379,8 +16382,8 @@
                 "count": 1,
                 "sharing": "PER_TARGET",
                 "statistic": {
-                  "type": "RULES_TEXT",
-                  "text": "Strength vs. AC. If the target attacked you or an ally since the end of your last turn, you gain a +2 bonus to the attack roll."
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
                 }
               },
               "comparisons": [
@@ -16399,6 +16402,12 @@
                   }
                 }
               ]
+            },
+            {
+              "id": "row-2-note",
+              "type": "effect",
+              "label": "Attack",
+              "text": "If the target attacked you or an ally since the end of your last turn, you gain a +2 bonus to the attack roll."
             },
             {
               "id": "row-4",
@@ -17036,7 +17045,7 @@
               "targets": "targets-5",
               "range": {
                 "type": "RULES_TEXT",
-                "text": "Melee weapon"
+                "text": "Each enemy adjacent to the primary target and within range"
               },
               "roll": {
                 "count": 1,
@@ -17293,12 +17302,6 @@
             "text": "Melee weapon"
           },
           "blocks": [
-            {
-              "id": "row-1",
-              "type": "effect",
-              "label": "Prerequisite",
-              "text": "You must be proficient in Athletics."
-            },
             {
               "id": "row-3",
               "type": "effect",
@@ -18769,7 +18772,8 @@
       "coverage": {
         "status": "UNIMPLEMENTED",
         "limitations": [
-          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text."
         ]
       },
       "rulesProfile": "MODERN4E",
@@ -18803,10 +18807,6 @@
             "targets-1": {
               "kind": "TARGET_SET",
               "text": "Each enemy you can see in the burst"
-            },
-            "targets-11": {
-              "kind": "TARGET_SET",
-              "text": "The triggering enemy"
             }
           },
           "range": {
@@ -18857,34 +18857,46 @@
               "text": "You can assume the dust storm assault stance. Until the stance ends, you can use the power Dust Storm Attack."
             },
             {
-              "id": "row-5",
-              "type": "effect",
-              "label": "Rule",
-              "text": "Dust Storm Attack"
+              "id": "grant-use-dust-storm-attack",
+              "type": "grant",
+              "label": "Grants",
+              "text": "Dust Storm Attack",
+              "activationId": "use-dust-storm-attack",
+              "duration": "As stated in the power's rules"
+            }
+          ],
+          "targets": "targets-1"
+        },
+        {
+          "id": "use-dust-storm-attack",
+          "availability": "GRANTED",
+          "action": "OPPORTUNITY",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
             },
-            {
-              "id": "row-6",
-              "type": "effect",
-              "label": "Rule",
-              "text": "At-Will ✦     Martial, Stance, Weapon"
-            },
-            {
-              "id": "row-7",
-              "type": "effect",
-              "label": "Rule",
-              "text": "Opportunity Action      Melee weapon"
-            },
+            "targets-11": {
+              "kind": "TARGET_SET",
+              "text": "The triggering enemy"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
             {
               "id": "row-10",
               "type": "effect",
               "label": "Effect",
               "text": "Before the secondary attack, you shift 6 squares to a square adjacent to the triggering enemy."
-            },
-            {
-              "id": "row-11",
-              "type": "effect",
-              "label": "Secondary Target",
-              "text": "The triggering enemy"
             },
             {
               "id": "row-12",
@@ -18895,7 +18907,7 @@
               "targets": "targets-11",
               "range": {
                 "type": "RULES_TEXT",
-                "text": "Close burst 1"
+                "text": "Melee weapon"
               },
               "roll": {
                 "count": 1,
@@ -18923,9 +18935,10 @@
               ]
             }
           ],
-          "targets": "targets-1",
+          "title": "Dust Storm Attack",
           "requirement": "The power Dust Storm Assault must be active in order to use this power.",
-          "trigger": "An enemy willingly moves adjacent to one of your allies within 3 squares of you or makes an attack that does not include you as a target while within 3 squares of you."
+          "trigger": "An enemy willingly moves adjacent to one of your allies within 3 squares of you or makes an attack that does not include you as a target while within 3 squares of you.",
+          "targets": "targets-11"
         }
       ],
       "subtitle": "Fighter Attack 15",
@@ -19324,7 +19337,7 @@
               "targets": "targets-6",
               "range": {
                 "type": "RULES_TEXT",
-                "text": "Close burst 1"
+                "text": "Any enemy in the burst that you can see"
               },
               "roll": {
                 "count": 1,

@@ -39,7 +39,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You press the attack, engaging your enemy before falling back and drawing him after you.\n\nAT_WILL / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 1[W] + Strength damage. You can shift 1 square and slide the target 1 square into the space you left.\n\nRule: Increase damage to 2[W] + Strength at 21st level.",
+        "description": "You press the attack, engaging your enemy before falling back and drawing him after you.\n\nAT_WILL / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 1[W] + Strength damage. You can shift 1 square and slide the target 1 square into the space you left.\n\nLevel 21: 2[W] + Strength",
         "title": "Footwork Lure"
       },
       "sharedData": {
@@ -73,6 +73,12 @@
                         {
                           "id": "row-3",
                           "label": "Hit",
+                          "scaling": [
+                            {
+                              "atLevel": 21,
+                              "text": "2[W] + Strength"
+                            }
+                          ],
                           "text": "1[W] + Strength damage. You can shift 1 square and slide the target 1 square into the space you left.",
                           "type": "effect"
                         }
@@ -97,12 +103,6 @@
                 "targets": "targets-1",
                 "text": "Strength vs. AC",
                 "type": "attack"
-              },
-              {
-                "id": "row-4",
-                "label": "Rule",
-                "text": "Increase damage to 2[W] + Strength at 21st level.",
-                "type": "effect"
               }
             ],
             "id": "use",
@@ -645,7 +645,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You spring forward to make a quick attack.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nEffect: Before the attack, you can shift 1 square.\n\nWeapon: If you're wielding a light blade or a spear, you can either shift 2 squares before the attack or shift 1 square before and 1 square after.\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 2[W] + Strength damage. If you have combat advantage against the target, the attack deals extra damage equal to your Dexterity.\n\nRule: Addition (1/21/2009)\n\nAdd “Target: One creature” above the Attack line.",
+        "description": "You spring forward to make a quick attack.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nEffect: Before the attack, you can shift 1 square.\n\nWeapon: If you're wielding a light blade or a spear, you can either shift 2 squares before the attack or shift 1 square before and 1 square after.\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 2[W] + Strength damage. If you have combat advantage against the target, the attack deals extra damage equal to your Dexterity.",
         "title": "Advance Lunge"
       },
       "sharedData": {
@@ -725,18 +725,6 @@
                 "targets": "targets-4",
                 "text": "Strength vs. AC",
                 "type": "attack"
-              },
-              {
-                "id": "row-7",
-                "label": "Rule",
-                "text": "Addition (1/21/2009)",
-                "type": "effect"
-              },
-              {
-                "id": "row-8",
-                "label": "Add “Target",
-                "text": "One creature” above the Attack line.",
-                "type": "effect"
               }
             ],
             "id": "use",
@@ -2635,7 +2623,7 @@
                 "id": "row-7",
                 "label": "Secondary Attack",
                 "range": {
-                  "text": "Melee weapon",
+                  "text": "Each enemy within 3 squares of the primary target",
                   "type": "RULES_TEXT"
                 },
                 "roll": {
@@ -3857,7 +3845,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "With a battle cry, you throw your whole body behind your attack.\n\nAT_WILL / STANDARD\n\nMelee Weapon\n\nTarget: One creature\n\nAttack: Strength +2 vs. AC\n\nHit: 1[W] + Strength damage.\n\nRule: Increase damage to 2[W] + Strength at 21st level.\n\nWeapon: If you're wielding an axe, a hammer, or a mace, the attack deals extra damage equal to your Constitution.\n\nEffect: You grant combat advantage to the target until the start of your next turn.",
+        "description": "With a battle cry, you throw your whole body behind your attack.\n\nAT_WILL / STANDARD\n\nMelee Weapon\n\nTarget: One creature\n\nAttack: Strength +2 vs. AC\n\nHit: 1[W] + Strength damage.\n\nLevel 21: 2[W] + Strength\n\nWeapon: If you're wielding an axe, a hammer, or a mace, the attack deals extra damage equal to your Constitution.\n\nEffect: You grant combat advantage to the target until the start of your next turn.",
         "title": "Brash Strike"
       },
       "sharedData": {
@@ -3891,6 +3879,12 @@
                         {
                           "id": "row-3",
                           "label": "Hit",
+                          "scaling": [
+                            {
+                              "atLevel": 21,
+                              "text": "2[W] + Strength"
+                            }
+                          ],
                           "text": "1[W] + Strength damage.",
                           "type": "effect"
                         }
@@ -3915,12 +3909,6 @@
                 "targets": "targets-1",
                 "text": "Strength +2 vs. AC",
                 "type": "attack"
-              },
-              {
-                "id": "row-4",
-                "label": "Rule",
-                "text": "Increase damage to 2[W] + Strength at 21st level.",
-                "type": "effect"
               },
               {
                 "id": "row-5",
@@ -4023,7 +4011,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You become a blur of motion, raining a series of blows upon your opponent.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Strength vs. AC. Make the attack twice against the target.\n\nHit: 1[W] damage.\n\nWeapon: If you're wielding a flail, a light blade, or a spear and have Dexterity 15 or higher, make the attack a third time against either the target or a different creature.",
+        "description": "You become a blur of motion, raining a series of blows upon your opponent.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 1[W] damage.\n\nAttack: Make the attack twice against the target.\n\nWeapon: If you're wielding a flail, a light blade, or a spear and have Dexterity 15 or higher, make the attack a third time against either the target or a different creature.",
         "title": "Rain of Blows"
       },
       "sharedData": {
@@ -4074,13 +4062,19 @@
                   "count": 2,
                   "sharing": "PER_TARGET",
                   "statistic": {
-                    "text": "Strength vs. AC. Make the attack twice against the target.",
-                    "type": "RULES_TEXT"
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
                   }
                 },
                 "targets": "targets-1",
-                "text": "Strength vs. AC. Make the attack twice against the target.",
+                "text": "Strength vs. AC",
                 "type": "attack"
+              },
+              {
+                "id": "row-2-note",
+                "label": "Attack",
+                "text": "Make the attack twice against the target.",
+                "type": "effect"
               },
               {
                 "id": "row-4",
@@ -6498,7 +6492,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You leap through the air toward your foe, landing with a resounding crunch.\n\nDAILY / STANDARD\n\nMelee weapon\n\nRequirement: You must charge and use this power in place of a melee basic attack.\n\nTarget: One creature\n\nPrerequisite: You must be proficient in Athletics.\n\nAttack: Strength vs. AC\n\nHit: 3[W] + Strength + Constitution damage.\n\nMiss: Half damage.",
+        "description": "You leap through the air toward your foe, landing with a resounding crunch.\n\nDAILY / STANDARD\n\nMelee weapon\n\nRequirement: You must charge and use this power in place of a melee basic attack.\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 3[W] + Strength + Constitution damage.\n\nMiss: Half damage.",
         "title": "Cometfall Charge"
       },
       "sharedData": {
@@ -6521,12 +6515,6 @@
               }
             },
             "blocks": [
-              {
-                "id": "row-1",
-                "label": "Prerequisite",
-                "text": "You must be proficient in Athletics.",
-                "type": "effect"
-              },
               {
                 "actor": "self",
                 "comparisons": [
@@ -7764,7 +7752,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "By attacking your comrade, your adversary has called down your righteous ire.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Strength vs. AC. If the target attacked you or an ally since the end of your last turn, you gain a +2 bonus to the attack roll.\n\nHit: 2[W] + Strength damage.\n\nWeapon: If you're wielding a mace or a pick, the attack deals extra damage equal to your Constitution.\n\nSpecial: When making an opportunity attack, you can use this power in place of a melee basic attack.",
+        "description": "By attacking your comrade, your adversary has called down your righteous ire.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 2[W] + Strength damage.\n\nAttack: If the target attacked you or an ally since the end of your last turn, you gain a +2 bonus to the attack roll.\n\nWeapon: If you're wielding a mace or a pick, the attack deals extra damage equal to your Constitution.\n\nSpecial: When making an opportunity attack, you can use this power in place of a melee basic attack.",
         "title": "Brutal Rebuke"
       },
       "sharedData": {
@@ -7815,13 +7803,19 @@
                   "count": 1,
                   "sharing": "PER_TARGET",
                   "statistic": {
-                    "text": "Strength vs. AC. If the target attacked you or an ally since the end of your last turn, you gain a +2 bonus to the attack roll.",
-                    "type": "RULES_TEXT"
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
                   }
                 },
                 "targets": "targets-1",
-                "text": "Strength vs. AC. If the target attacked you or an ally since the end of your last turn, you gain a +2 bonus to the attack roll.",
+                "text": "Strength vs. AC",
                 "type": "attack"
+              },
+              {
+                "id": "row-2-note",
+                "label": "Attack",
+                "text": "If the target attacked you or an ally since the end of your last turn, you gain a +2 bonus to the attack roll.",
+                "type": "effect"
               },
               {
                 "id": "row-4",

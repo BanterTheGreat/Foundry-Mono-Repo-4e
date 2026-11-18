@@ -203,7 +203,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You spring through your foes to rip apart an enemy with a savage swing.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nRequirement: You must be wielding a two-handed weapon.\n\nTarget: One creature\n\nPrerequisite: You must be proficient in Athletics.\n\nEffect: Before the attack, you move up to your speed. This movement does not provoke opportunity attacks from any enemy marked by you.\n\nAttack: Strength vs. AC\n\nHit: 2[W] + Strength + Constitution damage.",
+        "description": "You spring through your foes to rip apart an enemy with a savage swing.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nRequirement: You must be wielding a two-handed weapon.\n\nTarget: One creature\n\nEffect: Before the attack, you move up to your speed. This movement does not provoke opportunity attacks from any enemy marked by you.\n\nAttack: Strength vs. AC\n\nHit: 2[W] + Strength + Constitution damage.",
         "title": "Leaping Assault"
       },
       "sharedData": {
@@ -226,12 +226,6 @@
               }
             },
             "blocks": [
-              {
-                "id": "row-1",
-                "label": "Prerequisite",
-                "text": "You must be proficient in Athletics.",
-                "type": "effect"
-              },
               {
                 "id": "row-3",
                 "label": "Effect",
@@ -469,7 +463,7 @@
                 "id": "row-7",
                 "label": "Secondary Attack",
                 "range": {
-                  "text": "Close burst 1",
+                  "text": "Any enemy in the burst that you can see",
                   "type": "RULES_TEXT"
                 },
                 "roll": {
@@ -1073,7 +1067,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Relying on your own resilience, you put yourself in danger, knowing that you can maneuver for a better attack.\n\nDAILY / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nPrerequisite: You must be proficient in Endurance.\n\nAttack: Strength vs. AC\n\nHit: 3[W] + Strength damage + Constitution damage, and the target is pushed 2 squares.\n\nEffect: You gain resist 5 to all damage, but grant combat advantage to all attacks. This effect lasts until the end of the encounter, or until you end it as a free action on your turn.",
+        "description": "Relying on your own resilience, you put yourself in danger, knowing that you can maneuver for a better attack.\n\nDAILY / STANDARD\n\nMelee weapon\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 3[W] + Strength damage + Constitution damage, and the target is pushed 2 squares.\n\nEffect: You gain resist 5 to all damage, but grant combat advantage to all attacks. This effect lasts until the end of the encounter, or until you end it as a free action on your turn.",
         "title": "Brazen Assault"
       },
       "sharedData": {
@@ -1096,12 +1090,6 @@
               }
             },
             "blocks": [
-              {
-                "id": "row-1",
-                "label": "Prerequisite",
-                "text": "You must be proficient in Endurance.",
-                "type": "effect"
-              },
               {
                 "actor": "self",
                 "comparisons": [
@@ -1954,7 +1942,7 @@
                 "id": "row-6",
                 "label": "Secondary Attack",
                 "range": {
-                  "text": "Melee weapon",
+                  "text": "Each enemy adjacent to the primary target and within range",
                   "type": "RULES_TEXT"
                 },
                 "roll": {
@@ -2544,7 +2532,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "As you slash into your foe, you pull your shield into a defensive position between the two of you, guaranteeing that it absorbs at least some of your enemy's attack.\n\nAT_WILL / STANDARD\n\nMelee weapon\n\nRequirement: You must be using a shield.\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 1[W] + Strength damage, and you gain resist equal to your Constitution against the target's attacks until the end of your next turn.\n\nRule: Increase damage to 2[W] + your Strength at 21st level.",
+        "description": "As you slash into your foe, you pull your shield into a defensive position between the two of you, guaranteeing that it absorbs at least some of your enemy's attack.\n\nAT_WILL / STANDARD\n\nMelee weapon\n\nRequirement: You must be using a shield.\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 1[W] + Strength damage, and you gain resist equal to your Constitution against the target's attacks until the end of your next turn.\n\nLevel 21: 2[W] + your Strength",
         "title": "Resolute Shield"
       },
       "sharedData": {
@@ -2578,6 +2566,12 @@
                         {
                           "id": "row-4",
                           "label": "Hit",
+                          "scaling": [
+                            {
+                              "atLevel": 21,
+                              "text": "2[W] + your Strength"
+                            }
+                          ],
                           "text": "1[W] + Strength damage, and you gain resist equal to your Constitution against the target's attacks until the end of your next turn.",
                           "type": "effect"
                         }
@@ -2602,12 +2596,6 @@
                 "targets": "targets-2",
                 "text": "Strength vs. AC",
                 "type": "attack"
-              },
-              {
-                "id": "row-5",
-                "label": "Rule",
-                "text": "Increase damage to 2[W] + your Strength at 21st level.",
-                "type": "effect"
               }
             ],
             "id": "use",
@@ -6361,6 +6349,7 @@
       "coverage": {
         "limitations": [
           "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text.",
           "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
@@ -6396,7 +6385,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "Your enemies leave themselves open to your powerful punches when they miss with their attacks.\n\nDAILY / MINOR\n\nPersonal\n\nTrigger: An enemy adjacent to you misses you with a melee attack\n\nRequirement: You must have a hand free.\n\nTarget: The triggering enemy.\n\nEffect: Until the stance ends, you can use the Bare-Knuckled Rebuke Attack power.\n\nRule: Bare-Knuckled Rebuke Attack\n\nRule: At-Will ✦     Martial, Weapon\n\nRule: Immediate Reaction      Melee weapon\n\nAttack: Strength vs. AC (unarmed)\n\nHit: 1[W] + Strength damage, and the target grants combat advantage to you until the end of your next turn.",
+        "description": "Your enemies leave themselves open to your powerful punches when they miss with their attacks.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Until the stance ends, you can use the Bare-Knuckled Rebuke Attack power.\n\nGrants: Bare-Knuckled Rebuke Attack\n\nAT_WILL / IMMEDIATE_REACTION\n\nMelee weapon\n\nTrigger: An enemy adjacent to you misses you with a melee attack\n\nRequirement: The power Bare-Knuckled Rebuke must be active in order to use this power. You must have a hand free.\n\nTarget: The triggering enemy.\n\nAttack: Strength vs. AC (unarmed)\n\nHit: 1[W] + Strength damage, and the target grants combat advantage to you until the end of your next turn.",
         "title": "Bare-Knuckled Rebuke"
       },
       "sharedData": {
@@ -6412,10 +6401,6 @@
               "self": {
                 "kind": "ACTOR",
                 "text": "The power user."
-              },
-              "targets-8": {
-                "kind": "TARGET_SET",
-                "text": "The triggering enemy."
               }
             },
             "blocks": [
@@ -6426,23 +6411,40 @@
                 "type": "effect"
               },
               {
-                "id": "row-2",
-                "label": "Rule",
+                "activationId": "use-bare-knuckled-rebuke-attack",
+                "duration": "As stated in the power's rules",
+                "id": "grant-use-bare-knuckled-rebuke-attack",
+                "label": "Grants",
                 "text": "Bare-Knuckled Rebuke Attack",
-                "type": "effect"
+                "type": "grant"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Personal",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          },
+          {
+            "action": "IMMEDIATE_REACTION",
+            "availability": "GRANTED",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
               },
-              {
-                "id": "row-3",
-                "label": "Rule",
-                "text": "At-Will ✦     Martial, Weapon",
-                "type": "effect"
-              },
-              {
-                "id": "row-4",
-                "label": "Rule",
-                "text": "Immediate Reaction      Melee weapon",
-                "type": "effect"
-              },
+              "targets-8": {
+                "kind": "TARGET_SET",
+                "text": "The triggering enemy."
+              }
+            },
+            "blocks": [
               {
                 "actor": "self",
                 "comparisons": [
@@ -6464,7 +6466,7 @@
                 "id": "row-9",
                 "label": "Attack",
                 "range": {
-                  "text": "Personal",
+                  "text": "Melee weapon",
                   "type": "RULES_TEXT"
                 },
                 "roll": {
@@ -6480,17 +6482,18 @@
                 "type": "attack"
               }
             ],
-            "id": "use",
+            "id": "use-bare-knuckled-rebuke-attack",
             "range": {
-              "text": "Personal",
+              "text": "Melee weapon",
               "type": "RULES_TEXT"
             },
-            "requirement": "You must have a hand free.",
+            "requirement": "The power Bare-Knuckled Rebuke must be active in order to use this power. You must have a hand free.",
             "targets": "targets-8",
+            "title": "Bare-Knuckled Rebuke Attack",
             "trigger": "An enemy adjacent to you misses you with a melee attack",
             "usage": {
               "costs": [],
-              "frequency": "DAILY",
+              "frequency": "AT_WILL",
               "limits": [],
               "rules": []
             }
@@ -6500,7 +6503,8 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+            "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -8679,7 +8683,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You hack down one enemy and then slash at another nearby with your next blow.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nTarget: One or two creatures\n\nAttack: Strength vs. AC. You make the attack twice, distributing the attacks between the targets or making both attacks against one.\n\nHit: 1[W] + Strength damage, and the target is dazed until the end of your next turn. If you hit the same target twice with this power, the second attack deals extra damage equal to your Dexterity.",
+        "description": "You hack down one enemy and then slash at another nearby with your next blow.\n\nENCOUNTER / STANDARD\n\nMelee weapon\n\nTarget: One or two creatures\n\nAttack: Strength vs. AC\n\nHit: 1[W] + Strength damage, and the target is dazed until the end of your next turn. If you hit the same target twice with this power, the second attack deals extra damage equal to your Dexterity.\n\nAttack: You make the attack twice, distributing the attacks between the targets or making both attacks against one.",
         "title": "Bash and Pummel"
       },
       "sharedData": {
@@ -8730,13 +8734,19 @@
                   "count": 2,
                   "sharing": "ALL_TARGETS",
                   "statistic": {
-                    "text": "Strength vs. AC. You make the attack twice, distributing the attacks between the targets or making both attacks against one.",
-                    "type": "RULES_TEXT"
+                    "ability": "STRENGTH",
+                    "type": "ABILITY"
                   }
                 },
                 "targets": "targets-1",
-                "text": "Strength vs. AC. You make the attack twice, distributing the attacks between the targets or making both attacks against one.",
+                "text": "Strength vs. AC",
                 "type": "attack"
+              },
+              {
+                "id": "row-2-note",
+                "label": "Attack",
+                "text": "You make the attack twice, distributing the attacks between the targets or making both attacks against one.",
+                "type": "effect"
               }
             ],
             "id": "use",
@@ -13128,6 +13138,7 @@
       "coverage": {
         "limitations": [
           "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+          "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text.",
           "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
@@ -13163,7 +13174,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You become a violent storm, flensing the flesh of all who try to stand up to your attacks.\n\nDAILY / STANDARD\n\nClose burst 1\n\nTrigger: An enemy willingly moves adjacent to one of your allies within 3 squares of you or makes an attack that does not include you as a target while within 3 squares of you.\n\nRequirement: The power Dust Storm Assault must be active in order to use this power.\n\nTarget: Each enemy you can see in the burst\n\nPrimary Attack: Strength vs. AC\n\nHit: 1[W] + Strength damage.\n\nEffect: You can assume the dust storm assault stance. Until the stance ends, you can use the power Dust Storm Attack.\n\nRule: Dust Storm Attack\n\nRule: At-Will ✦     Martial, Stance, Weapon\n\nRule: Opportunity Action      Melee weapon\n\nEffect: Before the secondary attack, you shift 6 squares to a square adjacent to the triggering enemy.\n\nSecondary Target: The triggering enemy\n\nSecondary Attack: Strength vs. AC\n\nHit: 2[W] + Strength damage, and the secondary target falls prone.",
+        "description": "You become a violent storm, flensing the flesh of all who try to stand up to your attacks.\n\nDAILY / STANDARD\n\nClose burst 1\n\nTarget: Each enemy you can see in the burst\n\nPrimary Attack: Strength vs. AC\n\nHit: 1[W] + Strength damage.\n\nEffect: You can assume the dust storm assault stance. Until the stance ends, you can use the power Dust Storm Attack.\n\nGrants: Dust Storm Attack\n\nAT_WILL / OPPORTUNITY\n\nMelee weapon\n\nTrigger: An enemy willingly moves adjacent to one of your allies within 3 squares of you or makes an attack that does not include you as a target while within 3 squares of you.\n\nRequirement: The power Dust Storm Assault must be active in order to use this power.\n\nTarget: The triggering enemy\n\nEffect: Before the secondary attack, you shift 6 squares to a square adjacent to the triggering enemy.\n\nSecondary Attack: Strength vs. AC\n\nHit: 2[W] + Strength damage, and the secondary target falls prone.",
         "title": "Dust Storm Assault"
       },
       "sharedData": {
@@ -13183,10 +13194,6 @@
               "targets-1": {
                 "kind": "TARGET_SET",
                 "text": "Each enemy you can see in the burst"
-              },
-              "targets-11": {
-                "kind": "TARGET_SET",
-                "text": "The triggering enemy"
               }
             },
             "blocks": [
@@ -13233,33 +13240,45 @@
                 "type": "effect"
               },
               {
-                "id": "row-5",
-                "label": "Rule",
+                "activationId": "use-dust-storm-attack",
+                "duration": "As stated in the power's rules",
+                "id": "grant-use-dust-storm-attack",
+                "label": "Grants",
                 "text": "Dust Storm Attack",
-                "type": "effect"
+                "type": "grant"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 1",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets-1",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [],
+              "rules": []
+            }
+          },
+          {
+            "action": "OPPORTUNITY",
+            "availability": "GRANTED",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
               },
-              {
-                "id": "row-6",
-                "label": "Rule",
-                "text": "At-Will ✦     Martial, Stance, Weapon",
-                "type": "effect"
-              },
-              {
-                "id": "row-7",
-                "label": "Rule",
-                "text": "Opportunity Action      Melee weapon",
-                "type": "effect"
-              },
+              "targets-11": {
+                "kind": "TARGET_SET",
+                "text": "The triggering enemy"
+              }
+            },
+            "blocks": [
               {
                 "id": "row-10",
                 "label": "Effect",
                 "text": "Before the secondary attack, you shift 6 squares to a square adjacent to the triggering enemy.",
-                "type": "effect"
-              },
-              {
-                "id": "row-11",
-                "label": "Secondary Target",
-                "text": "The triggering enemy",
                 "type": "effect"
               },
               {
@@ -13283,7 +13302,7 @@
                 "id": "row-12",
                 "label": "Secondary Attack",
                 "range": {
-                  "text": "Close burst 1",
+                  "text": "Melee weapon",
                   "type": "RULES_TEXT"
                 },
                 "roll": {
@@ -13299,17 +13318,18 @@
                 "type": "attack"
               }
             ],
-            "id": "use",
+            "id": "use-dust-storm-attack",
             "range": {
-              "text": "Close burst 1",
+              "text": "Melee weapon",
               "type": "RULES_TEXT"
             },
             "requirement": "The power Dust Storm Assault must be active in order to use this power.",
-            "targets": "targets-1",
+            "targets": "targets-11",
+            "title": "Dust Storm Attack",
             "trigger": "An enemy willingly moves adjacent to one of your allies within 3 squares of you or makes an attack that does not include you as a target while within 3 squares of you.",
             "usage": {
               "costs": [],
-              "frequency": "DAILY",
+              "frequency": "AT_WILL",
               "limits": [],
               "rules": []
             }
@@ -13319,7 +13339,8 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."
+            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution.",
+            "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text."
           ],
           "status": "UNIMPLEMENTED"
         },
@@ -15794,7 +15815,7 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "The feel of your weapon crunching against the enemy puts your heart back in the fight.\n\nAT_WILL / STANDARD\n\nMelee Weapon\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 1[W] + Strength damage.\n\nRule: Increase damage to 2[W] + Strength at 21st level.",
+        "description": "The feel of your weapon crunching against the enemy puts your heart back in the fight.\n\nAT_WILL / STANDARD\n\nMelee Weapon\n\nTarget: One creature\n\nAttack: Strength vs. AC\n\nHit: 1[W] + Strength damage.\n\nLevel 21: 2[W] + Strength",
         "title": "Crushing Surge"
       },
       "sharedData": {
@@ -15828,6 +15849,12 @@
                         {
                           "id": "row-3",
                           "label": "Hit",
+                          "scaling": [
+                            {
+                              "atLevel": 21,
+                              "text": "2[W] + Strength"
+                            }
+                          ],
                           "text": "1[W] + Strength damage.",
                           "type": "effect"
                         }
@@ -15852,12 +15879,6 @@
                 "targets": "targets-1",
                 "text": "Strength vs. AC",
                 "type": "attack"
-              },
-              {
-                "id": "row-4",
-                "label": "Rule",
-                "text": "Increase damage to 2[W] + Strength at 21st level.",
-                "type": "effect"
               }
             ],
             "id": "use",

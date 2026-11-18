@@ -159,8 +159,6 @@ def fill(activation, rows, prereqs, inherited=None):
                 block.update(type="attack", actor="self", targets=target, range=reach,
                              roll=dict(count=1, sharing="PER_TARGET", statistic=statistic),
                              comparisons=[dict(id="defense", defense=DEFENSES[defense[1].upper()], outcomes={})])
-                if simple:
-                    block["text"] = f"{simple[1]} vs. {simple[2]}"
                 multiple = re.search(r"\b(two|three|four) (?:attacks|attack rolls)\b", value)
                 if multiple or re.search(r"\btwice\b", value) and not re.search(r"roll twice", value):
                     block["roll"]["count"] = COUNTS[multiple[1]] if multiple else 2
@@ -175,6 +173,9 @@ def fill(activation, rows, prereqs, inherited=None):
                     current_attack = None
                     last = block
                     continue
+                if simple:
+                    # The rider sentence becomes its own block; the attack keeps only "Ability vs. Defense".
+                    block["text"] = f"{simple[1]} vs. {simple[2]}"
                 current_attack = block
                 attacks.append(block)
                 activation["blocks"].append(block)
@@ -224,7 +225,7 @@ def convert(row, html, class_name="Fighter"):
         prereqs.append(dict(type="unresolved", text=unsupported[1], reason="Depends on a build or feature Modern 4e does not have."))
     body = lines[start + 2:]
     body = strip_notes(body[:next((i for i, line in enumerate(body) if line.startswith("Published in ")), len(body))])
-    limitations = ["Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."]
+    limitations = ["Power selection is supported; combat execution, conditional weapon benefits, secondary actions and sustain rules require manual resolution."]
     indexed = list(enumerate(body))
     # A second "<usage> ✦ keywords" header after a title/flavor pair starts a follow-up power
     # (Forms, stances) that must not borrow the parent's requirement, trigger or range.

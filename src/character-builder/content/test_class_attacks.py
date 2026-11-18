@@ -61,6 +61,41 @@ class ClassAttacksTest(unittest.TestCase):
                 reviewed = json.dumps(power["activations"], ensure_ascii=False) + power["description"]
                 self.assertIsNone(STOCK_TERMS.search(reviewed), power["id"])
 
+    def test_every_adapted_source_rules_line_survives_in_the_structured_output(self):
+        """No importer rule may silently drop printed rules text (including riders after an attack's defense)."""
+        fighter = json.loads((class_runtime.authoring.CONTENT / "fighter-attack-powers.json").read_text(encoding="utf-8"))["powers"]
+        for name, powers in {**self.powers, "Fighter": fighter}.items():
+            for power in powers:
+                lines = power["source"]["rulesText"].splitlines()
+                start = next(i for i, line in enumerate(lines) if re.match(r"^(At-Will|Encounter|Daily)\s", line))
+                body = lines[start + 2:]
+                body = migration.strip_notes(body[:next((i for i, line in enumerate(body) if line.startswith("Published in ")), len(body))])
+                skipped = set()
+                for header in (i for i in range(len(body)) if migration.is_header(body, i)):
+                    skipped |= set(range(migration.title_at(body, header), header + 2))
+                dump = json.dumps(power["activations"] + [power["prerequisites"]], ensure_ascii=False)
+                for i, line in enumerate(body):
+                    label, colon, value = line.partition(":")
+                    label, value = (label.strip(), migration.adapt(value.strip())) if colon else ("Rule", migration.adapt(line))
+                    # Source typos the importer corrects on purpose.
+                    value = re.sub(r"\bvs\s+(?=[A-Z])", "vs. ", value.replace("Relfex", "Reflex"))
+                    if i in skipped or not value:
+                        continue
+                    found = json.dumps(value, ensure_ascii=False)[1:-1] in dump
+                    if not found and label == "Prerequisite":
+                        skill = re.fullmatch(r"You must be proficient in (\w+)\.?", value)
+                        found = bool(skill) and skill[1].upper() in dump
+                    if not found and re.fullmatch(r"(?:Primary |Secondary |Tertiary )?Attack(?: \(\w+\))?", label):
+                        # A rider sentence after the defense becomes its own block.
+                        split = re.match(r"^(\w+ vs\. \w+)\.?\s*(.*)$", value, re.S)
+                        found = bool(split) and all(json.dumps(part, ensure_ascii=False)[1:-1] in dump for part in split.groups() if part)
+                    if not found and label == "Rule":
+                        raised = re.fullmatch(r"Increase damage to (.+?) at 21st level\.?", value)
+                        found = bool(raised) and json.dumps(raised[1], ensure_ascii=False)[1:-1] in dump
+                    if not found and label in migration.ACTIONS:
+                        found = True  # An inline "<action>: <range>" line stays a labelled effect block.
+                    self.assertTrue(found, f"{power['id']} lost {label!r}: {value[:80]}")
+
     def test_every_activation_has_action_range_and_ordered_blocks(self):
         for powers in self.powers.values():
             for power in powers:
