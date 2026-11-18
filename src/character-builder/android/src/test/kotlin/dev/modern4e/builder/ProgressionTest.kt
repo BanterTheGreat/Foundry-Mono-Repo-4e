@@ -4,6 +4,10 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class ProgressionTest {
+    @Test fun levelsFollowsAboutInCharacterNavigation() {
+        assertEquals(listOf("character", "progression", "stats", "validation"), CharacterTabs)
+    }
+
     @Test fun scheduleMatchesPrintedMilestones() {
         assertEquals(mapOf("At-will" to 2, "Encounter" to 1, "Daily" to 2), Progression.tally(1))
         assertEquals(mapOf("At-will" to 2, "Encounter" to 6, "Daily" to 4, "Utility" to 5), Progression.tally(20))
@@ -70,6 +74,25 @@ class ProgressionTest {
         val filled = doc.copy(levels = listOf(LevelDecisions(1, values = listOf(ValueChoice(slot, "ELVEN")))))
         assertEquals(missing - 1, Progression.missing(BuilderState(filled, rules)))
         assertEquals(missing - 1, Progression.missing(BuilderState(filled, rules.copy(choices = rules.choices + EngineChoice(optional, optional = true)))))
+    }
+
+    @Test fun completingRequiredLevelOneChoicesClearsTheBadgeWithoutChoosingATheme() {
+        val origins = listOf("ancestry", "class", "feat").map { kind ->
+            EntryChoice(kind, ChoiceSlotId("creation", kind, 0), SavedSelection(kind, kind, "proof", "fingerprint"))
+        }
+        val doc = CharacterDocument(
+            id = "badge", savedAt = "2026-11-18T12:00:00Z",
+            identity = CharacterIdentity("Badge", environment = "urban", upbringing = "academic"),
+            packages = emptyList(), level = 1,
+            abilities = AbilityAllocation(ChoiceSlotId("class", "main", 0), Ability.STRENGTH,
+                mapOf(Ability.STRENGTH to 4, Ability.DEXTERITY to 2, Ability.CONSTITUTION to 2, Ability.WISDOM to 1)),
+            levels = listOf(LevelDecisions(1, entries = origins)),
+        )
+        val theme = EngineChoice(ChoiceSlotId("creation", "theme", 0), optional = true)
+        val rules = EngineResult(emptyMap(), emptyList(), listOf(theme), emptyMap(), emptyMap(), emptyList())
+        val complete = BuilderState(doc, rules)
+        assertEquals(0, Progression.missing(complete))
+        assertEquals(1, Progression.missing(complete.copy(document = doc.copy(identity = doc.identity.copy(environment = "")))))
     }
 
 }

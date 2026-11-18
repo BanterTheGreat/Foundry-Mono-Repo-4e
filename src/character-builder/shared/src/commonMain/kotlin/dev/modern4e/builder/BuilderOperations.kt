@@ -84,10 +84,20 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
 
     private fun choiceEvaluation() = ChoiceEvaluation(catalog, { evaluate(it) }, { preparation.load(it) })
 
-    /** Retain only while this document and installed content are unchanged; mutations always validate afresh. */
-    fun optionListing(document: CharacterDocument, level: Int, slot: ChoiceSlotId): BuilderOptionListing {
+    /** Read multiple saved definitions using the same catalog read session. */
+    suspend fun resolveSelections(selections: Set<SavedSelection>): Map<SavedSelection, ContentEntry> {
+        val reading = catalog.readSession()
+        return selections.mapNotNull { selection ->
+            val resolved = reading.resolve(selection) as? ContractResult.Available
+            resolved?.value?.entry?.let { selection to it }
+        }.toMap()
+    }
+
+    /** Browse this snapshot using the occurrence ID a picker will save for a new selection, when supplied. */
+    fun optionListing(document: CharacterDocument, level: Int, slot: ChoiceSlotId,
+        newInstanceId: String? = null): BuilderOptionListing {
         val reading = operation()
-        return BuilderOptionListing(reading.choiceEvaluation(), document, level, slot, reading.catalog)
+        return BuilderOptionListing(reading.choiceEvaluation(), document, level, slot, reading.catalog, newInstanceId)
     }
 
     /** Rejected commands return the unchanged, recalculated document and an explicit operation diagnostic. */
@@ -148,7 +158,7 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
                     document.equipment.any { it.instanceId == instance }) {
                     return reject("Entry occurrence ID is already in use.")
                 }
-                val option = choiceEvaluation().option(document, edit.level, edit.slot, edit.entryId)
+                val option = choiceEvaluation().option(document, edit.level, edit.slot, edit.entryId, instance)
                     ?: return reject("Entry is unavailable or is not an option for this slot.")
                 if (!edit.acceptIneligible && option.eligibility != Eligibility.ELIGIBLE) {
                     return reject("Choice is ${option.eligibility}; explicitly accept it to retain its diagnostics.")

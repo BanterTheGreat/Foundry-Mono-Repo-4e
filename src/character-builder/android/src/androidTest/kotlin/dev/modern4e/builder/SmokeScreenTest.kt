@@ -60,16 +60,16 @@ class SmokeScreenTest {
         }
         compose.onNodeWithContentDescription("Edit character name").assertTextEquals("Android overview test")
         compose.onNodeWithContentDescription("Character tabs").performTouchInput { swipeLeft() }
+        waitFor("Ability Scores")
+        compose.onNodeWithContentDescription("Character tabs").performTouchInput { swipeLeft() }
         waitFor("Vitals")
         compose.onNodeWithContentDescription("Strength: 4").assertExists()
         compose.onNodeWithContentDescription("Character tabs").performTouchInput { swipeLeft() }
-        waitFor("Ability Scores")
-        compose.onNodeWithContentDescription("Character tabs").performTouchInput { swipeLeft() }
         compose.onNode(hasText("Validation") and hasClickAction()).assertIsSelected()
         compose.onNodeWithContentDescription("Character tabs").performTouchInput { swipeRight() }
-        waitFor("Ability Scores")
-        compose.onNodeWithContentDescription("Character tabs").performTouchInput { swipeRight() }
         waitFor("Vitals")
+        compose.onNodeWithContentDescription("Character tabs").performTouchInput { swipeRight() }
+        waitFor("Ability Scores")
         compose.onNodeWithContentDescription("Character tabs").performTouchInput { swipeRight() }
         waitFor("Level 1")
         compose.onNodeWithContentDescription("Back").performClick()
@@ -93,7 +93,7 @@ class SmokeScreenTest {
         check(model.errors.isEmpty()) { model.errors.toString() }
         val id = model.current!!.document.id
         waitFor("Level 1")
-        compose.onNode(hasText("Progression", substring = true) and hasClickAction()).performClick()
+        compose.onNode(hasText("Levels") and hasClickAction()).performClick()
         waitFor("Ability Scores")
         compose.onNodeWithContentDescription("Edit Linguist: language 1")
             .performScrollTo().performClick()
@@ -105,7 +105,7 @@ class SmokeScreenTest {
         }
         runBlocking { model.load(id) }
         waitFor("Level 1")
-        compose.onNode(hasText("Progression", substring = true) and hasClickAction()).performClick()
+        compose.onNode(hasText("Levels") and hasClickAction()).performClick()
         compose.onNodeWithText("Deep Speech").performScrollTo().assertIsDisplayed()
         check(model.current!!.rules.facts.any { it.kind == FactKind.LANGUAGE && it.value == "DEEP_SPEECH" })
     }

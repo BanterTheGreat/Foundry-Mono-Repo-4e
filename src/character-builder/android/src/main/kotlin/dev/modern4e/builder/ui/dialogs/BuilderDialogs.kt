@@ -112,7 +112,7 @@ private fun ClassMenu(model: BuilderSession, classes: List<CatalogEntry>, task: 
                         }
                     }) {
                         val description by produceState<String?>(null, id) { value = model.classDescription(id) }
-                        description?.let { ControlledDescription(it) } ?: Text("Loading…", color = Dim)
+                        description?.let { ControlledDescription(it, compact = true) } ?: Text("Loading…", color = Dim)
                     }
                 }
             }

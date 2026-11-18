@@ -1,17 +1,19 @@
 package dev.modern4e.builder
 
-/** A metadata row can be displayed before eligibility is checked; unchecked rows must not be selected. */
+/** Checked ancestry rows carry their expanded details so a tap need not load a second stage. */
 data class BuilderOptionRow(
     val metadata: CatalogEntry,
     val option: BuilderOption? = null,
     val checked: Boolean = false,
     val diagnostics: List<Diagnostic> = emptyList(),
+    val ancestryGrants: List<ContentEntry> = emptyList(),
 )
 
 /**
  * An explicit browsing snapshot for one character/slot and installed content. It retains checked rows
- * and prepared facts across tabs/reopens. Discard on document or content changes. Callers serialize
- * access and choose batch sizes, so platform cancellation can stop work between small batches.
+ * and prepared facts across tabs/reopens. Reuse only while the same candidates and rules inputs
+ * apply to this slot. Callers serialize access and choose batch sizes so cancellation can stop work
+ * between batches.
  */
 class BuilderOptionListing internal constructor(
     private val choices: ChoiceEvaluation,
@@ -19,6 +21,7 @@ class BuilderOptionListing internal constructor(
     private val level: Int,
     private val slot: ChoiceSlotId,
     private val catalog: ContentCatalog,
+    private val newInstanceId: String?,
 ) {
     private val groups = mutableMapOf<FeatGroup?, List<CatalogEntry>>()
     private val checked = mutableMapOf<String, BuilderOptionRow>()
@@ -39,13 +42,21 @@ class BuilderOptionListing internal constructor(
         for (id in ids.distinct()) {
             val metadata = known[id] ?: continue
             val row = checked[id] ?: run {
-                val option = choices.option(document, level, slot, id)
+                val option = choices.option(document, level, slot, id, newInstanceId)
                 val diagnostics = option?.diagnostics ?: when (val resolved = catalog.lookup(id)) {
                     is ContractResult.Unavailable -> resolved.diagnostics
                     is ContractResult.Available -> listOf(Diagnostic("builder.optionUnavailable", DiagnosticKind.UNRESOLVED_CONTENT,
                         "This entry is unavailable for the requested slot.", slot, id))
                 }
-                BuilderOptionRow(metadata, option, true, diagnostics).also { checked[id] = it }
+                val entry = option?.entry?.entry
+                val ancestryGrants = if (entry?.category == EntryCategory.ANCESTRY) {
+                    entry.mechanics.grants.filterIsInstance<Grant.Entry>().mapNotNull { grant ->
+                        (catalog.lookup(grant.entryId) as? ContractResult.Available)?.value?.entry
+                    }
+                } else {
+                    emptyList()
+                }
+                BuilderOptionRow(metadata, option, true, diagnostics, ancestryGrants).also { checked[id] = it }
             }
             result += row
         }

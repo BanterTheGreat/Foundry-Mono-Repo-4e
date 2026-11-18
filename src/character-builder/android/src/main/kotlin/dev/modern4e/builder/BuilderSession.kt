@@ -61,7 +61,7 @@ class BuilderSession(
     private var warming: Job? = null
     /** How long a committed edit waits for further edits before background warming starts. */
     internal var warmupSettleMillis = 300L
-    private class RetainedListing(val listing: BuilderOptionListing, val document: CharacterDocument)
+    private class RetainedListing(val listing: BuilderOptionListing, val newInstanceId: String)
     private val optionListings = linkedMapOf<Pair<Int, ChoiceSlotId>, RetainedListing>()
     private val importer = CharacterImporter(store) { UUID.randomUUID().toString() }
 
@@ -331,7 +331,14 @@ class BuilderSession(
         if (persist(document, committed)) {
             warming?.cancel()
             warming = null
-            current = evaluated.copy(document = document)
+            val updated = evaluated.copy(document = document)
+            synchronized(optionListings) {
+                val previous = current
+                optionListings.entries.removeAll { (key, retained) ->
+                    previous == null || !stillValid(previous, updated, key.first, key.second, retained.newInstanceId)
+                }
+                current = updated
+            }
             committed = document
             pending = null
             dialog = null
@@ -388,6 +395,14 @@ class BuilderSession(
         }
     }
 
+    /** Resolve manually saved power selections against the character's installed content. */
+    internal suspend fun resolveSavedPowerEntries(selections: Set<SavedSelection>): Map<SavedSelection, ContentEntry> {
+        val installed = operations ?: return emptyMap()
+        return withContext(Dispatchers.IO) {
+            installed.resolveSelections(selections)
+        }
+    }
+
     suspend fun details(selection: SavedSelection) {
         val result = withContext(Dispatchers.IO) { catalog?.resolve(selection) }
         if (result is ContractResult.Available) {
@@ -403,22 +418,6 @@ class BuilderSession(
             description = result.value
         } else {
             errors = listOf(Diagnostic("android.reference", DiagnosticKind.UNRESOLVED_CONTENT, "Reference $id is unavailable"))
-        }
-    }
-
-    /**
-     * The entries an ancestry grants (its features and powers), in authored order, read on demand so
-     * the picker stays index-only until a card is expanded.
-     *
-     * @param entry the ancestry whose granted entries are wanted.
-     * @return the granted definitions that could be read; empty for entries that grant nothing.
-     */
-    suspend fun grantedEntries(entry: ContentEntry): List<ContentEntry> {
-        val catalog = catalog ?: return emptyList()
-        return withContext(Dispatchers.IO) {
-            entry.mechanics.grants.filterIsInstance<Grant.Entry>().mapNotNull {
-                (catalog.lookup(it.entryId) as? ContractResult.Available)?.value?.entry
-            }
         }
     }
 
@@ -482,6 +481,10 @@ class BuilderSession(
         }
     }
 
+    /** New selections save the same occurrence ID the picker used to check its candidates. */
+    internal fun progressionEntryInstance(level: Int, slot: ChoiceSlotId): String =
+        synchronized(optionListings) { optionListings[level to slot]?.newInstanceId } ?: UUID.randomUUID().toString()
+
     /**
      * Fill the retained listing for a level 1-2 slot, publishing after each checked batch. The picker and
      * the background warm-up both run this, so a warmed list opens already checked. Returns content read
@@ -491,15 +494,15 @@ class BuilderSession(
         slot: ChoiceSlotId, featGroup: FeatGroup?, onUpdate: suspend (List<BuilderOptionRow>) -> Unit): List<Diagnostic> {
         val listing = withContext(Dispatchers.IO) { heavyWork.withLock {
             synchronized(optionListings) {
+                if (current?.document != original || catalog !== originalCatalog) {
+                    return@synchronized null
+                }
                 val key = level to slot
-                val retained = optionListings[key]
-                if (retained != null && stillValid(retained.document, original, level, slot)) {
-                    retained.listing
-                } else {
-                    optionListings.remove(key)
-                    operations?.optionListing(original, level, slot)?.also {
-                        optionListings[key] = RetainedListing(it, original)
-                        // Room for every level 1-2 list of a class at once; the checked rows are small beside the content itself.
+                optionListings[key]?.listing ?: run {
+                    val newInstanceId = UUID.randomUUID().toString()
+                    operations?.optionListing(original, level, slot, newInstanceId)?.also {
+                        optionListings[key] = RetainedListing(it, newInstanceId)
+                        // The checked rows are small beside the content itself.
                         if (optionListings.size > 32) {
                             optionListings.remove(optionListings.keys.first())
                         }
@@ -508,7 +511,9 @@ class BuilderSession(
             }
         } }
         if (listing == null) {
-            onUpdate(emptyList())
+            if (current?.document == original && catalog === originalCatalog) {
+                onUpdate(emptyList())
+            }
             return emptyList()
         }
         var rows = withContext(Dispatchers.IO) { heavyWork.withLock { listing.rows(featGroup) } }
@@ -543,23 +548,50 @@ class BuilderSession(
         level == 1 && slot.sourceInstanceId == "creation" && slot.choiceId in setOf("class", "ancestry")
 
     /**
-     * Whether a list checked against [built] still answers for [current]. A level's choices depend only on
-     * decisions at that level and earlier, so a later-level edit keeps earlier lists; edits that touch no
-     * rules (name, notes, descriptive details) keep every list; the root pickers always stay.
+     * The candidate check replaces its own slot before evaluating rules. Saving a candidate there can
+     * reuse the listing when the same occurrence and candidate pool are still in use and other inputs
+     * at or below the slot level are unchanged.
      */
-    private fun stillValid(built: CharacterDocument, current: CharacterDocument, level: Int, slot: ChoiceSlotId): Boolean =
-        isRootList(level, slot) || firstChangedLevel(built, current) > level
+    private fun stillValid(before: BuilderState, after: BuilderState, level: Int, slot: ChoiceSlotId,
+        newInstanceId: String): Boolean {
+        if (isRootList(level, slot) || firstChangedLevel(before.document, after.document) > level) {
+            return true
+        }
+        val previous = before.document.levels.flatMap { it.entries }.firstOrNull { it.slot == slot }
+        val selected = after.document.levels.flatMap { it.entries }.firstOrNull { it.slot == slot } ?: return false
+        if ((previous?.instanceId ?: newInstanceId) != selected.instanceId ||
+            firstChangedLevel(before.document, after.document, level to slot) <= level) {
+            return false
+        }
+        // Root Theme and Feat listings use the installed category, independent of the effective choice.
+        val catalogRoot = (level == 1 && slot in listOf(ChoiceSlotId("creation", "theme", 0), ChoiceSlotId("creation", "feat", 0))) ||
+            (level == 2 && slot == ChoiceSlotId("advancement.2", "feat", 0))
+        if (catalogRoot) {
+            return true
+        }
+        fun EngineChoice.membership() = Triple(optional, acquisitionLevel, entries.map { it.entryId })
+        return before.rules.choices.singleOrNull { it.slot == slot }?.membership() ==
+            after.rules.choices.singleOrNull { it.slot == slot }?.membership()
+    }
 
     /** Lowest level whose rules inputs differ between two documents; 1 for non-level inputs, Int.MAX_VALUE if none. */
-    private fun firstChangedLevel(old: CharacterDocument, new: CharacterDocument): Int {
+    private fun firstChangedLevel(old: CharacterDocument, new: CharacterDocument, ignored: Pair<Int, ChoiceSlotId>? = null): Int {
         fun CharacterDocument.nonLevelInputs() = copy(savedAt = "", level = 1, levels = emptyList(),
             identity = CharacterIdentity("-", environment = identity.environment, upbringing = identity.upbringing))
         if (old.nonLevelInputs() != new.nonLevelInputs()) {
             return 1
         }
         val top = maxOf(old.level, new.level, old.levels.maxOfOrNull { it.level } ?: 0, new.levels.maxOfOrNull { it.level } ?: 0)
+        fun CharacterDocument.decisions(level: Int): LevelDecisions? {
+            val decisions = levels.firstOrNull { it.level == level }
+            return if (ignored?.first == level) {
+                decisions?.copy(entries = decisions.entries.filterNot { it.slot == ignored.second })
+            } else {
+                decisions
+            }
+        }
         for (level in 1..top) {
-            if (old.levels.firstOrNull { it.level == level } != new.levels.firstOrNull { it.level == level }) {
+            if (old.decisions(level) != new.decisions(level)) {
                 return level
             }
         }

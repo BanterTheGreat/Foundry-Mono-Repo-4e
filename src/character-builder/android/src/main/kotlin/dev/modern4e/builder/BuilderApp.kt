@@ -22,7 +22,7 @@ import dev.modern4e.builder.ui.components.*
 import dev.modern4e.builder.ui.screens.*
 import dev.modern4e.builder.ui.dialogs.BuilderDialogs
 
-internal val CharacterTabs = listOf("character", "stats", "progression", "validation")
+internal val CharacterTabs = listOf("character", "progression", "stats", "validation")
 internal fun String.readable() = lowercase().replace('_', ' ').replaceFirstChar { it.titlecase() }
 
 /** App shell: initializes the session and coordinates navigation, chrome, and destinations. */
@@ -91,7 +91,25 @@ fun BuilderApp(model: BuilderSession, exchange: FileExchange, portraitChooser: P
                     Row(Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
                         CharacterTabs.forEach { page ->
                             TextButton(enabled = !model.busy, onClick = { model.page = page }, modifier = Modifier.weight(1f).semantics { selected = model.page == page; role = Role.Tab }) {
-                                Text(if (page == "character") "About" else if (page == "progression") "Progression (${model.current?.let { Progression.missing(it) } ?: 0})" else page.readable(), color = if (page == model.page) Accent else Dim)
+                                val color = if (page == model.page) Accent else Dim
+                                when (page) {
+                                    "character" -> Text("About", color = color)
+                                    "progression" -> {
+                                        val missing = model.current?.let { Progression.missing(it) } ?: 0
+                                        BadgedBox(badge = {
+                                            if (missing > 0) {
+                                                Badge(containerColor = MaterialTheme.colorScheme.error) {
+                                                    Text(missing.toString(), Modifier.semantics {
+                                                        contentDescription = "$missing required choices remaining"
+                                                    })
+                                                }
+                                            }
+                                        }) {
+                                            Text("Levels", color = color)
+                                        }
+                                    }
+                                    else -> Text(page.readable(), color = color)
+                                }
                             }
                         }
                     }

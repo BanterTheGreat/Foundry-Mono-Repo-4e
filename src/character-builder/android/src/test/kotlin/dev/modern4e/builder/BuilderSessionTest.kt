@@ -100,8 +100,9 @@ class BuilderSessionTest {
         }
         var ancestries = emptyList<BuilderOptionRow>()
         model.progressionOptionRows(1, ChoiceSlotId("creation", "ancestry", 0)) { ancestries = it }
-        val deva = ancestries.first { it.metadata.metadata.id == "modern4e.ancestry.deva" }.option!!.entry.entry
-        val features = model.grantedEntries(deva)
+        val deva = ancestries.first { it.metadata.metadata.id == "modern4e.ancestry.deva" }
+        assertTrue(deva.checked)
+        val features = deva.ancestryGrants
         assertEquals(listOf("Astral Majesty", "Astral Resistance", "Immortal Origin", "Memory of a Thousand Lifetimes"),
             features.map { it.presentation.title })
         assertTrue(features.all { it.presentation.description.isNotBlank() })
@@ -161,9 +162,24 @@ class BuilderSessionTest {
         }
         assertEquals("Pools warmed on open read no further content", opened, reads)
 
-        val pick = Progression.levelChoices(model.current!!, 1).first { it.slot == slots.first() }.entries.first().entryId
-        model.edit(BuilderEdit.Entry(1, slots.first(), pick, "power-pick", true))
+        val pickedSlot = slots.first()
+        val siblingSlot = slots.first { it.choiceId == pickedSlot.choiceId && it != pickedSlot }
+        val warmedRows = model.firstRows(1, pickedSlot)
+        val pick = warmedRows.first { it.option?.eligibility == Eligibility.ELIGIBLE }.metadata.metadata.id
+        val instance = model.progressionEntryInstance(1, pickedSlot)
+        model.warmupSettleMillis = 60_000
+        model.edit(BuilderEdit.Entry(1, pickedSlot, pick, instance, true))
         assertTrue(model.errors.isEmpty())
+        assertEquals(instance, model.current!!.document.levels.flatMap { it.entries }.first { it.slot == pickedSlot }.instanceId)
+        assertEquals("The same picker immediately reuses its checked rows", warmedRows, model.firstRows(1, pickedSlot))
+        assertTrue("A sibling slot must recheck eligibility", model.firstRows(1, siblingSlot).none { it.checked })
+        var siblingRows = emptyList<BuilderOptionRow>()
+        model.progressionOptionRows(1, siblingSlot) { siblingRows = it }
+        assertEquals(Eligibility.INELIGIBLE, siblingRows.first { it.metadata.metadata.id == pick }.option?.eligibility)
+
+        model.warmupSettleMillis = 0
+        val document = model.current!!.document
+        model.edit(BuilderEdit.Identity(document.identity.copy(notes = "No rules inputs changed")))
         model.awaitWarmup()
         val remaining = model.emptyAttackSlots()
         assertEquals(slots - slots.first(), remaining)
@@ -305,14 +321,15 @@ class BuilderSessionTest {
         assertTrue(model.firstRows(1, pool).all { it.checked })
         assertTrue(model.firstRows(2, level2Feat, FeatGroup.CLASS).let { it.isNotEmpty() && it.all { row -> row.checked } })
 
-        // A level 2 decision leaves every level 1 list alone and rebuilds the level 2 ones.
+        // A level 2 pick keeps every level 1 list and the edited feat slot checked.
         model.warmupSettleMillis = 60_000
         val feat = model.firstRows(2, level2Feat, FeatGroup.GENERAL).first { it.option?.eligibility == Eligibility.ELIGIBLE }
-        model.edit(BuilderEdit.Entry(2, level2Feat, feat.metadata.metadata.id, "level-2-feat", true))
+        val instance = model.progressionEntryInstance(2, level2Feat)
+        model.edit(BuilderEdit.Entry(2, level2Feat, feat.metadata.metadata.id, instance, true))
         assertTrue(model.errors.isEmpty())
         assertTrue("Level 1 pool stays checked", model.firstRows(1, pool).all { it.checked })
         assertTrue("Level 1 feat tab stays checked", model.firstFeatRows(FeatGroup.CLASS).all { it.checked })
-        assertTrue("Level 2 feat tab is rebuilt", model.firstRows(2, level2Feat, FeatGroup.CLASS).none { it.checked })
+        assertTrue("Other tabs in the same level 2 feat picker stay checked", model.firstRows(2, level2Feat, FeatGroup.CLASS).all { it.checked })
 
         // A level 1 decision refreshes the lists above it as well.
         model.touchRules()

@@ -20,7 +20,8 @@
     "prototype:triggers": "powershell -NoProfile -Command Start-Process src/banter-4e-modifications/prototypes/trigger-menu.prototype.html",
     "prototype:damage": "open src/dnd4e-health-display/PoC/target-flow-prototype/confirm-damage-review.prototype.html",
     "prototype:extras": "open src/dnd4e-health-display/PoC/actor-hud-ui-prototype/extras.prototype.html",
-    "prototype:home": "open src/character-builder/android/prototypes/home.prototype.html"
+    "prototype:home": "open src/character-builder/android/prototypes/home.prototype.html",
+    "prototype:powers": "powershell -NoProfile -Command Start-Process src/character-builder/android/prototypes/power-choice.prototype.html"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1"

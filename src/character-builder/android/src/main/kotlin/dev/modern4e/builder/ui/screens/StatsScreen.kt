@@ -71,6 +71,15 @@ internal fun EngineResult.equipmentByCategory(): Map<EquipmentCategory, List<Str
 internal fun Stats(state: BuilderState) {
     val equipment = state.rules.equipmentByCategory()
     Column(Modifier.fillMaxSize().folioScroll(rememberScrollState()).padding(20.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        Heading("Vitals")
+        val maxHp = state.rules.maxHpDisplay()
+        Surface(Modifier.fillMaxWidth().semantics(mergeDescendants = true) { contentDescription = "Max HP: $maxHp" },
+            color = Wash, border = BorderStroke(1.dp, Line), shape = RoundedCornerShape(3.dp)) {
+            Row(Modifier.padding(13.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                Text("MAX HP", fontSize = 10.sp, letterSpacing = 1.sp, color = Dim, modifier = Modifier.weight(1f))
+                Text(maxHp, fontFamily = FontFamily.Serif, fontSize = 34.sp, color = Accent)
+            }
+        }
         Heading("Abilities")
         Ability.entries.chunked(if (LocalConfiguration.current.fontScale > 1.2f) 3 else 6).forEach { row ->
             Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
@@ -84,15 +93,6 @@ internal fun Stats(state: BuilderState) {
                         }
                     }
                 }
-            }
-        }
-        Heading("Vitals")
-        val maxHp = state.rules.maxHpDisplay()
-        Surface(Modifier.fillMaxWidth().semantics(mergeDescendants = true) { contentDescription = "Max HP: $maxHp" },
-            color = Wash, border = BorderStroke(1.dp, Line), shape = RoundedCornerShape(3.dp)) {
-            Row(Modifier.padding(13.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Text("MAX HP", fontSize = 10.sp, letterSpacing = 1.sp, color = Dim, modifier = Modifier.weight(1f))
-                Text(maxHp, fontFamily = FontFamily.Serif, fontSize = 34.sp, color = Accent)
             }
         }
         Heading("Proficiencies")

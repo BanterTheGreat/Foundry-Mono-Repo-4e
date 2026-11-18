@@ -7,7 +7,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -15,16 +17,28 @@ import dev.modern4e.builder.ui.theme.*
 
 /**
  * A choice card: tapping selects it, ticks and frames it, and expands its content, so no radio buttons are needed.
- * Shared by the Progression pickers and the new-character class list.
+ * Shared by the Levels pickers and the new-character class list.
  */
 @Composable
-internal fun ChoiceCard(title: String, chosen: Boolean, expanded: Boolean, enabled: Boolean, level: Int?, click: () -> Unit, content: @Composable ColumnScope.() -> Unit) {
+internal fun ChoiceCard(
+    title: String, chosen: Boolean, expanded: Boolean, enabled: Boolean, level: Int?, click: () -> Unit,
+    compact: Boolean = false, titleColor: Color = Ink, content: @Composable ColumnScope.() -> Unit
+) {
     Surface(Modifier.fillMaxWidth().clickable(enabled = enabled, onClick = click), color = if (chosen) Wash else Paper,
         border = BorderStroke(if (chosen) 2.dp else 1.dp, if (chosen) Accent else Line)) {
-        Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Column(Modifier.padding(horizontal = if (compact) 13.dp else 14.dp, vertical = if (compact) 7.dp else 14.dp),
+            verticalArrangement = Arrangement.spacedBy(if (compact) 4.dp else 8.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text((if (chosen) "✓ " else "") + title, Modifier.weight(1f), fontFamily = FontFamily.Serif, fontSize = 18.sp, color = if (enabled) Ink else Dim)
-                level?.let { Surface(color = Ink) { Text(it.toString(), Modifier.padding(7.dp), color = Paper) } }
+                val color = if (enabled) titleColor else MaterialTheme.colorScheme.error
+                Text((if (chosen) "✓ " else "") + title, Modifier.weight(1f), fontFamily = FontFamily.Serif,
+                    fontSize = if (compact) 15.sp else 18.sp, lineHeight = if (compact) 18.sp else TextUnit.Unspecified, color = color)
+                level?.let {
+                    Surface(color = color) {
+                        Text(it.toString(), Modifier.padding(horizontal = if (compact) 5.dp else 7.dp, vertical = if (compact) 1.dp else 7.dp),
+                            fontSize = if (compact) 11.sp else TextUnit.Unspecified,
+                            lineHeight = if (compact) 14.sp else TextUnit.Unspecified, color = Paper)
+                    }
+                }
             }
             if (expanded || !enabled) { content() }
         }

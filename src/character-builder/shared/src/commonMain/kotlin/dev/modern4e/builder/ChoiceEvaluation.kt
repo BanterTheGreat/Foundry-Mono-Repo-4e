@@ -11,7 +11,7 @@ internal class ChoiceEvaluation(
     private val prepare: suspend (CharacterDocument) -> RulesContent,
     private val fastPowers: Boolean = true,
 ) {
-    private data class Selection(val ids: List<String>, val instance: String)
+    private data class Selection(val ids: List<String>, val instance: String?)
     private val featFacts = mutableMapOf<Triple<CharacterDocument, Int, ChoiceSlotId>, PreparedFeatChoices>()
     private val powerFacts = mutableMapOf<Triple<CharacterDocument, Int, ChoiceSlotId>, Pair<PreparedPowerChoices, RulesContent>>()
     private val selections = mutableMapOf<Triple<CharacterDocument, Int, ChoiceSlotId>, Selection>()
@@ -58,7 +58,7 @@ internal class ChoiceEvaluation(
         val selection = selection(document, level, slot) ?: return emptyList()
         val result = mutableListOf<BuilderOption>()
         for (id in selection.ids) {
-            val option = candidate(document, level, slot, id, selection.instance) ?: continue
+            val option = candidate(document, level, slot, id, selection.instance ?: previewInstance(slot)) ?: continue
             if (includeIneligible || option.eligibility == Eligibility.ELIGIBLE) {
                 result += option
             }
@@ -67,12 +67,13 @@ internal class ChoiceEvaluation(
     }
 
     /** Validate membership and only the requested candidate, using the same path as a choice list. */
-    suspend fun option(document: CharacterDocument, level: Int, slot: ChoiceSlotId, id: String): BuilderOption? {
+    suspend fun option(document: CharacterDocument, level: Int, slot: ChoiceSlotId, id: String,
+        newInstanceId: String? = null): BuilderOption? {
         val selection = selection(document, level, slot) ?: return null
         if (id !in selection.ids) {
             return null
         }
-        return candidate(document, level, slot, id, selection.instance)
+        return candidate(document, level, slot, id, selection.instance ?: newInstanceId ?: previewInstance(slot))
     }
 
     private suspend fun selection(document: CharacterDocument, level: Int, slot: ChoiceSlotId): Selection? {
@@ -90,7 +91,7 @@ internal class ChoiceEvaluation(
             else offered?.entries?.map { it.entryId }.orEmpty()
         val existing = document.levels.flatMap { it.entries }.firstOrNull { it.slot == slot }
         val instance = if (offered?.optional == true) ModernCreation.grantInstance(slot.sourceInstanceId, slot.choiceId)
-            else existing?.instanceId ?: "builder-preview:${slot.sourceInstanceId.length}:${slot.sourceInstanceId}:${slot.choiceId}:${slot.ordinal}"
+            else existing?.instanceId
         return Selection(ids, instance).also { selections[key] = it }
     }
 
@@ -141,6 +142,9 @@ internal class ChoiceEvaluation(
         }
         return BuilderOption(definition, status, diagnostics)
     }
+
+    private fun previewInstance(slot: ChoiceSlotId) =
+        "builder-preview:${slot.sourceInstanceId.length}:${slot.sourceInstanceId}:${slot.choiceId}:${slot.ordinal}"
 
     private fun rootCategory(level: Int, slot: ChoiceSlotId): EntryCategory? {
         if (slot.ordinal != 0) {

@@ -480,6 +480,12 @@ Summon automation Node coverage includes separate square selection, per-power ma
 
 ## Character Builder shared core and content production
 
+Android character navigation order, Levels missing-choice counts, picker eligibility progress and
+ordering, same-slot picker reuse and sibling invalidation, ready ancestry details, utility picker
+color mapping, bundled Zeitgeist theme descriptions, and the current-power list
+are covered by `gradlew.bat :android:testDebugUnitTest` from `src/character-builder` on Windows
+(`./gradlew :android:testDebugUnitTest` on Unix).
+
 Android Character Builder level raising and portraits (from `src/character-builder`, run
 `bash ./gradlew :shared:jvmTest :shared:jsNodeTest :android:testDebugUnitTest`):
 `BuilderOperationsTest` and `BuilderSessionTest` cover forward-only level raises up to 30,
