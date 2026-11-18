@@ -62,7 +62,8 @@ class AncestryRuntimeTest(unittest.TestCase):
             self.assertTrue(entry["mechanics"]["grants"])
             self.assertEqual({"size", "speed", "vision", "languages"}, set(entry["sharedData"]["attributes"]))
             self.assertEqual(entry["sharedData"]["attributes"]["size"].upper(), entry["mechanics"]["size"])
-            self.assertEqual([], entry["mechanics"].get("modifiers", []))
+            self.assertEqual([{"target": {"statistic": "SPEED"}, "operation": "SET",
+                               "value": entry["sharedData"]["attributes"]["speed"]}], entry["mechanics"]["modifiers"])
             self.assertEqual([], entry["mechanics"]["conditionalModifiers"])
             self.assertTrue(any("sharedData" in text for text in entry["coverage"]["limitations"]))
         deva = entries["modern4e.ancestry.deva"]
@@ -155,6 +156,7 @@ class AncestryRuntimeTest(unittest.TestCase):
             path.write_text(json.dumps(data), encoding="utf-8")
             entries = entries_by_id(ancestry_runtime.build(root))
             self.assertEqual(7, entries["modern4e.ancestry.dragonborn"]["sharedData"]["attributes"]["speed"])
+            self.assertEqual(7, entries["modern4e.ancestry.dragonborn"]["mechanics"]["modifiers"][0]["value"])
             self.assertEqual(6, entries_by_id()["modern4e.ancestry.dragonborn"]["sharedData"]["attributes"]["speed"])
             data["ancestries"][0]["grants"][0]["entryId"] = "modern4e.feature.missing"
             path.write_text(json.dumps(data), encoding="utf-8")

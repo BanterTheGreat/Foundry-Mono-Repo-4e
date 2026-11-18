@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -44,8 +45,10 @@ class BuilderSession(
     private val heavyWork = Mutex()
     private val background = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     private var warming: Job? = null
-    private var optionDocument: CharacterDocument? = null
-    private val optionListings = linkedMapOf<Pair<Int, ChoiceSlotId>, BuilderOptionListing>()
+    /** How long a committed edit waits for further edits before background warming starts. */
+    internal var warmupSettleMillis = 300L
+    private class RetainedListing(val listing: BuilderOptionListing, val document: CharacterDocument)
+    private val optionListings = linkedMapOf<Pair<Int, ChoiceSlotId>, RetainedListing>()
     private val importer = CharacterImporter(store) { UUID.randomUUID().toString() }
 
     /** Call on Main; operations run on IO. Errors block further work until the session is reset. */
@@ -176,7 +179,7 @@ class BuilderSession(
         page = "character"
         dialog = null
         description = null
-        current?.let { warmOptionLists(null, it) }
+        current?.let { warmOptionLists(it, 0) }
     }
 
     private suspend fun evaluate(document: CharacterDocument, diagnostics: List<Diagnostic> = emptyList()): BuilderState =
@@ -211,14 +214,14 @@ class BuilderSession(
     private suspend fun commitPending(evaluated: BuilderState) {
         val document = evaluated.document.copy(savedAt = Instant.now().toString())
         pending = document
-        val previous = committed
         if (persist(document, committed)) {
-            clearOptionListings()
+            warming?.cancel()
+            warming = null
             current = evaluated.copy(document = document)
             committed = document
             pending = null
             dialog = null
-            warmOptionLists(previous, current!!)
+            warmOptionLists(current!!, warmupSettleMillis)
             refresh()
         }
     }
@@ -357,16 +360,18 @@ class BuilderSession(
         slot: ChoiceSlotId, featGroup: FeatGroup?, onUpdate: suspend (List<BuilderOptionRow>) -> Unit): List<Diagnostic> {
         val listing = withContext(Dispatchers.IO) { heavyWork.withLock {
             synchronized(optionListings) {
-                if (optionDocument != original) {
-                    dropOptionListings()
-                    optionDocument = original
-                }
                 val key = level to slot
-                optionListings[key] ?: operations?.optionListing(original, level, slot)?.also {
-                    optionListings[key] = it
-                    // Enough for a class's level 1 power pools plus its feat tab; rows are small beside the content itself.
-                    if (optionListings.size > 8) {
-                        optionListings.remove(optionListings.keys.first())
+                val retained = optionListings[key]
+                if (retained != null && stillValid(retained.document, original, level, slot)) {
+                    retained.listing
+                } else {
+                    optionListings.remove(key)
+                    operations?.optionListing(original, level, slot)?.also {
+                        optionListings[key] = RetainedListing(it, original)
+                        // Room for every level 1-2 list of a class at once; the checked rows are small beside the content itself.
+                        if (optionListings.size > 32) {
+                            optionListings.remove(optionListings.keys.first())
+                        }
                     }
                 }
             }
@@ -400,42 +405,57 @@ class BuilderSession(
         return emptyList()
     }
 
-    private data class WarmTarget(val level: Int, val slot: ChoiceSlotId, val group: FeatGroup?)
+    internal data class WarmTarget(val level: Int, val slot: ChoiceSlotId, val group: FeatGroup?)
+
+    /** The Class and Ancestry pickers list the whole catalog and never depend on the rest of the character. */
+    private fun isRootList(level: Int, slot: ChoiceSlotId) =
+        level == 1 && slot.sourceInstanceId == "creation" && slot.choiceId in setOf("class", "ancestry")
 
     /**
-     * A committed class change, or a pick in an attack-power pool, makes the still-empty attack-power
-     * pickers the likely next stop (each pick invalidates the rest through distinct-choice rules). A class
-     * or ancestry change likewise makes its feat tab the next stop. Powers go first, then the class feat tab
-     * (the picker's opening tab), then ancestry. Utilities, later-level slots and filled slots are not warmed.
-     * With no [previous] document (a character was just opened) everything already known is warmed; a missing
-     * class or ancestry simply has nothing to warm.
+     * Whether a list checked against [built] still answers for [current]. A level's choices depend only on
+     * decisions at that level and earlier, so a later-level edit keeps earlier lists; edits that touch no
+     * rules (name, notes, descriptive details) keep every list; the root pickers always stay.
      */
-    private fun warmOptionLists(previous: CharacterDocument?, state: BuilderState) {
-        val document = state.document
-        fun changed(choiceId: String) = document.creationEntry(choiceId).let { it != null && it != previous?.creationEntry(choiceId) }
-        val targets = mutableListOf<WarmTarget>()
-        val before = previous?.powerPicks().orEmpty()
-        val after = document.powerPicks()
-        val touched = (before.keys + after.keys).filter { before[it] != after[it] }.toSet()
-        if (changed("class") || state.rules.choices.any { it.slot in touched && Progression.isAttackPowerChoice(state, it) }) {
-            val filled = document.levels.flatMap { it.entries }.map { it.slot }.toSet()
-            for (level in 1..minOf(document.level, 2)) {
-                Progression.levelChoices(state, level).filter { Progression.isAttackPowerChoice(state, it) && it.slot !in filled }
-                    .forEach { targets += WarmTarget(level, it.slot, null) }
+    private fun stillValid(built: CharacterDocument, current: CharacterDocument, level: Int, slot: ChoiceSlotId): Boolean =
+        isRootList(level, slot) || firstChangedLevel(built, current) > level
+
+    /** Lowest level whose rules inputs differ between two documents; 1 for non-level inputs, Int.MAX_VALUE if none. */
+    private fun firstChangedLevel(old: CharacterDocument, new: CharacterDocument): Int {
+        fun CharacterDocument.nonLevelInputs() = copy(savedAt = "", level = 1, levels = emptyList(),
+            identity = CharacterIdentity("-", environment = identity.environment, upbringing = identity.upbringing))
+        if (old.nonLevelInputs() != new.nonLevelInputs()) {
+            return 1
+        }
+        val top = maxOf(old.level, new.level, old.levels.maxOfOrNull { it.level } ?: 0, new.levels.maxOfOrNull { it.level } ?: 0)
+        for (level in 1..top) {
+            if (old.levels.firstOrNull { it.level == level } != new.levels.firstOrNull { it.level == level }) {
+                return level
             }
         }
-        val slots = listOf(1 to ChoiceSlotId("creation", "feat", 0)) +
-            if (document.level >= 2) listOf(2 to ChoiceSlotId("advancement.2", "feat", 0)) else emptyList()
-        for ((choiceId, group) in listOf("class" to FeatGroup.CLASS, "ancestry" to FeatGroup.ANCESTRY)) {
-            if (changed(choiceId)) {
-                slots.forEach { (level, slot) -> targets += WarmTarget(level, slot, group) }
-            }
-        }
-        if (targets.isEmpty() || operations == null) {
+        return if (old.level != new.level) minOf(old.level, new.level) + 1 else Int.MAX_VALUE
+    }
+
+    /**
+     * Check every list the picker can open at levels 1-2, so each one opens already filled in. Order is the
+     * likeliest next stop first: still-empty attack-power pools (each pick reshuffles the others through
+     * distinct-choice rules), then the Class, Ancestry and General feat tabs, then filled pools and the
+     * remaining class choices, then the Class, Ancestry and Theme pickers. Later levels keep their
+     * incomplete-automation listing and are not warmed. A character with no class or ancestry simply has
+     * rows without eligibility to show; a failed read leaves the rest to the picker.
+     *
+     * This runs after every committed edit, but lists that are still valid (see [stillValid]) are reused, so
+     * only the lists the edit can actually have changed do any work. [settle] holds the first batch back until
+     * edits stop arriving, so a burst of taps never queues behind background work.
+     */
+    private fun warmOptionLists(state: BuilderState, settle: Long) {
+        if (operations == null) {
             return
         }
+        val document = state.document
+        val targets = warmTargets(state)
         val originalCatalog = catalog
         warming = background.launch {
+            delay(settle)
             for (target in targets) {
                 // A failed read is left for the picker to meet and report; its half-checked rows are discarded.
                 if (browseOptionRows(document, originalCatalog, target.level, target.slot, target.group) { }.isNotEmpty()) {
@@ -446,20 +466,35 @@ class BuilderSession(
         }
     }
 
-    private fun CharacterDocument.creationEntry(choiceId: String): String? = levels.flatMap { it.entries }
-        .firstOrNull { it.slot == ChoiceSlotId("creation", choiceId, 0) }?.selection?.entryId
-
-    /** Selections made inside a source's own pools (powers and the like), keyed by slot. */
-    private fun CharacterDocument.powerPicks(): Map<ChoiceSlotId, String> = levels.flatMap { it.entries }
-        .filter { it.slot.sourceInstanceId != "creation" && it.slot.choiceId != "feat" }
-        .associate { it.slot to it.selection.entryId }
+    /**
+     * Only lists this character can actually edit: choices come from the engine's active sources, so another
+     * class's choices (an Avenger's Vindicator's Censure, say) are never offered to a Fighter and never warmed.
+     */
+    internal fun warmTargets(state: BuilderState): List<WarmTarget> {
+        val document = state.document
+        val filled = document.levels.flatMap { it.entries }.map { it.slot }.toSet()
+        val offered = (1..minOf(document.level, 2)).flatMap { level ->
+            Progression.levelChoices(state, level).filter { it.abilities.isEmpty() && it.entries.isNotEmpty() }.map { level to it }
+        }
+        val (attack, other) = offered.partition { (_, choice) -> Progression.isAttackPowerChoice(state, choice) }
+        val (empty, taken) = attack.partition { (_, choice) -> choice.slot !in filled }
+        val featSlots = listOf(1 to ChoiceSlotId("creation", "feat", 0)) +
+            if (document.level >= 2) listOf(2 to ChoiceSlotId("advancement.2", "feat", 0)) else emptyList()
+        val targets = empty.map { (level, choice) -> WarmTarget(level, choice.slot, null) } +
+            listOf(FeatGroup.CLASS, FeatGroup.ANCESTRY, FeatGroup.GENERAL).flatMap { group ->
+                featSlots.map { (level, slot) -> WarmTarget(level, slot, group) }
+            } +
+            (taken + other).map { (level, choice) -> WarmTarget(level, choice.slot, null) } +
+            listOf("class", "ancestry", "theme").map { WarmTarget(1, ChoiceSlotId("creation", it, 0), null) }
+        return targets
+    }
 
     /** Test hook: returns once the warm-up started by the last committed edit has finished or been cancelled. */
     internal suspend fun awaitWarmup() {
         warming?.join()
     }
 
-    /** Invalidation point: the document, character or content changed, so stop warming and forget checked rows. */
+    /** Another character or the content catalog changed: stop warming and forget every list, root pickers included. */
     private fun clearOptionListings() {
         warming?.cancel()
         warming = null
@@ -468,7 +503,6 @@ class BuilderSession(
 
     private fun dropOptionListings() {
         synchronized(optionListings) {
-            optionDocument = null
             optionListings.clear()
         }
     }

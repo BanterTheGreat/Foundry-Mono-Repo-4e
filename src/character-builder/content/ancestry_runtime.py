@@ -4,7 +4,7 @@ One package, ``modern4e.ancestries``, carries every ancestry with its traits and
 Structured language choices, entry-scoped damage decisions and qualification-only Past Life
 facts are persisted by the shared engine. Explicit fact links connect Dragonborn Scales to
 active Dragon Breath without conflating other ancestry damage facts. Combat/session effects,
-speed and vision remain manual and visibly covered as partial or unimplemented.
+base speed is the ancestry's only unconditional modifier; vision remains manual and visibly covered as partial or unimplemented.
 """
 import copy
 import importlib.util
@@ -87,6 +87,8 @@ def compile_entry(entry):
             unsupported.append(unsupported_choice(choice))
     if kind == "ANCESTRY":
         mechanics["size"] = entry["attributes"]["size"].upper()
+        # Ancestry is the only base-speed source; the engine's SET starts a statistic that has no class base.
+        mechanics["modifiers"] = [{"target": {"statistic": "SPEED"}, "operation": "SET", "value": entry["attributes"]["speed"]}]
         languages = entry["attributes"]["languages"]
         mechanics["facts"] = [{"kind": "LANGUAGE", "values": [value.upper().replace("-", "_").replace(" ", "_") for value in languages["fixed"]]}]
         picks = languages["choiceCount"]
@@ -102,8 +104,8 @@ def compile_entry(entry):
     if "note" in entry:
         limitations.append("Authoring note: " + entry["note"])
     if kind == "ANCESTRY":
-        limitations.append("Size and structured language choices supply build-time facts. Speed and vision are preserved in sharedData and are not applied "
-                           "as modifiers by the character builder.")
+        limitations.append("Size and structured language choices supply build-time facts, and base speed is applied. Vision is preserved in sharedData and is not applied "
+                           "as a modifier by the character builder.")
     elif kind == "FEATURE":
         limitations.append("Trait effects described in the text are not automated by the character builder.")
     else:
