@@ -7,7 +7,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.*
@@ -23,7 +22,7 @@ import dev.modern4e.builder.ui.components.*
 
 private fun Int.signed() = if (this >= 0) "+$this" else toString()
 
-@OptIn(ExperimentalLayoutApi::class)
+/** The About tab: identity, level, speed, languages and notes. */
 @Composable
 internal fun Overview(state: BuilderState, model: BuilderSession) {
     val document = state.document
@@ -36,8 +35,7 @@ internal fun Overview(state: BuilderState, model: BuilderSession) {
                         modifier = Modifier.clickable { model.page = "progression" })
                     Row(Modifier.fillMaxWidth().padding(top = 7.dp), verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        val speed = state.rules.statistics[ModifierTarget(Statistic.SPEED)]?.value
-                        Text("Speed ${speed?.display() ?: "—"}", fontSize = 12.sp, color = Dim, modifier = Modifier.weight(1f))
+                        Text("Speed ${state.rules.speedDisplay()}", fontSize = 12.sp, color = Dim, modifier = Modifier.weight(1f))
                         Text(identity.size.ifBlank { "Size —" }, fontSize = 12.sp, color = Dim, textAlign = TextAlign.End,
                             modifier = Modifier.weight(1f).clickable(enabled = !model.busy) { model.beginEdit("Size") }
                                 .semantics { contentDescription = "Edit Size" })
@@ -57,43 +55,34 @@ internal fun Overview(state: BuilderState, model: BuilderSession) {
                 Field(label, value.ifBlank { "—" }, Modifier.weight(1f).fillMaxHeight(), !model.busy) { model.beginEdit(label) }
             }
         }
-        Field("Languages", identity.languages.ifBlank { "—" }, enabled = !model.busy) { model.beginEdit("Languages") }
-        Heading("Abilities")
-        Ability.entries.chunked(if (LocalConfiguration.current.fontScale > 1.2f) 3 else 6).forEach { row ->
-            Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
-                row.forEach { ability ->
-                    val value = state.rules.overviewAbilityTotals.getValue(ability).toString()
-                    Surface(Modifier.weight(1f).semantics { contentDescription = "${ability.name.readable()}: $value" },
-                        color = Paper, border = BorderStroke(1.dp, Line), shape = RoundedCornerShape(2.dp)) {
-                        Column(Modifier.padding(vertical = 8.dp, horizontal = 2.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(ability.name.take(3), color = Dim, fontSize = 10.sp)
-                            Text(value, fontFamily = FontFamily.Serif, fontSize = 25.sp, color = Accent)
-                        }
-                    }
-                }
-            }
-        }
-        Heading("Proficient skills")
-        if (state.rules.proficiencies.isEmpty()) {
-            Text("No proficient skills", color = Dim)
-        }
-        FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            state.rules.proficiencies.keys.forEach { skill ->
-                val value = state.rules.displayedSkill(skill)
-                Surface(color = Wash, border = BorderStroke(1.dp, Line), shape = RoundedCornerShape(3.dp)) {
-                    Row(Modifier.padding(10.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                        Text(skill.name.readable(), fontSize = 13.sp)
-                        Text(value.display(signed = true), color = Accent, fontSize = 13.sp)
-                    }
-                }
-            }
-        }
+        Field("Languages", state.rules.languageNames().plus(identity.languages.trim()).filter { it.isNotEmpty() }
+            .joinToString(", ").ifBlank { "—" }, enabled = !model.busy) { model.beginEdit("Languages") }
         Heading("Notes")
         Surface(color = Wash, border = BorderStroke(1.dp, Line), modifier = Modifier.fillMaxWidth()
             .clickable(enabled = !model.busy) { model.beginEdit("Notes") }.semantics { contentDescription = "Edit notes" }) {
             Text(identity.notes.ifBlank { "Your story, connections, reminders…" }, fontFamily = FontFamily.Serif,
                 fontStyle = FontStyle.Italic, lineHeight = 24.sp, modifier = Modifier.heightIn(min = 96.dp).padding(16.dp))
         }
+    }
+}
+
+/**
+ * Base speed comes from the ancestry alone, so it has no value until one is selected.
+ *
+ * @return the computed speed, or a dash while it has no source.
+ */
+internal fun EngineResult.speedDisplay(): String =
+    (statistics[ModifierTarget(Statistic.SPEED)]?.value as? ContractResult.Available)?.value?.total?.toString() ?: "—"
+
+/**
+ * Character-wide languages learned from ancestry grants and language decisions, in acquisition order.
+ *
+ * @return display titles without duplicates; power- or entry-scoped facts are excluded.
+ */
+internal fun EngineResult.languageNames(): List<String> {
+    val titles = choices.flatMap { it.values }.associate { it.id to it.title }
+    return facts.filter { it.kind == FactKind.LANGUAGE && it.targetId == null }.map { it.value }.distinct().map { id ->
+        titles[id] ?: id.split('_').joinToString(" ") { it.readable() }
     }
 }
 

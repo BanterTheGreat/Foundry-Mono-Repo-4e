@@ -1,0 +1,204 @@
+<!doctype html>
+<!-- THROWAWAY PROTOTYPE: how the Android Overview screen could show Max HP and Armor / Weapon / Implement proficiencies.
+     Question: where does the new content go, and how much of "what I can use" vs "what I lack" should it show?
+     Three variants of the Overview body, switchable with ?variant=A|B|C (or the arrows / ← → keys). ?c=0..3 picks the mock character.
+       A  Ledger        - vitals strip under Abilities; proficiencies as one labelled row of chips per category
+       B  Coverage grid - Max HP beside Level; proficiencies as ladders / matrices that also show what is NOT held
+       C  Folio summary - HP + Speed as ledger lines; each category a collapsible one-line summary with its sources
+     Defenses are deliberately not built ("for later"): every variant reserves a dashed ghost slot for AC / Fort / Ref / Will.
+     Open: open src/character-builder/android/prototypes/overview-proficiencies.prototype.html
+     Mock data only (shapes mirror ClassProfile.proficiencies and the class HP formula); no storage, no rules engine. -->
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Modern 4e · Overview proficiencies prototype</title>
+<style>
+:root{--foreground:#322b25;--paper:#f3eddf;--ink:#322b25;--dim:#71675c;--line:#c9bda7;--accent:#863f36;--wash:#e8ddcb;--font-sans:Calibri,'Segoe UI',sans-serif}
+*{box-sizing:border-box}body{margin:0;padding:0 0 90px;font-family:var(--font-sans);color:var(--foreground);background:#d9d2c3}
+button{font:inherit;cursor:pointer;color:inherit;touch-action:manipulation}
+.note{max-width:410px;margin:12px auto;font-size:12px;line-height:1.5;color:var(--dim);padding:0 6px}.note b{letter-spacing:.1em;font-size:10px}
+.phone{max-width:410px;margin:auto;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 12px 35px #0002}
+.topbar{height:62px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--line);font:24px Georgia,serif}
+.page{padding:20px 20px 28px;display:flex;flex-direction:column;gap:10px}
+.row{display:flex;gap:10px}.row.tight{gap:7px}
+.panel{border:1px solid var(--line);background:var(--wash);border-radius:3px;padding:13px;min-width:0}
+.panel.paper{background:transparent;border-radius:2px}
+.lvl{font:38px Georgia,serif;color:var(--accent);line-height:1.1}.sub{display:flex;justify-content:space-between;gap:8px;margin-top:7px;font-size:12px;color:var(--dim)}
+.portrait{width:96px;flex:none;display:grid;place-items:center;text-align:center;color:var(--dim);font-size:40px;line-height:1}.portrait small{display:block;font-size:9px;letter-spacing:1px}
+.label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--dim)}
+.field{flex:1;min-width:0;border:1px solid var(--line);border-radius:3px;padding:9px 11px}.field .v{font:18px Georgia,serif;margin-top:3px}
+h2{font:normal 23px Georgia,serif;margin:12px 0 0}
+.abilities{display:grid;grid-template-columns:repeat(6,1fr);gap:5px}.ab{border:1px solid var(--line);border-radius:2px;text-align:center;padding:8px 2px}.ab small{display:block;font-size:10px;color:var(--dim)}.ab b{font:normal 25px Georgia,serif;color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}.chip{border:1px solid var(--line);background:var(--wash);border-radius:3px;padding:8px 10px;font-size:13px}.chip b{font-weight:400;color:var(--accent)}
+.chip.off{background:transparent;color:var(--dim);text-decoration:line-through;text-decoration-color:#71675c66;border-style:dashed}
+.chip.feat{border-color:var(--accent)}
+.notes{border:1px solid var(--line);background:var(--wash);padding:16px;min-height:80px;font:italic 14px/1.7 Georgia,serif;color:var(--dim)}
+.dim{color:var(--dim)}
+.ghost{border:1px dashed var(--line);border-radius:3px;padding:9px 11px;background:transparent;color:var(--dim)}
+.ghost .cells{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:6px}.ghost .cells span{border:1px dashed var(--line);border-radius:2px;text-align:center;padding:5px 0;font-size:11px}
+.ghost .cells span b{display:block;font:normal 17px Georgia,serif;opacity:.5}
+.tag{font-size:9px;letter-spacing:1px;text-transform:uppercase;border:1px solid var(--line);border-radius:10px;padding:1px 7px;margin-left:6px;vertical-align:middle}
+/* A */
+.vitals{display:grid;grid-template-columns:1.3fr 1fr;gap:8px}.hp .big{font:44px Georgia,serif;color:var(--accent);line-height:1}.hp{cursor:pointer;text-align:left}
+.breakdown{font-size:11px;color:var(--dim);margin-top:8px;line-height:1.5}
+.ledger .lrow{display:grid;grid-template-columns:86px 1fr;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}.ledger .lrow:first-child{border-top:1px solid var(--line)}
+.ledger .lrow .label{padding-top:9px}.ledger .none{padding-top:8px;color:var(--dim);font-style:italic}
+/* B */
+.ladder{display:flex;gap:3px;margin-top:8px}.step{flex:1;text-align:center;font-size:10px;padding:8px 0 6px;border:1px solid var(--line);border-radius:2px;color:var(--dim);border-style:dashed}.step.on{background:var(--accent);border:1px solid var(--accent);color:var(--paper);border-style:solid}.step.on.feat{background:var(--wash);color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.matrix{display:grid;grid-template-columns:64px 1fr 1fr;gap:4px;margin-top:8px;font-size:12px;align-items:center}.matrix .cell{text-align:center;padding:7px 0;border:1px dashed var(--line);border-radius:2px;color:var(--dim)}.matrix .cell.on{background:var(--accent);color:var(--paper);border:1px solid var(--accent)}.matrix .h{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--dim);text-align:center}.matrix .r{color:var(--dim)}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:8px}.pgrid span{text-align:center;padding:8px 2px;font-size:12px;border:1px dashed var(--line);border-radius:2px;color:var(--dim)}.pgrid span.on{border:1px solid var(--accent);background:var(--wash);color:var(--ink)}
+.cap{display:flex;justify-content:space-between;align-items:baseline}.cap .meta{font-size:11px;color:var(--accent)}
+.legend{font-size:10px;color:var(--dim);display:flex;gap:12px;margin-top:2px}.legend i{display:inline-block;width:10px;height:10px;vertical-align:-1px;margin-right:4px;border-radius:1px}
+/* C */
+.lines .ln{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px}.lines .ln:first-child{border-top:1px solid var(--line)}.lines .ln strong{font:normal 22px Georgia,serif;color:var(--accent)}
+details{border-bottom:1px solid var(--line)}summary{list-style:none;display:flex;align-items:center;gap:10px;min-height:58px;cursor:pointer}summary::-webkit-details-marker{display:none}summary:after{content:'+';margin-left:auto;color:var(--accent);font-size:18px}details[open] summary:after{content:'−'}
+summary .t{font:20px Georgia,serif;width:96px;flex:none}summary .s{font-size:13px;color:var(--dim);line-height:1.35}
+.srcs{padding:0 0 14px}.srcs .it{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-top:1px dotted var(--line);font-size:13px}.srcs .it span:last-child{color:var(--dim);font-size:12px;text-align:right}
+/* chrome */
+.switcher{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:7px;background:#282d35;color:#fff;border-radius:30px;box-shadow:0 4px 18px #0004;font:12px system-ui,sans-serif;z-index:9}
+.switcher button{border:0;background:#444b56;color:#fff;width:40px;height:40px;border-radius:50%;font-size:18px}.switcher .mid{min-width:150px;text-align:center}.switcher small{display:block;font-size:10px;color:#c6ccd4;margin-top:3px}.switcher .char{width:auto;border-radius:20px;padding:0 12px;font-size:11px}
+pre.state{max-width:410px;margin:12px auto;padding:10px;font-size:10.5px;line-height:1.4;background:#282d35;color:#d7dbe0;border-radius:8px;overflow:auto;white-space:pre-wrap}
+</style></head><body>
+<div class="note"><b>PROTOTYPE · NOT PRODUCTION</b><br>Question: where do <em>Max HP</em> and <em>Armor / Weapons / Implements</em> proficiencies sit on the Overview, and should they show what the character <em>lacks</em> as well as what they have? Defenses are reserved as a dashed ghost slot only. Mock numbers.</div>
+<div class="phone"><div class="topbar" id="name"></div><div class="page" id="page"></div></div>
+<pre class="state" id="state"></pre>
+<div class="switcher"><button id="prev" aria-label="Previous variant">‹</button><div class="mid"><div id="vlabel"></div><small id="vname"></small></div><button id="next" aria-label="Next variant">›</button><button class="char" id="char" aria-label="Next character"></button></div>
+<script>
+/* ---------- mock data (shapes mirror ClassProfile.proficiencies + class HP formula) ---------- */
+const ARMOR = ['CLOTH','LEATHER','LIGHT','CHAINMAIL','SCALE','HEAVY'];
+const SHIELDS = ['LIGHT_SHIELD','HEAVY_SHIELD'];
+const IMPLEMENTS = ['ORB','ROD','STAFF','TOME','WAND','HOLY_SYMBOL','TOTEM','LIGHT_BLADE','HEAVY_BLADE'];
+const SPECIFIC = ['DAGGER','SHORT_SWORD','HAND_CROSSBOW','SLING','STAFF','MILITARY_LIGHT_BLADE','MILITARY_HEAVY_BLADE'];
+const pretty = id => id.toLowerCase().split('_').map(w => w[0].toUpperCase() + w.slice(1)).join(' ');
+const h = (id, src = 'Class') => ({ id, src });
+const CHARACTERS = [
+  { name: 'Brannoch Vale', cls: 'Fighter', level: 3, size: 'Medium', speed: 5, con: 14, hp: { base: 18, perLevel: 7 },
+    abilities: { STR: 17, CON: 14, DEX: 11, INT: 9, WIS: 12, CHA: 10 }, skills: [['Athletics', '+8'], ['Endurance', '+7']],
+    armor: [h('LIGHT'), h('CHAINMAIL'), h('SCALE')], shields: [h('LIGHT_SHIELD'), h('HEAVY_SHIELD')],
+    weapons: [h('SIMPLE_MELEE'), h('SIMPLE_RANGED'), h('MILITARY_MELEE'), h('MILITARY_RANGED'), h('SUPERIOR_MELEE', 'Feat: Weapon Proficiency')], implements: [] },
+  { name: 'Ysolde Marr', cls: 'Wizard', level: 5, size: 'Medium', speed: 6, con: 12, hp: { base: 16, perLevel: 4 },
+    abilities: { STR: 8, CON: 12, DEX: 13, INT: 19, WIS: 14, CHA: 10 }, skills: [['Arcana', '+12'], ['History', '+9'], ['Insight', '+7']],
+    armor: [h('CLOTH'), h('LEATHER', 'Feat: Armor Proficiency')], shields: [],
+    weapons: [h('SIMPLE_MELEE'), h('SIMPLE_RANGED')], implements: [h('ORB'), h('STAFF'), h('WAND'), h('TOME')] },
+  { name: 'Pip Thistledown', cls: 'Rogue', level: 2, size: 'Small', speed: 6, con: 12, hp: { base: 17, perLevel: 5 },
+    abilities: { STR: 10, CON: 12, DEX: 18, INT: 13, WIS: 11, CHA: 14 }, skills: [['Stealth', '+10'], ['Thievery', '+10'], ['Bluff', '+7'], ['Acrobatics', '+9']],
+    armor: [h('CLOTH'), h('LEATHER')], shields: [h('LIGHT_SHIELD')],
+    weapons: [h('DAGGER'), h('HAND_CROSSBOW'), h('SHORT_SWORD'), h('SLING')], implements: [] },
+  { name: 'Corvane Ashe', cls: 'Swordmage', level: 4, size: 'Medium', speed: 6, con: 14, hp: { base: 19, perLevel: 6 },
+    abilities: { STR: 12, CON: 14, DEX: 11, INT: 18, WIS: 10, CHA: 13 }, skills: [['Arcana', '+11'], ['Diplomacy', '+7']],
+    armor: [h('CLOTH'), h('LEATHER')], shields: [],
+    weapons: [h('SIMPLE_MELEE'), h('MILITARY_LIGHT_BLADE'), h('MILITARY_HEAVY_BLADE')], implements: [h('LIGHT_BLADE'), h('HEAVY_BLADE')] },
+];
+const maxHp = c => c.hp.base + c.hp.perLevel * c.level + 2 * c.con; // base + per-level + CON score x 2, as the engine's ClassFormula
+
+/* ---------- shared derived helpers ---------- */
+const has = (list, id) => list.some(x => x.id === id);
+const src = (list, id) => (list.find(x => x.id === id) || {}).src;
+const chip = (x, extra = '') => `<span class="chip ${x.src !== 'Class' ? 'feat' : ''} ${extra}">${pretty(x.id)}</span>`;
+const topArmor = c => { const i = ARMOR.map(a => has(c.armor, a)).lastIndexOf(true); return i < 0 ? null : ARMOR[i]; };
+const tierOf = (c, tier, kind) => has(c.weapons, `${tier}_${kind}`);
+const specificHeld = c => c.weapons.filter(w => !/^(SIMPLE|MILITARY|SUPERIOR)_(MELEE|RANGED)$/.test(w.id));
+const ghostDefenses = () => `<div class="ghost"><div class="label">Defenses <span class="tag">later</span></div><div class="cells"><span>AC<b>—</b></span><span>FORT<b>—</b></span><span>REF<b>—</b></span><span>WILL<b>—</b></span></div></div>`;
+
+/* ---------- the unchanged part of Overview (what the new content has to live next to) ---------- */
+const head = c => `
+  <div class="row" style="align-items:stretch">
+    <div class="panel" style="flex:1;min-height:104px;display:flex;flex-direction:column;justify-content:center"><div class="lvl">Level ${c.level}</div><div class="sub"><span>Speed ${c.speed}</span><span>${c.size}</span></div></div>
+    <div class="panel portrait" aria-label="Character portrait placeholder"><div>♙<small>PORTRAIT</small></div></div>
+  </div>
+  <div class="row tight"><div class="field"><div class="label">Gender</div><div class="v">—</div></div><div class="field"><div class="label">Age</div><div class="v">—</div></div><div class="field"><div class="label">Deity</div><div class="v">—</div></div></div>
+  <div class="field"><div class="label">Languages</div><div class="v">Common</div></div>`;
+const abilities = c => `<h2>Abilities</h2><div class="abilities">${Object.entries(c.abilities).map(([k, v]) => `<div class="ab"><small>${k}</small><b>${v}</b></div>`).join('')}</div>`;
+const skills = c => `<h2>Proficient skills</h2><div class="chips">${c.skills.map(([n, v]) => `<span class="chip">${n} <b>${v}</b></span>`).join('')}</div>`;
+const tail = c => `${skills(c)}<h2>Notes</h2><div class="notes">Your story, connections, reminders…</div>`;
+const hpBreakdown = c => `Max HP = ${c.cls} base ${c.hp.base} + ${c.level} × ${c.hp.perLevel} per level + CON ${c.con} × 2`;
+
+/* ---------- Variant A: Ledger ---------- */
+function variantA(c) {
+  const row = (label, items, extra = []) => `<div class="lrow"><div class="label">${label}</div>${items.length + extra.length
+    ? `<div class="chips">${items.map(x => chip(x)).join('')}${extra.join('')}</div>` : '<div class="none">None</div>'}</div>`;
+  const weapons = c.weapons.map(w => ({ id: w.id, src: w.src }));
+  return head(c) + abilities(c) + `
+    <h2>Vitals</h2>
+    <div class="vitals">
+      <button class="panel hp" id="hp" aria-label="Max HP breakdown"><div class="label">Max HP</div><div class="big">${maxHp(c)}</div><div class="breakdown" id="bd" hidden>${hpBreakdown(c)}</div></button>
+      ${ghostDefenses()}
+    </div>
+    <h2>Proficiencies</h2>
+    <div class="ledger">
+      ${row('Armor', c.armor, c.shields.map(s => chip(s, '')))}
+      ${row('Weapons', weapons)}
+      ${row('Implements', c.implements)}
+    </div>
+    <div class="legend"><span><i style="border:1px solid var(--accent)"></i>outlined = from a feat</span></div>` + tail(c);
+}
+
+/* ---------- Variant B: Coverage grid (shows what is NOT held) ---------- */
+function variantB(c) {
+  const hpPanel = `<div class="panel" style="width:96px;flex:none;display:flex;flex-direction:column;justify-content:center;text-align:center"><div class="label">Max HP</div><div class="lvl" style="font-size:34px">${maxHp(c)}</div></div>`;
+  const top = head(c).replace('<div class="panel portrait"', hpPanel.replace('<div class="panel"', '<div class="panel"') + '<div class="panel portrait"');
+  const ladder = `<div class="ladder">${ARMOR.map(a => `<div class="step ${has(c.armor, a) ? 'on' : ''} ${src(c.armor, a) && src(c.armor, a) !== 'Class' ? 'feat' : ''}">${pretty(a)}</div>`).join('')}</div>`;
+  const shieldRow = `<div class="pgrid" style="grid-template-columns:repeat(2,1fr)">${SHIELDS.map(s => `<span class="${has(c.shields, s) ? 'on' : ''}">${pretty(s)}</span>`).join('')}</div>`;
+  const matrix = `<div class="matrix"><span></span><span class="h">Melee</span><span class="h">Ranged</span>${['SIMPLE', 'MILITARY', 'SUPERIOR'].map(t =>
+    `<span class="r">${pretty(t)}</span>` + ['MELEE', 'RANGED'].map(k => `<span class="cell ${tierOf(c, t, k) ? 'on' : ''}">${tierOf(c, t, k) ? '✓' : '–'}</span>`).join('')).join('')}</div>`;
+  const spec = specificHeld(c);
+  const specific = spec.length ? `<div class="chips" style="margin-top:8px">${spec.map(w => chip(w)).join('')}</div>` : '';
+  const impl = `<div class="pgrid">${IMPLEMENTS.map(i => `<span class="${has(c.implements, i) ? 'on' : ''}">${pretty(i)}</span>`).join('')}</div>`;
+  const cap = (t, m) => `<div class="cap"><h2 style="margin:0">${t}</h2><span class="meta">${m}</span></div>`;
+  return top + `<div class="row tight"><div class="field" style="flex:1"><div class="label">Defenses <span class="tag">later</span></div><div class="dim" style="font-size:12px;margin-top:3px">AC · Fort · Ref · Will — slot reserved</div></div></div>` + abilities(c) + `
+    <div class="panel paper">${cap('Armor', topArmor(c) ? 'up to ' + pretty(topArmor(c)) : 'none')}${ladder}${shieldRow}</div>
+    <div class="panel paper">${cap('Weapons', `${c.weapons.length} held`)}${matrix}${specific}</div>
+    <div class="panel paper">${cap('Implements', `${c.implements.length} of ${IMPLEMENTS.length}`)}${impl}</div>
+    <div class="legend"><span><i style="background:var(--accent)"></i>held</span><span><i style="border:1px dashed var(--line)"></i>not held</span></div>` + tail(c);
+}
+
+/* ---------- Variant C: Folio summary (one line each, sources on demand) ---------- */
+function variantC(c) {
+  const list = (items, label = x => pretty(x.id)) => items.length ? `<div class="srcs">${items.map(x => `<div class="it"><span>${label(x)}</span><span>${x.src}</span></div>`).join('')}</div>` : `<div class="srcs dim"><i>None granted.</i></div>`;
+  const armorAll = [...c.armor, ...c.shields];
+  const armorSummary = armorAll.length ? `${topArmor(c) ? 'Up to ' + pretty(topArmor(c)) : 'Shields only'}${c.shields.length ? ' · ' + (c.shields.length === 2 ? 'both shields' : pretty(c.shields[0].id)) : ' · no shield'}` : 'None';
+  const wTiers = ['SIMPLE', 'MILITARY', 'SUPERIOR'].filter(t => tierOf(c, t, 'MELEE') || tierOf(c, t, 'RANGED')).map(t => pretty(t) + (tierOf(c, t, 'MELEE') && tierOf(c, t, 'RANGED') ? '' : tierOf(c, t, 'MELEE') ? ' (melee)' : ' (ranged)'));
+  const spec = specificHeld(c);
+  const weaponSummary = [...wTiers, ...(spec.length ? [`${spec.length} specific`] : [])].join(', ') || 'None';
+  const implSummary = c.implements.length ? c.implements.map(i => pretty(i.id)).join(', ') : 'None';
+  return head(c) + abilities(c) + `
+    <h2>Vitals</h2>
+    <div class="lines">
+      <div class="ln"><span>Max HP</span><strong>${maxHp(c)}</strong></div>
+      <div class="ln dim"><span>Defenses <span class="tag">later</span></span><span>AC · Fort · Ref · Will</span></div>
+    </div>
+    <div class="dim" style="font-size:11px;margin-top:-4px">${hpBreakdown(c)}</div>
+    <h2>Proficiencies</h2>
+    <div>
+      <details><summary><span class="t">Armor</span><span class="s">${armorSummary}</span></summary>${list(armorAll)}</details>
+      <details><summary><span class="t">Weapons</span><span class="s">${weaponSummary}</span></summary>${list(c.weapons)}</details>
+      <details><summary><span class="t">Implements</span><span class="s">${implSummary}</span></summary>${list(c.implements)}</details>
+    </div>` + tail(c);
+}
+
+/* ---------- switcher + wiring ---------- */
+const VARIANTS = [['A', 'Ledger', variantA], ['B', 'Coverage grid', variantB], ['C', 'Folio summary', variantC]];
+const params = new URLSearchParams(location.search);
+let vi = Math.max(0, VARIANTS.findIndex(v => v[0] === (params.get('variant') || 'A').toUpperCase()));
+let ci = Math.min(CHARACTERS.length - 1, Math.max(0, +params.get('c') || 0));
+function render() {
+  const c = CHARACTERS[ci];
+  document.getElementById('name').textContent = c.name;
+  document.getElementById('page').innerHTML = VARIANTS[vi][2](c);
+  document.getElementById('vlabel').textContent = `${VARIANTS[vi][0]} (${VARIANTS[vi][1]})`;
+  document.getElementById('vname').textContent = `${vi + 1} / ${VARIANTS.length}`;
+  document.getElementById('char').textContent = `${c.cls} ${c.level} ⟳`;
+  document.getElementById('state').textContent = JSON.stringify({ variant: VARIANTS[vi][0], character: `${c.cls} L${c.level}`, maxHp: maxHp(c), hpFormula: hpBreakdown(c),
+    armor: c.armor.map(x => `${x.id} (${x.src})`), shields: c.shields.map(x => x.id), weapons: c.weapons.map(x => `${x.id} (${x.src})`), implements: c.implements.map(x => x.id) }, null, 2);
+  const hp = document.getElementById('hp');
+  if (hp) { hp.onclick = () => { const b = document.getElementById('bd'); b.hidden = !b.hidden; }; }
+  const p = new URLSearchParams(location.search); p.set('variant', VARIANTS[vi][0]); p.set('c', ci);
+  try { history.replaceState(null, '', '?' + p); } catch (e) { /* file:// in some browsers */ }
+}
+const stepV = d => { vi = (vi + d + VARIANTS.length) % VARIANTS.length; render(); };
+document.getElementById('prev').onclick = () => stepV(-1);
+document.getElementById('next').onclick = () => stepV(1);
+document.getElementById('char').onclick = () => { ci = (ci + 1) % CHARACTERS.length; render(); };
+addEventListener('keydown', e => {
+  if (/^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName) || document.activeElement.isContentEditable) { return; }
+  if (e.key === 'ArrowLeft') { stepV(-1); } else if (e.key === 'ArrowRight') { stepV(1); }
+});
+render();
+</script></body></html>

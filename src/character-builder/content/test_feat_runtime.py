@@ -225,7 +225,7 @@ class FeatRuntimeTest(unittest.TestCase):
             runtime_common.validate_references(self.assets)
 
     def test_classes_package_resolves_every_class_reference(self):
-        classes = {entry["id"] for entry in class_runtime.build()["modern4e.classes/entries.json"]["entries"]}
+        classes = {entry["id"] for entry in runtime_common.entries_of(class_runtime.build())}
         for entry in self.entries.values():
             for tree in [entry["mechanics"]["access"]] + entry["mechanics"]["prerequisites"]:
                 for leaf in leaves(tree):

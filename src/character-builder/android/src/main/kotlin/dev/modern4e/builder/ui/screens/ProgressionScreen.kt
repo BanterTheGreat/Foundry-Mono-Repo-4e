@@ -12,7 +12,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.modern4e.builder.*
@@ -88,11 +90,13 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
             }
             // Only the engine can declare real class choices. Illustrative prototype choices are not fabricated.
             val levelChoices = Progression.levelChoices(state, level)
+            val className = state.rules.entries.firstOrNull { it.definition.entry.category == EntryCategory.CLASS }
+                ?.definition?.entry?.presentation?.title
             levelChoices.filter { choice -> choice.abilities.isEmpty() }.forEach { choice ->
                 val sourceTitle = state.rules.entries.firstOrNull { it.instanceId == choice.slot.sourceInstanceId }
                     ?.definition?.entry?.presentation?.title.orEmpty()
                 if (choice.entries.isNotEmpty()) {
-                    Field(if (choice.optional) "$sourceTitle (optional substitution)" else choice.slot.choiceId.readable(), selected(choice.slot), enabled = !model.busy && !future) { open("entry", level, choice.slot) }
+                    Field(if (choice.optional) "$sourceTitle (optional substitution)" else Progression.choiceLabel(choice.slot.choiceId, className), selected(choice.slot), enabled = !model.busy && !future) { open("entry", level, choice.slot) }
                 } else if (choice.valueKind != null) {
                     val pick = document.levels.flatMap { it.values }.firstOrNull { it.slot == choice.slot }
                     val label = when (requireNotNull(choice.valueKind)) {
@@ -105,7 +109,7 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                     Field("$sourceTitle: $label", choice.values.firstOrNull { it.id == pick?.value }?.title ?: pick?.value ?: "Choose...",
                         enabled = !model.busy && !future) { open("value", level, choice.slot) }
                 } else if (choice.skills.isNotEmpty()) {
-                    Field(choice.slot.choiceId.readable(), skills.firstOrNull { it.slot == choice.slot }?.skill?.name?.readable() ?: "Choose…", enabled = !model.busy && !future) {
+                    Field(Progression.choiceLabel(choice.slot.choiceId, className), skills.firstOrNull { it.slot == choice.slot }?.skill?.name?.readable() ?: "Choose…", enabled = !model.busy && !future) {
                         open("skill", level, choice.slot)
                     }
                 }
@@ -171,11 +175,11 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
     }
     ModalBottomSheet(onDismissRequest = { if (!model.busy) dismiss() }, containerColor = Paper,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)) {
-        Column(Modifier.fillMaxWidth().heightIn(max = 650.dp).padding(horizontal = 20.dp)) {
+        Column(Modifier.fillMaxWidth().height(pickerSheetHeight(LocalConfiguration.current.screenHeightDp)).padding(horizontal = 20.dp)) {
             if (catalogPicker) {
                 key(request, featTab) {
                     CatalogChoiceList(request, state, optionRows, selected, expanded, featTab, showIneligible,
-                        replacementTarget, Modifier.weight(1f, fill = false),
+                        replacementTarget, Modifier.weight(1f),
                         changeTab = { featTab = it }, toggleIneligible = { showIneligible = !showIneligible },
                         changeTarget = { replacementTarget = it; edit = null }, choose = { option ->
                             val entry = option.entry.entry
@@ -203,7 +207,7 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
                         })
                 }
             } else {
-                Column(Modifier.weight(1f, fill = false).folioScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Column(Modifier.weight(1f).folioScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     if (request.level > 2) { Text("Incomplete automation: later-level eligibility and totals are unavailable.", color = Accent) }
                     when (request.kind) {
                         "advancement" -> {
@@ -298,8 +302,7 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
                                 }, color = if (chosen) Wash else Paper, border = BorderStroke(1.dp, if (chosen) Accent else Line)) {
                                     Row(Modifier.heightIn(min = 48.dp).padding(horizontal = 12.dp, vertical = 7.dp), verticalAlignment = Alignment.CenterVertically) {
                                         Column(Modifier.weight(1f)) {
-                                            Text((if (chosen) "✓ " else "") + skill.name.readable(), color = if (blocked) Dim else Ink)
-                                            if (blocked) { Text("Already proficient", color = Dim, fontSize = 12.sp) }
+                                            Text((if (chosen || blocked) "✓ " else "") + skill.name.readable(), color = if (blocked) Dim else Ink)
                                             calculation?.value?.contributors?.mapNotNull { Progression.skillContributorLabel(it.label) }?.forEach {
                                                 Text(it, fontSize = 11.sp, lineHeight = 13.sp, color = Dim)
                                             }
@@ -333,6 +336,17 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
         }
     }
 }
+
+/** Tallest a Progression sheet grows; every sheet uses this height so switching lists never resizes it. */
+private val PickerSheetMaxHeight = 650.dp
+
+/**
+ * Fixed height shared by every Progression sheet, whatever its content.
+ *
+ * @param screenHeightDp the window height available to the sheet.
+ * @return the maximum sheet height, reduced only when the screen cannot fit it.
+ */
+internal fun pickerSheetHeight(screenHeightDp: Int): Dp = minOf(PickerSheetMaxHeight, (screenHeightDp * 0.85f).dp)
 
 /** The catalog supplies a tab's metadata first; lazy rows update in place as checks finish. */
 @Composable

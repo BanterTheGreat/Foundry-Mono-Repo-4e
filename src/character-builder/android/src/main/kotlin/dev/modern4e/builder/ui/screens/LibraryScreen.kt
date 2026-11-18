@@ -25,7 +25,7 @@ internal fun LibraryScreen(model: BuilderSession, task: (suspend BuilderSession.
         Column(Modifier.weight(1f).folioScroll(rememberScrollState())) {
             if (model.characters.isEmpty() && !model.busy) {
                 Heading("No characters yet")
-                Text("Create a proof character or import a character file to start your collection.", color = Dim)
+                Text("Create a new character or import a character file to start your collection.", color = Dim)
             }
             model.characters.forEach { character ->
                 Surface(color = Paper, shape = RoundedCornerShape(3.dp), border = BorderStroke(1.dp, Line),
@@ -44,7 +44,7 @@ internal fun LibraryScreen(model: BuilderSession, task: (suspend BuilderSession.
                 }
             }
         }
-        FolioButton("Create a proof character", !model.busy) { task { create() } }
+        FolioButton("New character", !model.busy) { task { beginCreate() } }
         Spacer(Modifier.height(12.dp))
         FolioButton("Import a character", !model.busy, outlined = true) { model.page = "import" }
     }

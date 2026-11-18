@@ -1,0 +1,5134 @@
+{
+  "schemaVersion": 2,
+  "powers": [
+    {
+      "id": "modern4e.power.runepriest-power11354",
+      "title": "Word of Binding",
+      "description": "You tap your foe with your weapon and draw on the rune of binding. Divine power coils around the foe, holding it in place.",
+      "flavor": "You tap your foe with your weapon and draw on the rune of binding. Divine power coils around the foe, holding it in place.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11354",
+        "publication": "Published in Player's Handbook 3, page(s) 101.",
+        "rulesText": "Word of BindingRunepriest Attack 1\nYou tap your foe with your weapon and draw on the rune of binding. Divine power coils around the foe, holding it in place.\nAt-Will   ✦     Divine, Runic, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: Strength modifier damage, and the target is immobilized until the end of your next turn or until you aren't adjacent to it.\nRune of Destruction: Before the end of your next turn, the next attack against the target from one of your allies deals extra damage to the target equal to your Wisdom modifier.\nRune of Protection: One ally adjacent to either you or the target gains a power bonus to AC equal to your Wisdom modifier until the end of your next turn.\nPublished in Player's Handbook 3, page(s) 101."
+      },
+      "keywords": [
+        "DIVINE",
+        "RUNIC",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "Strength damage, and the target is immobilized until the end of your next turn or until you aren't adjacent to it."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Rune of Destruction",
+              "text": "Before the end of your next turn, the next attack against the target from one of your allies deals extra damage to the target equal to your Wisdom."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Rune of Protection",
+              "text": "One ally adjacent to either you or the target gains a power bonus to AC equal to your Wisdom until the end of your next turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 1",
+      "level": 1,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11355",
+      "title": "Word of Diminishment",
+      "description": "Your weapon flares with golden energy as you invoke the rune of diminishment. That energy ripples forth as you strike your enemy.",
+      "flavor": "Your weapon flares with golden energy as you invoke the rune of diminishment. That energy ripples forth as you strike your enemy.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11355",
+        "publication": "Published in Player's Handbook 3, page(s) 101.",
+        "rulesText": "Word of DiminishmentRunepriest Attack 1\nYour weapon flares with golden energy as you invoke the rune of diminishment. That energy ripples forth as you strike your enemy.\nAt-Will   ✦     Divine, Runic, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier damage.\nRune of Destruction: Until the end of your next turn, the target has vulnerable 2 to all damage, but vulnerable 5 against opportunity attacks.\nLevel 11: Vulnerable 4, but 7 against opportunity attacks.\nLevel 21: Vulnerable 6, but 10 against opportunity attacks.\nRune of Protection: Until the end of your next turn, the target takes a penalty to damage rolls equal to your Constitution modifier.\nPublished in Player's Handbook 3, page(s) 101."
+      },
+      "keywords": [
+        "DIVINE",
+        "RUNIC",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Rune of Destruction",
+              "text": "Until the end of your next turn, the target has vulnerable 2 to all damage, but vulnerable 5 against opportunity attacks.",
+              "scaling": [
+                {
+                  "atLevel": 11,
+                  "text": "Vulnerable 4, but 7 against opportunity attacks."
+                },
+                {
+                  "atLevel": 21,
+                  "text": "Vulnerable 6, but 10 against opportunity attacks."
+                }
+              ]
+            },
+            {
+              "id": "row-7",
+              "type": "effect",
+              "label": "Rune of Protection",
+              "text": "Until the end of your next turn, the target takes a penalty to damage rolls equal to your Constitution."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 1",
+      "level": 1,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11356",
+      "title": "Word of Exchange",
+      "description": "The rune of exchange embodies the opposing forces contained within the divine runic alphabet. What one creature gains, another must lose.",
+      "flavor": "The rune of exchange embodies the opposing forces contained within the divine runic alphabet. What one creature gains, another must lose.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11356",
+        "publication": "Published in Player's Handbook 3, page(s) 101.",
+        "rulesText": "Word of ExchangeRunepriest Attack 1\nThe rune of exchange embodies the opposing forces contained within the divine runic alphabet. What one creature gains, another must lose.\nAt-Will   ✦     Divine, Runic, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier damage.\nRune of Destruction: Before the end of your next turn, the next attack against the target from one of your allies deals extra damage to the target equal to your Wisdom modifier, and the ally gains temporary hit points equal to your Wisdom modifier.\nRune of Protection: The target takes a -2 penalty to all defenses until the end of your next turn, and the next ally to hit the target before the end of your next turn gains a power bonus to AC equal to your Wisdom modifier. The bonus lasts until the end of your next turn.\nPublished in Player's Handbook 3, page(s) 101."
+      },
+      "keywords": [
+        "DIVINE",
+        "RUNIC",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Rune of Destruction",
+              "text": "Before the end of your next turn, the next attack against the target from one of your allies deals extra damage to the target equal to your Wisdom, and the ally gains temporary hit points equal to your Wisdom."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Rune of Protection",
+              "text": "The target takes a -2 penalty to all defenses until the end of your next turn, and the next ally to hit the target before the end of your next turn gains a power bonus to AC equal to your Wisdom. The bonus lasts until the end of your next turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 1",
+      "level": 1,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11368",
+      "title": "Word of Shielding",
+      "description": "The rune of shielding flares to life when your foe strikes at you or your friends.",
+      "flavor": "The rune of shielding flares to life when your foe strikes at you or your friends.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11368",
+        "publication": "Published in Player's Handbook 3, page(s) 101.",
+        "rulesText": "Word of ShieldingRunepriest Attack 1\nThe rune of shielding flares to life when your foe strikes at you or your friends.\nAt-Will   ✦     Divine, Runic, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier damage.\nRune of Destruction: The first time the target hits or misses you or an ally adjacent to you with an attack before the end of your next turn, the target takes damage equal to your Constitution modifier. The target doesn't take this damage if it attacks a creature marking it.\nRune of Protection: The first time the target hits or misses you or an ally adjacent to you with an attack before the end of your next turn, the target of that attack gains temporary hit points equal to your Constitution modifier.\nPublished in Player's Handbook 3, page(s) 101."
+      },
+      "keywords": [
+        "DIVINE",
+        "RUNIC",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Rune of Destruction",
+              "text": "The first time the target hits or misses you or an ally adjacent to you with an attack before the end of your next turn, the target takes damage equal to your Constitution. The target doesn't take this damage if it attacks a creature marking it."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Rune of Protection",
+              "text": "The first time the target hits or misses you or an ally adjacent to you with an attack before the end of your next turn, the target of that attack gains temporary hit points equal to your Constitution."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 1",
+      "level": 1,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11373",
+      "title": "Rune of Endless Fire",
+      "description": "The sun was shaped by the rune of endless fire. You invoke the least form of the rune to wreathe your foe in golden, killing light.",
+      "flavor": "The sun was shaped by the rune of endless fire. You invoke the least form of the rune to wreathe your foe in golden, killing light.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11373",
+        "publication": "Published in Player's Handbook 3, page(s) 102.",
+        "rulesText": "Rune of Endless FireRunepriest Attack 1\nThe sun was shaped by the rune of endless fire. You invoke the least form of the rune to wreathe your foe in golden, killing light.\nDaily   ✦     Divine, Fire, Radiant, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier fire and radiant damage, and the target is blinded until the end of your next turn.\nMiss: Half damage.\nEffect: Until the end of the encounter, you gain a +2 bonus to damage rolls, your attacks deal fire and radiant damage instead of their normal damage types, and the number of hit points and temporary hit points granted by your powers increases by 4.\nPublished in Player's Handbook 3, page(s) 102."
+      },
+      "keywords": [
+        "DIVINE",
+        "FIRE",
+        "RADIANT",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength fire and radiant damage, and the target is blinded until the end of your next turn."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, you gain a +2 bonus to damage rolls, your attacks deal fire and radiant damage instead of their normal damage types, and the number of hit points and temporary hit points granted by your powers increases by 4."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 1",
+      "level": 1,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11374",
+      "title": "Rune of Iron's Rebuke",
+      "description": "The rune of iron's rebuke was first inscribed during the performance of a great ritual that bound the golem Talos within the depths of the Elemental Chaos.",
+      "flavor": "The rune of iron's rebuke was first inscribed during the performance of a great ritual that bound the golem Talos within the depths of the Elemental Chaos.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11374",
+        "publication": "Published in Player's Handbook 3, page(s) 102.",
+        "rulesText": "Rune of Iron's RebukeRunepriest Attack 1\nThe rune of iron's rebuke was first inscribed during the performance of a great ritual that bound the golem Talos within the depths of the Elemental Chaos.\nDaily   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier damage, and the target is slowed and cannot shift (save ends both).\nMiss: Half damage, and the target is slowed and cannot shift until the end of your next turn.\nEffect: Until the end of the encounter, while the target is adjacent to you, it takes damage equal to your Strength modifier when any attack misses it and deals no damage on a miss.\nPublished in Player's Handbook 3, page(s) 102."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage, and the target is slowed and cannot shift (save ends both)."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and the target is slowed and cannot shift until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, while the target is adjacent to you, it takes damage equal to your Strength when any attack misses it and deals no damage on a miss."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 1",
+      "level": 1,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11376",
+      "title": "Rune of Twilight's Beacon",
+      "description": "You trace a rune in the air, the first of the seven runes that represent the gates of death. The first gate symbolizes death's undeniable call.",
+      "flavor": "You trace a rune in the air, the first of the seven runes that represent the gates of death. The first gate symbolizes death's undeniable call.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11376",
+        "publication": "Published in Player's Handbook 3, page(s) 103.",
+        "rulesText": "Rune of Twilight's BeaconRunepriest Attack 1\nYou trace a rune in the air, the first of the seven runes that represent the gates of death. The first gate symbolizes death's undeniable call.\nDaily   ✦     Divine, Varies, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. Fortitude\nHit: 2[W] + Strength modifier necrotic or radiant damage.\nMiss: Half damage.\nEffect: Choose an ally within 5 squares of you. Until the end of the encounter, the target takes 5 necrotic or radiant damage whenever it doesn't end its turn adjacent to that ally. This effect ends if the ally ends his or her turn not adjacent to the target.\nPublished in Player's Handbook 3, page(s) 103."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength necrotic or radiant damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Choose an ally within 5 squares of you. Until the end of the encounter, the target takes 5 necrotic or radiant damage whenever it doesn't end its turn adjacent to that ally. This effect ends if the ally ends his or her turn not adjacent to the target."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 1",
+      "level": 1,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11375",
+      "title": "Rune of the Undeniable Dawn",
+      "description": "In the ancient days, the gods created a mighty rune to protect their astral domains against the primordials. You strike this rune into the ground, creating a consecrated space.",
+      "flavor": "In the ancient days, the gods created a mighty rune to protect their astral domains against the primordials. You strike this rune into the ground, creating a consecrated space.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11375",
+        "publication": "Published in Player's Handbook 3, page(s) 102.",
+        "rulesText": "Rune of the Undeniable DawnRunepriest Attack 1\nIn the ancient days, the gods created a mighty rune to protect their astral domains against the primordials. You strike this rune into the ground, creating a consecrated space.\nDaily   ✦     Divine, Radiant, Weapon, Zone\nStandard Action      Close burst 3\nTarget: Each enemy in the burst\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier radiant damage.\nMiss: Half damage.\nEffect: The burst creates a zone that lasts until the end of your next turn. You and your allies gain a +2 power bonus to all defenses while within the zone.\nSustain Minor: The zone persists.\nPublished in Player's Handbook 3, page(s) 102."
+      },
+      "keywords": [
+        "DIVINE",
+        "RADIANT",
+        "WEAPON",
+        "ZONE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 3"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 3"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength radiant damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The burst creates a zone that lasts until the end of your next turn. You and your allies gain a +2 power bonus to all defenses while within the zone."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Sustain Minor",
+              "text": "The zone persists."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 1",
+      "level": 1,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11369",
+      "title": "Anvil of Battle",
+      "description": "The rune of the anvil, when enhanced by your mastery of divine magic, allows you to become a bulwark.",
+      "flavor": "The rune of the anvil, when enhanced by your mastery of divine magic, allows you to become a bulwark.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11369",
+        "publication": "Published in Player's Handbook 3, page(s) 101.",
+        "rulesText": "Anvil of BattleRunepriest Attack 1\nThe rune of the anvil, when enhanced by your mastery of divine magic, allows you to become a bulwark.\nEncounter   ✦     Divine, Runic, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. Fortitude\nHit: 1[W] + Strength modifier damage. Until the start of your next turn, you have resist 5 to all damage against the target's attacks.\nRune of Destruction: Until the end of your next turn, whenever the target shifts, you or an ally adjacent to you can make an opportunity attack against it with a bonus to the attack roll equal to your Constitution modifier.\nRune of Protection: Until the end of your next turn, whenever the target shifts, you and each ally within 2 squares of the target can shift 1 square as a free action.\nPublished in Player's Handbook 3, page(s) 101."
+      },
+      "keywords": [
+        "DIVINE",
+        "RUNIC",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength damage. Until the start of your next turn, you have resist 5 to all damage against the target's attacks."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Rune of Destruction",
+              "text": "Until the end of your next turn, whenever the target shifts, you or an ally adjacent to you can make an opportunity attack against it with a bonus to the attack roll equal to your Constitution."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Rune of Protection",
+              "text": "Until the end of your next turn, whenever the target shifts, you and each ally within 2 squares of the target can shift 1 square as a free action."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 1",
+      "level": 1,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11370",
+      "title": "Divine Rune of Thunder",
+      "description": "You invoke the rune of thunder and strike your foe, hammering it with a boom.",
+      "flavor": "You invoke the rune of thunder and strike your foe, hammering it with a boom.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11370",
+        "publication": "Published in Player's Handbook 3, page(s) 101.",
+        "rulesText": "Divine Rune of ThunderRunepriest Attack 1\nYou invoke the rune of thunder and strike your foe, hammering it with a boom.\nEncounter   ✦     Divine, Runic, Thunder, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier thunder damage.\nRune of Destruction: Add your Wisdom modifier to the damage roll. The target grants combat advantage until the end of your next turn.\nRune of Protection: You push the target a number of squares equal to your Wisdom modifier, and it is dazed until the end of your next turn.\nPublished in Player's Handbook 3, page(s) 101."
+      },
+      "keywords": [
+        "DIVINE",
+        "RUNIC",
+        "THUNDER",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength thunder damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Rune of Destruction",
+              "text": "Add your Wisdom to the damage roll. The target grants combat advantage until the end of your next turn."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Rune of Protection",
+              "text": "You push the target a number of squares equal to your Wisdom, and it is dazed until the end of your next turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 1",
+      "level": 1,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11371",
+      "title": "Executioner's Call",
+      "description": "Your weapon batters your foe, branding it with the rune of the executioner.",
+      "flavor": "Your weapon batters your foe, branding it with the rune of the executioner.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11371",
+        "publication": "Published in Player's Handbook 3, page(s) 102.",
+        "rulesText": "Executioner's CallRunepriest Attack 1\nYour weapon batters your foe, branding it with the rune of the executioner.\nEncounter   ✦     Divine, Runic, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier damage. Your allies gain a +2 bonus to damage rolls against the target until the end of your next turn.\nRune of Destruction: One ally within 5 squares of you gains a +4 power bonus to the next attack roll he or she makes against the target before the start of your next turn.\nRune of Protection: The target takes a -2 penalty to attack rolls until the end of your next turn.\nPublished in Player's Handbook 3, page(s) 102."
+      },
+      "keywords": [
+        "DIVINE",
+        "RUNIC",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength damage. Your allies gain a +2 bonus to damage rolls against the target until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Rune of Destruction",
+              "text": "One ally within 5 squares of you gains a +4 power bonus to the next attack roll he or she makes against the target before the start of your next turn."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Rune of Protection",
+              "text": "The target takes a -2 penalty to attack rolls until the end of your next turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 1",
+      "level": 1,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11372",
+      "title": "Flames of Purity",
+      "description": "You strike the ground, marking it with the rune of purifying fire and causing divine flames to wash over your enemies.",
+      "flavor": "You strike the ground, marking it with the rune of purifying fire and causing divine flames to wash over your enemies.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 1
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11372",
+        "publication": "Published in Player's Handbook 3, page(s) 102.",
+        "rulesText": "Flames of PurityRunepriest Attack 1\nYou strike the ground, marking it with the rune of purifying fire and causing divine flames to wash over your enemies.\nEncounter   ✦     Divine, Fire, Healing, Runic, Weapon\nStandard Action      Close blast 3\nTarget: Each enemy in the blast\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier fire damage.\nRune of Destruction: Each ally in the blast gains a +3 power bonus to damage rolls until the end of your next turn.\nRune of Protection: Each ally in the blast regains 3 hit points.\nPublished in Player's Handbook 3, page(s) 102."
+      },
+      "keywords": [
+        "DIVINE",
+        "FIRE",
+        "HEALING",
+        "RUNIC",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the blast"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close blast 3"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close blast 3"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength fire damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Rune of Destruction",
+              "text": "Each ally in the blast gains a +3 power bonus to damage rolls until the end of your next turn."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Rune of Protection",
+              "text": "Each ally in the blast regains 3 hit points."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 1",
+      "level": 1,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11382",
+      "title": "Beacon of Vengeance",
+      "description": "You invoke a rune of avenging light that burns the image of one of your allies from your foe's mind.",
+      "flavor": "You invoke a rune of avenging light that burns the image of one of your allies from your foe's mind.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 3
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11382",
+        "publication": "Published in Player's Handbook 3, page(s) 103.",
+        "rulesText": "Beacon of VengeanceRunepriest Attack 3\nYou invoke a rune of avenging light that burns the image of one of your allies from your foe's mind.\nEncounter   ✦     Divine, Radiant, Runic, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier radiant damage, and one ally adjacent to the target becomes invisible to it until the end of your next turn.\nRune of Destruction: If the ally's next attack against the target before the end of your next turn is against AC, it is against Reflex instead if that defense is lower.\nRune of Protection: The ally can use a free action to shift a number of squares equal to your Wisdom modifier.\nPublished in Player's Handbook 3, page(s) 103."
+      },
+      "keywords": [
+        "DIVINE",
+        "RADIANT",
+        "RUNIC",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength radiant damage, and one ally adjacent to the target becomes invisible to it until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Rune of Destruction",
+              "text": "If the ally's next attack against the target before the end of your next turn is against AC, it is against Reflex instead if that defense is lower."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Rune of Protection",
+              "text": "The ally can use a free action to shift a number of squares equal to your Wisdom."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 3",
+      "level": 3,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11383",
+      "title": "Symbol of Wrath Reversed",
+      "description": "You brand your foe with the symbol of wrath reversed. The more the enemy struggles against you, the more the symbol lends strength to you and your allies.",
+      "flavor": "You brand your foe with the symbol of wrath reversed. The more the enemy struggles against you, the more the symbol lends strength to you and your allies.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 3
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11383",
+        "publication": "Published in Player's Handbook 3, page(s) 103.",
+        "rulesText": "Symbol of Wrath ReversedRunepriest Attack 3\nYou brand your foe with the symbol of wrath reversed. The more the enemy struggles against you, the more the symbol lends strength to you and your allies.\nEncounter   ✦     Divine, Healing, Runic, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier damage.\nRune of Destruction: The target's first attack during its next turn provokes an opportunity attack from you or an ally of your choice.\nRune of Protection: If the target makes any attacks during its next turn, you and each ally within 3 squares of it regain hit points equal to your Constitution modifier.\nPublished in Player's Handbook 3, page(s) 103."
+      },
+      "keywords": [
+        "DIVINE",
+        "HEALING",
+        "RUNIC",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Rune of Destruction",
+              "text": "The target's first attack during its next turn provokes an opportunity attack from you or an ally of your choice."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Rune of Protection",
+              "text": "If the target makes any attacks during its next turn, you and each ally within 3 squares of it regain hit points equal to your Constitution."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 3",
+      "level": 3,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11384",
+      "title": "Word of Alliance",
+      "description": "You weave together your allies' strength, combining your efforts to overwhelm your enemy.",
+      "flavor": "You weave together your allies' strength, combining your efforts to overwhelm your enemy.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 3
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11384",
+        "publication": "Published in Player's Handbook 3, page(s) 103.",
+        "rulesText": "Word of AllianceRunepriest Attack 3\nYou weave together your allies' strength, combining your efforts to overwhelm your enemy.\nEncounter   ✦     Divine, Runic, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier damage.\nRune of Destruction: Until the end of your next turn, when any ally attacks the target, he or she gains a power bonus to the attack roll equal to the number of his or her allies adjacent to the target.\nRune of Protection: Until the end of your next turn, the target takes a penalty to attack rolls equal to the number of your allies adjacent to it when it attacks.\nPublished in Player's Handbook 3, page(s) 103."
+      },
+      "keywords": [
+        "DIVINE",
+        "RUNIC",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Rune of Destruction",
+              "text": "Until the end of your next turn, when any ally attacks the target, he or she gains a power bonus to the attack roll equal to the number of his or her allies adjacent to the target."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Rune of Protection",
+              "text": "Until the end of your next turn, the target takes a penalty to attack rolls equal to the number of your allies adjacent to it when it attacks."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 3",
+      "level": 3,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11385",
+      "title": "Word of the Blinding Shield",
+      "description": "You call out the word of the blinding shield, creating a halo of energy that protects your ally.",
+      "flavor": "You call out the word of the blinding shield, creating a halo of energy that protects your ally.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 3
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11385",
+        "publication": "Published in Player's Handbook 3, page(s) 103.",
+        "rulesText": "Word of the Blinding ShieldRunepriest Attack 3\nYou call out the word of the blinding shield, creating a halo of energy that protects your ally.\nEncounter   ✦     Divine, Radiant, Runic, Weapon\nImmediate Interrupt      Close burst 5\nTrigger: An enemy makes an attack roll against your ally\nTarget: The triggering enemy in the burst\nAttack: Strength vs. Fortitude\nHit: The target is blinded until the end of its turn.\nRune of Destruction: The target also takes radiant damage equal to your Constitution modifier.\nRune of Protection: The ally gains temporary hit points equal to your Constitution modifier.\nPublished in Player's Handbook 3, page(s) 103."
+      },
+      "keywords": [
+        "DIVINE",
+        "RADIANT",
+        "RUNIC",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-2": {
+              "kind": "TARGET_SET",
+              "text": "The triggering enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 5"
+          },
+          "blocks": [
+            {
+              "id": "row-3",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-2",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "The target is blinded until the end of its turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Rune of Destruction",
+              "text": "The target also takes radiant damage equal to your Constitution."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Rune of Protection",
+              "text": "The ally gains temporary hit points equal to your Constitution."
+            }
+          ],
+          "trigger": "An enemy makes an attack roll against your ally",
+          "targets": "targets-2"
+        }
+      ],
+      "subtitle": "Runepriest Attack 3",
+      "level": 3,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power15990",
+      "title": "Words of Bravery",
+      "description": "You move your weapon as a brush, batting enemies aside and strengthening one of your comrades.",
+      "flavor": "You move your weapon as a brush, batting enemies aside and strengthening one of your comrades.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 3
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power15990",
+        "publication": "Published in Dragon Magazine 404.",
+        "rulesText": "Words of BraveryRunepriest Attack 3\nYou move your weapon as a brush, batting enemies aside and strengthening one of your comrades.\nEncounter   ✦     Divine, Fear, Runic, Weapon\nStandard Action      Close burst 1\nTarget: Each creature in the burst\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier damage, and you can push the target 1 square.\nEffect: You and one ally within 5 squares of you can make a saving throw.\nRune of Destruction: The first ally who hits the target before the end of your next turn can push the target up to a number of squares equal to your Wisdom modifier.\nRune of Protection: You and the ally each gain a power bonus to the saving throw equal to your Wisdom modifier.\nPublished in Dragon Magazine 404."
+      },
+      "keywords": [
+        "DIVINE",
+        "FEAR",
+        "RUNIC",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength damage, and you can push the target 1 square."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You and one ally within 5 squares of you can make a saving throw."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Rune of Destruction",
+              "text": "The first ally who hits the target before the end of your next turn can push the target up to a number of squares equal to your Wisdom."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Rune of Protection",
+              "text": "You and the ally each gain a power bonus to the saving throw equal to your Wisdom."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 3",
+      "level": 3,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11386",
+      "title": "Cage of Light",
+      "description": "You slam your weapon into the ground, imprinting a rune of imprisonment that causes light to wash over your enemies.",
+      "flavor": "You slam your weapon into the ground, imprinting a rune of imprisonment that causes light to wash over your enemies.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 5
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11386",
+        "publication": "Published in Player's Handbook 3, page(s) 104.",
+        "rulesText": "Cage of LightRunepriest Attack 5\nYou slam your weapon into the ground, imprinting a rune of imprisonment that causes light to wash over your enemies.\nDaily   ✦     Divine, Radiant, Weapon, Zone\nStandard Action      Close blast 3\nTarget: Each enemy in the blast\nAttack: Strength vs. Will\nHit: 2[W] + Strength modifier radiant damage.\nMiss: Half damage.\nEffect: The blast creates a zone that lasts until the end of your next turn. Leaving the zone costs enemies 2 extra squares of movement. Any enemy that attacks an ally who is within the zone grants combat advantage (save ends).\nSustain Minor: The zone persists.\nPublished in Player's Handbook 3, page(s) 104."
+      },
+      "keywords": [
+        "DIVINE",
+        "RADIANT",
+        "WEAPON",
+        "ZONE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the blast"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close blast 3"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close blast 3"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength radiant damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The blast creates a zone that lasts until the end of your next turn. Leaving the zone costs enemies 2 extra squares of movement. Any enemy that attacks an ally who is within the zone grants combat advantage (save ends)."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Sustain Minor",
+              "text": "The zone persists."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 5",
+      "level": 5,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11387",
+      "title": "Rune of Arrow's Flight",
+      "description": "In the elder days, Gruumsh carved this rune to guide Corellon's arrow into the heart of a primordial serpent. Corellon later used the same rune against Gruumsh to destroy his eye.",
+      "flavor": "In the elder days, Gruumsh carved this rune to guide Corellon's arrow into the heart of a primordial serpent. Corellon later used the same rune against Gruumsh to destroy his eye.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 5
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11387",
+        "publication": "Published in Player's Handbook 3, page(s) 104.",
+        "rulesText": "Rune of Arrow's FlightRunepriest Attack 5\nIn the elder days, Gruumsh carved this rune to guide Corellon's arrow into the heart of a primordial serpent. Corellon later used the same rune against Gruumsh to destroy his eye.\nDaily   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. Will\nHit: 2[W] + Strength modifier damage, and the target grants combat advantage when targeted by area attacks and ranged attacks and has vulnerable 5 to all damage from area attacks and ranged attacks (save ends both).\nAftereffect: The target grants combat advantage when targeted by area attacks and ranged attacks until the end of your next turn.\nMiss: Half damage, and the target grants combat advantage when targeted by area attacks and ranged attacks until the end of your next turn.\nEffect: Until the end of the encounter, enemies don't grant cover to the target against ranged attacks.\nPublished in Player's Handbook 3, page(s) 104."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage, and the target grants combat advantage when targeted by area attacks and ranged attacks and has vulnerable 5 to all damage from area attacks and ranged attacks (save ends both)."
+                      },
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Aftereffect",
+                        "text": "The target grants combat advantage when targeted by area attacks and ranged attacks until the end of your next turn."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-5",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and the target grants combat advantage when targeted by area attacks and ranged attacks until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, enemies don't grant cover to the target against ranged attacks."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 5",
+      "level": 5,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11388",
+      "title": "Rune of the Ember of Wrath",
+      "description": "You strike your foes, branding them with the rune of the ember of wrath.",
+      "flavor": "You strike your foes, branding them with the rune of the ember of wrath.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 5
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11388",
+        "publication": "Published in Player's Handbook 3, page(s) 104.",
+        "rulesText": "Rune of the Ember of WrathRunepriest Attack 5\nYou strike your foes, branding them with the rune of the ember of wrath.\nDaily   ✦     Divine, Fire, Weapon\nStandard Action      Melee weapon\nTarget: One or two creatures\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier fire damage.\nMiss: Half damage.\nEffect: If you attack only one creature with this power, it takes ongoing 5 fire damage (save ends). If you attack two creatures, both are affected by the ember of wrath (save ends). Until the ember ends on a target, whenever that target is hit by a melee or a ranged attack, the other target takes 5 fire damage.\nPublished in Player's Handbook 3, page(s) 104."
+      },
+      "keywords": [
+        "DIVINE",
+        "FIRE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One or two creatures"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength fire damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "If you attack only one creature with this power, it takes ongoing 5 fire damage (save ends). If you attack two creatures, both are affected by the ember of wrath (save ends). Until the ember ends on a target, whenever that target is hit by a melee or a ranged attack, the other target takes 5 fire damage."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 5",
+      "level": 5,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11389",
+      "title": "Rune of the Final Act",
+      "description": "You invoke the second of the seven runes that represent the gates of death. The second gate embodies the soul's first step from the body.",
+      "flavor": "You invoke the second of the seven runes that represent the gates of death. The second gate embodies the soul's first step from the body.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 5
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11389",
+        "publication": "Published in Player's Handbook 3, page(s) 104.",
+        "rulesText": "Rune of the Final ActRunepriest Attack 5\nYou invoke the second of the seven runes that represent the gates of death. The second gate embodies the soul's first step from the body.\nDaily   ✦     Divine, Varies, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. Fortitude\nHit: 2[W] + Strength modifier necrotic or radiant damage.\nMiss: Half damage.\nEffect: The target is affected by a deathly rune (save ends). Until the rune ends, you and your allies gain a +2 power bonus to damage rolls against the target. Whenever you or any of your allies hit the target, the bonus increases by 1.\nPublished in Player's Handbook 3, page(s) 104."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength necrotic or radiant damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target is affected by a deathly rune (save ends). Until the rune ends, you and your allies gain a +2 power bonus to damage rolls against the target. Whenever you or any of your allies hit the target, the bonus increases by 1."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 5",
+      "level": 5,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11394",
+      "title": "Gathering Storm Intonation",
+      "description": "You tap your foe with your weapon, placing a rune of storm upon it.",
+      "flavor": "You tap your foe with your weapon, placing a rune of storm upon it.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 7
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution.",
+          "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11394",
+        "publication": "Published in Player's Handbook 3, page(s) 105.",
+        "rulesText": "Gathering Storm IntonationRunepriest Attack 7\nYou tap your foe with your weapon, placing a rune of storm upon it.\nEncounter   ✦     Divine, Lightning, Runic, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. Reflex\nHit: 1[W] + Strength modifier lightning damage. Until the end of your next turn, you can use the Gathering Storm Intonation Attack power, using a square in the primary target's space as the origin square.\nRune of Destruction: The target takes lightning damage equal to your Constitution modifier.\nGathering Storm Intonation Attack\nEncounter ✦     Divine, Lightning, Runic, Weapon\nOpportunity Action      Close burst 1\nRequirement: The power Gathering Storm Intonation must be active in order to use this power.\nTrigger: The primary target makes an attack\nTarget: Each enemy in the burst other than the primary target\nAttack: Strength vs. Reflex\nHit: Strength modifier lightning damage.\nRune of Protection: You slide the target 2 squares.\nPublished in Player's Handbook 3, page(s) 105."
+      },
+      "keywords": [
+        "DIVINE",
+        "LIGHTNING",
+        "RUNIC",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength lightning damage. Until the end of your next turn, you can use the Gathering Storm Intonation Attack power, using a square in the primary target's space as the origin square."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Rune of Destruction",
+              "text": "The target takes lightning damage equal to your Constitution."
+            },
+            {
+              "id": "grant-use-gathering-storm-intonation-attack",
+              "type": "grant",
+              "label": "Grants",
+              "text": "Gathering Storm Intonation Attack",
+              "activationId": "use-gathering-storm-intonation-attack",
+              "duration": "As stated in the power's rules"
+            }
+          ],
+          "targets": "targets-1"
+        },
+        {
+          "id": "use-gathering-storm-intonation-attack",
+          "availability": "GRANTED",
+          "action": "OPPORTUNITY",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-10": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst other than the primary target"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-11",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. Reflex",
+              "actor": "self",
+              "targets": "targets-10",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-12",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "Strength lightning damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-13",
+              "type": "effect",
+              "label": "Rune of Protection",
+              "text": "You slide the target 2 squares."
+            }
+          ],
+          "title": "Gathering Storm Intonation Attack",
+          "requirement": "The power Gathering Storm Intonation must be active in order to use this power.",
+          "trigger": "The primary target makes an attack",
+          "targets": "targets-10"
+        }
+      ],
+      "subtitle": "Runepriest Attack 7",
+      "level": 7,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11396",
+      "title": "Rune of Roaring Fire",
+      "description": "Your attack leaves a rune of fire on your foe, causing a torrent of flame to surround it.",
+      "flavor": "Your attack leaves a rune of fire on your foe, causing a torrent of flame to surround it.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 7
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11396",
+        "publication": "Published in Player's Handbook 3, page(s) 105.",
+        "rulesText": "Rune of Roaring FireRunepriest Attack 7\nYour attack leaves a rune of fire on your foe, causing a torrent of flame to surround it.\nEncounter   ✦     Divine, Fire, Runic, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier fire damage.\nRune of Destruction: Until the end of your next turn, the target takes fire damage equal to 5 + your Constitution modifier whenever it makes an opportunity attack.\nRune of Protection: Until the end of your next turn, you and your allies have concealment against the target, and the target takes a penalty to Perception checks equal to your Constitution modifier.\nPublished in Player's Handbook 3, page(s) 105."
+      },
+      "keywords": [
+        "DIVINE",
+        "FIRE",
+        "RUNIC",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength fire damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Rune of Destruction",
+              "text": "Until the end of your next turn, the target takes fire damage equal to 5 + your Constitution whenever it makes an opportunity attack."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Rune of Protection",
+              "text": "Until the end of your next turn, you and your allies have concealment against the target, and the target takes a penalty to Perception checks equal to your Constitution."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 7",
+      "level": 7,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11397",
+      "title": "Symbol of Cowardice",
+      "description": "Your divine magic infects the target with overwhelming fear, ruining its attacks or causing it to shrink away from your allies.",
+      "flavor": "Your divine magic infects the target with overwhelming fear, ruining its attacks or causing it to shrink away from your allies.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 7
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11397",
+        "publication": "Published in Player's Handbook 3, page(s) 105.",
+        "rulesText": "Symbol of CowardiceRunepriest Attack 7\nYour divine magic infects the target with overwhelming fear, ruining its attacks or causing it to shrink away from your allies.\nEncounter   ✦     Divine, Fear, Runic, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. Will\nHit: 2[W] + Strength modifier damage.\nRune of Destruction: Until the end of your next turn, each ally who ends his or her turn adjacent to the target can push the target 1 square as a free action.\nRune of Protection: Until the end of your next turn, the target takes a penalty to attack rolls equal to your Wisdom modifier + the number of your allies adjacent to it.\nPublished in Player's Handbook 3, page(s) 105."
+      },
+      "keywords": [
+        "DIVINE",
+        "FEAR",
+        "RUNIC",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Rune of Destruction",
+              "text": "Until the end of your next turn, each ally who ends his or her turn adjacent to the target can push the target 1 square as a free action."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Rune of Protection",
+              "text": "Until the end of your next turn, the target takes a penalty to attack rolls equal to your Wisdom + the number of your allies adjacent to it."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 7",
+      "level": 7,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11398",
+      "title": "Word of Befuddlement",
+      "description": "You craft a cunning runic phrase and invoke it as you strike your opponent, smashing its intellect. It fights like a wild beast, lashing out in pain when injured.",
+      "flavor": "You craft a cunning runic phrase and invoke it as you strike your opponent, smashing its intellect. It fights like a wild beast, lashing out in pain when injured.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 7
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11398",
+        "publication": "Published in Player's Handbook 3, page(s) 105.",
+        "rulesText": "Word of BefuddlementRunepriest Attack 7\nYou craft a cunning runic phrase and invoke it as you strike your opponent, smashing its intellect. It fights like a wild beast, lashing out in pain when injured.\nEncounter   ✦     Divine, Runic, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. Will\nHit: 2[W] + Strength modifier damage.\nRune of Destruction: Until the end of your next turn, the first time any of your allies hits the target, the target makes a melee basic attack as a free action against an enemy of your choice.\nRune of Protection: Until the end of your next turn, the target takes a -5 penalty to attack rolls against your allies who aren't adjacent to it.\nPublished in Player's Handbook 3, page(s) 105."
+      },
+      "keywords": [
+        "DIVINE",
+        "RUNIC",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Rune of Destruction",
+              "text": "Until the end of your next turn, the first time any of your allies hits the target, the target makes a melee basic attack as a free action against an enemy of your choice."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Rune of Protection",
+              "text": "Until the end of your next turn, the target takes a -5 penalty to attack rolls against your allies who aren't adjacent to it."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 7",
+      "level": 7,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11399",
+      "title": "Rune of Boundless Fury",
+      "description": "Kord first carved this rune, cutting it into the flesh of a primordial beast. His sacred berserkers, their wrath fired by the bloody symbol, overwhelmed the foe.",
+      "flavor": "Kord first carved this rune, cutting it into the flesh of a primordial beast. His sacred berserkers, their wrath fired by the bloody symbol, overwhelmed the foe.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 9
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11399",
+        "publication": "Published in Player's Handbook 3, page(s) 105.",
+        "rulesText": "Rune of Boundless FuryRunepriest Attack 9\nKord first carved this rune, cutting it into the flesh of a primordial beast. His sacred berserkers, their wrath fired by the bloody symbol, overwhelmed the foe.\nDaily   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier damage.\nMiss: Half damage.\nEffect: Until the end of your next turn, whenever any ally starts his or her turn adjacent to the target, that ally can make a melee basic attack against the target as a free action.\nPublished in Player's Handbook 3, page(s) 105."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn, whenever any ally starts his or her turn adjacent to the target, that ally can make a melee basic attack against the target as a free action."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 9",
+      "level": 9,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11400",
+      "title": "Rune of Death's Verge",
+      "description": "You invoke the third of the seven runes that represent the gates of death. The third gate slams shut as the soul passes through, severing the soul's link to its body.",
+      "flavor": "You invoke the third of the seven runes that represent the gates of death. The third gate slams shut as the soul passes through, severing the soul's link to its body.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 9
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution.",
+          "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11400",
+        "publication": "Published in Player's Handbook 3, page(s) 105.",
+        "rulesText": "Rune of Death's VergeRunepriest Attack 9\nYou invoke the third of the seven runes that represent the gates of death. The third gate slams shut as the soul passes through, severing the soul's link to its body.\nDaily   ✦     Divine, Varies, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. Fortitude\nHit: 2[W] + Strength modifier necrotic or radiant damage.\nMiss: Half damage.\nEffect: Until the end of the encounter, you can use the power Death's Verge Attack, using a square in the primary target's space as the origin square.\nDeath's Verge Attack\nAt-Will ✦     Divine, Varies, Weapon\nOpportunity Action      Close burst 3\nRequirement: The power Rune of Death's Verge must be active in order to use this power.\nTrigger: The primary target drops to 0 hit points\nTarget: Each enemy in the burst\nAttack: Strength vs. Will\nHit: The secondary target is dazed (save ends).\nPublished in Player's Handbook 3, page(s) 105."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength necrotic or radiant damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, you can use the power Death's Verge Attack, using a square in the primary target's space as the origin square."
+            },
+            {
+              "id": "grant-use-death-s-verge-attack",
+              "type": "grant",
+              "label": "Grants",
+              "text": "Death's Verge Attack",
+              "activationId": "use-death-s-verge-attack",
+              "duration": "As stated in the power's rules"
+            }
+          ],
+          "targets": "targets-1"
+        },
+        {
+          "id": "use-death-s-verge-attack",
+          "availability": "GRANTED",
+          "action": "OPPORTUNITY",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-11": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 3"
+          },
+          "blocks": [
+            {
+              "id": "row-12",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. Will",
+              "actor": "self",
+              "targets": "targets-11",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 3"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-13",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "The secondary target is dazed (save ends)."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "title": "Death's Verge Attack",
+          "requirement": "The power Rune of Death's Verge must be active in order to use this power.",
+          "trigger": "The primary target drops to 0 hit points",
+          "targets": "targets-11"
+        }
+      ],
+      "subtitle": "Runepriest Attack 9",
+      "level": 9,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power16499",
+      "title": "Rune of Divine Providence",
+      "description": "You strike your enemy and call upon your god to wrap you and your allies in divine supremacy.",
+      "flavor": "You strike your enemy and call upon your god to wrap you and your allies in divine supremacy.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 9
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power16499",
+        "publication": "Published in Into the Unknown: The Dungeon Survival Handbook, page(s) 63.",
+        "rulesText": "Rune of Divine ProvidenceRunepriest Attack 9\nYou strike your enemy and call upon your god to wrap you and your allies in divine supremacy.\nDaily   ✦     Aura, Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier damage.\nEffect: You activate an aura 1 that lasts until the end of your next turn. While in the aura, your allies gain a +2 power bonus to all defenses.\nSustain Minor: The aura persists until the end of your next turn.\nPublished in Into the Unknown: The Dungeon Survival Handbook, page(s) 63."
+      },
+      "keywords": [
+        "AURA",
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You activate an aura 1 that lasts until the end of your next turn. While in the aura, your allies gain a +2 power bonus to all defenses."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Sustain Minor",
+              "text": "The aura persists until the end of your next turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 9",
+      "level": 9,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11402",
+      "title": "Rune of Shielding (Runepriest)",
+      "description": "You inscribe a rune of containment on your foe to protect you and your allies from attacks that rage around the foe.",
+      "flavor": "You inscribe a rune of containment on your foe to protect you and your allies from attacks that rage around the foe.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 9
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11402",
+        "publication": "Published in Player's Handbook 3, page(s) 106.",
+        "rulesText": "Rune of Shielding (Runepriest)Runepriest Attack 9\nYou inscribe a rune of containment on your foe to protect you and your allies from attacks that rage around the foe.\nDaily   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier damage.\nMiss: Half damage.\nEffect: Until the end of the encounter, when the target is included as a target of a close or an area attack that also includes you or any of your allies, the attack automatically misses you and your allies.\nPublished in Player's Handbook 3, page(s) 106."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, when the target is included as a target of a close or an area attack that also includes you or any of your allies, the attack automatically misses you and your allies."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 9",
+      "level": 9,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11403",
+      "title": "Unconquered Redoubt",
+      "description": "With a mighty swing, you place the rune of the unconquered redoubt into the ground. The blast knocks your enemies back as your magic weaves a defense.",
+      "flavor": "With a mighty swing, you place the rune of the unconquered redoubt into the ground. The blast knocks your enemies back as your magic weaves a defense.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 9
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11403",
+        "publication": "Published in Player's Handbook 3, page(s) 106.",
+        "rulesText": "Unconquered RedoubtRunepriest Attack 9\nWith a mighty swing, you place the rune of the unconquered redoubt into the ground. The blast knocks your enemies back as your magic weaves a defense.\nDaily   ✦     Divine, Radiant, Weapon, Zone\nStandard Action      Close blast 5\nTarget: Each enemy in the blast\nAttack: Strength vs. Fortitude\nHit: 1[W] + Strength modifier radiant damage, and you push the target 4 squares.\nMiss: Half damage, and you push the target 1 square.\nEffect: The blast creates a zone that lasts until the end of your next turn. While within the zone, you and your allies gain a +2 power bonus to AC and resist 5 to all damage against close attacks and area attacks.\nSustain Minor: The zone persists.\nPublished in Player's Handbook 3, page(s) 106."
+      },
+      "keywords": [
+        "DIVINE",
+        "RADIANT",
+        "WEAPON",
+        "ZONE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the blast"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close blast 5"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close blast 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength radiant damage, and you push the target 4 squares."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage, and you push the target 1 square."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The blast creates a zone that lasts until the end of your next turn. While within the zone, you and your allies gain a +2 power bonus to AC and resist 5 to all damage against close attacks and area attacks."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Sustain Minor",
+              "text": "The zone persists."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 9",
+      "level": 9,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power15992",
+      "title": "Words of Reflected Karma",
+      "description": "Glowing red words appear upon your enemies' foreheads, heralding immediate retribution for any violent action.",
+      "flavor": "Glowing red words appear upon your enemies' foreheads, heralding immediate retribution for any violent action.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 9
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power15992",
+        "publication": "Published in Dragon Magazine 404.",
+        "rulesText": "Words of Reflected KarmaRunepriest Attack 9\nGlowing red words appear upon your enemies' foreheads, heralding immediate retribution for any violent action.\nDaily   ✦     Divine, Lightning, Weapon\nStandard Action      Close blast 3\nTarget: Each enemy in the blast\nAttack: Strength vs. Will\nHit: 2[W] + Strength modifier damage.\nMiss: Half damage.\nEffect: The target takes 5 lightning damage whenever it uses an attack power (save ends).\nPublished in Dragon Magazine 404."
+      },
+      "keywords": [
+        "DIVINE",
+        "LIGHTNING",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the blast"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close blast 3"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close blast 3"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target takes 5 lightning damage whenever it uses an attack power (save ends)."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 9",
+      "level": 9,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11408",
+      "title": "Iron Redoubt",
+      "description": "You invoke the runes of iron and perseverance, a combination that allows you to stand against the enemy's mightiest attacks.",
+      "flavor": "You invoke the runes of iron and perseverance, a combination that allows you to stand against the enemy's mightiest attacks.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 13
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11408",
+        "publication": "Published in Player's Handbook 3, page(s) 106.",
+        "rulesText": "Iron RedoubtRunepriest Attack 13\nYou invoke the runes of iron and perseverance, a combination that allows you to stand against the enemy's mightiest attacks.\nEncounter   ✦     Divine, Runic, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier damage, and you mark the target until the end of your next turn.\nRune of Destruction: Until the mark ends, you can use an opportunity action to make a melee basic attack against the target when it makes any attack that doesn't include you as a target. You gain a power bonus to the attack roll and the damage roll against the target equal to your Wisdom modifier.\nRune of Protection: Until the end of your next turn, the target takes a penalty to damage rolls equal to your Wisdom modifier.\nEffect: Until the end of your next turn, you have resist 5 to all damage against the target's attacks.\nPublished in Player's Handbook 3, page(s) 106."
+      },
+      "keywords": [
+        "DIVINE",
+        "RUNIC",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength damage, and you mark the target until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Rune of Destruction",
+              "text": "Until the mark ends, you can use an opportunity action to make a melee basic attack against the target when it makes any attack that doesn't include you as a target. You gain a power bonus to the attack roll and the damage roll against the target equal to your Wisdom."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Rune of Protection",
+              "text": "Until the end of your next turn, the target takes a penalty to damage rolls equal to your Wisdom."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of your next turn, you have resist 5 to all damage against the target's attacks."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 13",
+      "level": 13,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11409",
+      "title": "Whirling Storm Word",
+      "description": "The word of whirling storms carries within it the power of an astral hurricane. You impart this energy to your foe, causing the rune's energy to push and pull it, ruining its defenses.",
+      "flavor": "The word of whirling storms carries within it the power of an astral hurricane. You impart this energy to your foe, causing the rune's energy to push and pull it, ruining its defenses.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 13
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11409",
+        "publication": "Published in Player's Handbook 3, page(s) 106.",
+        "rulesText": "Whirling Storm WordRunepriest Attack 13\nThe word of whirling storms carries within it the power of an astral hurricane. You impart this energy to your foe, causing the rune's energy to push and pull it, ruining its defenses.\nEncounter   ✦     Divine, Runic, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 1[W] + Strength modifier damage, and the target grants combat advantage until the end of your next turn.\nRune of Destruction: Until the end of your next turn, while the target is flanked, you and your allies gain a bonus to damage rolls against it equal to your Constitution modifier.\nRune of Protection: Until the end of your next turn, the target takes a penalty to attack rolls equal to your Constitution modifier.\nPublished in Player's Handbook 3, page(s) 106."
+      },
+      "keywords": [
+        "DIVINE",
+        "RUNIC",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength damage, and the target grants combat advantage until the end of your next turn."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Rune of Destruction",
+              "text": "Until the end of your next turn, while the target is flanked, you and your allies gain a bonus to damage rolls against it equal to your Constitution."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Rune of Protection",
+              "text": "Until the end of your next turn, the target takes a penalty to attack rolls equal to your Constitution."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 13",
+      "level": 13,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11410",
+      "title": "Word of Astral Defiance",
+      "description": "Runes of power radiate defiant light around you and either weaken your foes or defend your allies.",
+      "flavor": "Runes of power radiate defiant light around you and either weaken your foes or defend your allies.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 13
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11410",
+        "publication": "Published in Player's Handbook 3, page(s) 106.",
+        "rulesText": "Word of Astral DefianceRunepriest Attack 13\nRunes of power radiate defiant light around you and either weaken your foes or defend your allies.\nEncounter   ✦     Divine, Radiant, Runic, Weapon\nStandard Action      Close burst 1\nTarget: Each creature in the burst\nAttack: Strength vs. Reflex\nHit: 1[W] + Strength modifier radiant damage, and you slide the target 1 square.\nRune of Destruction: Until the end of your next turn, the target has vulnerability to all damage while adjacent to you. The vulnerability equals your Wisdom modifier\nRune of Protection: Until the end of your next turn, allies gain a power bonus to all defenses while adjacent to you. The bonus equals your Wisdom modifier.\nPublished in Player's Handbook 3, page(s) 106."
+      },
+      "keywords": [
+        "DIVINE",
+        "RADIANT",
+        "RUNIC",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each creature in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 1"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 1"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] + Strength radiant damage, and you slide the target 1 square."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Rune of Destruction",
+              "text": "Until the end of your next turn, the target has vulnerability to all damage while adjacent to you. The vulnerability equals your Wisdom"
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Rune of Protection",
+              "text": "Until the end of your next turn, allies gain a power bonus to all defenses while adjacent to you. The bonus equals your Wisdom."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 13",
+      "level": 13,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11411",
+      "title": "Word of Lingering Thunder",
+      "description": "Your weapon burns the word of lingering thunder on your foe. If that foe draws too close to your allies or moves away from a specific combatant, the rune's energy roars forth to punish it.",
+      "flavor": "Your weapon burns the word of lingering thunder on your foe. If that foe draws too close to your allies or moves away from a specific combatant, the rune's energy roars forth to punish it.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 13
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11411",
+        "publication": "Published in Player's Handbook 3, page(s) 107.",
+        "rulesText": "Word of Lingering ThunderRunepriest Attack 13\nYour weapon burns the word of lingering thunder on your foe. If that foe draws too close to your allies or moves away from a specific combatant, the rune's energy roars forth to punish it.\nEncounter   ✦     Divine, Runic, Thunder, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier thunder damage.\nRune of Destruction: Choose one or two allies within 5 squares of you. If the target enters a square adjacent to either of those allies during its next turn, it takes thunder damage equal to your Constitution modifier and falls prone.\nRune of Protection: Choose one ally within 5 squares of you. If the target moves away from that ally during its next turn, it takes thunder damage equal to your Constitution modifier and falls prone.\nPublished in Player's Handbook 3, page(s) 107."
+      },
+      "keywords": [
+        "DIVINE",
+        "RUNIC",
+        "THUNDER",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength thunder damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Rune of Destruction",
+              "text": "Choose one or two allies within 5 squares of you. If the target enters a square adjacent to either of those allies during its next turn, it takes thunder damage equal to your Constitution and falls prone."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Rune of Protection",
+              "text": "Choose one ally within 5 squares of you. If the target moves away from that ally during its next turn, it takes thunder damage equal to your Constitution and falls prone."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 13",
+      "level": 13,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power15994",
+      "title": "Words of Fiery Fidelity",
+      "description": "Your determination to protect your allies burns your enemy and heals your comrades.",
+      "flavor": "Your determination to protect your allies burns your enemy and heals your comrades.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 13
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power15994",
+        "publication": "Published in Dragon Magazine 404.",
+        "rulesText": "Words of Fiery FidelityRunepriest Attack 13\nYour determination to protect your allies burns your enemy and heals your comrades.\nEncounter   ✦     Divine, Fire, Healing, Runic, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. Fortitude\nHit: 2[W] + Strength modifier fire damage, and you and each ally adjacent to the target regain 10 hit points.\nEffect: The target takes ongoing 5 fire damage (save ends). Each time the target takes this fire damage, your allies adjacent to it regain 5 hit points.\nRune of Destruction: Both the ongoing fire damage and the regained hit points increase to 10.\nRune of Protection: Allies within 2 squares of the target benefit from this effect.\nPublished in Dragon Magazine 404."
+      },
+      "keywords": [
+        "DIVINE",
+        "FIRE",
+        "HEALING",
+        "RUNIC",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "ENCOUNTER",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. Fortitude",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "FORTITUDE",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength fire damage, and you and each ally adjacent to the target regain 10 hit points."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-4",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target takes ongoing 5 fire damage (save ends). Each time the target takes this fire damage, your allies adjacent to it regain 5 hit points."
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Rune of Destruction",
+              "text": "Both the ongoing fire damage and the regained hit points increase to 10."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Rune of Protection",
+              "text": "Allies within 2 squares of the target benefit from this effect."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 13",
+      "level": 13,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11412",
+      "title": "Brand of Arcing Lightning",
+      "description": "Lightning plays along your weapon as you attack your foe. The lightning then jumps to strike at other foes.",
+      "flavor": "Lightning plays along your weapon as you attack your foe. The lightning then jumps to strike at other foes.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 15
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11412",
+        "publication": "Published in Player's Handbook 3, page(s) 107.",
+        "rulesText": "Brand of Arcing LightningRunepriest Attack 15\nLightning plays along your weapon as you attack your foe. The lightning then jumps to strike at other foes.\nDaily   ✦     Divine, Lightning, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. AC\nHit: 3[W] + Strength modifier lightning damage.\nMiss: Half damage.\nEffect: The target is affected by a lightning brand (save ends). Until the brand ends, whenever you or any of your allies hit the target, an enemy within 5 squares of the target takes lightning damage equal to 5 + your Strength modifier.\nPublished in Player's Handbook 3, page(s) 107."
+      },
+      "keywords": [
+        "DIVINE",
+        "LIGHTNING",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength lightning damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The target is affected by a lightning brand (save ends). Until the brand ends, whenever you or any of your allies hit the target, an enemy within 5 squares of the target takes lightning damage equal to 5 + your Strength."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 15",
+      "level": 15,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11413",
+      "title": "Rune of Judgment's Levy",
+      "description": "Souls are judged in the afterlife and must account for their deeds. This rune, the fourth of the seven runes that represent the gates of death, symbolizes that step along the soul's journey.",
+      "flavor": "Souls are judged in the afterlife and must account for their deeds. This rune, the fourth of the seven runes that represent the gates of death, symbolizes that step along the soul's journey.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 15
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution.",
+          "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11413",
+        "publication": "Published in Player's Handbook 3, page(s) 107.",
+        "rulesText": "Rune of Judgment's LevyRunepriest Attack 15\nSouls are judged in the afterlife and must account for their deeds. This rune, the fourth of the seven runes that represent the gates of death, symbolizes that step along the soul's journey.\nDaily   ✦     Divine, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. Reflex\nHit: 2[W] + Strength modifier damage.\nMiss: Half damage.\nEffect: You mark the target until the end of the encounter. Until the mark ends, you can use the Judgment's Levy Attack power against the target.\nJudgment's Levy Attack\nAt-Will ✦     Divine, Weapon\nImmediate Interrupt      Close burst 5\nRequirement: The power Rune of Judgment's Levy must be active in order to use this power.\nTrigger: The target makes an attack that doesn't include you as a target\nAttack: Strength vs. Will\nHit: 1[W] damage.\nPublished in Player's Handbook 3, page(s) 107."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "You mark the target until the end of the encounter. Until the mark ends, you can use the Judgment's Levy Attack power against the target."
+            },
+            {
+              "id": "grant-use-judgment-s-levy-attack",
+              "type": "grant",
+              "label": "Grants",
+              "text": "Judgment's Levy Attack",
+              "activationId": "use-judgment-s-levy-attack",
+              "duration": "As stated in the power's rules"
+            }
+          ],
+          "targets": "targets-1"
+        },
+        {
+          "id": "use-judgment-s-levy-attack",
+          "availability": "GRANTED",
+          "action": "IMMEDIATE_INTERRUPT",
+          "usage": {
+            "frequency": "AT_WILL",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 5"
+          },
+          "blocks": [
+            {
+              "id": "row-11",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 5"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-12",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "1[W] damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "title": "Judgment's Levy Attack",
+          "requirement": "The power Rune of Judgment's Levy must be active in order to use this power.",
+          "trigger": "The target makes an attack that doesn't include you as a target"
+        }
+      ],
+      "subtitle": "Runepriest Attack 15",
+      "level": 15,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11415",
+      "title": "Rune of the First Fortress",
+      "description": "The First Fortress was a redoubt built to defend against the primordials' attacks on the Astral Sea. This rune was carved to bolster the fortress's gates.",
+      "flavor": "The First Fortress was a redoubt built to defend against the primordials' attacks on the Astral Sea. This rune was carved to bolster the fortress's gates.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 15
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11415",
+        "publication": "Published in Player's Handbook 3, page(s) 107.",
+        "rulesText": "Rune of the First FortressRunepriest Attack 15\nThe First Fortress was a redoubt built to defend against the primordials' attacks on the Astral Sea. This rune was carved to bolster the fortress's gates.\nDaily   ✦     Divine, Weapon, Zone\nStandard Action      Close burst 3\nTarget: Each enemy in the burst\nAttack: Strength vs. AC\nHit: 2[W] + Strength modifier damage.\nMiss: Half damage.\nEffect: The burst creates a zone that lasts until the end of your next turn. While within the zone, you and your allies gain resist 5 to all damage. Any enemy that willingly enters the zone is immobilized until the end of your next turn.\nSustain Minor: The zone persists.\nPublished in Player's Handbook 3, page(s) 107."
+      },
+      "keywords": [
+        "DIVINE",
+        "WEAPON",
+        "ZONE"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "Each enemy in the burst"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Close burst 3"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. AC",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Close burst 3"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "AC",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "2[W] + Strength damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "The burst creates a zone that lasts until the end of your next turn. While within the zone, you and your allies gain resist 5 to all damage. Any enemy that willingly enters the zone is immobilized until the end of your next turn."
+            },
+            {
+              "id": "row-6",
+              "type": "effect",
+              "label": "Sustain Minor",
+              "text": "The zone persists."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 15",
+      "level": 15,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power11416",
+      "title": "Rune of the Flanking Wind",
+      "description": "You imprint the rune of the flanking wind on your foe. Thus summoned, the wind carries your allies into position against the foe and protects them.",
+      "flavor": "You imprint the rune of the flanking wind on your foe. Thus summoned, the wind carries your allies into position against the foe and protects them.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 15
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power11416",
+        "publication": "Published in Player's Handbook 3, page(s) 107.",
+        "rulesText": "Rune of the Flanking WindRunepriest Attack 15\nYou imprint the rune of the flanking wind on your foe. Thus summoned, the wind carries your allies into position against the foe and protects them.\nDaily   ✦     Divine, Teleportation, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. Reflex\nHit: 3[W] + Strength modifier damage.\nMiss: Half damage.\nEffect: Choose one ally within 10 squares of you. You teleport that ally to a square where he or she flanks the target. Until the end of the encounter, you and your allies gain a +2 power bonus to all defenses while flanking the target.\nPublished in Player's Handbook 3, page(s) 107."
+      },
+      "keywords": [
+        "DIVINE",
+        "TELEPORTATION",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. Reflex",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "REFLEX",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength damage."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Choose one ally within 10 squares of you. You teleport that ally to a square where he or she flanks the target. Until the end of the encounter, you and your allies gain a +2 power bonus to all defenses while flanking the target."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 15",
+      "level": 15,
+      "powerKind": "ATTACK"
+    },
+    {
+      "id": "modern4e.power.runepriest-power15995",
+      "title": "Words of Ancestral Bravery",
+      "description": "Epic poems appear on your weapon, and shades of past heroes lend you their strength.",
+      "flavor": "Epic poems appear on your weapon, and shades of past heroes lend you their strength.",
+      "access": {
+        "type": "entry",
+        "entryId": "modern4e.class.runepriest"
+      },
+      "prerequisites": {
+        "type": "level",
+        "minimum": 15
+      },
+      "selection": {
+        "maximum": 1,
+        "constraints": []
+      },
+      "coverage": {
+        "status": "UNIMPLEMENTED",
+        "limitations": [
+          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+        ]
+      },
+      "rulesProfile": "MODERN4E",
+      "source": {
+        "entryId": "power15995",
+        "publication": "Published in Dragon Magazine 404.",
+        "rulesText": "Words of Ancestral BraveryRunepriest Attack 15\nEpic poems appear on your weapon, and shades of past heroes lend you their strength.\nDaily   ✦     Divine, Radiant, Weapon\nStandard Action      Melee weapon\nTarget: One creature\nAttack: Strength vs. Will\nHit: 3[W] + Strength modifier radiant damage, and the target falls prone.\nMiss: Half damage.\nEffect: Until the end of the encounter, each ally who ends his or her turn adjacent to you gains temporary hit points equal to 5 + your Strength modifier and gains a +2 power bonus to saving throws that lasts until the start of his or her next turn.\nPublished in Dragon Magazine 404."
+      },
+      "keywords": [
+        "DIVINE",
+        "RADIANT",
+        "WEAPON"
+      ],
+      "choices": [],
+      "activations": [
+        {
+          "id": "use",
+          "availability": "ENTRY",
+          "action": "STANDARD",
+          "usage": {
+            "frequency": "DAILY",
+            "limits": [],
+            "costs": [],
+            "rules": []
+          },
+          "bindings": {
+            "self": {
+              "kind": "ACTOR",
+              "text": "The power user."
+            },
+            "targets-1": {
+              "kind": "TARGET_SET",
+              "text": "One creature"
+            }
+          },
+          "range": {
+            "type": "RULES_TEXT",
+            "text": "Melee weapon"
+          },
+          "blocks": [
+            {
+              "id": "row-2",
+              "type": "attack",
+              "label": "Attack",
+              "text": "Strength vs. Will",
+              "actor": "self",
+              "targets": "targets-1",
+              "range": {
+                "type": "RULES_TEXT",
+                "text": "Melee weapon"
+              },
+              "roll": {
+                "count": 1,
+                "sharing": "PER_TARGET",
+                "statistic": {
+                  "type": "ABILITY",
+                  "ability": "STRENGTH"
+                }
+              },
+              "comparisons": [
+                {
+                  "id": "defense",
+                  "defense": "WILL",
+                  "outcomes": {
+                    "hit": [
+                      {
+                        "id": "row-3",
+                        "type": "effect",
+                        "label": "Hit",
+                        "text": "3[W] + Strength radiant damage, and the target falls prone."
+                      }
+                    ],
+                    "miss": [
+                      {
+                        "id": "row-4",
+                        "type": "effect",
+                        "label": "Miss",
+                        "text": "Half damage."
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row-5",
+              "type": "effect",
+              "label": "Effect",
+              "text": "Until the end of the encounter, each ally who ends his or her turn adjacent to you gains temporary hit points equal to 5 + your Strength and gains a +2 power bonus to saving throws that lasts until the start of his or her next turn."
+            }
+          ],
+          "targets": "targets-1"
+        }
+      ],
+      "subtitle": "Runepriest Attack 15",
+      "level": 15,
+      "powerKind": "ATTACK"
+    }
+  ]
+}

@@ -7,6 +7,8 @@ import importlib.util
 import json
 from pathlib import Path
 
+import runtime_common
+
 SPEC = importlib.util.spec_from_file_location(
     "class_authoring", Path(__file__).resolve().parents[2] / "modern4e/scripts/class_content.py")
 authoring = importlib.util.module_from_spec(SPEC)
@@ -80,7 +82,12 @@ def compile_entry(entry):
     if entry["category"] == "POWER" and "level" in entry and "powerKind" in entry:
         frequencies = {activation["usage"]["frequency"] for activation in entry["activations"]
                        if activation["availability"] == "ENTRY"}
-        if len(frequencies) == 1 and next(iter(frequencies)) in ("AT_WILL", "ENCOUNTER", "DAILY"):
+        blocked = [node["text"] for node in (entry["prerequisites"].get("conditions") or [entry["prerequisites"]])
+                   if node["type"] == "unresolved"] if entry["powerKind"] == "ATTACK" else []
+        if blocked:
+            # An attack that needs a build Modern 4e lacks can never become eligible, so it only resolves by ID.
+            mechanics["unsupported"].append("Unresolved prerequisite; excluded from query pools: " + "; ".join(blocked))
+        elif len(frequencies) == 1 and next(iter(frequencies)) in ("AT_WILL", "ENCOUNTER", "DAILY"):
             mechanics["powerProfile"] = {"level": entry["level"], "powerKind": entry["powerKind"],
                                          "usage": next(iter(frequencies)), "keywords": entry["keywords"]}
         else:
@@ -166,11 +173,5 @@ def build(content=authoring.CONTENT, class_ids=None, include_advancement=True):
                                    "runtimeAdvancementCoverage": catalog["advancement"]["coverage"]}
         if entry["category"] == "CLASS" and include_advancement:
             entry["mechanics"]["choices"] += [compile_choice(choice) for choice in catalog["advancement"]["powerChoices"]]
-    package = "modern4e.classes"
-    return {
-        f"{package}/manifest.json": {"formatVersion": 2, "id": package, "revision": "2",
-                                    "title": "Modern 4e shared classes", "indexes": ["index"], "chunks": ["entries"]},
-        f"{package}/index.json": {"entries": [{"id": e["id"], "title": e["presentation"]["title"],
-                                               "category": e["category"], "chunkId": "entries"} for e in entries]},
-        f"{package}/entries.json": {"id": "entries", "entries": entries},
-    }
+    # Selectable attack powers make the package large; sorted, fixed-size chunks keep platform loads incremental.
+    return runtime_common.package("modern4e.classes", "Modern 4e shared classes", entries, revision="3")

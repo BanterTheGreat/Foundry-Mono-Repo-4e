@@ -21,7 +21,7 @@ class ClassRuntimeTest(unittest.TestCase):
                 runtime_common.validate_references(assets)
 
     def test_only_authored_class_features_grant_the_technique_master_substitution(self):
-        entries = {e["id"]: e for e in class_runtime.build()["modern4e.classes/entries.json"]["entries"]}
+        entries = {e["id"]: e for e in runtime_common.entries_of(class_runtime.build())}
         grants = [(entry["id"], grant) for entry in entries.values() for grant in entry["mechanics"]["grants"]
                   if grant.get("replacementEntryIds")]
         self.assertEqual({"modern4e.feature.artificer-techniques", "modern4e.feature.wizard-arcane-techniques"},
@@ -52,7 +52,7 @@ class ClassRuntimeTest(unittest.TestCase):
 
     def test_fighter_exact_runtime_golden_and_independent_choices(self):
         assets = class_runtime.build(class_ids=["modern4e.class.fighter"], include_advancement=False)
-        chunk = assets["modern4e.classes/entries.json"]
+        chunk = {"id": "entries", "entries": runtime_common.entries_of(assets)}
         golden = Path(__file__).parents[1] / "shared/fixtures/shared-fighter-chunk.json"
         self.assertEqual(json.loads(golden.read_text(encoding="utf-8")), chunk)
         self.assertEqual(assets, class_runtime.build(class_ids=["modern4e.class.fighter"], include_advancement=False))
@@ -77,7 +77,7 @@ class ClassRuntimeTest(unittest.TestCase):
         self.assertEqual("unresolved", class_runtime.condition({"type": "size", "size": "SMALL"})["type"])
 
     def test_collections_queries_and_overrides_compile_losslessly(self):
-        chunk = class_runtime.build()["modern4e.classes/entries.json"]
+        chunk = {"entries": runtime_common.entries_of(class_runtime.build())}
         wizard = next(e for e in chunk["entries"] if e["sharedData"].get("collections"))
         self.assertEqual(wizard["sharedData"]["collections"], wizard["mechanics"]["collections"])
         self.assertTrue(wizard["mechanics"]["choices"][0]["query"])
@@ -93,7 +93,7 @@ class ClassRuntimeTest(unittest.TestCase):
             choice = next(c for c in data["powerChoices"] if c["id"] == "modern4e.choice.class-utility-2")
             choice["source"]["filters"]["pickKind"] = "COMBAT"
             path.write_text(json.dumps(data), encoding="utf-8")
-            entries = class_runtime.build(root)["modern4e.classes/entries.json"]["entries"]
+            entries = runtime_common.entries_of(class_runtime.build(root))
             fighter = next(e for e in entries if e["id"] == "modern4e.class.fighter")
             compiled = next(c for c in fighter["mechanics"]["choices"] if c["id"] == choice["id"])
             self.assertEqual("COMBAT", compiled["query"]["pickKind"])
@@ -122,7 +122,7 @@ class ClassRuntimeTest(unittest.TestCase):
         self.assertTrue(all(choice["atLevel"] <= 10 for choice in slots))
 
     def test_wizard_acquisition_preparation_techniques_and_tome_have_separate_slots(self):
-        entries = {entry["id"]: entry for entry in class_runtime.build()["modern4e.classes/entries.json"]["entries"]}
+        entries = {entry["id"]: entry for entry in runtime_common.entries_of(class_runtime.build())}
         book = entries["modern4e.feature.wizard-spellbook"]["mechanics"]
         modifiers = {modifier["choiceId"]: modifier for modifier in book["selectionModifiers"]}
         self.assertEqual(4, modifiers["modern4e.choice.class-attack-daily"]["count"])
@@ -150,7 +150,7 @@ class ClassRuntimeTest(unittest.TestCase):
             data = json.loads(path.read_text(encoding="utf-8"))
             data["classes"][0]["statistics"]["health"]["base"] = 23
             path.write_text(json.dumps(data), encoding="utf-8")
-            chunk = class_runtime.build(root, ["modern4e.class.fighter"])["modern4e.classes/entries.json"]
+            chunk = {"entries": runtime_common.entries_of(class_runtime.build(root, ["modern4e.class.fighter"]))}
             fighter = next(e for e in chunk["entries"] if e["category"] == "CLASS")
             self.assertEqual(23, fighter["mechanics"]["classProfile"]["statistics"]["HIT_POINTS"]["base"])
             data["classes"][0]["grants"][0]["entryId"] = "modern4e.feature.missing"

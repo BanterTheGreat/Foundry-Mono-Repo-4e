@@ -24,6 +24,8 @@ android {
     sourceSets["main"].res.srcDir(layout.buildDirectory.dir("generated/buildInfo"))
     sourceSets["androidTest"].assets.srcDir("../shared/fixtures")
     testOptions.unitTests.isIncludeAndroidResources = true
+    // The decoded production packages hold roughly 80 MB; the Gradle default test heap cannot hold several sessions of them.
+    testOptions.unitTests.all { it.maxHeapSize = "2g" }
     sourceSets["test"].resources.srcDir("../shared/fixtures")
     buildFeatures { compose = true }
     compileOptions {

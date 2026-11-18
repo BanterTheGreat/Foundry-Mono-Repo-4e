@@ -30,15 +30,15 @@ class SmokeScreenTest {
             }
         }
         compose.onNodeWithText("Your Characters").performClick()
-        waitFor("Create a proof character")
-        compose.onNodeWithText("Create a proof character").performClick()
+        waitFor("New character")
+        compose.onNodeWithText("New character").performClick()
         waitFor("Level 1")
         compose.onNodeWithContentDescription("Character portrait placeholder").assertExists()
-        compose.onNodeWithContentDescription("Strength: 4").assertExists()
+        compose.onNodeWithContentDescription("Strength: 4").assertDoesNotExist()
         listOf("Gender", "Age", "Deity", "Languages").forEach {
             compose.onNodeWithContentDescription("Edit $it").assertExists()
         }
-        compose.onNodeWithText("Overview").assertExists()
+        compose.onNodeWithText("About").assertExists()
         compose.onNodeWithText("Equipment").assertDoesNotExist()
         compose.onNodeWithText("Manual adjustments").assertDoesNotExist()
         compose.onNodeWithText("Ability and proficiency choices → Progression").assertDoesNotExist()
@@ -60,11 +60,16 @@ class SmokeScreenTest {
         }
         compose.onNodeWithContentDescription("Edit character name").assertTextEquals("Android overview test")
         compose.onNodeWithContentDescription("Character tabs").performTouchInput { swipeLeft() }
+        waitFor("Vitals")
+        compose.onNodeWithContentDescription("Strength: 4").assertExists()
+        compose.onNodeWithContentDescription("Character tabs").performTouchInput { swipeLeft() }
         waitFor("Ability Scores")
         compose.onNodeWithContentDescription("Character tabs").performTouchInput { swipeLeft() }
         compose.onNode(hasText("Validation") and hasClickAction()).assertIsSelected()
         compose.onNodeWithContentDescription("Character tabs").performTouchInput { swipeRight() }
         waitFor("Ability Scores")
+        compose.onNodeWithContentDescription("Character tabs").performTouchInput { swipeRight() }
+        waitFor("Vitals")
         compose.onNodeWithContentDescription("Character tabs").performTouchInput { swipeRight() }
         waitFor("Level 1")
         compose.onNodeWithContentDescription("Back").performClick()

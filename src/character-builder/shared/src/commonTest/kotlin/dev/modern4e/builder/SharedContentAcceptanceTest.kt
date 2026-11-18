@@ -35,6 +35,7 @@ class SharedContentAcceptanceTest {
             assertEquals(19, total(result, Statistic.FORTITUDE))
             assertEquals(14, total(result, Statistic.REFLEX))
             assertEquals(11, total(result, Statistic.WILL))
+            assertEquals(5, total(result, Statistic.SPEED))
             assertEquals(6, result.proficiencies.size)
             assertEquals(level, document.levels.flatMap { it.entries }.count {
                 it.slot.choiceId == "feat"

@@ -6,11 +6,12 @@ import unittest
 from unittest.mock import patch
 
 import class_runtime
+import runtime_common
 
 SCRIPTS = Path(__file__).resolve().parents[2] / "modern4e/scripts"
 sys.path.insert(0, str(SCRIPTS))
 import compendium
-import import_fighter_attacks as migration
+import import_class_attacks as migration
 
 
 class FighterAttacksTest(unittest.TestCase):
@@ -70,14 +71,14 @@ class FighterAttacksTest(unittest.TestCase):
     def test_runtime_compiles_exact_local_profiles_and_readable_rules_without_compendium(self):
         with patch.object(compendium, "payload", side_effect=AssertionError("Production must not read source classes/powers")):
             assets = class_runtime.build()
-        entries = {e["id"]: e for e in assets["modern4e.classes/entries.json"]["entries"]}
+        entries = {e["id"]: e for e in runtime_common.entries_of(assets)}
         for power in self.powers:
             runtime = entries[power["id"]]
             self.assertEqual(power["level"], runtime["mechanics"]["powerProfile"]["level"])
             self.assertEqual(power, {k: v for k, v in runtime["sharedData"].items() if k != "category"})
             self.assertIn(power["activations"][0]["blocks"][0]["label"] + ":", runtime["presentation"]["description"])
         self.assertEqual("DAILY", entries[self.by_source["power1101"]["id"]]["mechanics"]["powerProfile"]["usage"])
-        fighter_only = class_runtime.build(class_ids=["modern4e.class.fighter"])["modern4e.classes/entries.json"]["entries"]
+        fighter_only = runtime_common.entries_of(class_runtime.build(class_ids=["modern4e.class.fighter"]))
         self.assertEqual(set(p["id"] for p in self.powers), {e["id"] for e in fighter_only if e["id"].startswith("modern4e.power.fighter-power")})
 
 

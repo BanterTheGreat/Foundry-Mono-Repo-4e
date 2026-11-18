@@ -23,7 +23,7 @@ class CurrentDataSampleTest {
                 assertEquals(setOf(Skill.SOCIETY, Skill.CRAFTING, Skill.MEDICINE, Skill.RELIGION, Skill.ATHLETICS, Skill.ENDURANCE), result.proficiencies.keys)
                 assertTrue(result.diagnostics.any { it.kind == DiagnosticKind.INCOMPLETE_AUTOMATION })
                 assertFalse(result.diagnostics.any { it.kind == DiagnosticKind.UNRESOLVED_CONTENT || it.kind == DiagnosticKind.INVALID_SELECTION }, result.diagnostics.toString())
-                // Equipment/ancestry attributes are descriptive, not invented modifiers.
+                // Equipment and vision stay descriptive; the ancestry's authored base speed is its only modifier.
                 assertTrue(result.diagnostics.any { it.entryId == "modern4e.ancestry.dwarf" && it.code == "engine.coverage" })
                 assertTrue(result.choices.any { it.slot.choiceId == "modern4e.choice.class-attack-at-will" })
                 assertEquals(document, assertIs<ContractResult.Available<CharacterDocument>>(ContractCodec.decode(ContractCodec.encode(document))).value)

@@ -141,7 +141,7 @@ class AncestryRuntimeTest(unittest.TestCase):
         assets = ancestry_runtime.build()
         runtime_common.validate_references(assets)
         allowed = {"version", "access", "prerequisites", "grants", "choices", "unsupported", "maximumSelections",
-                   "conditionalModifiers", "weaponAbilities", "size", "facts", "factLinks"}
+                   "conditionalModifiers", "weaponAbilities", "size", "facts", "factLinks", "modifiers"}
         for entry in runtime_common.entries_of(assets):
             self.assertEqual(set(), set(entry["mechanics"]) - allowed)
             self.assertEqual({"id", "category", "presentation", "mechanics", "coverage", "sharedData"}, set(entry))

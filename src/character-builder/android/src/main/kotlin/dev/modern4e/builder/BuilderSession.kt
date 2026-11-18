@@ -38,6 +38,8 @@ class BuilderSession(
     var pending by mutableStateOf<CharacterDocument?>(null)
     var description by mutableStateOf<ResolvedEntry?>(null)
     var dialog by mutableStateOf<String?>(null)
+    /** Classes offered while the new-character menu is open; null when it is closed. */
+    var classMenu by mutableStateOf<List<CatalogEntry>?>(null)
     var draft by mutableStateOf("")
     private var committed: CharacterDocument? = null
     private var operations: BuilderOperations? = null
@@ -92,6 +94,7 @@ class BuilderSession(
         catalog = null
         clearOptionListings()
         dialog = null
+        classMenu = null
         draft = ""
         deleting = null
         preview = null
@@ -146,14 +149,69 @@ class BuilderSession(
         }
     }
 
-    suspend fun create() {
-        val document = withContext(Dispatchers.IO) { sample() }.copy(
+    /** Open the new-character class menu. Nothing is created or stored until a class is confirmed. */
+    suspend fun beginCreate() {
+        val packages = withContext(Dispatchers.IO) { sample() }.packages
+        when (val result = withContext(Dispatchers.IO) { ContentCatalog.open(source, "modern4e.classes", packages) }) {
+            is ContractResult.Unavailable -> errors = result.diagnostics
+            is ContractResult.Available -> {
+                val classes = result.value.search(category = EntryCategory.CLASS)
+                if (classes.isEmpty()) {
+                    errors = listOf(Diagnostic("android.create", DiagnosticKind.UNRESOLVED_CONTENT, "No classes are available."))
+                } else {
+                    classMenu = classes
+                }
+            }
+        }
+    }
+
+    fun cancelCreate() {
+        classMenu = null
+    }
+
+    /**
+     * Create and open a character. With a [classId] the character starts as that class, with its first
+     * main ability at 4 and the class's secondary abilities favoured for the remaining points; without
+     * one it starts as the bundled sample.
+     */
+    suspend fun create(classId: String? = null) {
+        var base = withContext(Dispatchers.IO) { sample() }
+        if (classId != null) {
+            base = startingClass(base, classId) ?: return
+        }
+        val document = base.copy(
             id = UUID.randomUUID().toString(), savedAt = Instant.now().toString(),
             identity = CharacterIdentity("New character"))
+        classMenu = null
         if (persist(document, null)) {
             open(document)
             refresh()
         }
+    }
+
+    /** Swap the sample's class for [classId]; a missing class is reported rather than silently replaced. */
+    private suspend fun startingClass(base: CharacterDocument, classId: String): CharacterDocument? {
+        val resolved = withContext(Dispatchers.IO) {
+            (ContentCatalog.open(source, "modern4e.classes", base.packages) as? ContractResult.Available)
+                ?.value?.lookup(classId) as? ContractResult.Available
+        }?.value
+        if (resolved == null || resolved.entry.category != EntryCategory.CLASS) {
+            errors = listOf(Diagnostic("android.create", DiagnosticKind.UNRESOLVED_CONTENT, "Class $classId is unavailable."))
+            return null
+        }
+        val profile = resolved.entry.mechanics.classProfile
+        val main = profile?.mainAbilities?.first() ?: base.abilities.mainAbility
+        val others = (profile?.secondaryAbilities.orEmpty() + Ability.entries).distinct().filter { it != main }
+        val points = mapOf(main to 4) + others.zip(listOf(2, 2, 1, 0, 0)).toMap()
+        val instanceId = classId.substringAfterLast('.')
+        val slot = ChoiceSlotId("creation", "class", 0)
+        val selection = SavedSelection(resolved.entry.id, resolved.entry.presentation.title,
+            resolved.supplier.packageId, resolved.fingerprint)
+        return base.copy(
+            abilities = AbilityAllocation(ChoiceSlotId(instanceId, "main", 0), main, points),
+            levels = base.levels.map { level ->
+                level.copy(entries = level.entries.filterNot { it.slot == slot } + EntryChoice(instanceId, slot, selection))
+            })
     }
 
     suspend fun load(id: String) {

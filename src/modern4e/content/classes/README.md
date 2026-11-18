@@ -15,6 +15,13 @@ catalogs retain their existing contracts.
 
 ## Files and commands
 
+The 17 other non-Barbarian classes each own a `<class>-attack-powers.json` with every published attack at levels
+1-15 (2,118 in all), generated once by `scripts/import_class_attacks.py` and then authoritative. A follow-up power
+printed inside another becomes a GRANTED activation referenced by a `grant` block; a secondary attack stays inside
+its parent. Attacks already authored as revised granted powers are not imported again. 112 powers need builds Modern
+4e does not have (Godsworn feats, Vestige/Sorcerer-King/Binder, familiars, ranger beasts) and keep an explicit
+unresolved prerequisite, which keeps them out of selectable pools.
+
 `fighter-attack-powers.json` owns the Fighter's 17 at-will, 82 encounter and 75
 daily attacks at levels 1–15. IDs retain the stored `modern4e.power.fighter-powerN`
 identity independently of title. Published transcripts/citations remain in `source`;
@@ -26,7 +33,7 @@ is retained without claiming complete higher-level progression.
 
 `classes/fighter-attack-powers.typ` renders these definitions in the Fighter chapter;
 the runtime compiler exports them in production package revision 2. The explicit
-`scripts/import_fighter_attacks.py --output <new-scratch-file>` migration aid reads
+`scripts/import_class_attacks.py --class <Name> --output-dir <new-scratch-dir>` migration aid reads
 the offline snapshot only for review and refuses to overwrite authoritative data.
 Normal validation/compilation reads local JSON, never reimports source powers.
 

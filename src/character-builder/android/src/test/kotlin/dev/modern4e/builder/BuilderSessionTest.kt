@@ -819,6 +819,62 @@ class BuilderSessionTest {
         assertEquals(1, peak.get())
     }
 
+    @Test fun classMenuListsEveryClassAndCancelCreatesNothing() = runBlocking {
+        val model = session()
+        model.beginCreate()
+        val menu = model.classMenu!!
+        assertTrue(model.errors.isEmpty())
+        assertTrue(menu.size >= 19)
+        assertTrue(menu.all { it.metadata.category == EntryCategory.CLASS })
+        assertTrue(menu.any { it.metadata.id == "modern4e.class.wizard" })
+        assertEquals("The menu only opens; nothing is created yet", "home", model.page)
+        model.cancelCreate()
+        assertNull(model.classMenu)
+        model.refresh()
+        assertTrue(model.characters.isEmpty())
+        assertNull(model.current)
+    }
+
+    @Test fun confirmingAClassCreatesAndPersistsACharacterOfThatClass() = runBlocking {
+        val model = session()
+        model.beginCreate()
+        model.create("modern4e.class.wizard")
+        assertTrue(model.errors.isEmpty())
+        assertNull(model.classMenu)
+        val document = model.current!!.document
+        val chosen = document.levels.flatMap { it.entries }.single { it.slot == ChoiceSlotId("creation", "class", 0) }
+        assertEquals("modern4e.class.wizard", chosen.selection.entryId)
+        assertEquals("Wizard", chosen.selection.savedTitle)
+        assertEquals("character", model.page)
+        assertEquals(listOf(document.id), model.characters.map { it.id })
+        val reloaded = session().also { it.load(document.id) }
+        assertEquals(document.levels, reloaded.current!!.document.levels)
+    }
+
+    @Test fun everyClassStartsWithALegalAbilityAllocationAndOnlyItsOwnClass() = runBlocking {
+        val model = session()
+        model.beginCreate()
+        for (entry in model.classMenu!!) {
+            model.create(entry.metadata.id)
+            assertTrue("${entry.metadata.id}: ${model.errors}", model.errors.isEmpty())
+            val state = model.current!!
+            val classes = state.rules.entries.filter { it.definition.entry.category == EntryCategory.CLASS }
+            assertEquals(entry.metadata.id, classes.single().definition.entry.id)
+            val allocation = state.rules.diagnostics.filter { it.code.endsWith("mainAbility") || it.code.endsWith("abilityAllocation") }
+            assertTrue("${entry.metadata.id}: $allocation", allocation.isEmpty())
+        }
+    }
+
+    @Test fun anUnknownClassIsReportedAndNothingIsCreated() = runBlocking {
+        val model = session()
+        model.create("modern4e.class.nonexistent")
+        assertTrue(model.errors.isNotEmpty())
+        assertNull(model.current)
+        model.returnHomeAfterError()
+        model.refresh()
+        assertTrue(model.characters.isEmpty())
+    }
+
     @Test fun bundledChunksAreDecodedOnceAndShared() = runBlocking {
         val source = AndroidContentSource(context.assets)
         val packageId = "modern4e.classes"

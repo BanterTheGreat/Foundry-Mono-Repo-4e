@@ -61,9 +61,13 @@ class PreparedPowerChoicesTest {
             resolved.supplier.packageId, resolved.fingerprint))
     }
 
+    /** The pool entries (of any class) whose prerequisites include a skill proficiency, which need candidate activation. */
+    private class Comparison(val declined: Set<String>, val skillGated: Set<String>)
+
     /** Compares every pool entry, returning the IDs whose candidate activation could not be skipped. */
-    private suspend fun compare(catalog: ContentCatalog, document: CharacterDocument, slots: List<Pair<ChoiceSlotId, Int>>): Set<String> {
+    private suspend fun compare(catalog: ContentCatalog, document: CharacterDocument, slots: List<Pair<ChoiceSlotId, Int>>): Comparison {
         val declined = mutableSetOf<String>()
+        val skillGated = mutableSetOf<String>()
         for ((slot, level) in slots) {
             val fast = Picker(catalog, true)
             val full = Picker(catalog, false)
@@ -71,6 +75,8 @@ class PreparedPowerChoicesTest {
             val actual = fast.evaluation.options(document, level, slot, true)
             assertTrue(expected.isNotEmpty(), "$slot offers powers")
             assertEquals(expected, actual, "Fast path must reproduce eligibility and diagnostics for every option of $slot")
+            skillGated += expected.filter { option -> option.entry.entry.mechanics.prerequisites.any { node ->
+                node.leaves().any { it is Prerequisite.Proficiency } } }.map { it.entry.entry.id }
             val baselines = fast.prepared.count { !occupied(it, slot) }
             val candidates = fast.prepared.filter { occupied(it, slot) }.map { copy ->
                 copy.levels.flatMap { it.entries }.single { it.slot == slot }.selection.entryId
@@ -80,7 +86,7 @@ class PreparedPowerChoicesTest {
             assertEquals(baselines + candidates.size, fast.prepared.size)
             declined += candidates
         }
-        return declined
+        return Comparison(declined, skillGated)
     }
 
     @Test fun levelOnePoolsMatchCandidateActivationIncludingRepeatsAndNeedNoPerPowerPreparation() = runTest {
@@ -88,7 +94,10 @@ class PreparedPowerChoicesTest {
         val document = sample()
         val slots = poolSlots(catalog, document)
         assertTrue(slots.size >= 3)
-        assertTrue(compare(catalog, document, slots).isEmpty(), "Level 1 pools hold only plain powers")
+        // Other classes' skill-gated powers (Rogue's Acrobatics at-wills) share the pool, so only those fall back.
+        val level1 = compare(catalog, document, slots)
+        assertEquals(level1.skillGated, level1.declined, "Level 1 pools decline exactly their skill-proficiency powers")
+        assertTrue(level1.declined.none { it.startsWith("modern4e.power.fighter-") }, "Fighter's level 1 powers are all plain")
 
         // A power already held in a sibling slot is ineligible for repeats, exactly as candidate activation reports.
         val atWill = slots.filter { "class-attack-at-will" in it.first.choiceId }
@@ -109,10 +118,11 @@ class PreparedPowerChoicesTest {
         val document = sample.copy(level = 10, levels = listOf(sample.levels.first()) + (2..10).map { LevelDecisions(it) })
         val slots = poolSlots(catalog, document)
         assertTrue(slots.any { it.second == 5 }, "The level 5 daily pool is offered")
-        val declined = compare(catalog, document, slots)
-        // The bundle's third gated power (level 13) is only reachable by replacement, never from a pool slot.
-        assertEquals(setOf("modern4e.power.fighter-power10153", "modern4e.power.fighter-power4324"), declined,
+        val comparison = compare(catalog, document, slots)
+        // The bundle's third gated Fighter power (level 13) is only reachable by replacement, never from a pool slot.
+        assertEquals(comparison.skillGated, comparison.declined,
             "Exactly the skill-proficiency powers a pool offers need candidate activation")
+        assertTrue(comparison.declined.containsAll(setOf("modern4e.power.fighter-power10153", "modern4e.power.fighter-power4324")))
     }
 
     @Test fun plainPowersWithOtherMechanicsOrConflictsAreDeclined() = runTest {

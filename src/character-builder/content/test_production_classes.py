@@ -16,6 +16,11 @@ import samples
 HERE = Path(__file__).parent
 
 
+def classes_package(assets):
+    """Every chunk of the chunked classes package."""
+    return {name: value for name, value in assets.items() if name.startswith('modern4e.classes/')}
+
+
 class ProductionClassesTest(unittest.TestCase):
     def test_exact_generated_bytes_and_only_authoritative_class_identities(self):
         assets = build.production()
@@ -49,13 +54,13 @@ class ProductionClassesTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory) / 'classes'
             shutil.copytree(class_runtime.authoring.CONTENT, root)
-            expected = build.production(root)['modern4e.classes/entries.json']
+            expected = classes_package(build.production(root))
             path = root / 'fighter.json'
             data = json.loads(path.read_text(encoding='utf-8'))
             data['classes'][0]['flavor']['quote'] += ' Changed locally.'
             path.write_text(json.dumps(data), encoding='utf-8')
             changed_assets = build.production(root)
-            changed = changed_assets['modern4e.classes/entries.json']
+            changed = classes_package(changed_assets)
             digest = lambda value: hashlib.sha256(build.serialize(value)).hexdigest()
             self.assertNotEqual(digest(expected), digest(changed))
             baseline = samples.modern_sample()['levels'][0]['entries'][0]['selection']['acknowledgedFingerprint']

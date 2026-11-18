@@ -44,7 +44,10 @@ remain in each definition's `sharedData`. The engine reports partial coverage,
 unavailable selectable pools and unsupported combat/later-level behavior.
 Published class HTML and mechanics never supply or fill these definitions.
 
-Package revision 2 adds all 174 Fighter selectable attacks through level 15 from
+Package revision 3 chunks the package (`entries-NNNN.json`, sorted by ID) and adds the other 17 non-Barbarian
+classes' 2,118 selectable attacks through level 15 from `<class>-attack-powers.json` (see the shared class README).
+Powers with an unresolved prerequisite (builds Modern 4e lacks) compile without a `powerProfile`, so they resolve by ID
+but never enter a query pool. Revision 2 added all 174 Fighter selectable attacks through level 15 from
 `modern4e/content/classes/fighter-attack-powers.json`, with stable local IDs,
 level/usage profiles, class access and skill prerequisites. Descriptions render
 reviewed ordered rules; original published text is retained only as provenance.

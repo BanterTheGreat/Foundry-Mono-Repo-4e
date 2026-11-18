@@ -55,6 +55,46 @@ object Progression {
         }
     }
 
+    private val PowerPoolLabels = Regex("class-attack-(at-will|encounter|daily)(?:-\\d+)?")
+    private val UtilityPoolLabel = Regex("class-utility(?:-\\d+)?")
+    private val PossessiveWords = mapOf("hunters" to "Hunter's", "vindicators" to "Vindicator's")
+
+    /**
+     * Readable name for an engine choice id such as `modern4e.choice.fighter-reactivity`.
+     *
+     * @param choiceId the slot's choice id.
+     * @param className the character's class title, whose leading id word is dropped.
+     * @return a title-case label; power pools read "At-Will attack power" or "Utility power", and trailing level numbers are omitted.
+     */
+    fun choiceLabel(choiceId: String, className: String? = null): String {
+        val name = choiceId.removePrefix("modern4e.choice.")
+        PowerPoolLabels.matchEntire(name)?.let { match ->
+            return match.groupValues[1].split('-').joinToString("-") { it.replaceFirstChar { c -> c.titlecase() } } + " attack power"
+        }
+        if (UtilityPoolLabel.matches(name)) {
+            return "Utility power"
+        }
+        var words = name.split('-', '.').filter { it.isNotEmpty() }
+        if (words.size > 1 && words.last().all { it.isDigit() }) {
+            words = words.dropLast(1)
+        }
+        if (words.size > 1 && words.first() == className?.lowercase()) {
+            words = words.drop(1)
+        }
+        val label = StringBuilder()
+        words.forEach { word ->
+            if (word == "s" && label.isNotEmpty()) {
+                label.append("'s")
+            } else {
+                if (label.isNotEmpty()) {
+                    label.append(' ')
+                }
+                label.append(PossessiveWords[word] ?: word.replaceFirstChar { it.titlecase() })
+            }
+        }
+        return label.toString()
+    }
+
     /** Attack-power pools: entry choices from a class-like source whose query is not for utilities. */
     fun isAttackPowerChoice(state: BuilderState, choice: EngineChoice): Boolean {
         if (choice.optional || choice.abilities.isNotEmpty() || choice.entries.isEmpty()) {

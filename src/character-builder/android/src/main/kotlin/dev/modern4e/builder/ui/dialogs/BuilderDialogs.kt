@@ -1,10 +1,13 @@
 package dev.modern4e.builder.ui.dialogs
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.*
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 import dev.modern4e.builder.*
@@ -24,6 +27,7 @@ internal fun BuilderDialogs(model: BuilderSession, task: (suspend BuilderSession
         }
     } else {
         Editor(model, task)
+        model.classMenu?.let { classes -> ClassMenu(model, classes, task) }
         model.deleting?.let { character ->
             FolioDialog("Delete character?", { if (!model.busy) model.cancelDeletion() }) {
                 Text("Delete ${character.name} from your character list?")
@@ -63,6 +67,26 @@ internal fun BuilderDialogs(model: BuilderSession, task: (suspend BuilderSession
                 entry.entry.presentation.references.forEach { id -> TextButton(enabled = !model.busy, onClick = { task { reference(id) } }) { Text("Open reference: $id") } }
                 TextButton(onClick = { model.description = null }) { Text("Close") }
             }
+        }
+    }
+}
+
+/** Choose the starting class; the character is only created once the choice is confirmed. */
+@Composable
+private fun ClassMenu(model: BuilderSession, classes: List<CatalogEntry>, task: (suspend BuilderSession.() -> Unit) -> Unit) {
+    var selected by remember(classes) { mutableStateOf<String?>(null) }
+    FolioDialog("Choose a class", { if (!model.busy) model.cancelCreate() }) {
+        classes.forEach { entry ->
+            val id = entry.metadata.id
+            Row(Modifier.fillMaxWidth().selectable(selected == id, enabled = !model.busy, role = Role.RadioButton) { selected = id },
+                verticalAlignment = Alignment.CenterVertically) {
+                RadioButton(selected == id, onClick = null, enabled = !model.busy)
+                Text(entry.metadata.title, modifier = Modifier.padding(start = 12.dp, top = 12.dp, bottom = 12.dp))
+            }
+        }
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+            TextButton(enabled = !model.busy, onClick = { model.cancelCreate() }) { Text("Cancel") }
+            TextButton(enabled = !model.busy && selected != null, onClick = { selected?.let { id -> task { create(id) } } }) { Text("Create") }
         }
     }
 }

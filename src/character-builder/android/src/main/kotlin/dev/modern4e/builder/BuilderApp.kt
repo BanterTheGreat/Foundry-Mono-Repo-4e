@@ -22,7 +22,7 @@ import dev.modern4e.builder.ui.components.*
 import dev.modern4e.builder.ui.screens.*
 import dev.modern4e.builder.ui.dialogs.BuilderDialogs
 
-internal val CharacterTabs = listOf("character", "progression", "validation")
+internal val CharacterTabs = listOf("character", "stats", "progression", "validation")
 internal fun String.readable() = lowercase().replace('_', ' ').replaceFirstChar { it.titlecase() }
 
 /** App shell: initializes the session and coordinates navigation, chrome, and destinations. */
@@ -33,7 +33,7 @@ fun BuilderApp(model: BuilderSession, exchange: FileExchange) {
     LaunchedEffect(Unit) { model.run { refresh() } }
     FolioTheme {
         BackHandler(model.errors.isEmpty() && model.page != "home" && model.dialog == null && model.preview == null && model.description == null && model.deleting == null) {
-            model.page = when (model.page) { "progression", "validation" -> "character"; "library" -> "home"; else -> "library" }
+            model.page = when (model.page) { "stats", "progression", "validation" -> "character"; "library" -> "home"; else -> "library" }
         }
         Surface(Modifier.fillMaxSize(), color = Paper) {
             Column(Modifier.fillMaxSize().systemBarsPadding()) {
@@ -89,7 +89,7 @@ fun BuilderApp(model: BuilderSession, exchange: FileExchange) {
                     Row(Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
                         CharacterTabs.forEach { page ->
                             TextButton(enabled = !model.busy, onClick = { model.page = page }, modifier = Modifier.weight(1f).semantics { selected = model.page == page; role = Role.Tab }) {
-                                Text(if (page == "character") "Overview" else if (page == "progression") "Progression (${model.current?.let { Progression.missing(it) } ?: 0})" else page.readable(), color = if (page == model.page) Accent else Dim)
+                                Text(if (page == "character") "About" else if (page == "progression") "Progression (${model.current?.let { Progression.missing(it) } ?: 0})" else page.readable(), color = if (page == model.page) Accent else Dim)
                             }
                         }
                     }
