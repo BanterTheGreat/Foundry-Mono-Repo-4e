@@ -5,6 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import java.time.Instant
 import java.util.UUID
@@ -32,6 +34,7 @@ class BuilderSession(
     private var committed: CharacterDocument? = null
     private var operations: BuilderOperations? = null
     private var catalog: ContentCatalog? = null
+    private val heavyWork = Mutex()
     private val importer = CharacterImporter(store) { UUID.randomUUID().toString() }
 
     /** Call on Main; operations run on IO. Errors block further work until the session is reset. */
@@ -173,11 +176,13 @@ class BuilderSession(
     suspend fun edit(edit: BuilderEdit) {
         val document = current!!.document
         val result = withContext(Dispatchers.IO) {
-            operations?.apply(document, edit) ?: if (edit is BuilderEdit.Identity) {
-                BuilderResult(evaluate(document.copy(identity = edit.value)), true)
-            } else {
-                BuilderResult(current!!, false, listOf(Diagnostic("android.content", DiagnosticKind.UNRESOLVED_CONTENT,
-                    "This edit needs unavailable content.")))
+            heavyWork.withLock {
+                operations?.apply(document, edit) ?: if (edit is BuilderEdit.Identity) {
+                    BuilderResult(evaluate(document.copy(identity = edit.value)), true)
+                } else {
+                    BuilderResult(current!!, false, listOf(Diagnostic("android.content", DiagnosticKind.UNRESOLVED_CONTENT,
+                        "This edit needs unavailable content.")))
+                }
             }
         }
         if (!result.applied) {
@@ -267,7 +272,7 @@ class BuilderSession(
 
     /** Catalog options and draft calculations use the same shared coordinator as committed edits. */
     suspend fun progressionOptions(level: Int, slot: ChoiceSlotId): List<BuilderOption> =
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.IO) { heavyWork.withLock {
             if (level <= 2) {
                 operations?.options(current!!.document, level, slot, true).orEmpty()
             } else {
@@ -278,10 +283,15 @@ class BuilderSession(
                         "Later-level eligibility is not evaluated by the proof engine.")))
                 }
             }
-        }
+        } }
 
+    /**
+     * Drafts are evaluated one at a time. Each evaluation resolves every candidate power, so overlapping ones
+     * (a tap per option while the previous draft is still computing) exhaust the heap. A cancelled caller
+     * leaves the queue without starting work.
+     */
     suspend fun previewProgression(edit: BuilderEdit): BuilderState? = withContext(Dispatchers.IO) {
-        operations?.apply(current!!.document, edit)?.takeIf { it.applied }?.state
+        heavyWork.withLock { operations?.apply(current!!.document, edit)?.takeIf { it.applied }?.state }
     }
 
     /** Store origin independently so changing it can leave its required skill genuinely empty. */

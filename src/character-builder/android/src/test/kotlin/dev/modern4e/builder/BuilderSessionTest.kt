@@ -1,6 +1,10 @@
 package dev.modern4e.builder
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
+import java.util.concurrent.atomic.AtomicInteger
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -351,5 +355,45 @@ class BuilderSessionTest {
         assertEquals("Missing custom entry", model.current!!.document.levels.first().entries.first().selection.savedTitle)
         model.details(original.levels.first().entries.first().selection)
         assertNull(model.description)
+    }
+
+    /** Each draft resolves every candidate power; overlapping drafts exhausted the phone's heap (OutOfMemoryError). */
+    @Test fun overlappingDraftsAreEvaluatedOneAtATime() = runBlocking {
+        val inFlight = AtomicInteger()
+        val peak = AtomicInteger()
+        val real = AndroidContentSource(context.assets)
+        val counting = object : ContentSource by real {
+            override suspend fun loadChunk(packageId: String, chunkId: String): ContractResult<EntryChunk> {
+                peak.accumulateAndGet(inFlight.incrementAndGet(), ::maxOf)
+                try {
+                    Thread.sleep(20)
+                    return real.loadChunk(packageId, chunkId)
+                } finally {
+                    inFlight.decrementAndGet()
+                }
+            }
+        }
+        val model = BuilderSession(store, counting) {
+            (ContractCodec.decode(context.assets.open("samples/sample-modern-fighter.json")
+                .bufferedReader(Charsets.UTF_8).use { it.readText() }) as ContractResult.Available).value
+        }
+        model.create()
+        val slot = ChoiceSlotId("creation", "class", 0)
+        val classId = model.progressionOptions(1, slot).first().entry.entry.id
+        peak.set(0)
+        val drafts = (1..6).map { index ->
+            async(Dispatchers.Default) { model.previewProgression(BuilderEdit.Entry(1, slot, classId, "draft-$index", true)) }
+        }.awaitAll()
+        assertTrue(drafts.all { it != null })
+        assertEquals(1, peak.get())
+    }
+
+    @Test fun bundledChunksAreDecodedOnceAndShared() = runBlocking {
+        val source = AndroidContentSource(context.assets)
+        val packageId = "modern4e.classes"
+        val chunkId = (source.listPackages() as ContractResult.Available).value.single { it.id == packageId }.chunks.first()
+        val first = (source.loadChunk(packageId, chunkId) as ContractResult.Available).value
+        val second = (source.loadChunk(packageId, chunkId) as ContractResult.Available).value
+        assertSame(first, second)
     }
 }
