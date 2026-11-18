@@ -921,3 +921,9 @@ authored feat groups and legacy metadata compatibility without fingerprint chang
 Manual device check: open each feat tab, scroll while checks complete, switch tabs
 mid-load, cancel/reopen, and edit the character before reopening. Names should appear
 before eligibility completes; pending rows stay disabled and saved selections persist.
+
+### Android power choice reader
+
+From `src/character-builder/`, run `.\gradlew.bat :android:testDebugUnitTest` for the Android unit suite. Device UI/instrumentation execution remains opt-in.
+
+Manual device check: open an attack or utility power choice and confirm the compact list sits above a separately scrollable reading pane, with no Power Choice heading, level subtitle or available-power count. Browsing changes only the preview; Choose power changes the draft, Save commits it, and Cancel preserves the saved choice. Reopen to verify the saved selection. Check long power rules, utility usage colors, ineligible options and the unchanged inline expansion of feat/ancestry pickers.

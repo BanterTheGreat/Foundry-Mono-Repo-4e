@@ -225,7 +225,7 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
                     CatalogChoiceList(request, state, optionRows, optionLoadFinished, selected, expanded, featTab, showIneligible,
                         replacementTarget, Modifier.weight(1f),
                         changeTab = { featTab = it }, toggleIneligible = { showIneligible = !showIneligible },
-                        changeTarget = { replacementTarget = it; edit = null }, choose = { option ->
+                        changeTarget = { replacementTarget = it; edit = null; selected = null; expanded = null }, choose = { option ->
                             val entry = option.entry.entry
                             if (selected == entry.id) {
                                 expanded = if (expanded == entry.id) null else entry.id
@@ -408,6 +408,18 @@ private fun CatalogChoiceList(request: ProgressionEditor, state: BuilderState, r
     val utilityPicker = request.kind == "entry" && request.slot?.let {
         isUtilityPowerPicker(request.level, it, state.rules.entries)
     } == true
+    if (usesPowerReader(rows) && options is PickerOptions.Ready) {
+        val targets = if (request.kind == "replacement") {
+            state.document.levels.filter { it.level < request.level }.flatMap { it.entries }.filter { old ->
+                state.rules.entries.any { it.slot == old.slot && it.definition.entry.category == EntryCategory.POWER } || old.slot.choiceId == "power"
+            }
+        } else {
+            emptyList()
+        }
+        PowerChoiceReader(options, taken, selected, utilityPicker, showIneligible, replacementTarget, targets,
+            modifier, request.level > 2, request.kind == "replacement", toggleIneligible, changeTarget, choose)
+        return
+    }
     fun LazyListScope.optionItems(options: List<BuilderOptionRow>, selectable: Boolean) {
         items(options, key = { "option:${it.metadata.metadata.id}" }) { row ->
             val option = row.option
@@ -500,6 +512,86 @@ private fun CatalogChoiceList(request: ProgressionEditor, state: BuilderState, r
                 item("empty") {
                     Text("No ${if (request.kind == "feat") featTab.lowercase() else "available"} options in the installed content.", color = Dim)
                 }
+            }
+        }
+    }
+}
+
+/** Compact browsing stays above an independently scrolling power description and explicit draft action. */
+@Composable
+private fun PowerChoiceReader(
+    options: PickerOptions.Ready, taken: Set<String>, selected: String?, utilityPicker: Boolean,
+    showIneligible: Boolean, replacementTarget: ChoiceSlotId?, targets: List<EntryChoice>, modifier: Modifier,
+    incompleteAutomation: Boolean, requiresReplacementTarget: Boolean, toggleIneligible: () -> Unit,
+    changeTarget: (ChoiceSlotId) -> Unit, choose: (BuilderOption) -> Unit,
+) {
+    var inspected by remember { mutableStateOf<String?>(null) }
+    var query by remember { mutableStateOf("") }
+    val visible = visibleReaderPowers(options, showIneligible, query)
+    val page = powerReaderPage(options, inspected, selected, taken, showIneligible, query)
+    val listScroll = rememberLazyListState()
+    Column(modifier.fillMaxWidth()) {
+        if (incompleteAutomation) {
+            Text("Incomplete automation: later-level eligibility and totals are unavailable.", color = Accent)
+        }
+        OutlinedTextField(query, { query = it }, placeholder = { Text("Search powers") }, singleLine = true,
+            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp))
+        LazyColumn(Modifier.weight(0.4f).fillMaxWidth().folioScroll(listScroll), state = listScroll,
+            verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            items(targets, key = { "replace:${it.instanceId}" }) { old ->
+                ChoiceCard("Replace ${old.selection.savedTitle}", replacementTarget == old.slot, false, true, null,
+                    { changeTarget(old.slot) }, compact = true) { }
+            }
+            if (visible.isEmpty()) {
+                item("empty") { Text("No powers match your search.", color = Dim, fontSize = 12.sp) }
+            }
+            items(visible, key = { "power:${it.metadata.metadata.id}" }) { row ->
+                val entry = row.option?.entry?.entry
+                val level = entry?.mechanics?.prerequisites?.filterIsInstance<Prerequisite.Level>()?.maxOfOrNull { it.minimum }
+                    ?: entry?.presentation?.description?.let { Regex("(?:Attack|Utility) (\\d+)").find(it)?.groupValues?.get(1)?.toIntOrNull() }
+                val color = if (!row.pickerSelectable(taken)) {
+                    MaterialTheme.colorScheme.error
+                } else {
+                    if (utilityPicker) entry?.let(::powerChoiceUsage)?.let(::powerChoiceColor) ?: Ink else Ink
+                }
+                ChoiceCard(row.metadata.metadata.title, selected == row.metadata.metadata.id, false, true, level,
+                    { inspected = row.metadata.metadata.id }, compact = true, titleColor = color,
+                    viewed = page?.row?.metadata?.metadata?.id == row.metadata.metadata.id) { }
+            }
+            if (options.ineligible.isNotEmpty()) {
+                item("toggle") {
+                    TextButton(toggleIneligible) {
+                        Text(if (showIneligible) "Hide ineligible" else "Show ${options.ineligible.size} ineligible")
+                    }
+                }
+            }
+        }
+        HorizontalDivider(color = Line, modifier = Modifier.padding(vertical = 8.dp))
+        page?.let { reading ->
+            val row = reading.row
+            val entry = row.option?.entry?.entry
+            val color = if (utilityPicker) entry?.let(::powerChoiceUsage)?.let(::powerChoiceColor) ?: Ink else Ink
+            key(row.metadata.metadata.id) {
+                val detailScroll = rememberScrollState()
+                Column(Modifier.weight(0.6f).fillMaxWidth().folioScroll(detailScroll), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Text(row.metadata.metadata.title, fontFamily = FontFamily.Serif, fontSize = 18.sp, color = color)
+                    if (entry != null) {
+                        PowerPresentation(entry, color)
+                        if (entry.mechanics.prerequisites.any { it is Prerequisite.Unadapted }) {
+                            Text("Prerequisite not adapted", fontSize = 12.sp, color = Accent)
+                        }
+                    }
+                    if (!row.pickerSelectable(taken)) {
+                        Text(if (row.metadata.metadata.id in taken) "Already chosen" else
+                            row.diagnostics.joinToString { it.message }.ifBlank {
+                                if (entry == null) "Definition is unavailable." else "Ineligible"
+                            }, fontSize = 12.sp, color = Dim)
+                    }
+                }
+            }
+            TextButton(enabled = reading.canChoose && (!requiresReplacementTarget || replacementTarget != null),
+                onClick = { row.option?.let(choose) }, modifier = Modifier.fillMaxWidth()) {
+                Text(if (selected == row.metadata.metadata.id) "Chosen" else "Choose power")
             }
         }
     }

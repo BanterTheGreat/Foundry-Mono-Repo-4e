@@ -22,10 +22,10 @@ import dev.modern4e.builder.ui.theme.*
 @Composable
 internal fun ChoiceCard(
     title: String, chosen: Boolean, expanded: Boolean, enabled: Boolean, level: Int?, click: () -> Unit,
-    compact: Boolean = false, titleColor: Color = Ink, content: @Composable ColumnScope.() -> Unit
+    compact: Boolean = false, titleColor: Color = Ink, viewed: Boolean = false, content: @Composable ColumnScope.() -> Unit
 ) {
-    Surface(Modifier.fillMaxWidth().clickable(enabled = enabled, onClick = click), color = if (chosen) Wash else Paper,
-        border = BorderStroke(if (chosen) 2.dp else 1.dp, if (chosen) Accent else Line)) {
+    Surface(Modifier.fillMaxWidth().clickable(enabled = enabled, onClick = click), color = if (chosen || viewed) Wash else Paper,
+        border = BorderStroke(if (chosen) 2.dp else 1.dp, if (chosen || viewed) Accent else Line)) {
         Column(Modifier.padding(horizontal = if (compact) 13.dp else 14.dp, vertical = if (compact) 7.dp else 14.dp),
             verticalArrangement = Arrangement.spacedBy(if (compact) 4.dp else 8.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
