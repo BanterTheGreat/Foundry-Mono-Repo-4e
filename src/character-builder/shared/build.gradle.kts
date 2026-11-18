@@ -51,7 +51,7 @@ kotlin.sourceSets.commonTest { kotlin.srcDir(generateContractFixtures) }
 
 // Production fixtures remain separate from hand-authored contract goldens.
 val generateProductionFixtures by tasks.registering {
-    val fixtures = layout.projectDirectory.dir("../content/generated")
+    val fixtures = layout.projectDirectory.dir("../content/test-generated")
     val authoritative = layout.projectDirectory.dir("../content/production-generated")
     val output = layout.buildDirectory.dir("generated/productionFixtures")
     inputs.dir(fixtures)

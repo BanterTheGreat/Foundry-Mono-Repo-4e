@@ -91,9 +91,9 @@ class ProductionClassPackageTest {
             assertEquals(later, portable)
             assertEquals(laterRules.diagnostics, RulesEngine.evaluate(portable, RulesContent.load(portable, catalog)).diagnostics)
             val legacy = assertIs<ContractResult.Available<CharacterDocument>>(
-                ContractCodec.decode(contractFixtures.getValue("sample-fighter-1-base.json"))).value
+                ContractCodec.decode(contractFixtures.getValue("character.json"))).value
             val oldChoice = legacy.levels.first().entries.first().selection
-            assertEquals("class3", oldChoice.entryId)
+            assertEquals("class.fighter", oldChoice.entryId)
             assertIs<ContractResult.Unavailable>(catalog.resolve(oldChoice))
             val reopened = assertIs<ContractResult.Available<CharacterDocument>>(ContractCodec.decode(ContractCodec.encode(legacy))).value
             assertEquals(oldChoice, reopened.levels.first().entries.first().selection)

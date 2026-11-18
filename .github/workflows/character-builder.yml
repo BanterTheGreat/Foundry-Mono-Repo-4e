@@ -16,7 +16,6 @@ jobs:
           python-version: "3.12"
       - run: python -m unittest discover -s src/character-builder/content -p 'test_*.py' -v
       - run: python src/character-builder/content/build.py --check
-      - run: python src/character-builder/content/build.py --config src/character-builder/content/proof.json --check
       - run: python src/character-builder/content/samples.py --check
       - run: python src/character-builder/content/build.py --modern-feats
       - run: python src/character-builder/content/build.py --modern-feats --check

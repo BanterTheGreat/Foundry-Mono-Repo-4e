@@ -538,19 +538,28 @@ chunk reuse with fresh content on subsequent evaluations. Compiler tests compare
 shared acquisition slots with authoritative GAIN events through level 10.
 `ProductionClassPackageTest`
 loads the exact generated production bytes on JVM and JavaScript, including the
-separate Modern Fighter sample and preserved legacy identity. Python production
+current Modern Fighter sample and preserved synthetic legacy identity. Python production
 tests cover poisoned compendium classes, local edits, missing/malformed data,
 duplicate identities, explicit unsupported coverage and stale outputs. Tests do
 not imply combat automation, complete level 1–30 retraining or automatic legacy
 character migration.
 
-Normal generation writes `content/production-generated/`; web and Android bundle
-that shared directory. Named legacy proof fixtures are regenerated explicitly:
+Normal generation writes only the six authoritative packages to `content/production-generated/`.
+Both platforms bundle that shared directory. Regenerate current-data test characters,
+the test-only presentation override and the app starter with:
 
 ```powershell
-python -X utf8 src/character-builder/content/build.py --config src/character-builder/content/proof.json
-python -X utf8 src/character-builder/content/build.py --config src/character-builder/content/proof.json --check
+python -X utf8 src/character-builder/content/samples.py
+python -X utf8 src/character-builder/content/samples.py --check
 ```
+
+`CurrentDataSampleTest` verifies current suppliers/fingerprints, two Skill Training picks,
+known skill modifiers, portable level 1/2 round trips and missing-override protection on JVM/JS.
+`ProductionCatalogTest` checks lazy replacement loading with unchanged real mechanics.
+`test_samples.py` checks source edits reach fingerprints and app bundles exclude all test
+packages. The old proof packages/characters and their regeneration command are removed.
+Tiny synthetic contract inputs remain for codec and malformed-input tests.
+
 
 `samples.py` also generates/checks `sample-modern-fighter.json`; the four legacy
 proof samples keep their original class identities and provenance.
@@ -666,7 +675,7 @@ Robolectric API 34. `AndroidAdaptersTest` repeats the contract on device: reopen
 persistence, collision actions, stale comparisons, recovery restoration/retention,
 failed and interrupted publication, malformed storage, permissions/cancellation,
 and generated asset loading. Instrumentation compilation alone is not device execution.
-Fighter proof #15: `FighterProofTest` runs the four bundled portable samples on both JVM and JS against hand-checked ability/skill goldens, level-2 override isolation, source fingerprints, incomplete prerequisites and missing-supplier behavior. The Python sample tests verify coverage completeness and byte-identical web/Android bundles. Regenerate with `python -X utf8 src/character-builder/content/samples.py` after package generation; see [recorded inputs and limitations](../src/character-builder/content/FIGHTER-PROOF.md).
+Current-data regression characters: `CurrentDataSampleTest` runs the four generated level 1/2 characters on JVM and JS, using current rules, supplier fingerprints and missing-override protection. Regenerate with `python -X utf8 src/character-builder/content/samples.py`; see [fixture generation](../src/character-builder/content/README.md#current-data-test-fixtures).
 
 ### Character Builder browser adapters (#13)
 

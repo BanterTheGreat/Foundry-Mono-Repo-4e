@@ -153,7 +153,7 @@ test("bundled content uses shared metadata search and lazy chunks; missing asset
     const before = [...requests];
     const detail = JSON.parse(await catalog.lookup(search.value[0].metadata.id));
     const after = [...requests];
-    const missing = JSON.parse(await source.call("loadChunk", JSON.stringify(["modern4e.proof", "missing"])));
+    const missing = JSON.parse(await source.call("loadChunk", JSON.stringify(["modern4e.classes", "missing"])));
     const broken = new w.BundledContentSource(async () => new Response("Missing", { status: 404 }));
     const failed = JSON.parse(await broken.call("listPackages", "null"));
     return { opened, search, before, detail, after, missing, failed };
@@ -242,7 +242,7 @@ test("malformed bundled JSON data becomes content failure rather than a rejected
   const result = await page.evaluate(async () => {
     const w = window as any;
     const source = new w.BundledContentSource(async () => new Response(JSON.stringify({ invalid: true })));
-    return JSON.parse(await new w.WebContentCatalog(source.call).open("modern4e.proof", "[]"));
+    return JSON.parse(await new w.WebContentCatalog(source.call).open("modern4e.classes", "[]"));
   });
   expect(result).toMatchObject({ type: "unavailable", diagnostics: [{ code: "content.load" }] });
 });

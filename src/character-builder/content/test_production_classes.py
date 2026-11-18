@@ -97,7 +97,7 @@ class ProductionClassesTest(unittest.TestCase):
         saved = modern['levels'][0]['entries'][0]['selection']
         self.assertEqual('modern4e.class.fighter', saved['entryId'])
         self.assertEqual('modern4e.classes', saved['supplierPackageId'])
-        legacy = samples.assets()['sample-fighter-1-base.json']
-        self.assertEqual('class3', legacy['levels'][0]['entries'][0]['selection']['entryId'])
+        legacy = json.loads((samples.FIXTURES / 'character.json').read_text(encoding='utf-8'))
+        self.assertEqual('class.fighter', legacy['levels'][0]['entries'][0]['selection']['entryId'])
         for root in (samples.FIXTURES, HERE.parent / 'web/public/samples', HERE.parent / 'android/src/main/assets/samples'):
             self.assertEqual(build.serialize(modern), (root / 'sample-modern-fighter.json').read_bytes())

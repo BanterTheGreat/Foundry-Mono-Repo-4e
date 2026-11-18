@@ -340,9 +340,7 @@ def production(content=None, snapshot=SNAPSHOT):
         modern |= package
     # Grants, finite choices and entry conditions may cross authored packages, never dangle.
     runtime_common.validate_references(modern)
-    imported = build(Path(__file__).with_name("proof.json"), snapshot, exclude_classes=True)
-    require(not modern.keys() & imported.keys(), "production", "duplicate package assets")
-    return imported | modern
+    return modern
 
 
 def main():

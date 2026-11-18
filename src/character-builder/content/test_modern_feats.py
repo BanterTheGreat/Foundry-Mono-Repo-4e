@@ -174,7 +174,7 @@ class ModernFeatsTest(unittest.TestCase):
     def test_modern_build_rejects_conflicting_modes_and_source_output(self):
         command = [sys.executable, str(Path(build.__file__)), "--modern-feats"]
         for extra, message in [
-            (["--config", str(Path(build.__file__).with_name("proof.json"))], "not allowed"),
+            (["--config", str(Path(build.__file__).with_name("full.json"))], "not allowed"),
             (["--output", str(BOOK / "content/feats")], "must not overwrite shared authoring"),
         ]:
             result = subprocess.run(command + extra, capture_output=True, text=True)

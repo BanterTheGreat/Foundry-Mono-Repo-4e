@@ -20,21 +20,9 @@ import java.io.File
 class BuilderSessionTest {
     private val context get() = RuntimeEnvironment.getApplication()
     private lateinit var store: AndroidCharacterStore
-    private fun sample(): CharacterDocument = (ContractCodec.decode(context.assets.open("proof/samples/sample-fighter-1-base.json")
-        .bufferedReader().use { it.readText() }) as ContractResult.Available).value
-    /** Historical coordinator assertions use a named proof source, never the production catalog. */
-    private fun legacySource() = object : ContentSource {
-        private fun text(packageId: String, assetId: String) = context.assets.open("proof/$packageId/$assetId.json")
-            .bufferedReader(Charsets.UTF_8).use { it.readText() }
-        override suspend fun listPackages() = ContractResult.Available(listOf("modern4e.fighter-proof", "modern4e.fighter-proof.override").map {
-            (ContractCodec.decodeManifest(text(it, "manifest")) as ContractResult.Available).value
-        })
-        override suspend fun loadIndex(packageId: String, indexId: String) = ContractResult.Available(
-            ContractCodec.json.decodeFromString<ContentIndex>(text(packageId, indexId)))
-        override suspend fun loadChunk(packageId: String, chunkId: String) = ContractResult.Available(
-            ContractCodec.json.decodeFromString<EntryChunk>(text(packageId, chunkId)))
-    }
-    private fun session(storage: CharacterStore = store, source: ContentSource = legacySource()) =
+    private fun sample(): CharacterDocument = (ContractCodec.decode(File("../shared/fixtures/sample-current-fighter-1-base.json")
+        .readText(Charsets.UTF_8)) as ContractResult.Available).value
+    private fun session(storage: CharacterStore = store, source: ContentSource = AndroidContentSource(context.assets)) =
         BuilderSession(storage, source, ::sample)
     @Before fun reset() {
         File(context.filesDir, "characters").deleteRecursively()
@@ -53,7 +41,7 @@ class BuilderSessionTest {
         assertEquals("modern4e.classes", selected.selection.supplierPackageId)
         assertTrue(model.current!!.rules.choices.any { it.slot.choiceId == "modern4e.choice.class-attack-at-will" })
         assertEquals(document, (store.load(document.id) as ContractResult.Available).value)
-        assertTrue(sample().levels.first().entries.any { it.selection.entryId == "class3" })
+        assertTrue(document.packages.none { it.packageId.contains("proof") || it.packageId.startsWith("test.") })
     }
     @Test fun laterProgressionRemainsPortableAndExplicitlyIncomplete() = runBlocking {
         val document = sample().copy(id = "later-progression", level = 4)
@@ -126,8 +114,8 @@ class BuilderSessionTest {
         reopened.load(id)
         assertEquals("Saved hero", reopened.current!!.document.identity.name)
         assertEquals("A story", reopened.current!!.document.identity.notes)
-        assertEquals(4, (reopened.current!!.rules.ability(Ability.STRENGTH) as ContractResult.Available).value.total)
-        assertTrue((reopened.current!!.rules.skill(Skill.ATHLETICS) as ContractResult.Available).value.contributors.isNotEmpty())
+        assertEquals(4, reopened.current!!.rules.overviewAbilityTotals.getValue(Ability.STRENGTH))
+        assertTrue((reopened.current!!.rules.displayedSkill(Skill.ATHLETICS) as ContractResult.Available).value.contributors.isNotEmpty())
         model.showRecoveries(id)
         assertEquals(1, model.recoveries!!.size)
     }
@@ -327,7 +315,7 @@ class BuilderSessionTest {
         val model = session()
         model.create()
         val original = model.current!!
-        val before = (original.rules.skill(Skill.ATHLETICS) as ContractResult.Available).value.total
+        val before = (original.rules.displayedSkill(Skill.ATHLETICS) as ContractResult.Available).value.total
         val item = original.document.equipment.first()
         model.edit(BuilderEdit.Equipment(item.copy(equipped = !item.equipped)))
         model.edit(BuilderEdit.Adjustment(ManualAdjustment("bonus", TypedModifier(
@@ -335,11 +323,11 @@ class BuilderSessionTest {
         val reopened = session()
         reopened.load(original.document.id)
         assertEquals(!item.equipped, reopened.current!!.document.equipment.first { it.instanceId == item.instanceId }.equipped)
-        val result = (reopened.current!!.rules.skill(Skill.ATHLETICS) as ContractResult.Available).value
+        val result = (reopened.current!!.rules.displayedSkill(Skill.ATHLETICS) as ContractResult.Available).value
         assertEquals(before + 2, result.total)
         assertTrue(result.contributors.any { it.label == "Manual Adjustment" })
         reopened.edit(BuilderEdit.RemoveAdjustment("bonus"))
-        assertEquals(before, (reopened.current!!.rules.skill(Skill.ATHLETICS) as ContractResult.Available).value.total)
+        assertEquals(before, (reopened.current!!.rules.displayedSkill(Skill.ATHLETICS) as ContractResult.Available).value.total)
     }
     @Test fun missingContentRetainsTitleAndAllowsIdentityEdits() = runBlocking {
         val original = sample().let { doc -> doc.copy(levels = doc.levels.map { level -> level.copy(entries = level.entries.map { choice ->

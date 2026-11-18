@@ -43,7 +43,7 @@ class ProductionContentPackagesTest {
     fun templateEnablesEveryProductionPackageAndCatalogIsComplete() = run {
         val (sample, catalog, _) = openTemplate()
         assertEquals(listOf("modern4e.classes", "modern4e.ancestries", "modern4e.themes", "modern4e.feats",
-            "modern4e.utilities", "modern4e.equipment"), sample.packages.map { it.packageId }.take(6))
+            "modern4e.utilities", "modern4e.equipment"), sample.packages.map { it.packageId })
         assertTrue(catalog.diagnostics.none { it.code == "catalog.packageUnavailable" })
         assertEquals(19, catalog.search(category = EntryCategory.CLASS).size)
         assertEquals(13, catalog.search(category = EntryCategory.ANCESTRY).count { it.supplier.packageId == "modern4e.ancestries" })

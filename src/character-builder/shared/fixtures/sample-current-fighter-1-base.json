@@ -1,0 +1,262 @@
+{
+  "abilities": {
+    "mainAbility": "STRENGTH",
+    "points": {
+      "CHARISMA": 0,
+      "CONSTITUTION": 2,
+      "DEXTERITY": 2,
+      "INTELLIGENCE": 1,
+      "STRENGTH": 4,
+      "WISDOM": 0
+    },
+    "source": {
+      "choiceId": "main",
+      "ordinal": 0,
+      "sourceInstanceId": "fighter"
+    }
+  },
+  "equipment": [
+    {
+      "equipped": true,
+      "instanceId": "longsword",
+      "quantity": 1,
+      "selection": {
+        "acknowledgedFingerprint": "sha256-v1:ba46de46bfd20183d1b0b8396cd529b14a01a13786d4af8f052243b1d179da47",
+        "entryId": "modern4e.weapon.longsword",
+        "savedTitle": "Longsword",
+        "supplierPackageId": "modern4e.equipment"
+      }
+    }
+  ],
+  "formatVersion": 1,
+  "id": "current-fighter-1-base",
+  "identity": {
+    "name": "New character"
+  },
+  "level": 1,
+  "levels": [
+    {
+      "entries": [
+        {
+          "instanceId": "fighter",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:b88ad792684fb88db009c0519b354415ae212c638989e58ff0c1c86e7387a23a",
+            "entryId": "modern4e.class.fighter",
+            "savedTitle": "Fighter",
+            "supplierPackageId": "modern4e.classes"
+          },
+          "slot": {
+            "choiceId": "class",
+            "ordinal": 0,
+            "sourceInstanceId": "creation"
+          }
+        },
+        {
+          "instanceId": "dwarf",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:0d41e6159853b60120402f7f272730ad72c6412c7baa5f039558221dbd2c7579",
+            "entryId": "modern4e.ancestry.dwarf",
+            "savedTitle": "Dwarf",
+            "supplierPackageId": "modern4e.ancestries"
+          },
+          "slot": {
+            "choiceId": "ancestry",
+            "ordinal": 0,
+            "sourceInstanceId": "creation"
+          }
+        },
+        {
+          "instanceId": "training",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:3d9219c9d7e2317336f417344ec1e12f3936537aeb54ae04f16777859e0f410f",
+            "entryId": "modern4e.feat.skill-training",
+            "savedTitle": "Skill Training",
+            "supplierPackageId": "modern4e.feats"
+          },
+          "slot": {
+            "choiceId": "feat",
+            "ordinal": 0,
+            "sourceInstanceId": "creation"
+          }
+        },
+        {
+          "instanceId": "build-fighter-reactivity-0",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:2172696c6d178bc2554b6a6732a2bbf7e22fd740044e21cb3e9707579e14b345",
+            "entryId": "modern4e.feature.combat-reactivity",
+            "savedTitle": "Combat Reactivity",
+            "supplierPackageId": "modern4e.classes"
+          },
+          "slot": {
+            "choiceId": "modern4e.choice.fighter-reactivity",
+            "ordinal": 0,
+            "sourceInstanceId": "grant:7:fighter:18:fighter-reactivity"
+          }
+        },
+        {
+          "instanceId": "build-fighter-specialization-0",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:f7ba547dfa117d11b8f802455fa4fcc7c4b6a251baf050e2df4a9264f509765a",
+            "entryId": "modern4e.feature.one-handed-weapon-talent",
+            "savedTitle": "One-Handed Weapon Talent",
+            "supplierPackageId": "modern4e.classes"
+          },
+          "slot": {
+            "choiceId": "modern4e.choice.fighter-specialization",
+            "ordinal": 0,
+            "sourceInstanceId": "grant:7:fighter:22:fighter-specialization"
+          }
+        },
+        {
+          "instanceId": "power992",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:31d8f3169a16d8b85dc0b83b4b95bfd8f2935e2d7ed3402b54f25386d17398d7",
+            "entryId": "modern4e.power.fighter-power992",
+            "savedTitle": "Cleave",
+            "supplierPackageId": "modern4e.classes"
+          },
+          "slot": {
+            "choiceId": "modern4e.choice.class-attack-at-will",
+            "ordinal": 0,
+            "sourceInstanceId": "fighter"
+          }
+        },
+        {
+          "instanceId": "power1000",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:55390719871c0e4426e4b22e3cf4f573a6772d427dc717784cbdfe9fcaf64053",
+            "entryId": "modern4e.power.fighter-power1000",
+            "savedTitle": "Tide of Iron",
+            "supplierPackageId": "modern4e.classes"
+          },
+          "slot": {
+            "choiceId": "modern4e.choice.class-attack-at-will",
+            "ordinal": 1,
+            "sourceInstanceId": "fighter"
+          }
+        },
+        {
+          "instanceId": "power1015",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:ec63a853bf863ff1105371a9e67b189224cc4d6684b373b0323e752c8ee86540",
+            "entryId": "modern4e.power.fighter-power1015",
+            "savedTitle": "Passing Attack",
+            "supplierPackageId": "modern4e.classes"
+          },
+          "slot": {
+            "choiceId": "modern4e.choice.class-attack-encounter",
+            "ordinal": 0,
+            "sourceInstanceId": "fighter"
+          }
+        },
+        {
+          "instanceId": "power1429",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:8167d6027d0a061c115a9d9c2e22c95167fa675b9abc174d114e6a18aa044e6d",
+            "entryId": "modern4e.power.fighter-power1429",
+            "savedTitle": "Villain's Menace",
+            "supplierPackageId": "modern4e.classes"
+          },
+          "slot": {
+            "choiceId": "modern4e.choice.class-attack-daily",
+            "ordinal": 0,
+            "sourceInstanceId": "fighter"
+          }
+        },
+        {
+          "instanceId": "power1524",
+          "selection": {
+            "acknowledgedFingerprint": "sha256-v1:b657d8c7f55eb1f485e46835597d10ec6c393e0394a63f3f304c7e7c7b74bdb0",
+            "entryId": "modern4e.power.fighter-power1524",
+            "savedTitle": "Brute Strike",
+            "supplierPackageId": "modern4e.classes"
+          },
+          "slot": {
+            "choiceId": "modern4e.choice.class-attack-daily",
+            "ordinal": 1,
+            "sourceInstanceId": "fighter"
+          }
+        }
+      ],
+      "level": 1,
+      "proficiencies": [
+        {
+          "skill": "SOCIETY",
+          "slot": {
+            "choiceId": "skill",
+            "ordinal": 0,
+            "sourceInstanceId": "background.environment.urban"
+          }
+        },
+        {
+          "skill": "CRAFTING",
+          "slot": {
+            "choiceId": "skill",
+            "ordinal": 0,
+            "sourceInstanceId": "background.upbringing.labor"
+          }
+        },
+        {
+          "skill": "MEDICINE",
+          "slot": {
+            "choiceId": "free-skill",
+            "ordinal": 0,
+            "sourceInstanceId": "creation"
+          }
+        },
+        {
+          "skill": "RELIGION",
+          "slot": {
+            "choiceId": "free-skill",
+            "ordinal": 1,
+            "sourceInstanceId": "creation"
+          }
+        },
+        {
+          "skill": "ATHLETICS",
+          "slot": {
+            "choiceId": "modern4e.choice.skill-training.skills",
+            "ordinal": 0,
+            "sourceInstanceId": "training"
+          }
+        },
+        {
+          "skill": "ENDURANCE",
+          "slot": {
+            "choiceId": "modern4e.choice.skill-training.skills",
+            "ordinal": 1,
+            "sourceInstanceId": "training"
+          }
+        }
+      ]
+    }
+  ],
+  "manualAdjustments": [],
+  "packages": [
+    {
+      "packageId": "modern4e.classes",
+      "revision": "2"
+    },
+    {
+      "packageId": "modern4e.ancestries",
+      "revision": "1"
+    },
+    {
+      "packageId": "modern4e.themes",
+      "revision": "1"
+    },
+    {
+      "packageId": "modern4e.feats",
+      "revision": "1"
+    },
+    {
+      "packageId": "modern4e.utilities",
+      "revision": "1"
+    },
+    {
+      "packageId": "modern4e.equipment",
+      "revision": "1"
+    }
+  ],
+  "savedAt": "2026-11-17T12:00:00Z"
+}

@@ -91,7 +91,7 @@ class AndroidAdaptersTest {
     @Test fun generatedPackagesLoadWithoutAndroidInterpretation() = run {
         val source = AndroidContentSource(context.assets)
         val manifests = value(source.listPackages())
-        assertEquals(setOf("modern4e.proof", "modern4e.proof.override", "modern4e.fighter-proof", "modern4e.classes"), manifests.map { it.id }.toSet())
+        assertEquals(setOf("modern4e.classes", "modern4e.ancestries", "modern4e.themes", "modern4e.feats", "modern4e.utilities", "modern4e.equipment"), manifests.map { it.id }.toSet())
         for (manifest in manifests) {
             for (index in manifest.indexes) {
                 assertTrue(value(source.loadIndex(manifest.id, index)).entries.isNotEmpty())
@@ -101,7 +101,7 @@ class AndroidAdaptersTest {
             }
         }
         assertTrue(source.loadChunk("..", "missing") is ContractResult.Unavailable)
-        assertTrue(source.loadIndex("modern4e.proof", "missing") is ContractResult.Unavailable)
+        assertTrue(source.loadIndex("modern4e.classes", "missing") is ContractResult.Unavailable)
         assertEquals(original, value(ContractCodec.decode(ContractCodec.encode(original))))
     }
 }

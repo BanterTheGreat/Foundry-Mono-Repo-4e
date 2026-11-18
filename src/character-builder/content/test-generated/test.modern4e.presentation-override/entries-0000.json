@@ -1,0 +1,357 @@
+{
+  "entries": [
+    {
+      "category": "CLASS",
+      "coverage": {
+        "limitations": [
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "PARTIAL"
+      },
+      "id": "modern4e.class.fighter",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [
+          {
+            "atLevel": 1,
+            "count": 2,
+            "distinct": true,
+            "id": "modern4e.choice.class-attack-at-will",
+            "query": {
+              "category": "POWER",
+              "levelMaximum": 1,
+              "powerKind": "ATTACK",
+              "usage": "AT_WILL"
+            },
+            "type": "entries"
+          },
+          {
+            "atLevel": 1,
+            "count": 1,
+            "distinct": true,
+            "id": "modern4e.choice.class-attack-encounter",
+            "query": {
+              "category": "POWER",
+              "levelMaximum": 1,
+              "powerKind": "ATTACK",
+              "usage": "ENCOUNTER"
+            },
+            "type": "entries"
+          },
+          {
+            "atLevel": 1,
+            "count": 2,
+            "distinct": true,
+            "id": "modern4e.choice.class-attack-daily",
+            "query": {
+              "category": "POWER",
+              "levelMaximum": 1,
+              "powerKind": "ATTACK",
+              "usage": "DAILY"
+            },
+            "type": "entries"
+          },
+          {
+            "atLevel": 2,
+            "count": 1,
+            "distinct": true,
+            "id": "modern4e.choice.class-utility-2",
+            "query": {
+              "category": "POWER",
+              "levelMaximum": 2,
+              "powerKind": "UTILITY"
+            },
+            "type": "entries"
+          },
+          {
+            "atLevel": 3,
+            "count": 1,
+            "distinct": true,
+            "id": "modern4e.choice.class-attack-encounter-3",
+            "query": {
+              "category": "POWER",
+              "levelMaximum": 3,
+              "powerKind": "ATTACK",
+              "usage": "ENCOUNTER"
+            },
+            "type": "entries"
+          },
+          {
+            "atLevel": 5,
+            "count": 1,
+            "distinct": true,
+            "id": "modern4e.choice.class-attack-daily-5",
+            "query": {
+              "category": "POWER",
+              "levelMaximum": 5,
+              "powerKind": "ATTACK",
+              "usage": "DAILY"
+            },
+            "type": "entries"
+          },
+          {
+            "atLevel": 6,
+            "count": 1,
+            "distinct": true,
+            "id": "modern4e.choice.class-utility-6",
+            "query": {
+              "category": "POWER",
+              "levelMaximum": 6,
+              "powerKind": "UTILITY"
+            },
+            "type": "entries"
+          },
+          {
+            "atLevel": 7,
+            "count": 1,
+            "distinct": true,
+            "id": "modern4e.choice.class-attack-encounter-7",
+            "query": {
+              "category": "POWER",
+              "levelMaximum": 7,
+              "powerKind": "ATTACK",
+              "usage": "ENCOUNTER"
+            },
+            "type": "entries"
+          },
+          {
+            "atLevel": 10,
+            "count": 1,
+            "distinct": true,
+            "id": "modern4e.choice.class-utility-10",
+            "query": {
+              "category": "POWER",
+              "levelMaximum": 10,
+              "powerKind": "UTILITY"
+            },
+            "type": "entries"
+          }
+        ],
+        "classProfile": {
+          "mainAbilities": [
+            "STRENGTH"
+          ],
+          "powerSources": [
+            "MARTIAL"
+          ],
+          "proficiencies": {
+            "armor": [
+              "LIGHT",
+              "CHAINMAIL",
+              "SCALE"
+            ],
+            "implements": [],
+            "shields": [
+              "LIGHT_SHIELD",
+              "HEAVY_SHIELD"
+            ],
+            "weapons": [
+              "SIMPLE_MELEE",
+              "SIMPLE_RANGED",
+              "MILITARY_MELEE",
+              "MILITARY_RANGED"
+            ]
+          },
+          "role": "DEFENDER",
+          "secondaryAbilities": [
+            "CONSTITUTION",
+            "DEXTERITY",
+            "WISDOM"
+          ],
+          "statistics": {
+            "FORTITUDE": {
+              "abilities": {
+                "CONSTITUTION": 1,
+                "STRENGTH": 1
+              },
+              "base": 13
+            },
+            "HEALING_SURGES": {
+              "abilities": {
+                "CONSTITUTION": 1
+              },
+              "base": 9,
+              "perLevel": 0
+            },
+            "HIT_POINTS": {
+              "abilities": {
+                "CONSTITUTION": 2
+              },
+              "base": 18,
+              "perLevel": 7
+            },
+            "REFLEX": {
+              "abilities": {
+                "DEXTERITY": 1,
+                "INTELLIGENCE": 1
+              },
+              "base": 11
+            },
+            "WILL": {
+              "abilities": {
+                "CHARISMA": 1,
+                "WISDOM": 1
+              },
+              "base": 11
+            }
+          }
+        },
+        "conditionalModifiers": [],
+        "grants": [
+          {
+            "atLevel": 1,
+            "entryId": "modern4e.feature.combat-challenge",
+            "grantId": "combat-challenge",
+            "type": "entry"
+          },
+          {
+            "atLevel": 1,
+            "entryId": "modern4e.feature.melee-weapon-mastery",
+            "grantId": "melee-weapon-mastery",
+            "type": "entry"
+          },
+          {
+            "atLevel": 1,
+            "entryId": "modern4e.feature.fighter-reactivity",
+            "grantId": "fighter-reactivity",
+            "type": "entry"
+          },
+          {
+            "atLevel": 1,
+            "entryId": "modern4e.feature.fighter-specialization",
+            "grantId": "fighter-specialization",
+            "type": "entry"
+          }
+        ],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Fighter is a Strength-based Martial Defender. Use tactical cunning and battle prowess to contain the enemy and protect your allies. \"Stickiest\" Defender; hard for enemies to escape you. Variety of build options based on preferred weapon loadout. High damage for a Defender and king of the opportunity attack.\n\n[Test-only presentation override; mechanics unchanged.]",
+        "title": "Fighter"
+      },
+      "sharedData": {
+        "abilities": {
+          "main": [
+            "STRENGTH"
+          ],
+          "secondary": [
+            "CONSTITUTION",
+            "DEXTERITY",
+            "WISDOM"
+          ]
+        },
+        "access": {
+          "type": "always"
+        },
+        "category": "CLASS",
+        "coverage": {
+          "limitations": [
+            "Shared authoring definition; runtime interpretation and combat effects are not implemented by this migration."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Fighter is a Strength-based Martial Defender. Use tactical cunning and battle prowess to contain the enemy and protect your allies. \"Stickiest\" Defender; hard for enemies to escape you. Variety of build options based on preferred weapon loadout. High damage for a Defender and king of the opportunity attack.",
+        "flavor": {
+          "gameplay": "Fighter is a Strength-based *Martial Defender*. Use tactical cunning and battle prowess to contain the enemy and protect your allies. \"Stickiest\" Defender; hard for enemies to escape you. Variety of build options based on preferred weapon loadout. High damage for a Defender and king of the opportunity attack.",
+          "introduction": [
+            "Fighters crash into the teeth of enemy forces, armed with cold steel and grim purpose. They are the mercenaries loitering in taverns between expeditions, the guards who cast a watchful eye over their charges, the weapon masters who elevate fighting styles to lethal arts. The fighter is a fearless warrior, ready to meet any challenge.",
+            "Fighters can be found just about anywhere and among any sort of people. A few are gallant warriors fighting for noble causes, while others are calculating mercenaries who draw their weapons only when the pay is right. All fighters, however, are adventurers, ready to face any challenge, to go where glory, plunder, or honor leads them.",
+            "Specialized combat maneuvers, or exploits, combined with a dedicated focus on a fighting style set fighters apart from other warriors. A fighter can slam his or her weapon through one enemy to crunch into another or carve a bloody path through enemies in a whirlwind of destruction. Weapons are crucial too, since fighters know how to coax every advantage they can from their tools, and those who use axes fight differently from those who favor heavy blades."
+          ],
+          "quote": "You’ll have to deal with me first, dragon!"
+        },
+        "grants": [
+          {
+            "atLevel": 1,
+            "entryId": "modern4e.feature.combat-challenge",
+            "id": "combat-challenge"
+          },
+          {
+            "atLevel": 1,
+            "entryId": "modern4e.feature.melee-weapon-mastery",
+            "id": "melee-weapon-mastery"
+          },
+          {
+            "atLevel": 1,
+            "entryId": "modern4e.feature.fighter-reactivity",
+            "id": "fighter-reactivity"
+          },
+          {
+            "atLevel": 1,
+            "entryId": "modern4e.feature.fighter-specialization",
+            "id": "fighter-specialization"
+          }
+        ],
+        "id": "modern4e.class.fighter",
+        "powerSources": [
+          "MARTIAL"
+        ],
+        "prerequisites": {
+          "type": "always"
+        },
+        "proficiencies": {
+          "armor": [
+            "LIGHT",
+            "CHAINMAIL",
+            "SCALE"
+          ],
+          "implements": [],
+          "shields": [
+            "LIGHT_SHIELD",
+            "HEAVY_SHIELD"
+          ],
+          "weapons": [
+            "SIMPLE_MELEE",
+            "SIMPLE_RANGED",
+            "MILITARY_MELEE",
+            "MILITARY_RANGED"
+          ]
+        },
+        "role": "DEFENDER",
+        "ruleIds": [
+          "modern4e.rule.reliable",
+          "modern4e.rule.invigorating"
+        ],
+        "runtimeAdvancementCoverage": {
+          "limitations": [
+            "Shared power acquisition is defined through level 10. Levels 11-30 and general progression/retraining allowances remain unverified (#20). Utility usage/access requires an explicitly adapted candidate profile; unadapted published powers are excluded."
+          ],
+          "status": "PARTIAL"
+        },
+        "runtimeReferences": {},
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "statistics": {
+          "defenses": {
+            "FORTITUDE": 13,
+            "REFLEX": 11,
+            "WILL": 11
+          },
+          "healingSurges": {
+            "base": 9,
+            "constitutionMultiplier": 1
+          },
+          "health": {
+            "base": 18,
+            "constitutionMultiplier": 2,
+            "perLevel": 7
+          }
+        },
+        "title": "Fighter"
+      }
+    }
+  ],
+  "id": "entries-0000"
+}

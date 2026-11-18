@@ -4,17 +4,25 @@ Normal `content/build.py` validates and compiles all 19 authoritative Modern 4e
 classes with their shared features/powers into `content/production-generated`.
 Android and web bundle those exact bytes; their build checks fail on stale or
 invalid authoring output. Published compendium class HTML/mechanics never fill
-missing local definitions. Explicitly imported other categories retain their
-pipeline and IDs. See [content inputs and commands](content/README.md).
+missing local definitions. All production categories use authoritative JSON. Offline compendium imports remain an explicit separate tool. See [content inputs and commands](content/README.md).
 
 New Android characters start from `sample-modern-fighter.json`, with a local
 `modern4e.class.fighter` selection and incomplete choices. Existing `class3`
 characters retain their supplier provenance and unresolved decisions. There is
-no silent conversion or automatic adoption. Legacy proof packages and samples
-remain named test fixtures and are generated with explicit `--config proof.json`.
+no silent conversion or automatic adoption. Legacy proof packages are removed. Current-data regression characters and a
+test-only presentation override are generated with `content/samples.py`; only
+the authoritative starter is bundled in apps. See [fixture generation](content/README.md#current-data-test-fixtures).
 Runtime coverage remains partial; the package does not claim complete combat or
 level 1?30 automation. Historical validation notes below describe their original
 milestones and do not change the current production input contract.
+
+Current-data fixture replacement validation (2026-11-18): 157 content tests
+completed (151 passed, six Typst checks skipped because Typst is unavailable on
+this process PATH); 115 shared tests passed on each JVM/JS target, 34 Android unit
+tests passed, and eight web unit tests plus nine Chromium adapter tests passed.
+Production/sample freshness checks, web production build, shared JS distribution,
+Android debug assembly and instrumentation APK assembly passed. Device UI tests
+were not run. Old proof assets are absent from the built Android APK and web output.
 
 # Modern 4e Character Builder
 
@@ -108,7 +116,7 @@ Fingerprints are `sha256-v1:` plus lowercase SHA-256 of UTF-8 canonical JSON for
 
 `ContentSource` lists bundled manifests and loads logical index/chunk IDs. `CharacterStore` distinguishes CREATE (fail if the ID exists) from REPLACE_WITH_RECOVERY, which atomically compares the complete expected document, preserves a durable recovery copy and publishes the new document. Failed recovery/write operations leave the prior live save intact. `listRecovery` discovers backups and `loadRecovery` retrieves `SaveReceipt.recoveryId`; backups are separate from ordinary characters. Reads return detached immutable snapshots and IO failures use structured results. `FileExchange` receives/delivers JSON; cancellation is an available null receive result. The web adapters implement these contracts; Android adapters remain separate work. See [shared import and recovery](shared/IMPORT.md) for coordination APIs, restoration and the tested store contract.
 
-The proof Fighter and small whole-entry override remain partial engineering fixtures rather than full Fighter automation. [The levels 1–2 proof](content/FIGHTER-PROOF.md) now supplies four portable sample characters, a coverage manifest, hand-checked ability/skill goldens and identical web/Android static bundles; its separately named test override adds +1 Medicine at level 2. Content production and catalog resolution are implemented; playable UI workflows and platform storage adapters remain later milestones. The JS smoke boundary remains available; character exchange uses the JSON wrappers below rather than exposing Kotlin collections.
+Current-data test characters and a presentation-only override are generated from authoritative JSON; see [test fixture generation](content/README.md#current-data-test-fixtures). Old provisional packages and platform proof bundles are removed. Synthetic codec fixtures remain isolated test inputs.
 
 ## Portable codec policy (#6)
 
