@@ -44,7 +44,7 @@ remain in each definition's `sharedData`. The engine reports partial coverage,
 unavailable selectable pools and unsupported combat/later-level behavior.
 Published class HTML and mechanics never supply or fill these definitions.
 
-Package revision 3 chunks the package (`entries-NNNN.json`, sorted by ID) and adds the other 17 non-Barbarian
+Package revision 4 chunks the package (`entries-NNNN.json`) per class: a selectable power whose access names a class is grouped with that class's powers and its index row carries `classId`, so the engine and the Android level 3+ pickers skip other classes' powers and chunks (`modern4e.utilities`, revision 2, uses the same scoping; powers gated by skill or power source stay unscoped). It adds the other 17 non-Barbarian
 classes' 2,118 selectable attacks through level 15 from `<class>-attack-powers.json` (see the shared class README).
 Powers with an unresolved prerequisite (builds Modern 4e lacks) compile without a `powerProfile`, so they resolve by ID
 but never enter a query pool. Revision 2 added all 174 Fighter selectable attacks through level 15 from

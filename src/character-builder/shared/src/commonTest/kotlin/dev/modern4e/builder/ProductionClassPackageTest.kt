@@ -57,8 +57,10 @@ class ProductionClassPackageTest {
             val otherClass = sample.copy(levels = listOf(sample.levels.first().copy(entries = listOf(sample.levels.first().entries.first().copy(
                 selection = SavedSelection(wizard.entry.id, wizard.entry.presentation.title, wizard.supplier.packageId, wizard.fingerprint))))))
             val otherRules = RulesEngine.evaluate(otherClass, RulesContent.load(otherClass, catalog))
-            assertNotEquals(Eligibility.ELIGIBLE, otherRules.choices.first { it.slot.choiceId == atWill.slot.choiceId }.entries.single {
-                it.entryId == "modern4e.power.fighter-power992" }.status)
+            // Another class's powers are not loaded for this character, so they are not offered at all.
+            val wizardAtWill = otherRules.choices.first { it.slot.choiceId == atWill.slot.choiceId }
+            assertTrue(wizardAtWill.entries.none { it.entryId.startsWith("modern4e.power.fighter-") })
+            assertTrue(wizardAtWill.entries.any { it.entryId.startsWith("modern4e.power.wizard-power") && it.status == Eligibility.ELIGIBLE })
             val rootInstance = sample.levels.first().entries.first().instanceId
             suspend fun choice(sourceId: String, choiceId: String): EntryChoice {
                 val power = assertIs<ContractResult.Available<ResolvedEntry?>>(catalog.lookup("modern4e.power.fighter-$sourceId")).value!!

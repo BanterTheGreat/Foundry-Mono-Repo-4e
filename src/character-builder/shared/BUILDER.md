@@ -148,6 +148,13 @@ than titles or the character's currently selected ancestry. Active feat mechanic
 retain normal candidate activation; passive v2 root feats share exact prepared
 character facts with conservative fallback for ambiguous cases.
 
+Class and utility power indexes carry optional `classId` metadata on selectable powers whose access names
+a class, and each class's powers fill their own chunks. `RulesContent` loads a character's power pools from
+the powers with no `classId` plus those of its chosen class(es) (`CharacterDocument.classEntryIds()`; a class
+entry being previewed always includes its own), and `ContentCatalog.search(classIds = ...)` applies the same
+scope to the Android level 3+ pickers. Scoping is a loading rule only: any power still resolves by ID, and
+old indexes without `classId` behave as before.
+
 Android loads only the selected feat tab and publishes metadata, then batches of
 12 checks. Lazy rows preserve native scrolling and the folio scrollbar. Rows stay
 in metadata title order during loading. Cancelling/tab switching stops delivery;

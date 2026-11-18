@@ -357,7 +357,7 @@ class BuilderSession(
                 operations?.options(current!!.document, level, slot, true).orEmpty()
             } else {
                 val category = if (slot.choiceId == "feat") EntryCategory.FEAT else EntryCategory.POWER
-                catalog?.search(category = category).orEmpty().mapNotNull { metadata ->
+                catalog?.search(category = category, classIds = current?.document?.classEntryIds()).orEmpty().mapNotNull { metadata ->
                     val resolved = (catalog?.lookup(metadata.metadata.id) as? ContractResult.Available)?.value ?: return@mapNotNull null
                     BuilderOption(resolved, Eligibility.INCOMPLETE, listOf(Diagnostic("android.progression", DiagnosticKind.INCOMPLETE_AUTOMATION,
                         "Later-level eligibility is not evaluated by the proof engine.")))
@@ -376,7 +376,8 @@ class BuilderSession(
         val originalCatalog = catalog
         if (level > 2) {
             // Higher-level editing retains its explicit incomplete-automation policy.
-            val metadata = originalCatalog?.search(category = if (slot.choiceId == "feat") EntryCategory.FEAT else EntryCategory.POWER)
+            val metadata = originalCatalog?.search(category = if (slot.choiceId == "feat") EntryCategory.FEAT else EntryCategory.POWER,
+                classIds = original.classEntryIds())
                 .orEmpty().filter { featGroup == null || it.metadata.featGroup == null || it.metadata.featGroup == featGroup }
             var rows = metadata.map { BuilderOptionRow(it) }
             onUpdate(rows)

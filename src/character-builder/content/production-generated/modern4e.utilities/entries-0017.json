@@ -1,0 +1,4090 @@
+{
+  "entries": [
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power10353",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "STANCE",
+            "TELEPORTATION"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "With the rush of wind, you blink to your enemy's side, darting around the battlefield in a swirl of sword and spell.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Until the stance ends, you gain teleport 3 as an additional movement mode, but you must end such teleports adjacent to an enemy.",
+        "title": "Stride of the Gallant"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Until the stance ends, you gain teleport 3 as an additional movement mode, but you must end such teleports adjacent to an enemy.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "With the rush of wind, you blink to your enemy's side, darting around the battlefield in a swirl of sword and spell.",
+        "flavor": "With the rush of wind, you blink to your enemy's side, darting around the battlefield in a swirl of sword and spell.",
+        "id": "modern4e.power.utility-class-swordmage-power10353",
+        "keywords": [
+          "ARCANE",
+          "STANCE",
+          "TELEPORTATION"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power10353",
+          "publication": "Published in Dragon Magazine 382, page(s) 60."
+        },
+        "subtitle": "6",
+        "title": "Stride of the Gallant",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power10434",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "STANCE"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your attacks punish those who cannot escape your reach.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Until the stance ends, you gain a +2 power bonus to damage rolls against slowed or immobilized targets.\n\nAegis of Ensnarement: You also gain a +1 power bonus to attack rolls against slowed or immobilized targets.",
+        "title": "Price of Ensnarement"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Until the stance ends, you gain a +2 power bonus to damage rolls against slowed or immobilized targets.",
+                "type": "effect"
+              },
+              {
+                "id": "rule-2",
+                "label": "Aegis of Ensnarement",
+                "text": "You also gain a +1 power bonus to attack rolls against slowed or immobilized targets.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your attacks punish those who cannot escape your reach.",
+        "flavor": "Your attacks punish those who cannot escape your reach.",
+        "id": "modern4e.power.utility-class-swordmage-power10434",
+        "keywords": [
+          "ARCANE",
+          "STANCE"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power10434",
+          "publication": "Published in Dragon Magazine 382, page(s) 24."
+        },
+        "subtitle": "2",
+        "title": "Price of Ensnarement",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power10435",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "STANCE"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You extend a magical ward around nearby allies.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Until the stance ends, your allies gain a +1 power bonus to AC while adjacent to you.\n\nAegis of Shielding: Allies instead gain a +1 power bonus to all defenses while adjacent to you.",
+        "title": "Nimbus of Shielding"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Until the stance ends, your allies gain a +1 power bonus to AC while adjacent to you.",
+                "type": "effect"
+              },
+              {
+                "id": "rule-2",
+                "label": "Aegis of Shielding",
+                "text": "Allies instead gain a +1 power bonus to all defenses while adjacent to you.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You extend a magical ward around nearby allies.",
+        "flavor": "You extend a magical ward around nearby allies.",
+        "id": "modern4e.power.utility-class-swordmage-power10435",
+        "keywords": [
+          "ARCANE",
+          "STANCE"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power10435",
+          "publication": "Published in Dragon Magazine 382, page(s) 24."
+        },
+        "subtitle": "6",
+        "title": "Nimbus of Shielding",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power10437",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "STANCE"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "The magic of your vicious attacks temporarily protects you from harm.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Until the stance ends, when you hit with a melee weapon attack you gain a +1 power bonus to all defenses until the start of your next turn.\n\nAegis of Assault: Increase the power bonus to +2.",
+        "title": "Armor of Assault"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Until the stance ends, when you hit with a melee weapon attack you gain a +1 power bonus to all defenses until the start of your next turn.",
+                "type": "effect"
+              },
+              {
+                "id": "rule-2",
+                "label": "Aegis of Assault",
+                "text": "Increase the power bonus to +2.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "The magic of your vicious attacks temporarily protects you from harm.",
+        "flavor": "The magic of your vicious attacks temporarily protects you from harm.",
+        "id": "modern4e.power.utility-class-swordmage-power10437",
+        "keywords": [
+          "ARCANE",
+          "STANCE"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power10437",
+          "publication": "Published in Dragon Magazine 382, page(s) 24."
+        },
+        "subtitle": "10",
+        "title": "Armor of Assault",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power12218",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "VARIES"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A ring of magical energy washes out from you, clinging to your allies' weapons.\n\nDAILY / MINOR\n\nClose burst 5\n\nTarget: Each weapon you or an ally is wielding in the burst\n\nEffect: Choose fire, cold, lightning, or force. The targeted weapon deals this kind of damage until the end of your next turn.\n\nSustain Minor: The effect persists until the end of your next turn.",
+        "title": "Spellbinder's Gift"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "Each weapon you or an ally is wielding in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "Choose fire, cold, lightning, or force. The targeted weapon deals this kind of damage until the end of your next turn.",
+                "type": "effect"
+              },
+              {
+                "id": "rule-3",
+                "label": "Sustain Minor",
+                "text": "The effect persists until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A ring of magical energy washes out from you, clinging to your allies' weapons.",
+        "flavor": "A ring of magical energy washes out from you, clinging to your allies' weapons.",
+        "id": "modern4e.power.utility-class-swordmage-power12218",
+        "keywords": [
+          "ARCANE",
+          "VARIES"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power12218",
+          "publication": "Published in Dragon Magazine 385, page(s) 51."
+        },
+        "subtitle": "2",
+        "title": "Spellbinder's Gift",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power16012",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "AURA"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your spell turns the ground beneath your enemies' feet into gooey mud, which grasps and slows their movement.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: You activate an aura 2 that lasts until the end of the encounter or until you deactivate it as a free action. The ground in the aura is difficult terrain for your enemies.\n\nAegis of Ensnarement: When you deactivate the aura, one enemy within 2 squares of you is immobilized until the end of your next turn.",
+        "title": "Eldritch Quagmire"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "You activate an aura 2 that lasts until the end of the encounter or until you deactivate it as a free action. The ground in the aura is difficult terrain for your enemies.",
+                "type": "effect"
+              },
+              {
+                "id": "rule-2",
+                "label": "Aegis of Ensnarement",
+                "text": "When you deactivate the aura, one enemy within 2 squares of you is immobilized until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your spell turns the ground beneath your enemies' feet into gooey mud, which grasps and slows their movement.",
+        "flavor": "Your spell turns the ground beneath your enemies' feet into gooey mud, which grasps and slows their movement.",
+        "id": "modern4e.power.utility-class-swordmage-power16012",
+        "keywords": [
+          "ARCANE",
+          "AURA"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power16012",
+          "publication": "Published in Dragon Magazine 405."
+        },
+        "subtitle": "6",
+        "title": "Eldritch Quagmire",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power1703",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "FORCE"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You raise a magical ward of thin, wispy silver mist. It seems no more tangible than warm breath on a frosty morning, but it gathers under enemy blows and turns them aside.\n\nENCOUNTER / MINOR\n\nClose burst 1\n\nTarget: You and each ally in the burst\n\nEffect: All affected creatures gain a +2 bonus to AC and Reflex defense until the end of your next turn.",
+        "title": "Silversteel Veil"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "You and each ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "All affected creatures gain a +2 bonus to AC and Reflex defense until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 1",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You raise a magical ward of thin, wispy silver mist. It seems no more tangible than warm breath on a frosty morning, but it gathers under enemy blows and turns them aside.",
+        "flavor": "You raise a magical ward of thin, wispy silver mist. It seems no more tangible than warm breath on a frosty morning, but it gathers under enemy blows and turns them aside.",
+        "id": "modern4e.power.utility-class-swordmage-power1703",
+        "keywords": [
+          "ARCANE",
+          "FORCE"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power1703",
+          "publication": "Published in Forgotten Realms Player's Guide, page(s) 29."
+        },
+        "subtitle": "6",
+        "title": "Silversteel Veil",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power3145",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Speaking ancient words of aegis binding, you lower a mantle of magic over your enemies that marks them as your foes.\n\nDAILY / MINOR\n\nClose blast 3\n\nTarget: Each enemy in the blast\n\nEffect: The target is marked by your Swordmage Aegis power. Marking the target does not remove the mark on another target already affected by your Swordmage Aegis. If you mark only one target with this power, you do not expend the power but cannot use it again during this encounter.",
+        "title": "Swordmage's Decree"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "Each enemy in the blast"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "The target is marked by your Swordmage Aegis power. Marking the target does not remove the mark on another target already affected by your Swordmage Aegis. If you mark only one target with this power, you do not expend the power but cannot use it again during this encounter.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close blast 3",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Speaking ancient words of aegis binding, you lower a mantle of magic over your enemies that marks them as your foes.",
+        "flavor": "Speaking ancient words of aegis binding, you lower a mantle of magic over your enemies that marks them as your foes.",
+        "id": "modern4e.power.utility-class-swordmage-power3145",
+        "keywords": [
+          "ARCANE"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3145",
+          "publication": "Published in Arcane Power, page(s) 55."
+        },
+        "subtitle": "6",
+        "title": "Swordmage's Decree",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power3147",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your eyes glow silver, piercing the veils that separate you and your opponent.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Until the end of the encounter, you are automatically aware of each creature within 5 squares of you, including those that are hidden or invisible. You know the squares that any of those creatures occupy, but this knowledge does not negate the effects of cover, superior cover, concealment, or total concealment.",
+        "title": "Unerring Vision"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Until the end of the encounter, you are automatically aware of each creature within 5 squares of you, including those that are hidden or invisible. You know the squares that any of those creatures occupy, but this knowledge does not negate the effects of cover, superior cover, concealment, or total concealment.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your eyes glow silver, piercing the veils that separate you and your opponent.",
+        "flavor": "Your eyes glow silver, piercing the veils that separate you and your opponent.",
+        "id": "modern4e.power.utility-class-swordmage-power3147",
+        "keywords": [
+          "ARCANE"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3147",
+          "publication": "Published in Arcane Power, page(s) 57."
+        },
+        "subtitle": "10",
+        "title": "Unerring Vision",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power3160",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You channel the power of the desert winds to briefly lift you into the air.\n\nENCOUNTER / MOVE\n\nPersonal\n\nEffect: You fly a number of squares equal to your speed.",
+        "title": "Zephyr of the Barren Sands"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MOVE",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "You fly a number of squares equal to your speed.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You channel the power of the desert winds to briefly lift you into the air.",
+        "flavor": "You channel the power of the desert winds to briefly lift you into the air.",
+        "id": "modern4e.power.utility-class-swordmage-power3160",
+        "keywords": [
+          "ARCANE"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3160",
+          "publication": "Published in Arcane Power, page(s) 55."
+        },
+        "subtitle": "6",
+        "title": "Zephyr of the Barren Sands",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power3331",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Eldritch power flows in your blood, and when battle is joined, the power speeds you on.\n\nDAILY / NO_ACTION\n\nPersonal\n\nEffect: Use this power before rolling initiative. You gain a +5 power bonus to your initiative roll. You can take an extra move action during the first round of combat (or during the surprise round, if you are allowed to act during that round).",
+        "title": "Eldritch Speed"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "NO_ACTION",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Use this power before rolling initiative. You gain a +5 power bonus to your initiative roll. You can take an extra move action during the first round of combat (or during the surprise round, if you are allowed to act during that round).",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Eldritch power flows in your blood, and when battle is joined, the power speeds you on.",
+        "flavor": "Eldritch power flows in your blood, and when battle is joined, the power speeds you on.",
+        "id": "modern4e.power.utility-class-swordmage-power3331",
+        "keywords": [
+          "ARCANE"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3331",
+          "publication": "Published in Forgotten Realms Player's Guide, page(s) 28."
+        },
+        "subtitle": "2",
+        "title": "Eldritch Speed",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power3332",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "The elements of the universe are yours to command, and they do not easily damage you.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Choose acid, cold, fire, lightning, or thunder. Until the end of the encounter, you gain resist 5 + your Constitution to that damage type.",
+        "title": "Fear No Elements"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Choose acid, cold, fire, lightning, or thunder. Until the end of the encounter, you gain resist 5 + your Constitution to that damage type.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "The elements of the universe are yours to command, and they do not easily damage you.",
+        "flavor": "The elements of the universe are yours to command, and they do not easily damage you.",
+        "id": "modern4e.power.utility-class-swordmage-power3332",
+        "keywords": [
+          "ARCANE"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3332",
+          "publication": "Published in Forgotten Realms Player's Guide, page(s) 28."
+        },
+        "subtitle": "2",
+        "title": "Fear No Elements",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power3333",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You focus your warding inward to bolster yourself against the onslaught.\n\nENCOUNTER / MINOR\n\nPersonal\n\nEffect: Make a saving throw against an effect that a save can end.",
+        "title": "Mythal Recovery"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Make a saving throw against an effect that a save can end.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You focus your warding inward to bolster yourself against the onslaught.",
+        "flavor": "You focus your warding inward to bolster yourself against the onslaught.",
+        "id": "modern4e.power.utility-class-swordmage-power3333",
+        "keywords": [
+          "ARCANE"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3333",
+          "publication": "Published in Forgotten Realms Player's Guide, page(s) 28."
+        },
+        "subtitle": "2",
+        "title": "Mythal Recovery",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power3357",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "TELEPORTATION"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Arcane power speeds you into battle.\n\nENCOUNTER / MOVE\n\nPersonal\n\nEffect: Teleport 5 squares. If you end this move adjacent to an enemy, you gain a +2 power bonus to the next attack roll you make against that enemy during your turn.",
+        "title": "Armathor's Step"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MOVE",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Teleport 5 squares. If you end this move adjacent to an enemy, you gain a +2 power bonus to the next attack roll you make against that enemy during your turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Arcane power speeds you into battle.",
+        "flavor": "Arcane power speeds you into battle.",
+        "id": "modern4e.power.utility-class-swordmage-power3357",
+        "keywords": [
+          "ARCANE",
+          "TELEPORTATION"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3357",
+          "publication": "Published in Forgotten Realms Player's Guide, page(s) 29."
+        },
+        "subtitle": "6",
+        "title": "Armathor's Step",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power3358",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "STANCE",
+            "ZONE"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your warding warps the flow of magic around you, preventing enemies from sneaky escapes or attacks.\n\nDAILY / MINOR\n\nClose burst 2\n\nEffect: The burst creates a zone that lasts as long as the stance persists. Enemies within the zone cannot teleport. Enemies outside the zone cannot teleport into it.\n\nSpecial: The zone remains centered on you, even if you move.",
+        "title": "Dimensional Warding"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "The burst creates a zone that lasts as long as the stance persists. Enemies within the zone cannot teleport. Enemies outside the zone cannot teleport into it.",
+                "type": "effect"
+              },
+              {
+                "id": "rule-2",
+                "label": "Special",
+                "text": "The zone remains centered on you, even if you move.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 2",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your warding warps the flow of magic around you, preventing enemies from sneaky escapes or attacks.",
+        "flavor": "Your warding warps the flow of magic around you, preventing enemies from sneaky escapes or attacks.",
+        "id": "modern4e.power.utility-class-swordmage-power3358",
+        "keywords": [
+          "ARCANE",
+          "STANCE",
+          "ZONE"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3358",
+          "publication": "Published in Forgotten Realms Player's Guide, page(s) 29."
+        },
+        "subtitle": "6",
+        "title": "Dimensional Warding",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power3359",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Forces beyond your enemy's comprehension work against it at your command.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Until the end of the encounter, any effect that a save can end that you place on an enemy causes a –2 penalty to saving throws against the effect.",
+        "title": "Fate-Spurned Foe"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Until the end of the encounter, any effect that a save can end that you place on an enemy causes a –2 penalty to saving throws against the effect.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Forces beyond your enemy's comprehension work against it at your command.",
+        "flavor": "Forces beyond your enemy's comprehension work against it at your command.",
+        "id": "modern4e.power.utility-class-swordmage-power3359",
+        "keywords": [
+          "ARCANE"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3359",
+          "publication": "Published in Forgotten Realms Player's Guide, page(s) 29."
+        },
+        "subtitle": "6",
+        "title": "Fate-Spurned Foe",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power3367",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Arcane power guides your defensive posture, guarding you even from attacks you can't see coming.\n\nENCOUNTER / FREE\n\nPersonal\n\nEffect: Until the end of your next turn, you do not grant combat advantage to any of your enemies.",
+        "title": "Arcane Awareness"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "FREE",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Until the end of your next turn, you do not grant combat advantage to any of your enemies.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Arcane power guides your defensive posture, guarding you even from attacks you can't see coming.",
+        "flavor": "Arcane power guides your defensive posture, guarding you even from attacks you can't see coming.",
+        "id": "modern4e.power.utility-class-swordmage-power3367",
+        "keywords": [
+          "ARCANE"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3367",
+          "publication": "Published in Forgotten Realms Player's Guide, page(s) 30."
+        },
+        "subtitle": "10",
+        "title": "Arcane Awareness",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power3368",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "TELEPORTATION"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "As the enemy prepares to riddle you with arrows from afar, you vanish and reappear right next to it.\n\nDAILY / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: An enemy within 20 squares of you hits you with a ranged attack.\n\nEffect: You teleport adjacent to the enemy.",
+        "title": "Dimensional Dodge"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_INTERRUPT",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "You teleport adjacent to the enemy.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "trigger": "An enemy within 20 squares of you hits you with a ranged attack.",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "As the enemy prepares to riddle you with arrows from afar, you vanish and reappear right next to it.",
+        "flavor": "As the enemy prepares to riddle you with arrows from afar, you vanish and reappear right next to it.",
+        "id": "modern4e.power.utility-class-swordmage-power3368",
+        "keywords": [
+          "ARCANE",
+          "TELEPORTATION"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3368",
+          "publication": "Published in Forgotten Realms Player's Guide, page(s) 30."
+        },
+        "subtitle": "10",
+        "title": "Dimensional Dodge",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power3369",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "STANCE"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "The air shimmers about you and thickens against enemy assault. The mythal protects you, always.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Your warding provides its bonus to all your defenses, not just AC.",
+        "title": "Impenetrable Warding"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Your warding provides its bonus to all your defenses, not just AC.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "The air shimmers about you and thickens against enemy assault. The mythal protects you, always.",
+        "flavor": "The air shimmers about you and thickens against enemy assault. The mythal protects you, always.",
+        "id": "modern4e.power.utility-class-swordmage-power3369",
+        "keywords": [
+          "ARCANE",
+          "STANCE"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3369",
+          "publication": "Published in Forgotten Realms Player's Guide, page(s) 31."
+        },
+        "subtitle": "10",
+        "title": "Impenetrable Warding",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power3900",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "STANCE"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Like a ghost, you glide unharmed through the battlefield.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Until the stance ends, whenever you shift, you can shift 1 additional square.",
+        "title": "Ghost Step"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Until the stance ends, whenever you shift, you can shift 1 additional square.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Like a ghost, you glide unharmed through the battlefield.",
+        "flavor": "Like a ghost, you glide unharmed through the battlefield.",
+        "id": "modern4e.power.utility-class-swordmage-power3900",
+        "keywords": [
+          "ARCANE",
+          "STANCE"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3900",
+          "publication": "Published in Arcane Power, page(s) 53."
+        },
+        "subtitle": "2",
+        "title": "Ghost Step",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power3903",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "STANCE"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your weapon produces a few small, glowing shields that orbit your body and ward off blows.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Until the stance ends, you gain a +2 power bonus to AC and Reflex.",
+        "title": "Host of Shields"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Until the stance ends, you gain a +2 power bonus to AC and Reflex.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your weapon produces a few small, glowing shields that orbit your body and ward off blows.",
+        "flavor": "Your weapon produces a few small, glowing shields that orbit your body and ward off blows.",
+        "id": "modern4e.power.utility-class-swordmage-power3903",
+        "keywords": [
+          "ARCANE",
+          "STANCE"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3903",
+          "publication": "Published in Arcane Power, page(s) 53."
+        },
+        "subtitle": "2",
+        "title": "Host of Shields",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power3938",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You move through the battlefield in a blur.\n\nENCOUNTER / MOVE\n\nPersonal\n\nEffect: You move 12 squares.",
+        "title": "Quickling Stride"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MOVE",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "You move 12 squares.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You move through the battlefield in a blur.",
+        "flavor": "You move through the battlefield in a blur.",
+        "id": "modern4e.power.utility-class-swordmage-power3938",
+        "keywords": [
+          "ARCANE"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3938",
+          "publication": "Published in Arcane Power, page(s) 55."
+        },
+        "subtitle": "6",
+        "title": "Quickling Stride",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power3957",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "STANCE"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You move with otherworldly grace through even the most difficult environments.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Until the stance ends, you gain a +2 power bonus to speed and a +2 power bonus to Athletics checks, Acrobatics checks, and Stealth checks, and you ignore difficult terrain.",
+        "title": "Feywild Grace"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Until the stance ends, you gain a +2 power bonus to speed and a +2 power bonus to Athletics checks, Acrobatics checks, and Stealth checks, and you ignore difficult terrain.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You move with otherworldly grace through even the most difficult environments.",
+        "flavor": "You move with otherworldly grace through even the most difficult environments.",
+        "id": "modern4e.power.utility-class-swordmage-power3957",
+        "keywords": [
+          "ARCANE",
+          "STANCE"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3957",
+          "publication": "Published in Arcane Power, page(s) 57."
+        },
+        "subtitle": "10",
+        "title": "Feywild Grace",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power3958",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Like the deathjump spider, you can pounce upon your prey with frightening speed.\n\nENCOUNTER / MOVE\n\nPersonal\n\nEffect: You make an Athletics check to jump with a +10 power bonus. You are considered to have a running start and can move as far as the check allows.\n\nAegis of Ensnarement: When you charge, you can use this power as a free action.",
+        "title": "Spider's Leap"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MOVE",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "You make an Athletics check to jump with a +10 power bonus. You are considered to have a running start and can move as far as the check allows.",
+                "type": "effect"
+              },
+              {
+                "id": "rule-2",
+                "label": "Aegis of Ensnarement",
+                "text": "When you charge, you can use this power as a free action.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Like the deathjump spider, you can pounce upon your prey with frightening speed.",
+        "flavor": "Like the deathjump spider, you can pounce upon your prey with frightening speed.",
+        "id": "modern4e.power.utility-class-swordmage-power3958",
+        "keywords": [
+          "ARCANE"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3958",
+          "publication": "Published in Arcane Power, page(s) 57."
+        },
+        "subtitle": "10",
+        "title": "Spider's Leap",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power4276",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "TELEPORTATION"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You reach out with arcane power, and two of your nearby allies suddenly wink out and reappear in each other's places.\n\nENCOUNTER / MINOR\n\nClose burst 3\n\nTarget: You and one ally in the burst or two allies in the burst\n\nEffect: Each target teleports into the other's space. Both targets must occupy the same size space, or the power fails.",
+        "title": "Dimensional Warp"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "You and one ally in the burst or two allies in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "Each target teleports into the other's space. Both targets must occupy the same size space, or the power fails.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 3",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You reach out with arcane power, and two of your nearby allies suddenly wink out and reappear in each other's places.",
+        "flavor": "You reach out with arcane power, and two of your nearby allies suddenly wink out and reappear in each other's places.",
+        "id": "modern4e.power.utility-class-swordmage-power4276",
+        "keywords": [
+          "ARCANE",
+          "TELEPORTATION"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power4276",
+          "publication": "Published in Forgotten Realms Player's Guide, page(s) 28."
+        },
+        "subtitle": "2",
+        "title": "Dimensional Warp",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power4797",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You raise an aegis in your ally's defense, infusing the shield with elemental energy to help defend against certain attacks.\n\nDAILY / IMMEDIATE_INTERRUPT\n\nClose burst 10\n\nTrigger: An enemy you have marked attacks an ally.\n\nTarget: One ally in the burst.\n\nEffect: Choose a damage type: acid, cold, fire, lightning, or thunder. Your ally gains resistance to that damage type equal to 5 + your Constitution until the end of your next turn.",
+        "title": "Elemental Aegis"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_INTERRUPT",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One ally in the burst."
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-3",
+                "label": "Effect",
+                "text": "Choose a damage type: acid, cold, fire, lightning, or thunder. Your ally gains resistance to that damage type equal to 5 + your Constitution until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "trigger": "An enemy you have marked attacks an ally.",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You raise an aegis in your ally's defense, infusing the shield with elemental energy to help defend against certain attacks.",
+        "flavor": "You raise an aegis in your ally's defense, infusing the shield with elemental energy to help defend against certain attacks.",
+        "id": "modern4e.power.utility-class-swordmage-power4797",
+        "keywords": [
+          "ARCANE"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power4797",
+          "publication": "Published in Dragon Magazine 367, page(s) 56."
+        },
+        "subtitle": "2",
+        "title": "Elemental Aegis",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power4801",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You summon the strength of the elements to shield you from damage.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Choose a damage type: acid, cold, fire, lightning, or thunder. You have resistance to that damage type equal to your Constitution. As a minor action, you can change the type of resistance to any other listed damage type. This resistance lasts until the end of the encounter.",
+        "title": "Variable Defense"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Choose a damage type: acid, cold, fire, lightning, or thunder. You have resistance to that damage type equal to your Constitution. As a minor action, you can change the type of resistance to any other listed damage type. This resistance lasts until the end of the encounter.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You summon the strength of the elements to shield you from damage.",
+        "flavor": "You summon the strength of the elements to shield you from damage.",
+        "id": "modern4e.power.utility-class-swordmage-power4801",
+        "keywords": [
+          "ARCANE"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power4801",
+          "publication": "Published in Dragon Magazine 367, page(s) 56."
+        },
+        "subtitle": "6",
+        "title": "Variable Defense",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power5739",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "TELEPORTATION"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You extend your magic to include a nearby friend as you step through an unseen, arcane corridor.\n\nDAILY / FREE\n\nClose burst 2\n\nTrigger: You teleport using a swordmage power\n\nTarget: One ally in the burst\n\nEffect: The target teleports to a space adjacent to the space you teleport to.",
+        "title": "Arcane Transport"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "FREE",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-3",
+                "label": "Effect",
+                "text": "The target teleports to a space adjacent to the space you teleport to.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 2",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "trigger": "You teleport using a swordmage power",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You extend your magic to include a nearby friend as you step through an unseen, arcane corridor.",
+        "flavor": "You extend your magic to include a nearby friend as you step through an unseen, arcane corridor.",
+        "id": "modern4e.power.utility-class-swordmage-power5739",
+        "keywords": [
+          "ARCANE",
+          "TELEPORTATION"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5739",
+          "publication": "Published in Arcane Power, page(s) 52."
+        },
+        "subtitle": "2",
+        "title": "Arcane Transport",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power5740",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You throw up a temporary shield to absorb some of the power of a foe's attack.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nClose burst 10\n\nTrigger: An attack hits you or an ally within 10 squares of you\n\nTarget: The creature hit by the triggering attack\n\nEffect: You reduce the damage the target takes from the triggering attack by 5 + your Constitution.\n\nAegis of Shielding: The next successful attack you make before the end of your next turn deals extra damage equal to your Constitution.",
+        "title": "Channeling Shield"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_INTERRUPT",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "The creature hit by the triggering attack"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-3",
+                "label": "Effect",
+                "text": "You reduce the damage the target takes from the triggering attack by 5 + your Constitution.",
+                "type": "effect"
+              },
+              {
+                "id": "rule-4",
+                "label": "Aegis of Shielding",
+                "text": "The next successful attack you make before the end of your next turn deals extra damage equal to your Constitution.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "trigger": "An attack hits you or an ally within 10 squares of you",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You throw up a temporary shield to absorb some of the power of a foe's attack.",
+        "flavor": "You throw up a temporary shield to absorb some of the power of a foe's attack.",
+        "id": "modern4e.power.utility-class-swordmage-power5740",
+        "keywords": [
+          "ARCANE"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5740",
+          "publication": "Published in Arcane Power, page(s) 53."
+        },
+        "subtitle": "2",
+        "title": "Channeling Shield",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power5741",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A brilliant flash of light shields you and blinds your foe.\n\nDAILY / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: An enemy marked by you hits you with a melee attack\n\nEffect: You gain a +4 power bonus to AC and Reflex until the end of your next turn. If the triggering enemy's attack hits you despite the bonus, the triggering enemy is blinded until the end of your next turn.",
+        "title": "Ward of Brilliance"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_INTERRUPT",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "You gain a +4 power bonus to AC and Reflex until the end of your next turn. If the triggering enemy's attack hits you despite the bonus, the triggering enemy is blinded until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "trigger": "An enemy marked by you hits you with a melee attack",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A brilliant flash of light shields you and blinds your foe.",
+        "flavor": "A brilliant flash of light shields you and blinds your foe.",
+        "id": "modern4e.power.utility-class-swordmage-power5741",
+        "keywords": [
+          "ARCANE"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5741",
+          "publication": "Published in Arcane Power, page(s) 53."
+        },
+        "subtitle": "2",
+        "title": "Ward of Brilliance",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power5748",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE",
+            "HEALING"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your blade briefly adopts the appearance of a unicorn horn, sending out a focused pulse of curative energy.\n\nDAILY / MINOR\n\nClose burst 1\n\nTarget: You or one ally in the burst\n\nEffect: The target either rolls a saving throw or regains hit points equal to 5 + your Constitution.",
+        "title": "Unicorn's Touch"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "You or one ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "The target either rolls a saving throw or regains hit points equal to 5 + your Constitution.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 1",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your blade briefly adopts the appearance of a unicorn horn, sending out a focused pulse of curative energy.",
+        "flavor": "Your blade briefly adopts the appearance of a unicorn horn, sending out a focused pulse of curative energy.",
+        "id": "modern4e.power.utility-class-swordmage-power5748",
+        "keywords": [
+          "ARCANE",
+          "HEALING"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5748",
+          "publication": "Published in Arcane Power, page(s) 55."
+        },
+        "subtitle": "6",
+        "title": "Unicorn's Touch",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-swordmage-power5753",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ARCANE"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You fear no height, for your magic gives grace to any landing.\n\nENCOUNTER / FREE\n\nPersonal\n\nTrigger: You are knocked prone or fall\n\nEffect: You take no falling damage, and you are not knocked prone.",
+        "title": "Like a Feather"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.swordmage",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "FREE",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "You take no falling damage, and you are not knocked prone.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "trigger": "You are knocked prone or fall",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You fear no height, for your magic gives grace to any landing.",
+        "flavor": "You fear no height, for your magic gives grace to any landing.",
+        "id": "modern4e.power.utility-class-swordmage-power5753",
+        "keywords": [
+          "ARCANE"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5753",
+          "publication": "Published in Arcane Power, page(s) 57."
+        },
+        "subtitle": "10",
+        "title": "Like a Feather",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.swordmage",
+          "id": "class-swordmage",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    }
+  ],
+  "id": "entries-0017"
+}

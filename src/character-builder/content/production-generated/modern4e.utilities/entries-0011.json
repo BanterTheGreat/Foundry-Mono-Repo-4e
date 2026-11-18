@@ -1,0 +1,5092 @@
+{
+  "entries": [
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals.",
+          "Withheld pending review (DEFERRED section); excluded from query pools."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-deferred-power13561",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "minimum": 8,
+            "type": "level"
+          }
+        ],
+        "unsupported": [
+          "Withheld pending review (DEFERRED section); excluded from query pools."
+        ],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You infuse the spirit of a divine steed into yourself, gaining some of its capabilities.",
+        "title": "Spirit of the Virtuous Charger"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "You gain a +2 power bonus to speed. You also gain a power bonus to damage rolls with charge attacks equal to your Charisma. These effects last until the end of the encounter.",
+                "type": "effect"
+              },
+              {
+                "id": "rule-2",
+                "label": "Level 18",
+                "text": "You also gain a fly speed equal to your speed.",
+                "type": "effect"
+              },
+              {
+                "id": "rule-3",
+                "label": "Level 28",
+                "text": "This power can also target each ally within 2 squares of you.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+            "Nonstandard utility level: review class-feature acquisition before treating this as a selectable utility."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You infuse the spirit of a divine steed into yourself, gaining some of its capabilities.",
+        "flavor": "You infuse the spirit of a divine steed into yourself, gaining some of its capabilities.",
+        "id": "modern4e.power.utility-class-deferred-power13561",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 8,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 8,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power13561",
+          "publication": "Published in Heroes of the Forgotten Kingdoms."
+        },
+        "subtitle": "8",
+        "title": "Spirit of the Virtuous Charger",
+        "utilitySection": {
+          "availability": "DEFERRED",
+          "classId": null,
+          "id": "class-deferred",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power10250",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE",
+            "STANCE"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A murder of ghostly ravens hover about you, warding you against cold and death.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Until the stance ends, you gain resist cold and necrotic equal to 5 + your Wisdom or Charisma. You can voluntarily end the stance as a free action to gain +2 to a defense of your choice until the end of your next turn.",
+        "title": "Winter's Fated Stance"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Until the stance ends, you gain resist cold and necrotic equal to 5 + your Wisdom or Charisma. You can voluntarily end the stance as a free action to gain +2 to a defense of your choice until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A murder of ghostly ravens hover about you, warding you against cold and death.",
+        "flavor": "A murder of ghostly ravens hover about you, warding you against cold and death.",
+        "id": "modern4e.power.utility-class-paladin-power10250",
+        "keywords": [
+          "DIVINE",
+          "STANCE"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power10250",
+          "publication": "Published in Dragon Magazine 381, page(s) 72."
+        },
+        "subtitle": "6",
+        "title": "Winter's Fated Stance",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power10253",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE",
+            "TELEPORTATION"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You step through deep shadow to chase your foe, bringing icy ground back with you.\n\nENCOUNTER / MOVE\n\nPersonal\n\nEffect: You teleport a number of squares equal to 1 + your Charisma, to a space adjacent to an enemy marked by you. All squares adjacent to you are difficult terrain until the end of your next turn.",
+        "title": "Winter's Arrival"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MOVE",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "You teleport a number of squares equal to 1 + your Charisma, to a space adjacent to an enemy marked by you. All squares adjacent to you are difficult terrain until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You step through deep shadow to chase your foe, bringing icy ground back with you.",
+        "flavor": "You step through deep shadow to chase your foe, bringing icy ground back with you.",
+        "id": "modern4e.power.utility-class-paladin-power10253",
+        "keywords": [
+          "DIVINE",
+          "TELEPORTATION"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power10253",
+          "publication": "Published in Dragon Magazine 381, page(s) 72."
+        },
+        "subtitle": "10",
+        "title": "Winter's Arrival",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power10254",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE",
+            "HEALING",
+            "STANCE"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Muttering devotions, you can channel the death that's all around you into life.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Until the stance ends, whenever a nonminion enemy within 5 squares of you is bloodied or reduced to 0 hit points, you or an ally within 5 squares of you regains a number of hit points equal to 5 + your Charisma.",
+        "title": "Deathguide's Stance"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Until the stance ends, whenever a nonminion enemy within 5 squares of you is bloodied or reduced to 0 hit points, you or an ally within 5 squares of you regains a number of hit points equal to 5 + your Charisma.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Muttering devotions, you can channel the death that's all around you into life.",
+        "flavor": "Muttering devotions, you can channel the death that's all around you into life.",
+        "id": "modern4e.power.utility-class-paladin-power10254",
+        "keywords": [
+          "DIVINE",
+          "HEALING",
+          "STANCE"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power10254",
+          "publication": "Published in Dragon Magazine 381, page(s) 72."
+        },
+        "subtitle": "10",
+        "title": "Deathguide's Stance",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power11049",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Kord answers your shouted prayer with strength and power, causing you to excel in acts of physical might.\n\nENCOUNTER / FREE\n\nPersonal\n\nTrigger: You would make an Athletics check or an Endurance check\n\nEffect: You gain a +5 power bonus to the triggering skill check. Until the end of your next turn, you gain a +2 power bonus to melee damage rolls, and targets you hit with melee attacks are subject to your divine sanction until the end of your next turn.",
+        "title": "Kord's Strength"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "FREE",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "You gain a +5 power bonus to the triggering skill check. Until the end of your next turn, you gain a +2 power bonus to melee damage rolls, and targets you hit with melee attacks are subject to your divine sanction until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "trigger": "You would make an Athletics check or an Endurance check",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Kord answers your shouted prayer with strength and power, causing you to excel in acts of physical might.",
+        "flavor": "Kord answers your shouted prayer with strength and power, causing you to excel in acts of physical might.",
+        "id": "modern4e.power.utility-class-paladin-power11049",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power11049",
+          "publication": "Published in Dragon Magazine 383, page(s) 78."
+        },
+        "subtitle": "2",
+        "title": "Kord's Strength",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power11050",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Failure breeds frustration and frustration breeds unchecked fury, which you channel into your ability to wound your foes.\n\nENCOUNTER / FREE\n\nPersonal\n\nTrigger: You miss a target with a paladin encounter or daily attack power\n\nEffect: The targets you missed with the power are subject to your divine sanction until the end of your next turn. You gain a +2 power bonus to damage rolls on the next attack you make before the end of your next turn.",
+        "title": "Fury of the Battle God"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "FREE",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "The targets you missed with the power are subject to your divine sanction until the end of your next turn. You gain a +2 power bonus to damage rolls on the next attack you make before the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "trigger": "You miss a target with a paladin encounter or daily attack power",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Failure breeds frustration and frustration breeds unchecked fury, which you channel into your ability to wound your foes.",
+        "flavor": "Failure breeds frustration and frustration breeds unchecked fury, which you channel into your ability to wound your foes.",
+        "id": "modern4e.power.utility-class-paladin-power11050",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power11050",
+          "publication": "Published in Dragon Magazine 383, page(s) 78."
+        },
+        "subtitle": "6",
+        "title": "Fury of the Battle God",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power1255",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE",
+            "IMPLEMENT",
+            "ZONE"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You trace a circle around you with your hand, and it quickly expands into a wide circle of faintly glowing runes that glows brightly and protects you and your close allies.\n\nDAILY / STANDARD\n\nClose burst 3\n\nEffect: The burst creates a zone that, until the end of the encounter, gives you and allies within it a +1 power bonus to AC.",
+        "title": "Sacred Circle"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "The burst creates a zone that, until the end of the encounter, gives you and allies within it a +1 power bonus to AC.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 3",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You trace a circle around you with your hand, and it quickly expands into a wide circle of faintly glowing runes that glows brightly and protects you and your close allies.",
+        "flavor": "You trace a circle around you with your hand, and it quickly expands into a wide circle of faintly glowing runes that glows brightly and protects you and your close allies.",
+        "id": "modern4e.power.utility-class-paladin-power1255",
+        "keywords": [
+          "DIVINE",
+          "IMPLEMENT",
+          "ZONE"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power1255",
+          "publication": "Published in Player's Handbook, page(s) 93."
+        },
+        "subtitle": "2",
+        "title": "Sacred Circle",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power1279",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You extend the power of your virtue to nearby allies, enabling you and your friends to easily strike down your enemies.\n\nDAILY / MINOR\n\nClose burst 1\n\nTarget: You and each ally in the burst\n\nEffect: Until the end of the encounter, each target gains a power bonus to damage rolls equal to your Charisma.",
+        "title": "Wrath of the Gods"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "You and each ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "Until the end of the encounter, each target gains a power bonus to damage rolls equal to your Charisma.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 1",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You extend the power of your virtue to nearby allies, enabling you and your friends to easily strike down your enemies.",
+        "flavor": "You extend the power of your virtue to nearby allies, enabling you and your friends to easily strike down your enemies.",
+        "id": "modern4e.power.utility-class-paladin-power1279",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power1279",
+          "publication": "Published in Player's Handbook, page(s) 94, Heroes of the Forgotten Kingdoms, page(s) 128."
+        },
+        "subtitle": "6",
+        "title": "Wrath of the Gods",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power1284",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You quickly throw up your hand, and a vortex of swirling energy surrounds you and your friends, shielding them from harm at your expense.\n\nDAILY / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: You are targeted by a close attack or an area attack\n\nEffect: A close attack or an area attack targeting you automatically hits you, and any of your allies who are also hit take only half damage. This power does not change other effects the attack might cause.",
+        "title": "Noble Shield"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_INTERRUPT",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "A close attack or an area attack targeting you automatically hits you, and any of your allies who are also hit take only half damage. This power does not change other effects the attack might cause.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "trigger": "You are targeted by a close attack or an area attack",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You quickly throw up your hand, and a vortex of swirling energy surrounds you and your friends, shielding them from harm at your expense.",
+        "flavor": "You quickly throw up your hand, and a vortex of swirling energy surrounds you and your friends, shielding them from harm at your expense.",
+        "id": "modern4e.power.utility-class-paladin-power1284",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power1284",
+          "publication": "Published in Player's Handbook, page(s) 95."
+        },
+        "subtitle": "10",
+        "title": "Noble Shield",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power1288",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You step into an attack made against an adjacent ally to save your comrade.\n\nDAILY / IMMEDIATE_INTERRUPT\n\nClose burst 1\n\nTrigger: An adjacent ally is hit by a melee or a ranged attack\n\nEffect: You are hit by the attack instead.",
+        "title": "Martyr's Blessing"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_INTERRUPT",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "You are hit by the attack instead.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 1",
+              "type": "RULES_TEXT"
+            },
+            "trigger": "An adjacent ally is hit by a melee or a ranged attack",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You step into an attack made against an adjacent ally to save your comrade.",
+        "flavor": "You step into an attack made against an adjacent ally to save your comrade.",
+        "id": "modern4e.power.utility-class-paladin-power1288",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power1288",
+          "publication": "Published in Player's Handbook, page(s) 93."
+        },
+        "subtitle": "2",
+        "title": "Martyr's Blessing",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power1289",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You and your trusted allies form a telepathic bond.\n\nDAILY / MINOR\n\nClose burst 6\n\nTarget: You and each ally in the burst\n\nEffect: Until the end of the encounter, targets can communicate telepathically with each other out to a range of 20 squares, and your aid another actions give a +4 bonus instead of +2.",
+        "title": "One Heart, One Mind"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "You and each ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "Until the end of the encounter, targets can communicate telepathically with each other out to a range of 20 squares, and your aid another actions give a +4 bonus instead of +2.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 6",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You and your trusted allies form a telepathic bond.",
+        "flavor": "You and your trusted allies form a telepathic bond.",
+        "id": "modern4e.power.utility-class-paladin-power1289",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power1289",
+          "publication": "Published in Player's Handbook, page(s) 94."
+        },
+        "subtitle": "6",
+        "title": "One Heart, One Mind",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power1292",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You speak with such compelling conviction that others find it difficult to refute your beliefs and claims.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: You gain a +4 power bonus to Diplomacy checks until the end of the encounter.",
+        "title": "Astral Speech"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "You gain a +4 power bonus to Diplomacy checks until the end of the encounter.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You speak with such compelling conviction that others find it difficult to refute your beliefs and claims.",
+        "flavor": "You speak with such compelling conviction that others find it difficult to refute your beliefs and claims.",
+        "id": "modern4e.power.utility-class-paladin-power1292",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power1292",
+          "publication": "Published in Player's Handbook, page(s) 93."
+        },
+        "subtitle": "2",
+        "title": "Astral Speech",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power13557",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE",
+            "HEALING"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You lay your hands upon an ally, invoking the power of your virtue to restore a comrade to health and remove hindering effects.\n\nDAILY / MINOR\n\nMelee 1\n\nTarget: One creature\n\nEffect: The target regains hit points equal to your healing surge value and can make a saving throw.",
+        "title": "Restore Vitality"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "The target regains hit points equal to your healing surge value and can make a saving throw.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee 1",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You lay your hands upon an ally, invoking the power of your virtue to restore a comrade to health and remove hindering effects.",
+        "flavor": "You lay your hands upon an ally, invoking the power of your virtue to restore a comrade to health and remove hindering effects.",
+        "id": "modern4e.power.utility-class-paladin-power13557",
+        "keywords": [
+          "DIVINE",
+          "HEALING"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power13557",
+          "publication": "Published in Heroes of the Forgotten Kingdoms."
+        },
+        "subtitle": "2",
+        "title": "Restore Vitality",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power13560",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You create a spiritual link between yourself and an ally that allows you to partially shield your friend from harm.\n\nDAILY / MINOR\n\nClose burst 5\n\nTarget: One ally in the burst\n\nEffect: Until the end of the encounter, the target gains a +2 power bonus to all defenses and a +5 power bonus to Endurance checks. In addition, whenever the target takes damage, you can reduce that damage by 5 as a free action. If you do so, you take 5 damage. This damage ignores your immunities and resistances.",
+        "title": "Bond of Protection"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "Until the end of the encounter, the target gains a +2 power bonus to all defenses and a +5 power bonus to Endurance checks. In addition, whenever the target takes damage, you can reduce that damage by 5 as a free action. If you do so, you take 5 damage. This damage ignores your immunities and resistances.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You create a spiritual link between yourself and an ally that allows you to partially shield your friend from harm.",
+        "flavor": "You create a spiritual link between yourself and an ally that allows you to partially shield your friend from harm.",
+        "id": "modern4e.power.utility-class-paladin-power13560",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power13560",
+          "publication": "Published in Heroes of the Forgotten Kingdoms."
+        },
+        "subtitle": "6",
+        "title": "Bond of Protection",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power13564",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You inspire hope in your allies through your combination of divine power and valorous words.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Once per round until the end of the encounter, you can take a minor action to choose an ally within 5 squares of you. That ally gains 5 temporary hit points and a +2 power bonus to the next skill check he or she makes before the end of his or her next turn.",
+        "title": "Beacon of Nobility"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Once per round until the end of the encounter, you can take a minor action to choose an ally within 5 squares of you. That ally gains 5 temporary hit points and a +2 power bonus to the next skill check he or she makes before the end of his or her next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You inspire hope in your allies through your combination of divine power and valorous words.",
+        "flavor": "You inspire hope in your allies through your combination of divine power and valorous words.",
+        "id": "modern4e.power.utility-class-paladin-power13564",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power13564",
+          "publication": "Published in Heroes of the Forgotten Kingdoms."
+        },
+        "subtitle": "10",
+        "title": "Beacon of Nobility",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power13565",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE",
+            "HEALING"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You sacrifice some of your own vitality to help your allies overcome their wounds.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Once per round until the end of the encounter, you can take a minor action to restore 10 hit points to one ally within 2 squares of you. If you do so, you take 10 damage. This damage ignores your immunities and resistances.",
+        "title": "Beacon of Penance"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Once per round until the end of the encounter, you can take a minor action to restore 10 hit points to one ally within 2 squares of you. If you do so, you take 10 damage. This damage ignores your immunities and resistances.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You sacrifice some of your own vitality to help your allies overcome their wounds.",
+        "flavor": "You sacrifice some of your own vitality to help your allies overcome their wounds.",
+        "id": "modern4e.power.utility-class-paladin-power13565",
+        "keywords": [
+          "DIVINE",
+          "HEALING"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power13565",
+          "publication": "Published in Heroes of the Forgotten Kingdoms."
+        },
+        "subtitle": "10",
+        "title": "Beacon of Penance",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power13818",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "SHADOW"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your vice buoys your heart, and you revel in the power it provides.\n\nENCOUNTER / MINOR\n\nPersonal\n\nEffect: You gain 5 temporary hit points, and you can make a saving throw. In addition, you gain a +2 power bonus to all defenses until the end of your next turn.\n\nLevel 11: 10 temporary hit points.\n\nLevel 21: 15 temporary hit points.",
+        "title": "Vice's Reward"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "You gain 5 temporary hit points, and you can make a saving throw. In addition, you gain a +2 power bonus to all defenses until the end of your next turn.",
+                "type": "effect"
+              },
+              {
+                "id": "rule-2",
+                "label": "Level 11",
+                "text": "10 temporary hit points.",
+                "type": "effect"
+              },
+              {
+                "id": "rule-3",
+                "label": "Level 21",
+                "text": "15 temporary hit points.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your vice buoys your heart, and you revel in the power it provides.",
+        "flavor": "Your vice buoys your heart, and you revel in the power it provides.",
+        "id": "modern4e.power.utility-class-paladin-power13818",
+        "keywords": [
+          "SHADOW"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power13818",
+          "publication": "Published in Heroes of Shadow, page(s) 38."
+        },
+        "subtitle": "2",
+        "title": "Vice's Reward",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power13822",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "FEAR",
+            "SHADOW"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You radiate crushing dread so powerful that your enemies cannot bear to be near you.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Until the end of the encounter, when you hit any enemy with an at-will melee attack, you also push that target up to a number of squares equal to your Charisma.",
+        "title": "Aspect of Domination"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Until the end of the encounter, when you hit any enemy with an at-will melee attack, you also push that target up to a number of squares equal to your Charisma.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You radiate crushing dread so powerful that your enemies cannot bear to be near you.",
+        "flavor": "You radiate crushing dread so powerful that your enemies cannot bear to be near you.",
+        "id": "modern4e.power.utility-class-paladin-power13822",
+        "keywords": [
+          "FEAR",
+          "SHADOW"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power13822",
+          "publication": "Published in Heroes of Shadow, page(s) 40."
+        },
+        "subtitle": "6",
+        "title": "Aspect of Domination",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power13823",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "SHADOW"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "The blood of wounded foes feeds your anger, empowering your blows.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Until the end of the encounter, your melee weapon attacks deal 1[W] extra damage when you are adjacent to at least one bloodied creature.",
+        "title": "Aspect of Ferocity"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Until the end of the encounter, your melee weapon attacks deal 1[W] extra damage when you are adjacent to at least one bloodied creature.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "The blood of wounded foes feeds your anger, empowering your blows.",
+        "flavor": "The blood of wounded foes feeds your anger, empowering your blows.",
+        "id": "modern4e.power.utility-class-paladin-power13823",
+        "keywords": [
+          "SHADOW"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power13823",
+          "publication": "Published in Heroes of Shadow, page(s) 40."
+        },
+        "subtitle": "6",
+        "title": "Aspect of Ferocity",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power13826",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "AURA",
+            "NECROTIC",
+            "SHADOW"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "The spirit of death surrounds you, nipping at your foes as they are struck.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: You activate an aura 1 that lasts until the end of the encounter. While you are bloodied, enemies in the aura take necrotic damage after they are hit by any attack. The damage equals your Charisma.",
+        "title": "Deathly Aura"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "You activate an aura 1 that lasts until the end of the encounter. While you are bloodied, enemies in the aura take necrotic damage after they are hit by any attack. The damage equals your Charisma.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "The spirit of death surrounds you, nipping at your foes as they are struck.",
+        "flavor": "The spirit of death surrounds you, nipping at your foes as they are struck.",
+        "id": "modern4e.power.utility-class-paladin-power13826",
+        "keywords": [
+          "AURA",
+          "NECROTIC",
+          "SHADOW"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power13826",
+          "publication": "Published in Heroes of Shadow, page(s) 41."
+        },
+        "subtitle": "10",
+        "title": "Deathly Aura",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power13827",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "SHADOW"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You whisper a dread word that lets you and your companions sacrifice health to shed an affliction.\n\nDAILY / STANDARD\n\nClose burst 3\n\nTarget: You and each ally in the burst\n\nEffect: Each target can take damage equal to one-half his or her level to make a saving throw with a +4 power bonus. The damage cannot be reduced in any way.",
+        "title": "Turn of the Dark Tide"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "You and each ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "Each target can take damage equal to one-half his or her level to make a saving throw with a +4 power bonus. The damage cannot be reduced in any way.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 3",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You whisper a dread word that lets you and your companions sacrifice health to shed an affliction.",
+        "flavor": "You whisper a dread word that lets you and your companions sacrifice health to shed an affliction.",
+        "id": "modern4e.power.utility-class-paladin-power13827",
+        "keywords": [
+          "SHADOW"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power13827",
+          "publication": "Published in Heroes of Shadow, page(s) 41."
+        },
+        "subtitle": "10",
+        "title": "Turn of the Dark Tide",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power1446",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You whisper a solemn hymn, and divine light washes gently over you and nearby allies, potentially negating harmful and debilitating afflictions.\n\nDAILY / STANDARD\n\nClose burst 3\n\nTarget: You and each ally in the burst\n\nEffect: The targets make saving throws against every effect that a save can end.",
+        "title": "Turn the Tide"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "You and each ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "The targets make saving throws against every effect that a save can end.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 3",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You whisper a solemn hymn, and divine light washes gently over you and nearby allies, potentially negating harmful and debilitating afflictions.",
+        "flavor": "You whisper a solemn hymn, and divine light washes gently over you and nearby allies, potentially negating harmful and debilitating afflictions.",
+        "id": "modern4e.power.utility-class-paladin-power1446",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power1446",
+          "publication": "Published in Player's Handbook, page(s) 95."
+        },
+        "subtitle": "10",
+        "title": "Turn the Tide",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power31",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A translucent outline briefly appears above the creature you designate. The divine spirit gestures, relieving some of the creature's suffering, then fades instantly away.\n\nENCOUNTER / MINOR\n\nRanged 5\n\nTarget: You or one ally\n\nEffect: The target makes a saving throw with a +2 bonus.",
+        "title": "Cleansing Spirit"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "You or one ally"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "The target makes a saving throw with a +2 bonus.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A translucent outline briefly appears above the creature you designate. The divine spirit gestures, relieving some of the creature's suffering, then fades instantly away.",
+        "flavor": "A translucent outline briefly appears above the creature you designate. The divine spirit gestures, relieving some of the creature's suffering, then fades instantly away.",
+        "id": "modern4e.power.utility-class-paladin-power31",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power31",
+          "publication": "Published in Player's Handbook, page(s) 95."
+        },
+        "subtitle": "10",
+        "title": "Cleansing Spirit",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power3285",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You reassure your ally, conferring divine power to throw off ill effects.\n\nENCOUNTER / MINOR\n\nMelee touch\n\nTarget: One creature\n\nEffect: The target can make a saving throw. Against a fear effect, the target gains a bonus to the saving throw equal to your Wisdom.",
+        "title": "Fear Not"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "The target can make a saving throw. Against a fear effect, the target gains a bonus to the saving throw equal to your Wisdom.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee touch",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You reassure your ally, conferring divine power to throw off ill effects.",
+        "flavor": "You reassure your ally, conferring divine power to throw off ill effects.",
+        "id": "modern4e.power.utility-class-paladin-power3285",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3285",
+          "publication": "Published in Divine Power, page(s) 86."
+        },
+        "subtitle": "6",
+        "title": "Fear Not",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power3286",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "The power of your god deflects part of an attack against you, and you call out the attacker.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: An enemy hits your Fortitude, Reflex, or Will\n\nEffect: You take only half damage from the triggering enemy's attack, and the triggering enemy is subject to your divine sanction until the end of its next turn.",
+        "title": "Divine Counter"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_INTERRUPT",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "You take only half damage from the triggering enemy's attack, and the triggering enemy is subject to your divine sanction until the end of its next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "trigger": "An enemy hits your Fortitude, Reflex, or Will",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "The power of your god deflects part of an attack against you, and you call out the attacker.",
+        "flavor": "The power of your god deflects part of an attack against you, and you call out the attacker.",
+        "id": "modern4e.power.utility-class-paladin-power3286",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3286",
+          "publication": "Published in Divine Power, page(s) 85."
+        },
+        "subtitle": "2",
+        "title": "Divine Counter",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power3291",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE",
+            "HEALING"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Divine beneficence heals you and your companion.\n\nDAILY / MINOR\n\nClose burst 5\n\nTarget: You and one ally in the burst\n\nEffect: You spend a healing surge, and each target regains hit points equal to your healing surge value.",
+        "title": "Font of Healing"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "You and one ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "You spend a healing surge, and each target regains hit points equal to your healing surge value.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Divine beneficence heals you and your companion.",
+        "flavor": "Divine beneficence heals you and your companion.",
+        "id": "modern4e.power.utility-class-paladin-power3291",
+        "keywords": [
+          "DIVINE",
+          "HEALING"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3291",
+          "publication": "Published in Divine Power, page(s) 88."
+        },
+        "subtitle": "10",
+        "title": "Font of Healing",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power356",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "As your weapon connects with your enemies, so too does the magic of your god connect you to your allies.\n\nDAILY / MINOR\n\nRanged 5\n\nEffect: Choose an ally within 5 squares of you. You take half that ally's damage until the end of the encounter or until you end the effect as a free action. No power or effect can reduce the damage you take from this power.",
+        "title": "Divine Bodyguard"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Choose an ally within 5 squares of you. You take half that ally's damage until the end of the encounter or until you end the effect as a free action. No power or effect can reduce the damage you take from this power.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 5",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "As your weapon connects with your enemies, so too does the magic of your god connect you to your allies.",
+        "flavor": "As your weapon connects with your enemies, so too does the magic of your god connect you to your allies.",
+        "id": "modern4e.power.utility-class-paladin-power356",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power356",
+          "publication": "Published in Player's Handbook, page(s) 94."
+        },
+        "subtitle": "6",
+        "title": "Divine Bodyguard",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power3727",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE",
+            "RADIANT"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You recite an ancient prayer to imbue your weapon with the power of pure faith.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Choose one weapon you are wielding. Until the end of the encounter, you gain a +1 power bonus to attack rolls with that weapon, and it deals 1d6 extra radiant damage on a hit. In addition, you can score a critical hit with the weapon on a roll of 18–20 against creatures vulnerable to radiant damage.",
+        "title": "Bless Weapon"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Choose one weapon you are wielding. Until the end of the encounter, you gain a +1 power bonus to attack rolls with that weapon, and it deals 1d6 extra radiant damage on a hit. In addition, you can score a critical hit with the weapon on a roll of 18–20 against creatures vulnerable to radiant damage.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You recite an ancient prayer to imbue your weapon with the power of pure faith.",
+        "flavor": "You recite an ancient prayer to imbue your weapon with the power of pure faith.",
+        "id": "modern4e.power.utility-class-paladin-power3727",
+        "keywords": [
+          "DIVINE",
+          "RADIANT"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3727",
+          "publication": "Published in Divine Power, page(s) 85."
+        },
+        "subtitle": "2",
+        "title": "Bless Weapon",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power3745",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You take onto yourself the suffering of your ally.\n\nENCOUNTER / MINOR\n\nMelee touch\n\nTarget: One ally\n\nEffect: You transfer to yourself one effect on the target that a save can end.",
+        "title": "Touch of Grace"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One ally"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "You transfer to yourself one effect on the target that a save can end.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee touch",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You take onto yourself the suffering of your ally.",
+        "flavor": "You take onto yourself the suffering of your ally.",
+        "id": "modern4e.power.utility-class-paladin-power3745",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3745",
+          "publication": "Published in Divine Power, page(s) 85."
+        },
+        "subtitle": "2",
+        "title": "Touch of Grace",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power3748",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "The intensity of your faith protects you from your enemy's insidious power.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: An enemy attacks you\n\nEffect: You gain a +4 power bonus to Fortitude and Will until the end of your next turn.",
+        "title": "Pure Devotion"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_INTERRUPT",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "You gain a +4 power bonus to Fortitude and Will until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "trigger": "An enemy attacks you",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "The intensity of your faith protects you from your enemy's insidious power.",
+        "flavor": "The intensity of your faith protects you from your enemy's insidious power.",
+        "id": "modern4e.power.utility-class-paladin-power3748",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3748",
+          "publication": "Published in Divine Power, page(s) 86."
+        },
+        "subtitle": "6",
+        "title": "Pure Devotion",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power3751",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE",
+            "RADIANT"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You speak a prayer of protection for an ally, who is surrounded by a shining halo.\n\nDAILY / MINOR\n\nClose burst 10\n\nTarget: One ally in the burst\n\nEffect: Until the end of the encounter, any enemy that hits or misses the target takes 3 + your Charisma radiant damage, unless that enemy is marked by the target.\n\nLevel 11: 6 + your Charisma radiant damage.\n\nLevel 21: 9 + your Charisma radiant damage.",
+        "title": "Shield the Virtuous"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "Until the end of the encounter, any enemy that hits or misses the target takes 3 + your Charisma radiant damage, unless that enemy is marked by the target.",
+                "type": "effect"
+              },
+              {
+                "id": "rule-3",
+                "label": "Level 11",
+                "text": "6 + your Charisma radiant damage.",
+                "type": "effect"
+              },
+              {
+                "id": "rule-4",
+                "label": "Level 21",
+                "text": "9 + your Charisma radiant damage.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You speak a prayer of protection for an ally, who is surrounded by a shining halo.",
+        "flavor": "You speak a prayer of protection for an ally, who is surrounded by a shining halo.",
+        "id": "modern4e.power.utility-class-paladin-power3751",
+        "keywords": [
+          "DIVINE",
+          "RADIANT"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3751",
+          "publication": "Published in Divine Power, page(s) 86."
+        },
+        "subtitle": "6",
+        "title": "Shield the Virtuous",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power3752",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "In the sacred words of a prayer, you find the resolve to shake off a deleterious condition.\n\nENCOUNTER / MINOR\n\nPersonal\n\nEffect: You make a saving throw with a bonus equal to 1 + your Wisdom.",
+        "title": "Guiding Verse"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "You make a saving throw with a bonus equal to 1 + your Wisdom.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "In the sacred words of a prayer, you find the resolve to shake off a deleterious condition.",
+        "flavor": "In the sacred words of a prayer, you find the resolve to shake off a deleterious condition.",
+        "id": "modern4e.power.utility-class-paladin-power3752",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3752",
+          "publication": "Published in Divine Power, page(s) 88."
+        },
+        "subtitle": "10",
+        "title": "Guiding Verse",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power7248",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You brandish your weapon and demand that all foes nearby face you in battle.\n\nENCOUNTER / MINOR\n\nClose burst 3\n\nTarget: Each enemy in the burst\n\nEffect: Each target is subject to your divine sanction until the end of your next turn.",
+        "title": "Call of Challenge"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "Each enemy in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "Each target is subject to your divine sanction until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 3",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You brandish your weapon and demand that all foes nearby face you in battle.",
+        "flavor": "You brandish your weapon and demand that all foes nearby face you in battle.",
+        "id": "modern4e.power.utility-class-paladin-power7248",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7248",
+          "publication": "Published in Divine Power, page(s) 85."
+        },
+        "subtitle": "2",
+        "title": "Call of Challenge",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power7249",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You gird yourself in your high ideals and face the enemy with renewed determination.\n\nENCOUNTER / MINOR\n\nPersonal\n\nEffect: You spend a healing surge but regain no hit points. You instead gain temporary hit points equal to your healing surge value.",
+        "title": "Virtue"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "You spend a healing surge but regain no hit points. You instead gain temporary hit points equal to your healing surge value.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You gird yourself in your high ideals and face the enemy with renewed determination.",
+        "flavor": "You gird yourself in your high ideals and face the enemy with renewed determination.",
+        "id": "modern4e.power.utility-class-paladin-power7249",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7249",
+          "publication": "Published in Divine Power, page(s) 85."
+        },
+        "subtitle": "2",
+        "title": "Virtue",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power7255",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Toughness hard won through years of rigorous self-control blunts your enemies' attacks.\n\nENCOUNTER / MINOR\n\nPersonal\n\nEffect: Until the end of your next turn, you gain resistance to all damage equal to your Strength.",
+        "title": "Shield of Discipline"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Until the end of your next turn, you gain resistance to all damage equal to your Strength.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Toughness hard won through years of rigorous self-control blunts your enemies' attacks.",
+        "flavor": "Toughness hard won through years of rigorous self-control blunts your enemies' attacks.",
+        "id": "modern4e.power.utility-class-paladin-power7255",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7255",
+          "publication": "Published in Divine Power, page(s) 86."
+        },
+        "subtitle": "6",
+        "title": "Shield of Discipline",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power7256",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You plunge into battle with divine speed.\n\nENCOUNTER / MOVE\n\nPersonal\n\nEffect: You move twice your speed to a square adjacent to an enemy that is within your line of sight at the start of this movement.",
+        "title": "Valiant Rush"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MOVE",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "You move twice your speed to a square adjacent to an enemy that is within your line of sight at the start of this movement.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You plunge into battle with divine speed.",
+        "flavor": "You plunge into battle with divine speed.",
+        "id": "modern4e.power.utility-class-paladin-power7256",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7256",
+          "publication": "Published in Divine Power, page(s) 87."
+        },
+        "subtitle": "6",
+        "title": "Valiant Rush",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power7264",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE",
+            "HEALING"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A quick prayer grants vigor and strength to a comrade in battle.\n\nENCOUNTER / IMMEDIATE_REACTION\n\nClose burst 5\n\nTrigger: An ally within 5 squares of you hits with a melee attack\n\nTarget: The triggering ally\n\nEffect: The target can either spend a healing surge or make two damage rolls for the attack and use either result.",
+        "title": "Benediction"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_REACTION",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "The triggering ally"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-3",
+                "label": "Effect",
+                "text": "The target can either spend a healing surge or make two damage rolls for the attack and use either result.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "trigger": "An ally within 5 squares of you hits with a melee attack",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A quick prayer grants vigor and strength to a comrade in battle.",
+        "flavor": "A quick prayer grants vigor and strength to a comrade in battle.",
+        "id": "modern4e.power.utility-class-paladin-power7264",
+        "keywords": [
+          "DIVINE",
+          "HEALING"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7264",
+          "publication": "Published in Divine Power, page(s) 88."
+        },
+        "subtitle": "10",
+        "title": "Benediction",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power7265",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Seeing your ally harmed enrages you.\n\nDAILY / IMMEDIATE_REACTION\n\nPersonal\n\nTrigger: An enemy hits your ally within your line of sight\n\nEffect: The next time you attack before the end of your next turn, you gain a +2 power bonus to the attack roll and deal extra damage equal to 2 + your Strength.",
+        "title": "Righteous Indignation"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_REACTION",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "The next time you attack before the end of your next turn, you gain a +2 power bonus to the attack roll and deal extra damage equal to 2 + your Strength.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "trigger": "An enemy hits your ally within your line of sight",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Seeing your ally harmed enrages you.",
+        "flavor": "Seeing your ally harmed enrages you.",
+        "id": "modern4e.power.utility-class-paladin-power7265",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7265",
+          "publication": "Published in Divine Power, page(s) 88."
+        },
+        "subtitle": "10",
+        "title": "Righteous Indignation",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power7382",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE",
+            "HEALING"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "The energy of your divine challenge erupts with light that heals you as the enemy attacks and empowers your next strike against it.\n\nDAILY / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: The target of your divine challenge hits you\n\nEffect: You can spend a healing surge. You gain a +2 power bonus to attack rolls against the triggering enemy until the end of your next turn.",
+        "title": "Flare of Divine Vengeance"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_INTERRUPT",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "You can spend a healing surge. You gain a +2 power bonus to attack rolls against the triggering enemy until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "trigger": "The target of your divine challenge hits you",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "The energy of your divine challenge erupts with light that heals you as the enemy attacks and empowers your next strike against it.",
+        "flavor": "The energy of your divine challenge erupts with light that heals you as the enemy attacks and empowers your next strike against it.",
+        "id": "modern4e.power.utility-class-paladin-power7382",
+        "keywords": [
+          "DIVINE",
+          "HEALING"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7382",
+          "publication": "Published in PH Heroes: Series 2."
+        },
+        "subtitle": "6",
+        "title": "Flare of Divine Vengeance",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-paladin-power7500",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE",
+            "STANCE"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your awareness expands to allow you to protect your allies in an instant, punishing those who would weaken your allies' resolve.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Until the stance ends, any time an enemy within 5 squares of you makes an attack that does not include you, you can use divine challenge on that enemy as a free action. If the triggering attack is against Will and you mark the attacker, it immediately takes the damage your divine challenge mark normally deals.",
+        "title": "Vengeful Vigilance"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.paladin",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Until the stance ends, any time an enemy within 5 squares of you makes an attack that does not include you, you can use divine challenge on that enemy as a free action. If the triggering attack is against Will and you mark the attacker, it immediately takes the damage your divine challenge mark normally deals.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your awareness expands to allow you to protect your allies in an instant, punishing those who would weaken your allies' resolve.",
+        "flavor": "Your awareness expands to allow you to protect your allies in an instant, punishing those who would weaken your allies' resolve.",
+        "id": "modern4e.power.utility-class-paladin-power7500",
+        "keywords": [
+          "DIVINE",
+          "STANCE"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power7500",
+          "publication": "Published in Dragon Magazine 375, page(s) 13."
+        },
+        "subtitle": "10",
+        "title": "Vengeful Vigilance",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.paladin",
+          "id": "class-paladin",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    }
+  ],
+  "id": "entries-0011"
+}

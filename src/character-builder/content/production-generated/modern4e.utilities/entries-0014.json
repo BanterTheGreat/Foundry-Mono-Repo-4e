@@ -1,0 +1,1826 @@
+{
+  "entries": [
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-runepriest-power11378",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE",
+            "ZONE"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "The icons of victory were runes that steeled the divine echelons against the primordial hordes. You invoke the least of these runes, inspiring your allies to victory.\n\nDAILY / MINOR\n\nClose burst 1\n\nEffect: The burst creates a zone that lasts until the end of your next turn. You and your allies gain a +2 power bonus to attack rolls while within the zone.\n\nSustain Minor: The zone persists.",
+        "title": "Icon of Victory"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "The burst creates a zone that lasts until the end of your next turn. You and your allies gain a +2 power bonus to attack rolls while within the zone.",
+                "type": "effect"
+              },
+              {
+                "id": "rule-2",
+                "label": "Sustain Minor",
+                "text": "The zone persists.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 1",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "The icons of victory were runes that steeled the divine echelons against the primordial hordes. You invoke the least of these runes, inspiring your allies to victory.",
+        "flavor": "The icons of victory were runes that steeled the divine echelons against the primordial hordes. You invoke the least of these runes, inspiring your allies to victory.",
+        "id": "modern4e.power.utility-class-runepriest-power11378",
+        "keywords": [
+          "DIVINE",
+          "ZONE"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power11378",
+          "publication": "Published in Player's Handbook 3, page(s) 103."
+        },
+        "subtitle": "2",
+        "title": "Icon of Victory",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.runepriest",
+          "id": "class-runepriest",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-runepriest-power11379",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You call on the runes of knowledge to grant to an ally the skill he or she needs to complete a daunting task.\n\nENCOUNTER / MINOR\n\nRanged 10\n\nTarget: One ally\n\nEffect: Until the end of your next turn, the target gains a +5 power bonus to his or her next skill check without proficiency or a +2 power bonus to his or her next skill check with proficiency.",
+        "title": "Mark of Skilled Effort"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One ally"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "Until the end of your next turn, the target gains a +5 power bonus to his or her next skill check without proficiency or a +2 power bonus to his or her next skill check with proficiency.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You call on the runes of knowledge to grant to an ally the skill he or she needs to complete a daunting task.",
+        "flavor": "You call on the runes of knowledge to grant to an ally the skill he or she needs to complete a daunting task.",
+        "id": "modern4e.power.utility-class-runepriest-power11379",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power11379",
+          "publication": "Published in Player's Handbook 3, page(s) 103."
+        },
+        "subtitle": "2",
+        "title": "Mark of Skilled Effort",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.runepriest",
+          "id": "class-runepriest",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-runepriest-power11380",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You trace the rune of the final effort on your ally, granting him or her the resilience needed to see the battle to the end.\n\nENCOUNTER / MINOR\n\nMelee 1\n\nTarget: One bloodied ally\n\nEffect: Until the end of your next turn, the target gains a +5 power bonus to all defenses.",
+        "title": "Rune of the Final Effort"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One bloodied ally"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "Until the end of your next turn, the target gains a +5 power bonus to all defenses.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee 1",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You trace the rune of the final effort on your ally, granting him or her the resilience needed to see the battle to the end.",
+        "flavor": "You trace the rune of the final effort on your ally, granting him or her the resilience needed to see the battle to the end.",
+        "id": "modern4e.power.utility-class-runepriest-power11380",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power11380",
+          "publication": "Published in Player's Handbook 3, page(s) 103."
+        },
+        "subtitle": "2",
+        "title": "Rune of the Final Effort",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.runepriest",
+          "id": "class-runepriest",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-runepriest-power11381",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE",
+            "HEALING"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You invoke the rune of sacrifice, ensuring that he or she who gives strength in the name of the gods will also receive their protection.\n\nDAILY / MINOR\n\nClose burst 5\n\nTarget: You or one ally in the burst\n\nEffect: The target loses a healing surge. One or two allies within 5 squares of the target regain hit points as if they had each spent a healing surge. The target and each ally who regained hit points gain a +5 power bonus to AC until the end of your next turn.",
+        "title": "Shield of Sacrifice"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "You or one ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "The target loses a healing surge. One or two allies within 5 squares of the target regain hit points as if they had each spent a healing surge. The target and each ally who regained hit points gain a +5 power bonus to AC until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You invoke the rune of sacrifice, ensuring that he or she who gives strength in the name of the gods will also receive their protection.",
+        "flavor": "You invoke the rune of sacrifice, ensuring that he or she who gives strength in the name of the gods will also receive their protection.",
+        "id": "modern4e.power.utility-class-runepriest-power11381",
+        "keywords": [
+          "DIVINE",
+          "HEALING"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power11381",
+          "publication": "Published in Player's Handbook 3, page(s) 103."
+        },
+        "subtitle": "2",
+        "title": "Shield of Sacrifice",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.runepriest",
+          "id": "class-runepriest",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-runepriest-power11390",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You invoke the rune of shared pains, allowing you to absorb the punishment meant for an ally.\n\nDAILY / MINOR\n\nClose burst 5\n\nTarget: One ally in the burst\n\nEffect: Until the end of the encounter, whenever the target takes damage, you can use an immediate interrupt to take the damage in the target's place.",
+        "title": "Banner of Alliance"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "Until the end of the encounter, whenever the target takes damage, you can use an immediate interrupt to take the damage in the target's place.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You invoke the rune of shared pains, allowing you to absorb the punishment meant for an ally.",
+        "flavor": "You invoke the rune of shared pains, allowing you to absorb the punishment meant for an ally.",
+        "id": "modern4e.power.utility-class-runepriest-power11390",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power11390",
+          "publication": "Published in Player's Handbook 3, page(s) 104."
+        },
+        "subtitle": "6",
+        "title": "Banner of Alliance",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.runepriest",
+          "id": "class-runepriest",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-runepriest-power11391",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You invoke the runes of peace, making a pledge to set aside your weapons and giving you and your allies the chance to negotiate.\n\nENCOUNTER / MINOR\n\nClose burst 5\n\nTarget: You and each ally in the burst\n\nEffect: Each target gains a +5 power bonus to Diplomacy checks and Insight checks until the end of your next turn. The effect ends if any target makes an attack.",
+        "title": "Compact of Peace"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "You and each ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "Each target gains a +5 power bonus to Diplomacy checks and Insight checks until the end of your next turn. The effect ends if any target makes an attack.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You invoke the runes of peace, making a pledge to set aside your weapons and giving you and your allies the chance to negotiate.",
+        "flavor": "You invoke the runes of peace, making a pledge to set aside your weapons and giving you and your allies the chance to negotiate.",
+        "id": "modern4e.power.utility-class-runepriest-power11391",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power11391",
+          "publication": "Published in Player's Handbook 3, page(s) 104."
+        },
+        "subtitle": "6",
+        "title": "Compact of Peace",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.runepriest",
+          "id": "class-runepriest",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-runepriest-power11392",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "As battle begins, you invoke the rune of meritorious alacrity, bringing your friends instantly to readiness.\n\nDAILY / FREE\n\nRanged sight\n\nTrigger: You roll initiative\n\nTarget: You and each ally\n\nEffect: Each target gains a +10 bonus to his or her initiative check.",
+        "title": "Rune of Meritorious Alacrity"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "FREE",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "You and each ally"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-3",
+                "label": "Effect",
+                "text": "Each target gains a +10 bonus to his or her initiative check.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged sight",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "trigger": "You roll initiative",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "As battle begins, you invoke the rune of meritorious alacrity, bringing your friends instantly to readiness.",
+        "flavor": "As battle begins, you invoke the rune of meritorious alacrity, bringing your friends instantly to readiness.",
+        "id": "modern4e.power.utility-class-runepriest-power11392",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power11392",
+          "publication": "Published in Player's Handbook 3, page(s) 104."
+        },
+        "subtitle": "6",
+        "title": "Rune of Meritorious Alacrity",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.runepriest",
+          "id": "class-runepriest",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-runepriest-power11393",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "The rune of unyielding steel strengthens anything, even a living creature's skin, to the point that arrows and blades bounce off it.\n\nENCOUNTER / STANDARD\n\nMelee 1\n\nTarget: One ally\n\nEffect: The target gains a +2 power bonus to all defenses until the end of your next turn or until he or she is no longer adjacent to you.",
+        "title": "Rune of Unyielding Steel"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One ally"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "The target gains a +2 power bonus to all defenses until the end of your next turn or until he or she is no longer adjacent to you.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee 1",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "The rune of unyielding steel strengthens anything, even a living creature's skin, to the point that arrows and blades bounce off it.",
+        "flavor": "The rune of unyielding steel strengthens anything, even a living creature's skin, to the point that arrows and blades bounce off it.",
+        "id": "modern4e.power.utility-class-runepriest-power11393",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power11393",
+          "publication": "Published in Player's Handbook 3, page(s) 104."
+        },
+        "subtitle": "6",
+        "title": "Rune of Unyielding Steel",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.runepriest",
+          "id": "class-runepriest",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-runepriest-power11404",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You invoke the rune of resolve, granting your ally the bravery and strength needed to repel the enemy.\n\nDAILY / MINOR\n\nClose burst 5\n\nTarget: One ally in the burst\n\nEffect: Until the end of the encounter, the target gains 5 temporary hit points whenever he or she hits with an attack.",
+        "title": "Banner of Resolution"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "Until the end of the encounter, the target gains 5 temporary hit points whenever he or she hits with an attack.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You invoke the rune of resolve, granting your ally the bravery and strength needed to repel the enemy.",
+        "flavor": "You invoke the rune of resolve, granting your ally the bravery and strength needed to repel the enemy.",
+        "id": "modern4e.power.utility-class-runepriest-power11404",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power11404",
+          "publication": "Published in Player's Handbook 3, page(s) 106."
+        },
+        "subtitle": "10",
+        "title": "Banner of Resolution",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.runepriest",
+          "id": "class-runepriest",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-runepriest-power11405",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You invoke a rune on yourself and your allies that makes you all appear daunting even when your defenses are down.\n\nENCOUNTER / MINOR\n\nClose burst 5\n\nTarget: You and each ally in the burst\n\nEffect: The targets don't grant combat advantage until the end of your next turn.",
+        "title": "Rune of Daunting Light"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "You and each ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "The targets don't grant combat advantage until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You invoke a rune on yourself and your allies that makes you all appear daunting even when your defenses are down.",
+        "flavor": "You invoke a rune on yourself and your allies that makes you all appear daunting even when your defenses are down.",
+        "id": "modern4e.power.utility-class-runepriest-power11405",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power11405",
+          "publication": "Published in Player's Handbook 3, page(s) 106."
+        },
+        "subtitle": "10",
+        "title": "Rune of Daunting Light",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.runepriest",
+          "id": "class-runepriest",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-runepriest-power11406",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You invoke the rune of shared lore. Your skill is your allies' skill, and theirs is yours.\n\nDAILY / MINOR\n\nClose burst 5\n\nTarget: You and each ally in the burst\n\nEffect: Choose a skill. Until the end of the encounter, whenever each target makes a check with that skill, he or she uses the highest bonus for that skill from among all the targets.",
+        "title": "Rune of Shared Lore"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "You and each ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "Choose a skill. Until the end of the encounter, whenever each target makes a check with that skill, he or she uses the highest bonus for that skill from among all the targets.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You invoke the rune of shared lore. Your skill is your allies' skill, and theirs is yours.",
+        "flavor": "You invoke the rune of shared lore. Your skill is your allies' skill, and theirs is yours.",
+        "id": "modern4e.power.utility-class-runepriest-power11406",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power11406",
+          "publication": "Published in Player's Handbook 3, page(s) 106."
+        },
+        "subtitle": "10",
+        "title": "Rune of Shared Lore",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.runepriest",
+          "id": "class-runepriest",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-runepriest-power11407",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "AT_WILL"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You place a rune of the astral winds on your ally, allowing him or her to slip by your enemies in safety.\n\nAT_WILL / MOVE\n\nMelee touch\n\nTarget: One ally\n\nEffect: You slide the target 4 squares.\n\nSpecial: You can use this power only once per round.",
+        "title": "Rune of the Astral Winds"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MOVE",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One ally"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "You slide the target 4 squares.",
+                "type": "effect"
+              },
+              {
+                "id": "rule-3",
+                "label": "Special",
+                "text": "You can use this power only once per round.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee touch",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "AT_WILL",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You place a rune of the astral winds on your ally, allowing him or her to slip by your enemies in safety.",
+        "flavor": "You place a rune of the astral winds on your ally, allowing him or her to slip by your enemies in safety.",
+        "id": "modern4e.power.utility-class-runepriest-power11407",
+        "keywords": [
+          "DIVINE"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power11407",
+          "publication": "Published in Player's Handbook 3, page(s) 106."
+        },
+        "subtitle": "10",
+        "title": "Rune of the Astral Winds",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.runepriest",
+          "id": "class-runepriest",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-runepriest-power15991",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE",
+            "HEALING"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You write words that heal your ally with their inner warmth.\n\nDAILY / STANDARD\n\nClose burst 5\n\nTarget: You or one ally in the burst\n\nEffect: The target regains hit points equal to his or her healing surge value. In addition, the target gains a +2 power bonus to saving throws until the end of his or her next turn.",
+        "title": "Words of Compassion"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "You or one ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "The target regains hit points equal to his or her healing surge value. In addition, the target gains a +2 power bonus to saving throws until the end of his or her next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You write words that heal your ally with their inner warmth.",
+        "flavor": "You write words that heal your ally with their inner warmth.",
+        "id": "modern4e.power.utility-class-runepriest-power15991",
+        "keywords": [
+          "DIVINE",
+          "HEALING"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power15991",
+          "publication": "Published in Dragon Magazine 404."
+        },
+        "subtitle": "6",
+        "title": "Words of Compassion",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.runepriest",
+          "id": "class-runepriest",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-runepriest-power15993",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "DIVINE",
+            "HEALING"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "With masterful precision, you turn a small strip of parchment into a powerful ward.\n\nENCOUNTER / MINOR\n\nPersonal\n\nEffect: You spend a healing surge but regain no hit points. Instead, you create a palm-sized protective scroll that lasts until it is expended or until the end of your next extended rest. A creature carrying the scroll can use a minor action to expend the scroll and regain hit points equal to your healing surge value. The creature also gains a +5 power bonus to all defenses until the end of its next turn.",
+        "title": "Protective Scroll"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.runepriest",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "You spend a healing surge but regain no hit points. Instead, you create a palm-sized protective scroll that lasts until it is expended or until the end of your next extended rest. A creature carrying the scroll can use a minor action to expend the scroll and regain hit points equal to your healing surge value. The creature also gains a +5 power bonus to all defenses until the end of its next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "With masterful precision, you turn a small strip of parchment into a powerful ward.",
+        "flavor": "With masterful precision, you turn a small strip of parchment into a powerful ward.",
+        "id": "modern4e.power.utility-class-runepriest-power15993",
+        "keywords": [
+          "DIVINE",
+          "HEALING"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power15993",
+          "publication": "Published in Dragon Magazine 404."
+        },
+        "subtitle": "10",
+        "title": "Protective Scroll",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.runepriest",
+          "id": "class-runepriest",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    }
+  ],
+  "id": "entries-0014"
+}

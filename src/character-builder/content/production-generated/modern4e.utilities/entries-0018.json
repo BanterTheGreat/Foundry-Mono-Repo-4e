@@ -1,0 +1,3810 @@
+{
+  "entries": [
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power13603",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "CONJURATION",
+            "PRIMAL"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A bright light answers your call and heralds the faerie guardian's arrival. The diminutive warrior flutters near your foe while worrying it with feints and strikes.\n\nDAILY / MINOR\n\nRanged 5\n\nEffect: You conjure a faerie guardian in an unoccupied square within range. The faerie lasts until the end of the encounter or until you dismiss it as a minor action. As a minor action, you can move the faerie up to 5 squares.\n\nRule: Whenever you use your Nature's Wrath class feature, one enemy adjacent to your faerie guardian also becomes marked by you until the end of your next turn.",
+        "title": "Call Faerie Guardian"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "You conjure a faerie guardian in an unoccupied square within range. The faerie lasts until the end of the encounter or until you dismiss it as a minor action. As a minor action, you can move the faerie up to 5 squares.",
+                "type": "effect"
+              },
+              {
+                "id": "rule-2",
+                "label": "Rule",
+                "text": "Whenever you use your Nature's Wrath class feature, one enemy adjacent to your faerie guardian also becomes marked by you until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 5",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A bright light answers your call and heralds the faerie guardian's arrival. The diminutive warrior flutters near your foe while worrying it with feints and strikes.",
+        "flavor": "A bright light answers your call and heralds the faerie guardian's arrival. The diminutive warrior flutters near your foe while worrying it with feints and strikes.",
+        "id": "modern4e.power.utility-class-warden-power13603",
+        "keywords": [
+          "CONJURATION",
+          "PRIMAL"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power13603",
+          "publication": "Published in Dragon Magazine 392."
+        },
+        "subtitle": "2",
+        "title": "Call Faerie Guardian",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power13604",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "ZONE"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Tiny glowing fey folk flit and caper through the air around you. Their movements make it difficult for distant enemies to see you.\n\nDAILY / MINOR\n\nClose burst 1\n\nEffect: The burst becomes a zone that lasts until the end of your next turn. Enemies treat the zone as lightly obscured terrain.\n\nSustain Minor: The zone persists.",
+        "title": "Fey Congress"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "The burst becomes a zone that lasts until the end of your next turn. Enemies treat the zone as lightly obscured terrain.",
+                "type": "effect"
+              },
+              {
+                "id": "rule-2",
+                "label": "Sustain Minor",
+                "text": "The zone persists.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 1",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Tiny glowing fey folk flit and caper through the air around you. Their movements make it difficult for distant enemies to see you.",
+        "flavor": "Tiny glowing fey folk flit and caper through the air around you. Their movements make it difficult for distant enemies to see you.",
+        "id": "modern4e.power.utility-class-warden-power13604",
+        "keywords": [
+          "PRIMAL",
+          "ZONE"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power13604",
+          "publication": "Published in Dragon Magazine 392."
+        },
+        "subtitle": "6",
+        "title": "Fey Congress",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power13605",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "ILLUSION",
+            "PRIMAL",
+            "TELEPORTATION"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your faerie allies cloak you in fey magic to hide you and speed you away.\n\nDAILY / MINOR\n\nMelee 1\n\nTarget: You or one ally\n\nEffect: The target becomes invisible until the end of his or her next turn or until he or she makes an attack. When the invisibility ends, the target can teleport up to 3 squares.",
+        "title": "Sylvan Trickery"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "You or one ally"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "The target becomes invisible until the end of his or her next turn or until he or she makes an attack. When the invisibility ends, the target can teleport up to 3 squares.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee 1",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your faerie allies cloak you in fey magic to hide you and speed you away.",
+        "flavor": "Your faerie allies cloak you in fey magic to hide you and speed you away.",
+        "id": "modern4e.power.utility-class-warden-power13605",
+        "keywords": [
+          "ILLUSION",
+          "PRIMAL",
+          "TELEPORTATION"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power13605",
+          "publication": "Published in Dragon Magazine 392."
+        },
+        "subtitle": "10",
+        "title": "Sylvan Trickery",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power5107",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You call on the primal energy in your blood, allowing you to find your foes like a keen-eyed hawk.\n\nENCOUNTER / MINOR\n\nPersonal\n\nEffect: You make a Perception check with a +10 power bonus.",
+        "title": "Eyes of the Hawk"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "You make a Perception check with a +10 power bonus.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You call on the primal energy in your blood, allowing you to find your foes like a keen-eyed hawk.",
+        "flavor": "You call on the primal energy in your blood, allowing you to find your foes like a keen-eyed hawk.",
+        "id": "modern4e.power.utility-class-warden-power5107",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5107",
+          "publication": "Published in Player's Handbook 2, page(s) 156."
+        },
+        "subtitle": "2",
+        "title": "Eyes of the Hawk",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power5108",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Like an agile mountain lion, you leap across difficult terrain with ease.\n\nENCOUNTER / MINOR\n\nPersonal\n\nEffect: You ignore difficult terrain until the end of your next turn.",
+        "title": "Mountain Lion Step"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "You ignore difficult terrain until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Like an agile mountain lion, you leap across difficult terrain with ease.",
+        "flavor": "Like an agile mountain lion, you leap across difficult terrain with ease.",
+        "id": "modern4e.power.utility-class-warden-power5108",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5108",
+          "publication": "Published in Player's Handbook 2, page(s) 156."
+        },
+        "subtitle": "2",
+        "title": "Mountain Lion Step",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power5109",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "ZONE"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Plants burst into life around you. They sway back and forth to shield your allies, parting to allow attacks against your foes.\n\nDAILY / STANDARD\n\nClose burst 3\n\nEffect: The burst creates a zone of plants that lasts until the end of the encounter. You and your allies have cover while within the zone.",
+        "title": "Nature's Abundance"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "The burst creates a zone of plants that lasts until the end of the encounter. You and your allies have cover while within the zone.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 3",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Plants burst into life around you. They sway back and forth to shield your allies, parting to allow attacks against your foes.",
+        "flavor": "Plants burst into life around you. They sway back and forth to shield your allies, parting to allow attacks against your foes.",
+        "id": "modern4e.power.utility-class-warden-power5109",
+        "keywords": [
+          "PRIMAL",
+          "ZONE"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5109",
+          "publication": "Published in Player's Handbook 2, page(s) 156."
+        },
+        "subtitle": "2",
+        "title": "Nature's Abundance",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power5110",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "HEALING",
+            "PRIMAL"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "One victory gives you strength to achieve the next.\n\nDAILY / MINOR\n\nPersonal\n\nRequirement: You must have reduced an enemy to 0 hit points during this turn.\n\nEffect: You regain hit points equal to 1d6 + your Wisdom + your Constitution.",
+        "title": "Triumphant Vigor"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "You regain hit points equal to 1d6 + your Wisdom + your Constitution.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "requirement": "You must have reduced an enemy to 0 hit points during this turn.",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "One victory gives you strength to achieve the next.",
+        "flavor": "One victory gives you strength to achieve the next.",
+        "id": "modern4e.power.utility-class-warden-power5110",
+        "keywords": [
+          "HEALING",
+          "PRIMAL"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5110",
+          "publication": "Published in Player's Handbook 2, page(s) 156."
+        },
+        "subtitle": "2",
+        "title": "Triumphant Vigor",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power5119",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "HEALING",
+            "PRIMAL"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Drawing on the boundless endurance of a bear, you regain a measure of your vitality.\n\nDAILY / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: You drop to 0 hit points or fewer\n\nEffect: You regain hit points as if you had spent a healing surge.",
+        "title": "Bear's Endurance"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_INTERRUPT",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "You regain hit points as if you had spent a healing surge.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "trigger": "You drop to 0 hit points or fewer",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Drawing on the boundless endurance of a bear, you regain a measure of your vitality.",
+        "flavor": "Drawing on the boundless endurance of a bear, you regain a measure of your vitality.",
+        "id": "modern4e.power.utility-class-warden-power5119",
+        "keywords": [
+          "HEALING",
+          "PRIMAL"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5119",
+          "publication": "Published in Player's Handbook 2, page(s) 158."
+        },
+        "subtitle": "6",
+        "title": "Bear's Endurance",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power5120",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "STANCE"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Primal power from the earth fortifies your body and mind.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Until the stance ends, you gain a +1 power bonus to all defenses.",
+        "title": "Earthguard"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Until the stance ends, you gain a +1 power bonus to all defenses.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Primal power from the earth fortifies your body and mind.",
+        "flavor": "Primal power from the earth fortifies your body and mind.",
+        "id": "modern4e.power.utility-class-warden-power5120",
+        "keywords": [
+          "PRIMAL",
+          "STANCE"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5120",
+          "publication": "Published in Player's Handbook 2, page(s) 158."
+        },
+        "subtitle": "6",
+        "title": "Earthguard",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power5121",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "AT_WILL"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You draw on the strength of flowing water to glide through the waves with ease.\n\nAT_WILL / MINOR\n\nPersonal\n\nEffect: You gain a swim speed equal to your speed until the end of your turn.",
+        "title": "Sea Stride"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "You gain a swim speed equal to your speed until the end of your turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "AT_WILL",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You draw on the strength of flowing water to glide through the waves with ease.",
+        "flavor": "You draw on the strength of flowing water to glide through the waves with ease.",
+        "id": "modern4e.power.utility-class-warden-power5121",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5121",
+          "publication": "Published in Player's Handbook 2, page(s) 158."
+        },
+        "subtitle": "6",
+        "title": "Sea Stride",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power5122",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A sudden gust of wind whips around you, lifting you into the fray.\n\nENCOUNTER / MOVE\n\nPersonal\n\nEffect: You shift 2 squares. You ignore difficult terrain during the shift.",
+        "title": "Windborne Step"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MOVE",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "You shift 2 squares. You ignore difficult terrain during the shift.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A sudden gust of wind whips around you, lifting you into the fray.",
+        "flavor": "A sudden gust of wind whips around you, lifting you into the fray.",
+        "id": "modern4e.power.utility-class-warden-power5122",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5122",
+          "publication": "Published in Player's Handbook 2, page(s) 158."
+        },
+        "subtitle": "6",
+        "title": "Windborne Step",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power5130",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "TELEPORTATION"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You meld into the ground and then emerge a short distance away.\n\nENCOUNTER / MOVE\n\nPersonal\n\nEffect: You teleport a number of squares equal to your Constitution.",
+        "title": "Earthstride"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MOVE",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "You teleport a number of squares equal to your Constitution.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You meld into the ground and then emerge a short distance away.",
+        "flavor": "You meld into the ground and then emerge a short distance away.",
+        "id": "modern4e.power.utility-class-warden-power5130",
+        "keywords": [
+          "PRIMAL",
+          "TELEPORTATION"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5130",
+          "publication": "Published in Player's Handbook 2, page(s) 159."
+        },
+        "subtitle": "10",
+        "title": "Earthstride",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power5131",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "HEALING",
+            "PRIMAL"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Just as primal energy grants life to the world, it lends strength and endurance to you.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: You spend a healing surge and regain additional hit points equal to your Strength.",
+        "title": "Returning Strength"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "You spend a healing surge and regain additional hit points equal to your Strength.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Just as primal energy grants life to the world, it lends strength and endurance to you.",
+        "flavor": "Just as primal energy grants life to the world, it lends strength and endurance to you.",
+        "id": "modern4e.power.utility-class-warden-power5131",
+        "keywords": [
+          "HEALING",
+          "PRIMAL"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5131",
+          "publication": "Published in Player's Handbook 2, page(s) 159."
+        },
+        "subtitle": "10",
+        "title": "Returning Strength",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power5132",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Earth carries your ally to safety while stone forms a protective barrier around him or her.\n\nDAILY / MINOR\n\nClose burst 5\n\nTarget: One ally in the burst\n\nEffect: You slide the target 5 squares. Until the end of your next turn, the target gains resist 5 to all damage and a +2 power bonus to all defenses.",
+        "title": "Shield of Stone"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "You slide the target 5 squares. Until the end of your next turn, the target gains resist 5 to all damage and a +2 power bonus to all defenses.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Earth carries your ally to safety while stone forms a protective barrier around him or her.",
+        "flavor": "Earth carries your ally to safety while stone forms a protective barrier around him or her.",
+        "id": "modern4e.power.utility-class-warden-power5132",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5132",
+          "publication": "Published in Player's Handbook 2, page(s) 160."
+        },
+        "subtitle": "10",
+        "title": "Shield of Stone",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power5133",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "ZONE"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Spectral vines bloom around you to shield you and your allies.\n\nDAILY / MINOR\n\nClose burst 2\n\nEffect: The burst creates a zone of protective vines that lasts until the end of the encounter. While within the zone, you and your allies gain resistance to all damage equal to your Constitution.",
+        "title": "Warding Vines"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "The burst creates a zone of protective vines that lasts until the end of the encounter. While within the zone, you and your allies gain resistance to all damage equal to your Constitution.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 2",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Spectral vines bloom around you to shield you and your allies.",
+        "flavor": "Spectral vines bloom around you to shield you and your allies.",
+        "id": "modern4e.power.utility-class-warden-power5133",
+        "keywords": [
+          "PRIMAL",
+          "ZONE"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5133",
+          "publication": "Published in Player's Handbook 2, page(s) 160."
+        },
+        "subtitle": "10",
+        "title": "Warding Vines",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power5527",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your devastating attacks are fueled by a surge of primal fury.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Until the end of your next turn, whenever you make an attack roll or a damage roll with a weapon attack, roll a d6 and add it as a power bonus to the roll.",
+        "title": "Wilding Strength"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Until the end of your next turn, whenever you make an attack roll or a damage roll with a weapon attack, roll a d6 and add it as a power bonus to the roll.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your devastating attacks are fueled by a surge of primal fury.",
+        "flavor": "Your devastating attacks are fueled by a surge of primal fury.",
+        "id": "modern4e.power.utility-class-warden-power5527",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5527",
+          "publication": "Published in Primal Power, page(s) 96."
+        },
+        "subtitle": "6",
+        "title": "Wilding Strength",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power5588",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You increase your vulnerability in combat to shore up an ally's defense.\n\nENCOUNTER / MINOR\n\nMelee 1\n\nTarget: One ally\n\nEffect: Until the end of your next turn, you take a penalty to AC equal to your Constitution, and the target gains a power bonus to AC equal to your Constitution. If the target has any creatures marked, those marks end, and if the target marks a creature, this effect ends.",
+        "title": "Warding Touch"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One ally"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "Until the end of your next turn, you take a penalty to AC equal to your Constitution, and the target gains a power bonus to AC equal to your Constitution. If the target has any creatures marked, those marks end, and if the target marks a creature, this effect ends.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee 1",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You increase your vulnerability in combat to shore up an ally's defense.",
+        "flavor": "You increase your vulnerability in combat to shore up an ally's defense.",
+        "id": "modern4e.power.utility-class-warden-power5588",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5588",
+          "publication": "Published in Primal Power, page(s) 95."
+        },
+        "subtitle": "2",
+        "title": "Warding Touch",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power5589",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "As you shake off a debilitating condition, your primal might raises your foes' ire.\n\nENCOUNTER / NO_ACTION\n\nClose burst 5\n\nTrigger: You succeed on the saving throw granted by your Font of Life class feature\n\nTarget: Each enemy in the burst\n\nEffect: You mark each target until the end of your next turn.",
+        "title": "Erupting Font"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "NO_ACTION",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "Each enemy in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-3",
+                "label": "Effect",
+                "text": "You mark each target until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "trigger": "You succeed on the saving throw granted by your Font of Life class feature",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "As you shake off a debilitating condition, your primal might raises your foes' ire.",
+        "flavor": "As you shake off a debilitating condition, your primal might raises your foes' ire.",
+        "id": "modern4e.power.utility-class-warden-power5589",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5589",
+          "publication": "Published in Primal Power, page(s) 94."
+        },
+        "subtitle": "2",
+        "title": "Erupting Font",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power5590",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You draw on your strength to return the aid given to you by an ally.\n\nDAILY / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: An ally targets you with a power that does not include that ally as a target\n\nEffect: The ally also becomes a target of the power.",
+        "title": "Returning the Gift"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_INTERRUPT",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "The ally also becomes a target of the power.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "trigger": "An ally targets you with a power that does not include that ally as a target",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You draw on your strength to return the aid given to you by an ally.",
+        "flavor": "You draw on your strength to return the aid given to you by an ally.",
+        "id": "modern4e.power.utility-class-warden-power5590",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5590",
+          "publication": "Published in Primal Power, page(s) 96."
+        },
+        "subtitle": "6",
+        "title": "Returning the Gift",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power5591",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your guardian form grants you even greater potency in combat.\n\nDAILY / MINOR\n\nPersonal\n\nRequirement: You must be in a guardian form and must have used that form's attack during this encounter.\n\nEffect: You regain the use of the guardian form's attack.",
+        "title": "Guardian's Attack"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "You regain the use of the guardian form's attack.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "requirement": "You must be in a guardian form and must have used that form's attack during this encounter.",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your guardian form grants you even greater potency in combat.",
+        "flavor": "Your guardian form grants you even greater potency in combat.",
+        "id": "modern4e.power.utility-class-warden-power5591",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5591",
+          "publication": "Published in Primal Power, page(s) 98."
+        },
+        "subtitle": "10",
+        "title": "Guardian's Attack",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power5592",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "The pain you endure increases the strength of your later attack.\n\nDAILY / IMMEDIATE_REACTION\n\nPersonal\n\nTrigger: An enemy's attack hits you and damages you\n\nEffect: You take extra damage from the triggering attack equal to one-half your level. The next time you attack any enemy marked by you before the end of the encounter, you gain a bonus equal to your Constitution to the attack roll and the damage roll.",
+        "title": "Wrathful Mastery"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_REACTION",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "You take extra damage from the triggering attack equal to one-half your level. The next time you attack any enemy marked by you before the end of the encounter, you gain a bonus equal to your Constitution to the attack roll and the damage roll.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "trigger": "An enemy's attack hits you and damages you",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "The pain you endure increases the strength of your later attack.",
+        "flavor": "The pain you endure increases the strength of your later attack.",
+        "id": "modern4e.power.utility-class-warden-power5592",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5592",
+          "publication": "Published in Primal Power, page(s) 96."
+        },
+        "subtitle": "6",
+        "title": "Wrathful Mastery",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power9832",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You surround your friend with ghostly thorns that impale any enemy that attacks him or her.\n\nENCOUNTER / MINOR\n\nClose burst 5\n\nTarget: One ally in the burst\n\nEffect: Until the end of your next turn, when any enemy marked by you hits or misses the target, that enemy takes 5 damage.",
+        "title": "Guardian Thorns"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "Until the end of your next turn, when any enemy marked by you hits or misses the target, that enemy takes 5 damage.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You surround your friend with ghostly thorns that impale any enemy that attacks him or her.",
+        "flavor": "You surround your friend with ghostly thorns that impale any enemy that attacks him or her.",
+        "id": "modern4e.power.utility-class-warden-power9832",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9832",
+          "publication": "Published in Primal Power, page(s) 94."
+        },
+        "subtitle": "2",
+        "title": "Guardian Thorns",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power9833",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your wrath is a storm, and an enemy that feels it is moved against its will.\n\nENCOUNTER / MINOR\n\nMelee 1\n\nTarget: One enemy marked by you\n\nEffect: You slide the target 1 square.",
+        "title": "Warden's Tempest"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One enemy marked by you"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "You slide the target 1 square.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee 1",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your wrath is a storm, and an enemy that feels it is moved against its will.",
+        "flavor": "Your wrath is a storm, and an enemy that feels it is moved against its will.",
+        "id": "modern4e.power.utility-class-warden-power9833",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9833",
+          "publication": "Published in Primal Power, page(s) 94."
+        },
+        "subtitle": "2",
+        "title": "Warden's Tempest",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power9848",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "HEALING",
+            "PRIMAL"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your primal might allows you to regain additional vigor in the heat of combat.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: You use your second wind and regain 2d6 additional hit points.",
+        "title": "Soothing Wind"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "You use your second wind and regain 2d6 additional hit points.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your primal might allows you to regain additional vigor in the heat of combat.",
+        "flavor": "Your primal might allows you to regain additional vigor in the heat of combat.",
+        "id": "modern4e.power.utility-class-warden-power9848",
+        "keywords": [
+          "HEALING",
+          "PRIMAL"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9848",
+          "publication": "Published in Primal Power, page(s) 96."
+        },
+        "subtitle": "6",
+        "title": "Soothing Wind",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power9849",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "STANCE"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Ice forms on the ground around you as you fight, limiting your foes' movement.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Until the stance ends, enemies can't shift into or out of squares adjacent to you.",
+        "title": "Treacherous Ice"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Until the stance ends, enemies can't shift into or out of squares adjacent to you.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Ice forms on the ground around you as you fight, limiting your foes' movement.",
+        "flavor": "Ice forms on the ground around you as you fight, limiting your foes' movement.",
+        "id": "modern4e.power.utility-class-warden-power9849",
+        "keywords": [
+          "PRIMAL",
+          "STANCE"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9849",
+          "publication": "Published in Primal Power, page(s) 96."
+        },
+        "subtitle": "6",
+        "title": "Treacherous Ice",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power9866",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "The bond you share with your companions lets you take the injury meant for an ally.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nClose burst 2\n\nTrigger: An ally within 2 squares of you takes damage from an attack\n\nTarget: The triggering ally in the burst\n\nEffect: You take the damage from the attack, instead of the target, but the target takes any other effect caused by the attack.",
+        "title": "Bond of Shared Pain"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_INTERRUPT",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "The triggering ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-3",
+                "label": "Effect",
+                "text": "You take the damage from the attack, instead of the target, but the target takes any other effect caused by the attack.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 2",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "trigger": "An ally within 2 squares of you takes damage from an attack",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "The bond you share with your companions lets you take the injury meant for an ally.",
+        "flavor": "The bond you share with your companions lets you take the injury meant for an ally.",
+        "id": "modern4e.power.utility-class-warden-power9866",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9866",
+          "publication": "Published in Primal Power, page(s) 98."
+        },
+        "subtitle": "10",
+        "title": "Bond of Shared Pain",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power9867",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You summon primal spirits to protect you and your allies from elemental power.\n\nENCOUNTER / MINOR\n\nClose burst 1\n\nTarget: You and each ally in the burst\n\nEffect: Choose cold, fire, lightning, or thunder. Until the end of your next turn, each target gains resistance to that damage type equal to one-half your level.",
+        "title": "Elemental Warding (Warden)"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "You and each ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "Choose cold, fire, lightning, or thunder. Until the end of your next turn, each target gains resistance to that damage type equal to one-half your level.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 1",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You summon primal spirits to protect you and your allies from elemental power.",
+        "flavor": "You summon primal spirits to protect you and your allies from elemental power.",
+        "id": "modern4e.power.utility-class-warden-power9867",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9867",
+          "publication": "Published in Primal Power, page(s) 98."
+        },
+        "subtitle": "10",
+        "title": "Elemental Warding (Warden)",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power9869",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Primal bonds connect you and an ally, allowing you to share your own resilience.\n\nENCOUNTER / NO_ACTION\n\nClose burst 5\n\nTrigger: You start your turn\n\nTarget: One ally in the burst\n\nEffect: The target can make a saving throw, and you can't use your Font of Life class feature during this turn.",
+        "title": "Shared Font of Life"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "NO_ACTION",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-3",
+                "label": "Effect",
+                "text": "The target can make a saving throw, and you can't use your Font of Life class feature during this turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "trigger": "You start your turn",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Primal bonds connect you and an ally, allowing you to share your own resilience.",
+        "flavor": "Primal bonds connect you and an ally, allowing you to share your own resilience.",
+        "id": "modern4e.power.utility-class-warden-power9869",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9869",
+          "publication": "Published in Primal Power, page(s) 98."
+        },
+        "subtitle": "10",
+        "title": "Shared Font of Life",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power9870",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "By drawing on your primal strength, you tap additional reserves of vitality.\n\nDAILY / MINOR\n\nPersonal\n\nRequirement: You must have used your second wind during this encounter.\n\nEffect: You regain the use of your second wind.",
+        "title": "Spiritual Rejuvenation"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "You regain the use of your second wind.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "requirement": "You must have used your second wind during this encounter.",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "By drawing on your primal strength, you tap additional reserves of vitality.",
+        "flavor": "By drawing on your primal strength, you tap additional reserves of vitality.",
+        "id": "modern4e.power.utility-class-warden-power9870",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9870",
+          "publication": "Published in Primal Power, page(s) 98."
+        },
+        "subtitle": "10",
+        "title": "Spiritual Rejuvenation",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-warden-power9969",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your shield sprouts vines that grab at your enemy.\n\nDAILY / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: You are hit with a melee attack.\n\nRequirement: You must be wielding a shield.\n\nTarget: The triggering creature\n\nEffect: You gain a +4 bonus to the defense targeted by the triggering attack until the end of your next turn. If the triggering attack misses, the target is immobilized until the end of your next turn, or until you move away from the creature, whichever comes first.",
+        "title": "Entangling Shield"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.warden",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_INTERRUPT",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "The triggering creature"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-4",
+                "label": "Effect",
+                "text": "You gain a +4 bonus to the defense targeted by the triggering attack until the end of your next turn. If the triggering attack misses, the target is immobilized until the end of your next turn, or until you move away from the creature, whichever comes first.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "requirement": "You must be wielding a shield.",
+            "targets": "targets",
+            "trigger": "You are hit with a melee attack.",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your shield sprouts vines that grab at your enemy.",
+        "flavor": "Your shield sprouts vines that grab at your enemy.",
+        "id": "modern4e.power.utility-class-warden-power9969",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9969",
+          "publication": "Published in Dragon Magazine 379, page(s) 46."
+        },
+        "subtitle": "10",
+        "title": "Entangling Shield",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.warden",
+          "id": "class-warden",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    }
+  ],
+  "id": "entries-0018"
+}

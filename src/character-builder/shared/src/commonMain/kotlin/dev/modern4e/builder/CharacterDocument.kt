@@ -25,6 +25,10 @@ data class CharacterDocument(
         require(levels.all { it.level <= level })
         require(levels.map { it.level }.distinct().size == levels.size)
     }
+
+    /** The class definitions this character chose; power pools are scoped to them. */
+    fun classEntryIds(): Set<String> = levels.flatMap { it.entries }
+        .filter { it.slot == ChoiceSlotId("creation", "class", 0) }.map { it.selection.entryId }.toSet()
 }
 
 @Serializable

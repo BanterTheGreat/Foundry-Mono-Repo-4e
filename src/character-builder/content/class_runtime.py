@@ -173,5 +173,7 @@ def build(content=authoring.CONTENT, class_ids=None, include_advancement=True):
                                    "runtimeAdvancementCoverage": catalog["advancement"]["coverage"]}
         if entry["category"] == "CLASS" and include_advancement:
             entry["mechanics"]["choices"] += [compile_choice(choice) for choice in catalog["advancement"]["powerChoices"]]
-    # Selectable attack powers make the package large; sorted, fixed-size chunks keep platform loads incremental.
-    return runtime_common.package("modern4e.classes", "Modern 4e shared classes", entries, revision="3")
+    # Selectable attack powers make the package large; each class's powers fill their own chunks so loaders can skip other classes.
+    class_ids = {key for key, entry in source.items() if entry["category"] == "CLASS"}
+    return runtime_common.package("modern4e.classes", "Modern 4e shared classes", entries, revision="4",
+                                  scope=runtime_common.power_scope(class_ids))

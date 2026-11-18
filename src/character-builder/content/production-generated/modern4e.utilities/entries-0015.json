@@ -1,0 +1,4661 @@
+{
+  "entries": [
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power11358",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "SPIRIT"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "AT_WILL"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You grant your spirit companion the mass and leverage it needs to drag a companion to safety.\n\nAT_WILL / STANDARD\n\nClose burst 20\n\nTarget: One ally in the burst adjacent to your spirit companion or one object in the burst you can lift adjacent to your spirit companion\n\nEffect: You slide the target a number of squares equal to half your speed, and your spirit companion moves to a square adjacent to the target.",
+        "title": "Assistance of the Strong Spirit"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One ally in the burst adjacent to your spirit companion or one object in the burst you can lift adjacent to your spirit companion"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "You slide the target a number of squares equal to half your speed, and your spirit companion moves to a square adjacent to the target.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 20",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "AT_WILL",
+              "limits": [],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You grant your spirit companion the mass and leverage it needs to drag a companion to safety.",
+        "flavor": "You grant your spirit companion the mass and leverage it needs to drag a companion to safety.",
+        "id": "modern4e.power.utility-class-shaman-power11358",
+        "keywords": [
+          "PRIMAL",
+          "SPIRIT"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power11358",
+          "publication": "Published in Dragon Magazine 383, page(s) 64."
+        },
+        "subtitle": "2",
+        "title": "Assistance of the Strong Spirit",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power11359",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Like a shepherd, you guide your flock to swim through the sea of flesh.\n\nENCOUNTER / MINOR\n\nClose burst 2\n\nTarget: You and each ally in the burst\n\nEffect: Until the end of your next turn, each target can move through spaces occupied by your enemies.",
+        "title": "Herder of Hulculmak"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "You and each ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "Until the end of your next turn, each target can move through spaces occupied by your enemies.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 2",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Like a shepherd, you guide your flock to swim through the sea of flesh.",
+        "flavor": "Like a shepherd, you guide your flock to swim through the sea of flesh.",
+        "id": "modern4e.power.utility-class-shaman-power11359",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power11359",
+          "publication": "Published in Dragon Magazine 383, page(s) 64."
+        },
+        "subtitle": "6",
+        "title": "Herder of Hulculmak",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power11365",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "SPIRIT"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "By sharing a part of your intellect with your spirit companion, your spirit companion gains the ability to act independently and you can perceive with its senses.\n\nDAILY / STANDARD\n\nRanged 20\n\nEffect: Until the end of the encounter, you do not need line of sight or line of effect to your spirit companion, and can move your spirit companion beyond its normal range. You perceive the surroundings of your spirit companion as if you were in its place. You cannot make attacks through your spirit companion when you do not have line of effect to the spirit companion or when it is further than 20 squares away.",
+        "title": "Roaming Mind, Roving Spirit"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Until the end of the encounter, you do not need line of sight or line of effect to your spirit companion, and can move your spirit companion beyond its normal range. You perceive the surroundings of your spirit companion as if you were in its place. You cannot make attacks through your spirit companion when you do not have line of effect to the spirit companion or when it is further than 20 squares away.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 20",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "By sharing a part of your intellect with your spirit companion, your spirit companion gains the ability to act independently and you can perceive with its senses.",
+        "flavor": "By sharing a part of your intellect with your spirit companion, your spirit companion gains the ability to act independently and you can perceive with its senses.",
+        "id": "modern4e.power.utility-class-shaman-power11365",
+        "keywords": [
+          "PRIMAL",
+          "SPIRIT"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power11365",
+          "publication": "Published in Dragon Magazine 383, page(s) 65."
+        },
+        "subtitle": "6",
+        "title": "Roaming Mind, Roving Spirit",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power12527",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "SPIRIT"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Seeing an ally in need, you sacrifice your spirit companion to give your ally a needed boost.\n\nENCOUNTER / MINOR\n\nClose burst spirit 5\n\nTarget: You or one ally in the burst\n\nEffect: You dismiss the spirit companion and the target makes a saving throw or gains temporary hit points equal to your Wisdom.",
+        "title": "Spirit's Sacrifice"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "You or one ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "You dismiss the spirit companion and the target makes a saving throw or gains temporary hit points equal to your Wisdom.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst spirit 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Seeing an ally in need, you sacrifice your spirit companion to give your ally a needed boost.",
+        "flavor": "Seeing an ally in need, you sacrifice your spirit companion to give your ally a needed boost.",
+        "id": "modern4e.power.utility-class-shaman-power12527",
+        "keywords": [
+          "PRIMAL",
+          "SPIRIT"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power12527",
+          "publication": "Published in Dragon Magazine 387, page(s) 82."
+        },
+        "subtitle": "2",
+        "title": "Spirit's Sacrifice",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power12530",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "SPIRIT",
+            "HEALING"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You merge your spirit companion with an ally to grow his or her strength.\n\nDAILY / MINOR\n\nClose burst 5 centered on spirit companion\n\nTarget: You or one ally\n\nEffect: You dismiss the spirit companion and you cannot use call spirit companion until the end of your next turn. The target can spend a healing surge and gains a +1 power bonus to attack rolls and a +2 power bonus to all defenses until the end of the encounter.",
+        "title": "Primal Investiture"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "You or one ally"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "You dismiss the spirit companion and you cannot use call spirit companion until the end of your next turn. The target can spend a healing surge and gains a +1 power bonus to attack rolls and a +2 power bonus to all defenses until the end of the encounter.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 5 centered on spirit companion",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You merge your spirit companion with an ally to grow his or her strength.",
+        "flavor": "You merge your spirit companion with an ally to grow his or her strength.",
+        "id": "modern4e.power.utility-class-shaman-power12530",
+        "keywords": [
+          "PRIMAL",
+          "SPIRIT",
+          "HEALING"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power12530",
+          "publication": "Published in Dragon Magazine 387, page(s) 83."
+        },
+        "subtitle": "6",
+        "title": "Primal Investiture",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power12534",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "FEAR",
+            "HEALING",
+            "PRIMAL",
+            "SPIRIT",
+            "ZONE"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your enemies cannot bear the spirit world's wonder, but your allies find themselves reinvigorated.\n\nDAILY / MINOR\n\nClose burst spirit 3\n\nEffect: The burst becomes a zone until the end of your next turn or until your spirit companion is destroyed. The zone moves with the spirit companion, remaining centered on its space. Enemies within the zone take a -2 penalty to attack rolls. Any bloodied ally that starts its turn within the zone regains 5 hit points.\n\nSustain Minor: The effect persists.",
+        "title": "Call Forth the Spirit World"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "The burst becomes a zone until the end of your next turn or until your spirit companion is destroyed. The zone moves with the spirit companion, remaining centered on its space. Enemies within the zone take a -2 penalty to attack rolls. Any bloodied ally that starts its turn within the zone regains 5 hit points.",
+                "type": "effect"
+              },
+              {
+                "id": "rule-2",
+                "label": "Sustain Minor",
+                "text": "The effect persists.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst spirit 3",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your enemies cannot bear the spirit world's wonder, but your allies find themselves reinvigorated.",
+        "flavor": "Your enemies cannot bear the spirit world's wonder, but your allies find themselves reinvigorated.",
+        "id": "modern4e.power.utility-class-shaman-power12534",
+        "keywords": [
+          "FEAR",
+          "HEALING",
+          "PRIMAL",
+          "SPIRIT",
+          "ZONE"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power12534",
+          "publication": "Published in Dragon Magazine 387."
+        },
+        "subtitle": "10",
+        "title": "Call Forth the Spirit World",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power12869",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "HEALING",
+            "PRIMAL",
+            "SPIRIT"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Moisture gathers in the air around your spirit companion as you fuse its form with one of your allies to provide healing and a protective barrier against the elements.\n\nDAILY / MINOR\n\nMelee spirit 5\n\nTarget: One ally\n\nEffect: Your spirit companion disappears. The target gains resist 10 fire and regeneration equal to your Intelligence until the end of the encounter or until you use call spirit companion.",
+        "title": "Condensation"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One ally"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "Your spirit companion disappears. The target gains resist 10 fire and regeneration equal to your Intelligence until the end of the encounter or until you use call spirit companion.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee spirit 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Moisture gathers in the air around your spirit companion as you fuse its form with one of your allies to provide healing and a protective barrier against the elements.",
+        "flavor": "Moisture gathers in the air around your spirit companion as you fuse its form with one of your allies to provide healing and a protective barrier against the elements.",
+        "id": "modern4e.power.utility-class-shaman-power12869",
+        "keywords": [
+          "HEALING",
+          "PRIMAL",
+          "SPIRIT"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power12869",
+          "publication": "Published in Dark Sun Campaign Setting, page(s) 91."
+        },
+        "subtitle": "2",
+        "title": "Condensation",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power12873",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "SPIRIT",
+            "ZONE"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your spirit erupts in flames, shining with coruscating light that empowers some of your allies' attacks.\n\nENCOUNTER / MINOR\n\nClose burst spirit 2\n\nEffect: Your spirit companion disappears. The burst creates a zone that lasts until the end of your next turn. While within the zone, your allies gain a +2 power bonus to attack rolls with fire powers and radiant powers. In addition, whenever an ally hits with a fire power or a radiant power while within the zone, he or she gains temporary hit points equal to your Intelligence.",
+        "title": "Light of the Crimson Sun"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Your spirit companion disappears. The burst creates a zone that lasts until the end of your next turn. While within the zone, your allies gain a +2 power bonus to attack rolls with fire powers and radiant powers. In addition, whenever an ally hits with a fire power or a radiant power while within the zone, he or she gains temporary hit points equal to your Intelligence.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst spirit 2",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your spirit erupts in flames, shining with coruscating light that empowers some of your allies' attacks.",
+        "flavor": "Your spirit erupts in flames, shining with coruscating light that empowers some of your allies' attacks.",
+        "id": "modern4e.power.utility-class-shaman-power12873",
+        "keywords": [
+          "PRIMAL",
+          "SPIRIT",
+          "ZONE"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power12873",
+          "publication": "Published in Dark Sun Campaign Setting, page(s) 92."
+        },
+        "subtitle": "6",
+        "title": "Light of the Crimson Sun",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power12876",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "SPIRIT"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your spirit companion enters your ally's body, and nothing remains of either except swirling dust.\n\nENCOUNTER / MINOR\n\nMelee spirit 5\n\nTarget: One ally\n\nEffect: Your spirit companion disappears. Until the end of your next turn, the target is insubstantial, and its space and any squares adjacent to it are lightly obscured.",
+        "title": "Swirling Dust"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One ally"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "Your spirit companion disappears. Until the end of your next turn, the target is insubstantial, and its space and any squares adjacent to it are lightly obscured.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Melee spirit 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your spirit companion enters your ally's body, and nothing remains of either except swirling dust.",
+        "flavor": "Your spirit companion enters your ally's body, and nothing remains of either except swirling dust.",
+        "id": "modern4e.power.utility-class-shaman-power12876",
+        "keywords": [
+          "PRIMAL",
+          "SPIRIT"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power12876",
+          "publication": "Published in Dark Sun Campaign Setting, page(s) 92."
+        },
+        "subtitle": "10",
+        "title": "Swirling Dust",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power3832",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "HEALING",
+            "PRIMAL"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "The spirit of a golden owl alights on your ally's shoulder and flutters off, carrying with it that friend's aches and wounds.\n\nDAILY / STANDARD\n\nClose burst 10\n\nTarget: One ally in the burst\n\nEffect: The target regains hit points as if he or she had spent a healing surge.",
+        "title": "Spirit of Life"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "STANDARD",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "The target regains hit points as if he or she had spent a healing surge.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "The spirit of a golden owl alights on your ally's shoulder and flutters off, carrying with it that friend's aches and wounds.",
+        "flavor": "The spirit of a golden owl alights on your ally's shoulder and flutters off, carrying with it that friend's aches and wounds.",
+        "id": "modern4e.power.utility-class-shaman-power3832",
+        "keywords": [
+          "HEALING",
+          "PRIMAL"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3832",
+          "publication": "Published in Player's Handbook 2, page(s) 123."
+        },
+        "subtitle": "2",
+        "title": "Spirit of Life",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power3834",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You take on a portion of your ally's injury.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nRanged 10\n\nTrigger: An ally within 10 squares of you takes damage\n\nTarget: The triggering ally\n\nEffect: You and the target each take half of the damage.",
+        "title": "Bonds of the Clan"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_INTERRUPT",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "The triggering ally"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-3",
+                "label": "Effect",
+                "text": "You and the target each take half of the damage.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "trigger": "An ally within 10 squares of you takes damage",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You take on a portion of your ally's injury.",
+        "flavor": "You take on a portion of your ally's injury.",
+        "id": "modern4e.power.utility-class-shaman-power3834",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3834",
+          "publication": "Published in Player's Handbook 2, page(s) 123."
+        },
+        "subtitle": "2",
+        "title": "Bonds of the Clan",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power3835",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Primal energy surges into your allies to drive away harmful effects.\n\nENCOUNTER / MINOR\n\nRanged 10\n\nTarget: One or two allies\n\nEffect: Each target makes a saving throw.",
+        "title": "Sudden Restoration"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One or two allies"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "Each target makes a saving throw.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Primal energy surges into your allies to drive away harmful effects.",
+        "flavor": "Primal energy surges into your allies to drive away harmful effects.",
+        "id": "modern4e.power.utility-class-shaman-power3835",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3835",
+          "publication": "Published in Player's Handbook 2, page(s) 124."
+        },
+        "subtitle": "6",
+        "title": "Sudden Restoration",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power3836",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You invoke the spirit of the legendary tree of iron to grant your ally the endurance needed to survive.\n\nDAILY / MINOR\n\nClose burst 5\n\nTarget: One bloodied ally in the burst\n\nEffect: The target gains resist 5 to all damage until the end of the encounter.",
+        "title": "Blessing of the Iron Tree"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One bloodied ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "The target gains resist 5 to all damage until the end of the encounter.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You invoke the spirit of the legendary tree of iron to grant your ally the endurance needed to survive.",
+        "flavor": "You invoke the spirit of the legendary tree of iron to grant your ally the endurance needed to survive.",
+        "id": "modern4e.power.utility-class-shaman-power3836",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3836",
+          "publication": "Published in Player's Handbook 2, page(s) 124."
+        },
+        "subtitle": "6",
+        "title": "Blessing of the Iron Tree",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power3838",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You whisper words of ancient power, causing your guardian spirits to move as you command.\n\nENCOUNTER / MINOR\n\nClose burst 10\n\nTarget: Each of your shaman conjurations and zones in the burst\n\nEffect: You move each target 5 squares.",
+        "title": "Spirit Call"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "Each of your shaman conjurations and zones in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "You move each target 5 squares.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You whisper words of ancient power, causing your guardian spirits to move as you command.",
+        "flavor": "You whisper words of ancient power, causing your guardian spirits to move as you command.",
+        "id": "modern4e.power.utility-class-shaman-power3838",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3838",
+          "publication": "Published in Player's Handbook 2, page(s) 123."
+        },
+        "subtitle": "2",
+        "title": "Spirit Call",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power3839",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You send forth a call into the spirit world and summon a second companion to guide your way.\n\nDAILY / FREE\n\nPersonal\n\nEffect: Until the end of the encounter, you can use your call\n\nRule: spirit companion power to conjure a second spirit companion.\n\nRule: When you attack with a spirit power, you choose which spirit companion to use for the attack. When an effect applies to creatures adjacent to your spirit companion, that effect applies to creatures adjacent to both spirit companions. The second spirit companion disappears at the end of the encounter.",
+        "title": "Spirit Summons"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "FREE",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Until the end of the encounter, you can use your call",
+                "type": "effect"
+              },
+              {
+                "id": "rule-2",
+                "label": "Rule",
+                "text": "spirit companion power to conjure a second spirit companion.",
+                "type": "effect"
+              },
+              {
+                "id": "rule-3",
+                "label": "Rule",
+                "text": "When you attack with a spirit power, you choose which spirit companion to use for the attack. When an effect applies to creatures adjacent to your spirit companion, that effect applies to creatures adjacent to both spirit companions. The second spirit companion disappears at the end of the encounter.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You send forth a call into the spirit world and summon a second companion to guide your way.",
+        "flavor": "You send forth a call into the spirit world and summon a second companion to guide your way.",
+        "id": "modern4e.power.utility-class-shaman-power3839",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3839",
+          "publication": "Published in Player's Handbook 2, page(s) 126."
+        },
+        "subtitle": "10",
+        "title": "Spirit Summons",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power3847",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "HEALING",
+            "PRIMAL"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A protective ancestor spirit appears and lays a healing hand on your ally. The spirit's warding power flows into your spirit companion, helping it defend your allies from attack.\n\nDAILY / MINOR\n\nClose burst 5\n\nTarget: One creature in the burst\n\nEffect: The target can spend a healing surge and regain 1d6 additional hit points. Until the end of the encounter, any ally adjacent to your spirit companion doesn't grant combat advantage.",
+        "title": "Spirit of the Keeper"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One creature in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "The target can spend a healing surge and regain 1d6 additional hit points. Until the end of the encounter, any ally adjacent to your spirit companion doesn't grant combat advantage.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A protective ancestor spirit appears and lays a healing hand on your ally. The spirit's warding power flows into your spirit companion, helping it defend your allies from attack.",
+        "flavor": "A protective ancestor spirit appears and lays a healing hand on your ally. The spirit's warding power flows into your spirit companion, helping it defend your allies from attack.",
+        "id": "modern4e.power.utility-class-shaman-power3847",
+        "keywords": [
+          "HEALING",
+          "PRIMAL"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power3847",
+          "publication": "Published in Player's Handbook 2, page(s) 124."
+        },
+        "subtitle": "6",
+        "title": "Spirit of the Keeper",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power5394",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "ZONE"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You invoke ancestral spirits of battle. Under their shadow, your allies fight with greater might.\n\nDAILY / MINOR\n\nArea burst 5 within 10 squares\n\nEffect: The burst creates a zone filled with ancestral spirits that lasts until the end of the encounter. While within the zone, your allies gain a +1 bonus to attack rolls.",
+        "title": "Spirits of Battle"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "The burst creates a zone filled with ancestral spirits that lasts until the end of the encounter. While within the zone, your allies gain a +1 bonus to attack rolls.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Area burst 5 within 10 squares",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You invoke ancestral spirits of battle. Under their shadow, your allies fight with greater might.",
+        "flavor": "You invoke ancestral spirits of battle. Under their shadow, your allies fight with greater might.",
+        "id": "modern4e.power.utility-class-shaman-power5394",
+        "keywords": [
+          "PRIMAL",
+          "ZONE"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5394",
+          "publication": "Published in Player's Handbook 2, page(s) 123."
+        },
+        "subtitle": "2",
+        "title": "Spirits of Battle",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power5398",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "ZONE"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A spirit of the sun appears before you, casting a light on your foes that makes it nearly impossible for them to hide from you.\n\nDAILY / MINOR\n\nArea burst 5 within 10 squares\n\nEffect: The burst creates a zone of bright light that lasts until the end of your next turn. You and your allies ignore cover, superior cover, concealment, and total concealment when attacking any enemy that is within the zone. While within the zone, any enemy takes a -5 penalty to Stealth checks.",
+        "title": "Spirit of Dawn"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "The burst creates a zone of bright light that lasts until the end of your next turn. You and your allies ignore cover, superior cover, concealment, and total concealment when attacking any enemy that is within the zone. While within the zone, any enemy takes a -5 penalty to Stealth checks.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Area burst 5 within 10 squares",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A spirit of the sun appears before you, casting a light on your foes that makes it nearly impossible for them to hide from you.",
+        "flavor": "A spirit of the sun appears before you, casting a light on your foes that makes it nearly impossible for them to hide from you.",
+        "id": "modern4e.power.utility-class-shaman-power5398",
+        "keywords": [
+          "PRIMAL",
+          "ZONE"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5398",
+          "publication": "Published in Player's Handbook 2, page(s) 124."
+        },
+        "subtitle": "6",
+        "title": "Spirit of Dawn",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power5402",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A gust moves an ally or an enemy into position.\n\nENCOUNTER / MINOR\n\nRanged 10\n\nTarget: One creature\n\nEffect: You slide the target 3 squares.",
+        "title": "Primal Gust"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One creature"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "You slide the target 3 squares.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A gust moves an ally or an enemy into position.",
+        "flavor": "A gust moves an ally or an enemy into position.",
+        "id": "modern4e.power.utility-class-shaman-power5402",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5402",
+          "publication": "Published in Player's Handbook 2, page(s) 126."
+        },
+        "subtitle": "10",
+        "title": "Primal Gust",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power5403",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "ZONE"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Spirits of earth rise up to protect your allies.\n\nDAILY / MINOR\n\nArea burst 1 within 5 squares\n\nEffect: The burst creates a zone filled with rock spirits that lasts until the end of the encounter. While within the zone, any ally gains a +2 power bonus to AC and Fortitude. As a move action, you can move the zone 5 squares.",
+        "title": "Rock Shield Spirits"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "The burst creates a zone filled with rock spirits that lasts until the end of the encounter. While within the zone, any ally gains a +2 power bonus to AC and Fortitude. As a move action, you can move the zone 5 squares.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Area burst 1 within 5 squares",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Spirits of earth rise up to protect your allies.",
+        "flavor": "Spirits of earth rise up to protect your allies.",
+        "id": "modern4e.power.utility-class-shaman-power5403",
+        "keywords": [
+          "PRIMAL",
+          "ZONE"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5403",
+          "publication": "Published in Player's Handbook 2, page(s) 126."
+        },
+        "subtitle": "10",
+        "title": "Rock Shield Spirits",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power5404",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "ZONE"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A spirit of the moon—a creature of mist and shadow—conceals your allies.\n\nDAILY / MINOR\n\nClose burst 3\n\nEffect: The burst creates a zone of glimmering lights and shadows that lasts until the end of the encounter. While within the zone, you and your allies gain concealment and can make Stealth checks to become hidden. As a move action, you can move the zone 5 squares.",
+        "title": "Spirits of the Shadowed Moon"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "The burst creates a zone of glimmering lights and shadows that lasts until the end of the encounter. While within the zone, you and your allies gain concealment and can make Stealth checks to become hidden. As a move action, you can move the zone 5 squares.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 3",
+              "type": "RULES_TEXT"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A spirit of the moon—a creature of mist and shadow—conceals your allies.",
+        "flavor": "A spirit of the moon—a creature of mist and shadow—conceals your allies.",
+        "id": "modern4e.power.utility-class-shaman-power5404",
+        "keywords": [
+          "PRIMAL",
+          "ZONE"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5404",
+          "publication": "Published in Player's Handbook 2, page(s) 126."
+        },
+        "subtitle": "10",
+        "title": "Spirits of the Shadowed Moon",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power5459",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You call a gentle wind that surrounds your spirit companion and extends outward to your allies, helping them overcome harmful effects.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: The first time any ally fails a saving throw while adjacent to your spirit companion, the ally can reroll the saving throw. The second time any ally fails a saving throw while adjacent to your spirit companion, the ally can reroll the saving throw with a +1 bonus. The third time any ally fails a saving throw while adjacent to your spirit companion, the ally can reroll the saving throw with a +2 bonus. This effect ends after the third rerolled saving throw or at the end of the encounter.",
+        "title": "Quickening Breeze"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "The first time any ally fails a saving throw while adjacent to your spirit companion, the ally can reroll the saving throw. The second time any ally fails a saving throw while adjacent to your spirit companion, the ally can reroll the saving throw with a +1 bonus. The third time any ally fails a saving throw while adjacent to your spirit companion, the ally can reroll the saving throw with a +2 bonus. This effect ends after the third rerolled saving throw or at the end of the encounter.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You call a gentle wind that surrounds your spirit companion and extends outward to your allies, helping them overcome harmful effects.",
+        "flavor": "You call a gentle wind that surrounds your spirit companion and extends outward to your allies, helping them overcome harmful effects.",
+        "id": "modern4e.power.utility-class-shaman-power5459",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5459",
+          "publication": "Published in Primal Power, page(s) 71."
+        },
+        "subtitle": "10",
+        "title": "Quickening Breeze",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power5545",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "SPIRIT"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your spirit companion nips at the heels of your allies, motivating them to move in for the kill.\n\nDAILY / MINOR\n\nClose burst spirit 1\n\nTarget: You and each ally in the burst\n\nEffect: You slide each target a number of squares equal to your Wisdom.",
+        "title": "Spur the Pack"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "You and each ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "You slide each target a number of squares equal to your Wisdom.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst spirit 1",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your spirit companion nips at the heels of your allies, motivating them to move in for the kill.",
+        "flavor": "Your spirit companion nips at the heels of your allies, motivating them to move in for the kill.",
+        "id": "modern4e.power.utility-class-shaman-power5545",
+        "keywords": [
+          "PRIMAL",
+          "SPIRIT"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power5545",
+          "publication": "Published in Primal Power, page(s) 70."
+        },
+        "subtitle": "6",
+        "title": "Spur the Pack",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power6945",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "SPIRIT"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You temporarily sap your spirit companion of its strength, transferring its power to bolster the life force of an ally.\n\nDAILY / FREE\n\nPersonal\n\nEffect: Each ally adjacent to your spirit companion regains a healing surge, and your spirit companion is immediately dismissed and cannot be conjured again until the start of your next turn.",
+        "title": "Sacrificial Spirit"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "FREE",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Each ally adjacent to your spirit companion regains a healing surge, and your spirit companion is immediately dismissed and cannot be conjured again until the start of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You temporarily sap your spirit companion of its strength, transferring its power to bolster the life force of an ally.",
+        "flavor": "You temporarily sap your spirit companion of its strength, transferring its power to bolster the life force of an ally.",
+        "id": "modern4e.power.utility-class-shaman-power6945",
+        "keywords": [
+          "PRIMAL",
+          "SPIRIT"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power6945",
+          "publication": "Published in Dragon Magazine 372, page(s) 22."
+        },
+        "subtitle": "10",
+        "title": "Sacrificial Spirit",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power9744",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "SPIRIT"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Your spirit companion follows your enemies closely, preventing them from escaping your wrath.\n\nENCOUNTER / IMMEDIATE_REACTION\n\nPersonal\n\nTrigger: An enemy that started its turn adjacent to your spirit companion ends its movement no longer adjacent to your spirit companion\n\nEffect: You move your spirit companion to a square adjacent to the triggering enemy.",
+        "title": "Engaging Pursuit"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_REACTION",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "You move your spirit companion to a square adjacent to the triggering enemy.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "trigger": "An enemy that started its turn adjacent to your spirit companion ends its movement no longer adjacent to your spirit companion",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Your spirit companion follows your enemies closely, preventing them from escaping your wrath.",
+        "flavor": "Your spirit companion follows your enemies closely, preventing them from escaping your wrath.",
+        "id": "modern4e.power.utility-class-shaman-power9744",
+        "keywords": [
+          "PRIMAL",
+          "SPIRIT"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9744",
+          "publication": "Published in Primal Power, page(s) 67."
+        },
+        "subtitle": "2",
+        "title": "Engaging Pursuit",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power9745",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "SPIRIT"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "Thin roots extend from your spirit companion to clothe you and your friends in a protective layer.\n\nDAILY / MINOR\n\nClose burst spirit 1\n\nTarget: You and each ally in the burst\n\nEffect: Each target gains resistance to all damage equal to your Constitution until the end of the encounter.",
+        "title": "Protective Roots"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "You and each ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "Each target gains resistance to all damage equal to your Constitution until the end of the encounter.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst spirit 1",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "Thin roots extend from your spirit companion to clothe you and your friends in a protective layer.",
+        "flavor": "Thin roots extend from your spirit companion to clothe you and your friends in a protective layer.",
+        "id": "modern4e.power.utility-class-shaman-power9745",
+        "keywords": [
+          "PRIMAL",
+          "SPIRIT"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9745",
+          "publication": "Published in Primal Power, page(s) 68."
+        },
+        "subtitle": "2",
+        "title": "Protective Roots",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power9746",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "The spirit of a magnificent cat overshadows you, lending you and your allies its grace.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Until the end of the encounter, allies within 3 squares of you can stand up as a minor action, and when any ally within 3 squares of you shifts, that ally can shift 1 extra square.",
+        "title": "Spirit of the Great Cat"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Until the end of the encounter, allies within 3 squares of you can stand up as a minor action, and when any ally within 3 squares of you shifts, that ally can shift 1 extra square.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "The spirit of a magnificent cat overshadows you, lending you and your allies its grace.",
+        "flavor": "The spirit of a magnificent cat overshadows you, lending you and your allies its grace.",
+        "id": "modern4e.power.utility-class-shaman-power9746",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9746",
+          "publication": "Published in Primal Power, page(s) 68."
+        },
+        "subtitle": "2",
+        "title": "Spirit of the Great Cat",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power9747",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A gentle wind blows around your spirit companion and enhances your allies' ranged attacks.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Until the end of the encounter, you and your allies gain a +1 power bonus to ranged attack rolls against enemies adjacent to your spirit companion. In addition, as a free action you can end this power's effect to grant one ally within 10 squares of you a +2 bonus to ranged attack rolls until the end of your next turn.",
+        "title": "Spirit Zephyr"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Until the end of the encounter, you and your allies gain a +1 power bonus to ranged attack rolls against enemies adjacent to your spirit companion. In addition, as a free action you can end this power's effect to grant one ally within 10 squares of you a +2 bonus to ranged attack rolls until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A gentle wind blows around your spirit companion and enhances your allies' ranged attacks.",
+        "flavor": "A gentle wind blows around your spirit companion and enhances your allies' ranged attacks.",
+        "id": "modern4e.power.utility-class-shaman-power9747",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9747",
+          "publication": "Published in Primal Power, page(s) 68."
+        },
+        "subtitle": "2",
+        "title": "Spirit Zephyr",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power9748",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 2,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 2,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "As your foes leap to attack, the spirit of Stormhawk lends quickness to your allies as they prepare for the assault.\n\nDAILY / NO_ACTION\n\nClose burst 5\n\nTrigger: You roll initiative at the beginning of an encounter\n\nTarget: You and each ally in the burst\n\nEffect: You slide each target 3 squares. Each target can draw a weapon or an implement as a free action.",
+        "title": "Stormhawk Vigilance"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "NO_ACTION",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "You and each ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-3",
+                "label": "Effect",
+                "text": "You slide each target 3 squares. Each target can draw a weapon or an implement as a free action.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "trigger": "You roll initiative at the beginning of an encounter",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "As your foes leap to attack, the spirit of Stormhawk lends quickness to your allies as they prepare for the assault.",
+        "flavor": "As your foes leap to attack, the spirit of Stormhawk lends quickness to your allies as they prepare for the assault.",
+        "id": "modern4e.power.utility-class-shaman-power9748",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 2,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 2,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9748",
+          "publication": "Published in Primal Power, page(s) 68."
+        },
+        "subtitle": "2",
+        "title": "Stormhawk Vigilance",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power9756",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "FIRE",
+            "HEALING",
+            "PRIMAL"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You lend your ally the aid of a fire spirit, which burns more brightly as that ally defeats your enemies.\n\nDAILY / MINOR\n\nRanged 5\n\nTarget: One ally\n\nEffect: Until the end of the encounter, whenever the target reduces an enemy to 0 hit points, he or she regains 5 hit points, and each enemy adjacent to him or her takes 2 fire damage.",
+        "title": "Everlasting Flame's Strength"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One ally"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "Until the end of the encounter, whenever the target reduces an enemy to 0 hit points, he or she regains 5 hit points, and each enemy adjacent to him or her takes 2 fire damage.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You lend your ally the aid of a fire spirit, which burns more brightly as that ally defeats your enemies.",
+        "flavor": "You lend your ally the aid of a fire spirit, which burns more brightly as that ally defeats your enemies.",
+        "id": "modern4e.power.utility-class-shaman-power9756",
+        "keywords": [
+          "FIRE",
+          "HEALING",
+          "PRIMAL"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9756",
+          "publication": "Published in Primal Power, page(s) 69."
+        },
+        "subtitle": "6",
+        "title": "Everlasting Flame's Strength",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power9757",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "HEALING",
+            "PRIMAL"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "A comforting hearth spirit settles over you, soothing you and your allies.\n\nDAILY / MINOR\n\nClose burst 3\n\nTarget: Each ally in the burst\n\nEffect: Each target regains 1d6 hit points. Until the end of your next turn, you and your allies can use your second winds as a minor action while adjacent to your spirit companion.",
+        "title": "Hearth Spirit"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "Each ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "Each target regains 1d6 hit points. Until the end of your next turn, you and your allies can use your second winds as a minor action while adjacent to your spirit companion.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 3",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "A comforting hearth spirit settles over you, soothing you and your allies.",
+        "flavor": "A comforting hearth spirit settles over you, soothing you and your allies.",
+        "id": "modern4e.power.utility-class-shaman-power9757",
+        "keywords": [
+          "HEALING",
+          "PRIMAL"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9757",
+          "publication": "Published in Primal Power, page(s) 69."
+        },
+        "subtitle": "6",
+        "title": "Hearth Spirit",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power9758",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL",
+            "SPIRIT"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You create a shield of primal energy to protect your spirit companion.\n\nENCOUNTER / IMMEDIATE_INTERRUPT\n\nPersonal\n\nTrigger: An enemy hits your spirit companion\n\nEffect: Your spirit companion gains a +4 bonus to the defense targeted by the attack.",
+        "title": "Spirit Companion's Shelter"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_INTERRUPT",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "Your spirit companion gains a +4 bonus to the defense targeted by the attack.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "trigger": "An enemy hits your spirit companion",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You create a shield of primal energy to protect your spirit companion.",
+        "flavor": "You create a shield of primal energy to protect your spirit companion.",
+        "id": "modern4e.power.utility-class-shaman-power9758",
+        "keywords": [
+          "PRIMAL",
+          "SPIRIT"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9758",
+          "publication": "Published in Primal Power, page(s) 69."
+        },
+        "subtitle": "6",
+        "title": "Spirit Companion's Shelter",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power9759",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "HEALING",
+            "PRIMAL"
+          ],
+          "level": 6,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 6,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "As your foe strikes you down, you unleash your reserve of spiritual energy to invigorate your allies.\n\nDAILY / IMMEDIATE_INTERRUPT\n\nClose burst 10\n\nTrigger: An enemy reduces you to 0 hit points or fewer\n\nTarget: Each ally in the burst\n\nEffect: Each target can spend a healing surge. In addition, until the end of your next turn, each target gains a +2 bonus to attack rolls against the triggering enemy.",
+        "title": "Spirit of Vengeance"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "IMMEDIATE_INTERRUPT",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "Each ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-3",
+                "label": "Effect",
+                "text": "Each target can spend a healing surge. In addition, until the end of your next turn, each target gains a +2 bonus to attack rolls against the triggering enemy.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 10",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "trigger": "An enemy reduces you to 0 hit points or fewer",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "As your foe strikes you down, you unleash your reserve of spiritual energy to invigorate your allies.",
+        "flavor": "As your foe strikes you down, you unleash your reserve of spiritual energy to invigorate your allies.",
+        "id": "modern4e.power.utility-class-shaman-power9759",
+        "keywords": [
+          "HEALING",
+          "PRIMAL"
+        ],
+        "level": 6,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 6,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9759",
+          "publication": "Published in Primal Power, page(s) 69."
+        },
+        "subtitle": "6",
+        "title": "Spirit of Vengeance",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power9767",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You awaken the slumbering spirits of the forest to protect your allies from harm.\n\nDAILY / MINOR\n\nPersonal\n\nEffect: Until the end of the encounter, you and your allies gain a +2 power bonus to all defenses while within 5 squares of your spirit companion. In addition, when an enemy hits an ally within 10 squares of you, you can use an immediate interrupt to end this effect and grant that ally a +6 bonus to all defenses against the attack.",
+        "title": "Shield of the Immortal Forest"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {},
+            "blocks": [
+              {
+                "id": "rule-1",
+                "label": "Effect",
+                "text": "Until the end of the encounter, you and your allies gain a +2 power bonus to all defenses while within 5 squares of your spirit companion. In addition, when an enemy hits an ally within 10 squares of you, you can use an immediate interrupt to end this effect and grant that ally a +6 bonus to all defenses against the attack.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "type": "PERSONAL"
+            },
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You awaken the slumbering spirits of the forest to protect your allies from harm.",
+        "flavor": "You awaken the slumbering spirits of the forest to protect your allies from harm.",
+        "id": "modern4e.power.utility-class-shaman-power9767",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9767",
+          "publication": "Published in Primal Power, page(s) 71."
+        },
+        "subtitle": "10",
+        "title": "Shield of the Immortal Forest",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power9768",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "DAILY"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You grant an ally the resilience of the mountains to sustain blows that would cripple another creature.\n\nDAILY / MINOR\n\nRanged 5\n\nTarget: One ally\n\nEffect: Until the end of the encounter, the target gains temporary hit points equal to your Wisdom at the start of each of his or her turns.",
+        "title": "Stone Root's Resilience"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One ally"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "Until the end of the encounter, the target gains temporary hit points equal to your Wisdom at the start of each of his or her turns.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Ranged 5",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "DAILY",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "DAY"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You grant an ally the resilience of the mountains to sustain blows that would cripple another creature.",
+        "flavor": "You grant an ally the resilience of the mountains to sustain blows that would cripple another creature.",
+        "id": "modern4e.power.utility-class-shaman-power9768",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9768",
+          "publication": "Published in Primal Power, page(s) 71."
+        },
+        "subtitle": "10",
+        "title": "Stone Root's Resilience",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.utility-class-shaman-power9769",
+      "mechanics": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "powerProfile": {
+          "keywords": [
+            "PRIMAL"
+          ],
+          "level": 10,
+          "pickKinds": [
+            "COMBAT"
+          ],
+          "powerKind": "UTILITY",
+          "usage": "ENCOUNTER"
+        },
+        "prerequisites": [
+          {
+            "minimum": 10,
+            "type": "level"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "You reach into the spirit world, weaving together strands of primal night to cloak yourself and your allies in a veil of invisibility\n\nENCOUNTER / MINOR\n\nClose burst 1\n\nTarget: You and each ally in the burst\n\nEffect: Each target becomes invisible until he or she attacks or until the end of your next turn.",
+        "title": "Twilight's Veil"
+      },
+      "sharedData": {
+        "access": {
+          "entryId": "modern4e.class.shaman",
+          "type": "entry"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "You and each ally in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "rule-2",
+                "label": "Effect",
+                "text": "Each target becomes invisible until he or she attacks or until the end of your next turn.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "text": "Close burst 1",
+              "type": "RULES_TEXT"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Runtime utility effects are unimplemented; literal rules, secondary actions, sustain, costs and conditional benefits require manual resolution."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "You reach into the spirit world, weaving together strands of primal night to cloak yourself and your allies in a veil of invisibility",
+        "flavor": "You reach into the spirit world, weaving together strands of primal night to cloak yourself and your allies in a veil of invisibility",
+        "id": "modern4e.power.utility-class-shaman-power9769",
+        "keywords": [
+          "PRIMAL"
+        ],
+        "level": 10,
+        "powerKind": "UTILITY",
+        "prerequisites": {
+          "minimum": 10,
+          "type": "level"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "power9769",
+          "publication": "Published in Primal Power, page(s) 71."
+        },
+        "subtitle": "10",
+        "title": "Twilight's Veil",
+        "utilitySection": {
+          "availability": "AVAILABLE",
+          "classId": "modern4e.class.shaman",
+          "id": "class-shaman",
+          "kind": "CLASS",
+          "pickKinds": [
+            "COMBAT"
+          ]
+        }
+      }
+    }
+  ],
+  "id": "entries-0015"
+}

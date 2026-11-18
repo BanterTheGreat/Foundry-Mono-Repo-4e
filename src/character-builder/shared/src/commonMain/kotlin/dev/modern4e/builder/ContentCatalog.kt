@@ -26,11 +26,15 @@ class ContentCatalog private constructor(
         return ContentCatalog(source, packages, entries, definitions, diagnostics, mutableMapOf(), mutableMapOf())
     }
 
-    /** Search winning metadata only; never loads a chunk. Ordering is stable across platforms. */
-    fun search(query: String = "", category: EntryCategory? = null): List<CatalogEntry> {
+    /**
+     * Search winning metadata only; never loads a chunk. Ordering is stable across platforms.
+     * With [classIds], powers selectable only by other classes are left out; everything else is unaffected.
+     */
+    fun search(query: String = "", category: EntryCategory? = null, classIds: Set<String>? = null): List<CatalogEntry> {
         val words = query.trim().lowercase().split(Regex("\\s+")).filter { it.isNotEmpty() }
         return entries.values.filter { candidate ->
             (category == null || candidate.metadata.category == category) &&
+                (classIds == null || candidate.metadata.classId == null || candidate.metadata.classId in classIds) &&
                 words.all { it in candidate.metadata.title.lowercase() || it in candidate.metadata.id.lowercase() }
         }.sortedWith(compareBy({ it.metadata.title.lowercase() }, { it.metadata.id }))
     }

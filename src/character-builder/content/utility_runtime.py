@@ -85,9 +85,11 @@ def build(content=None):
     """Validate the utility inventory and emit the deterministic `modern4e.utilities` asset map."""
     content = Path(content) if content is not None else authoring.CONTENT
     catalog, powers = authoring.load(content)
-    known = set(powers) | {entry["id"] for entry in class_runtime.authoring.catalog(content / "classes")["entries"]}
+    class_entries = class_runtime.authoring.catalog(content / "classes")["entries"]
+    known = set(powers) | {entry["id"] for entry in class_entries}
+    class_ids = {entry["id"] for entry in class_entries if entry["category"] == "CLASS"}
     entries = []
     for section in catalog["sections"]:
         for power_id in section["powerIds"]:
             entries.append(compile_utility(powers[power_id], section, known))
-    return runtime_common.package(PACKAGE, TITLE, entries, revision="1")
+    return runtime_common.package(PACKAGE, TITLE, entries, revision="2", scope=runtime_common.power_scope(class_ids))

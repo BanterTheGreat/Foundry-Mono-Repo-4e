@@ -159,13 +159,30 @@ class ClassAttacksTest(unittest.TestCase):
     def test_package_is_chunked_and_indexed_consistently(self):
         assets = class_runtime.build()
         manifest = assets["modern4e.classes/manifest.json"]
-        self.assertEqual("3", manifest["revision"])
+        self.assertEqual("4", manifest["revision"])
         self.assertGreater(len(manifest["chunks"]), 1)
         self.assertNotIn("modern4e.classes/entries.json", assets)
         chunked = {c: {e["id"] for e in assets[f"modern4e.classes/{c}.json"]["entries"]} for c in manifest["chunks"]}
         for row in assets["modern4e.classes/index.json"]["entries"]:
             self.assertIn(row["id"], chunked[row["chunkId"]])
         self.assertEqual(sum(map(len, chunked.values())), len(assets["modern4e.classes/index.json"]["entries"]))
+
+    def test_each_class_fills_its_own_chunks_and_index_rows_name_the_class(self):
+        assets = class_runtime.build()
+        index = {row["id"]: row for row in assets["modern4e.classes/index.json"]["entries"]}
+        by_chunk = {}
+        for row in index.values():
+            by_chunk.setdefault(row["chunkId"], []).append(row)
+        for name, powers in self.powers.items():
+            class_id = f"modern4e.class.{name.lower()}"
+            rows = [index[p["id"]] for p in powers]
+            self.assertTrue(all(row["classId"] == class_id for row in rows), name)
+            for chunk in {row["chunkId"] for row in rows}:
+                # A loader that reads this chunk for the class never pays for another class's powers.
+                self.assertEqual({class_id}, {row.get("classId") for row in by_chunk[chunk]}, (name, chunk))
+        # Only selectable powers are scoped; classes, features and granted powers are never tagged.
+        self.assertFalse([row for row in index.values() if row["category"] != "POWER" and "classId" in row])
+        self.assertTrue(any(row["category"] == "POWER" and "classId" not in row for row in index.values()))
 
 
 if __name__ == "__main__":

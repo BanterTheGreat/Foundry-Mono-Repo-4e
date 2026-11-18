@@ -5,23 +5,43 @@ deterministic asset map as ``class_runtime.build``: ``<package>/manifest.json``,
 ``<package>/index.json`` and ``<package>/entries-NNNN.json`` chunks.
 """
 
+import itertools
+
 CHUNK_SIZE = 100
 
 
-def package(package_id, title, entries, revision="1", chunk_size=CHUNK_SIZE):
-    """Assemble sorted, chunked package assets from compiled runtime entries."""
-    ordered = sorted(entries, key=lambda entry: entry["id"])
+def power_scope(class_ids):
+    """Scope function for selectable powers: the class a power's access condition names, otherwise None."""
+    def scope(entry):
+        access = entry["mechanics"].get("access") or {}
+        if entry["category"] == "POWER" and access.get("type") == "entry" and access["entryId"] in class_ids:
+            return access["entryId"]
+        return None
+    return scope
+
+
+def package(package_id, title, entries, revision="1", chunk_size=CHUNK_SIZE, scope=None):
+    """Assemble sorted, chunked package assets from compiled runtime entries.
+
+    `scope(entry)` may name the class an entry is selectable by. Scoped entries are grouped so each class
+    fills its own chunks, and their index rows carry `classId`, letting a loader skip other classes' chunks.
+    """
+    scope = scope or (lambda entry: None)
+    ordered = sorted(entries, key=lambda entry: (scope(entry) or "", entry["id"]))
     ids = [entry["id"] for entry in ordered]
     if len(ids) != len(set(ids)):
         raise ValueError(f"{package_id}: duplicate entry IDs")
     assets, index, chunks = {}, [], []
-    for start in range(0, len(ordered), chunk_size):
-        chunk_id = f"entries-{start // chunk_size:04d}"
-        chunk = ordered[start:start + chunk_size]
+    batches = []
+    for _, group in itertools.groupby(ordered, key=lambda entry: scope(entry) or ""):
+        group = list(group)
+        batches += [group[start:start + chunk_size] for start in range(0, len(group), chunk_size)]
+    for number, chunk in enumerate(batches):
+        chunk_id = f"entries-{number:04d}"
         chunks.append(chunk_id)
         assets[f"{package_id}/{chunk_id}.json"] = {"id": chunk_id, "entries": chunk}
         index += [{"id": e["id"], "title": e["presentation"]["title"], "category": e["category"],
-                   "chunkId": chunk_id} for e in chunk]
+                   "chunkId": chunk_id, **({"classId": scope(e)} if scope(e) else {})} for e in chunk]
     assets[f"{package_id}/index.json"] = {"entries": index}
     assets[f"{package_id}/manifest.json"] = {"formatVersion": 2, "id": package_id, "revision": revision,
                                             "title": title, "indexes": ["index"], "chunks": chunks}

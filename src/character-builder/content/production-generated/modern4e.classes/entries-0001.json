@@ -8589,35 +8589,23 @@
       "category": "POWER",
       "coverage": {
         "limitations": [
-          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution.",
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented.",
           "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
-      "id": "modern4e.power.artificer-power10188",
+      "id": "modern4e.power.avenger-abjure-undead",
       "mechanics": {
         "access": {
-          "entryId": "modern4e.class.artificer",
-          "type": "entry"
+          "type": "always"
         },
         "choices": [],
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
-        "powerProfile": {
-          "keywords": [
-            "ARCANE",
-            "COLD",
-            "IMPLEMENT"
-          ],
-          "level": 1,
-          "powerKind": "ATTACK",
-          "usage": "AT_WILL"
-        },
         "prerequisites": [
           {
-            "minimum": 1,
-            "type": "level"
+            "type": "always"
           }
         ],
         "unsupported": [],
@@ -8625,13 +8613,12 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You align your spell with those you wove over your ally's armor, causing them to radiate an unnatural cold.\n\nAT_WILL / STANDARD\n\nArea burst 1 centered on an ally within 5 squares\n\nTarget: One enemy in the burst\n\nAttack: Intelligence vs. Reflex\n\nHit: 1d8 + Intelligence cold damage. Until the end of your next turn, any enemy that hits the ally takes cold damage equal to your Wisdom.\n\nLevel 21: 2d8 + Intelligence cold damage.",
-        "title": "Ethereal Chill"
+        "description": "You can use only one channel divinity power per encounter.",
+        "title": "Abjure Undead"
       },
       "sharedData": {
         "access": {
-          "entryId": "modern4e.class.artificer",
-          "type": "entry"
+          "type": "always"
         },
         "activations": [
           {
@@ -8642,9 +8629,9 @@
                 "kind": "ACTOR",
                 "text": "The power user."
               },
-              "targets-1": {
+              "targets": {
                 "kind": "TARGET_SET",
-                "text": "One enemy in the burst"
+                "text": "One undead creature in the burst"
               }
             },
             "blocks": [
@@ -8652,205 +8639,100 @@
                 "actor": "self",
                 "comparisons": [
                   {
-                    "defense": "REFLEX",
+                    "defense": "WILL",
                     "id": "defense",
                     "outcomes": {
                       "hit": [
                         {
-                          "id": "row-3",
+                          "id": "row-1",
                           "label": "Hit",
                           "scaling": [
                             {
+                              "atLevel": 5,
+                              "text": "4d10 + Wisdom radiant damage."
+                            },
+                            {
+                              "atLevel": 11,
+                              "text": "5d10 + Wisdom radiant damage."
+                            },
+                            {
+                              "atLevel": 15,
+                              "text": "6d10 + Wisdom radiant damage."
+                            },
+                            {
                               "atLevel": 21,
-                              "text": "2d8 + Intelligence cold damage."
+                              "text": "7d10 + Wisdom radiant damage."
+                            },
+                            {
+                              "atLevel": 25,
+                              "text": "8d10 + Wisdom radiant damage."
                             }
                           ],
-                          "text": "1d8 + Intelligence cold damage. Until the end of your next turn, any enemy that hits the ally takes cold damage equal to your Wisdom.",
+                          "text": "3d10 + Wisdom radiant damage, and you pull the target a number of squares equal to 1 + your Wisdom. The target is also immobilized until the end of your next turn.",
                           "type": "effect"
                         }
-                      ]
-                    }
-                  }
-                ],
-                "id": "row-2",
-                "label": "Attack",
-                "range": {
-                  "text": "Area burst 1 centered on an ally within 5 squares",
-                  "type": "RULES_TEXT"
-                },
-                "roll": {
-                  "count": 1,
-                  "sharing": "PER_TARGET",
-                  "statistic": {
-                    "ability": "INTELLIGENCE",
-                    "type": "ABILITY"
-                  }
-                },
-                "targets": "targets-1",
-                "text": "Intelligence vs. Reflex",
-                "type": "attack"
-              }
-            ],
-            "id": "use",
-            "range": {
-              "text": "Area burst 1 centered on an ally within 5 squares",
-              "type": "RULES_TEXT"
-            },
-            "targets": "targets-1",
-            "usage": {
-              "costs": [],
-              "frequency": "AT_WILL",
-              "limits": [],
-              "rules": []
-            }
-          }
-        ],
-        "category": "POWER",
-        "choices": [],
-        "coverage": {
-          "limitations": [
-            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
-          ],
-          "status": "UNIMPLEMENTED"
-        },
-        "description": "You align your spell with those you wove over your ally's armor, causing them to radiate an unnatural cold.",
-        "flavor": "You align your spell with those you wove over your ally's armor, causing them to radiate an unnatural cold.",
-        "id": "modern4e.power.artificer-power10188",
-        "keywords": [
-          "ARCANE",
-          "COLD",
-          "IMPLEMENT"
-        ],
-        "level": 1,
-        "powerKind": "ATTACK",
-        "prerequisites": {
-          "minimum": 1,
-          "type": "level"
-        },
-        "rulesProfile": "MODERN4E",
-        "selection": {
-          "constraints": [],
-          "maximum": 1
-        },
-        "source": {
-          "entryId": "power10188",
-          "publication": "Published in Dragon Magazine 381, page(s) 56.",
-          "rulesText": "Ethereal ChillArtificer Attack 1\nYou align your spell with those you wove over your ally's armor, causing them to radiate an unnatural cold.\nAt-Will   ✦     Arcane, Cold, Implement\nStandard Action      Area burst 1 centered on an ally within 5 squares\nTarget: One enemy in the burst\nAttack: Intelligence vs. Reflex\nHit: 1d8 + Intelligence modifier cold damage. Until the end of your next turn, any enemy that hits the ally takes cold damage equal to your Wisdom modifier.\nLevel 21: 2d8 + Intelligence modifier cold damage.\nPublished in Dragon Magazine 381, page(s) 56."
-        },
-        "subtitle": "Artificer Attack 1",
-        "title": "Ethereal Chill"
-      }
-    },
-    {
-      "category": "POWER",
-      "coverage": {
-        "limitations": [
-          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution.",
-          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
-        ],
-        "status": "UNIMPLEMENTED"
-      },
-      "id": "modern4e.power.artificer-power10189",
-      "mechanics": {
-        "access": {
-          "entryId": "modern4e.class.artificer",
-          "type": "entry"
-        },
-        "choices": [],
-        "conditionalModifiers": [],
-        "grants": [],
-        "maximumSelections": 1,
-        "powerProfile": {
-          "keywords": [
-            "ARCANE",
-            "IMPLEMENT",
-            "NECROTIC"
-          ],
-          "level": 1,
-          "powerKind": "ATTACK",
-          "usage": "ENCOUNTER"
-        },
-        "prerequisites": [
-          {
-            "minimum": 1,
-            "type": "level"
-          }
-        ],
-        "unsupported": [],
-        "version": 2,
-        "weaponAbilities": {}
-      },
-      "presentation": {
-        "description": "You bind the quickness of your enemy to the enchantments you placed on your ally, transferring speed from one to the other.\n\nENCOUNTER / STANDARD\n\nRanged 10\n\nTarget: One creature\n\nAttack: Intelligence vs. AC\n\nHit: 1d10 + Intelligence necrotic damage, and the target is slowed until the end of your next turn. Choose one ally within 5 squares of the target; that ally gains a +2 bonus to speed until the end of your next turn and also gains 5 temporary hit points.",
-        "title": "Drain Speed"
-      },
-      "sharedData": {
-        "access": {
-          "entryId": "modern4e.class.artificer",
-          "type": "entry"
-        },
-        "activations": [
-          {
-            "action": "STANDARD",
-            "availability": "ENTRY",
-            "bindings": {
-              "self": {
-                "kind": "ACTOR",
-                "text": "The power user."
-              },
-              "targets-1": {
-                "kind": "TARGET_SET",
-                "text": "One creature"
-              }
-            },
-            "blocks": [
-              {
-                "actor": "self",
-                "comparisons": [
-                  {
-                    "defense": "AC",
-                    "id": "defense",
-                    "outcomes": {
-                      "hit": [
+                      ],
+                      "miss": [
                         {
-                          "id": "row-3",
-                          "label": "Hit",
-                          "text": "1d10 + Intelligence necrotic damage, and the target is slowed until the end of your next turn. Choose one ally within 5 squares of the target; that ally gains a +2 bonus to speed until the end of your next turn and also gains 5 temporary hit points.",
+                          "id": "row-2",
+                          "label": "Miss",
+                          "text": "Half damage, and you pull the target 1 square",
                           "type": "effect"
                         }
                       ]
                     }
                   }
                 ],
-                "id": "row-2",
+                "id": "attack",
                 "label": "Attack",
                 "range": {
-                  "text": "Ranged 10",
-                  "type": "RULES_TEXT"
+                  "origin": "self",
+                  "size": {
+                    "base": 5
+                  },
+                  "type": "CLOSE_BURST"
                 },
                 "roll": {
                   "count": 1,
                   "sharing": "PER_TARGET",
                   "statistic": {
-                    "ability": "INTELLIGENCE",
+                    "ability": "WISDOM",
                     "type": "ABILITY"
                   }
                 },
-                "targets": "targets-1",
-                "text": "Intelligence vs. AC",
+                "targets": "targets",
+                "text": "Wisdom vs. Will",
                 "type": "attack"
+              },
+              {
+                "id": "row-3",
+                "label": "Channel Divinity",
+                "text": "You can use only one channel divinity power per encounter.",
+                "type": "effect"
               }
             ],
             "id": "use",
             "range": {
-              "text": "Ranged 10",
-              "type": "RULES_TEXT"
+              "origin": "self",
+              "size": {
+                "base": 5
+              },
+              "type": "CLOSE_BURST"
             },
-            "targets": "targets-1",
+            "special": true,
+            "targets": "targets",
             "usage": {
               "costs": [],
               "frequency": "ENCOUNTER",
-              "limits": [],
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER",
+                  "poolId": "modern4e.resource.channel-divinity"
+                }
+              ],
               "rules": []
             }
           }
@@ -8859,23 +8741,20 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+            "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
           ],
           "status": "UNIMPLEMENTED"
         },
-        "description": "You bind the quickness of your enemy to the enchantments you placed on your ally, transferring speed from one to the other.",
-        "flavor": "You bind the quickness of your enemy to the enchantments you placed on your ally, transferring speed from one to the other.",
-        "id": "modern4e.power.artificer-power10189",
+        "description": "You can use only one channel divinity power per encounter.",
+        "flavor": "You send a brilliant ray of radiant power at an undead foe, compelling it to stagger toward you.",
+        "id": "modern4e.power.avenger-abjure-undead",
         "keywords": [
-          "ARCANE",
+          "DIVINE",
           "IMPLEMENT",
-          "NECROTIC"
+          "RADIANT"
         ],
-        "level": 1,
-        "powerKind": "ATTACK",
         "prerequisites": {
-          "minimum": 1,
-          "type": "level"
+          "type": "always"
         },
         "rulesProfile": "MODERN4E",
         "selection": {
@@ -8883,47 +8762,33 @@
           "maximum": 1
         },
         "source": {
-          "entryId": "power10189",
-          "publication": "Published in Dragon Magazine 381, page(s) 56.",
-          "rulesText": "Drain SpeedArtificer Attack 1\nYou bind the quickness of your enemy to the enchantments you placed on your ally, transferring speed from one to the other.\nEncounter   ✦     Arcane, Implement, Necrotic\nStandard Action      Ranged 10\nTarget: One creature\nAttack: Intelligence vs. AC\nHit: 1d10 + Intelligence modifier necrotic damage, and the target is slowed until the end of your next turn. Choose one ally within 5 squares of the target; that ally gains a +2 bonus to speed until the end of your next turn and also gains 5 temporary hit points.\nPublished in Dragon Magazine 381, page(s) 56."
+          "entryId": "modern4e.class.avenger",
+          "publication": "Modern4e local class chapter"
         },
-        "subtitle": "Artificer Attack 1",
-        "title": "Drain Speed"
+        "title": "Abjure Undead"
       }
     },
     {
       "category": "POWER",
       "coverage": {
         "limitations": [
-          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution.",
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented.",
           "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
-      "id": "modern4e.power.artificer-power10190",
+      "id": "modern4e.power.avenger-divine-guidance",
       "mechanics": {
         "access": {
-          "entryId": "modern4e.class.artificer",
-          "type": "entry"
+          "type": "always"
         },
         "choices": [],
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
-        "powerProfile": {
-          "keywords": [
-            "ARCANE",
-            "POISON",
-            "WEAPON"
-          ],
-          "level": 1,
-          "powerKind": "ATTACK",
-          "usage": "ENCOUNTER"
-        },
         "prerequisites": [
           {
-            "minimum": 1,
-            "type": "level"
+            "type": "always"
           }
         ],
         "unsupported": [],
@@ -8931,76 +8796,64 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You enchant your ammunition with poisoning magic, then transfer that enchantment onto one of your allies close to the target.\n\nENCOUNTER / STANDARD\n\nRanged weapon\n\nTarget: One creature\n\nAttack: Intelligence vs. AC\n\nHit: 2[W] + Intelligence poison damage, and choose one ally within 5 squares of the target. Until the end of your next turn, any creature that hits that ally with a melee attack takes poison damage equal to your Wisdom.",
-        "title": "Halo of Thorns"
+        "description": "The target makes a second attack roll and uses either result.",
+        "title": "Divine Guidance"
       },
       "sharedData": {
         "access": {
-          "entryId": "modern4e.class.artificer",
-          "type": "entry"
+          "type": "always"
         },
         "activations": [
           {
-            "action": "STANDARD",
+            "action": "IMMEDIATE_INTERRUPT",
             "availability": "ENTRY",
             "bindings": {
               "self": {
                 "kind": "ACTOR",
                 "text": "The power user."
               },
-              "targets-1": {
+              "targets": {
                 "kind": "TARGET_SET",
-                "text": "One creature"
+                "text": "The Triggering Ally"
               }
             },
             "blocks": [
               {
-                "actor": "self",
-                "comparisons": [
-                  {
-                    "defense": "AC",
-                    "id": "defense",
-                    "outcomes": {
-                      "hit": [
-                        {
-                          "id": "row-3",
-                          "label": "Hit",
-                          "text": "2[W] + Intelligence poison damage, and choose one ally within 5 squares of the target. Until the end of your next turn, any creature that hits that ally with a melee attack takes poison damage equal to your Wisdom.",
-                          "type": "effect"
-                        }
-                      ]
-                    }
-                  }
-                ],
+                "id": "row-1",
+                "label": "Effect",
+                "text": "The target makes a second attack roll and uses either result.",
+                "type": "effect"
+              },
+              {
                 "id": "row-2",
-                "label": "Attack",
-                "range": {
-                  "text": "Ranged weapon",
-                  "type": "RULES_TEXT"
-                },
-                "roll": {
-                  "count": 1,
-                  "sharing": "PER_TARGET",
-                  "statistic": {
-                    "ability": "INTELLIGENCE",
-                    "type": "ABILITY"
-                  }
-                },
-                "targets": "targets-1",
-                "text": "Intelligence vs. AC",
-                "type": "attack"
+                "label": "Channel Divinity",
+                "text": "You can use only one channel divinity power per encounter.",
+                "type": "effect"
               }
             ],
             "id": "use",
             "range": {
-              "text": "Ranged weapon",
-              "type": "RULES_TEXT"
+              "origin": "self",
+              "size": {
+                "base": 10
+              },
+              "type": "CLOSE_BURST"
             },
-            "targets": "targets-1",
+            "special": true,
+            "targets": "targets",
+            "trigger": "An ally within 10 squares of you makes an attack roll against your oath of enmity target.",
             "usage": {
               "costs": [],
               "frequency": "ENCOUNTER",
-              "limits": [],
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER",
+                  "poolId": "modern4e.resource.channel-divinity"
+                }
+              ],
               "rules": []
             }
           }
@@ -9009,23 +8862,18 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution."
+            "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
           ],
           "status": "UNIMPLEMENTED"
         },
-        "description": "You enchant your ammunition with poisoning magic, then transfer that enchantment onto one of your allies close to the target.",
-        "flavor": "You enchant your ammunition with poisoning magic, then transfer that enchantment onto one of your allies close to the target.",
-        "id": "modern4e.power.artificer-power10190",
+        "description": "The target makes a second attack roll and uses either result.",
+        "flavor": "You lend your deity’s guidance to an ally’s attack against your foe.",
+        "id": "modern4e.power.avenger-divine-guidance",
         "keywords": [
-          "ARCANE",
-          "POISON",
-          "WEAPON"
+          "DIVINE"
         ],
-        "level": 1,
-        "powerKind": "ATTACK",
         "prerequisites": {
-          "minimum": 1,
-          "type": "level"
+          "type": "always"
         },
         "rulesProfile": "MODERN4E",
         "selection": {
@@ -9033,48 +8881,33 @@
           "maximum": 1
         },
         "source": {
-          "entryId": "power10190",
-          "publication": "Published in Dragon Magazine 381, page(s) 56.",
-          "rulesText": "Halo of ThornsArtificer Attack 1\nYou enchant your ammunition with poisoning magic, then transfer that enchantment onto one of your allies close to the target.\nEncounter   ✦     Arcane, Poison, Weapon\nStandard Action      Ranged weapon\nTarget: One creature\nAttack: Intelligence vs. AC\nHit: 2[W] + Intelligence modifier poison damage, and choose one ally within 5 squares of the target. Until the end of your next turn, any creature that hits that ally with a melee attack takes poison damage equal to your Wisdom modifier.\nRevision (11/30/2009)\nPage 19: Halo of Thorns: add the Weapon keyword and make it a standard action.\nPublished in Dragon Magazine 381, page(s) 56."
+          "entryId": "modern4e.class.avenger",
+          "publication": "Modern4e local class chapter"
         },
-        "subtitle": "Artificer Attack 1",
-        "title": "Halo of Thorns"
+        "title": "Divine Guidance"
       }
     },
     {
       "category": "POWER",
       "coverage": {
         "limitations": [
-          "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution.",
-          "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text.",
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented.",
           "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
         ],
         "status": "UNIMPLEMENTED"
       },
-      "id": "modern4e.power.artificer-power10191",
+      "id": "modern4e.power.bard-majestic-word",
       "mechanics": {
         "access": {
-          "entryId": "modern4e.class.artificer",
-          "type": "entry"
+          "type": "always"
         },
         "choices": [],
         "conditionalModifiers": [],
         "grants": [],
         "maximumSelections": 1,
-        "powerProfile": {
-          "keywords": [
-            "ARCANE",
-            "FIRE",
-            "IMPLEMENT"
-          ],
-          "level": 1,
-          "powerKind": "ATTACK",
-          "usage": "DAILY"
-        },
         "prerequisites": [
           {
-            "minimum": 1,
-            "type": "level"
+            "type": "always"
           }
         ],
         "unsupported": [],
@@ -9082,13 +8915,12 @@
         "weaponAbilities": {}
       },
       "presentation": {
-        "description": "You inscribe a fiery rune upon your ally's armor or garments, then turn a fire spirit loose on the field of battle as you flare the rune periodically.\n\nDAILY / MINOR\n\nMelee touch\n\nTarget: You or one ally\n\nEffect: You infuse the target's armor with an elemental fire spirit. Until the end of the encounter, the target gains resist 5 fire. In addition, you can use the Flameburst Armor Attack power once per round until the end of the encounter if the primary target is within 5 squares of you.\n\nGrants: Flameburst Armor Attack\n\nAT_WILL / STANDARD\n\nClose burst 1 centered on the ally you targeted with flameburst armor\n\nRequirement: The power Flameburst Armor must be active in order to use this power.\n\nTarget: Each enemy in the burst\n\nSpecial: You can use this power only once per turn.\n\nEffect: The secondary target takes fire damage equal to 5 + your implement's enhancement bonus and is marked by the primary target until the end of your next turn.",
-        "title": "Flameburst Armor"
+        "description": "The target can spend a healing surge and regain additional hit points equal to your Charisma. You also slide the target 1 square.",
+        "title": "Majestic Word"
       },
       "sharedData": {
         "access": {
-          "entryId": "modern4e.class.artificer",
-          "type": "entry"
+          "type": "always"
         },
         "activations": [
           {
@@ -9099,79 +8931,92 @@
                 "kind": "ACTOR",
                 "text": "The power user."
               },
-              "targets-1": {
+              "targets": {
                 "kind": "TARGET_SET",
-                "text": "You or one ally"
+                "text": "You or one ally in the burst"
               }
             },
             "blocks": [
               {
-                "id": "row-2",
+                "id": "row-1",
                 "label": "Effect",
-                "text": "You infuse the target's armor with an elemental fire spirit. Until the end of the encounter, the target gains resist 5 fire. In addition, you can use the Flameburst Armor Attack power once per round until the end of the encounter if the primary target is within 5 squares of you.",
+                "scaling": [
+                  {
+                    "atLevel": 6,
+                    "text": "1d6 + Charisma additional hit points."
+                  },
+                  {
+                    "atLevel": 11,
+                    "text": "Close Burst 10 & 2d6 + Charisma additional hit points."
+                  },
+                  {
+                    "atLevel": 16,
+                    "text": "Close Burst 10 & 3d6 + Charisma additional hit points."
+                  },
+                  {
+                    "atLevel": 21,
+                    "text": "Close Burst 15 & 4d6 + Charisma additional hit points."
+                  },
+                  {
+                    "atLevel": 26,
+                    "text": "Close Burst 15 & 5d6 + Charisma additional hit points."
+                  }
+                ],
+                "text": "The target can spend a healing surge and regain additional hit points equal to your Charisma. You also slide the target 1 square.",
                 "type": "effect"
               },
               {
-                "activationId": "use-flameburst-armor-attack",
-                "duration": "As stated in the power's rules",
-                "id": "grant-use-flameburst-armor-attack",
-                "label": "Grants",
-                "text": "Flameburst Armor Attack",
-                "type": "grant"
+                "id": "row-2",
+                "label": "Special",
+                "text": "You can use this power twice per encounter, but only once per round. At 16th level, you can use this power three times per encounter, but only once per round.",
+                "type": "effect"
               }
             ],
             "id": "use",
             "range": {
-              "text": "Melee touch",
-              "type": "RULES_TEXT"
-            },
-            "targets": "targets-1",
-            "usage": {
-              "costs": [],
-              "frequency": "DAILY",
-              "limits": [],
-              "rules": []
-            }
-          },
-          {
-            "action": "STANDARD",
-            "availability": "GRANTED",
-            "bindings": {
-              "self": {
-                "kind": "ACTOR",
-                "text": "The power user."
+              "origin": "self",
+              "size": {
+                "base": 5,
+                "byLevel": [
+                  {
+                    "atLevel": 11,
+                    "value": 10
+                  },
+                  {
+                    "atLevel": 21,
+                    "value": 15
+                  }
+                ]
               },
-              "targets-8": {
-                "kind": "TARGET_SET",
-                "text": "Each enemy in the burst"
-              }
+              "type": "CLOSE_BURST"
             },
-            "blocks": [
-              {
-                "id": "row-7",
-                "label": "Special",
-                "text": "You can use this power only once per turn.",
-                "type": "effect"
-              },
-              {
-                "id": "row-9",
-                "label": "Effect",
-                "text": "The secondary target takes fire damage equal to 5 + your implement's enhancement bonus and is marked by the primary target until the end of your next turn.",
-                "type": "effect"
-              }
-            ],
-            "id": "use-flameburst-armor-attack",
-            "range": {
-              "text": "Close burst 1 centered on the ally you targeted with flameburst armor",
-              "type": "RULES_TEXT"
-            },
-            "requirement": "The power Flameburst Armor must be active in order to use this power.",
-            "targets": "targets-8",
-            "title": "Flameburst Armor Attack",
+            "special": true,
+            "targets": "targets",
             "usage": {
-              "costs": [],
-              "frequency": "AT_WILL",
-              "limits": [],
+              "costs": [
+                "The target may spend a healing surge as described by the Effect."
+              ],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 2,
+                    "byLevel": [
+                      {
+                        "atLevel": 16,
+                        "value": 3
+                      }
+                    ]
+                  },
+                  "period": "ENCOUNTER"
+                },
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ROUND"
+                }
+              ],
               "rules": []
             }
           }
@@ -9180,24 +9025,19 @@
         "choices": [],
         "coverage": {
           "limitations": [
-            "Power selection is supported; combat execution, conditional weapon benefits, secondary actions, summoned-creature commands and sustain rules require manual resolution.",
-            "The follow-up power is a separate granted activation; its availability window is stated only in the parent rules text."
+            "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
           ],
           "status": "UNIMPLEMENTED"
         },
-        "description": "You inscribe a fiery rune upon your ally's armor or garments, then turn a fire spirit loose on the field of battle as you flare the rune periodically.",
-        "flavor": "You inscribe a fiery rune upon your ally's armor or garments, then turn a fire spirit loose on the field of battle as you flare the rune periodically.",
-        "id": "modern4e.power.artificer-power10191",
+        "description": "The target can spend a healing surge and regain additional hit points equal to your Charisma. You also slide the target 1 square.",
+        "flavor": "You utter words laden with preternatural inspiration, restoring your ally's stamina and making wounds seem insignificant.",
+        "id": "modern4e.power.bard-majestic-word",
         "keywords": [
           "ARCANE",
-          "FIRE",
-          "IMPLEMENT"
+          "HEALING"
         ],
-        "level": 1,
-        "powerKind": "ATTACK",
         "prerequisites": {
-          "minimum": 1,
-          "type": "level"
+          "type": "always"
         },
         "rulesProfile": "MODERN4E",
         "selection": {
@@ -9205,12 +9045,122 @@
           "maximum": 1
         },
         "source": {
-          "entryId": "power10191",
-          "publication": "Published in Dragon Magazine 381, page(s) 56.",
-          "rulesText": "Flameburst ArmorArtificer Attack 1\nYou inscribe a fiery rune upon your ally's armor or garments, then turn a fire spirit loose on the field of battle as you flare the rune periodically.\nDaily   ✦     Arcane, Fire, Implement\nMinor Action      Melee touch\nPrimary Target: You or one ally\nEffect: You infuse the target's armor with an elemental fire spirit. Until the end of the encounter, the target gains resist 5 fire. In addition, you can use the Flameburst Armor Attack power once per round until the end of the encounter if the primary target is within 5 squares of you.\nRevision (11/30/2009)\nPage 19: The level 1 daily power Flameburst Armor has the potential to be confused with flameburst armor (the cloth armor enchantment). Change to Flameburst armor\nFlameburst Armor Attack\nAt-Will ✦     Arcane, Fire, Implement\nStandard Action      Close burst 1 centered on the ally you targeted with flameburst armor\nRequirement: The power Flameburst Armor must be active in order to use this power.\nSpecial: You can use this power only once per turn.\nSecondary Target: Each enemy in the burst\nEffect: The secondary target takes fire damage equal to 5 + your implement's enhancement bonus and is marked by the primary target until the end of your next turn.\nPublished in Dragon Magazine 381, page(s) 56."
+          "entryId": "modern4e.class.bard",
+          "publication": "Modern4e local class chapter"
         },
-        "subtitle": "Artificer Attack 1",
-        "title": "Flameburst Armor"
+        "title": "Majestic Word"
+      }
+    },
+    {
+      "category": "POWER",
+      "coverage": {
+        "limitations": [
+          "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented.",
+          "Combat/session effects and power execution are not automated; conditional modifiers remain separate from unconditional totals."
+        ],
+        "status": "UNIMPLEMENTED"
+      },
+      "id": "modern4e.power.cleric-favor-of-the-gods",
+      "mechanics": {
+        "access": {
+          "type": "always"
+        },
+        "choices": [],
+        "conditionalModifiers": [],
+        "grants": [],
+        "maximumSelections": 1,
+        "prerequisites": [
+          {
+            "type": "always"
+          }
+        ],
+        "unsupported": [],
+        "version": 2,
+        "weaponAbilities": {}
+      },
+      "presentation": {
+        "description": "The next time the target misses with an attack roll before the end of your next turn, it can reroll that attack roll. It must use the new result, even if it is lower.",
+        "title": "Favor of the Gods"
+      },
+      "sharedData": {
+        "access": {
+          "type": "always"
+        },
+        "activations": [
+          {
+            "action": "MINOR",
+            "availability": "ENTRY",
+            "bindings": {
+              "self": {
+                "kind": "ACTOR",
+                "text": "The power user."
+              },
+              "targets": {
+                "kind": "TARGET_SET",
+                "text": "One creature in the burst"
+              }
+            },
+            "blocks": [
+              {
+                "id": "row-1",
+                "label": "Effect",
+                "text": "The next time the target misses with an attack roll before the end of your next turn, it can reroll that attack roll. It must use the new result, even if it is lower.",
+                "type": "effect"
+              }
+            ],
+            "id": "use",
+            "range": {
+              "origin": "self",
+              "size": {
+                "base": 3
+              },
+              "type": "CLOSE_BURST"
+            },
+            "targets": "targets",
+            "usage": {
+              "costs": [],
+              "frequency": "ENCOUNTER",
+              "limits": [
+                {
+                  "maximum": {
+                    "base": 1
+                  },
+                  "period": "ENCOUNTER",
+                  "poolId": "modern4e.resource.channel-divinity"
+                }
+              ],
+              "rules": []
+            }
+          }
+        ],
+        "category": "POWER",
+        "choices": [],
+        "coverage": {
+          "limitations": [
+            "Shared local authoring definition; runtime interpretation and combat effects remain unimplemented."
+          ],
+          "status": "UNIMPLEMENTED"
+        },
+        "description": "The next time the target misses with an attack roll before the end of your next turn, it can reroll that attack roll. It must use the new result, even if it is lower.",
+        "flavor": "When luck runs against you, you beseech the gods for aid to turn chance in your favor.",
+        "id": "modern4e.power.cleric-favor-of-the-gods",
+        "keywords": [
+          "CHANNEL_DIVINITY",
+          "DIVINE"
+        ],
+        "prerequisites": {
+          "type": "always"
+        },
+        "rulesProfile": "MODERN4E",
+        "selection": {
+          "constraints": [],
+          "maximum": 1
+        },
+        "source": {
+          "entryId": "modern4e.class.cleric",
+          "publication": "Modern4e local class chapter"
+        },
+        "title": "Favor of the Gods"
       }
     }
   ],

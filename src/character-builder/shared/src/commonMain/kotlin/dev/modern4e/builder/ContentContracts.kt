@@ -27,6 +27,8 @@ data class EntryMetadata(
     val title: String,
     val chunkId: String,
     @EncodeDefault(EncodeDefault.Mode.NEVER) val featGroup: FeatGroup? = null,
+    /** The class whose power this is selectable by; loaders skip other classes' powers and chunks. Never an eligibility result. */
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val classId: String? = null,
 )
 
 /** Authored access grouping for feat browsing; never an eligibility result. */

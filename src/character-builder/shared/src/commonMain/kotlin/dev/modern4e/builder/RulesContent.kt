@@ -16,14 +16,16 @@ data class RulesContent(
 /**
  * Operation-local content preparation. Reuse while inspecting candidate characters, then discard.
  * Definitions and dependency expansion are shared, but each returned snapshot contains exactly its dependencies.
- * Metadata lacks power facts, so active power queries retain the complete power catalog.
+ * Metadata lacks power facts, so active power queries retain every power the character's classes can select;
+ * powers whose index row names another class are never loaded.
  */
 internal class RulesContentPreparation(catalog: ContentCatalog) {
     private val reading = catalog.readSession()
-    private val dependencies = mutableMapOf<Pair<String, Int>, List<String>>()
-    private var powerIds: List<String>? = null
+    private val dependencies = mutableMapOf<Triple<String, Int, Set<String>>, List<String>>()
+    private var powers: List<CatalogEntry>? = null
 
     suspend fun load(document: CharacterDocument): RulesContent {
+        val classes = document.classEntryIds()
         val entries = linkedMapOf<String, ContractResult<ResolvedEntry>>()
         val selections = linkedMapOf<SavedSelection, ContractResult<ResolvedEntry>>()
         val pending = mutableListOf<String>()
@@ -42,7 +44,7 @@ internal class RulesContentPreparation(catalog: ContentCatalog) {
             val resolved = reading.resolve(selection)
             selections[selection] = resolved
             if (resolved is ContractResult.Available) {
-                enqueue(dependencies(resolved.value.entry, document.level))
+                enqueue(dependencies(resolved.value.entry, document.level, classes))
             }
         }
         var index = 0
@@ -57,14 +59,14 @@ internal class RulesContentPreparation(catalog: ContentCatalog) {
             }
             entries[id] = resolved
             if (resolved is ContractResult.Available) {
-                enqueue(dependencies(resolved.value.entry, document.level))
+                enqueue(dependencies(resolved.value.entry, document.level, classes))
             }
         }
         return RulesContent(entries.toMap(), selections.toMap(), reading.diagnostics)
     }
 
-    private fun dependencies(entry: ContentEntry, level: Int): List<String> =
-        dependencies.getOrPut(entry.id to level) {
+    private fun dependencies(entry: ContentEntry, level: Int, classes: Set<String>): List<String> =
+        dependencies.getOrPut(Triple(entry.id, level, classes)) {
             val mechanics = entry.mechanics
             val progression = mechanics.progression.filter { it.level <= level }
             val choices = (mechanics.choices + progression.flatMap { it.choices })
@@ -72,7 +74,10 @@ internal class RulesContentPreparation(catalog: ContentCatalog) {
             val grants = (mechanics.grants + progression.flatMap { it.grants })
                 .filterIsInstance<Grant.Entry>().filter { it.atLevel <= level }
             val queried = if (choices.any { it.query?.category == EntryCategory.POWER }) {
-                powerIds ?: reading.search(category = EntryCategory.POWER).map { it.metadata.id }.also { powerIds = it }
+                // A class's own pools always include it, even while a candidate class is being previewed.
+                val scope = if (entry.category == EntryCategory.CLASS) classes + entry.id else classes
+                (powers ?: reading.search(category = EntryCategory.POWER).also { powers = it })
+                    .filter { it.metadata.classId == null || it.metadata.classId in scope }.map { it.metadata.id }
             } else emptyList()
             listOfNotNull(mechanics.multiclassFor) + queried +
                 grants.flatMap { listOf(it.entryId) + it.replacementEntryIds } + choices.flatMap { it.entryIds } +
