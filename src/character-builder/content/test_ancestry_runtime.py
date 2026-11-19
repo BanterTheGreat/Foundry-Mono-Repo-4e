@@ -41,7 +41,11 @@ class AncestryRuntimeTest(unittest.TestCase):
         for key, authored in source.items():
             entry = entries[key]
             self.assertEqual(authored, entry["sharedData"])
-            self.assertEqual({"title": authored["title"], "description": authored["description"]}, entry["presentation"])
+            presentation = {"title": authored["title"], "description": authored["description"]}
+            display = authored.get("grantDisplay", "STANDALONE")
+            if display != "STANDALONE":
+                presentation["grantDisplay"] = display
+            self.assertEqual(presentation, entry["presentation"])
             mechanics = entry["mechanics"]
             self.assertEqual(2, mechanics["version"])
             self.assertEqual({"type": "always"}, mechanics["access"])
@@ -69,6 +73,25 @@ class AncestryRuntimeTest(unittest.TestCase):
         deva = entries["modern4e.ancestry.deva"]
         self.assertEqual("normal", deva["sharedData"]["attributes"]["size"])
         self.assertTrue(any(text.startswith("Authoring note:") for text in deva["coverage"]["limitations"]))
+
+    def test_deva_memory_summary_preserves_the_ancestry_power(self):
+        entries = entries_by_id()
+        ancestry = entries["modern4e.ancestry.deva"]
+        summary = entries["modern4e.feature.deva-memory-of-a-thousand-lifetimes"]
+        power = entries["modern4e.power.memory-of-a-thousand-lifetimes"]
+        self.assertIn(summary["id"], [grant["entryId"] for grant in ancestry["mechanics"]["grants"]])
+        self.assertEqual("GRANT_SUMMARY", summary["presentation"]["grantDisplay"])
+        self.assertEqual([power["id"]], [grant["entryId"] for grant in summary["mechanics"]["grants"]])
+        self.assertEqual("POWER", power["category"])
+        self.assertNotIn("grantDisplay", power["presentation"])
+
+    def test_invalid_ancestry_feature_display_role_is_rejected(self):
+        path = ancestry_runtime.authoring.CONTENT / "deva.json"
+        data = json.loads(path.read_text(encoding="utf-8"))
+        for role, message in [("HIDE", "grantDisplay: unknown value"), ("CHOICE_INTRODUCTION", "must own a choice")]:
+            data["features"][0]["grantDisplay"] = role
+            with self.subTest(role=role), self.assertRaisesRegex(ValueError, message):
+                ancestry_runtime.authoring.validate([data])
 
     def test_language_choices_and_fixed_grants_use_reviewed_structured_ids(self):
         for entry in entries_by_id().values():

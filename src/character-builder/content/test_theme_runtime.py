@@ -65,15 +65,21 @@ class ThemeRuntimeTest(unittest.TestCase):
                 self.assertEqual(authored[key], self.entries[theme_id]["sharedData"][key])
         self.assertEqual([], self.entries["modern4e.feature.docker-level-1"]["mechanics"]["grants"])
 
-    def test_grant_summary_role_keeps_skyseers_individual_power_grants(self):
-        summary_id = "modern4e.feature.skyseer-level-1"
-        power_ids = {"modern4e.power.skyseer-vision", "modern4e.power.look-skyward"}
-        self.assertEqual("GRANT_SUMMARY", self.entries[summary_id]["presentation"]["grantDisplay"])
-        theme = self.entries["modern4e.theme.skyseer"]
-        level_one = {g["entryId"] for g in theme["mechanics"]["grants"] if g["atLevel"] == 1}
-        self.assertEqual({summary_id} | power_ids, level_one)
-        for power_id in power_ids:
-            self.assertNotIn("grantDisplay", self.entries[power_id]["presentation"])
+    def test_grant_summary_role_keeps_individual_theme_power_grants(self):
+        themes = {
+            "skyseer": {"skyseer-vision", "look-skyward"},
+            "spirit-medium": {"speak-with-spirit", "unfinished-business"},
+        }
+        for theme_slug, powers in themes.items():
+            with self.subTest(theme=theme_slug):
+                summary_id = f"modern4e.feature.{theme_slug}-level-1"
+                power_ids = {f"modern4e.power.{power}" for power in powers}
+                self.assertEqual("GRANT_SUMMARY", self.entries[summary_id]["presentation"]["grantDisplay"])
+                theme = self.entries[f"modern4e.theme.{theme_slug}"]
+                level_one = {g["entryId"] for g in theme["mechanics"]["grants"] if g["atLevel"] == 1}
+                self.assertEqual({summary_id} | power_ids, level_one)
+                for power_id in power_ids:
+                    self.assertNotIn("grantDisplay", self.entries[power_id]["presentation"])
 
     def test_invalid_theme_feature_display_role_is_rejected(self):
         data = theme_runtime.authoring.shared.shared.load_json(theme_runtime.authoring.CONTENT)

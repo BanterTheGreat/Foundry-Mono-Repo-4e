@@ -1,6 +1,7 @@
 """Validate the closed ancestry authoring vocabulary; no runtime effect claims."""
 from pathlib import Path
 
+from class_content import validate_grant_display
 import power_content
 
 CONTENT = Path(__file__).resolve().parents[1] / 'content/ancestries'
@@ -25,7 +26,8 @@ def validate(documents):
     entries = {}
     categories = {}
     base = 'id title description access prerequisites selection coverage'.split()
-    optional = {'ancestries': ['attributes', 'grants', 'note'], 'features': ['grants', 'choices'], 'powers': ['flavor', 'rulesProfile', 'source', 'keywords', 'choices', 'activations']}
+    optional = {'ancestries': ['attributes', 'grants', 'note'], 'features': ['grants', 'choices', 'grantDisplay'],
+                'powers': ['flavor', 'rulesProfile', 'source', 'keywords', 'choices', 'activations']}
     for data in documents:
         keys(data, ['schemaVersion', 'ancestries', 'features', 'powers'])
         require(type(data['schemaVersion']) is int and data['schemaVersion'] == 2, 'Unknown schema version')
@@ -37,6 +39,7 @@ def validate(documents):
                 singular = {'ancestries': 'ancestry', 'features': 'feature', 'powers': 'power'}[category]
                 require(isinstance(eid, str) and eid.startswith('modern4e.' + singular + '.'), 'Invalid ID')
                 require(eid not in entries, 'Duplicate ID: ' + eid)
+                validate_grant_display(entry, eid)
                 entries[eid] = entry
                 categories[eid] = category
                 require(isinstance(entry['title'], str) and entry['title'].strip(), 'Empty title')

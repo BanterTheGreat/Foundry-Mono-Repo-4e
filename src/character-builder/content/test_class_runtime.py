@@ -10,6 +10,24 @@ import runtime_common
 
 
 class ClassRuntimeTest(unittest.TestCase):
+    def test_warlock_curse_summary_preserves_the_class_power_and_shadow_walk(self):
+        entries = {e["id"]: e for e in runtime_common.entries_of(
+            class_runtime.build(class_ids=["modern4e.class.warlock"], include_advancement=False)
+        )}
+        summary_id = "modern4e.feature.warlock-warlock-s-curse"
+        power_id = "modern4e.power.warlock-warlock-s-curse"
+        summary = entries[summary_id]
+        self.assertEqual("GRANT_SUMMARY", summary["presentation"]["grantDisplay"])
+        self.assertIn(summary_id, {g["entryId"] for g in entries["modern4e.class.warlock"]["mechanics"]["grants"]})
+        self.assertEqual([power_id], [g["entryId"] for g in summary["mechanics"]["grants"]])
+        self.assertEqual("POWER", entries[power_id]["category"])
+        self.assertNotIn("grantDisplay", entries[power_id]["presentation"])
+        self.assertNotIn("grantDisplay", entries["modern4e.feature.warlock-shadow-walk"]["presentation"])
+        for slug in ("eldritch-attack", "eldritch-pact"):
+            feature = entries[f"modern4e.feature.warlock-{slug}"]
+            self.assertEqual("CHOICE_INTRODUCTION", feature["presentation"]["grantDisplay"])
+            self.assertTrue(feature["mechanics"]["choices"])
+
     def test_replacement_references_in_grants_and_progressions_must_resolve(self):
         for field in ("grants", "progression"):
             grant = {"type": "entry", "grantId": "techniques", "entryId": "default", "replacementEntryIds": ["missing"]}
