@@ -4,6 +4,7 @@ import dev.modern4e.builder.ui.screens.EquipmentCategory
 import dev.modern4e.builder.ui.screens.defenseDisplay
 import dev.modern4e.builder.ui.screens.equipmentByCategory
 import dev.modern4e.builder.ui.screens.maxHpDisplay
+import dev.modern4e.builder.ui.screens.maxSurgesDisplay
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -15,6 +16,7 @@ class StatsDisplayTest {
         profile: Map<String, List<String>>? = null,
         choices: List<EngineChoice> = emptyList(),
         hp: StatisticCalculation? = null,
+        surges: StatisticCalculation? = null,
     ): EngineResult {
         val classEntry = profile?.let {
             val formula = ClassFormula(10)
@@ -25,7 +27,10 @@ class StatsDisplayTest {
                 Coverage(CoverageStatus.SUPPORTED))
             EngineEntry("class", slot, ResolvedEntry(entry, PackageRevision("standard", "1"), "fingerprint"), granted = true)
         }
-        return EngineResult(listOfNotNull(hp?.let { ModifierTarget(Statistic.HIT_POINTS) to it }).toMap(), listOfNotNull(classEntry), choices,
+        return EngineResult(listOfNotNull(
+            hp?.let { ModifierTarget(Statistic.HIT_POINTS) to it },
+            surges?.let { ModifierTarget(Statistic.HEALING_SURGES) to it },
+        ).toMap(), listOfNotNull(classEntry), choices,
             emptyMap(), emptyMap(), emptyList(), equipmentProficiencies = proficiencies.associateWith { listOf(slot) })
     }
 
@@ -36,6 +41,15 @@ class StatsDisplayTest {
             DiagnosticKind.INCOMPLETE_AUTOMATION, "HIT_POINTS has no authored base."))), emptyList())
         assertEquals("—", rules(hp = missing).maxHpDisplay())
         assertEquals("—", rules().maxHpDisplay())
+    }
+
+    @Test fun maxSurgesShowsTheHealingSurgeTotalOrADash() {
+        val available = StatisticCalculation(ContractResult.Available(CalculatedValue(9, emptyList())), emptyList())
+        val unavailable = StatisticCalculation(ContractResult.Unavailable(listOf(Diagnostic("engine.missingBase",
+            DiagnosticKind.INCOMPLETE_AUTOMATION, "HEALING_SURGES has no authored base."))), emptyList())
+        assertEquals("9", rules(surges = available).maxSurgesDisplay())
+        assertEquals("—", rules(surges = unavailable).maxSurgesDisplay())
+        assertEquals("—", rules(hp = available).maxSurgesDisplay())
     }
 
     @Test fun unavailableDefenseDisplaysADash() {

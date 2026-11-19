@@ -753,7 +753,7 @@ browser's disk. No Foundry or Android emulator is required.
 
 The presentation split (#27) uses the same workflow and Compose regression suites. Run `bash ./gradlew :android:testDebugUnitTest :android:assembleDebug :android:assembleDebugAndroidTest :shared:jvmTest` to check the extracted screens, dialogs, components and theme; device execution remains the separate command below.
 
-From `src/character-builder`, run `bash ./gradlew :android:testDebugUnitTest` for adapter and workflow tests. `BuilderSessionTest` covers durable create/open/edit/cancel/reopen, failed-save protection and mandatory error reset, newer/older import collision previews, copy/cancel/replace, recovery restoration, unsupported input, retained equipment/adjustment operations, confirmed deletion/cancellation/failure/reset with recovery retention, personal-detail cancel/save/clear/reopen missing content with unrelated edits, blocked actions after operational failure, session reset, committed-save preservation and fresh workflows after reset. `StatsDisplayTest` covers the Stats tab's Max HP and defense formatting (value and dash) and equipment proficiency grouping (empty categories, id fallbacks, class-profile precedence for ambiguous values, shields with armor, chosen-option titles). `FolioScrollbarTest` checks overflow visibility, proportional start/middle/end positions, minimum thumb length, small viewports and overscroll clamping. `CharacterDateTest` covers European calendar dates, offsets, fractional seconds, leap days and invalid input. Shared `CharacterIdentityTest` covers legacy JSON compatibility, personal-detail round trips and strict field types.
+From `src/character-builder`, run `bash ./gradlew :android:testDebugUnitTest` for adapter and workflow tests. `BuilderSessionTest` covers durable create/open/edit/cancel/reopen, failed-save protection and mandatory error reset, newer/older import collision previews, copy/cancel/replace, recovery restoration, unsupported input, retained equipment/adjustment operations, confirmed deletion/cancellation/failure/reset with recovery retention, personal-detail cancel/save/clear/reopen missing content with unrelated edits, blocked actions after operational failure, session reset, committed-save preservation and fresh workflows after reset. `StatsDisplayTest` covers Max HP, Max Surges and defense formatting (value and dash) in Stats, plus equipment proficiency grouping in About (empty categories, id fallbacks, class-profile precedence for ambiguous values, shields with armor, chosen-option titles). `FolioScrollbarTest` checks overflow visibility, proportional start/middle/end positions, minimum thumb length, small viewports and overscroll clamping. `CharacterDateTest` covers European calendar dates, offsets, fractional seconds, leap days and invalid input. Shared `CharacterIdentityTest` covers legacy JSON compatibility, personal-detail round trips and strict field types.
 
 The Android unit suite also checks theme advancement previews, including level grouping, linked content, optional modifications and which inspected entries can draft a choice.
 
@@ -911,7 +911,7 @@ and totals; cancel a changed draft and verify the saved character is unchanged.
 
 ### Android Levels grants and equipment
 
-From `src/character-builder`, run `bash ./gradlew :android:testDebugUnitTest :shared:jvmTest`. The Android tests cover automatic grant placement and presentation roles, required Theme, ancestry previews and language placement, derived About languages, Equipment navigation and category sections, saved equipment and proficiency, and defense recalculation on equip, replace, clear and reopen. The shared JVM suite covers rules, portable document behavior, and the compiled Fighter and Skyseer presentation roles. To verify the authoring validation and build propagation, run `python3 -m unittest discover -s src/character-builder/content -p 'test_*.py'` from the repository root.
+From `src/character-builder`, run `bash ./gradlew :android:testDebugUnitTest :shared:jvmTest`. The Android tests cover automatic grant placement and presentation roles, required Theme, ancestry previews and language placement, derived About languages, Equipment placement in Stats and category sections, saved equipment and proficiency, and defense recalculation on equip, replace, clear and reopen. The shared JVM suite covers rules, portable document behavior, and the compiled Fighter and Skyseer presentation roles. To verify the authoring validation and build propagation, run `python3 -m unittest discover -s src/character-builder/content -p 'test_*.py'` from the repository root.
 
 ### Progressive feat listing
 
@@ -938,3 +938,21 @@ From `src/character-builder/`, run `.\gradlew.bat :android:testDebugUnitTest` fo
 `PowerBlockTest` checks labeled rule order, Lightning Strider’s three attack stages, repeated attack labels, Malicious Shadow’s granted at-will power, and legacy descriptions. It also checks that rules excerpts show the authored activation and level scaling. `AdvancementDetailTest` verifies the bundled Dragonfear card includes its Target, Attack, and Hit rows. `PowerReaderOptionsTest` covers explicit selection of revealed ineligible entries, replacement target requirements, and Heroic, Paragon, and Epic feat badges.
 
 Manual device check: open an attack or utility power choice and confirm the compact list sits above a separately scrollable reading pane, with no Power Choice heading, level subtitle or available-power count. Tap two eligible powers and verify the latest tap becomes the draft. Save commits that power, and Cancel preserves the saved choice. Opening the pane, changing the search, or revealing ineligible powers leaves the draft alone. Tap a revealed ineligible power, save it, and verify that Validation reports the failed requirements. For a replacement, choose the replacement target before tapping a power. Reopen to verify the saved selection. Check the Classic Block’s usage header and labeled rows, then scroll through Lightning Strider’s primary, secondary, and tertiary attacks. Check utility usage colors, ineligible options and the unchanged inline expansion of feat/ancestry pickers.
+
+### Android character library, About and Stats
+
+From `src/character-builder`, run `bash ./gradlew :android:testDebugUnitTest :shared:jvmTest :shared:jsNodeTest`.
+The Android unit suite covers the saved library summary, the default Levels
+destination and Back confirmation, About size and trimmed detail saves, the
+read-only skill list data, Max Surges display, and main ability changes across
+save and reopen. `ProgressionTest` covers switching the main ability after
+a complete tradeoff that leaves every non-main score below 3.
+
+Manual device check: open the library through Select Character and check the
+compact name, level, ancestry and class rows, timestamp placement, and adjacent
+New and Import actions. Open a character and check Levels, the cog menu and
+both outcomes of the native Back prompt. Slide the full-height cog drawer
+closed and check that the Levels badge clears the label. In About, check ancestry size, field
+focus, Notes, and the read-only Skills list. In Stats, check Max HP, Max Surges
+and Equipment. On a Cleric or Warlock, change the main ability in Ability
+Points, save, and reopen the character.

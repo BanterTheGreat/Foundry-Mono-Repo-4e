@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -22,7 +21,7 @@ import dev.modern4e.builder.ui.components.*
 
 private fun Int.signed() = if (this >= 0) "+$this" else toString()
 
-/** The About tab: identity, level, speed, languages and notes. */
+/** The About tab shows identity, languages, abilities, proficiencies and notes. */
 @Composable
 internal fun Overview(state: BuilderState, model: BuilderSession) {
     val document = state.document
@@ -68,7 +67,7 @@ internal fun Overview(state: BuilderState, model: BuilderSession) {
                                 .padding(horizontal = 12.dp, vertical = 6.dp),
                             contentAlignment = Alignment.CenterEnd,
                         ) {
-                            Text(identity.size.ifBlank { "Size —" }, color = Dim, fontSize = 12.sp,
+                            Text(state.sizeDisplay(), color = Dim, fontSize = 12.sp,
                                 lineHeight = 15.sp, textAlign = TextAlign.End)
                         }
                     }
@@ -90,23 +89,25 @@ internal fun Overview(state: BuilderState, model: BuilderSession) {
         Surface(Modifier.fillMaxWidth().heightIn(min = 48.dp), color = Paper, border = BorderStroke(1.dp, Line)) {
             FolioFieldContent("Languages", state.languageDisplay(), compact = true)
         }
-        CompactHeading("Notes")
-        Surface(
-            modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)
-                .clickable(enabled = canEdit) { model.beginEdit("Notes") }
-                .semantics { contentDescription = "Edit notes" },
-            color = Paper,
-            border = BorderStroke(1.dp, Line),
-        ) {
-            Text(
-                identity.notes.ifBlank { "Your story, connections, reminders…" },
-                color = if (identity.notes.isBlank()) Dim else Ink,
-                fontFamily = FontFamily.Serif, fontStyle = FontStyle.Italic, fontSize = 16.sp, lineHeight = 20.sp,
-                modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
-            )
-        }
+        AboutProficiencies(state)
+        Field(
+            "Notes",
+            identity.notes.ifBlank { "Your story, connections, reminders…" },
+            Modifier.padding(top = 4.dp).heightIn(min = 48.dp),
+            enabled = canEdit,
+            compact = true,
+            valueIsHint = identity.notes.isBlank(),
+        ) { model.beginEdit("Notes") }
     }
 }
+
+/** Uses the authored creation ancestry size when no saved size override exists. */
+internal fun BuilderState.sizeDisplay(): String =
+    document.identity.size.ifBlank {
+        rules.entries.firstOrNull {
+            it.slot == ChoiceSlotId("creation", "ancestry", 0) && it.definition.entry.category == EntryCategory.ANCESTRY
+        }?.definition?.entry?.mechanics?.size?.name?.readable() ?: "Size —"
+    }
 
 /**
  * Base speed comes from the ancestry alone, so it has no value until one is selected.

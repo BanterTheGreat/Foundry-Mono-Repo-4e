@@ -40,6 +40,8 @@ class BuilderSession(
     var characters by mutableStateOf(emptyList<CharacterSummary>())
     var recoveries by mutableStateOf<List<RecoverySummary>?>(null)
     var preview by mutableStateOf<ImportPreview?>(null)
+    var confirmReturnToLibrary by mutableStateOf(false)
+        private set
     var deleting by mutableStateOf<CharacterSummary?>(null)
     var errors by mutableStateOf(emptyList<Diagnostic>())
     var busy by mutableStateOf(false)
@@ -126,6 +128,7 @@ class BuilderSession(
         classMenu = null
         draft = ""
         deleting = null
+        confirmReturnToLibrary = false
         notice = null
         preview = null
         recoveries = null
@@ -141,6 +144,28 @@ class BuilderSession(
         }
         if (errors.isEmpty()) {
             page = "library"
+        }
+    }
+
+    /** Requests back navigation, with confirmation before leaving an open character. */
+    internal fun navigateBack() {
+        if (busy) {
+            return
+        }
+        when (page) {
+            in CharacterTabs -> confirmReturnToLibrary = true
+            "library" -> page = "home"
+            "import" -> page = "library"
+        }
+    }
+
+    /** Close the navigation confirmation, leaving the current tab on cancellation. */
+    internal fun resolveBackConfirmation(leave: Boolean) {
+        if (confirmReturnToLibrary) {
+            confirmReturnToLibrary = false
+            if (leave) {
+                page = "library"
+            }
         }
     }
 
@@ -449,7 +474,7 @@ class BuilderSession(
 
     suspend fun load(id: String) {
         when (val result = withContext(Dispatchers.IO) { store.load(id) }) {
-            is ContractResult.Available -> open(result.value, initialPage = "character")
+            is ContractResult.Available -> open(result.value, initialPage = "progression")
             is ContractResult.Unavailable -> errors = result.diagnostics
         }
     }
@@ -528,7 +553,7 @@ class BuilderSession(
             committed = document
             pending = null
             dialog = null
-            val summary = CharacterSummary(document.id, document.identity.name, document.savedAt, document.level)
+            val summary = document.summary()
             characters = characters.toMutableList().apply {
                 val index = indexOfFirst { it.id == document.id }
                 if (index >= 0) {
@@ -968,14 +993,15 @@ class BuilderSession(
     /** Build the same identity edit for every native field without dropping other details. */
     suspend fun saveIdentityDraft() {
         val identity = current!!.document.identity
+        val value = draft.trimEnd()
         val next = when (dialog) {
-            "Name" -> identity.copy(name = draft.trim())
-            "Player" -> identity.copy(player = draft)
-            "Notes" -> identity.copy(notes = draft)
-            "Gender" -> identity.copy(gender = draft)
-            "Age" -> identity.copy(age = draft)
-            "Deity" -> identity.copy(deity = draft)
-            "Size" -> identity.copy(size = draft)
+            "Name" -> identity.copy(name = value.trimStart())
+            "Player" -> identity.copy(player = value)
+            "Notes" -> identity.copy(notes = value)
+            "Gender" -> identity.copy(gender = value)
+            "Age" -> identity.copy(age = value)
+            "Deity" -> identity.copy(deity = value)
+            "Size" -> identity.copy(size = value)
             else -> return
         }
         edit(BuilderEdit.Identity(next))

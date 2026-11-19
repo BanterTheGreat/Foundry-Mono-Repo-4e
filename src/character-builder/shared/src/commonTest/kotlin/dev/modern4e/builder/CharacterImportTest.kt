@@ -18,7 +18,7 @@ class CharacterImportTest {
 
         override suspend fun list(): ContractResult<List<CharacterSummary>> {
             reads++
-            return if (fail == "list") error("list") else ContractResult.Available(characters.values.map { summary(it) })
+            return if (fail == "list") error("list") else ContractResult.Available(characters.values.map { it.summary() })
         }
         override suspend fun load(id: String): ContractResult<CharacterDocument> {
             reads++
@@ -51,12 +51,11 @@ class CharacterImportTest {
         }
         override suspend fun delete(id: String) = ContractResult.Available(characters.remove(id) != null)
         override suspend fun listRecovery(characterId: String): ContractResult<List<RecoverySummary>> =
-            if (fail == "discover") error("discover") else ContractResult.Available(backups.filterValues { it.id == characterId }.map { RecoverySummary(it.key, summary(it.value)) })
+            if (fail == "discover") error("discover") else ContractResult.Available(backups.filterValues { it.id == characterId }.map { RecoverySummary(it.key, it.value.summary()) })
         override suspend fun loadRecovery(recoveryId: String): ContractResult<CharacterDocument> =
             if (fail == "recoverLoad") error("recoverLoad") else backups[recoveryId]?.let { ContractResult.Available(it) } ?: error("recoveryMissing")
     }
 
-    private fun summary(document: CharacterDocument) = CharacterSummary(document.id, document.identity.name, document.savedAt, document.level)
     private fun error(code: String) = ContractResult.Unavailable(listOf(Diagnostic("store.$code", DiagnosticKind.IO_FAILURE, "Failed $code")))
     private fun <T> value(result: ContractResult<T>) = assertIs<ContractResult.Available<T>>(result).value
     private fun code(result: ContractResult<*>) = assertIs<ContractResult.Unavailable>(result).diagnostics.first().code
@@ -88,8 +87,8 @@ class CharacterImportTest {
     @Test fun collisionReturnsDetailsTimestampsAndExplicitActionsWithoutWrites() = run {
         val store = Store().apply { characters[original.id] = original }
         val p = preview(CharacterImporter(store) { "copy" })
-        assertEquals(summary(original), p.existingDetails)
-        assertEquals(summary(incoming), p.incomingDetails)
+        assertEquals(original.summary(), p.existingDetails)
+        assertEquals(incoming.summary(), p.incomingDetails)
         assertEquals(listOf(ImportAction.REPLACE, ImportAction.COPY, ImportAction.CANCEL), p.actions)
         assertEquals(0, store.writes)
     }
@@ -123,7 +122,7 @@ class CharacterImportTest {
         assertEquals(listOf("recovery", "commit"), store.events)
         assertEquals(incoming, store.characters[original.id])
         val copies = value(importer.recoveries(original.id))
-        assertEquals(listOf(RecoverySummary(receipt.recoveryId!!, summary(original))), copies)
+        assertEquals(listOf(RecoverySummary(receipt.recoveryId!!, original.summary())), copies)
         val restore = value(importer.inspectRecovery(receipt.recoveryId!!))
         assertEquals(incoming, restore.existing)
         assertEquals(original, restore.incoming)

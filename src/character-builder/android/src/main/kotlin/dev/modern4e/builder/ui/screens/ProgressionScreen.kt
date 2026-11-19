@@ -406,7 +406,18 @@ private fun LevelChoice(
 @Composable
 private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, model: BuilderSession, dismiss: () -> Unit) {
     val scope = rememberCoroutineScope()
-    var edit by remember(request) { mutableStateOf<BuilderEdit?>(null) }
+    val document = state.document
+    val mainAbilities = if (request.kind == "allocation") {
+        state.rules.choices.firstOrNull { it.slot == document.abilities.source }?.abilities.orEmpty()
+    } else {
+        emptyList()
+    }
+    var edit by remember(request) {
+        val fixedMain = mainAbilities.singleOrNull()?.takeIf { it != document.abilities.mainAbility }
+        mutableStateOf<BuilderEdit?>(fixedMain?.let {
+            BuilderEdit.Allocation(Progression.changeMainAbility(document.abilities, it))
+        })
+    }
     var selected by remember(request) { mutableStateOf(state.document.levels.flatMap { it.entries }.firstOrNull { it.slot == request.slot }?.selection?.entryId
         ?: state.rules.entries.firstOrNull { it.slot == request.slot && it.granted }?.definition?.entry?.id) }
     var expanded by remember(request) { mutableStateOf(selected) }
@@ -415,7 +426,6 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
     var optionRows by remember(request, featTab, state.document) { mutableStateOf<List<BuilderOptionRow>?>(null) }
     var optionLoadFinished by remember(request, featTab, state.document) { mutableStateOf(false) }
     var replacementTarget by remember(request) { mutableStateOf<ChoiceSlotId?>(null) }
-    val document = state.document
     val catalogPicker = request.kind in listOf("entry", "feat", "replacement")
     LaunchedEffect(request, if (request.kind == "feat") featTab else null, document) {
         if (catalogPicker) {
@@ -475,9 +485,24 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
                         }
                     }
                     "allocation" -> {
-                        var points by remember { mutableStateOf(document.abilities.points) }
-                        val allocation = document.abilities.copy(points = points)
+                        val allocation = (edit as? BuilderEdit.Allocation)?.value ?: document.abilities
                         val remaining = Progression.remainingPoints(allocation)
+                        if (mainAbilities.size > 1) {
+                            Text("Main ability", fontFamily = FontFamily.Serif)
+                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                mainAbilities.forEach { ability ->
+                                    FilterChip(
+                                        selected = ability == allocation.mainAbility,
+                                        onClick = {
+                                            if (ability != allocation.mainAbility) {
+                                                edit = BuilderEdit.Allocation(Progression.changeMainAbility(allocation, ability))
+                                            }
+                                        },
+                                        label = { Text(ability.name.readable()) },
+                                    )
+                                }
+                            }
+                        }
                         Surface(color = Wash, border = BorderStroke(1.dp, Line), shape = RoundedCornerShape(3.dp)) {
                             Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
                                 Column(Modifier.weight(1f)) {
@@ -490,19 +515,17 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
                         Ability.entries.forEach { ability ->
                             Row(Modifier.fillMaxWidth().padding(vertical = 2.dp), verticalAlignment = Alignment.CenterVertically) {
                                 Text(ability.name.readable(), Modifier.weight(1f), fontFamily = FontFamily.Serif)
-                                val value = points[ability] ?: 0
+                                val value = allocation.points[ability] ?: 0
                                 OutlinedButton(enabled = Progression.canAdjustAbility(allocation, ability, -1), modifier = Modifier.size(48.dp),
                                     shape = RoundedCornerShape(3.dp), contentPadding = PaddingValues(0.dp), onClick = {
-                                    points = points + (ability to value - 1)
-                                    edit = BuilderEdit.Allocation(document.abilities.copy(points = points))
+                                    edit = BuilderEdit.Allocation(allocation.copy(points = allocation.points + (ability to value - 1)))
                                 }) { Text("−", fontSize = 24.sp) }
                                 Box(Modifier.width(48.dp), contentAlignment = Alignment.Center) {
                                     Text(value.toString(), color = Accent, fontFamily = FontFamily.Serif, fontSize = 24.sp)
                                 }
                                 OutlinedButton(enabled = Progression.canAdjustAbility(allocation, ability, 1), modifier = Modifier.size(48.dp),
                                     shape = RoundedCornerShape(3.dp), contentPadding = PaddingValues(0.dp), onClick = {
-                                    points = points + (ability to value + 1)
-                                    edit = BuilderEdit.Allocation(document.abilities.copy(points = points))
+                                    edit = BuilderEdit.Allocation(allocation.copy(points = allocation.points + (ability to value + 1)))
                                 }) { Text("+", fontSize = 24.sp) }
                             }
                         }
@@ -547,23 +570,11 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
                             val blocked = otherSource != null
                             val draftSource = slots.getOrNull(picks.indexOf(skill))
                             val modifier = state.rules.displayedSkill(skill, otherSource ?: draftSource)
-                            val calculation = modifier as? ContractResult.Available
-                            Surface(Modifier.fillMaxWidth().clickable(enabled = !blocked) {
+                            SkillRow(skill, modifier, chosen, blocked) {
                                 picks = if (chosen) picks - skill else if (slots.size == 1) listOf(skill) else if (picks.size < 2) picks + skill else picks
                                 edit = BuilderEdit.Batch(listOf(BuilderEdit.RemoveProficiency(slots.toSet())) + picks.mapIndexed { index, pick ->
                                     BuilderEdit.Proficiency(request.level, ProficiencyChoice(slots[index], pick))
                                 })
-                            }, color = if (chosen) Wash else Paper, border = BorderStroke(1.dp, if (chosen) Accent else Line)) {
-                                Row(Modifier.fillMaxWidth().padding(horizontal = 13.dp, vertical = 7.dp), verticalAlignment = Alignment.CenterVertically) {
-                                    Column(Modifier.weight(1f)) {
-                                        Text((if (chosen || blocked) "✓ " else "") + skill.name.readable(),
-                                            fontSize = 15.sp, lineHeight = 18.sp, color = if (blocked) Dim else Ink)
-                                        calculation?.value?.contributors?.mapNotNull { Progression.skillContributorLabel(it.label) }?.forEach {
-                                            Text(it, fontSize = 11.sp, lineHeight = 13.sp, color = Dim)
-                                        }
-                                    }
-                                    Text(modifier.display(signed = true), fontSize = 13.sp, color = Accent)
-                                }
                             }
                         }
                         if (slots.size == 2) { Text("${2 - picks.size} left", color = Dim) }
@@ -580,7 +591,9 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
         }
         val valid = edit != null &&
             (request.kind != "free" || (edit as? BuilderEdit.Batch)?.edits?.count { it is BuilderEdit.Proficiency } == 2) &&
-            (request.kind != "allocation" || (edit as? BuilderEdit.Allocation)?.value?.let { Progression.validAllocation(it) } == true)
+            (request.kind != "allocation" || (edit as? BuilderEdit.Allocation)?.value?.let {
+                it.mainAbility in mainAbilities && Progression.validAllocation(it)
+            } == true)
         ChoicePickerActions(model.busy, valid, dismiss, clear) {
             val command = edit ?: return@ChoicePickerActions
             scope.launch { model.run { edit(command) }; if (model.errors.isEmpty()) dismiss() }

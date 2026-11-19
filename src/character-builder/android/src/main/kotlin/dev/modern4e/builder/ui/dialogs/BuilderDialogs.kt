@@ -7,6 +7,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.text.font.FontFamily
@@ -118,12 +120,21 @@ private fun ClassMenu(model: BuilderSession, classes: List<BuilderOptionRow>, ta
     }
 }
 
+/** Focuses the editable identity field when its dialog opens. */
 @Composable
 private fun Editor(model: BuilderSession, task: (suspend BuilderSession.() -> Unit) -> Unit) {
     val field = model.dialog ?: return
     FolioDialog(field, { if (!model.busy) model.cancelEdit() }) {
-        OutlinedTextField(model.draft, { model.draft = it; model.pending = null }, enabled = !model.busy,
-            label = { Text(field) }, minLines = if (field == "Notes") 4 else 1, modifier = Modifier.fillMaxWidth())
+        val focus = remember { FocusRequester() }
+        OutlinedTextField(
+            model.draft,
+            { model.draft = it; model.pending = null },
+            enabled = !model.busy,
+            label = { Text(field) },
+            minLines = if (field == "Notes") 4 else 1,
+            modifier = Modifier.fillMaxWidth().focusRequester(focus),
+        )
+        LaunchedEffect(field) { focus.requestFocus() }
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
             TextButton(enabled = !model.busy, onClick = { model.cancelEdit() }) { Text("Cancel") }
             TextButton(enabled = !model.busy && (field != "Name" || model.draft.isNotBlank()), onClick = {

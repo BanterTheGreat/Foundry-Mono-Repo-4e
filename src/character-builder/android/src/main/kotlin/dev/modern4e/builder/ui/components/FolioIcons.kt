@@ -6,8 +6,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.dp
 
 import dev.modern4e.builder.ui.theme.*
@@ -75,5 +77,20 @@ internal fun PencilIcon() {
             lineTo(size.width * .75f, size.height * .42f)
         }
         drawPath(pencil, Dim, style = Stroke(width = 1.3.dp.toPx()))
+    }
+}
+
+/** Draws the character menu icon with the folio accent color. */
+@Composable
+internal fun CogIcon() {
+    Canvas(Modifier.size(24.dp)) {
+        val unit = size.width / 24f
+        repeat(8) { tooth ->
+            rotate(45f * tooth) {
+                drawRect(Accent, topLeft = Offset(10f * unit, 2f * unit), size = Size(4f * unit, 6f * unit))
+            }
+        }
+        drawCircle(Accent, radius = 7.5f * unit)
+        drawCircle(Paper, radius = 3.5f * unit)
     }
 }

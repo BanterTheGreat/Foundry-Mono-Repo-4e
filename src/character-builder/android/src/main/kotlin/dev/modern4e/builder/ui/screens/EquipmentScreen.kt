@@ -1,7 +1,6 @@
 package dev.modern4e.builder.ui.screens
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -15,7 +14,7 @@ import kotlinx.coroutines.launch
 
 /** Shows the four optional equipped selections and opens a picker for each slot. */
 @Composable
-internal fun EquipmentScreen(state: BuilderState, model: BuilderSession) {
+internal fun EquippedItems(state: BuilderState, model: BuilderSession) {
     var editing by remember(state.document.id) { mutableStateOf<EquipmentSlot?>(null) }
     var options by remember(state.document) { mutableStateOf<Map<EquipmentSlot, EquipmentOptions>>(emptyMap()) }
     val scope = rememberCoroutineScope()
@@ -23,8 +22,7 @@ internal fun EquipmentScreen(state: BuilderState, model: BuilderSession) {
         options = EquipmentSlot.entries.associateWith { model.equipmentOptions(it) }
     }
 
-    Column(Modifier.fillMaxSize().folioScroll(rememberScrollState()).padding(24.dp),
-        verticalArrangement = Arrangement.spacedBy(4.dp)) {
+    Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(4.dp)) {
         if (options.isEmpty()) {
             LinearProgressIndicator(Modifier.fillMaxWidth())
         }

@@ -2,6 +2,8 @@ package dev.modern4e.builder
 
 import dev.modern4e.builder.ui.screens.defenseDisplay
 import dev.modern4e.builder.ui.screens.languageDisplay
+import dev.modern4e.builder.ui.screens.sizeDisplay
+import dev.modern4e.builder.ui.screens.skillOverviewRows
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -754,10 +756,24 @@ class BuilderSessionTest {
         model.openLibrary()
         assertEquals("library", model.page)
         assertEquals(listCallsBeforeEdit, listCalls)
-        assertEquals(CharacterSummary(id, "Saved hero", saved.savedAt, saved.level), model.characters.single())
+        val expectedSummary = CharacterSummary(id, "Saved hero", saved.savedAt, saved.level, "Dwarf", "Fighter")
+        assertEquals(expectedSummary, model.characters.single())
+        assertEquals("Level 1 Dwarf Fighter", expectedSummary.levelDescription)
+        assertEquals(expectedSummary, (store.list() as ContractResult.Available).value.single())
         val reopened = session()
         reopened.load(id)
-        assertEquals("character", reopened.page)
+        assertEquals("progression", reopened.page)
+        reopened.page = "stats"
+        reopened.navigateBack()
+        assertTrue(reopened.confirmReturnToLibrary)
+        assertEquals("stats", reopened.page)
+        reopened.resolveBackConfirmation(leave = false)
+        assertFalse(reopened.confirmReturnToLibrary)
+        assertEquals("stats", reopened.page)
+        reopened.navigateBack()
+        reopened.resolveBackConfirmation(leave = true)
+        assertFalse(reopened.confirmReturnToLibrary)
+        assertEquals("library", reopened.page)
         assertEquals("Saved hero", reopened.current!!.document.identity.name)
         assertEquals("A story", reopened.current!!.document.identity.notes)
         assertEquals(4, reopened.current!!.rules.overviewAbilityTotals.getValue(Ability.STRENGTH))
@@ -882,19 +898,21 @@ class BuilderSessionTest {
         val model = session()
         model.create()
         val initial = model.current!!.document
+        assertEquals("Medium", model.current!!.sizeDisplay())
         val derivedLanguages = model.current!!.languageDisplay()
         assertTrue(derivedLanguages.contains("Dwarven"))
         model.edit(BuilderEdit.Identity(initial.identity.copy(languages = "Legacy text")))
         model.beginEdit("Languages")
         assertNull(model.dialog)
-        val details = mapOf("Gender" to "Woman", "Age" to "28", "Deity" to "Erathis", "Size" to "Medium")
+        val details = mapOf("Gender" to "Woman", "Age" to "28", "Deity" to "Erathis",
+            "Size" to "Large", "Notes" to "  First line.\nSecond line.")
         for ((field, value) in details) {
             model.beginEdit(field)
             model.draft = "Discard this"
             model.cancelEdit()
             model.beginEdit(field)
             assertEquals("", model.draft)
-            model.draft = value
+            model.draft = "$value  \t\n"
             model.saveIdentityDraft()
         }
         val reopened = session()
@@ -908,12 +926,25 @@ class BuilderSessionTest {
         assertEquals(initial.levels, reopened.current!!.document.levels)
         assertEquals("Legacy text", reopened.current!!.document.identity.languages)
         assertEquals(derivedLanguages, reopened.current!!.languageDisplay())
+        assertEquals("Large", reopened.current!!.sizeDisplay())
         reopened.beginEdit("Deity")
         reopened.draft = ""
         reopened.saveIdentityDraft()
         reopened.load(initial.id)
         assertEquals("", reopened.current!!.document.identity.deity)
         assertEquals("28", reopened.current!!.document.identity.age)
+    }
+
+    @Test fun skillsOverviewListsTrainedAndUntrainedSkillsWithCommittedTotals() = runBlocking {
+        val model = session()
+        model.create()
+        val rules = model.current!!.rules
+        val rows = rules.skillOverviewRows()
+        assertEquals(Skill.entries.toList(), rows.map { it.skill })
+        assertTrue(rows.any { it.proficient })
+        assertTrue(rows.any { !it.proficient })
+        assertEquals(rules.proficiencies.keys, rows.filter { it.proficient }.map { it.skill }.toSet())
+        assertEquals(Skill.entries.map { rules.displayedSkill(it) }, rows.map { it.modifier })
     }
 
     @Test fun deletionRequiresConfirmationAndPreservesOtherCharactersAndRecovery() = runBlocking {
@@ -1148,12 +1179,38 @@ class BuilderSessionTest {
             val classes = state.rules.entries.filter { it.definition.entry.category == EntryCategory.CLASS }
             assertEquals(entry.metadata.metadata.id, classes.single().definition.entry.id)
             val allocation = state.document.abilities
-            val classEntry = classes.single().definition.entry
-            assertEquals(classEntry.mechanics.classProfile!!.mainAbilities.first(), allocation.mainAbility)
+            val mainAbilities = classes.single().definition.entry.mechanics.classProfile!!.mainAbilities
+            assertEquals(mainAbilities, state.rules.choices.single { it.slot == allocation.source }.abilities)
+            assertEquals(mainAbilities.first(), allocation.mainAbility)
             assertEquals(Ability.entries.associateWith { if (it == allocation.mainAbility) 4 else 0 }, allocation.points)
             assertEquals(5, Progression.remainingPoints(allocation))
             assertFalse(Progression.validAllocation(allocation))
         }
+    }
+
+    @Test fun choosingAClassMainAbilityPreservesAllocatedPointsAndSurvivesReload() = runBlocking {
+        val model = session()
+        model.create("modern4e.class.cleric")
+        val document = model.current!!.document
+        val offered = model.current!!.rules.choices.single { it.slot == document.abilities.source }.abilities
+        assertEquals(listOf(Ability.STRENGTH, Ability.WISDOM), offered)
+
+        val initial = document.abilities.copy(points = document.abilities.points + mapOf(
+            Ability.WISDOM to 2, Ability.CONSTITUTION to 2, Ability.CHARISMA to 1,
+        ))
+        val changed = Progression.changeMainAbility(initial, Ability.WISDOM)
+        assertEquals(4, changed.points[Ability.WISDOM])
+        assertEquals(2, changed.points[Ability.STRENGTH])
+        assertEquals(0, Progression.remainingPoints(changed))
+        assertTrue(Progression.validAllocation(changed))
+        assertEquals(initial, Progression.changeMainAbility(changed, Ability.STRENGTH))
+        assertFalse(Progression.canAdjustAbility(changed, Ability.WISDOM, -1))
+
+        model.edit(BuilderEdit.Allocation(changed))
+        assertTrue(model.errors.isEmpty())
+        val reloaded = session().also { it.load(document.id) }.current!!
+        assertEquals(changed, reloaded.document.abilities)
+        assertFalse(reloaded.rules.diagnostics.any { it.code in setOf("engine.mainAbility", "engine.abilityAllocation") })
     }
 
     @Test fun anUnknownClassIsReportedAndNothingIsCreated() = runBlocking {

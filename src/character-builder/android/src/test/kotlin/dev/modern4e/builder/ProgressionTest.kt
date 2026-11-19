@@ -207,6 +207,22 @@ class ProgressionTest {
         assertFalse(Progression.validAllocation(base.copy(points = base.points + (Ability.DEXTERITY to 3))))
         assertFalse(Progression.validAllocation(base.copy(points = base.points + (Ability.STRENGTH to 3))))
     }
+    @Test fun switchingMainAfterEditingKeepsACompleteTradeoffSaveable() {
+        val initial = AbilityAllocation(
+            ChoiceSlotId("cleric", "main", 0), Ability.STRENGTH,
+            mapOf(Ability.STRENGTH to 4, Ability.WISDOM to 2, Ability.DEXTERITY to 2, Ability.CONSTITUTION to 1),
+        )
+        val switched = Progression.changeMainAbility(initial, Ability.WISDOM)
+        assertTrue(Progression.canAdjustAbility(switched, Ability.CHARISMA, -1))
+        val lowered = switched.copy(points = switched.points + (Ability.CHARISMA to -1))
+        assertTrue(Progression.canAdjustAbility(lowered, Ability.CONSTITUTION, 1))
+        val edited = lowered.copy(points = lowered.points + (Ability.CONSTITUTION to 2))
+
+        val switchedBack = Progression.changeMainAbility(edited, Ability.STRENGTH)
+        assertEquals(0, Progression.remainingPoints(switchedBack))
+        assertTrue(Progression.validAllocation(switchedBack))
+    }
+
     @Test fun allocationCounterExcludesFixedMainAndSupportsTradeoffs() {
         val base = AbilityAllocation(ChoiceSlotId("fighter", "main", 0), Ability.STRENGTH,
             mapOf(Ability.STRENGTH to 4))

@@ -1,8 +1,10 @@
 package dev.modern4e.builder.ui.screens
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalConfiguration
@@ -17,7 +19,7 @@ import dev.modern4e.builder.*
 import dev.modern4e.builder.ui.theme.*
 import dev.modern4e.builder.ui.components.*
 
-/** Equipment proficiency groups shown on the Stats tab; shields are listed with armor. */
+/** Equipment proficiency groups shown on the About tab; shields are listed with armor. */
 internal enum class EquipmentCategory(val title: String) { ARMOR("Armor"), WEAPONS("Weapons"), IMPLEMENTS("Implements") }
 
 private val ArmorIds = setOf("CLOTH", "LEATHER", "LIGHT", "HIDE", "CHAINMAIL", "SCALE", "HEAVY", "PLATE")
@@ -26,6 +28,10 @@ private val ImplementIds = setOf("ROD", "WAND", "STAFF", "ORB", "TOME", "HOLY_SY
 /** Shows the class hit point total, or a dash while the total is unavailable. */
 internal fun EngineResult.maxHpDisplay(): String =
     statistics[ModifierTarget(Statistic.HIT_POINTS)]?.value.scoreDisplay()
+
+/** Shows the maximum healing surges, or a dash while the total is unavailable. */
+internal fun EngineResult.maxSurgesDisplay(): String =
+    statistics[ModifierTarget(Statistic.HEALING_SURGES)]?.value.scoreDisplay()
 
 /** Shows the known defense total, or a dash if its base cannot be resolved. */
 internal fun EngineResult.defenseDisplay(defense: Statistic): String =
@@ -75,9 +81,9 @@ internal fun EngineResult.equipmentByCategory(): Map<EquipmentCategory, List<Str
     return grouped.mapValues { it.value.distinct() }
 }
 
+/** Displays vitals, the equipment-adjusted defenses, and the equipped item fields. */
 @Composable
-internal fun Stats(state: BuilderState) {
-    val equipment = state.rules.equipmentByCategory()
+internal fun Stats(state: BuilderState, model: BuilderSession) {
     val configuration = LocalConfiguration.current
     val narrow = configuration.screenWidthDp < 320 || configuration.fontScale > 1.2f
     Column(
@@ -85,36 +91,86 @@ internal fun Stats(state: BuilderState) {
         verticalArrangement = Arrangement.spacedBy(6.dp),
     ) {
         CompactHeading("Vitals")
-        val maxHp = state.rules.maxHpDisplay()
-        Surface(
-            Modifier.fillMaxWidth().semantics(mergeDescendants = true) { contentDescription = "Max HP: $maxHp" },
-            color = Wash,
-            border = BorderStroke(1.dp, Line),
-        ) {
-            Row(
-                Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text("MAX HP", color = Dim, fontSize = 10.sp, lineHeight = 13.sp, letterSpacing = 1.sp,
-                    modifier = Modifier.weight(1f))
-                StatValue(maxHp)
-            }
+        Row(Modifier.fillMaxWidth().height(IntrinsicSize.Min), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+            Vital("Max HP", state.rules.maxHpDisplay(), Modifier.weight(1f).fillMaxHeight())
+            Vital("Max Surges", state.rules.maxSurgesDisplay(), Modifier.weight(1f).fillMaxHeight())
         }
         CompactHeading("Defenses")
         StatTiles(defenses.map { (defense, label) ->
             label to state.rules.defenseDisplay(defense)
         }, columns = if (narrow) 2 else 4)
-        CompactHeading("Abilities")
+        CompactHeading("Equipment")
+        EquippedItems(state, model)
+        Text("This screen does not calculate feat bonuses for defenses.", color = Dim, fontSize = 12.sp)
+    }
+}
+
+/** Displays a single vital and its total. */
+@Composable
+private fun Vital(label: String, value: String, modifier: Modifier) {
+    Surface(
+        modifier.semantics(mergeDescendants = true) { contentDescription = "$label: $value" },
+        color = Wash,
+        border = BorderStroke(1.dp, Line),
+    ) {
+        Row(
+            Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+        ) {
+            Text(label.uppercase(), color = Dim, fontSize = 10.sp, lineHeight = 13.sp, letterSpacing = 1.sp,
+                modifier = Modifier.weight(1f))
+            StatValue(value)
+        }
+    }
+}
+
+/** Shows ability totals and known proficiencies below languages on About. */
+@Composable
+internal fun AboutProficiencies(state: BuilderState) {
+    val equipment = state.rules.equipmentByCategory()
+    val configuration = LocalConfiguration.current
+    val narrow = configuration.screenWidthDp < 320 || configuration.fontScale > 1.2f
+    var showingSkills by remember(state.document.id) { mutableStateOf(false) }
+    Box(Modifier.padding(vertical = 4.dp)) {
         StatTiles(Ability.entries.map { ability ->
             ability.name.readable() to state.rules.overviewAbilityTotals.getValue(ability).toString()
         }, columns = if (narrow) 3 else 6, abbreviate = true)
-        CompactHeading("Proficiencies")
-        ProficiencyRow("Skills", state.rules.proficiencies.keys.map { skill ->
+    }
+    ProficiencyRow(
+        "Skills",
+        state.rules.proficiencies.keys.map { skill ->
             "${skill.name.readable()} ${state.rules.displayedSkill(skill).display(signed = true)}"
-        })
-        EquipmentCategory.entries.forEach { ProficiencyRow(it.title, equipment.getValue(it)) }
+        },
+        modifier = Modifier.clickable { showingSkills = true },
+    )
+    EquipmentCategory.entries.forEach { ProficiencyRow(it.title, equipment.getValue(it)) }
+
+    if (showingSkills) {
+        val skills = remember(state.rules) { state.rules.skillOverviewRows() }
+        ChoicePickerSheet(busy = false, dismiss = { showingSkills = false }) {
+            CompactHeading("Skills")
+            CollapsibleChoiceList(Modifier.weight(1f)) {
+                items(skills, key = { it.skill.name }) { row ->
+                    SkillRow(row.skill, row.modifier, chosen = row.proficient)
+                }
+            }
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                TextButton(onClick = { showingSkills = false }) { Text("Close") }
+            }
+        }
     }
 }
+
+internal data class SkillOverviewRow(
+    val skill: Skill,
+    val modifier: ContractResult<CalculatedValue>,
+    val proficient: Boolean,
+)
+
+/** The full picker order, with committed proficiency and modifiers. */
+internal fun EngineResult.skillOverviewRows(): List<SkillOverviewRow> =
+    Skill.entries.map { SkillOverviewRow(it, displayedSkill(it), it in proficiencies) }
 
 /** Places related scores in a grid that can expand vertically with the font scale. */
 @Composable
@@ -152,9 +208,9 @@ private fun StatValue(value: String) {
 /** One compact folio row with wrapped proficiencies and an explicit empty state. */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun ProficiencyRow(label: String, values: List<String>) {
+private fun ProficiencyRow(label: String, values: List<String>, modifier: Modifier = Modifier) {
     Surface(
-        Modifier.fillMaxWidth().semantics(mergeDescendants = true) {
+        modifier.fillMaxWidth().semantics(mergeDescendants = true) {
             contentDescription = "$label: ${values.joinToString().ifEmpty { "None" }}"
         },
         color = Paper,

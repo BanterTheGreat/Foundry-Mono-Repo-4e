@@ -81,7 +81,20 @@ data class AbilityAllocation(
     val source: ChoiceSlotId,
     val mainAbility: Ability,
     val points: Map<Ability, Int>,
-)
+) {
+    /** Checks the point budget independently of the class that offers the main ability. */
+    fun hasValidPoints(): Boolean {
+        val nonMain = Ability.entries.filter { it != mainAbility }.map { points[it] ?: 0 }
+        if (points[mainAbility] != 4 || nonMain.sum() != 5) {
+            return false
+        }
+        val standard = nonMain.all { it in 0..2 }
+        // The transferred point can bring another score to 1, 2 or 3.
+        val trade = nonMain.count { it == -1 } == 1 && nonMain.all { it in -1..3 } &&
+            nonMain.count { it == 3 } <= 1
+        return standard || trade
+    }
+}
 
 @Serializable
 enum class Ability { STRENGTH, DEXTERITY, CONSTITUTION, INTELLIGENCE, WISDOM, CHARISMA }

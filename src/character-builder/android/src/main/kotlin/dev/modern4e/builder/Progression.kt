@@ -250,6 +250,20 @@ object Progression {
     fun remainingPoints(allocation: AbilityAllocation): Int =
         5 - Ability.entries.filter { it != allocation.mainAbility }.sumOf { allocation.points[it] ?: 0 }
 
+    /** Move the four main points and preserve the distribution of non-main points. */
+    fun changeMainAbility(allocation: AbilityAllocation, ability: Ability): AbilityAllocation {
+        if (ability == allocation.mainAbility) {
+            return allocation
+        }
+        return allocation.copy(
+            mainAbility = ability,
+            points = allocation.points + mapOf(
+                ability to 4,
+                allocation.mainAbility to (allocation.points[ability] ?: 0),
+            ),
+        )
+    }
+
     /** Compact labels for the skill picker; proficiency is already conveyed by selection/status. */
     fun skillContributorLabel(label: String): String? = when {
         label == "Proficiency" -> null
@@ -273,11 +287,8 @@ object Progression {
         return negatives <= 1 && boosted <= 1 && (boosted == 0 || negatives == 1)
     }
 
-    fun validAllocation(allocation: AbilityAllocation): Boolean {
-        val values = Ability.entries.filter { it != allocation.mainAbility }.map { allocation.points[it] ?: 0 }
-        return allocation.points[allocation.mainAbility] == 4 && values.sum() == 5 &&
-            (values.all { it in 0..2 } || (values.count { it == -1 } == 1 && values.count { it == 3 } == 1 && values.all { it in -1..3 }))
-    }
+    /** Uses the same point rules as the shared engine. */
+    fun validAllocation(allocation: AbilityAllocation): Boolean = allocation.hasValidPoints()
 
     /** Rules failures for saved selections and engine-defined slots, including unresolved content. */
     fun invalidChoiceSlots(rules: EngineResult): Set<ChoiceSlotId> = buildSet {

@@ -1048,12 +1048,7 @@ private class Evaluation(
     private fun calculateAbilities() {
         val allocation = document.abilities
         val points = Ability.entries.associateWith { allocation.points[it] ?: 0 }
-        val nonMain = points.filterKeys { it != allocation.mainAbility }
-        val negatives = nonMain.filterValues { it == -1 }
-        // Reconstruct the pre-trade allocation: a zero was lowered to -1 and another non-main gained one.
-        val standard = nonMain.values.sum() == 5 && nonMain.values.all { it in 0..2 }
-        val trade = negatives.size == 1 && nonMain.values.sum() == 5 && nonMain.values.all { it in -1..3 } &&
-            nonMain.filterValues { it > 2 }.size <= 1 && nonMain.values.count { it > 0 } > 0
+        val validPoints = allocation.hasValidPoints()
         val source = choices[allocation.source] as? ChoiceDefinition.MainAbility
         val legalSource = source != null && allocation.mainAbility in source.abilities
         val classInstances = entries.filter { it.definition.entry.category == EntryCategory.CLASS }.map { it.instanceId }.toSet()
@@ -1065,13 +1060,13 @@ private class Evaluation(
             classAbilities.singleOrNull()
         }
         val hasAllocation = points.values.any { it != 0 }
-        val legal = points[allocation.mainAbility] == 4 && (standard || trade) && legalSource
+        val legal = validPoints && legalSource
         val errors = mutableListOf<Diagnostic>()
         if (!legalSource) {
             errors += diagnostic("mainAbility", DiagnosticKind.INVALID_SELECTION,
                 "Main ability must be chosen from an active source's main-ability slot.", allocation.source)
         }
-        if (points[allocation.mainAbility] != 4 || !(standard || trade)) {
+        if (!validPoints) {
             errors += diagnostic("abilityAllocation", DiagnosticKind.INVALID_SELECTION,
                 "Assign main 4 and non-main 5, at most 2 each; optionally lower one non-main to -1 and raise another by 1.", allocation.source)
         }

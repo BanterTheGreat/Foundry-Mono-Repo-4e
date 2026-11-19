@@ -115,5 +115,3 @@ class CharacterImporter(private val store: CharacterStore, private val newCharac
     private fun failure(code: String, message: String) =
         ContractResult.Unavailable(listOf(Diagnostic(code, DiagnosticKind.IO_FAILURE, message)))
 }
-
-private fun CharacterDocument.summary() = CharacterSummary(id, identity.name, savedAt, level)

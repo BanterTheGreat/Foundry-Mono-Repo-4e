@@ -26,7 +26,7 @@ internal fun HomeScreen(model: BuilderSession, task: (suspend BuilderSession.() 
             Text(stringResource(R.string.app_build_time), color = Dim, fontSize = 12.sp,
                 modifier = Modifier.padding(top = 16.dp))
         }
-        FolioButton("Your Characters", !model.busy) {
+        FolioButton("Select Character", !model.busy) {
             if (model.libraryNeedsRefresh) {
                 task { openLibrary() }
             } else {

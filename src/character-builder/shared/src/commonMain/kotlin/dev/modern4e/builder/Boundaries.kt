@@ -31,7 +31,25 @@ data class Contributor(val label: String, val value: Int, val source: ChoiceSlot
 data class CalculatedValue(val total: Int, val contributors: List<Contributor>)
 
 @Serializable
-data class CharacterSummary(val id: String, val name: String, val savedAt: String, val level: Int)
+data class CharacterSummary(
+    val id: String,
+    val name: String,
+    val savedAt: String,
+    val level: Int,
+    val ancestry: String = "",
+    val characterClass: String = "",
+) {
+    val levelDescription: String
+        get() = listOf("Level $level", ancestry, characterClass).filter(String::isNotBlank).joinToString(" ")
+}
+
+/** Build a list summary from the saved choices without opening the character's content packages. */
+fun CharacterDocument.summary(): CharacterSummary {
+    val choices = levels.firstOrNull { it.level == 1 }?.entries.orEmpty()
+    fun title(choice: String) = choices.firstOrNull { it.slot == ChoiceSlotId("creation", choice, 0) }
+        ?.selection?.savedTitle.orEmpty()
+    return CharacterSummary(id, identity.name, savedAt, level, title("ancestry"), title("class"))
+}
 
 /** References are logical bundled asset IDs, never interpreted as executable code. */
 interface ContentSource {

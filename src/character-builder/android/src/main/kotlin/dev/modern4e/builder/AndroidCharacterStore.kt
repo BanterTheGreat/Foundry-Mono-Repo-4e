@@ -63,10 +63,7 @@ class AndroidCharacterStore(context: Context, private val beforeCommit: () -> Un
         is ContractResult.Available -> decoded.value
         is ContractResult.Unavailable -> throw IllegalArgumentException(decoded.diagnostics.joinToString { it.message })
     }
-    private fun summary(text: String): CharacterSummary {
-        val d = document(text)
-        return CharacterSummary(d.id, d.identity.name, d.savedAt, d.level)
-    }
+    private fun summary(text: String): CharacterSummary = document(text).summary()
     override suspend fun list() = access { state -> ContractResult.Available(state.live.values.map(::summary)) }
     override suspend fun load(id: String) = access { state ->
         state.live[id]?.let { ContractResult.Available(document(it)) } ?: failure("missing", "Character does not exist")
