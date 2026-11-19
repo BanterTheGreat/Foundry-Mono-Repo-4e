@@ -136,6 +136,13 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
         }.toMap()
     }
 
+    /**
+     * One read session for browsing many listings of the same character. Listings made from it share
+     * decoded chunks, resolved definitions and the evaluated document, instead of each repeating that
+     * work. Callers serialize access and discard it when the character or its content changes.
+     */
+    fun browsingSession(): BuilderOperations = operation()
+
     /** Browse this snapshot using the occurrence ID a picker will save for a new selection, when supplied. */
     fun optionListing(document: CharacterDocument, level: Int, slot: ChoiceSlotId,
         newInstanceId: String? = null, featClasses: Set<String>? = null,

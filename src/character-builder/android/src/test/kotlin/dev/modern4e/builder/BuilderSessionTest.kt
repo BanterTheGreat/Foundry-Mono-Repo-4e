@@ -437,6 +437,29 @@ class BuilderSessionTest {
         model.awaitWarmup()
     }
 
+    @Test fun levelNineteenWarmupDecodesEachChunkAFewTimesNotOncePerFeatSlot() = runBlocking {
+        val real = AndroidContentSource(context.assets)
+        val loads = java.util.concurrent.ConcurrentHashMap<Pair<String, String>, AtomicInteger>()
+        val source = object : ContentSource by real {
+            override suspend fun loadChunk(packageId: String, chunkId: String): ContractResult<EntryChunk> {
+                loads.getOrPut(packageId to chunkId) { AtomicInteger() }.incrementAndGet()
+                return real.loadChunk(packageId, chunkId)
+            }
+        }
+        val model = session(source = source)
+        model.create()
+        model.awaitWarmup()
+        loads.clear()
+        model.edit(BuilderEdit.Level(19))
+        assertTrue(model.errors.isEmpty())
+        model.awaitWarmup()
+        val featSlots = (1..19).count { Progression.level(it).feat }
+        assertTrue(featSlots > 10)
+        val worst = loads.entries.maxByOrNull { it.value.get() }!!
+        println("Level 19 warm-up: $featSlots feat slots, ${loads.size} chunks, ${loads.values.sumOf { it.get() }} loads, worst ${worst.key} x${worst.value.get()}")
+        assertTrue("Chunks are decoded once per session, not once per slot: ${worst.key} x${worst.value.get()}", worst.value.get() <= 4)
+    }
+
     @Test fun warmupPrioritizesClassFeaturesThenPowersThenFeatTabsThenOtherPickers() = runBlocking {
         val model = session()
         model.preloadHomePickers()

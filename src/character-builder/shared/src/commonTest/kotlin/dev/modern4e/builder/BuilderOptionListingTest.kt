@@ -107,6 +107,33 @@ class BuilderOptionListingTest {
         assertEquals(Eligibility.ELIGIBLE, advanced.check(listOf(entry.id)).single().option?.eligibility)
     }
 
+    @Test fun listingsFromOneBrowsingSessionShareChunksAndMatchSeparateListings() = run {
+        val source = Source(definitions.associateBy { it.id }.toMutableMap())
+        val ops = operations(source)
+        val character = document().copy(level = 2, levels = listOf(LevelDecisions(1), LevelDecisions(2)))
+        val laterSlot = ChoiceSlotId("advancement.2", "feat", 0)
+        val ids = listOf("general-1", "general-2")
+        suspend fun BuilderOperations.checked(level: Int, slot: ChoiceSlotId): List<BuilderOptionRow> {
+            val listing = optionListing(character, level, slot)
+            listing.rows(FeatGroup.GENERAL)
+            return listing.check(ids)
+        }
+
+        ops.checked(1, slot)
+        val separateFirst = source.reads.size
+        val separate = ops.checked(2, laterSlot)
+        assertTrue(source.reads.size > separateFirst, "Without a shared session each listing re-reads its chunks")
+
+        source.reads.clear()
+        val session = ops.browsingSession()
+        session.checked(1, slot)
+        val sessionFirst = source.reads.size
+        val shared = session.checked(2, laterSlot)
+        assertEquals(sessionFirst, source.reads.size, "A later listing reuses the session's decoded chunks")
+        assertEquals(separate.map { it.option?.eligibility }, shared.map { it.option?.eligibility })
+        assertEquals(listOf(Eligibility.ELIGIBLE, Eligibility.ELIGIBLE), shared.map { it.option?.eligibility })
+    }
+
     @Test fun checkedThemeResolvesGrantedAndOptionalDefinitionsFromTheCatalog() = run {
         val theme = feat("theme").copy(
             category = EntryCategory.THEME,

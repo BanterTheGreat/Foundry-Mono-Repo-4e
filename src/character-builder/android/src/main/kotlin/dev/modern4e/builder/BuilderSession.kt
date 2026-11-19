@@ -81,6 +81,8 @@ class BuilderSession(
     internal var warmupSettleMillis = 300L
     private class RetainedListing(val listing: BuilderOptionListing, val newInstanceId: String)
     private val optionListings = linkedMapOf<Pair<Int, ChoiceSlotId>, RetainedListing>()
+    /** Shared read session for new listings, so a warm-up decodes each chunk and evaluates the character once. Guarded by [optionListings]. */
+    private var browsingOperations: BuilderOperations? = null
     private val importer = CharacterImporter(store) { UUID.randomUUID().toString() }
 
     /** Call on Main; operations run on IO. Errors block further work until the session is reset. */
@@ -564,6 +566,8 @@ class BuilderSession(
             val updated = evaluated.copy(document = document).withEquipmentValidation()
             synchronized(optionListings) {
                 val previous = current
+                // The next listings are for a new document, so they start a new session; kept ones retain theirs.
+                browsingOperations = null
                 optionListings.entries.removeAll { (key, retained) ->
                     previous == null || !stillValid(previous, updated, key.first, key.second, retained.newInstanceId)
                 }
@@ -718,7 +722,8 @@ class BuilderSession(
                 optionListings[key]?.listing ?: run {
                     val newInstanceId = UUID.randomUUID().toString()
                     val featClasses = if (slot.choiceId == "feat") state.featClasses() else null
-                    operations?.optionListing(original, level, slot, newInstanceId, featClasses, state.featAncestries())?.also {
+                    val browsing = browsingOperations ?: operations?.browsingSession()?.also { browsingOperations = it }
+                    browsing?.optionListing(original, level, slot, newInstanceId, featClasses, state.featAncestries())?.also {
                         optionListings[key] = RetainedListing(it, newInstanceId)
                         // The checked rows are small beside the content itself.
                         if (optionListings.size > 32) {
@@ -936,6 +941,7 @@ class BuilderSession(
     private fun dropOptionListings() {
         synchronized(optionListings) {
             optionListings.clear()
+            browsingOperations = null
         }
     }
 
