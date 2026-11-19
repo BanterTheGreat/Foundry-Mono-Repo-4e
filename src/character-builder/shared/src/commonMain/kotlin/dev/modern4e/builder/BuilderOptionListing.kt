@@ -1,13 +1,25 @@
 package dev.modern4e.builder
 
-/** Checked ancestry rows carry their expanded details so a tap need not load a second stage. */
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonPrimitive
+
+/** Checked rows carry the definitions needed to preview ancestry and advancement entries. */
 data class BuilderOptionRow(
     val metadata: CatalogEntry,
     val option: BuilderOption? = null,
     val checked: Boolean = false,
     val diagnostics: List<Diagnostic> = emptyList(),
     val ancestryGrants: List<ContentEntry> = emptyList(),
+    val advancementDefinitions: Map<String, ContentEntry> = emptyMap(),
 )
+
+/** Reads optional advancement feature references which are separate from automatic grants. */
+fun ContentEntry.advancementModificationIds(): List<String> {
+    val modifications = sharedData?.get("modifications") as? JsonArray ?: return emptyList()
+    return modifications.mapNotNull { item ->
+        (item as? JsonPrimitive)?.takeIf { it.isString && it.content.isNotBlank() }?.content
+    }.distinct()
+}
 
 /**
  * An explicit browsing snapshot for one character/slot and installed content. It retains checked rows
@@ -22,6 +34,8 @@ class BuilderOptionListing internal constructor(
     private val slot: ChoiceSlotId,
     private val catalog: ContentCatalog,
     private val newInstanceId: String?,
+    private val featClasses: Set<String>?,
+    private val featAncestries: Set<String>,
 ) {
     private val groups = mutableMapOf<FeatGroup?, List<CatalogEntry>>()
     private val checked = mutableMapOf<String, BuilderOptionRow>()
@@ -29,7 +43,10 @@ class BuilderOptionListing internal constructor(
 
     /** Index-only for current production metadata; older packages may need definition reads for grouping. */
     suspend fun rows(group: FeatGroup? = null): List<BuilderOptionRow> {
-        val metadata = groups[group] ?: choices.metadata(document, level, slot, group).also {
+        val metadata = groups[group] ?: choices.metadata(document, level, slot, group).filter {
+            it.metadata.matchesFeatAncestries(featAncestries) &&
+                (group != FeatGroup.CLASS || featClasses == null || it.metadata.matchesFeatClasses(featClasses))
+        }.also {
             groups[group] = it
             known.putAll(it.associateBy { entry -> entry.metadata.id })
         }
@@ -56,7 +73,18 @@ class BuilderOptionListing internal constructor(
                 } else {
                     emptyList()
                 }
-                BuilderOptionRow(metadata, option, true, diagnostics, ancestryGrants).also { checked[id] = it }
+                val advancementDefinitions = when (entry?.category) {
+                    EntryCategory.THEME, EntryCategory.PARAGON_PATH, EntryCategory.EPIC_DESTINY -> {
+                        val references = entry.mechanics.grants.filterIsInstance<Grant.Entry>().map { it.entryId } +
+                            entry.advancementModificationIds()
+                        references.distinct().mapNotNull { reference ->
+                            (catalog.lookup(reference) as? ContractResult.Available)?.value?.entry
+                        }.associateBy { it.id }
+                    }
+                    else -> emptyMap()
+                }
+                BuilderOptionRow(metadata, option, true, diagnostics, ancestryGrants, advancementDefinitions)
+                    .also { checked[id] = it }
             }
             result += row
         }

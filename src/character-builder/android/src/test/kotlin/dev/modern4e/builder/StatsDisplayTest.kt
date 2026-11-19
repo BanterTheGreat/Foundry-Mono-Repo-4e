@@ -1,6 +1,7 @@
 package dev.modern4e.builder
 
 import dev.modern4e.builder.ui.screens.EquipmentCategory
+import dev.modern4e.builder.ui.screens.defenseDisplay
 import dev.modern4e.builder.ui.screens.equipmentByCategory
 import dev.modern4e.builder.ui.screens.maxHpDisplay
 import org.junit.Assert.assertEquals
@@ -35,6 +36,10 @@ class StatsDisplayTest {
             DiagnosticKind.INCOMPLETE_AUTOMATION, "HIT_POINTS has no authored base."))), emptyList())
         assertEquals("—", rules(hp = missing).maxHpDisplay())
         assertEquals("—", rules().maxHpDisplay())
+    }
+
+    @Test fun unavailableDefenseDisplaysADash() {
+        assertEquals("—", rules().defenseDisplay(Statistic.WILL))
     }
 
     @Test fun noProficienciesLeavesEveryCategoryEmpty() {

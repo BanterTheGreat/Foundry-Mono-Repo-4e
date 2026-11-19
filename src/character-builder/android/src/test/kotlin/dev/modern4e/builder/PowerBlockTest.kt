@@ -2,6 +2,8 @@ package dev.modern4e.builder
 
 import dev.modern4e.builder.ui.screens.PowerRule
 import dev.modern4e.builder.ui.screens.powerBlockText
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.jsonObject
 import org.junit.Assert.*
 import org.junit.Test
 
@@ -132,4 +134,61 @@ class PowerBlockTest {
         val block = requireNotNull(powerBlockText("Target: One creature\nAttack: Charisma vs. Reflex\nHit: Damage.\nSecondary Target: A nearby creature\nEffect: Additional damage."))
         assertEquals(listOf("Primary attack", "Secondary target"), block.phases.map { it.title })
     }
+
+    @Test
+    fun structuredThemePowerKeepsMetadataAndRulesMissingFromItsDescription() {
+        val entry = authoredPower("Hit: Deal damage.")
+        val block = requireNotNull(powerBlockText(entry, useStructuredFallback = true))
+
+        assertEquals("Encounter", block.usage)
+        assertEquals("Free action", block.action)
+        assertEquals("Close burst 5", block.range)
+        assertEquals(listOf("Martial", "Weapon"), block.keywords)
+        assertEquals("You rush into the fray.", block.flavor)
+        assertEquals(
+            listOf("Trigger", "Requirement", "Target", "Attack", "Hit", "Special"),
+            block.phases.single().rules.map { it.label },
+        )
+        assertEquals("Main Ability vs. AC", block.phases.single().rules[3].text)
+    }
+
+    @Test
+    fun structuredFallbackPreservesExistingPowerFormats() {
+        val headerless = authoredPower("Hit: Deal damage.")
+        val withHeader = authoredPower("DAILY / STANDARD\nPersonal\nEffect: Shift 1 square.")
+        val legacy = authoredPower("<b>Effect:</b> Shift 1 square.")
+
+        assertEquals(powerBlockText(headerless.presentation.description), powerBlockText(headerless, useStructuredFallback = false))
+        assertEquals(powerBlockText(withHeader.presentation.description), powerBlockText(withHeader, useStructuredFallback = true))
+        assertNull(powerBlockText(legacy, useStructuredFallback = true))
+    }
+
+    private fun authoredPower(description: String) = ContentEntry(
+        "structured.power", EntryCategory.POWER, Presentation("Structured power", description), Mechanics(),
+        Coverage(CoverageStatus.UNIMPLEMENTED),
+        Json.parseToJsonElement("""
+            {
+              "flavor": "You rush into the fray.",
+              "keywords": ["MARTIAL", "WEAPON"],
+              "activations": [{
+                "action": "FREE",
+                "usage": {"frequency": "ENCOUNTER"},
+                "range": {"type": "CLOSE_BURST", "size": {"base": 5}},
+                "trigger": "An enemy hits an ally.",
+                "requirement": "You must be bloodied.",
+                "targets": "targets",
+                "bindings": {"targets": {"kind": "TARGET_SET", "text": "The triggering enemy"}},
+                "blocks": [
+                  {
+                    "type": "attack",
+                    "label": "Attack",
+                    "text": "Main Ability vs. AC",
+                    "comparisons": [{"outcomes": {"hit": [{"label": "Hit", "text": "Deal damage."}]}}]
+                  },
+                  {"type": "effect", "label": "Special", "text": "This power does not provoke opportunity attacks."}
+                ]
+              }]
+            }
+        """).jsonObject,
+    )
 }

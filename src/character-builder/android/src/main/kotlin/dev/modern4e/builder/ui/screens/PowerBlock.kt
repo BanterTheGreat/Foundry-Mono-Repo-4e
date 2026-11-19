@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
@@ -23,6 +24,10 @@ import androidx.compose.ui.unit.sp
 import dev.modern4e.builder.ContentEntry
 import dev.modern4e.builder.ui.components.ControlledDescription
 import dev.modern4e.builder.ui.theme.*
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.contentOrNull
 
 internal data class PowerRule(val label: String?, val text: String)
 internal data class PowerPhase(val title: String?, val rules: List<PowerRule>)
@@ -33,6 +38,8 @@ internal data class PowerBlockText(
     val flavor: String,
     val phases: List<PowerPhase>,
     val granted: List<Pair<String, PowerBlockText>> = emptyList(),
+    val keywords: List<String> = emptyList(),
+    val hasAuthoredEmphasis: Boolean = false,
 )
 
 private val PowerHeader = Regex("""(?m)^\s*(AT_WILL|ENCOUNTER|DAILY) / ([A-Z_]+)[ \t]*$""")
@@ -41,6 +48,7 @@ private val RuleLabel = Regex("""^([\p{L}][\p{L}\p{N} ()'’/-]*):\s*(.*)$""")
 private val LegacyMarkup = Regex("""</?[a-zA-Z][a-zA-Z0-9]*(?:\s[^>]*|/?)>""")
 private val RangeLine = Regex("""^(Melee|Ranged|Personal|Close|Area|Special|See|Aura)\b""", RegexOption.IGNORE_CASE)
 private val AttackPhase = Regex("""^(Secondary|Tertiary) (?:Target|Attack)$""", RegexOption.IGNORE_CASE)
+private val AuthoredEmphasis = Regex("""\*([^*]+)\*|_([^_]+)_""")
 
 /** Reads the builder's authored plain-text format while keeping all rules in source order. */
 internal fun powerBlockText(description: String): PowerBlockText? {
@@ -59,7 +67,7 @@ internal fun powerBlockText(description: String): PowerBlockText? {
 private fun readPowerBlock(description: String): PowerBlockText {
     val header = PowerHeader.find(description)
     val flavor = header?.let { description.substring(0, it.range.first).trim() }.orEmpty()
-    val action = header?.groupValues?.get(2)?.lowercase()?.replace('_', ' ')?.replaceFirstChar { it.uppercaseChar() }
+    val action = header?.groupValues?.get(2)?.let(::powerActionLabel)
     val lines = description.substring(header?.range?.last?.plus(1) ?: 0).lineSequence()
         .map(String::trim).filter(String::isNotEmpty).toList()
     val range = lines.firstOrNull()?.takeIf { header != null && RangeLine.containsMatchIn(it) && !RuleLabel.matches(it) }
@@ -94,16 +102,7 @@ private fun readPowerBlock(description: String): PowerBlockText {
     if (current.isNotEmpty()) {
         phases += PowerPhase(title ?: "Primary attack".takeIf { current.any { it.label.equals("Primary Attack", true) } }, current)
     }
-    val usage = when (header?.groupValues?.get(1)) {
-        "AT_WILL" -> "At-will"
-        "ENCOUNTER" -> "Encounter"
-        "DAILY" -> "Daily"
-        else -> null
-    }
-    val actionLabel = when (action) {
-        "Standard", "Minor", "Move", "Free" -> "$action action"
-        else -> action
-    }
+    val usage = header?.groupValues?.get(1)?.let(::powerUsageLabel)
     val labeledPhases = phases.map { phase ->
         val phaseTitle = phase.title
         if (phaseTitle != null && phaseTitle != "Primary attack" &&
@@ -113,14 +112,106 @@ private fun readPowerBlock(description: String): PowerBlockText {
             phase
         }
     }
-    return PowerBlockText(usage, actionLabel, range, flavor, labeledPhases)
+    return PowerBlockText(usage, action, range, flavor, labeledPhases)
+}
+
+/** Formats the authored frequency enum as a card label. */
+private fun powerUsageLabel(usage: String) = when (usage) {
+    "AT_WILL" -> "At-will"
+    else -> powerTerm(usage)
+}
+
+/** Formats the authored action enum as a card label. */
+private fun powerActionLabel(action: String) = when (val label = powerTerm(action)) {
+    "Standard", "Minor", "Move", "Free" -> "$label action"
+    else -> label
+}
+
+/** Converts enum-style names into the sentence case used on power cards. */
+private fun powerTerm(value: String) = value.lowercase().replace('_', ' ').replaceFirstChar { it.uppercaseChar() }
+
+/** Reads a single authored activation when the presentation only contains a rules excerpt. */
+internal fun powerBlockText(entry: ContentEntry, useStructuredFallback: Boolean): PowerBlockText? {
+    val block = powerBlockText(entry.presentation.description) ?: return null
+    if (!useStructuredFallback || block.usage != null) {
+        return block
+    }
+    val data = entry.sharedData ?: return block
+    val activation = (data["activations"] as? JsonArray)?.singleOrNull() as? JsonObject ?: return block
+    val usage = (activation["usage"] as? JsonObject)?.primitiveText("frequency")?.let(::powerUsageLabel) ?: return block
+    val action = activation.primitiveText("action")?.let { if (it == "EXTENDED") "Extended action" else powerActionLabel(it) }
+    val range = (activation["range"] as? JsonObject)?.let(::powerRangeLabel)
+    val keywords = (data["keywords"] as? JsonArray).orEmpty().mapNotNull {
+        (it as? JsonPrimitive)?.contentOrNull?.let(::powerTerm)
+    }
+    val rules = (activation["blocks"] as? JsonArray)?.filterIsInstance<JsonObject>()?.flatMap(::authoredPowerRules)
+    val target = activation.primitiveText("targets")?.let { (activation["bindings"] as? JsonObject)?.get(it) } as? JsonObject
+    val activationRules = listOfNotNull(
+        activation.primitiveText("trigger")?.let { PowerRule("Trigger", it) },
+        activation.primitiveText("requirement")?.let { PowerRule("Requirement", it) },
+        target?.primitiveText("text")?.let { PowerRule("Target", it) },
+    )
+    val phases = if (rules.isNullOrEmpty()) {
+        listOfNotNull(activationRules.takeIf { it.isNotEmpty() }?.let { PowerPhase(null, it) }) + block.phases
+    } else {
+        listOf(PowerPhase(null, activationRules + rules))
+    }
+    return block.copy(
+        usage = usage, action = action, range = range, flavor = data.primitiveText("flavor").orEmpty(),
+        phases = phases, keywords = keywords, hasAuthoredEmphasis = true,
+    )
+}
+
+/** Renders the authored position or distance, including weapon range and a free-text range. */
+private fun powerRangeLabel(range: JsonObject): String? {
+    val type = range.primitiveText("type") ?: return null
+    if (type == "RULES_TEXT") {
+        return range.primitiveText("text")
+    }
+    val distance = range["distance"] as? JsonObject
+    val size = range["size"] as? JsonObject
+    val magnitude = size?.primitiveText("base") ?: distance?.primitiveText("base")
+        ?: range.primitiveText("distance")?.lowercase()
+    return listOfNotNull(powerTerm(type), magnitude).joinToString(" ")
+}
+
+/** Keeps attack outcomes next to their attack, in hit, miss, and effect order. */
+private fun authoredPowerRules(block: JsonObject): List<PowerRule> {
+    val rule = block.primitiveText("text")?.let { PowerRule(block.primitiveText("label"), it) }
+        ?: return emptyList()
+    val outcomes = (block["comparisons"] as? JsonArray).orEmpty().flatMap { comparison ->
+        val rules = (comparison as? JsonObject)?.get("outcomes") as? JsonObject
+        listOf("hit", "miss", "effect").flatMap { outcome ->
+            (rules?.get(outcome) as? JsonArray).orEmpty().mapNotNull {
+                val authored = it as? JsonObject
+                authored?.primitiveText("text")?.let { text -> PowerRule(authored.primitiveText("label") ?: powerTerm(outcome), text) }
+            }
+        }
+    }
+    return listOf(rule) + outcomes
+}
+
+/** Reads a scalar value without interpreting objects or arrays as display text. */
+private fun JsonObject.primitiveText(key: String) = (get(key) as? JsonPrimitive)?.contentOrNull
+
+/** Keeps the lightweight emphasis markers used in the authored theme prose. */
+internal fun AnnotatedString.Builder.appendAuthoredText(text: String) {
+    var next = 0
+    AuthoredEmphasis.findAll(text).forEach { match ->
+        append(text.substring(next, match.range.first))
+        val bold = match.groups[1]
+        val style = if (bold != null) SpanStyle(fontWeight = FontWeight.Bold) else SpanStyle(fontStyle = FontStyle.Italic)
+        withStyle(style) { append(bold?.value ?: match.groupValues[2]) }
+        next = match.range.last + 1
+    }
+    append(text.substring(next))
 }
 
 /** Classic power card shared by the reader and expanded catalog rows. */
 @Composable
-internal fun PowerBlock(entry: ContentEntry, showTitle: Boolean = true) {
+internal fun PowerBlock(entry: ContentEntry, showTitle: Boolean = true, useStructuredFallback: Boolean = false) {
     val description = entry.presentation.description
-    val block = remember(description) { powerBlockText(description) }
+    val block = remember(entry, useStructuredFallback) { powerBlockText(entry, useStructuredFallback) }
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         PowerCard(entry.presentation.title.takeIf { showTitle }, powerChoiceUsage(entry) ?: block?.usage, block, description)
         block?.granted?.forEach { (title, granted) ->
@@ -135,7 +226,7 @@ private fun PowerCard(title: String?, usage: String?, block: PowerBlockText?, fa
     val color = usage?.let(::powerChoiceColor) ?: Ink
     Surface(Modifier.fillMaxWidth(), color = Paper, border = BorderStroke(1.dp, Line)) {
         Column {
-            val facts = listOfNotNull(usage, block?.action, block?.range).joinToString("  ·  ")
+            val facts = (listOfNotNull(usage, block?.action, block?.range) + block?.keywords.orEmpty()).joinToString("  ·  ")
             if (title != null || facts.isNotEmpty()) {
                 Column(Modifier.fillMaxWidth().background(color).padding(horizontal = 11.dp, vertical = 8.dp)) {
                     if (title != null) {
@@ -153,7 +244,8 @@ private fun PowerCard(title: String?, usage: String?, block: PowerBlockText?, fa
                 }
             } else {
                 if (block.flavor.isNotEmpty()) {
-                    Text(block.flavor, Modifier.padding(horizontal = 11.dp, vertical = 8.dp), color = Dim,
+                    Text(buildAnnotatedString { appendPowerText(block.flavor, block.hasAuthoredEmphasis) },
+                        Modifier.padding(horizontal = 11.dp, vertical = 8.dp), color = Dim,
                         fontStyle = FontStyle.Italic, fontFamily = FontFamily.Serif, fontSize = 14.sp, lineHeight = 19.sp)
                 }
                 block.phases.forEach { phase ->
@@ -167,12 +259,21 @@ private fun PowerCard(title: String?, usage: String?, block: PowerBlockText?, fa
                             rule.label?.let {
                                 withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("$it: ") }
                             }
-                            append(rule.text)
+                            appendPowerText(rule.text, block.hasAuthoredEmphasis)
                         }, Modifier.fillMaxWidth().background(shade).padding(horizontal = 11.dp, vertical = 5.dp),
                             color = Ink, style = MaterialTheme.typography.bodySmall, fontSize = 13.sp, lineHeight = 18.sp)
                     }
                 }
             }
         }
+    }
+}
+
+/** Leaves other power prose intact while formatting authored theme text. */
+private fun AnnotatedString.Builder.appendPowerText(text: String, hasAuthoredEmphasis: Boolean) {
+    if (hasAuthoredEmphasis) {
+        appendAuthoredText(text)
+    } else {
+        append(text)
     }
 }

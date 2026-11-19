@@ -105,17 +105,52 @@ object Progression {
         return label.toString()
     }
 
-    /** Attack-power pools: entry choices from a class-like source whose query is not for utilities. */
-    fun isAttackPowerChoice(state: BuilderState, choice: EngineChoice): Boolean {
-        if (choice.optional || choice.abilities.isNotEmpty() || choice.entries.isEmpty()) {
-            return false
+    /** Label a value choice by its grant source and what the player selects. */
+    fun valueChoiceLabel(kind: FactKind, ordinal: Int, sourceTitle: String, sourceCategory: EntryCategory?): String {
+        if (kind == FactKind.LANGUAGE && sourceCategory == EntryCategory.ANCESTRY) {
+            return "Ancestry Bonus Language"
         }
-        val source = state.rules.entries.firstOrNull { it.instanceId == choice.slot.sourceInstanceId } ?: return false
+        val label = when (kind) {
+            FactKind.LANGUAGE -> "language ${ordinal + 1}"
+            FactKind.EQUIPMENT_PROFICIENCY -> "weapon proficiency"
+            FactKind.DAMAGE_TYPE -> "damage type"
+            FactKind.ANCESTRY_QUALIFICATION -> "Past Life ancestry"
+            FactKind.SKILL_BONUS -> "bonus skill"
+        }
+        return "$sourceTitle: $label"
+    }
+
+    /** Attack-power pools have an authored attack query. */
+    fun isAttackPowerChoice(state: BuilderState, choice: EngineChoice): Boolean =
+        powerQuery(state, choice)?.powerKind == "ATTACK"
+
+    /** Advancement power pools are identified by their query, independent of the types of other choice results. */
+    internal fun isPowerPool(state: BuilderState, choice: EngineChoice): Boolean =
+        powerQuery(state, choice)?.category == EntryCategory.POWER
+
+    private fun powerQuery(state: BuilderState, choice: EngineChoice): PowerQuery? {
+        if (choice.optional || choice.abilities.isNotEmpty() || choice.entries.isEmpty()) {
+            return null
+        }
+        val source = state.rules.entries.firstOrNull { it.instanceId == choice.slot.sourceInstanceId } ?: return null
         val mechanics = source.definition.entry.mechanics
-        val definition = (mechanics.choices + mechanics.progression.flatMap { it.choices })
-            .filterIsInstance<ChoiceDefinition.Entries>().firstOrNull { it.id == choice.slot.choiceId }
-        val kind = definition?.query?.powerKind
-        return kind != null && kind != "UTILITY"
+        return (mechanics.choices + mechanics.progression.flatMap { it.choices })
+            .filterIsInstance<ChoiceDefinition.Entries>().firstOrNull { it.id == choice.slot.choiceId }?.query
+    }
+
+    /** Feature choices may be owned by the class itself or by one of the features it grants. */
+    internal fun isClassFeatureChoice(state: BuilderState, choice: EngineChoice): Boolean {
+        val entriesByInstance = state.rules.entries.associateBy { it.instanceId }
+        val visited = mutableSetOf<String>()
+        var source = entriesByInstance[choice.slot.sourceInstanceId]
+        while (source != null && visited.add(source.instanceId)) {
+            when (source.definition.entry.category) {
+                EntryCategory.CLASS -> return true
+                EntryCategory.FEATURE -> source = entriesByInstance[source.slot.sourceInstanceId]
+                else -> return false
+            }
+        }
+        return false
     }
 
     fun background(document: CharacterDocument, kind: String): String =

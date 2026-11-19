@@ -22,8 +22,16 @@ equipment proficiencies and closed linear formulas over level/direct abilities.
 The main-ability slot is `(class instance, "main", 0)`. Class HP, surges and three
 non-AC defenses use these formulas and return an explanation of every term.
 Missing/invalid dependencies, conflicting class profiles and integer overflow
-produce unavailable values. Armor class, attacks and damage do not gain invented
-bases. Allocation remains main 4/non-main budget 5/cap 2 with the optional trade.
+produce unavailable values. Fortitude, Reflex and Will include the default
+Modern 4e tier bonus once. Armor Class is 10 plus the greater of direct Dexterity
+or Intelligence points in light armor or without armor, plus the equipped
+armor's listed bonus. Heavy armor replaces the ability contribution. A proficient
+equipped shield adds its bonus to Armor Class and Reflex. Unproficient armor
+imposes a −2 Reflex penalty. Multiple equipped armor entries make Armor Class
+and Reflex unavailable. Known points support a Stats preview during unfinished
+creation choices. No half-level bonus is applied. Attacks and damage still have
+no default base. Allocation remains main 4/non-main budget 5/cap 2 with the
+optional trade.
 
 Entry grants and finite entry choices activate at their absolute `atLevel`,
 independently of entry prerequisites. Automatically acquired entries are not

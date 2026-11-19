@@ -25,3 +25,24 @@ internal fun pickerOptions(rows: List<BuilderOptionRow>?, taken: Set<String>): P
         PickerOptions.Ready(eligible, ineligible)
     }
 }
+
+/** Display the earliest tier allowed by a feat's level requirements. */
+internal fun ContentEntry.featTierBadge(): String {
+    val minimumLevel = maxOf(
+        mechanics.access?.minimumFeatLevel() ?: 0,
+        mechanics.prerequisites.maxOfOrNull { it.minimumFeatLevel() } ?: 0,
+    )
+    return when {
+        minimumLevel >= 21 -> "E"
+        minimumLevel >= 11 -> "P"
+        else -> "H"
+    }
+}
+
+/** All requirements must hold in a conjunction, and any branch can satisfy a disjunction. */
+private fun Prerequisite.minimumFeatLevel(): Int = when (this) {
+    is Prerequisite.Level -> minimum
+    is Prerequisite.AllOf -> conditions.maxOfOrNull { it.minimumFeatLevel() } ?: 0
+    is Prerequisite.AnyOf -> conditions.minOfOrNull { it.minimumFeatLevel() } ?: 0
+    else -> 0
+}

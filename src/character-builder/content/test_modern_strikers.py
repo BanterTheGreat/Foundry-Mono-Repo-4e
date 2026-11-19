@@ -36,6 +36,10 @@ class ModernStrikersTest(unittest.TestCase):
                 self.assertEqual(e["statistics"]["healingSurges"]["base"], surges)
         self.assertEqual(self.entries["modern4e.class.rogue"]["proficiencies"]["shields"], ["LIGHT_SHIELD"])
 
+    def test_barbarian_and_ranger_have_one_power_source_each(self):
+        self.assertEqual(self.entries["modern4e.class.barbarian"]["powerSources"], ["PRIMAL"])
+        self.assertEqual(self.entries["modern4e.class.ranger"]["powerSources"], ["MARTIAL"])
+
     def test_feature_choice_counts_and_package_grants(self):
         expected = [("avenger", "Vindicator’s Censure", 3), ("barbarian", "Feral Might", 4), ("ranger", "Fighting Style", 4), ("ranger", "Hunter’s Specialization", 2), ("rogue", "Rogue Tactics", 4), ("rogue", "Rogue Weapon Talent", 2), ("sorcerer", "Spell Source", 4), ("warlock", "Eldritch Attack", 2), ("warlock", "Eldritch Pact", 5)]
         for name, title, count in expected:

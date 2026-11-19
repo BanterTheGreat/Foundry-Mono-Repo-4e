@@ -4,11 +4,11 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -27,36 +27,85 @@ private fun Int.signed() = if (this >= 0) "+$this" else toString()
 internal fun Overview(state: BuilderState, model: BuilderSession) {
     val document = state.document
     val identity = document.identity
-    Column(Modifier.fillMaxSize().folioScroll(rememberScrollState()).padding(20.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        Row(Modifier.fillMaxWidth().height(IntrinsicSize.Min), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            Surface(Modifier.weight(1f).fillMaxHeight().heightIn(min = 104.dp), shape = RoundedCornerShape(3.dp), color = Wash, border = BorderStroke(1.dp, Line)) {
-                Column(Modifier.padding(13.dp), verticalArrangement = Arrangement.Center) {
-                    Text("Level ${document.level}", fontFamily = FontFamily.Serif, fontSize = 38.sp, color = Accent,
-                        modifier = Modifier.clickable(enabled = !model.busy) { model.beginLevelChange() }
-                            .semantics { contentDescription = "Change level, currently ${document.level}" })
-                    Row(Modifier.fillMaxWidth().padding(top = 7.dp), verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text("Speed ${state.rules.speedDisplay()}", fontSize = 12.sp, color = Dim, modifier = Modifier.weight(1f))
-                        Text(identity.size.ifBlank { "Size —" }, fontSize = 12.sp, color = Dim, textAlign = TextAlign.End,
-                            modifier = Modifier.weight(1f).clickable(enabled = !model.busy) { model.beginEdit("Size") }
-                                .semantics { contentDescription = "Edit Size" })
+    val canEdit = !model.busy
+    val largeText = LocalConfiguration.current.fontScale > 1.2f
+    val details = listOf("Gender" to identity.gender, "Age" to identity.age, "Deity" to identity.deity)
+    val languages = state.rules.languageNames().plus(identity.languages.trim()).filter { it.isNotEmpty() }
+        .joinToString(", ").ifBlank { "—" }
+    Column(
+        Modifier.fillMaxSize().folioScroll(rememberScrollState()).padding(20.dp),
+        verticalArrangement = Arrangement.spacedBy(6.dp),
+    ) {
+        Row(
+            Modifier.fillMaxWidth().height(IntrinsicSize.Min),
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
+        ) {
+            Surface(Modifier.weight(1f).fillMaxHeight(), color = Wash, border = BorderStroke(1.dp, Line)) {
+                Column {
+                    Box(
+                        Modifier.fillMaxWidth().heightIn(min = 48.dp)
+                            .clickable(enabled = canEdit) { model.beginLevelChange() }
+                            .semantics { contentDescription = "Change level, currently ${document.level}" }
+                            .padding(horizontal = 12.dp, vertical = 6.dp),
+                        contentAlignment = Alignment.CenterStart,
+                    ) {
+                        Text(
+                            "Level ${document.level}", color = Accent, fontFamily = FontFamily.Serif,
+                            fontSize = 22.sp, lineHeight = 24.sp,
+                        )
+                    }
+                    HorizontalDivider(color = Line)
+                    Row(
+                        Modifier.fillMaxWidth().height(IntrinsicSize.Min).padding(start = 12.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            "Speed ${state.rules.speedDisplay()}", color = Dim, fontSize = 12.sp, lineHeight = 15.sp,
+                            modifier = Modifier.weight(1f),
+                        )
+                        Box(
+                            Modifier.weight(1f).heightIn(min = 48.dp).fillMaxHeight()
+                                .clickable(enabled = canEdit) { model.beginEdit("Size") }
+                                .semantics { contentDescription = "Edit Size" }
+                                .padding(horizontal = 12.dp, vertical = 6.dp),
+                            contentAlignment = Alignment.CenterEnd,
+                        ) {
+                            Text(identity.size.ifBlank { "Size —" }, color = Dim, fontSize = 12.sp,
+                                lineHeight = 15.sp, textAlign = TextAlign.End)
+                        }
                     }
                 }
             }
-            PortraitPanel(model, document.id, Modifier.width(96.dp).fillMaxHeight().heightIn(min = 104.dp))
+            PortraitPanel(model, document.id, Modifier.width(78.dp).fillMaxHeight())
         }
-        Row(horizontalArrangement = Arrangement.spacedBy(7.dp), modifier = Modifier.height(IntrinsicSize.Min)) {
-            listOf("Gender" to identity.gender, "Age" to identity.age, "Deity" to identity.deity).forEach { (label, value) ->
-                Field(label, value.ifBlank { "—" }, Modifier.weight(1f).fillMaxHeight(), !model.busy) { model.beginEdit(label) }
+        details.chunked(if (largeText) 1 else 3).forEach { row ->
+            Row(
+                Modifier.fillMaxWidth().height(IntrinsicSize.Min),
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+            ) {
+                row.forEach { (label, value) ->
+                    Field(label, value.ifBlank { "—" }, Modifier.weight(1f).heightIn(min = 48.dp).fillMaxHeight(),
+                        enabled = canEdit, compact = true) { model.beginEdit(label) }
+                }
             }
         }
-        Field("Languages", state.rules.languageNames().plus(identity.languages.trim()).filter { it.isNotEmpty() }
-            .joinToString(", ").ifBlank { "—" }, enabled = !model.busy) { model.beginEdit("Languages") }
-        Heading("Notes")
-        Surface(color = Wash, border = BorderStroke(1.dp, Line), modifier = Modifier.fillMaxWidth()
-            .clickable(enabled = !model.busy) { model.beginEdit("Notes") }.semantics { contentDescription = "Edit notes" }) {
-            Text(identity.notes.ifBlank { "Your story, connections, reminders…" }, fontFamily = FontFamily.Serif,
-                fontStyle = FontStyle.Italic, lineHeight = 24.sp, modifier = Modifier.heightIn(min = 96.dp).padding(16.dp))
+        Field("Languages", languages, Modifier.heightIn(min = 48.dp), enabled = canEdit, compact = true) {
+            model.beginEdit("Languages")
+        }
+        CompactHeading("Notes")
+        Surface(
+            modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)
+                .clickable(enabled = canEdit) { model.beginEdit("Notes") }
+                .semantics { contentDescription = "Edit notes" },
+            color = Paper,
+            border = BorderStroke(1.dp, Line),
+        ) {
+            Text(
+                identity.notes.ifBlank { "Your story, connections, reminders…" },
+                color = if (identity.notes.isBlank()) Dim else Ink,
+                fontFamily = FontFamily.Serif, fontStyle = FontStyle.Italic, fontSize = 16.sp, lineHeight = 20.sp,
+                modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+            )
         }
     }
 }

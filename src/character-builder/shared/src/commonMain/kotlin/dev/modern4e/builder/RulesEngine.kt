@@ -34,9 +34,18 @@ data class EngineResult(
     val overviewAbilityTotals: Map<Ability, Int> = emptyMap(),
     val equipmentProficiencies: Map<String, List<ChoiceSlotId>> = emptyMap(),
     val facts: List<StructuredFact> = emptyList(),
+    internal val overviewDefenses: Map<Statistic, ContractResult<CalculatedValue>> = emptyMap(),
 ) {
     fun ability(ability: Ability) = statistics.getValue(ModifierTarget(Statistic.ABILITY_POINTS, ability = ability)).value
     fun skill(skill: Skill) = statistics.getValue(ModifierTarget(Statistic.SKILL_CHECK, skill = skill)).value
+
+    /** Show known defense totals while the character has unfinished choices. */
+    fun displayedDefense(statistic: Statistic): ContractResult<CalculatedValue> {
+        require(statistic in defenseStatistics)
+        return overviewDefenses[statistic] ?: statistics[ModifierTarget(statistic)]?.value
+            ?: ContractResult.Unavailable(listOf(diagnostic("missingBase", DiagnosticKind.INCOMPLETE_AUTOMATION,
+                "$statistic has no calculation.")))
+    }
 
     /** Calculate the displayed modifier using committed proficiency or the picker’s draft source. */
     fun displayedSkill(skill: Skill, proficiencySource: ChoiceSlotId? = proficiencies[skill]?.firstOrNull()): ContractResult<CalculatedValue> {
@@ -292,6 +301,7 @@ private class Evaluation(
     private val abilityValues = linkedMapOf<Ability, StatisticCalculation>()
     private val abilityFacts = linkedMapOf<Ability, StatisticCalculation>()
     private val overviewAbilityTotals = linkedMapOf<Ability, Int>()
+    private val overviewAbilityValues = linkedMapOf<Ability, ContractResult<CalculatedValue>>()
     private val proficiencySelectionRules by lazy { ProficiencySelectionRules(document, entries, proficiencies) }
 
     /** Never reuse activation when the candidate would create an instance or definition conflict. */
@@ -473,15 +483,28 @@ private class Evaluation(
             val contributions = proficiency + modifiers.filter { it.modifier.target == target }
             statistics[target] = ModifierCalculator.calculate(ability, contributions)
         }
+        val defenseEquipment = DefenseEquipment(entries, equipmentProficiencies.keys)
+        val overviewDefenses = linkedMapOf<Statistic, ContractResult<CalculatedValue>>()
+        val mayPreview = blockers.all { it.code == "engine.missingChoice" }
         for (statistic in Statistic.entries.filter { it != Statistic.ABILITY_POINTS && it != Statistic.SKILL_CHECK }) {
             val target = ModifierTarget(statistic)
+            val isDefense = statistic in defenseStatistics
+            val contributions = modifiers.filter { it.modifier.target == target } + if (isDefense) {
+                defenseEquipment.modifiers(statistic, document.level)
+            } else {
+                emptyList()
+            }
             val base = if (blockers.isEmpty()) {
-                classBase(statistic) ?: ContractResult.Unavailable(listOf(diagnostic("missingBase", DiagnosticKind.INCOMPLETE_AUTOMATION,
-                    "$statistic has no authored base; an ADD is not a base value.")))
+                statisticBase(statistic, defenseEquipment) { abilityValues.getValue(it).value }
             } else {
                 ContractResult.Unavailable(blockers.toList())
             }
-            statistics[target] = ModifierCalculator.calculate(base, modifiers.filter { it.modifier.target == target })
+            val calculation = ModifierCalculator.calculate(base, contributions)
+            statistics[target] = calculation
+            if (isDefense && mayPreview && calculation.value is ContractResult.Unavailable) {
+                val preview = statisticBase(statistic, defenseEquipment) { overviewAbilityValues.getValue(it) }
+                overviewDefenses[statistic] = ModifierCalculator.calculate(preview, contributions).value
+            }
         }
         diagnostics += statistics.values.flatMap { calculation ->
             (calculation.value as? ContractResult.Unavailable)?.diagnostics.orEmpty().filter { it.code != "engine.missingBase" }
@@ -490,7 +513,8 @@ private class Evaluation(
             entries.associate { it.instanceId to it.definition.entry.coverage }, diagnostics.distinct(),
             entries.flatMap { occurrence -> occurrence.definition.entry.mechanics.conditionalModifiers.map {
                 ConditionalContribution(occurrence.instanceId, occurrence.slot, it)
-            } }, selectedEligibility, sets.toList(), overviewAbilityTotals.toMap(), equipmentProficiencies.mapValues { it.value.toList() }, facts.toList())
+            } }, selectedEligibility, sets.toList(), overviewAbilityTotals.toMap(), equipmentProficiencies.mapValues { it.value.toList() }, facts.toList(),
+            overviewDefenses)
     }
 
     /** Resolve finite fact decisions in acquisition order, preserving rejected decisions for diagnostics. */
@@ -631,8 +655,25 @@ private class Evaluation(
         }
     }
 
+    private fun statisticBase(
+        statistic: Statistic,
+        equipment: DefenseEquipment,
+        abilityValue: (Ability) -> ContractResult<CalculatedValue>,
+    ): ContractResult<CalculatedValue> {
+        val base = when (statistic) {
+            Statistic.AC -> equipment.armorClassBase(abilityValue)
+            Statistic.REFLEX -> equipment.reflexUnavailable ?: classBase(statistic, abilityValue)
+            else -> classBase(statistic, abilityValue)
+        }
+        return base ?: ContractResult.Unavailable(listOf(diagnostic("missingBase", DiagnosticKind.INCOMPLETE_AUTOMATION,
+            "$statistic has no authored base; an ADD is not a base value.")))
+    }
+
     /** A single active class establishes a base with every term visible in the breakdown. */
-    private fun classBase(statistic: Statistic): ContractResult<CalculatedValue>? {
+    private fun classBase(
+        statistic: Statistic,
+        abilityValue: (Ability) -> ContractResult<CalculatedValue>,
+    ): ContractResult<CalculatedValue>? {
         val classes = entries.filter { it.definition.entry.mechanics.classProfile != null }
         if (classes.isEmpty()) {
             return null
@@ -650,7 +691,7 @@ private class Evaluation(
         }
         terms += Contributor("Class level", level.toInt(), owner.slot)
         for ((ability, multiplier) in formula.abilities) {
-            val value = abilityValues.getValue(ability).value
+            val value = abilityValue(ability)
             if (value is ContractResult.Unavailable) {
                 return value
             }
@@ -1046,6 +1087,7 @@ private class Evaluation(
             val knownBase = ContractResult.Available(CalculatedValue(knownPoints,
                 listOf(Contributor("${ability.name} points", knownPoints, allocation.source))))
             val knownValue = ModifierCalculator.calculate(knownBase, contributions).value
+            overviewAbilityValues[ability] = knownValue
             overviewAbilityTotals[ability] = (knownValue as? ContractResult.Available)?.value?.total ?: knownPoints
             val base = if (!legal || blockers.isNotEmpty()) {
                 ContractResult.Unavailable((errors + blockers).distinct())

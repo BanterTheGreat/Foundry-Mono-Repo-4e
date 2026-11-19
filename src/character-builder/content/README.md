@@ -149,8 +149,9 @@ cross-package reference check. The sample new-character template enables all of 
   pick kinds. The advancement pool queries do not carry the authored `access: CHARACTER` filter, so pools list
   other classes' utilities; selection still requires eligible access and prerequisites.
 - `modern4e.equipment` (`equipment_runtime.py`): 53 ITEM entries (45 weapons, 6 armor, 2 shields). Descriptions
-  render deterministically from structured fields only. No armor, speed, attack or damage number becomes a modifier;
-  `sharedData` keeps the authored profile, property definitions and armor rules. The authoring export
+  render deterministically from structured fields only. The defense engine reads armor and shield profiles from
+  `sharedData`, which also keeps the property definitions and armor rules. Speed, skill penalties, weapon attack
+  and damage remain descriptive. The authoring export
   (`--modern-equipment`) is unchanged.
 
 `BuilderOperations.options` evaluates each candidate against one shared decoded catalog snapshot
@@ -209,7 +210,7 @@ supplies all Modern 4e weapon/armor/shield tables and property rules to Typst.
 `python3 src/character-builder/content/build.py --modern-equipment` exports those
 same structured profiles for builder compilation; append `--check` to verify
 the deterministic output. This is an authoring catalog, not a v1 runtime package;
-equipment combat automation and saved-ID migration remain unimplemented.
+the builder runtime uses its armor and shield profiles for defenses. Saved-ID migration remains pending.
 
 The [shared Modern 4e content model](../../../docs/modern4e-content-model.md)
 records the reusable entry base for feats and future powers, classes, ancestries

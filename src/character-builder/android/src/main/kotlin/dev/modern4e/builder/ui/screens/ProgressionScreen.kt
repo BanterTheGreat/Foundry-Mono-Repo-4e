@@ -2,6 +2,7 @@ package dev.modern4e.builder.ui.screens
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -9,9 +10,11 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -19,6 +22,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
@@ -145,8 +149,8 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                 ?.definition?.entry?.presentation?.title
             val (powerSlots, regularChoices) = Progression.partitionLevelChoices(level, levelChoices, powerEntryIds)
             regularChoices.forEach { choice ->
-                val sourceTitle = state.rules.entries.firstOrNull { it.instanceId == choice.slot.sourceInstanceId }
-                    ?.definition?.entry?.presentation?.title.orEmpty()
+                val source = state.rules.entries.firstOrNull { it.instanceId == choice.slot.sourceInstanceId }?.definition?.entry
+                val sourceTitle = source?.presentation?.title.orEmpty()
                 val invalid = needsAttention(choice.slot, level, choice.optional)
                 if (choice.entries.isNotEmpty()) {
                     val label = if (choice.optional) "$sourceTitle (optional substitution)" else Progression.choiceLabel(choice.slot.choiceId, className)
@@ -155,14 +159,8 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
                     }
                 } else if (choice.valueKind != null) {
                     val pick = values.firstOrNull { it.slot == choice.slot }
-                    val label = when (requireNotNull(choice.valueKind)) {
-                        FactKind.LANGUAGE -> "language ${choice.slot.ordinal + 1}"
-                        FactKind.EQUIPMENT_PROFICIENCY -> "weapon proficiency"
-                        FactKind.DAMAGE_TYPE -> "damage type"
-                        FactKind.ANCESTRY_QUALIFICATION -> "Past Life ancestry"
-                        FactKind.SKILL_BONUS -> "bonus skill"
-                    }
-                    LevelChoice("$sourceTitle: $label", choice.values.firstOrNull { it.id == pick?.value }?.title ?: pick?.value ?: "Choose...",
+                    val label = Progression.valueChoiceLabel(requireNotNull(choice.valueKind), choice.slot.ordinal, sourceTitle, source?.category)
+                    LevelChoice(label, choice.values.firstOrNull { it.id == pick?.value }?.title ?: pick?.value ?: "Choose...",
                         enabled = !model.busy && !future, invalid = invalid) { open("value", level, choice.slot) }
                 } else if (choice.skills.isNotEmpty()) {
                     LevelChoice(Progression.choiceLabel(choice.slot.choiceId, className), skills.firstOrNull { it.slot == choice.slot }?.skill?.name?.readable() ?: "Choose…", enabled = !model.busy && !future, invalid = invalid) {
@@ -325,15 +323,13 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
                         changeTab = { featTab = it }, toggleIneligible = { showIneligible = !showIneligible },
                         changeTarget = { replacementTarget = it; edit = null; selected = null; expanded = null }, choose = { option ->
                             val entry = option.entry.entry
-                            if (selected == entry.id) {
-                                expanded = if (expanded == entry.id) null else entry.id
-                            } else {
+                            expanded = choiceExpansionOnTap(entry.id, selected, expanded)
+                            if (selected != entry.id) {
                                 selected = entry.id
-                                expanded = entry.id
                                 edit = if (request.level <= 2) {
                                     val slot = requireNotNull(request.slot)
                                     BuilderEdit.Entry(request.level, slot, entry.id, model.progressionEntryInstance(request.level, slot),
-                                        option.eligibility == Eligibility.INCOMPLETE)
+                                        acceptIneligible = option.eligibility != Eligibility.ELIGIBLE)
                                 } else {
                                     val decisions = document.levels.firstOrNull { it.level == request.level } ?: LevelDecisions(request.level)
                                     val occurrence = decisions.entries.firstOrNull { it.slot == request.slot }?.instanceId ?: java.util.UUID.randomUUID().toString()
@@ -466,8 +462,6 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
                 TextButton(enabled = !model.busy, onClick = dismiss) { Text("Cancel") }
                 if (request.slot != null && selected != null) {
                     TextButton(enabled = !model.busy, onClick = { edit = BuilderEdit.RemoveEntry(request.slot); selected = null; expanded = null }) { Text("Clear") }
-                } else if (edit != null) {
-                    TextButton(enabled = !model.busy, onClick = dismiss) { Text("Undo changes") }
                 }
                 val valid = edit != null &&
                     (request.kind != "free" || (edit as? BuilderEdit.Batch)?.edits?.count { it is BuilderEdit.Proficiency } == 2) &&
@@ -518,35 +512,37 @@ private fun CatalogChoiceList(request: ProgressionEditor, state: BuilderState, r
             modifier, request.level > 2, request.kind == "replacement", toggleIneligible, changeTarget, choose)
         return
     }
-    fun LazyListScope.optionItems(options: List<BuilderOptionRow>, selectable: Boolean) {
+    if (request.slot == ChoiceSlotId("creation", "theme", 0) && options is PickerOptions.Ready) {
+        AdvancementChoiceReader(options, taken, selected, showIneligible, modifier, toggleIneligible, choose)
+        return
+    }
+    if (request.slot == ChoiceSlotId("creation", "class", 0) && options is PickerOptions.Ready) {
+        ClassPicker(options, selected, expanded, modifier, showIneligible = showIneligible,
+            taken = taken, toggleIneligible = toggleIneligible, choose = choose)
+        return
+    }
+    fun LazyListScope.optionItems(options: List<BuilderOptionRow>, eligible: Boolean) {
         items(options, key = { "option:${it.metadata.metadata.id}" }) { row ->
             val option = row.option
             val entry = option?.entry?.entry
-            if (entry?.category == EntryCategory.CLASS && selectable) {
-                ClassChoiceCard(entry, row.metadata.metadata.title, selected == entry.id, expanded == entry.id, true) {
-                    choose(option)
-                }
-                return@items
-            }
             val level = entry?.mechanics?.prerequisites?.filterIsInstance<Prerequisite.Level>()?.maxOfOrNull { it.minimum }
                 ?: entry?.presentation?.description?.let { Regex("(?:Attack|Utility) (\\d+)").find(it)?.groupValues?.get(1)?.toIntOrNull() }
             val titleColor = entry?.takeIf { utilityPicker && it.category == EntryCategory.POWER }
                 ?.let(::powerChoiceUsage)?.let(::powerChoiceColor) ?: Ink
+            val badge = if (entry?.category == EntryCategory.FEAT) entry.featTierBadge() else level?.toString()
             ChoiceCard(row.metadata.metadata.title, selected == row.metadata.metadata.id,
-                expanded == row.metadata.metadata.id, selectable, level, { option?.let(choose) },
-                compact = true, titleColor = titleColor) {
+                expanded == row.metadata.metadata.id || !eligible, option != null, badge, { option?.let(choose) },
+                compact = true, titleColor = if (eligible) titleColor else MaterialTheme.colorScheme.error) {
                 if (entry == null) {
                     Text(row.diagnostics.joinToString { it.message }.ifBlank { "Definition is unavailable." }, fontSize = 12.sp, color = Dim)
-                } else if (!selectable) {
+                } else if (!eligible) {
                     val reason = if (entry.id in taken) "Already chosen"
                         else option.diagnostics.joinToString { it.message }.ifBlank { "Ineligible" }
                     Text(reason,
                         fontSize = 12.sp, lineHeight = 15.sp, color = Dim)
                 } else {
-                    val themeFlavor = zeitgeistThemeDescription(entry)
                     when {
                         entry.category == EntryCategory.POWER -> PowerBlock(entry, showTitle = false)
-                        themeFlavor != null -> PlainChoiceDescription(themeFlavor)
                         else -> ControlledDescription(entry.presentation.description, compact = true)
                     }
                     row.ancestryGrants.forEach { feature ->
@@ -601,7 +597,7 @@ private fun CatalogChoiceList(request: ProgressionEditor, state: BuilderState, r
             }
         }
         if (options is PickerOptions.Ready) {
-            optionItems(options.eligible, selectable = true)
+            optionItems(options.eligible, eligible = true)
             if (options.ineligible.isNotEmpty()) {
                 item("toggle") {
                     TextButton(toggleIneligible) {
@@ -609,7 +605,7 @@ private fun CatalogChoiceList(request: ProgressionEditor, state: BuilderState, r
                     }
                 }
                 if (showIneligible) {
-                    optionItems(options.ineligible, selectable = false)
+                    optionItems(options.ineligible, eligible = false)
                 }
             }
             if (options.eligible.isEmpty() && options.ineligible.isEmpty()) {
@@ -621,7 +617,36 @@ private fun CatalogChoiceList(request: ProgressionEditor, state: BuilderState, r
     }
 }
 
-/** Compact browsing stays above an independently scrolling power description with eligible row taps drafting the selection. */
+/** A single-line search with the same touch height as the compact picker rows. */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun PowerSearchField(query: String, onQueryChange: (String) -> Unit) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val textStyle = MaterialTheme.typography.bodyMedium
+    BasicTextField(
+        value = query,
+        onValueChange = onQueryChange,
+        modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp).heightIn(min = 48.dp),
+        textStyle = textStyle.copy(color = Ink),
+        singleLine = true,
+        cursorBrush = SolidColor(Accent),
+        interactionSource = interactionSource,
+        decorationBox = { innerTextField ->
+            OutlinedTextFieldDefaults.DecorationBox(
+                value = query,
+                innerTextField = innerTextField,
+                enabled = true,
+                singleLine = true,
+                visualTransformation = VisualTransformation.None,
+                interactionSource = interactionSource,
+                placeholder = { Text("Search powers", style = textStyle) },
+                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
+            )
+        },
+    )
+}
+
+/** Compact browsing stays above an independently scrolling power description with explicit row taps drafting the selection. */
 @Composable
 private fun PowerChoiceReader(
     options: PickerOptions.Ready, taken: Set<String>, selected: String?, utilityPicker: Boolean,
@@ -632,16 +657,13 @@ private fun PowerChoiceReader(
     var inspected by remember { mutableStateOf<String?>(null) }
     var query by remember { mutableStateOf("") }
     val visible = visibleReaderPowers(options, showIneligible, query)
-    val page = powerReaderPage(visible, inspected, selected)
-    val listScroll = rememberLazyListState()
+    val page = catalogReaderPage(visible, inspected, selected)
     Column(modifier.fillMaxWidth()) {
         if (incompleteAutomation) {
             Text("Incomplete automation: later-level eligibility and totals are unavailable.", color = Accent)
         }
-        OutlinedTextField(query, { query = it }, placeholder = { Text("Search powers", fontSize = 14.sp) }, singleLine = true,
-            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp))
-        LazyColumn(Modifier.weight(0.4f).fillMaxWidth().folioScroll(listScroll), state = listScroll,
-            verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        PowerSearchField(query, { query = it })
+        CatalogReaderPanes(Modifier.weight(1f), page?.metadata?.metadata?.id, list = {
             items(targets, key = { "replace:${it.instanceId}" }) { old ->
                 ChoiceCard("Replace ${old.selection.savedTitle}", replacementTarget == old.slot, false, true, null,
                     { changeTarget(old.slot) }, compact = true) { }
@@ -658,10 +680,12 @@ private fun PowerChoiceReader(
                 } else {
                     if (utilityPicker) entry?.let(::powerChoiceUsage)?.let(::powerChoiceColor) ?: Ink else Ink
                 }
-                ChoiceCard(row.metadata.metadata.title, selected == row.metadata.metadata.id, false, true, level,
+                ChoiceCard(row.metadata.metadata.title, selected == row.metadata.metadata.id, false, true, level?.toString(),
                     {
                         inspected = row.metadata.metadata.id
-                        row.powerDraftOnTap(taken, selected, !requiresReplacementTarget || replacementTarget != null)?.let(choose)
+                        row.powerDraftOnTap(taken, selected,
+                            replacementReady = !requiresReplacementTarget || replacementTarget != null,
+                            allowIneligible = showIneligible)?.let(choose)
                     }, compact = true, titleColor = color,
                     viewed = page?.metadata?.metadata?.id == row.metadata.metadata.id) { }
             }
@@ -672,28 +696,102 @@ private fun PowerChoiceReader(
                     }
                 }
             }
+        }) {
+            page?.let { row ->
+                val entry = row.option?.entry?.entry
+                if (entry != null) {
+                    PowerBlock(entry)
+                    if (entry.mechanics.prerequisites.any { it is Prerequisite.Unadapted }) {
+                        Text("Prerequisite not adapted", fontSize = 12.sp, color = Accent)
+                    }
+                } else {
+                    Text(row.metadata.metadata.title, fontFamily = FontFamily.Serif, fontSize = 18.sp, color = Ink)
+                }
+                if (!row.pickerSelectable(taken)) {
+                    Text(readerIneligibility(row, taken), fontSize = 12.sp, color = Dim)
+                }
+            }
         }
-        HorizontalDivider(color = Line, modifier = Modifier.padding(vertical = 8.dp))
+    }
+}
+
+/** Keep the catalog and its detail independently scrollable, resetting detail scroll for each entry. */
+@Composable
+private fun CatalogReaderPanes(
+    modifier: Modifier,
+    entryId: String?,
+    list: LazyListScope.() -> Unit,
+    detail: @Composable () -> Unit,
+) {
+    val listScroll = rememberLazyListState()
+    Column(modifier.fillMaxWidth()) {
+        LazyColumn(Modifier.weight(if (entryId == null) 1f else 0.4f).fillMaxWidth().folioScroll(listScroll),
+            state = listScroll, verticalArrangement = Arrangement.spacedBy(4.dp), content = list)
+        if (entryId != null) {
+            HorizontalDivider(color = Line, modifier = Modifier.padding(vertical = 8.dp))
+            key(entryId) {
+                Column(Modifier.weight(0.6f).fillMaxWidth().folioScroll(rememberScrollState()),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    detail()
+                }
+            }
+        }
+    }
+}
+
+/** Explain why a catalog entry can be inspected but cannot be chosen. */
+private fun readerIneligibility(row: BuilderOptionRow, taken: Set<String>): String =
+    if (row.metadata.metadata.id in taken) "Already chosen" else row.diagnostics.joinToString { it.message }.ifBlank {
+        if (row.option == null) "Definition is unavailable." else "Ineligible"
+    }
+
+/** Preview advancement entries and stage the tapped choice for Save. */
+@Composable
+private fun AdvancementChoiceReader(
+    options: PickerOptions.Ready,
+    taken: Set<String>,
+    selected: String?,
+    showIneligible: Boolean,
+    modifier: Modifier,
+    toggleIneligible: () -> Unit,
+    choose: (BuilderOption) -> Unit,
+) {
+    var inspected by remember { mutableStateOf<String?>(null) }
+    val visible = options.eligible + if (showIneligible) options.ineligible else emptyList()
+    val page = catalogReaderPage(visible, inspected, selected)
+    val pageId = page?.metadata?.metadata?.id
+    CatalogReaderPanes(modifier, pageId, list = {
+        items(visible, key = { it.metadata.metadata.id }) { row ->
+            val id = row.metadata.metadata.id
+            ChoiceCard(row.metadata.metadata.title, selected == id, false, true, null,
+                {
+                    inspected = id
+                    row.catalogReaderDraft(taken, selected, allowIneligible = showIneligible)?.let(choose)
+                }, compact = true, viewed = pageId == id,
+                titleColor = if (row.pickerSelectable(taken)) Ink else MaterialTheme.colorScheme.error) { }
+        }
+        if (options.ineligible.isNotEmpty()) {
+            item("toggle") {
+                TextButton(toggleIneligible) {
+                    Text(if (showIneligible) "Hide ineligible" else "Show ${options.ineligible.size} ineligible")
+                }
+            }
+        }
+        if (options.eligible.isEmpty() && options.ineligible.isEmpty()) {
+            item("empty") { Text("No available options in the installed content.", color = Dim) }
+        }
+    }) {
         page?.let { row ->
             val entry = row.option?.entry?.entry
-            key(row.metadata.metadata.id) {
-                val detailScroll = rememberScrollState()
-                Column(Modifier.weight(0.6f).fillMaxWidth().folioScroll(detailScroll), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    if (entry != null) {
-                        PowerBlock(entry)
-                        if (entry.mechanics.prerequisites.any { it is Prerequisite.Unadapted }) {
-                            Text("Prerequisite not adapted", fontSize = 12.sp, color = Accent)
-                        }
-                    } else {
-                        Text(row.metadata.metadata.title, fontFamily = FontFamily.Serif, fontSize = 18.sp, color = Ink)
-                    }
-                    if (!row.pickerSelectable(taken)) {
-                        Text(if (row.metadata.metadata.id in taken) "Already chosen" else
-                            row.diagnostics.joinToString { it.message }.ifBlank {
-                                if (entry == null) "Definition is unavailable." else "Ineligible"
-                            }, fontSize = 12.sp, color = Dim)
-                    }
+            Text(row.metadata.metadata.title, fontFamily = FontFamily.Serif, fontSize = 18.sp, color = Ink)
+            if (!row.pickerSelectable(taken)) {
+                Text(readerIneligibility(row, taken), fontSize = 12.sp, color = Dim)
+            }
+            if (entry != null) {
+                val details = remember(entry, row.advancementDefinitions) {
+                    advancementDetail(entry, row.advancementDefinitions)
                 }
+                AdvancementDetails(details)
             }
         }
     }

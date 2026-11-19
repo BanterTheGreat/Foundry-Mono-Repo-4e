@@ -35,6 +35,8 @@ To copy just one (or a few) modules instead of all of them, pass the module fold
 
 ## Project-specific context
 
+- Character Builder choices, picker layouts, eligibility, and selection persistence: read [Character Builder Choices](src/character-builder/CHOICES.md) before changing choice rows, lists, or editors.
+
 Each project has its own skill under `.agents/skills/<project-name>/SKILL.md` with its layout, architecture, and any module-specific conventions (e.g. the HUD visual style guide for `dnd4e-health-display`, naming conventions for `banter-4e-modifications`). Load the relevant one before working in that project.
 
 ## Modern 4e development and shared references

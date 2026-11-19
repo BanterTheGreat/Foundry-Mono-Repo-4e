@@ -1,9 +1,8 @@
 """Compile validated shared equipment authoring into the mechanics-v2 runtime contract.
 
 The package lets the builder store, display and equip the authored weapons, armor and
-shields. Equipment combat automation is not implemented by the engine, so no armor,
-shield or weapon number becomes a typed modifier: every complete authored profile,
-the matching property definitions and the armor rules stay in ``sharedData``.
+shields. The defense engine reads armor and shield data directly from the authored
+profiles in ``sharedData``, alongside the matching property definitions and armor rules.
 Descriptions are rendered only from those structured fields; no prose is parsed.
 """
 import importlib.util
@@ -23,10 +22,8 @@ ACTIONS = {"FREE": "free action", "MINOR": "minor action", "STANDARD": "standard
 LIMITATIONS = {
     "WEAPON": ["Weapon proficiency, hands, groups, damage dice and property rules are preserved for display only; "
                "they do not change attack, damage or defense totals and no proficiency is granted by equipping."],
-    "ARMOR": ["Armor bonus, speed modifier, armor check penalty, the light-armor ability rule and armor proficiency "
-              "are preserved for display only; they do not change AC, speed or skill totals and no proficiency is granted by equipping."],
-    "SHIELD": ["Shield bonus, occupied hand, speed modifier, armor check penalty and shield proficiency are preserved "
-               "for display only; they do not change AC, speed or skill totals and no proficiency is granted by equipping."],
+    "ARMOR": ["Armor and proficiency contribute to defense totals. Speed and skill penalties remain descriptive."],
+    "SHIELD": ["Proficient shields contribute to AC and Reflex. Hand occupancy, speed and skill penalties remain descriptive."],
 }
 
 
@@ -111,14 +108,15 @@ def compile_entry(entry, definitions, rules):
     shared = {**entry, "propertyDefinitions": used}
     if kind != "WEAPON":
         shared["armorRules"] = rules
-    limitations = entry["coverage"]["limitations"] + [
-        text for text in LIMITATIONS[kind] if text not in entry["coverage"]["limitations"]]
+    limitations = LIMITATIONS[kind]
+    if kind == "WEAPON":
+        limitations = list(dict.fromkeys(entry["coverage"]["limitations"] + limitations))
     return {"id": entry["id"], "category": entry["category"],
             "presentation": {"title": entry["presentation"]["title"],
                              "description": describe(entry, definitions, rules)},
             "mechanics": {"version": 2, "access": {"type": "always"}, "prerequisites": [{"type": "always"}],
                           "grants": [], "choices": [], "unsupported": [], "maximumSelections": None},
-            "coverage": {"status": "UNIMPLEMENTED", "limitations": limitations},
+            "coverage": {"status": "UNIMPLEMENTED" if kind == "WEAPON" else "PARTIAL", "limitations": limitations},
             "sharedData": shared}
 
 

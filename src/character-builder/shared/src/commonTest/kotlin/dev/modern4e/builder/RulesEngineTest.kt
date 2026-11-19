@@ -233,7 +233,7 @@ class RulesEngineTest {
         assertEquals(6, total(result.skill(Skill.MEDICINE)))
         assertEquals(30, total(result.statistics.getValue(ModifierTarget(Statistic.HIT_POINTS)).value))
         assertEquals(2, result.entries.size)
-        assertIs<ContractResult.Unavailable>(result.statistics.getValue(ModifierTarget(Statistic.AC)).value)
+        assertEquals(12, total(result.statistics.getValue(ModifierTarget(Statistic.AC)).value))
     }
 
     @Test

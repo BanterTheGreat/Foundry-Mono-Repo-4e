@@ -99,6 +99,19 @@ def feat_group(entry, references):
     return "ANCESTRY" if "ANCESTRY" in access else "CLASS" if "CLASS" in access else "GENERAL"
 
 
+def feat_access_ids(node, references, category):
+    """Return a conservative set of IDs in the category, at least one of which access requires."""
+    kind = node["type"]
+    if kind == "entry" and references.get(node["entryId"], {}).get("category") == category:
+        return {node["entryId"]}
+    if kind in ("allOf", "anyOf"):
+        children = [feat_access_ids(child, references, category) for child in node["conditions"]]
+        if kind == "anyOf" and not all(children):
+            return set()
+        return set().union(*children)
+    return set()
+
+
 def grants_skill_proficiency(entry, choice):
     """A skill choice is a proficiency grant only when its authored constraint says so."""
     return choice["kind"] == "SKILL" and any(
@@ -210,7 +223,14 @@ def build(content=None, available=None):
     entries = [compile_feat(entry, context, catalog["requirementText"][entry["id"]],
                             catalog["selectionText"][entry["id"]]) for entry in catalog["entries"]]
     assets = runtime_common.package(PACKAGE, TITLE, entries, revision=REVISION)
-    groups = {entry["id"]: feat_group(entry, catalog["references"]) for entry in catalog["entries"]}
+    authored = {entry["id"]: entry for entry in catalog["entries"]}
     for metadata in assets[f"{PACKAGE}/index.json"]["entries"]:
-        metadata["featGroup"] = groups[metadata["id"]]
+        entry = authored[metadata["id"]]
+        group = feat_group(entry, catalog["references"])
+        metadata["featGroup"] = group
+        if group in ("CLASS", "ANCESTRY"):
+            access_ids = feat_access_ids(entry["access"], catalog["references"], group)
+            if access_ids:
+                field = "featClassIds" if group == "CLASS" else "featAncestryIds"
+                metadata[field] = sorted(access_ids)
     return assets

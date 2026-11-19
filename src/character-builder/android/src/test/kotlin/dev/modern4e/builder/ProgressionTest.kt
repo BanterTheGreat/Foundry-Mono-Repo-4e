@@ -4,6 +4,13 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class ProgressionTest {
+    @Test fun ancestryLanguagesUseBonusLabelAndFeatLanguagesKeepTheirNumber() {
+        assertEquals("Ancestry Bonus Language",
+            Progression.valueChoiceLabel(FactKind.LANGUAGE, 0, "Human", EntryCategory.ANCESTRY))
+        assertEquals("Linguist: language 2",
+            Progression.valueChoiceLabel(FactKind.LANGUAGE, 1, "Linguist", EntryCategory.FEAT))
+    }
+
     @Test fun levelsFollowsAboutInCharacterNavigation() {
         assertEquals(listOf("character", "progression", "stats", "validation"), CharacterTabs)
     }

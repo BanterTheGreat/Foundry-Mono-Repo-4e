@@ -15,12 +15,19 @@ internal fun visibleReaderPowers(options: PickerOptions.Ready, showIneligible: B
 }
 
 /** Resolve the preview against the current visible results. */
-internal fun powerReaderPage(visible: List<BuilderOptionRow>, inspected: String?, selected: String?): BuilderOptionRow? =
+internal fun catalogReaderPage(visible: List<BuilderOptionRow>, inspected: String?, selected: String?): BuilderOptionRow? =
     visible.firstOrNull { it.metadata.metadata.id == inspected }
         ?: visible.firstOrNull { it.metadata.metadata.id == selected }
         ?: visible.firstOrNull()
 
-/** An explicit row tap can draft an eligible power after any required replacement target is set. */
+/** An explicit row tap can draft a visible power after any required replacement target is set. */
 internal fun BuilderOptionRow.powerDraftOnTap(
-    taken: Set<String>, selected: String?, replacementReady: Boolean,
-): BuilderOption? = option.takeIf { replacementReady && metadata.metadata.id != selected && pickerSelectable(taken) }
+    taken: Set<String>, selected: String?, replacementReady: Boolean, allowIneligible: Boolean = false,
+): BuilderOption? = catalogReaderDraft(taken, selected, allowIneligible).takeIf { replacementReady }
+
+/** Return a different, checked option when the reader's selection action is invoked. */
+internal fun BuilderOptionRow.catalogReaderDraft(
+    taken: Set<String>, selected: String?, allowIneligible: Boolean = false,
+): BuilderOption? = option.takeIf {
+    checked && metadata.metadata.id != selected && (allowIneligible || pickerSelectable(taken))
+}

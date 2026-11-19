@@ -182,7 +182,7 @@ class ProductionContentPackagesTest {
     }
 
     @Test
-    fun equipmentItemsCanBeEquippedWithoutInventingNumbers() = run {
+    fun equippingArmorUsesItsDefenseBonusWithoutChangingOtherStatistics() = run {
         val (sample, catalog, operations) = openTemplate()
         val chainmail = assertIs<ContractResult.Available<ResolvedEntry?>>(catalog.lookup("modern4e.armor.chainmail")).value!!
         assertEquals(EntryCategory.ITEM, chainmail.entry.category)
@@ -190,6 +190,11 @@ class ProductionContentPackagesTest {
         val result = operations.apply(sample, BuilderEdit.Equipment(EquipmentSelection("armor-1", saved, equipped = true)))
         assertTrue(result.applied)
         assertTrue(result.state.rules.diagnostics.none { it.code == "engine.equipmentCategory" })
-        assertEquals(operations.evaluate(sample).rules.statistics, result.state.rules.statistics)
+        val before = operations.evaluate(sample).rules
+        val after = result.state.rules
+        assertEquals(12, assertIs<ContractResult.Available<CalculatedValue>>(before.displayedDefense(Statistic.AC)).value.total)
+        assertEquals(16, assertIs<ContractResult.Available<CalculatedValue>>(after.displayedDefense(Statistic.AC)).value.total)
+        val ac = ModifierTarget(Statistic.AC)
+        assertEquals(before.statistics - ac, after.statistics - ac)
     }
 }

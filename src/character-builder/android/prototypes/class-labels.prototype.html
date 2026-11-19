@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Class labels · Throwaway prototype</title>
+<!-- Three class picker layouts, switchable via ?variant=A, B, or C. Standalone preview of the Android Compose sheet. -->
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  .sheet { max-width: 390px; margin: 0 auto; padding: 14px 20px 16px; background: #f3eddf; color: #322b25; border: 1px solid #c9bda7; border-radius: 24px 24px 6px 6px; font: 14px system-ui, sans-serif; }
+  .handle { width: 34px; height: 4px; background: #c9bda7; border-radius: 4px; margin: 0 auto 12px; }
+  h1 { font: bold 24px Georgia, serif; margin: 0; }
+  .legend { font-size: 11px; line-height: 1.5; color: #62574c; margin: 8px 0 12px; }
+  .list { height: 357px; overflow: auto; }
+  .grouped .list { height: 441px; }
+  .row { border: 1px solid #c9bda7; margin-bottom: 4px; }
+  .row.selected { border-color: #863f36; box-shadow: inset 0 0 0 1px #863f36; background: #e8ddcb; }
+  .entry, .columns { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 8px; padding: 7px 13px; width: 100%; text-align: left; }
+  .entry { border: 0; background: transparent; color: inherit; font: 15px/18px Georgia, serif; cursor: pointer; }
+  .tag, .code, .columns, h2 { font: 600 11px/14px system-ui, sans-serif; }
+  .tag { padding: 1px 5px; background: #322b25; color: #f3eddf; white-space: nowrap; }
+  .code { color: #62574c; }
+  .tag, .source-icons, .legend-item { display: inline-flex; align-items: center; gap: 4px; }
+  .grouped .tag { width: 64px; justify-content: center; }
+  .legend-item { white-space: nowrap; margin-right: 8px; }
+  .icon { width: 15px; height: 15px; flex-shrink: 0; vertical-align: middle; }
+  .aligned { grid-template-columns: 1fr 76px 36px; }
+  #head:not(:empty) + .list { height: 327px; }
+  .columns { border-bottom: 1px solid #c9bda7; margin-bottom: 4px; color: #62574c; }
+  h2 { margin: 8px 0 4px; padding: 3px 8px; background: #e8ddcb; }
+  h2:first-child { margin-top: 0; }
+  .detail { padding: 0 13px 8px; font-size: 12px; }
+  .switcher { position: sticky; bottom: 8px; display: flex; align-items: center; gap: 12px; width: max-content; margin: 12px auto 4px; padding: 4px; border-radius: 28px; background: #322b25; color: white; font: 13px system-ui; }
+  .switcher button { border: 1px solid #887d70; border-radius: 50%; width: 40px; height: 40px; background: transparent; color: white; cursor: pointer; }
+</style>
+<main class="sheet">
+  <div class="handle"></div>
+  <h1 id="heading">Class</h1>
+  <p class="legend" id="legend"></p>
+  <div id="head"></div>
+  <div class="list" id="list" aria-label="Classes"></div>
+</main>
+<nav class="switcher" aria-label="Prototype variants">
+  <button id="previous" aria-label="Previous layout">←</button>
+  <span id="variantName" aria-live="polite"></span>
+  <button id="next" aria-label="Next layout">→</button>
+</nav>
+<script>
+const classes = [
+  ["Artificer", ["Arcane"], "Leader"],
+  ["Avenger", ["Divine"], "Striker"],
+  ["Barbarian", ["Primal"], "Striker"],
+  ["Bard", ["Arcane"], "Leader"],
+  ["Cleric", ["Divine"], "Leader"],
+  ["Druid", ["Primal"], "Controller"],
+  ["Fighter", ["Martial"], "Defender"],
+  ["Invoker", ["Divine"], "Controller"],
+  ["Paladin", ["Divine"], "Defender"],
+  ["Ranger", ["Martial"], "Striker"],
+  ["Rogue", ["Martial"], "Striker"],
+  ["Runepriest", ["Divine"], "Leader"],
+  ["Shaman", ["Primal"], "Leader"],
+  ["Sorcerer", ["Arcane"], "Striker"],
+  ["Swordmage", ["Arcane"], "Defender"],
+  ["Warden", ["Primal"], "Defender"],
+  ["Warlock", ["Arcane"], "Striker"],
+  ["Warlord", ["Martial"], "Leader"],
+  ["Wizard", ["Arcane"], "Controller"],
+];
+const sourcePaths = {
+  Primal: '<path d="M20 4C9 4 5 8 5 14a5 5 0 0 0 5 5c6 0 10-4 10-15ZM3 21 15 9"/>',
+  Martial: '<path d="m5 3 15 15m-2-2 4 4M3 6V3h3m9 16 4-4M19 3 4 18m2-2-4 4M21 6V3h-3M5 15l4 4"/>',
+  Divine: '<circle cx="12" cy="12" r="4"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M5 5l2 2m10 10 2 2M5 19l2-2M17 7l2-2"/>',
+  Arcane: '<path d="m12 2 2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6L12 2Z"/>',
+};
+const icon = source => `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+  stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${sourcePaths[source]}</svg>`;
+const sourceLegend = Object.keys(sourcePaths).map(source =>
+  `<span class="legend-item">${icon(source)}${source}</span>`).join('');
+const roles = {Controller: 'Ctl', Defender: 'Def', Leader: 'Ldr', Striker: 'Str'};
+const variants = ['A · Row badge', 'B · Aligned columns', 'C · Grouped by role'];
+const keys = ['A', 'B', 'C'];
+const params = new URLSearchParams(location.search);
+let variant = keys.indexOf(params.get('variant') ?? 'C');
+if (variant < 0) variant = 2;
+let selected;
+let expanded;
+const byId = id => document.getElementById(id);
+const legend = map => Object.entries(map).map(([name, code]) => `${code} ${name}`).join(' · ');
+
+function row([name, powers, role]) {
+  const source = `<span class="source-icons" title="${powers.join(' + ')}">${powers.map(icon).join('')}</span>`;
+  const full = `${powers.join(' + ')} · ${role}`;
+  const layouts = [
+    `<span class="tag" aria-hidden="true">${source} · ${roles[role]}</span>`,
+    `<span class="code" aria-hidden="true">${source}</span><span class="code" aria-hidden="true">${roles[role]}</span>`,
+    `<span class="tag" aria-hidden="true">${powers.join(" + ")}</span>`,
+  ];
+  return `<article class="row ${selected === name ? 'selected' : ''}">
+    <button class="entry ${variant === 1 ? 'aligned' : ''}" data-class="${name}"
+      aria-label="${name}, ${full}" aria-expanded="${expanded === name}" aria-pressed="${selected === name}">
+      <span>${selected === name ? '✓ ' : ''}${name}</span>${layouts[variant]}
+    </button>
+    ${expanded === name ? `<div class="detail">${full}</div>` : ''}
+  </article>`;
+}
+
+function render() {
+  byId('variantName').textContent = variants[variant];
+  document.querySelector('.sheet').classList.toggle('grouped', variant === 2);
+  byId('heading').hidden = variant === 2;
+  byId('legend').hidden = variant === 2;
+  byId('legend').innerHTML = sourceLegend + '<br>' + legend(roles);
+  byId('head').innerHTML = variant === 1
+    ? '<div class="columns aligned"><span>Class</span><span>Source</span><span>Role</span></div>' : '';
+  byId('list').innerHTML = variant === 2
+    ? Object.keys(roles).map(role =>
+      `<h2>${role}</h2>${classes.filter(entry => entry[2] === role).map(row).join('')}`).join('')
+    : classes.map(row).join('');
+}
+
+function cycle(step) {
+  variant = (variant + step + variants.length) % variants.length;
+  params.set('variant', keys[variant]);
+  try {
+    history.replaceState(null, '', '?' + params);
+  } catch (error) {
+    if (error.name !== 'SecurityError') throw error;
+  }
+  render();
+  byId('list').scrollTop = 0;
+}
+
+byId('list').onclick = event => {
+  const button = event.target.closest('button[data-class]');
+  if (!button) return;
+  selected = button.dataset.class;
+  expanded = expanded === selected ? null : selected;
+  render();
+  byId('list').querySelector(`[data-class="${selected}"]`).focus({preventScroll: true});
+};
+byId('previous').onclick = () => cycle(-1);
+byId('next').onclick = () => cycle(1);
+document.addEventListener('keydown', event => {
+  if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+    event.preventDefault();
+    cycle(event.key === 'ArrowLeft' ? -1 : 1);
+  }
+});
+render();
+</script>
+</html>

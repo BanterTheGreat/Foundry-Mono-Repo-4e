@@ -57,6 +57,37 @@ class FeatRuntimeTest(unittest.TestCase):
         entry["access"]["conditions"].append({"type": "entry", "entryId": "a"})
         self.assertEqual("ANCESTRY", feat_runtime.feat_group(entry, references))
 
+    def test_class_feat_index_can_name_multiple_alternative_classes(self):
+        index = {row["id"]: row for row in self.assets[f"{PACKAGE}/index.json"]["entries"]}
+        self.assertEqual(["modern4e.class.fighter"], index["modern4e.feat.deep-gash"]["featClassIds"])
+        self.assertEqual(
+            ["modern4e.class.fighter", "modern4e.class.warlord"],
+            index["modern4e.feat.phalanx-warrior-paragon-fighter"]["featClassIds"],
+        )
+        self.assertTrue(all(row["featGroup"] == "CLASS" for row in index.values() if "featClassIds" in row))
+
+    def test_ancestry_feat_index_names_the_authored_ancestry(self):
+        for row in self.assets[f"{PACKAGE}/index.json"]["entries"]:
+            if row["featGroup"] == "ANCESTRY":
+                access = self.source[row["id"]]["access"]
+                self.assertEqual([access["entryId"]], row["featAncestryIds"], row["id"])
+            else:
+                self.assertNotIn("featAncestryIds", row)
+
+    def test_access_scope_respects_nested_gates_and_alternatives(self):
+        for category in ("CLASS", "ANCESTRY"):
+            with self.subTest(category=category):
+                references = {"first": {"category": category}, "second": {"category": category}}
+                first = {"type": "entry", "entryId": "first"}
+                second = {"type": "entry", "entryId": "second"}
+                level = {"type": "level", "minimum": 5}
+                optional = {"type": "anyOf", "conditions": [first, level]}
+                self.assertEqual(set(), feat_runtime.feat_access_ids(optional, references, category))
+                nested = {"type": "allOf", "conditions": [second, optional]}
+                self.assertEqual({"second"}, feat_runtime.feat_access_ids(nested, references, category))
+                alternative = {"type": "anyOf", "conditions": [first, nested]}
+                self.assertEqual({"first", "second"}, feat_runtime.feat_access_ids(alternative, references, category))
+
     def test_authored_entry_description_and_selection_are_preserved(self):
         for key, entry in self.entries.items():
             authored = self.source[key]

@@ -43,7 +43,7 @@ class SharedClassTest {
     fun fighterHasLocalFormulaGoldensIndependentChoicesAndThreeAutomaticPowers() {
         val result = evaluate()
         for ((statistic, expected) in mapOf(Statistic.HIT_POINTS to 29, Statistic.HEALING_SURGES to 11,
-            Statistic.FORTITUDE to 19, Statistic.REFLEX to 14, Statistic.WILL to 11)) {
+            Statistic.AC to 12, Statistic.FORTITUDE to 20, Statistic.REFLEX to 15, Statistic.WILL to 12)) {
             val value = calculation(result, statistic)
             assertEquals(expected, value.total)
             assertEquals(expected, value.contributors.sumOf { it.value })
@@ -56,6 +56,40 @@ class SharedClassTest {
         assertIs<ContractResult.Unavailable>(result.statistics.getValue(ModifierTarget(Statistic.ATTACK)).value)
         assertTrue(result.diagnostics.any { it.code == "engine.coverage" })
         assertFalse(result.diagnostics.any { it.kind == DiagnosticKind.INVALID_SELECTION || it.kind == DiagnosticKind.UNRESOLVED_CONTENT }, result.diagnostics.toString())
+    }
+
+    @Test
+    fun tierBonusChangesOnlyNonArmorDefensesAndUsesNormalModifierStacking() {
+        val doc = character()
+        for ((level, tier) in listOf(1 to 1, 10 to 1, 11 to 2, 20 to 2, 21 to 3, 30 to 3)) {
+            val target = ModifierTarget(Statistic.FORTITUDE)
+            val adjustments = listOf(1, 2).map { amount ->
+                ManualAdjustment("fortitude-$amount", TypedModifier(target, ModifierOperation.ADD, amount, BonusType.ITEM))
+            }
+            val result = evaluate(doc.copy(level = level, manualAdjustments = adjustments))
+            val fortitude = calculation(result, Statistic.FORTITUDE)
+            assertEquals(19 + tier + 2, fortitude.total)
+            assertEquals(1, fortitude.contributors.count { it.label == "Tier bonus" && it.value == tier })
+            assertEquals(14 + tier, calculation(result, Statistic.REFLEX).total)
+            assertEquals(11 + tier, calculation(result, Statistic.WILL).total)
+            assertEquals(12, calculation(result, Statistic.AC).total)
+        }
+    }
+
+    @Test
+    fun defensePreviewUsesKnownAbilityPointsDuringCharacterCreation() {
+        val doc = character()
+        val draft = doc.copy(
+            abilities = doc.abilities.copy(points = mapOf(Ability.STRENGTH to 4)),
+            levels = listOf(LevelDecisions(1, entries = doc.levels.single().entries.take(1))),
+        )
+        val result = evaluate(draft)
+        assertIs<ContractResult.Unavailable>(result.statistics.getValue(ModifierTarget(Statistic.FORTITUDE)).value)
+        assertEquals(18, assertIs<ContractResult.Available<CalculatedValue>>(result.displayedDefense(Statistic.FORTITUDE)).value.total)
+        assertEquals(10, assertIs<ContractResult.Available<CalculatedValue>>(result.displayedDefense(Statistic.AC)).value.total)
+        val missing = RulesEngine.evaluate(draft, content(draft).copy(selections = emptyMap()))
+        assertIs<ContractResult.Unavailable>(missing.displayedDefense(Statistic.FORTITUDE))
+        assertIs<ContractResult.Unavailable>(missing.displayedDefense(Statistic.AC))
     }
 
     @Test
@@ -74,7 +108,7 @@ class SharedClassTest {
         val changed = doc.copy(abilities = doc.abilities.copy(points = doc.abilities.points + (Ability.CONSTITUTION to 1) + (Ability.WISDOM to 1)))
         assertEquals(27, calculation(evaluate(changed), Statistic.HIT_POINTS).total)
         assertEquals(10, calculation(evaluate(changed), Statistic.HEALING_SURGES).total)
-        assertEquals(12, calculation(evaluate(changed), Statistic.WILL).total)
+        assertEquals(13, calculation(evaluate(changed), Statistic.WILL).total)
     }
 
     @Test

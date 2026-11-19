@@ -31,6 +31,7 @@ fun BuilderApp(model: BuilderSession, exchange: FileExchange, portraitChooser: P
     val scope = rememberCoroutineScope()
     fun task(action: suspend BuilderSession.() -> Unit) { scope.launch { model.run(action) } }
     LaunchedEffect(Unit) { model.run { refresh() } }
+    LaunchedEffect(model) { model.preloadHomePickers() }
     FolioTheme {
         BackHandler(model.errors.isEmpty() && model.page != "home" && model.dialog == null && model.preview == null && model.description == null && model.deleting == null) {
             model.page = when (model.page) { "stats", "progression", "validation" -> "character"; "library" -> "home"; else -> "library" }

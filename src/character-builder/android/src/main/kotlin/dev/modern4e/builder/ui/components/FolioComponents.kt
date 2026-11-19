@@ -24,6 +24,18 @@ internal fun Heading(text: String) {
     Text(text, fontFamily = FontFamily.Serif, fontSize = 23.sp, modifier = Modifier.padding(top = 12.dp).semantics { heading() })
 }
 
+/** Marks a section in a densely spaced character tab. */
+@Composable
+internal fun CompactHeading(text: String) {
+    Text(
+        text,
+        fontFamily = FontFamily.Serif,
+        fontSize = 16.sp,
+        lineHeight = 20.sp,
+        modifier = Modifier.padding(top = 6.dp).semantics { heading() },
+    )
+}
+
 /** Renders an editable folio field, with a compact layout for the Levels screen. */
 @Composable
 internal fun Field(

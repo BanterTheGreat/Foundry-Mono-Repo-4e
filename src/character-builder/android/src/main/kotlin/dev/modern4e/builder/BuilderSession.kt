@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -55,6 +56,14 @@ class BuilderSession(
     private var committed: CharacterDocument? = null
     private var operations: BuilderOperations? = null
     @Volatile private var catalog: ContentCatalog? = null
+    private data class HomePickers(
+        val packages: List<PackageRevision>,
+        val catalog: ContentCatalog,
+        val classes: List<BuilderOptionRow>,
+        val ancestries: List<BuilderOptionRow>? = null,
+    )
+    @Volatile private var homePickers: HomePickers? = null
+    private val homePickerWork = Mutex()
     private val heavyWork = Mutex()
     private val background = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     private var warming: Job? = null
@@ -73,7 +82,7 @@ class BuilderSession(
         try {
             action()
         } catch (error: Exception) {
-            if (error is kotlinx.coroutines.CancellationException) {
+            if (error is CancellationException) {
                 throw error
             }
             errors = listOf(Diagnostic("android.workflow", DiagnosticKind.IO_FAILURE, error.message ?: "Operation failed"))
@@ -178,7 +187,7 @@ class BuilderSession(
         val stream = try {
             chooser.choose()
         } catch (error: Exception) {
-            if (error is kotlinx.coroutines.CancellationException) {
+            if (error is CancellationException) {
                 throw error
             }
             notice = error.message ?: "That file could not be opened."
@@ -190,21 +199,66 @@ class BuilderSession(
         }
     }
 
+    /** Prepare the default root pickers independently of character selection. */
+    internal suspend fun preloadHomePickers() {
+        try {
+            withContext(Dispatchers.IO) {
+                val base = sample()
+                if (loadHomeClasses(base) is ContractResult.Available) {
+                    homePickerWork.withLock {
+                        val prepared = homePickers?.takeIf { it.packages == base.packages } ?: return@withLock
+                        if (prepared.ancestries == null) {
+                            val rows = readRootRows(base, prepared.catalog, "ancestry")
+                            if (rootReadFailures(rows).isEmpty()) {
+                                homePickers = prepared.copy(ancestries = rows)
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (error: CancellationException) {
+            throw error
+        } catch (_: Exception) {
+            // Foreground pickers retry and surface load failures when requested.
+        }
+    }
+
+    private suspend fun loadHomeClasses(base: CharacterDocument): ContractResult<HomePickers> {
+        homePickers?.takeIf { it.packages == base.packages }?.let { return ContractResult.Available(it) }
+        return homePickerWork.withLock {
+            homePickers?.takeIf { it.packages == base.packages }?.let { return@withLock ContractResult.Available(it) }
+            when (val result = ContentCatalog.open(source, "modern4e.classes", base.packages)) {
+                is ContractResult.Unavailable -> result
+                is ContractResult.Available -> {
+                    val classes = readRootRows(base, result.value, "class")
+                    val failures = rootReadFailures(classes)
+                    if (failures.isNotEmpty()) {
+                        ContractResult.Unavailable(failures)
+                    } else {
+                        val prepared = HomePickers(base.packages, result.value, classes)
+                        homePickers = prepared
+                        ContractResult.Available(prepared)
+                    }
+                }
+            }
+        }
+    }
+
+    private suspend fun readRootRows(base: CharacterDocument, catalog: ContentCatalog, choiceId: String): List<BuilderOptionRow> {
+        val listing = BuilderOperations(catalog).optionListing(base, 1, ChoiceSlotId("creation", choiceId, 0))
+        return listing.check(listing.rows().map { it.metadata.metadata.id })
+    }
+
+    private fun rootReadFailures(rows: List<BuilderOptionRow>): List<Diagnostic> =
+        rows.flatMap { it.diagnostics }.filter { it.kind == DiagnosticKind.IO_FAILURE }.distinct()
+
     /** Open the new-character class menu. Nothing is created or stored until a class is confirmed. */
     suspend fun beginCreate() {
-        val base = withContext(Dispatchers.IO) { sample() }
-        when (val result = withContext(Dispatchers.IO) { ContentCatalog.open(source, "modern4e.classes", base.packages) }) {
+        when (val result = withContext(Dispatchers.IO) { loadHomeClasses(sample()) }) {
             is ContractResult.Unavailable -> errors = result.diagnostics
             is ContractResult.Available -> {
-                val classes = withContext(Dispatchers.IO) {
-                    val listing = BuilderOperations(result.value).optionListing(base, 1, ChoiceSlotId("creation", "class", 0))
-                    listing.check(listing.rows().map { it.metadata.metadata.id })
-                }
-                val readFailures = classes.flatMap { it.diagnostics }.filter { it.kind == DiagnosticKind.IO_FAILURE }
-                val available = classes.filter { it.option?.eligibility == Eligibility.ELIGIBLE }
-                if (readFailures.isNotEmpty()) {
-                    errors = readFailures.distinct()
-                } else if (available.isEmpty()) {
+                val available = result.value.classes.filter { it.option?.eligibility == Eligibility.ELIGIBLE }
+                if (available.isEmpty()) {
                     errors = listOf(Diagnostic("android.create", DiagnosticKind.UNRESOLVED_CONTENT, "No classes are available."))
                 } else {
                     classMenu = available
@@ -218,8 +272,9 @@ class BuilderSession(
     }
 
     /**
-     * Create and open a character. With a [classId] the character starts as that class, with its first
-     * main ability at 4 and the remaining scores at 0. Without a class ID, use the bundled sample.
+     * Create a character and open its Levels tab. With a [classId] the character starts as that
+     * class, with its first main ability at 4 and the remaining scores at 0. Without a class ID,
+     * use the bundled sample.
      */
     suspend fun create(classId: String? = null) {
         var base = withContext(Dispatchers.IO) { sample() }
@@ -231,7 +286,7 @@ class BuilderSession(
             identity = CharacterIdentity("New character"))
         classMenu = null
         if (persist(document, null)) {
-            open(document)
+            open(document, initialPage = "progression")
             refresh()
         }
     }
@@ -263,12 +318,15 @@ class BuilderSession(
 
     suspend fun load(id: String) {
         when (val result = withContext(Dispatchers.IO) { store.load(id) }) {
-            is ContractResult.Available -> open(result.value)
+            is ContractResult.Available -> open(result.value, initialPage = "character")
             is ContractResult.Unavailable -> errors = result.diagnostics
         }
     }
 
-    private suspend fun open(document: CharacterDocument) {
+    /**
+     * Load the character and select [initialPage] after the session has been initialized.
+     */
+    private suspend fun open(document: CharacterDocument, initialPage: String) {
         clearOptionListings()
         val result = withContext(Dispatchers.IO) { ContentCatalog.open(source, "modern4e.classes", document.packages) }
         if (result is ContractResult.Unavailable && result.diagnostics.any { it.kind == DiagnosticKind.IO_FAILURE }) {
@@ -281,7 +339,7 @@ class BuilderSession(
         current = evaluate(document, (result as? ContractResult.Unavailable)?.diagnostics.orEmpty())
         committed = document
         pending = null
-        page = "character"
+        page = initialPage
         levelTarget = null
         dialog = null
         description = null
@@ -334,8 +392,16 @@ class BuilderSession(
             committed = document
             pending = null
             dialog = null
+            val summary = CharacterSummary(document.id, document.identity.name, document.savedAt, document.level)
+            characters = characters.toMutableList().apply {
+                val index = indexOfFirst { it.id == document.id }
+                if (index >= 0) {
+                    this[index] = summary
+                } else {
+                    add(summary)
+                }
+            }
             warmOptionLists(current!!, warmupSettleMillis)
-            refresh()
         }
     }
 
@@ -435,13 +501,24 @@ class BuilderSession(
      */
     suspend fun progressionOptionRows(level: Int, slot: ChoiceSlotId, featGroup: FeatGroup? = null,
         onUpdate: suspend (List<BuilderOptionRow>) -> Unit) {
-        val original = current?.document ?: return
+        val state = current ?: return
+        val original = state.document
         val originalCatalog = catalog
         if (level > 2) {
             // Higher-level editing retains its explicit incomplete-automation policy.
             val metadata = originalCatalog?.search(category = if (slot.choiceId == "feat") EntryCategory.FEAT else EntryCategory.POWER,
                 classIds = original.classEntryIds())
                 .orEmpty().filter { featGroup == null || it.metadata.featGroup == null || it.metadata.featGroup == featGroup }
+                .let { entries ->
+                    val ancestries = state.featAncestries()
+                    val matching = entries.filter { it.metadata.matchesFeatAncestries(ancestries) }
+                    if (featGroup == FeatGroup.CLASS) {
+                        val classes = state.featClasses()
+                        matching.filter { it.metadata.matchesFeatClasses(classes) }
+                    } else {
+                        matching
+                    }
+                }
             var rows = metadata.map { BuilderOptionRow(it) }
             onUpdate(rows)
             for (batch in metadata.chunked(12)) {
@@ -484,15 +561,23 @@ class BuilderSession(
      */
     private suspend fun browseOptionRows(original: CharacterDocument, originalCatalog: ContentCatalog?, level: Int,
         slot: ChoiceSlotId, featGroup: FeatGroup?, onUpdate: suspend (List<BuilderOptionRow>) -> Unit): List<Diagnostic> {
+        if (originalCatalog != null && current?.document == original && catalog === originalCatalog) {
+            preloadedRootRows(original, level, slot)?.let {
+                onUpdate(it)
+                return emptyList()
+            }
+        }
         val listing = withContext(Dispatchers.IO) { heavyWork.withLock {
             synchronized(optionListings) {
-                if (current?.document != original || catalog !== originalCatalog) {
+                val state = current
+                if (state?.document != original || catalog !== originalCatalog) {
                     return@synchronized null
                 }
                 val key = level to slot
                 optionListings[key]?.listing ?: run {
                     val newInstanceId = UUID.randomUUID().toString()
-                    operations?.optionListing(original, level, slot, newInstanceId)?.also {
+                    val featClasses = if (slot.choiceId == "feat") state.featClasses() else null
+                    operations?.optionListing(original, level, slot, newInstanceId, featClasses, state.featAncestries())?.also {
                         optionListings[key] = RetainedListing(it, newInstanceId)
                         // The checked rows are small beside the content itself.
                         if (optionListings.size > 32) {
@@ -539,9 +624,38 @@ class BuilderSession(
     internal fun powerEntryIds(): Set<String> =
         catalog?.search(category = EntryCategory.POWER).orEmpty().mapTo(mutableSetOf()) { it.metadata.id }
 
+    /** Feat access can come from a class entry or a multiclass feat. Include qualification facts conservatively. */
+    private fun BuilderState.featClasses(): Set<String> = buildSet {
+        addAll(document.classEntryIds())
+        for (occurrence in rules.entries) {
+            val entry = occurrence.definition.entry
+            if (entry.category == EntryCategory.CLASS) {
+                add(entry.id)
+            }
+            if (entry.category == EntryCategory.FEAT) {
+                entry.mechanics.multiclassFor?.let { add(it) }
+            }
+        }
+        rules.facts.filter { it.kind == FactKind.ANCESTRY_QUALIFICATION }.forEach { add(it.value) }
+    }
+
+    /** Past Life can qualify a character for another ancestry's feats. */
+    private fun BuilderState.featAncestries(): Set<String> = buildSet {
+        addAll(document.ancestryEntryIds())
+        rules.facts.filter { it.kind == FactKind.ANCESTRY_QUALIFICATION }.forEach { add(it.value) }
+    }
+
     /** The Class and Ancestry pickers list the whole catalog and never depend on the rest of the character. */
     private fun isRootList(level: Int, slot: ChoiceSlotId) =
-        level == 1 && slot.sourceInstanceId == "creation" && slot.choiceId in setOf("class", "ancestry")
+        level == 1 && slot.ordinal == 0 && slot.sourceInstanceId == "creation" && slot.choiceId in setOf("class", "ancestry")
+
+    private fun preloadedRootRows(document: CharacterDocument, level: Int, slot: ChoiceSlotId): List<BuilderOptionRow>? {
+        if (!isRootList(level, slot)) {
+            return null
+        }
+        val prepared = homePickers?.takeIf { it.packages == document.packages } ?: return null
+        return if (slot.choiceId == "class") prepared.classes else prepared.ancestries
+    }
 
     /**
      * The candidate check replaces its own slot before evaluating rules. Saving a candidate there can
@@ -550,6 +664,10 @@ class BuilderSession(
      */
     private fun stillValid(before: BuilderState, after: BuilderState, level: Int, slot: ChoiceSlotId,
         newInstanceId: String): Boolean {
+        if (slot.choiceId == "feat" &&
+            (before.featClasses() != after.featClasses() || before.featAncestries() != after.featAncestries())) {
+            return false
+        }
         if (isRootList(level, slot) || firstChangedLevel(before.document, after.document) > level) {
             return true
         }
@@ -596,10 +714,9 @@ class BuilderSession(
 
     /**
      * Check every list the picker can open at levels 1-2, so each one opens already filled in. Order is the
-     * likeliest next stop first: still-empty attack-power pools (each pick reshuffles the others through
-     * distinct-choice rules), then the Class, Ancestry and General feat tabs, then filled pools and the
-     * remaining class choices, then the Class, Ancestry and Theme pickers. Later levels keep their
-     * incomplete-automation listing and are not warmed. A character with no class or ancestry simply has
+     * Class Feature choices, then power pools, then the Class, Ancestry and General feat tabs, then the
+     * remaining catalog pickers. The Class and Ancestry rows are normally ready from Home. Later levels keep
+     * their incomplete-automation listing and are not warmed. A character with no class or ancestry simply has
      * rows without eligibility to show; a failed read leaves the rest to the picker.
      *
      * This runs after every committed edit, but lists that are still valid (see [stillValid]) are reused, so
@@ -635,17 +752,19 @@ class BuilderSession(
         val offered = (1..minOf(document.level, 2)).flatMap { level ->
             Progression.levelChoices(state, level).filter { it.abilities.isEmpty() && it.entries.isNotEmpty() }.map { level to it }
         }
-        val (attack, other) = offered.partition { (_, choice) -> Progression.isAttackPowerChoice(state, choice) }
-        val (empty, taken) = attack.partition { (_, choice) -> choice.slot !in filled }
+        val (powers, other) = offered.partition { (_, choice) -> Progression.isPowerPool(state, choice) }
+        val (features, remaining) = other.partition { (_, choice) -> Progression.isClassFeatureChoice(state, choice) }
+        val (empty, taken) = powers.partition { (_, choice) -> choice.slot !in filled }
         val featSlots = listOf(1 to ChoiceSlotId("creation", "feat", 0)) +
             if (document.level >= 2) listOf(2 to ChoiceSlotId("advancement.2", "feat", 0)) else emptyList()
-        val targets = empty.map { (level, choice) -> WarmTarget(level, choice.slot, null) } +
+        val roots = listOf("class", "ancestry", "theme").map { ChoiceSlotId("creation", it, 0) }
+            .filter { preloadedRootRows(document, 1, it) == null }
+        return (features + empty + taken).map { (level, choice) -> WarmTarget(level, choice.slot, null) } +
             listOf(FeatGroup.CLASS, FeatGroup.ANCESTRY, FeatGroup.GENERAL).flatMap { group ->
                 featSlots.map { (level, slot) -> WarmTarget(level, slot, group) }
             } +
-            (taken + other).map { (level, choice) -> WarmTarget(level, choice.slot, null) } +
-            listOf("class", "ancestry", "theme").map { WarmTarget(1, ChoiceSlotId("creation", it, 0), null) }
-        return targets
+            remaining.map { (level, choice) -> WarmTarget(level, choice.slot, null) } +
+            roots.map { WarmTarget(1, it, null) }
     }
 
     /** Test hook: returns once the warm-up started by the last committed edit has finished or been cancelled. */

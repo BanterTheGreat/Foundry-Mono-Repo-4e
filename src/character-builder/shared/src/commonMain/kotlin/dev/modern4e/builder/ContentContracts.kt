@@ -29,7 +29,18 @@ data class EntryMetadata(
     @EncodeDefault(EncodeDefault.Mode.NEVER) val featGroup: FeatGroup? = null,
     /** The class whose power this is selectable by; loaders skip other classes' powers and chunks. Never an eligibility result. */
     @EncodeDefault(EncodeDefault.Mode.NEVER) val classId: String? = null,
-)
+    /** For a Class feat, at least one of these access routes is required. Empty means unscoped. */
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val featClassIds: List<String> = emptyList(),
+    /** For an Ancestry feat, at least one of these access routes is required. Empty means unscoped. */
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val featAncestryIds: List<String> = emptyList(),
+) {
+    /** Unscoped and older index rows always proceed to eligibility checks. */
+    fun matchesFeatClasses(classes: Set<String>): Boolean = featClassIds.isEmpty() || featClassIds.any { it in classes }
+
+    /** Keep unscoped rows and feats that match a selected or qualifying ancestry. */
+    fun matchesFeatAncestries(ancestries: Set<String>): Boolean =
+        featAncestryIds.isEmpty() || featAncestryIds.any { it in ancestries }
+}
 
 /** Authored access grouping for feat browsing; never an eligibility result. */
 @Serializable

@@ -58,13 +58,16 @@ class EquipmentRuntimeTest(unittest.TestCase):
             self.assertEqual({"version": 2, "access": {"type": "always"}, "prerequisites": [{"type": "always"}],
                               "grants": [], "choices": [], "unsupported": [], "maximumSelections": None},
                              entry["mechanics"], entry["id"])
-            self.assertEqual("UNIMPLEMENTED", entry["coverage"]["status"])
+            kind = entry["sharedData"]["equipment"]["kind"]
+            self.assertEqual("UNIMPLEMENTED" if kind == "WEAPON" else "PARTIAL", entry["coverage"]["status"])
             self.assertEqual({"id", "category", "presentation", "mechanics", "coverage", "sharedData"}, set(entry))
             self.assertEqual({"title", "description"}, set(entry["presentation"]))
-            # Authored limitations are kept, followed by the runtime's own honest boundary.
-            authored = entry["sharedData"]["coverage"]["limitations"]
-            self.assertEqual(authored, entry["coverage"]["limitations"][:len(authored)])
-            self.assertTrue(any("do not change" in text for text in entry["coverage"]["limitations"]))
+            if kind == "WEAPON":
+                authored = entry["sharedData"]["coverage"]["limitations"]
+                self.assertEqual(authored, entry["coverage"]["limitations"][:len(authored)])
+            else:
+                self.assertIn("contribute to", entry["coverage"]["limitations"][0])
+                self.assertIn("remain descriptive", entry["coverage"]["limitations"][0])
 
     def test_shared_data_preserves_profile_properties_and_armor_rules(self):
         for authored in self.catalog["entries"]:

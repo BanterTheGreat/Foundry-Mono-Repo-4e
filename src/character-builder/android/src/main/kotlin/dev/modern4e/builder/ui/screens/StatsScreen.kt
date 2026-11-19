@@ -3,7 +3,6 @@ package dev.modern4e.builder.ui.screens
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalConfiguration
@@ -24,13 +23,23 @@ internal enum class EquipmentCategory(val title: String) { ARMOR("Armor"), WEAPO
 private val ArmorIds = setOf("CLOTH", "LEATHER", "LIGHT", "HIDE", "CHAINMAIL", "SCALE", "HEAVY", "PLATE")
 private val ImplementIds = setOf("ROD", "WAND", "STAFF", "ORB", "TOME", "HOLY_SYMBOL", "TOTEM", "LIGHT_BLADE", "HEAVY_BLADE")
 
-/**
- * Maximum hit points from the class formula plus modifiers.
- *
- * @return the computed total, or a dash while no class provides a base.
- */
+/** Shows the class hit point total, or a dash while the total is unavailable. */
 internal fun EngineResult.maxHpDisplay(): String =
-    (statistics[ModifierTarget(Statistic.HIT_POINTS)]?.value as? ContractResult.Available)?.value?.total?.toString() ?: "—"
+    statistics[ModifierTarget(Statistic.HIT_POINTS)]?.value.scoreDisplay()
+
+/** Shows the known defense total, or a dash if its base cannot be resolved. */
+internal fun EngineResult.defenseDisplay(defense: Statistic): String =
+    displayedDefense(defense).scoreDisplay()
+
+private fun ContractResult<CalculatedValue>?.scoreDisplay(): String =
+    (this as? ContractResult.Available)?.value?.total?.toString() ?: "—"
+
+private val defenses = listOf(
+    Statistic.AC to "AC",
+    Statistic.FORTITUDE to "Fortitude",
+    Statistic.REFLEX to "Reflex",
+    Statistic.WILL to "Will",
+)
 
 /**
  * Groups the character's equipment proficiencies by category, in acquisition order.
@@ -66,36 +75,40 @@ internal fun EngineResult.equipmentByCategory(): Map<EquipmentCategory, List<Str
     return grouped.mapValues { it.value.distinct() }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun Stats(state: BuilderState) {
     val equipment = state.rules.equipmentByCategory()
-    Column(Modifier.fillMaxSize().folioScroll(rememberScrollState()).padding(20.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        Heading("Vitals")
+    val configuration = LocalConfiguration.current
+    val narrow = configuration.screenWidthDp < 320 || configuration.fontScale > 1.2f
+    Column(
+        Modifier.fillMaxSize().folioScroll(rememberScrollState()).padding(20.dp),
+        verticalArrangement = Arrangement.spacedBy(6.dp),
+    ) {
+        CompactHeading("Vitals")
         val maxHp = state.rules.maxHpDisplay()
-        Surface(Modifier.fillMaxWidth().semantics(mergeDescendants = true) { contentDescription = "Max HP: $maxHp" },
-            color = Wash, border = BorderStroke(1.dp, Line), shape = RoundedCornerShape(3.dp)) {
-            Row(Modifier.padding(13.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Text("MAX HP", fontSize = 10.sp, letterSpacing = 1.sp, color = Dim, modifier = Modifier.weight(1f))
-                Text(maxHp, fontFamily = FontFamily.Serif, fontSize = 34.sp, color = Accent)
+        Surface(
+            Modifier.fillMaxWidth().semantics(mergeDescendants = true) { contentDescription = "Max HP: $maxHp" },
+            color = Wash,
+            border = BorderStroke(1.dp, Line),
+        ) {
+            Row(
+                Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text("MAX HP", color = Dim, fontSize = 10.sp, lineHeight = 13.sp, letterSpacing = 1.sp,
+                    modifier = Modifier.weight(1f))
+                StatValue(maxHp)
             }
         }
-        Heading("Abilities")
-        Ability.entries.chunked(if (LocalConfiguration.current.fontScale > 1.2f) 3 else 6).forEach { row ->
-            Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
-                row.forEach { ability ->
-                    val value = state.rules.overviewAbilityTotals.getValue(ability).toString()
-                    Surface(Modifier.weight(1f).semantics { contentDescription = "${ability.name.readable()}: $value" },
-                        color = Paper, border = BorderStroke(1.dp, Line), shape = RoundedCornerShape(2.dp)) {
-                        Column(Modifier.padding(vertical = 8.dp, horizontal = 2.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(ability.name.take(3), color = Dim, fontSize = 10.sp)
-                            Text(value, fontFamily = FontFamily.Serif, fontSize = 25.sp, color = Accent)
-                        }
-                    }
-                }
-            }
-        }
-        Heading("Proficiencies")
+        CompactHeading("Defenses")
+        StatTiles(defenses.map { (defense, label) ->
+            label to state.rules.defenseDisplay(defense)
+        }, columns = if (narrow) 2 else 4)
+        CompactHeading("Abilities")
+        StatTiles(Ability.entries.map { ability ->
+            ability.name.readable() to state.rules.overviewAbilityTotals.getValue(ability).toString()
+        }, columns = if (narrow) 3 else 6, abbreviate = true)
+        CompactHeading("Proficiencies")
         ProficiencyRow("Skills", state.rules.proficiencies.keys.map { skill ->
             "${skill.name.readable()} ${state.rules.displayedSkill(skill).display(signed = true)}"
         })
@@ -103,20 +116,65 @@ internal fun Stats(state: BuilderState) {
     }
 }
 
-/** One labelled row of proficiency chips; an empty row reads "None". */
+/** Places related scores in a grid that can expand vertically with the font scale. */
+@Composable
+private fun StatTiles(values: List<Pair<String, String>>, columns: Int, abbreviate: Boolean = false) {
+    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+        values.chunked(columns).forEach { row ->
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                row.forEach { (label, value) ->
+                    Surface(
+                        Modifier.weight(1f).semantics(mergeDescendants = true) { contentDescription = "$label: $value" },
+                        color = Paper,
+                        border = BorderStroke(1.dp, Line),
+                    ) {
+                        Column(
+                            Modifier.padding(vertical = 4.dp, horizontal = 2.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                        ) {
+                            StatValue(value)
+                            Text(if (abbreviate) label.take(3).uppercase() else label,
+                                color = Dim, fontSize = 10.sp, lineHeight = 13.sp)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/** Uses the same score typography as the Levels power tallies. */
+@Composable
+private fun StatValue(value: String) {
+    Text(value, fontFamily = FontFamily.Serif, fontSize = 22.sp, lineHeight = 24.sp, color = Accent)
+}
+
+/** One compact folio row with wrapped proficiencies and an explicit empty state. */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun ProficiencyRow(label: String, values: List<String>) {
-    Column(Modifier.fillMaxWidth().semantics(mergeDescendants = true) { contentDescription = "$label: ${values.joinToString().ifEmpty { "None" }}" },
-        verticalArrangement = Arrangement.spacedBy(6.dp)) {
-        Text(label.uppercase(), fontSize = 10.sp, letterSpacing = 1.sp, color = Dim)
-        if (values.isEmpty()) {
-            Text("None", color = Dim, fontSize = 13.sp)
-        }
-        FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            values.forEach { value ->
-                Surface(color = Wash, border = BorderStroke(1.dp, Line), shape = RoundedCornerShape(3.dp)) {
-                    Text(value, fontSize = 13.sp, modifier = Modifier.padding(10.dp))
+    Surface(
+        Modifier.fillMaxWidth().semantics(mergeDescendants = true) {
+            contentDescription = "$label: ${values.joinToString().ifEmpty { "None" }}"
+        },
+        color = Paper,
+        border = BorderStroke(1.dp, Line),
+    ) {
+        Column(
+            Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+            verticalArrangement = Arrangement.spacedBy(3.dp),
+        ) {
+            Text(label.uppercase(), color = Dim, fontSize = 9.sp, lineHeight = 12.sp, letterSpacing = 1.sp)
+            if (values.isEmpty()) {
+                Text("None", color = Dim, fontSize = 12.sp, lineHeight = 15.sp)
+            } else {
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(4.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    values.forEach { value ->
+                        Surface(color = Wash) {
+                            Text(value, fontSize = 12.sp, lineHeight = 15.sp,
+                                modifier = Modifier.padding(horizontal = 5.dp, vertical = 2.dp))
+                        }
+                    }
                 }
             }
         }

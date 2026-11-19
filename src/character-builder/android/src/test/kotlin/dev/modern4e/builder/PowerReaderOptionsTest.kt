@@ -33,10 +33,25 @@ class PowerReaderOptionsTest {
         val first = row("first")
         val draft = row("draft")
         val blocked = row("blocked", Eligibility.INELIGIBLE)
-        assertEquals(blocked, powerReaderPage(listOf(first, draft, blocked), "blocked", "draft"))
-        assertEquals(draft, powerReaderPage(listOf(first, draft), "blocked", "draft"))
-        assertEquals(first, powerReaderPage(listOf(first, draft), "removed", "removed"))
-        assertNull(powerReaderPage(emptyList(), "old", "old"))
+        assertEquals(blocked, catalogReaderPage(listOf(first, draft, blocked), "blocked", "draft"))
+        assertEquals(draft, catalogReaderPage(listOf(first, draft), "blocked", "draft"))
+        assertEquals(first, catalogReaderPage(listOf(first, draft), "removed", "removed"))
+        assertNull(catalogReaderPage(emptyList(), "old", "old"))
+    }
+
+    @Test fun advancementRowTapStagesAnAvailableDifferentEntry() {
+        val theme = row("theme", category = EntryCategory.THEME)
+        val blocked = row("blocked", Eligibility.INELIGIBLE, EntryCategory.THEME)
+        val other = row("other", category = EntryCategory.THEME)
+        val rows = listOf(theme, other, blocked)
+
+        assertEquals(blocked, catalogReaderPage(rows, "blocked", "theme"))
+        assertNull(blocked.catalogReaderDraft(emptySet(), "theme"))
+        assertNull(theme.catalogReaderDraft(emptySet(), "theme"))
+        assertNull(theme.catalogReaderDraft(setOf("theme"), null))
+        val draft = theme.catalogReaderDraft(emptySet(), null)
+        assertEquals(theme.option, draft)
+        assertEquals(other.option, other.catalogReaderDraft(emptySet(), draft?.entry?.entry?.id))
     }
 
     @Test fun blockedTapsAndMissingReplacementTargetsCannotChangeDraft() {
@@ -52,14 +67,48 @@ class PowerReaderOptionsTest {
         assertEquals(incomplete.option, incomplete.powerDraftOnTap(emptySet(), "draft", replacementReady = true))
     }
 
+    @Test fun revealedIneligibleOptionsCanBeExplicitlyDrafted() {
+        val blocked = row("blocked", Eligibility.INELIGIBLE)
+        val duplicate = row("duplicate")
+        val unresolved = row("unresolved", Eligibility.UNRESOLVED, EntryCategory.THEME)
+        val missing = blocked.copy(option = null)
+        val unchecked = blocked.copy(checked = false)
+        val taken = setOf("duplicate")
+
+        assertEquals(blocked.option, blocked.powerDraftOnTap(taken, null, replacementReady = true, allowIneligible = true))
+        assertEquals(duplicate.option, duplicate.powerDraftOnTap(taken, null, replacementReady = true, allowIneligible = true))
+        assertEquals(unresolved.option, unresolved.catalogReaderDraft(taken, null, allowIneligible = true))
+        assertNull(blocked.powerDraftOnTap(taken, null, replacementReady = false, allowIneligible = true))
+        assertNull(blocked.powerDraftOnTap(taken, "blocked", replacementReady = true, allowIneligible = true))
+        assertNull(missing.catalogReaderDraft(taken, null, allowIneligible = true))
+        assertNull(unchecked.catalogReaderDraft(taken, null, allowIneligible = true))
+    }
+
+    @Test fun featTierBadgeUsesTheEarliestLevelAllowedByAccessAndPrerequisites() {
+        val feat = requireNotNull(row("feat", category = EntryCategory.FEAT).option).entry.entry
+        val classAccess = Prerequisite.Entry("fighter")
+        val paragonAccess = Prerequisite.AllOf(listOf(classAccess, Prerequisite.Level(11)))
+        val tierAlternatives = Prerequisite.AnyOf(listOf(Prerequisite.Level(21), Prerequisite.Level(11)))
+
+        assertEquals("H", feat.featTierBadge())
+        assertEquals("H", feat.copy(mechanics = Mechanics(prerequisites = listOf(
+            Prerequisite.AnyOf(listOf(classAccess, Prerequisite.Level(21))),
+        ))).featTierBadge())
+        assertEquals("P", feat.copy(mechanics = Mechanics(access = paragonAccess)).featTierBadge())
+        assertEquals("P", feat.copy(mechanics = Mechanics(prerequisites = listOf(tierAlternatives))).featTierBadge())
+        assertEquals("E", feat.copy(mechanics = Mechanics(access = paragonAccess, prerequisites = listOf(
+            tierAlternatives, Prerequisite.Level(21),
+        ))).featTierBadge())
+    }
+
     @Test fun searchIsCaseInsensitiveAndCannotLeaveAFilteredOutPowerSelectable() {
         val first = row("Cleave")
         val other = row("Sure Strike")
         val blocked = row("Blocked Strike", Eligibility.INELIGIBLE)
         val options = PickerOptions.Ready(listOf(first, other), listOf(blocked))
         assertEquals(listOf(other), visibleReaderPowers(options, false, "  STRIKE  "))
-        assertEquals(other, powerReaderPage(visibleReaderPowers(options, false, "strike"), "Cleave", "Cleave"))
-        assertNull(powerReaderPage(visibleReaderPowers(options, false, "no match"), "Cleave", "Cleave"))
+        assertEquals(other, catalogReaderPage(visibleReaderPowers(options, false, "strike"), "Cleave", "Cleave"))
+        assertNull(catalogReaderPage(visibleReaderPowers(options, false, "no match"), "Cleave", "Cleave"))
         assertEquals(listOf(other, blocked), visibleReaderPowers(options, true, "strike"))
         val definition = requireNotNull(other.option)
         val described = other.copy(option = definition.copy(entry = definition.entry.copy(

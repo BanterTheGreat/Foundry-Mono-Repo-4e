@@ -2,9 +2,6 @@ package dev.modern4e.builder.ui.dialogs
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -96,27 +93,17 @@ internal fun BuilderDialogs(model: BuilderSession, task: (suspend BuilderSession
 private fun ClassMenu(model: BuilderSession, classes: List<BuilderOptionRow>, task: (suspend BuilderSession.() -> Unit) -> Unit) {
     var selected by remember(classes) { mutableStateOf<String?>(null) }
     var expanded by remember(classes) { mutableStateOf<String?>(null) }
-    val scroll = rememberLazyListState()
+    val options = remember(classes) { PickerOptions.Ready(classes, emptyList()) }
     ModalBottomSheet(onDismissRequest = { if (!model.busy) model.cancelCreate() }, containerColor = Paper,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)) {
         Column(Modifier.fillMaxWidth().height(pickerSheetHeight(LocalConfiguration.current.screenHeightDp)).padding(horizontal = 20.dp)) {
-            LazyColumn(Modifier.weight(1f).fillMaxWidth().folioScroll(scroll), state = scroll,
-                verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                items(classes, key = { it.metadata.metadata.id }) { row ->
-                    val entry = row.option?.entry?.entry ?: return@items
-                    val id = entry.id
-                    ClassChoiceCard(entry, row.metadata.metadata.title, selected == id, expanded == id, true) {
-                        if (model.busy) {
-                            return@ClassChoiceCard
-                        }
-                        if (selected == id) {
-                            expanded = if (expanded == id) null else id
-                        } else {
-                            selected = id
-                            expanded = id
-                        }
-                    }
+            ClassPicker(options, selected, expanded, Modifier.weight(1f)) { option ->
+                if (model.busy) {
+                    return@ClassPicker
                 }
+                val id = option.entry.entry.id
+                expanded = choiceExpansionOnTap(id, selected, expanded)
+                selected = id
             }
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 TextButton(enabled = !model.busy, onClick = { model.cancelCreate() }) { Text("Cancel") }

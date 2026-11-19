@@ -95,9 +95,10 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
 
     /** Browse this snapshot using the occurrence ID a picker will save for a new selection, when supplied. */
     fun optionListing(document: CharacterDocument, level: Int, slot: ChoiceSlotId,
-        newInstanceId: String? = null): BuilderOptionListing {
+        newInstanceId: String? = null, featClasses: Set<String>? = null,
+        featAncestries: Set<String> = document.ancestryEntryIds()): BuilderOptionListing {
         val reading = operation()
-        return BuilderOptionListing(reading.choiceEvaluation(), document, level, slot, reading.catalog, newInstanceId)
+        return BuilderOptionListing(reading.choiceEvaluation(), document, level, slot, reading.catalog, newInstanceId, featClasses, featAncestries)
     }
 
     /** Rejected commands return the unchanged, recalculated document and an explicit operation diagnostic. */

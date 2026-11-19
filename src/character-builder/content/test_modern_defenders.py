@@ -30,7 +30,7 @@ class ModernDefendersTest(unittest.TestCase):
                 self.assertEqual([stats["defenses"][d] for d in ("FORTITUDE", "REFLEX", "WILL")], defenses)
                 self.assertEqual(stats["health"], {"base": base, "perLevel": per_level, "constitutionMultiplier": 2})
                 self.assertEqual(stats["healingSurges"], {"base": surges, "constitutionMultiplier": 1})
-        self.assertEqual(self.entries["modern4e.class.swordmage"]["powerSources"], ["MARTIAL", "ARCANE"])
+        self.assertEqual(self.entries["modern4e.class.swordmage"]["powerSources"], ["ARCANE"])
         self.assertEqual(self.entries["modern4e.class.paladin"]["proficiencies"]["shields"], ["LIGHT_SHIELD", "HEAVY_SHIELD"])
         self.assertEqual(self.entries["modern4e.class.warden"]["proficiencies"]["shields"], ["LIGHT_SHIELD", "HEAVY_SHIELD"])
 

@@ -480,11 +480,12 @@ Summon automation Node coverage includes separate square selection, per-power ma
 
 ## Character Builder shared core and content production
 
-Android character navigation order, Levels missing-choice counts, picker eligibility progress and
-ordering, same-slot picker reuse and sibling invalidation, ready ancestry and new-character class details,
-main-only starting ability scores, utility picker color mapping, bundled Zeitgeist theme descriptions, and the current-power list helper
-are covered by `gradlew.bat :android:testDebugUnitTest` from `src/character-builder` on Windows
-(`./gradlew :android:testDebugUnitTest` on Unix).
+Android character navigation order, initial tab after creation and reopening, Levels missing-choice
+counts, picker eligibility progress and ordering, same-slot picker reuse and sibling invalidation, ready
+ancestry and new-character class details, main-only starting ability scores, utility picker color mapping,
+bundled Zeitgeist theme descriptions, and the current-power list helper are covered by
+`gradlew.bat :android:testDebugUnitTest` from `src/character-builder` on Windows
+(`bash ./gradlew :android:testDebugUnitTest` on Unix).
 
 Android Character Builder level raising and portraits (from `src/character-builder`, run
 `bash ./gradlew :shared:jvmTest :shared:jsNodeTest :android:testDebugUnitTest`):
@@ -494,6 +495,8 @@ padded level records and the confirm/cancel dialog state; `PortraitStoreTest`,
 (save/replace/delete, hostile ids, oversize and unusable images), that choosing, exporting
 and importing never change or carry portrait data, deletion cleanup and downscaling.
 
+Android JVM and Python feat runtime tests cover indexed Class feat scoping, including
+alternative class access and Android picker refresh after gaining multiclass access.
 Feat consolidation tests cover shared section references, OR class access, shield
 requirements, retained ancestry placement, corrected titles and explicit old-ID
 migration. Typst parity checks resolve referenced placements before comparing output.
@@ -529,7 +532,7 @@ theme, feat, utility and equipment entries, checks class-gated feat/utility elig
 and keeps 798-feat option listing fast. Android tests need an Android SDK; review the sample template's package
 list when adding packages.
 
-The Android option-list warm-up (every level 1-2 list checked on opening a character and after saved edits; Class/Ancestry lists that never refresh, later-level edits that keep earlier-level lists, rename-style edits that refresh nothing, warm targets limited to the active class's own choices, a settle delay, cancellation by later edits, quiet background read failures and no further content reads when a warmed list opens) is covered by `BuilderSessionTest`; the shared power fast path (equivalence with per-power activation, fallbacks) is covered by `PreparedPowerChoicesTest` in the shared JVM/JS suites:
+The Android option-list warm-up (Home preloads Class and Ancestry for the default package configuration; Class Feature choices warm before power pools, then Class, Ancestry and General feats; every level 1-2 list checked on opening a character and after saved edits; Class/Ancestry lists that never refresh, later-level edits that keep earlier-level lists, rename-style edits that refresh nothing, warm targets limited to the active class's own choices, a settle delay, cancellation by later edits, quiet background read failures and no further content reads when a warmed list opens) is covered by `BuilderSessionTest`; the shared power fast path (equivalence with per-power activation, fallbacks) is covered by `PreparedPowerChoicesTest` in the shared JVM/JS suites:
 
 ```powershell
 bash ./gradlew :android:testDebugUnitTest --tests "dev.modern4e.builder.BuilderSessionTest"   # from src/character-builder
@@ -750,11 +753,13 @@ browser's disk. No Foundry or Android emulator is required.
 
 The presentation split (#27) uses the same workflow and Compose regression suites. Run `bash ./gradlew :android:testDebugUnitTest :android:assembleDebug :android:assembleDebugAndroidTest :shared:jvmTest` to check the extracted screens, dialogs, components and theme; device execution remains the separate command below.
 
-From `src/character-builder`, run `bash ./gradlew :android:testDebugUnitTest` for adapter and workflow tests. `BuilderSessionTest` covers durable create/open/edit/cancel/reopen, failed-save protection and mandatory error reset, newer/older import collision previews, copy/cancel/replace, recovery restoration, unsupported input, retained equipment/adjustment operations, confirmed deletion/cancellation/failure/reset with recovery retention, personal-detail cancel/save/clear/reopen missing content with unrelated edits, blocked actions after operational failure, session reset, committed-save preservation and fresh workflows after reset. `StatsDisplayTest` covers the Stats tab's Max HP (value and dash) and equipment proficiency grouping (empty categories, id fallbacks, class-profile precedence for ambiguous values, shields with armor, chosen-option titles). `FolioScrollbarTest` checks overflow visibility, proportional start/middle/end positions, minimum thumb length, small viewports and overscroll clamping. `CharacterDateTest` covers European calendar dates, offsets, fractional seconds, leap days and invalid input. Shared `CharacterIdentityTest` covers legacy JSON compatibility, personal-detail round trips and strict field types.
+From `src/character-builder`, run `bash ./gradlew :android:testDebugUnitTest` for adapter and workflow tests. `BuilderSessionTest` covers durable create/open/edit/cancel/reopen, failed-save protection and mandatory error reset, newer/older import collision previews, copy/cancel/replace, recovery restoration, unsupported input, retained equipment/adjustment operations, confirmed deletion/cancellation/failure/reset with recovery retention, personal-detail cancel/save/clear/reopen missing content with unrelated edits, blocked actions after operational failure, session reset, committed-save preservation and fresh workflows after reset. `StatsDisplayTest` covers the Stats tab's Max HP and defense formatting (value and dash) and equipment proficiency grouping (empty categories, id fallbacks, class-profile precedence for ambiguous values, shields with armor, chosen-option titles). `FolioScrollbarTest` checks overflow visibility, proportional start/middle/end positions, minimum thumb length, small viewports and overscroll clamping. `CharacterDateTest` covers European calendar dates, offsets, fractional seconds, leap days and invalid input. Shared `CharacterIdentityTest` covers legacy JSON compatibility, personal-detail round trips and strict field types.
+
+The Android unit suite also checks theme advancement previews, including level grouping, linked content, optional modifications and which inspected entries can draft a choice.
 
 When UI testing is authorized, `ANDROID_SERIAL=<test-device> bash ./gradlew :android:connectedDebugAndroidTest` runs the native overview route test and adapter instrumentation tests. `SmokeScreenTest` covers accessible portrait/personal-detail controls, simplified About contents, cancel/save/reopen and swipes between About, Stats, Progression and Validation (the Stats-tab updates to this test have not been run). These UI tests have not been rerun for the latest layout revision, at the user’s request. The system document picker and physical-device visual acceptance remain manual checks.
 
-The shared `RulesEngineTest` also checks Overview ability defaults and skill modifiers from known abilities, proficiencies, and skill bonuses with an open choice using `:shared:jvmTest` and `:shared:jsNodeTest`.
+The shared `RulesEngineTest` also checks Overview ability defaults and skill modifiers from known abilities, proficiencies, and skill bonuses with an open choice. `SharedClassTest`, `SharedContentAcceptanceTest` and `ProductionContentPackagesTest` cover class defense formulas, tier bonuses and equipped armor and shields. Run these with `:shared:jvmTest` and `:shared:jsNodeTest`.
 
 Android Progression non-UI checks (from `src/character-builder/`):
 
@@ -908,7 +913,7 @@ and totals; cancel a changed draft and verify the saved character is unchanged.
 
 Use the same shared JVM/JS, Android unit and web commands above.
 `BuilderOptionListingTest` verifies metadata-first loading without chunk reads,
-selected-tab isolation, partial checks, cached reopen, content/document freshness
+selected-tab isolation, ancestry scoping before definition reads, partial checks, cached reopen, content/document freshness
 and a real production first-batch timing sample (informational, without flaky time
 limits). `PreparedFeatChoicesTest` checks shared-fact reuse and parity with normal
 activation, including historical prerequisites and dependent-benefit exclusion.
@@ -926,6 +931,6 @@ before eligibility completes; pending rows stay disabled and saved selections pe
 
 From `src/character-builder/`, run `.\gradlew.bat :android:testDebugUnitTest` for the Android unit suite. Device UI/instrumentation execution remains opt-in.
 
-`PowerBlockTest` checks labeled rule order, Lightning Strider’s three attack stages, repeated attack labels, Malicious Shadow’s granted at-will power, and headerless and legacy descriptions.
+`PowerBlockTest` checks labeled rule order, Lightning Strider’s three attack stages, repeated attack labels, Malicious Shadow’s granted at-will power, and headerless and legacy descriptions. `PowerReaderOptionsTest` covers explicit selection of revealed ineligible entries, replacement target requirements, and Heroic, Paragon, and Epic feat badges.
 
-Manual device check: open an attack or utility power choice and confirm the compact list sits above a separately scrollable reading pane, with no Power Choice heading, level subtitle or available-power count. Tap two eligible powers and verify the latest tap becomes the draft. Save commits that power, and Cancel preserves the saved choice. Opening the pane, changing the search, or previewing an ineligible power does not change the draft. For a replacement, choose the replacement target before tapping a power. Reopen to verify the saved selection. Check the Classic Block’s usage header and labeled rows, then scroll through Lightning Strider’s primary, secondary, and tertiary attacks. Check utility usage colors, ineligible options and the unchanged inline expansion of feat/ancestry pickers.
+Manual device check: open an attack or utility power choice and confirm the compact list sits above a separately scrollable reading pane, with no Power Choice heading, level subtitle or available-power count. Tap two eligible powers and verify the latest tap becomes the draft. Save commits that power, and Cancel preserves the saved choice. Opening the pane, changing the search, or revealing ineligible powers leaves the draft alone. Tap a revealed ineligible power, save it, and verify that Validation reports the failed requirements. For a replacement, choose the replacement target before tapping a power. Reopen to verify the saved selection. Check the Classic Block’s usage header and labeled rows, then scroll through Lightning Strider’s primary, secondary, and tertiary attacks. Check utility usage colors, ineligible options and the unchanged inline expansion of feat/ancestry pickers.

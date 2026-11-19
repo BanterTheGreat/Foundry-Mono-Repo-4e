@@ -4,7 +4,6 @@ import android.graphics.BitmapFactory
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -47,15 +46,15 @@ internal fun PortraitPanel(model: BuilderSession, characterId: String, modifier:
         modifier = modifier.semantics {
             contentDescription = if (image == null) "Character portrait placeholder" else "Character portrait"
         },
-        enabled = chooser != null && !model.busy, color = Wash, border = BorderStroke(1.dp, Line), shape = RoundedCornerShape(3.dp),
+        enabled = chooser != null && !model.busy, color = Wash, border = BorderStroke(1.dp, Line),
     ) {
         val shown = image
         if (shown != null) {
             Image(shown, contentDescription = null, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize())
         } else {
             Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
-                Text("♙", fontSize = 40.sp, color = Dim)
-                Text("PORTRAIT", fontSize = 9.sp, letterSpacing = 1.sp, color = Dim)
+                Text("♙", fontSize = 28.sp, lineHeight = 32.sp, color = Dim)
+                Text("PORTRAIT", fontSize = 9.sp, lineHeight = 12.sp, letterSpacing = 1.sp, color = Dim)
             }
         }
     }

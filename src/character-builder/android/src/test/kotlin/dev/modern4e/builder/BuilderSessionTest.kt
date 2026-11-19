@@ -1,5 +1,6 @@
 package dev.modern4e.builder
 
+import dev.modern4e.builder.ui.screens.defenseDisplay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -244,10 +245,33 @@ class BuilderSessionTest {
         bare.create()
         bare.awaitWarmup()
         assertTrue(bare.errors.isEmpty())
-        for (group in FeatGroup.entries) {
-            assertTrue(bare.firstFeatRows(group).let { it.isNotEmpty() && it.all { row -> row.checked } })
-        }
+        assertTrue(bare.firstFeatRows(FeatGroup.CLASS).isEmpty())
+        assertTrue(bare.firstFeatRows(FeatGroup.ANCESTRY).isEmpty())
+        assertTrue(bare.firstFeatRows(FeatGroup.GENERAL).let { it.isNotEmpty() && it.all { row -> row.checked } })
         assertTrue(bare.firstRows(1, ChoiceSlotId("creation", "class", 0)).let { it.isNotEmpty() && it.all { row -> row.checked } })
+    }
+
+    @Test fun ancestryFeatRowsFollowTheSelectedAncestryAtEarlyAndLaterLevels() = runBlocking {
+        val model = session()
+        model.create()
+        val ancestrySlot = ChoiceSlotId("creation", "ancestry", 0)
+        val human = "modern4e.ancestry.human"
+        val dwarf = "modern4e.ancestry.dwarf"
+
+        model.edit(BuilderEdit.Entry(1, ancestrySlot, human, "ancestry-human", true))
+        model.awaitWarmup()
+        val humanRows = model.firstFeatRows(FeatGroup.ANCESTRY)
+        assertTrue(humanRows.isNotEmpty() && humanRows.all { it.checked && human in it.metadata.metadata.featAncestryIds })
+
+        model.edit(BuilderEdit.Entry(1, ancestrySlot, dwarf, "ancestry-dwarf", true))
+        model.awaitWarmup()
+        val dwarfRows = model.firstFeatRows(FeatGroup.ANCESTRY)
+        assertTrue(dwarfRows.isNotEmpty() && dwarfRows.all { it.checked && dwarf in it.metadata.metadata.featAncestryIds })
+        assertTrue(humanRows.none { it.metadata.metadata.id in dwarfRows.map { row -> row.metadata.metadata.id } })
+
+        model.edit(BuilderEdit.Level(4))
+        val laterRows = model.firstRows(4, ChoiceSlotId("advancement.4", "feat", 0), FeatGroup.ANCESTRY)
+        assertEquals(dwarfRows.map { it.metadata.metadata.id }, laterRows.map { it.metadata.metadata.id })
     }
 
     @Test fun utilityPoolsTheScreenDoesNotOfferAreNotWarmedButEveryOtherEditStillWarms() = runBlocking {
@@ -335,6 +359,95 @@ class BuilderSessionTest {
         model.touchRules()
         assertTrue(model.firstRows(1, pool).none { it.checked })
         assertTrue(model.firstRows(2, level2Feat, FeatGroup.CLASS).none { it.checked })
+    }
+
+    @Test fun classFeatPickerScopesAlternativeClassesAndRefreshesForMulticlassAccess() = runBlocking {
+        val model = session()
+        val slot = ChoiceSlotId("creation", "feat", 0)
+        val sharedFeat = "modern4e.feat.phalanx-warrior-paragon-fighter"
+        val fighterOnly = "modern4e.feat.deep-gash"
+
+        model.create("modern4e.class.fighter")
+        model.awaitWarmup()
+        val fighter = model.firstRows(1, slot, FeatGroup.CLASS).associateBy { it.metadata.metadata.id }
+        assertTrue(sharedFeat in fighter)
+        assertTrue(fighterOnly in fighter)
+        assertEquals(Eligibility.INELIGIBLE, fighter.getValue(sharedFeat).option?.eligibility)
+
+        model.create("modern4e.class.warlord")
+        model.awaitWarmup()
+        val warlord = model.firstRows(1, slot, FeatGroup.CLASS).map { it.metadata.metadata.id }
+        assertTrue(sharedFeat in warlord)
+        assertFalse(fighterOnly in warlord)
+
+        model.create("modern4e.class.avenger")
+        model.awaitWarmup()
+        assertFalse(model.firstRows(1, slot, FeatGroup.CLASS).any { it.metadata.metadata.id == sharedFeat })
+        model.edit(BuilderEdit.Entry(1, slot, "modern4e.feat.student-of-the-sword", "feat-fighter",
+            acceptIneligible = true))
+        assertTrue(model.errors.isEmpty())
+        model.awaitWarmup()
+        assertTrue(model.firstRows(1, slot, FeatGroup.CLASS).any { it.metadata.metadata.id == sharedFeat })
+    }
+
+    @Test fun homePreloadsClassAndAncestryRowsBeforeAnyCharacterIsSelected() = runBlocking {
+        val real = AndroidContentSource(context.assets)
+        val reads = AtomicInteger()
+        val ancestryReads = AtomicInteger()
+        val source = object : ContentSource by real {
+            override suspend fun loadChunk(packageId: String, chunkId: String): ContractResult<EntryChunk> {
+                reads.incrementAndGet()
+                if (packageId == "modern4e.ancestries") {
+                    ancestryReads.incrementAndGet()
+                }
+                return real.loadChunk(packageId, chunkId)
+            }
+        }
+        val model = session(source = source)
+        model.preloadHomePickers()
+        assertEquals("home", model.page)
+        assertNull(model.current)
+        assertNull(model.classMenu)
+        assertTrue(ancestryReads.get() > 0)
+
+        val preloadedReads = reads.get()
+        model.beginCreate()
+        assertTrue(model.classMenu!!.all { it.checked })
+        assertEquals(preloadedReads, reads.get())
+        model.create("modern4e.class.fighter")
+        val ancestry = ChoiceSlotId("creation", "ancestry", 0)
+        val classSlot = ChoiceSlotId("creation", "class", 0)
+        assertTrue(model.warmTargets(model.current!!).none { it.slot == ancestry || it.slot == classSlot })
+        val rows = model.firstRows(1, ancestry)
+        assertTrue(rows.isNotEmpty() && rows.all { it.checked })
+        assertTrue(rows.first { it.metadata.metadata.id == "modern4e.ancestry.deva" }.ancestryGrants.isNotEmpty())
+        model.awaitWarmup()
+
+        val differentPackages = model.current!!.document.copy(
+            id = "without-ancestry-package",
+            packages = model.current!!.document.packages.filterNot { it.packageId == "modern4e.ancestries" },
+        )
+        store.save(differentPackages, SaveMode.CREATE)
+        model.load(differentPackages.id)
+        assertEquals(differentPackages.id, model.current!!.document.id)
+        assertTrue("The default catalog cannot supply ancestries for this character", model.firstRows(1, ancestry).isEmpty())
+        model.awaitWarmup()
+    }
+
+    @Test fun warmupPrioritizesClassFeaturesThenPowersThenFeatTabsThenOtherPickers() = runBlocking {
+        val model = session()
+        model.preloadHomePickers()
+        model.create()
+        val state = model.current!!
+        val targets = model.warmTargets(state)
+        val features = targets.takeWhile { it.slot.choiceId.startsWith("modern4e.choice.fighter-") }
+        assertTrue(features.any { it.slot.choiceId == "modern4e.choice.fighter-reactivity" })
+        val powers = targets.drop(features.size).takeWhile { it.slot.choiceId.startsWith("modern4e.choice.class-attack-") }
+        assertEquals(5, powers.size)
+        val remainder = targets.drop(features.size + powers.size)
+        assertEquals(listOf(FeatGroup.CLASS, FeatGroup.ANCESTRY, FeatGroup.GENERAL), remainder.take(3).map { it.group })
+        assertEquals(ChoiceSlotId("creation", "theme", 0), remainder.last().slot)
+        model.awaitWarmup()
     }
 
     @Test fun onlyListsTheCharacterCanEditAreWarmed() = runBlocking {
@@ -577,20 +690,34 @@ class BuilderSessionTest {
     }
 
     @Test fun createCancelSaveReopenAndContributors() = runBlocking {
-        val model = session()
+        var listCalls = 0
+        val storage = object : CharacterStore by store {
+            override suspend fun list(): ContractResult<List<CharacterSummary>> {
+                listCalls++
+                return store.list()
+            }
+        }
+        val model = session(storage)
         model.refresh()
         assertTrue(model.characters.isEmpty())
         model.create()
         val id = model.current!!.document.id
-        assertEquals("character", model.page)
+        assertEquals("progression", model.page)
         assertEquals(1, model.characters.size)
         model.beginEdit("Name")
         model.draft = "Discarded"
         model.cancelEdit()
         assertEquals("New character", model.current!!.document.identity.name)
+        val listCallsBeforeEdit = listCalls
         model.edit(BuilderEdit.Identity(model.current!!.document.identity.copy(name = "Saved hero", notes = "A story")))
+        val saved = model.current!!.document
+        model.openLibrary()
+        assertEquals("library", model.page)
+        assertEquals(listCallsBeforeEdit, listCalls)
+        assertEquals(CharacterSummary(id, "Saved hero", saved.savedAt, saved.level), model.characters.single())
         val reopened = session()
         reopened.load(id)
+        assertEquals("character", reopened.page)
         assertEquals("Saved hero", reopened.current!!.document.identity.name)
         assertEquals("A story", reopened.current!!.document.identity.notes)
         assertEquals(4, reopened.current!!.rules.overviewAbilityTotals.getValue(Ability.STRENGTH))
@@ -608,11 +735,13 @@ class BuilderSessionTest {
         val model = session(failing)
         model.create()
         val original = model.current!!.document
+        val originalLibrary = model.characters
         model.beginEdit("Notes")
         model.draft = "Retain this draft"
         fail = true
         model.edit(BuilderEdit.Identity(original.identity.copy(notes = model.draft)))
         assertEquals(original, model.current!!.document)
+        assertEquals(originalLibrary, model.characters)
         assertEquals("Retain this draft", model.pending!!.identity.notes)
         assertEquals("Notes", model.dialog)
         assertTrue(model.errors.any { it.code == "test.full" })
@@ -935,7 +1064,7 @@ class BuilderSessionTest {
         assertEquals(progression, menu)
     }
 
-    @Test fun confirmingAClassCreatesAndPersistsACharacterOfThatClass() = runBlocking {
+    @Test fun confirmingAClassCreatesAndPersistsACharacterAndOpensLevels() = runBlocking {
         val model = session()
         model.beginCreate()
         model.create("modern4e.class.wizard")
@@ -945,11 +1074,22 @@ class BuilderSessionTest {
         val chosen = document.levels.flatMap { it.entries }.single { it.slot == ChoiceSlotId("creation", "class", 0) }
         assertEquals("modern4e.class.wizard", chosen.selection.entryId)
         assertEquals("Wizard", chosen.selection.savedTitle)
-        assertEquals("character", model.page)
+        assertEquals("progression", model.page)
         assertEquals(listOf(document.id), model.characters.map { it.id })
         val reloaded = session().also { it.load(document.id) }
         assertEquals(document.levels, reloaded.current!!.document.levels)
         assertEquals(document.abilities, reloaded.current!!.document.abilities)
+    }
+
+    @Test fun newWizardShowsAllFourDefensesWhileCreationChoicesRemainOpen() = runBlocking {
+        val model = session()
+        model.create("modern4e.class.wizard")
+        val rules = model.current!!.rules
+
+        assertEquals("14", rules.defenseDisplay(Statistic.AC))
+        assertEquals("12", rules.defenseDisplay(Statistic.FORTITUDE))
+        assertEquals("16", rules.defenseDisplay(Statistic.REFLEX))
+        assertEquals("14", rules.defenseDisplay(Statistic.WILL))
     }
 
     @Test fun everyClassStartsWithOnlyItsMainAbilityAtFour() = runBlocking {

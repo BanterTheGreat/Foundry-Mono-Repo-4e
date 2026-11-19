@@ -1,0 +1,123 @@
+<!doctype html>
+<!-- Throwaway prototype: which layout makes Stats easiest to scan on a phone? Three variants share the same sample character. -->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Character Builder · Stats prototype</title>
+<style>
+* { box-sizing: border-box }
+body { margin: 0; font: 15px system-ui, sans-serif }
+.folio { --paper: #f3eddf; --ink: #322b25; --dim: #71675c; --line: #c9bda7; --accent: #863f36; --wash: #e8ddcb;
+  max-width: 440px; margin: auto; background: var(--paper); color: var(--ink); border: 1px solid var(--line); border-radius: 10px; overflow: clip }
+header { padding: 18px 20px 0 }
+h1,h2,p,dl,dd { margin: 0 }
+h1,h2,strong { font-family: Georgia, serif }
+h1 { font-size: 27px }
+header p, small { color: var(--dim) }
+nav { display: flex; gap: 18px; margin-top: 13px; border-bottom: 1px solid var(--line); overflow-x: auto; white-space: nowrap }
+nav span { padding: 8px 0 }
+nav [aria-current] { color: var(--accent); border-bottom: 2px solid }
+main { padding: 18px 20px 58px }
+h2 { font-size: 20px; margin: 18px 0 9px }
+h2:first-child { margin-top: 0 }
+.number { font: bold 27px Georgia, serif; font-variant-numeric: lining-nums; color: var(--accent) }
+.hero { background: var(--accent); color: var(--paper); display: flex; align-items: center; justify-content: space-between; padding: 13px 16px; border-radius: 5px }
+.hero .number { color: inherit; font-size: 40px }
+.tiles { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 6px }
+.tiles div { text-align: center; border: 1px solid var(--line); padding: 7px 2px; border-radius: 4px }
+.tiles dt { font-size: 12px }
+.chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px }
+.chips span { background: var(--wash); border-radius: 3px; padding: 4px 7px; font-size: 13px }
+.group { margin: 9px 0 }
+.ledger { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums }
+.ledger td,.ledger th { border-bottom: 1px solid var(--line); padding: 5px 0; text-align: left }
+.ledger th { font-weight: 500 }
+.ledger td { text-align: right }
+.ledger .total { font-size: 21px; color: var(--accent); font-weight: bold }
+.spread { display: grid; grid-template-columns: 122px minmax(0,1fr); gap: 14px }
+.spread aside { background: var(--wash); padding: 9px }
+.spread aside h2 { font-size: 17px }
+.spread aside dl div { padding: 5px 0; border-top: 1px solid var(--line) }
+.spread aside dt { font-size: 12px }
+.spread aside .number { font-size: 23px }
+.spread h3 { margin: 9px 0 2px; font-size: 13px }
+.spread ul { margin: 0; padding: 0; list-style: none }
+.spread li { padding: 3px 0; border-bottom: 1px solid var(--line) }
+.switcher { position: sticky; bottom: 6px; display: flex; align-items: center; justify-content: space-between; gap: 12px; width: max-content; max-width: 100%; margin: 10px auto; background: #272322; color: white; padding: 4px; border-radius: 30px; box-shadow: 0 3px 10px #0004 }
+button { border: 0; border-radius: 50%; background: #4c4541; color: white; font-size: 18px; min-width: 42px; min-height: 42px; cursor: pointer }
+output { text-align: center; min-width: 144px; font-size: 13px }
+@media (max-width: 330px) { main,header { padding-inline: 12px } .spread { grid-template-columns: 100px minmax(0,1fr) } }
+</style>
+<article class="folio">
+  <header>
+    <h1>Mara Voss</h1>
+    <p>Level 5 · Human Fighter</p>
+    <nav aria-label="Character tabs"><span>About</span><span>Levels</span><span aria-current="page">Stats</span><span>Powers</span></nav>
+  </header>
+  <main id="stats" aria-label="Stats"></main>
+</article>
+<div class="switcher" aria-label="Prototype layout controls">
+  <button id="previous" aria-label="Previous layout">←</button>
+  <output id="layout"></output>
+  <button id="next" aria-label="Next layout">→</button>
+</div>
+<script>
+const maxHp = 55;
+const abilities = [['Strength','STR',19],['Constitution','CON',14],['Dexterity','DEX',12],
+  ['Intelligence','INT',10],['Wisdom','WIS',13],['Charisma','CHA',8]];
+const skills = [['Athletics','+11'],['Endurance','+9'],['Intimidate','+6'],['Streetwise','+6']];
+const equipment = [
+  ['Armor',['Cloth','Leather','Hide','Chainmail','Scale','Light Shield','Heavy Shield']],
+  ['Weapons',['Simple Melee','Military Melee','Simple Ranged','Military Ranged']],
+  ['Implements',[]]
+];
+const score = value => '<dd class="number">' + value + '</dd>';
+const display = values => values.length ? values : ['None'];
+const chips = values => '<div class="chips">' + display(values).map(value => '<span>' + value + '</span>').join('') + '</div>';
+const row = (label, value, style = '') => '<tr><th scope="row">' + label + '</th><td class="' + style + '">' + value + '</td></tr>';
+
+function overview() {
+  return '<h2>Vitals</h2><div class="hero"><span>Max HP</span><strong class="number">' + maxHp +
+    '</strong></div><h2>Abilities</h2><dl class="tiles">' + abilities.map(([name, short, value]) =>
+    '<div><dt aria-label="' + name + '">' + short + '</dt>' + score(value) + '</div>').join('') +
+    '</dl><h2>Proficiencies</h2>' + [['Skills',skills.map(skill => skill.join(' '))],...equipment].map(([label,values]) =>
+    '<div class="group"><strong>' + label + '</strong>' + chips(values) + '</div>').join('');
+}
+function ledger() {
+  return '<h2>Vitals</h2><table class="ledger">' + row('Max HP',maxHp,'total') + '</table>' +
+    '<h2>Abilities</h2><table class="ledger">' + abilities.map(([name,,value]) => row(name,value)).join('') +
+    '</table><h2>Trained skills</h2><table class="ledger">' + skills.map(([name,value]) => row(name,value)).join('') +
+    '</table><h2>Equipment</h2>' + equipment.map(([label,values]) =>
+    '<p class="group"><strong>' + label + '</strong><br>' + display(values).join(' · ') + '</p>').join('');
+}
+function reference() {
+  return '<div class="spread"><aside><h2>Vitals</h2><dl><div><dt>Max HP</dt>' + score(maxHp) +
+    '</div></dl><h2>Abilities</h2><dl>' + abilities.map(([name,,value]) => '<div><dt>' + name + '</dt>' + score(value) + '</div>').join('') +
+    '</dl></aside><section><h2>Trained skills</h2><table class="ledger">' + skills.map(([name,value]) => row(name,value)).join('') +
+    '</table><h2>Equipment</h2>' + equipment.map(([label,values]) =>
+    '<h3>' + label + '</h3><ul>' + display(values).map(value => '<li>' + value + '</li>').join('') + '</ul>').join('') + '</section></div>';
+}
+const variants = [['A','Combat overview',overview],['B','Character ledger',ledger],['C','Split reference',reference]];
+const url = new URL(location.href);
+let current = Math.max(0, variants.findIndex(([key]) => key === url.searchParams.get('variant')));
+function render() {
+  const [key, name, view] = variants[current];
+  document.querySelector('#stats').innerHTML = view();
+  document.querySelector('#layout').textContent = key + ' · ' + name;
+}
+function cycle(direction) {
+  current = (current + direction + variants.length) % variants.length;
+  url.searchParams.set('variant', variants[current][0]);
+  try { history.replaceState(null, '', url); } catch {}
+  render();
+}
+document.querySelector('#previous').onclick = () => cycle(-1);
+document.querySelector('#next').onclick = () => cycle(1);
+document.addEventListener('keydown', event => {
+  if (event.target.closest('input, textarea, select, [contenteditable]')) return;
+  if (event.key === 'ArrowLeft') cycle(-1);
+  if (event.key === 'ArrowRight') cycle(1);
+});
+render();
+</script>
+</html>
