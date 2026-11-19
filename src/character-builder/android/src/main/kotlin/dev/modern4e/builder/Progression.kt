@@ -4,7 +4,16 @@ package dev.modern4e.builder
 data class ProgressionLevel(val level: Int, val powers: List<String>, val feat: Boolean,
     val ability: String? = null, val replacement: String? = null, val automatic: List<String> = emptyList())
 
+internal data class ProgressionGrant(val occurrence: EngineEntry, val level: Int, val sourceCategory: EntryCategory) {
+    val entry get() = occurrence.definition.entry
+    val isPower get() = entry.category == EntryCategory.POWER
+    val label get() = sourceCategory.name.split('_').joinToString(" ") { it.readable() } +
+        if (isPower) " Power" else " Feature"
+}
+
 object Progression {
+    private val grantSources = setOf(EntryCategory.ANCESTRY, EntryCategory.CLASS, EntryCategory.THEME, EntryCategory.PARAGON_PATH, EntryCategory.EPIC_DESTINY)
+
     fun level(n: Int): ProgressionLevel {
         require(n in 1..30)
         val powers = when (n) {
@@ -55,6 +64,80 @@ object Progression {
         }
     }
 
+    /** Direct ancestry language choices displayed at creation. */
+    internal fun ancestryLanguageChoices(state: BuilderState): List<EngineChoice> {
+        val ancestryInstances = state.rules.entries.filter { it.definition.entry.category == EntryCategory.ANCESTRY }
+            .mapTo(mutableSetOf()) { it.instanceId }
+        return levelChoices(state, 1).filter { it.valueKind == FactKind.LANGUAGE && it.slot.sourceInstanceId in ancestryInstances }
+    }
+
+    /** Starting ancestry power choices shown at creation, including choices owned by granted traits. */
+    internal fun ancestryPowerChoices(state: BuilderState, powerEntryIds: Set<String>): List<EngineChoice> {
+        val entries = state.rules.entries.associateBy { it.instanceId }
+        fun belongsToAncestry(instanceId: String): Boolean {
+            val visited = mutableSetOf<String>()
+            var owner = entries[instanceId]
+            while (owner != null && visited.add(owner.instanceId)) {
+                if (owner.definition.entry.category == EntryCategory.ANCESTRY) {
+                    return true
+                }
+                if (!owner.granted) {
+                    return false
+                }
+                owner = entries[owner.slot.sourceInstanceId]
+            }
+            return false
+        }
+        return levelChoices(state, 1).filter { choice ->
+            val definition = entries[choice.slot.sourceInstanceId]?.definition?.entry?.mechanics?.choices
+                ?.filterIsInstance<ChoiceDefinition.Entries>()?.firstOrNull { it.id == choice.slot.choiceId }
+            val level = choice.acquisitionLevel ?: definition?.atLevel ?: 1
+            level == 1 && choice.isPowerChoice(powerEntryIds) && belongsToAncestry(choice.slot.sourceInstanceId)
+        }
+    }
+
+    /** Returns the authored introduction for an active choice owned by an introductory feature. */
+    internal fun choiceIntroduction(state: BuilderState, slot: ChoiceSlotId): String? {
+        if (state.rules.choices.none { it.slot == slot }) {
+            return null
+        }
+        return state.rules.entries.firstOrNull { it.instanceId == slot.sourceInstanceId }?.definition?.entry
+            ?.presentation?.takeIf { it.grantDisplay == GrantDisplay.CHOICE_INTRODUCTION }
+            ?.description?.takeIf { it.isNotBlank() }
+    }
+
+    /** Finds granted features and powers whose entire source chain is automatic beneath a selected advancement entry. */
+    internal fun automaticGrants(state: BuilderState): List<ProgressionGrant> {
+        val entries = state.rules.entries.associateBy { it.instanceId }
+        val editableSlots = state.rules.choices.mapTo(mutableSetOf()) { it.slot }
+        return state.rules.entries.mapNotNull { occurrence ->
+            val entry = occurrence.definition.entry
+            if ((entry.category != EntryCategory.FEATURE && entry.category != EntryCategory.POWER) ||
+                entry.presentation.grantDisplay != GrantDisplay.STANDALONE
+            ) {
+                return@mapNotNull null
+            }
+            var current = occurrence
+            val visited = mutableSetOf<String>()
+            while (current.granted && current.slot !in editableSlots && visited.add(current.instanceId)) {
+                val source = entries[current.slot.sourceInstanceId] ?: break
+                val sourceCategory = source.definition.entry.category
+                if (sourceCategory in grantSources) {
+                    val acquired = acquiredAt(state, occurrence)
+                    val startingGrant = when (sourceCategory) {
+                        EntryCategory.ANCESTRY, EntryCategory.CLASS -> true
+                        EntryCategory.THEME -> entry.category == EntryCategory.POWER
+                        else -> false
+                    }
+                    val displayLevel = if (startingGrant && acquired == 1) 0 else acquired
+                    return@mapNotNull ProgressionGrant(occurrence, displayLevel, sourceCategory)
+                }
+                current = source
+            }
+            null
+        }
+    }
+
     /** Separates Level 1 power slots from the regular rows while preserving engine order. */
     fun partitionLevelChoices(
         level: Int,
@@ -62,8 +145,11 @@ object Progression {
         powerEntryIds: Set<String>,
     ): Pair<List<EngineChoice>, List<EngineChoice>> =
         choices.filter { it.abilities.isEmpty() }.partition { choice ->
-            level == 1 && choice.entries.isNotEmpty() && choice.entries.all { it.entryId in powerEntryIds }
+            level == 1 && choice.isPowerChoice(powerEntryIds)
         }
+
+    private fun EngineChoice.isPowerChoice(powerEntryIds: Set<String>): Boolean =
+        entries.isNotEmpty() && entries.all { it.entryId in powerEntryIds }
 
     private val PowerPoolLabels = Regex("class-attack-(at-will|encounter|daily)(?:-\\d+)?")
     private val UtilityPoolLabel = Regex("class-utility(?:-\\d+)?")
@@ -108,7 +194,7 @@ object Progression {
     /** Label a value choice by its grant source and what the player selects. */
     fun valueChoiceLabel(kind: FactKind, ordinal: Int, sourceTitle: String, sourceCategory: EntryCategory?): String {
         if (kind == FactKind.LANGUAGE && sourceCategory == EntryCategory.ANCESTRY) {
-            return "Ancestry Bonus Language"
+            return "Ancestry Language"
         }
         val label = when (kind) {
             FactKind.LANGUAGE -> "language ${ordinal + 1}"
@@ -214,7 +300,7 @@ object Progression {
         val skills = doc.levels.flatMap { it.proficiencies }.map { it.slot }.toSet()
         val values = doc.levels.flatMap { it.values }.map { it.slot }.toSet()
         val slots = state.rules.choices.filter { it.abilities.isEmpty() && !it.optional }.map { it.slot }.toMutableSet()
-        listOf("class", "ancestry", "feat").forEach { slots += ChoiceSlotId("creation", it, 0) }
+        ModernCreation.requiredEntryKinds.forEach { slots += ChoiceSlotId("creation", it, 0) }
         if (doc.level >= 2) { slots += ChoiceSlotId("advancement.2", "feat", 0) }
         (3..doc.level).forEach { level ->
             val schedule = level(level)

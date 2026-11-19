@@ -32,6 +32,28 @@ class AdvancementDetailTest {
         }
     }
 
+    @Test fun ancestryPreviewShowsAttributesNestedPowersAndSeparatePowerChoices() {
+        val entries = File("../content/production-generated/modern4e.ancestries").listFiles().orEmpty()
+            .filter { it.name.startsWith("entries-") }
+            .flatMap { ContractCodec.json.decodeFromString<EntryChunk>(it.readText(Charsets.UTF_8)).entries }
+        val definitions = entries.associateBy { it.id }
+        val human = advancementDetail(definitions.getValue("modern4e.ancestry.human"), definitions)
+        assertEquals(mapOf("Size" to "Medium", "Speed" to "6 squares", "Vision" to "Normal",
+            "Languages" to "Common, choose 1"), human.attributes.toMap())
+        val humanLevel = human.levels.single()
+        assertEquals(0, humanLevel.level)
+        assertEquals(3, humanLevel.features.size)
+        assertEquals("modern4e.power.heroic-effort", humanLevel.powers.single().id)
+        assertTrue(humanLevel.powerChoices.isEmpty())
+
+        val dragonborn = advancementDetail(definitions.getValue("modern4e.ancestry.dragonborn"), definitions)
+        val dragonbornLevel = dragonborn.levels.single()
+        assertTrue(dragonbornLevel.powers.isEmpty())
+        val options = dragonbornLevel.powerChoices.single()
+        assertEquals(1, options.count)
+        assertEquals(listOf("modern4e.power.dragon-breath", "modern4e.power.dragonfear"), options.powers.map { it.id })
+    }
+
     @Test fun laterAdvancementUsesGrantLevelsAndFallsBackToItsDescription() {
         val power = entry("power", EntryCategory.POWER)
         val feature = entry("feature", EntryCategory.FEATURE)

@@ -487,10 +487,10 @@ bundled Zeitgeist theme descriptions, and the current-power list helper are cove
 `gradlew.bat :android:testDebugUnitTest` from `src/character-builder` on Windows
 (`bash ./gradlew :android:testDebugUnitTest` on Unix).
 
-Android Character Builder level raising and portraits (from `src/character-builder`, run
+Android Character Builder level changes and portraits (from `src/character-builder`, run
 `bash ./gradlew :shared:jvmTest :shared:jsNodeTest :android:testDebugUnitTest`):
-`BuilderOperationsTest` and `BuilderSessionTest` cover forward-only level raises up to 30,
-padded level records and the confirm/cancel dialog state; `PortraitStoreTest`,
+`BuilderOperationsTest` and `BuilderSessionTest` cover levels 1–30,
+padded level records, pruning choices above the target level and the confirm/cancel dialog state; `PortraitStoreTest`,
 `PortraitSessionTest` and `BitmapPortraitEncoderTest` cover portrait file handling
 (save/replace/delete, hostile ids, oversize and unusable images), that choosing, exporting
 and importing never change or carry portrait data, deletion cleanup and downscaling.
@@ -908,6 +908,10 @@ protection, chunk indexing and freshness. Android `BuilderSessionTest` verifies
 Save publishes calculated state only after storage succeeds without more content reads.
 Manual device checklist: open a feat/power choice, save it, reopen and check choices
 and totals; cancel a changed draft and verify the saved character is unchanged.
+
+### Android Levels grants and equipment
+
+From `src/character-builder`, run `bash ./gradlew :android:testDebugUnitTest :shared:jvmTest`. The Android tests cover automatic grant placement and presentation roles, required Theme, ancestry previews and language placement, derived About languages, Equipment navigation and category sections, saved equipment and proficiency, and defense recalculation on equip, replace, clear and reopen. The shared JVM suite covers rules, portable document behavior, and the compiled Fighter and Skyseer presentation roles. To verify the authoring validation and build propagation, run `python3 -m unittest discover -s src/character-builder/content -p 'test_*.py'` from the repository root.
 
 ### Progressive feat listing
 

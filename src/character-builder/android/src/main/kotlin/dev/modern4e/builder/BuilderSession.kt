@@ -64,6 +64,14 @@ class BuilderSession(
     )
     @Volatile private var homePickers: HomePickers? = null
     private val homePickerWork = Mutex()
+    private data class EquipmentCatalog(
+        val packages: List<PackageRevision>,
+        val catalog: ContentCatalog,
+        val entries: List<ResolvedEntry>,
+        val diagnostics: List<Diagnostic>,
+    )
+    private val equipmentWork = Mutex()
+    private var equipmentCatalog: EquipmentCatalog? = null
     private val heavyWork = Mutex()
     private val background = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     private var warming: Job? = null
@@ -215,11 +223,134 @@ class BuilderSession(
                         }
                     }
                 }
+                loadEquipmentCatalog(base, base)
             }
         } catch (error: CancellationException) {
             throw error
         } catch (_: Exception) {
             // Foreground pickers retry and surface load failures when requested.
+        }
+    }
+
+    /** Prepare equipment definitions for the current package set, including the bundled package for older saves. */
+    private suspend fun loadEquipmentCatalog(document: CharacterDocument, base: CharacterDocument): ContractResult<EquipmentCatalog> {
+        val bundled = base.packages.firstOrNull { it.packageId == "modern4e.equipment" }
+        val packages = if (bundled != null && document.packages.none { it.packageId == bundled.packageId }) {
+            document.packages + bundled
+        } else {
+            document.packages
+        }
+        return equipmentWork.withLock {
+            equipmentCatalog?.takeIf { it.packages == packages }?.let { return@withLock ContractResult.Available(it) }
+            val active = catalog?.takeIf { current?.document?.packages == packages }
+            val opened = active?.let { ContractResult.Available(it) } ?: ContentCatalog.open(source, "modern4e.classes", packages)
+            when (opened) {
+                is ContractResult.Unavailable -> opened
+                is ContractResult.Available -> {
+                    val diagnostics = mutableListOf<Diagnostic>()
+                    val entries = opened.value.search(category = EntryCategory.ITEM).mapNotNull { row ->
+                        when (val loaded = opened.value.lookup(row.metadata.id)) {
+                            is ContractResult.Unavailable -> {
+                                diagnostics += loaded.diagnostics
+                                null
+                            }
+                            is ContractResult.Available -> loaded.value?.takeIf { it.entry.equipmentProfile != null }
+                        }
+                    }
+                    if (entries.isEmpty() && diagnostics.isEmpty()) {
+                        diagnostics += Diagnostic("android.equipment.catalog", DiagnosticKind.UNRESOLVED_CONTENT,
+                            "No equipment definitions are available.")
+                    }
+                    val prepared = EquipmentCatalog(packages, opened.value, entries, diagnostics)
+                    if (diagnostics.isEmpty()) {
+                        equipmentCatalog = prepared
+                    }
+                    ContractResult.Available(prepared)
+                }
+            }
+        }
+    }
+
+    /** Read eligible equipment and the preserved selection for a single slot. */
+    internal suspend fun equipmentOptions(slot: EquipmentSlot): EquipmentOptions {
+        val state = current ?: return EquipmentOptions()
+        return withContext(Dispatchers.IO) {
+            val selected = state.document.equipment.firstOrNull { it.instanceId == slot.instanceId }
+            try {
+                when (val loaded = loadEquipmentCatalog(state.document, sample())) {
+                    is ContractResult.Available -> equipmentOptions(state, slot, loaded.value)
+                    is ContractResult.Unavailable -> EquipmentOptions(selected = selected, diagnostics = loaded.diagnostics)
+                }
+            } catch (error: CancellationException) {
+                throw error
+            } catch (error: Exception) {
+                EquipmentOptions(selected = selected, diagnostics = listOf(Diagnostic("android.equipment.load",
+                    DiagnosticKind.IO_FAILURE, error.message ?: "Cannot load equipment definitions.")))
+            }
+        }
+    }
+
+    private suspend fun equipmentOptions(state: BuilderState, slot: EquipmentSlot, prepared: EquipmentCatalog): EquipmentOptions {
+        val equipment = state.document.equipment
+        val definitions = equipment.map { it.selection }.distinct().mapNotNull { selection ->
+            val resolved = prepared.catalog.resolve(selection) as? ContractResult.Available
+            resolved?.value?.let { selection to it }
+        }.toMap()
+        val selected = equipmentSlots(equipment, definitions)[slot]
+        val (eligible, ineligible) = prepared.entries
+            .filter { it.entry.equipmentProfile?.equipmentString("kind") == slot.kind }
+            .partition { it.entry.meetsEquipmentProficiencyRequirement(state.rules.equipmentProficiencies.keys) }
+        return EquipmentOptions(selected, selected?.let { definitions[it.selection] }, eligible, ineligible, prepared.diagnostics)
+    }
+
+    /** Save or remove one position through the same durable commit path as other choices. */
+    internal suspend fun selectEquipment(slot: EquipmentSlot, entry: ResolvedEntry?) {
+        val state = current ?: return
+        if (entry == null) {
+            val selected = equipmentOptions(slot).selected ?: return
+            if (current === state) {
+                edit(BuilderEdit.RemoveEquipment(selected.instanceId))
+            }
+            return
+        }
+        val result: ContractResult<Pair<BuilderState, ContentCatalog?>> = withContext(Dispatchers.IO) {
+            val prepared = when (val loaded = loadEquipmentCatalog(state.document, sample())) {
+                is ContractResult.Unavailable -> return@withContext loaded
+                is ContractResult.Available -> loaded.value
+            }
+            val options = equipmentOptions(state, slot, prepared)
+            val eligible = options.eligible.firstOrNull {
+                it.entry.id == entry.entry.id && it.supplier == entry.supplier && it.fingerprint == entry.fingerprint
+            } ?: return@withContext ContractResult.Unavailable(listOf(
+                Diagnostic("android.equipment.proficiency", DiagnosticKind.INVALID_SELECTION,
+                    "This item is no longer available for this position or requires proficiency.")))
+            val instanceId = if (state.document.levels.any { level -> level.entries.any { it.instanceId == slot.instanceId } }) {
+                options.selected?.instanceId ?: UUID.randomUUID().toString()
+            } else {
+                slot.instanceId
+            }
+            // Remove the imported occurrence when assigning its position a stable Android identity.
+            val edits = buildList {
+                options.selected?.takeIf { it.instanceId != instanceId }?.let { add(BuilderEdit.RemoveEquipment(it.instanceId)) }
+                val selection = SavedSelection(eligible.entry.id, eligible.entry.presentation.title, eligible.supplier.packageId,
+                    eligible.fingerprint)
+                add(BuilderEdit.Equipment(EquipmentSelection(instanceId, selection, equipped = true)))
+            }
+            val document = state.document.copy(packages = prepared.packages)
+            val updatedCatalog = prepared.catalog.takeIf { document.packages != state.document.packages }
+            val applied = BuilderOperations(prepared.catalog).apply(document, BuilderEdit.Batch(edits))
+            if (applied.applied) ContractResult.Available(applied.state to updatedCatalog)
+            else ContractResult.Unavailable(applied.diagnostics)
+        }
+        when (result) {
+            is ContractResult.Unavailable -> errors = result.diagnostics
+            is ContractResult.Available -> {
+                val (evaluated, updatedCatalog) = result.value
+                if (current !== state) {
+                    return
+                }
+                commitPending(evaluated, updatedCatalog = updatedCatalog)
+            }
         }
     }
 
@@ -336,7 +467,7 @@ class BuilderSession(
         // Missing definitions remain visible as validation data rather than fabricated totals.
         catalog = (result as? ContractResult.Available)?.value
         operations = catalog?.let { BuilderOperations(it) }
-        current = evaluate(document, (result as? ContractResult.Unavailable)?.diagnostics.orEmpty())
+        current = evaluate(document, (result as? ContractResult.Unavailable)?.diagnostics.orEmpty()).withEquipmentValidation()
         committed = document
         pending = null
         page = initialPage
@@ -375,13 +506,18 @@ class BuilderSession(
     }
 
     /** Persist the calculated state; savedAt is storage metadata and cannot change its rules. */
-    private suspend fun commitPending(evaluated: BuilderState) {
+    private suspend fun commitPending(evaluated: BuilderState, updatedCatalog: ContentCatalog? = null) {
         val document = evaluated.document.copy(savedAt = Instant.now().toString())
         pending = document
         if (persist(document, committed)) {
+            if (updatedCatalog != null) {
+                catalog = updatedCatalog
+                operations = BuilderOperations(updatedCatalog)
+                clearOptionListings()
+            }
             warming?.cancel()
             warming = null
-            val updated = evaluated.copy(document = document)
+            val updated = evaluated.copy(document = document).withEquipmentValidation()
             synchronized(optionListings) {
                 val previous = current
                 optionListings.entries.removeAll { (key, retained) ->
@@ -521,7 +657,7 @@ class BuilderSession(
                 }
             var rows = metadata.map { BuilderOptionRow(it) }
             onUpdate(rows)
-            for (batch in metadata.chunked(12)) {
+            for (batch in metadata.chunked(OPTION_BATCH_SIZE)) {
                 currentCoroutineContext().ensureActive()
                 if (current?.document != original || catalog !== originalCatalog) {
                     return
@@ -599,7 +735,7 @@ class BuilderSession(
         }
         onUpdate(rows)
         // The lock is released between batches, so edits and previews queue ahead of the next batch.
-        for (batch in rows.filterNot { it.checked }.chunked(12)) {
+        for (batch in rows.filterNot { it.checked }.chunked(OPTION_BATCH_SIZE)) {
             currentCoroutineContext().ensureActive()
             if (current?.document != original || catalog !== originalCatalog) {
                 return emptyList()
@@ -809,19 +945,20 @@ class BuilderSession(
         return BuilderEdit.Batch(listOf(BuilderEdit.Identity(identity), BuilderEdit.RemoveProficiency(old)))
     }
 
+    /** Opens an editor for an editable identity field. */
     fun beginEdit(field: String) {
-        dialog = field
+        val identity = current?.document?.identity ?: return
         draft = when (field) {
-            "Name" -> current!!.document.identity.name
-            "Player" -> current!!.document.identity.player
-            "Notes" -> current!!.document.identity.notes
-            "Gender" -> current!!.document.identity.gender
-            "Age" -> current!!.document.identity.age
-            "Deity" -> current!!.document.identity.deity
-            "Languages" -> current!!.document.identity.languages
-            "Size" -> current!!.document.identity.size
-            else -> ""
+            "Name" -> identity.name
+            "Player" -> identity.player
+            "Notes" -> identity.notes
+            "Gender" -> identity.gender
+            "Age" -> identity.age
+            "Deity" -> identity.deity
+            "Size" -> identity.size
+            else -> return
         }
+        dialog = field
     }
 
     /** Build the same identity edit for every native field without dropping other details. */
@@ -834,7 +971,6 @@ class BuilderSession(
             "Gender" -> identity.copy(gender = draft)
             "Age" -> identity.copy(age = draft)
             "Deity" -> identity.copy(deity = draft)
-            "Languages" -> identity.copy(languages = draft)
             "Size" -> identity.copy(size = draft)
             else -> return
         }
@@ -847,33 +983,38 @@ class BuilderSession(
         draft = ""
     }
 
-    /** Open the level dialog on the next level; at the cap it opens on the current level and cannot confirm. */
+    /** Open the level dialog on the next level, or on the current level at the cap. */
     fun beginLevelChange() {
         val level = current?.document?.level ?: return
         levelTarget = minOf(level + 1, MAX_LEVEL)
     }
 
-    /** Move the pending level, never below the current level or above the cap. */
+    /** Move the pending level within the supported range. */
     fun adjustLevelTarget(target: Int) {
-        val level = current?.document?.level ?: return
-        levelTarget = target.coerceIn(level, MAX_LEVEL)
+        if (levelTarget != null) {
+            levelTarget = target.coerceIn(1, MAX_LEVEL)
+        }
     }
 
     fun cancelLevelChange() {
         levelTarget = null
     }
 
-    /** Close the dialog and raise the level through the normal edit pipeline; choosing the current level changes nothing. */
+    /** Apply a confirmed level change through the normal edit and recovery pipeline. */
     suspend fun confirmLevelChange() {
         val target = levelTarget ?: return
         levelTarget = null
-        if (target > current!!.document.level) {
+        val currentLevel = current?.document?.level ?: return
+        if (target != currentLevel) {
             edit(BuilderEdit.Level(target))
         }
     }
 
     companion object {
-        /** Highest level a character can be raised to. */
+        /** Highest supported character level. */
         const val MAX_LEVEL = 30
+
+        /** Options checked per batch while a picker fills; the lock is released and cancellation observed between batches. */
+        internal const val OPTION_BATCH_SIZE = 32
     }
 }

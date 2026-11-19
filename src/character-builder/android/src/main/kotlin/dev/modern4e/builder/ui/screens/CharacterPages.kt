@@ -38,6 +38,7 @@ internal fun CharacterPages(state: BuilderState, model: BuilderSession) {
             "character" -> Overview(state, model)
             "stats" -> Stats(state)
             "progression" -> ProgressionScreen(state, model)
+            "equipment" -> EquipmentScreen(state, model)
             "validation" -> Column(Modifier.fillMaxSize().folioScroll(rememberScrollState()).padding(24.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 Heading("Validation")

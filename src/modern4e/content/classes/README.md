@@ -92,6 +92,16 @@ compiler marks known static acquisition/statistics as partial and preserves
 explicit combat limitations. Combat Superiority preserves the original
 Wisdom/Dexterity wording and explicitly records its unresolved interpretation.
 
+### Feature cards in Character Builder
+
+Feature entries may declare `grantDisplay` as `STANDALONE` (the default),
+`CHOICE_INTRODUCTION`, or `GRANT_SUMMARY`. A standalone feature gets its own
+expandable card even when it contains a choice. Use `CHOICE_INTRODUCTION` for a
+feature whose text introduces its owned choice and belongs in that picker.
+Use `GRANT_SUMMARY` only when the text repeats benefits that already have their
+own cards. These roles control presentation in Levels. The authored grants,
+choices, and printed rulebook text still apply.
+
 ## Class data
 
 - `flavor`: full `quote`, `introduction` paragraph array and `gameplay` explanation.

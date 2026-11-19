@@ -65,6 +65,8 @@ private fun skillProficiency(skill: Skill, source: ChoiceSlotId?): List<Modifier
 
 /** Shared baseline choice identities match the portable v1 fixtures. */
 object ModernCreation {
+    val requiredEntryKinds = listOf("class", "ancestry", "theme", "feat")
+
     val environments = linkedMapOf(
         "nomadic" to listOf(Skill.DIPLOMACY, Skill.ACROBATICS, Skill.MEDICINE, Skill.NATURE),
         "rural" to listOf(Skill.CRAFTING, Skill.RELIGION, Skill.DIPLOMACY, Skill.PERCEPTION),

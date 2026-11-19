@@ -30,8 +30,6 @@ internal fun Overview(state: BuilderState, model: BuilderSession) {
     val canEdit = !model.busy
     val largeText = LocalConfiguration.current.fontScale > 1.2f
     val details = listOf("Gender" to identity.gender, "Age" to identity.age, "Deity" to identity.deity)
-    val languages = state.rules.languageNames().plus(identity.languages.trim()).filter { it.isNotEmpty() }
-        .joinToString(", ").ifBlank { "—" }
     Column(
         Modifier.fillMaxSize().folioScroll(rememberScrollState()).padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(6.dp),
@@ -89,8 +87,8 @@ internal fun Overview(state: BuilderState, model: BuilderSession) {
                 }
             }
         }
-        Field("Languages", languages, Modifier.heightIn(min = 48.dp), enabled = canEdit, compact = true) {
-            model.beginEdit("Languages")
+        Surface(Modifier.fillMaxWidth().heightIn(min = 48.dp), color = Paper, border = BorderStroke(1.dp, Line)) {
+            FolioFieldContent("Languages", state.languageDisplay(), compact = true)
         }
         CompactHeading("Notes")
         Surface(
@@ -124,11 +122,15 @@ internal fun EngineResult.speedDisplay(): String =
  * @return display titles without duplicates; power- or entry-scoped facts are excluded.
  */
 internal fun EngineResult.languageNames(): List<String> {
-    val titles = choices.flatMap { it.values }.associate { it.id to it.title }
+    val titles = choices.filter { it.valueKind == FactKind.LANGUAGE }.flatMap { it.values }.associate { it.id to it.title }
     return facts.filter { it.kind == FactKind.LANGUAGE && it.targetId == null }.map { it.value }.distinct().map { id ->
         titles[id] ?: id.split('_').joinToString(" ") { it.readable() }
     }
 }
+
+/** Display current rules facts independently of any legacy free-text languages. */
+internal fun BuilderState.languageDisplay(): String =
+    rules.languageNames().joinToString(", ").ifBlank { "—" }
 
 internal fun ContractResult<CalculatedValue>.display(signed: Boolean = false): String = when (this) {
     is ContractResult.Available -> if (signed) value.total.signed() else value.total.toString()

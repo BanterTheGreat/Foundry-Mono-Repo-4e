@@ -64,7 +64,9 @@ def describe(entry, definitions, rules):
         bonus = profile["proficiencyBonus"]
         damage = profile["damage"]
         lines += [
-            f"Weapon. {label(profile['proficiencyCategory'])} proficiency, {profile['attackCategory'].lower()} attack.",
+            (f"Improvised weapon, {profile['attackCategory'].lower()} attack. Anyone can use it."
+             if profile["proficiencyCategory"] == "IMPROVISED"
+             else f"Weapon. {label(profile['proficiencyCategory'])} proficiency, {profile['attackCategory'].lower()} attack."),
             "Hands required: " + ("not specified." if hands is None else f"{hands}."),
             "Groups: " + ", ".join(label(group) for group in profile["groups"]) + ".",
             "Proficiency bonus: " + ("not specified." if bonus is None else f"{signed(bonus)}."),

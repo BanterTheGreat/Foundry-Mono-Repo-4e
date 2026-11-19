@@ -61,18 +61,37 @@ internal fun Field(
         color = if (invalid) errorColor.copy(alpha = 0.10f).compositeOver(Paper) else Paper,
         border = BorderStroke(1.dp, fieldAccent ?: Line),
     ) {
-        Column(Modifier.padding(horizontal = 12.dp, vertical = if (compact) 6.dp else 12.dp)) {
-            Text(label.uppercase(), color = fieldAccent ?: Dim, fontSize = if (compact) 9.sp else 10.sp,
+        FolioFieldContent(label, value, compact, labelColor = fieldAccent ?: Dim,
+            valueColor = if (invalid) errorColor else LocalContentColor.current,
+            hintColor = if (invalid) errorColor else Dim, valueIsHint = valueIsHint)
+    }
+}
+
+/** Shares the label and value layout between editable fields and collapsible grants. */
+@Composable
+internal fun FolioFieldContent(
+    label: String,
+    value: String,
+    compact: Boolean,
+    labelColor: Color = Dim,
+    valueColor: Color = LocalContentColor.current,
+    hintColor: Color = Dim,
+    valueIsHint: Boolean = false,
+    trailing: @Composable (() -> Unit)? = null,
+) {
+    Column(Modifier.padding(horizontal = 12.dp, vertical = if (compact) 6.dp else 12.dp)) {
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Text(label.uppercase(), Modifier.weight(1f), color = labelColor, fontSize = if (compact) 9.sp else 10.sp,
                 lineHeight = if (compact) 12.sp else TextUnit.Unspecified, letterSpacing = 1.sp)
-            if (valueIsHint) {
-                Box(Modifier.heightIn(min = 20.dp), contentAlignment = Alignment.CenterStart) {
-                    Text(value, color = if (invalid) errorColor else Dim, fontSize = 11.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                }
-            } else {
-                Text(value, color = if (invalid) errorColor else LocalContentColor.current,
-                    fontFamily = FontFamily.Serif, fontSize = if (compact) 16.sp else 18.sp,
-                    lineHeight = if (compact) 20.sp else TextUnit.Unspecified)
+            trailing?.invoke()
+        }
+        if (valueIsHint) {
+            Box(Modifier.heightIn(min = 20.dp), contentAlignment = Alignment.CenterStart) {
+                Text(value, color = hintColor, fontSize = 11.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
+        } else {
+            Text(value, color = valueColor, fontFamily = FontFamily.Serif, fontSize = if (compact) 16.sp else 18.sp,
+                lineHeight = if (compact) 20.sp else TextUnit.Unspecified)
         }
     }
 }

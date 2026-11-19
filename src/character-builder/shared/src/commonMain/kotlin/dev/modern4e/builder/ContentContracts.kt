@@ -62,12 +62,17 @@ data class ContentEntry(
 @Serializable
 enum class EntryCategory { CLASS, ANCESTRY, BACKGROUND, THEME, FEAT, FEATURE, POWER, PARAGON_PATH, EPIC_DESTINY, ITEM, TECHNIQUE }
 
+/** Controls how an automatically granted feature is presented in Levels. */
+@Serializable
+enum class GrantDisplay { STANDALONE, CHOICE_INTRODUCTION, GRANT_SUMMARY }
+
 @Serializable
 data class Presentation(
     val title: String,
     val description: String = "",
     val publications: List<String> = emptyList(),
     val references: List<String> = emptyList(),
+    @EncodeDefault(EncodeDefault.Mode.NEVER) val grantDisplay: GrantDisplay = GrantDisplay.STANDALONE,
 )
 
 @Serializable

@@ -1,6 +1,7 @@
 package dev.modern4e.builder
 
 import dev.modern4e.builder.ui.screens.defenseDisplay
+import dev.modern4e.builder.ui.screens.languageDisplay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -56,7 +57,7 @@ class BuilderSessionTest {
                     assertTrue(rows.all { !it.checked && it.option == null })
                     assertEquals(0, reads)
                 } else {
-                    assertEquals(12, rows.count { it.checked })
+                    assertEquals(minOf(BuilderSession.OPTION_BATCH_SIZE, rows.size), rows.count { it.checked })
                     throw kotlinx.coroutines.CancellationException("Dismiss picker after the first batch")
                 }
             }
@@ -67,7 +68,7 @@ class BuilderSessionTest {
         var reopened: List<BuilderOptionRow>? = null
         model.progressionOptionRows(1, slot, FeatGroup.GENERAL) { rows ->
             if (reopened == null) {
-                assertEquals(12, rows.count { it.checked })
+                assertEquals(minOf(BuilderSession.OPTION_BATCH_SIZE, rows.size), rows.count { it.checked })
             }
             reopened = rows
         }
@@ -602,7 +603,7 @@ class BuilderSessionTest {
         assertTrue(reopened.progressionOptions(4, ChoiceSlotId("advancement.4", "feat", 0)).isNotEmpty())
     }
 
-    @Test fun levelDialogRaisesLevelOnConfirmOnlyAndNeverLowersOrExceedsTheCap() = runBlocking {
+    @Test fun levelDialogChangesLevelOnConfirmAndHonorsBothBounds() = runBlocking {
         val document = sample().copy(id = "level-dialog")
         store.save(document, SaveMode.CREATE)
         val model = session()
@@ -612,7 +613,7 @@ class BuilderSessionTest {
         model.beginLevelChange()
         assertEquals(before.level + 1, model.levelTarget)
         model.adjustLevelTarget(before.level - 3)
-        assertEquals(before.level, model.levelTarget)
+        assertEquals(1, model.levelTarget)
         model.adjustLevelTarget(99)
         assertEquals(BuilderSession.MAX_LEVEL, model.levelTarget)
         model.cancelLevelChange()
@@ -649,6 +650,23 @@ class BuilderSessionTest {
         assertEquals(BuilderSession.MAX_LEVEL, model.levelTarget)
         model.confirmLevelChange()
         assertEquals(BuilderSession.MAX_LEVEL, model.current!!.document.level)
+
+        val beforeLowering = model.current!!.document
+        model.beginLevelChange()
+        model.adjustLevelTarget(1)
+        model.cancelLevelChange()
+        assertEquals(BuilderSession.MAX_LEVEL, model.current!!.document.level)
+        model.beginLevelChange()
+        model.adjustLevelTarget(0)
+        assertEquals(1, model.levelTarget)
+        model.confirmLevelChange()
+        assertTrue(model.errors.isEmpty())
+        reopened.load(document.id)
+        assertEquals(1, reopened.current!!.document.level)
+        assertEquals(before.levels.filter { it.level == 1 }, reopened.current!!.document.levels)
+        val history = (store.listRecovery(document.id) as ContractResult.Available).value
+        val previousHighLevel = history.single { it.character.level == BuilderSession.MAX_LEVEL }
+        assertEquals(beforeLowering, (store.loadRecovery(previousHighLevel.recoveryId) as ContractResult.Available).value)
     }
 
     @Test fun progressionBackgroundClearsSkillAndPersistsIndependentOrigin() = runBlocking {
@@ -842,8 +860,12 @@ class BuilderSessionTest {
         val model = session()
         model.create()
         val initial = model.current!!.document
-        val details = mapOf("Gender" to "Woman", "Age" to "28", "Deity" to "Erathis",
-            "Languages" to "Common, Dwarven", "Size" to "Medium")
+        val derivedLanguages = model.current!!.languageDisplay()
+        assertTrue(derivedLanguages.contains("Dwarven"))
+        model.edit(BuilderEdit.Identity(initial.identity.copy(languages = "Legacy text")))
+        model.beginEdit("Languages")
+        assertNull(model.dialog)
+        val details = mapOf("Gender" to "Woman", "Age" to "28", "Deity" to "Erathis", "Size" to "Medium")
         for ((field, value) in details) {
             model.beginEdit(field)
             model.draft = "Discard this"
@@ -862,6 +884,8 @@ class BuilderSessionTest {
         }
         assertEquals(initial.abilities, reopened.current!!.document.abilities)
         assertEquals(initial.levels, reopened.current!!.document.levels)
+        assertEquals("Legacy text", reopened.current!!.document.identity.languages)
+        assertEquals(derivedLanguages, reopened.current!!.languageDisplay())
         reopened.beginEdit("Deity")
         reopened.draft = ""
         reopened.saveIdentityDraft()

@@ -137,8 +137,12 @@ def compile_entry(entry):
                 parts.append("Target: " + activation["bindings"][activation["targets"]]["text"])
             parts += lines(activation["blocks"])
         description = "\n\n".join(parts)
+    presentation = {"title": entry["title"], "description": description}
+    grant_display = entry.get("grantDisplay", "STANDALONE")
+    if grant_display != "STANDALONE":
+        presentation["grantDisplay"] = grant_display
     return {"id": entry["id"], "category": entry["category"],
-            "presentation": {"title": entry["title"], "description": description},
+            "presentation": presentation,
             "mechanics": mechanics, "coverage": coverage, "sharedData": entry}
 
 

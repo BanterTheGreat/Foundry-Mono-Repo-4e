@@ -6,6 +6,10 @@ import kotlinx.serialization.json.intOrNull
 
 internal val defenseStatistics = setOf(Statistic.AC, Statistic.FORTITUDE, Statistic.REFLEX, Statistic.WILL)
 
+/** Armor proficiency can cover an entire category or a specific armor type. */
+fun isArmorProficient(proficiencyKey: String?, armorCategory: String?, proficiencies: Set<String>): Boolean =
+    proficiencyKey in proficiencies || (armorCategory in setOf("LIGHT", "HEAVY") && armorCategory in proficiencies)
+
 /** Static equipment contributions to defenses. Equipment proficiency never equips an item. */
 internal class DefenseEquipment(entries: List<EngineEntry>, proficiencies: Set<String>) {
     private data class Equipped(val entry: EngineEntry, val data: JsonObject) {
@@ -23,7 +27,7 @@ internal class DefenseEquipment(entries: List<EngineEntry>, proficiencies: Set<S
     private val armor = equipped.filter { it.kind == "ARMOR" }
     private val shields = equipped.filter { it.kind == "SHIELD" }
     private val wornArmor = armor.singleOrNull()
-    private val proficientArmor = wornArmor?.proficiency in proficiencies
+    private val proficientArmor = isArmorProficient(wornArmor?.proficiency, wornArmor?.category, proficiencies)
     private val shield = shields.filter { it.proficiency in proficiencies }.maxByOrNull { it.shieldBonus ?: 0 }
     private val armorUnavailable = if (
         armor.size > 1 || wornArmor?.let { it.category !in setOf("LIGHT", "HEAVY") || it.armorBonus == null || it.proficiency == null } == true

@@ -14,6 +14,10 @@ This catalog does not yet automate prestige, item modifications, companion
 actions or later feature effects. Campaign selection remains in the existing
 configuration. JSON is authoring data, not a Character Builder runtime package.
 
+Theme features use the [feature display roles](../classes/README.md#feature-cards-in-character-builder).
+Skyseer's starting summary is marked `GRANT_SUMMARY` because Skyseer Vision and
+Look Skyward have their own cards. The summary remains in the rulebook.
+
 Powers use the [ordered power contract](../../../../docs/modern4e-power-authoring.md),
 including scoped attack outcomes, range/bindings and ordered literal blocks.
 Skyseer Vision uses `EXTENDED`; non-augmenting theme powers may retain the

@@ -128,6 +128,26 @@ class BuilderOptionListingTest {
         assertEquals(reads, source.reads)
     }
 
+    @Test fun ancestryReaderLoadsNestedGrantsAndExplicitPowerOptions() = run {
+        val ancestry = feat("ancestry").copy(category = EntryCategory.ANCESTRY,
+            mechanics = Mechanics(grants = listOf(Grant.Entry("feature", "feature"))))
+        val feature = feat("feature").copy(category = EntryCategory.FEATURE, mechanics = Mechanics(
+            grants = listOf(Grant.Entry("fixed", "fixed-power")),
+            choices = listOf(ChoiceDefinition.Entries("alternative", 1, listOf("power-option"))),
+        ))
+        val fixed = feat("fixed-power").copy(category = EntryCategory.POWER)
+        val option = feat("power-option").copy(category = EntryCategory.POWER)
+        val source = Source(listOf(ancestry, feature, fixed, option).associateBy { it.id }.toMutableMap())
+        val listing = operations(source).optionListing(document(), 1, ChoiceSlotId("creation", "ancestry", 0))
+        listing.rows()
+        val checked = listing.check(listOf(ancestry.id)).single()
+        assertEquals(listOf(feature), checked.ancestryGrants)
+        assertEquals(listOf(feature, fixed, option).associateBy { it.id }, checked.advancementDefinitions)
+        val reads = source.reads.toList()
+        assertEquals(checked, listing.check(listOf(ancestry.id)).single())
+        assertEquals(reads, source.reads)
+    }
+
     @Test fun productionMetadataAndFirstBatchDoNotWaitForTheWholeFeatCatalog() = run {
         var reads = 0
         val source = object : ContentSource by CurrentDataFixtures {

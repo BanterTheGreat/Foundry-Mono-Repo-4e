@@ -17,7 +17,9 @@ class BuilderOperationsTest {
         Mechanics(prerequisites = listOf(Prerequisite.Proficiency(Skill.MEDICINE))), Coverage(CoverageStatus.SUPPORTED))
     private val incomplete = ContentEntry("incomplete", EntryCategory.FEAT, Presentation("Unadapted"),
         Mechanics(prerequisites = listOf(Prerequisite.Unadapted("Strength 13"))), Coverage(CoverageStatus.PARTIAL))
-    private val definitions = listOf(fighter, power, feat, trained, incomplete)
+    private val theme = ContentEntry("theme", EntryCategory.THEME, Presentation("Theme"),
+        Mechanics(grants = listOf(Grant.Entry("theme-power", power.id))), Coverage(CoverageStatus.SUPPORTED))
+    private val definitions = listOf(fighter, power, feat, trained, incomplete, theme)
     private val allocation = AbilityAllocation(main, Ability.STRENGTH, mapOf(Ability.STRENGTH to 4,
         Ability.DEXTERITY to 2, Ability.CONSTITUTION to 2, Ability.INTELLIGENCE to 1))
 
@@ -44,6 +46,19 @@ class BuilderOperationsTest {
     private suspend fun select(ops: BuilderOperations, doc: CharacterDocument, level: Int, slot: ChoiceSlotId, id: String, instance: String) =
         ops.apply(doc, BuilderEdit.Entry(level, slot, id, instance)).also { assertTrue(it.applied, it.diagnostics.toString()) }.state.document
 
+    @Test fun themeIsRequiredForCompletionAndSelectionPersistsOnReopen() = run {
+        val ops = operations()
+        val slot = ChoiceSlotId("creation", "theme", 0)
+        val draft = create(ops)
+        assertEquals("Choose a Theme.", ops.evaluate(draft).rules.diagnostics.single { it.slot == slot }.message)
+        val selected = select(ops, draft, 1, slot, theme.id, "theme")
+        val reopened = assertIs<ContractResult.Available<CharacterDocument>>(ContractCodec.decode(ContractCodec.encode(selected))).value
+        val state = operations().evaluate(reopened)
+        assertEquals(selected, state.document)
+        assertTrue(state.rules.diagnostics.none { it.slot == slot })
+        assertTrue(state.rules.entries.any { it.granted && it.definition.entry.id == power.id })
+    }
+
     @Test fun progressionAndDirectCreationPreserveRepeatedChoiceIdentities() = run {
         val ops = operations()
         suspend fun fill(start: CharacterDocument): CharacterDocument {
@@ -63,10 +78,15 @@ class BuilderOperationsTest {
         val slot = ChoiceSlotId("fighter", "powers", 0)
         val edited = select(ops, progressed, 1, slot, "power", "ignored-new-id")
         assertEquals("power-0", edited.levels.first().entries.single { it.slot == slot }.instanceId)
-        assertFalse(ops.apply(progressed, BuilderEdit.Level(1)).applied)
+        val lowered = ops.apply(progressed, BuilderEdit.Level(1))
+        assertTrue(lowered.applied)
+        assertEquals(progressed.levels.filter { it.level == 1 }, lowered.state.document.levels)
+        assertEquals(2, lowered.state.rules.entries.count { it.definition.entry.id == "power" })
+        val raisedAgain = ops.apply(lowered.state.document, BuilderEdit.Level(2))
+        assertEquals(LevelDecisions(2), raisedAgain.state.document.levels.single { it.level == 2 })
     }
 
-    @Test fun levelOnlyRisesThroughThirtyPadsEmptyDecisionsAndStaysExportable() = run {
+    @Test fun levelChangesStayWithinBoundsAndPadNewDecisions() = run {
         val ops = operations()
         val base = create(ops)
         val raised = ops.apply(base, BuilderEdit.Level(5))
@@ -82,9 +102,9 @@ class BuilderOperationsTest {
         val top = ops.apply(raised.state.document, BuilderEdit.Level(30))
         assertTrue(top.applied, top.diagnostics.toString())
         assertEquals((1..30).toList(), top.state.document.levels.map { it.level }.sorted())
-        assertFalse(ops.apply(raised.state.document, BuilderEdit.Level(4)).applied)
+        assertFalse(ops.apply(raised.state.document, BuilderEdit.Level(0)).applied)
         assertFalse(ops.apply(top.state.document, BuilderEdit.Level(31)).applied)
-        assertFalse(ops.apply(top.state.document, BuilderEdit.Level(29)).applied)
+        assertEquals(29, ops.apply(top.state.document, BuilderEdit.Level(29)).state.document.level)
         val decided = ops.apply(raised.state.document, BuilderEdit.LaterDecisions(LevelDecisions(3)))
         assertTrue(decided.applied, decided.diagnostics.toString())
     }

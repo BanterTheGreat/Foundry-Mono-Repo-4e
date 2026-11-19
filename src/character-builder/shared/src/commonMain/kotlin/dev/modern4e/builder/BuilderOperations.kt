@@ -64,11 +64,12 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
 
     private suspend fun calculate(document: CharacterDocument): BuilderState {
         val rules = RulesEngine.evaluate(document, preparation.load(document))
-        val required = listOf("class", "ancestry", "feat").map { ChoiceSlotId("creation", it, 0) } +
+        val required = ModernCreation.requiredEntryKinds.map { ChoiceSlotId("creation", it, 0) } +
             if (document.level >= 2) listOf(ChoiceSlotId("advancement.2", "feat", 0)) else emptyList()
         val selected = document.levels.flatMap { it.entries }.map { it.slot }.toSet()
-        val missing = required.filter { it !in selected }.map {
-            Diagnostic("builder.missingChoice", DiagnosticKind.INVALID_SELECTION, "Select an entry for this starting or advancement slot.", it)
+        val missing = required.filter { it !in selected }.map { slot ->
+            val message = if (slot.choiceId == "theme") "Choose a Theme." else "Select an entry for this starting or advancement slot."
+            Diagnostic("builder.missingChoice", DiagnosticKind.INVALID_SELECTION, message, slot)
         }
         return BuilderState(document, rules.copy(diagnostics = rules.diagnostics + missing))
     }
@@ -138,11 +139,16 @@ class BuilderOperations private constructor(private val catalog: ContentCatalog,
             is BuilderEdit.Identity -> next = document.copy(identity = edit.value)
             is BuilderEdit.Allocation -> next = document.copy(abilities = edit.value.copy(points = edit.value.points.toMap()))
             is BuilderEdit.Level -> {
-                if (edit.value !in document.level..30) {
-                    return reject("Levels can only increase, up to level 30.")
+                if (edit.value !in 1..30) {
+                    return reject("Choose a level from 1 to 30.")
                 }
-                next = document.copy(level = edit.value, levels = document.levels +
-                    (1..edit.value).filter { level -> document.levels.none { it.level == level } }.map { LevelDecisions(it) })
+                val levels = if (edit.value < document.level) {
+                    document.levels.filter { it.level <= edit.value }
+                } else {
+                    val existing = document.levels.mapTo(mutableSetOf()) { it.level }
+                    document.levels + (1..edit.value).filterNot(existing::contains).map(::LevelDecisions)
+                }
+                next = document.copy(level = edit.value, levels = levels)
             }
             is BuilderEdit.Entry -> {
                 if (edit.instanceId.isBlank()) {

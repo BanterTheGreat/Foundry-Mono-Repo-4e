@@ -26,10 +26,15 @@ internal fun AdvancementDetails(details: AdvancementDetail) {
     if (details.introduction.isNotBlank()) {
         AdvancementProse(details.introduction)
     }
+    details.attributes.forEach { (label, value) -> AdvancementProse("*$label* $value") }
     details.levels.forEach { level ->
         AdvancementSection("Level ${level.level}") {
             level.features.forEach { AdvancementFeature(it) }
             level.powers.forEach { PowerBlock(it, useStructuredFallback = true) }
+            level.powerChoices.forEach { choice ->
+                Text("Choose ${choice.count} ${if (choice.count == 1) "power" else "powers"}", color = Accent, fontSize = 12.sp)
+                choice.powers.forEach { PowerBlock(it, useStructuredFallback = true) }
+            }
         }
     }
     if (details.modifications.isNotEmpty()) {
@@ -62,7 +67,7 @@ private fun AdvancementFeature(entry: ContentEntry) {
 
 /** Preserve the authored paragraphs and emphasis in plain-text advancement content. */
 @Composable
-private fun AdvancementProse(text: String) {
+internal fun AdvancementProse(text: String) {
     val formatted = remember(text) { buildAnnotatedString { appendAuthoredText(text) } }
     Text(formatted, color = Ink, fontSize = 12.sp, lineHeight = 16.sp)
 }

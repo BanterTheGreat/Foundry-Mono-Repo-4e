@@ -66,14 +66,8 @@ class BuilderOptionListing internal constructor(
                         "This entry is unavailable for the requested slot.", slot, id))
                 }
                 val entry = option?.entry?.entry
-                val ancestryGrants = if (entry?.category == EntryCategory.ANCESTRY) {
-                    entry.mechanics.grants.filterIsInstance<Grant.Entry>().mapNotNull { grant ->
-                        (catalog.lookup(grant.entryId) as? ContractResult.Available)?.value?.entry
-                    }
-                } else {
-                    emptyList()
-                }
                 val advancementDefinitions = when (entry?.category) {
+                    EntryCategory.ANCESTRY -> ancestryPreviewDefinitions(entry)
                     EntryCategory.THEME, EntryCategory.PARAGON_PATH, EntryCategory.EPIC_DESTINY -> {
                         val references = entry.mechanics.grants.filterIsInstance<Grant.Entry>().map { it.entryId } +
                             entry.advancementModificationIds()
@@ -83,6 +77,11 @@ class BuilderOptionListing internal constructor(
                     }
                     else -> emptyMap()
                 }
+                val ancestryGrants = if (entry?.category == EntryCategory.ANCESTRY) {
+                    entry.mechanics.grants.filterIsInstance<Grant.Entry>().mapNotNull { advancementDefinitions[it.entryId] }
+                } else {
+                    emptyList()
+                }
                 BuilderOptionRow(metadata, option, true, diagnostics, ancestryGrants, advancementDefinitions)
                     .also { checked[id] = it }
             }
@@ -90,4 +89,27 @@ class BuilderOptionListing internal constructor(
         }
         return result
     }
+
+    /** Load ancestry grants and explicitly offered alternatives for the detail reader. */
+    private suspend fun ancestryPreviewDefinitions(ancestry: ContentEntry): Map<String, ContentEntry> {
+        val entries = linkedMapOf<String, ContentEntry>()
+        val seen = mutableSetOf(ancestry.id)
+        suspend fun visit(entry: ContentEntry) {
+            val mechanics = entry.mechanics
+            val grants = mechanics.grants + mechanics.progression.flatMap { it.grants }
+            val choices = mechanics.choices + mechanics.progression.flatMap { it.choices }
+            val references = grants.filterIsInstance<Grant.Entry>().flatMap { listOf(it.entryId) + it.replacementEntryIds } +
+                choices.filterIsInstance<ChoiceDefinition.Entries>().flatMap { it.entryIds }
+            for (id in references) {
+                if (seen.add(id)) {
+                    val resolved = (catalog.lookup(id) as? ContractResult.Available)?.value?.entry ?: continue
+                    entries[id] = resolved
+                    visit(resolved)
+                }
+            }
+        }
+        visit(ancestry)
+        return entries
+    }
+
 }

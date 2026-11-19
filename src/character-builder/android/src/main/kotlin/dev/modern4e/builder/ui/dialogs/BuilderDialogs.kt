@@ -130,14 +130,14 @@ private fun Editor(model: BuilderSession, task: (suspend BuilderSession.() -> Un
     }
 }
 
-/** Raise the character's level: forward only, from the current level up to the cap, applied on Confirm. */
+/** Change the character level and explain what lowering it does before confirmation. */
 @Composable
 private fun LevelDialog(model: BuilderSession, target: Int, task: (suspend BuilderSession.() -> Unit) -> Unit) {
     val level = model.current?.document?.level ?: return
     FolioDialog("Change level", { if (!model.busy) model.cancelLevelChange() }) {
-        Text("Current level $level. Levels can only be raised, never lowered.", color = Dim)
+        Text("Current level $level.", color = Dim)
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
-            OutlinedButton({ model.adjustLevelTarget(target - 1) }, enabled = !model.busy && target > level, shape = RoundedCornerShape(3.dp),
+            OutlinedButton({ model.adjustLevelTarget(target - 1) }, enabled = !model.busy && target > 1, shape = RoundedCornerShape(3.dp),
                 border = BorderStroke(1.dp, Accent), modifier = Modifier.size(56.dp).semantics { contentDescription = "Lower target level" },
                 contentPadding = PaddingValues(0.dp)) { Text("−", fontSize = 24.sp) }
             Text("Level $target", fontFamily = FontFamily.Serif, fontSize = 38.sp, color = Accent,
@@ -146,15 +146,15 @@ private fun LevelDialog(model: BuilderSession, target: Int, task: (suspend Build
                 border = BorderStroke(1.dp, Accent), modifier = Modifier.size(56.dp).semantics { contentDescription = "Raise target level" },
                 contentPadding = PaddingValues(0.dp)) { Text("+", fontSize = 24.sp) }
         }
-        if (level >= BuilderSession.MAX_LEVEL) {
-            Text("This character is already at the maximum level.", color = Dim)
+        if (target < level) {
+            Text("Choices above level $target will be removed. The previous save is kept in recovery.", color = Accent)
         }
         if (target > 2) {
             Text("Incomplete automation: progression above level 2 is not evaluated. Calculated totals are unavailable.", color = Accent)
         }
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
             TextButton(enabled = !model.busy, onClick = { model.cancelLevelChange() }) { Text("Cancel") }
-            TextButton(enabled = !model.busy && target > level, onClick = { task { confirmLevelChange() } },
+            TextButton(enabled = !model.busy && target != level, onClick = { task { confirmLevelChange() } },
                 modifier = Modifier.semantics { contentDescription = "Confirm level $target" }) { Text("Confirm") }
         }
     }

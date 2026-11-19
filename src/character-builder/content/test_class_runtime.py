@@ -61,8 +61,10 @@ class ClassRuntimeTest(unittest.TestCase):
         self.assertEqual(4, len(fighter["mechanics"]["grants"]))
         self.assertEqual(18, fighter["mechanics"]["classProfile"]["statistics"]["HIT_POINTS"]["base"])
         for name in ("fighter-reactivity", "fighter-specialization"):
-            choice = entries["modern4e.feature." + name]["mechanics"]["choices"][0]
-            self.assertEqual("modern4e.choice." + name, choice["id"])
+            feature = entries["modern4e.feature." + name]
+            self.assertEqual("CHOICE_INTRODUCTION", feature["presentation"]["grantDisplay"])
+            self.assertEqual("modern4e.choice." + name, feature["mechanics"]["choices"][0]["id"])
+        self.assertNotIn("grantDisplay", entries["modern4e.feature.combat-reactivity"]["presentation"])
         self.assertEqual(2, len(entries["modern4e.feature.combat-reactivity"]["mechanics"]["grants"]))
         talent = entries["modern4e.feature.one-handed-weapon-talent"]
         self.assertEqual("ONE_HANDED_WEAPON", talent["mechanics"]["conditionalModifiers"][0]["condition"])

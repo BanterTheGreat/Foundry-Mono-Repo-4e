@@ -121,6 +121,28 @@ class ProductionContentPackagesTest {
     }
 
     @Test
+    fun fighterAndSkyseerDisplayRolesPreserveEngineGrantsAndChoices() = run {
+        val (sample, _, operations) = openTemplate()
+        val skyseer = operations.apply(sample, BuilderEdit.Entry(1, ChoiceSlotId("creation", "theme", 0),
+            "modern4e.theme.skyseer", "skyseer"))
+        assertTrue(skyseer.applied)
+        val rules = skyseer.state.rules
+        val entries = rules.entries.associateBy { it.definition.entry.id }
+        for (name in listOf("reactivity", "specialization")) {
+            val feature = entries.getValue("modern4e.feature.fighter-$name")
+            assertEquals(GrantDisplay.CHOICE_INTRODUCTION, feature.definition.entry.presentation.grantDisplay)
+            assertTrue(rules.choices.any { it.slot.sourceInstanceId == feature.instanceId })
+        }
+        assertEquals(GrantDisplay.GRANT_SUMMARY,
+            entries.getValue("modern4e.feature.skyseer-level-1").definition.entry.presentation.grantDisplay)
+        for (id in listOf("skyseer-vision", "look-skyward")) {
+            val power = entries.getValue("modern4e.power.$id")
+            assertTrue(power.granted)
+            assertEquals(GrantDisplay.STANDALONE, power.definition.entry.presentation.grantDisplay)
+        }
+    }
+
+    @Test
     fun featOptionsRespectClassAccessAndRemainFastEnoughToList() = run {
         val (sample, _, operations) = openTemplate()
         val feats = operations.options(sample, 1, ChoiceSlotId("creation", "feat", 0), includeIneligible = true)

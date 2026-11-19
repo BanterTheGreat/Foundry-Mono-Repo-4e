@@ -65,6 +65,24 @@ class ThemeRuntimeTest(unittest.TestCase):
                 self.assertEqual(authored[key], self.entries[theme_id]["sharedData"][key])
         self.assertEqual([], self.entries["modern4e.feature.docker-level-1"]["mechanics"]["grants"])
 
+    def test_grant_summary_role_keeps_skyseers_individual_power_grants(self):
+        summary_id = "modern4e.feature.skyseer-level-1"
+        power_ids = {"modern4e.power.skyseer-vision", "modern4e.power.look-skyward"}
+        self.assertEqual("GRANT_SUMMARY", self.entries[summary_id]["presentation"]["grantDisplay"])
+        theme = self.entries["modern4e.theme.skyseer"]
+        level_one = {g["entryId"] for g in theme["mechanics"]["grants"] if g["atLevel"] == 1}
+        self.assertEqual({summary_id} | power_ids, level_one)
+        for power_id in power_ids:
+            self.assertNotIn("grantDisplay", self.entries[power_id]["presentation"])
+
+    def test_invalid_theme_feature_display_role_is_rejected(self):
+        data = theme_runtime.authoring.shared.shared.load_json(theme_runtime.authoring.CONTENT)
+        feature = data["features"][0]
+        for role, message in [("HIDE", "grantDisplay: unknown value"), ("CHOICE_INTRODUCTION", "must own a choice")]:
+            feature["grantDisplay"] = role
+            with self.subTest(role=role), self.assertRaisesRegex(ValueError, message):
+                theme_runtime.authoring.validate(data)
+
     def test_references_resolve_inside_the_package_and_all_content_is_granted_or_optioned(self):
         runtime_common.validate_references(self.assets)
         granted = {g["entryId"] for e in self.entries.values() for g in e["mechanics"]["grants"]}

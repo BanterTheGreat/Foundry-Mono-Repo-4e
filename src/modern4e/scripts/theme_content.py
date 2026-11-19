@@ -30,7 +30,11 @@ def validate(data):
             power_content.validate_power(value, entries)
             shared.require(value["rulesProfile"] == "MODERN4E", eid, "expected local rules")
             continue
-        shared.fields(value, BASE + (["role", "concept", "sections", "grants"] if category == "themes" else []), ["modifications"] if category == "themes" else [], eid)
+        if category == "themes":
+            shared.fields(value, BASE + ["role", "concept", "sections", "grants"], ["modifications"], eid)
+        else:
+            shared.fields(value, BASE, ["grantDisplay"], eid)
+            shared.validate_grant_display(value, eid)
         for key in ("title", "description"):
             shared.string(value[key], eid)
         for key in ("access", "prerequisites"):

@@ -46,6 +46,17 @@ def values(value, allowed, where, nonempty=False):
     require(len(value) == len(set(value)), where, "duplicate values")
 
 
+def validate_grant_display(entry, where):
+    """Validate the optional Character Builder display role of a feature."""
+    if "grantDisplay" not in entry:
+        return
+    location = f"{where}.grantDisplay"
+    role = entry["grantDisplay"]
+    enum(role, ["STANDALONE", "CHOICE_INTRODUCTION", "GRANT_SUMMARY"], location)
+    if role == "CHOICE_INTRODUCTION":
+        require(bool(entry.get("choices")), location, "a choice introduction must own a choice")
+
+
 def coverage(value, where):
     fields(value, ["status", "limitations"], [], where)
     enum(value["status"], ["SUPPORTED", "PARTIAL", "UNIMPLEMENTED"], where)
@@ -243,8 +254,9 @@ def catalog(content=CONTENT):
             continue
         optional = ["source", "note", "grants", "choices", "selectionModifiers", "collections"]
         extra = {"CLASS": ["flavor", "role", "powerSources", "abilities", "proficiencies", "statistics", "ruleIds"], "FEATURE": [], "POWER": ["usage", "action", "keywords", "range", "rows"], "RULE": []}[entry["category"]]
-        more = {"CLASS": [], "FEATURE": ["weaponAbilities", "sections", "conditionalModifiers"], "POWER": ["trigger", "target", "requirement", "attack", "flavor", "level", "powerKind"], "RULE": []}[entry["category"]]
+        more = {"CLASS": [], "FEATURE": ["weaponAbilities", "sections", "conditionalModifiers", "grantDisplay"], "POWER": ["trigger", "target", "requirement", "attack", "flavor", "level", "powerKind"], "RULE": []}[entry["category"]]
         fields(entry, ["id", "category", "title", "description", "access", "prerequisites", "selection", "coverage"] + extra, optional + more, loc)
+        validate_grant_display(entry, loc)
         for name in ("title", "description", "source", "note"):
             if name in entry:
                 string(entry[name], f"{loc}.{name}")

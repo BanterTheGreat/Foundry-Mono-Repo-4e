@@ -22,7 +22,8 @@ import dev.modern4e.builder.ui.components.*
 import dev.modern4e.builder.ui.screens.*
 import dev.modern4e.builder.ui.dialogs.BuilderDialogs
 
-internal val CharacterTabs = listOf("character", "progression", "stats", "validation")
+internal val CharacterNavigationTabs = listOf("character", "progression", "stats", "equipment")
+internal val CharacterTabs = CharacterNavigationTabs + "validation"
 internal fun String.readable() = lowercase().replace('_', ' ').replaceFirstChar { it.titlecase() }
 
 /** App shell: initializes the session and coordinates navigation, chrome, and destinations. */
@@ -34,7 +35,7 @@ fun BuilderApp(model: BuilderSession, exchange: FileExchange, portraitChooser: P
     LaunchedEffect(model) { model.preloadHomePickers() }
     FolioTheme {
         BackHandler(model.errors.isEmpty() && model.page != "home" && model.dialog == null && model.preview == null && model.description == null && model.deleting == null) {
-            model.page = when (model.page) { "stats", "progression", "validation" -> "character"; "library" -> "home"; else -> "library" }
+            model.page = when (model.page) { "stats", "progression", "equipment", "validation" -> "character"; "library" -> "home"; else -> "library" }
         }
         Surface(Modifier.fillMaxSize(), color = Paper) {
             Column(Modifier.fillMaxSize().systemBarsPadding()) {
@@ -90,8 +91,9 @@ fun BuilderApp(model: BuilderSession, exchange: FileExchange, portraitChooser: P
                 if (model.page in CharacterTabs) {
                     HorizontalDivider(color = Line)
                     Row(Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
-                        CharacterTabs.forEach { page ->
-                            TextButton(enabled = !model.busy, onClick = { model.page = page }, modifier = Modifier.weight(1f).semantics { selected = model.page == page; role = Role.Tab }) {
+                        CharacterNavigationTabs.forEach { page ->
+                            TextButton(enabled = !model.busy, onClick = { model.page = page }, contentPadding = PaddingValues(horizontal = 4.dp),
+                                modifier = Modifier.weight(1f).semantics { selected = model.page == page; role = Role.Tab }) {
                                 val color = if (page == model.page) Accent else Dim
                                 when (page) {
                                     "character" -> Text("About", color = color)

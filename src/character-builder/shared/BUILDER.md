@@ -54,7 +54,7 @@ occurrence IDs survive replacement, keeping child slots stable; new occurrence
 IDs come from callers. Repeated choices use distinct ordinals and instances.
 
 `Level(2)` preserves all prior choices and exposes authored level-2 choices.
-Direct level-2 creation allows filling both levels. `Level(n)` raises the level forward through 30, padding empty decisions for each new level; deleveling and levels above 30 are rejected. Progression above level 2 stays incomplete automation, and
+Direct level-2 creation allows filling both levels. `Level(n)` accepts levels 1–30. Raising pads empty decisions for each new level. Lowering removes decisions acquired above the target level. Progression above level 2 stays incomplete automation, and
 general advancement and retraining allowances remain
 incomplete; explicit power replacement composition is supported as described below.
 
@@ -156,7 +156,7 @@ scope to the Android level 3+ pickers. Scoping is a loading rule only: any power
 old indexes without `classId` behave as before.
 
 Android loads only the selected feat tab and publishes metadata, then batches of
-12 checks. Lazy rows preserve native scrolling and the folio scrollbar. Rows stay
+32 checks. Lazy rows preserve native scrolling and the folio scrollbar. Rows stay
 in metadata title order during loading. Cancelling/tab switching stops delivery;
 reopening the unchanged character reuses checked results. At most two slot snapshots
 are retained; edits, character changes and catalog reloads clear them. Bundled content
