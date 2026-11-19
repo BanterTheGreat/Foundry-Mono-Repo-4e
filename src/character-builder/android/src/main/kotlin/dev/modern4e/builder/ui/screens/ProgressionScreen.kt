@@ -59,9 +59,10 @@ internal fun ProgressionScreen(state: BuilderState, model: BuilderSession) {
             state.rules.entries.filter { it.granted }.mapTo(this) { it.slot }
         }
     }
-    fun needsAttention(slot: ChoiceSlotId, level: Int = 1, optional: Boolean = false) =
-        Progression.choiceNeedsAttention(level <= document.level, optional, slot in filledSlots, slot in invalidSlots)
-    fun selected(slot: ChoiceSlotId) = entries.firstOrNull { it.slot == slot }?.selection?.savedTitle
+    fun needsAttention(slot: ChoiceSlotId, level: Int = 1, optional: Boolean = false) = Progression.choiceNeedsAttention(
+        level <= document.level, optional, model.pendingSelection(slot)?.let { it.title != null } ?: (slot in filledSlots), slot in invalidSlots)
+    fun selected(slot: ChoiceSlotId) = model.pendingSelection(slot)?.let { it.title ?: "Choose…" }
+        ?: entries.firstOrNull { it.slot == slot }?.selection?.savedTitle
         ?: state.rules.entries.firstOrNull { it.slot == slot && it.granted }?.definition?.entry?.presentation?.title ?: "Choose…"
     fun selectedPowerUsage(slot: ChoiceSlotId) = state.rules.entries.firstOrNull { it.slot == slot }
         ?.definition?.entry?.let(::powerChoiceUsage)
@@ -417,7 +418,6 @@ private fun LevelChoice(
 
 @Composable
 private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, model: BuilderSession, dismiss: () -> Unit) {
-    val scope = rememberCoroutineScope()
     val document = state.document
     val mainAbilities = if (request.kind == "allocation") {
         state.rules.choices.firstOrNull { it.slot == document.abilities.source }?.abilities.orEmpty()
@@ -441,6 +441,7 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
     } else state.document.levels.flatMap { it.entries }.firstOrNull { it.slot == request.slot }?.selection?.entryId
         ?: state.rules.entries.firstOrNull { it.slot == request.slot && it.granted }?.definition?.entry?.id) }
     var expanded by remember(request) { mutableStateOf(selected) }
+    var selectedTitle by remember(request) { mutableStateOf<String?>(null) }
     var featTab by remember(request) { mutableStateOf("Class") }
     var optionRows by remember(request, featTab, state.document) { mutableStateOf<List<BuilderOptionRow>?>(null) }
     var optionLoadFinished by remember(request, featTab, state.document) { mutableStateOf(false) }
@@ -477,6 +478,7 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
                         expanded = choiceExpansionOnTap(entry.id, selected, expanded)
                         if (selected != entry.id) {
                             selected = entry.id
+                            selectedTitle = entry.presentation.title
                             val slot = requireNotNull(request.slot)
                             edit = if (request.kind == "replacement") {
                                 replacementTarget?.let { target -> BuilderEdit.ReplacePower(request.level, target, entry.id,
@@ -621,7 +623,9 @@ private fun ProgressionSheet(request: ProgressionEditor, state: BuilderState, mo
             } == true)
         ChoicePickerActions(model.busy, valid, dismiss, clear) {
             val command = edit ?: return@ChoicePickerActions
-            scope.launch { model.run { edit(command) }; if (model.errors.isEmpty()) dismiss() }
+            // The session applies and stores it in the background, so the sheet closes at once and the next edit can start.
+            model.submitEdit(command, selectedTitle)
+            dismiss()
         }
     }
 }

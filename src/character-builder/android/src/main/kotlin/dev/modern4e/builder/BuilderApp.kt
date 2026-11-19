@@ -56,6 +56,7 @@ fun BuilderApp(model: BuilderSession, exchange: FileExchange, portraitChooser: P
             onExit = { model.page = "home" },
             onOpen = { task { openLibrary() } },
             onValidation = { model.page = "validation" },
+            exportEnabled = model.canExport,
         ) {
             Surface(Modifier.fillMaxSize(), color = Paper) {
                 Column(Modifier.fillMaxSize().systemBarsPadding()) {
@@ -89,6 +90,9 @@ fun BuilderApp(model: BuilderSession, exchange: FileExchange, portraitChooser: P
                                     overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
                                 if (character) { PencilIcon() }
                             }
+                            if (character && model.saving) {
+                                Text("Saving…", color = Dim, fontSize = 12.sp, modifier = Modifier.padding(horizontal = 8.dp))
+                            }
                             if (character) {
                                 IconButton(onClick = { scope.launch { drawerState.open() } }, enabled = !model.busy,
                                     modifier = Modifier.semantics { contentDescription = "Character menu" }) {
@@ -98,7 +102,7 @@ fun BuilderApp(model: BuilderSession, exchange: FileExchange, portraitChooser: P
                         }
                         HorizontalDivider(color = Line)
                     }
-                    if (model.busy) { LinearProgressIndicator(Modifier.fillMaxWidth()) }
+                    if (model.busy || model.saving) { LinearProgressIndicator(Modifier.fillMaxWidth()) }
                     AnimatedContent(if (model.page in CharacterTabs) "character" else model.page, modifier = Modifier.weight(1f), label = "Screen transition", transitionSpec = {
                         val order = listOf("home", "library", "import", "character")
                         val forward = order.indexOf(targetState) > order.indexOf(initialState)
@@ -171,6 +175,7 @@ private fun CharacterDrawer(
     onExit: () -> Unit,
     onOpen: () -> Unit,
     onValidation: () -> Unit,
+    exportEnabled: Boolean,
     content: @Composable () -> Unit,
 ) {
     val contentDirection = LocalLayoutDirection.current
@@ -196,7 +201,8 @@ private fun CharacterDrawer(
                                 onOpen()
                             })
                             HorizontalDivider(color = Line)
-                            DropdownMenuItem(text = { Text("Export") }, onClick = onDismiss)
+                            // A file taken mid-save could lack the latest choices, so Export waits for the save to finish.
+                            DropdownMenuItem(text = { Text("Export") }, onClick = onDismiss, enabled = exportEnabled)
                             HorizontalDivider(color = Line)
                             DropdownMenuItem(text = { Text("Validation") }, onClick = {
                                 onDismiss()

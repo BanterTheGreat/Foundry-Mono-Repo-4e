@@ -14,6 +14,8 @@ Feat tier and power level sorting: from `src/character-builder`, run `.\gradlew.
 
 Paragon Path class scoping uses the shared JVM/JS commands below. `PathScopedLoadingTest` counting-source regressions verify that metadata excludes unrelated class paths before any path chunk read or eligibility evaluation, retains shared-class and unscoped/legacy paths, and honors multiclass acquisition timing. The content `test_path_runtime.py` suite checks index scopes and class-separated chunks; regenerate/check production assets with `python -X utf8 content/build.py --check` from `src/character-builder`.
 
+Background Levels saves: from `src/character-builder`, run `.\gradlew.bat :android:testDebugUnitTest --tests "dev.modern4e.builder.BuilderSessionTest"`. The queued-edit tests there use a gated store to check that a submitted edit returns at once and publishes only after its durable write, quick edits apply in order, a failed or rejected edit drops those behind it and clears its row preview, Export is blocked while saving, exclusive actions wait for pending saves, an open dialog survives a queued commit, and a cancelled caller cannot leave memory and storage disagreeing. Device UI tests remain opt-in.
+
 Character Builder advancement through level 19 (from `src/character-builder`, with JDK 21 and the Android SDK configured):
 
 ```powershell

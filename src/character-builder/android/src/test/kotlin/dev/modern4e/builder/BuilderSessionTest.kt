@@ -4,9 +4,12 @@ import dev.modern4e.builder.ui.screens.defenseDisplay
 import dev.modern4e.builder.ui.screens.languageDisplay
 import dev.modern4e.builder.ui.screens.sizeDisplay
 import dev.modern4e.builder.ui.screens.skillOverviewRows
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.util.concurrent.atomic.AtomicInteger
 import org.junit.Assert.*
@@ -925,6 +928,167 @@ class BuilderSessionTest {
         assertEquals(before + 2, result.total)
         assertTrue(result.contributors.any { it.label == "Manual Adjustment" })
     }
+    private fun bonus(id: String) = BuilderEdit.Adjustment(ManualAdjustment(id, TypedModifier(
+        ModifierTarget(Statistic.SKILL_CHECK, skill = Skill.ATHLETICS), ModifierOperation.ADD, 1), id))
+
+    /** A store whose saves wait at [gate] once [blocking] is set, announcing the first one on [entered]. */
+    private inner class GatedStore(val gate: CompletableDeferred<Unit> = CompletableDeferred()) : CharacterStore by store {
+        @Volatile var blocking = false
+        @Volatile var failing: ((CharacterDocument) -> Boolean)? = null
+        val entered = CompletableDeferred<Unit>()
+        val saves = AtomicInteger()
+        override suspend fun save(document: CharacterDocument, mode: SaveMode, expected: CharacterDocument?): ContractResult<SaveReceipt> {
+            if (blocking) {
+                entered.complete(Unit)
+                gate.await()
+            }
+            if (failing?.invoke(document) == true) {
+                return ContractResult.Unavailable(listOf(Diagnostic("test.full", DiagnosticKind.IO_FAILURE, "Storage full")))
+            }
+            saves.incrementAndGet()
+            return store.save(document, mode, expected)
+        }
+    }
+
+    @Test fun submittedEditReturnsAtOnceCommitsInTheBackgroundAndHoldsExportUntilStored() = runBlocking {
+        val storage = GatedStore()
+        val model = session(storage)
+        model.create()
+        model.awaitWarmup()
+        val original = model.current!!
+        assertTrue(model.canExport)
+        storage.blocking = true
+        model.submitEdit(bonus("first"))
+        assertTrue("The call returns while the save is still waiting", model.saving)
+        assertFalse("A file taken now could miss the choice", model.canExport)
+        storage.entered.await()
+        assertSame("Nothing is published before it is stored", original, model.current)
+        assertFalse(model.busy)
+        storage.gate.complete(Unit)
+        model.awaitSaved()
+        assertFalse(model.saving)
+        assertTrue(model.canExport)
+        assertEquals(listOf("first"), model.current!!.document.manualAdjustments.map { it.id })
+        assertEquals(model.current!!.document, (store.load(original.document.id) as ContractResult.Available).value)
+    }
+
+    @Test fun quickEditsApplyInOrderEachToTheResultOfTheOneBefore() = runBlocking {
+        val storage = GatedStore()
+        val model = session(storage)
+        model.create()
+        model.awaitWarmup()
+        storage.blocking = true
+        model.submitEdit(bonus("a"))
+        model.submitEdit(bonus("b"))
+        storage.entered.await()
+        model.submitEdit(bonus("c"))
+        storage.gate.complete(Unit)
+        model.awaitSaved()
+        assertTrue(model.errors.isEmpty())
+        assertEquals(listOf("a", "b", "c"), model.current!!.document.manualAdjustments.map { it.id })
+        assertEquals(3, storage.saves.get() - 1)
+        val stored = (store.load(model.current!!.document.id) as ContractResult.Available).value
+        assertEquals(listOf("a", "b", "c"), stored.manualAdjustments.map { it.id })
+    }
+
+    @Test fun aFailedQueuedEditDropsTheOnesBehindItAndLeavesTheStoredCharacterUntouched() = runBlocking {
+        val storage = GatedStore()
+        val model = session(storage)
+        model.create()
+        model.awaitWarmup()
+        val original = model.current!!.document
+        storage.failing = { document -> document.manualAdjustments.any { it.id == "bad" } }
+        storage.blocking = true
+        model.submitEdit(bonus("bad"))
+        model.submitEdit(bonus("after"))
+        storage.gate.complete(Unit)
+        model.awaitSaved()
+        assertTrue(model.errors.any { it.code == "test.full" })
+        assertFalse(model.saving)
+        assertEquals(original, model.current!!.document)
+        assertEquals(original, (store.load(original.id) as ContractResult.Available).value)
+        assertFalse(model.canExport)
+        model.submitEdit(bonus("blocked"))
+        assertFalse("Nothing is queued behind an error", model.saving)
+        model.returnHomeAfterError()
+        storage.failing = null
+        model.run { load(original.id) }
+        model.submitEdit(bonus("fresh"))
+        model.awaitSaved()
+        assertEquals(listOf("fresh"), model.current!!.document.manualAdjustments.map { it.id })
+    }
+
+    @Test fun aQueuedChoiceShowsInItsSlotUntilItCommitsAndNeverClosesAnOpenDialog() = runBlocking {
+        val storage = GatedStore()
+        val model = session(storage)
+        model.create()
+        model.awaitWarmup()
+        val slot = ChoiceSlotId("creation", "class", 0)
+        val selected = model.current!!.document.levels.flatMap { it.entries }.single { it.slot == slot }.selection.entryId
+        model.beginEdit("Notes")
+        storage.blocking = true
+        model.submitEdit(BuilderEdit.Entry(1, slot, selected, "new-id", true), "Shown early")
+        assertEquals("Shown early", model.pendingSelection(slot)?.title)
+        storage.entered.await()
+        model.submitEdit(BuilderEdit.RemoveEntry(ChoiceSlotId("creation", "theme", 0)))
+        assertNull("Clearing is a pending selection with no title", model.pendingSelection(ChoiceSlotId("creation", "theme", 0))!!.title)
+        storage.gate.complete(Unit)
+        model.awaitSaved()
+        assertNull(model.pendingSelection(slot))
+        assertNull(model.pendingSelection(ChoiceSlotId("creation", "theme", 0)))
+        assertEquals("The dialog belongs to its own edit", "Notes", model.dialog)
+    }
+
+    @Test fun aRejectedQueuedEditClearsItsPendingChoiceAndReportsTheRejection() = runBlocking {
+        val model = session()
+        model.create()
+        model.awaitWarmup()
+        val slot = ChoiceSlotId("creation", "class", 0)
+        val before = model.current!!.document
+        model.submitEdit(BuilderEdit.Entry(1, slot, "missing-entry", "new-id"), "Missing")
+        model.awaitSaved()
+        assertNull(model.pendingSelection(slot))
+        assertTrue(model.errors.isNotEmpty())
+        assertEquals(before, model.current!!.document)
+    }
+
+    @Test fun exclusiveActionsWaitForSubmittedEditsToCommit() = runBlocking {
+        val storage = GatedStore()
+        val model = session(storage)
+        model.create()
+        model.awaitWarmup()
+        storage.blocking = true
+        model.submitEdit(bonus("kept"))
+        var seen: List<String>? = null
+        val action = launch(Dispatchers.Default) { model.run { seen = current!!.document.manualAdjustments.map { it.id } } }
+        storage.entered.await()
+        delay(100)
+        assertNull("The action has not started while the save is waiting", seen)
+        storage.gate.complete(Unit)
+        action.join()
+        assertEquals(listOf("kept"), seen)
+    }
+
+    @Test fun aCancelledDirectEditStillFinishesItsWriteAndLeavesMemoryAndStorageAgreeing() = runBlocking {
+        val storage = GatedStore()
+        val model = session(storage)
+        model.create()
+        model.awaitWarmup()
+        storage.blocking = true
+        val edit = launch(Dispatchers.Default) { model.edit(bonus("survives")) }
+        storage.entered.await()
+        edit.cancel()
+        storage.gate.complete(Unit)
+        edit.join()
+        val id = model.current!!.document.id
+        assertEquals(listOf("survives"), model.current!!.document.manualAdjustments.map { it.id })
+        assertEquals(model.current!!.document, (store.load(id) as ContractResult.Available).value)
+        storage.blocking = false
+        model.edit(bonus("next"))
+        assertTrue("The next save is not mistaken for a conflict", model.errors.isEmpty())
+        assertEquals(listOf("survives", "next"), model.current!!.document.manualAdjustments.map { it.id })
+    }
+
     @Test fun importCollisionCopyCancelRecoveryAndInvalidInput() = runBlocking {
         val model = session()
         val original = sample()

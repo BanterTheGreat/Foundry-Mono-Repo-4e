@@ -1,6 +1,7 @@
 package dev.modern4e.builder
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
@@ -8,9 +9,14 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -45,6 +51,9 @@ class BuilderSession(
     var deleting by mutableStateOf<CharacterSummary?>(null)
     var errors by mutableStateOf(emptyList<Diagnostic>())
     var busy by mutableStateOf(false)
+    /** True while submitted edits are still being applied and stored. Editing stays available; leaving and exporting do not. */
+    var saving by mutableStateOf(false)
+        private set
     var libraryNeedsRefresh by mutableStateOf(false)
         private set
     var pending by mutableStateOf<CharacterDocument?>(null)
@@ -75,6 +84,8 @@ class BuilderSession(
     private val equipmentWork = Mutex()
     private var equipmentCatalog: EquipmentCatalog? = null
     private val heavyWork = Mutex()
+    /** Serializes every edit from its calculation to its durable commit, whether queued or run directly. */
+    private val editLock = Mutex()
     private val background = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     private var warming: Job? = null
     /** How long a committed edit waits for further edits before background warming starts. */
@@ -92,6 +103,11 @@ class BuilderSession(
         }
         busy = true
         try {
+            // Exclusive actions (opening, deleting, importing) start from the committed result of every submitted edit.
+            awaitSaved()
+            if (errors.isNotEmpty()) {
+                return
+            }
             action()
         } catch (error: Exception) {
             if (error is CancellationException) {
@@ -101,6 +117,96 @@ class BuilderSession(
         } finally {
             busy = false
         }
+    }
+
+    /** What a submitted edit shows in its slot until it commits; a null title is a cleared slot. */
+    class PendingSelection(val title: String?)
+
+    private class QueuedEdit(val edit: BuilderEdit, val epoch: Int, val selections: Map<ChoiceSlotId, PendingSelection>)
+
+    private val queuedEdits = Channel<QueuedEdit>(Channel.UNLIMITED)
+    private val unsaved = MutableStateFlow(0)
+    private val pendingSelections = mutableStateMapOf<ChoiceSlotId, PendingSelection>()
+    /** Bumped when an edit fails or the workflow resets, so edits submitted before then are dropped instead of applied. */
+    @Volatile private var editEpoch = 0
+
+    init {
+        // The queue outlives any sheet or screen: closing a picker never cancels a save in flight.
+        background.launch {
+            for (queued in queuedEdits) {
+                try {
+                    applyQueued(queued)
+                } finally {
+                    finishQueued(queued)
+                }
+            }
+        }
+    }
+
+    /** Whether the open character is fully stored and nothing is working on it, so a file leaves with every choice made. */
+    val canExport: Boolean get() = current != null && !busy && !saving && errors.isEmpty()
+
+    /** The choice a submitted but uncommitted edit will make in [slot], for display ahead of the commit. */
+    fun pendingSelection(slot: ChoiceSlotId): PendingSelection? = pendingSelections[slot]
+
+    /**
+     * Queue an edit and return at once. Edits are applied one at a time, each to the result of the one before, through the
+     * same validated, durable path as [edit]. A failed edit reports its error like any other and drops the edits queued
+     * behind it, since they were made for a result that never existed. Call on Main.
+     *
+     * @param edit the command to apply.
+     * @param title the chosen entry's title, shown in its slot until the commit lands; a removal shows the slot cleared.
+     */
+    fun submitEdit(edit: BuilderEdit, title: String? = null) {
+        if (errors.isNotEmpty()) {
+            return
+        }
+        val shown = when (edit) {
+            is BuilderEdit.Entry -> title?.let { mapOf(edit.slot to PendingSelection(it)) }.orEmpty()
+            is BuilderEdit.RemoveEntry -> mapOf(edit.slot to PendingSelection(null))
+            else -> emptyMap()
+        }
+        pendingSelections.putAll(shown)
+        changeUnsaved(1)
+        queuedEdits.trySend(QueuedEdit(edit, editEpoch, shown))
+    }
+
+    /** Returns once every submitted edit has committed or been dropped. */
+    suspend fun awaitSaved() {
+        unsaved.first { it == 0 }
+    }
+
+    private fun changeUnsaved(delta: Int) {
+        synchronized(unsaved) {
+            unsaved.update { it + delta }
+            saving = unsaved.value > 0
+        }
+    }
+
+    private suspend fun applyQueued(queued: QueuedEdit) {
+        if (queued.epoch != editEpoch || errors.isNotEmpty()) {
+            return
+        }
+        try {
+            applyEdit(queued.edit, closesDialog = false)
+        } catch (error: Exception) {
+            if (error is CancellationException) {
+                throw error
+            }
+            errors = listOf(Diagnostic("android.workflow", DiagnosticKind.IO_FAILURE, error.message ?: "Operation failed"))
+        }
+        if (errors.isNotEmpty()) {
+            editEpoch++
+        }
+    }
+
+    private fun finishQueued(queued: QueuedEdit) {
+        queued.selections.forEach { (slot, selection) ->
+            if (pendingSelections[slot] === selection) {
+                pendingSelections.remove(slot)
+            }
+        }
+        changeUnsaved(-1)
     }
 
     suspend fun refresh() {
@@ -119,6 +225,7 @@ class BuilderSession(
             return
         }
         page = "home"
+        editEpoch++
         current = null
         committed = null
         pending = null
@@ -373,10 +480,11 @@ class BuilderSession(
             is ContractResult.Unavailable -> errors = result.diagnostics
             is ContractResult.Available -> {
                 val (evaluated, updatedCatalog) = result.value
-                if (current !== state) {
-                    return
+                editLock.withLock {
+                    if (current === state) {
+                        commitPending(evaluated, updatedCatalog = updatedCatalog)
+                    }
                 }
-                commitPending(evaluated, updatedCatalog = updatedCatalog)
             }
         }
     }
@@ -528,6 +636,20 @@ class BuilderSession(
 
     /** Commit is visible only after durable storage. A failed candidate cannot be published by the error flow. */
     suspend fun edit(edit: BuilderEdit) {
+        applyEdit(edit, closesDialog = true)
+    }
+
+    /**
+     * Apply one edit to the latest committed document. The lock holds from calculation to commit, so queued and direct
+     * edits never interleave and each starts from the previous one's stored result.
+     *
+     * @param closesDialog whether a successful commit closes the open editing dialog; queued edits leave it alone.
+     */
+    private suspend fun applyEdit(edit: BuilderEdit, closesDialog: Boolean) {
+        editLock.withLock { applyLockedEdit(edit, closesDialog) }
+    }
+
+    private suspend fun applyLockedEdit(edit: BuilderEdit, closesDialog: Boolean) {
         val document = withBundledPaths(current!!.document, (edit as? BuilderEdit.Level)?.value ?: current!!.document.level)
         val expandedCatalog = if (document.packages != current!!.document.packages) {
             (withContext(Dispatchers.IO) { ContentCatalog.open(source, "modern4e.classes", document.packages) }
@@ -548,11 +670,19 @@ class BuilderSession(
             errors = result.diagnostics
             return
         }
-        commitPending(result.state, expandedCatalog)
+        commitPending(result.state, expandedCatalog, closesDialog)
     }
 
-    /** Persist the calculated state; savedAt is storage metadata and cannot change its rules. */
-    private suspend fun commitPending(evaluated: BuilderState, updatedCatalog: ContentCatalog? = null) {
+    /**
+     * Persist the calculated state; savedAt is storage metadata and cannot change its rules. Once the write starts it
+     * finishes together with the in-memory commit, so a cancelled caller cannot leave memory and storage disagreeing.
+     */
+    private suspend fun commitPending(evaluated: BuilderState, updatedCatalog: ContentCatalog? = null,
+        closesDialog: Boolean = true) {
+        withContext(NonCancellable) { storeAndPublish(evaluated, updatedCatalog, closesDialog) }
+    }
+
+    private suspend fun storeAndPublish(evaluated: BuilderState, updatedCatalog: ContentCatalog?, closesDialog: Boolean) {
         val document = evaluated.document.copy(savedAt = Instant.now().toString())
         pending = document
         if (persist(document, committed)) {
@@ -575,7 +705,9 @@ class BuilderSession(
             }
             committed = document
             pending = null
-            dialog = null
+            if (closesDialog) {
+                dialog = null
+            }
             val summary = document.summary()
             characters = characters.toMutableList().apply {
                 val index = indexOfFirst { it.id == document.id }
