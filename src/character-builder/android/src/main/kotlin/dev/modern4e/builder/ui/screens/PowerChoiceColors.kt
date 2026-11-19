@@ -11,10 +11,11 @@ private val PowerUsageLabel = Regex("""\b(at[-_ ]?will|encounter|daily)\b""", Re
 private val UtilityLabel = Regex("""\butility\b""", RegexOption.IGNORE_CASE)
 private val PowerUsageClass = Regex("""\bclass\s*=\s*['"]?(atwill|encounter|daily)power\b""", RegexOption.IGNORE_CASE)
 
-/** Uses the authored power profile, with a fallback for legacy Compendium cards. */
+/** Reads usage from a power profile, legacy Compendium markup, or an authored activation. */
 internal fun powerChoiceUsage(entry: ContentEntry): String? =
     entry.mechanics.powerProfile?.usage?.let(::normalizedPowerUsage)
         ?: PowerUsageClass.find(entry.presentation.description)?.groupValues?.get(1)?.let(::normalizedPowerUsage)
+        ?: authoredPowerUsage(entry)
 
 /** Modern 4e power hues darkened for legibility against the folio's paper. */
 internal fun powerChoiceColor(label: String): Color? = when (normalizedPowerUsage(label)) {

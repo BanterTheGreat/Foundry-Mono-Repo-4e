@@ -451,6 +451,28 @@ class BuilderSessionTest {
         model.awaitWarmup()
     }
 
+    @Test fun changingAncestryWarmsItsNewPowerChoiceFirst() = runBlocking {
+        val model = session()
+        model.create()
+        model.awaitWarmup()
+        val ancestry = ChoiceSlotId("creation", "ancestry", 0)
+        val original = model.current!!.document.levels.flatMap { it.entries }.single { it.slot == ancestry }
+        model.edit(BuilderEdit.Entry(1, ancestry, "modern4e.ancestry.dragonborn", original.instanceId, true))
+        assertTrue(model.errors.isEmpty())
+
+        val state = model.current!!
+        val choice = Progression.ancestryPowerChoices(state, model.powerEntryIds()).single()
+        val targets = model.warmTargets(state)
+        assertEquals(choice.slot, targets.first().slot)
+        assertEquals(1, targets.count { it.slot == choice.slot })
+        assertTrue(targets.drop(1).first().slot.choiceId.startsWith("modern4e.choice.fighter-"))
+
+        model.awaitWarmup()
+        val rows = model.firstRows(1, choice.slot)
+        assertEquals(setOf("modern4e.power.dragon-breath", "modern4e.power.dragonfear"), rows.map { it.metadata.metadata.id }.toSet())
+        assertTrue(rows.all { it.checked })
+    }
+
     @Test fun onlyListsTheCharacterCanEditAreWarmed() = runBlocking {
         val model = session()
         model.create()

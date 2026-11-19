@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.sp
 import dev.modern4e.builder.*
 import dev.modern4e.builder.ui.theme.*
 import dev.modern4e.builder.ui.components.*
+import dev.modern4e.builder.ui.screens.PowerBlock
 import dev.modern4e.builder.ui.screens.pickerSheetHeight
 
 /** Presents workflow modals, prioritizing blocking operational errors. */
@@ -74,7 +75,11 @@ internal fun BuilderDialogs(model: BuilderSession, task: (suspend BuilderSession
         }
         model.description?.let { entry ->
             FolioDialog(entry.entry.presentation.title, { model.description = null }) {
-                ControlledDescription(entry.entry.presentation.description)
+                if (entry.entry.category == EntryCategory.POWER) {
+                    PowerBlock(entry.entry, showTitle = false)
+                } else {
+                    ControlledDescription(entry.entry.presentation.description)
+                }
                 Text("${entry.entry.coverage.status.name.readable()} automation", color = Dim)
                 entry.entry.coverage.limitations.forEach { Text(it, color = Dim) }
                 entry.entry.presentation.references.forEach { id -> TextButton(enabled = !model.busy, onClick = { task { reference(id) } }) { Text("Open reference: $id") } }

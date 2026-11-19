@@ -333,7 +333,7 @@ private fun AutomaticGrantCard(documentId: String, grant: ProgressionGrant) {
                 if (expanded) {
                     Column(Modifier.padding(start = 12.dp, end = 12.dp, bottom = 6.dp)) {
                         if (grant.isPower) {
-                            PowerBlock(grant.entry, showTitle = false, useStructuredFallback = true)
+                            PowerBlock(grant.entry, showTitle = false)
                         } else {
                             AdvancementProse(grant.entry.presentation.description)
                         }
@@ -364,19 +364,19 @@ private fun LevelOnePowerTile(
     action: () -> Unit,
 ) {
     val errorColor = MaterialTheme.colorScheme.error
-    val accent = if (invalid) errorColor else powerChoiceColor(usage)
+    val accent = powerChoiceColor(usage).takeUnless { invalid }
     Surface(
         modifier.clickable(enabled = enabled, role = Role.Button, onClick = action)
             .semantics { if (invalid) { stateDescription = "Needs attention" } },
         color = if (invalid) errorColor.copy(alpha = 0.10f).compositeOver(Paper) else Paper,
-        border = BorderStroke(1.dp, accent ?: Line),
+        border = BorderStroke(1.dp, if (invalid) errorColor else Line),
     ) {
         Column(
-            Modifier.padding(3.dp),
+            Modifier.leftEdgeAccent(accent).padding(horizontal = 4.dp, vertical = 3.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(label, color = accent ?: Dim, fontSize = 10.sp, lineHeight = 11.sp,
+            Text(label, color = if (invalid) errorColor else Dim, fontSize = 10.sp, lineHeight = 11.sp,
                 maxLines = 1, overflow = TextOverflow.Ellipsis, textAlign = TextAlign.Center)
             Text(title, color = if (invalid) errorColor else Ink,
                 fontFamily = FontFamily.Serif, fontSize = 11.sp, lineHeight = 12.sp,
@@ -398,7 +398,7 @@ private fun LevelChoice(
     action: () -> Unit,
 ) {
     Field(
-        label, value, modifier, enabled, compact = true, accent = powerUsage?.let(::powerChoiceColor),
+        label, value, modifier, enabled, compact = true, leftAccent = powerUsage?.let(::powerChoiceColor),
         valueIsHint = valueIsHint, invalid = invalid, action = action,
     )
 }

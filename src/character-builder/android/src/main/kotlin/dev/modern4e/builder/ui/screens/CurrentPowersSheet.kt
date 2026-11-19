@@ -30,7 +30,6 @@ import dev.modern4e.builder.BuilderState
 import dev.modern4e.builder.ContentEntry
 import dev.modern4e.builder.SavedSelection
 import dev.modern4e.builder.folioScroll
-import dev.modern4e.builder.ui.components.ControlledDescription
 import dev.modern4e.builder.ui.components.Heading
 import dev.modern4e.builder.ui.theme.Dim
 import dev.modern4e.builder.ui.theme.Ink
@@ -66,7 +65,7 @@ internal fun CurrentPowersSheet(state: BuilderState, model: BuilderSession, dism
                                 Text(details.joinToString(" · "), color = Dim, fontSize = 12.sp)
                             }
                             if (expanded == power && power.entry != null) {
-                                ControlledDescription(power.entry.presentation.description, compact = true)
+                                PowerBlock(power.entry, showTitle = false)
                             }
                         }
                     }

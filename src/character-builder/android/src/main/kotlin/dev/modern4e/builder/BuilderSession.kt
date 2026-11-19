@@ -850,7 +850,7 @@ class BuilderSession(
 
     /**
      * Check every list the picker can open at levels 1-2, so each one opens already filled in. Order is the
-     * Class Feature choices, then power pools, then the Class, Ancestry and General feat tabs, then the
+     * unfilled ancestry power choices, then Class Feature choices, other power pools, feat tabs, and the
      * remaining catalog pickers. The Class and Ancestry rows are normally ready from Home. Later levels keep
      * their incomplete-automation listing and are not warmed. A character with no class or ancestry simply has
      * rows without eligibility to show; a failed read leaves the rest to the picker.
@@ -888,14 +888,18 @@ class BuilderSession(
         val offered = (1..minOf(document.level, 2)).flatMap { level ->
             Progression.levelChoices(state, level).filter { it.abilities.isEmpty() && it.entries.isNotEmpty() }.map { level to it }
         }
-        val (powers, other) = offered.partition { (_, choice) -> Progression.isPowerPool(state, choice) }
+        val ancestryPowerSlots = Progression.ancestryPowerChoices(state, powerEntryIds()).mapTo(mutableSetOf()) { it.slot }
+        val (ancestryPowers, otherChoices) = offered.partition { (_, choice) ->
+            choice.slot in ancestryPowerSlots && choice.slot !in filled
+        }
+        val (powers, other) = otherChoices.partition { (_, choice) -> Progression.isPowerPool(state, choice) }
         val (features, remaining) = other.partition { (_, choice) -> Progression.isClassFeatureChoice(state, choice) }
         val (empty, taken) = powers.partition { (_, choice) -> choice.slot !in filled }
         val featSlots = listOf(1 to ChoiceSlotId("creation", "feat", 0)) +
             if (document.level >= 2) listOf(2 to ChoiceSlotId("advancement.2", "feat", 0)) else emptyList()
         val roots = listOf("class", "ancestry", "theme").map { ChoiceSlotId("creation", it, 0) }
             .filter { preloadedRootRows(document, 1, it) == null }
-        return (features + empty + taken).map { (level, choice) -> WarmTarget(level, choice.slot, null) } +
+        return (ancestryPowers + features + empty + taken).map { (level, choice) -> WarmTarget(level, choice.slot, null) } +
             listOf(FeatGroup.CLASS, FeatGroup.ANCESTRY, FeatGroup.GENERAL).flatMap { group ->
                 featSlots.map { (level, slot) -> WarmTarget(level, slot, group) }
             } +

@@ -30,10 +30,10 @@ internal fun AdvancementDetails(details: AdvancementDetail) {
     details.levels.forEach { level ->
         AdvancementSection("Level ${level.level}") {
             level.features.forEach { AdvancementFeature(it) }
-            level.powers.forEach { PowerBlock(it, useStructuredFallback = true) }
+            level.powers.forEach { PowerBlock(it) }
             level.powerChoices.forEach { choice ->
                 Text("Choose ${choice.count} ${if (choice.count == 1) "power" else "powers"}", color = Accent, fontSize = 12.sp)
-                choice.powers.forEach { PowerBlock(it, useStructuredFallback = true) }
+                choice.powers.forEach { PowerBlock(it) }
             }
         }
     }

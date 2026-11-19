@@ -27,7 +27,7 @@ class AdvancementDetailTest {
             assertEquals(theme.id, listOf(1, 5, 10), detail.levels.map { it.level })
             assertTrue(theme.id, detail.levels.all { it.features.size == 1 })
             assertTrue(theme.id, detail.levels.first().powers.isNotEmpty())
-            assertTrue(theme.id, detail.levels.first().powers.all { powerBlockText(it.presentation.description) != null })
+            assertTrue(theme.id, detail.levels.first().powers.all { powerBlockText(it) != null })
             assertEquals(theme.id, if (theme.id.endsWith(".gunsmith")) 5 else 0, detail.modifications.size)
         }
     }
@@ -52,6 +52,17 @@ class AdvancementDetailTest {
         val options = dragonbornLevel.powerChoices.single()
         assertEquals(1, options.count)
         assertEquals(listOf("modern4e.power.dragon-breath", "modern4e.power.dragonfear"), options.powers.map { it.id })
+        val dragonfear = requireNotNull(powerBlockText(options.powers.last()))
+        assertEquals("Encounter", dragonfear.usage)
+        assertEquals("Minor action", dragonfear.action)
+        assertEquals("Close burst 5", dragonfear.range)
+        assertEquals(listOf("Fear"), dragonfear.keywords)
+        val rules = dragonfear.phases.single().rules
+        assertEquals(listOf("Target", "Attack", "Hit"), rules.map { it.label })
+        assertEquals("Each enemy in the burst", rules[0].text)
+        assertTrue(rules[1].text.contains("Main Ability vs. Will"))
+        assertTrue(rules[1].text.contains("Close Burst 10"))
+        assertTrue(rules[2].text.contains("grants combat advantage"))
     }
 
     @Test fun laterAdvancementUsesGrantLevelsAndFallsBackToItsDescription() {

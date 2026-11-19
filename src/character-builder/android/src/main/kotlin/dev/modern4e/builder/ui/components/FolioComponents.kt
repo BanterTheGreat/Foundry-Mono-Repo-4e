@@ -7,9 +7,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
@@ -44,13 +46,12 @@ internal fun Field(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     compact: Boolean = false,
-    accent: Color? = null,
+    leftAccent: Color? = null,
     valueIsHint: Boolean = false,
     invalid: Boolean = false,
     action: () -> Unit,
 ) {
     val errorColor = MaterialTheme.colorScheme.error
-    val fieldAccent = if (invalid) errorColor else accent
     Surface(
         modifier.fillMaxWidth().clickable(enabled = enabled, onClick = action).semantics {
             contentDescription = "Edit $label"
@@ -59,11 +60,20 @@ internal fun Field(
             }
         },
         color = if (invalid) errorColor.copy(alpha = 0.10f).compositeOver(Paper) else Paper,
-        border = BorderStroke(1.dp, fieldAccent ?: Line),
+        border = BorderStroke(1.dp, if (invalid) errorColor else Line),
     ) {
-        FolioFieldContent(label, value, compact, labelColor = fieldAccent ?: Dim,
-            valueColor = if (invalid) errorColor else LocalContentColor.current,
-            hintColor = if (invalid) errorColor else Dim, valueIsHint = valueIsHint)
+        Box(Modifier.leftEdgeAccent(leftAccent.takeUnless { invalid })) {
+            FolioFieldContent(label, value, compact, labelColor = if (invalid) errorColor else Dim,
+                valueColor = if (invalid) errorColor else LocalContentColor.current,
+                hintColor = if (invalid) errorColor else Dim, valueIsHint = valueIsHint)
+        }
+    }
+}
+
+/** Draws a narrow accent along the left edge of a choice. */
+internal fun Modifier.leftEdgeAccent(color: Color?): Modifier = drawBehind {
+    if (color != null) {
+        drawRect(color, size = Size(3.dp.toPx().coerceAtMost(size.width), size.height))
     }
 }
 

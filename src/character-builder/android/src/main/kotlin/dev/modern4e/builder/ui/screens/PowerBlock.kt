@@ -130,21 +130,31 @@ private fun powerActionLabel(action: String) = when (val label = powerTerm(actio
 /** Converts enum-style names into the sentence case used on power cards. */
 private fun powerTerm(value: String) = value.lowercase().replace('_', ' ').replaceFirstChar { it.uppercaseChar() }
 
+/** Reads the frequency from a power with a single authored activation. */
+internal fun authoredPowerUsage(entry: ContentEntry): String? =
+    entry.sharedData?.let(::singlePowerActivation)?.let(::activationUsage)
+
+private fun singlePowerActivation(data: JsonObject): JsonObject? =
+    (data["activations"] as? JsonArray)?.singleOrNull() as? JsonObject
+
+private fun activationUsage(activation: JsonObject): String? =
+    (activation["usage"] as? JsonObject)?.primitiveText("frequency")?.let(::powerUsageLabel)
+
 /** Reads a single authored activation when the presentation only contains a rules excerpt. */
-internal fun powerBlockText(entry: ContentEntry, useStructuredFallback: Boolean): PowerBlockText? {
+internal fun powerBlockText(entry: ContentEntry): PowerBlockText? {
     val block = powerBlockText(entry.presentation.description) ?: return null
-    if (!useStructuredFallback || block.usage != null) {
+    if (block.usage != null) {
         return block
     }
     val data = entry.sharedData ?: return block
-    val activation = (data["activations"] as? JsonArray)?.singleOrNull() as? JsonObject ?: return block
-    val usage = (activation["usage"] as? JsonObject)?.primitiveText("frequency")?.let(::powerUsageLabel) ?: return block
+    val activation = singlePowerActivation(data) ?: return block
+    val usage = activationUsage(activation) ?: return block
     val action = activation.primitiveText("action")?.let { if (it == "EXTENDED") "Extended action" else powerActionLabel(it) }
     val range = (activation["range"] as? JsonObject)?.let(::powerRangeLabel)
     val keywords = (data["keywords"] as? JsonArray).orEmpty().mapNotNull {
         (it as? JsonPrimitive)?.contentOrNull?.let(::powerTerm)
     }
-    val rules = (activation["blocks"] as? JsonArray)?.filterIsInstance<JsonObject>()?.flatMap(::authoredPowerRules)
+    val rules = (activation["blocks"] as? JsonArray)?.filterIsInstance<JsonObject>()?.flatMap { authoredPowerRules(it) }
     val target = activation.primitiveText("targets")?.let { (activation["bindings"] as? JsonObject)?.get(it) } as? JsonObject
     val activationRules = listOfNotNull(
         activation.primitiveText("trigger")?.let { PowerRule("Trigger", it) },
@@ -176,19 +186,23 @@ private fun powerRangeLabel(range: JsonObject): String? {
 }
 
 /** Keeps attack outcomes next to their attack, in hit, miss, and effect order. */
-private fun authoredPowerRules(block: JsonObject): List<PowerRule> {
-    val rule = block.primitiveText("text")?.let { PowerRule(block.primitiveText("label"), it) }
+private fun authoredPowerRules(block: JsonObject, defaultLabel: String? = null): List<PowerRule> {
+    val rule = block.primitiveText("text")?.let { PowerRule(block.primitiveText("label") ?: defaultLabel, it) }
         ?: return emptyList()
+    val scaling = (block["scaling"] as? JsonArray).orEmpty().filterIsInstance<JsonObject>().mapNotNull { scale ->
+        val level = scale.primitiveText("atLevel") ?: return@mapNotNull null
+        val text = scale.primitiveText("text") ?: return@mapNotNull null
+        PowerRule("Level $level", text)
+    }
     val outcomes = (block["comparisons"] as? JsonArray).orEmpty().flatMap { comparison ->
         val rules = (comparison as? JsonObject)?.get("outcomes") as? JsonObject
         listOf("hit", "miss", "effect").flatMap { outcome ->
-            (rules?.get(outcome) as? JsonArray).orEmpty().mapNotNull {
-                val authored = it as? JsonObject
-                authored?.primitiveText("text")?.let { text -> PowerRule(authored.primitiveText("label") ?: powerTerm(outcome), text) }
+            (rules?.get(outcome) as? JsonArray).orEmpty().filterIsInstance<JsonObject>().flatMap {
+                authoredPowerRules(it, powerTerm(outcome))
             }
         }
     }
-    return listOf(rule) + outcomes
+    return listOf(rule) + scaling + outcomes
 }
 
 /** Reads a scalar value without interpreting objects or arrays as display text. */
@@ -209,9 +223,9 @@ internal fun AnnotatedString.Builder.appendAuthoredText(text: String) {
 
 /** Classic power card shared by the reader and expanded catalog rows. */
 @Composable
-internal fun PowerBlock(entry: ContentEntry, showTitle: Boolean = true, useStructuredFallback: Boolean = false) {
+internal fun PowerBlock(entry: ContentEntry, showTitle: Boolean = true) {
     val description = entry.presentation.description
-    val block = remember(entry, useStructuredFallback) { powerBlockText(entry, useStructuredFallback) }
+    val block = remember(entry) { powerBlockText(entry) }
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         PowerCard(entry.presentation.title.takeIf { showTitle }, powerChoiceUsage(entry) ?: block?.usage, block, description)
         block?.granted?.forEach { (title, granted) ->

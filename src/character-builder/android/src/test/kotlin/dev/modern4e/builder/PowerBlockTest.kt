@@ -2,6 +2,7 @@ package dev.modern4e.builder
 
 import dev.modern4e.builder.ui.screens.PowerRule
 import dev.modern4e.builder.ui.screens.powerBlockText
+import dev.modern4e.builder.ui.screens.powerChoiceUsage
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import org.junit.Assert.*
@@ -136,9 +137,9 @@ class PowerBlockTest {
     }
 
     @Test
-    fun structuredThemePowerKeepsMetadataAndRulesMissingFromItsDescription() {
+    fun structuredPowerKeepsMetadataAndRulesMissingFromItsDescription() {
         val entry = authoredPower("Hit: Deal damage.")
-        val block = requireNotNull(powerBlockText(entry, useStructuredFallback = true))
+        val block = requireNotNull(powerBlockText(entry))
 
         assertEquals("Encounter", block.usage)
         assertEquals("Free action", block.action)
@@ -146,7 +147,7 @@ class PowerBlockTest {
         assertEquals(listOf("Martial", "Weapon"), block.keywords)
         assertEquals("You rush into the fray.", block.flavor)
         assertEquals(
-            listOf("Trigger", "Requirement", "Target", "Attack", "Hit", "Special"),
+            listOf("Trigger", "Requirement", "Target", "Attack", "Hit", "Level 11", "Special"),
             block.phases.single().rules.map { it.label },
         )
         assertEquals("Main Ability vs. AC", block.phases.single().rules[3].text)
@@ -154,16 +155,26 @@ class PowerBlockTest {
 
     @Test
     fun structuredFallbackPreservesExistingPowerFormats() {
-        val headerless = authoredPower("Hit: Deal damage.")
         val withHeader = authoredPower("DAILY / STANDARD\nPersonal\nEffect: Shift 1 square.")
         val legacy = authoredPower("<b>Effect:</b> Shift 1 square.")
 
-        assertEquals(powerBlockText(headerless.presentation.description), powerBlockText(headerless, useStructuredFallback = false))
-        assertEquals(powerBlockText(withHeader.presentation.description), powerBlockText(withHeader, useStructuredFallback = true))
-        assertNull(powerBlockText(legacy, useStructuredFallback = true))
+        assertEquals(powerBlockText(withHeader.presentation.description), powerBlockText(withHeader))
+        assertNull(powerBlockText(legacy))
     }
 
-    private fun authoredPower(description: String) = ContentEntry(
+    @Test
+    fun powerUsageIsAvailableWithoutAProfileOrPresentationHeader() {
+        val encounter = authoredPower("Hit: Deal damage.")
+        val atWill = authoredPower("Effect: Shift 1 square.", frequency = "AT_WILL")
+
+        assertEquals("Encounter", powerChoiceUsage(encounter))
+        assertEquals("At-will", powerChoiceUsage(atWill))
+        assertNull(powerChoiceUsage(encounter.copy(sharedData = Json.parseToJsonElement(
+            """{"activations":[{"usage":{"frequency":"ENCOUNTER"}},{"usage":{"frequency":"DAILY"}}]}"""
+        ).jsonObject)))
+    }
+
+    private fun authoredPower(description: String, frequency: String = "ENCOUNTER") = ContentEntry(
         "structured.power", EntryCategory.POWER, Presentation("Structured power", description), Mechanics(),
         Coverage(CoverageStatus.UNIMPLEMENTED),
         Json.parseToJsonElement("""
@@ -172,7 +183,7 @@ class PowerBlockTest {
               "keywords": ["MARTIAL", "WEAPON"],
               "activations": [{
                 "action": "FREE",
-                "usage": {"frequency": "ENCOUNTER"},
+                "usage": {"frequency": "$frequency"},
                 "range": {"type": "CLOSE_BURST", "size": {"base": 5}},
                 "trigger": "An enemy hits an ally.",
                 "requirement": "You must be bloodied.",
@@ -183,7 +194,7 @@ class PowerBlockTest {
                     "type": "attack",
                     "label": "Attack",
                     "text": "Main Ability vs. AC",
-                    "comparisons": [{"outcomes": {"hit": [{"label": "Hit", "text": "Deal damage."}]}}]
+                    "comparisons": [{"outcomes": {"hit": [{"label": "Hit", "text": "Deal damage.", "scaling": [{"atLevel": 11, "text": "Deal more damage."}]}]}}]
                   },
                   {"type": "effect", "label": "Special", "text": "This power does not provoke opportunity attacks."}
                 ]
